@@ -3,7 +3,6 @@
   <!--Main VLC Interface-->
   <string name="filebrowser_sdfail">Konnte SD-Karte nicht öffnen. Bitte prüfen, ob sie korrekt gemounted wurde.</string>
   <string name="filebrowser_root">Stammverzeichnis</string>
-  <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">Medium zur Wiedergabe auswählen</string>
   <string name="ml_no_media_dir">Kein Medien-Verzeichnis</string>
   <string name="sortby">Sortieren nach…</string>
@@ -11,7 +10,10 @@
   <string name="sortby_length">Laufzeit</string>
   <string name="searchable_hint">Suchen…</string>
   <string name="search_history">Verlauf</string>
-  <string name="search_found_results">%1$d Ergebnisse gefunden</string>
+  <plurals name="search_found_results_quantity">
+    <item quantity="one">%d Ergebnis gefunden</item>
+    <item quantity="other">%d Ergebnisse gefunden</item>
+  </plurals>
   <string name="show_player">Player anzeigen</string>
   <string name="hide_mini_player">Mini-Player ausblenden</string>
   <string name="play">Wiedergabe</string>
@@ -50,7 +52,6 @@
   <string name="all_albums">Alle Alben</string>
   <string name="genres">Genres</string>
   <string name="playlists">Wiedergabelisten</string>
-  <string name="time_0">0:00</string>
   <string name="title">Titel</string>
   <string name="artist">Künstler</string>
   <string name="album">Album</string>
@@ -100,6 +101,7 @@
   <string name="about_text">VLC media player\n\nVLC Autoren und VideoLAN\n\nLizensiert unter der GPLv2\n</string>
   <string name="for_android">für Android™</string>
   <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
+  <string name="vlc_authors">VLC-Autoren.</string>
 
   <!--Preferences-->
   <string name="preferences">Einstellungen</string>
