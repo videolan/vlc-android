@@ -14,7 +14,7 @@ PATH="$ANDROID_BIN":$PATH \
 CPPFLAGS="-I$ANDROID_INCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
 CFLAGS="-nostdlib" \
-LIBS="-lc -ldl" \
+LIBS="-lc -ldl -lgcc" \
 CC=arm-eabi-gcc CXX=arm-eabi-g++ \
 sh ../configure --host=arm-eabi --build=i386-linux \
                 --enable-debug \
