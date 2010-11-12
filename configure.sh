@@ -13,11 +13,13 @@ ANDROID_LIB="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/lib"
 PATH="$ANDROID_BIN":$PATH \
 CPPFLAGS="-I$ANDROID_INCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
-CFLAGS="-nostdlib" \
+CFLAGS="" \
 LIBS="-lc -ldl -lgcc" \
-CC=arm-eabi-gcc CXX=arm-eabi-g++ \
-sh ../configure --host=arm-eabi --build=i386-linux \
+CC="arm-eabi-gcc -nostdlib" CXX="arm-eabi-g++ -nostdlib" \
+PKG_CONFIG_LIBDIR="/dev/null" \
+sh ../configure --host=arm-linux-eabi --build=x86_64-linux-gnu \
                 --enable-debug \
+                --enable-shared \
                 --disable-qt4 \
                 --disable-skins2 \
                 --disable-mad \
@@ -27,4 +29,8 @@ sh ../configure --host=arm-eabi --build=i386-linux \
                 --disable-live555 \
                 --disable-a52 \
                 --disable-libgcrypt \
-                --disable-remoteosd
+                --disable-remoteosd \
+                --disable-lua \
+                --disable-swscale \
+                --disable-xcb \
+                --disable-vlc
