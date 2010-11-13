@@ -17,7 +17,7 @@ CFLAGS="" \
 LIBS="-lc -ldl -lgcc" \
 CC="arm-eabi-gcc -nostdlib" CXX="arm-eabi-g++ -nostdlib" \
 PKG_CONFIG_LIBDIR="/dev/null" \
-sh ../configure --host=arm-linux-eabi --build=x86_64-linux-gnu \
+sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-debug \
                 --enable-shared \
                 --disable-qt4 \
@@ -33,4 +33,5 @@ sh ../configure --host=arm-linux-eabi --build=x86_64-linux-gnu \
                 --disable-lua \
                 --disable-swscale \
                 --disable-xcb \
+                --disable-dbus \
                 --disable-vlc
