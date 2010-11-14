@@ -7,7 +7,7 @@ fi
 
 VLC_BUILD=$1
 
-if [  ! -d "./vlc-android/libs/" ]
+if [  ! -d "./vlc-android/libs/" ]; then
     mkdir ./vlc-android/libs/
 fi
 
