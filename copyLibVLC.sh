@@ -7,10 +7,10 @@ fi
 
 VLC_BUILD=$1
 
-if [  ! -d "./vlc-android/libs/" ]; then
-    mkdir ./vlc-android/libs/
+if [  ! -d "./vlc-android/libs/armeabi" ]; then
+    mkdir -p ./vlc-android/libs/armeabi/
 fi
 
-cp -v $VLC_BUILD/src/.libs/libvlccore.so ./vlc-android/libs/
-cp -v $VLC_BUILD/src/.libs/libvlc.so ./vlc-android/libs/
+cp -v $VLC_BUILD/src/.libs/libvlccore.so ./vlc-android/libs/armeabi/
+cp -v $VLC_BUILD/src/.libs/libvlc.so ./vlc-android/libs/armeabi/
 
