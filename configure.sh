@@ -36,8 +36,6 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-qt4 \
                 --disable-skins2 \
                 --disable-mad \
-                --disable-avcodec \
-                --disable-postproc \
                 --disable-mkv \
                 --disable-live555 \
                 --disable-a52 \
@@ -47,4 +45,7 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 $FFMPEG_SWITCH \
                 --disable-xcb \
                 --disable-dbus \
+                --disable-vcd \
+                --disable-v4l2 \
+                --disable-atmo \
                 --disable-vlc
