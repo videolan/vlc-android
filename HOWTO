@@ -6,12 +6,13 @@ Basic how to compile VLC on Android platform.
    - Create an AVD with this platform.
 
 - Set $ANDROID_NDK to point to your android NDK directory
+   export ANDROID_NDK=/path/to/android-ndk
 
 - (Optional) build ffmpeg from contribs
-  cd extras/contrib
-  ./bootstrap -t arm-eabi -d android
-  make
-  cd -
+   cd extras/contrib
+   ./bootstrap -t arm-eabi -d android
+   make
+   cd -
 
 - Bootstrap VLC from the root vlc directory:
    ./bootstrap
