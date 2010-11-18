@@ -12,16 +12,16 @@ ANDROID_LIB="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/lib"
 
 VLC_SOURCEDIR="`pwd`/.."
 
-if [ -d "$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi-linux/pkgconfig" ]; then
+if [ -d "$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/pkgconfig" ]; then
  FFMPEG_SWITCH="--enable-swscale --enable-avcodec --enable-avformat"
- sed -i -e "s:PATH_TO_VLC:$VLC_SOURCEDIR:" $VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi-linux/pkgconfig/*pc 2>/dev/null || true
+ sed -i -e "s:PATH_TO_VLC:$VLC_SOURCEDIR:" $VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/pkgconfig/*pc 2>/dev/null || true
 else
  FFMPEG_SWITCH="--disable-swscale --disable-avcodec --disable-avformat"
 fi
 
 
-DEPS_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi-linux/lib"
-DEPS_INCLDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi-linux/include"
+DEPS_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib"
+DEPS_INCLDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/include"
 
 
 
@@ -37,7 +37,7 @@ AVFORMAT_LIBS="-L$DEPS_LIBDIR -lavformat -lavcodec -lavutil -lavcore" \
 SWSCALE_CFLAGS="-I$DEPS_INCLDIR" \
 SWSCALE_LIBS="-L$DEPS_LIBDIR -lswscale -lavutil -lavcore" \
 CC="arm-eabi-gcc -nostdlib" CXX="arm-eabi-g++ -nostdlib" NM="arm-eabi-nm" \
-PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi-linux/pkgconfig" \
+PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-debug \
                 --enable-shared \
