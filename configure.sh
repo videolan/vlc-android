@@ -31,8 +31,8 @@ LIBS="-lc -ldl -lgcc" \
 CC="arm-eabi-gcc -nostdlib" CXX="arm-eabi-g++ -nostdlib" NM="arm-eabi-nm" STRIP="arm-eabi-strip" \
 PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
+                --enable-static-modules \
                 --enable-debug \
-                --enable-shared \
                 --disable-qt4 \
                 --disable-skins2 \
                 --disable-mad \
