@@ -16,10 +16,7 @@ public class vlc extends Activity {
 
         try
         {
-        	System.loadLibrary("vlccore");
-    		System.loadLibrary("vlc");
     		System.loadLibrary("vlcjni");
-    		
             tv.setText("Loaded libVLC version:" + getLibvlcVersion());
         }
         catch (UnsatisfiedLinkError e)
