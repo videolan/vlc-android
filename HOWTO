@@ -8,7 +8,7 @@ Basic how to compile VLC on Android platform.
 - Set $ANDROID_NDK to point to your android NDK directory
    export ANDROID_NDK=/path/to/android-ndk
 
-- (Optional) build ffmpeg from contribs
+- Build the contribs
    cd extras/contrib
    ./bootstrap -t arm-eabi -d android
    make
@@ -24,13 +24,14 @@ Basic how to compile VLC on Android platform.
    ../extra/platform/android/configure.sh
 - Start the VLC compilation with:
    ./compile
+  Some module cannot be compiled at this time, just skip them with "./compile -k"
 
 - Go to the extra/package/android directory:
    cd extra/package/android
+- Create the list of vlc modules (remove libspatializer_plugin.a from the build directory)
+   ./configure_libvlcjni.sh vlc_build_dir contrib_build_dir
 - Launch the compileLibvlcjni.sh script with you NDK root path as argument in order to compile the libvlcjni library:
    ./compileLibvlcjni.sh $(NDK_PATH)
-- Launch the copyLibLC.sh script in order to copy the compiled libreries in the right Android Eclipse project directory:
-   ./copyLibVLC.sh ../../../builddir
 
 - In Eclipse, create a new Android project from existing source by giving the extra/platform/android/vlc-android path.
 - Compile your project using Eclipse.
