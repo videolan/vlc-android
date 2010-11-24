@@ -1,6 +1,7 @@
 package vlc.android;
 
 import android.app.Activity;
+
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,18 +15,20 @@ public class vlc extends Activity {
 
         TextView tv = new TextView(this);
 
-        try
-        {
-    		System.loadLibrary("vlcjni");
-            tv.setText("Loaded libVLC version:" + getLibvlcVersion());
-        }
-        catch (UnsatisfiedLinkError e)
-        {
-        	tv.setText("Couldn't load libVLC. :-(");
-        }
+        // Create the libVLC instance
+        libVLC libvlc = new libVLC();
+
+        if(libvlc.Init())
+            tv.setText("Loaded libVLC:\n* version:   " + libvlc.version() +
+                                     "\n* compiler:  " + libvlc.compiler() +
+                                     "\n* changeset: " + libvlc.changeset() +
+                                     "\n* libvlccore loaded\n");
+        else
+            tv.setText("Loaded libVLC:\n* version:   " + libvlc.version() +
+                                     "\n* compiler:  " + libvlc.compiler() +
+                                     "\n* changeset: " + libvlc.changeset() +
+                                     "\n* libvlccore failed!!!\n");
 
         setContentView(tv);
     }
-    
-    public native String  getLibvlcVersion();
 }
