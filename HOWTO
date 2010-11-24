@@ -21,7 +21,7 @@ Basic how to compile VLC on Android platform.
 - Go to this directory:
    cd builddir
 - Launch the Android configure script:
-   ../extra/platform/android/configure.sh
+   ../extra/package/android/configure.sh
 - Start the VLC compilation with:
    ./compile
   Some module cannot be compiled at this time, just skip them with "./compile -k"
