@@ -4,6 +4,9 @@ import android.app.Activity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Button;
+
+import android.view.View;
 
 import java.lang.*;
 
@@ -12,11 +15,13 @@ public class vlc extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-        TextView tv = new TextView(this);
+        final TextView tv = (TextView)findViewById(R.id.text_view);
+        final Button button = (Button)findViewById(R.id.button);
 
         // Create the libVLC instance
-        libVLC libvlc = new libVLC();
+        libvlc = new libVLC();
 
         if(libvlc.Init())
             tv.setText("Loaded libVLC:\n* version:   " + libvlc.version() +
@@ -29,6 +34,12 @@ public class vlc extends Activity {
                                      "\n* changeset: " + libvlc.changeset() +
                                      "\n* libvlccore failed!!!\n");
 
-        setContentView(tv);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	libvlc.readMedia();
+            }
+        });
     }
+    
+    libVLC libvlc;
 }
