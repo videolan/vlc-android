@@ -58,7 +58,7 @@ include \$(CLEAR_VARS)
 LOCAL_MODULE    := libvlcjni
 LOCAL_SRC_FILES := libvlcjni.c
 LOCAL_C_INCLUDES := \$(LOCAL_PATH)/../../../../../include
-LOCAL_LDLIBS := -L$VLC_CONTRIB_PATH/lib $LDFLAGS $prefix$VLC_BULD_PATH/src/.libs/libvlc.a $prefix$VLC_BULD_PATH/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc
+LOCAL_LDLIBS := -L$VLC_CONTRIB_PATH/lib $LDFLAGS $prefix$VLC_BULD_PATH/src/.libs/libvlc.a $prefix$VLC_BULD_PATH/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -logg -ldca -ldvbpsi -ltwolame -lkate
 
 include \$(BUILD_SHARED_LIBRARY)
 " > libvlcjni/jni/Android.mk
