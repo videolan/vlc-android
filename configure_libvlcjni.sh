@@ -14,6 +14,11 @@ if [ "x$2" = "x" ]; then
 fi
 VLC_CONTRIB_PATH=$2
 
+if [ -z "$ANDROID_NDK" ]; then
+    echo "Please define your ANDROID_NDK environment variable"
+    exit 1
+fi
+
 # Do we have an absolute path ?
 prefix=""
 if [ `echo $VLC_BULD_PATH | head -c 1` != "/" ]; then
@@ -26,7 +31,7 @@ if [ `echo $VLC_CONTRIB_PATH | head -c 1` != "/" ]; then
 fi
 
 # Lookup for every static modules in the VLC build path
-modules=`find $VLC_BULD_PATH/modules -name '*.a'`
+modules=`find $VLC_BULD_PATH/modules -name '*.a'|grep -v dvdnav|grep -v mmap|grep -v spatializer`
 
 # Build the list of modules
 LDFLAGS=""
@@ -58,7 +63,7 @@ include \$(CLEAR_VARS)
 LOCAL_MODULE    := libvlcjni
 LOCAL_SRC_FILES := libvlcjni.c
 LOCAL_C_INCLUDES := \$(LOCAL_PATH)/../../../../../include
-LOCAL_LDLIBS := -L$VLC_CONTRIB_PATH/lib $LDFLAGS $prefix$VLC_BULD_PATH/src/.libs/libvlc.a $prefix$VLC_BULD_PATH/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -logg -ldca -ldvbpsi -ltwolame -lkate
+LOCAL_LDLIBS := -L$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib -L$VLC_CONTRIB_PATH/lib $LDFLAGS $prefix$VLC_BULD_PATH/src/.libs/libvlc.a $prefix$VLC_BULD_PATH/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -logg -ldca -ldvbpsi -ltwolame -lkate -lOpenSLES
 
 include \$(BUILD_SHARED_LIBRARY)
 " > libvlcjni/jni/Android.mk

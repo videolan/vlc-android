@@ -1,11 +1,10 @@
 #!/bin/sh
 
-if [ "x$1" = "x" ]; then
-    echo "Give the ndk path"
+if [ -z "$ANDROID_NDK" ]; then
+    echo "Set your ANDROID_NDK environment variable"
     exit 1
 fi
 
-ANDROID_NDK=$1
 
 cd libvlcjni
 $ANDROID_NDK/ndk-build
