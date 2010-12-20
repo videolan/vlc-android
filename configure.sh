@@ -27,13 +27,16 @@ DEPS_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib"
 DEPS_INCLDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/include"
 
 
+# needed for old ndk: change all the arm-linux-androideabi to arm-eabi
+# the --host is kept on purpose because otherwise libtool complains..
 
 PATH="$ANDROID_BIN":$PATH \
 CPPFLAGS="-I$ANDROID_INCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
 CFLAGS="" \
 LIBS="-lc -ldl -lgcc" \
-CC="arm-eabi-gcc -nostdlib" CXX="arm-eabi-g++ -nostdlib" NM="arm-eabi-nm" STRIP="arm-eabi-strip" \
+CC="arm-linux-androideabi-gcc -nostdlib" CXX="arm-linux-androideabi-g++ -nostdlib" \
+NM="arm-linux-androideabi-nm" STRIP="arm-linux-androideabi-strip" \
 PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-static-modules \
