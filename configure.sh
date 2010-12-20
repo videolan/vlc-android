@@ -5,9 +5,14 @@ if [ -z "$ANDROID_NDK" ]; then
     exit 1
 fi
 
-ANDROID_BIN="$ANDROID_NDK/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/"
-ANDROID_INCLUDE="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/include"
-ANDROID_LIB="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/lib"
+# old android paths...
+#ANDROID_BIN="$ANDROID_NDK/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/"
+#ANDROID_INCLUDE="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/include"
+#ANDROID_LIB="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/lib"
+
+ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/
+ANDROID_INCLUDE=$ANDROID_NDK/platforms/android-9/arch-arm/usr/include
+ANDROID_LIB=$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib
 
 VLC_SOURCEDIR="`pwd`/.."
 
