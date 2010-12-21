@@ -58,4 +58,5 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-atmo \
                 --disable-vlc \
                 --enable-opensles \
-                --enable-android
+                --enable-android \
+                --enable-egl-android
