@@ -4,11 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<TextView android:id="@+id/text_view"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content" />
-<Button android:id="@+id/button"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Read /sdcard/test.mp3" />
+
+
+
+<Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/button" android:text="Read /sdcard/test.mp4"></Button>
+
+<SurfaceView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/surface_view"></SurfaceView>
 </LinearLayout>

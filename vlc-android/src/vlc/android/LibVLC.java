@@ -1,10 +1,12 @@
 package vlc.android;
 
-public class libVLC {
+import android.view.Surface;
+
+public class LibVLC {
 	/**
 	 *  Constructor
 	 */
-	public libVLC()
+	public LibVLC()
 	{
 		System.loadLibrary("vlcjni");
 	};
@@ -17,6 +19,12 @@ public class libVLC {
 		if(this.p_instance != 0)
 			this.destroy(p_instance);
 	}
+	
+	/**
+	 * Give to libvlc the surface to draw the video.
+	 * @param f: the surface to draw
+	 */
+	public native void setSurface(Surface f);
 
 	/**
 	 * Initialize the libVLC class
@@ -31,11 +39,10 @@ public class libVLC {
 	/**
 	 * Read a media.
 	 */
-	public void readMedia()
+	public void readMedia(String mrl)
 	{
-		readMedia(p_instance);
+		readMedia(p_instance, mrl);
 	}
-	
 
 	/** libVLC instance C pointer */
 	private int p_instance;
@@ -55,8 +62,9 @@ public class libVLC {
 	/**
 	 * Read a media
 	 * @param instance: the instance of libVLC
+	 * @param mrl: the media mrl
 	 */
-	private native void readMedia(int instance);
+	private native void readMedia(int instance, String mrl);
 
 	/**
      * Get the libVLC version
