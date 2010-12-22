@@ -14,6 +14,8 @@
 
     </application>
 
+    <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
 
 
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
