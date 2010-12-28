@@ -46,7 +46,6 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-mad \
                 --disable-mkv \
                 --disable-live555 \
-                --disable-a52 \
                 --disable-libgcrypt \
                 --disable-remoteosd \
                 --disable-lua \
