@@ -5,27 +5,11 @@ if [ -z "$ANDROID_NDK" ]; then
     exit 1
 fi
 
-# old android paths...
-#ANDROID_BIN="$ANDROID_NDK/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/"
-#ANDROID_INCLUDE="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/include"
-#ANDROID_LIB="$ANDROID_NDK/build/platforms/android-8/arch-arm/usr/lib"
-
 ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/
 ANDROID_INCLUDE=$ANDROID_NDK/platforms/android-9/arch-arm/usr/include
 ANDROID_LIB=$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib
 
 VLC_SOURCEDIR="`pwd`/.."
-
-if [ -e "$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/libavcodec.a" ]; then
- FFMPEG_SWITCH="--enable-swscale --enable-avcodec --enable-avformat"
-else
- FFMPEG_SWITCH="--disable-swscale --disable-avcodec --disable-avformat"
-fi
-
-
-DEPS_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib"
-DEPS_INCLDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/include"
-
 
 # needed for old ndk: change all the arm-linux-androideabi to arm-eabi
 # the --host is kept on purpose because otherwise libtool complains..
@@ -49,7 +33,9 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-libgcrypt \
                 --disable-remoteosd \
                 --disable-lua \
-                $FFMPEG_SWITCH \
+                --enable-swscale \
+                --enable-avcodec \
+                --enable-avformat \
                 --disable-xcb \
                 --disable-dbus \
                 --disable-vcd \
