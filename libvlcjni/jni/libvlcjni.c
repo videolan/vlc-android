@@ -24,10 +24,10 @@ jint Java_vlc_android_LibVLC_init(JNIEnv *env, jobject thiz)
     snprintf(psz_pWin, 255, "%i", p_nativeWindow);
 
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-audio", "--no-drop-late-frames",
+                          "--no-drop-late-frames",
                           "--vout", "egl_android",
                           "--egl-android-window", psz_pWin};
-    return (jint)libvlc_new_with_builtins(10, argv, vlc_builtins_modules);
+    return (jint)libvlc_new_with_builtins(9, argv, vlc_builtins_modules);
 }
 
 void Java_vlc_android_LibVLC_destroy(JNIEnv *env, jobject thiz, jint instance)
