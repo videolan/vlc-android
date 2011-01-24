@@ -36,7 +36,7 @@ vlc-android/jni/Android.mk:
 	 echo "LOCAL_MODULE    := libvlcjni" >> vlc-android/jni/Android.mk; \
 	 echo "LOCAL_SRC_FILES := libvlcjni.c" >> vlc-android/jni/Android.mk; \
 	 echo "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../../../../include" >> vlc-android/jni/Android.mk; \
-	 echo "LOCAL_LDLIBS := -L$$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib -L$$VLC_CONTRIB/lib $$LDFLAGS $$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a $$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -logg -ldca -ldvbpsi -ltwolame -lkate -lOpenSLES -lGLESv1_CM -lEGL -landroid -la52" >> vlc-android/jni/Android.mk; \
+	 echo "LOCAL_LDLIBS := -L$$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib -L$$VLC_CONTRIB/lib $$LDFLAGS $$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a $$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a -ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -logg -ldca -ldvbpsi -ltwolame -lkate -lOpenSLES -lGLESv1_CM -lEGL -llog -landroid -la52" >> vlc-android/jni/Android.mk; \
 	 echo "include \$$(BUILD_SHARED_LIBRARY)" >> vlc-android/jni/Android.mk
 
 vlc-android/libs/armeabi/libvlcjni.so: vlc-android/jni/Android.mk
