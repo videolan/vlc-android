@@ -1,40 +1,52 @@
 #include <stdio.h>
 #include <string.h>
-
-#include <android/native_window_jni.h>
+#include <assert.h>
 
 #include <jni.h>
 
 #include <vlc/vlc.h>
 
 #include "libvlcjni.h"
+#include "vout.h"
+#include "log.h"
 
-// Native android window to display the video.
-ANativeWindow *p_nativeWindow;
+
+JavaVM *myVm; // Pointer on the Java virtul machine.
+jobject myJavaLibVLC; // Pointer on the LibVLC Java object.
 
 
-void Java_vlc_android_LibVLC_setSurface(JNIEnv *env, jobject thiz, jobject surface)
+jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
-    p_nativeWindow = ANativeWindow_fromSurface(env, surface);
+    // Keep a reference on the Java VM.
+    myVm = vm;
+
+    LOGD("JNI interface loaded.\n");
+    return JNI_VERSION_1_2;
 }
+
 
 jint Java_vlc_android_LibVLC_init(JNIEnv *env, jobject thiz)
 {
-    char psz_pWin[255];
-    snprintf(psz_pWin, 255, "%i", p_nativeWindow);
+    myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-drop-late-frames",
-                          "--vout", "egl_android",
-                          "--egl-android-window", psz_pWin};
-    return (jint)libvlc_new_with_builtins(9, argv, vlc_builtins_modules);
+                          "--no-audio", "--no-drop-late-frames",
+                          "--vout", "vmem"};
+
+    jint ret = (jint)libvlc_new_with_builtins(8, argv, vlc_builtins_modules);
+
+    LOGI("LibVLC loaded.\n");
+    return ret;
 }
+
 
 void Java_vlc_android_LibVLC_destroy(JNIEnv *env, jobject thiz, jint instance)
 {
+    (*env)->DeleteGlobalRef(env, myJavaLibVLC);
     libvlc_instance_t *p_instance = (libvlc_instance_t*)instance;
     libvlc_release(p_instance);
 }
+
 
 void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz, jint instance,
                                        jstring mrl)
@@ -47,7 +59,11 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz, jint instance,
                                               psz_mrl);
 
     /* Create a media player playing environement */
-    libvlc_media_player_t *mp = libvlc_media_player_new_from_media(m);
+    libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
+
+    libvlc_media_player_set_media(mp, m);
+    libvlc_video_set_format_callbacks(mp, vout_format, vout_cleanup);
+    libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display, NULL);
 
     /* No need to keep the media now */
     libvlc_media_release(m);
@@ -59,6 +75,7 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz, jint instance,
 
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
+
 
 jstring Java_vlc_android_LibVLC_version(JNIEnv* env, jobject thiz)
 {
