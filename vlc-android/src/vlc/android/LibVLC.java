@@ -1,13 +1,16 @@
 package vlc.android;
 
+import android.opengl.GLSurfaceView;
 import android.view.Surface;
 
 public class LibVLC {
 	/**
 	 *  Constructor
 	 */
-	public LibVLC()
+	public LibVLC(GLSurfaceView s, Vout v)
 	{
+		surfaceView = s;
+		vout = v;
 		System.loadLibrary("vlcjni");
 	};
 
@@ -37,6 +40,31 @@ public class LibVLC {
 	}
 	
 	/**
+	 * Transmit to the renderer the size of the video.
+	 * This function is called by the native code.
+	 * @param frameWidth
+	 * @param frameHeight
+	 */
+	public void setVoutSize(int frameWidth, int frameHeight)
+	{
+		vout.frameWidth = frameWidth;
+		vout.frameHeight = frameHeight;
+		vout.mustInit = true;
+	}
+	
+	/**
+	 * Transmit the image given by VLC to the renderer.
+	 * This function is called by the native code.
+	 * @param image the image data.
+	 */
+	public void displayCallback(byte[] image)
+	{
+		vout.image = image;
+		vout.hasReceivedFrame = true;
+		surfaceView.requestRender();
+	}
+	
+	/**
 	 * Read a media.
 	 */
 	public void readMedia(String mrl)
@@ -46,7 +74,9 @@ public class LibVLC {
 
 	/** libVLC instance C pointer */
 	private int p_instance;
-
+	private GLSurfaceView surfaceView;
+	private Vout vout;
+	
 	/**
 	 * Initialize the libvlc C library
 	 * @return a pointer to the libvlc instance

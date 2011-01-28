@@ -8,6 +8,7 @@
 
 
 <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/button" android:text="Read /sdcard/test.mp4"></Button>
+<android.opengl.GLSurfaceView android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/surface_view"/>
 
-<SurfaceView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/surface_view"></SurfaceView>
+
 </LinearLayout>
