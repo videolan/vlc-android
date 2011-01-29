@@ -112,22 +112,24 @@ public class Vout implements GLSurfaceView.Renderer{
         {
         	texWidth = getAlignedSize(frameWidth);
         	texHeight = getAlignedSize(frameHeight);
-        	Log.d("VLC", "size " + frameWidth + " " + frameHeight + " " + texWidth + " " + texHeight);
 
         	byte[] texData = new byte[texWidth * texHeight * 2];
-	        ByteBuffer byteBuffer = ByteBuffer.wrap(texData);
+	        ByteBuffer byteBufferInit = ByteBuffer.wrap(texData);
 	
 	        gl.glTexImage2D(GL10.GL_TEXTURE_2D, 0, GL10.GL_RGB, texWidth,
 	        		texHeight, 0, GL10.GL_RGB, GL10.GL_UNSIGNED_SHORT_5_6_5,
-	        		byteBuffer);
+	        		byteBufferInit);
 	        
 	        mQuad.computeTexCoord(texWidth, texHeight, frameWidth, frameHeight);
+
+	        /* Wrap the image buffer to the byte buffer. */
+	        byteBuffer = ByteBuffer.wrap(image);
+
+	        mustInit = false;
         }
         
         if (hasReceivedFrame)
         {
-	        ByteBuffer byteBuffer = ByteBuffer.wrap(image);
-	    	
 	        gl.glTexSubImage2D(GL10.GL_TEXTURE_2D, 0, 0, 0, frameWidth,
 	        		frameHeight, GL10.GL_RGB, GL10.GL_UNSIGNED_SHORT_5_6_5,
 	        		byteBuffer);
@@ -183,6 +185,7 @@ public class Vout implements GLSurfaceView.Renderer{
     private int texHeight;
 
     public byte[] image;
+    private ByteBuffer byteBuffer;
 }
 
 class Quad {
