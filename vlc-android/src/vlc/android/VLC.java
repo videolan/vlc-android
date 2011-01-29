@@ -21,7 +21,9 @@ public class VLC extends Activity {
         
         vout = new Vout(this);
         
-        surfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR | GLSurfaceView.DEBUG_LOG_GL_CALLS);
+        // For debug purpose.
+        /* surfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR
+        		| GLSurfaceView.DEBUG_LOG_GL_CALLS);*/
         surfaceView.setRenderer(vout);
         surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         
