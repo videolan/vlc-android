@@ -26,6 +26,8 @@ unsigned vout_format(void **opaque, char *chroma,
 
     vout_sys_t *p_sys = *pp_sys;
 
+    p_sys->byteArray = NULL;
+
     p_sys->i_frameWidth = *width;
     p_sys->i_frameHeight = *height;
     p_sys->i_frameSize = p_sys->i_frameWidth * p_sys->i_frameHeight * 2;
@@ -45,6 +47,8 @@ unsigned vout_format(void **opaque, char *chroma,
 void vout_cleanup(void *opaque)
 {
     vout_sys_t *p_sys = opaque;
+    if (p_sys->byteArray != NULL)
+        (*p_sys->p_env)->DeleteLocalRef(p_sys->p_env, p_sys->byteArray);
     free(p_sys);
 }
 
@@ -65,24 +69,25 @@ void vout_unlock(void *opaque, void *picture, void *const *p_pixels)
 
 void vout_display(void *opaque, void *picture)
 {
-    LOGI("Display\n");
     vout_sys_t *p_sys = (vout_sys_t *)opaque;
     static char b_attached = 0;
     static jmethodID methodIdDisplay = 0;
-    static JNIEnv *env;
+    JNIEnv *p_env = p_sys->p_env;
 
     if (!b_attached)
     {
-        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) != 0)
+        if ((*myVm)->AttachCurrentThread(myVm, &p_env, NULL) != 0)
         {
             LOGE("Couldn't attach the display thread to the JVM !\n");
             return;
         }
+        // Save the environment refernce.
+        p_sys->p_env = p_env;
 
-        jclass cls = (*env)->GetObjectClass(env, myJavaLibVLC);
+        jclass cls = (*p_env)->GetObjectClass(p_env, myJavaLibVLC);
 
         jmethodID methodIdSetVoutSize =
-                (*env)->GetMethodID(env, cls, "setVoutSize", "(II)V");
+                (*p_env)->GetMethodID(p_env, cls, "setVoutSize", "(II)V");
 
         if(methodIdSetVoutSize == 0)
         {
@@ -91,10 +96,11 @@ void vout_display(void *opaque, void *picture)
         }
 
         // Transmit to Java the vout size.
-        (*env)->CallVoidMethod(env, myJavaLibVLC, methodIdSetVoutSize,
-                               p_sys->i_frameWidth, p_sys->i_frameHeight);
+        (*p_env)->CallVoidMethod(p_env, myJavaLibVLC, methodIdSetVoutSize,
+                                 p_sys->i_frameWidth, p_sys->i_frameHeight);
 
-        methodIdDisplay = (*env)->GetMethodID(env, cls, "displayCallback", "([B)V");
+        methodIdDisplay = (*p_env)->GetMethodID(p_env, cls, "displayCallback",
+                                                "([B)V");
 
         if (methodIdDisplay == 0)
         {
@@ -102,18 +108,34 @@ void vout_display(void *opaque, void *picture)
             return;
         }
 
+        /* Create a new byte array to store the frame data. */
+        jbyteArray byteArray = (*p_env)->NewByteArray(p_env, p_sys->i_frameSize);
+        if (byteArray == NULL)
+        {
+            LOGE("Couldn't allocate the Java byte array to store the frame !\n");
+            return;
+        }
+
+        /* Use a global reference to not reallocate memory each time we run
+           the display function. */
+        p_sys->byteArray = (*p_env)->NewGlobalRef(p_env, byteArray);
+        if (byteArray == NULL)
+        {
+            LOGE("Couldn't create the global reference !\n");
+            return;
+        }
+
+        /* The local reference is no longer useful. */
+        (*p_env)->DeleteLocalRef(p_env, byteArray);
+
         b_attached = 1;
     }
 
     // Fill the image buffer for debug purpose.
     //memset(p_sys->p_imageData, 255, p_sys->i_texSize / 2);
 
-    jbyteArray jb = (*env)->NewByteArray(env, p_sys->i_frameSize);
+    (*p_env)->SetByteArrayRegion(p_env, p_sys->byteArray, 0,
+                                 p_sys->i_frameSize, (jbyte *)p_sys->p_frameData);
 
-    (*env)->SetByteArrayRegion(env, jb, 0, p_sys->i_frameSize,
-                               (jbyte *)p_sys->p_frameData);
-
-    (*env)->CallVoidMethod(env, myJavaLibVLC, methodIdDisplay, jb);
-
-    (*env)->DeleteLocalRef(env, jb);
+    (*p_env)->CallVoidMethod(p_env, myJavaLibVLC, methodIdDisplay, p_sys->byteArray);
 }

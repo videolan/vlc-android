@@ -8,8 +8,11 @@ typedef struct vout_sys_t
 
     unsigned i_frameSize;
     char *p_frameData;
+    jbyteArray byteArray;
 
     char b_attached;
+
+    JNIEnv *p_env;
 }vout_sys_t;
 
 
