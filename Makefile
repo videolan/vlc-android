@@ -1,4 +1,6 @@
-all: compile
+JAVA_SOURCES=vlc-android/src/vlc/android/*.java
+
+all: vlc.apk
 
 vlc-android/jni/Android.mk:
 	@echo "=== Creating Android.mk ==="; \
@@ -52,12 +54,28 @@ vlc-android/libs/armeabi/libvlcjni.so: vlc-android/jni/Android.mk
 	@cd vlc-android/; \
 	 $(ANDROID_NDK)/ndk-build
 
-compile: vlc-android/libs/armeabi/libvlcjni.so
+vlc-android/local.properties:
+	@echo "=== Preparing Ant ==="
+	 echo -e "# Auto-generated file. Do not edit.\nsdk.dir=$$ANDROID_SDK"       > vlc-android/local.properties
+
+vlc-android/bin/VLC-debug.apk: vlc-android/libs/armeabi/libvlcjni.so $(JAVA_SOURCES) vlc-android/local.properties
+	@echo "=== Building APK =="
+	@if ! which ant >> /dev/null ; then \
+	     echo "Error: Ant is not installed. Not compiling APK."; \
+	     exit 1; \
+	 fi; \
+	 cd vlc-android && ant debug
+
+libvlcjni: vlc-android/libs/armeabi/libvlcjni.so
+
+vlc.apk: libvlcjni vlc-android/bin/VLC-debug.apk
 
 clean:
-	rm -rf vlc-android/libs/*
-	rm -rf vlc-android/obj/*
+	rm -rf vlc-android/libs
+	rm -rf vlc-android/obj
+	rm -rf vlc-android/bin
 
 distclean: clean
 	rm -rf vlc-android/jni/Android.mk
+	rm -f vlc-android/local.properties
 
