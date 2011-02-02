@@ -5,9 +5,11 @@ if [ -z "$ANDROID_NDK" ]; then
     exit 1
 fi
 
+ANDROID_VERSION=android-8
+
 ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/
-ANDROID_INCLUDE=$ANDROID_NDK/platforms/android-9/arch-arm/usr/include
-ANDROID_LIB=$ANDROID_NDK/platforms/android-9/arch-arm/usr/lib
+ANDROID_INCLUDE=$ANDROID_NDK/platforms/$ANDROID_VERSION/arch-arm/usr/include
+ANDROID_LIB=$ANDROID_NDK/platforms/$ANDROID_VERSION/arch-arm/usr/lib
 
 VLC_SOURCEDIR="`pwd`/.."
 
@@ -19,8 +21,10 @@ CPPFLAGS="-I$ANDROID_INCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
 CFLAGS="" \
 LIBS="-lc -ldl -lgcc" \
-CC="arm-linux-androideabi-gcc -nostdlib" CXX="arm-linux-androideabi-g++ -nostdlib" \
-NM="arm-linux-androideabi-nm" STRIP="arm-linux-androideabi-strip" \
+CC="${ANDROID_BIN}/arm-linux-androideabi-gcc -nostdlib" \
+CXX="${ANDROID_BIN}/arm-linux-androideabi-g++ -nostdlib" \
+NM="${ANDROID_BIN}/arm-linux-androideabi-nm" \
+STRIP="${ANDROID_BIN}/arm-linux-androideabi-strip" \
 PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-static-modules \
@@ -42,6 +46,6 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-v4l2 \
                 --disable-atmo \
                 --disable-vlc \
-                --enable-opensles \
+                --disable-opensles \
                 --enable-android \
-                --enable-egl-android
+                --disable-egl-android
