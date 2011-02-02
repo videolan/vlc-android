@@ -2,7 +2,7 @@ Basic how to compile VLC on Android platform.
 
 - Get Eclipse, the Android SDK and the Android NDK.
 - Read the Android HOWTO and setup all that stuff correctly.
-   - Get the Android SDK Platform 2.3 API 9.
+   - Get the Android SDK Platform 2.2 API (version 8).
    - Create an AVD with this platform.
 
 - Set $ANDROID_NDK to point to your android NDK directory
