@@ -6,22 +6,24 @@ APK_MK=vlc-android/jni/Android.mk
 LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
+VLC_CONTRIB ?= $(CURDIR)/../../contrib/build
+
 all: vlc.apk
 
 $(APK_MK):
 	@echo "=== Creating Android.mk ==="; \
 	prefix=""; \
 	# Check environment variables
-	@if [ -z "$$ANDROID_NDK" -o -z "$$VLC_BUILD_DIR" -o -z "$$VLC_CONTRIB" ]; then \
+	@if [ -z "$$ANDROID_NDK" -o -z "$$VLC_BUILD_DIR" -o -z "$(VLC_CONTRIB)" ]; then \
 	    echo "You must define ANDROID_NDK, VLC_BUILD_DIR and VLC_CONTRIB"; \
 	    exit 1; \
 	 fi; \
 	# Append ../ to relative paths
-	@if [ `echo $$VLC_BUILD_DIR | head -c 1` != "/" ] ; then \
+	@if [ `echo $(VLC_BUILD_DIR) | head -c 1` != "/" ] ; then \
 	    prefix="../"; \
 	 fi; \
-	 if [ `echo $$VLC_CONTRIB | head -c 1` != "/" ] ; then \
-	    VLC_CONTRIB="../$$VLC_CONTRIB"; \
+	 if [ `echo $(VLC_CONTRIB) | head -c 1` != "/" ] ; then \
+	    VLC_CONTRIB="../$(VLC_CONTRIB)"; \
 	 fi; \
 	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'`; \
 	 LDFLAGS=""; \
@@ -41,14 +43,15 @@ $(APK_MK):
 	 printf "$$DEFINITION\n"                                                  >> $(LIBVLCJNI_H); \
 	 printf "$$BUILTINS\n"                                                    >> $(LIBVLCJNI_H); \
 	 rm -f $(APK_MK); \
-	 printf 'LOCAL_PATH := $$(call my-dir)\n'                                 >> $(APK_MK); \
+	 printf 'LOCAL_PATH := $$(call my-dir)\n'                                  > $(APK_MK); \
 	 printf "include \$$(CLEAR_VARS)\n"                                       >> $(APK_MK); \
 	 printf "LOCAL_MODULE    := libvlcjni\n"                                  >> $(APK_MK); \
 	 printf "LOCAL_SRC_FILES := libvlcjni.c vout.c\n"                         >> $(APK_MK); \
 	 printf "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../../../../include\n"    >> $(APK_MK); \
-	 printf "LOCAL_LDLIBS := -L$$VLC_CONTRIB/lib \\\\\n"                      >> $(APK_MK); \
+	 printf "LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \\\\\n"                     >> $(APK_MK); \
 	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \
 	 printf "$$LDFLAGS"                                                       >> $(APK_MK); \
+	 printf "\t$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"               >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
 	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52\n" >> $(APK_MK); \
