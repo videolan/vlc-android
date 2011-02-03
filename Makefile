@@ -1,5 +1,6 @@
 # Sources and objects
 JAVA_SOURCES=vlc-android/src/vlc/android/*.java
+JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
 VLC_APK=vlc-android/bin/VLC-debug.apk
 APK_MK=vlc-android/jni/Android.mk
 LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
@@ -53,7 +54,7 @@ $(APK_MK):
 	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52\n" >> $(APK_MK); \
 	 printf "include \$$(BUILD_SHARED_LIBRARY)\n"                             >> $(APK_MK)
 
-$(LIBVLCJNI): $(APK_MK)
+$(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
 	@echo "=== Building libvlcjni ==="
 	@cd vlc-android/; \
 	 $(ANDROID_NDK)/ndk-build
@@ -84,7 +85,7 @@ distclean: clean
 	rm -f vlc-android/local.properties
 
 install:
-	@echo "=== Installing APK on remote device ==="
-	@echo "Waiting for device to be ready..." && adb wait-for-device
+	@echo "=== Installing APK on a remote device ==="
+	@echo "Waiting for a device to be ready..." && adb wait-for-device
 	@echo "Installing package" && adb install -r $(VLC_APK)
 
