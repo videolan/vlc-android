@@ -12,6 +12,7 @@ typedef struct vout_sys_t
 
     char b_attached;
 
+    jobject j_libVlc; // Pointer to the LibVLC Java object.
     JNIEnv *p_env;
 }vout_sys_t;
 

@@ -9,25 +9,28 @@
 #include "vout.h"
 #include "log.h"
 
+/** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
-extern jobject myJavaLibVLC;
-
 
 unsigned vout_format(void **opaque, char *chroma,
                      unsigned *width, unsigned *height,
                      unsigned *pitches,
                      unsigned *lines)
 {
-    vout_sys_t **pp_sys = (vout_sys_t **)opaque;
+    /* So far, *opaque is a pointer to the libvlc instance */
+    jobject libVlc = (jobject) *opaque;
+    assert (libVlc != NULL);
 
-    *pp_sys = malloc(sizeof(vout_sys_t));
+    /* Let's replace opaque by p_sys and store the pointer to libVlc */
+    vout_sys_t **pp_sys = (vout_sys_t **) opaque;
+
+    *pp_sys = calloc(1, sizeof(vout_sys_t));
     if (*pp_sys == NULL)
         return 0;
 
     vout_sys_t *p_sys = *pp_sys;
 
-    p_sys->byteArray = NULL;
-
+    p_sys->j_libVlc = libVlc;
     p_sys->i_frameWidth = *width;
     p_sys->i_frameHeight = *height;
     p_sys->i_frameSize = p_sys->i_frameWidth * p_sys->i_frameHeight * 2;
@@ -84,7 +87,7 @@ void vout_display(void *opaque, void *picture)
         // Save the environment refernce.
         p_sys->p_env = p_env;
 
-        jclass cls = (*p_env)->GetObjectClass(p_env, myJavaLibVLC);
+        jclass cls = (*p_env)->GetObjectClass(p_env, p_sys->j_libVlc);
 
         jmethodID methodIdSetVoutSize =
                 (*p_env)->GetMethodID(p_env, cls, "setVoutSize", "(II)V");
@@ -96,7 +99,7 @@ void vout_display(void *opaque, void *picture)
         }
 
         // Transmit to Java the vout size.
-        (*p_env)->CallVoidMethod(p_env, myJavaLibVLC, methodIdSetVoutSize,
+        (*p_env)->CallVoidMethod(p_env, p_sys->j_libVlc, methodIdSetVoutSize,
                                  p_sys->i_frameWidth, p_sys->i_frameHeight);
 
         methodIdDisplay = (*p_env)->GetMethodID(p_env, cls, "displayCallback",
@@ -135,7 +138,9 @@ void vout_display(void *opaque, void *picture)
     //memset(p_sys->p_imageData, 255, p_sys->i_texSize / 2);
 
     (*p_env)->SetByteArrayRegion(p_env, p_sys->byteArray, 0,
-                                 p_sys->i_frameSize, (jbyte *)p_sys->p_frameData);
+                                 p_sys->i_frameSize,
+                                 (jbyte *)p_sys->p_frameData);
 
-    (*p_env)->CallVoidMethod(p_env, myJavaLibVLC, methodIdDisplay, p_sys->byteArray);
+    (*p_env)->CallVoidMethod(p_env, p_sys->j_libVlc,
+                             methodIdDisplay, p_sys->byteArray);
 }

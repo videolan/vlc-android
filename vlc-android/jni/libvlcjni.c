@@ -10,9 +10,11 @@
 #include "vout.h"
 #include "log.h"
 
-
-JavaVM *myVm; // Pointer on the Java virtul machine.
-jobject myJavaLibVLC; // Pointer on the LibVLC Java object.
+/* Pointer to the Java virtual machine
+ * Note: It's okay to use a static variable for the VM pointer since there
+ * can only be one instance of this shared library in a single VM
+ */
+JavaVM *myVm;
 
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
@@ -20,36 +22,66 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     // Keep a reference on the Java VM.
     myVm = vm;
 
-    LOGD("JNI interface loaded.\n");
+    LOGD("JNI interface loaded.");
     return JNI_VERSION_1_2;
 }
 
 
-jint Java_vlc_android_LibVLC_init(JNIEnv *env, jobject thiz)
+void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
-    myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
-
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
                           "--no-audio", "--no-drop-late-frames",
                           "--vout", "vmem"};
 
-    jint ret = (jint)libvlc_new_with_builtins(8, argv, vlc_builtins_modules);
+    libvlc_instance_t *instance =
+            libvlc_new_with_builtins(sizeof(argv) / sizeof(*argv),
+                                     argv, vlc_builtins_modules);
 
-    LOGI("LibVLC loaded.\n");
-    return ret;
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID field = (*env)->GetFieldID(env, clazz,
+                                        "mLibVlcInstance", "I");
+    (*env)->SetIntField(env, thiz, field, (jint) instance);
+
+    if (!instance)
+    {
+        jclass exc = (*env)->FindClass(env, "vlc/android/LibVlcException");
+        (*env)->ThrowNew(env, exc, "Unable to instantiate LibVLC");
+    }
+
+    LOGI("LibVLC initialized: %p", instance);
+    return;
 }
 
 
-void Java_vlc_android_LibVLC_destroy(JNIEnv *env, jobject thiz, jint instance)
+void Java_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
-    (*env)->DeleteGlobalRef(env, myJavaLibVLC);
-    libvlc_instance_t *p_instance = (libvlc_instance_t*)instance;
-    libvlc_release(p_instance);
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          "mMediaPlayerInstance", "I");
+    jint mediaPlayer = (*env)->GetIntField(env, thiz, fieldMP);
+    if (mediaPlayer != 0)
+    {
+        libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
+        libvlc_media_player_stop(mp);
+        libvlc_media_player_release(mp);
+        (*env)->SetIntField(env, thiz, fieldMP, 0);
+    }
+
+    jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
+    jint libVlcInstance = (*env)->GetIntField(env, thiz, field);
+    if (!libVlcInstance)
+        return; // Already destroyed
+
+    libvlc_instance_t *instance = (libvlc_instance_t*) libVlcInstance;
+    libvlc_release(instance);
+
+    (*env)->SetIntField(env, thiz, field, 0);
 }
 
 
-void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz, jint instance,
-                                       jstring mrl)
+void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
+                                       jint instance, jstring mrl)
 {
     jboolean isCopy;
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
@@ -58,15 +90,24 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz, jint instance,
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
 
-    /* Create a media player playing environement */
+    /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
+
+    jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     libvlc_media_player_set_media(mp, m);
     libvlc_video_set_format_callbacks(mp, vout_format, vout_cleanup);
-    libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display, NULL);
+    libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display,
+                               (void*) myJavaLibVLC);
 
     /* No need to keep the media now */
     libvlc_media_release(m);
+
+    /* Keep a pointer to this media player */
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID field = (*env)->GetFieldID(env, clazz,
+                                        "mMediaPlayerInstance", "I");
+    (*env)->SetIntField(env, thiz, field, (jint) mp);
 
     /* Play the media. */
     libvlc_media_player_play(mp);
