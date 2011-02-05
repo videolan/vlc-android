@@ -121,6 +121,7 @@ public class Vout implements GLSurfaceView.Renderer{
 	        		byteBufferInit);
 	        
 	        mQuad.computeTexCoord(texWidth, texHeight, frameWidth, frameHeight);
+	        onSurfaceChanged(gl, surfaceWidth, surfaceHeight); // Compute AspectRatio
 
 	        /* Wrap the image buffer to the byte buffer. */
 	        byteBuffer = ByteBuffer.wrap(image);
@@ -142,6 +143,13 @@ public class Vout implements GLSurfaceView.Renderer{
         gl.glViewport(0, 0, w, h);
 
         /*
+         * Retain surface size, to be able to correct the AspectRatio
+         * on demand when a new video starts
+         */
+        surfaceWidth = w;
+        surfaceHeight = h;
+
+        /*
         * Set our projection matrix. This doesn't have to be done
         * each time we draw, but usually a new projection needs to
         * be set when the viewport is resized.
@@ -149,14 +157,20 @@ public class Vout implements GLSurfaceView.Renderer{
 
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
-        
-        if (w > h) {
-            float ratio = (float) w / h;
+
+        /*
+         * glFrustumf expand the clipping volume vertically or horizontally : it adds bars.
+         * how big those bars should be depends on both the video ratio and the surface ratio
+         */
+        float vRatio = frameHeight > 0 ? (float) frameWidth / frameHeight : 1f;
+        float sRatio = (float) surfaceWidth / surfaceHeight;
+        if (sRatio > vRatio) {
+            float ratio = sRatio / vRatio;
             gl.glFrustumf(-ratio, ratio, -1f, 1f, 1f, 2f);
         }
         else
         {
-        	float ratio = (float) h / w;
+            float ratio = vRatio / sRatio;
             gl.glFrustumf(-1f, 1f, -ratio, ratio, 1f, 2f);
         }
     }
@@ -177,7 +191,10 @@ public class Vout implements GLSurfaceView.Renderer{
 
     public boolean mustInit = false;
     public boolean hasReceivedFrame = false;
-    
+
+    private int surfaceWidth;
+    private int surfaceHeight;
+
     public int frameWidth;
     public int frameHeight;
 
