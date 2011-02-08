@@ -64,7 +64,9 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
 
 vlc-android/local.properties:
 	@echo "=== Preparing Ant ==="
-	@printf "# Auto-generated file. Do not edit.\nsdk.dir=$$ANDROID_SDK"       > vlc-android/local.properties
+	@if [ "$$ANDROID_SDK" = "" ] ; then echo "Error: ANDROID_SDK is not set" ; exit 1 ; \
+	 else \
+	 printf "# Auto-generated file. Do not edit.\nsdk.dir=$$ANDROID_SDK"       > vlc-android/local.properties ; fi
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES) vlc-android/local.properties
 	@echo "=== Building APK =="
