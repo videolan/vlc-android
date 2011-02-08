@@ -92,3 +92,9 @@ install:
 	@echo "Waiting for a device to be ready..." && adb wait-for-device
 	@echo "Installing package" && adb install -r $(VLC_APK)
 
+run:
+	@echo "=== Running application on device ==="
+	@adb wait-for-device && adb shell monkey -p vlc.android -s 0 1
+
+build-and-run: vlc.apk install run
+	@echo "=== Application is running ==="
