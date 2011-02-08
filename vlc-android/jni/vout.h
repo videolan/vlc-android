@@ -10,10 +10,11 @@ typedef struct vout_sys_t
     char *p_frameData;
     jbyteArray byteArray;
 
-    char b_attached;
-
     jobject j_libVlc; // Pointer to the LibVLC Java object.
     JNIEnv *p_env;
+
+    unsigned char b_attached; // Thread is attached to Java VM
+    jmethodID methodIdDisplay;
 }vout_sys_t;
 
 

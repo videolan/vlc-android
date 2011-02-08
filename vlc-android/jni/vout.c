@@ -52,6 +52,16 @@ void vout_cleanup(void *opaque)
     vout_sys_t *p_sys = opaque;
     if (p_sys->byteArray != NULL)
         (*p_sys->p_env)->DeleteLocalRef(p_sys->p_env, p_sys->byteArray);
+
+    if (p_sys->b_attached)
+    {
+        if ((*myVm)->DetachCurrentThread(myVm) != 0)
+        {
+            LOGE("Couldn't detach the display thread from the JVM!");
+            return;
+        }
+    }
+
     free(p_sys);
 }
 
@@ -73,15 +83,13 @@ void vout_unlock(void *opaque, void *picture, void *const *p_pixels)
 void vout_display(void *opaque, void *picture)
 {
     vout_sys_t *p_sys = (vout_sys_t *)opaque;
-    static char b_attached = 0;
-    static jmethodID methodIdDisplay = 0;
     JNIEnv *p_env = p_sys->p_env;
 
-    if (!b_attached)
+    if (!p_sys->b_attached)
     {
         if ((*myVm)->AttachCurrentThread(myVm, &p_env, NULL) != 0)
         {
-            LOGE("Couldn't attach the display thread to the JVM !\n");
+            LOGE("Couldn't attach the display thread to the JVM !");
             return;
         }
         // Save the environment refernce.
@@ -94,7 +102,7 @@ void vout_display(void *opaque, void *picture)
 
         if(methodIdSetVoutSize == 0)
         {
-            LOGE("Method setVoutParams not found !\n");
+            LOGE("Method setVoutParams not found !");
             return;
         }
 
@@ -102,12 +110,13 @@ void vout_display(void *opaque, void *picture)
         (*p_env)->CallVoidMethod(p_env, p_sys->j_libVlc, methodIdSetVoutSize,
                                  p_sys->i_frameWidth, p_sys->i_frameHeight);
 
-        methodIdDisplay = (*p_env)->GetMethodID(p_env, cls, "displayCallback",
-                                                "([B)V");
+        p_sys->methodIdDisplay = (*p_env)->GetMethodID(p_env, cls,
+                                                       "displayCallback",
+                                                       "([B)V");
 
-        if (methodIdDisplay == 0)
+        if (!p_sys->methodIdDisplay)
         {
-            LOGE("Method displayCallback not found !\n");
+            LOGE("Method displayCallback not found !");
             return;
         }
 
@@ -115,7 +124,7 @@ void vout_display(void *opaque, void *picture)
         jbyteArray byteArray = (*p_env)->NewByteArray(p_env, p_sys->i_frameSize);
         if (byteArray == NULL)
         {
-            LOGE("Couldn't allocate the Java byte array to store the frame !\n");
+            LOGE("Couldn't allocate the Java byte array to store the frame !");
             return;
         }
 
@@ -124,14 +133,14 @@ void vout_display(void *opaque, void *picture)
         p_sys->byteArray = (*p_env)->NewGlobalRef(p_env, byteArray);
         if (byteArray == NULL)
         {
-            LOGE("Couldn't create the global reference !\n");
+            LOGE("Couldn't create the global reference !");
             return;
         }
 
         /* The local reference is no longer useful. */
         (*p_env)->DeleteLocalRef(p_env, byteArray);
 
-        b_attached = 1;
+        p_sys->b_attached = 1;
     }
 
     // Fill the image buffer for debug purpose.
@@ -142,5 +151,5 @@ void vout_display(void *opaque, void *picture)
                                  (jbyte *)p_sys->p_frameData);
 
     (*p_env)->CallVoidMethod(p_env, p_sys->j_libVlc,
-                             methodIdDisplay, p_sys->byteArray);
+                             p_sys->methodIdDisplay, p_sys->byteArray);
 }
