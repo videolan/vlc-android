@@ -51,7 +51,7 @@ $(APK_MK):
 	 printf "LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \\\\\n"                     >> $(APK_MK); \
 	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \
 	 printf "$$LDFLAGS"                                                       >> $(APK_MK); \
-	 printf "\t$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"               >> $(APK_MK); \
+	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
 	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52\n" >> $(APK_MK); \
