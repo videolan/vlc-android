@@ -13,6 +13,8 @@ public class LibVLC {
 
     private GLSurfaceView mSurfaceView;
     private Vout mVout;
+    
+    private Aout mAout;
 
     /* Load library before object instantiation */
     static {
@@ -36,6 +38,7 @@ public class LibVLC {
     {
         mSurfaceView = s;
         mVout = v;
+        mAout = new Aout();
     };
 
     /**
@@ -99,6 +102,34 @@ public class LibVLC {
         mVout.image = image;
         mVout.hasReceivedFrame = true;
         mSurfaceView.requestRender();
+    }
+
+    /**
+     * Open the Java audio output.
+     * This function is called by the native code
+     */
+    public void initAout(int sampleRateInHz, int channels, int samples)
+    {
+    	Log.d(TAG, "Opening the java audio output");
+    	mAout.Init(sampleRateInHz, channels, samples);
+    }
+
+    /**
+     * Play an audio buffer taken from the native code
+     * This function is called by the native code
+     */
+    public void playAudio()
+    {
+    	Log.d(TAG, "Playing an audio buffer in Java");
+    }
+
+    /**
+     * Close the Java audio output
+     * This function is called by the native code
+     */
+    public void closeAout()
+    {
+    	Log.d(TAG, "Closing the java audio output");
     }
 
     /**

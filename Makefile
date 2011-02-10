@@ -46,7 +46,7 @@ $(APK_MK):
 	 printf 'LOCAL_PATH := $$(call my-dir)\n'                                  > $(APK_MK); \
 	 printf "include \$$(CLEAR_VARS)\n"                                       >> $(APK_MK); \
 	 printf "LOCAL_MODULE    := libvlcjni\n"                                  >> $(APK_MK); \
-	 printf "LOCAL_SRC_FILES := libvlcjni.c vout.c\n"                         >> $(APK_MK); \
+	 printf "LOCAL_SRC_FILES := libvlcjni.c vout.c aout.c\n"                  >> $(APK_MK); \
 	 printf "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../../../../include\n"    >> $(APK_MK); \
 	 printf "LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \\\\\n"                     >> $(APK_MK); \
 	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \

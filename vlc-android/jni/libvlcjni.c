@@ -7,6 +7,7 @@
 #include <vlc/vlc.h>
 
 #include "libvlcjni.h"
+#include "aout.h"
 #include "vout.h"
 #include "log.h"
 
@@ -30,8 +31,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-audio", "--no-drop-late-frames",
-                          "--vout", "vmem"};
+                          "--no-drop-late-frames",
+                          "--aout", "amem"};
 
     libvlc_instance_t *instance =
             libvlc_new_with_builtins(sizeof(argv) / sizeof(*argv),
@@ -99,6 +100,8 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_video_set_format_callbacks(mp, vout_format, vout_cleanup);
     libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display,
                                (void*) myJavaLibVLC);
+
+    libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close, (void*)myJavaLibVLC);
 
     /* No need to keep the media now */
     libvlc_media_release(m);
