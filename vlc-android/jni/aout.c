@@ -20,6 +20,8 @@ void aout_open(void **opaque, unsigned int *rate, unsigned int *nb_channels, uns
     if(!p_sys)
         return;
 
+    p_sys->j_libVlc = (aout_sys_t *)*opaque;
+
     // Attach the thread to the VM
     JNIEnv *p_env;
     if ((*myVm)->AttachCurrentThread(myVm, &p_env, NULL) != 0)
