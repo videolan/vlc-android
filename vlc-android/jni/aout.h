@@ -6,6 +6,8 @@ typedef struct
     jobject j_libVlc;   // Pointer to the LibVLC Java object
     jmethodID play;
     JNIEnv *p_env;
+
+    jbyteArray byteArray;
 } aout_sys_t;
 
 void aout_open(void **opaque, unsigned int *rate, unsigned int *nb_channels, unsigned int *fourCCFormat, unsigned int *nb_samples);

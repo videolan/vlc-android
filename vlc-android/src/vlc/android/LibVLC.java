@@ -118,9 +118,10 @@ public class LibVLC {
      * Play an audio buffer taken from the native code
      * This function is called by the native code
      */
-    public void playAudio()
+    public void playAudio(byte[] audioData, int bufferSize, int nbSamples)
     {
     	Log.d(TAG, "Playing an audio buffer in Java");
+    	mAout.playAudio(audioData, bufferSize, nbSamples);
     }
 
     /**
