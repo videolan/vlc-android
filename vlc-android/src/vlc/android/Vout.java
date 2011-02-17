@@ -38,6 +38,14 @@ import android.util.Log;
 
 public class Vout implements GLSurfaceView.Renderer{
 
+    private static final String TAG = "LibVLC/vout";
+
+    /* Video orientation parameters */
+    public enum Orientation {
+        HORIZONTAL,
+        VERTICAL
+    }
+
     public Vout(Context context) {
         mContext = context;
         mQuad = new Quad();
@@ -183,6 +191,12 @@ public class Vout implements GLSurfaceView.Renderer{
             i_result *= 2;
 
         return i_result;
+    }
+
+    /* Manually change video orientation */
+    public void setOrientation (Orientation orient) {
+        // FIXME
+        Util.toaster("Orientation:\nNot implemented yet", 1500);
     }
 
     private Context mContext;
