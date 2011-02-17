@@ -9,6 +9,8 @@
 #include "libvlcjni.h"
 #include "aout.h"
 #include "vout.h"
+
+#define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
 /* Pointer to the Java virtual machine
@@ -101,7 +103,8 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display,
                                (void*) myJavaLibVLC);
 
-    libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close, (void*)myJavaLibVLC);
+    libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close,
+                               (void*) myJavaLibVLC);
 
     /* No need to keep the media now */
     libvlc_media_release(m);

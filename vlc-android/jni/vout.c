@@ -7,6 +7,8 @@
 #include <vlc/vlc.h>
 
 #include "vout.h"
+
+#define LOG_TAG "LibVLC/JNI/vout"
 #include "log.h"
 
 /** Unique Java VM instance, as defined in libvlcjni.c */
@@ -92,6 +94,7 @@ void vout_display(void *opaque, void *picture)
             LOGE("Couldn't attach the display thread to the JVM !");
             return;
         }
+        p_sys->b_attached = 1;
         // Save the environment refernce.
         p_sys->p_env = p_env;
 
@@ -139,8 +142,6 @@ void vout_display(void *opaque, void *picture)
 
         /* The local reference is no longer useful. */
         (*p_env)->DeleteLocalRef(p_env, byteArray);
-
-        p_sys->b_attached = 1;
     }
 
     // Fill the image buffer for debug purpose.
