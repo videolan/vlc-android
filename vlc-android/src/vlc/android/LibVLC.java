@@ -110,8 +110,8 @@ public class LibVLC {
      */
     public void initAout(int sampleRateInHz, int channels, int samples)
     {
-    	Log.d(TAG, "Opening the java audio output");
-    	mAout.Init(sampleRateInHz, channels, samples);
+        Log.d(TAG, "Opening the java audio output");
+        mAout.init(sampleRateInHz, channels, samples);
     }
 
     /**
@@ -120,8 +120,8 @@ public class LibVLC {
      */
     public void playAudio(byte[] audioData, int bufferSize, int nbSamples)
     {
-    	Log.d(TAG, "Playing an audio buffer in Java");
-    	mAout.playAudio(audioData, bufferSize, nbSamples);
+        Log.d(TAG, "Playing an audio buffer in Java");
+        mAout.playBuffer(audioData, bufferSize, nbSamples);
     }
 
     /**
@@ -130,7 +130,8 @@ public class LibVLC {
      */
     public void closeAout()
     {
-    	Log.d(TAG, "Closing the java audio output");
+        Log.d(TAG, "Closing the java audio output");
+        mAout.release();
     }
 
     /**
