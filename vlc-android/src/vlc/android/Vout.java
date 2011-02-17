@@ -196,7 +196,8 @@ public class Vout implements GLSurfaceView.Renderer{
     /* Manually change video orientation */
     public void setOrientation (Orientation orient) {
         // FIXME
-        Util.toaster("Orientation:\nNot implemented yet", 1500);
+        // preferences.set() ...
+        Util.toaster("Orientation:\nNot implemented yet");
     }
 
     private Context mContext;

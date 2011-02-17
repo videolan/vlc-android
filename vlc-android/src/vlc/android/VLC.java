@@ -100,11 +100,19 @@ public class VLC extends Activity {
 
         // Options menu
         case R.id.menuLandscapeMode:
-            Log.d (TAG, "Toggled LandscapeMode");
+            Log.d(TAG, "Toggled LandscapeMode");
             item.setChecked(!item.isChecked());
             mVout.setOrientation(item.isChecked() ?
                                  Vout.Orientation.HORIZONTAL :
                                  Vout.Orientation.VERTICAL);
+            return true;
+
+        case R.id.menuLockHud:
+            Log.d(TAG, "Toggled Lock HUD");
+            item.setChecked(!item.isChecked());
+            // FIXME
+            //mHud.setAlwaysVisible(item.isChecked());
+            Util.toaster("HUD:\nNot implemented yet");
             return true;
 
         default:

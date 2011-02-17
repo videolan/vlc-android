@@ -5,11 +5,16 @@ import android.widget.Toast;
 
 public class Util {
     /** A set of utility functions for the VLC application */
-    
+
     public static void toaster(String message, int duration) {
         Toast toast = Toast.makeText(VLC.getActivityContext(), 
                                      message, duration);
         // toast.setGravity();
         toast.show();
+    }
+
+    /* Helper for toaster */
+    public static void toaster(String message) {
+        toaster(message, 1500);
     }
 }
