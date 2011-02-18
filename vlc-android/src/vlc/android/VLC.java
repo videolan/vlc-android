@@ -124,7 +124,7 @@ public class VLC extends Activity {
         // Main menu entries
         case R.id.menuAbout:
             // FIXME showAboutBox
-            Util.toaster("About VLC media player:\nNot implemented yet");
+            startActivity(new Intent(this, SimpleFileBrowser.class));
             return true;
 
         case R.id.menuQuit:

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="8dp"
+              android:paddingRight="8dp">
+
+	<TextView android:id="@+id/filebrowser_path"
+	          android:layout_width="match_parent"
+	          android:layout_height="wrap_content"
+	          />
+
+    <ListView android:id="@id/android:list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#402000"
+              />
+
+	<TextView android:id="@id/android:empty"
+	          android:layout_width="match_parent"
+	          android:layout_height="match_parent"
+	          android:text="No files"
+              android:background="#FF0000"
+	          />
+
+</LinearLayout>

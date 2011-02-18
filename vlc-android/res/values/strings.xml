@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, vlc!</string>
-    <string name="app_name">vlc-android</string>
+    <string name="app_name">VLC media player</string>
+    <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
+    <string name="filebrowser_root">&lt;root&gt;</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Select media to play</string>
 </resources>
