@@ -2,9 +2,13 @@ package vlc.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 
 import android.util.Log;
@@ -30,7 +34,15 @@ public class VLC extends Activity {
 
         Log.v(TAG, "Starting VLC media player...");
 
-        /* Define layout */
+        /* Force orientation... */
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean(VlcPreferences.ORIENTATION_MODE, true)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        /* ... and then load the layout */
         setContentView(R.layout.main);
 
         final Button button = (Button) findViewById(R.id.button);
@@ -62,6 +74,28 @@ public class VLC extends Activity {
         });
     }
 
+    /** Resume the application */
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // FIXME Make sure we have the requested orientation
+        boolean preferredMode  = !prefs.getBoolean(VlcPreferences.ORIENTATION_MODE, true);
+        boolean currentMode    = this.getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        if (currentMode != preferredMode) {
+            // This will probably recreate the activity
+            if (preferredMode) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            } else {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        }
+
+        // FIXME
+        // if (prefs.getBoolean("hud lock", false))
+    }
+
     /** Called when the activity is finally destroyed */
     @Override
     public void onDestroy() {
@@ -79,7 +113,7 @@ public class VLC extends Activity {
      * displayed.
      */
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater ();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.stop_menu, menu);
         return true;
     }
@@ -90,29 +124,16 @@ public class VLC extends Activity {
         // Main menu entries
         case R.id.menuAbout:
             // FIXME showAboutBox
+            Util.toaster("About VLC media player:\nNot implemented yet");
             return true;
 
         case R.id.menuQuit:
-            // FIXME For debugging only. Remove before the release.
-            Log.i(TAG, "Forcefully quitting VLC...");
-            System.exit(0);
-            return true; // Will not be called
-
-        // Options menu
-        case R.id.menuLandscapeMode:
-            Log.d(TAG, "Toggled LandscapeMode");
-            item.setChecked(!item.isChecked());
-            mVout.setOrientation(item.isChecked() ?
-                                 Vout.Orientation.HORIZONTAL :
-                                 Vout.Orientation.VERTICAL);
+            finish();
             return true;
 
-        case R.id.menuLockHud:
-            Log.d(TAG, "Toggled Lock HUD");
-            item.setChecked(!item.isChecked());
-            // FIXME
-            //mHud.setAlwaysVisible(item.isChecked());
-            Util.toaster("HUD:\nNot implemented yet");
+        // Options menu
+        case R.id.menuOptions:
+            startActivity(new Intent(this, VlcPreferences.class));
             return true;
 
         default:

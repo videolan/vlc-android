@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menuOptions" android:visible="true" android:enabled="true" android:titleCondensed="Options" android:checkable="false" android:title="Configuration">
-        <menu>
-            <group android:id="@+id/menuGroupDisplay">
-                <item android:checkable="true" android:enabled="true" android:visible="true" android:titleCondensed="Landscape" android:title="Landscape mode" android:id="@+id/menuLandscapeMode" android:checked="true"></item>
-                <item android:checkable="true" android:enabled="true" android:visible="true" android:titleCondensed="Lock HUD" android:title="Keep interface visible" android:checked="true" android:id="@+id/menuLockHud"></item>
-            </group>
-        </menu>
-    </item>
+    <item android:id="@+id/menuOptions" android:visible="true" android:enabled="true" android:titleCondensed="Options" android:checkable="false" android:title="Configuration" ></item>
     <item android:id="@+id/menuAbout" android:visible="true" android:checkable="false" android:title="About..." android:enabled="true" android:titleCondensed="About..."></item>
     <item android:id="@+id/menuQuit" android:visible="true" android:checkable="false" android:title="Force application to quit" android:enabled="true" android:titleCondensed="Quit"></item>
 </menu>
