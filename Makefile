@@ -6,24 +6,27 @@ APK_MK=vlc-android/jni/Android.mk
 LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
-VLC_CONTRIB ?= $(CURDIR)/../../contrib/build
 
 all: vlc.apk
 
 $(APK_MK):
 	@echo "=== Creating Android.mk ==="; \
 	prefix=""; \
+	vlc_contrib=""; \
 	# Check environment variables
-	@if [ -z "$$ANDROID_NDK" -o -z "$$VLC_BUILD_DIR" -o -z "$(VLC_CONTRIB)" ]; then \
-	    echo "You must define ANDROID_NDK, VLC_BUILD_DIR and VLC_CONTRIB"; \
+	@if [ -z "$$ANDROID_NDK" -o -z "$$ANDROID_SDK" -o -z "$$VLC_BUILD_DIR" ]; then \
+	    echo "You must define ANDROID_NDK, ANDROID_SDK and VLC_BUILD_DIR"; \
 	    exit 1; \
 	 fi; \
 	# Append ../ to relative paths
 	@if [ `echo $(VLC_BUILD_DIR) | head -c 1` != "/" ] ; then \
 	    prefix="../"; \
 	 fi; \
-	 if [ `echo $(VLC_CONTRIB) | head -c 1` != "/" ] ; then \
-	    VLC_CONTRIB="../$(VLC_CONTRIB)"; \
+	 if [ -z "$$VLC_CONTRIB" ] ; then \
+	    VLC_CONTRIB="../../contrib/build"; \
+	 fi; \
+	 if [ `echo "$$VLC_CONTRIB" | head -c 1` != "/" ] ; then \
+	    vlc_contrib="../$$VLC_CONTRIB"; \
 	 fi; \
 	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'`; \
 	 LDFLAGS=""; \
@@ -48,7 +51,7 @@ $(APK_MK):
 	 printf "LOCAL_MODULE    := libvlcjni\n"                                  >> $(APK_MK); \
 	 printf "LOCAL_SRC_FILES := libvlcjni.c vout.c aout.c\n"                  >> $(APK_MK); \
 	 printf "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../../../../include\n"    >> $(APK_MK); \
-	 printf "LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \\\\\n"                     >> $(APK_MK); \
+	 printf "LOCAL_LDLIBS := -L$$vlc_contrib/lib \\\\\n"                      >> $(APK_MK); \
 	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \
 	 printf "$$LDFLAGS"                                                       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
