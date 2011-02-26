@@ -45,7 +45,6 @@ public class VLC extends Activity {
         /* ... and then load the layout */
         setContentView(R.layout.main);
 
-        final Button button = (Button) findViewById(R.id.button);
         final GLSurfaceView surfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
 
         mVout = new Vout(this);
@@ -66,12 +65,6 @@ public class VLC extends Activity {
             /// FIXME Abort cleanly, alert user
             System.exit(1);
         }
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mLibVlc.readMedia("/sdcard/test.mp4");
-            }
-        });
     }
 
     /** Resume the application */
