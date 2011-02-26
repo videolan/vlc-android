@@ -8,7 +8,9 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SimpleFileBrowser extends ListActivity {
@@ -96,5 +98,17 @@ public class SimpleFileBrowser extends ListActivity {
         setListAdapter(fileList);
     }
 
+    protected void onListItemClick(ListView l, View v, int position, long id)
+    {
+        String path = mPaths.get((int)id);
+        File f = new File(path);
+        if (f.isDirectory()) {
+            openDir(path);
+        }
+        else {
+            Log.v(TAG, "Play: " + path);
+        }
+    }
+    
     // TODO Finish this work
 }
