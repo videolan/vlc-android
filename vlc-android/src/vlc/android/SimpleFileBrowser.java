@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -107,6 +108,12 @@ public class SimpleFileBrowser extends ListActivity {
         }
         else {
             Log.v(TAG, "Play: " + path);
+            Bundle bundle = new Bundle();
+            bundle.putString("filePath", path);
+            Intent i = new Intent();
+            i.putExtras(bundle);
+            setResult(RESULT_OK, i);
+            finish();
         }
     }
     

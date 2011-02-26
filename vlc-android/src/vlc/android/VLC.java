@@ -122,9 +122,14 @@ public class VLC extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         // Main menu entries
+        case R.id.menuOpen:
+            // FIXME showAboutBox
+            Intent i = new Intent(this, SimpleFileBrowser.class);
+            startActivityForResult(i, 0);
+            return true;
+        
         case R.id.menuAbout:
             // FIXME showAboutBox
-            startActivity(new Intent(this, SimpleFileBrowser.class));
             return true;
 
         case R.id.menuQuit:
@@ -146,5 +151,16 @@ public class VLC extends Activity {
     public static Context getActivityContext() {
         // The Activity is a context itself
         return sInstance;
+    }
+    
+    /** Activity result callback */
+    protected void onActivityResult (int requestCode, int resultCode, Intent data)
+    {
+        Bundle extras = data.getExtras();
+
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            String filePath = extras.getString("filePath");
+            mLibVlc.readMedia(filePath);
+        }
     }
 }
