@@ -37,7 +37,6 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-mkv \
                 --disable-live555 \
                 --disable-libgcrypt \
-                --disable-remoteosd \
                 --disable-lua \
                 --enable-swscale \
                 --enable-avcodec \
@@ -47,7 +46,4 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-vcd \
                 --disable-v4l2 \
                 --disable-atmo \
-                --disable-vlc \
-                --disable-opensles \
-                --enable-android \
-                --disable-egl-android
+                --disable-vlc
