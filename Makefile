@@ -27,6 +27,8 @@ $(APK_MK):
 	 fi; \
 	 if [ `echo "$$VLC_CONTRIB" | head -c 1` != "/" ] ; then \
 	    vlc_contrib="../$$VLC_CONTRIB"; \
+     else \
+	    vlc_contrib="$$VLC_CONTRIB"; \
 	 fi; \
 	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'`; \
 	 LDFLAGS=""; \
