@@ -33,8 +33,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-drop-late-frames",
-                          "--aout", "amem"};
+                          "--no-drop-late-frames"};
 
     libvlc_instance_t *instance =
             libvlc_new_with_builtins(sizeof(argv) / sizeof(*argv),
