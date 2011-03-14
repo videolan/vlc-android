@@ -1,5 +1,6 @@
 package vlc.android;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -55,7 +56,7 @@ public class VLC extends Activity {
         surfaceView.setRenderer(mVout);
         surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
-        mLibVlc = new LibVLC(surfaceView, mVout);
+        mLibVlc = LibVLC.getInstance(surfaceView, mVout);
         
         try {
             mLibVlc.init();

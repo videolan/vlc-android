@@ -7,6 +7,8 @@ import android.view.Surface;
 public class LibVLC {
     private static final String TAG = "LibVLC";
 
+    private static LibVLC instance;
+    
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
     private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
@@ -32,14 +34,31 @@ public class LibVLC {
     }
 
     /**
-     * Constructor
+     * Singleton constructors
      */
-    public LibVLC(GLSurfaceView s, Vout v)
+    public static LibVLC getInstance(GLSurfaceView s, Vout v)
     {
+        if (instance == null) {
+            /* First call */
+            instance = new LibVLC(s, v);
+        }
+        return instance;
+    }
+    
+    public static LibVLC getInstance()
+    {
+        return instance;
+    }
+    
+    /**
+     * Constructor
+     * It is private because this class is a singleton.
+     */
+    private LibVLC(GLSurfaceView s, Vout v) {
         mSurfaceView = s;
         mVout = v;
         mAout = new Aout();
-    };
+    }
 
     /**
      * Destructor:
@@ -120,7 +139,6 @@ public class LibVLC {
      */
     public void playAudio(byte[] audioData, int bufferSize, int nbSamples)
     {
-        Log.d(TAG, "Playing an audio buffer in Java");
         mAout.playBuffer(audioData, bufferSize, nbSamples);
     }
 
@@ -142,6 +160,16 @@ public class LibVLC {
         Log.v(TAG, "Reading " + mrl);
         readMedia(mLibVlcInstance, mrl);
     }
+    
+    /**
+     * Get a media thumbnail.
+     */
+    public byte[] getThumbnail(String filePath, int i_width, int i_height)
+    {
+        return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
+    }
+    
+    
 
     /**
      * Initialize the libvlc C library
@@ -179,4 +207,10 @@ public class LibVLC {
      * @return the libVLC changeset string
      */
     public native String changeset();
+    
+    /**
+     * Get a media thumbnail.
+     * @return a bytearray with the RGBA thumbnail data inside.
+     */
+    private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
 }
