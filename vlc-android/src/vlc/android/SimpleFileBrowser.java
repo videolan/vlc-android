@@ -48,6 +48,8 @@ public class SimpleFileBrowser extends ListActivity {
     final Handler mHandler = new Handler();
     final CyclicBarrier mBarrier = new CyclicBarrier(2);
 
+    // Counter to determine if an updated item is no longer displayed or not.
+    private int mCount;
     
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +115,9 @@ public class SimpleFileBrowser extends ListActivity {
         mPathWidget.setText(path);
 
         mItems.clear();
+        mThumbnailerManager.clearJobs();
+        
+        mCount++;
 
         File dir = new File(path);
         File[] files = dir.listFiles(); // FIXME Use a filter
@@ -120,11 +125,11 @@ public class SimpleFileBrowser extends ListActivity {
         if (!ROOT_FOLDER.equals(path)) {
             FileBrowserItem item =
                 new FileBrowserItem(getString(R.string.filebrowser_root),
-                    ROOT_FOLDER, dirImage);
+                    ROOT_FOLDER, dirImage, mCount++);
             mItems.add(item);
             
             item = new FileBrowserItem(getString(R.string.filebrowser_parent),
-                    dir.getParent(), dirImage);
+                    dir.getParent(), dirImage, mCount);
             mItems.add(item);
         }
 
@@ -138,12 +143,12 @@ public class SimpleFileBrowser extends ListActivity {
                 if (f.isDirectory()) {
                     FileBrowserItem item =
                         new FileBrowserItem(f.getName() + "/",
-                            f.getAbsolutePath(), dirImage);
+                            f.getAbsolutePath(), dirImage, mCount);
                     mItems.add(item);
                 }
                 else {
                     FileBrowserItem item = new FileBrowserItem(f.getName(),
-                            f.getAbsolutePath(), null);
+                            f.getAbsolutePath(), null, mCount);
                     mItems.add(item);
                     // FIXME the file extensions.
                     if (f.getName().endsWith(".mp4")
@@ -167,6 +172,8 @@ public class SimpleFileBrowser extends ListActivity {
             openDir(path);
         }
         else {
+            // Interrupt the thumbnailer thread.
+            mThumbnailerManager.interrupt();
             Log.v(TAG, "Play: " + path);
             Bundle bundle = new Bundle();
             bundle.putString("filePath", path);
@@ -182,8 +189,12 @@ public class SimpleFileBrowser extends ListActivity {
      */
     public final Runnable mUpdateItems = new Runnable() {
         public void run() {
-            mItems.remove(mItems.getItem(mItemIdToUpdate));
-            mItems.insert(mNewItem, mItemIdToUpdate);
+            // Update the item only if it is still displayed.
+            if (mNewItem.count == mCount)
+            {
+                mItems.remove(mItems.getItem(mItemIdToUpdate));
+                mItems.insert(mNewItem, mItemIdToUpdate);
+            }
             try {
                 mBarrier.await();
             } catch (InterruptedException e) {
@@ -198,13 +209,15 @@ public class SimpleFileBrowser extends ListActivity {
     public class FileBrowserItem {
         public String name;
         public String path;
-        Bitmap thumbnail;
+        public Bitmap thumbnail;
+        public int count;
         
         public FileBrowserItem(String name, String path,
-                Bitmap thumbnail) {
+                Bitmap thumbnail, int count) {
             this.name = name;
             this.path = path;
             this.thumbnail = thumbnail;
+            this.count = count;
         }
     }
 

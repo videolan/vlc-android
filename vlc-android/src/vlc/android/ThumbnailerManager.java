@@ -29,6 +29,16 @@ public class ThumbnailerManager extends Thread {
     }
     
     /**
+     * Remove all the thumbnail jobs.
+     */
+    public void clearJobs()
+    {
+        lock.lock();
+        mIds.clear();
+        lock.unlock();
+    }
+    
+    /**
      * Add a new id of the file browser item to create its thumbnail.
      * @param id the if of the file browser item.
      */
@@ -44,7 +54,7 @@ public class ThumbnailerManager extends Thread {
      */
     public void run()
     {
-        while (true) {
+        while (!isInterrupted()) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             while (mIds.size() == 0)
@@ -65,7 +75,7 @@ public class ThumbnailerManager extends Thread {
                     ByteBuffer.wrap(mLibVlc.getThumbnail(oldItem.path, 50, 50)));
 
             FileBrowserItem newItem = mFileBrowser.new FileBrowserItem(oldItem.name,
-                    oldItem.path, thumbnail);
+                    oldItem.path, thumbnail, oldItem.count);
 
             mFileBrowser.mItemIdToUpdate = id;
             mFileBrowser.mNewItem = newItem;
@@ -77,7 +87,9 @@ public class ThumbnailerManager extends Thread {
             try {
                 mFileBrowser.mBarrier.await();
             } catch (InterruptedException e) {
+                break;
             } catch (BrokenBarrierException e) {
+                break;
             }
         }
     }
