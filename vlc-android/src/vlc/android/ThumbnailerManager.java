@@ -57,12 +57,19 @@ public class ThumbnailerManager extends Thread {
         while (!isInterrupted()) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
+            boolean killed = false;
             while (mIds.size() == 0)
+            {
                 try {
                     notEmpty.await();
                 } catch (InterruptedException e) {
+                    killed = true;
                     break;
-                }            
+                }
+            }
+            if (killed)
+                break;
+
             int id = mIds.getFirst();
             mIds.removeFirst();
             lock.unlock();
