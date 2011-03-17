@@ -21,6 +21,22 @@ jint getMediaPlayer(JNIEnv *env, jobject thiz)
     return (*env)->GetIntField(env, thiz, fieldMP);
 }
 
+jboolean releaseMediaPlayer(JNIEnv *env, jobject thiz)
+{
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          "mMediaPlayerInstance", "I");
+    jint mediaPlayer = (*env)->GetIntField(env, thiz, fieldMP);
+    if (mediaPlayer != 0)
+    {
+        libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
+        libvlc_media_player_stop(mp);
+        libvlc_media_player_release(mp);
+        (*env)->SetIntField(env, thiz, fieldMP, 0);
+    }
+    return (mediaPlayer == 0);
+}
+
 /* Pointer to the Java virtual machine
  * Note: It's okay to use a static variable for the VM pointer since there
  * can only be one instance of this shared library in a single VM
@@ -65,19 +81,8 @@ void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
 void Java_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
+    releaseMediaPlayer(env, thiz);
     jclass clazz = (*env)->GetObjectClass(env, thiz);
-
-    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
-                                          "mMediaPlayerInstance", "I");
-    jint mediaPlayer = (*env)->GetIntField(env, thiz, fieldMP);
-    if (mediaPlayer != 0)
-    {
-        libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
-        libvlc_media_player_stop(mp);
-        libvlc_media_player_release(mp);
-        (*env)->SetIntField(env, thiz, fieldMP, 0);
-    }
-
     jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
     jint libVlcInstance = (*env)->GetIntField(env, thiz, field);
     if (!libVlcInstance)
@@ -95,6 +100,9 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 {
     jboolean isCopy;
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
+
+    /* Release previous media player, if any */
+    releaseMediaPlayer(env, thiz);
 
     /* Create a new item */
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
