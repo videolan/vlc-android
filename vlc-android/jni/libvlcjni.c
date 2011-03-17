@@ -138,27 +138,6 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
-
-jint Java_vlc_android_LibVLC_getHeight(JNIEnv *env, jobject thiz)
-{
-    jint mediaPlayer = getMediaPlayer(env, thiz);
-    if (mediaPlayer != 0)
-    {
-        libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
-        return libvlc_video_get_height( mp );
-    }
-}
-
-jint Java_vlc_android_LibVLC_getWidth(JNIEnv *env, jobject thiz)
-{
-    jint mediaPlayer = getMediaPlayer(env, thiz);
-    if (mediaPlayer != 0)
-    {
-        libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
-        return libvlc_video_get_width( mp );
-    }
-}
-
 jboolean Java_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);

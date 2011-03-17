@@ -198,16 +198,6 @@ public class LibVLC {
     private native void readMedia(int instance, String mrl);
 
     /**
-     * Returns video's height
-     */
-    public native int getHeight();
-
-    /**
-     * Returns video's width
-     */
-    public native int getWidth();
-
-    /**
      * Returns true if any media is playing
      */
     public native boolean isPlaying();
