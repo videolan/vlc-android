@@ -1,5 +1,7 @@
 package vlc.android;
 
+import java.util.concurrent.BrokenBarrierException;
+
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.Surface;
@@ -121,6 +123,11 @@ public class LibVLC {
         mVout.image = image;
         mVout.hasReceivedFrame = true;
         mSurfaceView.requestRender();
+        try {
+            mVout.mBarrier.await();
+        } catch (InterruptedException e) {
+        } catch (BrokenBarrierException e) {
+        }
     }
 
     /**

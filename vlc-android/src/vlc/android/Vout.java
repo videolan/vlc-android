@@ -22,6 +22,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -145,6 +147,15 @@ public class Vout implements GLSurfaceView.Renderer{
         }
 
         mQuad.draw(gl);
+        
+        if (hasReceivedFrame)
+        {
+            try {
+                mBarrier.await();
+            } catch (InterruptedException e) {
+            } catch (BrokenBarrierException e) {
+            }
+        }
     }
 
     public void onSurfaceChanged(GL10 gl, int w, int h) {
@@ -218,6 +229,8 @@ public class Vout implements GLSurfaceView.Renderer{
 
     public byte[] image;
     private ByteBuffer byteBuffer;
+    
+    final public CyclicBarrier mBarrier = new CyclicBarrier(2);
 }
 
 class Quad {
