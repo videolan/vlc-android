@@ -198,6 +198,83 @@ public class LibVLC {
     private native void readMedia(int instance, String mrl);
 
     /**
+     * Returns video's height
+     */
+    public native int getHeight();
+
+    /**
+     * Returns video's width
+     */
+    public native int getWidth();
+
+    /**
+     * Returns true if any media is playing
+     */
+    public native boolean isPlaying();
+
+    /**
+     * Returns true if any media is seekable
+     */
+    public native boolean isSeekable();
+
+    /**
+     * Plays any loaded media
+     */
+    public native void play();
+
+    /**
+     * Pauses any playing media
+     */
+    public native void pause();
+
+    /**
+     * Stops any playing media
+     */
+    public native void stop();
+
+    /**
+     * Gets volume as integer
+     */
+    public native int getVolume();
+
+    /**
+     * Gets volume as integer
+     * @param volume: Volume level passed as integer
+     */
+    public native int setVolume(int volume);
+
+    /**
+     * Gets the current movie time (in ms).
+     * @return the movie time (in ms), or -1 if there is no media.
+     */
+    public native long getTime();
+
+    /**
+     * Sets the movie time (in ms), if any media is being played.
+     * @param time: Time in ms.
+     * @return the movie time (in ms), or -1 if there is no media.
+     */
+    public native long setTime(long time);
+
+    /**
+     * Gets the movie position.
+     * @return the movie position, or -1 for any error.
+     */
+    public native float getPosition();
+
+    /**
+     * Sets the movie position.
+     * @param pos: movie position.
+     */
+    public native void setPosition(float pos);
+
+    /**
+     * Gets current movie's length in ms.
+     * @return the movie length (in ms), or -1 if there is no media.
+     */
+    public native long getLength();
+
+    /**
      * Get the libVLC version
      * @return the libVLC version string
      */
