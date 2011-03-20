@@ -3,6 +3,8 @@ package org.videolan.vlc.android;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
@@ -134,19 +136,33 @@ public class SimpleFileBrowser extends ListActivity {
         }
 
         if (files != null) {
+            Arrays.sort(files, new Comparator<File>() {
+                public int compare(File f1, File f2) {
+                    return String.CASE_INSENSITIVE_ORDER.compare(f1.getName(), f2.getName());
+                    };
+            });
+
+            for (int i = 0; i < files.length; i++) {
+                File f = files[i];
+                if (f.getName().startsWith("."))
+                    continue;
+
+                if (f.isDirectory()) {
+                    Log.v(TAG, "Directory found: " + f.getName());
+                    FileBrowserItem item =
+                        new FileBrowserItem(f.getName() + "/",
+                            f.getAbsolutePath(), dirImage, mCount);
+                    mItems.add(item);
+                }
+            }
+
             for (int i = 0; i < files.length; i++) {
                 File f = files[i];
                 if (f.getName().startsWith("."))
                     continue;
 
                 Log.v(TAG, "File found: " + f.getName());
-                if (f.isDirectory()) {
-                    FileBrowserItem item =
-                        new FileBrowserItem(f.getName() + "/",
-                            f.getAbsolutePath(), dirImage, mCount);
-                    mItems.add(item);
-                }
-                else {
+                if (f.isFile()) {
                     FileBrowserItem item = new FileBrowserItem(f.getName(),
                             f.getAbsolutePath(), null, mCount);
                     mItems.add(item);
