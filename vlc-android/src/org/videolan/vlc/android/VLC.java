@@ -175,6 +175,8 @@ public class VLC extends Activity {
     /** Activity result callback */
     protected void onActivityResult (int requestCode, int resultCode, Intent data)
     {
+        if (data == null)
+            return;
         Bundle extras = data.getExtras();
 
         if (requestCode == 0 && resultCode == RESULT_OK) {
