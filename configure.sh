@@ -17,11 +17,16 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 # needed for old ndk: change all the arm-linux-androideabi to arm-eabi
 # the --host is kept on purpose because otherwise libtool complains..
 
+EXTRA_CFLAGS=""
+if [[ -z "$NO_NEON" ]]; then
+	EXTRA_CFLAGS="-mfloat-abi=softfp -mfpu=neon"
+fi
+
 PATH="$ANDROID_BIN":$PATH \
 CPPFLAGS="-I$ANDROID_INCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
-CFLAGS="-nostdlib" \
-CXXFLAGS="-nostdlib" \
+CFLAGS="-nostdlib $EXTRA_CFLAGS" \
+CXXFLAGS="-nostdlib $EXTRA_CFLAGS" \
 LIBS="-lc -ldl -lgcc" \
 CC="${GCC_PREFIX}gcc" \
 CXX="${GCC_PREFIX}g++" \

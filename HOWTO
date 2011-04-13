@@ -8,6 +8,10 @@ Basic how to compile VLC on Android platform.
 - Set $ANDROID_NDK to point to your android NDK directory
    export ANDROID_NDK=/path/to/android-ndk
 
+- If you plan to use the emulator, you need a build without neon
+   export NO_NEON=1
+  make sure it is set for both the contribs bootstrap next and the configure.sh later.
+
 - Build the contribs
    cd extras/contrib
    ./bootstrap -t arm-eabi -d android
