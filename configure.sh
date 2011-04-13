@@ -46,4 +46,6 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-vcd \
                 --disable-v4l2 \
                 --disable-atmo \
-                --disable-vlc
+                --disable-vlc \
+                --enable-live555 \
+                --enable-realrtsp
