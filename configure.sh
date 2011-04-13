@@ -31,21 +31,9 @@ PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-static-modules \
                 --enable-debug \
-                --disable-qt4 \
-                --disable-skins2 \
-                --disable-mad \
-                --disable-mkv \
-                --disable-live555 \
-                --disable-libgcrypt \
-                --disable-lua \
                 --enable-swscale \
                 --enable-avcodec \
                 --enable-avformat \
-                --disable-xcb \
-                --disable-dbus \
-                --disable-vcd \
-                --disable-v4l2 \
-                --disable-atmo \
                 --disable-vlc \
-                --enable-live555 \
-                --enable-realrtsp
+                --enable-live555 --enable-realrtsp \
+                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-live555 --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg
