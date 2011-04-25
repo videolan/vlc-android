@@ -92,6 +92,7 @@ clean:
 
 distclean: clean
 	rm -f $(APK_MK)
+	rm -f $(LIBVLCJNI_H)
 	rm -f vlc-android/local.properties
 
 install:
