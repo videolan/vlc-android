@@ -18,7 +18,7 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 # the --host is kept on purpose because otherwise libtool complains..
 
 EXTRA_CFLAGS=""
-if [[ -z "$NO_NEON" ]]; then
+if [ -z "$NO_NEON" ]; then
 	EXTRA_CFLAGS="-mfloat-abi=softfp -mfpu=neon"
 fi
 
