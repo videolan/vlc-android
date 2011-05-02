@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+    	android:background="@drawable/header" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="48dip"
+    	android:orientation="horizontal">
+    	<ImageView
+    		android:src="@drawable/header_logo"
+    		android:layout_width="wrap_content"
+    		android:layout_height="48dip"
+    		android:scaleType="fitStart"
+    		android:paddingLeft="12dip"/>
+    	<View
+    		android:layout_width="0dip"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"/>
+    	<ProgressBar 
+    		android:id="@+id/ml_progress_bar" 
+    		android:layout_width="22dip" 
+    		android:layout_height="22dip"
+    		android:layout_margin="13dip"
+    		android:visibility="invisible"/>
+    	<ImageButton
+    		android:id="@+id/ml_header_button_view"
+    		android:background="@drawable/header_button_playlist"
+    		android:layout_width="48dip"
+    		android:layout_height="48dip"
+    		android:onClick="changeView"/>
+    	<ImageButton
+    		android:layout_width="48dip"
+    		android:layout_height="48dip"
+    		android:background="@drawable/header_button_search"
+    		android:onClick="search"/>
+   	</LinearLayout>
+   	<ListView
+   		android:id="@+id/ml_list"
+   		android:layout_width="fill_parent"
+   		android:layout_height="0dip"
+   		android:layout_weight="1"/>
+</LinearLayout>
