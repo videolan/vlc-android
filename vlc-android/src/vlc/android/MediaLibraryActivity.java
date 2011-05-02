@@ -8,13 +8,16 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.DropBoxManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -36,6 +39,8 @@ public class MediaLibraryActivity extends Activity {
 	 */	
 	public final static String TAG = "VLC/MediaLibraryActivity";
 	
+	private DatabaseManager mDBManager;
+	
 	private final Handler mHandler = new Handler();
 	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	
@@ -43,48 +48,36 @@ public class MediaLibraryActivity extends Activity {
 	private MediaLibraryAdapter mAdapter;
 	private List<MediaItem> mItems = new ArrayList<MediaItem>();
 	private ListView mMediaList;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.media_library);	
 		super.onCreate(savedInstanceState); 
 		
-		SharedPreferences prefs = 
-			PreferenceManager.getDefaultSharedPreferences(this);
-		
-		
+		/* Initialize variables */
 		mAdapter = new MediaLibraryAdapter(this, R.layout.media_library_item);
 		mMediaList = (ListView)findViewById(R.id.ml_list);
 		mMediaList.setAdapter(mAdapter);
+		mDBManager = new DatabaseManager(this);
 		
-        /* Firstly, let's check the SD card state */
-        boolean mExternalStorageAvailable = false;
-        final String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            mExternalStorageAvailable = true;
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            mExternalStorageAvailable = true;
-        }
-        
-        // FIXME Support internal storage as well
-        if (!mExternalStorageAvailable) {
-            Util.toaster(R.string.filebrowser_sdfail);
-            return;
-        }
-        
-        final File rootDir = Environment.getExternalStorageDirectory();
+		
+		// TODO: Add directories by preferencesAcitvity
+		/** Debug */
+		mDBManager.addMediaDir("/sdcard/media/video");
         
         /* Load all media files on storage */
         new Thread(new Runnable() {
         	
-        	private Queue<File> directorys = new LinkedList<File>();
+        	private Stack<File> directorys = new Stack<File>();
 
     		public void run() {
-    			directorys.add(rootDir);
+    			// show progressbar in header
+    			mHandler.post(mShowProgressBar);
+    			directorys.addAll(mDBManager.getMediaDirs());
     	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
     	    	
     	    	while (!directorys.isEmpty()) {
-    	    		File dir = directorys.poll();
+    	    		File dir = directorys.pop();
     	    		File[] f = null;
     	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
     			    	  	
@@ -100,11 +93,13 @@ public class MediaLibraryActivity extends Activity {
 									e.printStackTrace();
 								}
     			    		} else if (f[i].isDirectory()) {
-    			    			directorys.add(f[i]);
+    			    			directorys.push(f[i]);
     			    		}
     			    	}   
     		    	}
     	    	}
+    	    	// hide progressbar in header
+    	    	mHandler.post(mHideProgressBar);
     			
     		}
         }).start();

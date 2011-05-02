@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference android:title="Landscape mode" android:summary="Always display the video in landscape mode" android:summaryOff="Video will be played in portrait mode" android:summaryOn="Video will be played in landscape mode" android:key="orientation mode"></CheckBoxPreference>
-    <CheckBoxPreference android:title="Lock HUD" android:summary="Always display HUD" android:key="hud lock"></CheckBoxPreference>
-</PreferenceScreen>

@@ -6,4 +6,7 @@
     <string name="filebrowser_root">&lt;root&gt;</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Select media to play</string>
+    <string name="preferences">Preferences</string>
+    <string name="about">About</string>
+    <string name="ml_no_media_dir">No Media Directory</string>
 </resources>

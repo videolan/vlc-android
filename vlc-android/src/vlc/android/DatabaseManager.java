@@ -1,15 +1,19 @@
 package vlc.android;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseManager {
+	public final static String TAG = "VLC/DatabaseManager";
 
 	private SQLiteDatabase db;
 	private final String DB_NAME = "vlc_database";
@@ -60,32 +64,36 @@ public class DatabaseManager {
 	
 	
 	/** 
-	 * Add path to the directories table
+	 * Add directory to the directories table
 	 * 
 	 * @param path
 	 */
-	public void addPath(String path) {
+	public void addMediaDir(String path) {
 		ContentValues values = new ContentValues();
 		values.put(DIR_ROW_PATH, path);
-		db.insert(DIR_TABLE_NAME, null, values); // -1 if already exists
+		try {
+			db.insertOrThrow(DIR_TABLE_NAME, null, values); // FIXME: Exception if already exists
+		} catch (SQLException e) {
+			Log.w(TAG, "Directory (" + path + ") already in database");
+		}
 	}
 	
 	/**
-	 * Delete path from directories table
+	 * Delete directory from directories table
 	 * 
 	 * @param path
 	 */
-	public void removePath(String path) {
-		db.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "=" + path, null);
+	public void removeMediaDir(String path) {
+		db.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "='" + path + "'", null);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public List<String> getPaths() {
+	public List<File> getMediaDirs() {
 		
-		List<String> paths = new ArrayList<String>();
+		List<File> paths = new ArrayList<File>();
 		Cursor cursor;
 		
 		cursor = db.query(
@@ -95,7 +103,8 @@ public class DatabaseManager {
 		cursor.moveToFirst();
 		if (!cursor.isAfterLast()) {
 			do {
-				paths.add(cursor.getString(0));
+				File dir = new File(cursor.getString(0));
+				paths.add(dir);
 			} while (cursor.moveToNext());
 		}
 
