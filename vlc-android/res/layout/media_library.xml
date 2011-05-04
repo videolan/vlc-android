@@ -37,9 +37,21 @@
     		android:background="@drawable/header_button_search"
     		android:onClick="search"/>
    	</LinearLayout>
-   	<ListView
-   		android:id="@+id/ml_list"
-   		android:layout_width="fill_parent"
-   		android:layout_height="0dip"
-   		android:layout_weight="1"/>
+  	<ListView 
+  		android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false"/>
+     <LinearLayout
+     	android:id="@id/android:empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="No Media Files"
+        	android:textSize="20dip"/>
+    </LinearLayout>
 </LinearLayout>

@@ -14,6 +14,8 @@ import android.util.Log;
 
 public class DatabaseManager {
 	public final static String TAG = "VLC/DatabaseManager";
+	
+	private static DatabaseManager instance;
 
 	private SQLiteDatabase db;
 	private final String DB_NAME = "vlc_database";
@@ -32,11 +34,21 @@ public class DatabaseManager {
 	 * 
 	 * @param context
 	 */
-	public DatabaseManager(Context context) {
+	private DatabaseManager(Context context) {
 		// create or open database
 		DatabaseHelper helper = new DatabaseHelper(context);
 		this.db = helper.getWritableDatabase();
 	}
+	
+	public synchronized static DatabaseManager getInstance() {
+        if (instance == null) {
+        	Context context = MediaLibraryActivity.getInstance();
+            instance = new DatabaseManager(context);
+        }
+        return instance;
+    }
+	
+	
 	
 	private class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -68,7 +80,7 @@ public class DatabaseManager {
 	 * 
 	 * @param path
 	 */
-	public void addMediaDir(String path) {
+	public synchronized void addMediaDir(String path) {
 		ContentValues values = new ContentValues();
 		values.put(DIR_ROW_PATH, path);
 		try {
@@ -83,7 +95,7 @@ public class DatabaseManager {
 	 * 
 	 * @param path
 	 */
-	public void removeMediaDir(String path) {
+	public synchronized void removeMediaDir(String path) {
 		db.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "='" + path + "'", null);
 	}
 
@@ -91,7 +103,7 @@ public class DatabaseManager {
 	 * 
 	 * @return
 	 */
-	public List<File> getMediaDirs() {
+	public synchronized List<File> getMediaDirs() {
 		
 		List<File> paths = new ArrayList<File>();
 		Cursor cursor;
@@ -107,8 +119,19 @@ public class DatabaseManager {
 				paths.add(dir);
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 
 		return paths;
+	}
+	
+	public synchronized boolean mediaDirExists(String path) {
+		Cursor cursor = db.query(DIR_TABLE_NAME, 
+				new String[] { DIR_ROW_PATH }, 
+				DIR_ROW_PATH + "='" + path + "'", 
+				null, null, null, null);
+		Log.i(TAG, path + " = null? " + cursor.moveToFirst());
+		cursor.close();
+		return cursor.moveToFirst();
 	}
 	
 

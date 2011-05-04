@@ -5,39 +5,33 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.os.DropBoxManager;
-import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class MediaLibraryActivity extends Activity {
+public class MediaLibraryActivity extends ListActivity {
 	
 	/**
 	 * TODO: 
-	 * + fill List with media files
+	 * + change
 	 * + onClick events for header buttons
 	 * + search functionality
+	 * + change to ListActivity
 	 */	
 	public final static String TAG = "VLC/MediaLibraryActivity";
+	private static MediaLibraryActivity mInstance;
 	
 	private DatabaseManager mDBManager;
 	
@@ -47,62 +41,34 @@ public class MediaLibraryActivity extends Activity {
 	private MediaItem mItemToAdd = null;
 	private MediaLibraryAdapter mAdapter;
 	private List<MediaItem> mItems = new ArrayList<MediaItem>();
-	private ListView mMediaList;
+	ProgressBar mProgressBar;
+	
+	
+	protected static MediaLibraryActivity getInstance() {
+		return mInstance;
+		
+	}
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {	
 		setContentView(R.layout.media_library);	
 		super.onCreate(savedInstanceState); 
-		
-		/* Initialize variables */
-		mAdapter = new MediaLibraryAdapter(this, R.layout.media_library_item);
-		mMediaList = (ListView)findViewById(R.id.ml_list);
-		mMediaList.setAdapter(mAdapter);
-		mDBManager = new DatabaseManager(this);
-		
-		
-		// TODO: Add directories by preferencesAcitvity
-		/** Debug */
-		mDBManager.addMediaDir("/sdcard/media/video");
-        
-        /* Load all media files on storage */
-        new Thread(new Runnable() {
-        	
-        	private Stack<File> directorys = new Stack<File>();
 
-    		public void run() {
-    			// show progressbar in header
-    			mHandler.post(mShowProgressBar);
-    			directorys.addAll(mDBManager.getMediaDirs());
-    	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
-    	    	
-    	    	while (!directorys.isEmpty()) {
-    	    		File dir = directorys.pop();
-    	    		File[] f = null;
-    	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
-    			    	  	
-    			    	for (int i = 0; i < f.length; i++) {
-    			    		if (f[i].isFile()) {
-    			    			mItemToAdd = new MediaItem(f[i]);		
-    			    			mHandler.post(mAddMediaItem);	
-    			    			try {
-									mBarrier.await();
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								} catch (BrokenBarrierException e) {
-									e.printStackTrace();
-								}
-    			    		} else if (f[i].isDirectory()) {
-    			    			directorys.push(f[i]);
-    			    		}
-    			    	}   
-    		    	}
-    	    	}
-    	    	// hide progressbar in header
-    	    	mHandler.post(mHideProgressBar);
-    			
-    		}
-        }).start();
+		/* Initialize variables */
+		mInstance = this;
+		mAdapter = new MediaLibraryAdapter(this, R.layout.media_library_item);	
+		mDBManager = DatabaseManager.getInstance();
+		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
+		
+		setListAdapter(mAdapter);
+		
+		/** Debug */
+//		mDBManager.addMediaDir("/sdcard/media");
+//		mDBManager.mediaDirExists("/sdcard/media");
+//		mDBManager.removeMediaDir("/sdcard/media/video");
+//		mDBManager.mediaDirExists("/sdcard/media/video");
+        
+        updateMediaList();
 	
 	}
 
@@ -162,14 +128,14 @@ public class MediaLibraryActivity extends Activity {
 		Toast.makeText(this, "not implemented", Toast.LENGTH_LONG).show();
 	}
 	
+	
 	/**
 	 * hide progress bar
 	 */
 	protected final Runnable mHideProgressBar = new Runnable() {
 		
 		public void run() {
-			ProgressBar pb = (ProgressBar)findViewById(R.id.ml_progress_bar);
-			pb.setVisibility(View.INVISIBLE);			
+			mProgressBar.setVisibility(View.INVISIBLE);			
 		}
 	};
 	
@@ -179,8 +145,7 @@ public class MediaLibraryActivity extends Activity {
 	protected final Runnable mShowProgressBar = new Runnable() {
 
 		public void run() {
-			ProgressBar pb = (ProgressBar)findViewById(R.id.ml_progress_bar);
-			pb.setVisibility(View.VISIBLE);			
+			mProgressBar.setVisibility(View.VISIBLE);			
 		}
 	};	
 
@@ -204,6 +169,58 @@ public class MediaLibraryActivity extends Activity {
 				}
 		}
 	};
+	
+	
+	protected void updateMediaList() {
+		mAdapter.clear();
+		mItems.clear();
+		new Thread(mUpdateMediaList).start();
+	}
+	
+	private final Runnable mUpdateMediaList = new Runnable() {
+    	
+    	private Stack<File> directorys = new Stack<File>();
+
+		public void run() {
+			// show progressbar in header
+			mHandler.post(mShowProgressBar);	
+			
+			// get directories from database
+			directorys.addAll(mDBManager.getMediaDirs());
+			
+			
+			
+	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
+	    	
+	    	while (!directorys.isEmpty()) {
+	    		File dir = directorys.pop();
+	    		File[] f = null;
+	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
+			    	  	
+			    	for (int i = 0; i < f.length; i++) {
+			    		if (f[i].isFile()) {
+			    			mItemToAdd = new MediaItem(f[i]);		
+			    			mHandler.post(mAddMediaItem);	
+			    			try {
+								mBarrier.await();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							} catch (BrokenBarrierException e) {
+								e.printStackTrace();
+							}
+			    		} else if (f[i].isDirectory()) {
+			    			directorys.push(f[i]);
+			    		}
+			    	}   
+		    	}
+	    	}
+	    	// hide progressbar in header
+	    	mHandler.post(mHideProgressBar);
+			
+		}
+    };
+	
+	
 	
 	/** 
 	 * Filters all irrelevant files 
@@ -230,4 +247,6 @@ public class MediaLibraryActivity extends Activity {
 			return accepted;
 		}   	
     }
+    
+    
 }
