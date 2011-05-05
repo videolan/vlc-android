@@ -2,16 +2,27 @@
 #include <string.h>
 #include <assert.h>
 
-#include <jni.h>
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
 
+#include <pthread.h>
 #include <vlc/vlc.h>
+
+#include <jni.h>
 
 #include "libvlcjni.h"
 #include "aout.h"
-#include "vout.h"
 
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
+
+#define NAME1(CLZ, FUN) Java_##CLZ##_##FUN
+#define NAME2(CLZ, FUN) NAME1(CLZ, FUN)
+
+#define NAME(FUN) NAME2(CLASS, FUN)
+
+
 
 jint getMediaPlayer(JNIEnv *env, jobject thiz)
 {
@@ -43,16 +54,64 @@ jboolean releaseMediaPlayer(JNIEnv *env, jobject thiz)
  */
 JavaVM *myVm;
 
+static pthread_mutex_t vout_android_lock;
+static void *vout_android_surf = NULL;
+
+void LockSurface() {
+    pthread_mutex_lock(&vout_android_lock);
+}
+
+void UnlockSurface() {
+    pthread_mutex_unlock(&vout_android_lock);
+}
+
+void *GetSurface() {
+    return vout_android_surf;
+}
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     // Keep a reference on the Java VM.
     myVm = vm;
 
+    pthread_mutex_init(&vout_android_lock, NULL);
+
     LOGD("JNI interface loaded.");
     return JNI_VERSION_1_2;
 }
 
+void JNI_OnUnload(JavaVM* vm, void* reserved) {
+    pthread_mutex_destroy(&vout_android_lock);
+}
+
+void Java_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jint width, jint height) {
+    jclass clz;
+    jfieldID fid;
+    jthrowable exp;
+
+    pthread_mutex_lock(&vout_android_lock);
+    //vout_android_ref = (*env)->NewGlobalRef(env, surf);
+    clz = (*env)->GetObjectClass(env, surf);
+    fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
+    if (fid == NULL) {
+        exp = (*env)->ExceptionOccurred(env);
+        if (exp) {
+            (*env)->DeleteLocalRef(env, exp);
+            (*env)->ExceptionClear(env);
+        }
+        fid = (*env)->GetFieldID(env, clz, "mNativeSurface", "I");
+    }
+    vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
+    (*env)->DeleteLocalRef(env, clz);
+    pthread_mutex_unlock(&vout_android_lock);
+}
+
+void Java_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
+    pthread_mutex_lock(&vout_android_lock);
+    //(*env)->DeleteGlobalRef(env, vout_android_ref);
+    vout_android_surf = NULL;
+    pthread_mutex_unlock(&vout_android_lock);
+}
 
 void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
@@ -114,12 +173,6 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     libvlc_media_player_set_media(mp, m);
-    libvlc_video_set_format_callbacks(mp, vout_format, vout_cleanup);
-    libvlc_video_set_callbacks(mp, vout_lock, vout_unlock, vout_display,
-                               (void*) myJavaLibVLC);
-
-    libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close,
-                               (void*) myJavaLibVLC);
 
     /* No need to keep the media now */
     libvlc_media_release(m);

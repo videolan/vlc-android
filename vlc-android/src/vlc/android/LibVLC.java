@@ -1,8 +1,5 @@
 package vlc.android;
 
-import java.util.concurrent.BrokenBarrierException;
-
-import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.Surface;
 
@@ -15,10 +12,10 @@ public class LibVLC {
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
     private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
-    private GLSurfaceView mSurfaceView;
-    private Vout mVout;
-    
     private Aout mAout;
+
+    public native void attachSurface(Surface surface, int width, int height);
+    public native void detachSurface();
 
     /* Load library before object instantiation */
     static {
@@ -38,17 +35,12 @@ public class LibVLC {
     /**
      * Singleton constructors
      */
-    public static LibVLC getInstance(GLSurfaceView s, Vout v)
+    public static LibVLC getInstance()
     {
         if (instance == null) {
             /* First call */
-            instance = new LibVLC(s, v);
+            instance = new LibVLC();
         }
-        return instance;
-    }
-    
-    public static LibVLC getInstance()
-    {
         return instance;
     }
     
@@ -56,9 +48,7 @@ public class LibVLC {
      * Constructor
      * It is private because this class is a singleton.
      */
-    private LibVLC(GLSurfaceView s, Vout v) {
-        mSurfaceView = s;
-        mVout = v;
+    private LibVLC() {
         mAout = new Aout();
     }
 
@@ -98,36 +88,6 @@ public class LibVLC {
     {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
-    }
-
-    /**
-     * Transmit to the renderer the size of the video.
-     * This function is called by the native code.
-     * @param frameWidth
-     * @param frameHeight
-     */
-    public void setVoutSize(int frameWidth, int frameHeight)
-    {
-        mVout.frameWidth = frameWidth;
-        mVout.frameHeight = frameHeight;
-        mVout.mustInit = true;
-    }
-
-    /**
-     * Transmit the image given by VLC to the renderer.
-     * This function is called by the native code.
-     * @param image the image data.
-     */
-    public void displayCallback(byte[] image)
-    {
-        mVout.image = image;
-        mVout.hasReceivedFrame = true;
-        mSurfaceView.requestRender();
-        try {
-            mVout.mBarrier.await();
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {
-        }
     }
 
     /**

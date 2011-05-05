@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Button;
@@ -16,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,7 +26,8 @@ public class VLC extends Activity {
 
     private static VLC sInstance;
     private LibVLC mLibVlc;
-    private Vout mVout;
+    private SurfaceView mSurfaceViewVideo;
+    private SurfaceHolder mSurfaceHolderVideo;
 
     /** Called when the activity is first created. */
     @Override
@@ -46,17 +48,29 @@ public class VLC extends Activity {
         /* ... and then load the layout */
         setContentView(R.layout.main);
 
-        final GLSurfaceView surfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
+        mSurfaceViewVideo = (SurfaceView) findViewById(R.id.surface_view);
+        mSurfaceHolderVideo = mSurfaceViewVideo.getHolder();
 
-        mVout = new Vout(this);
+        mLibVlc = LibVLC.getInstance();
 
-        // For debug purpose.
-        /* surfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR
-                | GLSurfaceView.DEBUG_LOG_GL_CALLS);*/
-        surfaceView.setRenderer(mVout);
-        surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        mSurfaceHolderVideo.addCallback(new SurfaceHolder.Callback() {
 
-        mLibVlc = LibVLC.getInstance(surfaceView, mVout);
+        	@Override
+        	public void surfaceCreated(SurfaceHolder holder) {
+
+        	}
+
+        	@Override
+        	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        		mLibVlc.attachSurface(holder.getSurface(), width, height);
+        	}
+
+        	@Override
+        	public void surfaceDestroyed(SurfaceHolder holder) {
+        		mLibVlc.detachSurface();
+        	}
+
+        });
         
         try {
             mLibVlc.init();
