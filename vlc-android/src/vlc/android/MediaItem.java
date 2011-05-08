@@ -3,23 +3,26 @@ package vlc.android;
 import java.io.File;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class MediaItem implements Comparable<MediaItem> {
 	
 	public final static String TAG = "VLC/MediaItem";
 	
-	private Bitmap thumbnail;
-	private File file;
+	private Bitmap mThumbnail;
+	private File mFile;
 	
 	public MediaItem(File file) {
-		this.file = file;
-//		mThumbnailerManager.addJob(this);
-//		thumbnail = BitmapFactory.decodeResource(getResources(), 
-//				R.drawable.thumbnail);
+		this.mFile = file;
+		// TODO: get data/thumbnail from database;
+		mThumbnail = BitmapFactory.decodeResource(
+				MediaLibraryActivity.getInstance().getResources(), 
+				R.drawable.thumbnail);
+		MediaLibraryActivity.getInstance().mThumbnailerManager.addJob(this);
 	}
 
 	public String getName() {
-		return file.getName().substring(0, file.getName().lastIndexOf('.'));
+		return mFile.getName().substring(0, mFile.getName().lastIndexOf('.'));
 	}
 	
 	public String getLenght() {
@@ -31,16 +34,24 @@ public class MediaItem implements Comparable<MediaItem> {
 	}
 	
 	public Bitmap getThumbnail() {
-		 return thumbnail;
+		 return mThumbnail;
 	}
 	
 	public void setThumbnail(Bitmap t) {
 		// TODO: save thumbnail on storage
-		thumbnail = t;
+		mThumbnail = t;
+	}
+	
+	public String getParentPath() {
+		return mFile.getParentFile().getPath();
 	}
 	
 	public String getPath() {
-		return file.getPath();
+		return mFile.getPath();
+	}
+	
+	public String getExtention() { 
+		return mFile.getName().substring(mFile.getName().lastIndexOf('.') + 1);
 	}
 
 	/**

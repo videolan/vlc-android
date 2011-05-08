@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent">
-    <TextView  
-    	android:id="@+id/ml_item_title" 
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content"/>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+	<FrameLayout 
+		android:layout_width="90dip"
+        android:layout_height="72dip" >
+	    <ImageView
+	        android:id="@+id/ml_item_thumbnail"
+	        android:layout_width="90dip"
+	        android:layout_height="72dip" 
+	        android:scaleType="centerCrop"/>
+	    <LinearLayout
+	    	android:layout_width="90dip"
+        	android:layout_height="72dip"
+        	android:gravity="bottom|right"
+        	android:padding="2dip">
+		   	<TextView
+		       	android:id="@+id/ml_item_length"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="#77000000"
+		        android:textSize="12dip"
+		        android:textColor="#CCCCCC" />
+	    </LinearLayout>
+	   
+    </FrameLayout>
+
+    <TextView
+    	android:id="@+id/ml_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textSize="18dip"
+        android:text="The IT Crowd - Seasion 1 Ep 1"
+        android:textColor="@drawable/ml_title_color" 
+        android:paddingLeft="20dip"/>
+
 </LinearLayout>
