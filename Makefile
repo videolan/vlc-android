@@ -30,7 +30,7 @@ $(APK_MK):
      else \
 	    vlc_contrib="$$VLC_CONTRIB"; \
 	 fi; \
-	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'`; \
+	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'|grep -v stats`; \
 	 LDFLAGS=""; \
 	 DEFINITION=""; \
 	 BUILTINS="const void *vlc_builtins_modules[] = {\n"; \

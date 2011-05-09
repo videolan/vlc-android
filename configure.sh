@@ -17,16 +17,20 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 # needed for old ndk: change all the arm-linux-androideabi to arm-eabi
 # the --host is kept on purpose because otherwise libtool complains..
 
-EXTRA_CFLAGS=""
+EXTRA_CFLAGS="-mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
+EXTRA_LDFLAGS=""
 if [ -z "$NO_NEON" ]; then
-	EXTRA_CFLAGS="-mfloat-abi=softfp -mfpu=neon"
+	EXTRA_CFLAGS+=" -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
+	EXTRA_LDFLAGS="-Wl,--fix-cortex-a8"
+else
+	EXTRA_CFLAGS+=" -march=armv6j -mtune=arm1136j-s -msoft-float"
 fi
 
 PATH="$ANDROID_BIN":$PATH \
 CPPFLAGS="-I$ANDROID_INCLUDE" \
-LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB" \
-CFLAGS="-nostdlib $EXTRA_CFLAGS" \
-CXXFLAGS="-nostdlib $EXTRA_CFLAGS" \
+LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB $EXTRA_LDFLAGS" \
+CFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
+CXXFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
 LIBS="-lc -ldl -lgcc" \
 CC="${GCC_PREFIX}gcc" \
 CXX="${GCC_PREFIX}g++" \
