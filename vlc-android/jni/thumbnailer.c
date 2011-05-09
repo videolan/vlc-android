@@ -51,6 +51,8 @@ jbyteArray Java_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobject thiz,
         LOGE("Couldn't create the media to play!");
         goto end;
     }
+    libvlc_media_add_option( p_m, ":no-audio" );
+
     libvlc_media_player_set_media(p_sys->p_mp, p_m);
     libvlc_media_release(p_m);
 
@@ -112,7 +114,7 @@ end:
     free(p_sys->p_frameData);
     free(p_sys);
 
-    return byteArray;    
+    return byteArray;
 }
 
 
