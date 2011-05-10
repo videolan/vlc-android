@@ -10,6 +10,7 @@
 #include <vlc/vlc.h>
 
 #include <jni.h>
+#include <android/api-level.h>
 
 #include "libvlcjni.h"
 #include "aout.h"
@@ -153,6 +154,25 @@ void Java_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
     (*env)->SetIntField(env, thiz, field, 0);
 }
 
+int currentSdk( JNIEnv *p_env, jobject thiz )
+{
+    jclass  cls = (*p_env)->FindClass( p_env, "vlc/android/Util" );
+    if ( !cls )
+    {
+        LOGE( "Failed to load util class (vlc/android/Util)" );
+        return 0;
+    }
+    jmethodID methodSdkVersion = (*p_env)->GetStaticMethodID( p_env, cls,
+                                                       "getApiLevel", "()I" );
+    if ( !methodSdkVersion )
+    {
+        LOGE("Failed to load method getApiLevel()" );
+        return 0;
+    }
+    int version = (*p_env)->CallStaticIntMethod( p_env, cls, methodSdkVersion );
+    LOGE("Got version: %d\n", version );
+    return version;
+}
 
 void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                        jint instance, jstring mrl)
@@ -173,6 +193,12 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     libvlc_media_player_set_media(mp, m);
+
+    if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can yse SLES
+    {
+        libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close,
+                                   (void*) myJavaLibVLC);
+    }
 
     /* No need to keep the media now */
     libvlc_media_release(m);
