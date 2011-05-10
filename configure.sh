@@ -5,7 +5,7 @@ if [ -z "$ANDROID_NDK" ]; then
     exit 1
 fi
 
-ANDROID_API=android-8
+ANDROID_API=android-9
 
 ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/
 ANDROID_INCLUDE=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm/usr/include
@@ -46,4 +46,13 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --enable-android-vout \
                 --disable-vlc \
                 --enable-live555 --enable-realrtsp \
+                --disable-libva \
+                --disable-schroedinger \
+                --disable-jack \
+                --disable-gnomevfs \
+                --disable-x264 \
+                --disable-pulse \
+                --disable-dv \
+                --disable-dvdnav \
+                --disable-linsys \
                 --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-live555 --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg
