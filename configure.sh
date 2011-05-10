@@ -49,6 +49,7 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-libva \
                 --disable-schroedinger \
                 --disable-jack \
+                --enable-opensles \
                 --disable-gnomevfs \
                 --disable-x264 \
                 --disable-pulse \
