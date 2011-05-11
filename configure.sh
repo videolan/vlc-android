@@ -56,4 +56,4 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-dv \
                 --disable-dvdnav \
                 --disable-linsys \
-                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-live555 --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg
+                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg
