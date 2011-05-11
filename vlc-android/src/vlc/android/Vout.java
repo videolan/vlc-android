@@ -1,0 +1,297 @@
+/*
+ * Copyright (C) 2008 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package vlc.android;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import android.content.Context;
+import android.opengl.GLSurfaceView;
+
+
+public class Vout implements GLSurfaceView.Renderer{
+
+    @SuppressWarnings("unused")
+	private static final String TAG = "LibVLC/vout";
+    
+    private Context mContext;
+    private Quad mQuad;
+    private int mTextureID;
+
+    public boolean mustInit = false;
+    public boolean hasReceivedFrame = false;
+
+    private int surfaceWidth;
+    private int surfaceHeight;
+
+    public int frameWidth;
+    public int frameHeight;
+
+    private int texWidth;
+    private int texHeight;
+
+    public byte[] image;
+    private ByteBuffer byteBuffer;
+    
+    final public CyclicBarrier mBarrier = new CyclicBarrier(2);
+
+    /* Video orientation parameters */
+    public enum Orientation {
+        HORIZONTAL,
+        VERTICAL
+    }
+
+    public Vout(Context context) {
+        mContext = context;
+        mQuad = new Quad();
+    }
+
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        /*
+         * By default, OpenGL enables features that improve quality
+         * but reduce performance. One might want to tweak that
+         * especially on software renderer.
+         */
+        gl.glDisable(GL10.GL_DITHER);
+
+        /*
+         * Some one-time OpenGL initialization can be made here
+         * probably based on features of this particular context
+         */
+        gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,
+                GL10.GL_FASTEST);
+
+        gl.glClearColor(0, 0, 0, 1);
+        gl.glShadeModel(GL10.GL_SMOOTH);
+        gl.glEnable(GL10.GL_DEPTH_TEST);
+        gl.glEnable(GL10.GL_TEXTURE_2D);
+
+        /*
+         * Create our texture. This has to be done each time the
+         * surface is created.
+         */
+        int[] textures = new int[1];
+        gl.glGenTextures(1, textures, 0);
+
+        mTextureID = textures[0];
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureID);
+
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
+
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_CLAMP_TO_EDGE);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_CLAMP_TO_EDGE);
+
+        gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
+
+    }
+
+    public void onDrawFrame(GL10 gl) {
+        gl.glTexEnvx(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE,
+                GL10.GL_MODULATE);
+
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+        
+        if (mustInit)
+        {
+        	texWidth = getAlignedSize(frameWidth);
+        	texHeight = getAlignedSize(frameHeight);
+
+        	byte[] texData = new byte[texWidth * texHeight * 2];
+	        ByteBuffer byteBufferInit = ByteBuffer.wrap(texData);
+	
+	        gl.glTexImage2D(GL10.GL_TEXTURE_2D, 0, GL10.GL_RGB, texWidth,
+	        		texHeight, 0, GL10.GL_RGB, GL10.GL_UNSIGNED_SHORT_5_6_5,
+	        		byteBufferInit);
+	        
+	        mQuad.computeTexCoord(texWidth, texHeight, frameWidth, frameHeight);
+	        onSurfaceChanged(gl, surfaceWidth, surfaceHeight); // Compute AspectRatio
+
+	        /* Wrap the image buffer to the byte buffer. */
+	        byteBuffer = ByteBuffer.wrap(image);
+
+	        mustInit = false;
+        }
+        
+        if (hasReceivedFrame)
+        {
+	        gl.glTexSubImage2D(GL10.GL_TEXTURE_2D, 0, 0, 0, frameWidth,
+	        		frameHeight, GL10.GL_RGB, GL10.GL_UNSIGNED_SHORT_5_6_5,
+	        		byteBuffer);
+        }
+
+        mQuad.draw(gl);
+        
+        if (hasReceivedFrame)
+        {
+            try {
+                mBarrier.await();
+            } catch (InterruptedException e) {
+            } catch (BrokenBarrierException e) {
+            }
+        }
+    }
+
+    public void onSurfaceChanged(GL10 gl, int w, int h) {
+        gl.glViewport(0, 0, w, h);
+
+        /*
+         * Retain surface size, to be able to correct the AspectRatio
+         * on demand when a new video starts
+         */
+        surfaceWidth = w;
+        surfaceHeight = h;
+
+        /*
+        * Set our projection matrix. This doesn't have to be done
+        * each time we draw, but usually a new projection needs to
+        * be set when the viewport is resized.
+        */
+
+        gl.glMatrixMode(GL10.GL_PROJECTION);
+        gl.glLoadIdentity();
+
+        /*
+         * glFrustumf expand the clipping volume vertically or horizontally : it adds bars.
+         * how big those bars should be depends on both the video ratio and the surface ratio
+         */
+        float vRatio = frameHeight > 0 ? (float) frameWidth / frameHeight : 1f;
+        float sRatio = (float) surfaceWidth / surfaceHeight;
+        if (sRatio > vRatio) {
+            float ratio = sRatio / vRatio;
+            gl.glFrustumf(-ratio, ratio, -1f, 1f, 1f, 2f);
+        }
+        else
+        {
+            float ratio = vRatio / sRatio;
+            gl.glFrustumf(-1f, 1f, -ratio, ratio, 1f, 2f);
+        }
+    }
+    
+    private int getAlignedSize(int i_size)
+    {
+        /* Return the nearest power of 2 */
+        int i_result = 1;
+        while(i_result < i_size)
+            i_result *= 2;
+
+        return i_result;
+    }
+
+    /* Manually change video orientation */
+    public void setOrientation (Orientation orient) {
+        // FIXME
+        // preferences.set() ...
+        Util.toaster("Orientation:\nNot implemented yet");
+    }
+
+
+}
+
+class Quad {
+    public Quad() {
+    	computeTexCoord(1, 1, 1, 1);
+    }
+    
+    public void computeTexCoord(int texWidth, int texHeight,
+    		int frameWidth, int frameHeight) {
+
+        // Buffers to be passed to gl*Pointer() functions
+        // must be direct, i.e., they must be placed on the
+        // native heap where the garbage collector cannot
+        // move them.
+        //
+        // Buffers with multi-byte datatypes (e.g., short, int, float)
+        // must have their byte order set to native order
+
+        ByteBuffer vbb = ByteBuffer.allocateDirect(VERTS * 3 * 4);
+        vbb.order(ByteOrder.nativeOrder());
+        mFVertexBuffer = vbb.asFloatBuffer();
+
+        ByteBuffer tbb = ByteBuffer.allocateDirect(VERTS * 2 * 4);
+        tbb.order(ByteOrder.nativeOrder());
+        mTexBuffer = tbb.asFloatBuffer();
+
+        ByteBuffer ibb = ByteBuffer.allocateDirect(VERTS * 2);
+        ibb.order(ByteOrder.nativeOrder());
+        mIndexBuffer = ibb.asShortBuffer();
+
+        float[] coords = {
+                // X, Y, Z
+        		-1f, -1f, -1f,
+                1f, -1f, -1f,
+                -1f, 1f, -1f,
+                1f, 1f, -1f
+        };
+        
+        float f_width = (float)frameWidth / texWidth;
+        float f_height = (float)frameHeight / texHeight;
+        
+        float[] tex_coords = {
+                // X, Y, Z
+        		0f,      f_height, -1f,
+        		f_width, f_height, -1f,
+                0f,      0f,       -1f,
+                f_width, 0f,       -1f
+        };
+
+        for (int i = 0; i < VERTS; i++) {
+            for(int j = 0; j < 3; j++) {
+                mFVertexBuffer.put(coords[i*3+j]);
+            }
+        }
+
+        for (int i = 0; i < VERTS; i++) {
+            for(int j = 0; j < 2; j++) {
+                mTexBuffer.put(tex_coords[i*3+j]);
+            }
+        }
+
+        for(int i = 0; i < VERTS; i++) {
+            mIndexBuffer.put((short) i);
+        }
+
+        mFVertexBuffer.position(0);
+        mTexBuffer.position(0);
+        mIndexBuffer.position(0);
+    }
+
+    public void draw(GL10 gl) {
+        gl.glFrontFace(GL10.GL_CCW);
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mFVertexBuffer);
+        gl.glEnable(GL10.GL_TEXTURE_2D);
+        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTexBuffer);
+        gl.glDrawElements(GL10.GL_TRIANGLE_STRIP, VERTS,
+                GL10.GL_UNSIGNED_SHORT, mIndexBuffer);
+    }
+
+    private final static int VERTS = 4;
+
+    private FloatBuffer mFVertexBuffer;
+    private FloatBuffer mTexBuffer;
+    private ShortBuffer mIndexBuffer;
+}
