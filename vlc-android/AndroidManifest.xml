@@ -28,8 +28,7 @@
         	android:theme="@android:style/Theme.NoTitleBar"/>
         <activity 
         	android:name="PlayerActivity" 
-        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-        	android:configChanges="orientation"/>
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:screenOrientation="landscape"/>
         <activity 
         	android:name="BrowserActivity" 
         	android:label="Media Directories"
