@@ -13,6 +13,10 @@ public class Aout {
      * TODO Use MODE_STATIC instead of MODE_STREAM with a MemoryFile (ashmem)
      */
 
+	public Aout()
+	{
+	}
+
     private AudioTrack mAudioTrack;
     private static final String TAG = "LibVLC/aout";
 

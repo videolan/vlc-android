@@ -1,30 +1,28 @@
 package vlc.android;
 
-import java.util.concurrent.BrokenBarrierException;
-
-import android.opengl.GLSurfaceView;
-import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
-    private static LibVLC mInstance;
+    private static LibVLC sInstance;
     
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
-    private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
+    @SuppressWarnings("unused")
+	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
-    private GLSurfaceView mSurfaceView;
-    private Vout mVout;
     private Aout mAout;
     
     /** Keep screen bright */
-    private WakeLock mWakeLock;
+    //private WakeLock mWakeLock;
     
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
+
+    public native void attachSurface(Surface surface, int width, int height);
+    public native void detachSurface();
 
     /* Load library before object instantiation */
     static {
@@ -42,19 +40,6 @@ public class LibVLC {
     }
 
     /**
-     * Singleton constructors
-     * @throws LibVLCException 
-     */
-    public static LibVLC getInstance(GLSurfaceView s, Vout v) throws LibVLCException
-    {
-    	/* First call */
-    	mInstance = getInstance();     
-        mInstance.setGLSerfaceView(s);
-        mInstance.setVout(v);      
-        return mInstance;
-    }
-    
-    /**
      * Singleton constructor
      * Without surface and vout to create the thumbnail and get information
      * e.g. on the MediaLibraryAcitvity
@@ -63,39 +48,25 @@ public class LibVLC {
      */
     public static LibVLC getInstance() throws LibVLCException
     {
-        if (mInstance == null) {
-        	/* First call without surface and Vout */
-        	mInstance = new LibVLC();
-        	mInstance.init();
+        if (sInstance == null) {
+        	/* First call */
+        	sInstance = new LibVLC();
+        	sInstance.init();
         }
         
-    	return mInstance;
+    	return sInstance;
     }
+
     
-    /**
-     * Set Surface
-     * @param s
-     */
-    public void setGLSerfaceView(GLSurfaceView s) {
-    	mSurfaceView = s;
-    }
-    
-    /**
-     * Set Vout
-     * @param v
-     */
-    public void setVout(Vout v) {
-    	mVout = v;
-    }
+
     
     /**
      * Constructor
      * It is private because this class is a singleton.
      */
     private LibVLC() {
-    	mAout = new Aout();
-    };
-    
+        mAout = new Aout();
+    }
 
     /**
      * Destructor:
@@ -137,36 +108,6 @@ public class LibVLC {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
         mIsInitialized = false;
-    }
-
-    /**
-     * Transmit to the renderer the size of the video.
-     * This function is called by the native code.
-     * @param frameWidth
-     * @param frameHeight
-     */
-    public void setVoutSize(int frameWidth, int frameHeight)
-    {
-        mVout.frameWidth = frameWidth;
-        mVout.frameHeight = frameHeight;
-        mVout.mustInit = true;
-    }
-
-    /**
-     * Transmit the image given by VLC to the renderer.
-     * This function is called by the native code.
-     * @param image the image data.
-     */
-    public void displayCallback(byte[] image)
-    {
-        mVout.image = image;
-        mVout.hasReceivedFrame = true;
-        mSurfaceView.requestRender();
-        try {
-            mVout.mBarrier.await();
-        } catch (InterruptedException e) {
-        } catch (BrokenBarrierException e) {
-        }
     }
 
     /**
@@ -215,14 +156,7 @@ public class LibVLC {
         return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
     }
     
-    /**
-     * Stop the video AND audio
-     */
-    public void stopMedia() {
-    	stop();
-    	mAout.release();	
-    }
-    
+   
 
     /**
      * Initialize the libvlc C library
@@ -266,7 +200,7 @@ public class LibVLC {
     /**
      * Stops any playing media
      */
-    private native void stop();
+    public native void stop();
 
     /**
      * Gets volume as integer

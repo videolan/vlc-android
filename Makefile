@@ -30,7 +30,7 @@ $(APK_MK):
      else \
 	    vlc_contrib="$$VLC_CONTRIB"; \
 	 fi; \
-	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'`; \
+	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'|grep -v stats`; \
 	 LDFLAGS=""; \
 	 DEFINITION=""; \
 	 BUILTINS="const void *vlc_builtins_modules[] = {\n"; \
@@ -51,7 +51,7 @@ $(APK_MK):
 	 printf 'LOCAL_PATH := $$(call my-dir)\n'                                  > $(APK_MK); \
 	 printf "include \$$(CLEAR_VARS)\n"                                       >> $(APK_MK); \
 	 printf "LOCAL_MODULE    := libvlcjni\n"                                  >> $(APK_MK); \
-	 printf "LOCAL_SRC_FILES := libvlcjni.c vout.c aout.c thumbnailer.c\n"                  >> $(APK_MK); \
+	 printf "LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c\n"           >> $(APK_MK); \
 	 printf "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../../../../include\n"    >> $(APK_MK); \
 	 printf "LOCAL_LDLIBS := -L$$vlc_contrib/lib \\\\\n"                      >> $(APK_MK); \
 	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \
@@ -59,7 +59,7 @@ $(APK_MK):
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
-	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock\n" >> $(APK_MK); \
+	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lpixman-1\n" >> $(APK_MK); \
 	 printf "include \$$(BUILD_SHARED_LIBRARY)\n"                             >> $(APK_MK)
 
 $(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
