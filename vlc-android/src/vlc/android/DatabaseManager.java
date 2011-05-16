@@ -1,5 +1,6 @@
 package vlc.android;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +8,10 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class DatabaseManager {
 	public final static String TAG = "VLC/DatabaseManager";
@@ -23,6 +24,20 @@ public class DatabaseManager {
 	
 	private final String DIR_TABLE_NAME = "directories_table";
 	private final String DIR_ROW_PATH = "path";
+	
+	private final String MEDIA_TABLE_NAME = "media_table";
+	private final String MEDIA_NAME = "name";
+	private final String MEDIA_PATH = "path";
+	private final String MEDIA_TIME = "time";
+	private final String MEDIA_LENGTH = "length";
+	private final String MEDIA_TYPE = "type";
+	private final String MEDIA_WIDTH = "width";
+	private final String MEDIA_HEIGHT = "height";
+	private final String MEDIA_THUMBNAIL = "thumbnail";
+	
+	public enum mediaColumn { MEDIA_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
+		MEDIA_TYPE, MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_THUMBNAIL
+	}
 	
 	// TODO: Create database table for items
 //	private final String ITEM_TABLE_NAME = "item_table";
@@ -59,19 +74,160 @@ public class DatabaseManager {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 				
-			String createTabelQuery = 
-				"CREATE TABLE " + DIR_TABLE_NAME + " (" +
-				DIR_ROW_PATH + " TEXT PRIMARY KEY NOT NULL);"; 
+			String createDirTabelQuery = "CREATE TABLE IF NOT EXISTS " 
+				+ DIR_TABLE_NAME + " (" 
+				+ DIR_ROW_PATH + " TEXT PRIMARY KEY NOT NULL" 
+				+ ");"; 
 			
 			// Create the directories table
-			db.execSQL(createTabelQuery);
+			db.execSQL(createDirTabelQuery);
+			
+			
+			String createMediaTabelQuery = "CREATE TABLE IF NOT EXISTS " 
+				+ MEDIA_TABLE_NAME + " (" 
+				+ MEDIA_NAME + " VARCHAR(200) NOT NULL, "
+				+ MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, " 
+				+ MEDIA_TIME + " INTEGER, "
+				+ MEDIA_LENGTH + " INTEGER, "
+				+ MEDIA_TYPE + " VARCHAR(50), "
+				+ MEDIA_WIDTH + " INTEGER, "
+				+ MEDIA_HEIGHT + " INTEGER, "
+				+ MEDIA_THUMBNAIL + " BLOB"
+				+ ");"; 
+			
+			// Create the media table
+			db.execSQL(createMediaTabelQuery);
 		}
 
 		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		public void onUpgrade(SQLiteDatabase db, int oldVersion, 
+				int newVersion) {
 			// TODO ??
 		}
+	}
+	
+	
+	/**
+	 * Add a new item to the database. The thumbnail can only added by update.
+	 * @param item which you like to add to the database
+	 */
+	public synchronized void addMediaItem(MediaItem item) {
+		if (!mediaDirExists(item.getPath())) {
+			
+			ContentValues values = new ContentValues();
+			values.put(MEDIA_NAME, item.getName());
+			values.put(MEDIA_PATH, item.getPath());
+			values.put(MEDIA_TIME, item.getTime());
+			values.put(MEDIA_LENGTH, item.getLength());
+			values.put(MEDIA_TYPE, item.getType());
+			values.put(MEDIA_WIDTH, item.getWidth());
+			values.put(MEDIA_HEIGHT, item.getHeight());
+			
+			db.insert(MEDIA_TABLE_NAME, null, values); 
+		}
+	}
+	
+	/**
+	 * Check if the item already in the database
+	 * @param path of the item (primary key)
+	 * @return 
+	 */
+	public synchronized boolean mediaItemExists(String path) {
+		Cursor cursor = db.query(MEDIA_TABLE_NAME, 
+				new String[] { DIR_ROW_PATH }, 
+				MEDIA_PATH + "='" + path + "'", 
+				null, null, null, null);
+		cursor.close();
+		return cursor.moveToFirst();
+	}
+	
+	/**
+	 * Get all paths from the items in the database
+	 * @return list of File
+	 */
+	public synchronized List<File> getMediaItemPaths() {
 		
+		List<File> files = new ArrayList<File>();
+		Cursor cursor;
+		
+		cursor = db.query(
+				MEDIA_TABLE_NAME, 
+				new String[] { MEDIA_PATH }, 
+				null, null, null, null, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			do {
+				File file = new File(cursor.getString(0));
+				files.add(file);
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+
+		return files;
+	}
+	
+
+	public synchronized MediaItem getMediaItem(String path) {
+		
+		Cursor cursor;
+		MediaItem item = null;
+		Bitmap thumbnail = null;
+		byte[] blob;
+		
+		cursor = db.query(
+				MEDIA_TABLE_NAME, 
+				new String[] {  
+						MEDIA_NAME,    //0 String
+						MEDIA_PATH,    //1 String 
+						MEDIA_TIME,    //2 long
+						MEDIA_LENGTH,  //3 long
+						MEDIA_TYPE,    //4 String
+						MEDIA_WIDTH,   //5 int
+						MEDIA_HEIGHT,  //6 int
+						MEDIA_THUMBNAIL//7 Bitmap
+						}, 
+				MEDIA_PATH + "='" + path + "'", 
+				null, null, null, null);
+		if (cursor.moveToFirst()) {
+				
+			blob = cursor.getBlob(7);
+			if (blob != null) {
+				thumbnail = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+			}
+			
+			item = new MediaItem(
+					cursor.getString(0),
+					new File(cursor.getString(1)),
+					cursor.getLong(2),
+					cursor.getLong(3),
+					cursor.getString(4),
+					cursor.getInt(5),
+					cursor.getInt(6),
+					thumbnail
+					);
+		}
+
+		return item;
+	}
+	
+	public synchronized void removeMediaItem(String path) {
+		db.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "='" + path + "'", null);
+	}
+	
+	public synchronized void updateMediaItem(String path, mediaColumn col, 
+			Object object ) {
+		ContentValues values = new ContentValues();
+		switch (col) {
+		case MEDIA_THUMBNAIL:	
+			Bitmap thumbnail = (Bitmap)object;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			thumbnail.compress(Bitmap.CompressFormat.PNG, 100, out);		
+			values.put(MEDIA_THUMBNAIL, out.toByteArray());
+			break;
+		default:
+			return;
+		}
+		db.update(MEDIA_TABLE_NAME, values, MEDIA_PATH +"='"+ path + "'", null);
 	}
 	
 	
@@ -80,13 +236,11 @@ public class DatabaseManager {
 	 * 
 	 * @param path
 	 */
-	public synchronized void addMediaDir(String path) {
-		ContentValues values = new ContentValues();
-		values.put(DIR_ROW_PATH, path);
-		try {
-			db.insertOrThrow(DIR_TABLE_NAME, null, values); // FIXME: Exception if already exists
-		} catch (SQLException e) {
-			Log.w(TAG, "Directory (" + path + ") already in database");
+	public synchronized void addMediaDir(String path) {	
+		if (!mediaDirExists(path)) {
+			ContentValues values = new ContentValues();
+			values.put(DIR_ROW_PATH, path);
+			db.insert(DIR_TABLE_NAME, null, values); 
 		}
 	}
 	
@@ -129,9 +283,9 @@ public class DatabaseManager {
 				new String[] { DIR_ROW_PATH }, 
 				DIR_ROW_PATH + "='" + path + "'", 
 				null, null, null, null);
-		Log.i(TAG, path + " = null? " + cursor.moveToFirst());
+		boolean exists = cursor.moveToFirst();
 		cursor.close();
-		return cursor.moveToFirst();
+		return exists;
 	}
 	
 

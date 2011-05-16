@@ -1,10 +1,10 @@
 package vlc.android;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Comparator;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,61 +12,32 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MediaLibraryAdapter extends ArrayAdapter<MediaItem> {
-	public final static String TAG = "VLC/MediaLibraryAdapter";
-	private List<MediaItem> mItems = new ArrayList<MediaItem>();
-	
-    public MediaLibraryAdapter(Context context, int textViewResourceId) {
+public class MediaLibraryAdapter extends ArrayAdapter<MediaItem> 
+								 implements Comparator<MediaItem> {
+
+
+	public MediaLibraryAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
 
-    @Override
-	public synchronized void add(MediaItem object) {
-		// TODO Auto-generated method stub
-		super.add(object);
-	}
-
-    @Override
-	public synchronized MediaItem getItem(int position) {
-		// TODO Auto-generated method stub
-		return super.getItem(position);
-	}
-
-    @Override
-	public synchronized void insert(MediaItem object, int index) {
-		// TODO Auto-generated method stub
-		super.insert(object, index);
-	}
-
-	@Override
-	public synchronized void remove(MediaItem object) {
-		// TODO Auto-generated method stub
-		super.remove(object);
-	}
+	public final static String TAG = "VLC/MediaLibraryAdapter";
 	
-	@Override
-	public void clear() {
-		mItems.clear();
-		super.clear();
-	}
-	
-	
-	public synchronized void insert(MediaItem item) {
+
+	public synchronized void update(MediaItem item) {
 		int position = getPosition(item);
-		if (position == -1) {
-			mItems.add(item);
-			Collections.sort(mItems);
-			position = mItems.indexOf(item);
-			insert(item, position);
-		} else {
+		if (position != -1) {
 			remove(item);
 			insert(item, position);
 		}
 	}
+
+	public int compare(MediaItem item1, MediaItem item2) {
+		return item1.getName().toUpperCase().compareTo(
+				item2.getName().toUpperCase());
+	}
 	
 	
-	
-	
+
 	/**
      * Display the view of a file browser item.
      */
@@ -82,22 +53,29 @@ public class MediaLibraryAdapter extends ArrayAdapter<MediaItem> {
 		}
 
 		MediaItem item = getItem(position);
-		ImageView tumbnail = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
+		ImageView thumbnail = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
 		TextView title = (TextView)v.findViewById(R.id.ml_item_title);
 		TextView length = (TextView)v.findViewById(R.id.ml_item_length);
-//		TextView format = (TextView)v.findViewById(R.id.ml_item_format);
-//		TextView path = (TextView)v.findViewById(R.id.ml_item_path);
-//		TextView extention = (TextView)v.findViewById(R.id.ml_item_extention);
 		title.setText(item.getName());
-		length.setText(item.getLenght());
-//		format.setText(item.getFormat());
-//		path.setText(item.getParentPath());
-//		extention.setText(item.getExtention());
-		tumbnail.setImageBitmap(item.getThumbnail());
+		length.setText(Util.millisToString(item.getLength()));
+		
+		if (item.getThumbnail() != null)
+			thumbnail.setImageBitmap(item.getThumbnail());
+		else {
+			// set default thumbnail
+			Bitmap defaultThumbnail = BitmapFactory.decodeResource(
+					MediaLibraryActivity.getInstance().getResources(), 
+					R.drawable.thumbnail);
+			thumbnail.setImageBitmap(defaultThumbnail);
+		}
+
 
 		return v;
 	}
 
+	public void sort() {
+		super.sort(this);		
+	}
 	
 }
 

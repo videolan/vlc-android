@@ -1,6 +1,7 @@
 package vlc.android;
 
 import java.io.File;
+import java.util.Comparator;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
 
-public class BrowserAdapter extends ArrayAdapter<File> {
+public class BrowserAdapter extends ArrayAdapter<File> 
+							implements Comparator<File> {
 
 	public BrowserAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
@@ -72,6 +74,18 @@ public class BrowserAdapter extends ArrayAdapter<File> {
 		}
 
 		return view;
+	}
+
+
+
+	public void sort() {
+		super.sort(this);		
+	}
+
+
+	public int compare(File file1, File file2) {
+		return file1.getName().toUpperCase().compareTo(
+				file2.getName().toUpperCase());
 	}
 
 }

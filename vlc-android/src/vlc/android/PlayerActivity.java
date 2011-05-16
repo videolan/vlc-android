@@ -1,14 +1,15 @@
 package vlc.android;
 
-import java.text.DecimalFormat;
-
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -17,14 +18,17 @@ public class PlayerActivity extends Activity {
 
 	public final static String TAG = "VLC/PlayerActivity";
 	private LibVLC mLibVLC;
-	private Vout mVout;
 	private View mOverlay;
 	private SeekBar mSeekbar;
 	private TextView mTime;
 	private TextView mLength;
-	private GLSurfaceView mSurface;
+	private SurfaceView mSurface;
+	private SurfaceHolder mSurfaceHolder;
 	
+	// stop screen from dimming
+	private WakeLock mWakeLock;
 	
+	// handle view update from other Thread.
 	private Handler mHandler = new Handler();
 	
 
@@ -33,25 +37,50 @@ public class PlayerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player);
 		
-		mOverlay = (View)findViewById(R.id.player_overlay_play);
+		// stop screen from dimming
+		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
+		
+		/** initialize Views an their Events */
 		mTime = (TextView)findViewById(R.id.player_overlay_time);
 		mLength = (TextView)findViewById(R.id.player_overlay_length);
-		mSeekbar = (SeekBar)findViewById(R.id.player_overlay_seekbar);
+
+		mSurface = (SurfaceView) findViewById(R.id.player_surface);
+		mSurfaceHolder = mSurface.getHolder();	
+		mSurfaceHolder.addCallback(new SurfaceHolder.Callback() {
+			
+			public void surfaceChanged(SurfaceHolder holder, int format,
+					int width, int height) {
+				mLibVLC.attachSurface(holder.getSurface(), width, height);
+				
+			}
+
+			public void surfaceCreated(SurfaceHolder holder) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void surfaceDestroyed(SurfaceHolder holder) {
+				mLibVLC.detachSurface();
+			}
+		});
+
+		mSeekbar = (SeekBar)findViewById(R.id.player_overlay_seekbar);	
 		mSeekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			
-			private boolean mWasPlaying = false;
+			private boolean wasPlaying = false;
 			
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				if (mWasPlaying) {
-					mLibVLC.play();
-					mWasPlaying = false;
+				if (wasPlaying) {
+					play();
+					wasPlaying = false;
 				}
 			}
 			
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				if (mLibVLC.isPlaying()) {
-					mLibVLC.pause();
-					mWasPlaying = true;
+					pause();
+					wasPlaying = true;
 				} 
 			}
 			
@@ -64,31 +93,29 @@ public class PlayerActivity extends Activity {
 				
 			}
 		});
+
+		mOverlay = (View)findViewById(R.id.player_overlay_play);	
 		mOverlay.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				if (mLibVLC.isPlaying()) {
-					mLibVLC.pause();
+					pause();
 				} else {
-					mLibVLC.play();
+					play();
 				}
 				
 			}
 		});
-		mSurface = (GLSurfaceView) findViewById(R.id.player_surface);
-		mVout = new Vout(this);
-
-        // For debug purpose.
-        /* surfaceView.setDebugFlags(GLSurfaceView.DEBUG_CHECK_GL_ERROR
-                | GLSurfaceView.DEBUG_LOG_GL_CALLS);*/
-		mSurface.setRenderer(mVout);
-		mSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+		
 
         try {
-			mLibVLC = LibVLC.getInstance(mSurface, mVout);
+			mLibVLC = LibVLC.getInstance();
 		} catch (LibVLCException e) {
 			e.printStackTrace();
 		}		
+		
+		
+		
 	}
 	
 
@@ -96,11 +123,13 @@ public class PlayerActivity extends Activity {
 
 	@Override
 	protected void onStart() {
-		mLibVLC.readMedia(getIntent().getExtras().getString("filePath"));
+		load();
 		
 		new Thread(new Runnable() {
 			public void run() {
 				while (true) {
+					mSeekbar.setMax((int) mLibVLC.getLength());
+					mSeekbar.setProgress((int) mLibVLC.getTime());
 					mHandler.post(updateOverlay);
 					try {
 						Thread.sleep(400);
@@ -118,39 +147,40 @@ public class PlayerActivity extends Activity {
 	private Runnable updateOverlay = new Runnable() {
 		
 		public void run() {
-			mSeekbar.setMax((int) mLibVLC.getLength());
-			mLength.setText(millisToString(mLibVLC.getLength()));
-			mSeekbar.setProgress((int) mLibVLC.getTime());
-			mTime.setText(millisToString(mLibVLC.getTime()));
+			mLength.setText(Util.millisToString(mLibVLC.getLength()));
+			mTime.setText(Util.millisToString(mLibVLC.getTime()));
 		}
 	};
 	
-	private String millisToString(long millis) {
-		millis /= 1000;
-		int sec = (int) (millis % 60);
-		millis /= 60;
-		int min = (int) (millis % 60);
-		millis /= 60;
-		int hours = (int) millis;
-		
-		String time;
-		DecimalFormat format = new DecimalFormat("00"); 
-		if (millis > 0) {
-			time = hours + ":" + format.format(min) + ":" + format.format(sec);
-		} else {
-			time = min + ":" + format.format(sec);
-		}
-		return time;
-	}
-	
-	
 
+	
 
 
 	@Override
 	protected void onPause() {
-		mLibVLC.stopMedia();
+		stop();
 		super.onPause();
+	}
+	
+	private void play() {
+		mLibVLC.play();
+		mWakeLock.acquire();
+	}
+	
+	private void stop() {
+		mLibVLC.stop();
+		mLibVLC.closeAout();
+		mWakeLock.release();
+	}
+	
+	private void pause() {
+		mLibVLC.pause();
+		mWakeLock.release();
+	}
+	
+	private void load() {
+		mLibVLC.readMedia(getIntent().getExtras().getString("filePath"));
+		mWakeLock.acquire();
 	}
 	
 	

@@ -35,10 +35,9 @@ public class BrowserActivity extends ListActivity {
 		mCurrentDir = file;
 		File[] files = file.listFiles(new DirFilter());
 		for (int i = 0; i < files.length; i++) {
-			mAdapter.add(files[i]);
+			mAdapter.add(files[i]);			
 		}
-		
-		
+		mAdapter.sort();
 	}
 
 	@Override

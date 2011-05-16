@@ -10,6 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.util.Log;
 
 public class ThumbnailerManager extends Thread {
 	public final static String TAG = "VLC/ThumbnailerManager";
@@ -53,6 +54,7 @@ public class ThumbnailerManager extends Thread {
         mItems.add(item);
         notEmpty.signal();
         lock.unlock();
+        Log.i(TAG, "Job added!");
     }
     
     /**
@@ -69,6 +71,7 @@ public class ThumbnailerManager extends Thread {
                 try {
                 	mMediaLibraryActivity.mHandler.post(
                 			mMediaLibraryActivity.mHideProgressBar);
+                	Log.i(TAG, "hide ProgressBar!");
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -83,26 +86,28 @@ public class ThumbnailerManager extends Thread {
             mMediaLibraryActivity.mHandler.post(
         			mMediaLibraryActivity.mShowProgressBar);   
             
+            Log.i(TAG, "show ProgressBar!");
             
             // Get the thumbnail.
             // FIXME: ratio
             Bitmap thumbnail = Bitmap.createBitmap(120, 72, Config.ARGB_8888);
-            thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(
-            		mLibVlc.getThumbnail(item.getPath(), 120, 72)));
+            Log.i(TAG, "create new bitmap for: " + item.getName());
+            byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 72);
+            Log.i(TAG, "lib bla!");
+            thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
 
-            
+            Log.i(TAG, "Thumbnail created!");
+
             item.setThumbnail(thumbnail);
-            mMediaLibraryActivity.mItemToAdd = item;
-            
+            mMediaLibraryActivity.mItemToUpdate = item;     
             // Post to the file browser the new item.
             mMediaLibraryActivity.mHandler.post(
-            		mMediaLibraryActivity.mAddMediaItem);
-            
-            
+            		mMediaLibraryActivity.mUpdateMediaItem);
+
             
             // Wait for the file browser to process the change.
             try {
-            	mMediaLibraryActivity.mBarrier.await();
+            	mMediaLibraryActivity.mBarrierItem.await();
             } catch (InterruptedException e) {
                 break;
             } catch (BrokenBarrierException e) {

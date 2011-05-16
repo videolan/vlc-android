@@ -41,15 +41,36 @@
   		android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-     <LinearLayout
+     <FrameLayout
      	android:id="@id/android:empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="No Media Files"
-        	android:textSize="20dip"/>
-    </LinearLayout>
+        android:layout_height="match_parent">
+        <LinearLayout	
+        	android:id="@+id/ml_empty_loadfile"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center">
+	        <ProgressBar 
+	    		android:layout_width="20dip" 
+	    		android:layout_height="20dip"
+	    		android:layout_margin="11dip"/>
+	    	<TextView
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="Loading..."
+	        	android:textSize="20dip"/>
+	    </LinearLayout>
+		<LinearLayout	
+			android:id="@+id/ml_empty_nofile"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center"
+	        android:visibility="invisible">
+	        <TextView
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:text="No Media Files"
+	        	android:textSize="20dip"/>
+	    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
