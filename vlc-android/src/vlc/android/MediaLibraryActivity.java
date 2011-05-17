@@ -113,7 +113,7 @@ public class MediaLibraryActivity extends ListActivity {
 	 */
 	public void changeView(View view) {
 		// TODO: implement!! ;)
-		Toast.makeText(this, "not implemented", Toast.LENGTH_LONG).show();
+		Util.toaster("not implemented");
 	}
 	
 	
@@ -123,7 +123,7 @@ public class MediaLibraryActivity extends ListActivity {
 	 */
 	public void search(View view) {
 		// TODO: implement!! ;)
-		Toast.makeText(this, "not implemented", Toast.LENGTH_LONG).show();
+		Util.toaster("not implemented");
 	}
 	
 
@@ -268,13 +268,6 @@ public class MediaLibraryActivity extends ListActivity {
 		    	}
 	    	}
 	    	
-	    	/** DEBUG */
-	    	try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 	    	
 	    	// update the listView
 	    	mHandler.post(mUpdateMediaList);

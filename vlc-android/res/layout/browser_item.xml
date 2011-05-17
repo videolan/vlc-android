@@ -3,7 +3,9 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
   	android:layout_width="fill_parent"
   	android:layout_height="match_parent"
-  	android:paddingLeft="5dip">
+  	android:paddingLeft="5dip"
+  	android:paddingTop="5dip"
+  	android:paddingBottom="5dip">
     <CheckBox 
     	android:id="@+id/browser_item_selected" 
     	android:layout_width="wrap_content" 
@@ -15,6 +17,6 @@
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
     	android:text="## DIRECTORY ##"
-    	android:paddingLeft="5dip"
+    	android:paddingLeft="10dip"
     	android:singleLine="true"/>
 </LinearLayout>

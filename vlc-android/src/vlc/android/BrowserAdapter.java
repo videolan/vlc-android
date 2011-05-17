@@ -2,8 +2,10 @@ package vlc.android;
 
 import java.io.File;
 import java.util.Comparator;
+import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class BrowserAdapter extends ArrayAdapter<File> 
 							implements Comparator<File> {
+	public final static String TAG = "VLC/BrowserAdapter";
 
 	public BrowserAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
@@ -45,32 +48,50 @@ public class BrowserAdapter extends ArrayAdapter<File>
 					parent, false);
 		}
 		
-		final File file = getItem(position);
+		final File item = getItem(position);
 		final DatabaseManager dbManager = DatabaseManager.getInstance();
 
-		if ( file != null ) {
+		if ( item != null ) {
 			TextView dirTextView = 
 				(TextView)view.findViewById(R.id.browser_item_dir);
-			dirTextView.setText(file.getName());
-			CheckBox dirCheckBox = 
+			dirTextView.setText(item.getName());
+			final CheckBox dirCheckBox = 
 				(CheckBox)view.findViewById(R.id.browser_item_selected);
 
 			dirCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
-					if (isChecked) {
-						dbManager.addMediaDir(file.getPath());
+					if (dirCheckBox.isEnabled() && isChecked) {
+						dbManager.addMediaDir(item.getPath());
+						File tmpFile = item;
+						while(!tmpFile.getPath().equals("/")) {
+							tmpFile = tmpFile.getParentFile();
+							dbManager.removeMediaDir(tmpFile.getPath());
+						}
 					} else {
-						dbManager.removeMediaDir(file.getPath());
+						dbManager.removeMediaDir(item.getPath());
 					}
 					
 				}
 			});
 			
-			dirCheckBox.setChecked(dbManager.mediaDirExists(file.getPath()));
-
-
+			dirCheckBox.setEnabled(true);
+			dirCheckBox.setChecked(false);	
+			
+			List<File> dirs = dbManager.getMediaDirs();	
+			for (File dir : dirs) {
+				if (dir.getPath().equals(item.getPath())) {
+					dirCheckBox.setEnabled(true);
+					dirCheckBox.setChecked(true);		
+					break;
+				} else if (dir.getPath().startsWith(item.getPath())) {
+					Log.i(TAG, item.getPath() + " startWith " + dir.getPath());
+					dirCheckBox.setEnabled(false);
+					dirCheckBox.setChecked(true);		
+					break;
+				} 
+			}
 		}
 
 		return view;
