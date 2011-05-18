@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.Button;
+import android.widget.MediaController;
 
 import android.util.Log;
 import android.view.Menu;
@@ -28,6 +29,8 @@ public class VLC extends Activity {
     private LibVLC mLibVlc;
     private SurfaceView mSurfaceViewVideo;
     private SurfaceHolder mSurfaceHolderVideo;
+    
+    private MediaController controller;
 
     /** Called when the activity is first created. */
     @Override
@@ -50,14 +53,22 @@ public class VLC extends Activity {
 
         mSurfaceViewVideo = (SurfaceView) findViewById(R.id.surface_view);
         mSurfaceHolderVideo = mSurfaceViewVideo.getHolder();
+        mSurfaceViewVideo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                controller.show(10000);
+            }
+        });
 
         mLibVlc = LibVLC.getInstance();
+        
+        controller = new MediaController(this);
+        controller.setMediaPlayer(playerInterface);
+        controller.setAnchorView(mSurfaceViewVideo);
 
         mSurfaceHolderVideo.addCallback(new SurfaceHolder.Callback() {
 
         	@Override
         	public void surfaceCreated(SurfaceHolder holder) {
-
         	}
 
         	@Override
@@ -167,8 +178,59 @@ public class VLC extends Activity {
         Bundle extras = data.getExtras();
 
         if (requestCode == 0 && resultCode == RESULT_OK) {
+            controller.hide();
             String filePath = extras.getString("filePath");
             mLibVlc.readMedia(filePath);
         }
     }
+    
+    // Implement the MediaController.MediaPlayerControl interface
+    private MediaController.MediaPlayerControl playerInterface = new MediaController.MediaPlayerControl()
+    {
+        public int getBufferPercentage() {
+            return 0;
+        }
+
+        public int getCurrentPosition() {
+            float pos = mLibVlc.getPosition();
+            return (int)(pos * getDuration());
+        }
+
+        public int getDuration() {
+            return (int)mLibVlc.getLength();
+        }
+
+        public boolean isPlaying() {
+            return mLibVlc.isPlaying();
+        }
+
+        public void pause() {
+            mLibVlc.pause();
+        }
+
+        public void seekTo(int pos) {
+            mLibVlc.setPosition((float)pos / getDuration());
+        }
+
+        public void start() {
+            if (mLibVlc.hasMediaPlayer())
+                mLibVlc.play();
+            else {
+                Intent i = new Intent(VLC.this, SimpleFileBrowser.class);
+                startActivityForResult(i, 0);
+            }
+        }
+
+        public boolean canPause() {
+            return true;
+        }
+
+        public boolean canSeekBackward() {
+            return true;
+        }
+
+        public boolean canSeekForward() {
+            return true;
+        }
+    };
 }

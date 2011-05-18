@@ -217,6 +217,14 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
+jboolean Java_vlc_android_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)
+{
+    jint mediaPlayer = getMediaPlayer(env, thiz);
+    if (mediaPlayer != 0)
+        return 1;
+    return 0;
+}
+
 jboolean Java_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
@@ -225,6 +233,7 @@ jboolean Java_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
         libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
         return ( libvlc_media_player_is_playing( mp ) == 1 );
     }
+    return 0;
 }
 
 jboolean Java_vlc_android_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
@@ -235,6 +244,7 @@ jboolean Java_vlc_android_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
         libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
         return ( libvlc_media_player_is_seekable( mp ) == 1 );
     }
+    return 0;
 }
 
 void Java_vlc_android_LibVLC_play(JNIEnv *env, jobject thiz)
