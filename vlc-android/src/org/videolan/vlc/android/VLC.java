@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -53,6 +54,7 @@ public class VLC extends Activity {
 
         mSurfaceViewVideo = (SurfaceView) findViewById(R.id.surface_view);
         mSurfaceHolderVideo = mSurfaceViewVideo.getHolder();
+        mSurfaceHolderVideo.setFormat(PixelFormat.RGBX_8888);
         mSurfaceViewVideo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 controller.show(10000);
