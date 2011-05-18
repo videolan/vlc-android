@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 
 import android.app.Activity;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package vlc.android;
+package org.videolan.vlc.android;
 
 import java.io.IOException;
 import java.io.InputStream;

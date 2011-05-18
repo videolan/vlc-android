@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
@@ -7,7 +7,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import vlc.android.SimpleFileBrowser.FileBrowserItem;
+import org.videolan.vlc.android.SimpleFileBrowser.FileBrowserItem;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;

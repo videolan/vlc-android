@@ -1,7 +1,7 @@
 /**
  * LibVlcException: exceptions thrown by the native LibVLC interface
  */
-package vlc.android;
+package org.videolan.vlc.android;
 
 /**
  * @author jpeg

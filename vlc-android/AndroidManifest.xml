@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="vlc.android"
       android:versionCode="1"
-      android:versionName="1.0">
+      android:versionName="1.0" package="org.videolan.vlc.android">
 
     <uses-sdk
         android:minSdkVersion="4"

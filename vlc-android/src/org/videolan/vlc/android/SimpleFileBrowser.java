@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 import java.io.File;
 import java.io.IOException;
