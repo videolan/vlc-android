@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
-
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
-import android.widget.Button;
-import android.widget.MediaController;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +18,8 @@ import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.MediaController;
 
 public class VLC extends Activity {
     private static final String TAG = "VLC_Activity";
@@ -32,6 +30,41 @@ public class VLC extends Activity {
     private SurfaceHolder mSurfaceHolderVideo;
     
     private MediaController controller;
+
+	Handler sizeHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			//video size
+			int vw = msg.arg1;
+			int vh = msg.arg2;
+			float ar = (float)vw / (float)vh;
+
+			//screen size
+			int dw = getWindowManager().getDefaultDisplay().getWidth();
+			int dh = getWindowManager().getDefaultDisplay().getHeight();
+
+			//fix ar
+			if (vw > vh)
+				dh = (int)(dw / ar);
+			else
+				dw = (int)(dh * ar);
+
+			Log.i(TAG, "video size changed to "+vw+"x"+vh+", displaying at "+dw+"x"+dh);
+			mSurfaceHolderVideo.setFixedSize(vw, vh);
+			LayoutParams lp = mSurfaceViewVideo.getLayoutParams();
+			lp.width = dw;
+			lp.height = dh;
+			mSurfaceViewVideo.setLayoutParams(lp);
+			mSurfaceViewVideo.invalidate();
+		}
+	};
+
+    public void setSurfaceSize(int width, int height) {
+		Message msg = Message.obtain();
+		msg.arg1 = width;
+		msg.arg2 = height;
+		sizeHandler.sendMessage(msg);
+    }
 
     /** Called when the activity is first created. */
     @Override
@@ -55,6 +88,7 @@ public class VLC extends Activity {
         mSurfaceViewVideo = (SurfaceView) findViewById(R.id.surface_view);
         mSurfaceHolderVideo = mSurfaceViewVideo.getHolder();
         mSurfaceHolderVideo.setFormat(PixelFormat.RGBX_8888);
+        mSurfaceHolderVideo.setKeepScreenOn(true);
         mSurfaceViewVideo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 controller.show(10000);
@@ -75,7 +109,7 @@ public class VLC extends Activity {
 
         	@Override
         	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        		mLibVlc.attachSurface(holder.getSurface(), width, height);
+        		mLibVlc.attachSurface(holder.getSurface(), sInstance, width, height);
         	}
 
         	@Override

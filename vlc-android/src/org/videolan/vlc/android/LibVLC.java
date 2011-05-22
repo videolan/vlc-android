@@ -14,7 +14,7 @@ public class LibVLC {
 
     private Aout mAout;
 
-    public native void attachSurface(Surface surface, int width, int height);
+    public native void attachSurface(Surface surface, VLC gui, int width, int height);
     public native void detachSurface();
 
     /* Load library before object instantiation */
