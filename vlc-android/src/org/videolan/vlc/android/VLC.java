@@ -149,6 +149,17 @@ public class VLC extends Activity {
 
         // FIXME
         // if (prefs.getBoolean("hud lock", false))
+        
+        if (mLibVlc.hasMediaPlayer())
+            mLibVlc.play();
+    }
+    
+    /** Called when the activity is no more in the foreground. */
+    public void onPause()
+    {
+        if (mLibVlc.hasMediaPlayer())
+            mLibVlc.pause();
+        super.onPause();
     }
 
     /** Called when the activity is finally destroyed */
