@@ -136,8 +136,9 @@ public class DatabaseManager {
 	public synchronized boolean mediaItemExists(String path) {
 		Cursor cursor = mDb.query(MEDIA_TABLE_NAME, 
 				new String[] { DIR_ROW_PATH }, 
-				MEDIA_PATH + "='" + path + "'", 
-				null, null, null, null);
+				MEDIA_PATH + "=?", 
+				new String[] { path },
+				null, null, null);
 		cursor.close();
 		return cursor.moveToFirst();
 	}
@@ -187,8 +188,9 @@ public class DatabaseManager {
 						MEDIA_HEIGHT,  //6 int
 						MEDIA_THUMBNAIL//7 Bitmap
 						}, 
-				MEDIA_PATH + "='" + path + "'", 
-				null, null, null, null);
+				MEDIA_PATH + "=?", 
+				new String[] { path },
+				null, null, null);
 		if (cursor.moveToFirst()) {
 				
 			blob = cursor.getBlob(7);
@@ -212,7 +214,7 @@ public class DatabaseManager {
 	}
 	
 	public synchronized void removeMediaItem(String path) {
-		mDb.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "='" + path + "'", null);
+		mDb.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "=?", new String[] { path });
 	}
 	
 	public synchronized void updateMediaItem(String path, mediaColumn col, 
@@ -228,7 +230,7 @@ public class DatabaseManager {
 		default:
 			return;
 		}
-		mDb.update(MEDIA_TABLE_NAME, values, MEDIA_PATH +"='"+ path + "'", null);
+		mDb.update(MEDIA_TABLE_NAME, values, MEDIA_PATH +"=?", new String[] { path });
 	}
 	
 	
@@ -251,7 +253,7 @@ public class DatabaseManager {
 	 * @param path
 	 */
 	public synchronized void removeMediaDir(String path) {
-		mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "='" + path + "'", null);
+		mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "=?", new String[] { path });
 	}
 
 	/**
@@ -280,9 +282,11 @@ public class DatabaseManager {
 	}
 	
 	public synchronized boolean mediaDirExists(String path) {
-		String query = "select " + DIR_ROW_PATH + " from " + 
-				DIR_TABLE_NAME + " where " + DIR_ROW_PATH + " = ?";
-		Cursor cursor = mDb.rawQuery(query, new String[] { path });
+		Cursor cursor = mDb.query(DIR_TABLE_NAME, 
+				new String[] { DIR_ROW_PATH }, 
+				DIR_ROW_PATH + "=?", 
+				new String[] { path }, 
+				null, null, null);
 		boolean exists = cursor.moveToFirst();
 		cursor.close();
 		return exists;
