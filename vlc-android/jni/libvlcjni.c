@@ -85,7 +85,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pthread_mutex_destroy(&vout_android_lock);
 }
 
-void Java_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jint width, jint height) {
+void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jint width, jint height) {
     jclass clz;
     jfieldID fid;
     jthrowable exp;
@@ -107,14 +107,14 @@ void Java_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject su
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-void Java_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
+void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_lock(&vout_android_lock);
     //(*env)->DeleteGlobalRef(env, vout_android_ref);
     vout_android_surf = NULL;
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
                           "--no-drop-late-frames"};
@@ -139,7 +139,7 @@ void Java_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 }
 
 
-void Java_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
     releaseMediaPlayer(env, thiz);
     jclass clazz = (*env)->GetObjectClass(env, thiz);
@@ -156,10 +156,10 @@ void Java_vlc_android_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 
 int currentSdk( JNIEnv *p_env, jobject thiz )
 {
-    jclass  cls = (*p_env)->FindClass( p_env, "vlc/android/Util" );
+    jclass  cls = (*p_env)->FindClass( p_env, "org/videolan/vlc/android/Util" );
     if ( !cls )
     {
-        LOGE( "Failed to load util class (vlc/android/Util)" );
+        LOGE( "Failed to load util class (org/videolan/vlc/android/Util)" );
         return 0;
     }
     jmethodID methodSdkVersion = (*p_env)->GetStaticMethodID( p_env, cls,
@@ -174,7 +174,7 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
     return version;
 }
 
-void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
+void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                        jint instance, jstring mrl)
 {
     jboolean isCopy;
@@ -217,7 +217,15 @@ void Java_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
-jboolean Java_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
+jboolean Java_org_videolan_vlc_android_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)
+{
+    jint mediaPlayer = getMediaPlayer(env, thiz);
+    if (mediaPlayer != 0)
+        return 1;
+    return 0;
+}
+
+jboolean Java_org_videolan_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -225,9 +233,10 @@ jboolean Java_vlc_android_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
         libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
         return ( libvlc_media_player_is_playing( mp ) == 1 );
     }
+    return 0;
 }
 
-jboolean Java_vlc_android_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
+jboolean Java_org_videolan_vlc_android_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -235,9 +244,10 @@ jboolean Java_vlc_android_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
         libvlc_media_player_t *mp = (libvlc_media_player_t*) mediaPlayer;
         return ( libvlc_media_player_is_seekable( mp ) == 1 );
     }
+    return 0;
 }
 
-void Java_vlc_android_LibVLC_play(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_play(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -247,7 +257,7 @@ void Java_vlc_android_LibVLC_play(JNIEnv *env, jobject thiz)
     }
 }
 
-void Java_vlc_android_LibVLC_pause(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_pause(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -257,7 +267,7 @@ void Java_vlc_android_LibVLC_pause(JNIEnv *env, jobject thiz)
     }
 }
 
-void Java_vlc_android_LibVLC_stop(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_stop(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -267,7 +277,7 @@ void Java_vlc_android_LibVLC_stop(JNIEnv *env, jobject thiz)
     }
 }
 
-jint Java_vlc_android_LibVLC_getVolume(JNIEnv *env, jobject thiz)
+jint Java_org_videolan_vlc_android_LibVLC_getVolume(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -278,7 +288,7 @@ jint Java_vlc_android_LibVLC_getVolume(JNIEnv *env, jobject thiz)
     return -1;
 }
 
-jint Java_vlc_android_LibVLC_setVolume(JNIEnv *env, jobject thiz, jint volume)
+jint Java_org_videolan_vlc_android_LibVLC_setVolume(JNIEnv *env, jobject thiz, jint volume)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -290,7 +300,7 @@ jint Java_vlc_android_LibVLC_setVolume(JNIEnv *env, jobject thiz, jint volume)
     return -1;
 }
 
-jlong Java_vlc_android_LibVLC_getTime(JNIEnv *env, jobject thiz)
+jlong Java_org_videolan_vlc_android_LibVLC_getTime(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -301,7 +311,7 @@ jlong Java_vlc_android_LibVLC_getTime(JNIEnv *env, jobject thiz)
     return -1;
 }
 
-void Java_vlc_android_LibVLC_setTime(JNIEnv *env, jobject thiz, jlong time)
+void Java_org_videolan_vlc_android_LibVLC_setTime(JNIEnv *env, jobject thiz, jlong time)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -311,7 +321,7 @@ void Java_vlc_android_LibVLC_setTime(JNIEnv *env, jobject thiz, jlong time)
     }
 }
 
-jfloat Java_vlc_android_LibVLC_getPosition(JNIEnv *env, jobject thiz)
+jfloat Java_org_videolan_vlc_android_LibVLC_getPosition(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -322,7 +332,7 @@ jfloat Java_vlc_android_LibVLC_getPosition(JNIEnv *env, jobject thiz)
     return -1;
 }
 
-void Java_vlc_android_LibVLC_setPosition(JNIEnv *env, jobject thiz, jfloat pos)
+void Java_org_videolan_vlc_android_LibVLC_setPosition(JNIEnv *env, jobject thiz, jfloat pos)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -332,7 +342,7 @@ void Java_vlc_android_LibVLC_setPosition(JNIEnv *env, jobject thiz, jfloat pos)
     }
 }
 
-jlong Java_vlc_android_LibVLC_getLength(JNIEnv *env, jobject thiz)
+jlong Java_org_videolan_vlc_android_LibVLC_getLength(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);
     if (mediaPlayer != 0)
@@ -343,17 +353,17 @@ jlong Java_vlc_android_LibVLC_getLength(JNIEnv *env, jobject thiz)
     return -1;
 }
 
-jstring Java_vlc_android_LibVLC_version(JNIEnv* env, jobject thiz)
+jstring Java_org_videolan_vlc_android_LibVLC_version(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_version());
 }
 
-jstring Java_vlc_android_LibVLC_compiler(JNIEnv* env, jobject thiz)
+jstring Java_org_videolan_vlc_android_LibVLC_compiler(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_compiler());
 }
 
-jstring Java_vlc_android_LibVLC_changeset(JNIEnv* env, jobject thiz)
+jstring Java_org_videolan_vlc_android_LibVLC_changeset(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_changeset());
 }

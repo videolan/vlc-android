@@ -1,4 +1,5 @@
-package vlc.android;
+package org.videolan.vlc.android;
+
 
 import java.io.File;
 
@@ -7,6 +8,12 @@ import android.graphics.Bitmap;
 public class MediaItem implements Comparable<MediaItem> {
 	
 	public final static String TAG = "VLC/MediaItem";
+	
+	public final static String[] EXTENTIONS = {".3gp", ".asf", ".wmv", ".au", 
+		".avi", ".flv", ".mov", ".mp4", ".ogm", ".ogg", ".mkv", ".mka", ".ts",
+		".mpg", ".mp3", ".mp2", ".nsc", ".nsv", ".nut", ".ra", ".ram", ".rm", 
+		".rv" , ".rmbv", ".a52", ".dts", ".aac", ".flac", ".dv", ".vid", ".tta",
+		".tac", ".ty", ".wav", ".dts", ".xa"};	
 	
 	private String mName;
 	private File mFile;

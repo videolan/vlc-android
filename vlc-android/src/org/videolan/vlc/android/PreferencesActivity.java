@@ -1,4 +1,5 @@
-package vlc.android;
+package org.videolan.vlc.android;
+
 
 import android.content.Intent;
 import android.os.Bundle;

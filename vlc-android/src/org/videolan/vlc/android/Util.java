@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;

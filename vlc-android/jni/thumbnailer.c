@@ -16,9 +16,9 @@
  * Thumbnailer main function.
  * return null if the thumbail generation failed.
  **/
-jbyteArray Java_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobject thiz,
-                                          jint i_instance, jstring filePath,
-                                          jint i_width, jint i_height)
+jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobject thiz,
+                                                             jint i_instance, jstring filePath,
+                                                             jint i_width, jint i_height)
 {
     libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
     jboolean isCopy;

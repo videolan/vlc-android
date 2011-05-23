@@ -1,4 +1,5 @@
-package vlc.android;
+package org.videolan.vlc.android;
+
 
 import java.io.File;
 import java.io.FileFilter;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class MediaLibraryActivity extends ListActivity {
 	public final static String TAG = "VLC/MediaLibraryActivity";
@@ -300,7 +300,7 @@ public class MediaLibraryActivity extends ListActivity {
     private class MediaItemFilter implements FileFilter {
     	
     	// FIXME: save extensions in external database
-    	private String[] extensions = Constant.EXTENTIONS; 
+    	private String[] extensions = MediaItem.EXTENTIONS; 
 		public boolean accept(File f) {
 			boolean accepted = false;
 			if (!f.isHidden()) {

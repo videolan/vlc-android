@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 import android.util.Log;
 import android.view.Surface;
@@ -7,10 +7,10 @@ public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
     private static LibVLC sInstance;
-    
+
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;
@@ -44,9 +44,9 @@ public class LibVLC {
      * Without surface and vout to create the thumbnail and get information
      * e.g. on the MediaLibraryAcitvity
      * @return
-     * @throws LibVLCException
+     * @throws LibVlcException
      */
-    public static LibVLC getInstance() throws LibVLCException
+    public static LibVLC getInstance() throws LibVlcException
     {
         if (sInstance == null) {
         	/* First call */
@@ -90,7 +90,7 @@ public class LibVLC {
     /**
      * Initialize the libVLC class
      */
-    private void init() throws LibVLCException
+    private void init() throws LibVlcException
     {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
@@ -149,6 +149,11 @@ public class LibVLC {
     }
     
     /**
+     * Return true if there is currently a running media player.
+     */
+    public native boolean hasMediaPlayer();
+    
+    /**
      * Get a media thumbnail.
      */
     public byte[] getThumbnail(String filePath, int i_width, int i_height)
@@ -162,7 +167,7 @@ public class LibVLC {
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit() throws LibVLCException;
+    private native void nativeInit() throws LibVlcException;
 
     /**
      * Close the libvlc C library

@@ -7,57 +7,18 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent" 
 		android:id="@+id/player_surface"/>
-	<LinearLayout
-		android:id="@+id/player_overlay"
+	<LinearLayout 
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
 		android:paddingLeft="10dip"
 		android:paddingRight="10dip"
-		android:paddingBottom="10dip">
+		android:paddingBottom="10dip"
+		android:id="@+id/player_overlay_decor">
 		<View 
 			android:layout_width="fill_parent"
 			android:layout_height="0dip"
-			android:layout_weight="1" 
-			android:id="@+id/player_overlay_play"/>
-		<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			<SeekBar
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:minHeight="5dip"
-				android:maxHeight="5dip"
-				android:id="@+id/player_overlay_seekbar"
-				android:progressDrawable="@drawable/po_seekbar"
-				android:thumb="@drawable/po_seekbar_thumb"
-				android:paddingLeft="10dip"
-				android:paddingRight="10dip"
-				android:paddingTop="10dip"/>
-			<LinearLayout
-				android:orientation="horizontal"
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent">
-				<TextView
-					android:id="@+id/player_overlay_time"
-					android:layout_width="0dip"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textSize="14dip"
-					android:text="12:23"
-					android:textColor="#ffffff"
-					android:paddingLeft="10dip"/>
-				<TextView
-					android:id="@+id/player_overlay_length"
-					android:layout_width="0dip"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:textSize="14dip"
-					android:text="12:23"
-					android:gravity="right"
-					android:textColor="#ffffff"
-					android:paddingRight="10dip"/>
-			</LinearLayout>
-		</FrameLayout>
+			android:layout_weight="1"
+			android:id="@+id/player_overlay_spacer" />
 	</LinearLayout>
 </FrameLayout>

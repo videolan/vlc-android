@@ -1,4 +1,5 @@
-package vlc.android;
+package org.videolan.vlc.android;
+
 
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class ThumbnailerManager extends Thread {
     	mMediaLibraryActivity = MediaLibraryActivity.getInstance();
     	try {
 			mLibVlc = LibVLC.getInstance();
-		} catch (LibVLCException e) {
+		} catch (LibVlcException e) {
 			e.printStackTrace();
 		} 
         start();

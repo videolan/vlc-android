@@ -1,4 +1,4 @@
-package vlc.android;
+package org.videolan.vlc.android;
 
 import android.util.Log;
 import android.media.AudioFormat;
@@ -15,6 +15,7 @@ public class Aout {
 
 	public Aout()
 	{
+		
 	}
 
     private AudioTrack mAudioTrack;

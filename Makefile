@@ -1,5 +1,5 @@
 # Sources and objects
-JAVA_SOURCES=vlc-android/src/vlc/android/*.java
+JAVA_SOURCES=vlc-android/src/org/videolan/vlc/android/*.java
 JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
 VLC_APK=vlc-android/bin/VLC-debug.apk
 APK_MK=vlc-android/jni/Android.mk
@@ -88,7 +88,7 @@ vlc.apk: libvlcjni $(VLC_APK)
 clean:
 	rm -rf vlc-android/libs
 	rm -rf vlc-android/obj
-	rm -rf vlc-android/bin
+#	rm -rf vlc-android/bin
 
 distclean: clean
 	rm -f $(APK_MK)

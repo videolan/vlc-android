@@ -1,4 +1,5 @@
-package vlc.android;
+package org.videolan.vlc.android;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,7 +19,7 @@ public class DatabaseManager {
 	
 	private static DatabaseManager instance;
 
-	private SQLiteDatabase db;
+	private SQLiteDatabase mDb;
 	private final String DB_NAME = "vlc_database";
 	private final int DB_VERSION = 1;
 	
@@ -52,7 +53,7 @@ public class DatabaseManager {
 	private DatabaseManager(Context context) {
 		// create or open database
 		DatabaseHelper helper = new DatabaseHelper(context);
-		this.db = helper.getWritableDatabase();
+		this.mDb = helper.getWritableDatabase();
 	}
 	
 	public synchronized static DatabaseManager getInstance() {
@@ -123,7 +124,7 @@ public class DatabaseManager {
 			values.put(MEDIA_WIDTH, item.getWidth());
 			values.put(MEDIA_HEIGHT, item.getHeight());
 			
-			db.insert(MEDIA_TABLE_NAME, null, values); 
+			mDb.insert(MEDIA_TABLE_NAME, null, values); 
 		}
 	}
 	
@@ -133,7 +134,7 @@ public class DatabaseManager {
 	 * @return 
 	 */
 	public synchronized boolean mediaItemExists(String path) {
-		Cursor cursor = db.query(MEDIA_TABLE_NAME, 
+		Cursor cursor = mDb.query(MEDIA_TABLE_NAME, 
 				new String[] { DIR_ROW_PATH }, 
 				MEDIA_PATH + "='" + path + "'", 
 				null, null, null, null);
@@ -150,7 +151,7 @@ public class DatabaseManager {
 		List<File> files = new ArrayList<File>();
 		Cursor cursor;
 		
-		cursor = db.query(
+		cursor = mDb.query(
 				MEDIA_TABLE_NAME, 
 				new String[] { MEDIA_PATH }, 
 				null, null, null, null, null);
@@ -174,7 +175,7 @@ public class DatabaseManager {
 		Bitmap thumbnail = null;
 		byte[] blob;
 		
-		cursor = db.query(
+		cursor = mDb.query(
 				MEDIA_TABLE_NAME, 
 				new String[] {  
 						MEDIA_NAME,    //0 String
@@ -211,7 +212,7 @@ public class DatabaseManager {
 	}
 	
 	public synchronized void removeMediaItem(String path) {
-		db.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "='" + path + "'", null);
+		mDb.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "='" + path + "'", null);
 	}
 	
 	public synchronized void updateMediaItem(String path, mediaColumn col, 
@@ -227,7 +228,7 @@ public class DatabaseManager {
 		default:
 			return;
 		}
-		db.update(MEDIA_TABLE_NAME, values, MEDIA_PATH +"='"+ path + "'", null);
+		mDb.update(MEDIA_TABLE_NAME, values, MEDIA_PATH +"='"+ path + "'", null);
 	}
 	
 	
@@ -240,7 +241,7 @@ public class DatabaseManager {
 		if (!mediaDirExists(path)) {
 			ContentValues values = new ContentValues();
 			values.put(DIR_ROW_PATH, path);
-			db.insert(DIR_TABLE_NAME, null, values); 
+			mDb.insert(DIR_TABLE_NAME, null, values); 
 		}
 	}
 	
@@ -250,7 +251,7 @@ public class DatabaseManager {
 	 * @param path
 	 */
 	public synchronized void removeMediaDir(String path) {
-		db.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "='" + path + "'", null);
+		mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "='" + path + "'", null);
 	}
 
 	/**
@@ -262,7 +263,7 @@ public class DatabaseManager {
 		List<File> paths = new ArrayList<File>();
 		Cursor cursor;
 		
-		cursor = db.query(
+		cursor = mDb.query(
 				DIR_TABLE_NAME, 
 				new String[] { DIR_ROW_PATH }, 
 				null, null, null, null, null);
@@ -279,10 +280,9 @@ public class DatabaseManager {
 	}
 	
 	public synchronized boolean mediaDirExists(String path) {
-		Cursor cursor = db.query(DIR_TABLE_NAME, 
-				new String[] { DIR_ROW_PATH }, 
-				DIR_ROW_PATH + "='" + path + "'", 
-				null, null, null, null);
+		String query = "select " + DIR_ROW_PATH + " from " + 
+				DIR_TABLE_NAME + " where " + DIR_ROW_PATH + " = ?";
+		Cursor cursor = mDb.rawQuery(query, new String[] { path });
 		boolean exists = cursor.moveToFirst();
 		cursor.close();
 		return exists;
