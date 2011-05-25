@@ -102,7 +102,7 @@ install: vlc.apk
 
 run:
 	@echo "=== Running application on device ==="
-	@adb wait-for-device && adb shell monkey -p vlc.android -s 0 1
+	@adb wait-for-device && adb shell monkey -p org.videolan.vlc.android -s 0 1
 
 build-and-run: vlc.apk install run
 	@echo "=== Application is running ==="
