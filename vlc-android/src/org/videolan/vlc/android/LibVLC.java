@@ -21,7 +21,7 @@ public class LibVLC {
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
 
-    public native void attachSurface(Surface surface, int width, int height);
+    public native void attachSurface(Surface surface, PlayerActivity player, int width, int height);
     public native void detachSurface();
 
     /* Load library before object instantiation */
@@ -149,19 +149,12 @@ public class LibVLC {
     }
     
     /**
-     * Return true if there is currently a running media player.
-     */
-    public native boolean hasMediaPlayer();
-    
-    /**
      * Get a media thumbnail.
      */
     public byte[] getThumbnail(String filePath, int i_width, int i_height)
     {
         return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
     }
-    
-   
 
     /**
      * Initialize the libvlc C library
@@ -182,6 +175,11 @@ public class LibVLC {
      */
     private native void readMedia(int instance, String mrl);
 
+    /**
+     * Return true if there is currently a running media player.
+     */
+    public native boolean hasMediaPlayer();
+    
     /**
      * Returns true if any media is playing
      */

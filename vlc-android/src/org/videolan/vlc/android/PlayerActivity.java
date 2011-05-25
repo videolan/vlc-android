@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -39,6 +41,7 @@ public class PlayerActivity extends Activity {
 	private static final int OVERLAY_TIMEOUT = 4000;
 	private static final int FADE_OUT = 1;
 	private static final int SHOW_PROGRESS = 2;
+	private static final int SURFACE_SIZE = 3;
 	private boolean mDragging;
 	private boolean mShowing;
 	private SeekBar mSeekbar;
@@ -78,6 +81,8 @@ public class PlayerActivity extends Activity {
 		
 		mSurface = (SurfaceView) findViewById(R.id.player_surface);
 		mSurfaceHolder = mSurface.getHolder();	
+		mSurfaceHolder.setKeepScreenOn(true);
+		mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
 		mSurfaceHolder.addCallback(mSurfaceCallback);
 
 		mSeekbar = (SeekBar)mOverlay.findViewById(R.id.player_overlay_seekbar);	
@@ -113,6 +118,14 @@ public class PlayerActivity extends Activity {
 		return super.onTrackballEvent(event);
 	}
 	
+    public void setSurfaceSize(int width, int height) {
+    	Log.i(TAG,"setSurfaceSize()");
+		Message msg = mHandler.obtainMessage(SURFACE_SIZE);
+		msg.arg1 = width;
+		msg.arg2 = height;
+		mHandler.sendMessage(msg);
+    }
+	
 	/**
 	 * 
 	 */
@@ -131,6 +144,28 @@ public class PlayerActivity extends Activity {
 						sendMessageDelayed(msg, 1000 - (pos % 1000));
 					}
 					break;
+				case SURFACE_SIZE:
+					//video size
+					int vw = msg.arg1;
+					int vh = msg.arg2;
+					float ar = (float)vw / (float)vh;
+					//screen size
+					int dw = getWindowManager().getDefaultDisplay().getWidth();
+					int dh = getWindowManager().getDefaultDisplay().getHeight();
+
+					//fix ar
+					if (vw > vh)
+						dh = (int)(dw / ar);
+					else
+						dw = (int)(dh * ar);
+
+					Log.i(TAG, "video size changed to "+vw+"x"+vh+", displaying at "+dw+"x"+dh);
+					mSurfaceHolder.setFixedSize(vw, vh);
+					LayoutParams lp = mSurface.getLayoutParams();
+					lp.width = dw;
+					lp.height = dh;
+					mSurface.setLayoutParams(lp);
+					mSurface.invalidate();
 			}
 		}
 	};
@@ -202,7 +237,7 @@ public class PlayerActivity extends Activity {
 	 */
 	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {		
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-			mLibVLC.attachSurface(holder.getSurface(), width, height);
+			mLibVLC.attachSurface(holder.getSurface(), PlayerActivity.this, width, height);
 		}
 
 		public void surfaceCreated(SurfaceHolder holder) { }

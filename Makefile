@@ -59,7 +59,7 @@ $(APK_MK):
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
-	 printf "\t-ldl -lz -lm -logg -lOpenSLES -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lpixman-1\n" >> $(APK_MK); \
+         printf "\t-ldl -lz -lm -logg -lOpenSLES -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lpixman-1\n" >> $(APK_MK); \
 	 printf "include \$$(BUILD_SHARED_LIBRARY)\n"                             >> $(APK_MK)
 
 $(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
@@ -95,7 +95,7 @@ distclean: clean
 	rm -f $(LIBVLCJNI_H)
 	rm -f vlc-android/local.properties
 
-install:
+install: vlc.apk
 	@echo "=== Installing APK on a remote device ==="
 	@echo "Waiting for a device to be ready..." && adb wait-for-device
 	@echo "Installing package" && adb install -r $(VLC_APK)

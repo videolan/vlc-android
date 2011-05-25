@@ -57,6 +57,7 @@ JavaVM *myVm;
 
 static pthread_mutex_t vout_android_lock;
 static void *vout_android_surf = NULL;
+static void *vout_android_gui = NULL;
 
 void LockSurface() {
     pthread_mutex_lock(&vout_android_lock);
@@ -68,6 +69,23 @@ void UnlockSurface() {
 
 void *GetSurface() {
     return vout_android_surf;
+}
+
+void SetSurfaceSize(int width, int height)
+{
+    if (vout_android_gui == NULL)
+        return;
+
+    JNIEnv *p_env;
+
+    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jclass cls = (*p_env)->GetObjectClass (p_env, vout_android_gui);
+    jmethodID methodId = (*p_env)->GetMethodID (p_env, cls, "setSurfaceSize", "(II)V");
+
+    (*p_env)->CallVoidMethod (p_env, vout_android_gui, methodId, width, height);
+
+    (*p_env)->DeleteLocalRef(p_env, cls);
+    (*myVm)->DetachCurrentThread (myVm);
 }
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
@@ -85,7 +103,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pthread_mutex_destroy(&vout_android_lock);
 }
 
-void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jint width, jint height) {
+void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui, jint width, jint height) {
     jclass clz;
     jfieldID fid;
     jthrowable exp;
@@ -104,6 +122,8 @@ void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thi
     }
     vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
     (*env)->DeleteLocalRef(env, clz);
+
+    vout_android_gui = (*env)->NewGlobalRef(env, gui);
     pthread_mutex_unlock(&vout_android_lock);
 }
 
@@ -111,6 +131,9 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
     pthread_mutex_lock(&vout_android_lock);
     //(*env)->DeleteGlobalRef(env, vout_android_ref);
     vout_android_surf = NULL;
+    if (vout_android_gui != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_gui);
+    vout_android_gui = NULL;
     pthread_mutex_unlock(&vout_android_lock);
 }
 
