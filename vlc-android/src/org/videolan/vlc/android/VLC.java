@@ -1,6 +1,5 @@
 package org.videolan.vlc.android;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -119,6 +118,9 @@ public class VLC extends Activity {
 
         });
         
+        EventManager em = new EventManager(eventHandler);
+        mLibVlc.setEventManager(em);
+
         try {
             mLibVlc.init();
         } catch (LibVlcException lve) {
@@ -128,6 +130,30 @@ public class VLC extends Activity {
             System.exit(1);
         }
     }
+
+    /** Handle libvlc asynchronous events */
+    private Handler eventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.getData().getInt("event")) {
+                case EventManager.MediaPlayerPlaying:
+                    Log.e(TAG, "MediaPlayerPlaying");
+                    break;
+                case EventManager.MediaPlayerPaused:
+                    Log.e(TAG, "MediaPlayerPaused");
+                    break;
+                case EventManager.MediaPlayerStopped:
+                    Log.e(TAG, "MediaPlayerStopped");
+                    break;
+                case EventManager.MediaPlayerEndReached:
+                    Log.e(TAG, "MediaPlayerEndReached");
+                    break;
+                default:
+                    Log.e(TAG, "Event not handled");
+                    break;
+            }
+        }
+    };
 
     /** Resume the application */
     public void onResume() {

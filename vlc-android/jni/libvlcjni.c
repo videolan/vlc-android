@@ -55,6 +55,8 @@ jboolean releaseMediaPlayer(JNIEnv *env, jobject thiz)
  */
 JavaVM *myVm;
 
+static jobject eventManagerInstance;
+
 static pthread_mutex_t vout_android_lock;
 static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
@@ -86,6 +88,52 @@ void SetSurfaceSize(int width, int height)
 
     (*p_env)->DeleteLocalRef(p_env, cls);
     (*myVm)->DetachCurrentThread (myVm);
+}
+
+static const libvlc_event_type_t mp_events[] = {
+    libvlc_MediaPlayerPlaying,
+    libvlc_MediaPlayerPaused,
+    libvlc_MediaPlayerEndReached,
+    libvlc_MediaPlayerStopped,
+};
+
+static void vlc_event_callback(const libvlc_event_t *ev, void *data)
+{
+    int status;
+    JNIEnv *env;
+    JavaVM *myVm = (JavaVM*)data;
+    jint etype = ev->type;
+
+    int isAttached = 0;
+
+    status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
+    if (status < 0) {
+        LOGE("vlc_event_callback: failed to get JNI environment, "
+             "assuming native thread");
+        status = (*myVm)->AttachCurrentThread(myVm, &env, NULL);
+        if (status < 0)
+            return;
+        isAttached = 1;
+    }
+
+    /* Get the object class */
+    jclass cls = (*env)->GetObjectClass(env, eventManagerInstance);
+    if (!cls) {
+        LOGE("EventManager: failed to get class reference");
+        if (isAttached) (*myVm)->DetachCurrentThread(myVm);
+        return;
+    }
+
+    /* Find the callback ID */
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(I)V");
+    if (!methodID) {
+        LOGE("EventManager: failed to get the callback method");
+        if (isAttached) (*myVm)->DetachCurrentThread(myVm);
+        return;
+    }
+
+    (*env)->CallVoidMethod(env, eventManagerInstance, methodID, etype);
+    if (isAttached) (*myVm)->DetachCurrentThread(myVm);
 }
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
@@ -197,10 +245,27 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
     return version;
 }
 
+void Java_org_videolan_vlc_android_LibVLC_setEventManager(JNIEnv *env, jobject thiz, jobject eventManager)
+{
+    jclass cls = (*env)->GetObjectClass(env, eventManager);
+    if (!cls) {
+        LOGE("setEventManager: failed to get class reference");
+        return;
+    }
+
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(I)V");
+    if (!methodID) {
+        LOGE("setEventManager: failed to get the callback method");
+        return;
+    }
+    eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
+}
+
 void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                        jint instance, jstring mrl)
 {
     jboolean isCopy;
+    int i;
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
 
     /* Release previous media player, if any */
@@ -225,6 +290,14 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     /* No need to keep the media now */
     libvlc_media_release(m);
+
+    /* Connect the event manager */
+    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
+
+    /* Subscribe to the events */
+
+    for (i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); ++i)
+        libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
     /* Keep a pointer to this media player */
     jclass clazz = (*env)->GetObjectClass(env, thiz);

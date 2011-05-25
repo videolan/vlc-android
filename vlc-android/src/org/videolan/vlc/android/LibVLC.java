@@ -250,4 +250,6 @@ public class LibVLC {
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
+
+    public native void setEventManager(EventManager eventManager);
 }
