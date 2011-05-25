@@ -130,7 +130,7 @@ public class MediaLibraryActivity extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		MediaItem item = mAdapter.getItem(position);
-		Intent intent = new Intent(this, PlayerActivity.class);
+		Intent intent = new Intent(this, VLC.class);
 		intent.putExtra("filePath", item.getPath());
 		startActivity(intent);
 		super.onListItemClick(l, v, position, id);

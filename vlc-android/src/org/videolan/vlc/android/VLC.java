@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,9 +26,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class PlayerActivity extends Activity {
+public class VLC extends Activity {
 
-	public final static String TAG = "VLC/PlayerActivity";
+	public final static String TAG = "VLC_Activity";
 
 	private SurfaceView mSurface;
 	private SurfaceHolder mSurfaceHolder;
@@ -48,6 +49,10 @@ public class PlayerActivity extends Activity {
 	private TextView mTime;
 	private TextView mLength;
 	private ImageButton mPause;
+	
+	// size of the video
+	private int mHeight;
+	private int mWidth;
 
 	// stop screen from dimming
 	private WakeLock mWakeLock;
@@ -114,12 +119,23 @@ public class PlayerActivity extends Activity {
 	
 	@Override
 	public boolean onTrackballEvent(MotionEvent event) {
-		
-		return super.onTrackballEvent(event);
+		showOverlay();
+		return true;
 	}
 	
-    public void setSurfaceSize(int width, int height) {
-    	Log.i(TAG,"setSurfaceSize()");
+	
+	
+    @Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		setSurfaceSize(mWidth, mHeight);
+		super.onConfigurationChanged(newConfig);
+	}
+
+
+	public void setSurfaceSize(int width, int height) {
+		// store video size
+		mHeight = height;
+		mWidth = width;	
 		Message msg = mHandler.obtainMessage(SURFACE_SIZE);
 		msg.arg1 = width;
 		msg.arg2 = height;
@@ -237,7 +253,7 @@ public class PlayerActivity extends Activity {
 	 */
 	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {		
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-			mLibVLC.attachSurface(holder.getSurface(), PlayerActivity.this, width, height);
+			mLibVLC.attachSurface(holder.getSurface(), VLC.this, width, height);
 		}
 
 		public void surfaceCreated(SurfaceHolder holder) { }
