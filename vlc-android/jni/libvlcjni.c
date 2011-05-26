@@ -108,7 +108,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 
     status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
     if (status < 0) {
-        LOGE("vlc_event_callback: failed to get JNI environment, "
+        LOGD("vlc_event_callback: failed to get JNI environment, "
              "assuming native thread");
         status = (*myVm)->AttachCurrentThread(myVm, &env, NULL);
         if (status < 0)
@@ -241,7 +241,7 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
         return 0;
     }
     int version = (*p_env)->CallStaticIntMethod( p_env, cls, methodSdkVersion );
-    LOGE("Got version: %d\n", version );
+    LOGI("Got version: %d\n", version );
     return version;
 }
 
