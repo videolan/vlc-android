@@ -15,7 +15,6 @@ public class Aout {
 
 	public Aout()
 	{
-		
 	}
 
     private AudioTrack mAudioTrack;

@@ -21,7 +21,7 @@ public class LibVLC {
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
 
-    public native void attachSurface(Surface surface, VLC player, int width, int height);
+    public native void attachSurface(Surface surface, PlayerActivity player, int width, int height);
     public native void detachSurface();
 
     /* Load library before object instantiation */
@@ -270,4 +270,6 @@ public class LibVLC {
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
+    
+    public native void setEventManager(EventManager eventManager);
 }

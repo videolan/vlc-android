@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -26,7 +27,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class VLC extends Activity {
+public class PlayerActivity extends Activity {
 
 	public final static String TAG = "VLC_Activity";
 
@@ -92,12 +93,18 @@ public class VLC extends Activity {
 
 		mSeekbar = (SeekBar)mOverlay.findViewById(R.id.player_overlay_seekbar);	
 		mSeekbar.setOnSeekBarChangeListener(mSeekListener);
-		
+
         try {
 			mLibVLC = LibVLC.getInstance();
 		} catch (LibVlcException e) {
 			e.printStackTrace();
 		}		
+		
+		EventManager em = new EventManager(eventHandler);
+		mLibVLC.setEventManager(em);
+		
+		/* debug */
+		lockScreen();
 
 	}
 	
@@ -142,8 +149,44 @@ public class VLC extends Activity {
 		mHandler.sendMessage(msg);
     }
 	
+	private void lockScreen() {
+		// FIXME: create button on overlay to lock the screen (or perhaps the menu button?!)
+		//int orientation = getWindowManager().getDefaultDisplay().getOrientation();
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+	}
+	
+	private void unlockScreen() {
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+	}
+	
+    /**
+     *  Handle libvlc asynchronous events 
+     */
+    private Handler eventHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.getData().getInt("event")) {
+                case EventManager.MediaPlayerPlaying:
+                    Log.e(TAG, "MediaPlayerPlaying");
+                    break;
+                case EventManager.MediaPlayerPaused:
+                    Log.e(TAG, "MediaPlayerPaused");
+                    break;
+                case EventManager.MediaPlayerStopped:
+                    Log.e(TAG, "MediaPlayerStopped");
+                    break;
+                case EventManager.MediaPlayerEndReached:
+                    Log.e(TAG, "MediaPlayerEndReached");
+                    break;
+                default:
+                    Log.e(TAG, "Event not handled");
+                    break;
+            }
+        }
+    };
+	
 	/**
-	 * 
+	 * Handle resize of the surface and the overlay
 	 */
 	private Handler mHandler = new Handler() {
 
@@ -187,7 +230,7 @@ public class VLC extends Activity {
 	};
 
 	/**
-	 * 
+	 * show/hide the overlay
 	 */
     private OnTouchListener mTouchListener = new OnTouchListener() {
         public boolean onTouch(View v, MotionEvent event) {
@@ -204,7 +247,7 @@ public class VLC extends Activity {
     
     
     /**
-     * 
+     * handle changes of the seekbar (slicer)
      */
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
     	boolean wasPlaying;
@@ -249,11 +292,11 @@ public class VLC extends Activity {
 
 	
 	/**
-	 * 
+	 * attach and disattach surface to the lib
 	 */
 	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {		
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-			mLibVLC.attachSurface(holder.getSurface(), VLC.this, width, height);
+			mLibVLC.attachSurface(holder.getSurface(), PlayerActivity.this, width, height);
 		}
 
 		public void surfaceCreated(SurfaceHolder holder) { }
@@ -265,7 +308,7 @@ public class VLC extends Activity {
 
 	
 	/**
-	 * 
+	 * show overlay the the default timeout
 	 */
 	private void showOverlay() {
 		showOverlay(OVERLAY_TIMEOUT);
@@ -273,7 +316,7 @@ public class VLC extends Activity {
 	
 	
 	/**
-	 * 
+	 * show overlay
 	 */
 	private void showOverlay(int timeout) {
 		mHandler.sendEmptyMessage(SHOW_PROGRESS);
@@ -291,7 +334,7 @@ public class VLC extends Activity {
 	
 	
 	/**
-	 * 
+	 * hider overlay
 	 */
 	private void hideOverlay() {
 		if (mShowing) {
@@ -320,7 +363,7 @@ public class VLC extends Activity {
 	
 	
 	/**
-	 * 
+	 * play or pause the media
 	 */
 	private void doPausePlay() {
 		// FIXME: the libVLC is to slow to use updateOverlayPausePlay()
@@ -335,7 +378,7 @@ public class VLC extends Activity {
 	
 	
 	/**
-	 * 
+	 * update the overlay
 	 */
 	private int setOverlayProgress() {
 		if (mLibVLC == null) {

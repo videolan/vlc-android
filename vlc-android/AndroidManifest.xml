@@ -28,7 +28,7 @@
 	        	android:name="PreferencesActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>
 	        <activity 
-	        	android:name="VLC" 
+	        	android:name="PlayerActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
 	        	android:configChanges="orientation"/>
 	        <activity 

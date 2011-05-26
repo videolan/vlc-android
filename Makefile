@@ -59,7 +59,7 @@ $(APK_MK):
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
-         printf "\t-ldl -lz -lm -logg -lOpenSLES -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lpixman-1\n" >> $(APK_MK); \
+         printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lpixman-1\n" >> $(APK_MK); \
 	 printf "include \$$(BUILD_SHARED_LIBRARY)\n"                             >> $(APK_MK)
 
 $(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
@@ -88,7 +88,7 @@ vlc.apk: libvlcjni $(VLC_APK)
 clean:
 	rm -rf vlc-android/libs
 	rm -rf vlc-android/obj
-#	rm -rf vlc-android/bin
+	rm -rf vlc-android/bin
 
 distclean: clean
 	rm -f $(APK_MK)
@@ -102,7 +102,7 @@ install: vlc.apk
 
 run:
 	@echo "=== Running application on device ==="
-	@adb wait-for-device && adb shell monkey -p vlc.android -s 0 1
+	@adb wait-for-device && adb shell monkey -p org.videolan.vlc.android -s 0 1
 
 build-and-run: vlc.apk install run
 	@echo "=== Application is running ==="
