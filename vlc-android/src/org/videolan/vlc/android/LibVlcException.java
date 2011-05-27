@@ -2,14 +2,13 @@
  * LibVlcException: exceptions thrown by the native LibVLC interface
  */
 package org.videolan.vlc.android;
-
 /**
  * @author jpeg
  *
  */
 public class LibVlcException extends Exception {
     private static final long serialVersionUID = -1909522348226924189L;
-
+    
     /**
      * Create an empty error
      */

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="Media Files">
+		<PreferenceScreen
+			android:key="directories"
+        	android:title="Directories"
+            android:summary="Select medie directories">
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -4,17 +4,24 @@ import android.util.Log;
 import android.view.Surface;
 
 public class LibVLC {
-    private static final String TAG = "LibVLC";
+    private static final String TAG = "VLC/LibVLC";
 
-    private static LibVLC instance;
-    
+    private static LibVLC sInstance;
+
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
-    private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
+	@SuppressWarnings("unused")
+	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;
+    
+    /** Keep screen bright */
+    //private WakeLock mWakeLock;
+    
+    /** Check in libVLC already initialized otherwise crash */
+    private boolean mIsInitialized = false;
 
-    public native void attachSurface(Surface surface, VLC gui, int width, int height);
+    public native void attachSurface(Surface surface, PlayerActivity player, int width, int height);
     public native void detachSurface();
 
     /* Load library before object instantiation */
@@ -33,16 +40,25 @@ public class LibVLC {
     }
 
     /**
-     * Singleton constructors
+     * Singleton constructor
+     * Without surface and vout to create the thumbnail and get information
+     * e.g. on the MediaLibraryAcitvity
+     * @return
+     * @throws LibVlcException
      */
-    public static LibVLC getInstance()
+    public static LibVLC getInstance() throws LibVlcException
     {
-        if (instance == null) {
-            /* First call */
-            instance = new LibVLC();
+        if (sInstance == null) {
+        	/* First call */
+        	sInstance = new LibVLC();
+        	sInstance.init();
         }
-        return instance;
+        
+    	return sInstance;
     }
+
+    
+
     
     /**
      * Constructor
@@ -74,10 +90,13 @@ public class LibVLC {
     /**
      * Initialize the libVLC class
      */
-    public void init() throws LibVlcException
+    private void init() throws LibVlcException
     {
         Log.v(TAG, "Initializing LibVLC");
-        nativeInit();
+        if (!mIsInitialized) {
+        	nativeInit();
+        	mIsInitialized = true;
+        }
     }
 
     /**
@@ -88,6 +107,7 @@ public class LibVLC {
     {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
+        mIsInitialized = false;
     }
 
     /**

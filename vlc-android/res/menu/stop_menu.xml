@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menuOpen" android:visible="true" android:enabled="true" android:titleCondensed="Open" android:checkable="false" android:title="Open a file" ></item>
-    <item android:id="@+id/menuOptions" android:visible="true" android:enabled="true" android:titleCondensed="Options" android:checkable="false" android:title="Configuration" ></item>
-    <item android:id="@+id/menuAbout" android:visible="true" android:checkable="false" android:title="About..." android:enabled="true" android:titleCondensed="About..."></item>
-    <item android:id="@+id/menuQuit" android:visible="true" android:checkable="false" android:title="Force application to quit" android:enabled="true" android:titleCondensed="Quit"></item>
-</menu>

@@ -1,35 +1,58 @@
 package org.videolan.vlc.android;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 
-import android.content.Context;
 import android.widget.Toast;
 
 public class Util {
     /** A set of utility functions for the VLC application */
 
-    @Deprecated
+	@Deprecated
     public static void toaster(String message, int duration) {
-        Toast.makeText(VLC.getActivityContext(),
+        Toast.makeText(MediaLibraryActivity.getInstance(),
                        message, duration)
              .show();
     }
 
     @Deprecated
     public static void toaster(String message) {
-        toaster(message, 1500);
+        toaster(message, Toast.LENGTH_SHORT);
     }
 
     /** Print an on-screen message to alert the user */
     public static void toaster(int stringId, int duration) {
-        Toast.makeText(VLC.getActivityContext(),
+        Toast.makeText(MediaLibraryActivity.getInstance(),
                        stringId, duration)
              .show();
     }
 
     public static void toaster(int stringId) {
-        toaster(stringId, 1500);
+        toaster(stringId, Toast.LENGTH_SHORT);
     }
+    
+	/**
+	 * Convert time to a string
+	 * @param millis e.g.time/length from file
+	 * @return formated string (hh:)mm:ss
+	 */
+	public static String millisToString(long millis) {
+		millis /= 1000;
+		int sec = (int) (millis % 60);
+		millis /= 60;
+		int min = (int) (millis % 60);
+		millis /= 60;
+		int hours = (int) millis;
+		
+		String time;
+		DecimalFormat format = new DecimalFormat("00"); 
+		if (millis > 0) {
+			time = hours + ":" + format.format(min) + ":" + format.format(sec);
+		} else {
+			time = min + ":" + format.format(sec);
+		}
+		return time;
+	}
     
     private static int apiLevel = 0;
     

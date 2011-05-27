@@ -29,11 +29,11 @@ public class Aout {
                                      channels * samples * 2,
                                      AudioTrack.MODE_STREAM);
     }
-
+    
     public void release() {
-        Log.d(TAG, "Stopping audio playback");
-        // mAudioTrack.stop();
-        mAudioTrack.release();
+        if (mAudioTrack != null) {
+        	mAudioTrack.release();
+        }
         mAudioTrack = null;
     }
 
@@ -44,4 +44,5 @@ public class Aout {
         }
         mAudioTrack.play();
     }
+    
 }
