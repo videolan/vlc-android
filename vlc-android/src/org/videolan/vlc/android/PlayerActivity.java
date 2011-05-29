@@ -11,16 +11,18 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -37,7 +39,7 @@ public class PlayerActivity extends Activity {
 	private Context mContext;
 	
 	/** Overlay */
-	private FrameLayout mOverlay;
+	private LinearLayout mOverlay;
 	private LinearLayout mDecor;
 	private View mSpacer;
 	private static final int OVERLAY_TIMEOUT = 4000;
@@ -50,6 +52,7 @@ public class PlayerActivity extends Activity {
 	private TextView mTime;
 	private TextView mLength;
 	private ImageButton mPause;
+	private ImageButton mLock;
 	
 	// size of the video
 	private int mHeight;
@@ -77,13 +80,16 @@ public class PlayerActivity extends Activity {
 		
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-		mOverlay = (FrameLayout)inflater.inflate(R.layout.player_overlay, null);
+		mOverlay = (LinearLayout)inflater.inflate(R.layout.player_overlay, null);
 		
 		mTime = (TextView) mOverlay.findViewById(R.id.player_overlay_time);
 		mLength = (TextView) mOverlay.findViewById(R.id.player_overlay_length);
 		
 		mPause = (ImageButton) mOverlay.findViewById(R.id.player_overlay_play);
 		mPause.setOnClickListener(mPauseListener);
+		
+		mLock = (ImageButton) mOverlay.findViewById(R.id.player_overlay_lock);
+		mLock.setOnClickListener(mLockListener);
 		
 		mSurface = (SurfaceView) findViewById(R.id.player_surface);
 		mSurfaceHolder = mSurface.getHolder();	
@@ -104,7 +110,7 @@ public class PlayerActivity extends Activity {
 		mLibVLC.setEventManager(em);
 		
 		/* debug */
-		lockScreen();
+//		lockScreen();
 
 	}
 	
@@ -149,15 +155,35 @@ public class PlayerActivity extends Activity {
 		mHandler.sendMessage(msg);
     }
 	
+	/**
+	 * Lock screen rotation
+	 */
 	private void lockScreen() {
-		// FIXME: create button on overlay to lock the screen (or perhaps the menu button?!)
-		//int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		
+		switch (display.getRotation()) {
+		case Surface.ROTATION_0:
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			break;
+		case Surface.ROTATION_90:
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			break;
+		case Surface.ROTATION_270:
+			// FIXME: API Level 9+ (not tested on a device with API Level < 9)
+			setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+			break;
+		}
 	}
 	
+	/**
+	 * Remove screen lock
+	 */
 	private void unlockScreen() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 	}
+	
+	
 	
     /**
      *  Handle libvlc asynchronous events 
@@ -182,6 +208,7 @@ public class PlayerActivity extends Activity {
                     Log.e(TAG, "Event not handled");
                     break;
             }
+            updateOverlayPausePlay();
         }
     };
 	
@@ -250,23 +277,15 @@ public class PlayerActivity extends Activity {
      * handle changes of the seekbar (slicer)
      */
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
-    	boolean wasPlaying;
     	
 		public void onStartTrackingTouch(SeekBar seekBar) {
 			mDragging = true;
 			showOverlay(3600000);
-			if (mLibVLC.isPlaying()) {
-				wasPlaying = true;
-				pause();
-			}
 		}
 		
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			mDragging = false;
 			showOverlay();
-			if (wasPlaying) {
-				play();
-			}
 		}
 		
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -289,6 +308,23 @@ public class PlayerActivity extends Activity {
 			showOverlay();
 		}
 	};
+	
+	/**
+	 * 
+	 */
+	private OnClickListener mLockListener = new OnClickListener() {		
+		boolean isLocked = false;
+		public void onClick(View v) {
+			if (isLocked) {
+				unlockScreen();
+				isLocked = false;
+			} else {
+				lockScreen();
+				isLocked = true;
+			}
+		}
+	};
+
 
 	
 	/**
@@ -321,7 +357,6 @@ public class PlayerActivity extends Activity {
 	private void showOverlay(int timeout) {
 		mHandler.sendEmptyMessage(SHOW_PROGRESS);
 		if (!mShowing) {
-			Log.i(TAG, "add View!");
 			mShowing = true;
 			mDecor.addView(mOverlay);
 		}
@@ -330,6 +365,7 @@ public class PlayerActivity extends Activity {
             mHandler.removeMessages(FADE_OUT);
             mHandler.sendMessageDelayed(msg, timeout);
         }
+        updateOverlayPausePlay();
 	}
 	
 	
@@ -346,33 +382,27 @@ public class PlayerActivity extends Activity {
 	}
 
 	
-	/*
 	private void updateOverlayPausePlay() {
 		if (mLibVLC == null) {
 			return;
 		}
 		
-		Log.i(TAG, "update play/pause button. Playing: " + mLibVLC.isPlaying());
 		if (mLibVLC.isPlaying()) {
-			mPause.setBackgroundResource(android.R.drawable.ic_media_pause);
+			mPause.setBackgroundResource(R.drawable.ic_pause);
 		} else {
-			mPause.setBackgroundResource(android.R.drawable.ic_media_play);
+			mPause.setBackgroundResource(R.drawable.ic_play);
 		}
 	}
-	*/
 	
 	
 	/**
 	 * play or pause the media
 	 */
 	private void doPausePlay() {
-		// FIXME: the libVLC is to slow to use updateOverlayPausePlay()
 		if (mLibVLC.isPlaying()) {
 			pause();
-			mPause.setBackgroundResource(android.R.drawable.ic_media_play);
 		} else {
 			play();
-			mPause.setBackgroundResource(android.R.drawable.ic_media_pause);
 		}
 	}
 	
