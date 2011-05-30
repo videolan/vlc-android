@@ -38,6 +38,14 @@ public class PlayerActivity extends Activity {
 	private LibVLC mLibVLC;
 	private Context mContext;
 	
+	public static final int SURFACE_FIT_HORIZONTAL = 0;
+	public static final int SURFACE_FIT_VERTICAL = 1;
+	public static final int SURFACE_FILL = 2;
+	public static final int SURFACE_16_9 = 3;
+	public static final int SURFACE_4_3 = 4;
+	public static final int SURFACE_ORIGINAL = 5;
+	private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
+	
 	/** Overlay */
 	private LinearLayout mOverlay;
 	private LinearLayout mDecor;
@@ -53,10 +61,11 @@ public class PlayerActivity extends Activity {
 	private TextView mLength;
 	private ImageButton mPause;
 	private ImageButton mLock;
+	private ImageButton mSize;
 	
 	// size of the video
-	private int mHeight;
-	private int mWidth;
+	private int mVideoHeight;
+	private int mVideoWidth;
 
 	// stop screen from dimming
 	private WakeLock mWakeLock;
@@ -70,8 +79,6 @@ public class PlayerActivity extends Activity {
 		// stop screen from dimming
 		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
-		
-
 		
 		/** initialize Views an their Events */
 		mDecor = (LinearLayout)findViewById(R.id.player_overlay_decor);
@@ -90,6 +97,9 @@ public class PlayerActivity extends Activity {
 		
 		mLock = (ImageButton) mOverlay.findViewById(R.id.player_overlay_lock);
 		mLock.setOnClickListener(mLockListener);
+		
+		mSize = (ImageButton) mOverlay.findViewById(R.id.player_overlay_size);
+		mSize.setOnClickListener(mSizeListener);
 		
 		mSurface = (SurfaceView) findViewById(R.id.player_surface);
 		mSurfaceHolder = mSurface.getHolder();	
@@ -148,18 +158,16 @@ public class PlayerActivity extends Activity {
 	
     @Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		setSurfaceSize(mWidth, mHeight);
+		setSurfaceSize(mVideoWidth, mVideoHeight);
 		super.onConfigurationChanged(newConfig);
 	}
 
 
 	public void setSurfaceSize(int width, int height) {
 		// store video size
-		mHeight = height;
-		mWidth = width;	
+		mVideoHeight = height;
+		mVideoWidth = width;	
 		Message msg = mHandler.obtainMessage(SURFACE_SIZE);
-		msg.arg1 = width;
-		msg.arg2 = height;
 		mHandler.sendMessage(msg);
     }
 	
@@ -239,30 +247,53 @@ public class PlayerActivity extends Activity {
 					}
 					break;
 				case SURFACE_SIZE:
-					//video size
-					int vw = msg.arg1;
-					int vh = msg.arg2;
-					float ar = (float)vw / (float)vh;
-					//screen size
-					int dw = getWindowManager().getDefaultDisplay().getWidth();
-					int dh = getWindowManager().getDefaultDisplay().getHeight();
-
-					//fix ar
-					if (vw > vh)
-						dh = (int)(dw / ar);
-					else
-						dw = (int)(dh * ar);
-
-					Log.i(TAG, "video size changed to "+vw+"x"+vh+", displaying at "+dw+"x"+dh);
-					mSurfaceHolder.setFixedSize(vw, vh);
-					LayoutParams lp = mSurface.getLayoutParams();
-					lp.width = dw;
-					lp.height = dh;
-					mSurface.setLayoutParams(lp);
-					mSurface.invalidate();
+					changeSurfaceSize();
 			}
 		}
 	};
+	
+	private void changeSurfaceSize() {
+		// get screen size
+		int dw = getWindowManager().getDefaultDisplay().getWidth();
+		int dh = getWindowManager().getDefaultDisplay().getHeight();
+		
+		// calculate aspect ratio
+		double ar = (double)mVideoWidth / (double)mVideoHeight;
+		
+		Log.i(TAG, "Change Surface to:" + mCurrentSize);
+	
+		
+		switch (mCurrentSize) {
+		case SURFACE_FIT_HORIZONTAL:
+			dh = (int) (dw / ar);
+			break;
+		case SURFACE_FIT_VERTICAL:
+			dw = (int) (dh * ar);
+			break;
+		case SURFACE_FILL:			
+			break;
+		case SURFACE_16_9:	
+			ar = 16.0/9.0;
+			dh = (int) (dw / ar);
+			break;
+		case SURFACE_4_3:
+			ar = 4.0/3.0;
+			dw = (int) (dh * ar);
+			break;
+		case SURFACE_ORIGINAL:
+			dh = mVideoHeight;
+			dw = mVideoWidth;
+			break;
+		}
+		
+		mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+		LayoutParams lp = mSurface.getLayoutParams();
+		lp.width = dw;
+		lp.height = dh;
+		mSurface.setLayoutParams(lp);
+		mSurface.invalidate();
+	}
+	
 
 	/**
 	 * show/hide the overlay
@@ -330,7 +361,25 @@ public class PlayerActivity extends Activity {
 				lockScreen();
 				isLocked = true;
 			}
+			showOverlay();
 		}
+	};
+	
+	/**
+	 * 
+	 */
+	private OnClickListener mSizeListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			if (mCurrentSize < SURFACE_ORIGINAL) {
+				mCurrentSize++;
+			} else {
+				mCurrentSize = 0;
+			}
+			changeSurfaceSize();
+			showOverlay();
+		}		
 	};
 
 
