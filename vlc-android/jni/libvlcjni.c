@@ -55,7 +55,7 @@ jboolean releaseMediaPlayer(JNIEnv *env, jobject thiz)
  */
 JavaVM *myVm;
 
-static jobject eventManagerInstance;
+static jobject eventManagerInstance = NULL;
 
 static pthread_mutex_t vout_android_lock;
 static void *vout_android_surf = NULL;
@@ -105,6 +105,9 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     jint etype = ev->type;
 
     int isAttached = 0;
+
+    if (eventManagerInstance == NULL)
+	    return;
 
     status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
     if (status < 0) {
