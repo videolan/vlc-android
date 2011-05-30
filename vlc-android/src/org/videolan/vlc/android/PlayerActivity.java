@@ -105,9 +105,11 @@ public class PlayerActivity extends Activity {
 		} catch (LibVlcException e) {
 			e.printStackTrace();
 		}		
-		
-		EventManager em = new EventManager(eventHandler);
-		mLibVLC.setEventManager(em);
+
+		if (mLibVLC != null) {
+			EventManager em = new EventManager(eventHandler);
+			mLibVLC.setEventManager(em);
+		}
 		
 		/* debug */
 //		lockScreen();
@@ -129,7 +131,13 @@ public class PlayerActivity extends Activity {
 		super.onPause();
 	}
 
-	
+	@Override
+	protected void onDestroy() {
+		if (mLibVLC != null)
+			mLibVLC.detachEventManager();
+		super.onDestroy();
+	}
+
 	@Override
 	public boolean onTrackballEvent(MotionEvent event) {
 		showOverlay();

@@ -272,4 +272,6 @@ public class LibVLC {
     private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
 
     public native void setEventManager(EventManager eventManager);
+
+    public native void detachEventManager();
 }

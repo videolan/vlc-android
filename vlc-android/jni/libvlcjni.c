@@ -248,8 +248,21 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
     return version;
 }
 
+void Java_org_videolan_vlc_android_LibVLC_detachEventManager(JNIEnv *env, jobject thiz)
+{
+    if (eventManagerInstance != NULL) {
+        (*env)->DeleteGlobalRef(env, eventManagerInstance);
+        eventManagerInstance = NULL;
+    }
+}
+
 void Java_org_videolan_vlc_android_LibVLC_setEventManager(JNIEnv *env, jobject thiz, jobject eventManager)
 {
+    if (eventManagerInstance != NULL) {
+        (*env)->DeleteGlobalRef(env, eventManagerInstance);
+        eventManagerInstance = NULL;
+    }
+
     jclass cls = (*env)->GetObjectClass(env, eventManager);
     if (!cls) {
         LOGE("setEventManager: failed to get class reference");
@@ -261,6 +274,7 @@ void Java_org_videolan_vlc_android_LibVLC_setEventManager(JNIEnv *env, jobject t
         LOGE("setEventManager: failed to get the callback method");
         return;
     }
+
     eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
 }
 
