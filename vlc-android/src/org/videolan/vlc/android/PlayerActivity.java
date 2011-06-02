@@ -31,7 +31,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class PlayerActivity extends Activity {
 
-	public final static String TAG = "VLC_Activity";
+	public final static String TAG = "VLC/Activity";
 
 	private SurfaceView mSurface;
 	private SurfaceHolder mSurfaceHolder;
