@@ -139,8 +139,9 @@ public class DatabaseManager {
 				MEDIA_PATH + "=?", 
 				new String[] { path },
 				null, null, null);
+		boolean exists = cursor.moveToFirst();
 		cursor.close();
-		return cursor.moveToFirst();
+		return exists;
 	}
 	
 	/**
