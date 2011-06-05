@@ -90,7 +90,6 @@ public class ThumbnailerManager extends Thread {
             Log.i(TAG, "show ProgressBar!");
             
             // Get the thumbnail.
-            // FIXME: ratio
             Bitmap thumbnail = Bitmap.createBitmap(120, 72, Config.ARGB_8888);
             Log.i(TAG, "create new bitmap for: " + item.getName());
             byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 72);
