@@ -4,7 +4,7 @@
 		<PreferenceScreen
 			android:key="directories"
         	android:title="Directories"
-            android:summary="Select medie directories">
+            android:summary="Select media directories">
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
