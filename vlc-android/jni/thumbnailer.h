@@ -12,8 +12,10 @@ typedef struct
     char *p_frameData;
     char *p_thumbnail;
 
-    unsigned i_dataSize;
+    unsigned i_picSize;
     unsigned i_nbReceivedFrames;
+
+    unsigned i_cpyOffset;
 
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;

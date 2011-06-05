@@ -10,6 +10,7 @@
 #include "log.h"
 
 #define THUMBNAIL_POSITION 0.5
+#define PIXEL_SIZE 4
 
 
 /**
@@ -56,11 +57,55 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     libvlc_media_player_set_media(p_sys->p_mp, p_m);
     libvlc_media_release(p_m);
 
-    unsigned i_pitch = i_width * 4;
-    p_sys->i_dataSize = i_pitch * i_height;
+    /* Get the size of the video with the tracks information of the media. */
+    libvlc_media_track_info_t *p_tracks;
+    libvlc_media_parse(p_m);
+    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
+
+    unsigned i, i_videoWidth, i_videoHeight;
+    float f_videoAR;
+    int b_hasVideoTrack = 0;
+    for (i = 0; i < i_nbTracks; ++i)
+    {
+        if (p_tracks[i].i_type == libvlc_track_video)
+        {
+            i_videoWidth = p_tracks[i].u.video.i_width;
+            i_videoHeight = p_tracks[i].u.video.i_height;
+            f_videoAR = (float)i_videoWidth / i_videoHeight;
+            b_hasVideoTrack = 1;
+            break;
+        }
+    }
+
+    free(p_tracks);
+
+    /* Abord if we have not found a video track. */
+    if (b_hasVideoTrack == 0)
+    {
+        LOGE("Could not find a video track in this file.\n");
+        goto end;
+    }
+
+    /* Compute the size parameters of the frame to generate. */
+    unsigned i_picWidth, i_picHeight;
+    float f_thumbnailAR = (float)i_width / i_height;
+    if (f_videoAR < f_thumbnailAR)
+    {
+        i_picHeight = i_height;
+        i_picWidth = i_picHeight * f_videoAR;
+        p_sys->i_cpyOffset = (i_width - i_picWidth) / 2 * PIXEL_SIZE;
+    }
+    else
+    {
+        i_picWidth = i_width;
+        i_picHeight = i_picWidth / f_videoAR;
+        p_sys->i_cpyOffset = (i_height - i_picHeight) / 2 * i_width * PIXEL_SIZE;
+    }
 
     /* Allocate the memory to store the frames. */
-    p_sys->p_frameData = malloc(p_sys->i_dataSize);
+    unsigned i_picPitch = i_width * PIXEL_SIZE;
+    p_sys->i_picSize = i_picPitch * i_picHeight;
+    p_sys->p_frameData = calloc(p_sys->i_picSize, 1);
     if (p_sys->p_frameData == NULL)
     {
         LOGE("Couldn't allocate the memory to store the frame!");
@@ -68,7 +113,9 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     }
 
     /* Allocate the memory to store the thumbnail. */
-    p_sys->p_thumbnail = malloc(p_sys->i_dataSize);
+    unsigned i_thumbnailSize = i_width * i_height * PIXEL_SIZE;
+    p_sys->p_thumbnail = calloc(i_thumbnailSize +
+        (f_videoAR < f_thumbnailAR ? p_sys->i_cpyOffset : 0), 1);
     if (p_sys->p_thumbnail == NULL)
     {
         LOGE("Couldn't allocate the memory to store the thumbnail!");
@@ -76,7 +123,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     }
 
     /* Set the video format and the callbacks. */
-    libvlc_video_set_format(p_sys->p_mp, "RGBA", i_width, i_height, i_pitch);
+    libvlc_video_set_format(p_sys->p_mp, "RGBA", i_picWidth, i_picHeight, i_picPitch);
     libvlc_video_set_callbacks(p_sys->p_mp, thumbnailer_lock, thumbnailer_unlock,
                                NULL, (void*)p_sys);
 
@@ -84,7 +131,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     libvlc_media_player_play(p_sys->p_mp);
     libvlc_media_player_set_position(p_sys->p_mp, THUMBNAIL_POSITION);
 
-    /* Wait for the thumbnail for being generated. */
+    /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&p_sys->doneMutex);
     pthread_cond_wait(&p_sys->doneCondVar, &p_sys->doneMutex);
     pthread_mutex_unlock(&p_sys->doneMutex);
@@ -94,14 +141,15 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     libvlc_media_player_release(p_sys->p_mp);
 
     /* Create the Java byte array to return the create thumbnail. */
-    byteArray = (*p_env)->NewByteArray(p_env, p_sys->i_dataSize);
+    byteArray = (*p_env)->NewByteArray(p_env, i_thumbnailSize);
     if (byteArray == NULL)
     {
         LOGE("Couldn't allocate the Java byte array to store the frame!");
+        free(p_sys->p_thumbnail);
         goto end;
     }
 
-    (*p_env)->SetByteArrayRegion(p_env, byteArray, 0, p_sys->i_dataSize,
+    (*p_env)->SetByteArrayRegion(p_env, byteArray, 0, i_thumbnailSize,
                                  (jbyte *)p_sys->p_thumbnail);
 
     (*p_env)->DeleteLocalRef(p_env, byteArray);
@@ -152,7 +200,8 @@ void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixels)
 
     /* Else we have received our first thumbnail
        and we can exit the thumbnailer. */
-    memcpy(p_sys->p_thumbnail, p_sys->p_frameData, p_sys->i_dataSize);
+    memcpy(p_sys->p_thumbnail + p_sys->i_cpyOffset,
+           p_sys->p_frameData, p_sys->i_picSize);
 
     p_sys->b_hasThumb = 1;
 
