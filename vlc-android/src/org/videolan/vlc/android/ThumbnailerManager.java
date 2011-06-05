@@ -90,10 +90,9 @@ public class ThumbnailerManager extends Thread {
             Log.i(TAG, "show ProgressBar!");
             
             // Get the thumbnail.
-            Bitmap thumbnail = Bitmap.createBitmap(120, 72, Config.ARGB_8888);
+            Bitmap thumbnail = Bitmap.createBitmap(120, 120, Config.ARGB_8888);
             Log.i(TAG, "create new bitmap for: " + item.getName());
-            byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 72);
-            Log.i(TAG, "lib bla!");
+            byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 120);
 
             if (b == null) // We were not able to create a thumbnail for this item.
                 continue;

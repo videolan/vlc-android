@@ -38,12 +38,12 @@ public class PlayerActivity extends Activity {
 	private LibVLC mLibVLC;
 	private Context mContext;
 	
-	public static final int SURFACE_FIT_HORIZONTAL = 0;
-	public static final int SURFACE_FIT_VERTICAL = 1;
-	public static final int SURFACE_FILL = 2;
-	public static final int SURFACE_16_9 = 3;
-	public static final int SURFACE_4_3 = 4;
-	public static final int SURFACE_ORIGINAL = 5;
+	private static final int SURFACE_FIT_HORIZONTAL = 0;
+	private static final int SURFACE_FIT_VERTICAL = 1;
+	private static final int SURFACE_FILL = 2;
+	private static final int SURFACE_16_9 = 3;
+	private static final int SURFACE_4_3 = 4;
+	private static final int SURFACE_ORIGINAL = 5;
 	private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
 	
 	/** Overlay */
@@ -54,11 +54,13 @@ public class PlayerActivity extends Activity {
 	private static final int FADE_OUT = 1;
 	private static final int SHOW_PROGRESS = 2;
 	private static final int SURFACE_SIZE = 3;
+	private static final int FADE_OUT_INFO = 4;
 	private boolean mDragging;
 	private boolean mShowing;
 	private SeekBar mSeekbar;
 	private TextView mTime;
 	private TextView mLength;
+	private TextView mInfo;
 	private ImageButton mPause;
 	private ImageButton mLock;
 	private ImageButton mSize;
@@ -91,6 +93,8 @@ public class PlayerActivity extends Activity {
 		
 		mTime = (TextView) mOverlay.findViewById(R.id.player_overlay_time);
 		mLength = (TextView) mOverlay.findViewById(R.id.player_overlay_length);
+		// the info textView is not on the overlay
+		mInfo = (TextView) findViewById(R.id.player_overlay_info);
 		
 		mPause = (ImageButton) mOverlay.findViewById(R.id.player_overlay_play);
 		mPause.setOnClickListener(mPauseListener);
@@ -121,23 +125,19 @@ public class PlayerActivity extends Activity {
 			mLibVLC.setEventManager(em);
 		}
 		
-		/* debug */
-//		lockScreen();
-
 	}
-	
-	
+		
 	@Override
 	protected void onStart() {
 		super.onStart();
 		// load and start the selected movie
 		load();
 	}
-	
-	
+		
 	@Override
 	protected void onPause() {
-		stop();
+		if (mLibVLC.isPlaying())
+			pause();
 		super.onPause();
 	}
 
@@ -154,8 +154,7 @@ public class PlayerActivity extends Activity {
 		return true;
 	}
 	
-	
-	
+
     @Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		setSurfaceSize(mVideoWidth, mVideoHeight);
@@ -190,6 +189,8 @@ public class PlayerActivity extends Activity {
 			setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
 			break;
 		}
+		
+		showInfo("locked", 500);
 	}
 	
 	/**
@@ -197,9 +198,45 @@ public class PlayerActivity extends Activity {
 	 */
 	private void unlockScreen() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		showInfo("unlocked", 500);
 	}
 	
+	/**
+	 * Show text in the info view for "duration" milliseconds
+	 * @param text
+	 * @param duration
+	 */
+	private void showInfo(String text, int duration) {
+		mInfo.setVisibility(View.VISIBLE);
+		mInfo.setText(text);
+		mHandler.removeMessages(FADE_OUT_INFO);
+		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
+	}
 	
+	/**
+	 * Show text in the info view
+	 * @param text
+	 */
+	private void showInfo(String text) {
+		mInfo.setVisibility(View.VISIBLE);
+		mInfo.setText(text);
+		mHandler.removeMessages(FADE_OUT_INFO);
+	}
+	
+	/**
+	 * hide the info view with "delay" milliseconds delay
+	 * @param delay
+	 */
+	private void hideInfo(int delay) {
+		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, delay);
+	}
+	
+	/**
+	 * hide the info view
+	 */
+	private void hideInfo() {
+		hideInfo(0);
+	}
 	
     /**
      *  Handle libvlc asynchronous events 
@@ -248,6 +285,9 @@ public class PlayerActivity extends Activity {
 					break;
 				case SURFACE_SIZE:
 					changeSurfaceSize();
+					break;
+				case FADE_OUT_INFO:
+					mInfo.setVisibility(View.INVISIBLE);
 			}
 		}
 	};
@@ -256,12 +296,11 @@ public class PlayerActivity extends Activity {
 		// get screen size
 		int dw = getWindowManager().getDefaultDisplay().getWidth();
 		int dh = getWindowManager().getDefaultDisplay().getHeight();
-		
+				
 		// calculate aspect ratio
 		double ar = (double)mVideoWidth / (double)mVideoHeight;
-		
-		Log.i(TAG, "Change Surface to:" + mCurrentSize);
-	
+		// calculate display aspect ratio
+		double dar = (double)dw / (double)dh;
 		
 		switch (mCurrentSize) {
 		case SURFACE_FIT_HORIZONTAL:
@@ -270,15 +309,21 @@ public class PlayerActivity extends Activity {
 		case SURFACE_FIT_VERTICAL:
 			dw = (int) (dh * ar);
 			break;
-		case SURFACE_FILL:			
+		case SURFACE_FILL:	
 			break;
 		case SURFACE_16_9:	
 			ar = 16.0/9.0;
-			dh = (int) (dw / ar);
+			if (dar < ar)
+				dh = (int) (dw / ar);
+			else
+				dw = (int) (dh * ar);
 			break;
-		case SURFACE_4_3:
+		case SURFACE_4_3:			
 			ar = 4.0/3.0;
-			dw = (int) (dh * ar);
+			if (dar < ar)
+				dh = (int) (dw / ar);
+			else
+				dw = (int) (dh * ar);
 			break;
 		case SURFACE_ORIGINAL:
 			dh = mVideoHeight;
@@ -325,6 +370,7 @@ public class PlayerActivity extends Activity {
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			mDragging = false;
 			showOverlay();
+			hideInfo();
 		}
 		
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -332,6 +378,7 @@ public class PlayerActivity extends Activity {
 				mLibVLC.setTime(progress);
 				setOverlayProgress();	
 				mTime.setText(Util.millisToString(progress));
+				showInfo(Util.millisToString(progress));
 			}
 			
 		}
@@ -378,6 +425,26 @@ public class PlayerActivity extends Activity {
 				mCurrentSize = 0;
 			}
 			changeSurfaceSize();
+			switch (mCurrentSize) {
+			case SURFACE_FIT_HORIZONTAL:
+				showInfo("fit horizontal", 500);
+				break;
+			case SURFACE_FIT_VERTICAL:
+				showInfo("fit vertival", 500);
+				break;
+			case SURFACE_FILL:	
+				showInfo("fill", 500);
+				break;
+			case SURFACE_16_9:	
+				showInfo("16:9", 500);
+				break;
+			case SURFACE_4_3:			
+				showInfo("4:3", 500);
+				break;
+			case SURFACE_ORIGINAL:
+				showInfo("original", 500);
+				break;
+			}
 			showOverlay();
 		}		
 	};
@@ -490,17 +557,6 @@ public class PlayerActivity extends Activity {
 		mWakeLock.acquire();
 	}
 	
-	
-	/**
-	 * 
-	 */
-	private void stop() {
-		mLibVLC.stop();
-		if(mWakeLock.isHeld())
-			mWakeLock.release();
-	}
-	
-	
 	/**
 	 * 
 	 */
@@ -508,7 +564,6 @@ public class PlayerActivity extends Activity {
 		mLibVLC.pause();
 		mWakeLock.release();
 	}
-	
 	
 	/**
 	 * 
