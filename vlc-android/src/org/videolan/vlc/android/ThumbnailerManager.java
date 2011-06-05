@@ -95,6 +95,10 @@ public class ThumbnailerManager extends Thread {
             Log.i(TAG, "create new bitmap for: " + item.getName());
             byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 72);
             Log.i(TAG, "lib bla!");
+
+            if (b == null) // We were not able to create a thumbnail for this item.
+                continue;
+
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
 
             Log.i(TAG, "Thumbnail created!");
