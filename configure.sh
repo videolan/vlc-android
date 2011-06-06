@@ -41,23 +41,50 @@ STRIP="${GCC_PREFIX}strip" \
 RANLIB="${GCC_PREFIX}ranlib" \
 AR="${GCC_PREFIX}ar" \
 PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
-sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
-                --enable-static-modules \
-                --enable-debug \
-                --enable-swscale \
-                --enable-avcodec \
-                --enable-avformat \
-                --enable-android-vout \
-                --disable-vlc \
-                --enable-live555 --enable-realrtsp \
-                --disable-libva \
-                --disable-schroedinger \
-                --disable-jack \
-                --enable-opensles \
-                --disable-gnomevfs \
-                --disable-x264 \
-                --disable-pulse \
+sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux $EXTRA_PARAMS \
+                --disable-alsa \
+                --disable-atmo \
+                --disable-caca \
+                --disable-dbus \
                 --disable-dv \
                 --disable-dvdnav \
+                --disable-dvdread \
+                --disable-egl \
+                --disable-freetype \
+                --disable-gl \
+                --disable-glx \
+                --disable-gnomevfs \
+                --disable-jack \
+                --disable-libgcrypt \
+                --disable-libva \
+                --disable-libxml2 \
                 --disable-linsys \
-                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg $EXTRA_PARAMS
+                --disable-lua \
+                --disable-mad \
+                --disable-mkv \
+                --disable-mtp \
+                --disable-notify \
+                --disable-pulse \
+                --disable-qt4 \
+                --disable-schroedinger \
+                --disable-sdl \
+                --disable-sdl-image \
+                --disable-skins2 \
+                --disable-sqlite \
+                --disable-svg \
+                --disable-taglib \
+                --disable-udev \
+                --disable-v4l2 \
+                --disable-vcd \
+                --disable-vlc \
+                --disable-x264 \
+                --disable-xcb \
+                --enable-android-vout \
+                --enable-avcodec \
+                --enable-avformat \
+                --enable-debug \
+                --enable-live555 \
+                --enable-opensles \
+                --enable-realrtsp \
+                --enable-static-modules \
+                --enable-swscale
