@@ -19,11 +19,13 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 
 EXTRA_CFLAGS="-mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
 EXTRA_LDFLAGS=""
+EXTRA_PARAMS=""
 if [ -z "$NO_NEON" ]; then
 	EXTRA_CFLAGS+=" -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
 	EXTRA_LDFLAGS="-Wl,--fix-cortex-a8"
 else
 	EXTRA_CFLAGS+=" -march=armv6j -mtune=arm1136j-s -msoft-float"
+	EXTRA_PARAMS=" --disable-neon"
 fi
 
 PATH="$ANDROID_BIN:$PATH" \
@@ -58,4 +60,4 @@ sh ../configure --host=arm-eabi-linux --build=x86_64-unknown-linux \
                 --disable-dv \
                 --disable-dvdnav \
                 --disable-linsys \
-                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg
+                --disable-xcb --disable-dbus --disable-vcd --disable-v4l2 --disable-atmo --disable-qt4 --disable-skins2 --disable-mad --disable-mkv --disable-libgcrypt --disable-lua --disable-mtp --disable-dvdread --disable-alsa --disable-sdl --disable-sdl-image --disable-taglib --disable-notify --disable-freetype --disable-sqlite --disable-udev --disable-caca --disable-glx --disable-egl --disable-gl --disable-libxml2 --disable-svg $EXTRA_PARAMS
