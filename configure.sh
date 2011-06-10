@@ -19,12 +19,12 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 
 EXTRA_CFLAGS="-mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
 EXTRA_LDFLAGS=""
-EXTRA_PARAMS=""
 if [ -z "$NO_NEON" ]; then
-	EXTRA_CFLAGS+=" -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
+	EXTRA_CFLAGS="$EXTRA_CFLAGS -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
 	EXTRA_LDFLAGS="-Wl,--fix-cortex-a8"
+	EXTRA_PARAMS=""
 else
-	EXTRA_CFLAGS+=" -march=armv6j -mtune=arm1136j-s -msoft-float"
+	EXTRA_CFLAGS="$EXTRA_CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
 	EXTRA_PARAMS=" --disable-neon"
 fi
 
@@ -55,21 +55,29 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-gnomevfs \
                 --disable-dvdread \
                 --disable-dvdnav \
+                --disable-bluray \
                 --disable-linsys \
+                --disable-decklink \
                 --enable-avformat \
                 --enable-swscale \
                 --enable-avcodec \
                 --disable-libva \
                 --disable-mkv \
                 --disable-dv \
+                --disable-mod \
+                --disable-sid \
+                --disable-mad \
                 --disable-x264 \
                 --disable-mad \
-                --disable-schroedinger \
+                --disable-schroedinger --disable-dirac \
                 --disable-sdl-image \
+                --disable-zvbi \
+                --disable-fluidsynth \
                 --enable-opensles \
                 --disable-jack \
                 --disable-pulse \
                 --disable-alsa \
+                --disable-portaudio \
                 --disable-sdl \
                 --disable-xcb \
                 --disable-atmo \
@@ -79,6 +87,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-taglib \
                 --disable-notify \
                 --disable-freetype \
+                --disable-libass \
                 --disable-svg \
                 --disable-sqlite \
                 --disable-udev \
@@ -87,4 +96,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-caca \
                 --disable-glx \
                 --disable-egl \
-                --disable-gl
+                --disable-gl \
+                --disable-gles1 --disable-gles2 \
+                --disable-goom \
+                --disable-projectm
