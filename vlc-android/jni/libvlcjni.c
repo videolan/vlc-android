@@ -61,16 +61,16 @@ static pthread_mutex_t vout_android_lock;
 static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
 
-void *LockAndGetSurface() {
+void *jni_LockAndGetAndroidSurface() {
     pthread_mutex_lock(&vout_android_lock);
     return vout_android_surf;
 }
 
-void UnlockSurface() {
+void jni_UnlockAndroidSurface() {
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-void SetSurfaceSize(int width, int height)
+void jni_SetAndroidSurfaceSize(int width, int height)
 {
     if (vout_android_gui == NULL)
         return;
