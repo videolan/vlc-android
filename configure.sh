@@ -20,16 +20,18 @@ VLC_SOURCEDIR="`dirname $0`/../../.."
 EXTRA_CFLAGS="-mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
 EXTRA_LDFLAGS=""
 if [ -z "$NO_NEON" ]; then
+	ANDROID_CPPINCLUDE="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/include"
 	EXTRA_CFLAGS="$EXTRA_CFLAGS -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
 	EXTRA_LDFLAGS="-Wl,--fix-cortex-a8"
 	EXTRA_PARAMS=""
 else
+	ANDROID_CPPINCLUDE="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include"
 	EXTRA_CFLAGS="$EXTRA_CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
 	EXTRA_PARAMS=" --disable-neon"
 fi
 
 PATH="$ANDROID_BIN:$PATH" \
-CPPFLAGS="-I$ANDROID_INCLUDE" \
+CPPFLAGS="-I$ANDROID_INCLUDE $ANDROID_CPPINCLUDE" \
 LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB $EXTRA_LDFLAGS" \
 CFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
 CXXFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
@@ -62,7 +64,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --enable-swscale \
                 --enable-avcodec \
                 --disable-libva \
-                --disable-mkv \
+                --enable-mkv \
                 --disable-dv \
                 --disable-mod \
                 --disable-sid \

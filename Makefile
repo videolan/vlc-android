@@ -30,6 +30,11 @@ $(APK_MK):
      else \
 	    vlc_contrib="$$VLC_CONTRIB"; \
 	 fi; \
+	 if [ -z "$$NO_NEON" ] ; then \
+	    ANDROID_STDCPP="$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/libstdc++.a"; \
+	 else \
+	    ANDROID_STDCPP="$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/armeabi/libstdc++.a"; \
+	 fi; \
 	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'|grep -v stats`; \
 	 LDFLAGS=""; \
 	 DEFINITION=""; \
@@ -59,7 +64,8 @@ $(APK_MK):
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
-         printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock\n" >> $(APK_MK); \
+	 printf "\t-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -ltheora -lavformat -lavcodec -lavcore -lavutil -lpostproc -lswscale -lmpeg2 -lgcc -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 -lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock -lebml -lmatroska\\\\\n" >> $(APK_MK); \
+	 printf "\t$$ANDROID_STDCPP\n"                                              >> $(APK_MK); \
 	 printf "include \$$(BUILD_SHARED_LIBRARY)\n"                             >> $(APK_MK)
 
 $(LIBVLCJNI): $(JNI_SOURCES) $(APK_MK)
