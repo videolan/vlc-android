@@ -30,7 +30,10 @@
 	        	android:name="PreferencesActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>
 	        <activity 
-	        	android:name="PlayerActivity" 
+	        	android:name="VideoListActivity" 
+	        	android:theme="@android:style/Theme.NoTitleBar"/>
+	        <activity 
+	        	android:name="VideoPlayerActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
 	        	android:configChanges="orientation"/>
 	        <activity 

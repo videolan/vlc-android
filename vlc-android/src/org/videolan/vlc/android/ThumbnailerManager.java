@@ -23,10 +23,12 @@ public class ThumbnailerManager extends Thread {
     
     private LibVLC mLibVlc;  
     private MediaLibraryActivity mMediaLibraryActivity;
+    private VideoListActivity mVideoListActivity;
 
     
     public ThumbnailerManager() {
     	mMediaLibraryActivity = MediaLibraryActivity.getInstance();
+    	mVideoListActivity = VideoListActivity.getInstance();
     	try {
 			mLibVlc = LibVLC.getInstance();
 		} catch (LibVlcException e) {
@@ -70,8 +72,8 @@ public class ThumbnailerManager extends Thread {
             while (mItems.size() == 0)
             {
                 try {
-                	mMediaLibraryActivity.mHandler.post(
-                			mMediaLibraryActivity.mHideProgressBar);
+                	mMediaLibraryActivity.mHandler.sendEmptyMessage(
+                			MediaLibraryActivity.HIDE_PROGRESSBAR);
                 	Log.i(TAG, "hide ProgressBar!");
                     notEmpty.await();
                 } catch (InterruptedException e) {
@@ -84,8 +86,8 @@ public class ThumbnailerManager extends Thread {
             lock.unlock();
             
             MediaItem item = mItems.poll();
-            mMediaLibraryActivity.mHandler.post(
-        			mMediaLibraryActivity.mShowProgressBar);   
+            mMediaLibraryActivity.mHandler.sendEmptyMessage(
+        			MediaLibraryActivity.SHOW_PROGRESSBAR);   
             
             Log.i(TAG, "show ProgressBar!");
             
@@ -102,15 +104,15 @@ public class ThumbnailerManager extends Thread {
             Log.i(TAG, "Thumbnail created!");
 
             item.setThumbnail(thumbnail);
-            mMediaLibraryActivity.mItemToUpdate = item;     
+            mVideoListActivity.mItemToUpdate = item;     
             // Post to the file browser the new item.
-            mMediaLibraryActivity.mHandler.post(
-            		mMediaLibraryActivity.mUpdateMediaItem);
+            mVideoListActivity.mHandler.sendEmptyMessage(
+            		VideoListActivity.UPDATE_ITEM);
 
             
             // Wait for the file browser to process the change.
             try {
-            	mMediaLibraryActivity.mBarrierItem.await();
+            	mVideoListActivity.mBarrier.await();
             } catch (InterruptedException e) {
                 break;
             } catch (BrokenBarrierException e) {

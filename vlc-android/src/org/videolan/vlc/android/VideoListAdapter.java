@@ -13,11 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MediaLibraryAdapter extends ArrayAdapter<MediaItem> 
+public class VideoListAdapter extends ArrayAdapter<MediaItem> 
 								 implements Comparator<MediaItem> {
 
 
-	public MediaLibraryAdapter(Context context, int textViewResourceId) {
+	public VideoListAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
 
@@ -49,7 +49,7 @@ public class MediaLibraryAdapter extends ArrayAdapter<MediaItem>
 		if (v == null){
 			LayoutInflater inflater = (LayoutInflater) 
 					getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inflater.inflate(R.layout.media_library_item, 
+			v = inflater.inflate(R.layout.video_list_item, 
 					parent, false);
 		}
 

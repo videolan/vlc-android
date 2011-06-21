@@ -10,43 +10,43 @@ import java.util.Stack;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-import android.app.ListActivity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TabHost;
 
-public class MediaLibraryActivity extends ListActivity {
+public class MediaLibraryActivity extends TabActivity {
 	public final static String TAG = "VLC/MediaLibraryActivity";
 	/**
 	 * TODO: 
 	 * + onClick events for header buttons
 	 * + search functionality
 	 */	
-	private static MediaLibraryActivity mInstance;
+	protected static final int HIDE_PROGRESSBAR = 0;
+	protected static final int SHOW_PROGRESSBAR = 1;
+	private static final int VIDEO_TAB = 0;
+	private static final int AUDIO_TAB = 1;
 	
-	private DatabaseManager mDBManager;
+	private VideoListActivity mVideoListActivity;
+
 	
-	protected final Handler mHandler = new Handler();
-	private final CyclicBarrier mBarrierList = new CyclicBarrier(2);
-	protected final CyclicBarrier mBarrierItem = new CyclicBarrier(2);
-	private List<MediaItem> mItemList = new ArrayList<MediaItem>();
-	protected MediaItem mItemToUpdate;
-	
-	private MediaLibraryAdapter mAdapter;
+	private static MediaLibraryActivity mInstance;	
+	private DatabaseManager mDBManager;	
+	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
+	protected List<MediaItem> mItemList = new ArrayList<MediaItem>();
 	private ProgressBar mProgressBar;
-	
-	private LinearLayout mNoFileLayout;
-	private LinearLayout mLoadFileLayout;
-	
-	protected ThumbnailerManager mThumbnailerManager;
-	
+	private TabHost mTabHost;
+	private int mCurrentState = 0;
+
+
 	
 	@Override   
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -57,16 +57,23 @@ public class MediaLibraryActivity extends ListActivity {
 		mInstance = this;	
 		mDBManager = DatabaseManager.getInstance();
 		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
-		mThumbnailerManager = new ThumbnailerManager();
-		mAdapter = new MediaLibraryAdapter(MediaLibraryActivity.this, 
-				R.layout.browser_item);
-		
-		mNoFileLayout = (LinearLayout)findViewById(R.id.ml_empty_nofile);
-		mLoadFileLayout = (LinearLayout)findViewById(R.id.ml_empty_loadfile);
 
-		setListAdapter(mAdapter);
-
-        updateMediaList();
+        /* Initialize the TabView */
+        mTabHost = getTabHost();
+        mTabHost.addTab(mTabHost.newTabSpec("VIDEO TAB").setIndicator("VIDEO TAB")
+        		.setContent(new Intent(this, VideoListActivity.class)));
+        mVideoListActivity = VideoListActivity.getInstance();
+        
+        
+        // TODO: implement the audio view
+        mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
+        		.setContent(R.id.ml_audio_todo));
+        
+        // restore the last used tab
+        mTabHost.setCurrentTab(mCurrentState);
+        
+        /* Load media items from database and storage */
+		loadMediaItems();
 	
 	}
 
@@ -112,8 +119,15 @@ public class MediaLibraryActivity extends ListActivity {
 	 * @param view
 	 */
 	public void changeView(View view) {
-		// TODO: implement!! ;)
-		Util.toaster("not implemented");
+		
+		// TODO: change the icon
+		if (mCurrentState == VIDEO_TAB) {
+			mCurrentState = AUDIO_TAB;
+		} else {
+			mCurrentState = VIDEO_TAB;
+		}
+		
+		mTabHost.setCurrentTab(mCurrentState);
 	}
 	
 	
@@ -124,16 +138,6 @@ public class MediaLibraryActivity extends ListActivity {
 	public void search(View view) {
 		// TODO: implement!! ;)
 		Util.toaster("not implemented");
-	}
-	
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		MediaItem item = mAdapter.getItem(position);
-		Intent intent = new Intent(this, PlayerActivity.class);
-		intent.putExtra("filePath", item.getPath());
-		startActivity(intent);
-		super.onListItemClick(l, v, position, id);
 	}
 
 	
@@ -146,85 +150,31 @@ public class MediaLibraryActivity extends ListActivity {
 	}
 	
 
-	/**
-	 * hide progress bar
-	 */
-	protected final Runnable mHideProgressBar = new Runnable() {	
-		public void run() {
-			mProgressBar.setVisibility(View.INVISIBLE);	
-		}
-	};
-	
-	/**
-	 * show progress bar
-	 */
-	protected final Runnable mShowProgressBar = new Runnable() {
-		public void run() {
-			mProgressBar.setVisibility(View.VISIBLE);			
-		}
-	};	
-	
-
-	/**
-	 * add items to list
-	 */
-	protected final Runnable mUpdateMediaItem = new Runnable() {
-		public void run() {
-			mAdapter.update(mItemToUpdate);
-			try {
-				mBarrierItem.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (BrokenBarrierException e) {
-				e.printStackTrace();
+	protected Handler mHandler = new Handler() {	
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case SHOW_PROGRESSBAR:
+				mProgressBar.setVisibility(View.VISIBLE);
+				break;
+			case HIDE_PROGRESSBAR:
+				mProgressBar.setVisibility(View.INVISIBLE);	
+				break;
 			}
-		}
+		};
 	};
-	
 
-	
-	/**
-	 * 
-	 */
-	protected void updateMediaList() {
-		mAdapter.clear();
-		mLoadFileLayout.setVisibility(View.VISIBLE);
-		mNoFileLayout.setVisibility(View.INVISIBLE);
-		new Thread(mGetMediaList).start();
+	public void loadMediaItems() {
+		new Thread(mGetMediaItems).start();
 	}
 	
-	protected final Runnable mUpdateMediaList = new Runnable() {
-		public void run() {
-			mAdapter.clear();
-			if (mItemList.size() > 0) {
-				for (MediaItem item : mItemList) {
-					mAdapter.add(item);
-					if (item.getThumbnail() == null)
-						mThumbnailerManager.addJob(item);
-				}	
-				mAdapter.sort();
-			} else {
-				mLoadFileLayout.setVisibility(View.INVISIBLE);
-				mNoFileLayout.setVisibility(View.VISIBLE);
-			}
-			try {
-				mBarrierList.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (BrokenBarrierException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-	
-	
-	private final Runnable mGetMediaList = new Runnable() {
+	private final Runnable mGetMediaItems = new Runnable() {
     	
     	private Stack<File> directorys = new Stack<File>();
 
 		public void run() {
 			// show progressbar in header
-			mHandler.post(mShowProgressBar);	
+			mHandler.sendEmptyMessage(SHOW_PROGRESSBAR);	
 			
 			// get directories from database
 			directorys.addAll(mDBManager.getMediaDirs());
@@ -269,10 +219,11 @@ public class MediaLibraryActivity extends ListActivity {
 	    	}
 	    	
 	    	
-	    	// update the listView
-	    	mHandler.post(mUpdateMediaList);
+	    	// update the video and audio activities
+	    	mVideoListActivity.mHandler.sendEmptyMessage(
+	    			VideoListActivity.UPDATE_LIST);
 			try {
-				mBarrierList.await();
+				mBarrier.await();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (BrokenBarrierException e) {
@@ -287,7 +238,7 @@ public class MediaLibraryActivity extends ListActivity {
 	    		}
 	    	}
 	    	// hide progressbar in header
-	    	mHandler.post(mHideProgressBar);
+	    	mHandler.sendEmptyMessage(HIDE_PROGRESSBAR);
 			
 		}
     };

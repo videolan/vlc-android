@@ -37,40 +37,31 @@
     		android:background="@drawable/header_button_search"
     		android:onClick="search"/>
    	</LinearLayout>
-  	<ListView 
-  		android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-     <FrameLayout
-     	android:id="@id/android:empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout	
-        	android:id="@+id/ml_empty_loadfile"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:gravity="center">
-	        <ProgressBar 
-	    		android:layout_width="20dip" 
-	    		android:layout_height="20dip"
-	    		android:layout_margin="11dip"/>
-	    	<TextView
-	        	android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content"
-	        	android:text="Loading..."
-	        	android:textSize="20dip"/>
+   	<TabHost
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent">
+	    <LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:visibility="gone"/>
+	        <FrameLayout
+	            android:id="@android:id/tabcontent"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent">
+	            <TextView 
+	                android:id="@+id/ml_audio_todo"
+	                android:layout_width="fill_parent"
+	                android:layout_height="fill_parent"
+	                android:gravity="center" 
+	                android:text="Audio ;)"
+	                android:textSize="25dip" />
+	        </FrameLayout>
 	    </LinearLayout>
-		<LinearLayout	
-			android:id="@+id/ml_empty_nofile"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:gravity="center"
-	        android:visibility="invisible">
-	        <TextView
-	        	android:layout_width="wrap_content"
-	        	android:layout_height="wrap_content"
-	        	android:text="No Media Files"
-	        	android:textSize="20dip"/>
-	    </LinearLayout>
-    </FrameLayout>
+	</TabHost>
 </LinearLayout>

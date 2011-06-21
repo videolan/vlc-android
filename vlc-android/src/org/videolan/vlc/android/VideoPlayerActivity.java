@@ -29,7 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class PlayerActivity extends Activity {
+public class VideoPlayerActivity extends Activity {
 
 	public final static String TAG = "VLC/Activity";
 
@@ -456,7 +456,7 @@ public class PlayerActivity extends Activity {
 	 */
 	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {		
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-			mLibVLC.attachSurface(holder.getSurface(), PlayerActivity.this, width, height);
+			mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this, width, height);
 		}
 
 		public void surfaceCreated(SurfaceHolder holder) { }

@@ -56,12 +56,7 @@ public class MediaItem implements Comparable<MediaItem> {
 		mType = type;
 		mWidth = width;
 		mHeight = height;
-		if (thumbnail == null) {
-//			mThumbnail = BitmapFactory.decodeResource(
-//					MediaLibraryActivity.getInstance().getResources(), 
-//					R.drawable.thumbnail);
-			MediaLibraryActivity.getInstance().mThumbnailerManager.addJob(this);			 
-		} else {
+		if (thumbnail != null) {
 			mThumbnail = thumbnail;
 		}
 		
