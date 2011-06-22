@@ -6,6 +6,7 @@ import java.util.Comparator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,20 +55,22 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		}
 
 		MediaItem item = getItem(position);
-		ImageView thumbnail = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
-		TextView title = (TextView)v.findViewById(R.id.ml_item_title);
-		TextView length = (TextView)v.findViewById(R.id.ml_item_length);
-		title.setText(item.getName());
-		length.setText(Util.millisToString(item.getLength()));
+		ImageView thumbnailView = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
+		TextView titleView = (TextView)v.findViewById(R.id.ml_item_title);
+		TextView lengthView = (TextView)v.findViewById(R.id.ml_item_length);
+		titleView.setText(item.getName());
+		lengthView.setText(Util.millisToString(item.getLength()));
 		
-		if (item.getThumbnail() != null)
-			thumbnail.setImageBitmap(item.getThumbnail());
-		else {
+		Bitmap thumbnail;
+		if (item.getThumbnail() != null) {
+			thumbnail = item.getThumbnail();
+			thumbnailView.setImageBitmap(thumbnail);
+		} else {
 			// set default thumbnail
-			Bitmap defaultThumbnail = BitmapFactory.decodeResource(
+			thumbnail = BitmapFactory.decodeResource(
 					MediaLibraryActivity.getInstance().getResources(), 
 					R.drawable.thumbnail);
-			thumbnail.setImageBitmap(defaultThumbnail);
+			thumbnailView.setImageBitmap(thumbnail);
 		}
 
 

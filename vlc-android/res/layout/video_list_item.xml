@@ -8,7 +8,7 @@
 
 	<FrameLayout 
 		android:layout_width="90dip"
-        android:layout_height="72dip" >
+        android:layout_height="70dip" >
 	    <ImageView
 	        android:id="@+id/ml_item_thumbnail"
 	        android:layout_width="fill_parent"

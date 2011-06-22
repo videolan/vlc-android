@@ -10,6 +10,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.Config;
 import android.util.Log;
 
@@ -91,15 +92,43 @@ public class ThumbnailerManager extends Thread {
             
             Log.i(TAG, "show ProgressBar!");
             
+            int width = 150;
+            int height = 150;
+            
             // Get the thumbnail.
-            Bitmap thumbnail = Bitmap.createBitmap(120, 120, Config.ARGB_8888);
+            Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
             Log.i(TAG, "create new bitmap for: " + item.getName());
-            byte[] b = mLibVlc.getThumbnail(item.getPath(), 120, 120);
+            byte[] b = mLibVlc.getThumbnail(item.getPath(), width, height);
 
             if (b == null) // We were not able to create a thumbnail for this item.
                 continue;
 
+            
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
+            int top = 0;
+            for (int i = 0; i < height; i++) {
+            	int pixel = thumbnail.getPixel(width/2, i);
+            	if (pixel == 0) {
+            		top = i;
+            	} else {
+            		break;
+            	}
+            }
+            
+            int left = 0;
+            for (int i = 0; i < width; i++) {
+            	int pixel = thumbnail.getPixel(i, height/2);
+            	if (pixel == 0) {
+            		left = i;
+            	} else {
+            		break;
+            	}
+            }
+            
+            // Cut off the transparency on the borders
+			thumbnail = Bitmap.createBitmap(thumbnail, top, left, 
+					(width - (2 * top)), (height - (2 * left)));
+            
 
             Log.i(TAG, "Thumbnail created!");
 
