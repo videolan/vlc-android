@@ -23,6 +23,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -256,6 +257,8 @@ public class VideoPlayerActivity extends Activity {
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.e(TAG, "MediaPlayerEndReached");
+                    /* Exit player when reach the end */
+                    VideoPlayerActivity.this.finish();
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
@@ -274,7 +277,7 @@ public class VideoPlayerActivity extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 				case FADE_OUT:
-					hideOverlay();
+					hideOverlay(false);
 					break;
 				case SHOW_PROGRESS:
 					int pos = setOverlayProgress();
@@ -287,6 +290,8 @@ public class VideoPlayerActivity extends Activity {
 					changeSurfaceSize();
 					break;
 				case FADE_OUT_INFO:
+					mInfo.startAnimation(AnimationUtils.loadAnimation(
+							VideoPlayerActivity.this, android.R.anim.fade_out));
 					mInfo.setVisibility(View.INVISIBLE);
 			}
 		}
@@ -349,7 +354,7 @@ public class VideoPlayerActivity extends Activity {
                 if (!mShowing) {
                     showOverlay();
                 } else {
-                	hideOverlay();
+                	hideOverlay(true);
                 }
             }
             return false;
@@ -496,10 +501,14 @@ public class VideoPlayerActivity extends Activity {
 	/**
 	 * hider overlay
 	 */
-	private void hideOverlay() {
+	private void hideOverlay(boolean fromUser) {
 		if (mShowing) {
 			mHandler.removeMessages(SHOW_PROGRESS);
         	Log.i(TAG, "remove View!");
+        	if (!fromUser) {
+	        	mOverlay.startAnimation(AnimationUtils.loadAnimation(
+	        			this, android.R.anim.fade_out));
+        	}
 			mDecor.removeView(mOverlay);
 			mShowing = false;
 		}
