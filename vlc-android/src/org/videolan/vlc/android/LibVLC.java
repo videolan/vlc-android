@@ -155,6 +155,13 @@ public class LibVLC {
     {
         return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
     }
+    
+    /**
+     * Return true if there is a video track in the file
+     */
+    public boolean hasVideoTrack(String filePath) {
+    	return hasVideoTrack(mLibVlcInstance, filePath);
+    }
 
     /**
      * Initialize the libvlc C library
@@ -270,6 +277,11 @@ public class LibVLC {
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
+    
+    /**
+     * Return true if there is a video track in the file
+     */
+    private native boolean hasVideoTrack(int instance, String filePath);
 
     public native void setEventManager(EventManager eventManager);
 

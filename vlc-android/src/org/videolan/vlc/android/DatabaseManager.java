@@ -90,7 +90,7 @@ public class DatabaseManager {
 				+ MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, " 
 				+ MEDIA_TIME + " INTEGER, "
 				+ MEDIA_LENGTH + " INTEGER, "
-				+ MEDIA_TYPE + " VARCHAR(50), "
+				+ MEDIA_TYPE + " INTEGER, "
 				+ MEDIA_WIDTH + " INTEGER, "
 				+ MEDIA_HEIGHT + " INTEGER, "
 				+ MEDIA_THUMBNAIL + " BLOB"
@@ -184,7 +184,7 @@ public class DatabaseManager {
 						MEDIA_PATH,    //1 String 
 						MEDIA_TIME,    //2 long
 						MEDIA_LENGTH,  //3 long
-						MEDIA_TYPE,    //4 String
+						MEDIA_TYPE,    //4 int
 						MEDIA_WIDTH,   //5 int
 						MEDIA_HEIGHT,  //6 int
 						MEDIA_THUMBNAIL//7 Bitmap
@@ -204,7 +204,7 @@ public class DatabaseManager {
 					new File(cursor.getString(1)),
 					cursor.getLong(2),
 					cursor.getLong(3),
-					cursor.getString(4),
+					cursor.getInt(4),
 					cursor.getInt(5),
 					cursor.getInt(6),
 					thumbnail

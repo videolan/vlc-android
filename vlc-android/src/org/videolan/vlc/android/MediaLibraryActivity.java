@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 
@@ -46,8 +45,6 @@ public class MediaLibraryActivity extends TabActivity {
 	private TabHost mTabHost;
 	private int mCurrentState = 0;
 
-
-	
 	@Override   
 	protected void onCreate(Bundle savedInstanceState) {	
 		setContentView(R.layout.media_library);	
@@ -189,6 +186,7 @@ public class MediaLibraryActivity extends TabActivity {
 			mItemList.clear();
 			
 	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
+	    	
 	    	
 	    	while (!directorys.isEmpty()) {
 	    		File dir = directorys.pop();

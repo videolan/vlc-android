@@ -93,9 +93,11 @@ public class VideoListActivity extends ListActivity {
 		
 		if (itemList.size() > 0) {
 			for (MediaItem item : itemList) {
-				mVideoAdapter.add(item);
-				if (item.getThumbnail() == null)
-					mThumbnailerManager.addJob(item);
+				if (item.getType() == MediaItem.TYPE_VIDEO) {
+					mVideoAdapter.add(item);
+					if (item.getThumbnail() == null)
+						mThumbnailerManager.addJob(item);
+				}
 			}	
 			mVideoAdapter.sort();
 		} else {

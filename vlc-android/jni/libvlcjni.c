@@ -327,6 +327,34 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
+jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz, 
+                                                            jint i_instance, jstring filePath) 
+{   
+    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;    
+    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
+
+    /* Create a new item and assign it to the media player. */
+    libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
+    if (p_m == NULL)
+    {
+        LOGE("Couldn't create the media!");
+        return 0;
+    }
+
+    /* Get the tracks information of the media. */
+    libvlc_media_track_info_t *p_tracks;
+    libvlc_media_parse(p_m);
+    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
+    
+    unsigned i;
+    for (i = 0; i < i_nbTracks; ++i)
+    {   
+        if (p_tracks[i].i_type == libvlc_track_video)
+            return 1;
+    }
+    return 0;
+}
+
 jboolean Java_org_videolan_vlc_android_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)
 {
     jint mediaPlayer = getMediaPlayer(env, thiz);

@@ -13,16 +13,21 @@ public class MediaItem implements Comparable<MediaItem> {
 		".avi", ".flv", ".mov", ".mp4", ".ogm", ".ogg", ".mkv", ".mka", ".ts",
 		".mpg", ".mp3", ".mp2", ".nsc", ".nsv", ".nut", ".ra", ".ram", ".rm", 
 		".rv" , ".rmbv", ".a52", ".dts", ".aac", ".flac", ".dv", ".vid", ".tta",
-		".tac", ".ty", ".wav", ".dts", ".xa"};	
+		".tac", ".ty", ".wav", ".dts", ".xa"};
 	
+	public final static int TYPE_VIDEO = 0;
+	public final static int TYPE_AUDIO = 1;
+
 	private String mName;
 	private File mFile;
 	private long mTime = 0;
 	private long mLength = 0;
-	private String mType;
+	private int mType;
 	private int mWidth = 0;
 	private int mHeight = 0;
 	private Bitmap mThumbnail;
+	
+	
 	
 	/**
 	 * Create an new MediaItem
@@ -32,13 +37,14 @@ public class MediaItem implements Comparable<MediaItem> {
 		this.mFile = file;
 		mName = file.getName().substring(0, mFile.getName().lastIndexOf('.'));
 		
-		// TODO: get ALL info e.g. length,width...
-		
-		/** TODO: change from extension to something useful e.g. right 
-		 * temporary thumbnail ;)
-		 */
-		mType = mFile.getName().substring(mFile.getName().lastIndexOf('.') + 1);
-		
+    	LibVLC mLibVlc = null;
+    	try {
+			mLibVlc = LibVLC.getInstance();
+			mType = (mLibVlc.hasVideoTrack(file.getPath())) ? TYPE_VIDEO : TYPE_AUDIO;
+		} catch (LibVlcException e) {
+			e.printStackTrace();
+		} 
+
 		// Add this item to database
 		DatabaseManager db = DatabaseManager.getInstance();
 		db.addMediaItem(this);
@@ -48,7 +54,7 @@ public class MediaItem implements Comparable<MediaItem> {
 	 * Create an existing item from database
 	 */
 	public MediaItem(String name, File file, long time, long length,
-			String type, int width, int height, Bitmap thumbnail) {
+			int type, int width, int height, Bitmap thumbnail) {
 		mName = name;
 		mFile = file;
 		mTime = time;
@@ -59,7 +65,6 @@ public class MediaItem implements Comparable<MediaItem> {
 		if (thumbnail != null) {
 			mThumbnail = thumbnail;
 		}
-		
 	}
 
 	public String getName() {
@@ -82,7 +87,7 @@ public class MediaItem implements Comparable<MediaItem> {
 		return mLength;
 	}
 	
-	public String getType() {
+	public int getType() {
 		return mType;
 	}
 	
