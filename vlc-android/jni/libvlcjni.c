@@ -296,7 +296,7 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     libvlc_media_player_set_media(mp, m);
 
-    if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can yse SLES
+    if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can use SLES
     {
         libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close,
                                    (void*) myJavaLibVLC);
@@ -353,6 +353,27 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
             return 1;
     }
     return 0;
+}
+
+jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz, 
+                                                        jint i_instance, jstring filePath) 
+{   
+    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;    
+    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
+
+    /* Create a new item and assign it to the media player. */
+    libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
+    if (p_m == NULL)
+    {
+        LOGE("Couldn't create the media!");
+        return 0;
+    }
+    
+    /* Create a media player playing environment */
+    libvlc_media_player_t *mp = libvlc_media_player_new(p_instance);
+    libvlc_media_player_set_media(mp, p_m);
+
+    return (jlong) libvlc_media_player_get_length( mp );
 }
 
 jboolean Java_org_videolan_vlc_android_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)

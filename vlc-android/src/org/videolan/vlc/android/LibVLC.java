@@ -162,6 +162,13 @@ public class LibVLC {
     public boolean hasVideoTrack(String filePath) {
     	return hasVideoTrack(mLibVlcInstance, filePath);
     }
+    
+    /**
+     * Return true if there is a video track in the file
+     */
+    public long getLengthFromFile(String filePath) {
+    	return getLengthFromFile(mLibVlcInstance, filePath);
+    }
 
     /**
      * Initialize the libvlc C library
@@ -282,6 +289,13 @@ public class LibVLC {
      * Return true if there is a video track in the file
      */
     private native boolean hasVideoTrack(int instance, String filePath);
+    
+    
+    
+    /**
+     * Return true if there is a video track in the file
+     */
+    private native long getLengthFromFile(int instance, String filePath);
 
     public native void setEventManager(EventManager eventManager);
 

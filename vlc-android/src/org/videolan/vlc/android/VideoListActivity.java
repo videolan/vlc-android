@@ -106,8 +106,11 @@ public class VideoListActivity extends ListActivity {
 		}
 		
 		mediaLibraryActivity.mHandler.sendEmptyMessage(MediaLibraryActivity.HIDE_PROGRESSBAR);
-		
-		
+
+	}
+	
+	public void sortBy(int sortby) {
+		mVideoAdapter.sortBy(sortby);
 	}
 
 }

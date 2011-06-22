@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item 
+		android:title="@string/sortby" 
+		android:icon="@android:drawable/ic_menu_sort_alphabetically" 
+		android:id="@+id/ml_menu_sortby">
+		<menu>
+            <item android:id="@+id/ml_menu_sortby_name"
+                  android:title="@string/sortby_name" />
+            <item android:id="@+id/ml_menu_sortby_length"
+                  android:title="@string/sortby_length" />
+        </menu>
+    </item>
+	<item 
 		android:id="@+id/ml_menu_about" 
 		android:icon="@android:drawable/ic_menu_info_details" 
 		android:title="@string/about"/>

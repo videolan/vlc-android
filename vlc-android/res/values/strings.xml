@@ -9,4 +9,7 @@
     <string name="preferences">Preferences</string>
     <string name="about">About</string>
     <string name="ml_no_media_dir">No Media Directory</string>
+    <string name="sortby">Sort By...</string>
+    <string name="sortby_name">Name</string>
+    <string name="sortby_length">Length</string>
 </resources>

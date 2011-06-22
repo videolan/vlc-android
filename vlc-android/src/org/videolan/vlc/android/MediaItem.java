@@ -4,6 +4,7 @@ package org.videolan.vlc.android;
 import java.io.File;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class MediaItem implements Comparable<MediaItem> {
 	
@@ -41,9 +42,12 @@ public class MediaItem implements Comparable<MediaItem> {
     	try {
 			mLibVlc = LibVLC.getInstance();
 			mType = (mLibVlc.hasVideoTrack(file.getPath())) ? TYPE_VIDEO : TYPE_AUDIO;
+			mLength = mLibVlc.getLengthFromFile(file.getPath());
+			Log.e(TAG, Util.millisToString(mLength));
 		} catch (LibVlcException e) {
 			e.printStackTrace();
 		} 
+		
 
 		// Add this item to database
 		DatabaseManager db = DatabaseManager.getInstance();

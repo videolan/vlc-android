@@ -39,6 +39,6 @@
         android:textSize="18dip"
         android:text="The IT Crowd - Seasion 1 Ep 1"
         android:textColor="@drawable/ml_title_color" 
-        android:paddingLeft="20dip"/>
+        android:paddingLeft="15dip"/>
 
 </LinearLayout>

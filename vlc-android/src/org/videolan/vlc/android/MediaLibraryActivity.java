@@ -96,6 +96,20 @@ public class MediaLibraryActivity extends TabActivity {
 		
 		// Handle item selection
 		switch (item.getItemId()) {
+		// Sort by name
+		case R.id.ml_menu_sortby_name:
+			if (mCurrentState == VIDEO_TAB) {
+				mVideoListActivity.sortBy(
+						VideoListAdapter.SORT_BY_NAME);
+			} 
+			break;
+			// Sort by length
+		case R.id.ml_menu_sortby_length:
+			if (mCurrentState == VIDEO_TAB) {
+				mVideoListActivity.sortBy(
+						VideoListAdapter.SORT_BY_LENGTH);
+			} 
+			break;
 		// About
 		case R.id.ml_menu_about:
 			intent = new Intent(this, AboutActivity.class);

@@ -6,7 +6,6 @@ import java.util.Comparator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,11 @@ import android.widget.TextView;
 public class VideoListAdapter extends ArrayAdapter<MediaItem> 
 								 implements Comparator<MediaItem> {
 
-
+	public final static int SORT_BY_NAME = 0;
+	public final static int SORT_BY_LENGTH = 1;
+	private int mSortBy = SORT_BY_NAME;
+	
+	
 	public VideoListAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
@@ -32,10 +35,34 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 			insert(item, position);
 		}
 	}
+	
+	public void sortBy(int sortby) {
+		switch (sortby) {
+		case SORT_BY_NAME:
+			mSortBy = SORT_BY_NAME;
+			break;
+		case SORT_BY_LENGTH:
+			mSortBy = SORT_BY_LENGTH;
+			break;
+		default:
+			mSortBy = SORT_BY_NAME;
+			break;
+		}
+		sort();
+	}
 
 	public int compare(MediaItem item1, MediaItem item2) {
-		return item1.getName().toUpperCase().compareTo(
-				item2.getName().toUpperCase());
+		int compare = 0;
+		switch (mSortBy) {
+		case SORT_BY_NAME:
+			compare = item1.getName().toUpperCase().compareTo(
+					item2.getName().toUpperCase());
+			break;
+		case SORT_BY_LENGTH:
+			compare = ((Long)item1.getLength()).compareTo(item2.getLength());
+			break;
+		}
+		return compare;
 	}
 	
 	
@@ -59,7 +86,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		TextView titleView = (TextView)v.findViewById(R.id.ml_item_title);
 		TextView lengthView = (TextView)v.findViewById(R.id.ml_item_length);
 		titleView.setText(item.getName());
-		lengthView.setText(Util.millisToString(item.getLength()));
+		lengthView.setText(" " + Util.millisToString(item.getLength()) + " ");
 		
 		Bitmap thumbnail;
 		if (item.getThumbnail() != null) {
