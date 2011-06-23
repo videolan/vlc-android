@@ -126,14 +126,10 @@ public class VideoPlayerActivity extends Activity {
 			mLibVLC.setEventManager(em);
 		}
 		
+		load();
+		
 	}
 		
-	@Override
-	protected void onStart() {
-		super.onStart();
-		// load and start the selected movie
-		load();
-	}
 		
 	@Override
 	protected void onPause() {

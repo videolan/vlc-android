@@ -36,8 +36,7 @@
         android:layout_height="wrap_content"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textSize="18dip"
-        android:text="The IT Crowd - Seasion 1 Ep 1"
+        android:textSize="17dip"
         android:textColor="@drawable/ml_title_color" 
         android:paddingLeft="15dip"/>
 

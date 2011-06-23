@@ -18,7 +18,9 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 
 	public final static int SORT_BY_NAME = 0;
 	public final static int SORT_BY_LENGTH = 1;
+	private int mSortDirection = 1;
 	private int mSortBy = SORT_BY_NAME;
+	
 	
 	
 	public VideoListAdapter(Context context, int textViewResourceId) {
@@ -39,13 +41,24 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 	public void sortBy(int sortby) {
 		switch (sortby) {
 		case SORT_BY_NAME:
-			mSortBy = SORT_BY_NAME;
+			if (mSortBy == SORT_BY_NAME)
+				mSortDirection *= -1;
+			else {
+				mSortBy = SORT_BY_NAME;
+				mSortDirection = 1;
+			}
 			break;
 		case SORT_BY_LENGTH:
-			mSortBy = SORT_BY_LENGTH;
+			if (mSortBy == SORT_BY_LENGTH)
+				mSortDirection *= -1;
+			else {
+				mSortBy = SORT_BY_LENGTH;
+				mSortDirection *= 1;
+			}
 			break;
 		default:
 			mSortBy = SORT_BY_NAME;
+			mSortDirection = 1;
 			break;
 		}
 		sort();
@@ -62,7 +75,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 			compare = ((Long)item1.getLength()).compareTo(item2.getLength());
 			break;
 		}
-		return compare;
+		return mSortDirection * compare;
 	}
 	
 	
