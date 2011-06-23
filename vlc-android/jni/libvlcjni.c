@@ -355,25 +355,54 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
     return 0;
 }
 
+static pthread_mutex_t doneMutex;
+static pthread_cond_t doneCondVar;
+
+static void length_changed_callback(const libvlc_event_t *ev, void *data)
+{    
+    pthread_mutex_lock(&doneMutex);
+    pthread_cond_signal(&doneCondVar);
+    pthread_mutex_unlock(&doneMutex);
+}
+
 jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz, 
                                                         jint i_instance, jstring filePath) 
 {   
+    libvlc_media_t *m;   
+    libvlc_media_player_t *mp; 
+
+    /* Initialize pthread variables. */
+    pthread_mutex_init(&doneMutex, NULL);
+    pthread_cond_init(&doneCondVar, NULL);
+
     libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;    
     const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
-    if (p_m == NULL)
+    m = libvlc_media_new_path(p_instance, psz_filePath);
+    if (m == NULL)
     {
-        LOGE("Couldn't create the media!");
-        return 0;
+        LOGE("Couldn't create the media to play!");
+        return;
     }
-    
-    /* Create a media player playing environment */
-    libvlc_media_player_t *mp = libvlc_media_player_new(p_instance);
-    libvlc_media_player_set_media(mp, p_m);
 
-    return (jlong) libvlc_media_player_get_length( mp );
+    /* Create a media player playing environment */
+    mp = libvlc_media_player_new_from_media (m);
+    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
+    libvlc_event_attach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, NULL);
+    libvlc_media_release (m);
+    libvlc_media_player_play( mp );
+    pthread_mutex_lock(&doneMutex);
+    pthread_cond_wait(&doneCondVar, &doneMutex);
+    pthread_mutex_unlock(&doneMutex); 
+    jlong length = (jlong)libvlc_media_player_get_length( mp );
+    libvlc_media_player_stop( mp );
+    libvlc_media_player_release( mp );  
+
+    pthread_mutex_destroy(&doneMutex);
+    pthread_cond_destroy(&doneCondVar);  
+
+    return length;
 }
 
 jboolean Java_org_videolan_vlc_android_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)

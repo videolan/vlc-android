@@ -43,7 +43,6 @@ public class MediaItem implements Comparable<MediaItem> {
 			mLibVlc = LibVLC.getInstance();
 			mType = (mLibVlc.hasVideoTrack(file.getPath())) ? TYPE_VIDEO : TYPE_AUDIO;
 			mLength = mLibVlc.getLengthFromFile(file.getPath());
-			Log.e(TAG, Util.millisToString(mLength));
 		} catch (LibVlcException e) {
 			e.printStackTrace();
 		} 
