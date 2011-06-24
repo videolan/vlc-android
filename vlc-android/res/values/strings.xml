@@ -12,4 +12,6 @@
     <string name="sortby">Sort By...</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
+    <string name="searchable_hint">Search...</string>
+    <string name="searchable_label">VLC media player</string>
 </resources>

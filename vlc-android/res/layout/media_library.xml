@@ -4,74 +4,42 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <FrameLayout
-    	android:background="@drawable/header" 
-    	android:layout_width="fill_parent" 
-    	android:layout_height="48dip">
-    	<LinearLayout
-    		android:id="@+id/ml_search_bar"
-	    	android:layout_width="match_parent" 
-	    	android:layout_height="match_parent"
-	    	android:orientation="horizontal"
-	    	android:paddingTop="5dip"
-	    	android:paddingLeft="5dip"
-	    	android:paddingRight="5dip"
-	    	android:visibility="invisible">
-	    	<ImageView
-	    		android:layout_width="35dip"
-	    		android:layout_height="35dip"
-	    		android:src="@drawable/header_icon_loupe"
-	    		android:scaleType="fitXY"
-	    		android:paddingTop="2dip"
-		    	android:layout_marginLeft="5dip"
-		    	android:layout_marginRight="7dip" />
-	    	<EditText 
-	    		android:id="@+id/ml_search_text"
-	    		android:layout_width="0px" 
-	    		android:layout_weight="1"
-	    		android:singleLine="true"
-	    		android:layout_height="42dp"
-	    		android:hint="Search..." 
-	    		android:inputType="textNoSuggestions"
-	    		android:imeOptions="actionSearch"/>
-	    </LinearLayout>
-	    <LinearLayout
-	    	android:id="@+id/ml_header_bar"
-	    	android:layout_width="match_parent" 
-	    	android:layout_height="match_parent"
-	    	android:orientation="horizontal">
-	    	<ImageView
-	    		android:src="@drawable/header_logo"
-	    		android:layout_width="wrap_content"
-	    		android:layout_height="48dip"
-	    		android:scaleType="fitStart"
-	    		android:paddingLeft="12dip"/>
-	    	<View
-	    		android:layout_width="0dip"
-	    		android:layout_height="wrap_content"
-	    		android:layout_weight="1"/>
-	    	<ProgressBar 
-	    		android:id="@+id/ml_progress_bar" 
-	    		android:layout_width="22dip" 
-	    		android:layout_height="22dip"
-	    		android:layout_margin="13dip"
-	    		android:visibility="invisible"/>
-	    	<ImageButton
-	    		android:id="@+id/ml_header_button_view"
-	    		android:background="@drawable/header_button_browser"
-	    		android:layout_width="48dip"
-	    		android:layout_height="48dip"
-	    		android:onClick="changeView"/>
-	    	<ImageButton
-	    		android:layout_width="48dip"
-	    		android:layout_height="48dip"
-	    		android:background="@drawable/header_button"
-	    		android:src="@drawable/header_icon_loupe"
-	    		android:scaleType="fitXY"
-	    		android:padding="10dip"
-	    		android:onClick="search"/>
-	   	</LinearLayout>
-   	</FrameLayout>
+    <LinearLayout
+    	android:layout_width="match_parent" 
+    	android:layout_height="48dip"
+    	android:orientation="horizontal"
+    	android:background="@drawable/header" >
+    	<ImageView
+    		android:src="@drawable/header_logo"
+    		android:layout_width="wrap_content"
+    		android:layout_height="match_parent"
+    		android:scaleType="fitStart"
+    		android:paddingLeft="12dip"/>
+    	<View
+    		android:layout_width="0dip"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"/>
+    	<ProgressBar 
+    		android:id="@+id/ml_progress_bar" 
+    		android:layout_width="22dip" 
+    		android:layout_height="22dip"
+    		android:layout_margin="13dip"
+    		android:visibility="invisible"/>
+    	<ImageButton
+    		android:id="@+id/ml_header_button_view"
+    		android:background="@drawable/header_button_browser"
+    		android:layout_width="48dip"
+    		android:layout_height="48dip"
+    		android:onClick="changeTabClick"/>
+    	<ImageButton
+    		android:layout_width="48dip"
+    		android:layout_height="48dip"
+    		android:background="@drawable/header_button"
+    		android:src="@drawable/header_icon_loupe"
+    		android:scaleType="fitXY"
+    		android:padding="10dip"
+    		android:onClick="searchClick"/>
+   	</LinearLayout>
    	<TabHost
 	    android:id="@android:id/tabhost"
 	    android:layout_width="fill_parent"
@@ -99,7 +67,4 @@
 	        </FrameLayout>
 	    </LinearLayout>
 	</TabHost>
-   	<EditText android:id="@+id/editText1" android:layout_height="wrap_content" android:layout_width="match_parent">
-   		<requestFocus></requestFocus>
-   	</EditText>
 </LinearLayout>

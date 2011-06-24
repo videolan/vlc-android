@@ -11,7 +11,6 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import android.app.TabActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,19 +19,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 
 public class MediaLibraryActivity extends TabActivity {
 	public final static String TAG = "VLC/MediaLibraryActivity";
-	/**
-	 * TODO: 
-	 * + onClick events for header buttons
-	 * + search functionality
-	 */	
+
 	protected static final int HIDE_PROGRESSBAR = 0;
 	protected static final int SHOW_PROGRESSBAR = 1;
 	private static final int VIDEO_TAB = 0;
@@ -49,9 +41,6 @@ public class MediaLibraryActivity extends TabActivity {
 	private TabHost mTabHost;
 	private int mCurrentState = 0;
 	
-	private LinearLayout mHeaderBar;
-	private LinearLayout mSearchBar;
-	private EditText mSearchText;
 
 	@Override   
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -62,9 +51,6 @@ public class MediaLibraryActivity extends TabActivity {
 		mInstance = this;	
 		mDBManager = DatabaseManager.getInstance();
 		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
-		mHeaderBar = (LinearLayout)findViewById(R.id.ml_header_bar);
-		mSearchBar = (LinearLayout)findViewById(R.id.ml_search_bar);
-		mSearchText = (EditText)findViewById(R.id.ml_search_text);
 
         /* Initialize the TabView */
         mTabHost = getTabHost();
@@ -82,7 +68,6 @@ public class MediaLibraryActivity extends TabActivity {
         
         /* Load media items from database and storage */
 		loadMediaItems();
-	
 	}
 
 	/** Create menu from XML 
@@ -94,8 +79,15 @@ public class MediaLibraryActivity extends TabActivity {
 		inflater.inflate(R.menu.media_library, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-
 	
+
+	@Override
+	public boolean onSearchRequested() {
+		Intent intent = new Intent(this, SearchActivity.class);
+		startActivity(intent);
+		return false;
+	}
+
 	/**
 	 * Handle onClick form menu buttons
 	 */
@@ -140,7 +132,7 @@ public class MediaLibraryActivity extends TabActivity {
 	 * onClick event from xml
 	 * @param view
 	 */
-	public void changeView(View view) {
+	public void changeTabClick(View view) {
 		
 		// TODO: change the icon
 		if (mCurrentState == VIDEO_TAB) {
@@ -157,16 +149,10 @@ public class MediaLibraryActivity extends TabActivity {
 	 * onClick event from xml
 	 * @param view
 	 */
-	public void search(View view) {
-		mHeaderBar.setVisibility(LinearLayout.INVISIBLE);
-		mSearchBar.setVisibility(LinearLayout.VISIBLE);
-		mSearchText.requestFocus();
-		// Show soft keyboard
-		InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		mgr.showSoftInput(mSearchText, InputMethodManager.SHOW_IMPLICIT);
+	public void searchClick(View view) {
+		onSearchRequested();
 	}
 
-	
 	/**
 	 * Get instance e.g. for Context or Handler
 	 * @return this ;)
@@ -174,6 +160,8 @@ public class MediaLibraryActivity extends TabActivity {
 	protected static MediaLibraryActivity getInstance() {
 		return mInstance;	
 	}
+	
+	
 	
 
 	protected Handler mHandler = new Handler() {	

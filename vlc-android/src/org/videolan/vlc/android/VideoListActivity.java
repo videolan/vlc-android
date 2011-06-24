@@ -57,6 +57,13 @@ public class VideoListActivity extends ListActivity {
 		return mInstance;
 	}
 	
+	@Override
+	public boolean onSearchRequested() {
+		Intent intent = new Intent(this, SearchActivity.class);
+		startActivity(intent);
+		return false;
+	}
+	
 	
 	/**
 	 * Handle changes on the list
