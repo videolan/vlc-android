@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical">
-
 	<FrameLayout 
 		android:layout_width="90dip"
         android:layout_height="70dip" >
@@ -26,18 +25,22 @@
 		        android:background="#77000000"
 		        android:textSize="12dip"
 		        android:textColor="#CCCCCC" />
-	    </LinearLayout>
-	   
+	    </LinearLayout>  
     </FrameLayout>
-
     <TextView
     	android:id="@+id/ml_item_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:maxLines="2"
+        android:layout_weight="1"
         android:ellipsize="end"
+        android:maxLines="2"
         android:textSize="17dip"
         android:textColor="@drawable/ml_title_color" 
-        android:paddingLeft="15dip"/>
-
+        android:paddingLeft="12dip"/>
+	<ImageView
+		android:id="@+id/ml_item_more"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/expander_ic_maximized"
+		android:layout_marginRight="5dip" />
 </LinearLayout>

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,6 +64,10 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		}
 		sort();
 	}
+	
+	public void sort() {
+		super.sort(this);		
+	}
 
 	public int compare(MediaItem item1, MediaItem item2) {
 		int compare = 0;
@@ -100,6 +105,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		TextView lengthView = (TextView)v.findViewById(R.id.ml_item_length);
 		titleView.setText(item.getName());
 		lengthView.setText(" " + Util.millisToString(item.getLength()) + " ");
+		ImageView moreView = (ImageView)v.findViewById(R.id.ml_item_more);
 		
 		Bitmap thumbnail;
 		if (item.getThumbnail() != null) {
@@ -112,14 +118,21 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 					R.drawable.thumbnail);
 			thumbnailView.setImageBitmap(thumbnail);
 		}
-
-
+		
+		moreView.setTag(item);
+		moreView.setOnClickListener(moreClickListener);
+		
 		return v;
 	}
 
-	public void sort() {
-		super.sort(this);		
-	}
+	private OnClickListener moreClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			MediaItem item = (MediaItem)v.getTag();
+			Util.toaster(item.getName() + " submenu");
+		}
+	};
 	
 }
 
