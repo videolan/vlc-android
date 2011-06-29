@@ -21,7 +21,7 @@ public class DatabaseManager {
 
 	private SQLiteDatabase mDb;
 	private final String DB_NAME = "vlc_database";
-	private final int DB_VERSION = 1;
+	private final int DB_VERSION = 2;
 	
 	private final String DIR_TABLE_NAME = "directories_table";
 	private final String DIR_ROW_PATH = "path";
