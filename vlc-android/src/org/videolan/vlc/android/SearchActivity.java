@@ -110,8 +110,9 @@ public class SearchActivity extends ListActivity {
     }
     
     private void loadSearchHistory() {
-    	// TODO: load real history from database
-    	mSearchHistory = new String[]{ "test0", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9" };
+    	DatabaseManager db = DatabaseManager.getInstance();
+    	if (db != null)
+    	mSearchHistory = db.getSearchhistory(20);
     }
     
     private TextWatcher searchTextWatcher = new TextWatcher() {
@@ -155,11 +156,17 @@ public class SearchActivity extends ListActivity {
 			mSearchText.setSelection(selection.length());
 			mSearchText.requestFocus();
 		} else if (getListAdapter() == mResultAdapter) {
+			// add search text to the database (history)
+			DatabaseManager db = DatabaseManager.getInstance();
+			db.addSearchhistoryItem(mSearchText.getText().toString());
+			
+			// open media in the player
 			MediaItem item = (MediaItem) getListAdapter().getItem(position);
 			Intent intent = new Intent(this, VideoPlayerActivity.class);
 			intent.putExtra("filePath", item.getPath());
 			startActivity(intent);
 			super.onListItemClick(l, v, position, id);
+			
 		}
 	};
 	

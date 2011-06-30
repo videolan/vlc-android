@@ -91,8 +91,8 @@ public class ThumbnailerManager extends Thread {
             
             Log.i(TAG, "show ProgressBar!");
             
-            int width = 150;
-            int height = 150;
+            int width = 120;
+            int height = 120;
             
             // Get the thumbnail.
             Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);

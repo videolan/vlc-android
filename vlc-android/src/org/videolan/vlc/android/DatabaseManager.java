@@ -3,6 +3,8 @@ package org.videolan.vlc.android;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class DatabaseManager {
 
 	private SQLiteDatabase mDb;
 	private final String DB_NAME = "vlc_database";
-	private final int DB_VERSION = 2;
+	private final int DB_VERSION = 3;
 	
 	private final String DIR_TABLE_NAME = "directories_table";
 	private final String DIR_ROW_PATH = "path";
@@ -35,6 +37,10 @@ public class DatabaseManager {
 	private final String MEDIA_WIDTH = "width";
 	private final String MEDIA_HEIGHT = "height";
 	private final String MEDIA_THUMBNAIL = "thumbnail";
+	
+	private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
+	private final String SEARCHHISTORY_DATE = "date";
+	private final String SEARCHHISTORY_KEY = "key";
 	
 	public enum mediaColumn { MEDIA_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
 		MEDIA_TYPE, MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_THUMBNAIL
@@ -98,6 +104,15 @@ public class DatabaseManager {
 			
 			// Create the media table
 			db.execSQL(createMediaTabelQuery);
+			
+			String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS " 
+				+ SEARCHHISTORY_TABLE_NAME + " (" 
+				+ SEARCHHISTORY_KEY + " VARCHAR(200) PRIMARY KEY NOT NULL, "
+				+ SEARCHHISTORY_DATE + " DATETIME NOT NULL" 
+				+ ");"; 
+			
+			// Create the searchhistory table
+			db.execSQL(createSearchhistoryTabelQuery);
 		}
 
 		@Override
@@ -291,6 +306,41 @@ public class DatabaseManager {
 		boolean exists = cursor.moveToFirst();
 		cursor.close();
 		return exists;
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 */
+	public synchronized void addSearchhistoryItem(String key) {
+		// set the format to sql date time
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		Date date = new Date();
+		ContentValues values = new ContentValues();
+		values.put(SEARCHHISTORY_KEY, key);
+		values.put(SEARCHHISTORY_DATE, dateFormat.format(date));
+		
+		mDb.insert(SEARCHHISTORY_TABLE_NAME, null, values); 
+	}
+	
+	
+	public synchronized String[] getSearchhistory(int size) {
+		ArrayList<String> history = new ArrayList<String>();
+		
+		Cursor cursor = mDb.query(SEARCHHISTORY_TABLE_NAME, 
+				new String[] { SEARCHHISTORY_KEY }, 
+				null, null, null, null, 
+				SEARCHHISTORY_DATE + " DESC",
+				Integer.toString(size));
+		
+		int i = 0;
+		while(cursor.moveToNext()) {
+			history.add(cursor.getString(0));
+			i++;
+		}
+		cursor.close();
+		
+		return history.toArray(new String[history.size()]);
 	}
 	
 
