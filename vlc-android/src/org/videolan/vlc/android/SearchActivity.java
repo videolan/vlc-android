@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,17 +64,31 @@ public class SearchActivity extends ListActivity {
 		removeListHeader();
 		setListAdapter(null);
 		mResultAdapter.clear();
-    	ArrayList<MediaItem> allItems = MediaLibraryActivity.getInstance().mItemList;
-    	for (int i = 0; i < allItems.size(); i++) {
-    		MediaItem item = allItems.get(i);
-    		if ((type == MediaItem.TYPE_VIDEO || // Only video by now!
-    				type == item.getType()) &&
-    				item.getName().contains(key) ||
-    				item.getPath().contains(key)) {
-    			mResultAdapter.add(item);
-    		}
-    	}
-    	mResultAdapter.sort();
+		String[] keys = key.toString().split("\\s+");
+		ArrayList<MediaItem> allItems = MediaLibraryActivity.getInstance().mItemList;
+		for (int i = 0; i < allItems.size(); i++) {
+			MediaItem item = allItems.get(i);
+			if (type != MediaItem.TYPE_ALL && type != item.getType())
+				continue;
+
+			Log.d(TAG, keys[0]);
+			boolean add = true;
+			String name = item.getName().toLowerCase();
+			String path = item.getPath().toLowerCase();
+			for (int k = 0; k < keys.length; k++) {
+				Log.d(TAG, keys[k]);
+				if (!(name.contains(keys[k].toLowerCase()) ||
+						path.contains(keys[k].toLowerCase()))) {
+					add = false;
+					break;
+				}
+			}
+
+			if (add)
+				mResultAdapter.add(item);
+
+		}
+		mResultAdapter.sort();
     	setListAdapter(mResultAdapter);
     }
     
