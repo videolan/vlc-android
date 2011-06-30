@@ -36,7 +36,7 @@ public class MediaLibraryActivity extends TabActivity {
 	private static MediaLibraryActivity mInstance;	
 	private DatabaseManager mDBManager;	
 	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
-	protected List<MediaItem> mItemList = new ArrayList<MediaItem>();
+	protected ArrayList<MediaItem> mItemList = new ArrayList<MediaItem>();
 	private ProgressBar mProgressBar;
 	private TabHost mTabHost;
 	private int mCurrentState = 0;

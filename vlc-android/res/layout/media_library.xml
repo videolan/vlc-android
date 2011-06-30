@@ -27,7 +27,7 @@
     		android:visibility="invisible"/>
     	<ImageButton
     		android:id="@+id/ml_header_button_view"
-    		android:background="@drawable/header_button_browser"
+    		android:background="@drawable/header_button"
     		android:layout_width="48dip"
     		android:layout_height="48dip"
     		android:onClick="changeTabClick"/>

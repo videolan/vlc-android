@@ -22,7 +22,7 @@
 		       	android:id="@+id/ml_item_length"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:background="#77000000"
+		        android:background="@drawable/video_list_length_bg"
 		        android:textSize="12dip"
 		        android:textColor="#CCCCCC" />
 	    </LinearLayout>  
@@ -35,12 +35,13 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textSize="17dip"
-        android:textColor="@drawable/ml_title_color" 
+        android:textColor="@color/video_list_title" 
         android:paddingLeft="12dip"/>
 	<ImageView
 		android:id="@+id/ml_item_more"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:src="@drawable/expander_ic_maximized"
-		android:layout_marginRight="5dip" />
+		android:layout_height="match_parent"
+		android:src="@drawable/ic_next"
+		android:paddingRight="12dip"
+		android:paddingLeft="5dip" />
 </LinearLayout>

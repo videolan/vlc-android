@@ -14,4 +14,5 @@
     <string name="sortby_length">Length</string>
     <string name="searchable_hint">Search...</string>
     <string name="searchable_label">VLC media player</string>
+    <string name="search_history">History</string>
 </resources>

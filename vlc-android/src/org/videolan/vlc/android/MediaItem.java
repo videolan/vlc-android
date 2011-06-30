@@ -4,7 +4,6 @@ package org.videolan.vlc.android;
 import java.io.File;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 public class MediaItem implements Comparable<MediaItem> {
 
@@ -22,9 +21,11 @@ public class MediaItem implements Comparable<MediaItem> {
 		 ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
 		 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm"};
 
+	
+	public final static int TYPE_ALL = -1;
 	public final static int TYPE_VIDEO = 0;
 	public final static int TYPE_AUDIO = 1;
-
+	
 	private String mName;
 	private File mFile;
 	private long mTime = 0;

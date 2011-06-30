@@ -20,7 +20,8 @@
 	       	</activity>
 	       	<activity 
 	        	android:name="SearchActivity" 
-	        	android:theme="@android:style/Theme.NoTitleBar">
+	        	android:theme="@android:style/Theme.NoTitleBar"
+	        	android:configChanges="orientation">
 	        	<intent-filter>
 	                <action android:name="android.intent.action.SEARCH" />
 	            </intent-filter>

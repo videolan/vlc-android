@@ -130,7 +130,8 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		@Override
 		public void onClick(View v) {
 			MediaItem item = (MediaItem)v.getTag();
-			Util.toaster(item.getName() + " submenu");
+			// TODO: show details
+			Util.toaster("show details for: " + item.getName());
 		}
 	};
 	
