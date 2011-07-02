@@ -140,8 +140,10 @@ public class VideoPlayerActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		if (mLibVLC != null)
+		if (mLibVLC != null) {
+			mLibVLC.stop();
 			mLibVLC.detachEventManager();
+		}
 		super.onDestroy();
 	}
 
