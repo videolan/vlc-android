@@ -320,7 +320,7 @@ public class DatabaseManager {
 		values.put(SEARCHHISTORY_KEY, key);
 		values.put(SEARCHHISTORY_DATE, dateFormat.format(date));
 		
-		mDb.insert(SEARCHHISTORY_TABLE_NAME, null, values); 
+		mDb.replace(SEARCHHISTORY_TABLE_NAME, null, values); 
 	}
 	
 	
