@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,7 +42,7 @@ public class SearchActivity extends ListActivity {
         
         mSearchText = (EditText)findViewById(R.id.search_text);
         mSearchText.setOnEditorActionListener(searchTextListener);
-        mSearchText.addTextChangedListener(searchTextWatcher);
+        mSearchText.addTextChangedListener(searchTextWatcher);		
         
         final Intent queryIntent = getIntent();
 		final String queryAction = queryIntent.getAction();
@@ -54,11 +53,12 @@ public class SearchActivity extends ListActivity {
 		} else {
 			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 	    	imm.showSoftInput(mSearchText, InputMethodManager.RESULT_SHOWN);
+	    	showSearchHistory();
 		}
 		
+		
 		mSearchText.requestFocus();
-		showSearchHistory();
-       
+
     }
     
     private void search(CharSequence key, int type) {
@@ -72,13 +72,10 @@ public class SearchActivity extends ListActivity {
 			MediaItem item = allItems.get(i);
 			if (type != MediaItem.TYPE_ALL && type != item.getType())
 				continue;
-
-			Log.d(TAG, keys[0]);
 			boolean add = true;
 			String name = item.getName().toLowerCase();
 			String path = item.getPath().toLowerCase();
 			for (int k = 0; k < keys.length; k++) {
-				Log.d(TAG, keys[k]);
 				if (!(name.contains(keys[k].toLowerCase()) ||
 						path.contains(keys[k].toLowerCase()))) {
 					add = false;
@@ -93,9 +90,11 @@ public class SearchActivity extends ListActivity {
 
 		}
 		mResultAdapter.sort();
-    	setListAdapter(mResultAdapter);
-    	String headerText = getString(R.string.search_found_results, results);
+		
+		String headerText = getString(R.string.search_found_results, results);
     	showListHeader(headerText);
+		
+    	setListAdapter(mResultAdapter);
     }
     
     
@@ -170,17 +169,15 @@ public class SearchActivity extends ListActivity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		// Intent to start new Activity
-		Intent intent;
-		
+
 		// Handle item selection
 		switch (item.getItemId()) {
 		// Sort by name
 		case R.id.search_clear_history:
 			DatabaseManager db = DatabaseManager.getInstance();
 			db.clearSearchhistory();
-			showSearchHistory();
+			if (mHistoryAdapter == getListAdapter())
+				showSearchHistory();
 		}
 		return super.onOptionsItemSelected(item);
 	}
