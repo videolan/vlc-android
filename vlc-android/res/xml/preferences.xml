@@ -7,4 +7,10 @@
             android:summary="Select media directories">
         </PreferenceScreen>
     </PreferenceCategory>
+    	<PreferenceCategory android:title="Search">
+		<PreferenceScreen
+			android:key="clear_history"
+        	android:title="Clear History">
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

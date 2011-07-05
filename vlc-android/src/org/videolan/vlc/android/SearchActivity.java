@@ -204,7 +204,7 @@ public class SearchActivity extends ListActivity {
 			db.addSearchhistoryItem(mSearchText.getText().toString());
 			
 			// open media in the player
-			MediaItem item = (MediaItem) getListAdapter().getItem(position);
+			MediaItem item = (MediaItem) getListAdapter().getItem(position - 1);
 			Intent intent = new Intent(this, VideoPlayerActivity.class);
 			intent.putExtra("filePath", item.getPath());
 			startActivity(intent);

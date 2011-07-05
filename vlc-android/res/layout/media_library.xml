@@ -57,13 +57,6 @@
 	            android:id="@android:id/tabcontent"
 	            android:layout_width="fill_parent"
 	            android:layout_height="fill_parent">
-	            <TextView 
-	                android:id="@+id/ml_audio_todo"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
-	                android:gravity="center" 
-	                android:text="Audio ;)"
-	                android:textSize="25dip" />
 	        </FrameLayout>
 	    </LinearLayout>
 	</TabHost>

@@ -59,9 +59,8 @@ public class MediaLibraryActivity extends TabActivity {
         mVideoListActivity = VideoListActivity.getInstance();
         
         
-        // TODO: implement the audio view
         mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
-        		.setContent(R.id.ml_audio_todo));
+        		.setContent(new Intent(this, AudioListActivity.class)));
         
         // restore the last used tab
         mTabHost.setCurrentTab(mCurrentState);
