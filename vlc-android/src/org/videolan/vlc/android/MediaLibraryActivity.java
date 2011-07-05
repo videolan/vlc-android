@@ -71,7 +71,6 @@ public class MediaLibraryActivity extends TabActivity {
 	}
 
 	/** Create menu from XML 
-	 * TODO: Add images 
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

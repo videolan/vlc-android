@@ -324,7 +324,7 @@ public class DatabaseManager {
 	}
 	
 	
-	public synchronized String[] getSearchhistory(int size) {
+	public synchronized ArrayList<String> getSearchhistory(int size) {
 		ArrayList<String> history = new ArrayList<String>();
 		
 		Cursor cursor = mDb.query(SEARCHHISTORY_TABLE_NAME, 
@@ -340,7 +340,11 @@ public class DatabaseManager {
 		}
 		cursor.close();
 		
-		return history.toArray(new String[history.size()]);
+		return history;
+	}
+	
+	public synchronized void clearSearchhistory() {
+		mDb.delete(SEARCHHISTORY_TABLE_NAME, null, null);
 	}
 	
 

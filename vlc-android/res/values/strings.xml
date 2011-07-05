@@ -15,4 +15,6 @@
     <string name="searchable_hint">Search...</string>
     <string name="searchable_label">VLC media player</string>
     <string name="search_history">History</string>
+    <string name="clear_history">Clear History</string>
+    <string name="search_found_results">%1$d Results Found</string>
 </resources>

@@ -12,6 +12,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -25,8 +28,8 @@ public class SearchActivity extends ListActivity {
 	public final static String TAG = "VLC/SearchActivit";
 	
 	private EditText mSearchText;
-	private String[] mSearchHistory;
 	private ArrayAdapter<String> mHistoryAdapter;
+	private ArrayList<String> mHistory = new ArrayList<String>();
 	private SearchResultAdapter mResultAdapter;
 	private LinearLayout mListHeader;
 	
@@ -61,11 +64,10 @@ public class SearchActivity extends ListActivity {
     private void search(CharSequence key, int type) {
     	
     	// set result adapter to the list 
-		removeListHeader();
-		setListAdapter(null);
 		mResultAdapter.clear();
 		String[] keys = key.toString().split("\\s+");
 		ArrayList<MediaItem> allItems = MediaLibraryActivity.getInstance().mItemList;
+		int results = 0;
 		for (int i = 0; i < allItems.size(); i++) {
 			MediaItem item = allItems.get(i);
 			if (type != MediaItem.TYPE_ALL && type != item.getType())
@@ -84,50 +86,51 @@ public class SearchActivity extends ListActivity {
 				}
 			}
 
-			if (add)
+			if (add) {
 				mResultAdapter.add(item);
+				results++;
+			}
 
 		}
 		mResultAdapter.sort();
     	setListAdapter(mResultAdapter);
+    	String headerText = getString(R.string.search_found_results, results);
+    	showListHeader(headerText);
     }
     
-
     
-    private void addListHeader(int resid) {
+    private void showListHeader(String text) {
     	ListView lv = getListView();
     	
+    	// create a new header if not exists
     	if (mListHeader == null) {
     		LayoutInflater infalter = getLayoutInflater();
         	mListHeader = (LinearLayout) infalter.inflate(R.layout.list_header, lv, false);
-    	}
+        	lv.addHeaderView(mListHeader, null, false);
+    	} 
     	
+    	// set header text
     	TextView headerText = (TextView)mListHeader.findViewById(R.id.list_header_text);
-    	headerText.setText(R.string.search_history);
-    	getListView().addHeaderView(mListHeader, null, false);
+    	headerText.setText(text);
     }
-    
-    private void removeListHeader() {
-    	if (mListHeader != null)
-    		getListView().removeHeaderView(mListHeader);
-    }
+
     
     private void showSearchHistory() {
-    	setListAdapter(null);
+
     	// Add header to the history
-    	addListHeader(R.string.search_history);
+    	String headerText = getString(R.string.search_history);
+    	showListHeader(headerText);
     	
-    	if (mSearchHistory == null)
-    		loadSearchHistory();
-    	if (mHistoryAdapter == null)
-    		mHistoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mSearchHistory);
-    	setListAdapter(mHistoryAdapter);
-    }
-    
-    private void loadSearchHistory() {
     	DatabaseManager db = DatabaseManager.getInstance();
-    	if (db != null)
-    	mSearchHistory = db.getSearchhistory(20);
+    	mHistory.clear();
+    	mHistory.addAll(db.getSearchhistory(20)); 
+    	if (mHistoryAdapter == null) {
+    		mHistoryAdapter = new ArrayAdapter<String>(this, 
+    				android.R.layout.simple_list_item_1, mHistory);
+    	} else {
+    		mHistoryAdapter.notifyDataSetChanged();
+    	}
+    	setListAdapter(mHistoryAdapter);
     }
     
     private TextWatcher searchTextWatcher = new TextWatcher() {
@@ -153,6 +156,34 @@ public class SearchActivity extends ListActivity {
 		}
 	};
 	
+	/** Create menu from XML 
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.search, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	/**
+	 * Handle onClick form menu buttons
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		// Intent to start new Activity
+		Intent intent;
+		
+		// Handle item selection
+		switch (item.getItemId()) {
+		// Sort by name
+		case R.id.search_clear_history:
+			DatabaseManager db = DatabaseManager.getInstance();
+			db.clearSearchhistory();
+			showSearchHistory();
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
     
     private OnEditorActionListener searchTextListener = new OnEditorActionListener() {	
