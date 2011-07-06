@@ -23,7 +23,7 @@ $(APK_MK):
 	    prefix="../"; \
 	 fi; \
 	 if [ -z "$$VLC_CONTRIB" ] ; then \
-	    VLC_CONTRIB="../../contrib/build"; \
+	    VLC_CONTRIB="vlc/extras/contrib/build"; \
 	 fi; \
 	 if [ `echo "$$VLC_CONTRIB" | head -c 1` != "/" ] ; then \
 	    vlc_contrib="../$$VLC_CONTRIB"; \

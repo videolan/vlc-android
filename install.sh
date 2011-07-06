@@ -19,10 +19,18 @@ cd extras/contrib && ./bootstrap -t arm-eabi -d android && make
 
 cd ../.. && mkdir -p android && cd android
 
-echo "Bootstraping"
-../bootstrap
+if [ -e configure ]; then
+    echo "Bootstraping"
+    ../bootstrap
+fi;
 
 echo "Configuring"
 sh ../extras/package/android/configure.sh
 
+echo "Building"
 make
+
+echo "Building Android"
+cd ../../
+make distclean
+VLC_BUILD_DIR=vlc/android make
