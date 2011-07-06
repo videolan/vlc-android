@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:scrollbars="none">
+	<FrameLayout
+	  	android:orientation="vertical"
+	  	android:layout_width="match_parent"
+	  	android:layout_height="match_parent">
+	  	<LinearLayout
+	  		android:layout_width="match_parent"
+	  		android:layout_height="match_parent"
+	  		android:gravity="center_horizontal"
+	  		android:paddingTop="60dip">
+	  		<ProgressBar 
+	  			android:layout_width="wrap_content" 
+	  			android:layout_height="wrap_content" 
+	  			style="?android:attr/progressBarStyleLarge"/>
+	  	</LinearLayout>
+	
+	    <ImageView 
+	    	android:layout_width="match_parent" 
+	    	android:layout_height="210dip" 
+	    	android:id="@+id/image"
+	    	android:scaleType="centerCrop"
+	    	android:visibility="invisible"/>
+	    <LinearLayout
+	    	android:layout_width="match_parent" 
+	    	android:layout_height="match_parent" 
+	    	android:paddingTop="180dip">
+		    <LinearLayout
+		    	android:layout_width="match_parent" 
+		    	android:layout_height="match_parent" 
+		    	android:orientation="vertical"
+		    	android:background="#66000000">
+		        <TextView 
+		        	android:layout_width="wrap_content" 
+		        	android:layout_height="wrap_content" 
+		        	android:textAppearance="?android:attr/textAppearanceLarge" 
+		        	android:id="@+id/title"
+		        	android:singleLine="true"
+		        	android:layout_marginLeft="10dip"/>
+		        <TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="match_parent" 
+	        		android:gravity="right"
+	       			android:id="@+id/length" 
+	       			android:layout_marginRight="10dip"
+	       			android:textAppearance="?android:attr/textAppearanceMedium"/>
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	       			android:layout_marginTop="10dip"
+	       			android:layout_marginLeft="5dip"
+	       			android:textAppearance="?android:attr/textAppearanceMedium"
+	       			android:text="Stream 0"/>
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	        		android:layout_marginLeft="20dip"
+	       			android:textAppearance="?android:attr/textAppearanceSmall"
+	       			android:text="Type: Video\nCodec: MPEG-4 Video (XVID)\nResolution: 640x352\nFrame rate: 25"/>
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	       			android:layout_marginTop="10dip"
+	       			android:layout_marginLeft="5dip"
+	       			android:textAppearance="?android:attr/textAppearanceMedium"
+	       			android:text="Stream 1"/>
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	        		android:layout_marginLeft="20dip"
+	       			android:textAppearance="?android:attr/textAppearanceSmall"
+	       			android:text="Type: Audio\nCodec: MPEG Audio layer 1/2/3 (mpga)\nChannels: Stereo\nSample rate: 48000 Hz\nBitrate: 128 kb/s"/>
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	       			android:layout_marginTop="10dip"
+	       			android:layout_marginLeft="5dip"
+	       			android:textAppearance="?android:attr/textAppearanceMedium"
+	       			android:text="Stream 2"/>	
+	       		<TextView 
+		        	android:layout_height="wrap_content" 
+	        		android:layout_width="wrap_content" 
+	        		android:layout_marginLeft="20dip"
+	       			android:textAppearance="?android:attr/textAppearanceSmall"
+	       			android:text="Type: Subtitle\nCodec: Text subtitles with various tags (subt)"
+	       			android:layout_marginBottom="30dip"/>
+		    </LinearLayout>
+	    </LinearLayout>
+	</FrameLayout>
+</ScrollView>

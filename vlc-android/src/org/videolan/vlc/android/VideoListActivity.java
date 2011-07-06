@@ -26,7 +26,8 @@ public class VideoListActivity extends ListActivity {
 	private static VideoListActivity mInstance;	
 	
 	protected static final int UPDATE_ITEM = 0;
-	protected static final int UPDATE_LIST = 1;
+	
+	private MediaLibrary mMediaLibrary;
 
 	
 	@Override
@@ -39,6 +40,8 @@ public class VideoListActivity extends ListActivity {
 		mNoFileLayout = (LinearLayout)findViewById(R.id.video_list_empty_nofile);
 		mLoadFileLayout = (LinearLayout)findViewById(R.id.video_list_empty_loadfile);
 		
+		mMediaLibrary = MediaLibrary.getInstance();
+		mMediaLibrary.addUpdateHandler(mHandler);
 		mThumbnailerManager = new ThumbnailerManager();
 		
 		setListAdapter(mVideoAdapter);
@@ -83,7 +86,7 @@ public class VideoListActivity extends ListActivity {
 					e.printStackTrace();
 				}
 				break;
-			case UPDATE_LIST:
+			case MediaLibrary.MEDIA_ITEMS_UPDATED:
 				updateList();
 				break;
 			}
@@ -92,9 +95,9 @@ public class VideoListActivity extends ListActivity {
 	
 	private void updateList() {
 		
-		MediaLibraryActivity mediaLibraryActivity = MediaLibraryActivity.getInstance();
+		MainActivity mainActivity = MainActivity.getInstance();
 		
-		List<MediaItem> itemList = mediaLibraryActivity.mItemList;
+		List<MediaItem> itemList = mMediaLibrary.getVideoItems();
 		
 		mVideoAdapter.clear();
 		
@@ -112,7 +115,7 @@ public class VideoListActivity extends ListActivity {
 			mNoFileLayout.setVisibility(View.VISIBLE);
 		}
 		
-		mediaLibraryActivity.mHandler.sendEmptyMessage(MediaLibraryActivity.HIDE_PROGRESSBAR);
+		mainActivity.mHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
 
 	}
 	

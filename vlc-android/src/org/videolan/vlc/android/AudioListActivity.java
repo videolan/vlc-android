@@ -38,20 +38,15 @@ public class AudioListActivity extends ListActivity {
 
 	private void updateList() {
 		
-		MediaLibraryActivity mediaLibraryActivity = MediaLibraryActivity.getInstance();
-		List<MediaItem> itemList = mediaLibraryActivity.mItemList;
+		List<MediaItem> itemList = MediaLibrary.getInstance().getAudioItems();
 
-		if (itemList.size() > 0) {
-			for (MediaItem item : itemList) {
-				if (item.getType() == MediaItem.TYPE_AUDIO) {
-					HashMap<String,String> listItem = new HashMap<String,String>();
-					listItem.put( "text1", item.getName() );
-					listItem.put( "text2", item.getPath() );
-					list.add( listItem );
-				}
-			}	
-		}
-		
+		for (MediaItem item : itemList) {
+			HashMap<String,String> listItem = new HashMap<String,String>();
+			listItem.put( "text1", item.getName());
+			listItem.put( "text2", item.getPath());
+			list.add( listItem );
+		}	
+
 		mAudioAdapter.notifyDataSetChanged();
 
 	}

@@ -25,7 +25,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				new OnPreferenceClickListener() {
 			
 			public boolean onPreferenceClick(Preference preference) {
-				Intent intent = new Intent(MediaLibraryActivity.getInstance(), 
+				Intent intent = new Intent(MainActivity.getInstance(), 
 						BrowserActivity.class);
 				startActivity(intent);
 				return true;

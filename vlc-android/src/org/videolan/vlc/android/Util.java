@@ -10,7 +10,7 @@ public class Util {
 
 	@Deprecated
     public static void toaster(String message, int duration) {
-        Toast.makeText(MediaLibraryActivity.getInstance(),
+        Toast.makeText(MainActivity.getInstance(),
                        message, duration)
              .show();
     }
@@ -22,7 +22,7 @@ public class Util {
 
     /** Print an on-screen message to alert the user */
     public static void toaster(int stringId, int duration) {
-        Toast.makeText(MediaLibraryActivity.getInstance(),
+        Toast.makeText(MainActivity.getInstance(),
                        stringId, duration)
              .show();
     }

@@ -4,8 +4,10 @@ package org.videolan.vlc.android;
 import java.util.Comparator;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,7 +116,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		} else {
 			// set default thumbnail
 			thumbnail = BitmapFactory.decodeResource(
-					MediaLibraryActivity.getInstance().getResources(), 
+					MainActivity.getInstance().getResources(), 
 					R.drawable.thumbnail);
 			thumbnailView.setImageBitmap(thumbnail);
 		}
@@ -130,8 +132,10 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		@Override
 		public void onClick(View v) {
 			MediaItem item = (MediaItem)v.getTag();
-			// TODO: show details
-			Util.toaster("show details for: " + item.getName());
+			Intent intent = new Intent(getContext(), MediaInfoActivity.class);
+			intent.putExtra("filePath", item.getPath());
+			VideoActivityGroup group = VideoActivityGroup.getInstance();
+			group.startChildAcitvity("MediaInfo", intent);
 		}
 	};
 	

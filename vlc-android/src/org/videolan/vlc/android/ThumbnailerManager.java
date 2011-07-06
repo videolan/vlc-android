@@ -22,12 +22,12 @@ public class ThumbnailerManager extends Thread {
     private final Condition notEmpty = lock.newCondition();
     
     private LibVLC mLibVlc;  
-    private MediaLibraryActivity mMediaLibraryActivity;
+    private MainActivity mMediaLibraryActivity;
     private VideoListActivity mVideoListActivity;
 
     
     public ThumbnailerManager() {
-    	mMediaLibraryActivity = MediaLibraryActivity.getInstance();
+    	mMediaLibraryActivity = MainActivity.getInstance();
     	mVideoListActivity = VideoListActivity.getInstance();
     	try {
 			mLibVlc = LibVLC.getInstance();
@@ -73,7 +73,7 @@ public class ThumbnailerManager extends Thread {
             {
                 try {
                 	mMediaLibraryActivity.mHandler.sendEmptyMessage(
-                			MediaLibraryActivity.HIDE_PROGRESSBAR);
+                			MainActivity.HIDE_PROGRESSBAR);
                 	Log.i(TAG, "hide ProgressBar!");
                     notEmpty.await();
                 } catch (InterruptedException e) {
@@ -87,7 +87,7 @@ public class ThumbnailerManager extends Thread {
             
             MediaItem item = mItems.poll();
             mMediaLibraryActivity.mHandler.sendEmptyMessage(
-        			MediaLibraryActivity.SHOW_PROGRESSBAR);   
+        			MainActivity.SHOW_PROGRESSBAR);   
             
             Log.i(TAG, "show ProgressBar!");
             

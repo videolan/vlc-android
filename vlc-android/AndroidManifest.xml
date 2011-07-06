@@ -10,7 +10,7 @@
 	        <activity 
 	        	android:label="@string/app_name"
 	        	android:icon="@drawable/icon" 
-	        	android:name="MediaLibraryActivity"
+	        	android:name=".MainActivity"
 	        	android:theme="@android:style/Theme.NoTitleBar"
 	        	android:configChanges="orientation">
 	        	<intent-filter>
@@ -35,7 +35,13 @@
 	        	android:name="PreferencesActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>
 	        <activity 
+	        	android:name="VideoActivityGroup" 
+	        	android:theme="@android:style/Theme.NoTitleBar"/>
+	        <activity 
 	        	android:name="VideoListActivity" 
+	        	android:theme="@android:style/Theme.NoTitleBar"/>
+	        <activity 
+	        	android:name=".MediaInfoActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>
 	        <activity 
 	        	android:name="VideoPlayerActivity" 

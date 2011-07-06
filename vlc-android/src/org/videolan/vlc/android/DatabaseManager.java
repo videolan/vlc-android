@@ -64,7 +64,7 @@ public class DatabaseManager {
 	
 	public synchronized static DatabaseManager getInstance() {
         if (instance == null) {
-        	Context context = MediaLibraryActivity.getInstance();
+        	Context context = MainActivity.getInstance();
             instance = new DatabaseManager(context);
         }
         return instance;

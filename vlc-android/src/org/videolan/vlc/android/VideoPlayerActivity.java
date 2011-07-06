@@ -77,7 +77,7 @@ public class VideoPlayerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player);
-		mContext = MediaLibraryActivity.getInstance();
+		mContext = MainActivity.getInstance();
 		
 		// stop screen from dimming
 		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
