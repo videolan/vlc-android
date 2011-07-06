@@ -1,7 +1,7 @@
-From 2e5ed9be19688d9fdf11edb7021aeb7d2d04e87b Mon Sep 17 00:00:00 2001
+From 07a7da99d5c2d1fa34a389c389c2a58753a46c5c Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Mon, 4 Jul 2011 15:52:19 +0200
-Subject: [PATCH 4/6] Push messages to Android stack
+Subject: [PATCH 4/8] Push messages to Android stack
 
 ---
  configure.ac        |    1 +

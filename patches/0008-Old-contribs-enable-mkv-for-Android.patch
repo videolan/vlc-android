@@ -1,0 +1,87 @@
+From dde8316449516a4abd0849a06b630290f858bb1c Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
+Date: Thu, 7 Jul 2011 01:23:53 +0200
+Subject: [PATCH 8/8] Old contribs: enable mkv for Android
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ extras/contrib/bootstrap                     |   10 ++++++++--
+ extras/contrib/src/Distributions/android.mak |    3 ++-
+ extras/contrib/src/contrib-src.mak           |    4 ++++
+ extras/package/android/configure.sh          |    2 +-
+ 4 files changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/extras/contrib/bootstrap b/extras/contrib/bootstrap
+index 4db520e..2fcae1a 100755
+--- a/extras/contrib/bootstrap
++++ b/extras/contrib/bootstrap
+@@ -362,8 +362,11 @@ case "$DISTRO" in
+     fi
+     # The given host (arm-eabi) is not the real one (arm-linux-androideabi)
+     ln -sfn $TARGET hosts/arm-linux-androideabi
+-    CC="arm-linux-androideabi-gcc -nostdlib -lc -lgcc"
+-    CXX="arm-linux-androideabi-g++ -nostdlib -lc -lgcc"
++    CC="arm-linux-androideabi-gcc"
++    CXX="arm-linux-androideabi-g++"
++    EXTRA_LDFLAGS="-nostdlib -lc -lgcc"
++    EXTRA_CFLAGS="-D__STDC_VERSION__=199901L"
++    EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include"
+     NM=arm-linux-androideabi-nm
+     AR=arm-linux-androideabi-ar
+     LD=arm-linux-androideabi-ld
+@@ -374,7 +377,10 @@ case "$DISTRO" in
+     add_makefile_cfg "PATH = ${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/:${PATH}"
+     add_enabled_makefile_cfg "HAVE_LINUX"
+     if test -z "$NO_NEON"; then
++        EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/include"
+         add_enabled_makefile_cfg "HAVE_NEON"
++    else
++        EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include"
+     fi
+ esac
+ 
+diff --git a/extras/contrib/src/Distributions/android.mak b/extras/contrib/src/Distributions/android.mak
+index afa5086..31532e4 100644
+--- a/extras/contrib/src/Distributions/android.mak
++++ b/extras/contrib/src/Distributions/android.mak
+@@ -5,7 +5,8 @@ all: .zlib \
+      .flac .speex .faad .lame .ffmpeg \
+      .twolame \
+      .png .dvbpsi \
+-     .dca .kate .live
++     .dca .kate .live \
++     .ebml .matroska
+ 
+ 
+ ANDROID_INCLUDE=$(ANDROID_NDK)/platforms/android-9/arch-arm/usr/include
+diff --git a/extras/contrib/src/contrib-src.mak b/extras/contrib/src/contrib-src.mak
+index 99580f0..cb0c725 100644
+--- a/extras/contrib/src/contrib-src.mak
++++ b/extras/contrib/src/contrib-src.mak
+@@ -95,6 +95,10 @@ else
+ HOSTCC2=$(HOSTCC)
+ endif
+ 
++ifdef HAVE_ANDROID
++HOSTCC2=$(HOSTCC)
++endif
++
+ # Just a shortcut for readability
+ ENABLED=1
+ 
+diff --git a/extras/package/android/configure.sh b/extras/package/android/configure.sh
+index 73a8d39..ce4f4a2 100755
+--- a/extras/package/android/configure.sh
++++ b/extras/package/android/configure.sh
+@@ -64,7 +64,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
+                 --enable-swscale \
+                 --enable-avcodec \
+                 --disable-libva \
+-                --disable-mkv \
++                --enable-mkv \
+                 --disable-dv \
+                 --disable-mod \
+                 --disable-sid \
+-- 
+1.7.5.4
+

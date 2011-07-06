@@ -1,7 +1,7 @@
-From c2388d346250407e48ead2f147780eb99016e261 Mon Sep 17 00:00:00 2001
+From 01338cc97dc9e2ef4119321330397a01b312b424 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 6 Jul 2011 00:16:58 +0200
-Subject: [PATCH 5/6] Revert "Move common predefined macros to config.h and
+Subject: [PATCH 5/8] Revert "Move common predefined macros to config.h and
  common.am"
 
 This reverts commit 7af4b7fed74f000a0145547a301d67314df977d3.

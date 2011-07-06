@@ -1,7 +1,7 @@
-From 2a8e6c23ce416dc5f2fff08fc5fd3ca1465c1a79 Mon Sep 17 00:00:00 2001
+From 4b5430f3b44e5571c69d616a14af1263fd462844 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 6 Jul 2011 00:18:31 +0200
-Subject: [PATCH 6/6] Revert "Remove ugly builtin support"
+Subject: [PATCH 6/8] Revert "Remove ugly builtin support"
 
 This reverts commit 473a276fdd990c75efe1106a8c7b2de18200df59.
 ---

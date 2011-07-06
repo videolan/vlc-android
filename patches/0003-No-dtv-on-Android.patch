@@ -1,7 +1,7 @@
-From 59b79884f34229a3afbdaf64e43be73a0bc5ffa9 Mon Sep 17 00:00:00 2001
+From 175be1f8d5cb3189d466e48e016676d7d1973ea0 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Fri, 10 Jun 2011 16:48:26 +0200
-Subject: [PATCH 3/6] No dtv on Android
+Subject: [PATCH 3/8] No dtv on Android
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
