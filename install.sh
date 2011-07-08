@@ -12,14 +12,15 @@ $GIT clone git://git.videolan.org/vlc.git
 
 echo "Applying the patches"
 cd vlc
-$GIT am ../patches/*.patch
+$GIT am ../patches/*.patch || $GIT am --abort
 
 echo "Building the contribs"
 cd extras/contrib && ./bootstrap -t arm-eabi -d android && make
 
 cd ../.. && mkdir -p android && cd android
 
-if [ -e configure ]; then
+if test ! -s "../configure"
+then
     echo "Bootstraping"
     ../bootstrap
 fi;
