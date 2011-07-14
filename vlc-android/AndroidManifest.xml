@@ -48,8 +48,13 @@
 	        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
 	        	android:configChanges="orientation"/>
 	        <activity 
-	        	android:name="AudioListActivity" 
+	        	android:name=".AudioBrowserActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>
+	        <activity 
+	        	android:name=".AudioActivityGroup" 
+	        	android:theme="@android:style/Theme.NoTitleBar"/>
+	        <service 
+	        	android:name=".AudioService"/>
 	        <activity 
 	        	android:name="BrowserActivity" 
 	        	android:label="Media Directories"

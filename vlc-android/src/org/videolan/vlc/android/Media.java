@@ -5,7 +5,7 @@ import java.io.File;
 
 import android.graphics.Bitmap;
 
-public class MediaItem implements Comparable<MediaItem> {
+public class Media implements Comparable<Media> {
 
 	public final static String TAG = "VLC/MediaItem";
 
@@ -22,9 +22,11 @@ public class MediaItem implements Comparable<MediaItem> {
 		 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm"};
 
 	
+	
 	public final static int TYPE_ALL = -1;
 	public final static int TYPE_VIDEO = 0;
 	public final static int TYPE_AUDIO = 1;
+	
 	
 	private String mName;
 	private File mFile;
@@ -41,7 +43,7 @@ public class MediaItem implements Comparable<MediaItem> {
 	 * Create an new MediaItem
 	 * @param file: path on the local storage
 	 */
-	public MediaItem(File file) {
+	public Media(File file) {
 		this.mFile = file;
 		mName = file.getName().substring(0, mFile.getName().lastIndexOf('.'));
 
@@ -63,7 +65,7 @@ public class MediaItem implements Comparable<MediaItem> {
 	/**
 	 * Create an existing item from database
 	 */
-	public MediaItem(String name, File file, long time, long length,
+	public Media(String name, File file, long time, long length,
 			int type, int width, int height, Bitmap thumbnail) {
 		mName = name;
 		mFile = file;
@@ -133,7 +135,7 @@ public class MediaItem implements Comparable<MediaItem> {
 	/**
 	 * Compare the filenames to sort items
 	 */
-	public int compareTo(MediaItem another) {
+	public int compareTo(Media another) {
 		return getName().toUpperCase().compareTo(
 				another.getName().toUpperCase());
 	}

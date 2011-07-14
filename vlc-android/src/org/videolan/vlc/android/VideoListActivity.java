@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore.Audio.AudioColumns;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,7 +20,7 @@ public class VideoListActivity extends ListActivity {
 	private LinearLayout mLoadFileLayout;
 	private VideoListAdapter mVideoAdapter;
 
-	protected MediaItem mItemToUpdate;
+	protected Media mItemToUpdate;
 
 	protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	protected ThumbnailerManager mThumbnailerManager;
@@ -43,13 +44,18 @@ public class VideoListActivity extends ListActivity {
 		mMediaLibrary = MediaLibrary.getInstance();
 		mMediaLibrary.addUpdateHandler(mHandler);
 		mThumbnailerManager = new ThumbnailerManager();
-		
+
 		setListAdapter(mVideoAdapter);
 	}
 	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		MediaItem item = (MediaItem) getListAdapter().getItem(position);
+		// Stop the currently running audio
+		AudioServiceController asc = AudioServiceController.getInstance();
+		asc.stop();
+
+		
+		Media item = (Media) getListAdapter().getItem(position);
 		Intent intent = new Intent(this, VideoPlayerActivity.class);
 		intent.putExtra("filePath", item.getPath());
 		startActivity(intent);
@@ -97,13 +103,13 @@ public class VideoListActivity extends ListActivity {
 		
 		MainActivity mainActivity = MainActivity.getInstance();
 		
-		List<MediaItem> itemList = mMediaLibrary.getVideoItems();
+		List<Media> itemList = mMediaLibrary.getVideoItems();
 		
 		mVideoAdapter.clear();
 		
 		if (itemList.size() > 0) {
-			for (MediaItem item : itemList) {
-				if (item.getType() == MediaItem.TYPE_VIDEO) {
+			for (Media item : itemList) {
+				if (item.getType() == Media.TYPE_VIDEO) {
 					mVideoAdapter.add(item);
 					if (item.getThumbnail() == null)
 						mThumbnailerManager.addJob(item);

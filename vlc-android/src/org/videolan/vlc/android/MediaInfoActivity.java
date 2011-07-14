@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MediaInfoActivity extends Activity {
 	public final static String TAG = "VLC/MediaInfoActivity";
-	private MediaItem mItem;
+	private Media mItem;
 	private Bitmap mImage;
 	private final static int NEW_IMAGE = 0;
 	

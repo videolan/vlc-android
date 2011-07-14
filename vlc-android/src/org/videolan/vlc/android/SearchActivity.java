@@ -66,11 +66,11 @@ public class SearchActivity extends ListActivity {
     	// set result adapter to the list 
 		mResultAdapter.clear();
 		String[] keys = key.toString().split("\\s+");
-		ArrayList<MediaItem> allItems = MediaLibrary.getInstance().getMediaItems();
+		ArrayList<Media> allItems = MediaLibrary.getInstance().getMediaItems();
 		int results = 0;
 		for (int i = 0; i < allItems.size(); i++) {
-			MediaItem item = allItems.get(i);
-			if (type != MediaItem.TYPE_ALL && type != item.getType())
+			Media item = allItems.get(i);
+			if (type != Media.TYPE_ALL && type != item.getType())
 				continue;
 			boolean add = true;
 			String name = item.getName().toLowerCase();
@@ -109,7 +109,7 @@ public class SearchActivity extends ListActivity {
     	} 
     	
     	// set header text
-    	TextView headerText = (TextView)mListHeader.findViewById(R.id.list_header_text);
+    	TextView headerText = (TextView)mListHeader.findViewById(R.id.text);
     	headerText.setText(text);
     }
 
@@ -137,7 +137,7 @@ public class SearchActivity extends ListActivity {
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			if (s.length() > 0) {
-				search(s, MediaItem.TYPE_ALL);
+				search(s, Media.TYPE_ALL);
 			} else {
 				showSearchHistory();
 			}
@@ -204,7 +204,7 @@ public class SearchActivity extends ListActivity {
 			db.addSearchhistoryItem(mSearchText.getText().toString());
 			
 			// open media in the player
-			MediaItem item = (MediaItem) getListAdapter().getItem(position - 1);
+			Media item = (Media) getListAdapter().getItem(position - 1);
 			Intent intent = new Intent(this, VideoPlayerActivity.class);
 			intent.putExtra("filePath", item.getPath());
 			startActivity(intent);

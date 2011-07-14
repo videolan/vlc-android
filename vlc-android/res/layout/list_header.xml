@@ -4,11 +4,16 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:background="#505050"
-	android:padding="2dip">
+	android:background="#444444">
 	<TextView 
-		android:id="@+id/list_header_text" 
+		android:id="@+id/text" 
    		android:layout_height="wrap_content" 
    		android:layout_width="match_parent" 
-   		android:layout_marginLeft="3dip"/>
+   		android:layout_marginLeft="18dip"
+   		android:textSize="16dip"
+   		android:textColor="#ffffff"/>
+    <View
+    	android:layout_width="match_parent"
+  		android:layout_height="1dip"
+  		android:background="#f0f0f0"/>
 </LinearLayout>

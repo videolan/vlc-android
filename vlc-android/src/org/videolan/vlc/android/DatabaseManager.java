@@ -127,7 +127,7 @@ public class DatabaseManager {
 	 * Add a new item to the database. The thumbnail can only added by update.
 	 * @param item which you like to add to the database
 	 */
-	public synchronized void addMediaItem(MediaItem item) {
+	public synchronized void addMediaItem(Media item) {
 		if (!mediaDirExists(item.getPath())) {
 			
 			ContentValues values = new ContentValues();
@@ -185,10 +185,10 @@ public class DatabaseManager {
 	}
 	
 
-	public synchronized MediaItem getMediaItem(String path) {
+	public synchronized Media getMediaItem(String path) {
 		
 		Cursor cursor;
-		MediaItem item = null;
+		Media item = null;
 		Bitmap thumbnail = null;
 		byte[] blob;
 		
@@ -214,7 +214,7 @@ public class DatabaseManager {
 				thumbnail = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 			}
 			
-			item = new MediaItem(
+			item = new Media(
 					cursor.getString(0),
 					new File(cursor.getString(1)),
 					cursor.getLong(2),

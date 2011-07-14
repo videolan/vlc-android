@@ -19,13 +19,13 @@ public class MediaLibrary {
 
 	private static MediaLibrary mInstance;
 	private DatabaseManager mDBManager;	
-	private ArrayList<MediaItem> mItemList;
+	private ArrayList<Media> mItemList;
 	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	private ArrayList<Handler> mUpdateHandler;
 	
 	private MediaLibrary() {
 		mInstance = this;
-		mItemList = new ArrayList<MediaItem>();
+		mItemList = new ArrayList<Media>();
 		mUpdateHandler = new ArrayList<Handler>();
 		mDBManager = DatabaseManager.getInstance();	
 	}
@@ -45,35 +45,35 @@ public class MediaLibrary {
 		mUpdateHandler.add(handler);
 	}
 
-	public ArrayList<MediaItem> getVideoItems() {
-		ArrayList<MediaItem> videoItems = new ArrayList<MediaItem>();
+	public ArrayList<Media> getVideoItems() {
+		ArrayList<Media> videoItems = new ArrayList<Media>();
 		for (int i = 0; i < mItemList.size(); i++) {
-			MediaItem item = mItemList.get(i);
-			if (item.getType() == MediaItem.TYPE_VIDEO) {
+			Media item = mItemList.get(i);
+			if (item.getType() == Media.TYPE_VIDEO) {
 				videoItems.add(item);
 			}
 		}
 		return videoItems;
 	}
 	
-	public ArrayList<MediaItem> getAudioItems() {
-		ArrayList<MediaItem> videoItems = new ArrayList<MediaItem>();
+	public ArrayList<Media> getAudioItems() {
+		ArrayList<Media> videoItems = new ArrayList<Media>();
 		for (int i = 0; i < mItemList.size(); i++) {
-			MediaItem item = mItemList.get(i);
-			if (item.getType() == MediaItem.TYPE_AUDIO) {
+			Media item = mItemList.get(i);
+			if (item.getType() == Media.TYPE_AUDIO) {
 				videoItems.add(item);
 			}
 		}
 		return videoItems;
 	}
 	
-	public ArrayList<MediaItem> getMediaItems() {
+	public ArrayList<Media> getMediaItems() {
 		return mItemList;
 	}
 	
-	public MediaItem getMediaItem(String path) {
+	public Media getMediaItem(String path) {
 		for (int i = 0; i < mItemList.size(); i++) {
-			MediaItem item = mItemList.get(i);
+			Media item = mItemList.get(i);
 			if (item.getPath().equals(path)) {
 				return item;
 			}
@@ -132,7 +132,7 @@ public class MediaLibrary {
 			    				}
 			    			} else {
 			    				// create new media item
-			    				mItemList.add( new MediaItem( f[i] ));
+			    				mItemList.add( new Media( f[i] ));
 			    			}
 			    		} else if (f[i].isDirectory()) {
 			    			directorys.push(f[i]);
@@ -178,7 +178,7 @@ public class MediaLibrary {
     private class MediaItemFilter implements FileFilter {
     	
     	// FIXME: save extensions in external database
-    	private String[] extensions = MediaItem.EXTENTIONS; 
+    	private String[] extensions = Media.EXTENTIONS; 
 		public boolean accept(File f) {
 			boolean accepted = false;
 			if (!f.isHidden()) {

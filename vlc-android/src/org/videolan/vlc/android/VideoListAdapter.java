@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class VideoListAdapter extends ArrayAdapter<MediaItem> 
-								 implements Comparator<MediaItem> {
+public class VideoListAdapter extends ArrayAdapter<Media> 
+								 implements Comparator<Media> {
 
 	public final static int SORT_BY_NAME = 0;
 	public final static int SORT_BY_LENGTH = 1;
@@ -33,7 +32,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 	public final static String TAG = "VLC/MediaLibraryAdapter";
 	
 
-	public synchronized void update(MediaItem item) {
+	public synchronized void update(Media item) {
 		int position = getPosition(item);
 		if (position != -1) {
 			remove(item);
@@ -71,7 +70,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		super.sort(this);		
 	}
 
-	public int compare(MediaItem item1, MediaItem item2) {
+	public int compare(Media item1, Media item2) {
 		int compare = 0;
 		switch (mSortBy) {
 		case SORT_BY_NAME:
@@ -101,7 +100,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 					parent, false);
 		}
 
-		MediaItem item = getItem(position);
+		Media item = getItem(position);
 		ImageView thumbnailView = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
 		TextView titleView = (TextView)v.findViewById(R.id.ml_item_title);
 		TextView lengthView = (TextView)v.findViewById(R.id.ml_item_length);
@@ -131,7 +130,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaItem>
 		
 		@Override
 		public void onClick(View v) {
-			MediaItem item = (MediaItem)v.getTag();
+			Media item = (Media)v.getTag();
 			Intent intent = new Intent(getContext(), MediaInfoActivity.class);
 			intent.putExtra("filePath", item.getPath());
 			VideoActivityGroup group = VideoActivityGroup.getInstance();

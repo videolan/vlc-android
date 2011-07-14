@@ -21,8 +21,10 @@ public class MainActivity extends TabActivity {
 	protected static final int SHOW_PROGRESSBAR = 1;
 	private static final int VIDEO_TAB = 0;
 	private static final int AUDIO_TAB = 1;
+	public static final String START_FROM_NOTIFICATION = "from_notification";
 	
 	private VideoListActivity mVideoListActivity;
+	
 	
 	private static MainActivity mInstance;	
 	private ProgressBar mProgressBar;
@@ -32,7 +34,7 @@ public class MainActivity extends TabActivity {
 
 	@Override   
 	protected void onCreate(Bundle savedInstanceState) {	
-		setContentView(R.layout.media_library);	
+		setContentView(R.layout.main);	
 		super.onCreate(savedInstanceState); 
 
 		/* Initialize variables */
@@ -46,7 +48,12 @@ public class MainActivity extends TabActivity {
        
         
         mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
-        		.setContent(new Intent(this, AudioListActivity.class)));
+        		.setContent(new Intent(this, AudioActivityGroup.class)));
+	
+        // Start audio player when audio is playing
+        if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
+        	mCurrentState = AUDIO_TAB;
+        }
         
         // restore the last used tab
         mTabHost.setCurrentTab(mCurrentState);

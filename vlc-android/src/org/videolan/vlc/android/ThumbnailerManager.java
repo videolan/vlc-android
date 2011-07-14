@@ -16,7 +16,7 @@ import android.util.Log;
 public class ThumbnailerManager extends Thread {
 	public final static String TAG = "VLC/ThumbnailerManager";
     
-    private final Queue<MediaItem> mItems = new LinkedList<MediaItem>();
+    private final Queue<Media> mItems = new LinkedList<Media>();
     
     private final Lock lock = new ReentrantLock();
     private final Condition notEmpty = lock.newCondition();
@@ -52,7 +52,7 @@ public class ThumbnailerManager extends Thread {
      * Add a new id of the file browser item to create its thumbnail.
      * @param id the if of the file browser item.
      */
-    public void addJob(MediaItem item) {
+    public void addJob(Media item) {
         lock.lock();
         mItems.add(item);
         notEmpty.signal();
@@ -85,7 +85,7 @@ public class ThumbnailerManager extends Thread {
                 break;
             lock.unlock();
             
-            MediaItem item = mItems.poll();
+            Media item = mItems.poll();
             mMediaLibraryActivity.mHandler.sendEmptyMessage(
         			MainActivity.SHOW_PROGRESSBAR);   
             

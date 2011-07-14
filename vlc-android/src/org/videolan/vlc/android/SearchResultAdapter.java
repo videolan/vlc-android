@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SearchResultAdapter extends ArrayAdapter<MediaItem> 
-									implements Comparator<MediaItem>  {
+public class SearchResultAdapter extends ArrayAdapter<Media> 
+									implements Comparator<Media>  {
 
 	public SearchResultAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
@@ -26,7 +26,7 @@ public class SearchResultAdapter extends ArrayAdapter<MediaItem>
 					parent, false);
 		}
 
-		MediaItem item = getItem(position);
+		Media item = getItem(position);
 		TextView textView = (TextView)v.findViewById(android.R.id.text1);
 		textView.setText(item.getName());
 		
@@ -34,7 +34,7 @@ public class SearchResultAdapter extends ArrayAdapter<MediaItem>
 	}
 
 	@Override
-	public int compare(MediaItem object1, MediaItem object2) {
+	public int compare(Media object1, Media object2) {
 		return object1.getName().compareToIgnoreCase(object2.getName());
 	}
 

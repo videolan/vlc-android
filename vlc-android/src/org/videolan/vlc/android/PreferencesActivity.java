@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.widget.Toast;
 
 public class PreferencesActivity extends PreferenceActivity {
 

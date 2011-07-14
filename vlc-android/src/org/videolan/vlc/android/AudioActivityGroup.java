@@ -2,28 +2,36 @@ package org.videolan.vlc.android;
 
 import java.util.ArrayList;
 
+import org.videolan.vlc.android.widget.AudioPlayer;
+
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.FrameLayout;
 
-public class VideoActivityGroup extends ActivityGroup {
-	public final static String TAG = "VLC/VideoActivityGroup";
-	
-	private static VideoActivityGroup mInstance;  
+public class AudioActivityGroup extends ActivityGroup {
+	public final static String TAG = "VLC/AudioActivityGroup";
+
 	private ArrayList<String> mHistory;
+	private AudioPlayer mAudioPlayer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.mHistory = new ArrayList<String>();
-		mInstance = this;
+		mHistory = new ArrayList<String>();
+		mAudioPlayer = new AudioPlayer(this);
+		AudioServiceController audioController = AudioServiceController.getInstance();
+		audioController.addAudioPlayer(mAudioPlayer);
+		mAudioPlayer.setAudioPlayerControl(audioController);
+		mAudioPlayer.showMiniPlayer();
 		
 		// Load VideoListActivity by default
-		Intent intent = new Intent(this, VideoListActivity.class);
-		startChildAcitvity("VideoListActivity", intent);
+		Intent intent = new Intent(this, AudioBrowserActivity.class);
+		startChildAcitvity("AudioBrowserActivity", intent);
 	}
 	
 	
@@ -36,10 +44,6 @@ public class VideoActivityGroup extends ActivityGroup {
 		}
 	}
 
-
-	public static VideoActivityGroup getInstance() {
-		return mInstance;
-	} 
 
 	@Override
 	public void finishFromChild(Activity child) {
@@ -69,6 +73,18 @@ public class VideoActivityGroup extends ActivityGroup {
 		super.onBackPressed();
 	}
 
+
+	@Override
+	public void setContentView(View view) {
+		FrameLayout fl = new FrameLayout(this);
+		fl.addView(view);
+		fl.addView(mAudioPlayer);
+		super.setContentView(fl);
+	}
 	
-	
+	@Override
+	protected void onDestroy() {
+		AudioServiceController.getInstance().unbindAudioService();
+		super.onDestroy();
+	}
 }
