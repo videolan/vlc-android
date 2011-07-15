@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 
@@ -30,6 +31,7 @@ public class MainActivity extends TabActivity {
 	private ProgressBar mProgressBar;
 	private TabHost mTabHost;
 	private int mCurrentState = 0;
+	private ImageButton mChangeTab;
 	
 
 	@Override   
@@ -40,6 +42,7 @@ public class MainActivity extends TabActivity {
 		/* Initialize variables */
 		mInstance = this;	
 		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
+		mChangeTab = (ImageButton) findViewById(R.id.change_tab);
 
         /* Initialize the TabView */
         mTabHost = getTabHost();
@@ -132,8 +135,10 @@ public class MainActivity extends TabActivity {
 		// TODO: change the icon
 		if (mCurrentState == VIDEO_TAB) {
 			mCurrentState = AUDIO_TAB;
+			mChangeTab.setImageResource(R.drawable.header_icon_video);
 		} else {
 			mCurrentState = VIDEO_TAB;
+			mChangeTab.setImageResource(R.drawable.header_icon_audio);
 		}
 		
 		mTabHost.setCurrentTab(mCurrentState);

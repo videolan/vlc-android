@@ -26,10 +26,13 @@
     		android:layout_margin="13dip"
     		android:visibility="invisible"/>
     	<ImageButton
-    		android:id="@+id/ml_header_button_view"
+    		android:id="@+id/change_tab"
     		android:background="@drawable/header_button"
-    		android:layout_width="48dip"
-    		android:layout_height="48dip"
+			android:src="@drawable/header_icon_audio"
+			android:scaleType="fitXY"
+    		android:layout_width="48dp"
+    		android:layout_height="48dp"
+    		android:padding="10dip"
     		android:onClick="changeTabClick"/>
     	<ImageButton
     		android:layout_width="48dip"
