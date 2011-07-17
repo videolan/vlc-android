@@ -1,29 +1,29 @@
 package org.videolan.vlc.android.widget;
 
 import org.videolan.vlc.android.R;
+import org.videolan.vlc.android.Util;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class AudioPlayer extends LinearLayout {
-	public static final String TAG = "VLC/AudioPlayer";
-	
-	private static final int STATE_MINI_PLAYER = 0;
-	private static final int STATE_PLAYER = 1;
+public class AudioMiniPlayer extends LinearLayout {
+	public static final String TAG = "VLC/AudioMiniPlayer";
 
 	
-	private AudioPlayerControl mAudioPlayerControl;
+	private AudioMiniPlayerControl mAudioPlayerControl;
 	
 	private TextView mTitle;
 	private TextView mArtist;
 	private ImageButton mPlayPause;
-
-	private int mCurrentState = STATE_MINI_PLAYER;
+	private ImageView mCover;
+	private SeekBar mSeekbar;
 	
 	// Listener for the play and pause buttons
 	private OnClickListener onPlayPauseClickListener = new OnClickListener() {		
@@ -41,17 +41,18 @@ public class AudioPlayer extends LinearLayout {
 	};
 
 	
-	public AudioPlayer(Context context, AttributeSet attrs) {
+	public AudioMiniPlayer(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		init();
 	}
 
-	public AudioPlayer(Context context) {
+	public AudioMiniPlayer(Context context) {
 		super(context);
+		init();
 	}
-
-	public void showMiniPlayer() {
-		// remove old views
-		removeAllViews();
+	
+	private void init() {
+		this.setVisibility(LinearLayout.INVISIBLE);
 		// get inflater and create the new view
 		LayoutInflater layoutInflater = 
 			(LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,38 +65,34 @@ public class AudioPlayer extends LinearLayout {
 		mArtist = (TextView) findViewById(R.id.artist);
 		mPlayPause = (ImageButton) findViewById(R.id.play_pause);
 		mPlayPause.setOnClickListener(onPlayPauseClickListener);
+		mSeekbar = (SeekBar) findViewById(R.id.timeline);
 		
-		mCurrentState = STATE_MINI_PLAYER;
+		LinearLayout miniPlayer = (LinearLayout) findViewById(R.id.mini_player);
+		miniPlayer.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				// Start audio player
+				Util.toaster("Start Audio Player");
+			}
+			
+		});
 	}
+
 	
-	public void showPlayer() {
-		// remove old views
-		removeAllViews();
-		// get inflater and create the new view
-		LayoutInflater layoutInflater = 
-			(LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View mPlayerView = layoutInflater.inflate(R.layout.audio_player, this, false);
-		
-		// Initialize the children
-		
-		addView(mPlayerView);
-		mCurrentState = STATE_PLAYER;
-	}
-	
-	public void setAudioPlayerControl(AudioPlayerControl control) {
+	public void setAudioPlayerControl(AudioMiniPlayerControl control) {
 		mAudioPlayerControl = control;
 	}
 	
 	public void update() {
 		if (mAudioPlayerControl != null) {
-			if (mCurrentState == STATE_MINI_PLAYER) {
-				if (mAudioPlayerControl.hasMedia()) {
-					this.setVisibility(LinearLayout.VISIBLE);
-				} else {
-					this.setVisibility(LinearLayout.INVISIBLE);
-					return;
-				}
+			if (mAudioPlayerControl.hasMedia()) {
+				this.setVisibility(LinearLayout.VISIBLE);
+			} else {
+				this.setVisibility(LinearLayout.INVISIBLE);
+				return;
 			}
+			
 			mTitle.setText(mAudioPlayerControl.getTitle());
 			mArtist.setText(mAudioPlayerControl.getArtist());
 			if (mAudioPlayerControl.isPlaying()) {
@@ -103,16 +100,21 @@ public class AudioPlayer extends LinearLayout {
 			} else {
 				mPlayPause.setBackgroundResource(R.drawable.ic_play);
 			}
-			if (mCurrentState == STATE_PLAYER) {
-				
-			}
+			int time = (int)mAudioPlayerControl.getTime();
+			int length = (int)mAudioPlayerControl.getLength();
+			// Update all view elements
+
+			mSeekbar.setMax(length);
+			mSeekbar.setProgress(time);
 		}
 		
 		
 	}
 	
-	public interface AudioPlayerControl {
+	public interface AudioMiniPlayerControl {
 		String getTitle();
+		int getLength();
+		int getTime();
 		boolean hasMedia();
 		String getArtist();
 		void play();

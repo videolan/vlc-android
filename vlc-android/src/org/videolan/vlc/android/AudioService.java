@@ -15,6 +15,7 @@ import android.util.Log;
 public class AudioService extends Service {
 	private static final String TAG = "VLC/AudioService";
 	
+	private static final int SHOW_PROGRESS = 0;
 	
 	private LibVLC mLibVLC;
 	private Media mMedia;
@@ -53,7 +54,7 @@ public class AudioService extends Service {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.e(TAG, "MediaPlayerPlaying");
-                    executeUpdate();
+                    mHandler.sendEmptyMessage(SHOW_PROGRESS);
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.e(TAG, "MediaPlayerPaused");
@@ -65,6 +66,7 @@ public class AudioService extends Service {
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.e(TAG, "MediaPlayerEndReached");
+                    mHandler.removeMessages(SHOW_PROGRESS);
                     executeUpdate();
                     hideNotification();
                     mEndReached = true;
@@ -78,6 +80,7 @@ public class AudioService extends Service {
     };
     
     private void executeUpdate() {
+    	Log.d(TAG, "executeUpdate()");
     	for (int i = 0; i < mCallback.size(); i++) {
     		try {
 				mCallback.get(i).update();
@@ -86,6 +89,21 @@ public class AudioService extends Service {
 			}
     	}
     }
+    
+	private Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case SHOW_PROGRESS:
+					int pos = (int) mLibVLC.getTime();
+					if (mLibVLC.isPlaying() && mCallback.size() > 0) {
+						sendEmptyMessageDelayed(SHOW_PROGRESS, 1000 - (pos % 1000));
+						executeUpdate();
+					}
+					break;
+			}
+		}
+	};
     
     private void showNotification() {
 		// add notification to status bar
@@ -114,6 +132,7 @@ public class AudioService extends Service {
     	public void pause() throws RemoteException {
     		hideNotification();
     		mLibVLC.pause();
+    		mHandler.removeMessages(SHOW_PROGRESS);
     	}
 
     	@Override
@@ -126,6 +145,7 @@ public class AudioService extends Service {
     			
     		}
     		showNotification();
+    		executeUpdate();
     	}
 
     	@Override
@@ -133,6 +153,7 @@ public class AudioService extends Service {
     		mLibVLC.stop();
     		mMedia = null;
     		hideNotification();
+    		mHandler.removeMessages(SHOW_PROGRESS);
     		executeUpdate();
     	}
 
@@ -149,7 +170,6 @@ public class AudioService extends Service {
     		}
     		mLibVLC.readMedia(mediaPath);
     		showNotification();
-    		executeUpdate();
     	}
 
 
@@ -191,12 +211,17 @@ public class AudioService extends Service {
 				mCallback.remove(cb);
 			}
 		}
+
+		@Override
+		public int getTime() throws RemoteException {
+			return (int) mLibVLC.getTime();
+		}
+
+		@Override
+		public int getLength() throws RemoteException {
+			// TODO Auto-generated method stub
+			return (int) mLibVLC.getLength();
+		}
 	};
-	
-	
-    
-
-
-
 
 }

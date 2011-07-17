@@ -2,7 +2,7 @@ package org.videolan.vlc.android;
 
 import java.util.ArrayList;
 
-import org.videolan.vlc.android.widget.AudioPlayer;
+import org.videolan.vlc.android.widget.AudioMiniPlayer;
 
 import android.app.Activity;
 import android.app.ActivityGroup;
@@ -17,17 +17,16 @@ public class AudioActivityGroup extends ActivityGroup {
 	public final static String TAG = "VLC/AudioActivityGroup";
 
 	private ArrayList<String> mHistory;
-	private AudioPlayer mAudioPlayer;
+	private AudioMiniPlayer mAudioPlayer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mHistory = new ArrayList<String>();
-		mAudioPlayer = new AudioPlayer(this);
+		mAudioPlayer = new AudioMiniPlayer(this);
 		AudioServiceController audioController = AudioServiceController.getInstance();
 		audioController.addAudioPlayer(mAudioPlayer);
 		mAudioPlayer.setAudioPlayerControl(audioController);
-		mAudioPlayer.showMiniPlayer();
 		
 		// Load VideoListActivity by default
 		Intent intent = new Intent(this, AudioBrowserActivity.class);
@@ -70,6 +69,7 @@ public class AudioActivityGroup extends ActivityGroup {
 			getCurrentActivity().finish();
 			return;
 		}
+
 		super.onBackPressed();
 	}
 
@@ -87,4 +87,5 @@ public class AudioActivityGroup extends ActivityGroup {
 		AudioServiceController.getInstance().unbindAudioService();
 		super.onDestroy();
 	}
+	
 }

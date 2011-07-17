@@ -11,6 +11,8 @@ interface IAudioService {
 	boolean hasMedia();
 	String getTitle();
 	String getArtist();
+	int getTime();
+	int getLength();
 	void addAudioCallback(IAudioServiceCallback cb);
 	void removeAudioCallback(IAudioServiceCallback cb);
 }

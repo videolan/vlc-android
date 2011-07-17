@@ -10,6 +10,7 @@ import org.videolan.vlc.android.widget.FlingViewGroup.ViewSwitchListener;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
@@ -94,7 +95,5 @@ public class AudioBrowserActivity extends Activity {
 		mAudioAdapter.notifyDataSetChanged();
 
 	}
-	
-
 
 }

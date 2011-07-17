@@ -4,7 +4,5 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:gravity="bottom">
-	
-	
+	android:background="#000000">
 </LinearLayout>

@@ -52,7 +52,8 @@ public class VideoListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		// Stop the currently running audio
 		AudioServiceController asc = AudioServiceController.getInstance();
-		asc.stop();
+		if (asc.isPlaying())
+			asc.stop();
 
 		
 		Media item = (Media) getListAdapter().getItem(position);

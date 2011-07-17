@@ -2,8 +2,8 @@ package org.videolan.vlc.android;
 
 import java.util.ArrayList;
 
-import org.videolan.vlc.android.widget.AudioPlayer;
-import org.videolan.vlc.android.widget.AudioPlayer.AudioPlayerControl;
+import org.videolan.vlc.android.widget.AudioMiniPlayer;
+import org.videolan.vlc.android.widget.AudioMiniPlayer.AudioMiniPlayerControl;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class AudioServiceController implements AudioPlayerControl {
+public class AudioServiceController implements AudioMiniPlayerControl {
 	public static final String TAG = "VLC/AudioServiceContoller";
 	
 	private static AudioServiceController mInstance;
@@ -21,7 +21,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	private Context mContext;
 	private IAudioService mAudioServiceBinder;
 	private ServiceConnection mAudioServiceConnection;
-	private ArrayList<AudioPlayer> mAudioPlayer;
+	private ArrayList<AudioMiniPlayer> mAudioPlayer;
 	private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {	
 		@Override
 		public void update() throws RemoteException {
@@ -34,7 +34,7 @@ public class AudioServiceController implements AudioPlayerControl {
 		// Get context from MainActivity
 		mContext = MainActivity.getInstance();
 		
-		mAudioPlayer = new ArrayList<AudioPlayer>();
+		mAudioPlayer = new ArrayList<AudioMiniPlayer>();
 		
         // Setup audio service connection
         mAudioServiceConnection = new ServiceConnection() {	
@@ -120,7 +120,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	 * Add a AudioPlayer
 	 * @param ap
 	 */
-	public void addAudioPlayer(AudioPlayer ap) {
+	public void addAudioPlayer(AudioMiniPlayer ap) {
 		mAudioPlayer.add(ap);
 	}
 	
@@ -128,7 +128,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	 * Remove AudioPlayer from list
 	 * @param ap
 	 */
-	public void removeAudioPlayer(AudioPlayer ap) {
+	public void removeAudioPlayer(AudioMiniPlayer ap) {
 		if (mAudioPlayer.contains(ap)) {
 			mAudioPlayer.remove(ap);
 		}
@@ -223,6 +223,28 @@ public class AudioServiceController implements AudioPlayerControl {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public int getLength() {
+		try {
+			return mAudioServiceBinder.getLength();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int getTime() {
+		try {
+			return mAudioServiceBinder.getTime();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	

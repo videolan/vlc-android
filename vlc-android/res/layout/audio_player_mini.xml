@@ -6,6 +6,7 @@
 	android:layout_height="match_parent"
 	android:gravity="bottom">
 	<LinearLayout 
+		android:id="@+id/mini_player"
 		android:layout_width="match_parent"
 		android:layout_height="80dip"
 		android:background="@drawable/audio_player_mini_bg" 
