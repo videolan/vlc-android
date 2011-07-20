@@ -102,7 +102,7 @@ public class MainActivity extends TabActivity {
 		case R.id.ml_menu_sortby_name:
 			if (mCurrentState == VIDEO_TAB) {
 				mVideoListActivity.sortBy(
-						VideoListAdapter.SORT_BY_NAME);
+						VideoListAdapter.SORT_BY_TITLE);
 			} 
 			break;
 			// Sort by length

@@ -28,14 +28,14 @@ public class SearchResultAdapter extends ArrayAdapter<Media>
 
 		Media item = getItem(position);
 		TextView textView = (TextView)v.findViewById(android.R.id.text1);
-		textView.setText(item.getName());
+		textView.setText(item.getTitle());
 		
 		return v;
 	}
 
 	@Override
 	public int compare(Media object1, Media object2) {
-		return object1.getName().compareToIgnoreCase(object2.getName());
+		return object1.getTitle().compareToIgnoreCase(object2.getTitle());
 	}
 
 	public void sort() {

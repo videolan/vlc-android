@@ -29,14 +29,15 @@ public class DatabaseManager {
 	private final String DIR_ROW_PATH = "path";
 	
 	private final String MEDIA_TABLE_NAME = "media_table";
-	private final String MEDIA_NAME = "name";
 	private final String MEDIA_PATH = "path";
 	private final String MEDIA_TIME = "time";
 	private final String MEDIA_LENGTH = "length";
 	private final String MEDIA_TYPE = "type";
-	private final String MEDIA_WIDTH = "width";
-	private final String MEDIA_HEIGHT = "height";
-	private final String MEDIA_THUMBNAIL = "thumbnail";
+	private final String MEDIA_PICTURE = "picture";
+	private final String MEDIA_TITLE = "title";
+	private final String MEDIA_ARTIST = "artist";
+	private final String MEDIA_GENRE = "genre";
+	private final String MEDIA_ALBUM = "album";
 	
 	private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
 	private final String SEARCHHISTORY_DATE = "date";
@@ -45,10 +46,6 @@ public class DatabaseManager {
 	public enum mediaColumn { MEDIA_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
 		MEDIA_TYPE, MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_THUMBNAIL
 	}
-	
-	// TODO: Create database table for items
-//	private final String ITEM_TABLE_NAME = "item_table";
-//	private final String ITEM_ROW_ID = "id";
 	
 	
 	/**
@@ -71,7 +68,6 @@ public class DatabaseManager {
     }
 	
 	
-	
 	private class DatabaseHelper extends SQLiteOpenHelper {
 
 		public DatabaseHelper(Context context) {
@@ -92,15 +88,17 @@ public class DatabaseManager {
 			
 			String createMediaTabelQuery = "CREATE TABLE IF NOT EXISTS " 
 				+ MEDIA_TABLE_NAME + " (" 
-				+ MEDIA_NAME + " VARCHAR(200) NOT NULL, "
-				+ MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, " 
+				+ MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, " 		
 				+ MEDIA_TIME + " INTEGER, "
 				+ MEDIA_LENGTH + " INTEGER, "
 				+ MEDIA_TYPE + " INTEGER, "
-				+ MEDIA_WIDTH + " INTEGER, "
-				+ MEDIA_HEIGHT + " INTEGER, "
-				+ MEDIA_THUMBNAIL + " BLOB"
+				+ MEDIA_PICTURE + " BLOB"			
+				+ MEDIA_TITLE + " VARCHAR(200), "
+				+ MEDIA_ARTIST + " VARCHAR(200), "
+				+ MEDIA_GENRE + " VARCHAR(200), "
+				+ MEDIA_ALBUM + " VARCHAR(200)"
 				+ ");"; 
+			
 			
 			// Create the media table
 			db.execSQL(createMediaTabelQuery);
@@ -124,46 +122,47 @@ public class DatabaseManager {
 	
 	
 	/**
-	 * Add a new item to the database. The thumbnail can only added by update.
-	 * @param item which you like to add to the database
+	 * Add a new media to the database. The picture can only added by update.
+	 * @param meida which you like to add to the database
 	 */
-	public synchronized void addMediaItem(Media item) {
-		if (!mediaDirExists(item.getPath())) {
-			
-			ContentValues values = new ContentValues();
-			values.put(MEDIA_NAME, item.getName());
-			values.put(MEDIA_PATH, item.getPath());
-			values.put(MEDIA_TIME, item.getTime());
-			values.put(MEDIA_LENGTH, item.getLength());
-			values.put(MEDIA_TYPE, item.getType());
-			values.put(MEDIA_WIDTH, item.getWidth());
-			values.put(MEDIA_HEIGHT, item.getHeight());
-			
-			mDb.insert(MEDIA_TABLE_NAME, null, values); 
-		}
+	public synchronized void addMedia(Media media) {
+	
+		ContentValues values = new ContentValues();
+		
+		values.put(MEDIA_PATH, media.getPath());
+		values.put(MEDIA_TIME, media.getTime());
+		values.put(MEDIA_LENGTH, media.getLength());
+		values.put(MEDIA_TYPE, media.getType());
+		values.put(MEDIA_TITLE, media.getTitle());
+		values.put(MEDIA_ARTIST, media.getArtist());
+		values.put(MEDIA_GENRE, media.getGenre());
+		values.put(MEDIA_ALBUM, media.getAlbum());
+		
+		mDb.replace(MEDIA_TABLE_NAME, null, values); 
+
 	}
 	
-	/**
-	 * Check if the item already in the database
-	 * @param path of the item (primary key)
-	 * @return 
-	 */
-	public synchronized boolean mediaItemExists(String path) {
-		Cursor cursor = mDb.query(MEDIA_TABLE_NAME, 
-				new String[] { DIR_ROW_PATH }, 
-				MEDIA_PATH + "=?", 
-				new String[] { path },
-				null, null, null);
-		boolean exists = cursor.moveToFirst();
-		cursor.close();
-		return exists;
-	}
+//	/**
+//	 * Check if the item already in the database
+//	 * @param path of the item (primary key)
+//	 * @return 
+//	 */
+//	public synchronized boolean mediaItemExists(String path) {
+//		Cursor cursor = mDb.query(MEDIA_TABLE_NAME, 
+//				new String[] { DIR_ROW_PATH }, 
+//				MEDIA_PATH + "=?", 
+//				new String[] { path },
+//				null, null, null);
+//		boolean exists = cursor.moveToFirst();
+//		cursor.close();
+//		return exists;
+//	}
 	
 	/**
 	 * Get all paths from the items in the database
 	 * @return list of File
 	 */
-	public synchronized List<File> getMediaItemPaths() {
+	public synchronized List<File> getMediaFiles() {
 		
 		List<File> files = new ArrayList<File>();
 		Cursor cursor;
@@ -185,63 +184,58 @@ public class DatabaseManager {
 	}
 	
 
-	public synchronized Media getMediaItem(String path) {
+	public synchronized Media getMedia(String path) {
 		
 		Cursor cursor;
-		Media item = null;
-		Bitmap thumbnail = null;
+		Media media = null;
+		Bitmap picture = null;
 		byte[] blob;
 		
 		cursor = mDb.query(
 				MEDIA_TABLE_NAME, 
 				new String[] {  
-						MEDIA_NAME,    //0 String
-						MEDIA_PATH,    //1 String 
-						MEDIA_TIME,    //2 long
-						MEDIA_LENGTH,  //3 long
-						MEDIA_TYPE,    //4 int
-						MEDIA_WIDTH,   //5 int
-						MEDIA_HEIGHT,  //6 int
-						MEDIA_THUMBNAIL//7 Bitmap
+						MEDIA_TIME,    //0 long
+						MEDIA_LENGTH,  //1 long
+						MEDIA_TYPE,    //2 int
+						MEDIA_PICTURE, //3 Bitmap
+						MEDIA_TITLE,   //4 string
+						MEDIA_ARTIST,  //5 string
+						MEDIA_GENRE,   //6 string
+						MEDIA_ALBUM    //7 string
 						}, 
 				MEDIA_PATH + "=?", 
 				new String[] { path },
 				null, null, null);
 		if (cursor.moveToFirst()) {
 				
-			blob = cursor.getBlob(7);
+			blob = cursor.getBlob(3);
 			if (blob != null) {
-				thumbnail = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+				picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 			}
 			
-			item = new Media(
-					cursor.getString(0),
-					new File(cursor.getString(1)),
-					cursor.getLong(2),
-					cursor.getLong(3),
-					cursor.getInt(4),
-					cursor.getInt(5),
-					cursor.getInt(6),
-					thumbnail
-					);
+			media = new Media(new File(path), cursor.getLong(1), 
+					cursor.getLong(2), cursor.getInt(2), 
+					picture, cursor.getString(4), 
+					cursor.getString(5), cursor.getString(6), 
+					cursor.getString(7));
 		}
 
-		return item;
+		return media;
 	}
 	
-	public synchronized void removeMediaItem(String path) {
+	public synchronized void removeMedia(String path) {
 		mDb.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "=?", new String[] { path });
 	}
 	
-	public synchronized void updateMediaItem(String path, mediaColumn col, 
+	public synchronized void updateMedia(String path, mediaColumn col, 
 			Object object ) {
 		ContentValues values = new ContentValues();
 		switch (col) {
 		case MEDIA_THUMBNAIL:	
-			Bitmap thumbnail = (Bitmap)object;
+			Bitmap picture = (Bitmap)object;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			thumbnail.compress(Bitmap.CompressFormat.PNG, 100, out);		
-			values.put(MEDIA_THUMBNAIL, out.toByteArray());
+			picture.compress(Bitmap.CompressFormat.PNG, 100, out);		
+			values.put(MEDIA_PICTURE, out.toByteArray());
 			break;
 		default:
 			return;
@@ -255,7 +249,7 @@ public class DatabaseManager {
 	 * 
 	 * @param path
 	 */
-	public synchronized void addMediaDir(String path) {	
+	public synchronized void addDir(String path) {	
 		if (!mediaDirExists(path)) {
 			ContentValues values = new ContentValues();
 			values.put(DIR_ROW_PATH, path);
@@ -268,7 +262,7 @@ public class DatabaseManager {
 	 * 
 	 * @param path
 	 */
-	public synchronized void removeMediaDir(String path) {
+	public synchronized void removeDir(String path) {
 		mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "=?", new String[] { path });
 	}
 

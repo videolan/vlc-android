@@ -112,7 +112,7 @@ public class VideoListActivity extends ListActivity {
 			for (Media item : itemList) {
 				if (item.getType() == Media.TYPE_VIDEO) {
 					mVideoAdapter.add(item);
-					if (item.getThumbnail() == null)
+					if (item.getPicture() == null)
 						mThumbnailerManager.addJob(item);
 				}
 			}	

@@ -102,7 +102,7 @@ public class MediaLibrary {
 			directorys.addAll(mDBManager.getMediaDirs());
 			
 			// get all paths of the existing media items
-			List<File> existingFiles = mDBManager.getMediaItemPaths();
+			List<File> existingFiles = mDBManager.getMediaFiles();
 			
 			// list of all added files
 			List<File> addedFiles = new ArrayList<File>();
@@ -126,7 +126,7 @@ public class MediaLibrary {
 			    				 */
 			    				if (!addedFiles.contains(f[i])) {
 				    				// get existing media item from database
-				    				mItemList.add(mDBManager.getMediaItem(
+				    				mItemList.add(mDBManager.getMedia(
 				    						f[i].getPath()));	
 				    				addedFiles.add( f[i] );
 			    				}
@@ -161,8 +161,7 @@ public class MediaLibrary {
 	    	// remove file from database 
 	    	for (int i = 0; i < existingFiles.size(); i++) {
 	    		if (!addedFiles.contains(existingFiles.get(i))) {
-		    		mDBManager.removeMediaItem(
-		    				existingFiles.get(i).getPath());
+		    		mDBManager.removeMedia(existingFiles.get(i).getPath());
 	    		}
 	    	}
 	    	// hide progressbar in header

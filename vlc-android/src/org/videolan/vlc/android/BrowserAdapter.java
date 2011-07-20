@@ -63,14 +63,14 @@ public class BrowserAdapter extends ArrayAdapter<File>
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					if (dirCheckBox.isEnabled() && isChecked) {
-						dbManager.addMediaDir(item.getPath());
+						dbManager.addDir(item.getPath());
 						File tmpFile = item;
 						while(!tmpFile.getPath().equals("/")) {
 							tmpFile = tmpFile.getParentFile();
-							dbManager.removeMediaDir(tmpFile.getPath());
+							dbManager.removeDir(tmpFile.getPath());
 						}
 					} else {
-						dbManager.removeMediaDir(item.getPath());
+						dbManager.removeDir(item.getPath());
 					}
 					
 				}

@@ -10,7 +10,6 @@ public class LibVLC {
 
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
-	@SuppressWarnings("unused")
 	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;

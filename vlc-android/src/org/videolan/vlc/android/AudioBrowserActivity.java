@@ -87,7 +87,7 @@ public class AudioBrowserActivity extends Activity {
 
 		for (Media item : itemList) {
 			HashMap<String,String> listItem = new HashMap<String,String>();
-			listItem.put( "text1", item.getName());
+			listItem.put( "text1", item.getTitle());
 			listItem.put( "text2", item.getPath());
 			list.add( listItem );
 		}	

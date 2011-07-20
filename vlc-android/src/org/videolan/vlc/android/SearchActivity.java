@@ -73,7 +73,7 @@ public class SearchActivity extends ListActivity {
 			if (type != Media.TYPE_ALL && type != item.getType())
 				continue;
 			boolean add = true;
-			String name = item.getName().toLowerCase();
+			String name = item.getTitle().toLowerCase();
 			String path = item.getPath().toLowerCase();
 			for (int k = 0; k < keys.length; k++) {
 				if (!(name.contains(keys[k].toLowerCase()) ||

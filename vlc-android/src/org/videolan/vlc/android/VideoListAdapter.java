@@ -18,10 +18,10 @@ import android.widget.TextView;
 public class VideoListAdapter extends ArrayAdapter<Media> 
 								 implements Comparator<Media> {
 
-	public final static int SORT_BY_NAME = 0;
+	public final static int SORT_BY_TITLE = 0;
 	public final static int SORT_BY_LENGTH = 1;
 	private int mSortDirection = 1;
-	private int mSortBy = SORT_BY_NAME;
+	private int mSortBy = SORT_BY_TITLE;
 	
 	
 	
@@ -42,11 +42,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 	
 	public void sortBy(int sortby) {
 		switch (sortby) {
-		case SORT_BY_NAME:
-			if (mSortBy == SORT_BY_NAME)
+		case SORT_BY_TITLE:
+			if (mSortBy == SORT_BY_TITLE)
 				mSortDirection *= -1;
 			else {
-				mSortBy = SORT_BY_NAME;
+				mSortBy = SORT_BY_TITLE;
 				mSortDirection = 1;
 			}
 			break;
@@ -59,7 +59,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 			}
 			break;
 		default:
-			mSortBy = SORT_BY_NAME;
+			mSortBy = SORT_BY_TITLE;
 			mSortDirection = 1;
 			break;
 		}
@@ -73,9 +73,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 	public int compare(Media item1, Media item2) {
 		int compare = 0;
 		switch (mSortBy) {
-		case SORT_BY_NAME:
-			compare = item1.getName().toUpperCase().compareTo(
-					item2.getName().toUpperCase());
+		case SORT_BY_TITLE:
+			compare = item1.getTitle().toUpperCase().compareTo(
+					item2.getTitle().toUpperCase());
 			break;
 		case SORT_BY_LENGTH:
 			compare = ((Long)item1.getLength()).compareTo(item2.getLength());
@@ -100,17 +100,17 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 					parent, false);
 		}
 
-		Media item = getItem(position);
+		Media media = getItem(position);
 		ImageView thumbnailView = (ImageView)v.findViewById(R.id.ml_item_thumbnail);
 		TextView titleView = (TextView)v.findViewById(R.id.ml_item_title);
 		TextView lengthView = (TextView)v.findViewById(R.id.ml_item_length);
-		titleView.setText(item.getName());
-		lengthView.setText(" " + Util.millisToString(item.getLength()) + " ");
+		titleView.setText(media.getTitle());
+		lengthView.setText(" " + Util.millisToString(media.getLength()) + " ");
 		ImageView moreView = (ImageView)v.findViewById(R.id.ml_item_more);
 		
 		Bitmap thumbnail;
-		if (item.getThumbnail() != null) {
-			thumbnail = item.getThumbnail();
+		if (media.getPicture() != null) {
+			thumbnail = media.getPicture();
 			thumbnailView.setImageBitmap(thumbnail);
 		} else {
 			// set default thumbnail
@@ -120,7 +120,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 			thumbnailView.setImageBitmap(thumbnail);
 		}
 		
-		moreView.setTag(item);
+		moreView.setTag(media);
 		moreView.setOnClickListener(moreClickListener);
 		
 		return v;

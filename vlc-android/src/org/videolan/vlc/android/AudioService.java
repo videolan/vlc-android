@@ -112,7 +112,7 @@ public class AudioService extends Service {
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "Now Playing...");
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, mMedia.getName(),
+		notification.setLatestEventInfo(this, mMedia.getTitle(),
 		        "## Artist ##", pendingIntent);
 		startForeground(3, notification);
     }
@@ -164,7 +164,7 @@ public class AudioService extends Service {
     		mLibVLC.setEventManager(mEventManager); 
     		
     		DatabaseManager db = DatabaseManager.getInstance();
-    		mMedia = db.getMediaItem(mediaPath);
+    		mMedia = db.getMedia(mediaPath);
     		if (mLibVLC.isPlaying()) {
     			mLibVLC.stop();
     		}
@@ -192,7 +192,7 @@ public class AudioService extends Service {
 		@Override
 		public String getTitle() throws RemoteException {
 			if (mMedia != null)
-				return mMedia.getName();
+				return mMedia.getTitle();
 			else
 				return null;
 		}

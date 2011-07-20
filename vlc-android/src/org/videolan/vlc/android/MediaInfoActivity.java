@@ -29,7 +29,7 @@ public class MediaInfoActivity extends Activity {
 				
 		// set title
 		TextView titleView = (TextView)findViewById(R.id.title);
-		titleView.setText(mItem.getName());
+		titleView.setText(mItem.getTitle());
 		
 		// set length
 		TextView lengthView = (TextView)findViewById(R.id.length);
