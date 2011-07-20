@@ -43,8 +43,8 @@ public class DatabaseManager {
 	private final String SEARCHHISTORY_DATE = "date";
 	private final String SEARCHHISTORY_KEY = "key";
 	
-	public enum mediaColumn { MEDIA_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
-		MEDIA_TYPE, MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_THUMBNAIL
+	public enum mediaColumn { MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH, 
+		MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM
 	}
 	
 	
@@ -92,7 +92,7 @@ public class DatabaseManager {
 				+ MEDIA_TIME + " INTEGER, "
 				+ MEDIA_LENGTH + " INTEGER, "
 				+ MEDIA_TYPE + " INTEGER, "
-				+ MEDIA_PICTURE + " BLOB"			
+				+ MEDIA_PICTURE + " BLOB, "			
 				+ MEDIA_TITLE + " VARCHAR(200), "
 				+ MEDIA_ARTIST + " VARCHAR(200), "
 				+ MEDIA_GENRE + " VARCHAR(200), "
@@ -138,7 +138,7 @@ public class DatabaseManager {
 		values.put(MEDIA_GENRE, media.getGenre());
 		values.put(MEDIA_ALBUM, media.getAlbum());
 		
-		mDb.replace(MEDIA_TABLE_NAME, null, values); 
+		mDb.replace(MEDIA_TABLE_NAME, "NULL", values); 
 
 	}
 	
@@ -231,7 +231,7 @@ public class DatabaseManager {
 			Object object ) {
 		ContentValues values = new ContentValues();
 		switch (col) {
-		case MEDIA_THUMBNAIL:	
+		case MEDIA_PICTURE:	
 			Bitmap picture = (Bitmap)object;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			picture.compress(Bitmap.CompressFormat.PNG, 100, out);		

@@ -4,6 +4,7 @@ package org.videolan.vlc.android;
 import java.io.File;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 public class Media implements Comparable<Media> {
 
@@ -139,10 +140,11 @@ public class Media implements Comparable<Media> {
 		 return mPicture;
 	}
 
-	public void setThumbnail(Bitmap p) {
+	public void setPicture(Bitmap p) {
+		Log.d(TAG, "Set new picture for " + getTitle());
 		DatabaseManager.getInstance().updateMedia(
 				mFile.getPath(),
-				DatabaseManager.mediaColumn.MEDIA_THUMBNAIL,
+				DatabaseManager.mediaColumn.MEDIA_PICTURE,
 				p);
 		mPicture = p;
 	}

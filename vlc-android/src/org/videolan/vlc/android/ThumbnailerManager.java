@@ -131,7 +131,7 @@ public class ThumbnailerManager extends Thread {
 
             Log.i(TAG, "Thumbnail created!");
 
-            item.setThumbnail(thumbnail);
+            item.setPicture(thumbnail);
             mVideoListActivity.mItemToUpdate = item;     
             // Post to the file browser the new item.
             mVideoListActivity.mHandler.sendEmptyMessage(
