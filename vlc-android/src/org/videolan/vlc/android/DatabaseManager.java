@@ -213,8 +213,8 @@ public class DatabaseManager {
 				picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 			}
 			
-			media = new Media(new File(path), cursor.getLong(1), 
-					cursor.getLong(2), cursor.getInt(2), 
+			media = new Media(new File(path), cursor.getLong(0), 
+					cursor.getLong(1), cursor.getInt(2), 
 					picture, cursor.getString(4), 
 					cursor.getString(5), cursor.getString(6), 
 					cursor.getString(7));
