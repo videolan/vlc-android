@@ -51,7 +51,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
 		final File item = getItem(position);
 		final DatabaseManager dbManager = DatabaseManager.getInstance();
 
-		if ( item != null ) {
+		if ( item != null && item.getName() != null ) {
 			TextView dirTextView = 
 				(TextView)view.findViewById(R.id.browser_item_dir);
 			dirTextView.setText(item.getName());
