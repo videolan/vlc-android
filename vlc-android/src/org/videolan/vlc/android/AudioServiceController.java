@@ -9,6 +9,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -245,6 +246,11 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public Bitmap getCover() {
+		return null;
 	}
 	
 	

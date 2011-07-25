@@ -13,6 +13,7 @@
 		android:orientation="horizontal"
 		android:gravity="center_vertical">
 		<ImageView 
+			android:id="@+id/cover"
 			android:layout_width="60dip"
 			android:layout_height="60dip"
 			android:layout_marginLeft="10dip"

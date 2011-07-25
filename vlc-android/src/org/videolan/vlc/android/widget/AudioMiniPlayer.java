@@ -4,6 +4,7 @@ import org.videolan.vlc.android.R;
 import org.videolan.vlc.android.Util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class AudioMiniPlayer extends LinearLayout {
 		addView(mMiniPlayerView);
 		
 		// Initialize the children
+		mCover = (ImageView) findViewById(R.id.cover);
 		mTitle = (TextView) findViewById(R.id.title);
 		mArtist = (TextView) findViewById(R.id.artist);
 		mPlayPause = (ImageButton) findViewById(R.id.play_pause);
@@ -86,6 +88,7 @@ public class AudioMiniPlayer extends LinearLayout {
 	
 	public void update() {
 		if (mAudioPlayerControl != null) {
+			
 			if (mAudioPlayerControl.hasMedia()) {
 				this.setVisibility(LinearLayout.VISIBLE);
 			} else {
@@ -93,6 +96,14 @@ public class AudioMiniPlayer extends LinearLayout {
 				return;
 			}
 			
+			Bitmap cover = mAudioPlayerControl.getCover();
+			if (cover != null) {
+				mCover.setVisibility(ImageView.VISIBLE);
+				mCover.setImageBitmap(cover);
+			} else {
+				mCover.setVisibility(ImageView.GONE);
+			}
+	
 			mTitle.setText(mAudioPlayerControl.getTitle());
 			mArtist.setText(mAudioPlayerControl.getArtist());
 			if (mAudioPlayerControl.isPlaying()) {
@@ -113,6 +124,7 @@ public class AudioMiniPlayer extends LinearLayout {
 	
 	public interface AudioMiniPlayerControl {
 		String getTitle();
+		Bitmap getCover();
 		int getLength();
 		int getTime();
 		boolean hasMedia();
