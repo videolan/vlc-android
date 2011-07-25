@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore.Audio.AudioColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,7 @@ public class MainActivity extends TabActivity {
 	private int mCurrentState = 0;
 	private ImageButton mChangeTab;
 	private AudioMiniPlayer mAudioPlayer;
+	private AudioServiceController mAudioController;
 	
 
 	@Override   
@@ -65,9 +67,9 @@ public class MainActivity extends TabActivity {
         
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
-		AudioServiceController audioController = AudioServiceController.getInstance();
-		audioController.addAudioPlayer(mAudioPlayer);
-		mAudioPlayer.setAudioPlayerControl(audioController);
+		mAudioController = AudioServiceController.getInstance();
+		mAudioController.addAudioPlayer(mAudioPlayer);
+		mAudioPlayer.setAudioPlayerControl(mAudioController);
         
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
@@ -132,9 +134,29 @@ public class MainActivity extends TabActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.play_pause:
+			if (mAudioController.isPlaying()) {
+				mAudioController.pause();
+			} else {
+				mAudioController.play();
+			}
+		case R.id.show_player:
+			// TODO: start audio player activity 
+			break;
+		case R.id.hide_mini_player:
+			hideAudioPlayer();
+			break;
+		}
+		return super.onContextItemSelected(item);
+	}
 
 	public void hideAudioPlayer() {
 		mAudioPlayer.setVisibility(AudioMiniPlayer.GONE);
+		mAudioController.stop();
 	}
 	
 	public void showAudioPlayer() {
@@ -173,7 +195,7 @@ public class MainActivity extends TabActivity {
 	 * Get instance e.g. for Context or Handler
 	 * @return this ;)
 	 */
-	protected static MainActivity getInstance() {
+	public static MainActivity getInstance() {
 		return mInstance;	
 	}
 	

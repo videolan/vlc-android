@@ -17,4 +17,8 @@
     <string name="search_history">History</string>
     <string name="clear_history">Clear History</string>
     <string name="search_found_results">%1$d Results Found</string>
+    <string name="show_player">Show Player</string>
+    <string name="hide_mini_player">Hide Mini-Player</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
 </resources>

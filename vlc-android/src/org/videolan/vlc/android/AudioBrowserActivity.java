@@ -10,15 +10,14 @@ import org.videolan.vlc.android.widget.FlingViewGroup.ViewSwitchListener;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class AudioBrowserActivity extends Activity {
 	public final static String TAG = "VLC/AudioBrowserActivity";

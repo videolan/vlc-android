@@ -1,13 +1,18 @@
 package org.videolan.vlc.android.widget;
 
+import org.videolan.vlc.android.MainActivity;
 import org.videolan.vlc.android.R;
 import org.videolan.vlc.android.Util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,8 +73,7 @@ public class AudioMiniPlayer extends LinearLayout {
 		mPlayPause.setOnClickListener(onPlayPauseClickListener);
 		mSeekbar = (SeekBar) findViewById(R.id.timeline);
 		
-		LinearLayout miniPlayer = (LinearLayout) findViewById(R.id.mini_player);
-		miniPlayer.setOnClickListener(new OnClickListener() {
+		this.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View view) {
@@ -78,8 +82,32 @@ public class AudioMiniPlayer extends LinearLayout {
 			}
 			
 		});
+		
+		this.setOnLongClickListener(new OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View arg0) {
+				showContextMenu();
+				return true;
+			}
+		});
 	}
-
+	
+	@Override
+	protected void onCreateContextMenu(ContextMenu menu) {
+		MenuInflater inflater = MainActivity.getInstance().getMenuInflater();
+		inflater.inflate(R.menu.audio_player_mini, menu);
+		MenuItem hmi = menu.findItem(R.id.hide_mini_player);
+		MenuItem pp = menu.findItem(R.id.play_pause);
+		if (mAudioPlayerControl.isPlaying()) {
+			hmi.setEnabled(false);
+			pp.setTitle(R.string.pause);
+		} else {
+			pp.setTitle(R.string.play);
+		}
+		
+		super.onCreateContextMenu(menu);
+	}
 	
 	public void setAudioPlayerControl(AudioMiniPlayerControl control) {
 		mAudioPlayerControl = control;
