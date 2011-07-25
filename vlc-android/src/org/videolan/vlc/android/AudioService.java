@@ -35,7 +35,7 @@ public class AudioService extends Service {
 		}		
 		
 		mCallback = new ArrayList<IAudioServiceCallback>();
-		mEventManager = new EventManager(eventHandler);
+		mEventManager = EventManager.getIntance();
 	}
 	
 	@Override
@@ -47,14 +47,13 @@ public class AudioService extends Service {
     /**
      *  Handle libvlc asynchronous events 
      */
-    private Handler eventHandler = new Handler() {
+    private Handler mEventHandler = new Handler() {
 
 		@Override
         public void handleMessage(Message msg) {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.e(TAG, "MediaPlayerPlaying");
-                    mHandler.sendEmptyMessage(SHOW_PROGRESS);
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.e(TAG, "MediaPlayerPaused");
@@ -67,8 +66,8 @@ public class AudioService extends Service {
                 case EventManager.MediaPlayerEndReached:
                     Log.e(TAG, "MediaPlayerEndReached");
                     mHandler.removeMessages(SHOW_PROGRESS);
-                    executeUpdate();
                     hideNotification();
+                    executeUpdate();
                     mEndReached = true;
                     // TODO: play next song
                     break;
@@ -80,7 +79,6 @@ public class AudioService extends Service {
     };
     
     private void executeUpdate() {
-    	Log.d(TAG, "executeUpdate()");
     	for (int i = 0; i < mCallback.size(); i++) {
     		try {
 				mCallback.get(i).update();
@@ -93,12 +91,14 @@ public class AudioService extends Service {
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
+			Log.i(TAG, "handle Message");
 			switch (msg.what) {
 				case SHOW_PROGRESS:
 					int pos = (int) mLibVLC.getTime();
-					if (mLibVLC.isPlaying() && mCallback.size() > 0) {
-						sendEmptyMessageDelayed(SHOW_PROGRESS, 1000 - (pos % 1000));
+					if (mCallback.size() > 0) {
 						executeUpdate();
+						mHandler.removeMessages(SHOW_PROGRESS);
+						sendEmptyMessageDelayed(SHOW_PROGRESS, 1000 - (pos % 1000));
 					}
 					break;
 			}
@@ -121,6 +121,7 @@ public class AudioService extends Service {
     	stopForeground(true);
     }
     
+    
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
 		
     	@Override
@@ -130,9 +131,9 @@ public class AudioService extends Service {
 
     	@Override
     	public void pause() throws RemoteException {
+    		mHandler.removeMessages(SHOW_PROGRESS);
     		hideNotification();
     		mLibVLC.pause();
-    		mHandler.removeMessages(SHOW_PROGRESS);
     	}
 
     	@Override
@@ -143,25 +144,26 @@ public class AudioService extends Service {
     		} else {
     			mLibVLC.play();
     			
-    		}
+    		}    		
+    		mHandler.sendEmptyMessage(SHOW_PROGRESS);
     		showNotification();
-    		executeUpdate();
     	}
 
     	@Override
     	public void stop() throws RemoteException {	
+
+    		mEventManager.removeHandler(mEventHandler);
+    		
     		mLibVLC.stop();
     		mMedia = null;
-    		hideNotification();
     		mHandler.removeMessages(SHOW_PROGRESS);
+    		hideNotification();
     		executeUpdate();
     	}
 
     	@Override
     	public void load(String mediaPath) throws RemoteException {
-    		// reset EventManager because it could be replaced by
-    		// the manager from the video player
-    		mLibVLC.setEventManager(mEventManager); 
+    		mEventManager.addHandler(mEventHandler); 
     		
     		DatabaseManager db = DatabaseManager.getInstance();
     		mMedia = db.getMedia(mediaPath);
@@ -169,6 +171,7 @@ public class AudioService extends Service {
     			mLibVLC.stop();
     		}
     		mLibVLC.readMedia(mediaPath);
+    		mHandler.sendEmptyMessage(SHOW_PROGRESS);
     		showNotification();
     	}
 

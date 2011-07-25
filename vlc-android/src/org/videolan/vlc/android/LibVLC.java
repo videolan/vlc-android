@@ -51,6 +51,7 @@ public class LibVLC {
         	/* First call */
         	sInstance = new LibVLC();
         	sInstance.init();
+        	
         }
         
     	return sInstance;
@@ -94,6 +95,7 @@ public class LibVLC {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
         	nativeInit();
+            setEventManager(EventManager.getIntance());
         	mIsInitialized = true;
         }
     }
@@ -106,6 +108,7 @@ public class LibVLC {
     {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
+        detachEventManager();
         mIsInitialized = false;
     }
 
@@ -296,7 +299,7 @@ public class LibVLC {
      */
     private native long getLengthFromFile(int instance, String filePath);
 
-    public native void setEventManager(EventManager eventManager);
+    private native void setEventManager(EventManager eventManager);
 
-    public native void detachEventManager();
+    private native void detachEventManager();
 }

@@ -32,7 +32,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class VideoPlayerActivity extends Activity {
 
-	public final static String TAG = "VLC/Activity";
+	public final static String TAG = "VLC/VideoPlayerActivity";
 
 	private SurfaceView mSurface;
 	private SurfaceHolder mSurfaceHolder;
@@ -121,11 +121,9 @@ public class VideoPlayerActivity extends Activity {
 			e.printStackTrace();
 		}		
 
-		if (mLibVLC != null) {
-			EventManager em = new EventManager(eventHandler);
-			mLibVLC.setEventManager(em);
-		}
-		
+		EventManager em = EventManager.getIntance();
+		em.addHandler(eventHandler);
+
 		load();
 		
 	}
@@ -142,8 +140,11 @@ public class VideoPlayerActivity extends Activity {
 	protected void onDestroy() {
 		if (mLibVLC != null) {
 			mLibVLC.stop();
-			mLibVLC.detachEventManager();
 		}
+		
+		EventManager em = EventManager.getIntance();
+		em.removeHandler(eventHandler);
+		
 		super.onDestroy();
 	}
 

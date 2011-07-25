@@ -1,5 +1,7 @@
 package org.videolan.vlc.android;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -65,21 +67,38 @@ public class EventManager {
     //public static final int VlmMediaInstanceStatusEnd       = 0x609;
     //public static final int VlmMediaInstanceStatusError     = 0x60a;
 
+    private ArrayList<Handler> mEventHandler;
+    private static EventManager mInstance;
+    
+    private EventManager() {
+    	mEventHandler = new ArrayList<Handler>();
+    }
+    
+    public static EventManager getIntance() {
+    	if (mInstance == null) {
+    		mInstance = new EventManager();
+    	}
+    	return mInstance;
+    }
 
-    static Handler mEventHandler;
-
-    public EventManager(Handler h) {
-        this.mEventHandler = h;
+    public void addHandler(Handler handler) {
+    	if (!mEventHandler.contains(handler))
+    		mEventHandler.add(handler);
+    }
+    
+    public void removeHandler(Handler handler) {
+    	mEventHandler.remove(handler);
     }
 
     /** This method is called by a native thread **/
     public void callback(int event) {
         Bundle b = new Bundle();
         b.putInt("event", event);
-        Message m = Message.obtain();
-        m.setData(b);
-        m.setTarget(mEventHandler);
-        m.sendToTarget();
+        for (int i = 0; i < mEventHandler.size(); i++) {
+        	Message msg = Message.obtain();
+            msg.setData(b);
+        	mEventHandler.get(i).sendMessage(msg);
+        }
     }
 }
 

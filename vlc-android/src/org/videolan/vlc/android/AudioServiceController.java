@@ -144,6 +144,8 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 	}
 	
 	public void stop() {
+		if (mAudioServiceBinder == null) 
+			return;
 		try {
 			mAudioServiceBinder.stop();
 		} catch (RemoteException e) {
