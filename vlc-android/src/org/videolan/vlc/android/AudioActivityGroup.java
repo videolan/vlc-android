@@ -2,32 +2,22 @@ package org.videolan.vlc.android;
 
 import java.util.ArrayList;
 
-import org.videolan.vlc.android.widget.AudioMiniPlayer;
-
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.FrameLayout;
 
 public class AudioActivityGroup extends ActivityGroup {
 	public final static String TAG = "VLC/AudioActivityGroup";
 
 	private ArrayList<String> mHistory;
-	private AudioMiniPlayer mAudioPlayer;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mHistory = new ArrayList<String>();
-		mAudioPlayer = new AudioMiniPlayer(this);
-		AudioServiceController audioController = AudioServiceController.getInstance();
-		audioController.addAudioPlayer(mAudioPlayer);
-		mAudioPlayer.setAudioPlayerControl(audioController);
-		
 		// Load VideoListActivity by default
 		Intent intent = new Intent(this, AudioBrowserActivity.class);
 		startChildAcitvity("AudioBrowserActivity", intent);
@@ -72,15 +62,7 @@ public class AudioActivityGroup extends ActivityGroup {
 
 		super.onBackPressed();
 	}
-
-
-	@Override
-	public void setContentView(View view) {
-		FrameLayout fl = new FrameLayout(this);
-		fl.addView(view);
-		fl.addView(mAudioPlayer);
-		super.setContentView(fl);
-	}
+	
 	
 	@Override
 	protected void onDestroy() {

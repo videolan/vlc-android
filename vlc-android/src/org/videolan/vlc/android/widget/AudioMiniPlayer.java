@@ -53,7 +53,6 @@ public class AudioMiniPlayer extends LinearLayout {
 	}
 	
 	private void init() {
-		this.setVisibility(LinearLayout.INVISIBLE);
 		// get inflater and create the new view
 		LayoutInflater layoutInflater = 
 			(LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -92,7 +91,7 @@ public class AudioMiniPlayer extends LinearLayout {
 			if (mAudioPlayerControl.hasMedia()) {
 				this.setVisibility(LinearLayout.VISIBLE);
 			} else {
-				this.setVisibility(LinearLayout.INVISIBLE);
+				this.setVisibility(LinearLayout.GONE);
 				return;
 			}
 			
@@ -107,9 +106,9 @@ public class AudioMiniPlayer extends LinearLayout {
 			mTitle.setText(mAudioPlayerControl.getTitle());
 			mArtist.setText(mAudioPlayerControl.getArtist());
 			if (mAudioPlayerControl.isPlaying()) {
-				mPlayPause.setBackgroundResource(R.drawable.ic_pause);
+				mPlayPause.setImageResource(R.drawable.ic_pause);
 			} else {
-				mPlayPause.setBackgroundResource(R.drawable.ic_play);
+				mPlayPause.setImageResource(R.drawable.ic_play);
 			}
 			int time = (int)mAudioPlayerControl.getTime();
 			int length = (int)mAudioPlayerControl.getLength();

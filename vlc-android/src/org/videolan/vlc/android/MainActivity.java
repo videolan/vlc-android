@@ -1,6 +1,8 @@
 package org.videolan.vlc.android;
 
 
+import org.videolan.vlc.android.widget.AudioMiniPlayer;
+
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,12 +28,12 @@ public class MainActivity extends TabActivity {
 	
 	private VideoListActivity mVideoListActivity;
 	
-	
 	private static MainActivity mInstance;	
 	private ProgressBar mProgressBar;
 	private TabHost mTabHost;
 	private int mCurrentState = 0;
 	private ImageButton mChangeTab;
+	private AudioMiniPlayer mAudioPlayer;
 	
 
 	@Override   
@@ -61,6 +63,12 @@ public class MainActivity extends TabActivity {
         // restore the last used tab
         mTabHost.setCurrentTab(mCurrentState);
         
+        // add mini audio player
+        mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
+		AudioServiceController audioController = AudioServiceController.getInstance();
+		audioController.addAudioPlayer(mAudioPlayer);
+		mAudioPlayer.setAudioPlayerControl(audioController);
+        
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
 	}
@@ -73,7 +81,6 @@ public class MainActivity extends TabActivity {
 		inflater.inflate(R.menu.media_library, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
 
 	@Override
 	public boolean onSearchRequested() {
@@ -126,6 +133,15 @@ public class MainActivity extends TabActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public void hideAudioPlayer() {
+		mAudioPlayer.setVisibility(AudioMiniPlayer.GONE);
+	}
+	
+	public void showAudioPlayer() {
+		mAudioPlayer.setVisibility(AudioMiniPlayer.VISIBLE);
+	}
+	
+	
 	/**
 	 * onClick event from xml
 	 * @param view
