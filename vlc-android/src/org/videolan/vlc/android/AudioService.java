@@ -58,6 +58,8 @@ public class AudioService extends Service {
                 case EventManager.MediaPlayerPaused:
                     Log.e(TAG, "MediaPlayerPaused");
                     executeUpdate();
+                    // also hide notification if phone ringing
+                    hideNotification(); 
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.e(TAG, "MediaPlayerStopped");
@@ -132,7 +134,7 @@ public class AudioService extends Service {
     	@Override
     	public void pause() throws RemoteException {
     		mHandler.removeMessages(SHOW_PROGRESS);
-    		hideNotification();
+    		// hideNotification(); <-- see event handler
     		mLibVLC.pause();
     	}
 

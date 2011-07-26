@@ -60,6 +60,12 @@
 	        	android:label="Media Directories"
 	        	android:theme="@android:style/Theme">
 	        </activity>
+	        <receiver 
+	        	android:name="PhoneStateReceiver">
+				<intent-filter>
+					<action android:name="android.intent.action.PHONE_STATE" />
+				</intent-filter>
+			</receiver>
 	    </application>
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />

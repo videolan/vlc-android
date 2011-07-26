@@ -100,7 +100,7 @@ public class AudioMiniPlayer extends LinearLayout {
 		MenuItem hmi = menu.findItem(R.id.hide_mini_player);
 		MenuItem pp = menu.findItem(R.id.play_pause);
 		if (mAudioPlayerControl.isPlaying()) {
-			hmi.setEnabled(false);
+			hmi.setVisible(false);
 			pp.setTitle(R.string.pause);
 		} else {
 			pp.setTitle(R.string.play);
