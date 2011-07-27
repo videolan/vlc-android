@@ -13,8 +13,7 @@
     		android:src="@drawable/header_logo"
     		android:layout_width="wrap_content"
     		android:layout_height="match_parent"
-    		android:scaleType="fitStart"
-    		android:paddingLeft="12dip"/>
+    		android:scaleType="centerInside"/>
     	<View
     		android:layout_width="0dip"
     		android:layout_height="wrap_content"

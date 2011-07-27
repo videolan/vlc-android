@@ -327,10 +327,8 @@ public class DatabaseManager {
 				SEARCHHISTORY_DATE + " DESC",
 				Integer.toString(size));
 		
-		int i = 0;
 		while(cursor.moveToNext()) {
 			history.add(cursor.getString(0));
-			i++;
 		}
 		cursor.close();
 		

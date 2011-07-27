@@ -1,6 +1,7 @@
 package org.videolan.vlc.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.videolan.vlc.android.widget.AudioMiniPlayer;
 import org.videolan.vlc.android.widget.AudioMiniPlayer.AudioMiniPlayerControl;
@@ -72,9 +73,9 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		return mInstance;
 	}
 
-	public void load(String mediaPath) {
+	public void load(List<String> mediaPathList, int position) {
 		try {
-			mAudioServiceBinder.load(mediaPath);
+			mAudioServiceBinder.load(mediaPathList, position);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -3,8 +3,9 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
-	<SeekBar 
+	android:layout_height="wrap_content"
+	android:background="@drawable/bg_with_shadow">
+	<SeekBar
   		android:id="@+id/timeline"  
   		android:layout_height="wrap_content" 
   		android:layout_width="match_parent"
@@ -50,7 +51,7 @@
 		<ImageButton 
 			android:id="@+id/play_pause"
 			android:src="@drawable/ic_pause"
-			android:background="#000000"
+			android:background="#00ffffff"
 			android:scaleType="fitXY"	
 			android:layout_width="60dip" 
 			android:layout_height="60dip"

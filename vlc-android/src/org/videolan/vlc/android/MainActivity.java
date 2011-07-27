@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore.Audio.AudioColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,24 +51,29 @@ public class MainActivity extends TabActivity {
         mTabHost = getTabHost();
         mTabHost.addTab(mTabHost.newTabSpec("VIDEO TAB").setIndicator("VIDEO TAB")
         		.setContent(new Intent(this, VideoActivityGroup.class)));
-       
         
         mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
         		.setContent(new Intent(this, AudioActivityGroup.class)));
-	
-        // Start audio player when audio is playing
-        if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
-        	mCurrentState = AUDIO_TAB;
-        }
         
-        // restore the last used tab
-        mTabHost.setCurrentTab(mCurrentState);
+        // Get video list instance to sort the list.
+        mVideoListActivity = VideoListActivity.getInstance();
         
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
 		mAudioController = AudioServiceController.getInstance();
 		mAudioController.addAudioPlayer(mAudioPlayer);
 		mAudioPlayer.setAudioPlayerControl(mAudioController);
+		
+		
+		
+        // Start audio player when audio is playing
+        if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
+        	Log.d(TAG, "Started from notification.");
+        	showAudioTab();
+        } else {
+        	// TODO: load the last tab-state
+        	showVideoTab();
+        }
         
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
@@ -169,17 +173,24 @@ public class MainActivity extends TabActivity {
 	 * @param view
 	 */
 	public void changeTabClick(View view) {
-		
-		// TODO: change the icon
+		// Toggle audio- and video-tab
 		if (mCurrentState == VIDEO_TAB) {
-			mCurrentState = AUDIO_TAB;
-			mChangeTab.setImageResource(R.drawable.header_icon_video);
+			showAudioTab();
 		} else {
-			mCurrentState = VIDEO_TAB;
-			mChangeTab.setImageResource(R.drawable.header_icon_audio);
+			showVideoTab();
 		}
-		
-		mTabHost.setCurrentTab(mCurrentState);
+	}
+	
+	private void showVideoTab() {
+		mChangeTab.setImageResource(R.drawable.header_icon_audio);
+		mTabHost.setCurrentTab(VIDEO_TAB);
+		mCurrentState = VIDEO_TAB;
+	}
+	
+	private void showAudioTab() {
+		mChangeTab.setImageResource(R.drawable.header_icon_video);
+		mTabHost.setCurrentTab(AUDIO_TAB);
+		mCurrentState = AUDIO_TAB;
 	}
 	
 	

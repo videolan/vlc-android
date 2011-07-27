@@ -10,7 +10,7 @@
   		android:fadingEdge="none"
   		android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#444444" >
+        android:background="@drawable/bg_with_shadow" >
         <LinearLayout
         	android:id="@+id/header_layout"
         	android:layout_width="wrap_content"

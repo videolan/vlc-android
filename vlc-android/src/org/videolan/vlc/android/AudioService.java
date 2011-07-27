@@ -1,6 +1,7 @@
 package org.videolan.vlc.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -18,8 +19,8 @@ public class AudioService extends Service {
 	private static final int SHOW_PROGRESS = 0;
 	
 	private LibVLC mLibVLC;
-	private Media mMedia;
-    private boolean mEndReached = false;
+	private ArrayList<Media> mMediaList;
+	private Media mCurrentMedia;
 	private ArrayList<IAudioServiceCallback> mCallback;
 	private EventManager mEventManager;
 
@@ -35,6 +36,7 @@ public class AudioService extends Service {
 		}		
 		
 		mCallback = new ArrayList<IAudioServiceCallback>();
+		mMediaList = new ArrayList<Media>();
 		mEventManager = EventManager.getIntance();
 	}
 	
@@ -67,11 +69,8 @@ public class AudioService extends Service {
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.e(TAG, "MediaPlayerEndReached");
-                    mHandler.removeMessages(SHOW_PROGRESS);
-                    hideNotification();
                     executeUpdate();
-                    mEndReached = true;
-                    // TODO: play next song
+                    next();
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
@@ -93,7 +92,6 @@ public class AudioService extends Service {
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			Log.i(TAG, "handle Message");
 			switch (msg.what) {
 				case SHOW_PROGRESS:
 					int pos = (int) mLibVLC.getTime();
@@ -112,9 +110,11 @@ public class AudioService extends Service {
 		Notification notification = new Notification(R.drawable.icon, null,
 		        System.currentTimeMillis());
 		Intent notificationIntent = new Intent(this, MainActivity.class);
-		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "Now Playing...");
+		notificationIntent.setAction(Intent.ACTION_MAIN);
+		notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, mMedia.getTitle(),
+		notification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
 		        "## Artist ##", pendingIntent);
 		startForeground(3, notification);
     }
@@ -124,59 +124,60 @@ public class AudioService extends Service {
     }
     
     
+    
+    private void pause() {
+    	mHandler.removeMessages(SHOW_PROGRESS);
+		// hideNotification(); <-- see event handler
+		mLibVLC.pause();
+    }
+    
+    private void play() {
+    	mLibVLC.play();
+		mHandler.sendEmptyMessage(SHOW_PROGRESS);
+		showNotification();
+    }
+    
+    private void stop() {
+		mEventManager.removeHandler(mEventHandler);		
+		mLibVLC.stop();
+		mCurrentMedia = null;
+		mMediaList.clear();
+		mHandler.removeMessages(SHOW_PROGRESS);
+		hideNotification();
+		executeUpdate();
+    }
+    
+    private void next() {
+    	int index = mMediaList.indexOf(mCurrentMedia);
+        if (index < (mMediaList.size() - 1)) {
+        	mCurrentMedia = mMediaList.get(index + 1);
+        	mLibVLC.readMedia(mCurrentMedia.getPath());
+        } else {
+        	stop();
+        }
+    }
+    
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
 		
     	@Override
     	public String getCurrentMediaPath() throws RemoteException {
-    		return mMedia.getPath();
+    		return mCurrentMedia.getPath();
     	}
 
     	@Override
     	public void pause() throws RemoteException {
-    		mHandler.removeMessages(SHOW_PROGRESS);
-    		// hideNotification(); <-- see event handler
-    		mLibVLC.pause();
+    		AudioService.this.pause();
     	}
 
     	@Override
     	public void play() throws RemoteException {
-    		if (mEndReached && mMedia != null) {
-    			mLibVLC.readMedia(mMedia.getPath());
-    			mEndReached = false;
-    		} else {
-    			mLibVLC.play();
-    			
-    		}    		
-    		mHandler.sendEmptyMessage(SHOW_PROGRESS);
-    		showNotification();
+    		AudioService.this.play();
     	}
 
     	@Override
     	public void stop() throws RemoteException {	
-
-    		mEventManager.removeHandler(mEventHandler);
-    		
-    		mLibVLC.stop();
-    		mMedia = null;
-    		mHandler.removeMessages(SHOW_PROGRESS);
-    		hideNotification();
-    		executeUpdate();
+    		AudioService.this.stop();
     	}
-
-    	@Override
-    	public void load(String mediaPath) throws RemoteException {
-    		mEventManager.addHandler(mEventHandler); 
-    		
-    		DatabaseManager db = DatabaseManager.getInstance();
-    		mMedia = db.getMedia(mediaPath);
-    		if (mLibVLC.isPlaying()) {
-    			mLibVLC.stop();
-    		}
-    		mLibVLC.readMedia(mediaPath);
-    		mHandler.sendEmptyMessage(SHOW_PROGRESS);
-    		showNotification();
-    	}
-
 
     	@Override
     	public boolean isPlaying() throws RemoteException {
@@ -185,7 +186,7 @@ public class AudioService extends Service {
 
 		@Override
 		public boolean hasMedia() throws RemoteException {
-			return mMedia != null;
+			return mMediaList.size() != 0;
 		}
 
 		@Override
@@ -196,8 +197,8 @@ public class AudioService extends Service {
 
 		@Override
 		public String getTitle() throws RemoteException {
-			if (mMedia != null)
-				return mMedia.getTitle();
+			if (mCurrentMedia != null)
+				return mCurrentMedia.getTitle();
 			else
 				return null;
 		}
@@ -226,6 +227,29 @@ public class AudioService extends Service {
 		public int getLength() throws RemoteException {
 			// TODO Auto-generated method stub
 			return (int) mLibVLC.getLength();
+		}
+
+		@Override
+		public void load(List<String> mediaPathList, int position) 
+				throws RemoteException {
+    		mEventManager.addHandler(mEventHandler); 
+    		mMediaList.clear();
+    		
+    		DatabaseManager db = DatabaseManager.getInstance();
+    		for (int i = 0; i < mediaPathList.size(); i++) {
+    			String path = mediaPathList.get(i);
+    			Media media = db.getMedia(path);
+    			mMediaList.add(media);
+    		}
+    		
+    		if (mMediaList.size() > position) {
+    			mCurrentMedia = mMediaList.get(position);
+    		}
+    		
+    		mLibVLC.readMedia(mCurrentMedia.getPath());
+    		mHandler.sendEmptyMessage(SHOW_PROGRESS);
+    		showNotification();
+			
 		}
 	};
 

@@ -6,7 +6,7 @@ interface IAudioService {
 	void pause();
 	void stop();
 	String getCurrentMediaPath();
-	void load(String mediaPath);
+	void load(in List<String> mediaPathList, int position);
 	boolean isPlaying();
 	boolean hasMedia();
 	String getTitle();

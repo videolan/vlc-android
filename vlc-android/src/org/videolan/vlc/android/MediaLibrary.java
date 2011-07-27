@@ -86,17 +86,15 @@ public class MediaLibrary {
     	
     	private Stack<File> directorys = new Stack<File>();
     	private  MainActivity mMainActivity;
-    	private  Handler mHandler;
-    	
 
 		public void run() {
 			// Initialize variables
 			mMainActivity = MainActivity.getInstance();
-			mHandler = mMainActivity.mHandler;
+			Handler mainHandler = mMainActivity.mHandler;
 			
 			
 			// show progressbar in header
-			mHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);	
+			mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);	
 			
 			// get directories from database
 			directorys.addAll(mDBManager.getMediaDirs());
@@ -141,8 +139,6 @@ public class MediaLibrary {
 		    	}
 	    	}
 	    	
-
-	    	
 	    	// update the video and audio activities
 	    	for (int i = 0; i < mUpdateHandler.size(); i++) {
 	    		Handler h = mUpdateHandler.get(i);
@@ -165,7 +161,7 @@ public class MediaLibrary {
 	    		}
 	    	}
 	    	// hide progressbar in header
-	    	mHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
+	    	mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
 			
 		}
     };

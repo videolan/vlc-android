@@ -16,18 +16,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class AudioBrowserActivity extends Activity {
 	public final static String TAG = "VLC/AudioBrowserActivity";
-	
-	private SimpleAdapter mAudioAdapter;
+
 	private FlingViewGroup mFlingViewGroup;
 	ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
 	
 	private HorizontalScrollView mHeader;
 	private AudioServiceController mAudioController;
+	
+	private AudioSongsListAdapter mSongsAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +39,20 @@ public class AudioBrowserActivity extends Activity {
 		
 		mHeader =(HorizontalScrollView)findViewById(R.id.header);
 		mAudioController = AudioServiceController.getInstance();
-
-		mAudioAdapter = new SimpleAdapter(this, list, android.R.layout.simple_list_item_2, 
-				new String[] {"text1", "text2"}, new int[] {android.R.id.text1, android.R.id.text2});
+		
+		mSongsAdapter = new AudioSongsListAdapter(this, android.R.layout.simple_list_item_1);
 		
 		ListView songsList = (ListView)findViewById(R.id.songs_list);
-		songsList.setAdapter(mAudioAdapter);
+		songsList.setAdapter(mSongsAdapter);
 		songsList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-				TextView tv2 =(TextView) v.findViewById(android.R.id.text2);
-				mAudioController.load(tv2.getText().toString());
+				mAudioController.load(mSongsAdapter.getPaths(), p);
 			}
 		});
-		updateList();
+		updateLists();
 	}
+	
 	
 	private ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
 				
@@ -80,19 +79,12 @@ public class AudioBrowserActivity extends Activity {
 	};
 
 
-	private void updateList() {
-		
-		List<Media> itemList = MediaLibrary.getInstance().getAudioItems();
-
-		for (Media item : itemList) {
-			HashMap<String,String> listItem = new HashMap<String,String>();
-			listItem.put( "text1", item.getTitle());
-			listItem.put( "text2", item.getPath());
-			list.add( listItem );
-		}	
-
-		mAudioAdapter.notifyDataSetChanged();
-
+	private void updateLists() {
+		List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+		for (int i = 0; i < audioList.size(); i++) {
+			mSongsAdapter.add(audioList.get(i));
+		}
+		mSongsAdapter.notifyDataSetChanged();
 	}
 
 }
