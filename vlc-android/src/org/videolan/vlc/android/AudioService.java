@@ -23,6 +23,7 @@ public class AudioService extends Service {
 	private Media mCurrentMedia;
 	private ArrayList<IAudioServiceCallback> mCallback;
 	private EventManager mEventManager;
+	private Notification mNotification;
 
 	@Override
 	public void onStart(Intent intent, int startId) {
@@ -107,19 +108,23 @@ public class AudioService extends Service {
     
     private void showNotification() {
 		// add notification to status bar
-		Notification notification = new Notification(R.drawable.icon, null,
-		        System.currentTimeMillis());
-		Intent notificationIntent = new Intent(this, MainActivity.class);
+    	if (mNotification == null) {
+    		mNotification = new Notification(R.drawable.icon, null,
+    		        System.currentTimeMillis());
+    	}
+    	Intent notificationIntent = new Intent(this, MainActivity.class);
 		notificationIntent.setAction(Intent.ACTION_MAIN);
 		notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
+		mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
 		        "## Artist ##", pendingIntent);
-		startForeground(3, notification);
+		startForeground(3, mNotification);
+		
     }
     
     private void hideNotification() {
+    	mNotification = null;
     	stopForeground(true);
     }
     
@@ -152,6 +157,7 @@ public class AudioService extends Service {
         if (index < (mMediaList.size() - 1)) {
         	mCurrentMedia = mMediaList.get(index + 1);
         	mLibVLC.readMedia(mCurrentMedia.getPath());
+        	showNotification();
         } else {
         	stop();
         }

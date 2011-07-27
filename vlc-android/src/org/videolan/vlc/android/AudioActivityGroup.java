@@ -65,9 +65,9 @@ public class AudioActivityGroup extends ActivityGroup {
 	
 	
 	@Override
-	protected void onDestroy() {
+	protected void onPause() {
 		AudioServiceController.getInstance().unbindAudioService();
-		super.onDestroy();
+		super.onPause();
 	}
 	
 }

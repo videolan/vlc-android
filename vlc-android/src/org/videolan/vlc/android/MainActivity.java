@@ -3,6 +3,7 @@ package org.videolan.vlc.android;
 
 import org.videolan.vlc.android.widget.AudioMiniPlayer;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -93,11 +94,6 @@ public class MainActivity extends TabActivity {
 		Intent intent = new Intent(this, SearchActivity.class);
 		startActivity(intent);
 		return false;
-	}
-	
-	@Override
-	public void onBackPressed() {
-		Log.e(TAG, TAG + " onBackPressed()");
 	}
 
 	/**
