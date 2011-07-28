@@ -577,7 +577,8 @@ public class VideoPlayerActivity extends Activity {
 	 */
 	private void load() {
         String path = null;
-        if (getIntent().getAction().equals(Intent.ACTION_VIEW )) {
+        if (getIntent().getAction() != null
+        		&& getIntent().getAction().equals(Intent.ACTION_VIEW )) {
             /* Started from external application */
             path = getIntent().getData().getPath();
         } else {
