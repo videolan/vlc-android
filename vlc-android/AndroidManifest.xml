@@ -18,7 +18,7 @@
 	        	<intent-filter>
 	                <action android:name="android.intent.action.MAIN" />
 	                <category android:name="android.intent.category.LAUNCHER" />
-	            </intent-filter>
+                </intent-filter>
 	       	</activity>
 	       	<activity 
 	        	android:name="SearchActivity" 
@@ -48,7 +48,13 @@
 	        <activity 
 	        	android:name="VideoPlayerActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
-	        	android:configChanges="orientation"/>
+	        	android:configChanges="orientation">
+	        	<intent-filter>
+	                <action android:name="android.intent.action.VIEW" />
+	                <category android:name="android.intent.category.DEFAULT" />
+                    <data android:mimeType="video/*" />
+                </intent-filter>
+	       	</activity>
 	        <activity 
 	        	android:name=".AudioBrowserActivity" 
 	        	android:theme="@android:style/Theme.NoTitleBar"/>

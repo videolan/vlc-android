@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -577,7 +578,17 @@ public class VideoPlayerActivity extends Activity {
 	 * 
 	 */
 	private void load() {
-		mLibVLC.readMedia(getIntent().getExtras().getString("filePath"));
-		mWakeLock.acquire();
+        String path = null;
+        if (getIntent().getAction().equals(Intent.ACTION_VIEW )) {
+            /* Started from external application */
+            path = getIntent().getData().getPath();
+        } else {
+            /* Started from VideoListActivity */
+            path = getIntent().getExtras().getString("filePath");
+        }
+        if (path != null && path.length() > 0) {
+    		mLibVLC.readMedia(path);
+		    mWakeLock.acquire();
+        }
 	}
 }
