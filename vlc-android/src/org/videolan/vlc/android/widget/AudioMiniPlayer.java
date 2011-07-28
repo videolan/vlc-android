@@ -1,5 +1,6 @@
 package org.videolan.vlc.android.widget;
 
+import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
 import org.videolan.vlc.android.MainActivity;
 import org.videolan.vlc.android.R;
 import org.videolan.vlc.android.Util;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +23,7 @@ public class AudioMiniPlayer extends LinearLayout {
 	public static final String TAG = "VLC/AudioMiniPlayer";
 
 	
-	private AudioMiniPlayerControl mAudioPlayerControl;
+	private AudioPlayerControl mAudioPlayerControl;
 	
 	private TextView mTitle;
 	private TextView mArtist;
@@ -109,7 +109,7 @@ public class AudioMiniPlayer extends LinearLayout {
 		super.onCreateContextMenu(menu);
 	}
 	
-	public void setAudioPlayerControl(AudioMiniPlayerControl control) {
+	public void setAudioPlayerControl(AudioPlayerControl control) {
 		mAudioPlayerControl = control;
 	}
 	
@@ -149,15 +149,4 @@ public class AudioMiniPlayer extends LinearLayout {
 		
 	}
 	
-	public interface AudioMiniPlayerControl {
-		String getTitle();
-		Bitmap getCover();
-		int getLength();
-		int getTime();
-		boolean hasMedia();
-		String getArtist();
-		void play();
-		void pause();
-		boolean isPlaying();
-	}
 }

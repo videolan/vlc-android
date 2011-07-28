@@ -3,17 +3,25 @@ package org.videolan.vlc.android;
 
 import org.videolan.vlc.android.widget.AudioMiniPlayer;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
@@ -26,6 +34,7 @@ public class MainActivity extends TabActivity {
 	private static final int VIDEO_TAB = 0;
 	private static final int AUDIO_TAB = 1;
 	public static final String START_FROM_NOTIFICATION = "from_notification";
+	private static final String PREF_SHOW_INFO = "show_info";
 	
 	private VideoListActivity mVideoListActivity;
 	
@@ -37,11 +46,18 @@ public class MainActivity extends TabActivity {
 	private AudioMiniPlayer mAudioPlayer;
 	private AudioServiceController mAudioController;
 	
+	private SharedPreferences mSettings;
+
+	private int mVersionNumber = -1;
+	
 
 	@Override   
 	protected void onCreate(Bundle savedInstanceState) {	
 		setContentView(R.layout.main);	
 		super.onCreate(savedInstanceState); 
+		
+		/* Get settings */
+		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		/* Initialize variables */
 		mInstance = this;	
@@ -75,6 +91,20 @@ public class MainActivity extends TabActivity {
         	// TODO: load the last tab-state
         	showVideoTab();
         }
+        
+        /* Show info/alpha/beta Warning */
+        PackageInfo pinfo = null;
+		try {
+			pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+		} catch (NameNotFoundException e) {
+			Log.e(TAG, "package info not found.");
+		}
+		if (pinfo != null) {
+			mVersionNumber = pinfo.versionCode;
+        
+	        if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
+	        	showInfoDialog();
+		}
         
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
@@ -161,6 +191,26 @@ public class MainActivity extends TabActivity {
 	
 	public void showAudioPlayer() {
 		mAudioPlayer.setVisibility(AudioMiniPlayer.VISIBLE);
+	}
+	
+	private void showInfoDialog() {
+        final Dialog infoDialog = new Dialog(this, R.style.info_dialog);
+        infoDialog.setContentView(R.layout.info_dialog);
+        Button okButton = (Button) infoDialog.findViewById(R.id.ok);
+        okButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				CheckBox notShowAgain = 
+						(CheckBox) infoDialog.findViewById(R.id.not_show_again);
+				if (notShowAgain.isChecked() && mSettings != null) {
+					Editor editor = mSettings.edit();
+					editor.putInt(PREF_SHOW_INFO, mVersionNumber);
+					editor.commit();
+				}
+				infoDialog.dismiss();
+			}
+		});
+        infoDialog.show();
 	}
 	
 	

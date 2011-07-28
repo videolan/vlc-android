@@ -3,8 +3,8 @@ package org.videolan.vlc.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
 import org.videolan.vlc.android.widget.AudioMiniPlayer;
-import org.videolan.vlc.android.widget.AudioMiniPlayer.AudioMiniPlayerControl;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class AudioServiceController implements AudioMiniPlayerControl {
+public class AudioServiceController implements AudioPlayerControl {
 	public static final String TAG = "VLC/AudioServiceContoller";
 	
 	private static AudioServiceController mInstance;
@@ -55,8 +55,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 				try {
 					mAudioServiceBinder.addAudioCallback(mCallback);
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(TAG, "remote procedure call failed: addAudioCallback()");
 				}
 				updateAudioPlayer();
 			}
@@ -77,8 +76,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			mAudioServiceBinder.load(mediaPathList, position);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: load()");
 		}
 	}
 	
@@ -96,8 +94,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 			try {
 				mAudioServiceBinder.addAudioCallback(mCallback);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "remote procedure call failed: addAudioCallback()");
 			}
 		}
 	}
@@ -111,8 +108,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 					mIsBound = false;
 				}
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
 			}
 			
 		}
@@ -150,8 +146,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			mAudioServiceBinder.stop();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: stop()");
 		}
 		updateAudioPlayer();
 	}
@@ -160,10 +155,9 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 	public String getArtist() {
 		String artist = null;
 		try {
-			artist = mAudioServiceBinder.getTitle();
+			artist = mAudioServiceBinder.getArtist();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: getArtist()");
 		}
 		return artist;
 	}
@@ -174,8 +168,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			title = mAudioServiceBinder.getTitle();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: getTitle()");
 		}
 		return title;
 	}
@@ -185,12 +178,10 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		boolean playing = false;
 		if (mAudioServiceBinder != null) {
 			try {
-				playing = (mAudioServiceBinder.hasMedia()
-						&& mAudioServiceBinder.isPlaying());
+				playing = (hasMedia() && mAudioServiceBinder.isPlaying());
 				
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "remote procedure call failed: isPlaying()");
 			}
 		}
 		return playing;
@@ -201,8 +192,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			mAudioServiceBinder.pause();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: pause()");
 		}
 		updateAudioPlayer();
 	}
@@ -212,8 +202,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			mAudioServiceBinder.play();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: play()");
 		}
 		updateAudioPlayer();
 	}
@@ -223,8 +212,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			return mAudioServiceBinder.hasMedia();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: hasMedia()");
 		}
 		return false;
 	}
@@ -234,8 +222,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			return mAudioServiceBinder.getLength();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: getLength()");
 		}
 		return 0;
 	}
@@ -245,8 +232,7 @@ public class AudioServiceController implements AudioMiniPlayerControl {
 		try {
 			return mAudioServiceBinder.getTime();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "remote procedure call failed: getTime()");
 		}
 		return 0;
 	}

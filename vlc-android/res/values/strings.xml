@@ -21,4 +21,8 @@
     <string name="hide_mini_player">Hide Mini-Player</string>
     <string name="play">Play</string>
     <string name="pause">Pause</string>
+    <string name="close">Close</string>
+    <string name="not_show_again">"Don't show this Message again."</string>
+    <string name="beta_warning">This is a early alpha version\n(NOT STABLE!).</string>
+    <string name="info_title">Information</string>
 </resources>
