@@ -38,7 +38,6 @@ public class VideoPlayerActivity extends Activity {
 	private SurfaceView mSurface;
 	private SurfaceHolder mSurfaceHolder;
 	private LibVLC mLibVLC;
-	private Context mContext;
 	
 	private static final int SURFACE_FIT_HORIZONTAL = 0;
 	private static final int SURFACE_FIT_VERTICAL = 1;
@@ -78,7 +77,6 @@ public class VideoPlayerActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player);
-		mContext = MainActivity.getInstance();
 		
 		// stop screen from dimming
 		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
@@ -89,7 +87,7 @@ public class VideoPlayerActivity extends Activity {
 		mSpacer = (View)findViewById(R.id.player_overlay_spacer);
 		mSpacer.setOnTouchListener(mTouchListener);
 		
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(
+		LayoutInflater inflater = (LayoutInflater) getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 		mOverlay = (LinearLayout)inflater.inflate(R.layout.player_overlay, null);
 		
