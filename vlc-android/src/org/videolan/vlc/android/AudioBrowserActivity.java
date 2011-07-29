@@ -8,6 +8,7 @@ import org.videolan.vlc.android.widget.FlingViewGroup;
 import org.videolan.vlc.android.widget.FlingViewGroup.ViewSwitchListener;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -48,6 +49,8 @@ public class AudioBrowserActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> av, View v, int p, long id) {
 				mAudioController.load(mSongsAdapter.getPaths(), p);
+				Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+				startActivity(intent);
 			}
 		});
 		updateLists();
@@ -80,7 +83,7 @@ public class AudioBrowserActivity extends Activity {
 
 
 	private void updateLists() {
-		List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+		List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
 		for (int i = 0; i < audioList.size(); i++) {
 			mSongsAdapter.add(audioList.get(i));
 		}

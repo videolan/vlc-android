@@ -1,11 +1,12 @@
 package org.videolan.vlc.android.widget;
 
-import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
+import org.videolan.vlc.android.AudioPlayer;
+import org.videolan.vlc.android.AudioPlayerActivity;
 import org.videolan.vlc.android.MainActivity;
 import org.videolan.vlc.android.R;
-import org.videolan.vlc.android.Util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
@@ -19,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class AudioMiniPlayer extends LinearLayout {
+public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
 	public static final String TAG = "VLC/AudioMiniPlayer";
 
 	
@@ -78,7 +79,10 @@ public class AudioMiniPlayer extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				// Start audio player
-				Util.toaster("Start Audio Player");
+				
+				Intent intent = new Intent(getContext(), 
+						AudioPlayerActivity.class);
+				getContext().startActivity(intent);
 			}
 			
 		});

@@ -16,6 +16,8 @@ public interface AudioPlayer {
 		void play();
 		void pause();
 		boolean isPlaying();
+		void next();
+		void previous();
 	}
 
 }

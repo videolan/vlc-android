@@ -5,6 +5,9 @@ interface IAudioService {
 	void play();
 	void pause();
 	void stop();
+	void next();
+	void previous();
+	void setTime(long time);
 	String getCurrentMediaPath();
 	void load(in List<String> mediaPathList, int position);
 	boolean isPlaying();

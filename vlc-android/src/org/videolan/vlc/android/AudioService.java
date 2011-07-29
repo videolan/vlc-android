@@ -163,6 +163,16 @@ public class AudioService extends Service {
         }
     }
     
+	private void previous() {
+		int index = mMediaList.indexOf(mCurrentMedia);
+		if (index > 0) {
+			mCurrentMedia = mMediaList.get(index -1);
+			mLibVLC.readMedia(mCurrentMedia.getPath());
+			showNotification();
+		}
+		
+	}
+    
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
 		
     	@Override
@@ -197,8 +207,7 @@ public class AudioService extends Service {
 
 		@Override
 		public String getArtist() throws RemoteException {
-			// TODO: add media parameter
-			return null;
+			return mCurrentMedia.getArtist();
 		}
 
 		@Override
@@ -256,6 +265,21 @@ public class AudioService extends Service {
     		mHandler.sendEmptyMessage(SHOW_PROGRESS);
     		showNotification();
 			
+		}
+
+		@Override
+		public void next() throws RemoteException {
+			AudioService.this.next();
+		}
+
+		@Override
+		public void previous() throws RemoteException {
+			AudioService.this.previous();
+		}
+
+		@Override
+		public void setTime(long time) throws RemoteException {		
+			mLibVLC.setTime(time);
 		}
 	};
 

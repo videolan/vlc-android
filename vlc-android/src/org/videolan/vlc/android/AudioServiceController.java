@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
-import org.videolan.vlc.android.widget.AudioMiniPlayer;
+import org.videolan.vlc.android.AudioPlayer;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,7 +23,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	private Context mContext;
 	private IAudioService mAudioServiceBinder;
 	private ServiceConnection mAudioServiceConnection;
-	private ArrayList<AudioMiniPlayer> mAudioPlayer;
+	private ArrayList<AudioPlayer> mAudioPlayer;
 	private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {	
 		@Override
 		public void update() throws RemoteException {
@@ -36,7 +36,7 @@ public class AudioServiceController implements AudioPlayerControl {
 		// Get context from MainActivity
 		mContext = MainActivity.getInstance();
 		
-		mAudioPlayer = new ArrayList<AudioMiniPlayer>();
+		mAudioPlayer = new ArrayList<AudioPlayer>();
 		
         // Setup audio service connection
         mAudioServiceConnection = new ServiceConnection() {	
@@ -118,7 +118,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	 * Add a AudioPlayer
 	 * @param ap
 	 */
-	public void addAudioPlayer(AudioMiniPlayer ap) {
+	public void addAudioPlayer(AudioPlayer ap) {
 		mAudioPlayer.add(ap);
 	}
 	
@@ -126,7 +126,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	 * Remove AudioPlayer from list
 	 * @param ap
 	 */
-	public void removeAudioPlayer(AudioMiniPlayer ap) {
+	public void removeAudioPlayer(AudioPlayer ap) {
 		if (mAudioPlayer.contains(ap)) {
 			mAudioPlayer.remove(ap);
 		}
@@ -209,10 +209,12 @@ public class AudioServiceController implements AudioPlayerControl {
 
 	@Override
 	public boolean hasMedia() {
-		try {
-			return mAudioServiceBinder.hasMedia();
-		} catch (RemoteException e) {
-			Log.e(TAG, "remote procedure call failed: hasMedia()");
+		if (mAudioServiceBinder != null) {
+			try {
+				return mAudioServiceBinder.hasMedia();
+			} catch (RemoteException e) {
+				Log.e(TAG, "remote procedure call failed: hasMedia()");
+			}
 		}
 		return false;
 	}
@@ -240,6 +242,32 @@ public class AudioServiceController implements AudioPlayerControl {
 	@Override
 	public Bitmap getCover() {
 		return null;
+	}
+
+	@Override
+	public void next() {
+		try {
+			mAudioServiceBinder.next();
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: next()");
+		}
+	}
+
+	@Override
+	public void previous() {
+		try {
+			mAudioServiceBinder.previous();
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: previous()");
+		}
+	}
+
+	public void setTime(long time) {
+		try {
+			mAudioServiceBinder.setTime(time);
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: setTime()");
+		}
 	}
 	
 	

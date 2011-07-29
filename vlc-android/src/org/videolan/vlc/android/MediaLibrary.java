@@ -9,6 +9,7 @@ import java.util.Stack;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
+import android.content.Context;
 import android.os.Handler;
 
 
@@ -22,9 +23,11 @@ public class MediaLibrary {
 	private ArrayList<Media> mItemList;
 	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	private ArrayList<Handler> mUpdateHandler;
+	protected Context mContext;
 	
-	private MediaLibrary() {
+	private MediaLibrary(Context context) {
 		mInstance = this;
+		mContext = context;
 		mItemList = new ArrayList<Media>();
 		mUpdateHandler = new ArrayList<Handler>();
 		mDBManager = DatabaseManager.getInstance();	
@@ -35,9 +38,9 @@ public class MediaLibrary {
 	}
 	
 
-	public static MediaLibrary getInstance() {
+	public static MediaLibrary getInstance(Context context) {
 		if (mInstance == null)
-			mInstance = new MediaLibrary();
+			mInstance = new MediaLibrary(context);
 		return mInstance;
 	}
 	
@@ -130,7 +133,7 @@ public class MediaLibrary {
 			    				}
 			    			} else {
 			    				// create new media item
-			    				mItemList.add( new Media( f[i] ));
+			    				mItemList.add(new Media(mContext, f[i]));
 			    			}
 			    		} else if (f[i].isDirectory()) {
 			    			directorys.push(f[i]);

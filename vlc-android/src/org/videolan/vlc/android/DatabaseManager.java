@@ -43,6 +43,8 @@ public class DatabaseManager {
 	private final String SEARCHHISTORY_DATE = "date";
 	private final String SEARCHHISTORY_KEY = "key";
 	
+	private Context mContext;
+	
 	public enum mediaColumn { MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH, 
 		MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM
 	}
@@ -54,6 +56,7 @@ public class DatabaseManager {
 	 * @param context
 	 */
 	private DatabaseManager(Context context) {
+		mContext = context;
 		// create or open database
 		DatabaseHelper helper = new DatabaseHelper(context);
 		this.mDb = helper.getWritableDatabase();
@@ -213,7 +216,7 @@ public class DatabaseManager {
 				picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
 			}
 			
-			media = new Media(new File(path), cursor.getLong(0), 
+			media = new Media(mContext, new File(path), cursor.getLong(0), 
 					cursor.getLong(1), cursor.getInt(2), 
 					picture, cursor.getString(4), 
 					cursor.getString(5), cursor.getString(6), 

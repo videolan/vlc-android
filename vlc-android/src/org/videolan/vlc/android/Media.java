@@ -3,6 +3,7 @@ package org.videolan.vlc.android;
 
 import java.io.File;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -49,14 +50,17 @@ public class Media implements Comparable<Media> {
 	private int mWidth = 0;
 	private int mHeight = 0;
 	private Bitmap mPicture;
+	
+	private Context mContext;
 
 
 	/**
 	 * Create an new Media
 	 * @param file: path on the local storage
 	 */
-	public Media(File file) {
+	public Media(Context context, File file) {
 		this.mFile = file;
+		mContext = context;
 
     	LibVLC mLibVlc = null;
     	try {
@@ -73,8 +77,9 @@ public class Media implements Comparable<Media> {
 	}
 
 	
-	public Media(File file, long time, long length, int type, Bitmap picture, 
-			String title, String artist, String genre, String album) {
+	public Media(Context context, File file, long time, long length, int type, 
+			Bitmap picture, String title, String artist, String genre, String album) {
+		mContext = context;
 		
 		mFile = file;
 		mTime = time;
@@ -157,7 +162,10 @@ public class Media implements Comparable<Media> {
 	}
 	
 	public String getArtist() {
-		return mArtist;
+		if (mArtist == null)
+			return mContext.getString(R.string.unknown_artist);
+		else
+			return mArtist;
 	}
 
 	public String getGenre() {
@@ -169,7 +177,10 @@ public class Media implements Comparable<Media> {
 	}
 
 	public String getAlbum() {
-		return mAlbum;
+		if (mAlbum == null)
+			return mContext.getString(R.string.unknown_album);
+		else
+			return mAlbum;
 	}
 
 	public String getTrackNumber() {

@@ -80,6 +80,7 @@ public class MainActivity extends TabActivity {
 		mAudioController = AudioServiceController.getInstance();
 		mAudioController.addAudioPlayer(mAudioPlayer);
 		mAudioPlayer.setAudioPlayerControl(mAudioController);
+		mAudioPlayer.update();
 		
 		
 		
@@ -107,7 +108,7 @@ public class MainActivity extends TabActivity {
 		}
         
         /* Load media items from database and storage */
-        MediaLibrary.getInstance().loadMediaItems();
+        MediaLibrary.getInstance(this).loadMediaItems();
 	}
 
 	/** Create menu from XML 

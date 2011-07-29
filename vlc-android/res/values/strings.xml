@@ -25,4 +25,6 @@
     <string name="not_show_again">"Don't show this Message again."</string>
     <string name="beta_warning">This is a early alpha version\n(NOT STABLE!).</string>
     <string name="info_title">Information</string>
+    <string name="unknown_artist">Unknown Artist</string>
+    <string name="unknown_album">Unknown Album</string>
 </resources>
