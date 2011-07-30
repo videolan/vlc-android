@@ -1,9 +1,11 @@
-From 4b5430f3b44e5571c69d616a14af1263fd462844 Mon Sep 17 00:00:00 2001
+From 72d782188f36685955692831e2542dcd21e4e89e Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 6 Jul 2011 00:18:31 +0200
 Subject: [PATCH 6/8] Revert "Remove ugly builtin support"
 
 This reverts commit 473a276fdd990c75efe1106a8c7b2de18200df59.
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  configure.ac                  |   24 ++++++++++++++++++++----
  include/vlc/libvlc.h          |   35 +++++++++++++++++++++++++++++++++++
@@ -17,10 +19,10 @@ This reverts commit 473a276fdd990c75efe1106a8c7b2de18200df59.
  9 files changed, 83 insertions(+), 18 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 79063a5..f572e79 100644
+index a9865ae..5d84e06 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -94,6 +94,26 @@ AS_IF([test -n "${with_binary_version}"],[
+@@ -96,6 +96,26 @@ AS_IF([test -n "${with_binary_version}"],[
           [Binary specific version])
  ])
  
@@ -47,7 +49,7 @@ index 79063a5..f572e79 100644
  dnl
  dnl  Check for the contrib directory
  dnl
-@@ -440,10 +460,6 @@ m4_defun([AC_DEPLIBS_CHECK_METHOD],[])
+@@ -442,10 +462,6 @@ m4_defun([AC_DEPLIBS_CHECK_METHOD],[])
  
  lt_cv_deplibs_check_method=pass_all
  
@@ -59,7 +61,7 @@ index 79063a5..f572e79 100644
  dnl Gettext stuff
  dnl
 diff --git a/include/vlc/libvlc.h b/include/vlc/libvlc.h
-index bcf9bdc..a5c70d2 100644
+index da4d23d..c99e6bf 100644
 --- a/include/vlc/libvlc.h
 +++ b/include/vlc/libvlc.h
 @@ -137,6 +137,41 @@ const char *libvlc_printerr (const char *fmt, ...);
@@ -105,10 +107,10 @@ index bcf9bdc..a5c70d2 100644
   * Decrement the reference count of a libvlc instance, and destroy it
   * if it reaches zero.
 diff --git a/modules/common.am b/modules/common.am
-index 1092b62..f001a7f 100644
+index 760ac33..44765b5 100644
 --- a/modules/common.am
 +++ b/modules/common.am
-@@ -13,17 +13,17 @@ CLEANFILES = $(BUILT_SOURCES)
+@@ -13,16 +13,16 @@ CLEANFILES = $(BUILT_SOURCES)
  
  LTLIBVLCCORE = $(top_builddir)/src/libvlccore.la
  
@@ -122,7 +124,6 @@ index 1092b62..f001a7f 100644
  	-avoid-version -module \
  	-export-symbols-regex ^vlc_entry \
  	-shrext $(LIBEXT) \
- 	-rpath "$(libvlcdir)" \
  	-no-undefined \
 -	 `$(VLC_CONFIG) --ldflags plugin $@`
 -AM_LIBADD = `$(VLC_CONFIG) -libs plugin $@` \
@@ -132,7 +133,7 @@ index 1092b62..f001a7f 100644
  
  include $(srcdir)/Modules.am
 diff --git a/src/control/core.c b/src/control/core.c
-index d5836be..3936302 100644
+index 2834af1..c627c0a 100644
 --- a/src/control/core.c
 +++ b/src/control/core.c
 @@ -38,7 +38,8 @@
@@ -181,7 +182,7 @@ index 076c614..b522ef7 100644
  VLC_API void libvlc_InternalDestroy( libvlc_int_t * );
  
 diff --git a/src/libvlc.c b/src/libvlc.c
-index 3747032..753e347 100644
+index 4a90f9a..b3fceb3 100644
 --- a/src/libvlc.c
 +++ b/src/libvlc.c
 @@ -249,7 +249,7 @@ error:
@@ -258,5 +259,5 @@ index fd2e31d..afe3955 100644
  #define module_EndBank(a,b) module_EndBank(VLC_OBJECT(a), b)
  
 -- 
-1.7.5.4
+1.7.6
 

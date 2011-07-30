@@ -1,6 +1,6 @@
-From 07a7da99d5c2d1fa34a389c389c2a58753a46c5c Mon Sep 17 00:00:00 2001
+From e7954be97f9104f59c2f5eaa28cbe5ad0fc3066c Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
-Date: Mon, 4 Jul 2011 15:52:19 +0200
+Date: Sun, 31 Jul 2011 00:20:40 +0200
 Subject: [PATCH 4/8] Push messages to Android stack
 
 ---
@@ -10,10 +10,10 @@ Subject: [PATCH 4/8] Push messages to Android stack
  3 files changed, 33 insertions(+), 5 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 574f7f2..096bf97 100644
+index ffcb057..6f302d2 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -532,6 +532,7 @@ fi
+@@ -534,6 +534,7 @@ fi
  
  if test "${HAVE_ANDROID}" = "1"; then
      AC_REPLACE_FUNCS([pthread_cancel])
@@ -68,12 +68,12 @@ index 188d763..96f570a 100644
  #if defined (WIN32) || defined (__OS2__)
      fflush (stream);
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 64b4fd3..6bc07bf 100644
+index 9618fa5..d944fff 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
-@@ -67,6 +67,14 @@
- #endif
- 
+@@ -136,6 +136,14 @@ static struct timespec mtime_to_ts (mtime_t date)
+     return ts;
+ }
  
 +#if defined(__ANDROID__) && !defined(NDEBUG)
 +# include <android/log.h>
@@ -86,7 +86,7 @@ index 64b4fd3..6bc07bf 100644
  /**
   * Print a backtrace to the standard error for debugging purpose.
   */
-@@ -107,8 +115,8 @@ vlc_thread_fatal (const char *action, int error,
+@@ -176,8 +184,8 @@ vlc_thread_fatal (const char *action, int error,
                    const char *function, const char *file, unsigned line)
  {
      int canc = vlc_savecancel ();
@@ -97,7 +97,7 @@ index 64b4fd3..6bc07bf 100644
      vlc_trace (function, file, line);
  
      /* Sometimes strerror_r() crashes too, so make sure we print an error
-@@ -116,7 +124,7 @@ vlc_thread_fatal (const char *action, int error,
+@@ -185,7 +193,7 @@ vlc_thread_fatal (const char *action, int error,
  #ifdef __GLIBC__
      /* Avoid the strerror_r() prototype brain damage in glibc */
      errno = error;
@@ -106,7 +106,7 @@ index 64b4fd3..6bc07bf 100644
  #else
      char buf[1000];
      const char *msg;
-@@ -133,7 +141,7 @@ vlc_thread_fatal (const char *action, int error,
+@@ -202,7 +210,7 @@ vlc_thread_fatal (const char *action, int error,
              msg = "unknown (invalid error number)";
              break;
      }
@@ -116,5 +116,5 @@ index 64b4fd3..6bc07bf 100644
      fflush (stderr);
  
 -- 
-1.7.5.4
+1.7.6
 

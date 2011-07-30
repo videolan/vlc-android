@@ -1,21 +1,20 @@
-From 73065265f535b1494cbc5b8cdde45b9907339fc2 Mon Sep 17 00:00:00 2001
+From 62bd39011a43acc8e05b24cc2c50ca20cf1bcbec Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
-Date: Thu, 7 Jul 2011 01:05:09 +0200
+Date: Sun, 31 Jul 2011 00:05:21 +0200
 Subject: [PATCH 7/8] Old contribs: compile live on Android
 
 ---
- extras/contrib/src/Patches/live-android.patch   |   56 +++++++++++++++++++++++
- extras/contrib/src/Patches/live-uselocale.patch |   32 ++++++-------
- extras/contrib/src/contrib-src.mak              |    3 +
- 3 files changed, 74 insertions(+), 17 deletions(-)
+ extras/contrib/src/Patches/live-android.patch |   67 +++++++++++++++++++++++++
+ extras/contrib/src/contrib-src.mak            |    3 +
+ 2 files changed, 70 insertions(+), 0 deletions(-)
  create mode 100644 extras/contrib/src/Patches/live-android.patch
 
 diff --git a/extras/contrib/src/Patches/live-android.patch b/extras/contrib/src/Patches/live-android.patch
 new file mode 100644
-index 0000000..722bb01
+index 0000000..315610a
 --- /dev/null
 +++ b/extras/contrib/src/Patches/live-android.patch
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,67 @@
 +diff -ruN live/Makefile.tail live.new/Makefile.tail
 +--- live/Makefile.tail	2011-03-15 08:40:37.000000000 +0900
 ++++ live.new/Makefile.tail	2011-04-13 17:20:54.238795233 +0900
@@ -72,81 +71,17 @@ index 0000000..722bb01
 +   if (setsockopt(socket, IPPROTO_IP, IP_DROP_SOURCE_MEMBERSHIP,
 + 		 (const char*)&imr, sizeof (struct ip_mreq_source)) < 0) {
 +     return False;
-diff --git a/extras/contrib/src/Patches/live-uselocale.patch b/extras/contrib/src/Patches/live-uselocale.patch
-index 0b56063..af36cfa 100644
---- a/extras/contrib/src/Patches/live-uselocale.patch
-+++ b/extras/contrib/src/Patches/live-uselocale.patch
-@@ -1,8 +1,6 @@
--Copyright (C) 2008 Rémi Denis-Courmont, adaptation by Felix Kühne (C) 2009.
--Licensed under GNU General Public License version 2 or higher.
--diff -urN live.orig/liveMedia/include/Locale.hh live/liveMedia/include/Locale.hh
----- live.orig/liveMedia/include/Locale.hh	2009-03-23 01:26:16 +0300
--+++ live/liveMedia/include/Locale.hh	2009-03-26 19:17:43 +0300
-+diff -ruN live/liveMedia/include/Locale.hh live.new/liveMedia/include/Locale.hh
-+--- live/liveMedia/include/Locale.hh	2011-07-06 21:18:43.000000000 +0200
-++++ live.new/liveMedia/include/Locale.hh	2011-07-07 01:07:09.881034659 +0200
- @@ -27,23 +27,26 @@
-  
-  #ifndef LOCALE_NOT_USED
-@@ -37,9 +35,9 @@ diff -urN live.orig/liveMedia/include/Locale.hh live/liveMedia/include/Locale.hh
-  };
-  
-  #endif
--diff -urN live.orig/liveMedia/Locale.cpp live/liveMedia/Locale.cpp
----- live.orig/liveMedia/Locale.cpp	2009-03-23 01:26:16 +0300
--+++ live/liveMedia/Locale.cpp	2009-03-26 19:17:43 +0300
-+diff -ruN live/liveMedia/Locale.cpp live.new/liveMedia/Locale.cpp
-+--- live/liveMedia/Locale.cpp	2011-07-06 21:18:44.000000000 +0200
-++++ live.new/liveMedia/Locale.cpp	2011-07-07 01:07:09.881034659 +0200
- @@ -22,19 +22,18 @@
-  #include "Locale.hh"
-  #include <strDup.hh>
-@@ -66,9 +64,10 @@ diff -urN live.orig/liveMedia/Locale.cpp live/liveMedia/Locale.cpp
-    }
-  #endif
-  }
----- live.orig/liveMedia/RTSPClient.cpp	2010-03-16 03:09:46.000000000 +0100
--+++ live/liveMedia/RTSPClient.cpp	2010-08-24 15:04:31.000000000 +0200
--@@ -1019,7 +1019,7 @@
-+diff -ruN live/liveMedia/RTSPClient.cpp live.new/liveMedia/RTSPClient.cpp
-+--- live/liveMedia/RTSPClient.cpp	2011-07-06 21:18:43.000000000 +0200
-++++ live.new/liveMedia/RTSPClient.cpp	2011-07-07 01:07:59.993283156 +0200
-+@@ -469,7 +469,7 @@
-      // This is the default value; we don't need a "Scale:" header:
-      buf[0] = '\0';
-    } else {
-@@ -77,7 +76,7 @@ diff -urN live.orig/liveMedia/Locale.cpp live/liveMedia/Locale.cpp
-      sprintf(buf, "Scale: %f\r\n", scale);
-    }
-  
--@@ -1033,11 +1033,11 @@
-+@@ -483,11 +483,11 @@
-      buf[0] = '\0';
-    } else if (end < 0) {
-      // There's no end time:
-@@ -91,9 +90,7 @@ diff -urN live.orig/liveMedia/Locale.cpp live/liveMedia/Locale.cpp
-      sprintf(buf, "Range: npt=%.3f-%.3f\r\n", start, end);
-    }
-  
----- live/liveMedia/RTSPClient.cpp	2010-08-24 17:05:46.000000000 +0200
--+++ live.new/liveMedia/RTSPClient.cpp	2010-08-24 17:04:50.000000000 +0200
--@@ -935,7 +935,7 @@
-+@@ -919,7 +919,7 @@
-  }
-  
-  Boolean RTSPClient::parseScaleParam(char const* paramStr, float& scale) {
-@@ -102,8 +99,9 @@ diff -urN live.orig/liveMedia/Locale.cpp live/liveMedia/Locale.cpp
-    return sscanf(paramStr, "%f", &scale) == 1;
-  }
-  
----- live/liveMedia/RTSPCommon.cpp.orig	2011-01-06 01:26:50.000000000 +0100
--+++ live/liveMedia/RTSPCommon.cpp	2011-01-09 16:32:24.142645155 +0100
-+diff -ruN live/liveMedia/RTSPCommon.cpp live.new/liveMedia/RTSPCommon.cpp
-+--- live/liveMedia/RTSPCommon.cpp	2011-07-06 21:18:44.000000000 +0200
-++++ live.new/liveMedia/RTSPCommon.cpp	2011-07-07 01:07:59.997283172 +0200
- @@ -137,7 +137,7 @@
-  Boolean parseRangeParam(char const* paramStr, double& rangeStart, double& rangeEnd) {
-    double start, end;
++--- live/liveMedia/RTSPServerSupportingHTTPStreaming.cpp	2011-07-21 19:59:32.000000000 +0200
+++++ live.new/liveMedia/RTSPServerSupportingHTTPStreaming.cpp	2011-07-31 00:02:23.700137585 +0200
++@@ -66,7 +66,7 @@
++     // Failed to 'stat' the file; return an empty string
++     buf[0] = '\0';
++   } else {
++-    strftime(buf, sizeof buf, "Last-Modified: %a, %b %d %Y %H:%M:%S GMT\r\n", gmtime(&sb.st_mtime));
+++    strftime(buf, sizeof buf, "Last-Modified: %a, %b %d %Y %H:%M:%S GMT\r\n", gmtime((const time_t*)&sb.st_mtime));
++   }
++ 
++   return buf;
 diff --git a/extras/contrib/src/contrib-src.mak b/extras/contrib/src/contrib-src.mak
 index a717c40..99580f0 100644
 --- a/extras/contrib/src/contrib-src.mak
@@ -162,5 +97,5 @@ index a717c40..99580f0 100644
  LIVE_TARGET-$(ENABLED)        = linux
  LIVE_TARGET-$(HAVE_WIN32)     = mingw
 -- 
-1.7.5.4
+1.7.6
 

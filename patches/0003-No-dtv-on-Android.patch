@@ -1,4 +1,4 @@
-From 175be1f8d5cb3189d466e48e016676d7d1973ea0 Mon Sep 17 00:00:00 2001
+From 64659724f9d7c8edb964488806f817c5651ff37f Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Fri, 10 Jun 2011 16:48:26 +0200
 Subject: [PATCH 3/8] No dtv on Android
@@ -29,5 +29,5 @@ index 3183db7..7578d88 100644
  if HAVE_WIN32
  # Work-around automake bug:
 -- 
-1.7.5.4
+1.7.6
 

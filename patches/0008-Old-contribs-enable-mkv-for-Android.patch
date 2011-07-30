@@ -1,4 +1,4 @@
-From dde8316449516a4abd0849a06b630290f858bb1c Mon Sep 17 00:00:00 2001
+From 77901d9bff3a7748a42d48135e572e3d85662271 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Thu, 7 Jul 2011 01:23:53 +0200
 Subject: [PATCH 8/8] Old contribs: enable mkv for Android
@@ -83,5 +83,5 @@ index 73a8d39..ce4f4a2 100755
                  --disable-mod \
                  --disable-sid \
 -- 
-1.7.5.4
+1.7.6
 
