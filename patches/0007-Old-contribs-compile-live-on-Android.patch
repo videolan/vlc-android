@@ -1,20 +1,20 @@
-From 62bd39011a43acc8e05b24cc2c50ca20cf1bcbec Mon Sep 17 00:00:00 2001
+From 7b71470c01322fa4710f41493185e95af7436d8b Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:05:21 +0200
-Subject: [PATCH 7/8] Old contribs: compile live on Android
+Subject: [PATCH 07/10] Old contribs: compile live on Android
 
 ---
- extras/contrib/src/Patches/live-android.patch |   67 +++++++++++++++++++++++++
+ extras/contrib/src/Patches/live-android.patch |   66 +++++++++++++++++++++++++
  extras/contrib/src/contrib-src.mak            |    3 +
- 2 files changed, 70 insertions(+), 0 deletions(-)
+ 2 files changed, 69 insertions(+), 0 deletions(-)
  create mode 100644 extras/contrib/src/Patches/live-android.patch
 
 diff --git a/extras/contrib/src/Patches/live-android.patch b/extras/contrib/src/Patches/live-android.patch
 new file mode 100644
-index 0000000..315610a
+index 0000000..294b1ef
 --- /dev/null
 +++ b/extras/contrib/src/Patches/live-android.patch
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,66 @@
 +diff -ruN live/Makefile.tail live.new/Makefile.tail
 +--- live/Makefile.tail	2011-03-15 08:40:37.000000000 +0900
 ++++ live.new/Makefile.tail	2011-04-13 17:20:54.238795233 +0900
@@ -29,19 +29,6 @@ index 0000000..315610a
 + 
 + clean:
 + 	cd $(LIVEMEDIA_DIR) ; $(MAKE) clean
-+diff -ruN live/config.armlinux live-t/config.armlinux
-+--- live/config.armlinux	2011-03-15 08:40:37.000000000 +0900
-++++ live.new/config.armlinux	2011-03-22 01:41:26.445293024 +0900
-+@@ -1,5 +1,7 @@
-++-include ../../../config.mak
-++
-+-CROSS_COMPILE?=		arm-elf-
-+-COMPILE_OPTS =		$(INCLUDES) -I. -O2 -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
-++CROSS_COMPILE?=		arm-linux-androideabi-
-++COMPILE_OPTS =		$(INCLUDES) -I. -I$(ANDROID_NDK)/platforms/android-9/arch-arm/usr/include -O2 -DLOCALE_NOT_USED -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
-+ C =			c
-+ C_COMPILER =		$(CROSS_COMPILE)gcc
-+ C_FLAGS =		$(COMPILE_OPTS)
 +diff -ruN live/groupsock/GroupsockHelper.cpp live.new/groupsock/GroupsockHelper.cpp
 +--- live/groupsock/GroupsockHelper.cpp	2011-03-15 08:40:37.000000000 +0900
 ++++ live.new/groupsock/GroupsockHelper.cpp	2011-03-25 17:52:53.829087921 +0900
@@ -82,6 +69,18 @@ index 0000000..315610a
 +   }
 + 
 +   return buf;
++--- live/config.armlinux.orig	2011-07-21 19:59:32.000000000 +0200
+++++ live/config.armlinux	2011-08-06 02:01:03.677765271 +0200
++@@ -1,5 +1,7 @@
++-CROSS_COMPILE?=		arm-elf-
++-COMPILE_OPTS =		$(INCLUDES) -I. -O2 -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
+++-include ../../../config.mak
+++
+++CROSS_COMPILE?=		arm-linux-androideabi-
+++COMPILE_OPTS =		$(INCLUDES) -I. -I$(ANDROID_NDK)/platforms/android-9/arch-arm/usr/include -O2 -DLOCALE_NOT_USED -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
++ C =			c
++ C_COMPILER =		$(CROSS_COMPILE)gcc
++ C_FLAGS =		$(COMPILE_OPTS)
 diff --git a/extras/contrib/src/contrib-src.mak b/extras/contrib/src/contrib-src.mak
 index a717c40..99580f0 100644
 --- a/extras/contrib/src/contrib-src.mak
