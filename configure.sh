@@ -7,51 +7,58 @@ fi
 
 ANDROID_API=android-9
 
-ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/*-x86/bin/
-ANDROID_INCLUDE=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm/usr/include
-ANDROID_LIB=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm/usr/lib
-GCC_PREFIX=${ANDROID_BIN}/arm-linux-androideabi-
-
 VLC_SOURCEDIR="`dirname $0`/../../.."
 
 # needed for old ndk: change all the arm-linux-androideabi to arm-eabi
 # the --host is kept on purpose because otherwise libtool complains..
 
-EXTRA_CFLAGS="-mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
-EXTRA_LDFLAGS=""
+CFLAGS="-O2 -mlong-calls -fstrict-aliasing -fprefetch-loop-arrays -ffast-math"
+LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
+
 if [ -z "$NO_NEON" ]; then
-	ANDROID_CPPINCLUDE="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/include"
-	EXTRA_CFLAGS="$EXTRA_CFLAGS -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
-	EXTRA_LDFLAGS="-Wl,--fix-cortex-a8"
-	EXTRA_PARAMS=""
+    CXX_TARGET="armeabi-v7a"
+    CFLAGS="$CFLAGS -mfpu=neon -mtune=cortex-a8 -ftree-vectorize -mvectorize-with-neon-quad"
+    LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
+    EXTRA_PARAMS=""
 else
-	ANDROID_CPPINCLUDE="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/armeabi/include"
-	EXTRA_CFLAGS="$EXTRA_CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
-	EXTRA_PARAMS=" --disable-neon"
+    CXX_TARGET="armeabi"
+    CFLAGS="$CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
+    EXTRA_PARAMS=" --disable-neon"
 fi
 
-PATH="$ANDROID_BIN:$PATH" \
-CPPFLAGS="-I$ANDROID_INCLUDE $ANDROID_CPPINCLUDE" \
-LDFLAGS="-Wl,-rpath-link=$ANDROID_LIB,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined -Wl,-shared -L$ANDROID_LIB $EXTRA_LDFLAGS" \
-CFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
-CXXFLAGS="-nostdlib $EXTRA_CFLAGS -O2" \
-LIBS="-lc -ldl -lgcc" \
-CC="${GCC_PREFIX}gcc" \
-CXX="${GCC_PREFIX}g++" \
-NM="${GCC_PREFIX}nm" \
-STRIP="${GCC_PREFIX}strip" \
-RANLIB="${GCC_PREFIX}ranlib" \
-AR="${GCC_PREFIX}ar" \
+CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${CXX_TARGET}/include"
+
+SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm
+ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/*-x86/bin/
+CROSS_COMPILE=${ANDROID_BIN}/arm-linux-androideabi-
+
+CPPFLAGS="$CPPFLAGS" \
+CFLAGS="$CFLAGS" \
+CXXFLAGS="$CFLAGS" \
+LDFLAGS="$LDFLAGS" \
+CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \
+CXX="${CROSS_COMPILE}g++ --sysroot=${SYSROOT}" \
+NM="${CROSS_COMPILE}nm" \
+STRIP="${CROSS_COMPILE}strip" \
+RANLIB="${CROSS_COMPILE}ranlib" \
+AR="${CROSS_COMPILE}ar" \
 PKG_CONFIG_LIBDIR="$VLC_SOURCEDIR/extras/contrib/hosts/arm-eabi/lib/pkgconfig" \
 sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $EXTRA_PARAMS \
                 --enable-static-modules \
-                --disable-vlc \
+                --enable-live555 --enable-realrtsp \
+                --enable-avformat \
+                --enable-mkv \
+                --enable-swscale \
+                --enable-avcodec \
+                --enable-taglib \
+                --enable-opensles \
+                --enable-android-vout \
                 --enable-debug \
+                --disable-vlc \
                 --disable-vlm --disable-sout \
                 --disable-dbus \
                 --disable-lua \
                 --disable-libgcrypt \
-                --enable-live555 --enable-realrtsp \
                 --disable-vcd \
                 --disable-v4l2 \
                 --disable-gnomevfs \
@@ -60,11 +67,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-bluray \
                 --disable-linsys \
                 --disable-decklink \
-                --enable-avformat \
-                --enable-swscale \
-                --enable-avcodec \
                 --disable-libva \
-                --enable-mkv \
                 --disable-dv \
                 --disable-mod \
                 --disable-sid \
@@ -75,7 +78,6 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-sdl-image \
                 --disable-zvbi \
                 --disable-fluidsynth \
-                --enable-opensles \
                 --disable-jack \
                 --disable-pulse \
                 --disable-alsa \
@@ -86,7 +88,6 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-qt4 \
                 --disable-skins2 \
                 --disable-mtp \
-                --enable-taglib \
                 --disable-notify \
                 --disable-freetype \
                 --disable-libass \
@@ -94,7 +95,6 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --disable-sqlite \
                 --disable-udev \
                 --disable-libxml2 \
-                --enable-android-vout \
                 --disable-caca \
                 --disable-glx \
                 --disable-egl \
