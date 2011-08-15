@@ -67,6 +67,28 @@ public class Media implements Comparable<Media> {
 			mLibVlc = LibVLC.getInstance();
 			mType = (mLibVlc.hasVideoTrack(file.getPath())) ? TYPE_VIDEO : TYPE_AUDIO;
 			mLength = mLibVlc.getLengthFromFile(file.getPath());
+
+            String[] array = mLibVlc.readMediaMeta(file.getPath());
+
+            int i;
+            for(i=0; i < array.length; i++) {
+                String s = array[i++];
+                String v = array[i];
+
+                if (s.equals("title")) {
+                    mTitle = v;
+                    Log.d(TAG, "Title " + mTitle);
+                } else if (s.equals("artist")) {
+                    mArtist = v;
+                    Log.d(TAG, "Artist " + mArtist);
+                } else if (s.equals("genre")) {
+                    mGenre = v;
+                    Log.d(TAG, "Genre " + mGenre);
+                } else if (s.equals("album")) {
+                    mAlbum = v;
+                    Log.d(TAG, "Album " + mAlbum);
+                }
+            }
 		} catch (LibVlcException e) {
 			e.printStackTrace();
 		}

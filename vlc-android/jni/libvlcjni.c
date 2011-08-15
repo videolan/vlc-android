@@ -275,6 +275,48 @@ void Java_org_videolan_vlc_android_LibVLC_setEventManager(JNIEnv *env, jobject t
     eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
 }
 
+jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
+                                    jobject thiz, jint instance, jstring mrl)
+{
+    jboolean isCopy;
+    jobjectArray array = (*env)->NewObjectArray(env, 8,
+            (*env)->FindClass(env, "java/lang/String"),
+            (*env)->NewStringUTF(env, ""));
+
+
+    static const char str[4][7] = {
+        "artist", "album", "title", "genre",
+    };
+    static const libvlc_meta_t meta_id[4] = {
+        libvlc_meta_Artist,
+        libvlc_meta_Album,
+        libvlc_meta_Title,
+        libvlc_meta_Genre,
+    };
+
+    const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
+    libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
+                                              psz_mrl);
+    libvlc_media_parse(m);
+
+    int i;
+    for (i=0; i < 4 ; i++) {
+        char *meta = libvlc_media_get_meta(m, meta_id[i]);
+        if (!meta)
+            meta = strdup("unknown");
+
+        jstring k = (*env)->NewStringUTF(env, str[i]);
+        (*env)->SetObjectArrayElement(env, array, 2*i, k);
+        jstring v = (*env)->NewStringUTF(env, meta);
+        (*env)->SetObjectArrayElement(env, array, 2*i+1, v);
+
+        free(meta);
+   }
+
+   libvlc_media_release(m);
+   return array;
+}
+
 void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                        jint instance, jstring mrl)
 {

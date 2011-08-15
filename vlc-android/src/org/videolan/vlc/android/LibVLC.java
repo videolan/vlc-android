@@ -150,6 +150,11 @@ public class LibVLC {
         readMedia(mLibVlcInstance, mrl);
     }
     
+    public String[] readMediaMeta(String mrl)
+    {
+        return readMediaMeta(mLibVlcInstance, mrl);
+    }
+    
     /**
      * Get a media thumbnail.
      */
@@ -293,6 +298,7 @@ public class LibVLC {
     private native boolean hasVideoTrack(int instance, String filePath);
     
     
+    private native String[] readMediaMeta(int instance, String mrl);
     
     /**
      * Return true if there is a video track in the file
