@@ -86,6 +86,14 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 		} else {
 			mPlayPause.setBackgroundResource(R.drawable.ic_play);
 		}	
+		if (mAudioController.hasNext())
+			mNext.setVisibility(ImageButton.VISIBLE);
+		else
+			mNext.setVisibility(ImageButton.INVISIBLE);
+		if (mAudioController.hasPrevious())
+			mPrevious.setVisibility(ImageButton.VISIBLE);
+		else
+			mPrevious.setVisibility(ImageButton.INVISIBLE);
 		mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 	}
 	

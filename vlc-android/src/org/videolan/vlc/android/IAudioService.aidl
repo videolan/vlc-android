@@ -12,6 +12,8 @@ interface IAudioService {
 	void load(in List<String> mediaPathList, int position);
 	boolean isPlaying();
 	boolean hasMedia();
+	boolean hasNext();
+	boolean hasPrevious();
 	String getTitle();
 	String getArtist();
 	int getTime();

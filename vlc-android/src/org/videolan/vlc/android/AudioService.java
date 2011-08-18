@@ -153,9 +153,9 @@ public class AudioService extends Service {
     }
     
     private void next() {
-    	int index = mMediaList.indexOf(mCurrentMedia) + 1;
-        if (index < mMediaList.size()) {
-        	mCurrentMedia = mMediaList.get(index);
+    	int index = mMediaList.indexOf(mCurrentMedia);
+        if (index < mMediaList.size() - 1) {
+        	mCurrentMedia = mMediaList.get(index + 1);
         	mLibVLC.readMedia(mCurrentMedia.getPath());
         	showNotification();
         } else {
@@ -283,6 +283,24 @@ public class AudioService extends Service {
 		@Override
 		public void setTime(long time) throws RemoteException {		
 			mLibVLC.setTime(time);
+		}
+
+		@Override
+		public boolean hasNext() throws RemoteException {
+			int index = mMediaList.indexOf(mCurrentMedia);
+	        if (index < mMediaList.size() - 1)
+	        	return true;
+	        else
+	        	return false;
+		}
+
+		@Override
+		public boolean hasPrevious() throws RemoteException {
+			int index = mMediaList.indexOf(mCurrentMedia);
+			if (index > 0) 
+				return true;
+			else
+				return false;
 		}
 	};
 

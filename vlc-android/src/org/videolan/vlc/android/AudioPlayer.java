@@ -12,6 +12,8 @@ public interface AudioPlayer {
 		int getLength();
 		int getTime();
 		boolean hasMedia();
+		boolean hasNext();
+		boolean hasPrevious();
 		String getArtist();
 		void play();
 		void pause();

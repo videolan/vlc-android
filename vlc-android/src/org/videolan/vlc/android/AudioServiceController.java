@@ -269,6 +269,26 @@ public class AudioServiceController implements AudioPlayerControl {
 			Log.e(TAG, "remote procedure call failed: setTime()");
 		}
 	}
+
+	@Override
+	public boolean hasNext() {
+		try {
+			return mAudioServiceBinder.hasNext();
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: hasNext()");
+		}
+		return false;
+	}
+
+	@Override
+	public boolean hasPrevious() {
+		try {
+			return mAudioServiceBinder.hasPrevious();
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: hasPrevious()");
+		}
+		return false;
+	}
 	
 	
 

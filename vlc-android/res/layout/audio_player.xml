@@ -34,7 +34,7 @@
 	    	android:gravity="bottom"
 	    	android:paddingLeft="15dip"
 	    	android:orientation="vertical">
-	    	<ImageButton 
+	    	<ImageButton
 	    		android:layout_height="60dip" 
 	    		android:layout_width="60dip"
 	    		android:layout_marginBottom="10dip" 
