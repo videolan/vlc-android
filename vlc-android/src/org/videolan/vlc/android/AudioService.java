@@ -153,9 +153,9 @@ public class AudioService extends Service {
     }
     
     private void next() {
-    	int index = mMediaList.indexOf(mCurrentMedia);
-        if (index < (mMediaList.size() - 1)) {
-        	mCurrentMedia = mMediaList.get(index + 1);
+    	int index = mMediaList.indexOf(mCurrentMedia) + 1;
+        if (index < mMediaList.size()) {
+        	mCurrentMedia = mMediaList.get(index);
         	mLibVLC.readMedia(mCurrentMedia.getPath());
         	showNotification();
         } else {
@@ -207,7 +207,10 @@ public class AudioService extends Service {
 
 		@Override
 		public String getArtist() throws RemoteException {
-			return mCurrentMedia.getArtist();
+			if (mCurrentMedia != null)
+				return mCurrentMedia.getArtist();
+			else
+				return null;
 		}
 
 		@Override

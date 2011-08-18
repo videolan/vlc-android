@@ -126,21 +126,23 @@
 		android:gravity="center"
 		android:layout_margin="10dip">
 		<ImageButton 
-    		android:layout_height="50dip" 
-    		android:layout_width="50dip" 
+			android:background="@drawable/ic_backward"	
+    		android:layout_height="70dip" 
+    		android:layout_width="70dip" 
     		android:id="@+id/previous"
 			android:onClick="onPreviousClick"/>
 		<ImageButton 
 			android:background="@drawable/ic_pause"	
 			android:layout_width="70dip" 
 			android:layout_height="70dip"
-			android:layout_marginLeft="15dip"
-			android:layout_marginRight="15dip" 
+			android:layout_marginLeft="10dip"
+			android:layout_marginRight="10dip" 
 			android:id="@+id/play_pause"
 			android:onClick="onPlayPauseClick"/>
 		<ImageButton 
-    		android:layout_height="50dip" 
-    		android:layout_width="50dip" 
+			android:background="@drawable/ic_forward"	
+    		android:layout_height="70dip" 
+    		android:layout_width="70dip" 
     		android:id="@+id/next"
 			android:onClick="onNextClick"/>
 	</LinearLayout>
