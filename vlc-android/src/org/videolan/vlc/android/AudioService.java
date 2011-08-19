@@ -118,7 +118,7 @@ public class AudioService extends Service {
 		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
-		        "## Artist ##", pendingIntent);
+				mCurrentMedia.getArtist(), pendingIntent);
 		startForeground(3, mNotification);
 		
     }
