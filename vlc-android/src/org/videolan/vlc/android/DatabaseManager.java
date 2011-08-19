@@ -23,7 +23,7 @@ public class DatabaseManager {
 
 	private SQLiteDatabase mDb;
 	private final String DB_NAME = "vlc_database";
-	private final int DB_VERSION = 3;
+	private final int DB_VERSION = 4;
 	
 	private final String DIR_TABLE_NAME = "directories_table";
 	private final String DIR_ROW_PATH = "path";
@@ -38,6 +38,15 @@ public class DatabaseManager {
 	private final String MEDIA_ARTIST = "artist";
 	private final String MEDIA_GENRE = "genre";
 	private final String MEDIA_ALBUM = "album";
+	
+	private final String PLAYLIST_TABLE_NAME = "playlist_table";
+	private final String PLAYLIST_ID = "id";
+	private final String PLAYLIST_NAME = "name";
+	
+	private final String PLAYLIST_MEDIA_TABLE_NAME = "playlist_media_table";
+	private final String PLAYLIST_MEDIA_ID = "id";
+	private final String PLAYLIST_MEDIA_PLAYLISTID = "playlist_id";
+	private final String PLAYLIST_MEDIA_MEDIAPATH = "media_path";
 	
 	private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
 	private final String SEARCHHISTORY_DATE = "date";
@@ -105,6 +114,22 @@ public class DatabaseManager {
 			
 			// Create the media table
 			db.execSQL(createMediaTabelQuery);
+			
+			String createPlaylistTableQuery = "CREATE TABLE IF NOT EXISTS " +
+					PLAYLIST_TABLE_NAME + " (" +
+					PLAYLIST_ID + " INTEGER PRIMARY KAY NOT NULL AUTOINCREMENT, " +
+					PLAYLIST_NAME + " VARCHAR(200));";
+			
+			db.execSQL(createPlaylistTableQuery);
+			
+			String createPlaylistMediaTableQuery = "CREATE TABLE IF NOT EXISTS " +
+					PLAYLIST_MEDIA_TABLE_NAME + " (" +
+					PLAYLIST_MEDIA_ID + " INTEGER PRIMARY KAY NOT NULL AUTOINCREMENT, " +
+					PLAYLIST_MEDIA_PLAYLISTID + " INTEGER NOT NULL," +
+					PLAYLIST_MEDIA_MEDIAPATH + " TEXT NOT NULL);";
+			
+			db.execSQL(createPlaylistMediaTableQuery);
+			
 			
 			String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS " 
 				+ SEARCHHISTORY_TABLE_NAME + " (" 
