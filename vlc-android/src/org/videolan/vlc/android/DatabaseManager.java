@@ -3,9 +3,9 @@ package org.videolan.vlc.android;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -23,7 +23,7 @@ public class DatabaseManager {
 
 	private SQLiteDatabase mDb;
 	private final String DB_NAME = "vlc_database";
-	private final int DB_VERSION = 4;
+	private final int DB_VERSION = 5;
 	
 	private final String DIR_TABLE_NAME = "directories_table";
 	private final String DIR_ROW_PATH = "path";
@@ -40,12 +40,11 @@ public class DatabaseManager {
 	private final String MEDIA_ALBUM = "album";
 	
 	private final String PLAYLIST_TABLE_NAME = "playlist_table";
-	private final String PLAYLIST_ID = "id";
 	private final String PLAYLIST_NAME = "name";
 	
 	private final String PLAYLIST_MEDIA_TABLE_NAME = "playlist_media_table";
 	private final String PLAYLIST_MEDIA_ID = "id";
-	private final String PLAYLIST_MEDIA_PLAYLISTID = "playlist_id";
+	private final String PLAYLIST_MEDIA_PLAYLISTNAME = "playlist_name";
 	private final String PLAYLIST_MEDIA_MEDIAPATH = "media_path";
 	
 	private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
@@ -117,15 +116,14 @@ public class DatabaseManager {
 			
 			String createPlaylistTableQuery = "CREATE TABLE IF NOT EXISTS " +
 					PLAYLIST_TABLE_NAME + " (" +
-					PLAYLIST_ID + " INTEGER PRIMARY KAY NOT NULL AUTOINCREMENT, " +
-					PLAYLIST_NAME + " VARCHAR(200));";
+					PLAYLIST_NAME + " VARCHAR(200) PRIMARY KEY NOT NULL);";
 			
 			db.execSQL(createPlaylistTableQuery);
 			
 			String createPlaylistMediaTableQuery = "CREATE TABLE IF NOT EXISTS " +
 					PLAYLIST_MEDIA_TABLE_NAME + " (" +
-					PLAYLIST_MEDIA_ID + " INTEGER PRIMARY KAY NOT NULL AUTOINCREMENT, " +
-					PLAYLIST_MEDIA_PLAYLISTID + " INTEGER NOT NULL," +
+					PLAYLIST_MEDIA_ID + " INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT, " +
+					PLAYLIST_MEDIA_PLAYLISTNAME + " VARCHAR(200) NOT NULL," +
 					PLAYLIST_MEDIA_MEDIAPATH + " TEXT NOT NULL);";
 			
 			db.execSQL(createPlaylistMediaTableQuery);
@@ -148,6 +146,77 @@ public class DatabaseManager {
 		}
 	}
 	
+	/**
+	 * Get all playlists in the database
+	 * @return 
+	 */
+	public String[] getPlaylists() {
+		ArrayList<String> playlists = new ArrayList<String>();
+		Cursor cursor;
+		
+		cursor = mDb.query(
+				PLAYLIST_TABLE_NAME, 
+				new String[] { PLAYLIST_NAME }, 
+				null, null, null, null, null);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			do {
+				playlists.add(cursor.getString(10));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+		return (String[]) playlists.toArray();
+	}
+	
+	/**
+	 * Add new playlist
+	 * @param name
+	 * @return id of the new playlist
+	 */
+	public void addPlaylist(String name) {
+		ContentValues values = new ContentValues();
+		values.put(PLAYLIST_NAME, name);
+		mDb.insert(PLAYLIST_TABLE_NAME, "NULL", values);
+	}
+	
+	public void deletePlaylist(String name) {
+		mDb.delete(PLAYLIST_TABLE_NAME, PLAYLIST_NAME + "=?", 
+				new String[] { name });
+	}
+	
+	public void addMediaToPlaylist(String playlistName, String mediaPath) {
+		ContentValues values = new ContentValues();
+		values.put(PLAYLIST_MEDIA_PLAYLISTNAME, playlistName);
+		values.put(PLAYLIST_MEDIA_MEDIAPATH, mediaPath);
+	}
+	
+	public void removeMediaFromPlaylist(String playlistName, String mediaPath) {
+		mDb.delete(PLAYLIST_MEDIA_TABLE_NAME, 
+				PLAYLIST_MEDIA_PLAYLISTNAME + "=? " 
+				+ PLAYLIST_MEDIA_MEDIAPATH + "=?", 
+				new String[] { playlistName, mediaPath});
+	}
+	
+	public Media[] getMediaFromPlaylist(String playlistName) {
+		ArrayList<Media> media = new ArrayList<Media>();
+		
+		Cursor cursor = mDb.query(PLAYLIST_MEDIA_PLAYLISTNAME, 
+				new String[] { PLAYLIST_MEDIA_MEDIAPATH }, 
+				PLAYLIST_MEDIA_PLAYLISTNAME + "=?", new String[]{ playlistName }, 
+				null, null, "ASC");
+		
+		MediaLibrary mediaLibrary = MediaLibrary.getInstance(mContext);
+		cursor.moveToFirst();
+		if (!cursor.isAfterLast()) {
+			do {
+				media.add(mediaLibrary.getMediaItem(cursor.getString(0)));
+			} while (cursor.moveToNext());
+		}
+		cursor.close();
+
+		return (Media[])media.toArray();
+	}
+
 	
 	/**
 	 * Add a new media to the database. The picture can only added by update.
