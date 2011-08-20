@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VLC media player</string>
+    <string name="preferences">Einstellungen</string>
+    <string name="about">Über</string>
+    <string name="ml_no_media_dir">Kein Medien Verzeichnis</string>
+    <string name="sortby">Sortieren</string>
+    <string name="sortby_name">Name</string>
+    <string name="sortby_length">Länge</string>
+    <string name="searchable_hint">Suchen...</string>
+    <string name="searchable_label">VLC media player</string>
+    <string name="search_history">Verlauf</string>
+    <string name="clear_history">Verlauf löschen</string>
+    <string name="search_found_results">%1$d Treffer</string>
+    <string name="show_player">Öffne Player</string>
+    <string name="hide_mini_player">Player verstecken</string>
+    <string name="close">Schließen</string>
+    <string name="info_title">Information</string>
+    <string name="unknown_artist">Unbekannter Artist</string>
+    <string name="unknown_album">Unbekanntes Album</string>
+</resources>

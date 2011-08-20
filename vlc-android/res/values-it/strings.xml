@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Ciao Mondo, vlc!</string>
+    <string name="app_name">VLC media player</string>
+    <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Si prega di controllare che sia montata correttamente.</string>
+    <string name="filebrowser_root">&lt;root&gt;</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Seleziona media da riprodurre</string>
+    <string name="preferences">Preferenze</string>
+    <string name="about">Info</string>
+    <string name="ml_no_media_dir">Nessun Elenco Media</string>
+    <string name="sortby">Ordina secondo...</string>
+    <string name="sortby_name">Nome</string>
+    <string name="sortby_length">Durata</string>
+    <string name="searchable_hint">Cerca...</string>
+    <string name="searchable_label">VLC media player</string>
+    <string name="search_history">Cronologia</string>
+    <string name="clear_history">Cancella Cronologia</string>
+    <string name="search_found_results">%1$d Risultati Trovati</string>
+</resources>
