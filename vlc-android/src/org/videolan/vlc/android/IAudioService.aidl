@@ -16,6 +16,7 @@ interface IAudioService {
 	boolean hasPrevious();
 	String getTitle();
 	String getArtist();
+	String getAlbum();
 	int getTime();
 	int getLength();
 	void addAudioCallback(IAudioServiceCallback cb);

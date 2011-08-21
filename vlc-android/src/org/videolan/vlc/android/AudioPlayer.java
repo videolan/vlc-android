@@ -8,13 +8,14 @@ public interface AudioPlayer {
 	
 	public interface AudioPlayerControl {
 		String getTitle();
+		String getArtist();
+		String getAlbum();
 		Bitmap getCover();
 		int getLength();
 		int getTime();
 		boolean hasMedia();
 		boolean hasNext();
 		boolean hasPrevious();
-		String getArtist();
 		void play();
 		void pause();
 		boolean isPlaying();

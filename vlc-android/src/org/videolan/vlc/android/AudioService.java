@@ -118,7 +118,7 @@ public class AudioService extends Service {
 		notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
-				mCurrentMedia.getArtist(), pendingIntent);
+				mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum(), pendingIntent);
 		startForeground(3, mNotification);
 		
     }
@@ -203,6 +203,14 @@ public class AudioService extends Service {
 		@Override
 		public boolean hasMedia() throws RemoteException {
 			return mMediaList.size() != 0;
+		}
+
+		@Override
+		public String getAlbum() throws RemoteException {
+			if (mCurrentMedia != null)
+				return mCurrentMedia.getAlbum();
+			else
+				return null;
 		}
 
 		@Override

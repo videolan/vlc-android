@@ -152,6 +152,17 @@ public class AudioServiceController implements AudioPlayerControl {
 	}
 
 	@Override
+	public String getAlbum() {
+		String album = null;
+		try {
+			album = mAudioServiceBinder.getAlbum();
+		} catch (RemoteException e) {
+			Log.e(TAG, "remote procedure call failed: getAlbum()");
+		}
+		return album;
+	}
+
+	@Override
 	public String getArtist() {
 		String artist = null;
 		try {

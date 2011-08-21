@@ -73,7 +73,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 		// mCover....
 		mTitle.setText(mAudioController.getTitle());
 		mArtist.setText(mAudioController.getArtist());
-		//mAlbum.setText(mAudioController.getAlbum());
+		mAlbum.setText(mAudioController.getAlbum());
 		int time = (int) mAudioController.getTime();
 		int length = (int) mAudioController.getLength();
 		mTime.setText(Util.millisToString(time));
