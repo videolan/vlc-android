@@ -50,7 +50,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-eabi-linux --build=x86_64-unknown-linux $
                 --enable-mkv \
                 --enable-swscale \
                 --enable-avcodec \
-                --disable-taglib \
+                --enable-taglib \
                 --enable-opensles \
                 --enable-android-vout \
                 --enable-debug \
