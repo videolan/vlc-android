@@ -102,32 +102,7 @@ public class ThumbnailerManager extends Thread {
             if (b == null) // We were not able to create a thumbnail for this item.
                 continue;
 
-            
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            int top = 0;
-            for (int i = 0; i < height; i++) {
-            	int pixel = thumbnail.getPixel(width/2, i);
-            	if (pixel == 0) {
-            		top = i;
-            	} else {
-            		break;
-            	}
-            }
-            
-            int left = 0;
-            for (int i = 0; i < width; i++) {
-            	int pixel = thumbnail.getPixel(i, height/2);
-            	if (pixel == 0) {
-            		left = i;
-            	} else {
-            		break;
-            	}
-            }
-            
-            // Cut off the transparency on the borders
-			thumbnail = Bitmap.createBitmap(thumbnail, top, left, 
-					(width - (2 * top)), (height - (2 * left)));
-            
 
             Log.i(TAG, "Thumbnail created!");
 
