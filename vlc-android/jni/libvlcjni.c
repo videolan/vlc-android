@@ -189,14 +189,12 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
                           "--no-drop-late-frames"};
+    const size_t argc = sizeof(argv) / sizeof(*argv);
 
-    libvlc_instance_t *instance =
-            libvlc_new_with_builtins(sizeof(argv) / sizeof(*argv),
-                                     argv, vlc_builtins_modules);
+    libvlc_instance_t *instance = libvlc_new(argc, argv);
 
     jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID field = (*env)->GetFieldID(env, clazz,
-                                        "mLibVlcInstance", "I");
+    jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
     (*env)->SetIntField(env, thiz, field, (jint) instance);
 
     if (!instance)

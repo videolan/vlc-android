@@ -38,12 +38,12 @@ $(APK_MK):
 	 modules=`find $$VLC_BUILD_DIR/modules -name '*.a'|grep -v stats`; \
 	 LDFLAGS=""; \
 	 DEFINITION=""; \
-	 BUILTINS="const void *vlc_builtins_modules[] = {\n"; \
+	 BUILTINS="const void *vlc_static_modules[] = {\n"; \
 	 for file in $$modules; do \
 	     name=`echo $$file | sed 's/.*\.libs\/lib//' | sed 's/_plugin\.a//'`; \
 	     LDFLAGS="$$LDFLAGS\t$$prefix$$file \\\\\n"; \
-	     DEFINITION=$$DEFINITION"vlc_declare_plugin($$name);\n"; \
-	     BUILTINS=$$BUILTINS"    vlc_plugin($$name),\n"; \
+	     DEFINITION=$$DEFINITION"int vlc_entry__$$name (int (*)(void *, void *, int, ...), void *);\n"; \
+	     BUILTINS=$$BUILTINS"    vlc_entry__$$name,\n"; \
 	 done; \
 	 BUILTINS=$$BUILTINS"    NULL\n};\n"; \
 	 rm -f $(LIBVLCJNI_H); \
