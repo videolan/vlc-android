@@ -1,7 +1,7 @@
-From 7b71470c01322fa4710f41493185e95af7436d8b Mon Sep 17 00:00:00 2001
+From 3916167843b2c864a54bc47d9066b4b6a271944e Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:05:21 +0200
-Subject: [PATCH 07/10] Old contribs: compile live on Android
+Subject: [PATCH 5/8] Old contribs: compile live on Android
 
 ---
  extras/contrib/src/Patches/live-android.patch |   66 +++++++++++++++++++++++++
@@ -11,7 +11,7 @@ Subject: [PATCH 07/10] Old contribs: compile live on Android
 
 diff --git a/extras/contrib/src/Patches/live-android.patch b/extras/contrib/src/Patches/live-android.patch
 new file mode 100644
-index 0000000..294b1ef
+index 0000000..9133533
 --- /dev/null
 +++ b/extras/contrib/src/Patches/live-android.patch
 @@ -0,0 +1,66 @@
@@ -96,5 +96,5 @@ index a717c40..99580f0 100644
  LIVE_TARGET-$(ENABLED)        = linux
  LIVE_TARGET-$(HAVE_WIN32)     = mingw
 -- 
-1.7.6
+1.7.4.1
 

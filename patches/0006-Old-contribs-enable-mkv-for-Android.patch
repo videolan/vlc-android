@@ -1,7 +1,7 @@
-From 77901d9bff3a7748a42d48135e572e3d85662271 Mon Sep 17 00:00:00 2001
+From 979638209f42241a0fe806157d3578e749fa675a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Thu, 7 Jul 2011 01:23:53 +0200
-Subject: [PATCH 8/8] Old contribs: enable mkv for Android
+Subject: [PATCH 6/8] Old contribs: enable mkv for Android
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
@@ -12,10 +12,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  4 files changed, 15 insertions(+), 4 deletions(-)
 
 diff --git a/extras/contrib/bootstrap b/extras/contrib/bootstrap
-index 4db520e..2fcae1a 100755
+index 918eb99..5f51e37 100755
 --- a/extras/contrib/bootstrap
 +++ b/extras/contrib/bootstrap
-@@ -362,8 +362,11 @@ case "$DISTRO" in
+@@ -360,8 +360,11 @@ case "$DISTRO" in
      fi
      # The given host (arm-eabi) is not the real one (arm-linux-androideabi)
      ln -sfn $TARGET hosts/arm-linux-androideabi
@@ -29,7 +29,7 @@ index 4db520e..2fcae1a 100755
      NM=arm-linux-androideabi-nm
      AR=arm-linux-androideabi-ar
      LD=arm-linux-androideabi-ld
-@@ -374,7 +377,10 @@ case "$DISTRO" in
+@@ -372,7 +375,10 @@ case "$DISTRO" in
      add_makefile_cfg "PATH = ${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin/:${PATH}"
      add_enabled_makefile_cfg "HAVE_LINUX"
      if test -z "$NO_NEON"; then
@@ -83,5 +83,5 @@ index 73a8d39..ce4f4a2 100755
                  --disable-mod \
                  --disable-sid \
 -- 
-1.7.6
+1.7.4.1
 

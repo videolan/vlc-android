@@ -1,7 +1,7 @@
-From 38a70194252c038d49d5627cadc209adea021d12 Mon Sep 17 00:00:00 2001
+From e4dfe018323e1ddd6e8c405b49e6124b90571338 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sat, 6 Aug 2011 00:20:58 +0200
-Subject: [PATCH 10/10] File access: rename the callbacks
+Subject: [PATCH 8/8] File access: rename the callbacks
 
 This is needed for a reason that I don't get at all...
 This is probably because of some mangling of static modules...
@@ -12,7 +12,7 @@ This is probably because of some mangling of static modules...
  3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/modules/access/file.c b/modules/access/file.c
-index 5114f38..d8c10d4 100644
+index c89a6ae..0c82728 100644
 --- a/modules/access/file.c
 +++ b/modules/access/file.c
 @@ -134,7 +134,7 @@ static bool IsRemote (int fd)
@@ -34,7 +34,7 @@ index 5114f38..d8c10d4 100644
      access_t     *p_access = (access_t*)p_this;
  
 diff --git a/modules/access/fs.c b/modules/access/fs.c
-index 64dfaf0..66a59c7 100644
+index 8f01ea7..bb0e5b7 100644
 --- a/modules/access/fs.c
 +++ b/modules/access/fs.c
 @@ -70,7 +70,7 @@ vlc_module_begin ()
@@ -45,7 +45,7 @@ index 64dfaf0..66a59c7 100644
 +    set_callbacks( Activate, Deactivate )
  
      add_submodule()
-     set_shortname( N_("Directory" ) )
+     set_section( N_("Directory" ), NULL )
 diff --git a/modules/access/fs.h b/modules/access/fs.h
 index de5e493..cedb402 100644
 --- a/modules/access/fs.h
@@ -62,5 +62,5 @@ index de5e493..cedb402 100644
  
  ssize_t FileRead (access_t *, uint8_t *, size_t);
 -- 
-1.7.6
+1.7.4.1
 

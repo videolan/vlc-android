@@ -1,14 +1,14 @@
-From dc5844558300becebfce76fb501b3c0425945df2 Mon Sep 17 00:00:00 2001
+From a2db58df1b91f5a112b7c6180e934e74953905c1 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 01:12:58 +0200
-Subject: [PATCH 9/9] Thread: no nanoclock_sleep on Android
+Subject: [PATCH 7/8] Thread: no nanoclock_sleep on Android
 
 ---
  src/posix/thread.c |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index d944fff..3e30f8e 100644
+index a898e28..973209f 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -997,7 +997,7 @@ mtime_t mdate (void)
@@ -30,5 +30,5 @@ index d944fff..3e30f8e 100644
  
  #else
 -- 
-1.7.6
+1.7.4.1
 

@@ -1,4 +1,4 @@
-From 64659724f9d7c8edb964488806f817c5651ff37f Mon Sep 17 00:00:00 2001
+From acadc50a2b1fcdd598a9df9f7c1e062054221804 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Fri, 10 Jun 2011 16:48:26 +0200
 Subject: [PATCH 3/8] No dtv on Android
@@ -9,10 +9,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  1 files changed, 2 insertions(+), 0 deletions(-)
 
 diff --git a/modules/access/Modules.am b/modules/access/Modules.am
-index 3183db7..7578d88 100644
+index 2db7a4c..080b1e7 100644
 --- a/modules/access/Modules.am
 +++ b/modules/access/Modules.am
-@@ -133,6 +133,7 @@ libdtv_plugin_la_CFLAGS = $(AM_CFLAGS)
+@@ -158,6 +158,7 @@ libdtv_plugin_la_CFLAGS = $(AM_CFLAGS)
  libdtv_plugin_la_LIBADD = $(AM_LIBADD)
  libdtv_plugin_la_DEPENDENCIES =
  
@@ -20,7 +20,7 @@ index 3183db7..7578d88 100644
  if HAVE_LINUX
  libdtv_plugin_la_SOURCES += dtv/linux.c
  if HAVE_DVBPSI
-@@ -142,6 +143,7 @@ libdtv_plugin_la_LIBADD += $(DVBPSI_LIBS)
+@@ -167,6 +168,7 @@ libdtv_plugin_la_LIBADD += $(DVBPSI_LIBS)
  endif
  libvlc_LTLIBRARIES += libdtv_plugin.la
  endif
@@ -29,5 +29,5 @@ index 3183db7..7578d88 100644
  if HAVE_WIN32
  # Work-around automake bug:
 -- 
-1.7.6
+1.7.4.1
 

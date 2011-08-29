@@ -1,19 +1,19 @@
-From e7954be97f9104f59c2f5eaa28cbe5ad0fc3066c Mon Sep 17 00:00:00 2001
+From cfa1e789163b133a82afb0c1c1d9737b18a693db Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:20:40 +0200
 Subject: [PATCH 4/8] Push messages to Android stack
 
 ---
  configure.ac        |    1 +
- src/misc/messages.c |   21 ++++++++++++++++++++-
+ src/misc/messages.c |    7 +++++++
  src/posix/thread.c  |   16 ++++++++++++----
- 3 files changed, 33 insertions(+), 5 deletions(-)
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index ffcb057..6f302d2 100644
+index 4060b9c..31151b4 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -534,6 +534,7 @@ fi
+@@ -532,6 +532,7 @@ fi
  
  if test "${HAVE_ANDROID}" = "1"; then
      AC_REPLACE_FUNCS([pthread_cancel])
@@ -22,53 +22,29 @@ index ffcb057..6f302d2 100644
  
  dnl
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index 188d763..96f570a 100644
+index 8bc8b16..82aff49 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -434,6 +434,11 @@ static void PrintMsg ( vlc_object_t *p_this, const msg_item_t *p_item )
- #   define GRAY    "\033[0m"
-     static const char msgtype[4][9] = { "", " error", " warning", " debug" };
-     static const char msgcolor[4][8] = { WHITE, RED, YELLOW, GRAY };
+@@ -224,10 +224,17 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+     va_list ap;
+ 
+     va_copy (ap, args);
 +#ifdef __ANDROID__
 +#include <android/log.h>
 +    android_LogPriority prioritytype[4] = {ANDROID_LOG_INFO, ANDROID_LOG_ERROR,
 +                                           ANDROID_LOG_WARN, ANDROID_LOG_DEBUG };
++    __android_log_vprint(prioritytype[type], "vlc", format, ap);
++#else
+     if (priv->b_color)
+         PrintColorMsg (&priv->i_verbose, type, &msg, format, ap);
+     else
+         PrintMsg (&priv->i_verbose, type, &msg, format, ap);
 +#endif
+     va_end (ap);
  
-     libvlc_priv_t *priv = libvlc_priv (p_this->p_libvlc);
-     int type = p_item->i_type;
-@@ -469,14 +474,28 @@ static void PrintMsg ( vlc_object_t *p_this, const msg_item_t *p_item )
-     fprintf (stream, priv->b_color ? "["GREEN"%p"GRAY"] " : "[%p] ",
-             (void *)p_item->i_object_id);
-     if (p_item->psz_header != NULL)
-+    {
-+#ifdef __ANDROID__
-+        __android_log_print (prioritytype[type], "vlc", "[%s] ", p_item->psz_header);
-+#else
-         utf8_fprintf (stream, "[%s] ", p_item->psz_header);
--    utf8_fprintf (stream, "%s %s%s: ", p_item->psz_module, objtype,
-+#endif
-+    }
-+
-+#ifdef __ANDROID__
-+    __android_log_print (prioritytype[type], "vlc",
-+                  "%s %s%s: %s", p_item->psz_module, objtype,
-+                  msgtype[type], p_item->psz_msg );
-+#else
-+    utf8_fprintf (stream,
-+                  "%s %s%s: ", p_item->psz_module, objtype,
-                   msgtype[type]);
-     if (priv->b_color)
-         fputs (msgcolor[type], stream);
-     fputs (p_item->psz_msg, stream);
-     if (priv->b_color)
-         fputs (GRAY, stream);
-+#endif
-     putc_unlocked ('\n', stream);
- #if defined (WIN32) || defined (__OS2__)
-     fflush (stream);
+     vlc_rwlock_rdlock (&msg_lock);
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 9618fa5..d944fff 100644
+index a763591..a898e28 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -136,6 +136,14 @@ static struct timespec mtime_to_ts (mtime_t date)
@@ -116,5 +92,5 @@ index 9618fa5..d944fff 100644
      fflush (stderr);
  
 -- 
-1.7.6
+1.7.4.1
 
