@@ -1,7 +1,7 @@
-From cfa1e789163b133a82afb0c1c1d9737b18a693db Mon Sep 17 00:00:00 2001
+From 0a23a0c6f7ffca29c86c9f3cccdcfd83e8880910 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:20:40 +0200
-Subject: [PATCH 4/8] Push messages to Android stack
+Subject: [PATCH 4/7] Push messages to Android stack
 
 ---
  configure.ac        |    1 +
@@ -92,5 +92,5 @@ index a763591..a898e28 100644
      fflush (stderr);
  
 -- 
-1.7.4.1
+1.7.5.4
 
