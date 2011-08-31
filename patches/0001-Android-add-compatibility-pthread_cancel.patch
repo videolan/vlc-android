@@ -1,4 +1,4 @@
-From f2984fce88cbf5ac19a255f444302fcccafabe05 Mon Sep 17 00:00:00 2001
+From 109c43ecd28977e771d86344a58641b096fc6c0e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
 Subject: [PATCH 1/7] Android: add compatibility pthread_cancel
@@ -17,7 +17,7 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  compat/pthread_cancel.c |  291 +++++++++++++++++++++++++++++++++++++++++++++++
  configure.ac            |    4 +
  include/vlc_fixups.h    |   22 ++++
- src/control/error.c     |   16 +++
+ lib/error.c             |   16 +++
  src/posix/thread.c      |   21 ++++
  5 files changed, 354 insertions(+), 0 deletions(-)
  create mode 100644 compat/pthread_cancel.c
@@ -320,7 +320,7 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 9812a53..4060b9c 100644
+index bcd74f4..294206b 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -530,6 +530,10 @@ if test "${SYS}" = "mingw32" ; then
@@ -367,10 +367,10 @@ index 9ad95f5..81a0d37 100644
  #endif // ANDROID
  
  #ifdef __OS2__
-diff --git a/src/control/error.c b/src/control/error.c
+diff --git a/lib/error.c b/lib/error.c
 index e3f7051..f6827e7 100644
---- a/src/control/error.c
-+++ b/src/control/error.c
+--- a/lib/error.c
++++ b/lib/error.c
 @@ -25,6 +25,11 @@
  #include <assert.h>
  #include <vlc/libvlc.h>
