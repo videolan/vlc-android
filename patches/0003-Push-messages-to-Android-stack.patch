@@ -1,7 +1,7 @@
-From 23bc014b30d73bf9b6f6ac194d4c5872355c32bd Mon Sep 17 00:00:00 2001
+From 4d329f057fec7e5e8e990433ab5db4e55cdc5bbe Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:20:40 +0200
-Subject: [PATCH 3/4] Push messages to Android stack
+Subject: [PATCH 3/5] Push messages to Android stack
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
@@ -11,7 +11,7 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index b7e27d6..27c979b 100644
+index 9711ab6..fe5fd35 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -532,6 +532,7 @@ fi

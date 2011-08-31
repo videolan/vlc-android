@@ -1,7 +1,7 @@
-From 9dd15e6860c16331e640d6b708f9ce8329e7036b Mon Sep 17 00:00:00 2001
+From d40d25b479e1975d86201b686b4ff2004f98b6a3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/4] Android: add compatibility pthread_cancel
+Subject: [PATCH 1/5] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -320,7 +320,7 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 3e6974b..b7e27d6 100644
+index b4fd802..9711ab6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -530,6 +530,10 @@ if test "${SYS}" = "mingw32" ; then
