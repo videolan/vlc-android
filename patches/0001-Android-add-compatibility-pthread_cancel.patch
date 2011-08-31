@@ -1,7 +1,7 @@
-From 109c43ecd28977e771d86344a58641b096fc6c0e Mon Sep 17 00:00:00 2001
+From 9dd15e6860c16331e640d6b708f9ce8329e7036b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/7] Android: add compatibility pthread_cancel
+Subject: [PATCH 1/4] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -320,7 +320,7 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index bcd74f4..294206b 100644
+index 3e6974b..b7e27d6 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -530,6 +530,10 @@ if test "${SYS}" = "mingw32" ; then
@@ -409,7 +409,7 @@ index e3f7051..f6827e7 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 9064563..a763591 100644
+index 8e94ead..ed8dad5 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -435,7 +435,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
@@ -465,5 +465,5 @@ index 9064563..a763591 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.5.4
+1.7.6
 

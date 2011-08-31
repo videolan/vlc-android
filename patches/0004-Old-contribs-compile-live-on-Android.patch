@@ -1,20 +1,21 @@
-From 817ab12749c78eac4c94d3f54fdeadca637194a8 Mon Sep 17 00:00:00 2001
+From e6644c4df091eaaf470ea03e2d9eaf6f2ca5942a Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:05:21 +0200
-Subject: [PATCH 5/7] Old contribs: compile live on Android
+Subject: [PATCH 4/4] Old contribs: compile live on Android
 
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
- extras/contrib/src/Patches/live-android.patch |   66 +++++++++++++++++++++++++
+ extras/contrib/src/Patches/live-android.patch |   55 +++++++++++++++++++++++++
  extras/contrib/src/contrib-src.mak            |    3 +
- 2 files changed, 69 insertions(+), 0 deletions(-)
+ 2 files changed, 58 insertions(+), 0 deletions(-)
  create mode 100644 extras/contrib/src/Patches/live-android.patch
 
 diff --git a/extras/contrib/src/Patches/live-android.patch b/extras/contrib/src/Patches/live-android.patch
 new file mode 100644
-index 0000000..9133533
+index 0000000..e2f4b2e
 --- /dev/null
 +++ b/extras/contrib/src/Patches/live-android.patch
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,55 @@
 +diff -ruN live/Makefile.tail live.new/Makefile.tail
 +--- live/Makefile.tail	2011-03-15 08:40:37.000000000 +0900
 ++++ live.new/Makefile.tail	2011-04-13 17:20:54.238795233 +0900
@@ -58,26 +59,15 @@ index 0000000..9133533
 +   if (setsockopt(socket, IPPROTO_IP, IP_DROP_SOURCE_MEMBERSHIP,
 + 		 (const char*)&imr, sizeof (struct ip_mreq_source)) < 0) {
 +     return False;
-+--- live/liveMedia/RTSPServerSupportingHTTPStreaming.cpp	2011-07-21 19:59:32.000000000 +0200
-++++ live.new/liveMedia/RTSPServerSupportingHTTPStreaming.cpp	2011-07-31 00:02:23.700137585 +0200
-+@@ -66,7 +66,7 @@
-+     // Failed to 'stat' the file; return an empty string
-+     buf[0] = '\0';
-+   } else {
-+-    strftime(buf, sizeof buf, "Last-Modified: %a, %b %d %Y %H:%M:%S GMT\r\n", gmtime(&sb.st_mtime));
-++    strftime(buf, sizeof buf, "Last-Modified: %a, %b %d %Y %H:%M:%S GMT\r\n", gmtime((const time_t*)&sb.st_mtime));
-+   }
-+ 
-+   return buf;
-+--- live/config.armlinux.orig	2011-07-21 19:59:32.000000000 +0200
-++++ live/config.armlinux	2011-08-06 02:01:03.677765271 +0200
++--- live/config.armlinux.orig	2011-08-22 23:59:33.000000000 +0200
+++++ live/config.armlinux	2011-08-30 17:27:45.266588936 +0200
 +@@ -1,5 +1,7 @@
 +-CROSS_COMPILE?=		arm-elf-
 +-COMPILE_OPTS =		$(INCLUDES) -I. -O2 -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
 ++-include ../../../config.mak
 ++
 ++CROSS_COMPILE?=		arm-linux-androideabi-
-++COMPILE_OPTS =		$(INCLUDES) -I. -I$(ANDROID_NDK)/platforms/android-9/arch-arm/usr/include -O2 -DLOCALE_NOT_USED -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64
+++COMPILE_OPTS =		$(INCLUDES) -I. -O2 -DSOCKLEN_T=socklen_t -DNO_SSTREAM=1 -D_LARGEFILE_SOURCE=1 -D_FILE_OFFSET_BITS=64 -I$(ANDROID_NDK)/platforms/android-9/arch-arm/usr/include
 + C =			c
 + C_COMPILER =		$(CROSS_COMPILE)gcc
 + C_FLAGS =		$(COMPILE_OPTS)
@@ -96,5 +86,5 @@ index f203895..23252d0 100644
  LIVE_TARGET-$(ENABLED)        = linux
  LIVE_TARGET-$(HAVE_WIN32)     = mingw
 -- 
-1.7.5.4
+1.7.6
 
