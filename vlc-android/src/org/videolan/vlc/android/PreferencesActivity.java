@@ -15,27 +15,27 @@ public class PreferencesActivity extends PreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);	
+		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
-		
+
 		// Create onClickListen
 		Preference directoriesPref = (Preference) findPreference("directories");
 		directoriesPref.setOnPreferenceClickListener(
 				new OnPreferenceClickListener() {
-			
+
 			public boolean onPreferenceClick(Preference preference) {
-				Intent intent = new Intent(MainActivity.getInstance(), 
+				Intent intent = new Intent(MainActivity.getInstance(),
 						BrowserActivity.class);
 				startActivity(intent);
 				return true;
 			}
 		});
-		
+
 		// Create onClickListen
 		Preference clearHistoryPref = (Preference) findPreference("clear_history");
 		clearHistoryPref.setOnPreferenceClickListener(
 				new OnPreferenceClickListener() {
-			
+
 			public boolean onPreferenceClick(Preference preference) {
 				new AlertDialog.Builder(PreferencesActivity.this)
 				.setTitle("Clear")
@@ -47,18 +47,18 @@ public class PreferencesActivity extends PreferenceActivity {
 				    	DatabaseManager db = DatabaseManager.getInstance();
 						db.clearSearchhistory();
 				    }})
-				    
+
 				 .setNegativeButton(android.R.string.cancel, null).show();
 				return true;
 			}
 		});
 	}
-	
-	
 
 
 
-	
-	
-	
+
+
+
+
+
 }

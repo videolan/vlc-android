@@ -47,14 +47,14 @@ public class EventManager {
     //public static final int MediaListViewWillAddItem        = 0x301;
     //public static final int MediaListViewItemDeleted        = 0x302;
     //public static final int MediaListViewWillDeleteItem     = 0x303;
-    
+
     //public static final int MediaListPlayerPlayed           = 0x400;
     //public static final int MediaListPlayerNextItemSet      = 0x401;
     //public static final int MediaListPlayerStopped          = 0x402;
-    
+
     //public static final int MediaDiscovererStarted          = 0x500;
     //public static final int MediaDiscovererEnded            = 0x501;
-    
+
     //public static final int VlmMediaAdded                   = 0x600;
     //public static final int VlmMediaRemoved                 = 0x601;
     //public static final int VlmMediaChanged                 = 0x602;
@@ -69,11 +69,11 @@ public class EventManager {
 
     private ArrayList<Handler> mEventHandler;
     private static EventManager mInstance;
-    
+
     private EventManager() {
     	mEventHandler = new ArrayList<Handler>();
     }
-    
+
     public static EventManager getIntance() {
     	if (mInstance == null) {
     		mInstance = new EventManager();
@@ -85,7 +85,7 @@ public class EventManager {
     	if (!mEventHandler.contains(handler))
     		mEventHandler.add(handler);
     }
-    
+
     public void removeHandler(Handler handler) {
     	mEventHandler.remove(handler);
     }

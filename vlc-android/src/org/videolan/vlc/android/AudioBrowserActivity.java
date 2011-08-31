@@ -24,25 +24,25 @@ public class AudioBrowserActivity extends Activity {
 
 	private FlingViewGroup mFlingViewGroup;
 	ArrayList<HashMap<String,String>> list = new ArrayList<HashMap<String,String>>();
-	
+
 	private HorizontalScrollView mHeader;
 	private AudioServiceController mAudioController;
-	
+
 	private AudioSongsListAdapter mSongsAdapter;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audio_browser);
-		
+
 		mFlingViewGroup = (FlingViewGroup)findViewById(R.id.content);
 		mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
-		
+
 		mHeader =(HorizontalScrollView)findViewById(R.id.header);
 		mAudioController = AudioServiceController.getInstance();
-		
+
 		mSongsAdapter = new AudioSongsListAdapter(this, android.R.layout.simple_list_item_1);
-		
+
 		ListView songsList = (ListView)findViewById(R.id.songs_list);
 		songsList.setAdapter(mSongsAdapter);
 		songsList.setOnItemClickListener(new OnItemClickListener() {
@@ -55,12 +55,12 @@ public class AudioBrowserActivity extends Activity {
 		});
 		updateLists();
 	}
-	
-	
+
+
 	private ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
-				
+
 		int mCurrentPosition = 0;
-		
+
 		@Override
 		public void onSwitching(float progress) {
 			LinearLayout hl = (LinearLayout)findViewById(R.id.header_layout);

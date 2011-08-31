@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 public class AboutActivity extends Activity {
-	
+
 	public final static String TAG = "VLC/AboutActivity";
 
 	@Override

@@ -7,7 +7,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
-	
+
 	private PhoneStateListener mListener = new PhoneStateListener() {
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
@@ -29,5 +29,5 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 				context.getSystemService(Context.TELEPHONY_SERVICE);
 		tm.listen(mListener, PhoneStateListener.LISTEN_CALL_STATE);
 	}
-	
+
 }

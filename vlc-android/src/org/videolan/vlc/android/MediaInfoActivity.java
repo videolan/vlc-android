@@ -17,7 +17,7 @@ public class MediaInfoActivity extends Activity {
 	private Media mItem;
 	private Bitmap mImage;
 	private final static int NEW_IMAGE = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,25 +26,25 @@ public class MediaInfoActivity extends Activity {
 		if (path == null)
 			return;
 		mItem = MediaLibrary.getInstance(this).getMediaItem(path);
-				
+
 		// set title
 		TextView titleView = (TextView)findViewById(R.id.title);
 		titleView.setText(mItem.getTitle());
-		
+
 		// set length
 		TextView lengthView = (TextView)findViewById(R.id.length);
 		lengthView.setText(Util.millisToString(mItem.getLength()));
-		
+
 		new Thread(mLoadImage).start();
-		
+
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Log.e(TAG, TAG + " onBackPressed()");
 	}
-	
-	Runnable mLoadImage = new Runnable() {	
+
+	Runnable mLoadImage = new Runnable() {
 		@Override
 		public void run() {
 			LibVLC mLibVlc = null;
@@ -53,10 +53,10 @@ public class MediaInfoActivity extends Activity {
 			} catch (LibVlcException e) {
 				return;
 			}
-			
+
             int width = getWindowManager().getDefaultDisplay().getHeight();
             int height = width;
-            
+
             // Get the thumbnail.
             mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
@@ -65,7 +65,7 @@ public class MediaInfoActivity extends Activity {
             if (b == null) // We were not able to create a thumbnail for this item.
             	return;
 
-            
+
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
             int top = 0;
             for (int i = 0; i < height; i++) {
@@ -76,7 +76,7 @@ public class MediaInfoActivity extends Activity {
             		break;
             	}
             }
-            
+
             int left = 0;
             for (int i = 0; i < width; i++) {
             	int pixel = mImage.getPixel(i, height/2);
@@ -86,30 +86,30 @@ public class MediaInfoActivity extends Activity {
             		break;
             	}
             }
-            
+
             // Cut off the transparency on the borders
-            mImage = Bitmap.createBitmap(mImage, top, left, 
+            mImage = Bitmap.createBitmap(mImage, top, left,
 					(width - (2 * top)), (height - (2 * left)));
-            
+
             mHandler.sendEmptyMessage(NEW_IMAGE);
 		}
 	};
-	
-	
-	
+
+
+
 	Handler mHandler = new Handler() {
-		
+
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case NEW_IMAGE:
-				ImageView imageView = 
+				ImageView imageView =
 					(ImageView)MediaInfoActivity.this.findViewById(R.id.image);
 				imageView.setImageBitmap(mImage);
 				imageView.setVisibility(ImageView.VISIBLE);
 				break;
 			}
 		};
-		
+
 	};
 
 }

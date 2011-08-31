@@ -15,35 +15,35 @@ import android.os.Handler;
 
 public class MediaLibrary {
 	public final static String TAG = "VLC/MediaLibrary";
-	
+
 	protected static final int MEDIA_ITEMS_UPDATED = 100;
 
 	private static MediaLibrary mInstance;
-	private DatabaseManager mDBManager;	
+	private DatabaseManager mDBManager;
 	private ArrayList<Media> mItemList;
 	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	private ArrayList<Handler> mUpdateHandler;
 	protected Context mContext;
-	
+
 	private MediaLibrary(Context context) {
 		mInstance = this;
 		mContext = context;
 		mItemList = new ArrayList<Media>();
 		mUpdateHandler = new ArrayList<Handler>();
-		mDBManager = DatabaseManager.getInstance();	
+		mDBManager = DatabaseManager.getInstance();
 	}
-	
+
 	public void loadMediaItems() {
 		new Thread(mGetMediaItems).start();
 	}
-	
+
 
 	public static MediaLibrary getInstance(Context context) {
 		if (mInstance == null)
 			mInstance = new MediaLibrary(context);
 		return mInstance;
 	}
-	
+
 	public void addUpdateHandler(Handler handler) {
 		mUpdateHandler.add(handler);
 	}
@@ -58,7 +58,7 @@ public class MediaLibrary {
 		}
 		return videoItems;
 	}
-	
+
 	public ArrayList<Media> getAudioItems() {
 		ArrayList<Media> videoItems = new ArrayList<Media>();
 		for (int i = 0; i < mItemList.size(); i++) {
@@ -69,11 +69,11 @@ public class MediaLibrary {
 		}
 		return videoItems;
 	}
-	
+
 	public ArrayList<Media> getMediaItems() {
 		return mItemList;
 	}
-	
+
 	public Media getMediaItem(String path) {
 		for (int i = 0; i < mItemList.size(); i++) {
 			Media item = mItemList.get(i);
@@ -83,10 +83,10 @@ public class MediaLibrary {
 		}
 		return null;
 	}
-	
-	
+
+
 	private final Runnable mGetMediaItems = new Runnable() {
-    	
+
     	private Stack<File> directorys = new Stack<File>();
     	private  MainActivity mMainActivity;
 
@@ -94,41 +94,41 @@ public class MediaLibrary {
 			// Initialize variables
 			mMainActivity = MainActivity.getInstance();
 			Handler mainHandler = mMainActivity.mHandler;
-			
-			
+
+
 			// show progressbar in header
-			mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);	
-			
+			mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
+
 			// get directories from database
 			directorys.addAll(mDBManager.getMediaDirs());
-			
+
 			// get all paths of the existing media items
 			List<File> existingFiles = mDBManager.getMediaFiles();
-			
+
 			// list of all added files
 			List<File> addedFiles = new ArrayList<File>();
-			
+
 			// clear all old item
 			mItemList.clear();
-			
+
 	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
-	    	
-	    	
+
+
 	    	while (!directorys.isEmpty()) {
 	    		File dir = directorys.pop();
 	    		File[] f = null;
-	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {		    	  	
+	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
 			    	for (int i = 0; i < f.length; i++) {
 			    		if (f[i].isFile()) {
 			    			if (existingFiles.contains(f[i])) {
-			    				
-			    				/** only add file if it is not already in the 
+
+			    				/** only add file if it is not already in the
 			    				 * list. eg. if user select an subfolder as well
 			    				 */
 			    				if (!addedFiles.contains(f[i])) {
 				    				// get existing media item from database
 				    				mItemList.add(mDBManager.getMedia(
-				    						f[i].getPath()));	
+				    						f[i].getPath()));
 				    				addedFiles.add( f[i] );
 			    				}
 			    			} else {
@@ -138,17 +138,17 @@ public class MediaLibrary {
 			    		} else if (f[i].isDirectory()) {
 			    			directorys.push(f[i]);
 			    		}
-			    	}   
+			    	}
 		    	}
 	    	}
-	    	
+
 	    	// update the video and audio activities
 	    	for (int i = 0; i < mUpdateHandler.size(); i++) {
 	    		Handler h = mUpdateHandler.get(i);
 	    		h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
 	    	}
-	    	
-	    	
+
+
 			try {
 				mBarrier.await();
 			} catch (InterruptedException e) {
@@ -156,8 +156,8 @@ public class MediaLibrary {
 			} catch (BrokenBarrierException e) {
 				e.printStackTrace();
 			}
-	    	
-	    	// remove file from database 
+
+	    	// remove file from database
 	    	for (int i = 0; i < existingFiles.size(); i++) {
 	    		if (!addedFiles.contains(existingFiles.get(i))) {
 		    		mDBManager.removeMedia(existingFiles.get(i).getPath());
@@ -165,18 +165,18 @@ public class MediaLibrary {
 	    	}
 	    	// hide progressbar in header
 	    	mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
-			
+
 		}
     };
 
-	
-	/** 
-	 * Filters all irrelevant files 
+
+	/**
+	 * Filters all irrelevant files
 	 */
     private class MediaItemFilter implements FileFilter {
-    	
+
     	// FIXME: save extensions in external database
-    	private String[] extensions = Media.EXTENTIONS; 
+    	private String[] extensions = Media.EXTENTIONS;
 		public boolean accept(File f) {
 			boolean accepted = false;
 			if (!f.isHidden()) {
@@ -192,6 +192,6 @@ public class MediaLibrary {
 				}
 			}
 			return accepted;
-		}   	
+		}
     }
 }

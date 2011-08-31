@@ -15,22 +15,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class VideoListAdapter extends ArrayAdapter<Media> 
+public class VideoListAdapter extends ArrayAdapter<Media>
 								 implements Comparator<Media> {
 
 	public final static int SORT_BY_TITLE = 0;
 	public final static int SORT_BY_LENGTH = 1;
 	private int mSortDirection = 1;
 	private int mSortBy = SORT_BY_TITLE;
-	
-	
-	
+
+
+
 	public VideoListAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
 
 	public final static String TAG = "VLC/MediaLibraryAdapter";
-	
+
 
 	public synchronized void update(Media item) {
 		int position = getPosition(item);
@@ -39,7 +39,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 			insert(item, position);
 		}
 	}
-	
+
 	public void sortBy(int sortby) {
 		switch (sortby) {
 		case SORT_BY_TITLE:
@@ -65,9 +65,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 		}
 		sort();
 	}
-	
+
 	public void sort() {
-		super.sort(this);		
+		super.sort(this);
 	}
 
 	public int compare(Media item1, Media item2) {
@@ -83,8 +83,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 		}
 		return mSortDirection * compare;
 	}
-	
-	
+
+
 
 	/**
      * Display the view of a file browser item.
@@ -94,9 +94,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 
 		View v = convertView;
 		if (v == null){
-			LayoutInflater inflater = (LayoutInflater) 
+			LayoutInflater inflater = (LayoutInflater)
 					getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inflater.inflate(R.layout.video_list_item, 
+			v = inflater.inflate(R.layout.video_list_item,
 					parent, false);
 		}
 
@@ -107,7 +107,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 		titleView.setText(media.getTitle());
 		lengthView.setText(" " + Util.millisToString(media.getLength()) + " ");
 		ImageView moreView = (ImageView)v.findViewById(R.id.ml_item_more);
-		
+
 		Bitmap thumbnail;
 		if (media.getPicture() != null) {
 			thumbnail = media.getPicture();
@@ -115,19 +115,19 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 		} else {
 			// set default thumbnail
 			thumbnail = BitmapFactory.decodeResource(
-					MainActivity.getInstance().getResources(), 
+					MainActivity.getInstance().getResources(),
 					R.drawable.thumbnail);
 			thumbnailView.setImageBitmap(thumbnail);
 		}
-		
+
 		moreView.setTag(media);
 		moreView.setOnClickListener(moreClickListener);
-		
+
 		return v;
 	}
 
 	private OnClickListener moreClickListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			Media item = (Media)v.getTag();
@@ -137,6 +137,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 			group.startChildAcitvity("MediaInfo", intent);
 		}
 	};
-	
+
 }
 

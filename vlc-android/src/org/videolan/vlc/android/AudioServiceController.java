@@ -17,40 +17,40 @@ import android.util.Log;
 
 public class AudioServiceController implements AudioPlayerControl {
 	public static final String TAG = "VLC/AudioServiceContoller";
-	
+
 	private static AudioServiceController mInstance;
 	private static boolean mIsBound = false;
 	private Context mContext;
 	private IAudioService mAudioServiceBinder;
 	private ServiceConnection mAudioServiceConnection;
 	private ArrayList<AudioPlayer> mAudioPlayer;
-	private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {	
+	private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
 		@Override
 		public void update() throws RemoteException {
-			updateAudioPlayer();		
+			updateAudioPlayer();
 		}
 	};
-	
+
 	private AudioServiceController() {
-		
+
 		// Get context from MainActivity
 		mContext = MainActivity.getInstance();
-		
+
 		mAudioPlayer = new ArrayList<AudioPlayer>();
-		
+
         // Setup audio service connection
-        mAudioServiceConnection = new ServiceConnection() {	
+        mAudioServiceConnection = new ServiceConnection() {
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
 				Log.d(TAG, "Service Disconnected");
 				mAudioServiceBinder = null;
 			}
-			
+
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				Log.d(TAG, "Service Connected");
 				mAudioServiceBinder = IAudioService.Stub.asInterface(service);
-				
+
 				// Register controller to the service
 				try {
 					mAudioServiceBinder.addAudioCallback(mCallback);
@@ -61,7 +61,7 @@ public class AudioServiceController implements AudioPlayerControl {
 			}
 		};
 	}
-	
+
 	public static AudioServiceController getInstance() {
 		if (mInstance == null) {
 			mInstance = new AudioServiceController();
@@ -79,7 +79,7 @@ public class AudioServiceController implements AudioPlayerControl {
 			Log.e(TAG, "remote procedure call failed: load()");
 		}
 	}
-	
+
 	/**
 	 * Bind to audio service if it is running
 	 * @return true if the binding was successful.
@@ -98,22 +98,22 @@ public class AudioServiceController implements AudioPlayerControl {
 			}
 		}
 	}
-	
+
 	public void unbindAudioService() {
 		if (mAudioServiceBinder != null) {
 			try {
 				mAudioServiceBinder.removeAudioCallback(mCallback);
 				if (mIsBound) {
-					mContext.unbindService(mAudioServiceConnection);	
+					mContext.unbindService(mAudioServiceConnection);
 					mIsBound = false;
 				}
 			} catch (RemoteException e) {
 				Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
 			}
-			
+
 		}
 	}
-	
+
 	/**
 	 * Add a AudioPlayer
 	 * @param ap
@@ -121,7 +121,7 @@ public class AudioServiceController implements AudioPlayerControl {
 	public void addAudioPlayer(AudioPlayer ap) {
 		mAudioPlayer.add(ap);
 	}
-	
+
 	/**
 	 * Remove AudioPlayer from list
 	 * @param ap
@@ -131,17 +131,17 @@ public class AudioServiceController implements AudioPlayerControl {
 			mAudioPlayer.remove(ap);
 		}
 	}
-	
+
 	/**
 	 * Update all AudioPlayer
 	 */
 	private void updateAudioPlayer() {
-		for (int i = 0; i < mAudioPlayer.size(); i++) 
+		for (int i = 0; i < mAudioPlayer.size(); i++)
 			mAudioPlayer.get(i).update();
 	}
-	
+
 	public void stop() {
-		if (mAudioServiceBinder == null) 
+		if (mAudioServiceBinder == null)
 			return;
 		try {
 			mAudioServiceBinder.stop();
@@ -183,21 +183,21 @@ public class AudioServiceController implements AudioPlayerControl {
 		}
 		return title;
 	}
-	
+
 	@Override
 	public boolean isPlaying() {
 		boolean playing = false;
 		if (mAudioServiceBinder != null) {
 			try {
 				playing = (hasMedia() && mAudioServiceBinder.isPlaying());
-				
+
 			} catch (RemoteException e) {
 				Log.e(TAG, "remote procedure call failed: isPlaying()");
 			}
 		}
 		return playing;
 	}
-	
+
 	@Override
 	public void pause() {
 		try {
@@ -207,7 +207,7 @@ public class AudioServiceController implements AudioPlayerControl {
 		}
 		updateAudioPlayer();
 	}
-	
+
 	@Override
 	public void play() {
 		try {
@@ -300,7 +300,7 @@ public class AudioServiceController implements AudioPlayerControl {
 		}
 		return false;
 	}
-	
-	
+
+
 
 }

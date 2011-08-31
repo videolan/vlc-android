@@ -15,9 +15,9 @@ import android.util.Log;
 
 public class AudioService extends Service {
 	private static final String TAG = "VLC/AudioService";
-	
+
 	private static final int SHOW_PROGRESS = 0;
-	
+
 	private LibVLC mLibVLC;
 	private ArrayList<Media> mMediaList;
 	private Media mCurrentMedia;
@@ -34,21 +34,21 @@ public class AudioService extends Service {
 			mLibVLC = LibVLC.getInstance();
 		} catch (LibVlcException e) {
 			e.printStackTrace();
-		}		
-		
+		}
+
 		mCallback = new ArrayList<IAudioServiceCallback>();
 		mMediaList = new ArrayList<Media>();
 		mEventManager = EventManager.getIntance();
 	}
-	
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mInterface;
 	}
 
-	
+
     /**
-     *  Handle libvlc asynchronous events 
+     *  Handle libvlc asynchronous events
      */
     private Handler mEventHandler = new Handler() {
 
@@ -62,7 +62,7 @@ public class AudioService extends Service {
                     Log.e(TAG, "MediaPlayerPaused");
                     executeUpdate();
                     // also hide notification if phone ringing
-                    hideNotification(); 
+                    hideNotification();
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.e(TAG, "MediaPlayerStopped");
@@ -79,7 +79,7 @@ public class AudioService extends Service {
             }
         }
     };
-    
+
     private void executeUpdate() {
     	for (int i = 0; i < mCallback.size(); i++) {
     		try {
@@ -89,7 +89,7 @@ public class AudioService extends Service {
 			}
     	}
     }
-    
+
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -105,7 +105,7 @@ public class AudioService extends Service {
 			}
 		}
 	};
-    
+
     private void showNotification() {
 		// add notification to status bar
     	if (mNotification == null) {
@@ -120,30 +120,30 @@ public class AudioService extends Service {
 		mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
 				mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum(), pendingIntent);
 		startForeground(3, mNotification);
-		
+
     }
-    
+
     private void hideNotification() {
     	mNotification = null;
     	stopForeground(true);
     }
-    
-    
-    
+
+
+
     private void pause() {
     	mHandler.removeMessages(SHOW_PROGRESS);
 		// hideNotification(); <-- see event handler
 		mLibVLC.pause();
     }
-    
+
     private void play() {
     	mLibVLC.play();
 		mHandler.sendEmptyMessage(SHOW_PROGRESS);
 		showNotification();
     }
-    
+
     private void stop() {
-		mEventManager.removeHandler(mEventHandler);		
+		mEventManager.removeHandler(mEventHandler);
 		mLibVLC.stop();
 		mCurrentMedia = null;
 		mMediaList.clear();
@@ -151,7 +151,7 @@ public class AudioService extends Service {
 		hideNotification();
 		executeUpdate();
     }
-    
+
     private void next() {
     	int index = mMediaList.indexOf(mCurrentMedia);
         if (index < mMediaList.size() - 1) {
@@ -162,7 +162,7 @@ public class AudioService extends Service {
         	stop();
         }
     }
-    
+
 	private void previous() {
 		int index = mMediaList.indexOf(mCurrentMedia);
 		if (index > 0) {
@@ -170,11 +170,11 @@ public class AudioService extends Service {
 			mLibVLC.readMedia(mCurrentMedia.getPath());
 			showNotification();
 		}
-		
+
 	}
-    
+
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
-		
+
     	@Override
     	public String getCurrentMediaPath() throws RemoteException {
     		return mCurrentMedia.getPath();
@@ -191,7 +191,7 @@ public class AudioService extends Service {
     	}
 
     	@Override
-    	public void stop() throws RemoteException {	
+    	public void stop() throws RemoteException {
     		AudioService.this.stop();
     	}
 
@@ -256,26 +256,26 @@ public class AudioService extends Service {
 		}
 
 		@Override
-		public void load(List<String> mediaPathList, int position) 
+		public void load(List<String> mediaPathList, int position)
 				throws RemoteException {
-    		mEventManager.addHandler(mEventHandler); 
+    		mEventManager.addHandler(mEventHandler);
     		mMediaList.clear();
-    		
+
     		DatabaseManager db = DatabaseManager.getInstance();
     		for (int i = 0; i < mediaPathList.size(); i++) {
     			String path = mediaPathList.get(i);
     			Media media = db.getMedia(path);
     			mMediaList.add(media);
     		}
-    		
+
     		if (mMediaList.size() > position) {
     			mCurrentMedia = mMediaList.get(position);
     		}
-    		
+
     		mLibVLC.readMedia(mCurrentMedia.getPath());
     		mHandler.sendEmptyMessage(SHOW_PROGRESS);
     		showNotification();
-			
+
 		}
 
 		@Override
@@ -289,7 +289,7 @@ public class AudioService extends Service {
 		}
 
 		@Override
-		public void setTime(long time) throws RemoteException {		
+		public void setTime(long time) throws RemoteException {
 			mLibVLC.setTime(time);
 		}
 
@@ -305,7 +305,7 @@ public class AudioService extends Service {
 		@Override
 		public boolean hasPrevious() throws RemoteException {
 			int index = mMediaList.indexOf(mCurrentMedia);
-			if (index > 0) 
+			if (index > 0)
 				return true;
 			else
 				return false;

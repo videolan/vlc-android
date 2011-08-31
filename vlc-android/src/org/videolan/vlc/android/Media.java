@@ -21,12 +21,12 @@ public class Media implements Comparable<Media> {
 		 ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr", ".aob", ".ape",
 		 ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
 		 ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
-		 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm"};	
-	
+		 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm"};
+
 	public final static int TYPE_ALL = -1;
 	public final static int TYPE_VIDEO = 0;
 	public final static int TYPE_AUDIO = 1;
-	
+
 	/** Meta data form libvlc_media */
 	private String mTitle;
 	private String mArtist;
@@ -50,7 +50,7 @@ public class Media implements Comparable<Media> {
 	private int mWidth = 0;
 	private int mHeight = 0;
 	private Bitmap mPicture;
-	
+
 	private Context mContext;
 
 
@@ -98,23 +98,23 @@ public class Media implements Comparable<Media> {
 		db.addMedia(this);
 	}
 
-	
-	public Media(Context context, File file, long time, long length, int type, 
+
+	public Media(Context context, File file, long time, long length, int type,
 			Bitmap picture, String title, String artist, String genre, String album) {
 		mContext = context;
-		
+
 		mFile = file;
 		mTime = time;
 		mLength = length;
 		mType = type;
 		mPicture = picture;
-		
+
 		mTitle = title;
 		mArtist = artist;
 		mGenre = genre;
 		mAlbum = album;
 	}
-	
+
 	/**
 	 * Compare the filenames to sort items
 	 */
@@ -122,17 +122,17 @@ public class Media implements Comparable<Media> {
 		return mTitle.toUpperCase().compareTo(
 				another.getTitle().toUpperCase());
 	}
-	
+
 	public File getFile() {
 		return mFile;
 	}
-	
+
 	public String getPath() {
 		return mFile.getPath();
 	}
 
 	public void updateMeta() {
-		
+
 	}
 
 	public String getFileName() {
@@ -142,7 +142,7 @@ public class Media implements Comparable<Media> {
 	public long getTime() {
 		return mTime;
 	}
-	
+
 	public void setTime(long time) {
 		mTime = time;
 	}
@@ -182,7 +182,7 @@ public class Media implements Comparable<Media> {
 		else
 			return mTitle;
 	}
-	
+
 	public String getArtist() {
 		if (mArtist == null)
 			return mContext.getString(R.string.unknown_artist);

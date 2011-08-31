@@ -8,7 +8,7 @@ package org.videolan.vlc.android;
  */
 public class LibVlcException extends Exception {
     private static final long serialVersionUID = -1909522348226924189L;
-    
+
     /**
      * Create an empty error
      */

@@ -3,9 +3,9 @@ package org.videolan.vlc.android;
 import android.graphics.Bitmap;
 
 public interface AudioPlayer {
-	
+
 	public void update();
-	
+
 	public interface AudioPlayerControl {
 		String getTitle();
 		String getArtist();

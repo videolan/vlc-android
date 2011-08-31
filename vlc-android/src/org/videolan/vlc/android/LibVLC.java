@@ -13,10 +13,10 @@ public class LibVLC {
 	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;
-    
+
     /** Keep screen bright */
     //private WakeLock mWakeLock;
-    
+
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
 
@@ -51,15 +51,15 @@ public class LibVLC {
         	/* First call */
         	sInstance = new LibVLC();
         	sInstance.init();
-        	
+
         }
-        
+
     	return sInstance;
     }
 
-    
 
-    
+
+
     /**
      * Constructor
      * It is private because this class is a singleton.
@@ -149,12 +149,12 @@ public class LibVLC {
         Log.v(TAG, "Reading " + mrl);
         readMedia(mLibVlcInstance, mrl);
     }
-    
+
     public String[] readMediaMeta(String mrl)
     {
         return readMediaMeta(mLibVlcInstance, mrl);
     }
-    
+
     /**
      * Get a media thumbnail.
      */
@@ -162,14 +162,14 @@ public class LibVLC {
     {
         return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
     }
-    
+
     /**
      * Return true if there is a video track in the file
      */
     public boolean hasVideoTrack(String filePath) {
     	return hasVideoTrack(mLibVlcInstance, filePath);
     }
-    
+
     /**
      * Return true if there is a video track in the file
      */
@@ -200,7 +200,7 @@ public class LibVLC {
      * Return true if there is currently a running media player.
      */
     public native boolean hasMediaPlayer();
-    
+
     /**
      * Returns true if any media is playing
      */
@@ -285,21 +285,21 @@ public class LibVLC {
      * @return the libVLC changeset string
      */
     public native String changeset();
-    
+
     /**
      * Get a media thumbnail.
      * @return a bytearray with the RGBA thumbnail data inside.
      */
     private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
-    
+
     /**
      * Return true if there is a video track in the file
      */
     private native boolean hasVideoTrack(int instance, String filePath);
-    
-    
+
+
     private native String[] readMediaMeta(int instance, String mrl);
-    
+
     /**
      * Return true if there is a video track in the file
      */

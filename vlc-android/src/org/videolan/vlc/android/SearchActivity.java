@@ -25,25 +25,25 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class SearchActivity extends ListActivity {
 	public final static String TAG = "VLC/SearchActivit";
-	
+
 	private EditText mSearchText;
 	private ArrayAdapter<String> mHistoryAdapter;
 	private ArrayList<String> mHistory = new ArrayList<String>();
 	private SearchResultAdapter mResultAdapter;
 	private LinearLayout mListHeader;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-        
+
         // TODO: create layout
         mResultAdapter = new SearchResultAdapter(this, android.R.layout.simple_list_item_1);
-        
+
         mSearchText = (EditText)findViewById(R.id.search_text);
         mSearchText.setOnEditorActionListener(searchTextListener);
-        mSearchText.addTextChangedListener(searchTextWatcher);		
-        
+        mSearchText.addTextChangedListener(searchTextWatcher);
+
         final Intent queryIntent = getIntent();
 		final String queryAction = queryIntent.getAction();
 		if (Intent.ACTION_SEARCH.equals(queryAction)) {
@@ -55,15 +55,15 @@ public class SearchActivity extends ListActivity {
 	    	imm.showSoftInput(mSearchText, InputMethodManager.RESULT_SHOWN);
 	    	showSearchHistory();
 		}
-		
-		
+
+
 		mSearchText.requestFocus();
 
     }
-    
+
     private void search(CharSequence key, int type) {
-    	
-    	// set result adapter to the list 
+
+    	// set result adapter to the list
 		mResultAdapter.clear();
 		String[] keys = key.toString().split("\\s+");
 		ArrayList<Media> allItems = MediaLibrary.getInstance(this).getMediaItems();
@@ -90,50 +90,50 @@ public class SearchActivity extends ListActivity {
 
 		}
 		mResultAdapter.sort();
-		
+
 		String headerText = getString(R.string.search_found_results, results);
     	showListHeader(headerText);
-		
+
     	setListAdapter(mResultAdapter);
     }
-    
-    
+
+
     private void showListHeader(String text) {
     	ListView lv = getListView();
-    	
+
     	// create a new header if not exists
     	if (mListHeader == null) {
     		LayoutInflater infalter = getLayoutInflater();
         	mListHeader = (LinearLayout) infalter.inflate(R.layout.list_header, lv, false);
         	lv.addHeaderView(mListHeader, null, false);
-    	} 
-    	
+    	}
+
     	// set header text
     	TextView headerText = (TextView)mListHeader.findViewById(R.id.text);
     	headerText.setText(text);
     }
 
-    
+
     private void showSearchHistory() {
 
     	// Add header to the history
     	String headerText = getString(R.string.search_history);
     	showListHeader(headerText);
-    	
+
     	DatabaseManager db = DatabaseManager.getInstance();
     	mHistory.clear();
-    	mHistory.addAll(db.getSearchhistory(20)); 
+    	mHistory.addAll(db.getSearchhistory(20));
     	if (mHistoryAdapter == null) {
-    		mHistoryAdapter = new ArrayAdapter<String>(this, 
+    		mHistoryAdapter = new ArrayAdapter<String>(this,
     				android.R.layout.simple_list_item_1, mHistory);
     	} else {
     		mHistoryAdapter.notifyDataSetChanged();
     	}
     	setListAdapter(mHistoryAdapter);
     }
-    
+
     private TextWatcher searchTextWatcher = new TextWatcher() {
-		
+
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			if (s.length() > 0) {
@@ -142,20 +142,20 @@ public class SearchActivity extends ListActivity {
 				showSearchHistory();
 			}
 		}
-		
+
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
-			
+
 		}
-		
+
 		@Override
 		public void afterTextChanged(Editable s) {
-			
+
 		}
 	};
-	
-	/** Create menu from XML 
+
+	/** Create menu from XML
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -163,7 +163,7 @@ public class SearchActivity extends ListActivity {
 		inflater.inflate(R.menu.search, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
 	/**
 	 * Handle onClick form menu buttons
 	 */
@@ -181,9 +181,9 @@ public class SearchActivity extends ListActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-    
-    private OnEditorActionListener searchTextListener = new OnEditorActionListener() {	
+
+
+    private OnEditorActionListener searchTextListener = new OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 			InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -191,7 +191,7 @@ public class SearchActivity extends ListActivity {
 			return false;
 		}
 	};
-	
+
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (getListAdapter() == mHistoryAdapter) {
 			String selection = ((TextView)v.findViewById(android.R.id.text1)).getText().toString();
@@ -202,17 +202,17 @@ public class SearchActivity extends ListActivity {
 			// add search text to the database (history)
 			DatabaseManager db = DatabaseManager.getInstance();
 			db.addSearchhistoryItem(mSearchText.getText().toString());
-			
+
 			// open media in the player
 			Media item = (Media) getListAdapter().getItem(position - 1);
 			Intent intent = new Intent(this, VideoPlayerActivity.class);
 			intent.putExtra("filePath", item.getPath());
 			startActivity(intent);
 			super.onListItemClick(l, v, position, id);
-			
+
 		}
 	};
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_SEARCH) {
@@ -225,7 +225,7 @@ public class SearchActivity extends ListActivity {
 
 		return super.onKeyDown(keyCode, event);
 	}
-    
-    
+
+
 
 }

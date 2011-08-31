@@ -17,16 +17,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 
 
-public class BrowserAdapter extends ArrayAdapter<File> 
+public class BrowserAdapter extends ArrayAdapter<File>
 							implements Comparator<File> {
 	public final static String TAG = "VLC/BrowserAdapter";
 
 	public BrowserAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
-	
-	
-	
+
+
+
     @Override
 	public synchronized void add(File object) {
 		super.add(object);
@@ -44,22 +44,22 @@ public class BrowserAdapter extends ArrayAdapter<File>
 		if (view == null){
 			LayoutInflater inflater = (LayoutInflater) this.getContext()
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			view = inflater.inflate(R.layout.browser_item, 
+			view = inflater.inflate(R.layout.browser_item,
 					parent, false);
 		}
-		
+
 		final File item = getItem(position);
 		final DatabaseManager dbManager = DatabaseManager.getInstance();
 
 		if ( item != null && item.getName() != null ) {
-			TextView dirTextView = 
+			TextView dirTextView =
 				(TextView)view.findViewById(R.id.browser_item_dir);
 			dirTextView.setText(item.getName());
-			final CheckBox dirCheckBox = 
+			final CheckBox dirCheckBox =
 				(CheckBox)view.findViewById(R.id.browser_item_selected);
 
 			dirCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				
+
 				public void onCheckedChanged(CompoundButton buttonView,
 						boolean isChecked) {
 					if (dirCheckBox.isEnabled() && isChecked) {
@@ -72,25 +72,25 @@ public class BrowserAdapter extends ArrayAdapter<File>
 					} else {
 						dbManager.removeDir(item.getPath());
 					}
-					
+
 				}
 			});
-			
+
 			dirCheckBox.setEnabled(true);
-			dirCheckBox.setChecked(false);	
-			
-			List<File> dirs = dbManager.getMediaDirs();	
+			dirCheckBox.setChecked(false);
+
+			List<File> dirs = dbManager.getMediaDirs();
 			for (File dir : dirs) {
 				if (dir.getPath().equals(item.getPath())) {
 					dirCheckBox.setEnabled(true);
-					dirCheckBox.setChecked(true);		
+					dirCheckBox.setChecked(true);
 					break;
 				} else if (dir.getPath().startsWith(item.getPath())) {
 					Log.i(TAG, item.getPath() + " startWith " + dir.getPath());
 					dirCheckBox.setEnabled(false);
-					dirCheckBox.setChecked(true);		
+					dirCheckBox.setChecked(true);
 					break;
-				} 
+				}
 			}
 		}
 
@@ -100,7 +100,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
 
 
 	public void sort() {
-		super.sort(this);		
+		super.sort(this);
 	}
 
 

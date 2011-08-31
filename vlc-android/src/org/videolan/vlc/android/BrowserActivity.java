@@ -12,15 +12,15 @@ import android.widget.ListView;
 
 public class BrowserActivity extends ListActivity {
 	public final static String TAG = "VLC/BrowserActivity";
-	
+
 	/**
 	 * TODO:
 	 */
-	
+
 	private BrowserAdapter mAdapter;
 	private File mCurrentDir;
 	private Stack<ScrollState> mScollStates = new Stack<ScrollState>();
-	
+
 	private class ScrollState {
 		public ScrollState(int index, int top) {
 			this.index = index;
@@ -29,14 +29,14 @@ public class BrowserActivity extends ListActivity {
 		int index;
 		int top;
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.browser);
-		super.onCreate(savedInstanceState);	
+		super.onCreate(savedInstanceState);
 		mAdapter = new BrowserAdapter(this, R.layout.browser_item);
 		setListAdapter(mAdapter);
-		
+
 		openDir(new File("/"));
 	}
 
@@ -45,7 +45,7 @@ public class BrowserActivity extends ListActivity {
 		mCurrentDir = file;
 		File[] files = file.listFiles(new DirFilter());
 		for (int i = 0; i < files.length; i++) {
-			mAdapter.add(files[i]);	
+			mAdapter.add(files[i]);
 		}
 		mAdapter.sort();
 		// set scroll position to top
@@ -60,13 +60,13 @@ public class BrowserActivity extends ListActivity {
 			// store scroll state
 			int index = l.getFirstVisiblePosition();
 			int top = l.getChildAt(0).getTop();
-			mScollStates.push(new ScrollState(index, top));	
+			mScollStates.push(new ScrollState(index, top));
 			openDir(file);
 		} else {
 			Util.toaster("No Subdirectory");
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -93,14 +93,14 @@ public class BrowserActivity extends ListActivity {
 
 
 
-	/** 
+	/**
 	 * Filter: accept only directories
 	 */
     private class DirFilter implements FileFilter {
 
 		public boolean accept(File f) {
 			return f.isDirectory() && !f.isHidden();
-		}   	
+		}
     }
-	
+
 }

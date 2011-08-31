@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class AudioPlayerActivity extends Activity implements AudioPlayer {
 	public final static String TAG = "VLC/AudioPlayerActiviy";
-	
+
 	private ImageView mCover;
 	private TextView mTitle;
 	private TextView mArtist;
@@ -25,15 +25,15 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 	private ImageButton mShuffle;
 	private ImageButton mRepeat;
 	private SeekBar mTimeline;
-	
+
 	private AudioServiceController mAudioController;
 	private boolean mIsTracking = false;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audio_player);
-		
+
 		mCover = (ImageView) findViewById(R.id.cover);
 		mTitle = (TextView) findViewById(R.id.title);
 		mArtist = (TextView) findViewById(R.id.artist);
@@ -46,18 +46,18 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 		mShuffle = (ImageButton) findViewById(R.id.shuffle);
 		mRepeat = (ImageButton) findViewById(R.id.repeat);
 		mTimeline = (SeekBar) findViewById(R.id.timeline);
-		
+
 		mAudioController = AudioServiceController.getInstance();
-		
+
 	}
-	
+
 	@Override
 	protected void onStart() {
 		mAudioController.addAudioPlayer(this);
 		update();
 		super.onStart();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		mAudioController.removeAudioPlayer(this);
@@ -69,7 +69,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 		// Exit the player when there is no media
 		if (!mAudioController.hasMedia())
 			finish();
-		
+
 		// mCover....
 		mTitle.setText(mAudioController.getTitle());
 		mArtist.setText(mAudioController.getArtist());
@@ -85,7 +85,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 			mPlayPause.setBackgroundResource(R.drawable.ic_pause);
 		} else {
 			mPlayPause.setBackgroundResource(R.drawable.ic_play);
-		}	
+		}
 		if (mAudioController.hasNext())
 			mNext.setVisibility(ImageButton.VISIBLE);
 		else
@@ -96,21 +96,21 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 			mPrevious.setVisibility(ImageButton.INVISIBLE);
 		mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 	}
-	
+
 	OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
-		
+
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void onStartTrackingTouch(SeekBar arg0) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
 			if (fromUser) {
@@ -119,7 +119,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 ;			}
 		}
 	};
-	
+
 	public void onPlayPauseClick(View view) {
 		if (mAudioController.isPlaying()) {
 			mAudioController.pause();
@@ -127,26 +127,26 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 			mAudioController.play();
 		}
 	}
-	
+
 	public void onNextClick(View view) {
 		mAudioController.next();
 	}
-	
+
 	public void onPreviousClick(View view) {
 		mAudioController.previous();
 	}
-	
+
 	public void onRepeatClick(View view) {
 		// mAudioController.repeat();
 		Util.toaster("not implemented :(");
 	}
-	
+
 	public void onShuffleClick(View view) {
 		// mAudioController.shuffle();
 		Util.toaster("not implemented :(");
 	}
-	
-	
-	
-	
+
+
+
+
 }

@@ -13,7 +13,7 @@ public class AudioActivityGroup extends ActivityGroup {
 	public final static String TAG = "VLC/AudioActivityGroup";
 
 	private ArrayList<String> mHistory;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,8 +22,8 @@ public class AudioActivityGroup extends ActivityGroup {
 		Intent intent = new Intent(this, AudioBrowserActivity.class);
 		startChildAcitvity("AudioBrowserActivity", intent);
 	}
-	
-	
+
+
 	public void startChildAcitvity(String id, Intent intent) {
 		Window window = getLocalActivityManager().startActivity(
 				id, intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -50,11 +50,11 @@ public class AudioActivityGroup extends ActivityGroup {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		int index = mHistory.size()-1;
-		
+
 		if (index > 0) {
 			getCurrentActivity().finish();
 			return;
@@ -62,12 +62,12 @@ public class AudioActivityGroup extends ActivityGroup {
 
 		super.onBackPressed();
 	}
-	
-	
+
+
 	@Override
 	protected void onPause() {
 		AudioServiceController.getInstance().unbindAudioService();
 		super.onPause();
 	}
-	
+
 }

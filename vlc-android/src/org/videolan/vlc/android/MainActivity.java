@@ -35,32 +35,32 @@ public class MainActivity extends TabActivity {
 	private static final int AUDIO_TAB = 1;
 	public static final String START_FROM_NOTIFICATION = "from_notification";
 	private static final String PREF_SHOW_INFO = "show_info";
-	
+
 	private VideoListActivity mVideoListActivity;
-	
-	private static MainActivity mInstance;	
+
+	private static MainActivity mInstance;
 	private ProgressBar mProgressBar;
 	private TabHost mTabHost;
 	private int mCurrentState = 0;
 	private ImageButton mChangeTab;
 	private AudioMiniPlayer mAudioPlayer;
 	private AudioServiceController mAudioController;
-	
+
 	private SharedPreferences mSettings;
 
 	private int mVersionNumber = -1;
-	
 
-	@Override   
-	protected void onCreate(Bundle savedInstanceState) {	
-		setContentView(R.layout.main);	
-		super.onCreate(savedInstanceState); 
-		
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.main);
+		super.onCreate(savedInstanceState);
+
 		/* Get settings */
 		mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
 		/* Initialize variables */
-		mInstance = this;	
+		mInstance = this;
 		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
 		mChangeTab = (ImageButton) findViewById(R.id.change_tab);
 
@@ -68,22 +68,22 @@ public class MainActivity extends TabActivity {
         mTabHost = getTabHost();
         mTabHost.addTab(mTabHost.newTabSpec("VIDEO TAB").setIndicator("VIDEO TAB")
         		.setContent(new Intent(this, VideoActivityGroup.class)));
-        
+
         mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
         		.setContent(new Intent(this, AudioActivityGroup.class)));
-        
+
         // Get video list instance to sort the list.
         mVideoListActivity = VideoListActivity.getInstance();
-        
+
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
 		mAudioController = AudioServiceController.getInstance();
 		mAudioController.addAudioPlayer(mAudioPlayer);
 		mAudioPlayer.setAudioPlayerControl(mAudioController);
 		mAudioPlayer.update();
-		
-		
-		
+
+
+
         // Start audio player when audio is playing
         if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
         	Log.d(TAG, "Started from notification.");
@@ -92,7 +92,7 @@ public class MainActivity extends TabActivity {
         	// TODO: load the last tab-state
         	showVideoTab();
         }
-        
+
         /* Show info/alpha/beta Warning */
         PackageInfo pinfo = null;
 		try {
@@ -102,16 +102,16 @@ public class MainActivity extends TabActivity {
 		}
 		if (pinfo != null) {
 			mVersionNumber = pinfo.versionCode;
-        
+
 	        if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
 	        	showInfoDialog();
 		}
-        
+
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems();
 	}
 
-	/** Create menu from XML 
+	/** Create menu from XML
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,10 +132,10 @@ public class MainActivity extends TabActivity {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
+
 		// Intent to start new Activity
 		Intent intent;
-		
+
 		// Handle item selection
 		switch (item.getItemId()) {
 		// Sort by name
@@ -143,14 +143,14 @@ public class MainActivity extends TabActivity {
 			if (mCurrentState == VIDEO_TAB) {
 				mVideoListActivity.sortBy(
 						VideoListAdapter.SORT_BY_TITLE);
-			} 
+			}
 			break;
 			// Sort by length
 		case R.id.ml_menu_sortby_length:
 			if (mCurrentState == VIDEO_TAB) {
 				mVideoListActivity.sortBy(
 						VideoListAdapter.SORT_BY_LENGTH);
-			} 
+			}
 			break;
 		// About
 		case R.id.ml_menu_about:
@@ -165,7 +165,7 @@ public class MainActivity extends TabActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -176,7 +176,7 @@ public class MainActivity extends TabActivity {
 				mAudioController.play();
 			}
 		case R.id.show_player:
-			// TODO: start audio player activity 
+			// TODO: start audio player activity
 			break;
 		case R.id.hide_mini_player:
 			hideAudioPlayer();
@@ -189,11 +189,11 @@ public class MainActivity extends TabActivity {
 		mAudioPlayer.setVisibility(AudioMiniPlayer.GONE);
 		mAudioController.stop();
 	}
-	
+
 	public void showAudioPlayer() {
 		mAudioPlayer.setVisibility(AudioMiniPlayer.VISIBLE);
 	}
-	
+
 	private void showInfoDialog() {
         final Dialog infoDialog = new Dialog(this, R.style.info_dialog);
         infoDialog.setContentView(R.layout.info_dialog);
@@ -201,7 +201,7 @@ public class MainActivity extends TabActivity {
         okButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CheckBox notShowAgain = 
+				CheckBox notShowAgain =
 						(CheckBox) infoDialog.findViewById(R.id.not_show_again);
 				if (notShowAgain.isChecked() && mSettings != null) {
 					Editor editor = mSettings.edit();
@@ -213,8 +213,8 @@ public class MainActivity extends TabActivity {
 		});
         infoDialog.show();
 	}
-	
-	
+
+
 	/**
 	 * onClick event from xml
 	 * @param view
@@ -227,20 +227,20 @@ public class MainActivity extends TabActivity {
 			showVideoTab();
 		}
 	}
-	
+
 	private void showVideoTab() {
 		mChangeTab.setImageResource(R.drawable.header_icon_audio);
 		mTabHost.setCurrentTab(VIDEO_TAB);
 		mCurrentState = VIDEO_TAB;
 	}
-	
+
 	private void showAudioTab() {
 		mChangeTab.setImageResource(R.drawable.header_icon_video);
 		mTabHost.setCurrentTab(AUDIO_TAB);
 		mCurrentState = AUDIO_TAB;
 	}
-	
-	
+
+
 	/**
 	 * onClick event from xml
 	 * @param view
@@ -254,10 +254,10 @@ public class MainActivity extends TabActivity {
 	 * @return this ;)
 	 */
 	public static MainActivity getInstance() {
-		return mInstance;	
+		return mInstance;
 	}
-	
-	protected Handler mHandler = new Handler() {	
+
+	protected Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -265,10 +265,10 @@ public class MainActivity extends TabActivity {
 				mProgressBar.setVisibility(View.VISIBLE);
 				break;
 			case HIDE_PROGRESSBAR:
-				mProgressBar.setVisibility(View.INVISIBLE);	
+				mProgressBar.setVisibility(View.INVISIBLE);
 				break;
 			}
 		};
 	};
-    
+
 }

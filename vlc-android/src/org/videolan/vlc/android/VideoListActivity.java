@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class VideoListActivity extends ListActivity {
-	
+
 	private LinearLayout mNoFileLayout;
 	private LinearLayout mLoadFileLayout;
 	private VideoListAdapter mVideoAdapter;
@@ -23,57 +23,57 @@ public class VideoListActivity extends ListActivity {
 
 	protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 	protected ThumbnailerManager mThumbnailerManager;
-	private static VideoListActivity mInstance;	
-	
+	private static VideoListActivity mInstance;
+
 	protected static final int UPDATE_ITEM = 0;
-	
+
 	private MediaLibrary mMediaLibrary;
 
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		mInstance = this;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.video_list);
-		
+
 		mVideoAdapter = new VideoListAdapter(this, R.layout.video_list_item);
 		mNoFileLayout = (LinearLayout)findViewById(R.id.video_list_empty_nofile);
 		mLoadFileLayout = (LinearLayout)findViewById(R.id.video_list_empty_loadfile);
-		
+
 		mMediaLibrary = MediaLibrary.getInstance(this);
 		mMediaLibrary.addUpdateHandler(mHandler);
 		mThumbnailerManager = new ThumbnailerManager();
 
 		setListAdapter(mVideoAdapter);
 	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		
+
 		// Stop the currently running audio
 		AudioServiceController asc = AudioServiceController.getInstance();
 		asc.stop();
 
-		
+
 		Media item = (Media) getListAdapter().getItem(position);
 		Intent intent = new Intent(this, VideoPlayerActivity.class);
 		intent.putExtra("filePath", item.getPath());
 		startActivity(intent);
 		super.onListItemClick(l, v, position, id);
 	}
-	
+
 	public static VideoListActivity getInstance() {
 		return mInstance;
 	}
-	
+
 	@Override
 	public boolean onSearchRequested() {
 		Intent intent = new Intent(this, SearchActivity.class);
 		startActivity(intent);
 		return false;
 	}
-	
-	
+
+
 	/**
 	 * Handle changes on the list
 	 */
@@ -98,15 +98,15 @@ public class VideoListActivity extends ListActivity {
 			}
 		}
 	};
-	
+
 	private void updateList() {
-		
+
 		MainActivity mainActivity = MainActivity.getInstance();
-		
+
 		List<Media> itemList = mMediaLibrary.getVideoItems();
-		
+
 		mVideoAdapter.clear();
-		
+
 		if (itemList.size() > 0) {
 			for (Media item : itemList) {
 				if (item.getType() == Media.TYPE_VIDEO) {
@@ -114,17 +114,17 @@ public class VideoListActivity extends ListActivity {
 					if (item.getPicture() == null)
 						mThumbnailerManager.addJob(item);
 				}
-			}	
+			}
 			mVideoAdapter.sort();
 		} else {
 			mLoadFileLayout.setVisibility(View.INVISIBLE);
 			mNoFileLayout.setVisibility(View.VISIBLE);
 		}
-		
+
 		mainActivity.mHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
 
 	}
-	
+
 	public void sortBy(int sortby) {
 		mVideoAdapter.sortBy(sortby);
 	}

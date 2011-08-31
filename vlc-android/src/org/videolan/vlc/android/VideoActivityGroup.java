@@ -11,22 +11,22 @@ import android.view.Window;
 
 public class VideoActivityGroup extends ActivityGroup {
 	public final static String TAG = "VLC/VideoActivityGroup";
-	
-	private static VideoActivityGroup mInstance;  
+
+	private static VideoActivityGroup mInstance;
 	private ArrayList<String> mHistory;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.mHistory = new ArrayList<String>();
 		mInstance = this;
-		
+
 		// Load VideoListActivity by default
 		Intent intent = new Intent(this, VideoListActivity.class);
 		startChildAcitvity("VideoListActivity", intent);
 	}
-	
-	
+
+
 	public void startChildAcitvity(String id, Intent intent) {
 		Window window = getLocalActivityManager().startActivity(
 				id, intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -39,7 +39,7 @@ public class VideoActivityGroup extends ActivityGroup {
 
 	public static VideoActivityGroup getInstance() {
 		return mInstance;
-	} 
+	}
 
 	@Override
 	public void finishFromChild(Activity child) {
@@ -57,11 +57,11 @@ public class VideoActivityGroup extends ActivityGroup {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		int index = mHistory.size()-1;
-		
+
 		if (index > 0) {
 			getCurrentActivity().finish();
 			return;
@@ -69,6 +69,6 @@ public class VideoActivityGroup extends ActivityGroup {
 		super.onBackPressed();
 	}
 
-	
-	
+
+
 }

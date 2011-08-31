@@ -38,7 +38,7 @@ public class VideoPlayerActivity extends Activity {
 	private SurfaceView mSurface;
 	private SurfaceHolder mSurfaceHolder;
 	private LibVLC mLibVLC;
-	
+
 	private static final int SURFACE_FIT_HORIZONTAL = 0;
 	private static final int SURFACE_FIT_VERTICAL = 1;
 	private static final int SURFACE_FILL = 2;
@@ -46,7 +46,7 @@ public class VideoPlayerActivity extends Activity {
 	private static final int SURFACE_4_3 = 4;
 	private static final int SURFACE_ORIGINAL = 5;
 	private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
-	
+
 	/** Overlay */
 	private LinearLayout mOverlay;
 	private LinearLayout mDecor;
@@ -65,69 +65,69 @@ public class VideoPlayerActivity extends Activity {
 	private ImageButton mPause;
 	private ImageButton mLock;
 	private ImageButton mSize;
-	
+
 	// size of the video
 	private int mVideoHeight;
 	private int mVideoWidth;
 
 	// stop screen from dimming
 	private WakeLock mWakeLock;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player);
-		
+
 		// stop screen from dimming
 		PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
-		
+
 		/** initialize Views an their Events */
 		mDecor = (LinearLayout)findViewById(R.id.player_overlay_decor);
 		mSpacer = (View)findViewById(R.id.player_overlay_spacer);
 		mSpacer.setOnTouchListener(mTouchListener);
-		
+
 		LayoutInflater inflater = (LayoutInflater) getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
 		mOverlay = (LinearLayout)inflater.inflate(R.layout.player_overlay, null);
-		
+
 		mTime = (TextView) mOverlay.findViewById(R.id.player_overlay_time);
 		mLength = (TextView) mOverlay.findViewById(R.id.player_overlay_length);
 		// the info textView is not on the overlay
 		mInfo = (TextView) findViewById(R.id.player_overlay_info);
-		
+
 		mPause = (ImageButton) mOverlay.findViewById(R.id.player_overlay_play);
 		mPause.setOnClickListener(mPauseListener);
-		
+
 		mLock = (ImageButton) mOverlay.findViewById(R.id.player_overlay_lock);
 		mLock.setOnClickListener(mLockListener);
-		
+
 		mSize = (ImageButton) mOverlay.findViewById(R.id.player_overlay_size);
 		mSize.setOnClickListener(mSizeListener);
-		
+
 		mSurface = (SurfaceView) findViewById(R.id.player_surface);
-		mSurfaceHolder = mSurface.getHolder();	
+		mSurfaceHolder = mSurface.getHolder();
 		mSurfaceHolder.setKeepScreenOn(true);
 		mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
 		mSurfaceHolder.addCallback(mSurfaceCallback);
 
-		mSeekbar = (SeekBar)mOverlay.findViewById(R.id.player_overlay_seekbar);	
+		mSeekbar = (SeekBar)mOverlay.findViewById(R.id.player_overlay_seekbar);
 		mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
         try {
 			mLibVLC = LibVLC.getInstance();
 		} catch (LibVlcException e) {
 			e.printStackTrace();
-		}		
+		}
 
 		EventManager em = EventManager.getIntance();
 		em.addHandler(eventHandler);
 
 		load();
-		
+
 	}
-		
-		
+
+
 	@Override
 	protected void onPause() {
 		if (mLibVLC.isPlaying())
@@ -140,10 +140,10 @@ public class VideoPlayerActivity extends Activity {
 		if (mLibVLC != null) {
 			mLibVLC.stop();
 		}
-		
+
 		EventManager em = EventManager.getIntance();
 		em.removeHandler(eventHandler);
-		
+
 		super.onDestroy();
 	}
 
@@ -152,7 +152,7 @@ public class VideoPlayerActivity extends Activity {
 		showOverlay();
 		return true;
 	}
-	
+
 
     @Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -164,18 +164,18 @@ public class VideoPlayerActivity extends Activity {
 	public void setSurfaceSize(int width, int height) {
 		// store video size
 		mVideoHeight = height;
-		mVideoWidth = width;	
+		mVideoWidth = width;
 		Message msg = mHandler.obtainMessage(SURFACE_SIZE);
 		mHandler.sendMessage(msg);
     }
-	
+
 	/**
 	 * Lock screen rotation
 	 */
 	private void lockScreen() {
 		WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
-		
+
 		switch (display.getRotation()) {
 		case Surface.ROTATION_0:
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -188,10 +188,10 @@ public class VideoPlayerActivity extends Activity {
 			setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
 			break;
 		}
-		
+
 		showInfo("locked", 500);
 	}
-	
+
 	/**
 	 * Remove screen lock
 	 */
@@ -199,7 +199,7 @@ public class VideoPlayerActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 		showInfo("unlocked", 500);
 	}
-	
+
 	/**
 	 * Show text in the info view for "duration" milliseconds
 	 * @param text
@@ -211,7 +211,7 @@ public class VideoPlayerActivity extends Activity {
 		mHandler.removeMessages(FADE_OUT_INFO);
 		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
 	}
-	
+
 	/**
 	 * Show text in the info view
 	 * @param text
@@ -221,7 +221,7 @@ public class VideoPlayerActivity extends Activity {
 		mInfo.setText(text);
 		mHandler.removeMessages(FADE_OUT_INFO);
 	}
-	
+
 	/**
 	 * hide the info view with "delay" milliseconds delay
 	 * @param delay
@@ -229,16 +229,16 @@ public class VideoPlayerActivity extends Activity {
 	private void hideInfo(int delay) {
 		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, delay);
 	}
-	
+
 	/**
 	 * hide the info view
 	 */
 	private void hideInfo() {
 		hideInfo(0);
 	}
-	
+
     /**
-     *  Handle libvlc asynchronous events 
+     *  Handle libvlc asynchronous events
      */
     private Handler eventHandler = new Handler() {
         @Override
@@ -265,7 +265,7 @@ public class VideoPlayerActivity extends Activity {
             updateOverlayPausePlay();
         }
     };
-	
+
 	/**
 	 * Handle resize of the surface and the overlay
 	 */
@@ -294,17 +294,17 @@ public class VideoPlayerActivity extends Activity {
 			}
 		}
 	};
-	
+
 	private void changeSurfaceSize() {
 		// get screen size
 		int dw = getWindowManager().getDefaultDisplay().getWidth();
 		int dh = getWindowManager().getDefaultDisplay().getHeight();
-				
+
 		// calculate aspect ratio
 		double ar = (double)mVideoWidth / (double)mVideoHeight;
 		// calculate display aspect ratio
 		double dar = (double)dw / (double)dh;
-		
+
 		switch (mCurrentSize) {
 		case SURFACE_FIT_HORIZONTAL:
 			dh = (int) (dw / ar);
@@ -312,16 +312,16 @@ public class VideoPlayerActivity extends Activity {
 		case SURFACE_FIT_VERTICAL:
 			dw = (int) (dh * ar);
 			break;
-		case SURFACE_FILL:	
+		case SURFACE_FILL:
 			break;
-		case SURFACE_16_9:	
+		case SURFACE_16_9:
 			ar = 16.0/9.0;
 			if (dar < ar)
 				dh = (int) (dw / ar);
 			else
 				dw = (int) (dh * ar);
 			break;
-		case SURFACE_4_3:			
+		case SURFACE_4_3:
 			ar = 4.0/3.0;
 			if (dar < ar)
 				dh = (int) (dw / ar);
@@ -333,7 +333,7 @@ public class VideoPlayerActivity extends Activity {
 			dw = mVideoWidth;
 			break;
 		}
-		
+
 		mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 		LayoutParams lp = mSurface.getLayoutParams();
 		lp.width = dw;
@@ -341,7 +341,7 @@ public class VideoPlayerActivity extends Activity {
 		mSurface.setLayoutParams(lp);
 		mSurface.invalidate();
 	}
-	
+
 
 	/**
 	 * show/hide the overlay
@@ -358,50 +358,50 @@ public class VideoPlayerActivity extends Activity {
             return false;
         }
     };
-    
-    
+
+
     /**
      * handle changes of the seekbar (slicer)
      */
     private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
-    	
+
 		public void onStartTrackingTouch(SeekBar seekBar) {
 			mDragging = true;
 			showOverlay(3600000);
 		}
-		
+
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			mDragging = false;
 			showOverlay();
 			hideInfo();
 		}
-		
+
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			if (fromUser) {
 				mLibVLC.setTime(progress);
-				setOverlayProgress();	
+				setOverlayProgress();
 				mTime.setText(Util.millisToString(progress));
 				showInfo(Util.millisToString(progress));
 			}
-			
+
 		}
 	};
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 */
-	private OnClickListener mPauseListener = new OnClickListener() {		
+	private OnClickListener mPauseListener = new OnClickListener() {
 		public void onClick(View v) {
 			doPausePlay();
 			showOverlay();
 		}
 	};
-	
+
 	/**
-	 * 
+	 *
 	 */
-	private OnClickListener mLockListener = new OnClickListener() {		
+	private OnClickListener mLockListener = new OnClickListener() {
 		boolean isLocked = false;
 		public void onClick(View v) {
 			if (isLocked) {
@@ -414,9 +414,9 @@ public class VideoPlayerActivity extends Activity {
 			showOverlay();
 		}
 	};
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private OnClickListener mSizeListener = new OnClickListener() {
 
@@ -435,13 +435,13 @@ public class VideoPlayerActivity extends Activity {
 			case SURFACE_FIT_VERTICAL:
 				showInfo("fit vertival", 500);
 				break;
-			case SURFACE_FILL:	
+			case SURFACE_FILL:
 				showInfo("fill", 500);
 				break;
-			case SURFACE_16_9:	
+			case SURFACE_16_9:
 				showInfo("16:9", 500);
 				break;
-			case SURFACE_4_3:			
+			case SURFACE_4_3:
 				showInfo("4:3", 500);
 				break;
 			case SURFACE_ORIGINAL:
@@ -449,15 +449,15 @@ public class VideoPlayerActivity extends Activity {
 				break;
 			}
 			showOverlay();
-		}		
+		}
 	};
 
 
-	
+
 	/**
 	 * attach and disattach surface to the lib
 	 */
-	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {		
+	private SurfaceHolder.Callback mSurfaceCallback = new Callback() {
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 			mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this, width, height);
 		}
@@ -469,15 +469,15 @@ public class VideoPlayerActivity extends Activity {
 		}
 	};
 
-	
+
 	/**
 	 * show overlay the the default timeout
 	 */
 	private void showOverlay() {
 		showOverlay(OVERLAY_TIMEOUT);
 	}
-	
-	
+
+
 	/**
 	 * show overlay
 	 */
@@ -494,8 +494,8 @@ public class VideoPlayerActivity extends Activity {
         }
         updateOverlayPausePlay();
 	}
-	
-	
+
+
 	/**
 	 * hider overlay
 	 */
@@ -512,20 +512,20 @@ public class VideoPlayerActivity extends Activity {
 		}
 	}
 
-	
+
 	private void updateOverlayPausePlay() {
 		if (mLibVLC == null) {
 			return;
 		}
-		
+
 		if (mLibVLC.isPlaying()) {
 			mPause.setBackgroundResource(R.drawable.ic_pause);
 		} else {
 			mPause.setBackgroundResource(R.drawable.ic_play);
 		}
 	}
-	
-	
+
+
 	/**
 	 * play or pause the media
 	 */
@@ -536,8 +536,8 @@ public class VideoPlayerActivity extends Activity {
 			play();
 		}
 	}
-	
-	
+
+
 	/**
 	 * update the overlay
 	 */
@@ -557,23 +557,23 @@ public class VideoPlayerActivity extends Activity {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void play() {
 		mLibVLC.play();
 		mWakeLock.acquire();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private void pause() {
 		mLibVLC.pause();
 		mWakeLock.release();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private void load() {
         String path = null;

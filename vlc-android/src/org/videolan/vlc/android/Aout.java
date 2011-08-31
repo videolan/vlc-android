@@ -29,7 +29,7 @@ public class Aout {
                                      channels * samples * 2,
                                      AudioTrack.MODE_STREAM);
     }
-    
+
     public void release() {
         if (mAudioTrack != null) {
         	mAudioTrack.release();
@@ -44,5 +44,5 @@ public class Aout {
         }
         mAudioTrack.play();
     }
-    
+
 }

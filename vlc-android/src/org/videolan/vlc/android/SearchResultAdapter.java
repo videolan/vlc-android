@@ -9,27 +9,27 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SearchResultAdapter extends ArrayAdapter<Media> 
+public class SearchResultAdapter extends ArrayAdapter<Media>
 									implements Comparator<Media>  {
 
 	public SearchResultAdapter(Context context, int textViewResourceId) {
 		super(context, textViewResourceId);
 	}
-			
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		if (v == null){
-			LayoutInflater inflater = (LayoutInflater) 
+			LayoutInflater inflater = (LayoutInflater)
 					getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inflater.inflate(android.R.layout.simple_list_item_1, 
+			v = inflater.inflate(android.R.layout.simple_list_item_1,
 					parent, false);
 		}
 
 		Media item = getItem(position);
 		TextView textView = (TextView)v.findViewById(android.R.id.text1);
 		textView.setText(item.getTitle());
-		
+
 		return v;
 	}
 
@@ -41,7 +41,7 @@ public class SearchResultAdapter extends ArrayAdapter<Media>
 	public void sort() {
 		super.sort(this);
 	}
-	
-	
+
+
 
 }
