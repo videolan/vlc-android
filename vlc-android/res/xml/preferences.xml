@@ -4,6 +4,7 @@
 		<PreferenceScreen
 			android:key="directories"
         	android:title="Directories"
+            android:defaultValue="/sdcard/"
             android:summary="Select media directories">
         </PreferenceScreen>
     </PreferenceCategory>
