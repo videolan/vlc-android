@@ -120,13 +120,13 @@ public class DatabaseManager {
 
 			db.execSQL(createPlaylistTableQuery);
 
-			/*String createPlaylistMediaTableQuery = "CREATE TABLE IF NOT EXISTS " +
+			String createPlaylistMediaTableQuery = "CREATE TABLE IF NOT EXISTS " +
 					PLAYLIST_MEDIA_TABLE_NAME + " (" +
 					PLAYLIST_MEDIA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
 					PLAYLIST_MEDIA_PLAYLISTNAME + " VARCHAR(200) NOT NULL," +
 					PLAYLIST_MEDIA_MEDIAPATH + " TEXT NOT NULL);";
 
-			db.execSQL(createPlaylistMediaTableQuery);*/
+			db.execSQL(createPlaylistMediaTableQuery);
 
 
 			String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS "
