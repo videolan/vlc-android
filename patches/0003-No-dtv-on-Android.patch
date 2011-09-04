@@ -1,0 +1,33 @@
+From 59b79884f34229a3afbdaf64e43be73a0bc5ffa9 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Fri, 10 Jun 2011 16:48:26 +0200
+Subject: [PATCH 3/6] No dtv on Android
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ modules/access/Modules.am |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/modules/access/Modules.am b/modules/access/Modules.am
+index 3183db7..7578d88 100644
+--- a/modules/access/Modules.am
++++ b/modules/access/Modules.am
+@@ -133,6 +133,7 @@ libdtv_plugin_la_CFLAGS = $(AM_CFLAGS)
+ libdtv_plugin_la_LIBADD = $(AM_LIBADD)
+ libdtv_plugin_la_DEPENDENCIES =
+ 
++if !HAVE_ANDROID
+ if HAVE_LINUX
+ libdtv_plugin_la_SOURCES += dtv/linux.c
+ if HAVE_DVBPSI
+@@ -142,6 +143,7 @@ libdtv_plugin_la_LIBADD += $(DVBPSI_LIBS)
+ endif
+ libvlc_LTLIBRARIES += libdtv_plugin.la
+ endif
++endif
+ 
+ if HAVE_WIN32
+ # Work-around automake bug:
+-- 
+1.7.5.4
+

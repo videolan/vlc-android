@@ -1,0 +1,120 @@
+From 2e5ed9be19688d9fdf11edb7021aeb7d2d04e87b Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Mon, 4 Jul 2011 15:52:19 +0200
+Subject: [PATCH 4/6] Push messages to Android stack
+
+---
+ configure.ac        |    1 +
+ src/misc/messages.c |   21 ++++++++++++++++++++-
+ src/posix/thread.c  |   16 ++++++++++++----
+ 3 files changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 574f7f2..096bf97 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -532,6 +532,7 @@ fi
+ 
+ if test "${HAVE_ANDROID}" = "1"; then
+     AC_REPLACE_FUNCS([pthread_cancel])
++    VLC_ADD_LIBS([libvlccore],[-llog])
+ fi
+ 
+ dnl
+diff --git a/src/misc/messages.c b/src/misc/messages.c
+index 188d763..96f570a 100644
+--- a/src/misc/messages.c
++++ b/src/misc/messages.c
+@@ -434,6 +434,11 @@ static void PrintMsg ( vlc_object_t *p_this, const msg_item_t *p_item )
+ #   define GRAY    "\033[0m"
+     static const char msgtype[4][9] = { "", " error", " warning", " debug" };
+     static const char msgcolor[4][8] = { WHITE, RED, YELLOW, GRAY };
++#ifdef __ANDROID__
++#include <android/log.h>
++    android_LogPriority prioritytype[4] = {ANDROID_LOG_INFO, ANDROID_LOG_ERROR,
++                                           ANDROID_LOG_WARN, ANDROID_LOG_DEBUG };
++#endif
+ 
+     libvlc_priv_t *priv = libvlc_priv (p_this->p_libvlc);
+     int type = p_item->i_type;
+@@ -469,14 +474,28 @@ static void PrintMsg ( vlc_object_t *p_this, const msg_item_t *p_item )
+     fprintf (stream, priv->b_color ? "["GREEN"%p"GRAY"] " : "[%p] ",
+             (void *)p_item->i_object_id);
+     if (p_item->psz_header != NULL)
++    {
++#ifdef __ANDROID__
++        __android_log_print (prioritytype[type], "vlc", "[%s] ", p_item->psz_header);
++#else
+         utf8_fprintf (stream, "[%s] ", p_item->psz_header);
+-    utf8_fprintf (stream, "%s %s%s: ", p_item->psz_module, objtype,
++#endif
++    }
++
++#ifdef __ANDROID__
++    __android_log_print (prioritytype[type], "vlc",
++                  "%s %s%s: %s", p_item->psz_module, objtype,
++                  msgtype[type], p_item->psz_msg );
++#else
++    utf8_fprintf (stream,
++                  "%s %s%s: ", p_item->psz_module, objtype,
+                   msgtype[type]);
+     if (priv->b_color)
+         fputs (msgcolor[type], stream);
+     fputs (p_item->psz_msg, stream);
+     if (priv->b_color)
+         fputs (GRAY, stream);
++#endif
+     putc_unlocked ('\n', stream);
+ #if defined (WIN32) || defined (__OS2__)
+     fflush (stream);
+diff --git a/src/posix/thread.c b/src/posix/thread.c
+index 64b4fd3..6bc07bf 100644
+--- a/src/posix/thread.c
++++ b/src/posix/thread.c
+@@ -67,6 +67,14 @@
+ #endif
+ 
+ 
++#if defined(__ANDROID__) && !defined(NDEBUG)
++# include <android/log.h>
++# define LOG_TAG "VLC/pthread"
++# define FATAL(...) __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
++#else
++# define FATAL(...) fprintf(stderr, __VA_ARGS__)
++#endif
++
+ /**
+  * Print a backtrace to the standard error for debugging purpose.
+  */
+@@ -107,8 +115,8 @@ vlc_thread_fatal (const char *action, int error,
+                   const char *function, const char *file, unsigned line)
+ {
+     int canc = vlc_savecancel ();
+-    fprintf (stderr, "LibVLC fatal error %s (%d) in thread %lu ",
+-             action, error, vlc_threadid ());
++    FATAL ("LibVLC fatal error %s (%d) in thread %lu ",
++           action, error, vlc_threadid ());
+     vlc_trace (function, file, line);
+ 
+     /* Sometimes strerror_r() crashes too, so make sure we print an error
+@@ -116,7 +124,7 @@ vlc_thread_fatal (const char *action, int error,
+ #ifdef __GLIBC__
+     /* Avoid the strerror_r() prototype brain damage in glibc */
+     errno = error;
+-    fprintf (stderr, " Error message: %m\n");
++    FATAL (" Error message: %m\n");
+ #else
+     char buf[1000];
+     const char *msg;
+@@ -133,7 +141,7 @@ vlc_thread_fatal (const char *action, int error,
+             msg = "unknown (invalid error number)";
+             break;
+     }
+-    fprintf (stderr, " Error message: %s\n", msg);
++    FATAL (" Error message: %s\n", msg);
+ #endif
+     fflush (stderr);
+ 
+-- 
+1.7.5.4
+

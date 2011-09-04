@@ -1,0 +1,468 @@
+From 56c79fcabbc45febfaa6ad2839eba5a6946e8b59 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
+Date: Thu, 2 Jun 2011 15:15:57 +0200
+Subject: [PATCH 1/6] Android: add compatibility pthread_cancel
+
+Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
+               7884ed8d407647a1523afb8be6a2859477d54fd7
+               42336426297a2f0e38964f238208681a2b54d6d8
+               497c810426c2fc3d414ef8d98dd1ed321d86ece0
+               96cd0d6dbc510f656a9b962b2b17c68e7f19d02e
+               bbf4bd81aa2ba5fef271b537ccc0ae9285ad6169
+               fd3a78c13899095f75021b1aeb38b68e6c1f0164
+               497c810426c2fc3d414ef8d98dd1ed321d86ece0
+Modified and ported-by: Jean-Baptiste Kempf <jb@videolan.org>
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ compat/pthread_cancel.c |  291 +++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac            |    4 +
+ include/vlc_fixups.h    |   22 ++++
+ src/control/error.c     |   16 +++
+ src/posix/thread.c      |   20 ++++
+ 5 files changed, 353 insertions(+), 0 deletions(-)
+ create mode 100644 compat/pthread_cancel.c
+
+diff --git a/compat/pthread_cancel.c b/compat/pthread_cancel.c
+new file mode 100644
+index 0000000..8a39f5d
+--- /dev/null
++++ b/compat/pthread_cancel.c
+@@ -0,0 +1,291 @@
++/*****************************************************************************
++ * pthread_cancel.c: pthread deferred cancellation replacement
++ *****************************************************************************
++ * Copyright © 2011 VideoLAN
++ *
++ * Author: Jean-Philippe André <jpeg # videolan.org>
++ *
++ * License: LGPLv2.1+
++ *****************************************************************************/
++
++#ifdef HAVE_CONFIG_H
++# include <config.h>
++#endif
++
++#include <vlc_common.h>
++#include <vlc_fixups.h>
++#include <pthread.h>
++#include <assert.h>
++
++/*
++ * This file provide fixups for the following functions:
++ * - pthread_cancel
++ * - pthread_testcancel
++ * - pthread_setcancelstate
++ * As a result of the implementation design, we must also wrap
++ * pthread_create into a cancellation-aware function
++ */
++
++static void* thread_wrapper_routine (void *arg);
++static void  thread_cancel_handler (int signal);
++static void  thread_cancel_destructor (void *data);
++
++// Functions used by LibVLC
++void pthread_cancel_initialize (void);
++void pthread_cancel_deinitialize (void);
++
++/*
++ * Some static variables used for initialization
++ */
++static pthread_key_t cancel_key = 0; /// Key for the thread-local variable
++
++/*
++ * These objects define the thread-local variable tracking the thread's
++ * cancellation status (cancellable, cancelled)
++ */
++typedef struct cancel_t cancel_t;
++struct cancel_t
++{
++    int state;      /// PTHREAD_CANCEL_ENABLE (0) or PTHREAD_CANCEL_DISABLE (1)
++    pthread_cond_t *cond; /// Non-null if thread waiting on cond
++
++    /* Booleans at the end for packing purposes */
++    bool cancelled; /// Non-zero means this thread has been cancelled
++};
++
++/*
++ * This is the thread wrapper data
++ */
++typedef struct thread_wrapper_t thread_wrapper_t;
++struct thread_wrapper_t
++{
++    void     *(*routine) (void*); /// Main thread routine to call
++    void     *arg;                /// Argument to pass to the thread routine
++    cancel_t *cancel; /// The cancel structure is allocated before the thread
++};
++
++/**
++ * Initialize pthread cancellation
++ * Creates thread-local variable's key and catches SIGRTMIN in main thread
++ **/
++void pthread_cancel_initialize (void)
++{
++    // Set up signal handler
++    struct sigaction act;
++    memset (&act, 0, sizeof (act));
++    sigemptyset (&act.sa_mask);
++    act.sa_flags = 0;
++    act.sa_handler = thread_cancel_handler;
++    sigaction (SIGRTMIN, &act, NULL);
++
++    // Create thread-local variable key
++    pthread_key_create (&cancel_key, thread_cancel_destructor);
++}
++
++/**
++ * Deinitialize pthread cancellation
++ **/
++void pthread_cancel_deinitialize (void)
++{
++    struct sigaction act;
++    memset (&act, 0, sizeof (act));
++    sigemptyset (&act.sa_mask);
++    sigaction (SIGRTMIN, &act, NULL);
++    pthread_key_delete (cancel_key);
++    cancel_key = 0;
++}
++
++/**
++ * Replacement for pthread_cancel
++ * Sends a SIGRTMIN signal to the thread
++ **/
++int pthread_cancel (pthread_t thread_id)
++{
++    return pthread_kill (thread_id, SIGRTMIN);
++}
++
++/**
++ * Replacement for pthread_create with support for cancellation
++ **/
++int pthread_create_cancel (pthread_t *thread_id,
++                           const pthread_attr_t *attr,
++                           void *(*routine) (void *),
++                           void *arg)
++{
++    thread_wrapper_t *wrapper_data =
++            (thread_wrapper_t*) calloc (1, sizeof (thread_wrapper_t));
++    if (unlikely (!wrapper_data))
++        return -1;
++
++    wrapper_data->routine = routine;
++    wrapper_data->arg     = arg;
++    wrapper_data->cancel  = (cancel_t*) calloc (1, sizeof (cancel_t));
++
++    if (unlikely (!wrapper_data->cancel))
++    {
++        free (wrapper_data);
++        return -1;
++    }
++
++    int ret = pthread_create (thread_id, attr, thread_wrapper_routine,
++                              wrapper_data);
++    if (unlikely (ret != 0))
++    {
++        // The thread wrapper should free these variables but it didn't start
++        free (wrapper_data->cancel);
++        free (wrapper_data);
++    }
++    return ret;
++}
++
++/**
++ * Thread wrapper
++ * Sets up signal handlers and thread-local data before running the routine
++ **/
++static void* thread_wrapper_routine (void *arg)
++{
++    thread_wrapper_t *wrapper_data = (thread_wrapper_t*) arg;
++
++    // Set up signal handler
++    struct sigaction act;
++    memset (&act, 0, sizeof (act));
++    sigemptyset (&act.sa_mask);
++    act.sa_flags = 0;
++    act.sa_handler = thread_cancel_handler;
++    sigaction (SIGRTMIN, &act, NULL);
++
++    // Place specific data (cancel state stack)
++    cancel_t *canc = wrapper_data->cancel;
++    memset (canc, 0, sizeof (cancel_t));
++    if (unlikely (pthread_setspecific (cancel_key, canc) != 0))
++        return NULL;
++
++    void *ret = wrapper_data->routine (wrapper_data->arg);
++    // Don't free wrapper_data->cancel. It will be destroyed automatically.
++    free (wrapper_data);
++    return ret;
++}
++
++/**
++ * Change thread's cancellation state (enable/disable)
++ **/
++int pthread_setcancelstate (int state, int *oldstate)
++{
++    cancel_t *canc = pthread_getspecific (cancel_key);
++    if (unlikely (canc == NULL))
++    {
++        /// FIXME
++        // Let's just add this missing variable since the main thread
++        // uses these features but wasn't created by pthread_create_cancel
++        canc = (cancel_t*) calloc (1, sizeof (cancel_t));
++        pthread_setspecific (cancel_key, canc);
++    }
++
++    if (oldstate)
++        *oldstate = canc->state;
++    canc->state = state;
++
++    if (state == PTHREAD_CANCEL_ENABLE)
++        pthread_testcancel ();
++
++    return 0;
++}
++
++/**
++ * Create a cancellation point
++ **/
++void pthread_testcancel (void)
++{
++    cancel_t *canc = pthread_getspecific (cancel_key);
++    if (unlikely (!canc))
++        return; // Don't mess with the main thread
++
++    assert (canc->cond == NULL);
++
++    if (canc->cancelled) // Don't check PTHREAD_CANCEL_ENABLE
++        pthread_exit (NULL);
++}
++
++/**
++ * Cancellation signal handler
++ **/
++static void thread_cancel_handler (int signal)
++{
++    assert (signal == SIGRTMIN);
++
++    cancel_t *canc = (cancel_t*) pthread_getspecific (cancel_key);
++    if (unlikely (!canc))
++        return; // Main thread, can't be cancelled
++
++    canc->cancelled = true;
++    if (canc->cond)
++    {
++        /* Wakeup all threads waiting on cond. As we are supposed to expect
++         * spurious wakeups, this should not be an issue
++         */
++        pthread_cond_t *cond = canc->cond;
++        canc->cond = NULL;
++        pthread_cond_broadcast (cond);
++        /* FIXME: not calling pthread_exit (crashes in input thread). Why? */
++        // pthread_exit (NULL);
++        return;
++    }
++    if (canc->state == PTHREAD_CANCEL_ENABLE)
++        pthread_exit (NULL);
++}
++
++/**
++ * Destroy a cancel_t variable. Nothing fancy.
++ **/
++static void thread_cancel_destructor (void *data)
++{
++    cancel_t *canc = (cancel_t*) data;
++    free (canc);
++}
++
++int pthread_cond_wait_cancel( pthread_cond_t *cond,
++                                     pthread_mutex_t *mutex )
++{
++    int oldstate;
++    pthread_setcancelstate (PTHREAD_CANCEL_DISABLE, &oldstate);
++    cancel_t *canc = pthread_getspecific (cancel_key);
++    if (canc)
++    {
++        assert (!canc->cond);
++        canc->cond = cond;
++    }
++
++    int ret = pthread_cond_wait (cond, mutex);
++
++    if (canc)
++        canc->cond = NULL;
++
++    /// FIXME: We should call testcancel() here, but it leads to crashes.
++    // pthread_testcancel ();
++    pthread_setcancelstate (oldstate, NULL);
++    return ret;
++}
++
++int pthread_cond_timedwait_cancel( pthread_cond_t *cond,
++                                   pthread_mutex_t *mutex,
++                                   const struct timespec *abstime )
++{
++    int oldstate;
++    pthread_setcancelstate (PTHREAD_CANCEL_DISABLE, &oldstate);
++    cancel_t *canc = pthread_getspecific (cancel_key);
++    if (canc)
++    {
++        assert (!canc->cond);
++        canc->cond = cond;
++    }
++
++    int ret = pthread_cond_timedwait (cond, mutex, abstime);
++
++    if (canc)
++        canc->cond = NULL;
++
++    /// FIXME: We should call testcancel() here, but it leads to crashes.
++    // pthread_testcancel ();
++    pthread_setcancelstate (oldstate, NULL);
++    return ret;
++}
+diff --git a/configure.ac b/configure.ac
+index ccc77f9..574f7f2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -530,6 +530,10 @@ if test "${SYS}" = "mingw32" -a "${CXX}" != "" ; then
+     AC_LANG_POP(C++)
+ fi
+ 
++if test "${HAVE_ANDROID}" = "1"; then
++    AC_REPLACE_FUNCS([pthread_cancel])
++fi
++
+ dnl
+ dnl Buggy glibc prevention. Purposedly not cached.
+ dnl See sourceware.org bugs 5058 and 5443.
+diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
+index c694578..35c526c 100644
+--- a/include/vlc_fixups.h
++++ b/include/vlc_fixups.h
+@@ -342,6 +342,28 @@ long nrand48 (unsigned short subi[3]);
+ #  undef __cplusplus
+ # endif
+ char *tempnam(const char *, const char *);
++
++#ifndef HAVE_PTHREAD_CANCEL
++enum
++{
++  PTHREAD_CANCEL_ENABLE,
++  PTHREAD_CANCEL_DISABLE
++};
++extern void pthread_cancel_initialize (void);
++extern void pthread_cancel_deinitialize (void);
++extern int pthread_create_cancel( pthread_t *thread,
++                           const pthread_attr_t *attr,
++                           void *( *routine ) ( void* ),
++                           void *arg );
++extern int pthread_setcancelstate( int state, int *oldstate );
++extern int pthread_cancel( pthread_t thread_id );
++extern void pthread_testcancel( void );
++extern int pthread_cond_wait_cancel( pthread_cond_t *cond,
++                                     pthread_mutex_t *mutex );
++extern int pthread_cond_timedwait_cancel( pthread_cond_t *cond,
++                                          pthread_mutex_t *mutex,
++                                          const struct timespec *abstime );
++#endif // PTHREAD_CANCEL
+ #endif // ANDROID
+ 
+ #ifdef __OS2__
+diff --git a/src/control/error.c b/src/control/error.c
+index e3f7051..f6827e7 100644
+--- a/src/control/error.c
++++ b/src/control/error.c
+@@ -25,6 +25,11 @@
+ #include <assert.h>
+ #include <vlc/libvlc.h>
+ 
++#if !defined(HAVE_PTHREAD_CANCEL) && defined(__ANDROID__)
++// Functions implemented in compat/pthread_cancel.c
++extern void pthread_cancel_initialize( void );
++extern void pthread_cancel_deinitialize( void );
++#endif
+ 
+ static const char oom[] = "Out of memory";
+ /* TODO: use only one thread-specific key for whole libvlc */
+@@ -39,13 +44,24 @@ static void libvlc_setup_threads (bool init)
+     if (init)
+     {
+         if (refs++ == 0)
++        {
+             vlc_threadvar_create (&context, free);
++
++#if !defined(HAVE_PTHREAD_CANCEL) && defined(__ANDROID__)
++            pthread_cancel_initialize ();
++#endif
++        }
+     }
+     else
+     {
+         assert (refs > 0);
+         if (--refs == 0)
++        {
+             vlc_threadvar_delete (&context);
++#if !defined(HAVE_PTHREAD_CANCEL) && defined(__ANDROID__)
++            pthread_cancel_deinitialize ();
++#endif
++        }
+     }
+     vlc_mutex_unlock (&lock);
+ }
+diff --git a/src/posix/thread.c b/src/posix/thread.c
+index 561f93a..64b4fd3 100644
+--- a/src/posix/thread.c
++++ b/src/posix/thread.c
+@@ -371,7 +371,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+  */
+ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+ {
++#ifdef __ANDROID__
++    int val = pthread_cond_wait_cancel( p_condvar, p_mutex );
++#else
+     int val = pthread_cond_wait( p_condvar, p_mutex );
++#endif
+     VLC_THREAD_ASSERT ("waiting on condition");
+ }
+ 
+@@ -411,7 +415,11 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+ #else
+     lldiv_t d = lldiv( deadline, CLOCK_FREQ );
+     struct timespec ts = { d.quot, d.rem * (1000000000 / CLOCK_FREQ) };
++#ifdef __ANDROID__
++    int val = pthread_cond_timedwait_cancel (p_condvar, p_mutex, &ts);
++#else
+     int val = pthread_cond_timedwait (p_condvar, p_mutex, &ts);
++#endif
+     if (val != ETIMEDOUT)
+         VLC_THREAD_ASSERT ("timed-waiting on condition");
+     return val;
+@@ -451,6 +459,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
+     val = errno;
+ #endif
+ 
++#ifdef __ANDROID__
++    /* Bionic is so broken that it will return EBUSY on sem_destroy
++     * if the semaphore has never been used...
++     */
++    if (likely(val == EBUSY))
++        return; // It may be a real error, but there's no way to know
++#endif
++
+     VLC_THREAD_ASSERT ("destroying semaphore");
+ }
+ 
+@@ -681,7 +697,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+     assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
+ #endif
+ 
++#ifndef __ANDROID__
+     ret = pthread_create (th, attr, entry, data);
++#else
++    ret = pthread_create_cancel (th, attr, entry, data);
++#endif
+     pthread_sigmask (SIG_SETMASK, &oldset, NULL);
+     pthread_attr_destroy (attr);
+     return ret;
+-- 
+1.7.5.4
+

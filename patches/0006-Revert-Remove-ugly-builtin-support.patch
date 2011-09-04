@@ -1,0 +1,262 @@
+From 2a8e6c23ce416dc5f2fff08fc5fd3ca1465c1a79 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Wed, 6 Jul 2011 00:18:31 +0200
+Subject: [PATCH 6/6] Revert "Remove ugly builtin support"
+
+This reverts commit 473a276fdd990c75efe1106a8c7b2de18200df59.
+---
+ configure.ac                  |   24 ++++++++++++++++++++----
+ include/vlc/libvlc.h          |   35 +++++++++++++++++++++++++++++++++++
+ modules/common.am             |   10 +++++-----
+ src/control/core.c            |   11 +++++++++--
+ src/control/libvlc_internal.h |    2 +-
+ src/libvlc.c                  |    4 ++--
+ src/libvlc.sym                |    1 +
+ src/modules/modules.c         |    8 +++++++-
+ src/modules/modules.h         |    6 +++---
+ 9 files changed, 83 insertions(+), 18 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 79063a5..f572e79 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -94,6 +94,26 @@ AS_IF([test -n "${with_binary_version}"],[
+          [Binary specific version])
+ ])
+ 
++dnl Check how we are asked to build
++AS_IF([test "${enable_shared}" = "no" -a "${enable_vlc}" != "no"], [
++  AC_MSG_ERROR([VLC is based on plugins. Shared libraries cannot be disabled.])
++])
++
++AC_ARG_ENABLE(static-modules,
++  [AS_HELP_STRING([--enable-static-modules],
++    [link modules statically - VLC will not work])])
++AS_IF([test "${enable_static_modules}" = yes], [
++   enable_shared="no"
++   enable_static="yes"
++   VLC_DEFAULT_PLUGIN_TYPE="builtin"
++   AS_IF([test "${enable_vlc}" != "no"],
++     [AC_MSG_WARN([Building modules as static. VLC will not work.])])
++], [
++   VLC_DEFAULT_PLUGIN_TYPE="plugin"
++])
++
++AC_SUBST(VLC_DEFAULT_PLUGIN_TYPE)
++
+ dnl
+ dnl  Check for the contrib directory
+ dnl
+@@ -440,10 +460,6 @@ m4_defun([AC_DEPLIBS_CHECK_METHOD],[])
+ 
+ lt_cv_deplibs_check_method=pass_all
+ 
+-AS_IF([test "${enable_shared}" = "no"], [
+-  AC_MSG_ERROR([VLC is based on plugins. Shared libraries cannot be disabled.])
+-])
+-
+ dnl
+ dnl Gettext stuff
+ dnl
+diff --git a/include/vlc/libvlc.h b/include/vlc/libvlc.h
+index bcf9bdc..a5c70d2 100644
+--- a/include/vlc/libvlc.h
++++ b/include/vlc/libvlc.h
+@@ -137,6 +137,41 @@ const char *libvlc_printerr (const char *fmt, ...);
+ LIBVLC_API libvlc_instance_t *
+ libvlc_new( int argc , const char *const *argv );
+ 
++
++/**
++ * \return a static entry point for a module, suitable for passing to
++ * libvlc_new_with_builtins. This is to be used when you want to statically
++ * link to a module.
++ *
++ * Note, statically linking to a module will results in nearly zero speed gain
++ * and increased memory usage. Use with caution.
++ */
++
++#define vlc_plugin(module) & vlc_plugin_entry(module)
++
++#define vlc_plugin_entry(module) vlc_entry__ ## module
++#define vlc_declare_plugin(module) extern void *vlc_plugin_entry(module);
++
++/**
++ * Create and initialize a libvlc instance.
++ *
++ * \param argc the number of arguments
++ * \param argv command-line-type arguments
++ * \param builtins a NULL terminated array of \see vlc_plugin.
++ * \return the libvlc instance or NULL in case of error
++ * @begincode
++ * {
++ *     vlc_declare_plugin(mp4);
++ *     vlc_declare_plugin(dummy);
++ *     const void **builtins = { vlc_plugin(mp4), vlc_plugin(dummy), NULL };
++ *     libvlc_instance_t *vlc = libvlc_new_with_builtins(argc, argv, builtins);
++ * }
++ * @endcode
++ */
++LIBVLC_API libvlc_instance_t *
++libvlc_new_with_builtins( int argc , const char *const *argv, const void **builtins);
++
++
+ /**
+  * Decrement the reference count of a libvlc instance, and destroy it
+  * if it reaches zero.
+diff --git a/modules/common.am b/modules/common.am
+index 1092b62..f001a7f 100644
+--- a/modules/common.am
++++ b/modules/common.am
+@@ -13,17 +13,17 @@ CLEANFILES = $(BUILT_SOURCES)
+ 
+ LTLIBVLCCORE = $(top_builddir)/src/libvlccore.la
+ 
+-AM_CFLAGS = `$(VLC_CONFIG) --cflags plugin $@`
+-AM_CXXFLAGS = `$(VLC_CONFIG) --cxxflags plugin $@`
+-AM_OBJCFLAGS = `$(VLC_CONFIG) --objcflags plugin $@`
++AM_CFLAGS = `$(VLC_CONFIG) --cflags $(VLC_DEFAULT_PLUGIN_TYPE) $@`
++AM_CXXFLAGS = `$(VLC_CONFIG) --cxxflags $(VLC_DEFAULT_PLUGIN_TYPE) $@`
++AM_OBJCFLAGS = `$(VLC_CONFIG) --objcflags $(VLC_DEFAULT_PLUGIN_TYPE) $@`
+ AM_LDFLAGS = -rpath '$(libvlcdir)' \
+ 	-avoid-version -module \
+ 	-export-symbols-regex ^vlc_entry \
+ 	-shrext $(LIBEXT) \
+ 	-rpath "$(libvlcdir)" \
+ 	-no-undefined \
+-	 `$(VLC_CONFIG) --ldflags plugin $@`
+-AM_LIBADD = `$(VLC_CONFIG) -libs plugin $@` \
++	 `$(VLC_CONFIG) --ldflags $(VLC_DEFAULT_PLUGIN_TYPE) $@`
++AM_LIBADD = `$(VLC_CONFIG) -libs $(VLC_DEFAULT_PLUGIN_TYPE) $@` \
+ 	$(LTLIBVLCCORE) $(top_builddir)/compat/libcompat.la
+ 
+ include $(srcdir)/Modules.am
+diff --git a/src/control/core.c b/src/control/core.c
+index d5836be..3936302 100644
+--- a/src/control/core.c
++++ b/src/control/core.c
+@@ -38,7 +38,8 @@
+ 
+ static const char nomemstr[] = "Insufficient memory";
+ 
+-libvlc_instance_t * libvlc_new( int argc, const char *const *argv )
++libvlc_instance_t * libvlc_new_with_builtins( int argc, const char *const *argv,
++                                             const void ** builtins_module)
+ {
+     libvlc_instance_t *p_new = malloc (sizeof (*p_new));
+     if (unlikely(p_new == NULL))
+@@ -56,7 +57,7 @@ libvlc_instance_t * libvlc_new( int argc, const char *const *argv )
+     if (unlikely (p_libvlc_int == NULL))
+         goto error;
+ 
+-    if (libvlc_InternalInit( p_libvlc_int, argc + 1, my_argv ))
++    if (libvlc_InternalInit( p_libvlc_int, argc + 1, my_argv, builtins_module ))
+     {
+         libvlc_InternalDestroy( p_libvlc_int );
+         goto error;
+@@ -80,6 +81,12 @@ error:
+     return NULL;
+ }
+ 
++libvlc_instance_t * libvlc_new( int argc, const char *const *argv)
++{
++    return libvlc_new_with_builtins(argc, argv, NULL);
++}
++
++
+ void libvlc_retain( libvlc_instance_t *p_instance )
+ {
+     assert( p_instance != NULL );
+diff --git a/src/control/libvlc_internal.h b/src/control/libvlc_internal.h
+index 076c614..b522ef7 100644
+--- a/src/control/libvlc_internal.h
++++ b/src/control/libvlc_internal.h
+@@ -44,7 +44,7 @@
+  * Internal creation and destruction functions
+  ***************************************************************************/
+ VLC_API libvlc_int_t *libvlc_InternalCreate( void );
+-VLC_API int libvlc_InternalInit( libvlc_int_t *, int, const char *ppsz_argv[] );
++VLC_API int libvlc_InternalInit( libvlc_int_t *, int, const char *ppsz_argv[], const void **builtins_module );
+ VLC_API void libvlc_InternalCleanup( libvlc_int_t * );
+ VLC_API void libvlc_InternalDestroy( libvlc_int_t * );
+ 
+diff --git a/src/libvlc.c b/src/libvlc.c
+index 3747032..753e347 100644
+--- a/src/libvlc.c
++++ b/src/libvlc.c
+@@ -249,7 +249,7 @@ error:
+  *  - configuration and commandline parsing
+  */
+ int libvlc_InternalInit( libvlc_int_t *p_libvlc, int i_argc,
+-                         const char *ppsz_argv[] )
++                         const char *ppsz_argv[], const void **builtins_module )
+ {
+     libvlc_priv_t *priv = libvlc_priv (p_libvlc);
+     char *       p_tmp = NULL;
+@@ -410,7 +410,7 @@ int libvlc_InternalInit( libvlc_int_t *p_libvlc, int i_argc,
+      * list of configuration options exported by each module and loads their
+      * default values.
+      */
+-    module_LoadPlugins( p_libvlc );
++    module_LoadPlugins( p_libvlc, builtins_module );
+     if( p_libvlc->b_die )
+     {
+         b_exit = true;
+diff --git a/src/libvlc.sym b/src/libvlc.sym
+index 8e3d835..453f0de 100644
+--- a/src/libvlc.sym
++++ b/src/libvlc.sym
+@@ -164,6 +164,7 @@ libvlc_media_set_state
+ libvlc_media_set_user_data
+ libvlc_media_subitems
+ libvlc_new
++libvlc_new_with_builtins
+ libvlc_playlist_play
+ libvlc_release
+ libvlc_retain
+diff --git a/src/modules/modules.c b/src/modules/modules.c
+index fed683c..0247ee6 100644
+--- a/src/modules/modules.c
++++ b/src/modules/modules.c
+@@ -186,13 +186,19 @@ void module_EndBank( vlc_object_t *p_this, bool b_plugins )
+  * \param p_this vlc object structure
+  * \return nothing
+  */
+-void module_LoadPlugins( vlc_object_t * p_this )
++void module_LoadPlugins( vlc_object_t * p_this, const void **builtins )
+ {
+     module_bank_t *p_bank = p_module_bank;
+ 
+     assert( p_bank );
+     /*vlc_assert_locked( &module_lock ); not for static mutexes :( */
+ 
++    if (builtins)
++    {
++        for (int i = 0; builtins[i]; i++)
++            AllocateBuiltinModule( p_this, builtins[i] );
++    }
++
+ #ifdef HAVE_DYNAMIC_PLUGINS
+     if( p_bank->i_usage == 1 )
+     {
+diff --git a/src/modules/modules.h b/src/modules/modules.h
+index fd2e31d..afe3955 100644
+--- a/src/modules/modules.h
++++ b/src/modules/modules.h
+@@ -131,10 +131,10 @@ struct module_t
+ module_t *vlc_module_create (void);
+ module_t *vlc_submodule_create (module_t *module);
+ 
+-void  module_InitBank( vlc_object_t * );
++void  module_InitBank( vlc_object_t *);
+ #define module_InitBank(a) module_InitBank(VLC_OBJECT(a))
+-void module_LoadPlugins( vlc_object_t * );
+-#define module_LoadPlugins(a) module_LoadPlugins(VLC_OBJECT(a))
++void module_LoadPlugins( vlc_object_t *, const void ** );
++#define module_LoadPlugins(a, b) module_LoadPlugins(VLC_OBJECT(a), b)
+ void module_EndBank( vlc_object_t *, bool );
+ #define module_EndBank(a,b) module_EndBank(VLC_OBJECT(a), b)
+ 
+-- 
+1.7.5.4
+
