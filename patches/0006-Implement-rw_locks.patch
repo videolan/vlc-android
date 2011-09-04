@@ -1,0 +1,133 @@
+From 4f4dbfd4f6aa1737ca5775f4ee853aa01b598b30 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
+Date: Sun, 7 Nov 2010 19:11:51 +0100
+Subject: [PATCH 6/6] Implement rw_locks.
+
+---
+ include/vlc_threads.h |   14 +++++++++
+ src/posix/thread.c    |   76 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 90 insertions(+), 0 deletions(-)
+
+diff --git a/include/vlc_threads.h b/include/vlc_threads.h
+index 3fefbaf..72ecf24 100644
+--- a/include/vlc_threads.h
++++ b/include/vlc_threads.h
+@@ -110,7 +110,21 @@ typedef pthread_mutex_t vlc_mutex_t;
+ #define VLC_STATIC_MUTEX PTHREAD_MUTEX_INITIALIZER
+ typedef pthread_cond_t  vlc_cond_t;
+ #define VLC_STATIC_COND  PTHREAD_COND_INITIALIZER
++#ifndef __ANDROID__
+ typedef pthread_rwlock_t vlc_rwlock_t;
++#else
++typedef unsigned long   DWORD;
++
++typedef struct
++{
++    vlc_mutex_t   mutex;
++    vlc_cond_t    read_wait;
++    vlc_cond_t    write_wait;
++    unsigned long readers;
++    unsigned long writers;
++    DWORD         writer;
++} vlc_rwlock_t;
++#endif
+ #define VLC_STATIC_RWLOCK PTHREAD_RWLOCK_INITIALIZER
+ typedef pthread_key_t   vlc_threadvar_t;
+ typedef struct vlc_timer *vlc_timer_t;
+diff --git a/src/posix/thread.c b/src/posix/thread.c
+index 5627f66..38addc2 100644
+--- a/src/posix/thread.c
++++ b/src/posix/thread.c
+@@ -587,6 +587,7 @@ void vlc_sem_wait (vlc_sem_t *sem)
+     VLC_THREAD_ASSERT ("locking semaphore");
+ }
+ 
++#ifndef __ANDROID__
+ /**
+  * Initializes a read/write lock.
+  */
+@@ -631,6 +632,81 @@ void vlc_rwlock_unlock (vlc_rwlock_t *lock)
+     int val = pthread_rwlock_unlock (lock);
+     VLC_THREAD_ASSERT ("releasing R/W lock");
+ }
++#endif
++/*** Read/write locks */
++/* SRW (Slim Read Write) locks are available in Vista+ only */
++void vlc_rwlock_init (vlc_rwlock_t *lock)
++{
++    vlc_mutex_init (&lock->mutex);
++    vlc_cond_init (&lock->read_wait);
++    vlc_cond_init (&lock->write_wait);
++    lock->readers = 0; /* active readers */
++    lock->writers = 0; /* waiting or active writers */
++    lock->writer = 0; /* ID of active writer */
++}
++
++/**
++ * Destroys an initialized unused read/write lock.
++ */
++void vlc_rwlock_destroy (vlc_rwlock_t *lock)
++{
++    vlc_cond_destroy (&lock->read_wait);
++    vlc_cond_destroy (&lock->write_wait);
++    vlc_mutex_destroy (&lock->mutex);
++}
++
++/**
++ * Acquires a read/write lock for reading. Recursion is allowed.
++ */
++void vlc_rwlock_rdlock (vlc_rwlock_t *lock)
++{
++    vlc_mutex_lock (&lock->mutex);
++    while (lock->writer != 0)
++        vlc_cond_wait (&lock->read_wait, &lock->mutex);
++    if (lock->readers == ULONG_MAX)
++        abort ();
++    lock->readers++;
++    vlc_mutex_unlock (&lock->mutex);
++}
++
++/**
++ * Acquires a read/write lock for writing. Recursion is not allowed.
++ */
++void vlc_rwlock_wrlock (vlc_rwlock_t *lock)
++{
++    vlc_mutex_lock (&lock->mutex);
++    if (lock->writers == ULONG_MAX)
++        abort ();
++    lock->writers++;
++    while ((lock->readers > 0) || (lock->writer != 0))
++        vlc_cond_wait (&lock->write_wait, &lock->mutex);
++    lock->writers--;
++    lock->writer = GetCurrentThreadId ();
++    vlc_mutex_unlock (&lock->mutex);
++}
++
++/**
++ * Releases a read/write lock.
++ */
++void vlc_rwlock_unlock (vlc_rwlock_t *lock)
++{
++    vlc_mutex_lock (&lock->mutex);
++    if (lock->readers > 0)
++        lock->readers--; /* Read unlock */
++    else
++        lock->writer = 0; /* Write unlock */
++
++    if (lock->writers > 0)
++    {
++        if (lock->readers == 0)
++            vlc_cond_signal (&lock->write_wait);
++    }
++    else
++        vlc_cond_broadcast (&lock->read_wait);
++    vlc_mutex_unlock (&lock->mutex);
++}
++
++
+ 
+ /**
+  * Allocates a thread-specific variable.
+-- 
+1.7.5.4
+
