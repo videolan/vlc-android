@@ -338,7 +338,7 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can use SLES
     {
-        libvlc_audio_set_callbacks(mp, aout_open, aout_play, aout_close,
+        libvlc_audio_set_callbacks(mp, aout_open, aout_play, NULL, NULL, NULL,
                                    (void*) myJavaLibVLC);
     }
 
@@ -367,10 +367,10 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
-jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz, 
-                                                            jint i_instance, jstring filePath) 
-{   
-    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;    
+jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
+                                                            jint i_instance, jstring filePath)
+{
+    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
     const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
 
     /* Create a new item and assign it to the media player. */
@@ -385,10 +385,10 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
     libvlc_media_track_info_t *p_tracks;
     libvlc_media_parse(p_m);
     int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
-    
+
     unsigned i;
     for (i = 0; i < i_nbTracks; ++i)
-    {   
+    {
         if (p_tracks[i].i_type == libvlc_track_video)
             return 1;
     }
@@ -399,23 +399,23 @@ static pthread_mutex_t doneMutex;
 static pthread_cond_t doneCondVar;
 
 static void length_changed_callback(const libvlc_event_t *ev, void *data)
-{    
+{
     pthread_mutex_lock(&doneMutex);
     pthread_cond_signal(&doneCondVar);
     pthread_mutex_unlock(&doneMutex);
 }
 
-jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz, 
-                                                        jint i_instance, jstring filePath) 
-{   
-    libvlc_media_t *m;   
-    libvlc_media_player_t *mp; 
+jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz,
+                                                        jint i_instance, jstring filePath)
+{
+    libvlc_media_t *m;
+    libvlc_media_player_t *mp;
 
     /* Initialize pthread variables. */
     pthread_mutex_init(&doneMutex, NULL);
     pthread_cond_init(&doneCondVar, NULL);
 
-    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;    
+    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
     const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
 
     /* Create a new item and assign it to the media player. */
@@ -434,13 +434,13 @@ jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobjec
     libvlc_media_player_play( mp );
     pthread_mutex_lock(&doneMutex);
     pthread_cond_wait(&doneCondVar, &doneMutex);
-    pthread_mutex_unlock(&doneMutex); 
+    pthread_mutex_unlock(&doneMutex);
     jlong length = (jlong)libvlc_media_player_get_length( mp );
     libvlc_media_player_stop( mp );
-    libvlc_media_player_release( mp );  
+    libvlc_media_player_release( mp );
 
     pthread_mutex_destroy(&doneMutex);
-    pthread_cond_destroy(&doneCondVar);  
+    pthread_cond_destroy(&doneCondVar);
 
     return length;
 }
