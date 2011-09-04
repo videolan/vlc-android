@@ -58,9 +58,7 @@ $(APK_MK):
 	 printf "LOCAL_MODULE    := libvlcjni\n"                                  >> $(APK_MK); \
 	 printf "LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c\n"           >> $(APK_MK); \
 	 printf "LOCAL_C_INCLUDES := \$$(LOCAL_PATH)/../../vlc/include\n"    >> $(APK_MK); \
-	 printf "LOCAL_LDLIBS := -L$$vlc_contrib/lib \\\\\n"                      >> $(APK_MK); \
-	 printf "\t-L$$ANDROID_NDK/platforms/android-8/arch-arm/usr/lib \\\\\n"   >> $(APK_MK); \
-	 printf "$$LDFLAGS"                                                       >> $(APK_MK); \
+	 printf "LOCAL_LDLIBS := -L$$vlc_contrib/lib $$LDFLAGS"                      >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/compat/.libs/libcompat.a \\\\\n"       >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/lib/.libs/libvlc.a \\\\\n"             >> $(APK_MK); \
 	 printf "\t$$prefix$$VLC_BUILD_DIR/src/.libs/libvlccore.a \\\\\n"         >> $(APK_MK); \
