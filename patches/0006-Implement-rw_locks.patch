@@ -1,23 +1,26 @@
-From 4f4dbfd4f6aa1737ca5775f4ee853aa01b598b30 Mon Sep 17 00:00:00 2001
+From 9d40b7c46afdf7a1f8cbf57d838f6f5706384836 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
 Date: Sun, 7 Nov 2010 19:11:51 +0100
 Subject: [PATCH 6/6] Implement rw_locks.
 
+[funman]
+add static initializer, use #ifdef __ANDROID__, remove windows function call
 ---
- include/vlc_threads.h |   14 +++++++++
+ include/vlc_threads.h |   22 ++++++++++++++
  src/posix/thread.c    |   76 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 90 insertions(+), 0 deletions(-)
+ 2 files changed, 98 insertions(+), 0 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
-index 3fefbaf..72ecf24 100644
+index 3fefbaf..83bbfe2 100644
 --- a/include/vlc_threads.h
 +++ b/include/vlc_threads.h
-@@ -110,7 +110,21 @@ typedef pthread_mutex_t vlc_mutex_t;
+@@ -110,8 +110,30 @@ typedef pthread_mutex_t vlc_mutex_t;
  #define VLC_STATIC_MUTEX PTHREAD_MUTEX_INITIALIZER
  typedef pthread_cond_t  vlc_cond_t;
  #define VLC_STATIC_COND  PTHREAD_COND_INITIALIZER
 +#ifndef __ANDROID__
  typedef pthread_rwlock_t vlc_rwlock_t;
+ #define VLC_STATIC_RWLOCK PTHREAD_RWLOCK_INITIALIZER
 +#else
 +typedef unsigned long   DWORD;
 +
@@ -30,12 +33,20 @@ index 3fefbaf..72ecf24 100644
 +    unsigned long writers;
 +    DWORD         writer;
 +} vlc_rwlock_t;
++
++#define VLC_STATIC_RWLOCK {         \
++    .mutex      = VLC_STATIC_MUTEX, \
++    .read_wait  = VLC_STATIC_COND,  \
++    .readers    = 0,                \
++    .writers    = 0,                \
++    .writer     = 0,                \
++    }
 +#endif
- #define VLC_STATIC_RWLOCK PTHREAD_RWLOCK_INITIALIZER
  typedef pthread_key_t   vlc_threadvar_t;
  typedef struct vlc_timer *vlc_timer_t;
+ 
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 5627f66..38addc2 100644
+index 5627f66..38d998c 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -587,6 +587,7 @@ void vlc_sem_wait (vlc_sem_t *sem)
@@ -99,7 +110,7 @@ index 5627f66..38addc2 100644
 +    while ((lock->readers > 0) || (lock->writer != 0))
 +        vlc_cond_wait (&lock->write_wait, &lock->mutex);
 +    lock->writers--;
-+    lock->writer = GetCurrentThreadId ();
++    lock->writer = 42;
 +    vlc_mutex_unlock (&lock->mutex);
 +}
 +
