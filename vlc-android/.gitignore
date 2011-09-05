@@ -2,5 +2,4 @@ bin
 gen
 obj
 local.properties
-jni/Android.mk
 jni/libvlcjni.h
