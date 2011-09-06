@@ -1,7 +1,7 @@
 From 054afb010cefa90f3ad8d50c23959be7375475b8 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:20:40 +0200
-Subject: [PATCH 3/6] Push messages to Android stack
+Subject: [PATCH 3/7] Push messages to Android stack
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---

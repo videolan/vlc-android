@@ -1,0 +1,65 @@
+From 5f7e1fad78553ac8e3aa2851155dae830556c80a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
+Date: Tue, 6 Sep 2011 21:08:58 +0200
+Subject: [PATCH 7/7] Restore disable-v4l2 and posix_memalign checks (to fix compilation)
+
+---
+ configure.ac         |   10 +++++++---
+ include/vlc_common.h |    4 ++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 85e2a39..9807e37 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -567,7 +567,7 @@ need_libc=false
+ 
+ dnl Check for usual libc functions
+ AC_CHECK_DECLS([nanosleep],,,[#include <time.h>])
+-AC_CHECK_FUNCS([daemon fcntl fstatvfs fork getenv getpwuid_r if_nameindex if_nametoindex isatty lstat memalign mmap openat pread posix_fadvise posix_madvise setlocale stricmp strnicmp uselocale])
++AC_CHECK_FUNCS([daemon fcntl fstatvfs fork getenv getpwuid_r if_nameindex if_nametoindex isatty lstat memalign mmap openat pread posix_fadvise posix_madvise posix_memalign setlocale stricmp strnicmp uselocale])
+ AC_REPLACE_FUNCS([asprintf atof atoll dirfd fdopendir flockfile fsync getdelim getpid gmtime_r lldiv localtime_r nrand48 rewind setenv strcasecmp strcasestr strdup strlcpy strncasecmp strndup strnlen strsep strtof strtok_r strtoll swab tdestroy vasprintf])
+ AC_CHECK_FUNCS(fdatasync,,
+   [AC_DEFINE(fdatasync, fsync, [Alias fdatasync() to fsync() if missing.])
+@@ -1955,13 +1955,17 @@ fi
+ dnl
+ dnl  Video4Linux 2
+ dnl
++AC_ARG_ENABLE(v4l2, [AS_HELP_STRING([--disable-v4l2],
++    [disable Video4Linux2 support (default auto)])])
+ AC_ARG_ENABLE(libv4l2, [AS_HELP_STRING([--disable-libv4l2],
+   [disable userspace V4L2 library (default auto)])])
+ AC_ARG_ENABLE(pvr, [AS_HELP_STRING([--enable-pvr],
+   [support PVR V4L2 cards (default disabled)])])
+ have_v4l2="no"
+-AC_CHECK_HEADERS([linux/videodev2.h sys/videoio.h], [
+-  have_v4l2="yes"
++AS_IF([test "${enable_v4l2}" != "no"], [
++  AC_CHECK_HEADERS([linux/videodev2.h sys/videoio.h], [
++    have_v4l2="yes"
++  ])
+ ])
+ AS_IF([test "$have_v4l2" = "yes"], [
+   AS_IF([test "${enable_libv4l2}" != "no"], [
+diff --git a/include/vlc_common.h b/include/vlc_common.h
+index 08fd006..2134729 100644
+--- a/include/vlc_common.h
++++ b/include/vlc_common.h
+@@ -891,10 +891,14 @@ VLC_API bool vlc_ureduce( unsigned *, unsigned *, uint64_t, uint64_t, uint64_t )
+ #else
+ static inline void *vlc_memalign(size_t align, size_t size)
+ {
++#if defined(HAVE_POSIX_MEMALIGN)
+     void *base;
+     if (unlikely(posix_memalign(&base, align, size)))
+         base = NULL;
+     return base;
++#else
++    return memalign(align, size);
++#endif
+ }
+ # define vlc_free(base) free(base)
+ #endif
+-- 
+1.7.4.1
+

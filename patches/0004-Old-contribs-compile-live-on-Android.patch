@@ -1,7 +1,7 @@
 From 8f0b9e2db10319c82c5b6595f96c6768b9627ca7 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:05:21 +0200
-Subject: [PATCH 4/6] Old contribs: compile live on Android
+Subject: [PATCH 4/7] Old contribs: compile live on Android
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---

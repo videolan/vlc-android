@@ -1,7 +1,7 @@
 From 139e917595bf81ece7292d968372fb871d1f33da Mon Sep 17 00:00:00 2001
 From: Dominique Martinet <asmadeus@codewreck.org>
 Date: Thu, 2 Jun 2011 12:50:50 +0200
-Subject: [PATCH 2/6] Android: use a custom poll(), fixes HTTP playback
+Subject: [PATCH 2/7] Android: use a custom poll(), fixes HTTP playback
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
