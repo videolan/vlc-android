@@ -1,7 +1,7 @@
-From d40d25b479e1975d86201b686b4ff2004f98b6a3 Mon Sep 17 00:00:00 2001
+From 47101cb6e74e6cdfdb3ab3debb8cccafb93d6e93 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/5] Android: add compatibility pthread_cancel
+Subject: [PATCH 1/6] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -320,10 +320,10 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index b4fd802..9711ab6 100644
+index 205501e..6f413fa 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -530,6 +530,10 @@ if test "${SYS}" = "mingw32" ; then
+@@ -528,6 +528,10 @@ if test "${SYS}" = "mingw32" ; then
      CFLAGS="${CFLAGS_save}"; CXXFLAGS="${CXXFLAGS_save}"
  fi
  
@@ -335,10 +335,10 @@ index b4fd802..9711ab6 100644
  dnl Buggy glibc prevention. Purposedly not cached.
  dnl See sourceware.org bugs 5058 and 5443.
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 9ad95f5..81a0d37 100644
+index dee3dbd..bd711c6 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -338,6 +338,28 @@ long nrand48 (unsigned short subi[3]);
+@@ -343,6 +343,28 @@ long nrand48 (unsigned short subi[3]);
  #  undef __cplusplus
  # endif
  char *tempnam(const char *, const char *);
@@ -465,5 +465,5 @@ index 8e94ead..ed8dad5 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.6
+1.7.4.1
 

@@ -1,13 +1,14 @@
-From 34b5ba6d908a1f2f3a83f421c96d3bf561c3cee5 Mon Sep 17 00:00:00 2001
+From 67d037e3d1c3fc06edd651ba4738d68a9b5d2b72 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Thu, 1 Sep 2011 01:09:44 +0200
-Subject: [PATCH 5/5] i420->RGB convertor in NEON
+Date: Mon, 5 Sep 2011 22:25:10 +0200
+Subject: [PATCH 5/6] i420->RGB convertor in NEON
 
 ---
- modules/arm_neon/Modules.am |    8 ++
- modules/arm_neon/i420_rgb.S |  205 +++++++++++++++++++++++++++++++++++++++++++
- modules/arm_neon/i420_rgb.c |  167 +++++++++++++++++++++++++++++++++++
- 3 files changed, 380 insertions(+), 0 deletions(-)
+ modules/arm_neon/Modules.am    |    8 ++
+ modules/arm_neon/chroma_neon.h |    4 +
+ modules/arm_neon/i420_rgb.S    |  206 ++++++++++++++++++++++++++++++++++++++++
+ modules/arm_neon/i420_rgb.c    |  147 ++++++++++++++++++++++++++++
+ 4 files changed, 365 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
  create mode 100644 modules/arm_neon/i420_rgb.c
 
@@ -31,16 +32,29 @@ index 83576eb..61c7703 100644
  	libchroma_yuv_neon_plugin.la \
 +	libi420_rgb_neon_plugin.la \
  	$(NULL)
+diff --git a/modules/arm_neon/chroma_neon.h b/modules/arm_neon/chroma_neon.h
+index 204c5f1..81de86a 100644
+--- a/modules/arm_neon/chroma_neon.h
++++ b/modules/arm_neon/chroma_neon.h
+@@ -64,3 +64,7 @@ void yuyv_i422_neon (struct yuv_planes *const out,
+ /* UYVY to I422 conversion. */
+ void uyvy_i422_neon (struct yuv_planes *const out,
+                      const struct yuv_pack *const in, int width, int height);
++
++/* I420 to YUYV conversion. */
++void i420_rgb_neon (struct yuv_pack *const out,
++                    const struct yuv_planes *const in, int width, int height);
 diff --git a/modules/arm_neon/i420_rgb.S b/modules/arm_neon/i420_rgb.S
 new file mode 100644
-index 0000000..0532cce
+index 0000000..38ba599
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.S
-@@ -0,0 +1,205 @@
+@@ -0,0 +1,206 @@
 + @*****************************************************************************
 + @ i420_rgb.S : ARM NEONv1 I420 to RGB chroma conversion
 + @*****************************************************************************
 + @ Copyright (C) 2011 Sébastien Toque
++ @                    Rémi Denis-Courmont
 + @
 + @ This program is free software; you can redistribute it and/or modify
 + @ it under the terms of the GNU General Public License as published by
@@ -244,14 +258,15 @@ index 0000000..0532cce
 +	b		loop_row
 diff --git a/modules/arm_neon/i420_rgb.c b/modules/arm_neon/i420_rgb.c
 new file mode 100644
-index 0000000..ab92cfc
+index 0000000..b0b0334
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.c
-@@ -0,0 +1,167 @@
+@@ -0,0 +1,147 @@
 +/*****************************************************************************
 + * i420_rgb.c : ARM NEONv1 YUV 4:2:0 to RGB32 chroma conversion for VLC
 + *****************************************************************************
 + * Copyright (C) 2011 Sébastien Toque
++ *                    Rémi Denis-Courmont
 + *
 + * This program is free software; you can redistribute it and/or modify
 + * it under the terms of the GNU General Public License as published by
@@ -276,6 +291,7 @@ index 0000000..ab92cfc
 +#include <vlc_plugin.h>
 +#include <vlc_filter.h>
 +#include <vlc_cpu.h>
++#include "chroma_neon.h"
 +
 +static int Open (vlc_object_t *);
 +
@@ -285,36 +301,14 @@ index 0000000..ab92cfc
 +    set_callbacks (Open, NULL)
 +vlc_module_end ()
 +
++/*
 +static int CoefY[256];
 +static int CoefRV[256];
 +static int CoefGU[256];
 +static int CoefGV[256];
 +static int CoefBU[256];
 +
-+/* Planes must start on a 16-bytes boundary. Pitches must be multiples of 16
-+ * bytes even for subsampled components. */
-+
-+/* Planar picture buffer.
-+ * Pitch corresponds to luminance component in bytes. Chrominance pitches are
-+ * inferred from the color subsampling ratio. */
-+struct yuv_planes
-+{
-+    void *y, *u, *v;
-+    size_t pitch;
-+};
-+
-+/* Packed picture buffer. Pitch is in bytes (_not_ pixels). */
-+struct yuv_pack
-+{
-+    void *yuv;
-+    size_t pitch;
-+};
-+
-+/* I420 to YUYV conversion. */
-+void i420_rgb_neon (struct yuv_pack *const out,
-+                    const struct yuv_planes *const in,
-+                    int width, int height);
-+
++// C reference version of the converter
 +static void I420_RGBA_C (filter_t *filter, picture_t *src, picture_t *dst)
 +{
 +    const uint8_t *const out = dst->p->p_pixels;
@@ -357,7 +351,7 @@ index 0000000..ab92cfc
 +            ((uint32_t*)out)[d + i] = R | (G<<8) | (B<<16);
 +        }
 +    }
-+}
++}*/
 +
 +static void I420_RGBA (filter_t *filter, picture_t *src, picture_t *dst)
 +{
@@ -394,8 +388,8 @@ index 0000000..ab92cfc
 +            return VLC_EGENERIC;
 +    }
 +
-+    //precompute some values
-+    const int coefY  = (int)(1.164 * 32768 + 0.5);
++    //precompute some values for the C version
++    /*const int coefY  = (int)(1.164 * 32768 + 0.5);
 +    const int coefRV = (int)(1.793 * 32768 + 0.5);
 +    const int coefGU = (int)(0.213 * 32768 + 0.5);
 +    const int coefGV = (int)(0.533 * 32768 + 0.5);
@@ -407,7 +401,7 @@ index 0000000..ab92cfc
 +        CoefGU[i] = -coefGU*(i-128);
 +        CoefGV[i] = -coefGV*(i-128);
 +        CoefBU[i] = coefBU*(i-128);
-+    }
++    }*/
 +
 +    msg_Dbg(filter, "%4.4s(%dx%d) to %4.4s(%dx%d)",
 +            (char*)&filter->fmt_in.video.i_chroma, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height,
@@ -416,5 +410,5 @@ index 0000000..ab92cfc
 +    return VLC_SUCCESS;
 +}
 -- 
-1.7.6
+1.7.4.1
 

@@ -1,4 +1,4 @@
-From 9d40b7c46afdf7a1f8cbf57d838f6f5706384836 Mon Sep 17 00:00:00 2001
+From 7962bff5eb8d3d54abdfcb554284e9654ce1f839 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
 Date: Sun, 7 Nov 2010 19:11:51 +0100
 Subject: [PATCH 6/6] Implement rw_locks.
@@ -140,5 +140,5 @@ index 5627f66..38d998c 100644
  /**
   * Allocates a thread-specific variable.
 -- 
-1.7.5.4
+1.7.4.1
 

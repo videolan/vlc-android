@@ -1,7 +1,7 @@
-From 4d18397a90b164c986d702ee4490303ea4839a1d Mon Sep 17 00:00:00 2001
+From 139e917595bf81ece7292d968372fb871d1f33da Mon Sep 17 00:00:00 2001
 From: Dominique Martinet <asmadeus@codewreck.org>
 Date: Thu, 2 Jun 2011 12:50:50 +0200
-Subject: [PATCH 2/5] Android: use a custom poll(), fixes HTTP playback
+Subject: [PATCH 2/6] Android: use a custom poll(), fixes HTTP playback
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
@@ -10,10 +10,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  2 files changed, 72 insertions(+), 1 deletions(-)
 
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 81a0d37..ed000ef 100644
+index bd711c6..3ca0988 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -272,7 +272,7 @@ struct pollfd
+@@ -277,7 +277,7 @@ struct pollfd
  #endif
  #ifndef HAVE_POLL
  # define poll(a, b, c) vlc_poll(a, b, c)
@@ -105,5 +105,5 @@ index 24335c2..aa2e260 100644
  # include <vlc_network.h>
  
 -- 
-1.7.6
+1.7.4.1
 
