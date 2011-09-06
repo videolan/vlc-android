@@ -338,8 +338,8 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can use SLES
     {
-        libvlc_audio_set_callbacks(mp, aout_open, aout_play, NULL, NULL, NULL,
-                                   (void*) myJavaLibVLC);
+        //libvlc_audio_set_callbacks(mp, aout_open, aout_play, NULL, NULL, NULL,
+        //                           (void*) myJavaLibVLC);
     }
 
     /* No need to keep the media now */
