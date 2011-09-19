@@ -138,15 +138,11 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 
 	public void onRepeatClick(View view) {
 		// mAudioController.repeat();
-		Util.toaster("not implemented :(");
+		Util.toaster(R.string.notavailable);
 	}
 
 	public void onShuffleClick(View view) {
 		// mAudioController.shuffle();
-		Util.toaster("not implemented :(");
+		Util.toaster(R.string.notavailable);
 	}
-
-
-
-
 }

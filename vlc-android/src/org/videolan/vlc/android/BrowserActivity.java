@@ -63,7 +63,7 @@ public class BrowserActivity extends ListActivity {
 			mScollStates.push(new ScrollState(index, top));
 			openDir(file);
 		} else {
-			Util.toaster("No Subdirectory");
+			Util.toaster(R.string.nosubdirectory);
 		}
 	}
 

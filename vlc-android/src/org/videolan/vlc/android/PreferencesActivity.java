@@ -38,8 +38,8 @@ public class PreferencesActivity extends PreferenceActivity {
 
 			public boolean onPreferenceClick(Preference preference) {
 				new AlertDialog.Builder(PreferencesActivity.this)
-				.setTitle("Clear")
-				.setMessage("Do you really want to whatever?")
+				.setTitle(R.string.clear_history)
+				.setMessage(R.string.validation)
 				.setIcon(android.R.drawable.ic_dialog_alert)
 				.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

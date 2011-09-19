@@ -189,7 +189,7 @@ public class VideoPlayerActivity extends Activity {
 			break;
 		}
 
-		showInfo("locked", 500);
+		showInfo(R.string.locked, 500);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class VideoPlayerActivity extends Activity {
 	 */
 	private void unlockScreen() {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		showInfo("unlocked", 500);
+		showInfo(R.string.unlocked, 500);
 	}
 
 	/**
@@ -208,6 +208,13 @@ public class VideoPlayerActivity extends Activity {
 	private void showInfo(String text, int duration) {
 		mInfo.setVisibility(View.VISIBLE);
 		mInfo.setText(text);
+		mHandler.removeMessages(FADE_OUT_INFO);
+		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
+	}
+
+	private void showInfo(int textid, int duration) {
+		mInfo.setVisibility(View.VISIBLE);
+		mInfo.setText(textid);
 		mHandler.removeMessages(FADE_OUT_INFO);
 		mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
 	}
@@ -430,13 +437,13 @@ public class VideoPlayerActivity extends Activity {
 			changeSurfaceSize();
 			switch (mCurrentSize) {
 			case SURFACE_FIT_HORIZONTAL:
-				showInfo("fit horizontal", 500);
+				showInfo(R.string.surface_fit_horizontal, 500);
 				break;
 			case SURFACE_FIT_VERTICAL:
-				showInfo("fit vertival", 500);
+				showInfo(R.string.surface_fit_vertical, 500);
 				break;
 			case SURFACE_FILL:
-				showInfo("fill", 500);
+				showInfo(R.string.surface_fill, 500);
 				break;
 			case SURFACE_16_9:
 				showInfo("16:9", 500);
@@ -445,7 +452,7 @@ public class VideoPlayerActivity extends Activity {
 				showInfo("4:3", 500);
 				break;
 			case SURFACE_ORIGINAL:
-				showInfo("original", 500);
+				showInfo(R.string.surface_original, 500);
 				break;
 			}
 			showOverlay();

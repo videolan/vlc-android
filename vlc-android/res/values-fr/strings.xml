@@ -43,4 +43,13 @@
     <string name="loading">Chargement...</string>
     <string name="nomedia">Pas de fichiers multimédia</string>
     <string name="mediafiles">Fichiers multimédia</string>
+    <string name="notavailable">Non disponible</string>
+    <string name="nosubdirectory">Pas de sous-répertoires</string>
+    <string name="validation">Etes-vous sûr ?</string>
+    <string name="locked">Verrouillé</string>
+    <string name="unlocked">Déverrouillé</string>
+    <string name="surface_fit_horizontal">Ajuster horizontalement</string>
+    <string name="surface_fit_vertical">Ajuster verticalement</string>
+    <string name="surface_fill">Etirer</string>
+    <string name="surface_original">Centrer</string>
 </resources>
