@@ -16,7 +16,7 @@
     	android:textSize="20dip" 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
-    	android:text="## DIRECTORY ##"
+    	android:text="@string/directory"
     	android:paddingLeft="10dip"
     	android:singleLine="true"/>
 </LinearLayout>

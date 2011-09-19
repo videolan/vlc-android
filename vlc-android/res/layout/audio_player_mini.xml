@@ -35,7 +35,7 @@
 				android:id="@+id/title"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Title"
+				android:text="@string/title"
 				android:textSize="20dip"
 				android:textColor="#ffffff"
 				android:singleLine="true"/>
@@ -43,7 +43,7 @@
 				android:id="@+id/artist"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Artist"
+				android:text="@string/artist"
 				android:textSize="16dip"
 				android:textColor="#888888"
 				android:singleLine="true"/>

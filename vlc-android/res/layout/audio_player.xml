@@ -67,7 +67,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:textSize="18dip"
-			android:text="0:00"
+			android:text="@string/time_0"
 			android:textColor="#ffffff" 
 			android:id="@+id/time"/>
 		<TextView
@@ -75,7 +75,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:textSize="18dip"
-			android:text="0:00"
+			android:text="@string/time_0"
 			android:gravity="right"
 			android:textColor="#ffffff" 
 			android:id="@+id/length"/>
@@ -95,7 +95,7 @@
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Title"
+		android:text="@string/title"
 		android:textColor="#ffffff"
 		android:textSize="20dip"
 		android:paddingLeft="20dip"
@@ -107,7 +107,7 @@
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Artist"
+		android:text="@string/artist"
 		android:textColor="#888888"
 		android:textSize="18dip"
 		android:paddingLeft="20dip"
@@ -119,7 +119,7 @@
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Album"
+		android:text="@string/album"
 		android:textColor="#888888"
 		android:textSize="18dip"
 		android:paddingLeft="20dip"

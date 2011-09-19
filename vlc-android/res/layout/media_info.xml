@@ -54,7 +54,7 @@
 	       			android:layout_marginTop="10dip"
 	       			android:layout_marginLeft="5dip"
 	       			android:textAppearance="?android:attr/textAppearanceMedium"
-	       			android:text="Stream 0"/>
+	       			android:text="@string/stream_0"/>
 	       		<TextView 
 		        	android:layout_height="wrap_content" 
 	        		android:layout_width="wrap_content" 
@@ -67,7 +67,7 @@
 	       			android:layout_marginTop="10dip"
 	       			android:layout_marginLeft="5dip"
 	       			android:textAppearance="?android:attr/textAppearanceMedium"
-	       			android:text="Stream 1"/>
+	       			android:text="@string/stream_1"/>
 	       		<TextView 
 		        	android:layout_height="wrap_content" 
 	        		android:layout_width="wrap_content" 
@@ -80,7 +80,7 @@
 	       			android:layout_marginTop="10dip"
 	       			android:layout_marginLeft="5dip"
 	       			android:textAppearance="?android:attr/textAppearanceMedium"
-	       			android:text="Stream 2"/>	
+	       			android:text="@string/stream_2"/>
 	       		<TextView 
 		        	android:layout_height="wrap_content" 
 	        		android:layout_width="wrap_content" 

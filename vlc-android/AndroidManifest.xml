@@ -68,7 +68,7 @@
 	        	android:name=".AudioService"/>
 	        <activity
 	        	android:name="BrowserActivity"
-	        	android:label="Media Directories"
+	        	android:label="@string/mediafiles"
 	        	android:theme="@android:style/Theme">
 	        </activity>
 	        <receiver

@@ -13,7 +13,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:textSize="15dip"
-			android:text="0:00"
+			android:text="@string/time_0"
 			android:textColor="#ffffff"
 			android:paddingLeft="10dip"/>
 		<TextView
@@ -22,7 +22,7 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:textSize="15dip"
-			android:text="0:00"
+			android:text="@string/time_0"
 			android:gravity="right"
 			android:textColor="#ffffff"
 			android:paddingRight="10dip"/>

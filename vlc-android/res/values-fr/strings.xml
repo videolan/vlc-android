@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, VLC!</string>
+    <string name="filebrowser_sdfail">Impossible de lire la Carte SD. Veuillez vérifier qu\'elle est montée correctement.</string>
+    <string name="filebrowser_root">&lt;racine&gt;</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Sélection des médias</string>
+    <string name="preferences">Préférences</string>
+    <string name="about">A Propos</string>
+    <string name="ml_no_media_dir">Pas de répertoire multimédia</string>
+    <string name="sortby">Trier par...</string>
+    <string name="sortby_name">Nom</string>
+    <string name="sortby_length">Durée</string>
+    <string name="searchable_hint">Recherche...</string>
+    <string name="searchable_label">VLC Media Player</string>
+    <string name="search_history">Historique</string>
+    <string name="clear_history">Vider l\'historique</string>
+    <string name="search_found_results">%1$d résultats trouvés</string>
+    <string name="show_player">Afficher Lecteur</string>
+    <string name="hide_mini_player">Cacher Mini-lecteur</string>
+    <string name="play">Lecture</string>
+    <string name="pause">Pause</string>
+    <string name="close">Fermer</string>
+    <string name="not_show_again">Ne plus afficher ce message.</string>
+    <string name="beta_warning">Ceci est une version alpha\n(NON STABLE!).</string>
+    <string name="info_title">Information</string>
+    <string name="unknown_artist">Artiste inconnu</string>
+    <string name="unknown_album">Album inconnu</string>
+    <string name="songs">Chansons</string>
+    <string name="artists">Artistes</string>
+    <string name="albums">Albums</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Listes</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Titre</string>
+    <string name="artist">Artiste</string>
+    <string name="album">Album</string>
+    <string name="directory">Répertoire</string>
+    <string name="directories">Répertoires</string>
+    <string name="stream_0">Flux 0</string>
+    <string name="stream_1">Flux 1</string>
+    <string name="stream_2">Flux 2</string>
+    <string name="loading">Chargement...</string>
+    <string name="nomedia">Pas de fichiers multimédia</string>
+    <string name="mediafiles">Fichiers multimédia</string>
+</resources>

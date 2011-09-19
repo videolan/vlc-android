@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, vlc!</string>
-    <string name="app_name">VLC media player</string>
+    <string name="app_name" translatable="false">VLC Media Player</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_root">&lt;root&gt;</string>
     <string name="filebrowser_parent">..</string>
@@ -13,7 +13,7 @@
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
     <string name="searchable_hint">Search...</string>
-    <string name="searchable_label">VLC media player</string>
+    <string name="searchable_label">VLC Media Player</string>
     <string name="search_history">History</string>
     <string name="clear_history">Clear History</string>
     <string name="search_found_results">%1$d Results Found</string>
@@ -27,4 +27,20 @@
     <string name="info_title">Information</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
+    <string name="songs">Songs</string>
+    <string name="artists">Artists</string>
+    <string name="albums">Albums</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Playlists</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Title</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="directory">Directory</string>
+    <string name="stream_0">Stream 0</string>
+    <string name="stream_1">Stream 1</string>
+    <string name="stream_2">Stream 2</string>
+    <string name="loading">Loading...</string>
+    <string name="nomedia">No media files</string>
+    <string name="mediafiles">Media files</string>
 </resources>
