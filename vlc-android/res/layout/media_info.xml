@@ -60,7 +60,7 @@
 	        		android:layout_width="wrap_content" 
 	        		android:layout_marginLeft="20dip"
 	       			android:textAppearance="?android:attr/textAppearanceSmall"
-	       			android:text="Type: Video\nCodec: MPEG-4 Video (XVID)\nResolution: 640x352\nFrame rate: 25"/>
+	       			/>
 	       		<TextView 
 		        	android:layout_height="wrap_content" 
 	        		android:layout_width="wrap_content" 
@@ -73,7 +73,7 @@
 	        		android:layout_width="wrap_content" 
 	        		android:layout_marginLeft="20dip"
 	       			android:textAppearance="?android:attr/textAppearanceSmall"
-	       			android:text="Type: Audio\nCodec: MPEG Audio layer 1/2/3 (mpga)\nChannels: Stereo\nSample rate: 48000 Hz\nBitrate: 128 kb/s"/>
+	       			/>
 	       		<TextView 
 		        	android:layout_height="wrap_content" 
 	        		android:layout_width="wrap_content" 
@@ -86,7 +86,6 @@
 	        		android:layout_width="wrap_content" 
 	        		android:layout_marginLeft="20dip"
 	       			android:textAppearance="?android:attr/textAppearanceSmall"
-	       			android:text="Type: Subtitle\nCodec: Text subtitles with various tags (subt)"
 	       			android:layout_marginBottom="30dip"/>
 		    </LinearLayout>
 	    </LinearLayout>
