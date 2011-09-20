@@ -37,6 +37,7 @@
     <string name="artist">Artist</string>
     <string name="album">Album</string>
     <string name="directory">Directory</string>
+    <string name="directories">Directories</string>
     <string name="stream_0">Stream 0</string>
     <string name="stream_1">Stream 1</string>
     <string name="stream_2">Stream 2</string>
