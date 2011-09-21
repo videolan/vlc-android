@@ -5,6 +5,9 @@ VLC_APK=vlc-android/bin/VLC-debug.apk
 LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
+# Verbose level: -q -v or nothing (default)
+VERBOSE ?= -v
+
 all: vlc.apk
 
 VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v stats|tr \\\\n \ `
@@ -49,7 +52,7 @@ vlc-android/local.properties:
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES) vlc-android/local.properties
 	@echo "=== Building APK =="
-	@cd vlc-android && ant -q debug
+	@cd vlc-android && ant $(VERBOSE) debug
 
 libvlcjni: $(LIBVLCJNI)
 
