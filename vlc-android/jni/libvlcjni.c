@@ -424,7 +424,7 @@ jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobjec
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
-        return;
+        return 0;
     }
 
     /* Create a media player playing environment */

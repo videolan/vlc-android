@@ -32,7 +32,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     if (p_sys == NULL)
     {
         LOGE("Couldn't create the thumbnailer data structure!");
-        return;
+        return NULL;
     }
     p_sys->b_hasThumb = 0;
     p_sys->i_nbReceivedFrames = 0;

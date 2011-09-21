@@ -26,7 +26,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if (!p_sys)
     {
         *opaque = NULL;
-        return; // OOM
+        return -1; // OOM
     }
 
     // Keep a reference to our Java object and return aout_sys_t
@@ -41,7 +41,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if ((*myVm)->AttachCurrentThread (myVm, &p_env, NULL) != 0)
     {
         LOGE("Couldn't attach the display thread to the JVM !");
-        return;
+        return -1;
     }
     p_sys->p_env = p_env;
 
@@ -55,7 +55,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         (*myVm)->DetachCurrentThread (myVm);
         *opaque = NULL;
         free (p_sys);
-        return;
+        return -1;
     }
 
     LOGV ("Fixed number of channels to 2, number of samples to %d", FRAME_SIZE);
@@ -72,7 +72,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         (*p_env)->ExceptionClear (p_env);
         *opaque = NULL;
         free (p_sys);
-        return;
+        return -1;
     }
 
     /* Create a new byte array to store the audio data. */
@@ -86,7 +86,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         (*myVm)->DetachCurrentThread (myVm);
         *opaque = NULL;
         free (p_sys);
-        return;
+        return -1;
     }
 
     /* Use a global reference to not reallocate memory each time we run
@@ -98,7 +98,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         (*myVm)->DetachCurrentThread (myVm);
         *opaque = NULL;
         free (p_sys);
-        return;
+        return -1;
     }
 
     /* The local reference is no longer useful. */
