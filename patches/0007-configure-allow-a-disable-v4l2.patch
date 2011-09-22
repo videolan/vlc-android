@@ -1,4 +1,4 @@
-From fb8849aaa02f601296bed6ff4da683ef3d703418 Mon Sep 17 00:00:00 2001
+From 6d4a21daf3c436ce5f5d43aa724b75ffed73040a Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 22 Sep 2011 18:14:31 +0200
 Subject: [PATCH 7/7] configure: allow a --disable-v4l2
@@ -9,7 +9,7 @@ This is needed because some distro have broken headers
  1 files changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 0746cc9..c39f7ac 100644
+index 0746cc9..2125d1f 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1954,26 +1954,30 @@ fi
@@ -32,7 +32,7 @@ index 0746cc9..c39f7ac 100644
 -      AC_DEFINE(HAVE_LIBV4L2, 1, [Define to 1 if libv4l2 is available])
 -    ], [
 -      AC_MSG_WARN([${LIBV4L2_PKG_ERRORS}])
-+if test "{enable_v4l2}" = "yes" ; then
++if test "{enable_v4l2}" != "no" ; then
 +    AC_CHECK_HEADERS([linux/videodev2.h sys/videoio.h], [
 +      have_v4l2="yes"
      ])
