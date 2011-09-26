@@ -1,14 +1,14 @@
-From 67d037e3d1c3fc06edd651ba4738d68a9b5d2b72 Mon Sep 17 00:00:00 2001
+From 501cf49d25e8d89b9b73166ade40a25c4739ffe1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Mon, 5 Sep 2011 22:25:10 +0200
+Date: Mon, 26 Sep 2011 22:57:59 +0200
 Subject: [PATCH 5/7] i420->RGB convertor in NEON
 
 ---
  modules/arm_neon/Modules.am    |    8 ++
  modules/arm_neon/chroma_neon.h |    4 +
- modules/arm_neon/i420_rgb.S    |  206 ++++++++++++++++++++++++++++++++++++++++
+ modules/arm_neon/i420_rgb.S    |  209 ++++++++++++++++++++++++++++++++++++++++
  modules/arm_neon/i420_rgb.c    |  147 ++++++++++++++++++++++++++++
- 4 files changed, 365 insertions(+), 0 deletions(-)
+ 4 files changed, 368 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
  create mode 100644 modules/arm_neon/i420_rgb.c
 
@@ -46,10 +46,10 @@ index 204c5f1..81de86a 100644
 +                    const struct yuv_planes *const in, int width, int height);
 diff --git a/modules/arm_neon/i420_rgb.S b/modules/arm_neon/i420_rgb.S
 new file mode 100644
-index 0000000..38ba599
+index 0000000..cc0caf3
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.S
-@@ -0,0 +1,206 @@
+@@ -0,0 +1,209 @@
 + @*****************************************************************************
 + @ i420_rgb.S : ARM NEONv1 I420 to RGB chroma conversion
 + @*****************************************************************************
@@ -132,7 +132,7 @@ index 0000000..38ba599
 +i420_rgb_neon:
 +	push		{r4-r8,r10-r11,lr}
 +	vpush		{q4-q7}
-+	
++
 +	/* load arguments */
 +	ldmia		r0,	{O1, OPITCH}
 +	ldmia		r1,	{Y1, U, V, YPITCH}
@@ -152,7 +152,8 @@ index 0000000..38ba599
 +	vld1.s16	{d6[], d7[]}, [OPAD]!
 +	vld1.s16	{d8[], d9[]}, [OPAD]!
 +	vld1.s16	{d10[], d11[]}, [OPAD]!
-+	
++	vmov.u8		alpha1, #255
++
 +	/* init padding */
 +	cmp			HEIGHT,	#0
 +	sub			OPAD,	OPITCH,	WIDTH, lsl #2
@@ -208,6 +209,7 @@ index 0000000..38ba599
 +
 +	PLD	[Y1]
 +
++	vmov.u8	alpha2, #255
 +	vzip.u8	red1, red2
 +	vzip.u8	green1, green2
 +	vzip.u8	blue1, blue2
@@ -238,6 +240,7 @@ index 0000000..38ba599
 +
 +	PLD	[Y2]
 +
++	vmov.u8	alpha2, #255
 +	vzip.u8	red1, red2
 +	vzip.u8	green1, green2
 +	vzip.u8	blue1, blue2
@@ -258,7 +261,7 @@ index 0000000..38ba599
 +	b		loop_row
 diff --git a/modules/arm_neon/i420_rgb.c b/modules/arm_neon/i420_rgb.c
 new file mode 100644
-index 0000000..b0b0334
+index 0000000..47b37ea
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.c
 @@ -0,0 +1,147 @@
@@ -348,7 +351,7 @@ index 0000000..b0b0334
 +            if (unlikely(G > 255)) G = 255;
 +            if (unlikely(B > 255)) B = 255;
 +
-+            ((uint32_t*)out)[d + i] = R | (G<<8) | (B<<16);
++            ((uint32_t*)out)[d + i] = R | (G<<8) | (B<<16) | (0xff<<24);
 +        }
 +    }
 +}*/
