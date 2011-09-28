@@ -4,3 +4,4 @@ libs/armeabi/libvlcjni.so
 obj
 local.properties
 jni/libvlcjni.h
+.settings
