@@ -123,6 +123,7 @@ public class VideoPlayerActivity extends Activity {
 		EventManager em = EventManager.getIntance();
 		em.addHandler(eventHandler);
 
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		load();
 
 	}
@@ -196,7 +197,7 @@ public class VideoPlayerActivity extends Activity {
 	 * Remove screen lock
 	 */
 	private void unlockScreen() {
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		showInfo(R.string.unlocked, 500);
 	}
 
