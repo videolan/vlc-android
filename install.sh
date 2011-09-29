@@ -20,10 +20,12 @@ export ANDROID_SYS_HEADERS=${PWD}/android-headers
 echo "Fetching Android libraries for linking"
 # Libraries from any froyo/gingerbread device/emulator should work
 # fine, since the symbols used should be available on most of them.
-wget http://download.cyanogenmod.com/get/update-cm-7.0.3-N1-signed.zip
-unzip update-cm-7.0.3-N1-signed.zip system/lib/*
-mv system/lib android-libs
-rmdir system
+if [ ! -f "update-cm-7.0.3-N1-signed.zip" ]; then
+    wget http://download.cyanogenmod.com/get/update-cm-7.0.3-N1-signed.zip
+    unzip update-cm-7.0.3-N1-signed.zip system/lib/*
+    mv system/lib android-libs
+    rmdir system
+fi
 export ANDROID_LIBS=${PWD}/android-libs
 
 echo "Cloning and updating VLC"
