@@ -1,14 +1,14 @@
-From 501cf49d25e8d89b9b73166ade40a25c4739ffe1 Mon Sep 17 00:00:00 2001
+From 0b65ebe8a9a686d530c06dcd5f2a11740ff15179 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Mon, 26 Sep 2011 22:57:59 +0200
+Date: Sun, 2 Oct 2011 23:40:13 +0200
 Subject: [PATCH 5/7] i420->RGB convertor in NEON
 
 ---
- modules/arm_neon/Modules.am    |    8 ++
- modules/arm_neon/chroma_neon.h |    4 +
- modules/arm_neon/i420_rgb.S    |  209 ++++++++++++++++++++++++++++++++++++++++
- modules/arm_neon/i420_rgb.c    |  147 ++++++++++++++++++++++++++++
- 4 files changed, 368 insertions(+), 0 deletions(-)
+ modules/arm_neon/Modules.am    |    8 +
+ modules/arm_neon/chroma_neon.h |    8 +
+ modules/arm_neon/i420_rgb.S    |  340 ++++++++++++++++++++++++++++++++++++++++
+ modules/arm_neon/i420_rgb.c    |  158 +++++++++++++++++++
+ 4 files changed, 514 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
  create mode 100644 modules/arm_neon/i420_rgb.c
 
@@ -33,23 +33,27 @@ index 83576eb..61c7703 100644
 +	libi420_rgb_neon_plugin.la \
  	$(NULL)
 diff --git a/modules/arm_neon/chroma_neon.h b/modules/arm_neon/chroma_neon.h
-index 204c5f1..81de86a 100644
+index 204c5f1..86595b9 100644
 --- a/modules/arm_neon/chroma_neon.h
 +++ b/modules/arm_neon/chroma_neon.h
-@@ -64,3 +64,7 @@ void yuyv_i422_neon (struct yuv_planes *const out,
+@@ -64,3 +64,11 @@ void yuyv_i422_neon (struct yuv_planes *const out,
  /* UYVY to I422 conversion. */
  void uyvy_i422_neon (struct yuv_planes *const out,
                       const struct yuv_pack *const in, int width, int height);
 +
-+/* I420 to YUYV conversion. */
++/* I420 to RGBA conversion. */
 +void i420_rgb_neon (struct yuv_pack *const out,
++                    const struct yuv_planes *const in, int width, int height);
++
++/* NV21 to RGBA conversion. */
++void nv21_rgb_neon (struct yuv_pack *const out,
 +                    const struct yuv_planes *const in, int width, int height);
 diff --git a/modules/arm_neon/i420_rgb.S b/modules/arm_neon/i420_rgb.S
 new file mode 100644
-index 0000000..cc0caf3
+index 0000000..ec3a1b4
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.S
-@@ -0,0 +1,209 @@
+@@ -0,0 +1,340 @@
 + @*****************************************************************************
 + @ i420_rgb.S : ARM NEONv1 I420 to RGB chroma conversion
 + @*****************************************************************************
@@ -159,7 +163,7 @@ index 0000000..cc0caf3
 +	sub			OPAD,	OPITCH,	WIDTH, lsl #2
 +	sub			YPAD,	YPITCH,	WIDTH
 +
-+loop_row:
++loopi420_row:
 +	movgts	COUNT,	WIDTH
 +	add		O2,	O1,	OPITCH
 +	add		Y2,	Y1,	YPITCH
@@ -167,7 +171,7 @@ index 0000000..cc0caf3
 +	vpople	{q4-q7}
 +	pople	{r4-r8,r10-r11,pc}
 +
-+loop_col:
++loopi420_col:
 +
 +	/* Common U & V */
 +
@@ -250,7 +254,7 @@ index 0000000..cc0caf3
 +
 +	/* next columns (x16) */
 +	subs	COUNT,	COUNT,	#16
-+	bgt		loop_col
++	bgt		loopi420_col
 +
 +	/* next rows (x2) */
 +	subs	HEIGHT,	#2
@@ -258,13 +262,144 @@ index 0000000..cc0caf3
 +	add		Y1,	Y2,	YPAD
 +	add		U,	U,	YPAD,	lsr #1
 +	add		V,	V,	YPAD,	lsr #1
-+	b		loop_row
++	b		loopi420_row
++
++
++	.global nv21_rgb_neon
++	.type	nv21_rgb_neon, %function
++nv21_rgb_neon:
++	push		{r4-r8,r10-r11,lr}
++	vpush		{q4-q7}
++
++	/* load arguments */
++	ldmia		r0,	{O1, OPITCH}
++	ldmia		r1,	{Y1, U, V, YPITCH}
++
++	/* round the width to be a multiple of 16 */
++	ands		OPAD, WIDTH, #15
++	sub			WIDTH, WIDTH, OPAD
++	addne		WIDTH, WIDTH, #16
++
++	/* init constants (scale value by 64) */
++	vmov.u8		coefY, #74
++	vmov.u8		coefRV, #115
++	vmov.u8		coefGU, #14
++	vmov.u8		coefGV, #34
++	vmov.u8		coefBU, #135
++	adr			OPAD, coefficients
++	vld1.s16	{d6[], d7[]}, [OPAD]!
++	vld1.s16	{d8[], d9[]}, [OPAD]!
++	vld1.s16	{d10[], d11[]}, [OPAD]!
++	vmov.u8		alpha1, #255
++
++	/* init padding */
++	cmp			HEIGHT,	#0
++	sub			OPAD,	OPITCH,	WIDTH, lsl #2
++	sub			YPAD,	YPITCH,	WIDTH
++
++loopnv21_row:
++	movgts	COUNT,	WIDTH
++	add		O2,	O1,	OPITCH
++	add		Y2,	Y1,	YPITCH
++	/* exit if all rows have been processed */
++	vpople	{q4-q7}
++	pople	{r4-r8,r10-r11,pc}
++
++loopnv21_col:
++
++	/* Common U & V */
++
++	vld2.u8	{u,v}, [U,:128]!
++
++	vmull.u8	chro_r, u, coefRV
++	vmull.u8	chro_g, v, coefGU
++	vmlal.u8	chro_g, u, coefGV
++	vmull.u8	chro_b, v, coefBU
++
++	vadd.s16	chro_r, Rc, chro_r
++	vsub.s16	chro_g, Gc, chro_g
++	vadd.s16	chro_b, Bc, chro_b
++
++	PLD	[U]
++
++	/* Y Top Row */
++	vld2.u8	{y1,y2}, [Y1,:128]!
++
++	/* y1 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y1, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red1, red, #6
++	vqrshrun.s16	green1, green, #6
++	vqrshrun.s16	blue1, blue, #6
++
++	/* y2 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y2, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red2, red, #6
++	vqrshrun.s16	green2, green, #6
++	vqrshrun.s16	blue2, blue, #6
++
++	PLD	[Y1]
++
++	vmov.u8	alpha2, #255
++	vzip.u8	red1, red2
++	vzip.u8	green1, green2
++	vzip.u8	blue1, blue2
++
++	vst4.u8		{red1,green1,blue1,alpha1}, [O1,:128]!
++	vst4.u8		{red2,green2,blue2,alpha2}, [O1,:128]!
++
++	/* Y Bottom Row */
++	vld2.u8	{y1,y2}, [Y2,:128]!
++
++	/* y1 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y1, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red1, red, #6
++	vqrshrun.s16	green1, green, #6
++	vqrshrun.s16	blue1, blue, #6
++
++	/* y2 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y2, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red2, red, #6
++	vqrshrun.s16	green2, green, #6
++	vqrshrun.s16	blue2, blue, #6
++
++	PLD	[Y2]
++
++	vmov.u8	alpha2, #255
++	vzip.u8	red1, red2
++	vzip.u8	green1, green2
++	vzip.u8	blue1, blue2
++
++	vst4.u8		{red1,green1,blue1,alpha1}, [O2,:128]!
++	vst4.u8		{red2,green2,blue2,alpha2}, [O2,:128]!
++
++	/* next columns (x16) */
++	subs	COUNT,	COUNT,	#16
++	bgt		loopnv21_col
++
++	/* next rows (x2) */
++	subs	HEIGHT,	#2
++	add		O1,	O2,	OPAD
++	add		Y1,	Y2,	YPAD
++	add		U,	U,	YPAD
++	b		loopnv21_row
 diff --git a/modules/arm_neon/i420_rgb.c b/modules/arm_neon/i420_rgb.c
 new file mode 100644
-index 0000000..47b37ea
+index 0000000..4efa60c
 --- /dev/null
 +++ b/modules/arm_neon/i420_rgb.c
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,158 @@
 +/*****************************************************************************
 + * i420_rgb.c : ARM NEONv1 YUV 4:2:0 to RGB32 chroma conversion for VLC
 + *****************************************************************************
@@ -363,7 +498,15 @@ index 0000000..47b37ea
 +    i420_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
 +}
 +
++static void NV21_RGBA (filter_t *filter, picture_t *src, picture_t *dst)
++{
++    struct yuv_pack out = { dst->p->p_pixels, dst->p->i_pitch };
++    struct yuv_planes in = { src->Y_PIXELS, src->U_PIXELS, src->V_PIXELS, src->Y_PITCH };
++    nv21_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
++}
++
 +VIDEO_FILTER_WRAPPER (I420_RGBA)
++VIDEO_FILTER_WRAPPER (NV21_RGBA)
 +
 +static int Open (vlc_object_t *obj)
 +{
@@ -374,13 +517,16 @@ index 0000000..47b37ea
 +     || (filter->fmt_in.video.i_height != filter->fmt_out.video.i_height))
 +        return VLC_EGENERIC;
 +
-+    switch (filter->fmt_in.video.i_chroma)
++    switch (filter->fmt_out.video.i_chroma)
 +    {
-+        case VLC_CODEC_I420:
-+            switch (filter->fmt_out.video.i_chroma)
++        case VLC_CODEC_RGB32:
++            switch (filter->fmt_in.video.i_chroma)
 +            {
-+                case VLC_CODEC_RGB32:
++                case VLC_CODEC_I420:
 +                    filter->pf_video_filter = I420_RGBA_Filter;
++                    break;
++                case VLC_CODEC_NV21:
++                    filter->pf_video_filter = NV21_RGBA_Filter;
 +                    break;
 +                default:
 +                    return VLC_EGENERIC;
