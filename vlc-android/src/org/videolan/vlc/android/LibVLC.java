@@ -2,11 +2,14 @@ package org.videolan.vlc.android;
 
 import android.util.Log;
 import android.view.Surface;
+import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
     private static LibVLC sInstance;
+    private static SharedPreferences.OnSharedPreferenceChangeListener sListener;
 
     /** libVLC instance C pointer */
     private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
@@ -52,9 +55,33 @@ public class LibVLC {
         	sInstance = new LibVLC();
         	sInstance.init();
 
+            if (sListener == null) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
+                /* This needs to be stored in a local field, to avoid garbage collection, since
+                 * the shared prefs only keep a weak reference to it. */
+                sListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+                    {
+                        if (key.equals("enable_iomx")) {
+                            try {
+                                sInstance.reinit();
+                            } catch (LibVlcException lve) {
+                                Log.e(TAG, "Unable to reinit libvlc: " + lve);
+                            }
+                        }
+                    }
+                };
+                prefs.registerOnSharedPreferenceChangeListener(sListener);
+            }
         }
 
     	return sInstance;
+    }
+
+    public void reinit() throws LibVlcException
+    {
+        destroy();
+        init();
     }
 
 
@@ -94,7 +121,8 @@ public class LibVLC {
     {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-        	nativeInit();
+        	boolean useIomx = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance()).getBoolean("enable_iomx", false);
+        	nativeInit(useIomx);
             setEventManager(EventManager.getIntance());
         	mIsInitialized = true;
         }
@@ -181,7 +209,7 @@ public class LibVLC {
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit() throws LibVlcException;
+    private native void nativeInit(boolean useIomx) throws LibVlcException;
 
     /**
      * Close the libvlc C library

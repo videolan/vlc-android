@@ -14,4 +14,10 @@
         	android:title="@string/clear_history">
         </PreferenceScreen>
     </PreferenceCategory>
+    	<PreferenceCategory android:title="@string/advanced_prefs_category">
+		<CheckBoxPreference
+			android:key="enable_iomx"
+        	android:title="@string/enable_iomx">
+        </CheckBoxPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

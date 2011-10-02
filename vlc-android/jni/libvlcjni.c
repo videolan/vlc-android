@@ -185,11 +185,13 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
 {
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-drop-late-frames"};
-    const size_t argc = sizeof(argv) / sizeof(*argv);
+                          "--no-drop-late-frames", "--codec", "iomx,all"};
+    size_t argc = sizeof(argv) / sizeof(*argv);
+    if (!enable_iomx)
+        argc -= 2;
 
     libvlc_instance_t *instance = libvlc_new(argc, argv);
 
