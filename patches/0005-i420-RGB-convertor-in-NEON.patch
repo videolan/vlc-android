@@ -1,30 +1,33 @@
-From 07aa86593ef0035b44e00b4fc54eab31fc686bca Mon Sep 17 00:00:00 2001
+From b5563fa461a6fac1a9961306e55d3c7266a17f1b Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Tue, 4 Oct 2011 22:03:43 +0200
+Date: Tue, 4 Oct 2011 22:21:32 +0200
 Subject: [PATCH] i420->RGB convertor in NEON
 
 ---
- modules/arm_neon/Modules.am    |    9 ++
- modules/arm_neon/chroma_neon.h |    8 ++
+ modules/arm_neon/Modules.am    |   10 ++
+ modules/arm_neon/chroma_neon.h |   12 +++
  modules/arm_neon/i420_rgb.S    |  209 ++++++++++++++++++++++++++++++++++++++++
+ modules/arm_neon/nv12_rgb.S    |  206 +++++++++++++++++++++++++++++++++++++++
  modules/arm_neon/nv21_rgb.S    |  206 +++++++++++++++++++++++++++++++++++++++
- modules/arm_neon/yuv_rgb.c     |  158 ++++++++++++++++++++++++++++++
- 5 files changed, 590 insertions(+), 0 deletions(-)
+ modules/arm_neon/yuv_rgb.c     |  169 ++++++++++++++++++++++++++++++++
+ 6 files changed, 812 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
+ create mode 100644 modules/arm_neon/nv12_rgb.S
  create mode 100644 modules/arm_neon/nv21_rgb.S
  create mode 100644 modules/arm_neon/yuv_rgb.c
 
 diff --git a/modules/arm_neon/Modules.am b/modules/arm_neon/Modules.am
-index 83576eb..30eee29 100644
+index 83576eb..9dfd4ab 100644
 --- a/modules/arm_neon/Modules.am
 +++ b/modules/arm_neon/Modules.am
-@@ -18,7 +18,16 @@ libchroma_yuv_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
+@@ -18,7 +18,17 @@ libchroma_yuv_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
  libchroma_yuv_neon_plugin_la_LIBADD = $(AM_LIBADD)
  libchroma_yuv_neon_plugin_la_DEPENDENCIES =
  
 +libyuv_rgb_neon_plugin_la_SOURCES = \
 +	i420_rgb.S \
 +	nv21_rgb.S \
++	nv12_rgb.S \
 +	yuv_rgb.c
 +libyuv_rgb_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
 +libyuv_rgb_neon_plugin_la_LIBADD = $(AM_LIBADD)
@@ -36,10 +39,10 @@ index 83576eb..30eee29 100644
 +	libyuv_rgb_neon_plugin.la \
  	$(NULL)
 diff --git a/modules/arm_neon/chroma_neon.h b/modules/arm_neon/chroma_neon.h
-index 204c5f1..86595b9 100644
+index 204c5f1..3e867e3 100644
 --- a/modules/arm_neon/chroma_neon.h
 +++ b/modules/arm_neon/chroma_neon.h
-@@ -64,3 +64,11 @@ void yuyv_i422_neon (struct yuv_planes *const out,
+@@ -64,3 +64,15 @@ void yuyv_i422_neon (struct yuv_planes *const out,
  /* UYVY to I422 conversion. */
  void uyvy_i422_neon (struct yuv_planes *const out,
                       const struct yuv_pack *const in, int width, int height);
@@ -50,6 +53,10 @@ index 204c5f1..86595b9 100644
 +
 +/* NV21 to RGBA conversion. */
 +void nv21_rgb_neon (struct yuv_pack *const out,
++                    const struct yuv_planes *const in, int width, int height);
++
++/* NV12 to RGBA conversion. */
++void nv12_rgb_neon (struct yuv_pack *const out,
 +                    const struct yuv_planes *const in, int width, int height);
 diff --git a/modules/arm_neon/i420_rgb.S b/modules/arm_neon/i420_rgb.S
 new file mode 100644
@@ -266,6 +273,218 @@ index 0000000..cc0caf3
 +	add		U,	U,	YPAD,	lsr #1
 +	add		V,	V,	YPAD,	lsr #1
 +	b		loop_row
+diff --git a/modules/arm_neon/nv12_rgb.S b/modules/arm_neon/nv12_rgb.S
+new file mode 100644
+index 0000000..f4bb510
+--- /dev/null
++++ b/modules/arm_neon/nv12_rgb.S
+@@ -0,0 +1,206 @@
++ @*****************************************************************************
++ @ nv12_rgb.S : ARM NEONv1 NV12 to RGB chroma conversion
++ @*****************************************************************************
++ @ Copyright (C) 2011 Sébastien Toque
++ @                    Rémi Denis-Courmont
++ @
++ @ This program is free software; you can redistribute it and/or modify
++ @ it under the terms of the GNU General Public License as published by
++ @ the Free Software Foundation; either version 2 of the License, or
++ @ (at your option) any later version.
++ @
++ @ This program is distributed in the hope that it will be useful,
++ @ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ @ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ @ GNU General Public License for more details.
++ @
++ @ You should have received a copy of the GNU General Public License
++ @ along with this program; if not, write to the Free Software Foundation,
++ @ Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
++ @****************************************************************************/
++
++	.fpu neon
++	.text
++
++/* ARM */
++#define O1	r0
++#define O2	r1
++#define WIDTH	r2
++#define HEIGHT	r3
++#define Y1	r4
++#define Y2	r5
++#define U	r6
++#define V	r7
++#define YPITCH	r8
++#define OPAD	r10
++#define YPAD	r11
++#define COUNT	ip
++#define OPITCH	lr
++
++/* NEON */
++#define coefY	D0
++#define coefRV	D1
++#define coefGU	D2
++#define coefGV	D3
++#define coefBU	D4
++#define Rc	Q3
++#define Gc	Q4
++#define Bc	Q5
++
++#define u	D24
++#define v	D25
++#define y1	D28
++#define y2	D29
++
++#define chro_r	Q6
++#define chro_g	Q7
++#define chro_b	Q8
++#define red		Q9
++#define green	Q10
++#define blue	Q11
++#define lumi	Q15
++
++#define red1	D24
++#define green1	D25
++#define blue1	D26
++#define alpha1	D27
++#define red2	D28
++#define green2	D29
++#define blue2	D30
++#define alpha2	D31
++
++coefficients:
++    .short  -15872
++    .short    4992
++    .short  -18432
++
++	.align
++	.global nv12_rgb_neon
++	.type	nv12_rgb_neon, %function
++nv12_rgb_neon:
++	push		{r4-r8,r10-r11,lr}
++	vpush		{q4-q7}
++
++	/* load arguments */
++	ldmia		r0,	{O1, OPITCH}
++	ldmia		r1,	{Y1, U, V, YPITCH}
++
++	/* round the width to be a multiple of 16 */
++	ands		OPAD, WIDTH, #15
++	sub			WIDTH, WIDTH, OPAD
++	addne		WIDTH, WIDTH, #16
++
++	/* init constants (scale value by 64) */
++	vmov.u8		coefY, #74
++	vmov.u8		coefRV, #115
++	vmov.u8		coefGU, #14
++	vmov.u8		coefGV, #34
++	vmov.u8		coefBU, #135
++	adr			OPAD, coefficients
++	vld1.s16	{d6[], d7[]}, [OPAD]!
++	vld1.s16	{d8[], d9[]}, [OPAD]!
++	vld1.s16	{d10[], d11[]}, [OPAD]!
++	vmov.u8		alpha1, #255
++
++	/* init padding */
++	cmp			HEIGHT,	#0
++	sub			OPAD,	OPITCH,	WIDTH, lsl #2
++	sub			YPAD,	YPITCH,	WIDTH
++
++loop_row:
++	movgts	COUNT,	WIDTH
++	add		O2,	O1,	OPITCH
++	add		Y2,	Y1,	YPITCH
++	/* exit if all rows have been processed */
++	vpople	{q4-q7}
++	pople	{r4-r8,r10-r11,pc}
++
++loop_col:
++
++	/* Common U & V */
++
++	vld2.u8	{u,v}, [U,:128]!
++
++	vmull.u8	chro_r, v, coefRV
++	vmull.u8	chro_g, u, coefGU
++	vmlal.u8	chro_g, v, coefGV
++	vmull.u8	chro_b, u, coefBU
++
++	vadd.s16	chro_r, Rc, chro_r
++	vsub.s16	chro_g, Gc, chro_g
++	vadd.s16	chro_b, Bc, chro_b
++
++	PLD	[U]
++
++	/* Y Top Row */
++	vld2.u8	{y1,y2}, [Y1,:128]!
++
++	/* y1 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y1, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red1, red, #6
++	vqrshrun.s16	green1, green, #6
++	vqrshrun.s16	blue1, blue, #6
++
++	/* y2 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y2, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red2, red, #6
++	vqrshrun.s16	green2, green, #6
++	vqrshrun.s16	blue2, blue, #6
++
++	PLD	[Y1]
++
++	vmov.u8	alpha2, #255
++	vzip.u8	red1, red2
++	vzip.u8	green1, green2
++	vzip.u8	blue1, blue2
++
++	vst4.u8		{red1,green1,blue1,alpha1}, [O1,:128]!
++	vst4.u8		{red2,green2,blue2,alpha2}, [O1,:128]!
++
++	/* Y Bottom Row */
++	vld2.u8	{y1,y2}, [Y2,:128]!
++
++	/* y1 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y1, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red1, red, #6
++	vqrshrun.s16	green1, green, #6
++	vqrshrun.s16	blue1, blue, #6
++
++	/* y2 : chrominance + luminance, then clamp (divide by 64) */
++	vmull.u8	lumi, y2, coefY
++	vqadd.s16	red, lumi, chro_r
++	vqadd.s16	green, lumi, chro_g
++	vqadd.s16	blue, lumi, chro_b
++	vqrshrun.s16	red2, red, #6
++	vqrshrun.s16	green2, green, #6
++	vqrshrun.s16	blue2, blue, #6
++
++	PLD	[Y2]
++
++	vmov.u8	alpha2, #255
++	vzip.u8	red1, red2
++	vzip.u8	green1, green2
++	vzip.u8	blue1, blue2
++
++	vst4.u8		{red1,green1,blue1,alpha1}, [O2,:128]!
++	vst4.u8		{red2,green2,blue2,alpha2}, [O2,:128]!
++
++	/* next columns (x16) */
++	subs	COUNT,	COUNT,	#16
++	bgt		loop_col
++
++	/* next rows (x2) */
++	subs	HEIGHT,	#2
++	add		O1,	O2,	OPAD
++	add		Y1,	Y2,	YPAD
++	add		U,	U,	YPAD
++	b		loop_row
 diff --git a/modules/arm_neon/nv21_rgb.S b/modules/arm_neon/nv21_rgb.S
 new file mode 100644
 index 0000000..82a7099
@@ -480,10 +699,10 @@ index 0000000..82a7099
 +	b		loop_row
 diff --git a/modules/arm_neon/yuv_rgb.c b/modules/arm_neon/yuv_rgb.c
 new file mode 100644
-index 0000000..8c8565b
+index 0000000..c1a34cd
 --- /dev/null
 +++ b/modules/arm_neon/yuv_rgb.c
-@@ -0,0 +1,158 @@
+@@ -0,0 +1,169 @@
 +/*****************************************************************************
 + * yuv_rgb.c : ARM NEONv1 YUV to RGB32 chroma conversion for VLC
 + *****************************************************************************
@@ -589,8 +808,16 @@ index 0000000..8c8565b
 +    nv21_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
 +}
 +
++static void NV12_RGBA (filter_t *filter, picture_t *src, picture_t *dst)
++{
++    struct yuv_pack out = { dst->p->p_pixels, dst->p->i_pitch };
++    struct yuv_planes in = { src->Y_PIXELS, src->U_PIXELS, src->V_PIXELS, src->Y_PITCH };
++    nv12_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
++}
++
 +VIDEO_FILTER_WRAPPER (I420_RGBA)
 +VIDEO_FILTER_WRAPPER (NV21_RGBA)
++VIDEO_FILTER_WRAPPER (NV12_RGBA)
 +
 +static int Open (vlc_object_t *obj)
 +{
@@ -611,6 +838,9 @@ index 0000000..8c8565b
 +                    break;
 +                case VLC_CODEC_NV21:
 +                    filter->pf_video_filter = NV21_RGBA_Filter;
++                    break;
++                case VLC_CODEC_NV12:
++                    filter->pf_video_filter = NV12_RGBA_Filter;
 +                    break;
 +                default:
 +                    return VLC_EGENERIC;
