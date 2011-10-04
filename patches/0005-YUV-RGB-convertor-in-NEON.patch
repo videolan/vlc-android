@@ -1,6 +1,6 @@
-From 5786ae4fcdd8ed6e37b90ff1c520473d1ec37638 Mon Sep 17 00:00:00 2001
+From 4e2b0b121adb974e1f2c329cdfa01e3f1c192a93 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Tue, 4 Oct 2011 22:29:48 +0200
+Date: Tue, 4 Oct 2011 22:38:36 +0200
 Subject: [PATCH] YUV->RGB convertor in NEON
 
 ---
@@ -9,8 +9,8 @@ Subject: [PATCH] YUV->RGB convertor in NEON
  modules/arm_neon/i420_rgb.S    |  209 ++++++++++++++++++++++++++++++++++++++++
  modules/arm_neon/nv12_rgb.S    |  206 +++++++++++++++++++++++++++++++++++++++
  modules/arm_neon/nv21_rgb.S    |  206 +++++++++++++++++++++++++++++++++++++++
- modules/arm_neon/yuv_rgb.c     |  169 ++++++++++++++++++++++++++++++++
- 6 files changed, 812 insertions(+), 0 deletions(-)
+ modules/arm_neon/yuv_rgb.c     |  179 ++++++++++++++++++++++++++++++++++
+ 6 files changed, 822 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
  create mode 100644 modules/arm_neon/nv12_rgb.S
  create mode 100644 modules/arm_neon/nv21_rgb.S
@@ -699,10 +699,10 @@ index 0000000..82a7099
 +	b		loop_row
 diff --git a/modules/arm_neon/yuv_rgb.c b/modules/arm_neon/yuv_rgb.c
 new file mode 100644
-index 0000000..c1a34cd
+index 0000000..ede49c9
 --- /dev/null
 +++ b/modules/arm_neon/yuv_rgb.c
-@@ -0,0 +1,169 @@
+@@ -0,0 +1,179 @@
 +/*****************************************************************************
 + * yuv_rgb.c : ARM NEONv1 YUV to RGB32 chroma conversion for VLC
 + *****************************************************************************
@@ -800,6 +800,12 @@ index 0000000..c1a34cd
 +    struct yuv_planes in = { src->Y_PIXELS, src->U_PIXELS, src->V_PIXELS, src->Y_PITCH };
 +    i420_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
 +}
++static void YV12_RGBA (filter_t *filter, picture_t *src, picture_t *dst)
++{
++    struct yuv_pack out = { dst->p->p_pixels, dst->p->i_pitch };
++    struct yuv_planes in = { src->Y_PIXELS, src->V_PIXELS, src->U_PIXELS, src->Y_PITCH };
++    i420_rgb_neon (&out, &in, filter->fmt_in.video.i_width, filter->fmt_in.video.i_height);
++}
 +
 +static void NV21_RGBA (filter_t *filter, picture_t *src, picture_t *dst)
 +{
@@ -816,6 +822,7 @@ index 0000000..c1a34cd
 +}
 +
 +VIDEO_FILTER_WRAPPER (I420_RGBA)
++VIDEO_FILTER_WRAPPER (YV12_RGBA)
 +VIDEO_FILTER_WRAPPER (NV21_RGBA)
 +VIDEO_FILTER_WRAPPER (NV12_RGBA)
 +
@@ -835,6 +842,9 @@ index 0000000..c1a34cd
 +            {
 +                case VLC_CODEC_I420:
 +                    filter->pf_video_filter = I420_RGBA_Filter;
++                    break;
++                case VLC_CODEC_YV12:
++                    filter->pf_video_filter = YV12_RGBA_Filter;
 +                    break;
 +                case VLC_CODEC_NV21:
 +                    filter->pf_video_filter = NV21_RGBA_Filter;
