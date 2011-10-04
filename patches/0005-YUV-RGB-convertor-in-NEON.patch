@@ -1,7 +1,7 @@
-From b5563fa461a6fac1a9961306e55d3c7266a17f1b Mon Sep 17 00:00:00 2001
+From 5786ae4fcdd8ed6e37b90ff1c520473d1ec37638 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Tue, 4 Oct 2011 22:21:32 +0200
-Subject: [PATCH] i420->RGB convertor in NEON
+Date: Tue, 4 Oct 2011 22:29:48 +0200
+Subject: [PATCH] YUV->RGB convertor in NEON
 
 ---
  modules/arm_neon/Modules.am    |   10 ++
