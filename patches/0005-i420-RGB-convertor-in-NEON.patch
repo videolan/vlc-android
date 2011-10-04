@@ -1,36 +1,36 @@
-From 0b65ebe8a9a686d530c06dcd5f2a11740ff15179 Mon Sep 17 00:00:00 2001
+From 87557a88823d1aca7e62ff465449f537eb4e612f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Sun, 2 Oct 2011 23:40:13 +0200
-Subject: [PATCH 5/7] i420->RGB convertor in NEON
+Date: Tue, 4 Oct 2011 21:50:22 +0200
+Subject: [PATCH] i420->RGB convertor in NEON
 
 ---
  modules/arm_neon/Modules.am    |    8 +
  modules/arm_neon/chroma_neon.h |    8 +
  modules/arm_neon/i420_rgb.S    |  340 ++++++++++++++++++++++++++++++++++++++++
- modules/arm_neon/i420_rgb.c    |  158 +++++++++++++++++++
+ modules/arm_neon/yuv_rgb.c     |  158 +++++++++++++++++++
  4 files changed, 514 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/i420_rgb.S
- create mode 100644 modules/arm_neon/i420_rgb.c
+ create mode 100644 modules/arm_neon/yuv_rgb.c
 
 diff --git a/modules/arm_neon/Modules.am b/modules/arm_neon/Modules.am
-index 83576eb..61c7703 100644
+index 83576eb..b3c416c 100644
 --- a/modules/arm_neon/Modules.am
 +++ b/modules/arm_neon/Modules.am
 @@ -18,7 +18,15 @@ libchroma_yuv_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
  libchroma_yuv_neon_plugin_la_LIBADD = $(AM_LIBADD)
  libchroma_yuv_neon_plugin_la_DEPENDENCIES =
  
-+libi420_rgb_neon_plugin_la_SOURCES = \
++libyuv_rgb_neon_plugin_la_SOURCES = \
 +	i420_rgb.S \
-+	i420_rgb.c
-+libi420_rgb_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
-+libi420_rgb_neon_plugin_la_LIBADD = $(AM_LIBADD)
-+libi420_rgb_neon_plugin_la_DEPENDENCIES =
++	yuv_rgb.c
++libyuv_rgb_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
++libyuv_rgb_neon_plugin_la_LIBADD = $(AM_LIBADD)
++libyuv_rgb_neon_plugin_la_DEPENDENCIES =
 +
  libvlc_LTLIBRARIES += \
  	libaudio_format_neon_plugin.la \
  	libchroma_yuv_neon_plugin.la \
-+	libi420_rgb_neon_plugin.la \
++	libyuv_rgb_neon_plugin.la \
  	$(NULL)
 diff --git a/modules/arm_neon/chroma_neon.h b/modules/arm_neon/chroma_neon.h
 index 204c5f1..86595b9 100644
@@ -394,14 +394,14 @@ index 0000000..ec3a1b4
 +	add		Y1,	Y2,	YPAD
 +	add		U,	U,	YPAD
 +	b		loopnv21_row
-diff --git a/modules/arm_neon/i420_rgb.c b/modules/arm_neon/i420_rgb.c
+diff --git a/modules/arm_neon/yuv_rgb.c b/modules/arm_neon/yuv_rgb.c
 new file mode 100644
-index 0000000..4efa60c
+index 0000000..8c8565b
 --- /dev/null
-+++ b/modules/arm_neon/i420_rgb.c
++++ b/modules/arm_neon/yuv_rgb.c
 @@ -0,0 +1,158 @@
 +/*****************************************************************************
-+ * i420_rgb.c : ARM NEONv1 YUV 4:2:0 to RGB32 chroma conversion for VLC
++ * yuv_rgb.c : ARM NEONv1 YUV to RGB32 chroma conversion for VLC
 + *****************************************************************************
 + * Copyright (C) 2011 Sébastien Toque
 + *                    Rémi Denis-Courmont
@@ -434,7 +434,7 @@ index 0000000..4efa60c
 +static int Open (vlc_object_t *);
 +
 +vlc_module_begin ()
-+    set_description (N_("ARM NEON video chroma I240->RGBA"))
++    set_description (N_("ARM NEON video chroma YUV->RGBA"))
 +    set_capability ("video filter2", 250)
 +    set_callbacks (Open, NULL)
 +vlc_module_end ()
