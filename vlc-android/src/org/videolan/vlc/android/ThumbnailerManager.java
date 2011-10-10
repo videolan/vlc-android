@@ -24,7 +24,7 @@ public class ThumbnailerManager extends Thread {
     private LibVLC mLibVlc;
     private MainActivity mMediaLibraryActivity;
     private VideoListActivity mVideoListActivity;
-
+    private int totalCount;
 
     public ThumbnailerManager() {
     	mMediaLibraryActivity = MainActivity.getInstance();
@@ -45,6 +45,7 @@ public class ThumbnailerManager extends Thread {
     {
         lock.lock();
         mItems.clear();
+        totalCount = 0;
         lock.unlock();
     }
 
@@ -55,6 +56,7 @@ public class ThumbnailerManager extends Thread {
     public void addJob(Media item) {
         lock.lock();
         mItems.add(item);
+        totalCount++;
         notEmpty.signal();
         lock.unlock();
         Log.i(TAG, "Job added!");
@@ -65,6 +67,10 @@ public class ThumbnailerManager extends Thread {
      */
     public void run()
     {
+        int count = 0;
+        int total = 0;
+        String prefix = mVideoListActivity.getResources().getString(R.string.thumbnail);
+
         while (!isInterrupted()) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
@@ -75,6 +81,7 @@ public class ThumbnailerManager extends Thread {
                 	mMediaLibraryActivity.mHandler.sendEmptyMessage(
                 			MainActivity.HIDE_PROGRESSBAR);
                 	Log.i(TAG, "hide ProgressBar!");
+                	MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, null);
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -83,6 +90,7 @@ public class ThumbnailerManager extends Thread {
             }
             if (killed)
                 break;
+            total = totalCount;
             lock.unlock();
 
             Media item = mItems.poll();
@@ -90,6 +98,9 @@ public class ThumbnailerManager extends Thread {
         			MainActivity.SHOW_PROGRESSBAR);
 
             Log.i(TAG, "show ProgressBar!");
+            MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, String.format("%s %d/%d : %s",
+            		prefix, count, total, item.getFileName()));
+            count++;
 
             int width = 120;
             int height = 120;
@@ -123,6 +134,4 @@ public class ThumbnailerManager extends Thread {
             }
         }
     }
-
-
 }

@@ -25,12 +25,14 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 public class MainActivity extends TabActivity {
 	public final static String TAG = "VLC/MainActivity";
 
 	protected static final int HIDE_PROGRESSBAR = 0;
 	protected static final int SHOW_PROGRESSBAR = 1;
+	protected static final int SHOW_TEXTINFO = 2;
 	private static final int VIDEO_TAB = 0;
 	private static final int AUDIO_TAB = 1;
 	public static final String START_FROM_NOTIFICATION = "from_notification";
@@ -45,6 +47,7 @@ public class MainActivity extends TabActivity {
 	private ImageButton mChangeTab;
 	private AudioMiniPlayer mAudioPlayer;
 	private AudioServiceController mAudioController;
+	private TextView mTextInfo;
 
 	private SharedPreferences mSettings;
 
@@ -63,6 +66,7 @@ public class MainActivity extends TabActivity {
 		mInstance = this;
 		mProgressBar = (ProgressBar)findViewById(R.id.ml_progress_bar);
 		mChangeTab = (ImageButton) findViewById(R.id.change_tab);
+		mTextInfo = (TextView) findViewById(R.id.text_info);
 
         /* Initialize the TabView */
         mTabHost = getTabHost();
@@ -267,8 +271,20 @@ public class MainActivity extends TabActivity {
 			case HIDE_PROGRESSBAR:
 				mProgressBar.setVisibility(View.INVISIBLE);
 				break;
+			case SHOW_TEXTINFO:
+				Bundle b = msg.getData();
+				String info = b.getString("info");
+				mTextInfo.setText(info);
+				mTextInfo.setVisibility(info != null ? View.VISIBLE : View.GONE);
+				break;
 			}
 		};
 	};
 
+	public static void sendTextInfo(Handler handler, String info) {
+        Message m = handler.obtainMessage(MainActivity.SHOW_TEXTINFO);
+        Bundle b = m.getData();
+        b.putString("info", info);
+        handler.sendMessage(m);
+    }
 }

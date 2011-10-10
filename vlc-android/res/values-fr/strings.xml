@@ -52,4 +52,5 @@
     <string name="surface_fit_vertical">Ajuster verticalement</string>
     <string name="surface_fill">Etirer</string>
     <string name="surface_original">Centrer</string>
+    <string name="thumbnail">Miniature</string>
 </resources>

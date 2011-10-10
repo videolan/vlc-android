@@ -42,6 +42,11 @@
     		android:padding="10dip"
     		android:onClick="searchClick"/>
    	</LinearLayout>
+	<TextView
+		android:id="@+id/text_info"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone"/>
    	<TabHost
 	    android:id="@android:id/tabhost"
 	    android:layout_width="fill_parent"

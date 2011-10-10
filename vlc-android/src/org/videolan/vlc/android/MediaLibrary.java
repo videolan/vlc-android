@@ -113,15 +113,23 @@ public class MediaLibrary {
 
 	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
 
+	        int count = 0;
+	        int total = 0;
+	        String prefix = mContext.getResources().getString(R.string.loading);
 
 	    	while (!directorys.isEmpty()) {
 	    		File dir = directorys.pop();
 	    		File[] f = null;
 	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
+	    			total += f.length;
 			    	for (int i = 0; i < f.length; i++) {
 			    		if (f[i].isFile()) {
-			    			if (existingFiles.contains(f[i])) {
 
+		    	            MainActivity.sendTextInfo(mainHandler, String.format("%s %d/%d : %s",
+		    	            		prefix, count, total, f[i].getName()));
+		    	            count++;
+
+			    			if (existingFiles.contains(f[i])) {
 			    				/** only add file if it is not already in the
 			    				 * list. eg. if user select an subfolder as well
 			    				 */
@@ -141,6 +149,7 @@ public class MediaLibrary {
 			    	}
 		    	}
 	    	}
+	    	MainActivity.sendTextInfo(mainHandler, null);
 
 	    	// update the video and audio activities
 	    	for (int i = 0; i < mUpdateHandler.size(); i++) {
