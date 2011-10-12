@@ -1,6 +1,5 @@
 package org.videolan.vlc.android;
 
-
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,7 +13,7 @@ import android.graphics.Bitmap.Config;
 import android.util.Log;
 
 public class ThumbnailerManager extends Thread {
-	public final static String TAG = "VLC/ThumbnailerManager";
+    public final static String TAG = "VLC/ThumbnailerManager";
 
     private final Queue<Media> mItems = new LinkedList<Media>();
 
@@ -27,22 +26,20 @@ public class ThumbnailerManager extends Thread {
     private int totalCount;
 
     public ThumbnailerManager() {
-    	mMediaLibraryActivity = MainActivity.getInstance();
-    	mVideoListActivity = VideoListActivity.getInstance();
-    	try {
-			mLibVlc = LibVLC.getInstance();
-		} catch (LibVlcException e) {
-			e.printStackTrace();
-		}
+        mMediaLibraryActivity = MainActivity.getInstance();
+        mVideoListActivity = VideoListActivity.getInstance();
+        try {
+            mLibVlc = LibVLC.getInstance();
+        } catch (LibVlcException e) {
+            e.printStackTrace();
+        }
         start();
     }
-
 
     /**
      * Remove all the thumbnail jobs.
      */
-    public void clearJobs()
-    {
+    public void clearJobs() {
         lock.lock();
         mItems.clear();
         totalCount = 0;
@@ -65,8 +62,7 @@ public class ThumbnailerManager extends Thread {
     /**
      * Thread main function.
      */
-    public void run()
-    {
+    public void run() {
         int count = 0;
         int total = 0;
         String prefix = mVideoListActivity.getResources().getString(R.string.thumbnail);
@@ -75,13 +71,12 @@ public class ThumbnailerManager extends Thread {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean killed = false;
-            while (mItems.size() == 0)
-            {
+            while (mItems.size() == 0) {
                 try {
-                	mMediaLibraryActivity.mHandler.sendEmptyMessage(
-                			MainActivity.HIDE_PROGRESSBAR);
-                	Log.i(TAG, "hide ProgressBar!");
-                	MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, null);
+                    mMediaLibraryActivity.mHandler.sendEmptyMessage(
+                            MainActivity.HIDE_PROGRESSBAR);
+                    Log.i(TAG, "hide ProgressBar!");
+                    MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, null);
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -95,11 +90,11 @@ public class ThumbnailerManager extends Thread {
 
             Media item = mItems.poll();
             mMediaLibraryActivity.mHandler.sendEmptyMessage(
-        			MainActivity.SHOW_PROGRESSBAR);
+                    MainActivity.SHOW_PROGRESSBAR);
 
             Log.i(TAG, "show ProgressBar!");
             MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, String.format("%s %d/%d : %s",
-            		prefix, count, total, item.getFileName()));
+                    prefix, count, total, item.getFileName()));
             count++;
 
             int width = 120;
@@ -121,12 +116,11 @@ public class ThumbnailerManager extends Thread {
             mVideoListActivity.mItemToUpdate = item;
             // Post to the file browser the new item.
             mVideoListActivity.mHandler.sendEmptyMessage(
-            		VideoListActivity.UPDATE_ITEM);
-
+                    VideoListActivity.UPDATE_ITEM);
 
             // Wait for the file browser to process the change.
             try {
-            	mVideoListActivity.mBarrier.await();
+                mVideoListActivity.mBarrier.await();
             } catch (InterruptedException e) {
                 break;
             } catch (BrokenBarrierException e) {

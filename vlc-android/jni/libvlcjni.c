@@ -104,7 +104,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     int isAttached = 0;
 
     if (eventManagerInstance == NULL)
-	    return;
+        return;
 
     status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
     if (status < 0) {

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="@string/mediafiles">
-		<PreferenceScreen
-			android:key="directories"
-        	android:title="@string/directories"
+    <PreferenceCategory android:title="@string/mediafiles">
+        <PreferenceScreen
+            android:key="directories"
+            android:title="@string/directories"
             android:defaultValue="/sdcard/"
             android:summary="@string/filebrowser_title">
         </PreferenceScreen>
     </PreferenceCategory>
-    	<PreferenceCategory android:title="@string/searchable_hint">
-		<PreferenceScreen
-			android:key="clear_history"
-        	android:title="@string/clear_history">
+        <PreferenceCategory android:title="@string/searchable_hint">
+        <PreferenceScreen
+            android:key="clear_history"
+            android:title="@string/clear_history">
         </PreferenceScreen>
     </PreferenceCategory>
-    	<PreferenceCategory android:title="@string/advanced_prefs_category">
-		<CheckBoxPreference
-			android:key="enable_iomx"
-        	android:title="@string/enable_iomx">
+        <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <CheckBoxPreference
+            android:key="enable_iomx"
+            android:title="@string/enable_iomx">
         </CheckBoxPreference>
     </PreferenceCategory>
 </PreferenceScreen>

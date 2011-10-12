@@ -12,195 +12,190 @@ import java.util.concurrent.CyclicBarrier;
 import android.content.Context;
 import android.os.Handler;
 
-
 public class MediaLibrary {
-	public final static String TAG = "VLC/MediaLibrary";
+    public final static String TAG = "VLC/MediaLibrary";
 
-	protected static final int MEDIA_ITEMS_UPDATED = 100;
+    protected static final int MEDIA_ITEMS_UPDATED = 100;
 
-	private static MediaLibrary mInstance;
-	private DatabaseManager mDBManager;
-	private ArrayList<Media> mItemList;
-	private final CyclicBarrier mBarrier = new CyclicBarrier(2);
-	private ArrayList<Handler> mUpdateHandler;
-	protected Context mContext;
+    private static MediaLibrary mInstance;
+    private DatabaseManager mDBManager;
+    private ArrayList<Media> mItemList;
+    private final CyclicBarrier mBarrier = new CyclicBarrier(2);
+    private ArrayList<Handler> mUpdateHandler;
+    protected Context mContext;
 
-	private MediaLibrary(Context context) {
-		mInstance = this;
-		mContext = context;
-		mItemList = new ArrayList<Media>();
-		mUpdateHandler = new ArrayList<Handler>();
-		mDBManager = DatabaseManager.getInstance();
-	}
+    private MediaLibrary(Context context) {
+        mInstance = this;
+        mContext = context;
+        mItemList = new ArrayList<Media>();
+        mUpdateHandler = new ArrayList<Handler>();
+        mDBManager = DatabaseManager.getInstance();
+    }
 
-	public void loadMediaItems() {
-		new Thread(mGetMediaItems).start();
-	}
+    public void loadMediaItems() {
+        new Thread(mGetMediaItems).start();
+    }
 
+    public static MediaLibrary getInstance(Context context) {
+        if (mInstance == null)
+            mInstance = new MediaLibrary(context);
+        return mInstance;
+    }
 
-	public static MediaLibrary getInstance(Context context) {
-		if (mInstance == null)
-			mInstance = new MediaLibrary(context);
-		return mInstance;
-	}
+    public void addUpdateHandler(Handler handler) {
+        mUpdateHandler.add(handler);
+    }
 
-	public void addUpdateHandler(Handler handler) {
-		mUpdateHandler.add(handler);
-	}
+    public ArrayList<Media> getVideoItems() {
+        ArrayList<Media> videoItems = new ArrayList<Media>();
+        for (int i = 0; i < mItemList.size(); i++) {
+            Media item = mItemList.get(i);
+            if (item.getType() == Media.TYPE_VIDEO) {
+                videoItems.add(item);
+            }
+        }
+        return videoItems;
+    }
 
-	public ArrayList<Media> getVideoItems() {
-		ArrayList<Media> videoItems = new ArrayList<Media>();
-		for (int i = 0; i < mItemList.size(); i++) {
-			Media item = mItemList.get(i);
-			if (item.getType() == Media.TYPE_VIDEO) {
-				videoItems.add(item);
-			}
-		}
-		return videoItems;
-	}
+    public ArrayList<Media> getAudioItems() {
+        ArrayList<Media> videoItems = new ArrayList<Media>();
+        for (int i = 0; i < mItemList.size(); i++) {
+            Media item = mItemList.get(i);
+            if (item.getType() == Media.TYPE_AUDIO) {
+                videoItems.add(item);
+            }
+        }
+        return videoItems;
+    }
 
-	public ArrayList<Media> getAudioItems() {
-		ArrayList<Media> videoItems = new ArrayList<Media>();
-		for (int i = 0; i < mItemList.size(); i++) {
-			Media item = mItemList.get(i);
-			if (item.getType() == Media.TYPE_AUDIO) {
-				videoItems.add(item);
-			}
-		}
-		return videoItems;
-	}
+    public ArrayList<Media> getMediaItems() {
+        return mItemList;
+    }
 
-	public ArrayList<Media> getMediaItems() {
-		return mItemList;
-	}
+    public Media getMediaItem(String path) {
+        for (int i = 0; i < mItemList.size(); i++) {
+            Media item = mItemList.get(i);
+            if (item.getPath().equals(path)) {
+                return item;
+            }
+        }
+        return null;
+    }
 
-	public Media getMediaItem(String path) {
-		for (int i = 0; i < mItemList.size(); i++) {
-			Media item = mItemList.get(i);
-			if (item.getPath().equals(path)) {
-				return item;
-			}
-		}
-		return null;
-	}
+    private final Runnable mGetMediaItems = new Runnable() {
 
+        private Stack<File> directorys = new Stack<File>();
+        private MainActivity mMainActivity;
 
-	private final Runnable mGetMediaItems = new Runnable() {
+        public void run() {
+            // Initialize variables
+            mMainActivity = MainActivity.getInstance();
+            Handler mainHandler = mMainActivity.mHandler;
 
-    	private Stack<File> directorys = new Stack<File>();
-    	private  MainActivity mMainActivity;
+            // show progressbar in header
+            mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
 
-		public void run() {
-			// Initialize variables
-			mMainActivity = MainActivity.getInstance();
-			Handler mainHandler = mMainActivity.mHandler;
+            // get directories from database
+            directorys.addAll(mDBManager.getMediaDirs());
 
+            // get all paths of the existing media items
+            List<File> existingFiles = mDBManager.getMediaFiles();
 
-			// show progressbar in header
-			mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
+            // list of all added files
+            List<File> addedFiles = new ArrayList<File>();
 
-			// get directories from database
-			directorys.addAll(mDBManager.getMediaDirs());
+            // clear all old item
+            mItemList.clear();
 
-			// get all paths of the existing media items
-			List<File> existingFiles = mDBManager.getMediaFiles();
+            MediaItemFilter mediaFileFilter = new MediaItemFilter();
 
-			// list of all added files
-			List<File> addedFiles = new ArrayList<File>();
+            int count = 0;
+            int total = 0;
+            String prefix = mContext.getResources().getString(R.string.loading);
 
-			// clear all old item
-			mItemList.clear();
+            while (!directorys.isEmpty()) {
+                File dir = directorys.pop();
+                File[] f = null;
+                if ((f = dir.listFiles(mediaFileFilter)) != null) {
+                    total += f.length;
+                    for (int i = 0; i < f.length; i++) {
+                        if (f[i].isFile()) {
 
-	    	MediaItemFilter mediaFileFilter = new MediaItemFilter();
+                            MainActivity.sendTextInfo(mainHandler, String.format("%s %d/%d : %s",
+                                    prefix, count, total, f[i].getName()));
+                            count++;
 
-	        int count = 0;
-	        int total = 0;
-	        String prefix = mContext.getResources().getString(R.string.loading);
+                            if (existingFiles.contains(f[i])) {
+                                /** only add file if it is not already in the
+                                 * list. eg. if user select an subfolder as well
+                                 */
+                                if (!addedFiles.contains(f[i])) {
+                                    // get existing media item from database
+                                    mItemList.add(mDBManager.getMedia(
+                                            f[i].getPath()));
+                                    addedFiles.add(f[i]);
+                                }
+                            } else {
+                                // create new media item
+                                mItemList.add(new Media(mContext, f[i]));
+                            }
+                        } else if (f[i].isDirectory()) {
+                            directorys.push(f[i]);
+                        }
+                    }
+                }
+            }
+            MainActivity.sendTextInfo(mainHandler, null);
 
-	    	while (!directorys.isEmpty()) {
-	    		File dir = directorys.pop();
-	    		File[] f = null;
-	    		if ((f = dir.listFiles(mediaFileFilter)) != null) {
-	    			total += f.length;
-			    	for (int i = 0; i < f.length; i++) {
-			    		if (f[i].isFile()) {
+            // update the video and audio activities
+            for (int i = 0; i < mUpdateHandler.size(); i++) {
+                Handler h = mUpdateHandler.get(i);
+                h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
+            }
 
-		    	            MainActivity.sendTextInfo(mainHandler, String.format("%s %d/%d : %s",
-		    	            		prefix, count, total, f[i].getName()));
-		    	            count++;
+            try {
+                mBarrier.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (BrokenBarrierException e) {
+                e.printStackTrace();
+            }
 
-			    			if (existingFiles.contains(f[i])) {
-			    				/** only add file if it is not already in the
-			    				 * list. eg. if user select an subfolder as well
-			    				 */
-			    				if (!addedFiles.contains(f[i])) {
-				    				// get existing media item from database
-				    				mItemList.add(mDBManager.getMedia(
-				    						f[i].getPath()));
-				    				addedFiles.add( f[i] );
-			    				}
-			    			} else {
-			    				// create new media item
-			    				mItemList.add(new Media(mContext, f[i]));
-			    			}
-			    		} else if (f[i].isDirectory()) {
-			    			directorys.push(f[i]);
-			    		}
-			    	}
-		    	}
-	    	}
-	    	MainActivity.sendTextInfo(mainHandler, null);
+            // remove file from database
+            for (int i = 0; i < existingFiles.size(); i++) {
+                if (!addedFiles.contains(existingFiles.get(i))) {
+                    mDBManager.removeMedia(existingFiles.get(i).getPath());
+                }
+            }
+            // hide progressbar in header
+            mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
 
-	    	// update the video and audio activities
-	    	for (int i = 0; i < mUpdateHandler.size(); i++) {
-	    		Handler h = mUpdateHandler.get(i);
-	    		h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
-	    	}
-
-
-			try {
-				mBarrier.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (BrokenBarrierException e) {
-				e.printStackTrace();
-			}
-
-	    	// remove file from database
-	    	for (int i = 0; i < existingFiles.size(); i++) {
-	    		if (!addedFiles.contains(existingFiles.get(i))) {
-		    		mDBManager.removeMedia(existingFiles.get(i).getPath());
-	    		}
-	    	}
-	    	// hide progressbar in header
-	    	mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
-
-		}
+        }
     };
 
-
-	/**
-	 * Filters all irrelevant files
-	 */
+    /**
+     * Filters all irrelevant files
+     */
     private class MediaItemFilter implements FileFilter {
 
-    	// FIXME: save extensions in external database
-    	private String[] extensions = Media.EXTENTIONS;
-		public boolean accept(File f) {
-			boolean accepted = false;
-			if (!f.isHidden()) {
-				if (f.isDirectory()) {
-					accepted = true;
-				} else {
-					String fileName = f.getName().toLowerCase();
-					int dotIndex = fileName.lastIndexOf(".");
-					if (dotIndex != -1) {
-						String fileExt = fileName.substring(dotIndex);
-						accepted = Arrays.asList(extensions).contains(fileExt);
-					}
-				}
-			}
-			return accepted;
-		}
+        // FIXME: save extensions in external database
+        private String[] extensions = Media.EXTENTIONS;
+
+        public boolean accept(File f) {
+            boolean accepted = false;
+            if (!f.isHidden()) {
+                if (f.isDirectory()) {
+                    accepted = true;
+                } else {
+                    String fileName = f.getName().toLowerCase();
+                    int dotIndex = fileName.lastIndexOf(".");
+                    if (dotIndex != -1) {
+                        String fileExt = fileName.substring(dotIndex);
+                        accepted = Arrays.asList(extensions).contains(fileExt);
+                    }
+                }
+            }
+            return accepted;
+        }
     }
 }

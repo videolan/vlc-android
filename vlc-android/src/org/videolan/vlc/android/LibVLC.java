@@ -12,8 +12,8 @@ public class LibVLC {
     private static SharedPreferences.OnSharedPreferenceChangeListener sListener;
 
     /** libVLC instance C pointer */
-    private int mLibVlcInstance      = 0; // Read-only, reserved for JNI
-	private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
+    private int mLibVlcInstance = 0; // Read-only, reserved for JNI
+    private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;
 
@@ -24,6 +24,7 @@ public class LibVLC {
     private boolean mIsInitialized = false;
 
     public native void attachSurface(Surface surface, VideoPlayerActivity player, int width, int height);
+
     public native void detachSurface();
 
     /* Load library before object instantiation */
@@ -48,12 +49,11 @@ public class LibVLC {
      * @return
      * @throws LibVlcException
      */
-    public static LibVLC getInstance() throws LibVlcException
-    {
+    public static LibVLC getInstance() throws LibVlcException {
         if (sInstance == null) {
-        	/* First call */
-        	sInstance = new LibVLC();
-        	sInstance.init();
+            /* First call */
+            sInstance = new LibVLC();
+            sInstance.init();
 
             if (sListener == null) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
@@ -75,22 +75,17 @@ public class LibVLC {
             }
         }
 
-    	return sInstance;
-    }
-
-    public static LibVLC getExistingInstance()
-    {
         return sInstance;
     }
 
-    public void reinit() throws LibVlcException
-    {
+    public static LibVLC getExistingInstance() {
+        return sInstance;
+    }
+
+    public void reinit() throws LibVlcException {
         destroy();
         init();
     }
-
-
-
 
     /**
      * Constructor
@@ -105,8 +100,7 @@ public class LibVLC {
      * It is bad practice to rely on them, so please don't forget to call
      * destroy() before exiting.
      */
-    public void finalize()
-    {
+    public void finalize() {
         if (mLibVlcInstance != 0) {
             Log.d(TAG, "LibVLC is was destroyed yet before finalize()");
             destroy();
@@ -122,17 +116,16 @@ public class LibVLC {
     /**
      * Initialize the libVLC class
      */
-    private void init() throws LibVlcException
-    {
+    private void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-        	MainActivity activity = MainActivity.getInstance();
-        	boolean useIomx = false;
-        	if (activity != null)
-        	    useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
-        	nativeInit(useIomx);
+            MainActivity activity = MainActivity.getInstance();
+            boolean useIomx = false;
+            if (activity != null)
+                useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
+            nativeInit(useIomx);
             setEventManager(EventManager.getIntance());
-        	mIsInitialized = true;
+            mIsInitialized = true;
         }
     }
 
@@ -140,8 +133,7 @@ public class LibVLC {
      * Destroy this libVLC instance
      * @note You must call it before exiting
      */
-    public void destroy()
-    {
+    public void destroy() {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
         detachEventManager();
@@ -152,8 +144,7 @@ public class LibVLC {
      * Open the Java audio output.
      * This function is called by the native code
      */
-    public void initAout(int sampleRateInHz, int channels, int samples)
-    {
+    public void initAout(int sampleRateInHz, int channels, int samples) {
         Log.d(TAG, "Opening the java audio output");
         mAout.init(sampleRateInHz, channels, samples);
     }
@@ -162,8 +153,7 @@ public class LibVLC {
      * Play an audio buffer taken from the native code
      * This function is called by the native code
      */
-    public void playAudio(byte[] audioData, int bufferSize)
-    {
+    public void playAudio(byte[] audioData, int bufferSize) {
         mAout.playBuffer(audioData, bufferSize);
     }
 
@@ -171,8 +161,7 @@ public class LibVLC {
      * Close the Java audio output
      * This function is called by the native code
      */
-    public void closeAout()
-    {
+    public void closeAout() {
         Log.d(TAG, "Closing the java audio output");
         mAout.release();
     }
@@ -180,22 +169,19 @@ public class LibVLC {
     /**
      * Read a media.
      */
-    public void readMedia(String mrl)
-    {
+    public void readMedia(String mrl) {
         Log.v(TAG, "Reading " + mrl);
         readMedia(mLibVlcInstance, mrl);
     }
 
-    public String[] readMediaMeta(String mrl)
-    {
+    public String[] readMediaMeta(String mrl) {
         return readMediaMeta(mLibVlcInstance, mrl);
     }
 
     /**
      * Get a media thumbnail.
      */
-    public byte[] getThumbnail(String filePath, int i_width, int i_height)
-    {
+    public byte[] getThumbnail(String filePath, int i_width, int i_height) {
         return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
     }
 
@@ -203,14 +189,14 @@ public class LibVLC {
      * Return true if there is a video track in the file
      */
     public boolean hasVideoTrack(String filePath) {
-    	return hasVideoTrack(mLibVlcInstance, filePath);
+        return hasVideoTrack(mLibVlcInstance, filePath);
     }
 
     /**
      * Return true if there is a video track in the file
      */
     public long getLengthFromFile(String filePath) {
-    	return getLengthFromFile(mLibVlcInstance, filePath);
+        return getLengthFromFile(mLibVlcInstance, filePath);
     }
 
     /**
@@ -332,7 +318,6 @@ public class LibVLC {
      * Return true if there is a video track in the file
      */
     private native boolean hasVideoTrack(int instance, String filePath);
-
 
     private native String[] readMediaMeta(int instance, String mrl);
 

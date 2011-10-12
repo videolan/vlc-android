@@ -107,7 +107,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     // Get the play methodId
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
     assert (p_sys->play != NULL);
-	return 0;
+    return 0;
 }
 
 /**

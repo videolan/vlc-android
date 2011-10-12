@@ -13,15 +13,14 @@ public class Aout {
      * TODO Use MODE_STATIC instead of MODE_STREAM with a MemoryFile (ashmem)
      */
 
-	public Aout()
-	{
-	}
+    public Aout() {
+    }
 
     private AudioTrack mAudioTrack;
     private static final String TAG = "LibVLC/aout";
 
     public void init(int sampleRateInHz, int channels, int samples) {
-        Log.d(TAG, sampleRateInHz + ", " + channels + ", " + samples + "=>" + channels*samples);
+        Log.d(TAG, sampleRateInHz + ", " + channels + ", " + samples + "=>" + channels * samples);
         mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC,
                                      sampleRateInHz,
                                      AudioFormat.CHANNEL_CONFIGURATION_STEREO,
@@ -32,14 +31,13 @@ public class Aout {
 
     public void release() {
         if (mAudioTrack != null) {
-        	mAudioTrack.release();
+            mAudioTrack.release();
         }
         mAudioTrack = null;
     }
 
     public void playBuffer(byte[] audioData, int bufferSize) {
-        if (mAudioTrack.write(audioData, 0, bufferSize) != bufferSize)
-        {
+        if (mAudioTrack.write(audioData, 0, bufferSize) != bufferSize) {
             Log.w(TAG, "Could not write all the samples to the audio device");
         }
         mAudioTrack.play();

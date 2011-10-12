@@ -23,12 +23,12 @@ public class EventManager {
     //public static final int MediaPlayerNothingSpecial       = 0x101;
     //public static final int MediaPlayerOpening              = 0x102;
     //public static final int MediaPlayerBuffering            = 0x103;
-    public static final int MediaPlayerPlaying              = 0x104;
-    public static final int MediaPlayerPaused               = 0x105;
-    public static final int MediaPlayerStopped              = 0x106;
+    public static final int MediaPlayerPlaying = 0x104;
+    public static final int MediaPlayerPaused = 0x105;
+    public static final int MediaPlayerStopped = 0x106;
     //public static final int MediaPlayerForward              = 0x107;
     //public static final int MediaPlayerBackward             = 0x108;
-    public static final int MediaPlayerEndReached           = 0x109;
+    public static final int MediaPlayerEndReached = 0x109;
     //public static final int MediaPlayerEncounteredError     = 0x10a;
     //public static final int MediaPlayerTimeChanged          = 0x10b;
     //public static final int MediaPlayerPositionChanged      = 0x10c;
@@ -71,23 +71,23 @@ public class EventManager {
     private static EventManager mInstance;
 
     private EventManager() {
-    	mEventHandler = new ArrayList<Handler>();
+        mEventHandler = new ArrayList<Handler>();
     }
 
     public static EventManager getIntance() {
-    	if (mInstance == null) {
-    		mInstance = new EventManager();
-    	}
-    	return mInstance;
+        if (mInstance == null) {
+            mInstance = new EventManager();
+        }
+        return mInstance;
     }
 
     public void addHandler(Handler handler) {
-    	if (!mEventHandler.contains(handler))
-    		mEventHandler.add(handler);
+        if (!mEventHandler.contains(handler))
+            mEventHandler.add(handler);
     }
 
     public void removeHandler(Handler handler) {
-    	mEventHandler.remove(handler);
+        mEventHandler.remove(handler);
     }
 
     /** This method is called by a native thread **/
@@ -95,11 +95,9 @@ public class EventManager {
         Bundle b = new Bundle();
         b.putInt("event", event);
         for (int i = 0; i < mEventHandler.size(); i++) {
-        	Message msg = Message.obtain();
+            Message msg = Message.obtain();
             msg.setData(b);
-        	mEventHandler.get(i).sendMessage(msg);
+            mEventHandler.get(i).sendMessage(msg);
         }
     }
 }
-
-

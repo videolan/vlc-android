@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <LinearLayout
-    	android:layout_width="match_parent" 
-    	android:layout_height="48dip"
-    	android:orientation="horizontal"
-    	android:background="@drawable/header" >
-    	<ImageView
-    		android:src="@drawable/header_logo"
-    		android:layout_width="wrap_content"
-    		android:layout_height="match_parent"
-    		android:scaleType="centerInside"/>
-    	<View
-    		android:layout_width="0dip"
-    		android:layout_height="wrap_content"
-    		android:layout_weight="1"/>
-    	<ProgressBar 
-    		android:id="@+id/ml_progress_bar" 
-    		android:layout_width="22dip" 
-    		android:layout_height="22dip"
-    		android:layout_margin="13dip"
-    		android:visibility="invisible"/>
-    	<ImageButton
-    		android:id="@+id/change_tab"
-    		android:background="@drawable/header_button"
-			android:src="@drawable/header_icon_audio"
-			android:scaleType="fitXY"
-    		android:layout_width="48dp"
-    		android:layout_height="48dp"
-    		android:padding="10dip"
-    		android:onClick="changeTabClick"/>
-    	<ImageButton
-    		android:layout_width="48dip"
-    		android:layout_height="48dip"
-    		android:background="@drawable/header_button"
-    		android:src="@drawable/header_icon_loupe"
-    		android:scaleType="fitXY"
-    		android:padding="10dip"
-    		android:onClick="searchClick"/>
-   	</LinearLayout>
-	<TextView
-		android:id="@+id/text_info"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:visibility="gone"/>
-   	<TabHost
-	    android:id="@android:id/tabhost"
-	    android:layout_width="fill_parent"
-	    android:layout_height="0dip"
-	    android:layout_weight="1">
-	    <LinearLayout
-	        android:orientation="vertical"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent">
-	        <TabWidget
-	            android:id="@android:id/tabs"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:visibility="gone"/>
-	        <FrameLayout
-	            android:id="@android:id/tabcontent"
-	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent"/>
-	    </LinearLayout>
-	</TabHost>
-	<org.videolan.vlc.android.widget.AudioMiniPlayer
-		android:id="@+id/audio_mini_player"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:visibility="gone"/> 
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:orientation="horizontal"
+        android:background="@drawable/header">
+        <ImageView
+            android:src="@drawable/header_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside" />
+        <View
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        <ProgressBar
+            android:id="@+id/ml_progress_bar"
+            android:layout_width="22dip"
+            android:layout_height="22dip"
+            android:layout_margin="13dip"
+            android:visibility="invisible" />
+        <ImageButton
+            android:id="@+id/change_tab"
+            android:background="@drawable/header_button"
+            android:src="@drawable/header_icon_audio"
+            android:scaleType="fitXY"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="10dip"
+            android:onClick="changeTabClick" />
+        <ImageButton
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:background="@drawable/header_button"
+            android:src="@drawable/header_icon_loupe"
+            android:scaleType="fitXY"
+            android:padding="10dip"
+            android:onClick="searchClick" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/text_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+        </LinearLayout>
+    </TabHost>
+    <org.videolan.vlc.android.widget.AudioMiniPlayer
+        android:id="@+id/audio_mini_player"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:visibility="gone" />
 </LinearLayout>
