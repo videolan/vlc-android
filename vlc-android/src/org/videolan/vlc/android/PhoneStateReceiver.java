@@ -12,13 +12,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
 			if (state == TelephonyManager.CALL_STATE_RINGING) {
-				try {
-					LibVLC libVLC = LibVLC.getInstance();
-					if (libVLC.isPlaying())
-						libVLC.pause();
-				} catch (LibVlcException e) {
-					return;
-				}
+				LibVLC libVLC = LibVLC.getExistingInstance();
+				if (libVLC != null && libVLC.isPlaying())
+					libVLC.pause();
 			}
 		}
 	};

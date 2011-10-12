@@ -78,6 +78,11 @@ public class LibVLC {
     	return sInstance;
     }
 
+    public static LibVLC getExistingInstance()
+    {
+        return sInstance;
+    }
+
     public void reinit() throws LibVlcException
     {
         destroy();
