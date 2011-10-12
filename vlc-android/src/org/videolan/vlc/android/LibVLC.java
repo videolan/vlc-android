@@ -121,7 +121,10 @@ public class LibVLC {
     {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-        	boolean useIomx = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance()).getBoolean("enable_iomx", false);
+        	MainActivity activity = MainActivity.getInstance();
+        	boolean useIomx = false;
+        	if (activity != null)
+        	    useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
         	nativeInit(useIomx);
             setEventManager(EventManager.getIntance());
         	mIsInitialized = true;
