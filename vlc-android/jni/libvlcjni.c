@@ -187,11 +187,21 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
 
 void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
 {
+    /*
+     * Set higher caching values if using iomx decoding, since some omx
+     * decoders have a very high latency, and if the preroll data isn't
+     * enough to make the decoder output a frame, the playback timing gets
+     * started too soon, and every decoded frame appears to be too late.
+     * On Nexus One, the decoder latency seems to be 25 input packets
+     * for 320x170 H.264, a few packets less on higher resolutions.
+     * On Nexus S, the decoder latency seems to be about 7 packets.
+     */
     const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-drop-late-frames", "--codec", "iomx,all"};
+                          "--no-drop-late-frames", "--codec", "iomx,all",
+                          "--file-caching", "1500", "--network-caching", "1500" };
     size_t argc = sizeof(argv) / sizeof(*argv);
     if (!enable_iomx)
-        argc -= 2;
+        argc -= 6; // Drop the --codec option and the iomx specific caching values
 
     libvlc_instance_t *instance = libvlc_new(argc, argv);
 
