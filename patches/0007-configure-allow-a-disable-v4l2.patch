@@ -9,10 +9,10 @@ This is needed because some distro have broken headers
  1 files changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 0746cc9..2e41511 100644
+index ddd63aa..fb88629 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1954,26 +1954,30 @@ fi
+@@ -1936,26 +1936,30 @@ fi
  dnl
  dnl  Video4Linux 2
  dnl
@@ -31,7 +31,7 @@ index 0746cc9..2e41511 100644
 -    PKG_CHECK_MODULES(LIBV4L2, libv4l2, [
 -      AC_DEFINE(HAVE_LIBV4L2, 1, [Define to 1 if libv4l2 is available])
 -    ], [
--      AC_MSG_WARN([${LIBV4L2_PKG_ERRORS}])
+-      AC_MSG_WARN([${LIBV4L2_PKG_ERRORS}.])
 +if test "${enable_v4l2}" != "no" ; then
 +    AC_CHECK_HEADERS([linux/videodev2.h sys/videoio.h], [
 +      have_v4l2="yes"
@@ -46,7 +46,7 @@ index 0746cc9..2e41511 100644
 +        PKG_CHECK_MODULES(LIBV4L2, libv4l2, [
 +          AC_DEFINE(HAVE_LIBV4L2, 1, [Define to 1 if libv4l2 is available])
 +        ], [
-+          AC_MSG_WARN([${LIBV4L2_PKG_ERRORS}])
++          AC_MSG_WARN([${LIBV4L2_PKG_ERRORS}.])
 +        ])
 +      ])
 +      AS_IF([test "${enable_pvr}" = "yes"], [
@@ -58,5 +58,5 @@ index 0746cc9..2e41511 100644
  
  dnl
 -- 
-1.7.7.rc1
+1.7.4.1
 
