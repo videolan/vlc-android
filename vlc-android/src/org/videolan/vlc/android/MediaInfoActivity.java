@@ -54,7 +54,8 @@ public class MediaInfoActivity extends Activity {
                 return;
             }
 
-            int width = getWindowManager().getDefaultDisplay().getHeight();
+            int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
+                                 getWindowManager().getDefaultDisplay().getHeight());
             int height = width;
 
             // Get the thumbnail.
@@ -69,7 +70,7 @@ public class MediaInfoActivity extends Activity {
             int top = 0;
             for (int i = 0; i < height; i++) {
                 int pixel = mImage.getPixel(width / 2, i);
-                if (pixel == 0) {
+                if (pixel == 0 || pixel == -16777216) {
                     top = i;
                 } else {
                     break;
@@ -79,7 +80,7 @@ public class MediaInfoActivity extends Activity {
             int left = 0;
             for (int i = 0; i < width; i++) {
                 int pixel = mImage.getPixel(i, height / 2);
-                if (pixel == 0) {
+                if (pixel == 0 || pixel == -16777216) {
                     left = i;
                 } else {
                     break;
@@ -87,8 +88,8 @@ public class MediaInfoActivity extends Activity {
             }
 
             // Cut off the transparency on the borders
-            mImage = Bitmap.createBitmap(mImage, top, left,
-                    (width - (2 * top)), (height - (2 * left)));
+            mImage = Bitmap.createBitmap(mImage, left, top,
+                    (width - (2 * left)), (height - (2 * top)));
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }
