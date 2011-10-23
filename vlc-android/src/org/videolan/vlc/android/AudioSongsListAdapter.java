@@ -27,16 +27,18 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         View v = convertView;
         if (v == null) {
-            LayoutInflater inflater = (LayoutInflater)
-                    getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(android.R.layout.simple_list_item_1,
-                    parent, false);
-        }
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            holder = new ViewHolder();
+            holder.text = (TextView) v.findViewById(android.R.id.text1);
+            v.setTag(holder);
+        } else
+            holder = (ViewHolder) v.getTag();
 
-        TextView text = (TextView) v.findViewById(android.R.id.text1);
-        text.setText(getItem(position).getTitle());
+        holder.text.setText(getItem(position).getTitle());
         return v;
     }
 
@@ -48,4 +50,7 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
         return paths;
     }
 
+    static class ViewHolder {
+        TextView text;
+    }
 }

@@ -86,36 +86,36 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        ViewHolder holder;
         View v = convertView;
         if (v == null) {
-            LayoutInflater inflater = (LayoutInflater)
-                    getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.video_list_item,
-                    parent, false);
-        }
+            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.video_list_item, parent, false);
+            holder = new ViewHolder();
+            holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
+            holder.length = (TextView) v.findViewById(R.id.ml_item_length);
+            holder.title = (TextView) v.findViewById(R.id.ml_item_title);
+            holder.more = (ImageView) v.findViewById(R.id.ml_item_more);
+            v.setTag(holder);
+        } else
+            holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
-        ImageView thumbnailView = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
-        TextView titleView = (TextView) v.findViewById(R.id.ml_item_title);
-        TextView lengthView = (TextView) v.findViewById(R.id.ml_item_length);
-        titleView.setText(media.getTitle());
-        lengthView.setText(" " + Util.millisToString(media.getLength()) + " ");
-        ImageView moreView = (ImageView) v.findViewById(R.id.ml_item_more);
+        holder.title.setText(media.getTitle());
+        holder.length.setText(" " + Util.millisToString(media.getLength()) + " ");
 
         Bitmap thumbnail;
         if (media.getPicture() != null) {
             thumbnail = media.getPicture();
-            thumbnailView.setImageBitmap(thumbnail);
+            holder.thumbnail.setImageBitmap(thumbnail);
         } else {
             // set default thumbnail
-            thumbnail = BitmapFactory.decodeResource(
-                    MainActivity.getInstance().getResources(),
-                    R.drawable.thumbnail);
-            thumbnailView.setImageBitmap(thumbnail);
+            thumbnail = BitmapFactory.decodeResource(MainActivity.getInstance().getResources(), R.drawable.thumbnail);
+            holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        moreView.setTag(media);
-        moreView.setOnClickListener(moreClickListener);
+        holder.more.setTag(media);
+        holder.more.setOnClickListener(moreClickListener);
 
         return v;
     }
@@ -132,4 +132,10 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
     };
 
+    static class ViewHolder {
+        ImageView thumbnail;
+        TextView length;
+        TextView title;
+        ImageView more;
+    }
 }
