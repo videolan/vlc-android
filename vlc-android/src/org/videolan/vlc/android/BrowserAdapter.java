@@ -52,23 +52,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             final CheckBox dirCheckBox =
                     (CheckBox) view.findViewById(R.id.browser_item_selected);
 
-            dirCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-                public void onCheckedChanged(CompoundButton buttonView,
-                        boolean isChecked) {
-                    if (dirCheckBox.isEnabled() && isChecked) {
-                        dbManager.addDir(item.getPath());
-                        File tmpFile = item;
-                        while (!tmpFile.getPath().equals("/")) {
-                            tmpFile = tmpFile.getParentFile();
-                            dbManager.removeDir(tmpFile.getPath());
-                        }
-                    } else {
-                        dbManager.removeDir(item.getPath());
-                    }
-
-                }
-            });
+            dirCheckBox.setOnCheckedChangeListener(null);
 
             dirCheckBox.setEnabled(true);
             dirCheckBox.setChecked(false);
@@ -86,6 +70,22 @@ public class BrowserAdapter extends ArrayAdapter<File>
                     break;
                 }
             }
+
+            dirCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                public void onCheckedChanged(CompoundButton buttonView,
+                        boolean isChecked) {
+                    if (dirCheckBox.isEnabled() && isChecked) {
+                        dbManager.addDir(item.getPath());
+                        File tmpFile = item;
+                        while (!tmpFile.getPath().equals("/")) {
+                            tmpFile = tmpFile.getParentFile();
+                            dbManager.removeDir(tmpFile.getPath());
+                        }
+                    } else {
+                        dbManager.removeDir(item.getPath());
+                    }
+                }
+            });
         }
 
         return view;
