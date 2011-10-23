@@ -55,7 +55,7 @@ public class LibVLC {
             sInstance = new LibVLC();
             sInstance.init();
 
-            if (sListener == null) {
+            if (sListener == null && MainActivity.getInstance() != null) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
                 /* This needs to be stored in a local field, to avoid garbage collection, since
                  * the shared prefs only keep a weak reference to it. */
