@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -29,6 +31,7 @@ public class AudioBrowserActivity extends Activity {
 
     private HorizontalScrollView mHeader;
     private AudioServiceController mAudioController;
+    private MediaLibrary mMediaLibrary;
 
     private AudioSongsListAdapter mSongsAdapter;
 
@@ -43,6 +46,9 @@ public class AudioBrowserActivity extends Activity {
         mHeader = (HorizontalScrollView) findViewById(R.id.header);
         mAudioController = AudioServiceController.getInstance();
 
+        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary.addUpdateHandler(mHandler);
+
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
 
         ListView songsList = (ListView) findViewById(R.id.songs_list);
@@ -56,6 +62,12 @@ public class AudioBrowserActivity extends Activity {
             }
         });
         updateLists();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMediaLibrary.removeUpdateHandler(mHandler);
+        super.onDestroy();
     }
 
     private ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
@@ -82,6 +94,21 @@ public class AudioBrowserActivity extends Activity {
 
     };
 
+    /**
+     * Handle changes on the list
+     */
+    protected Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                updateLists();
+                break;
+        }
+    }
+    };
+
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
         Collections.sort(audioList, new Comparator<Media>() {
@@ -90,6 +117,7 @@ public class AudioBrowserActivity extends Activity {
             };
         });
 
+        mSongsAdapter.clear();
         for (int i = 0; i < audioList.size(); i++) {
             mSongsAdapter.add(audioList.get(i));
         }

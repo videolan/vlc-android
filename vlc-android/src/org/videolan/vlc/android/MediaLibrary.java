@@ -46,6 +46,10 @@ public class MediaLibrary {
         mUpdateHandler.add(handler);
     }
 
+    public void removeUpdateHandler(Handler handler) {
+        mUpdateHandler.remove(handler);
+    }
+
     public ArrayList<Media> getVideoItems() {
         ArrayList<Media> videoItems = new ArrayList<Media>();
         for (int i = 0; i < mItemList.size(); i++) {

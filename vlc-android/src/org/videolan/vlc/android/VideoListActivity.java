@@ -47,6 +47,12 @@ public class VideoListActivity extends ListActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        mMediaLibrary.removeUpdateHandler(mHandler);
+        super.onDestroy();
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
 
         // Stop the currently running audio
