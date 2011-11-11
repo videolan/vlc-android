@@ -62,8 +62,8 @@ public class BrowserAdapter extends ArrayAdapter<File>
                     holder.check.setEnabled(true);
                     holder.check.setChecked(true);
                     break;
-                } else if (dir.getPath().startsWith(item.getPath())) {
-                    Log.i(TAG, item.getPath() + " startWith " + dir.getPath());
+                } else if (dir.getPath().startsWith(item.getPath()+"/")) {
+                    Log.i(TAG, dir.getPath() + " startWith " + item.getPath());
                     holder.check.setEnabled(false);
                     holder.check.setChecked(true);
                     break;
