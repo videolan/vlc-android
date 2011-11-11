@@ -31,14 +31,17 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
+            v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
-            holder.text = (TextView) v.findViewById(android.R.id.text1);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.artist = (TextView) v.findViewById(R.id.artist);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
 
-        holder.text.setText(getItem(position).getTitle());
+        Media media = getItem(position);
+        holder.title.setText(media.getTitle());
+        holder.artist.setText(media.getArtist() + " - " + media.getAlbum());
         return v;
     }
 
@@ -51,6 +54,7 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
     }
 
     static class ViewHolder {
-        TextView text;
+        TextView title;
+        TextView artist;
     }
 }

@@ -43,7 +43,7 @@ public class AudioBrowserActivity extends Activity {
         mHeader = (HorizontalScrollView) findViewById(R.id.header);
         mAudioController = AudioServiceController.getInstance();
 
-        mSongsAdapter = new AudioSongsListAdapter(this, android.R.layout.simple_list_item_1);
+        mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
 
         ListView songsList = (ListView) findViewById(R.id.songs_list);
         songsList.setAdapter(mSongsAdapter);
