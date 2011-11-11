@@ -1,6 +1,8 @@
 package org.videolan.vlc.android;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,6 +84,12 @@ public class AudioBrowserActivity extends Activity {
 
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
+        Collections.sort(audioList, new Comparator<Media>() {
+            public int compare(Media m1, Media m2) {
+                return String.CASE_INSENSITIVE_ORDER.compare(m1.getFile().getPath(), m2.getFile().getPath());
+            };
+        });
+
         for (int i = 0; i < audioList.size(); i++) {
             mSongsAdapter.add(audioList.get(i));
         }
