@@ -21,7 +21,7 @@ index bd711c6..3ca0988 100644
 +#elif defined (HAVE_MAEMO) || defined (__ANDROID__)
  # include <poll.h>
  # define poll(a, b, c) vlc_poll(a, b, c)
- int vlc_poll (struct pollfd *, unsigned, int);
+ #endif
 diff --git a/src/network/poll.c b/src/network/poll.c
 index 24335c2..aa2e260 100644
 --- a/src/network/poll.c
