@@ -67,4 +67,9 @@ public class VideoActivityGroup extends ActivityGroup {
         super.onBackPressed();
     }
 
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService();
+        super.onPause();
+    }
 }

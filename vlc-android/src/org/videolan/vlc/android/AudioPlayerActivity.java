@@ -145,4 +145,10 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         // mAudioController.shuffle();
         Util.toaster(R.string.notavailable);
     }
+
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService();
+        super.onPause();
+    }
 }

@@ -66,5 +66,4 @@ public class AudioActivityGroup extends ActivityGroup {
         AudioServiceController.getInstance().unbindAudioService();
         super.onPause();
     }
-
 }
