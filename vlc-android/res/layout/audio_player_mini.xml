@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
-                android:textSize="20dip"
+                android:textSize="16dip"
                 android:textColor="#ffffff"
                 android:singleLine="true" />
             <TextView
@@ -44,18 +44,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/artist"
-                android:textSize="16dip"
+                android:textSize="14dip"
                 android:textColor="#888888"
                 android:singleLine="true" />
         </LinearLayout>
+        <ImageButton
+            android:id="@+id/backward"
+            android:src="@drawable/ic_backward"
+            android:background="#00ffffff"
+            android:scaleType="fitXY"
+            android:layout_width="30dip"
+            android:layout_height="60dip"/>
         <ImageButton
             android:id="@+id/play_pause"
             android:src="@drawable/ic_pause"
             android:background="#00ffffff"
             android:scaleType="fitXY"
             android:layout_width="60dip"
+            android:layout_height="60dip"/>
+        <ImageButton
+            android:id="@+id/forward"
+            android:src="@drawable/ic_forward"
+            android:background="#00ffffff"
+            android:scaleType="fitXY"
+            android:layout_width="30dip"
             android:layout_height="60dip"
-            android:padding="10dip"
-            android:layout_marginRight="10dip" />
+            android:layout_marginRight="10dip"/>
     </LinearLayout>
 </LinearLayout>

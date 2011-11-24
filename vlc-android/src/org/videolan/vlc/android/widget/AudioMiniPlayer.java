@@ -28,18 +28,26 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
     private TextView mTitle;
     private TextView mArtist;
     private ImageButton mPlayPause;
+    private ImageButton mForward;
+    private ImageButton mBackward;
     private ImageView mCover;
     private SeekBar mSeekbar;
 
     // Listener for the play and pause buttons
-    private OnClickListener onPlayPauseClickListener = new OnClickListener() {
+    private OnClickListener onMediaControlClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (mAudioPlayerControl != null) {
-                if (mAudioPlayerControl.isPlaying()) {
-                    mAudioPlayerControl.pause();
-                } else {
-                    mAudioPlayerControl.play();
+                if (v == mPlayPause) {
+                    if (mAudioPlayerControl.isPlaying()) {
+                        mAudioPlayerControl.pause();
+                    } else {
+                        mAudioPlayerControl.play();
+                    }
+                } else if (v == mForward) {
+                    mAudioPlayerControl.next();
+                } else if (v == mBackward) {
+                    mAudioPlayerControl.previous();
                 }
             }
             update();
@@ -69,7 +77,11 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
         mTitle = (TextView) findViewById(R.id.title);
         mArtist = (TextView) findViewById(R.id.artist);
         mPlayPause = (ImageButton) findViewById(R.id.play_pause);
-        mPlayPause.setOnClickListener(onPlayPauseClickListener);
+        mForward = (ImageButton) findViewById(R.id.forward);
+        mBackward = (ImageButton) findViewById(R.id.backward);
+        mPlayPause.setOnClickListener(onMediaControlClickListener);
+        mForward.setOnClickListener(onMediaControlClickListener);
+        mBackward.setOnClickListener(onMediaControlClickListener);
         mSeekbar = (SeekBar) findViewById(R.id.timeline);
 
         this.setOnClickListener(new OnClickListener() {
@@ -140,6 +152,14 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
             } else {
                 mPlayPause.setImageResource(R.drawable.ic_play);
             }
+            if (mAudioPlayerControl.hasNext())
+                mForward.setVisibility(ImageButton.VISIBLE);
+            else
+                mForward.setVisibility(ImageButton.INVISIBLE);
+            if (mAudioPlayerControl.hasPrevious())
+                mBackward.setVisibility(ImageButton.VISIBLE);
+            else
+                mBackward.setVisibility(ImageButton.INVISIBLE);
             int time = (int) mAudioPlayerControl.getTime();
             int length = (int) mAudioPlayerControl.getLength();
             // Update all view elements
