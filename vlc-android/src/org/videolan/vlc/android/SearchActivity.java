@@ -200,8 +200,20 @@ public class SearchActivity extends ListActivity {
 
             // open media in the player
             Media item = (Media) getListAdapter().getItem(position - 1);
-            Intent intent = new Intent(this, VideoPlayerActivity.class);
-            intent.putExtra("filePath", item.getPath());
+            Intent intent;
+            if (item.getType() == Media.TYPE_VIDEO) {
+                intent = new Intent(this, VideoPlayerActivity.class);
+                intent.putExtra("filePath", item.getPath());
+            } else {
+                ArrayList<String> arr = new ArrayList<String>();
+                for (int i = 0; i < getListAdapter().getCount(); i++) {
+                    Media audioItem = (Media) getListAdapter().getItem(i);
+                    if (audioItem.getType() == Media.TYPE_AUDIO)
+                        arr.add(audioItem.getPath());
+                }
+                AudioServiceController.getInstance().load(arr, arr.indexOf(item.getPath()));
+                intent = new Intent(this, AudioPlayerActivity.class);
+            }
             startActivity(intent);
             super.onListItemClick(l, v, position, id);
 
