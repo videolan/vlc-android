@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -20,10 +21,14 @@ public class AudioService extends Service {
 
     private LibVLC mLibVLC;
     private ArrayList<Media> mMediaList;
+    private ArrayList<Media> mPlayedMedia;
+    private Stack<Media> mPrevious;
     private Media mCurrentMedia;
     private ArrayList<IAudioServiceCallback> mCallback;
     private EventManager mEventManager;
     private Notification mNotification;
+    private boolean mShuffling = false;
+    private boolean mRepeating = false;
 
     @Override
     public void onStart(Intent intent, int startId) {
@@ -38,6 +43,8 @@ public class AudioService extends Service {
 
         mCallback = new ArrayList<IAudioServiceCallback>();
         mMediaList = new ArrayList<Media>();
+        mPlayedMedia = new ArrayList<Media>();
+        mPrevious = new Stack<Media>();
         mEventManager = EventManager.getIntance();
     }
 
@@ -144,6 +151,8 @@ public class AudioService extends Service {
         mLibVLC.stop();
         mCurrentMedia = null;
         mMediaList.clear();
+        mPlayedMedia.clear();
+        mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
         hideNotification();
         executeUpdate();
@@ -151,23 +160,43 @@ public class AudioService extends Service {
 
     private void next() {
         int index = mMediaList.indexOf(mCurrentMedia);
-        if (index < mMediaList.size() - 1) {
+        mPrevious.push(mCurrentMedia);
+        if (mRepeating)
+            mCurrentMedia = mMediaList.get(index);
+        else if (mShuffling && mPlayedMedia.size() < mMediaList.size()) {
+            while (mPlayedMedia.contains(mCurrentMedia = mMediaList
+                           .get((int) (Math.random() * mMediaList.size()))))
+                ;
+        } else if (index < mMediaList.size() - 1) {
             mCurrentMedia = mMediaList.get(index + 1);
-            mLibVLC.readMedia(mCurrentMedia.getPath());
-            showNotification();
         } else {
             stop();
+            return;
         }
+        mLibVLC.readMedia(mCurrentMedia.getPath());
+        showNotification();
     }
 
     private void previous() {
         int index = mMediaList.indexOf(mCurrentMedia);
-        if (index > 0) {
+        if (mPrevious.size() > 0)
+            mCurrentMedia = mPrevious.pop();
+        else if (index > 0)
             mCurrentMedia = mMediaList.get(index - 1);
-            mLibVLC.readMedia(mCurrentMedia.getPath());
-            showNotification();
-        }
+        else
+            return;
+        mLibVLC.readMedia(mCurrentMedia.getPath());
+        showNotification();
+    }
 
+    private void shuffle() {
+        if (mShuffling)
+            mPlayedMedia.clear();
+        mShuffling = !mShuffling;
+    }
+
+    private void repeat() {
+        mRepeating = !mRepeating;
     }
 
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
@@ -195,6 +224,16 @@ public class AudioService extends Service {
         @Override
         public boolean isPlaying() throws RemoteException {
             return mLibVLC.isPlaying();
+        }
+
+        @Override
+        public boolean isShuffling() {
+            return mShuffling;
+        }
+
+        @Override
+        public boolean isRepeating() {
+            return mRepeating;
         }
 
         @Override
@@ -257,7 +296,8 @@ public class AudioService extends Service {
                 throws RemoteException {
             mEventManager.addHandler(mEventHandler);
             mMediaList.clear();
-
+            mPlayedMedia.clear();
+            mPrevious.clear();
             DatabaseManager db = DatabaseManager.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
@@ -285,6 +325,15 @@ public class AudioService extends Service {
             AudioService.this.previous();
         }
 
+        public void shuffle() throws RemoteException {
+            AudioService.this.shuffle();
+        }
+
+        @Override
+        public void repeat() throws RemoteException {
+            AudioService.this.repeat();
+        }
+
         @Override
         public void setTime(long time) throws RemoteException {
             mLibVLC.setTime(time);
@@ -292,8 +341,11 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasNext() throws RemoteException {
+            if (mRepeating)
+                return false;
             int index = mMediaList.indexOf(mCurrentMedia);
-            if (index < mMediaList.size() - 1)
+            if (mShuffling && mPlayedMedia.size() < mMediaList.size() ||
+                    index < mMediaList.size() - 1)
                 return true;
             else
                 return false;
@@ -301,8 +353,10 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasPrevious() throws RemoteException {
+            if (mRepeating)
+                return false;
             int index = mMediaList.indexOf(mCurrentMedia);
-            if (index > 0)
+            if (mPrevious.size() > 0 || index > 0)
                 return true;
             else
                 return false;

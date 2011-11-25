@@ -34,6 +34,14 @@ public interface AudioPlayer {
         void next();
 
         void previous();
+
+        void shuffle();
+
+        void repeat();
+
+        boolean isShuffling();
+
+        boolean isRepeating();
     }
 
 }

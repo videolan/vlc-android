@@ -85,6 +85,16 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         } else {
             mPlayPause.setBackgroundResource(R.drawable.ic_play);
         }
+        if (mAudioController.isShuffling()) {
+            mShuffle.setImageResource(R.drawable.ic_shuffle_glow);
+        } else {
+            mShuffle.setImageResource(R.drawable.ic_shuffle);
+        }
+        if (mAudioController.isRepeating()) {
+            mRepeat.setImageResource(R.drawable.ic_repeat_glow);
+        } else {
+            mRepeat.setImageResource(R.drawable.ic_repeat);
+        }
         if (mAudioController.hasNext())
             mNext.setVisibility(ImageButton.VISIBLE);
         else
@@ -137,13 +147,13 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     }
 
     public void onRepeatClick(View view) {
-        // mAudioController.repeat();
-        Util.toaster(R.string.notavailable);
+        mAudioController.repeat();
+        update();
     }
 
     public void onShuffleClick(View view) {
-        // mAudioController.shuffle();
-        Util.toaster(R.string.notavailable);
+        mAudioController.shuffle();
+        update();
     }
 
     @Override

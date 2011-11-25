@@ -301,4 +301,41 @@ public class AudioServiceController implements AudioPlayerControl {
         return false;
     }
 
+    @Override
+    public void shuffle() {
+        try {
+            mAudioServiceBinder.shuffle();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: shuffle()");
+        }
+    }
+
+    @Override
+    public void repeat() {
+        try {
+            mAudioServiceBinder.repeat();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: repeat()");
+        }
+    }
+
+    @Override
+    public boolean isShuffling() {
+        try {
+            return mAudioServiceBinder.isShuffling();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: isShuffling()");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean isRepeating() {
+        try {
+            return mAudioServiceBinder.isRepeating();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: isRepeating()");
+            return false;
+        }
+    }
 }
