@@ -1,6 +1,7 @@
 package org.videolan.vlc.android;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -27,6 +28,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 
     private AudioServiceController mAudioController;
     private boolean mIsTracking = false;
+    private String lastTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         mTimeline = (SeekBar) findViewById(R.id.timeline);
 
         mAudioController = AudioServiceController.getInstance();
-
+        lastTitle = "";
     }
 
     @Override
@@ -69,8 +71,15 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         if (!mAudioController.hasMedia())
             finish();
 
-        // mCover....
-        mTitle.setText(mAudioController.getTitle());
+        if (!mAudioController.getTitle().equals(lastTitle)) {
+            Bitmap cover = mAudioController.getCover();
+            if (cover != null)
+                mCover.setImageBitmap(cover);
+            else
+                mCover.setImageResource(R.drawable.cone);
+        }
+        lastTitle = mAudioController.getTitle();
+        mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());
         mAlbum.setText(mAudioController.getAlbum());
         int time = (int) mAudioController.getTime();

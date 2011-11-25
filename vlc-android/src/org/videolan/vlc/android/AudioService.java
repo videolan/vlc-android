@@ -1,5 +1,6 @@
 package org.videolan.vlc.android;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -7,11 +8,17 @@ import java.util.Stack;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class AudioService extends Service {
@@ -54,7 +61,7 @@ public class AudioService extends Service {
     }
 
     /**
-     *  Handle libvlc asynchronous events
+     * Handle libvlc asynchronous events
      */
     private Handler mEventHandler = new Handler() {
 
@@ -265,6 +272,39 @@ public class AudioService extends Service {
                 return null;
         }
 
+        public Bitmap getCover() {
+            if (mCurrentMedia != null) {
+                try {
+                    ContentResolver contentResolver = getContentResolver();
+                    Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+                    Cursor cursor = contentResolver.query(uri, new String[] {
+                                   MediaStore.Audio.Albums.ALBUM,
+                                   MediaStore.Audio.Albums.ALBUM_ART },
+                                   MediaStore.Audio.Albums.ALBUM + " LIKE ?",
+                                   new String[] { mCurrentMedia.getAlbum() }, null);
+                    if (cursor == null) {
+                        // do nothing
+                    } else if (!cursor.moveToFirst()) {
+                        // do nothing
+                    } else {
+                        int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
+                        String albumArt = cursor.getString(titleColumn);
+                        Bitmap b = BitmapFactory.decodeFile(albumArt);
+                        if (b != null)
+                            return b;
+                    }
+                    File f = new File(mCurrentMedia.getPath());
+                    for (File s : f.getParentFile().listFiles()) {
+                        if (s.getAbsolutePath().endsWith("png") ||
+                                s.getAbsolutePath().endsWith("jpg"))
+                            return BitmapFactory.decodeFile(s.getAbsolutePath());
+                    }
+                } catch (Exception e) {
+                }
+            }
+            return null;
+        }
+
         @Override
         public void addAudioCallback(IAudioServiceCallback cb)
                 throws RemoteException {
@@ -287,7 +327,6 @@ public class AudioService extends Service {
 
         @Override
         public int getLength() throws RemoteException {
-            // TODO Auto-generated method stub
             return (int) mLibVLC.getLength();
         }
 

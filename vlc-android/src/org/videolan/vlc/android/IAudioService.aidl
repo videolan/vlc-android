@@ -23,6 +23,7 @@ interface IAudioService {
     String getAlbum();
     int getTime();
     int getLength();
+    Bitmap getCover();
     void addAudioCallback(IAudioServiceCallback cb);
     void removeAudioCallback(IAudioServiceCallback cb);
 }

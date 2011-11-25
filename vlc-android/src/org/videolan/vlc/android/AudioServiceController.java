@@ -82,7 +82,6 @@ public class AudioServiceController implements AudioPlayerControl {
 
     /**
      * Bind to audio service if it is running
-     * @return true if the binding was successful.
      */
     public void bindAudioService() {
         if (mAudioServiceBinder == null) {
@@ -252,7 +251,12 @@ public class AudioServiceController implements AudioPlayerControl {
 
     @Override
     public Bitmap getCover() {
-        return null;
+        try {
+            return mAudioServiceBinder.getCover();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: getCover()");
+            return null;
+        }
     }
 
     @Override
