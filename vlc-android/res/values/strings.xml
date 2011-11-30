@@ -3,7 +3,7 @@
     <string name="hello">Hello World, vlc!</string>
     <string name="app_name" translatable="false">VLC media player</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
-    <string name="filebrowser_root">&lt;root&gt;</string>
+    <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Select media to play</string>
     <string name="preferences">Preferences</string>

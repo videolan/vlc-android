@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/mediafiles">
+        <EditTextPreference
+            android:key="directories_root"
+            android:defaultValue="/"
+            android:title="@string/filebrowser_root">
+        </EditTextPreference>
         <PreferenceScreen
             android:key="directories"
             android:title="@string/directories"

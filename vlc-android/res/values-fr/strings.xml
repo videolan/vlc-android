@@ -2,7 +2,7 @@
 <resources>
     <string name="hello">Hello World, VLC!</string>
     <string name="filebrowser_sdfail">Impossible de lire la Carte SD. Veuillez vérifier qu\'elle est montée correctement.</string>
-    <string name="filebrowser_root">&lt;racine&gt;</string>
+    <string name="filebrowser_root">Racine</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Sélection des médias</string>
     <string name="preferences">Préférences</string>

@@ -5,7 +5,9 @@ import java.io.FileFilter;
 import java.util.Stack;
 
 import android.app.ListActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -20,6 +22,7 @@ public class BrowserActivity extends ListActivity {
     private BrowserAdapter mAdapter;
     private File mCurrentDir;
     private Stack<ScrollState> mScollStates = new Stack<ScrollState>();
+    private String mRoot;
 
     private class ScrollState {
         public ScrollState(int index, int top) {
@@ -38,7 +41,17 @@ public class BrowserActivity extends ListActivity {
         mAdapter = new BrowserAdapter(this, R.layout.browser_item);
         setListAdapter(mAdapter);
 
-        openDir(new File("/"));
+        //get the root from the settings
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        mRoot = pref.getString("directories_root", "/");
+
+        //Make sure the path is valid, use "/" if it is not
+        File file = new File(mRoot);
+        if (!file.exists())
+            file = new File("/");
+        mRoot = file.getPath();
+
+        openDir(file);
     }
 
     private void openDir(File file) {
@@ -71,7 +84,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mCurrentDir.getPath().equals("/")) {
+            if (mCurrentDir.getPath().equals(mRoot)) {
                 return super.onKeyDown(keyCode, event);
             } else {
                 openDir(mCurrentDir.getParentFile());
