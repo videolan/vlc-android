@@ -26,6 +26,12 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
     }
 
     @Override
+    public void clear() {
+        mMediaList.clear();
+        super.clear();
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         View v = convertView;
