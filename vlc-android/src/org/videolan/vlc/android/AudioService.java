@@ -348,7 +348,8 @@ public class AudioService extends Service {
                 mCurrentMedia = mMediaList.get(position);
             }
 
-            mLibVLC.readMedia(mCurrentMedia.getPath());
+            if (mCurrentMedia != null)
+                mLibVLC.readMedia(mCurrentMedia.getPath());
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
 
