@@ -22,7 +22,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lavformat -lavcodec -lswscale -lavutil -lpostproc \
 	-lmpeg2 -lpng -ldca -ldvbpsi -ltwolame -lkate -llog -la52 \
 	-lebml -lmatroska -ltag \
-	-L$(ANDROID_LIBS) -lstagefright -lmedia -lutils -lbinder \
+	-L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder \
 	$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libstdc++.a
 
 include $(BUILD_SHARED_LIBRARY)
