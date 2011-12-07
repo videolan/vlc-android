@@ -13,8 +13,8 @@ echo "Fetching Android system headers"
 # "Stagefright: Memcpy optimization on output port." (available
 # upstream at https://www.codeaurora.org/gitweb/quic/la/?p=platform/frameworks/base.git;a=commit;h=052368f194c9fc180b9b0335b60114a2f1fb88d8),
 # which adds some vtable entries needed on newer qualcomm devices.
-$GIT clone --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers/frameworks/base
-$GIT clone --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers/system/core
+$GIT clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers/frameworks/base
+$GIT clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers/system/core
 export ANDROID_SYS_HEADERS=${PWD}/android-headers
 
 echo "Fetching Android libraries for linking"
