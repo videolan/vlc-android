@@ -30,6 +30,11 @@ public class LibVLC {
     /* Load library before object instantiation */
     static {
         try {
+            System.loadLibrary("iomx");
+        } catch (Throwable t) {
+            Log.w(TAG, "Unable to load the iomx library: " + t);
+        }
+        try {
             System.loadLibrary("vlcjni");
         } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load vlcjni library: " + ule);
