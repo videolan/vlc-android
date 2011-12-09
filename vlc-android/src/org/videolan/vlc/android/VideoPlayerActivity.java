@@ -250,16 +250,16 @@ public class VideoPlayerActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
-                    Log.e(TAG, "MediaPlayerPlaying");
+                    Log.i(TAG, "MediaPlayerPlaying");
                     break;
                 case EventManager.MediaPlayerPaused:
-                    Log.e(TAG, "MediaPlayerPaused");
+                    Log.i(TAG, "MediaPlayerPaused");
                     break;
                 case EventManager.MediaPlayerStopped:
-                    Log.e(TAG, "MediaPlayerStopped");
+                    Log.i(TAG, "MediaPlayerStopped");
                     break;
                 case EventManager.MediaPlayerEndReached:
-                    Log.e(TAG, "MediaPlayerEndReached");
+                    Log.i(TAG, "MediaPlayerEndReached");
                     /* Exit player when reach the end */
                     VideoPlayerActivity.this.finish();
                     break;

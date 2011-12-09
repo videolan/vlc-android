@@ -69,20 +69,20 @@ public class AudioService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
-                    Log.e(TAG, "MediaPlayerPlaying");
+                    Log.i(TAG, "MediaPlayerPlaying");
                     break;
                 case EventManager.MediaPlayerPaused:
-                    Log.e(TAG, "MediaPlayerPaused");
+                    Log.i(TAG, "MediaPlayerPaused");
                     executeUpdate();
                     // also hide notification if phone ringing
                     hideNotification();
                     break;
                 case EventManager.MediaPlayerStopped:
-                    Log.e(TAG, "MediaPlayerStopped");
+                    Log.i(TAG, "MediaPlayerStopped");
                     executeUpdate();
                     break;
                 case EventManager.MediaPlayerEndReached:
-                    Log.e(TAG, "MediaPlayerEndReached");
+                    Log.i(TAG, "MediaPlayerEndReached");
                     executeUpdate();
                     next();
                     break;
