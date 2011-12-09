@@ -71,21 +71,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fastScrollEnabled="true" />
-        <LinearLayout
+        <ListView
             android:id="@+id/artists_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <LinearLayout
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" />
+        <ListView
             android:id="@+id/albums_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        <LinearLayout
+        <ListView
             android:id="@+id/genres_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <LinearLayout
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" />
+        <ListView
             android:id="@+id/playklists_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" />
     </org.videolan.vlc.android.widget.FlingViewGroup>
 </LinearLayout>
