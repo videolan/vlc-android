@@ -54,6 +54,13 @@ public class BrowserActivity extends ListActivity {
         openDir(file);
     }
 
+    @Override
+    protected void onDestroy() {
+        mAdapter.clear();
+        mScollStates.clear();
+        super.onDestroy();
+    }
+
     private void openDir(File file) {
         mAdapter.clear();
         mCurrentDir = file;

@@ -49,6 +49,8 @@ public class VideoListActivity extends ListActivity {
     @Override
     protected void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
+        mThumbnailerManager.clearJobs();
+        mVideoAdapter.clear();
         super.onDestroy();
     }
 

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class SearchActivity extends ListActivity {
+
     public final static String TAG = "VLC/SearchActivit";
 
     private EditText mSearchText;
@@ -57,7 +58,15 @@ public class SearchActivity extends ListActivity {
         }
 
         mSearchText.requestFocus();
+    }
 
+    @Override
+    protected void onDestroy() {
+        if (mHistoryAdapter != null)
+            mHistoryAdapter.clear();
+        mHistory.clear();
+        mResultAdapter.clear();
+        super.onDestroy();
     }
 
     private void search(CharSequence key, int type) {
