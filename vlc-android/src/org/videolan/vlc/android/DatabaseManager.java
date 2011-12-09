@@ -309,7 +309,7 @@ public class DatabaseManager {
                     cursor.getString(5), cursor.getString(6),
                     cursor.getString(7));
         }
-
+        cursor.close();
         return media;
     }
 
