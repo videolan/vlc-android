@@ -68,8 +68,10 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     @Override
     public void update() {
         // Exit the player when there is no media
-        if (!mAudioController.hasMedia())
+        if (!mAudioController.hasMedia()) {
             finish();
+            return;
+        }
 
         if (!mAudioController.getTitle().equals(lastTitle)) {
             Bitmap cover = mAudioController.getCover();
