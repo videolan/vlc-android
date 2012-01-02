@@ -11,10 +11,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 6f413fa..85e2a39 100644
+index e739e75..d4a8d4e 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -530,6 +530,7 @@ fi
+@@ -445,6 +445,7 @@ fi
  
  if test "${HAVE_ANDROID}" = "1"; then
      AC_REPLACE_FUNCS([pthread_cancel])
@@ -23,10 +23,10 @@ index 6f413fa..85e2a39 100644
  
  dnl
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index 8bc8b16..82aff49 100644
+index 66bd62e..4308897 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -224,10 +224,17 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+@@ -228,10 +228,17 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
      va_list ap;
  
      va_copy (ap, args);
@@ -43,9 +43,9 @@ index 8bc8b16..82aff49 100644
 +#endif
      va_end (ap);
  
-     vlc_rwlock_rdlock (&msg_lock);
+ #ifdef WIN32
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index ed8dad5..5627f66 100644
+index 9d9c771..d8a442b 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -136,6 +136,14 @@ static struct timespec mtime_to_ts (mtime_t date)
@@ -93,5 +93,5 @@ index ed8dad5..5627f66 100644
      fflush (stderr);
  
 -- 
-1.7.4.1
+1.7.5.4
 
