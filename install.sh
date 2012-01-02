@@ -45,7 +45,7 @@ export ANDROID_LIBS=${PWD}/android-libs
 
 if [ ! -d "vlc" ]; then
 	echo "VLC source not found, cloning"
-	$GIT clone git://git.videolan.org/vlc.git
+        $GIT clone git://git.videolan.org/vlc/vlc-1.2.git vlc
 else
 	echo "VLC source found, pulling from remote master"
 	pushd vlc > /dev/null
