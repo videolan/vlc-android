@@ -2,20 +2,20 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_with_shadow">
     <SeekBar
         android:id="@+id/timeline"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:minHeight="2dip"
         android:maxHeight="2dip"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/spacer" />
     <LinearLayout
         android:id="@+id/mini_player"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:orientation="horizontal"
         android:gravity="center_vertical">

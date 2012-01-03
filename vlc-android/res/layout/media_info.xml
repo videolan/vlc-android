@@ -6,11 +6,11 @@
     android:scrollbars="none">
     <FrameLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:gravity="center_horizontal"
             android:paddingTop="60dip">
             <ProgressBar
@@ -20,18 +20,18 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="230dip"
             android:id="@+id/image"
             android:scaleType="fitCenter"
             android:visibility="invisible" />
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:paddingTop="180dip">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:background="#66000000">
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_marginLeft="10dip" />
                 <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
+                    android:layout_width="fill_parent"
                     android:gravity="right"
                     android:id="@+id/length"
                     android:layout_marginRight="10dip"

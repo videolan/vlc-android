@@ -2,26 +2,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/bg_with_shadow">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:orientation="horizontal"
         android:background="@drawable/header">
         <ImageView
             android:src="@drawable/header_logo"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:scaleType="centerInside" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1">
         <ImageView
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:background="#00ffffff"
@@ -30,7 +30,7 @@
             android:id="@+id/cover" />
         <LinearLayout
             android:layout_width="90dip"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:gravity="bottom"
             android:paddingLeft="15dip"
             android:orientation="vertical">
@@ -58,7 +58,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_marginLeft="15dip"
         android:layout_marginTop="10dip"
         android:layout_marginRight="15dip">
@@ -81,7 +81,7 @@
             android:id="@+id/length" />
     </LinearLayout>
     <SeekBar
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:minHeight="4dip"
         android:maxHeight="4dip"
@@ -93,7 +93,7 @@
         android:paddingRight="15dip"
         android:id="@+id/timeline" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/title"
         android:textColor="#ffffff"
@@ -105,7 +105,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/title" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/artist"
         android:textColor="#888888"
@@ -117,7 +117,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/artist" />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/album"
         android:textColor="#888888"
@@ -128,7 +128,7 @@
         android:ellipsize="marquee"
         android:id="@+id/album" />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"

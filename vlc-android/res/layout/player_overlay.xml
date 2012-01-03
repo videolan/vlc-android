@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="fill_parent">
         <TextView
             android:id="@+id/player_overlay_time"
             android:layout_width="0dip"
@@ -29,7 +29,7 @@
             android:paddingRight="10dip" />
     </LinearLayout>
     <SeekBar
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:minHeight="4dip"
         android:maxHeight="4dip"
@@ -43,7 +43,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="fill_parent">
         <ImageButton
             android:id="@+id/player_overlay_size"
             android:background="@drawable/ic_size"

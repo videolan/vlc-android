@@ -1,11 +1,14 @@
 package org.videolan.vlc.android;
 
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -173,18 +176,28 @@ public class VideoPlayerActivity extends Activity {
     private void lockScreen() {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-
-        switch (display.getRotation()) {
-            case Surface.ROTATION_0:
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                break;
-            case Surface.ROTATION_90:
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                break;
-            case Surface.ROTATION_270:
-                // FIXME: API Level 9+ (not tested on a device with API Level < 9)
-                setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                break;
+        int rotation = display.getOrientation();
+        if(Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
+        	try {
+        		Method m = display.getClass().getDeclaredMethod("getRotation");
+            	rotation = (Integer)m.invoke(display);
+        	} catch(Exception e) {
+        		rotation = Surface.ROTATION_0;
+        	}
+        } else {
+        	rotation = display.getOrientation();
+        }
+        switch (rotation) {
+        	case Surface.ROTATION_0:
+        		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        		break;
+        	case Surface.ROTATION_90:
+        		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        		break;
+        	case Surface.ROTATION_270:
+        		// FIXME: API Level 9+ (not tested on a device with API Level < 9)
+        		setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+        		break;
         }
 
         showInfo(R.string.locked, 500);

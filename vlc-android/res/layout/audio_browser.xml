@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
     <HorizontalScrollView
         android:id="@+id/header"
         android:scrollbars="none"
         android:fadingEdge="none"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_with_shadow">
         <LinearLayout
@@ -59,36 +59,36 @@
         </LinearLayout>
     </HorizontalScrollView>
     <View
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="#f0f0f0" />
     <org.videolan.vlc.android.widget.FlingViewGroup
         android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
         <ListView
             android:id="@+id/songs_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
         <ListView
             android:id="@+id/artists_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
         <ListView
             android:id="@+id/albums_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
         <ListView
             android:id="@+id/genres_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
         <ListView
             android:id="@+id/playklists_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
     </org.videolan.vlc.android.widget.FlingViewGroup>
 </LinearLayout>
