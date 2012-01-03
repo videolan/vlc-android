@@ -21,6 +21,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     private TextView mTime;
     private TextView mLength;
     private ImageButton mPlayPause;
+    private ImageButton mStop;
     private ImageButton mNext;
     private ImageButton mPrevious;
     private ImageButton mShuffle;
@@ -43,6 +44,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         mTime = (TextView) findViewById(R.id.time);
         mLength = (TextView) findViewById(R.id.length);
         mPlayPause = (ImageButton) findViewById(R.id.play_pause);
+        mStop = (ImageButton) findViewById(R.id.stop);
         mNext = (ImageButton) findViewById(R.id.next);
         mPrevious = (ImageButton) findViewById(R.id.previous);
         mShuffle = (ImageButton) findViewById(R.id.shuffle);
@@ -150,6 +152,11 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         } else {
             mAudioController.play();
         }
+    }
+    
+    public void onStopClick(View view) {
+    	mAudioController.stop();
+    	finish();
     }
 
     public void onNextClick(View view) {

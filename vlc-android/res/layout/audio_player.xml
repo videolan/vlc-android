@@ -147,6 +147,16 @@
             android:layout_marginRight="10dip"
             android:id="@+id/play_pause"
             android:onClick="onPlayPauseClick" />
+
+        <ImageButton
+            android:id="@+id/stop"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/ic_stop"
+            android:onClick="onStopClick" />
+
         <ImageButton
             android:background="@drawable/ic_forward"
             android:layout_height="70dip"
