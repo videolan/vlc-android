@@ -2,7 +2,7 @@ Basic how to compile VLC on Android platform.
 
 - Get Eclipse, the Android SDK and the Android NDK.
 - Read the Android HOWTO and setup all that stuff correctly.
-   - Get the Android SDK Platform 2.2 and 2.3 API (version 8 and (9 or 10)), 
+   - Get the Android SDK Platform 2.2 and 2.3 API (version 8 and (9 or 10)),
       or modify numbers in configure.sh and vlc-android/default.properties.
    - Create an AVD with this platform.
 
@@ -35,6 +35,7 @@ Basic how to compile VLC on Android platform.
    cd extras/package/android
 - Build the JNI interface for libvlc
    VLC_BUILD_DIR=path_to_vlc_builddir ANDROID_SDK=path_to_android_sdk make
+- Note: Edit jni/Android.mk and locally delete the line containing HAS_NDK_V7 if you are using Android NDK older than v7
 
 - In Eclipse, create a new Android project from existing source by giving the extra/platform/android/vlc-android path.
 - Compile your project using Eclipse (or make will do it with ant if available).
