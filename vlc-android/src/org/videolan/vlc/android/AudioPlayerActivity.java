@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -47,6 +48,8 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         mShuffle = (ImageButton) findViewById(R.id.shuffle);
         mRepeat = (ImageButton) findViewById(R.id.repeat);
         mTimeline = (SeekBar) findViewById(R.id.timeline);
+
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         mAudioController = AudioServiceController.getInstance();
         lastTitle = "";
