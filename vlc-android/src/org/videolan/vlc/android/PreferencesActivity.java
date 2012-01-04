@@ -52,6 +52,17 @@ public class PreferencesActivity extends PreferenceActivity {
                         return true;
                     }
                 });
+        
+        // Attach debugging items
+        Preference quitAppPref = (Preference) findPreference("quit_app");
+        quitAppPref.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+
+                    public boolean onPreferenceClick(Preference preference) {
+                    	System.exit(0);
+                        return true;
+                    }
+                });
     }
 
 }
