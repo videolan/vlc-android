@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -175,6 +176,14 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     public void onShuffleClick(View view) {
         mAudioController.shuffle();
         update();
+    }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	/* Stop the controller if we are going home */
+    	if(keyCode == KeyEvent.KEYCODE_HOME) {
+    		mAudioController.stop();
+    	}
+    	return super.onKeyDown(keyCode, event);
     }
 
     @Override
