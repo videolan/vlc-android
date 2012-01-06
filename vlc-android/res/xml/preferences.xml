@@ -3,7 +3,7 @@
     <PreferenceCategory android:title="@string/mediafiles">
         <EditTextPreference
             android:key="directories_root"
-            android:defaultValue="/"
+            android:defaultValue="/sdcard/"
             android:title="@string/filebrowser_root">
         </EditTextPreference>
         <PreferenceScreen
