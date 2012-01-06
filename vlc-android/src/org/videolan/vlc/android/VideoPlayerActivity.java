@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,6 +126,8 @@ public class VideoPlayerActivity extends Activity {
 
         EventManager em = EventManager.getIntance();
         em.addHandler(eventHandler);
+
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         load();
