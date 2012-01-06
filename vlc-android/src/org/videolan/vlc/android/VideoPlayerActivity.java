@@ -1,5 +1,5 @@
 package org.videolan.vlc.android;
-
+import org.videolan.vlc.android.LibVlcException;
 import java.lang.reflect.Method;
 
 import android.app.Activity;
