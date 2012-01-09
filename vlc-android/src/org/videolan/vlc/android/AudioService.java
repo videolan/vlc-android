@@ -286,9 +286,11 @@ public class AudioService extends Service {
                         // do nothing
                     } else if (!cursor.moveToFirst()) {
                         // do nothing
+                        cursor.close();
                     } else {
                         int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
                         String albumArt = cursor.getString(titleColumn);
+                        cursor.close();
                         Bitmap b = BitmapFactory.decodeFile(albumArt);
                         if (b != null)
                             return b;
