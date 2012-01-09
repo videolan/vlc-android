@@ -25,7 +25,7 @@
             android:title="@string/enable_iomx">
         </CheckBoxPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
-            <Preference android:title="Quit Application" android:key="quit_app" android:enabled="true"/>
+            <Preference android:title="@string/quit" android:key="quit_app" android:enabled="true"/>
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>
