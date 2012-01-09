@@ -75,6 +75,19 @@
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".widget.VLCAppWidgetProvider"
+            android:label="VLC mini player" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="org.videolan.vlc.android.widget.VLCAppWidgetProvider.ACTION_WIDGET_RECEIVER"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vlcwidget" />
+        </receiver>
+
     </application>
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />

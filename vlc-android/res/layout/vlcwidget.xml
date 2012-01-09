@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/linearLayout1"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:background="@drawable/bg_with_shadow"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_gravity="center" android:clipChildren="true" android:padding="10dp" android:gravity="center" android:clickable="true">
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="fill_parent"
+       android:orientation="horizontal" >
+
+       <ImageView
+           android:id="@+id/imageView1"
+           android:layout_width="50dip"
+           android:layout_height="50dp"
+           android:layout_marginRight="10dp"
+           android:background="@drawable/cone" />
+
+       <LinearLayout
+           android:id="@+id/linearLayout2"
+           android:layout_width="wrap_content"
+           android:layout_height="fill_parent"
+           android:layout_weight="14.50"
+           android:orientation="vertical" >
+
+           <TextView
+               android:id="@+id/songName"
+               android:layout_width="269dp"
+               android:layout_height="wrap_content"
+               android:text="Song Name"
+               android:textSize="22sp" android:ellipsize="end"/>
+
+           <TextView
+               android:id="@+id/artist"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Artist"
+               android:textSize="16sp" android:ellipsize="end" />
+       </LinearLayout>
+   </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/linearLayout3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:gravity="center" android:layout_marginTop="6dp">
+
+       <ImageButton
+           android:id="@+id/backward"
+           android:layout_width="50dip"
+           android:layout_height="50dip"
+           android:clickable="true"
+           android:scaleType="fitXY"
+           android:src="@drawable/ic_backward" />
+
+       <ImageButton
+           android:id="@+id/play_pause"
+           android:layout_width="50dip"
+           android:layout_height="50dip"
+           android:src="@drawable/ic_play"
+           android:clickable="true"
+           android:scaleType="fitXY" />
+
+       <ImageButton
+           android:id="@+id/stop"
+           android:layout_width="50dip"
+           android:layout_height="50dip"
+           android:clickable="true"
+           android:scaleType="fitXY"
+           android:src="@drawable/ic_stop" />
+
+       <ImageButton
+           android:id="@+id/forward"
+           android:layout_width="50dip"
+           android:layout_height="50dip"
+           android:src="@drawable/ic_forward"
+           android:clickable="true"
+           android:scaleType="fitXY" />
+
+   </LinearLayout>
+        
+    </LinearLayout>
+ 
