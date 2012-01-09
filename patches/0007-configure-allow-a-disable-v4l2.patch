@@ -1,4 +1,4 @@
-From 507e7a44ed1b142a22d3aaf0e45e4f737fc72019 Mon Sep 17 00:00:00 2001
+From 8d8a6189c5c53b6c8186adda2945dc9bb017afb6 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Thu, 22 Sep 2011 18:14:31 +0200
 Subject: [PATCH 7/7] configure: allow a --disable-v4l2
@@ -9,10 +9,10 @@ This is needed because some distro have broken headers
  1 files changed, 18 insertions(+), 14 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index ddd63aa..fb88629 100644
+index 90de262..8fa1531 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1936,26 +1936,30 @@ fi
+@@ -1901,26 +1901,30 @@ fi
  dnl
  dnl  Video4Linux 2
  dnl
@@ -58,5 +58,5 @@ index ddd63aa..fb88629 100644
  
  dnl
 -- 
-1.7.4.1
+1.7.5.4
 

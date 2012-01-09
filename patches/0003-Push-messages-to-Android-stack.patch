@@ -1,4 +1,4 @@
-From 054afb010cefa90f3ad8d50c23959be7375475b8 Mon Sep 17 00:00:00 2001
+From 5e1faeb801e3eec6e2876021202289a5a149e2a1 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:20:40 +0200
 Subject: [PATCH 3/7] Push messages to Android stack
@@ -11,10 +11,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  3 files changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index e739e75..d4a8d4e 100644
+index e61f372..90de262 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -445,6 +445,7 @@ fi
+@@ -471,6 +471,7 @@ fi
  
  if test "${HAVE_ANDROID}" = "1"; then
      AC_REPLACE_FUNCS([pthread_cancel])
@@ -23,10 +23,10 @@ index e739e75..d4a8d4e 100644
  
  dnl
 diff --git a/src/misc/messages.c b/src/misc/messages.c
-index 66bd62e..4308897 100644
+index 61080c0..f92d4c0 100644
 --- a/src/misc/messages.c
 +++ b/src/misc/messages.c
-@@ -228,10 +228,17 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
+@@ -224,10 +224,17 @@ void vlc_vaLog (vlc_object_t *obj, int type, const char *module,
      va_list ap;
  
      va_copy (ap, args);
@@ -43,7 +43,7 @@ index 66bd62e..4308897 100644
 +#endif
      va_end (ap);
  
- #ifdef WIN32
+     vlc_rwlock_rdlock (&msg_lock);
 diff --git a/src/posix/thread.c b/src/posix/thread.c
 index 9d9c771..d8a442b 100644
 --- a/src/posix/thread.c

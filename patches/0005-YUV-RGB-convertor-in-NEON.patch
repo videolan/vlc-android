@@ -1,7 +1,7 @@
-From 4e2b0b121adb974e1f2c329cdfa01e3f1c192a93 Mon Sep 17 00:00:00 2001
+From a29f0c4a1777d8bdd6cf4fc6649938aedd807404 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Tue, 4 Oct 2011 22:38:36 +0200
-Subject: [PATCH] YUV->RGB convertor in NEON
+Subject: [PATCH 5/7] YUV->RGB convertor in NEON
 
 ---
  modules/arm_neon/Modules.am    |   10 ++
@@ -883,5 +883,5 @@ index 0000000..ede49c9
 +    return VLC_SUCCESS;
 +}
 -- 
-1.7.4.1
+1.7.5.4
 

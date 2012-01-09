@@ -1,4 +1,4 @@
-From 8f0b9e2db10319c82c5b6595f96c6768b9627ca7 Mon Sep 17 00:00:00 2001
+From eef45a21a5aba9eaebc08964f3063145ea320039 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Sun, 31 Jul 2011 00:05:21 +0200
 Subject: [PATCH 4/7] Old contribs: compile live on Android
@@ -72,10 +72,10 @@ index 0000000..e2f4b2e
 + C_COMPILER =		$(CROSS_COMPILE)gcc
 + C_FLAGS =		$(COMPILE_OPTS)
 diff --git a/extras/contrib/src/contrib-src.mak b/extras/contrib/src/contrib-src.mak
-index f203895..23252d0 100644
+index f0739b6..a058eb7 100644
 --- a/extras/contrib/src/contrib-src.mak
 +++ b/extras/contrib/src/contrib-src.mak
-@@ -1287,6 +1287,9 @@ ifndef HAVE_WINCE
+@@ -1250,6 +1250,9 @@ ifndef HAVE_WINCE
  	patch -p0 < Patches/live-getaddrinfo.patch
  endif
  endif
@@ -86,5 +86,5 @@ index f203895..23252d0 100644
  LIVE_TARGET-$(ENABLED)        = linux
  LIVE_TARGET-$(HAVE_WIN32)     = mingw
 -- 
-1.7.4.1
+1.7.5.4
 

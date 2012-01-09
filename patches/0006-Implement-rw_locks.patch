@@ -1,4 +1,4 @@
-From 7962bff5eb8d3d54abdfcb554284e9654ce1f839 Mon Sep 17 00:00:00 2001
+From 73cb72d834c6cd2cde2a56c0add8542453eca1f3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
 Date: Sun, 7 Nov 2010 19:11:51 +0100
 Subject: [PATCH 6/7] Implement rw_locks.
@@ -11,10 +11,10 @@ add static initializer, use #ifdef __ANDROID__, remove windows function call
  2 files changed, 98 insertions(+), 0 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
-index 3fefbaf..83bbfe2 100644
+index 7a6c6af..181f273 100644
 --- a/include/vlc_threads.h
 +++ b/include/vlc_threads.h
-@@ -110,8 +110,30 @@ typedef pthread_mutex_t vlc_mutex_t;
+@@ -123,8 +123,30 @@ typedef pthread_mutex_t vlc_mutex_t;
  #define VLC_STATIC_MUTEX PTHREAD_MUTEX_INITIALIZER
  typedef pthread_cond_t  vlc_cond_t;
  #define VLC_STATIC_COND  PTHREAD_COND_INITIALIZER
@@ -46,7 +46,7 @@ index 3fefbaf..83bbfe2 100644
  typedef struct vlc_timer *vlc_timer_t;
  
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 5627f66..38d998c 100644
+index d8a442b..dd5b2fd 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -587,6 +587,7 @@ void vlc_sem_wait (vlc_sem_t *sem)
@@ -140,5 +140,5 @@ index 5627f66..38d998c 100644
  /**
   * Allocates a thread-specific variable.
 -- 
-1.7.4.1
+1.7.5.4
 

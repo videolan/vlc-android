@@ -1,4 +1,4 @@
-From c68811cbe4c810ea05ccd2dd5d798abae5cf0c0d Mon Sep 17 00:00:00 2001
+From e7712a61b2dda5e2675bd0b892e94e60498ee2e5 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
 Subject: [PATCH 1/7] Android: add compatibility pthread_cancel
@@ -320,11 +320,11 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 7417214..c5a2297 100644
+index 27bb143..e61f372 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -447,6 +447,10 @@ if test "${SYS}" = "mingw32" ; then
-     fi
+@@ -469,6 +469,10 @@ if test "${SYS}" = "mingw32" ; then
+     CFLAGS="${CFLAGS_save}"; CXXFLAGS="${CXXFLAGS_save}"
  fi
  
 +if test "${HAVE_ANDROID}" = "1"; then
@@ -465,5 +465,5 @@ index 122e201..9d9c771 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.4.1
+1.7.5.4
 
