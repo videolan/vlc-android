@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,7 +37,14 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.audio_player);
+        android.view.Display display = getWindowManager().getDefaultDisplay(); 
+        int width = display.getWidth();
+        int height = display.getHeight();
+        Log.v(TAG, "width = " + width + " : height = " + height);
+        if(width == 240 && height == 320) /* QVGA 2.7in */
+        	setContentView(R.layout.audio_player_qvga);
+        else
+        	setContentView(R.layout.audio_player);
 
         mCover = (ImageView) findViewById(R.id.cover);
         mTitle = (TextView) findViewById(R.id.title);
