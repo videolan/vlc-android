@@ -24,6 +24,7 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
     private AudioPlayerControl mAudioPlayerControl;
+    private String lastTitle;
 
     private TextView mTitle;
     private TextView mArtist;
@@ -83,6 +84,7 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
         mForward.setOnClickListener(onMediaControlClickListener);
         mBackward.setOnClickListener(onMediaControlClickListener);
         mSeekbar = (SeekBar) findViewById(R.id.timeline);
+        lastTitle = "";
 
         this.setOnClickListener(new OnClickListener() {
 
@@ -137,15 +139,18 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
                 return;
             }
 
-            Bitmap cover = mAudioPlayerControl.getCover();
-            if (cover != null) {
-                mCover.setVisibility(ImageView.VISIBLE);
-                mCover.setImageBitmap(cover);
-            } else {
-                mCover.setVisibility(ImageView.GONE);
+            if (!mAudioPlayerControl.getTitle().equals(lastTitle)) {
+                Bitmap cover = mAudioPlayerControl.getCover();
+                if (cover != null) {
+                    mCover.setVisibility(ImageView.VISIBLE);
+                    mCover.setImageBitmap(cover);
+                } else {
+                    mCover.setVisibility(ImageView.GONE);
+                }
             }
 
-            mTitle.setText(mAudioPlayerControl.getTitle());
+            lastTitle = mAudioPlayerControl.getTitle();
+            mTitle.setText(lastTitle);
             mArtist.setText(mAudioPlayerControl.getArtist());
             if (mAudioPlayerControl.isPlaying()) {
                 mPlayPause.setImageResource(R.drawable.ic_pause);
