@@ -35,8 +35,16 @@ public class AudioBrowserActivity extends Activity {
     private AudioPlaylistAdapter mAlbumsAdapter;
     private AudioPlaylistAdapter mGenresAdapter;
 
+    public final static int SORT_BY_TITLE = 0;
+    public final static int SORT_BY_LENGTH = 1;
+    private boolean mSortReverse = false;
+    private int mSortBy = SORT_BY_TITLE;
+
+    private static AudioBrowserActivity mInstance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.audio_browser);
 
@@ -67,6 +75,10 @@ public class AudioBrowserActivity extends Activity {
         genreList.setOnItemClickListener(playlistListener);
 
         updateLists();
+    }
+
+    public static AudioBrowserActivity getInstance() {
+        return mInstance;
     }
 
     OnItemClickListener songListener = new OnItemClickListener() {
@@ -145,6 +157,15 @@ public class AudioBrowserActivity extends Activity {
             return String.CASE_INSENSITIVE_ORDER.compare(m1.getFile().getPath(), m2.getFile().getPath());
         };
     };
+
+    private Comparator<Media> byLength = new Comparator<Media>() {
+        public int compare(Media m1, Media m2) {
+            if(m1.getLength() > m2.getLength()) return -1;
+            if(m1.getLength() < m2.getLength()) return 1;
+            else return 0;
+        };
+    };
+
     private Comparator<Media> byAlbum = new Comparator<Media>() {
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
@@ -153,6 +174,7 @@ public class AudioBrowserActivity extends Activity {
             return res;
         };
     };
+
     private Comparator<Media> byArtist = new Comparator<Media>() {
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getArtist(), m2.getArtist());
@@ -161,6 +183,7 @@ public class AudioBrowserActivity extends Activity {
             return res;
         };
     };
+
     private Comparator<Media> byGenre = new Comparator<Media>() {
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getGenre(), m2.getGenre());
@@ -177,7 +200,18 @@ public class AudioBrowserActivity extends Activity {
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
 
-        Collections.sort(audioList, byPath);
+        switch(mSortBy) {
+        case SORT_BY_LENGTH:
+            Collections.sort(audioList, byLength);
+            break;
+        case SORT_BY_TITLE:
+        default:
+            Collections.sort(audioList, byPath);
+            break;
+        }
+        if(mSortReverse) {
+            Collections.reverse(audioList);
+        }
         for (int i = 0; i < audioList.size(); i++)
             mSongsAdapter.add(audioList.get(i));
 
@@ -203,5 +237,15 @@ public class AudioBrowserActivity extends Activity {
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
+    }
+
+    public void sortBy(int sortby) {
+        if(mSortBy == sortby) {
+            mSortReverse = !mSortReverse;
+        } else {
+            mSortBy = sortby;
+            mSortReverse = false;
+        }
+        updateLists();
     }
 }
