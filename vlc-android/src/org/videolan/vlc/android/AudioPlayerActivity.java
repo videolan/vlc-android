@@ -32,6 +32,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 
     private AudioServiceController mAudioController;
     private boolean mIsTracking = false;
+    private boolean mShowRemainingTime = false;
     private String lastTitle;
 
     @Override
@@ -100,7 +101,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         mAlbum.setText(mAudioController.getAlbum());
         int time = (int) mAudioController.getTime();
         int length = (int) mAudioController.getLength();
-        mTime.setText(Util.millisToString(time));
+        mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
         if (!mIsTracking)
@@ -149,11 +150,15 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
             if (fromUser) {
                 mAudioController.setTime(prog);
-                mTime.setText(Util.millisToString(prog))
+                mTime.setText(Util.millisToString(mShowRemainingTime ? prog-mAudioController.getLength() : prog))
             ;
         }
     }
     };
+
+    public void onTimeLabelClick(View view) {
+        mShowRemainingTime = !mShowRemainingTime;
+    }
 
     public void onPlayPauseClick(View view) {
         if (mAudioController.isPlaying()) {

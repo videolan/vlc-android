@@ -69,7 +69,9 @@
             android:textSize="18dip"
             android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:id="@+id/time" />
+            android:id="@+id/time"
+            android:clickable="true"
+            android:onClick="onTimeLabelClick" />
         <TextView
             android:layout_width="0dip"
             android:layout_height="wrap_content"

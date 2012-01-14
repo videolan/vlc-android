@@ -37,6 +37,9 @@ public class Util {
      * @return formated string (hh:)mm:ss
      */
     public static String millisToString(long millis) {
+        boolean negative = millis < 0;
+        millis = java.lang.Math.abs(millis);
+
         millis /= 1000;
         int sec = (int) (millis % 60);
         millis /= 60;
@@ -47,9 +50,9 @@ public class Util {
         String time;
         DecimalFormat format = new DecimalFormat("00");
         if (millis > 0) {
-            time = hours + ":" + format.format(min) + ":" + format.format(sec);
+            time = (negative ? "-" : "") + hours + ":" + format.format(min) + ":" + format.format(sec);
         } else {
-            time = min + ":" + format.format(sec);
+            time = (negative ? "-" : "") + min + ":" + format.format(sec);
         }
         return time;
     }
