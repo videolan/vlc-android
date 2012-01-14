@@ -91,8 +91,12 @@ public class MainActivity extends TabActivity {
             Log.d(TAG, "Started from notification.");
             showAudioTab();
         } else {
-            // TODO: load the last tab-state
-            showVideoTab();
+            // load the last tab-state
+            int state = savedInstanceState == null ? VIDEO_TAB : savedInstanceState.getInt("mCurrentState");
+            if(state == VIDEO_TAB)
+                showVideoTab();
+            else
+                showAudioTab();
         }
 
         /* Show info/alpha/beta Warning */
@@ -127,6 +131,15 @@ public class MainActivity extends TabActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
         return false;
+    }
+
+    /**
+     * Save currently opened tab (video/audio) for above
+     */
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("mCurrentState", mCurrentState);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     /**
