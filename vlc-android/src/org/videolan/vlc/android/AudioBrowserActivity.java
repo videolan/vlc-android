@@ -58,9 +58,9 @@ public class AudioBrowserActivity extends Activity {
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
-        mArtistsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
-        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
-        mGenresAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
+        mArtistsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
+        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
+        mGenresAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
         ListView songsList = (ListView) findViewById(R.id.songs_list);
         ListView artistList = (ListView) findViewById(R.id.artists_list);
         ListView albumList = (ListView) findViewById(R.id.albums_list);
