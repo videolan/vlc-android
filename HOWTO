@@ -1,11 +1,20 @@
 #! /bin/sh
 
-GIT=git
+# Read the Android HOWTO and setup all that stuff correctly.
+# Get the Android SDK Platform 2.1, 2.2 and 2.3 API : version 7, 8 and (9 or 10)
+# or modify numbers in configure.sh and vlc-android/default.properties.
+# Create an AVD with this platform.
+
+# XXX : important!
+# If you plan to use the emulator, you need a build without neon
+# export NO_NEON=1
+# make sure it is set for both the contribs bootstrap next and the configure.sh later.
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
-   echo "You must define ANDROID_NDK and ANDROID_SDK before starting";
-   exit 1;
-fi;
+   echo "You must define ANDROID_NDK and ANDROID_SDK before starting."
+   echo "They must point to your NDK and SDK directories."
+   exit 1
+fi
 
 # Using CyanogenMod headers instead of AOSP, since CyanogenMod
 # has commit 1563f4aca88d354c502dba056d173cefc7c2ea7f,
@@ -14,20 +23,20 @@ fi;
 # which adds some vtable entries needed on newer qualcomm devices.
 if [ ! -d "android-headers/frameworks/base" ]; then
 	echo "Fetching Android system headers (1/2)"
-	$GIT clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers/frameworks/base
+	git clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers/frameworks/base
 else
 	echo "Updating Android system headers (1/2)"
 	pushd android-headers/frameworks/base > /dev/null
-	$GIT pull origin gingerbread
+	git pull origin gingerbread
 	popd > /dev/null
 fi
 if [ ! -d "android-headers/system/core" ]; then
 	echo "Fetching Android system headers (2/2)"
-	$GIT clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers/system/core
+	git clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers/system/core
 else
 	echo "Updating Android system headers (2/2)"
 	pushd android-headers/system/core > /dev/null
-	$GIT pull origin gingerbread
+	git pull origin gingerbread
 	popd > /dev/null
 fi
 export ANDROID_SYS_HEADERS=${PWD}/android-headers
@@ -45,17 +54,17 @@ export ANDROID_LIBS=${PWD}/android-libs
 
 if [ ! -d "vlc" ]; then
 	echo "VLC source not found, cloning"
-        $GIT clone git://git.videolan.org/vlc/vlc-1.2.git vlc
+        git clone git://git.videolan.org/vlc/vlc-1.2.git vlc
 else
 	echo "VLC source found, pulling from remote master"
 	pushd vlc > /dev/null
-	$GIT pull origin master
+	git pull origin master
 	popd > /dev/null
 fi
 
 echo "Applying the patches"
 cd vlc
-$GIT am ../patches/*.patch || $GIT am --abort
+git am ../patches/*.patch || git am --abort
 
 echo "Building the contribs"
 mkdir contrib/android; cd contrib/android
@@ -92,5 +101,6 @@ make
 
 echo "Building Android"
 cd ../../
+
 make distclean
 VLC_BUILD_DIR=vlc/android make
