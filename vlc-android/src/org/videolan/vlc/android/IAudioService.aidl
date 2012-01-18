@@ -8,13 +8,13 @@ interface IAudioService {
     void next();
     void previous();
     void shuffle();
-    void repeat();
     void setTime(long time);
     String getCurrentMediaPath();
     void load(in List<String> mediaPathList, int position);
     boolean isPlaying();
     boolean isShuffling();
-    boolean isRepeating();
+    int getRepeatType();
+    void setRepeatType(int t);
     boolean hasMedia();
     boolean hasNext();
     boolean hasPrevious();

@@ -35,7 +35,7 @@ public class AudioService extends Service {
     private EventManager mEventManager;
     private Notification mNotification;
     private boolean mShuffling = false;
-    private boolean mRepeating = false;
+    private RepeatType mRepeating = RepeatType.None;
 
     @Override
     public void onStart(Intent intent, int startId) {
@@ -168,7 +168,7 @@ public class AudioService extends Service {
     private void next() {
         int index = mMediaList.indexOf(mCurrentMedia);
         mPrevious.push(mCurrentMedia);
-        if (mRepeating)
+        if (mRepeating == RepeatType.Once)
             mCurrentMedia = mMediaList.get(index);
         else if (mShuffling && mPlayedMedia.size() < mMediaList.size()) {
             while (mPlayedMedia.contains(mCurrentMedia = mMediaList
@@ -177,8 +177,12 @@ public class AudioService extends Service {
         } else if (index < mMediaList.size() - 1) {
             mCurrentMedia = mMediaList.get(index + 1);
         } else {
-            stop();
-            return;
+            if (mRepeating == RepeatType.All)
+                mCurrentMedia = mMediaList.get(0);
+            else {
+                stop();
+                return;
+            }
         }
         mLibVLC.readMedia(mCurrentMedia.getPath());
         showNotification();
@@ -202,8 +206,8 @@ public class AudioService extends Service {
         mShuffling = !mShuffling;
     }
 
-    private void repeat() {
-        mRepeating = !mRepeating;
+    private void setRepeatType(int t) {
+        mRepeating = RepeatType.values()[t];
     }
 
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
@@ -239,8 +243,8 @@ public class AudioService extends Service {
         }
 
         @Override
-        public boolean isRepeating() {
-            return mRepeating;
+        public int getRepeatType() {
+            return mRepeating.ordinal();
         }
 
         @Override
@@ -372,8 +376,8 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void repeat() throws RemoteException {
-            AudioService.this.repeat();
+        public void setRepeatType(int t) throws RemoteException {
+            AudioService.this.setRepeatType(t);
         }
 
         @Override
@@ -383,7 +387,7 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasNext() throws RemoteException {
-            if (mRepeating)
+            if (mRepeating == RepeatType.Once)
                 return false;
             int index = mMediaList.indexOf(mCurrentMedia);
             if (mShuffling && mPlayedMedia.size() < mMediaList.size() ||
@@ -395,7 +399,7 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasPrevious() throws RemoteException {
-            if (mRepeating)
+            if (mRepeating == RepeatType.Once)
                 return false;
             int index = mMediaList.indexOf(mCurrentMedia);
             if (mPrevious.size() > 0 || index > 0)

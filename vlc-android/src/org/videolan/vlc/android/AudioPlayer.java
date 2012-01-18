@@ -37,11 +37,11 @@ public interface AudioPlayer {
 
         void shuffle();
 
-        void repeat();
-
         boolean isShuffling();
 
-        boolean isRepeating();
+        void setRepeatType(RepeatType t);
+
+        RepeatType getRepeatType();
     }
 
 }

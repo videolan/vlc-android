@@ -116,10 +116,17 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
         } else {
             mShuffle.setImageResource(R.drawable.ic_shuffle);
         }
-        if (mAudioController.isRepeating()) {
-            mRepeat.setImageResource(R.drawable.ic_repeat_glow);
-        } else {
+        switch(mAudioController.getRepeatType()) {
+        case None:
             mRepeat.setImageResource(R.drawable.ic_repeat);
+            break;
+        case Once:
+            mRepeat.setImageResource(R.drawable.ic_repeat_one);
+            break;
+        default:
+        case All:
+            mRepeat.setImageResource(R.drawable.ic_repeat_glow);
+            break;
         }
         if (mAudioController.hasNext())
             mNext.setVisibility(ImageButton.VISIBLE);
@@ -182,7 +189,18 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     }
 
     public void onRepeatClick(View view) {
-        mAudioController.repeat();
+        switch (mAudioController.getRepeatType()) {
+            case None:
+                mAudioController.setRepeatType(RepeatType.All);
+                break;
+            case All:
+                mAudioController.setRepeatType(RepeatType.Once);
+                break;
+            default:
+            case Once:
+                mAudioController.setRepeatType(RepeatType.None);
+                break;
+        }
         update();
     }
 

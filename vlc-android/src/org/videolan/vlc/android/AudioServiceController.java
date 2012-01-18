@@ -331,9 +331,9 @@ public class AudioServiceController implements AudioPlayerControl {
     }
 
     @Override
-    public void repeat() {
+    public void setRepeatType(RepeatType t) {
         try {
-            mAudioServiceBinder.repeat();
+            mAudioServiceBinder.setRepeatType(t.ordinal());
         } catch (RemoteException e) {
             Log.e(TAG, "remote procedure call failed: repeat()");
         }
@@ -350,12 +350,12 @@ public class AudioServiceController implements AudioPlayerControl {
     }
 
     @Override
-    public boolean isRepeating() {
+    public RepeatType getRepeatType() {
         try {
-            return mAudioServiceBinder.isRepeating();
+            return RepeatType.values()[mAudioServiceBinder.getRepeatType()];
         } catch (RemoteException e) {
             Log.e(TAG, "remote procedure call failed: isRepeating()");
-            return false;
+            return RepeatType.None;
         }
     }
 }
