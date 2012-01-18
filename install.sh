@@ -37,7 +37,7 @@ echo "Fetching Android libraries for linking"
 # fine, since the symbols used should be available on most of them.
 if [ ! -f "update-cm-7.1.0.1-NS-signed.zip" ]; then
     curl -O http://mirror.sea.tdrevolution.net/cm/stable/gingerbread/update-cm-7.1.0.1-NS-signed.zip
-    unzip update-cm-7.1.0.1-NS-signed.zip system/lib/*
+    unzip update-cm-7.1.0.1-NS-signed.zip system/lib/\*
     mv system/lib android-libs
     rmdir system
 fi
@@ -58,7 +58,23 @@ cd vlc
 $GIT am ../patches/*.patch || $GIT am --abort
 
 echo "Building the contribs"
-cd extras/contrib && ./bootstrap -t arm-eabi -d android && make
+mkdir contrib/android; cd contrib/android
+../bootstrap --host=arm-linux-androideabi --disable-disc --disable-sout \
+    --disable-sdl \
+    --disable-SDL_image \
+    --disable-fontconfig \
+    --disable-ass \
+    --disable-freetyp2 \
+    --disable-fribidi \
+    --disable-zvbi \
+    --disable-kate \
+    --disable-caca \
+    --disable-gettext \
+    --disable-mpcdec \
+    --disable-sidplay2
+
+make fetch
+make
 
 cd ../.. && mkdir -p android && cd android
 

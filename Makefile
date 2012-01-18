@@ -31,7 +31,7 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H)
 	@if [ -z "$(ANDROID_NDK)" ]; then echo "ANDROID_NDK not defined" ; exit 1; fi
 	@echo "=== Building libvlcjni with$${NO_NEON:+out} neon ==="
 	@if [ -z "$(VLC_SRC_DIR)" ] ; then VLC_SRC_DIR=./vlc; fi ; \
-	if [ -z "$(VLC_CONTRIB)" ] ; then VLC_CONTRIB="$$VLC_SRC_DIR/extras/contrib/build"; fi ; \
+	if [ -z "$(VLC_CONTRIB)" ] ; then VLC_CONTRIB="$$VLC_SRC_DIR/contrib/arm-linux-androideabi"; fi ; \
 	vlc_modules="$(VLC_MODULES)" ; \
 	if [ `echo "$(VLC_BUILD_DIR)" | head -c 1` != "/" ] ; then \
 		vlc_modules="`echo $$vlc_modules|sed \"s|$(VLC_BUILD_DIR)|../$(VLC_BUILD_DIR)|g\"`" ; \
