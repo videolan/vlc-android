@@ -117,11 +117,27 @@ public class MediaLibrary {
             int total = 0;
             String prefix = mContext.getResources().getString(R.string.loading);
 
+            //first pass : count total files
             while (!directorys.isEmpty()) {
                 File dir = directorys.pop();
                 File[] f = null;
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                    total += f.length;
+                    for (int i = 0; i < f.length; i++) {
+                        if (f[i].isFile()) {
+                            total++;
+                        } else if (f[i].isDirectory()) {
+                            directorys.push(f[i]);
+                        }
+                    }
+                }
+            }
+            directorys.addAll(mDBManager.getMediaDirs());
+
+            //second pass : load Medias
+            while (!directorys.isEmpty()) {
+                File dir = directorys.pop();
+                File[] f = null;
+                if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
                         if (f[i].isFile()) {
 
