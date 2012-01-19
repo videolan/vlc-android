@@ -76,7 +76,7 @@ public class ThumbnailerManager extends Thread {
                     mMediaLibraryActivity.mHandler.sendEmptyMessage(
                             MainActivity.HIDE_PROGRESSBAR);
                     Log.i(TAG, "hide ProgressBar!");
-                    MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, null);
+                    MainActivity.clearTextInfo(mMediaLibraryActivity.mHandler);
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -93,8 +93,7 @@ public class ThumbnailerManager extends Thread {
                     MainActivity.SHOW_PROGRESSBAR);
 
             Log.i(TAG, "show ProgressBar!");
-            MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, String.format("%s %d/%d : %s",
-                    prefix, count, total, item.getFileName()));
+            MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
             int width = 120;

@@ -47,7 +47,9 @@ public class MainActivity extends TabActivity {
     private ImageButton mChangeTab;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
-    private TextView mTextInfo;
+    private View mInfoLayout;
+    private ProgressBar mInfoProgress;
+    private TextView mInfoText;
 
     private SharedPreferences mSettings;
 
@@ -65,7 +67,9 @@ public class MainActivity extends TabActivity {
         mInstance = this;
         mProgressBar = (ProgressBar) findViewById(R.id.ml_progress_bar);
         mChangeTab = (ImageButton) findViewById(R.id.change_tab);
-        mTextInfo = (TextView) findViewById(R.id.text_info);
+        mInfoLayout = (View) findViewById(R.id.info_layout);
+        mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
+        mInfoText = (TextView) findViewById(R.id.info_text);
 
         /* Initialize the TabView */
         mTabHost = getTabHost();
@@ -291,17 +295,31 @@ public class MainActivity extends TabActivity {
             case SHOW_TEXTINFO:
                 Bundle b = msg.getData();
                 String info = b.getString("info");
-                mTextInfo.setText(info);
-                mTextInfo.setVisibility(info != null ? View.VISIBLE : View.GONE);
+                mInfoText.setText(info);
+                mInfoProgress.setMax(b.getInt("max"));
+                mInfoProgress.setProgress(b.getInt("progress"));
+                mInfoLayout.setVisibility(info != null ? View.VISIBLE : View.GONE);
                 break;
         }
     };
     };
 
-    public static void sendTextInfo(Handler handler, String info) {
+    public static void clearTextInfo(Handler handler)
+    {
+        Message m = handler.obtainMessage(MainActivity.SHOW_TEXTINFO);
+        Bundle b = m.getData();
+        b.putString("info", null);
+        b.putInt("progress", 0);
+        b.putInt("max", 100);
+        handler.sendMessage(m);
+    }
+
+    public static void sendTextInfo(Handler handler, String info, int progress, int max) {
         Message m = handler.obtainMessage(MainActivity.SHOW_TEXTINFO);
         Bundle b = m.getData();
         b.putString("info", info);
+        b.putInt("progress", progress);
+        b.putInt("max", max);
         handler.sendMessage(m);
     }
 }

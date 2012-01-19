@@ -115,7 +115,6 @@ public class MediaLibrary {
 
             int count = 0;
             int total = 0;
-            String prefix = mContext.getResources().getString(R.string.loading);
 
             //first pass : count total files
             while (!directorys.isEmpty()) {
@@ -141,8 +140,7 @@ public class MediaLibrary {
                     for (int i = 0; i < f.length; i++) {
                         if (f[i].isFile()) {
 
-                            MainActivity.sendTextInfo(mainHandler, String.format("%s %d/%d : %s",
-                                    prefix, count, total, f[i].getName()));
+                            MainActivity.sendTextInfo(mainHandler, f[i].getName(), count, total);
                             count++;
 
                             if (existingFiles.contains(f[i])) {
@@ -165,7 +163,7 @@ public class MediaLibrary {
                     }
                 }
             }
-            MainActivity.sendTextInfo(mainHandler, null);
+            MainActivity.clearTextInfo(mainHandler);
 
             // update the video and audio activities
             for (int i = 0; i < mUpdateHandler.size(); i++) {

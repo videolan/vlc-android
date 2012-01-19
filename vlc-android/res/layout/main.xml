@@ -42,11 +42,30 @@
             android:padding="10dip"
             android:onClick="searchClick" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/text_info"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/info_layout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:visibility="visible">
+        <ProgressBar
+            android:id="@+id/info_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:progressDrawable="@drawable/progress"/>
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:singleLine="true"
+            android:textColor="#FFFFFFFF"
+            android:shadowColor="#CC000000"
+            android:shadowRadius="1.5"
+            android:shadowDx="1"
+            android:shadowDy="1"/>
+    </RelativeLayout>
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
