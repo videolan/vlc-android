@@ -196,9 +196,16 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, 
      * for 320x170 H.264, a few packets less on higher resolutions.
      * On Nexus S, the decoder latency seems to be about 7 packets.
      */
-    const char *argv[] = {"-I", "dummy", "-vvv", "--no-plugins-cache",
-                          "--no-drop-late-frames", "--file-caching", "1500",
-                          "--network-caching", "1500" };
+    const char *argv[] = {
+        "-I", "dummy",
+        "-vv",
+        "--no-plugins-cache",
+        "--no-drop-late-frames",
+        /* Leave those 2 options and 2 values at the end of the array.
+         * They are modified by the code below for iomx. */
+        "--file-caching", "1500",
+        "--network-caching", "1500",
+    };
     size_t argc = sizeof(argv) / sizeof(*argv);
     if (!enable_iomx) {
         argc -= 4; // Drop the iomx specific caching values
