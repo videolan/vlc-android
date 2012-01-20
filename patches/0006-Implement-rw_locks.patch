@@ -1,10 +1,8 @@
 From 73cb72d834c6cd2cde2a56c0add8542453eca1f3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
 Date: Sun, 7 Nov 2010 19:11:51 +0100
-Subject: [PATCH 6/7] Implement rw_locks.
+Subject: [PATCH 6/7] Implement rw_locks, needed for Android 2.2 and below
 
-[funman]
-add static initializer, use #ifdef __ANDROID__, remove windows function call
 ---
  include/vlc_threads.h |   22 ++++++++++++++
  src/posix/thread.c    |   76 +++++++++++++++++++++++++++++++++++++++++++++++++
