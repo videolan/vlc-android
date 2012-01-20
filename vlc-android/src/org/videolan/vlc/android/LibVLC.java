@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
@@ -30,7 +31,10 @@ public class LibVLC {
     /* Load library before object instantiation */
     static {
         try {
-            System.loadLibrary("iomx");
+            if (Build.VERSION.SDK_INT <= 10)
+                System.loadLibrary("iomx-gingerbread");
+            else /* No honeycomb build for now */
+                System.loadLibrary("iomx-ics");
         } catch (Throwable t) {
             Log.w(TAG, "Unable to load the iomx library: " + t);
         }
