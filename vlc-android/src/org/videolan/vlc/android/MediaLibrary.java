@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 
 import android.content.Context;
 import android.os.Handler;
@@ -20,7 +18,6 @@ public class MediaLibrary {
     private static MediaLibrary mInstance;
     private DatabaseManager mDBManager;
     private ArrayList<Media> mItemList;
-    private final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private ArrayList<Handler> mUpdateHandler;
     protected Context mContext;
 
@@ -171,14 +168,6 @@ public class MediaLibrary {
                 h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
             }
 
-            try {
-                mBarrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
-            }
-
             // remove file from database
             for (int i = 0; i < existingFiles.size(); i++) {
                 if (!addedFiles.contains(existingFiles.get(i))) {
@@ -187,7 +176,6 @@ public class MediaLibrary {
             }
             // hide progressbar in header
             mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
-
         }
     };
 
