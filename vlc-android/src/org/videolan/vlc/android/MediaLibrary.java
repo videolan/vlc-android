@@ -2,6 +2,7 @@ package org.videolan.vlc.android;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +21,7 @@ public class MediaLibrary {
     private ArrayList<Media> mItemList;
     private ArrayList<Handler> mUpdateHandler;
     protected Context mContext;
+    protected Thread mLoadingThread;
 
     private MediaLibrary(Context context) {
         mInstance = this;
@@ -30,7 +32,10 @@ public class MediaLibrary {
     }
 
     public void loadMediaItems() {
-        new Thread(mGetMediaItems).start();
+        if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
+            mLoadingThread = new Thread(mGetMediaItems);
+            mLoadingThread.start();
+        }
     }
 
     public static MediaLibrary getInstance(Context context) {
