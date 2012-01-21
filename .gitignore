@@ -1,3 +1,4 @@
 vlc/
-android-headers/
+android-headers-gingerbread
+android-headers-ics
 android-libs/
