@@ -164,17 +164,16 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     {
         picHeight = height / videoAR;
         picWidth = width;
-        sys->picPitch = picWidth * PIXEL_SIZE;
         sys->thumbnailOffset = (picHeight - height) / 2 * sys->picPitch;
     }
     else
     {
         picHeight = height;
         picWidth = width * videoAR;
-        sys->picPitch = picWidth * PIXEL_SIZE;
         sys->thumbnailOffset = (picWidth - width) / 2 * PIXEL_SIZE;
     }
 
+    sys->picPitch = picWidth * PIXEL_SIZE;
     sys->lineSize = width * PIXEL_SIZE;
     sys->nbLines = height;
 
