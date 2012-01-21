@@ -14,7 +14,7 @@ typedef struct
 {
     libvlc_media_player_t *p_mp;
 
-    char b_hasThumb;
+    bool b_hasThumb;
 
     char *p_frameData;
     char *p_thumbnail;
@@ -80,7 +80,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixel
 
     /* Signal that the thumbnail was created. */
     pthread_mutex_lock(&p_sys->doneMutex);
-    p_sys->b_hasThumb = 1;
+    p_sys->b_hasThumb = true;
     pthread_cond_signal(&p_sys->doneCondVar);
     pthread_mutex_unlock(&p_sys->doneMutex);
 }
@@ -207,7 +207,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
 
     /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&p_sys->doneMutex);
-    while (p_sys->b_hasThumb == 0)
+    while (!p_sys->b_hasThumb)
         pthread_cond_wait(&p_sys->doneCondVar, &p_sys->doneMutex);
     pthread_mutex_unlock(&p_sys->doneMutex);
 
