@@ -7,7 +7,7 @@
 #include "log.h"
 
 #define THUMBNAIL_POSITION 0.5
-#define PIXEL_SIZE 4
+#define PIXEL_SIZE 4 /* RGBA */
 
 typedef struct
 {
@@ -62,13 +62,11 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixel
         return;
     }
 
-    /* Else we have received our first thumbnail
-       and we can exit the thumbnailer. */
-
-    unsigned i;
-    char *p_dataSrc = p_sys->p_frameData + p_sys->i_thumbnailOffset;
+    /* Else we have received our first thumbnail and we can exit. */
+    const char *p_dataSrc = p_sys->p_frameData + p_sys->i_thumbnailOffset;
     char *p_dataDest = p_sys->p_thumbnail;
     /* Copy the thumbnail. */
+    unsigned i;
     for (i = 0; i < p_sys->i_nbLines; ++i)
     {
         memcpy(p_dataDest, p_dataSrc, p_sys->i_lineSize);
