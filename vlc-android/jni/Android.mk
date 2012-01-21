@@ -30,8 +30,9 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lavformat -lavcodec -lswscale -lavutil -lpostproc \
 	-lmpeg2 -lpng -ldvbpsi -llog -la52 -lebml -lmatroska -ltag \
 	-lgsm -lopenjpeg -lgme -lupnp -lixml -lthreadutil -lxml2 -lsamplerate \
-	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
 	$(CPP_STATIC)
+#-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
+# until live555 is fixed
 
 include $(BUILD_SHARED_LIBRARY)
 
