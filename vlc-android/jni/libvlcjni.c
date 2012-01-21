@@ -31,18 +31,22 @@ static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
     return (libvlc_media_player_t*)(*env)->GetIntField(env, thiz, fieldMP);
 }
 
-static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
+static void unsetMediaPlayer(JNIEnv *env, jobject thiz)
 {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
     jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
                                           "mMediaPlayerInstance", "I");
-    libvlc_media_player_t *mp;
-    mp = (libvlc_media_player_t*)(*env)->GetIntField(env, thiz, fieldMP);
+    (*env)->SetIntField(env, thiz, fieldMP, 0);
+}
+
+static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
     if (mp)
     {
         libvlc_media_player_stop(mp);
         libvlc_media_player_release(mp);
-        (*env)->SetIntField(env, thiz, fieldMP, 0);
+        unsetMediaPlayer(env, thiz);
     }
 }
 
