@@ -12,19 +12,19 @@
 
 typedef struct
 {
-    libvlc_media_player_t *p_mp;
+    libvlc_media_player_t *mp;
 
-    bool b_hasThumb;
+    bool hasThumb;
 
-    char *p_frameData;
-    char *p_thumbnail;
+    char *frameData;
+    char *thumbnail;
 
-    unsigned i_thumbnailOffset;
-    unsigned i_lineSize;
-    unsigned i_nbLines;
-    unsigned i_picPitch;
+    unsigned thumbnailOffset;
+    unsigned lineSize;
+    unsigned nbLines;
+    unsigned picPitch;
 
-    unsigned i_nbReceivedFrames;
+    unsigned nbReceivedFrames;
 
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;
@@ -36,8 +36,8 @@ typedef struct
  **/
 static void *thumbnailer_lock(void *opaque, void **pixels)
 {
-    thumbnailer_sys_t *p_sys = opaque;
-    *pixels = p_sys->p_frameData;
+    thumbnailer_sys_t *sys = opaque;
+    *pixels = sys->frameData;
     return NULL;
 }
 
@@ -45,44 +45,44 @@ static void *thumbnailer_lock(void *opaque, void **pixels)
 /**
  * Thumbnailer vout unlock
  **/
-static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixels)
+static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
 {
-    thumbnailer_sys_t *p_sys = opaque;
+    thumbnailer_sys_t *sys = opaque;
 
     /* If we have already received a thumbnail, we skip this frame. */
-    pthread_mutex_lock(&p_sys->doneMutex);
-    bool hasThumb = p_sys->b_hasThumb;
-    pthread_mutex_unlock(&p_sys->doneMutex);
+    pthread_mutex_lock(&sys->doneMutex);
+    bool hasThumb = sys->hasThumb;
+    pthread_mutex_unlock(&sys->doneMutex);
     if (hasThumb)
         return;
 
-    p_sys->i_nbReceivedFrames++;
+    sys->nbReceivedFrames++;
 
-    if (libvlc_media_player_get_position(p_sys->p_mp) < THUMBNAIL_POSITION / 2
+    if (libvlc_media_player_get_position(sys->mp) < THUMBNAIL_POSITION / 2
         // Arbitrary choice to work around broken files.
-        && libvlc_media_player_get_length(p_sys->p_mp) > 1000
-        && p_sys->i_nbReceivedFrames < 10)
+        && libvlc_media_player_get_length(sys->mp) > 1000
+        && sys->nbReceivedFrames < 10)
     {
         return;
     }
 
     /* Else we have received our first thumbnail and we can exit. */
-    const char *p_dataSrc = p_sys->p_frameData + p_sys->i_thumbnailOffset;
-    char *p_dataDest = p_sys->p_thumbnail;
+    const char *dataSrc = sys->frameData + sys->thumbnailOffset;
+    char *dataDest = sys->thumbnail;
     /* Copy the thumbnail. */
     unsigned i;
-    for (i = 0; i < p_sys->i_nbLines; ++i)
+    for (i = 0; i < sys->nbLines; ++i)
     {
-        memcpy(p_dataDest, p_dataSrc, p_sys->i_lineSize);
-        p_dataDest += p_sys->i_lineSize;
-        p_dataSrc += p_sys->i_picPitch;
+        memcpy(dataDest, dataSrc, sys->lineSize);
+        dataDest += sys->lineSize;
+        dataSrc += sys->picPitch;
     }
 
     /* Signal that the thumbnail was created. */
-    pthread_mutex_lock(&p_sys->doneMutex);
-    p_sys->b_hasThumb = true;
-    pthread_cond_signal(&p_sys->doneCondVar);
-    pthread_mutex_unlock(&p_sys->doneMutex);
+    pthread_mutex_lock(&sys->doneMutex);
+    sys->hasThumb = true;
+    pthread_cond_signal(&sys->doneCondVar);
+    pthread_mutex_unlock(&sys->doneMutex);
 }
 
 
@@ -90,151 +90,151 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixel
  * Thumbnailer main function.
  * return null if the thumbail generation failed.
  **/
-jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobject thiz,
-                                                             jint i_instance, jstring filePath,
-                                                             jint i_width, jint i_height)
+jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
+                                                             jint instance, jstring filePath,
+                                                             jint width, jint height)
 {
-    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
+    libvlc_instance_t *libvlc = (libvlc_instance_t *)instance;
     jboolean isCopy;
     jbyteArray byteArray = NULL;
-    const char *psz_filePath = (*p_env)->GetStringUTFChars(p_env, filePath,
+    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath,
                                                            &isCopy);
 
     /* Create the thumbnailer data structure */
-    thumbnailer_sys_t *p_sys = calloc(1, sizeof(thumbnailer_sys_t));
-    if (p_sys == NULL)
+    thumbnailer_sys_t *sys = calloc(1, sizeof(thumbnailer_sys_t));
+    if (sys == NULL)
     {
         LOGE("Couldn't create the thumbnailer data structure!");
-        (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
+        (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
         return NULL;
     }
 
     /* Initialize the barrier. */
-    pthread_mutex_init(&p_sys->doneMutex, NULL);
-    pthread_cond_init(&p_sys->doneCondVar, NULL);
+    pthread_mutex_init(&sys->doneMutex, NULL);
+    pthread_cond_init(&sys->doneCondVar, NULL);
 
     /* Create a media player playing environment */
-    p_sys->p_mp = libvlc_media_player_new(p_instance);
+    sys->mp = libvlc_media_player_new(libvlc);
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
-    if (p_m == NULL)
+    libvlc_media_t *m = libvlc_media_new_path(libvlc, psz_filePath);
+    if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
         goto end;
     }
-    libvlc_media_add_option( p_m, ":no-audio" );
+    libvlc_media_add_option( m, ":no-audio" );
 
-    libvlc_media_player_set_media(p_sys->p_mp, p_m);
-    libvlc_media_release(p_m);
+    libvlc_media_player_set_media(sys->mp, m);
+    libvlc_media_release(m);
 
     /* Get the size of the video with the tracks information of the media. */
-    libvlc_media_track_info_t *p_tracks;
-    libvlc_media_parse(p_m);
-    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
+    libvlc_media_track_info_t *tracks;
+    libvlc_media_parse(m);
+    int nbTracks = libvlc_media_get_tracks_info(m, &tracks);
 
-    unsigned i, i_videoWidth, i_videoHeight;
-    float f_videoAR;
-    int b_hasVideoTrack = 0;
-    for (i = 0; i < i_nbTracks; ++i)
+    unsigned i, videoWidth, videoHeight;
+    float videoAR;
+    bool hasVideoTrack = false;
+    for (i = 0; i < nbTracks; ++i)
     {
-        if (p_tracks[i].i_type == libvlc_track_video)
+        if (tracks[i].i_type == libvlc_track_video)
         {
-            i_videoWidth = p_tracks[i].u.video.i_width;
-            i_videoHeight = p_tracks[i].u.video.i_height;
-            f_videoAR = (float)i_videoWidth / i_videoHeight;
-            b_hasVideoTrack = 1;
+            videoWidth = tracks[i].u.video.i_width;
+            videoHeight = tracks[i].u.video.i_height;
+            videoAR = (float)videoWidth / videoHeight;
+            hasVideoTrack = true;
             break;
         }
     }
 
-    free(p_tracks);
+    free(tracks);
 
     /* Abord if we have not found a video track. */
-    if (b_hasVideoTrack == 0)
+    if (!hasVideoTrack)
     {
         LOGE("Could not find a video track in this file.\n");
         goto end;
     }
 
     /* Compute the size parameters of the frame to generate. */
-    unsigned i_picWidth, i_picHeight;
-    float f_thumbnailAR = (float)i_width / i_height;
-    if (f_videoAR < f_thumbnailAR)
+    unsigned picWidth, picHeight;
+    float thumbnailAR = (float)width / height;
+    if (videoAR < thumbnailAR)
     {
-        i_picHeight = i_height / f_videoAR;
-        i_picWidth = i_width;
-        p_sys->i_picPitch = i_picWidth * PIXEL_SIZE;
-        p_sys->i_thumbnailOffset = (i_picHeight - i_height) / 2 * p_sys->i_picPitch;
+        picHeight = height / videoAR;
+        picWidth = width;
+        sys->picPitch = picWidth * PIXEL_SIZE;
+        sys->thumbnailOffset = (picHeight - height) / 2 * sys->picPitch;
     }
     else
     {
-        i_picHeight = i_height;
-        i_picWidth = i_width * f_videoAR;
-        p_sys->i_picPitch = i_picWidth * PIXEL_SIZE;
-        p_sys->i_thumbnailOffset = (i_picWidth - i_width) / 2 * PIXEL_SIZE;
+        picHeight = height;
+        picWidth = width * videoAR;
+        sys->picPitch = picWidth * PIXEL_SIZE;
+        sys->thumbnailOffset = (picWidth - width) / 2 * PIXEL_SIZE;
     }
 
-    p_sys->i_lineSize = i_width * PIXEL_SIZE;
-    p_sys->i_nbLines = i_height;
+    sys->lineSize = width * PIXEL_SIZE;
+    sys->nbLines = height;
 
     /* Allocate the memory to store the frames. */
-    unsigned i_picSize = p_sys->i_picPitch * i_picHeight;
-    p_sys->p_frameData = malloc(i_picSize);
-    if (p_sys->p_frameData == NULL)
+    unsigned picSize = sys->picPitch * picHeight;
+    sys->frameData = malloc(picSize);
+    if (sys->frameData == NULL)
     {
         LOGE("Couldn't allocate the memory to store the frame!");
         goto end;
     }
 
     /* Allocate the memory to store the thumbnail. */
-    unsigned i_thumbnailSize = i_width * i_height * PIXEL_SIZE;
-    p_sys->p_thumbnail = malloc(i_thumbnailSize);
-    if (p_sys->p_thumbnail == NULL)
+    unsigned thumbnailSize = width * height * PIXEL_SIZE;
+    sys->thumbnail = malloc(thumbnailSize);
+    if (sys->thumbnail == NULL)
     {
         LOGE("Couldn't allocate the memory to store the thumbnail!");
         goto end;
     }
 
     /* Set the video format and the callbacks. */
-    libvlc_video_set_format(p_sys->p_mp, "RGBA", i_picWidth, i_picHeight, p_sys->i_picPitch);
-    libvlc_video_set_callbacks(p_sys->p_mp, thumbnailer_lock, thumbnailer_unlock,
-                               NULL, (void*)p_sys);
+    libvlc_video_set_format(sys->mp, "RGBA", picWidth, picHeight, sys->picPitch);
+    libvlc_video_set_callbacks(sys->mp, thumbnailer_lock, thumbnailer_unlock,
+                               NULL, (void*)sys);
 
     /* Play the media. */
-    libvlc_media_player_play(p_sys->p_mp);
-    libvlc_media_player_set_position(p_sys->p_mp, THUMBNAIL_POSITION);
+    libvlc_media_player_play(sys->mp);
+    libvlc_media_player_set_position(sys->mp, THUMBNAIL_POSITION);
 
     /* Wait for the thumbnail to be generated. */
-    pthread_mutex_lock(&p_sys->doneMutex);
-    while (!p_sys->b_hasThumb)
-        pthread_cond_wait(&p_sys->doneCondVar, &p_sys->doneMutex);
-    pthread_mutex_unlock(&p_sys->doneMutex);
+    pthread_mutex_lock(&sys->doneMutex);
+    while (!sys->hasThumb)
+        pthread_cond_wait(&sys->doneCondVar, &sys->doneMutex);
+    pthread_mutex_unlock(&sys->doneMutex);
 
     /* Stop and realease the media player. */
-    libvlc_media_player_stop(p_sys->p_mp);
-    libvlc_media_player_release(p_sys->p_mp);
+    libvlc_media_player_stop(sys->mp);
+    libvlc_media_player_release(sys->mp);
 
     /* Create the Java byte array to return the create thumbnail. */
-    byteArray = (*p_env)->NewByteArray(p_env, i_thumbnailSize);
+    byteArray = (*env)->NewByteArray(env, thumbnailSize);
     if (byteArray == NULL)
     {
         LOGE("Couldn't allocate the Java byte array to store the frame!");
         goto end;
     }
 
-    (*p_env)->SetByteArrayRegion(p_env, byteArray, 0, i_thumbnailSize,
-                                 (jbyte *)p_sys->p_thumbnail);
+    (*env)->SetByteArrayRegion(env, byteArray, 0, thumbnailSize,
+                                 (jbyte *)sys->thumbnail);
 
-    (*p_env)->DeleteLocalRef(p_env, byteArray);
+    (*env)->DeleteLocalRef(env, byteArray);
 
 end:
-    (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
-    pthread_mutex_destroy(&p_sys->doneMutex);
-    pthread_cond_destroy(&p_sys->doneCondVar);
-    free(p_sys->p_thumbnail);
-    free(p_sys->p_frameData);
-    free(p_sys);
+    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
+    pthread_mutex_destroy(&sys->doneMutex);
+    pthread_cond_destroy(&sys->doneCondVar);
+    free(sys->thumbnail);
+    free(sys->frameData);
+    free(sys);
 
     return byteArray;
 }
