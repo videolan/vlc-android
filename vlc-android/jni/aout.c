@@ -89,14 +89,13 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     /* Use a global reference to not reallocate memory each time we run
        the play function. */
     p_sys->buffer = (*p_env)->NewGlobalRef (p_env, buffer);
+    /* The local reference is no longer useful. */
+    (*p_env)->DeleteLocalRef (p_env, buffer);
     if (p_sys->buffer == NULL)
     {
         LOGE ("Couldn't create the global reference!");
         goto error;
     }
-
-    /* The local reference is no longer useful. */
-    (*p_env)->DeleteLocalRef (p_env, buffer);
 
     // Get the play methodId
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
