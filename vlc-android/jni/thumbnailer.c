@@ -220,7 +220,6 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     if (byteArray == NULL)
     {
         LOGE("Couldn't allocate the Java byte array to store the frame!");
-        free(p_sys->p_thumbnail);
         goto end;
     }
 
@@ -233,6 +232,7 @@ end:
     (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
     pthread_mutex_destroy(&p_sys->doneMutex);
     pthread_cond_destroy(&p_sys->doneCondVar);
+    free(p_sys->p_thumbnail);
     free(p_sys->p_frameData);
     free(p_sys);
 
