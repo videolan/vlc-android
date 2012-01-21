@@ -13,11 +13,6 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
-#define NAME1(CLZ, FUN) Java_##CLZ##_##FUN
-#define NAME2(CLZ, FUN) NAME1(CLZ, FUN)
-
-#define NAME(FUN) NAME2(CLASS, FUN)
-
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
