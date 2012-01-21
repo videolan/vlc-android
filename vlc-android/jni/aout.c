@@ -57,10 +57,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if (!methodIdInitAout)
     {
         LOGE ("Method initAout() could not be found!");
-        (*myVm)->DetachCurrentThread (myVm);
-        *opaque = NULL;
-        free (p_sys);
-        return -1;
+        goto error;
     }
 
     LOGV ("Fixed number of channels to 2, number of samples to %d", FRAME_SIZE);
@@ -75,9 +72,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         (*p_env)->ExceptionDescribe (p_env);
 #endif
         (*p_env)->ExceptionClear (p_env);
-        *opaque = NULL;
-        free (p_sys);
-        return -1;
+        goto error;
     }
 
     /* Create a new byte array to store the audio data. */
@@ -88,10 +83,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if (byteArray == NULL)
     {
         LOGE("Couldn't allocate the Java byte array to store the audio data!");
-        (*myVm)->DetachCurrentThread (myVm);
-        *opaque = NULL;
-        free (p_sys);
-        return -1;
+        goto error;
     }
 
     /* Use a global reference to not reallocate memory each time we run
@@ -100,10 +92,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if (p_sys->byteArray == NULL)
     {
         LOGE ("Couldn't create the global reference!");
-        (*myVm)->DetachCurrentThread (myVm);
-        *opaque = NULL;
-        free (p_sys);
-        return -1;
+        goto error;
     }
 
     /* The local reference is no longer useful. */
@@ -113,6 +102,12 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
     assert (p_sys->play != NULL);
     return 0;
+
+error:
+    (*myVm)->DetachCurrentThread (myVm);
+    *opaque = NULL;
+    free (p_sys);
+    return -1;
 }
 
 /**
