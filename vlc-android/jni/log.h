@@ -5,7 +5,7 @@
 
 /* C files should define LOG_TAG before including this header */
 #ifndef LOG_TAG
-# define  LOG_TAG    "LibVLC/JNI"
+# error You must define LOG_TAG
 #endif
 
 #ifndef NDEBUG
