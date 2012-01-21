@@ -1,16 +1,88 @@
 #include <assert.h>
-
 #include <jni.h>
-
 #include <vlc/vlc.h>
-
-#include "thumbnailer.h"
+#include <pthread.h>
 
 #define LOG_TAG "VLC/JNI/thumbnailer"
 #include "log.h"
 
 #define THUMBNAIL_POSITION 0.5
 #define PIXEL_SIZE 4
+
+typedef struct
+{
+    libvlc_media_player_t *p_mp;
+
+    char b_hasThumb;
+
+    char *p_frameData;
+    char *p_thumbnail;
+
+    unsigned i_thumbnailOffset;
+    unsigned i_lineSize;
+    unsigned i_nbLines;
+    unsigned i_picPitch;
+
+    unsigned i_nbReceivedFrames;
+
+    pthread_mutex_t doneMutex;
+    pthread_cond_t doneCondVar;
+} thumbnailer_sys_t;
+
+
+/**
+ * Thumbnailer vout lock
+ **/
+static void *thumbnailer_lock(void *opaque, void **pixels)
+{
+    thumbnailer_sys_t *p_sys = opaque;
+    *pixels = p_sys->p_frameData;
+    return NULL;
+}
+
+
+/**
+ * Thumbnailer vout unlock
+ **/
+static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixels)
+{
+    thumbnailer_sys_t *p_sys = opaque;
+
+    /* If we have already received a thumbnail, we skip this frame. */
+    if (p_sys->b_hasThumb == 1)
+        return;
+
+    p_sys->i_nbReceivedFrames++;
+
+    if (libvlc_media_player_get_position(p_sys->p_mp) < THUMBNAIL_POSITION / 2
+        // Arbitrary choice to work around broken files.
+        && libvlc_media_player_get_length(p_sys->p_mp) > 1000
+        && p_sys->i_nbReceivedFrames < 10)
+    {
+        return;
+    }
+
+    /* Else we have received our first thumbnail
+       and we can exit the thumbnailer. */
+
+    unsigned i;
+    char *p_dataSrc = p_sys->p_frameData + p_sys->i_thumbnailOffset;
+    char *p_dataDest = p_sys->p_thumbnail;
+    /* Copy the thumbnail. */
+    for (i = 0; i < p_sys->i_nbLines; ++i)
+    {
+        memcpy(p_dataDest, p_dataSrc, p_sys->i_lineSize);
+        p_dataDest += p_sys->i_lineSize;
+        p_dataSrc += p_sys->i_picPitch;
+    }
+
+    p_sys->b_hasThumb = 1;
+
+    /* Signal that the thumbnail was created. */
+    pthread_mutex_lock(&p_sys->doneMutex);
+    pthread_cond_signal(&p_sys->doneCondVar);
+    pthread_mutex_unlock(&p_sys->doneMutex);
+}
 
 
 /**
@@ -28,15 +100,12 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
                                                            &isCopy);
 
     /* Create the thumbnailer data structure */
-    thumbnailer_sys_t *p_sys = malloc(sizeof(thumbnailer_sys_t));
+    thumbnailer_sys_t *p_sys = calloc(1, sizeof(thumbnailer_sys_t));
     if (p_sys == NULL)
     {
         LOGE("Couldn't create the thumbnailer data structure!");
         return NULL;
     }
-    p_sys->b_hasThumb = 0;
-    p_sys->i_nbReceivedFrames = 0;
-    p_sys->p_frameData = NULL;
 
     /* Initialize the barrier. */
     pthread_mutex_init(&p_sys->doneMutex, NULL);
@@ -166,59 +235,4 @@ end:
     free(p_sys);
 
     return byteArray;
-}
-
-
-/**
- * Thumbnailer vout lock
- **/
-void *thumbnailer_lock(void *opaque, void **pixels)
-{
-    thumbnailer_sys_t *p_sys = (thumbnailer_sys_t *)opaque;
-    *pixels = p_sys->p_frameData;
-    return NULL;
-}
-
-
-/**
- * Thumbnailer vout unlock
- **/
-void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixels)
-{
-    thumbnailer_sys_t *p_sys = (thumbnailer_sys_t *)opaque;
-
-    /* If we have already received a thumbnail, we skip this frame. */
-    if (p_sys->b_hasThumb == 1)
-        return;
-
-    p_sys->i_nbReceivedFrames++;
-
-    if (libvlc_media_player_get_position(p_sys->p_mp) < THUMBNAIL_POSITION / 2
-        // Arbitrary choice to work around broken files.
-        && libvlc_media_player_get_length(p_sys->p_mp) > 1000
-        && p_sys->i_nbReceivedFrames < 10)
-    {
-        return;
-    }
-
-    /* Else we have received our first thumbnail
-       and we can exit the thumbnailer. */
-
-    unsigned i;
-    char *p_dataSrc = p_sys->p_frameData + p_sys->i_thumbnailOffset;
-    char *p_dataDest = p_sys->p_thumbnail;
-    /* Copy the thumbnail. */
-    for (i = 0; i < p_sys->i_nbLines; ++i)
-    {
-        memcpy(p_dataDest, p_dataSrc, p_sys->i_lineSize);
-        p_dataDest += p_sys->i_lineSize;
-        p_dataSrc += p_sys->i_picPitch;
-    }
-
-    p_sys->b_hasThumb = 1;
-
-    /* Signal that the thumbnail was created. */
-    pthread_mutex_lock(&p_sys->doneMutex);
-    pthread_cond_signal(&p_sys->doneCondVar);
-    pthread_mutex_unlock(&p_sys->doneMutex);
 }
