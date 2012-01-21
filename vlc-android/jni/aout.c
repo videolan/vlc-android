@@ -20,8 +20,6 @@ typedef struct
     jobject j_libVlc;   /// Pointer to the LibVLC Java object
     jmethodID play;     /// Java method to play audio buffers
     jbyteArray buffer;  /// Raw audio data to be played
-    JNIEnv *p_env;      ///< Main thread environment: this is NOT the
-                        ///  play thread! See comments in aout_play()
 } aout_sys_t;
 
 /** Unique Java VM instance, as defined in libvlcjni.c */
@@ -41,14 +39,12 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     LOGI ("Parameters: %u channels, FOURCC '%4.4s',  sample rate: %uHz",
           *nb_channels, format, *rate);
 
-    // Attach the thread to the VM. Keep this JNIEnv for aout_close()
     JNIEnv *p_env;
     if ((*myVm)->AttachCurrentThread (myVm, &p_env, NULL) != 0)
     {
         LOGE("Couldn't attach the display thread to the JVM !");
         return -1;
     }
-    p_sys->p_env = p_env;
 
     // Call the init function.
     jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
@@ -100,6 +96,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     // Get the play methodId
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
     assert (p_sys->play != NULL);
+    (*myVm)->DetachCurrentThread (myVm);
     return 0;
 
 error:
@@ -152,9 +149,9 @@ void aout_close(void *opaque)
     assert(p_sys);
     assert(p_sys->buffer);
 
-    // Want a crash? Call this function! But whyyyyy???
-    // Anyway, one more good reason to create the buffer in pure Java
-    //(*p_sys->p_env)->DeleteGlobalRef (p_sys->p_env, p_sys->buffer);
+    JNIEnv *p_env;
+    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    (*p_env)->DeleteGlobalRef (p_env, p_sys->buffer);
     (*myVm)->DetachCurrentThread (myVm);
     free (p_sys);
 }
