@@ -87,7 +87,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     }
 
     /* Use a global reference to not reallocate memory each time we run
-       the display function. */
+       the play function. */
     p_sys->buffer = (*p_env)->NewGlobalRef (p_env, buffer);
     if (p_sys->buffer == NULL)
     {
