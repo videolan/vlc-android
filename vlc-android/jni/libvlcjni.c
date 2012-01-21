@@ -185,28 +185,31 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
 
 void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
 {
-    /*
-     * Set higher caching values if using iomx decoding, since some omx
-     * decoders have a very high latency, and if the preroll data isn't
-     * enough to make the decoder output a frame, the playback timing gets
-     * started too soon, and every decoded frame appears to be too late.
-     * On Nexus One, the decoder latency seems to be 25 input packets
-     * for 320x170 H.264, a few packets less on higher resolutions.
-     * On Nexus S, the decoder latency seems to be about 7 packets.
-     */
     const char *argv[] = {
         "-I", "dummy",
         "-vv",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-        /* Leave those 2 options and 2 values at the end of the array.
-         * They are modified by the code below for iomx. */
-        "--file-caching", "1500",
-        "--network-caching", "1500",
+
+        /* Leave room for iomx options (4 entries exactly) */
+        NULL, NULL, NULL, NULL,
     };
-    size_t argc = sizeof(argv) / sizeof(*argv);
-    if (!enable_iomx) {
-        argc -= 4; // Drop the iomx specific caching values
+    size_t argc = (sizeof(argv) / sizeof(*argv)) - 4 /* those 4 entries */;
+    if (enable_iomx) {
+        /*
+         * Set higher caching values if using iomx decoding, since some omx
+         * decoders have a very high latency, and if the preroll data isn't
+         * enough to make the decoder output a frame, the playback timing gets
+         * started too soon, and every decoded frame appears to be too late.
+         * On Nexus One, the decoder latency seems to be 25 input packets
+         * for 320x170 H.264, a few packets less on higher resolutions.
+         * On Nexus S, the decoder latency seems to be about 7 packets.
+         */
+        argv[argc++] = "--file-caching";
+        argv[argc++] = "1500";
+        argv[argc++] = "--network-caching";
+        argv[argc++] = "1500";
+    } else {
         argv[argc++] = "--codec";
         argv[argc++] = "avcodec,all";
     }
