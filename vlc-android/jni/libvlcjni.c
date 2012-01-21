@@ -416,52 +416,66 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
     return 0;
 }
 
-static pthread_mutex_t doneMutex;
-static pthread_cond_t doneCondVar;
+struct length_change_monitor {
+    pthread_mutex_t doneMutex;
+    pthread_cond_t doneCondVar;
+    bool length_changed;
+};
 
 static void length_changed_callback(const libvlc_event_t *ev, void *data)
 {
-    pthread_mutex_lock(&doneMutex);
-    pthread_cond_signal(&doneCondVar);
-    pthread_mutex_unlock(&doneMutex);
+    struct length_change_monitor *monitor = data;
+    pthread_mutex_lock(&monitor->doneMutex);
+    monitor->length_changed = true;
+    pthread_cond_signal(&monitor->doneCondVar);
+    pthread_mutex_unlock(&monitor->doneMutex);
 }
 
 jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz,
                                                         jint i_instance, jstring filePath)
 {
-    libvlc_media_t *m;
-    libvlc_media_player_t *mp;
+    jlong length = 0;
+    struct length_change_monitor *monitor;
+    monitor = malloc(sizeof(*monitor));
+    if (!monitor)
+        return 0;
 
     /* Initialize pthread variables. */
-    pthread_mutex_init(&doneMutex, NULL);
-    pthread_cond_init(&doneCondVar, NULL);
+    pthread_mutex_init(&monitor->doneMutex, NULL);
+    pthread_cond_init(&monitor->doneCondVar, NULL);
+    monitor->length_changed = false;
 
     libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
     const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
 
     /* Create a new item and assign it to the media player. */
-    m = libvlc_media_new_path(p_instance, psz_filePath);
+    libvlc_media_t *m = libvlc_media_new_path(p_instance, psz_filePath);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
-        return 0;
+        goto end;
     }
 
     /* Create a media player playing environment */
-    mp = libvlc_media_player_new_from_media (m);
+    libvlc_media_player_t *mp = libvlc_media_player_new_from_media (m);
     libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
-    libvlc_event_attach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, NULL);
+    libvlc_event_attach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, monitor);
     libvlc_media_release (m);
     libvlc_media_player_play( mp );
-    pthread_mutex_lock(&doneMutex);
-    pthread_cond_wait(&doneCondVar, &doneMutex);
-    pthread_mutex_unlock(&doneMutex);
-    jlong length = (jlong)libvlc_media_player_get_length( mp );
+
+    pthread_mutex_lock(&monitor->doneMutex);
+    while (!monitor->length_changed)
+        pthread_cond_wait(&monitor->doneCondVar, &monitor->doneMutex);
+    pthread_mutex_unlock(&monitor->doneMutex);
+
+    length = libvlc_media_player_get_length( mp );
     libvlc_media_player_stop( mp );
     libvlc_media_player_release( mp );
 
-    pthread_mutex_destroy(&doneMutex);
-    pthread_cond_destroy(&doneCondVar);
+end:
+    pthread_mutex_destroy(&monitor->doneMutex);
+    pthread_cond_destroy(&monitor->doneCondVar);
+    free(monitor);
 
     return length;
 }
