@@ -5,7 +5,7 @@ VLC_APK=vlc-android/bin/VLC-debug.apk
 LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
-# Verbose level: -q -v or nothing (default)
+# Verbose level: -q -v or nothing (default verbose)
 VERBOSE ?= -v
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES) vlc-android/local.properties
