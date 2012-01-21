@@ -52,7 +52,7 @@ vlc-android/local.properties:
 	printf "# Auto-generated file. Do not edit.\nsdk.dir=$$ANDROID_SDK" > $@
 
 clean:
-	cd vlc-android && rm -rf libs obj bin $(VLC_APK)
+	cd vlc-android && rm -rf gen libs obj bin $(VLC_APK)
 
 distclean: clean
 	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H) vlc-android/local.properties
