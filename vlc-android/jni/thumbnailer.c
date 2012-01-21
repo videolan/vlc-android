@@ -104,6 +104,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
     if (p_sys == NULL)
     {
         LOGE("Couldn't create the thumbnailer data structure!");
+        (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
         return NULL;
     }
 
@@ -225,10 +226,9 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
                                  (jbyte *)p_sys->p_thumbnail);
 
     (*p_env)->DeleteLocalRef(p_env, byteArray);
-    (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
 
 end:
-    /* Free the memory. */
+    (*p_env)->ReleaseStringUTFChars(p_env, filePath, psz_filePath);
     pthread_mutex_destroy(&p_sys->doneMutex);
     pthread_cond_destroy(&p_sys->doneCondVar);
     free(p_sys->p_frameData);
