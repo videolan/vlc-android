@@ -296,7 +296,6 @@ void Java_org_videolan_vlc_android_LibVLC_setEventManager(JNIEnv *env, jobject t
 jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
                                     jobject thiz, jint instance, jstring mrl)
 {
-    jboolean isCopy;
     jobjectArray array = (*env)->NewObjectArray(env, 8,
             (*env)->FindClass(env, "java/lang/String"),
             (*env)->NewStringUTF(env, ""));
@@ -312,6 +311,7 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
         libvlc_meta_Genre,
     };
 
+    jboolean isCopy;
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
@@ -395,24 +395,32 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
 
     /* Create a new item and assign it to the media player. */
     libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
+    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
+
     if (p_m == NULL)
     {
         LOGE("Couldn't create the media!");
-        return 0;
+        return JNI_FALSE;
     }
 
     /* Get the tracks information of the media. */
     libvlc_media_track_info_t *p_tracks;
     libvlc_media_parse(p_m);
-    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
 
+    jboolean hasVideo = JNI_FALSE;
+    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
     unsigned i;
     for (i = 0; i < i_nbTracks; ++i)
-    {
         if (p_tracks[i].i_type == libvlc_track_video)
-            return 1;
-    }
-    return 0;
+        {
+            hasVideo = JNI_TRUE;
+            break;
+        }
+
+    free(p_tracks);
+    libvlc_media_release(p_m);
+
+    return hasVideo;
 }
 
 struct length_change_monitor {
