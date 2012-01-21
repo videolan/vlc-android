@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
+#include <stdint.h>
+
+#include <jni.h>
 
 #include <vlc/vlc.h>
 
@@ -10,6 +14,15 @@
 
 // An audio frame will contain FRAME_SIZE samples
 #define FRAME_SIZE (4096*2)
+
+typedef struct
+{
+    jobject j_libVlc;        /// Pointer to the LibVLC Java object
+    jmethodID play;          /// Java method to play audio buffers
+    jbyteArray byteArray;    /// Raw audio data to be played
+    JNIEnv *p_env;           ///< Main thread environment: this is NOT the
+                             ///  play thread! See comments in aout_play()
+} aout_sys_t;
 
 /** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
