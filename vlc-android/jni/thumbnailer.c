@@ -95,17 +95,13 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
                                                              jint width, jint height)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t *)instance;
-    jboolean isCopy;
     jbyteArray byteArray = NULL;
-    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath,
-                                                           &isCopy);
 
     /* Create the thumbnailer data structure */
     thumbnailer_sys_t *sys = calloc(1, sizeof(thumbnailer_sys_t));
     if (sys == NULL)
     {
         LOGE("Couldn't create the thumbnailer data structure!");
-        (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
         return NULL;
     }
 
@@ -117,7 +113,11 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     sys->mp = libvlc_media_player_new(libvlc);
 
     /* Create a new item and assign it to the media player. */
+    jboolean isCopy;
+    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath,
+                                                           &isCopy);
     libvlc_media_t *m = libvlc_media_new_path(libvlc, psz_filePath);
+    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
@@ -223,7 +223,6 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     (*env)->DeleteLocalRef(env, byteArray);
 
 end:
-    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
     pthread_mutex_destroy(&sys->doneMutex);
     pthread_cond_destroy(&sys->doneCondVar);
     free(sys->thumbnail);
