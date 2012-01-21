@@ -17,11 +17,11 @@
 
 typedef struct
 {
-    jobject j_libVlc;        /// Pointer to the LibVLC Java object
-    jmethodID play;          /// Java method to play audio buffers
-    jbyteArray byteArray;    /// Raw audio data to be played
-    JNIEnv *p_env;           ///< Main thread environment: this is NOT the
-                             ///  play thread! See comments in aout_play()
+    jobject j_libVlc;   /// Pointer to the LibVLC Java object
+    jmethodID play;     /// Java method to play audio buffers
+    jbyteArray buffer;  /// Raw audio data to be played
+    JNIEnv *p_env;      ///< Main thread environment: this is NOT the
+                        ///  play thread! See comments in aout_play()
 } aout_sys_t;
 
 /** Unique Java VM instance, as defined in libvlcjni.c */
@@ -76,11 +76,11 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     }
 
     /* Create a new byte array to store the audio data. */
-    jbyteArray byteArray = (*p_env)->NewByteArray (p_env,
+    jbyteArray buffer = (*p_env)->NewByteArray (p_env,
                                                    *nb_channels *
                                                    FRAME_SIZE *
                                                    sizeof (uint16_t) /* =2 */);
-    if (byteArray == NULL)
+    if (buffer == NULL)
     {
         LOGE("Couldn't allocate the Java byte array to store the audio data!");
         goto error;
@@ -88,15 +88,15 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
 
     /* Use a global reference to not reallocate memory each time we run
        the display function. */
-    p_sys->byteArray = (*p_env)->NewGlobalRef (p_env, byteArray);
-    if (p_sys->byteArray == NULL)
+    p_sys->buffer = (*p_env)->NewGlobalRef (p_env, buffer);
+    if (p_sys->buffer == NULL)
     {
         LOGE ("Couldn't create the global reference!");
         goto error;
     }
 
     /* The local reference is no longer useful. */
-    (*p_env)->DeleteLocalRef (p_env, byteArray);
+    (*p_env)->DeleteLocalRef (p_env, buffer);
 
     // Get the play methodId
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
@@ -124,7 +124,7 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
      */
     (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
 
-    (*p_env)->SetByteArrayRegion (p_env, p_sys->byteArray, 0,
+    (*p_env)->SetByteArrayRegion (p_env, p_sys->buffer, 0,
                                   2 /*nb_channels*/ * count * sizeof (uint16_t),
                                   (jbyte*) samples);
     if ((*p_env)->ExceptionCheck (p_env))
@@ -138,7 +138,7 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
     }
 
     (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, p_sys->play,
-                              p_sys->byteArray,
+                              p_sys->buffer,
                               2 /*nb_channels*/ * count * sizeof (uint16_t),
                               FRAME_SIZE);
     // FIXME: check for errors
@@ -153,11 +153,11 @@ void aout_close(void *opaque)
     if (!p_sys)
         return;
 
-    if (p_sys->byteArray)
+    if (p_sys->buffer)
     {
         // Want a crash? Call this function! But whyyyyy???
         // Anyway, one more good reason to create the buffer in pure Java
-        //(*p_sys->p_env)->DeleteGlobalRef (p_sys->p_env, p_sys->byteArray);
+        //(*p_sys->p_env)->DeleteGlobalRef (p_sys->p_env, p_sys->buffer);
     }
     (*myVm)->DetachCurrentThread (myVm);
     free (p_sys);
