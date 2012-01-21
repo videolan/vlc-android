@@ -74,10 +74,9 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixel
         p_dataSrc += p_sys->i_picPitch;
     }
 
-    p_sys->b_hasThumb = 1;
-
     /* Signal that the thumbnail was created. */
     pthread_mutex_lock(&p_sys->doneMutex);
+    p_sys->b_hasThumb = 1;
     pthread_cond_signal(&p_sys->doneCondVar);
     pthread_mutex_unlock(&p_sys->doneMutex);
 }
@@ -204,7 +203,8 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *p_env, jobj
 
     /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&p_sys->doneMutex);
-    pthread_cond_wait(&p_sys->doneCondVar, &p_sys->doneMutex);
+    while (p_sys->b_hasThumb == 0)
+        pthread_cond_wait(&p_sys->doneCondVar, &p_sys->doneMutex);
     pthread_mutex_unlock(&p_sys->doneMutex);
 
     /* Stop and realease the media player. */
