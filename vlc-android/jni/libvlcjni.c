@@ -300,26 +300,30 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
             (*env)->FindClass(env, "java/lang/String"),
             (*env)->NewStringUTF(env, ""));
 
-
-    static const char str[4][7] = {
-        "artist", "album", "title", "genre",
-    };
-    static const libvlc_meta_t meta_id[4] = {
-        libvlc_meta_Artist,
-        libvlc_meta_Album,
-        libvlc_meta_Title,
-        libvlc_meta_Genre,
-    };
-
     jboolean isCopy;
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
+    if (!m)
+    {
+        LOGE("readMediaMeta: Couldn't create the media!");
+        return;
+    }
+
     libvlc_media_parse(m);
 
+    static const char str[][7] = {
+        "artist", "album", "title", "genre",
+    };
+    static const libvlc_meta_t meta_id[] = {
+        libvlc_meta_Artist,
+        libvlc_meta_Album,
+        libvlc_meta_Title,
+        libvlc_meta_Genre,
+    };
     int i;
-    for (i=0; i < 4 ; i++) {
+    for (i=0; i < sizeof(str) / sizeof(*str); i++) {
         char *meta = libvlc_media_get_meta(m, meta_id[i]);
         if (!meta)
             meta = strdup("unknown");
@@ -348,6 +352,11 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
     (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
+    if (!m)
+    {
+        LOGE("readMedia: Couldn't create the media!");
+        return;
+    }
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
@@ -368,9 +377,6 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     /* Connect the event manager */
     libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
-
-    /* Subscribe to the events */
-
     int i;
     for (i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); ++i)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
@@ -381,10 +387,7 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                         "mMediaPlayerInstance", "I");
     (*env)->SetIntField(env, thiz, field, (jint) mp);
 
-    /* Play the media. */
     libvlc_media_player_play(mp);
-
-    //libvlc_media_player_release(mp);
 }
 
 jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
