@@ -315,6 +315,7 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
     const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
+    (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
     libvlc_media_parse(m);
 
     int i;
