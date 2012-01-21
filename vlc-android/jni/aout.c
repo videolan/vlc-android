@@ -111,7 +111,7 @@ error:
 }
 
 /**
- * Play an audio sample
+ * Play an audio frame
  **/
 void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
 {
