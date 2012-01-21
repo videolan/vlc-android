@@ -76,51 +76,26 @@ cd ../../
 # "Stagefright: Memcpy optimization on output port." (available
 # upstream at https://www.codeaurora.org/gitweb/quic/la/?p=platform/frameworks/base.git;a=commit;h=052368f194c9fc180b9b0335b60114a2f1fb88d8),
 # which adds some vtable entries needed on newer qualcomm devices.
-if [ ! -d "android-headers-gingerbread/frameworks/base" ]; then
-	echo "Fetching Android system headers (1/5)"
-	git clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers-gingerbread/frameworks/base
-else
-	echo "Updating Android system headers (1/5)"
-	pushd android-headers-gingerbread/frameworks/base > /dev/null
-	git pull origin gingerbread
-	popd > /dev/null
-fi
-if [ ! -d "android-headers-gingerbread/system/core" ]; then
-	echo "Fetching Android system headers (2/5)"
-	git clone -b gingerbread --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers-gingerbread/system/core
-else
-	echo "Updating Android system headers (2/5)"
-	pushd android-headers-gingerbread/system/core > /dev/null
-	git pull origin gingerbread
-	popd > /dev/null
-fi
-if [ ! -d "android-headers-ics/frameworks/base" ]; then
-	echo "Fetching Android system headers (3/5)"
-	git clone -b ics --depth=1 git://github.com/CyanogenMod/android_frameworks_base.git android-headers-ics/frameworks/base
-else
-	echo "Updating Android system headers (3/5)"
-	pushd android-headers-ics/frameworks/base > /dev/null
-	git pull origin ics
-	popd > /dev/null
-fi
-if [ ! -d "android-headers-ics/system/core" ]; then
-	echo "Fetching Android system headers (4/5)"
-	git clone -b ics --depth=1 git://github.com/CyanogenMod/android_system_core.git android-headers-ics/system/core
-else
-	echo "Updating Android system headers (4/5)"
-	pushd android-headers-ics/system/core > /dev/null
-	git pull origin ics
-	popd > /dev/null
-fi
-if [ ! -d "android-headers-ics/hardware/libhardware" ]; then
-	echo "Fetching Android system headers (5/5)"
-	git clone -b ics --depth=1 git://github.com/CyanogenMod/android_hardware_libhardware.git android-headers-ics/hardware/libhardware
-else
-	echo "Updating Android system headers (5/5)"
-	pushd android-headers-ics/hardware/libhardware > /dev/null
-	git pull origin ics
-	popd > /dev/null
-fi
+
+cyanogen_headers() {
+    dir=android-headers-$2/$1
+    if [ ! -d $dir ]; then
+        echo "Fetching $1 for $2"
+        git clone -b $2 --depth=1 git://github.com/CyanogenMod/android_`echo $1|tr / _`.git $dir
+    else
+        echo "Updating $1 for $2"
+        pushd $dir > /dev/null
+        git pull origin $2
+        popd > /dev/null
+    fi
+}
+
+cyanogen_headers frameworks/base gingerbread
+cyanogen_headers system/core gingerbread
+cyanogen_headers frameworks/base ics
+cyanogen_headers system/core ics
+cyanogen_headers hardware/libhardware ics
+
 export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
 export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 
