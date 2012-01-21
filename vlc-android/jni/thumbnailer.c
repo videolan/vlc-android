@@ -2,6 +2,7 @@
 #include <jni.h>
 #include <vlc/vlc.h>
 #include <pthread.h>
+#include <stdbool.h>
 
 #define LOG_TAG "VLC/JNI/thumbnailer"
 #include "log.h"
@@ -49,7 +50,10 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *p_pixel
     thumbnailer_sys_t *p_sys = opaque;
 
     /* If we have already received a thumbnail, we skip this frame. */
-    if (p_sys->b_hasThumb == 1)
+    pthread_mutex_lock(&p_sys->doneMutex);
+    bool hasThumb = p_sys->b_hasThumb;
+    pthread_mutex_unlock(&p_sys->doneMutex);
+    if (hasThumb)
         return;
 
     p_sys->i_nbReceivedFrames++;
