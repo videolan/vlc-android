@@ -23,7 +23,7 @@
 
 #define NAME(FUN) NAME2(CLASS, FUN)
 
-libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
+static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
     jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
