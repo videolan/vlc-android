@@ -338,16 +338,15 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
 void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                        jint instance, jstring mrl)
 {
-    jboolean isCopy;
-    int i;
-    const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
-
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
     /* Create a new item */
+    jboolean isCopy;
+    const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
     libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
                                               psz_mrl);
+    (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
@@ -371,6 +370,7 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     /* Subscribe to the events */
 
+    int i;
     for (i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); ++i)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
@@ -384,8 +384,6 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_player_play(mp);
 
     //libvlc_media_player_release(mp);
-
-    (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
 }
 
 jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
