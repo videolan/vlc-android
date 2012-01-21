@@ -134,19 +134,15 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     int nbTracks = libvlc_media_get_tracks_info(m, &tracks);
 
     unsigned i, videoWidth, videoHeight;
-    float videoAR;
     bool hasVideoTrack = false;
     for (i = 0; i < nbTracks; ++i)
-    {
         if (tracks[i].i_type == libvlc_track_video)
         {
             videoWidth = tracks[i].u.video.i_width;
             videoHeight = tracks[i].u.video.i_height;
-            videoAR = (float)videoWidth / videoHeight;
             hasVideoTrack = true;
             break;
         }
-    }
 
     free(tracks);
 
@@ -158,18 +154,17 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     }
 
     /* Compute the size parameters of the frame to generate. */
-    unsigned picWidth, picHeight;
-    float thumbnailAR = (float)width / height;
-    if (videoAR < thumbnailAR)
+    unsigned picWidth  = width;
+    unsigned picHeight = height;
+    float videoAR = (float)videoWidth / videoHeight;
+    if (videoAR < ((float)width / height))
     {
-        picHeight = height / videoAR;
-        picWidth = width;
+        picHeight /= videoAR;
         sys->thumbnailOffset = (picHeight - height) / 2 * sys->picPitch;
     }
     else
     {
-        picHeight = height;
-        picWidth = width * videoAR;
+        picWidth *= videoAR;
         sys->thumbnailOffset = (picWidth - width) / 2 * PIXEL_SIZE;
     }
 
