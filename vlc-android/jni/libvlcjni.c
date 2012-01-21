@@ -155,7 +155,6 @@ void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thi
     jthrowable exp;
 
     pthread_mutex_lock(&vout_android_lock);
-    //vout_android_ref = (*env)->NewGlobalRef(env, surf);
     clz = (*env)->GetObjectClass(env, surf);
     fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
     if (fid == NULL) {
@@ -175,7 +174,6 @@ void Java_org_videolan_vlc_android_LibVLC_attachSurface(JNIEnv *env, jobject thi
 
 void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_lock(&vout_android_lock);
-    //(*env)->DeleteGlobalRef(env, vout_android_ref);
     vout_android_surf = NULL;
     if (vout_android_gui != NULL)
         (*env)->DeleteGlobalRef(env, vout_android_gui);
