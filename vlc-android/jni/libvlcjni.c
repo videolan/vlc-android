@@ -1,15 +1,10 @@
-#include <stdio.h>
 #include <string.h>
-#include <assert.h>
-
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
 #include <pthread.h>
+
 #include <vlc/vlc.h>
 
 #include <jni.h>
+
 #include <android/api-level.h>
 
 #include "libvlcjni.h"
