@@ -150,15 +150,12 @@ void aout_close(void *opaque)
 {
     LOGI ("Closing audio output");
     aout_sys_t *p_sys = opaque;
-    if (!p_sys)
-        return;
+    assert(p_sys);
+    assert(p_sys->buffer);
 
-    if (p_sys->buffer)
-    {
-        // Want a crash? Call this function! But whyyyyy???
-        // Anyway, one more good reason to create the buffer in pure Java
-        //(*p_sys->p_env)->DeleteGlobalRef (p_sys->p_env, p_sys->buffer);
-    }
+    // Want a crash? Call this function! But whyyyyy???
+    // Anyway, one more good reason to create the buffer in pure Java
+    //(*p_sys->p_env)->DeleteGlobalRef (p_sys->p_env, p_sys->buffer);
     (*myVm)->DetachCurrentThread (myVm);
     free (p_sys);
 }
