@@ -57,7 +57,7 @@ cd ../.. && mkdir -p android && cd android
 if test ! -s "../configure"
 then
     echo "Bootstraping"
-    (cd .. && ./bootstrap)
+    ../bootstrap
 fi
 
 echo "Configuring"
