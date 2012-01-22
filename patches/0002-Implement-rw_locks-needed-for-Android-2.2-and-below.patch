@@ -1,7 +1,7 @@
-From 73cb72d834c6cd2cde2a56c0add8542453eca1f3 Mon Sep 17 00:00:00 2001
+From a00dc86ddff76c50791962b8c1981140ff0b8bac Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?R=C3=A9mi=20Duraffort?= <ivoire@videolan.org>
 Date: Sun, 7 Nov 2010 19:11:51 +0100
-Subject: [PATCH 6/7] Implement rw_locks, needed for Android 2.2 and below
+Subject: [PATCH 2/2] Implement rw_locks, needed for Android 2.2 and below
 
 ---
  include/vlc_threads.h |   22 ++++++++++++++
@@ -44,10 +44,10 @@ index 7a6c6af..181f273 100644
  typedef struct vlc_timer *vlc_timer_t;
  
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index d8a442b..dd5b2fd 100644
+index 94b1a73..d7438a4 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
-@@ -587,6 +587,7 @@ void vlc_sem_wait (vlc_sem_t *sem)
+@@ -573,6 +573,7 @@ void vlc_sem_wait (vlc_sem_t *sem)
      VLC_THREAD_ASSERT ("locking semaphore");
  }
  
@@ -55,7 +55,7 @@ index d8a442b..dd5b2fd 100644
  /**
   * Initializes a read/write lock.
   */
-@@ -631,6 +632,81 @@ void vlc_rwlock_unlock (vlc_rwlock_t *lock)
+@@ -617,6 +618,81 @@ void vlc_rwlock_unlock (vlc_rwlock_t *lock)
      int val = pthread_rwlock_unlock (lock);
      VLC_THREAD_ASSERT ("releasing R/W lock");
  }
@@ -138,5 +138,5 @@ index d8a442b..dd5b2fd 100644
  /**
   * Allocates a thread-specific variable.
 -- 
-1.7.5.4
+1.7.8.3
 
