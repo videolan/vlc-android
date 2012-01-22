@@ -191,6 +191,8 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, 
         "-vv",
         "--no-plugins-cache",
         "--no-drop-late-frames",
+        "--control", "logger",
+        "--logmode", "android",
 
         /* Leave room for iomx options (4 entries exactly) */
         NULL, NULL, NULL, NULL,
