@@ -110,6 +110,7 @@ if [ ! -f "update-cm-7.1.0.1-NS-signed.zip" ]; then
     rmdir system
 fi
 export ANDROID_LIBS=${PWD}/android-libs
+export VLC_BUILD_DIR=vlc/android
 
 make distclean
-VLC_BUILD_DIR=vlc/android make
+make
