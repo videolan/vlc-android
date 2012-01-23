@@ -1,7 +1,7 @@
-From cd075d698fe8b680984b299844a705bca1923785 Mon Sep 17 00:00:00 2001
+From eff0203865dc65f6315d77eddf8d6694ede0ca78 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/2] Android: add compatibility pthread_cancel
+Subject: [PATCH 1/4] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -15,11 +15,11 @@ Modified and ported-by: Jean-Baptiste Kempf <jb@videolan.org>
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  compat/pthread_cancel.c |  291 +++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac            |    5 +
+ configure.ac            |    4 +
  include/vlc_fixups.h    |   22 ++++
  lib/error.c             |   16 +++
- src/posix/thread.c      |   37 ++++++-
- 5 files changed, 367 insertions(+), 4 deletions(-)
+ src/posix/thread.c      |   21 ++++
+ 5 files changed, 354 insertions(+), 0 deletions(-)
  create mode 100644 compat/pthread_cancel.c
 
 diff --git a/compat/pthread_cancel.c b/compat/pthread_cancel.c
@@ -320,26 +320,25 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 52d8cf7..e72a05c 100644
+index 81a0d3a..c1b7de6 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -446,6 +446,11 @@ if test "${SYS}" = "mingw32" ; then
-     fi
+@@ -469,6 +469,10 @@ if test "${SYS}" = "mingw32" ; then
+     CFLAGS="${CFLAGS_save}"; CXXFLAGS="${CXXFLAGS_save}"
  fi
  
 +if test "${HAVE_ANDROID}" = "1"; then
 +    AC_REPLACE_FUNCS([pthread_cancel])
-+    VLC_ADD_LIBS([libvlccore],[-llog])
 +fi
 +
  dnl
  dnl Buggy glibc prevention. Purposedly not cached.
  dnl See sourceware.org bugs 5058 and 5443.
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index b5884f4..227658a 100644
+index e0152fc..0d63194 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -338,6 +338,28 @@ long nrand48 (unsigned short subi[3]);
+@@ -339,6 +339,28 @@ long nrand48 (unsigned short subi[3]);
  #  undef __cplusplus
  # endif
  char *tempnam(const char *, const char *);
@@ -410,54 +409,10 @@ index ef2ecdc..441953c 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 7c4860e..94b1a73 100644
+index 122e201..9d9c771 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
-@@ -136,6 +136,14 @@ static struct timespec mtime_to_ts (mtime_t date)
-     return ts;
- }
- 
-+#if defined(__ANDROID__) && !defined(NDEBUG)
-+# include <android/log.h>
-+# define LOG_TAG "VLC/pthread"
-+# define FATAL(...) __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
-+#else
-+# define FATAL(...) fprintf(stderr, __VA_ARGS__)
-+#endif
-+
- /**
-  * Print a backtrace to the standard error for debugging purpose.
-  */
-@@ -176,8 +184,8 @@ vlc_thread_fatal (const char *action, int error,
-                   const char *function, const char *file, unsigned line)
- {
-     int canc = vlc_savecancel ();
--    fprintf (stderr, "LibVLC fatal error %s (%d) in thread %lu ",
--             action, error, vlc_threadid ());
-+    FATAL ("LibVLC fatal error %s (%d) in thread %lu ",
-+           action, error, vlc_threadid ());
-     vlc_trace (function, file, line);
- 
-     /* Sometimes strerror_r() crashes too, so make sure we print an error
-@@ -185,7 +193,7 @@ vlc_thread_fatal (const char *action, int error,
- #ifdef __GLIBC__
-     /* Avoid the strerror_r() prototype brain damage in glibc */
-     errno = error;
--    fprintf (stderr, " Error message: %m\n");
-+    FATAL (" Error message: %m\n");
- #else
-     char buf[1000];
-     const char *msg;
-@@ -202,7 +210,7 @@ vlc_thread_fatal (const char *action, int error,
-             msg = "unknown (invalid error number)";
-             break;
-     }
--    fprintf (stderr, " Error message: %s\n", msg);
-+    FATAL (" Error message: %s\n", msg);
- #endif
-     fflush (stderr);
- 
-@@ -435,7 +443,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -435,7 +435,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
   */
  void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
  {
@@ -469,9 +424,9 @@ index 7c4860e..94b1a73 100644
      VLC_THREAD_ASSERT ("waiting on condition");
  }
  
-@@ -458,7 +470,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
-                         mtime_t deadline)
- {
+@@ -472,7 +476,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+ #endif
+ 
      struct timespec ts = mtime_to_ts (deadline);
 +
 +#ifdef __ANDROID__
@@ -482,7 +437,7 @@ index 7c4860e..94b1a73 100644
      if (val != ETIMEDOUT)
          VLC_THREAD_ASSERT ("timed-waiting on condition");
      return val;
-@@ -497,6 +514,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
+@@ -511,6 +520,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
      val = errno;
  #endif
  
@@ -497,7 +452,7 @@ index 7c4860e..94b1a73 100644
      VLC_THREAD_ASSERT ("destroying semaphore");
  }
  
-@@ -727,7 +752,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+@@ -741,7 +758,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
      assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
  #endif
  
@@ -510,5 +465,5 @@ index 7c4860e..94b1a73 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.8.3
+1.7.8.4
 

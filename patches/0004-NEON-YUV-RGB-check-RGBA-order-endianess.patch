@@ -1,0 +1,31 @@
+From 41922f83719acd00928c21ddccc744a9af908105 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
+Date: Sun, 22 Jan 2012 13:27:02 -0500
+Subject: [PATCH 4/4] NEON YUV->RGB : check RGBA order/endianess
+
+We only support ABGR, so far
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ modules/arm_neon/yuv_rgb.c |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/modules/arm_neon/yuv_rgb.c b/modules/arm_neon/yuv_rgb.c
+index 738ddf7..de974fd 100644
+--- a/modules/arm_neon/yuv_rgb.c
++++ b/modules/arm_neon/yuv_rgb.c
+@@ -133,6 +133,11 @@ static int Open (vlc_object_t *obj)
+     switch (filter->fmt_out.video.i_chroma)
+     {
+         case VLC_CODEC_RGB32:
++            if(        filter->fmt_out.video.i_rmask != 0x000000ff
++                    || filter->fmt_out.video.i_gmask != 0x0000ff00
++                    || filter->fmt_out.video.i_bmask != 0x00ff0000 )
++                return VLC_EGENERIC;
++
+             switch (filter->fmt_in.video.i_chroma)
+             {
+                 case VLC_CODEC_I420:
+-- 
+1.7.8.4
+
