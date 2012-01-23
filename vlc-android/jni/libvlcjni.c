@@ -225,7 +225,7 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, 
 
     if (!instance)
     {
-        jclass exc = (*env)->FindClass(env, "vlc/android/LibVlcException");
+        jclass exc = (*env)->FindClass(env, "org/videolan/vlc/android/LibVlcException");
         (*env)->ThrowNew(env, exc, "Unable to instantiate LibVLC");
     }
 
