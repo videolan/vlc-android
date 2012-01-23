@@ -46,8 +46,7 @@ mkdir contrib/android; cd contrib/android
     --disable-caca \
     --disable-gettext \
     --disable-mpcdec \
-    --disable-sidplay2 \
-    --disable-live555
+    --disable-sidplay2
 
 make fetch
 make
