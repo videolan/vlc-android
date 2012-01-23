@@ -186,6 +186,7 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
 
 void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
 {
+    /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
         "-I", "dummy",
         "-vv",
