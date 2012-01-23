@@ -612,7 +612,7 @@ public class VideoPlayerActivity extends Activity {
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
-            path = getIntent().getData().getPath();
+            path = getIntent().getDataString();
         } else {
             /* Started from VideoListActivity */
             path = getIntent().getExtras().getString("filePath");
