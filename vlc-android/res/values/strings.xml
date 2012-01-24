@@ -59,4 +59,6 @@
     <string name="enable_iomx">Enable hardware accelerated decoding</string>
     <string name="advanced_debugging">Advanced Debugging</string>
     <string name="quit">Quit Application</string>
+    <string name="detect_headset">Detect headset</string>
+    <string name="detect_headset_detail">Pause on headset removed, Resume on headset inserted</string>
 </resources>

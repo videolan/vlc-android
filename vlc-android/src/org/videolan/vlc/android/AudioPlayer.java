@@ -62,6 +62,8 @@ public interface AudioPlayer {
         void setRepeatType(RepeatType t);
 
         RepeatType getRepeatType();
+
+        void detectHeadset(boolean enable);
     }
 
 }

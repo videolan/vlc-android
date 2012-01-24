@@ -61,6 +61,7 @@ public class AudioService extends Service {
     private Notification mNotification;
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
+    private boolean mDetectHeadset = false;
 
     @Override
     public void onStart(Intent intent, int startId) {
@@ -106,15 +107,17 @@ public class AudioService extends Service {
             String action = intent.getAction();
             int state = intent.getIntExtra("state", 0);
 
-            if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
-                Log.i(TAG, "Headset Removed.");
-                if (mLibVLC.isPlaying() && mCurrentMedia != null)
-                    pause();
-            }
-            else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
-                Log.i(TAG, "Headset Inserted.");
-                if (!mLibVLC.isPlaying() && mCurrentMedia != null)
-                    play();
+            if (mDetectHeadset) {
+                if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
+                    Log.i(TAG, "Headset Removed.");
+                    if (mLibVLC.isPlaying() && mCurrentMedia != null)
+                        pause();
+                }
+                else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
+                    Log.i(TAG, "Headset Inserted.");
+                    if (!mLibVLC.isPlaying() && mCurrentMedia != null)
+                        play();
+                }
             }
         }
     };
@@ -465,6 +468,11 @@ public class AudioService extends Service {
                 return true;
             else
                 return false;
+        }
+
+        @Override
+        public void detectHeadset(boolean enable) throws RemoteException {
+            mDetectHeadset = enable;
         }
     };
 

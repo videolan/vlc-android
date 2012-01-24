@@ -24,6 +24,11 @@
             android:key="enable_iomx"
             android:title="@string/enable_iomx">
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="enable_headset_detection"
+            android:title="@string/detect_headset"
+            android:summary="@string/detect_headset_detail">
+        </CheckBoxPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
             <Preference android:title="@string/quit" android:key="quit_app" android:enabled="true"/>
         </PreferenceScreen>

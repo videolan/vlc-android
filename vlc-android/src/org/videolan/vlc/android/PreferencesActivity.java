@@ -24,6 +24,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -72,7 +73,18 @@ public class PreferencesActivity extends PreferenceActivity {
                         return true;
                     }
                 });
-        
+
+        // Headset detection option
+        CheckBoxPreference checkboxHS = (CheckBoxPreference) findPreference("enable_headset_detection");
+        checkboxHS.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        CheckBoxPreference checkboxHS = (CheckBoxPreference) preference;
+                        AudioServiceController.getInstance().detectHeadset(checkboxHS.isChecked());
+                        return true;
+                    }
+                });
+
         // Attach debugging items
         Preference quitAppPref = (Preference) findPreference("quit_app");
         quitAppPref.setOnPreferenceClickListener(

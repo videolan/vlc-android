@@ -46,4 +46,5 @@ interface IAudioService {
     Bitmap getCover();
     void addAudioCallback(IAudioServiceCallback cb);
     void removeAudioCallback(IAudioServiceCallback cb);
+    void detectHeadset(boolean enable);
 }

@@ -378,4 +378,13 @@ public class AudioServiceController implements AudioPlayerControl {
             return RepeatType.None;
         }
     }
+
+    @Override
+    public void detectHeadset(boolean enable) {
+        try {
+            mAudioServiceBinder.detectHeadset(enable);
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: detectHeadset()");
+        }
+    }
 }
