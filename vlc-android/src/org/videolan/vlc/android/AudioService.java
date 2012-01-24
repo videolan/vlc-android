@@ -28,11 +28,15 @@ import java.util.Stack;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -42,6 +46,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 public class AudioService extends Service {
+
     private static final String TAG = "VLC/AudioService";
 
     private static final int SHOW_PROGRESS = 0;
@@ -79,6 +84,40 @@ public class AudioService extends Service {
     public IBinder onBind(Intent intent) {
         return mInterface;
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_HEADSET_PLUG);
+        filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        registerReceiver(headsetReciever, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(headsetReciever);
+        super.onDestroy();
+    }
+
+    private BroadcastReceiver headsetReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            int state = intent.getIntExtra("state", 0);
+
+            if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
+                Log.i(TAG, "Headset Removed.");
+                if (mLibVLC.isPlaying() && mCurrentMedia != null)
+                    pause();
+            }
+            else if (action.equalsIgnoreCase(Intent.ACTION_HEADSET_PLUG) && state != 0) {
+                Log.i(TAG, "Headset Inserted.");
+                if (!mLibVLC.isPlaying() && mCurrentMedia != null)
+                    play();
+            }
+        }
+    };
 
     /**
      * Handle libvlc asynchronous events
