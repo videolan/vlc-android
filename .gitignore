@@ -1,6 +1,6 @@
 vlc/
 android-headers-gingerbread/
 android-headers-ics/
-android-libs/
+android-libs/*.so
 update-cm-7.1.0.1-NS-signed.zip
 vlc-android/libs/armeabi/

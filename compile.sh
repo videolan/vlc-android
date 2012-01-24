@@ -99,15 +99,6 @@ cyanogen_headers hardware/libhardware ics
 export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
 export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 
-echo "Fetching Android libraries for linking"
-# Libraries from any froyo/gingerbread device/emulator should work
-# fine, since the symbols used should be available on most of them.
-if [ ! -f "update-cm-7.1.0.1-NS-signed.zip" ]; then
-    curl -O http://mirror.sea.tdrevolution.net/cm/stable/gingerbread/update-cm-7.1.0.1-NS-signed.zip
-    unzip update-cm-7.1.0.1-NS-signed.zip system/lib/\*
-    mv system/lib android-libs
-    rmdir system
-fi
 export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
