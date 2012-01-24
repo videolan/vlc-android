@@ -75,31 +75,6 @@ make
 echo "Building Android"
 cd ../../
 
-# Using CyanogenMod headers instead of AOSP, since CyanogenMod
-# has commit 1563f4aca88d354c502dba056d173cefc7c2ea7f,
-# "Stagefright: Memcpy optimization on output port." (available
-# upstream at https://www.codeaurora.org/gitweb/quic/la/?p=platform/frameworks/base.git;a=commit;h=052368f194c9fc180b9b0335b60114a2f1fb88d8),
-# which adds some vtable entries needed on newer qualcomm devices.
-
-cyanogen_headers() {
-    dir=android-headers-$2/$1
-    if [ ! -d $dir ]; then
-        echo "Fetching $1 for $2"
-        git clone -b $2 --depth=1 git://github.com/CyanogenMod/android_`echo $1|tr / _`.git $dir
-    else
-        echo "Updating $1 for $2"
-        pushd $dir > /dev/null
-        git pull origin $2
-        popd > /dev/null
-    fi
-}
-
-cyanogen_headers frameworks/base gingerbread
-cyanogen_headers system/core gingerbread
-cyanogen_headers frameworks/base ics
-cyanogen_headers system/core ics
-cyanogen_headers hardware/libhardware ics
-
 export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
 export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 
