@@ -16,6 +16,10 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    exit 1
 fi
 
+# Add the NDK toolchain to the PATH, needed both for contribs and for building
+# stub libraries
+export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
+
 # 1/ libvlc, libvlccore and its plugins
 
 if [ ! -d "vlc" ]; then
