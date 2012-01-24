@@ -32,9 +32,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -80,6 +82,9 @@ public class AudioServiceController implements AudioPlayerControl {
                 // Register controller to the service
                 try {
                     mAudioServiceBinder.addAudioCallback(mCallback);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
+                    boolean enableHS = prefs.getBoolean("enable_headset_detection", false);
+                    AudioServiceController.getInstance().detectHeadset(enableHS);
                 } catch (RemoteException e) {
                     Log.e(TAG, "remote procedure call failed: addAudioCallback()");
                 }
