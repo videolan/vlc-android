@@ -1,4 +1,4 @@
-From eff0203865dc65f6315d77eddf8d6694ede0ca78 Mon Sep 17 00:00:00 2001
+From 33122d01cb1b321b7058d1bb5dd3e13fc67671fb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
 Subject: [PATCH 1/4] Android: add compatibility pthread_cancel
@@ -16,10 +16,10 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  compat/pthread_cancel.c |  291 +++++++++++++++++++++++++++++++++++++++++++++++
  configure.ac            |    4 +
- include/vlc_fixups.h    |   22 ++++
+ include/vlc_fixups.h    |   25 ++++
  lib/error.c             |   16 +++
- src/posix/thread.c      |   21 ++++
- 5 files changed, 354 insertions(+), 0 deletions(-)
+ src/posix/thread.c      |   25 ++++-
+ 5 files changed, 360 insertions(+), 1 deletions(-)
  create mode 100644 compat/pthread_cancel.c
 
 diff --git a/compat/pthread_cancel.c b/compat/pthread_cancel.c
@@ -320,7 +320,7 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 81a0d3a..c1b7de6 100644
+index 391af84..0b979bc 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -469,6 +469,10 @@ if test "${SYS}" = "mingw32" ; then
@@ -335,15 +335,16 @@ index 81a0d3a..c1b7de6 100644
  dnl Buggy glibc prevention. Purposedly not cached.
  dnl See sourceware.org bugs 5058 and 5443.
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index e0152fc..0d63194 100644
+index 15ebb4c..16a460a 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -339,6 +339,28 @@ long nrand48 (unsigned short subi[3]);
- #  undef __cplusplus
- # endif
- char *tempnam(const char *, const char *);
-+
+@@ -333,4 +333,29 @@ long nrand48 (unsigned short subi[3]);
+ # undef HAVE_FORK   /* Implementation of fork() is imperfect on OS/2 */
+ #endif
+ 
++#ifdef __ANDROID__
 +#ifndef HAVE_PTHREAD_CANCEL
++#include <pthread.h>
 +enum
 +{
 +  PTHREAD_CANCEL_ENABLE,
@@ -364,9 +365,9 @@ index e0152fc..0d63194 100644
 +                                          pthread_mutex_t *mutex,
 +                                          const struct timespec *abstime );
 +#endif // PTHREAD_CANCEL
- #endif // ANDROID
- 
- #ifdef __OS2__
++#endif // __ANDROID__
++
+ #endif /* !LIBVLC_FIXUPS_H */
 diff --git a/lib/error.c b/lib/error.c
 index ef2ecdc..441953c 100644
 --- a/lib/error.c
@@ -409,10 +410,21 @@ index ef2ecdc..441953c 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 122e201..9d9c771 100644
+index 122e201..b8211e5 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
-@@ -435,7 +435,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -153,7 +153,9 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
+ 
+ static inline unsigned long vlc_threadid (void)
+ {
+-#if defined (__linux__)
++#if defined (__ANDROID__)
++     return syscall (__NR_gettid);
++#elif defined (__linux__)
+      /* glibc does not provide a call for this */
+      return syscall (SYS_gettid);
+ 
+@@ -435,7 +437,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
   */
  void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
  {
@@ -424,7 +436,7 @@ index 122e201..9d9c771 100644
      VLC_THREAD_ASSERT ("waiting on condition");
  }
  
-@@ -472,7 +476,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+@@ -472,7 +478,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
  #endif
  
      struct timespec ts = mtime_to_ts (deadline);
@@ -437,7 +449,7 @@ index 122e201..9d9c771 100644
      if (val != ETIMEDOUT)
          VLC_THREAD_ASSERT ("timed-waiting on condition");
      return val;
-@@ -511,6 +520,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
+@@ -511,6 +522,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
      val = errno;
  #endif
  
@@ -452,7 +464,7 @@ index 122e201..9d9c771 100644
      VLC_THREAD_ASSERT ("destroying semaphore");
  }
  
-@@ -741,7 +758,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+@@ -741,7 +760,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
      assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
  #endif
  
@@ -465,5 +477,5 @@ index 122e201..9d9c771 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.8.4
+1.7.8.3
 
