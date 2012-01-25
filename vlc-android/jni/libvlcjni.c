@@ -215,10 +215,8 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, 
         "-vv",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-#if 0 /* disabled because of unreported problems */
         "--control", "logger",
         "--logmode", "android",
-#endif
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
