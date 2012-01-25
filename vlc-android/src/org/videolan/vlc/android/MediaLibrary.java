@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Stack;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 
 public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
@@ -117,12 +119,16 @@ public class MediaLibrary {
             // Initialize variables
             mMainActivity = MainActivity.getInstance();
             Handler mainHandler = mMainActivity.mHandler;
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mMainActivity);
+            String root = pref.getString("directories_root", "/");
 
             // show progressbar in header
             mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
 
             // get directories from database
             directorys.addAll(mDBManager.getMediaDirs());
+            if (directorys.isEmpty())
+                directorys.add(new File(root));
 
             // get all paths of the existing media items
             List<File> existingFiles = mDBManager.getMediaFiles();
@@ -153,6 +159,8 @@ public class MediaLibrary {
                 }
             }
             directorys.addAll(mDBManager.getMediaDirs());
+            if (directorys.isEmpty())
+                directorys.add(new File(root));
 
             //second pass : load Medias
             while (!directorys.isEmpty()) {
