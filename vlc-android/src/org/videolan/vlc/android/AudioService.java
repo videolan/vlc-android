@@ -61,7 +61,7 @@ public class AudioService extends Service {
     private Notification mNotification;
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
-    private boolean mDetectHeadset = false;
+    private boolean mDetectHeadset = true;
 
     @Override
     public void onStart(Intent intent, int startId) {

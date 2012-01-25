@@ -53,6 +53,7 @@
     <string name="surface_fill">Etirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
+    <string name="main_prefs_category">Général</string>
     <string name="advanced_prefs_category">Avancé</string>
     <string name="enable_iomx">Activer le décodage matériel</string>
     <string name="advanced_debugging">Débogage avancé</string>

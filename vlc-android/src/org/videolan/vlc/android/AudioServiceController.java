@@ -83,7 +83,7 @@ public class AudioServiceController implements AudioPlayerControl {
                 try {
                     mAudioServiceBinder.addAudioCallback(mCallback);
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
-                    boolean enableHS = prefs.getBoolean("enable_headset_detection", false);
+                    boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
                     AudioServiceController.getInstance().detectHeadset(enableHS);
                 } catch (RemoteException e) {
                     Log.e(TAG, "remote procedure call failed: addAudioCallback()");
