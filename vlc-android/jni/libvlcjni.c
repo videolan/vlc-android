@@ -49,8 +49,7 @@ void add_media_codec_options(libvlc_media_t *p_md)
          */
         libvlc_media_add_option(p_md, ":file-caching=1500");
         libvlc_media_add_option(p_md, ":network-caching=1500");
-    } else {
-        libvlc_media_add_option(p_md, ":codec=avcodec,all");
+        libvlc_media_add_option(p_md, ":codec=iomx,all");
     }
 }
 
