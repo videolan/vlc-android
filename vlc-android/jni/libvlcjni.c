@@ -33,6 +33,28 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
+static bool iomx_enabled;
+
+void add_media_codec_options(libvlc_media_t *p_md)
+{
+    const char *options;
+    if (iomx_enabled) {
+        /*
+         * Set higher caching values if using iomx decoding, since some omx
+         * decoders have a very high latency, and if the preroll data isn't
+         * enough to make the decoder output a frame, the playback timing gets
+         * started too soon, and every decoded frame appears to be too late.
+         * On Nexus One, the decoder latency seems to be 25 input packets
+         * for 320x170 H.264, a few packets less on higher resolutions.
+         * On Nexus S, the decoder latency seems to be about 7 packets.
+         */
+        options = ":file-caching=1500 :network-caching=1500";
+    } else {
+        options = ":codec=avcodec,all";
+    }
+    libvlc_media_add_option(p_md, options);
+}
+
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
@@ -186,39 +208,19 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
 
 void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
 {
+    iomx_enabled = enable_iomx;
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
-    const char *argv[] = {
+    static const char *argv[] = {
         "-I", "dummy",
         "-vv",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-//        "--control", "logger",
-//        "--logmode", "android",
-
-        /* Leave room for iomx options (4 entries exactly) */
-        NULL, NULL, NULL, NULL,
+#if 0 /* disabled because of unreported problems */
+        "--control", "logger",
+        "--logmode", "android",
+#endif
     };
-    size_t argc = (sizeof(argv) / sizeof(*argv)) - 4 /* those 4 entries */;
-    if (enable_iomx) {
-        /*
-         * Set higher caching values if using iomx decoding, since some omx
-         * decoders have a very high latency, and if the preroll data isn't
-         * enough to make the decoder output a frame, the playback timing gets
-         * started too soon, and every decoded frame appears to be too late.
-         * On Nexus One, the decoder latency seems to be 25 input packets
-         * for 320x170 H.264, a few packets less on higher resolutions.
-         * On Nexus S, the decoder latency seems to be about 7 packets.
-         */
-        argv[argc++] = "--file-caching";
-        argv[argc++] = "1500";
-        argv[argc++] = "--network-caching";
-        argv[argc++] = "1500";
-    } else {
-        argv[argc++] = "--codec";
-        argv[argc++] = "avcodec,all";
-    }
-
-    libvlc_instance_t *instance = libvlc_new(argc, argv);
+    libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
     jclass clazz = (*env)->GetObjectClass(env, thiz);
     jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
@@ -317,6 +319,7 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
         LOGE("readMediaMeta: Couldn't create the media!");
         return;
     }
+    add_media_codec_options(m);
 
     libvlc_media_parse(m);
 
@@ -364,6 +367,8 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         LOGE("readMedia: Couldn't create the media!");
         return;
     }
+
+    add_media_codec_options(m);
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
@@ -418,6 +423,8 @@ jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject
         LOGE("Couldn't create the media!");
         return JNI_FALSE;
     }
+
+    add_media_codec_options(p_m);
 
     /* Get the tracks information of the media. */
     libvlc_media_track_info_t *p_tracks;
@@ -478,6 +485,8 @@ jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobjec
         LOGE("Couldn't create the media to play!");
         goto end;
     }
+
+    add_media_codec_options(m);
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new_from_media (m);

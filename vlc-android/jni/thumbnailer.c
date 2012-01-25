@@ -30,6 +30,9 @@
 #define THUMBNAIL_POSITION 0.5
 #define PIXEL_SIZE 4 /* RGBA */
 
+extern void add_media_codec_options(libvlc_media_t *p_md);
+
+
 typedef struct
 {
     libvlc_media_player_t *mp;
@@ -143,6 +146,7 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
         LOGE("Couldn't create the media to play!");
         goto end;
     }
+    add_media_codec_options(m);
     libvlc_media_add_option( m, ":no-audio" );
 
     libvlc_media_player_set_media(sys->mp, m);
