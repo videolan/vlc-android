@@ -29,7 +29,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-ldl -lz -lm -logg -lvorbisenc -lvorbis -lFLAC -lspeex -lspeexdsp -ltheora \
 	-lavformat -lavcodec -lswscale -lavutil -lpostproc \
 	-lmpeg2 -lpng -ldvbpsi -llog -la52 -lebml -lmatroska -ltag \
-	-lgsm -lopenjpeg -lgme -lupnp -lixml -lthreadutil -lxml2 -lsamplerate \
+	-lgsm -lopenjpeg -lgme -lxml2 -lsamplerate \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
 	$(CPP_STATIC)
 

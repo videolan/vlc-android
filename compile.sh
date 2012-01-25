@@ -50,6 +50,7 @@ mkdir contrib/android; cd contrib/android
     --disable-caca \
     --disable-gettext \
     --disable-mpcdec \
+    --disable-upnp \
     --disable-sidplay2
 
 make fetch
