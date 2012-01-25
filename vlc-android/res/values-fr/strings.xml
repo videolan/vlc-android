@@ -8,10 +8,10 @@
     <string name="preferences">Préférences</string>
     <string name="about">A Propos</string>
     <string name="ml_no_media_dir">Pas de répertoire multimédia</string>
-    <string name="sortby">Trier par...</string>
+    <string name="sortby">Trier par…</string>
     <string name="sortby_name">Nom</string>
     <string name="sortby_length">Durée</string>
-    <string name="searchable_hint">Recherche...</string>
+    <string name="searchable_hint">Recherche…</string>
     <string name="searchable_label">VLC Media Player</string>
     <string name="search_history">Historique</string>
     <string name="clear_history">Vider l\'historique</string>
@@ -40,7 +40,7 @@
     <string name="stream_0">Flux 0</string>
     <string name="stream_1">Flux 1</string>
     <string name="stream_2">Flux 2</string>
-    <string name="loading">Chargement...</string>
+    <string name="loading">Chargement…</string>
     <string name="nomedia">Pas de fichiers multimédia</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
