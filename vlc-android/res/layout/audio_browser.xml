@@ -77,10 +77,5 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
-        <ListView
-            android:id="@+id/playklists_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:fastScrollEnabled="true" />
     </org.videolan.vlc.android.widget.FlingViewGroup>
 </LinearLayout>
