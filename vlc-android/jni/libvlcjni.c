@@ -37,7 +37,6 @@ static bool iomx_enabled;
 
 void add_media_codec_options(libvlc_media_t *p_md)
 {
-    const char *options;
     if (iomx_enabled) {
         /*
          * Set higher caching values if using iomx decoding, since some omx
@@ -48,11 +47,11 @@ void add_media_codec_options(libvlc_media_t *p_md)
          * for 320x170 H.264, a few packets less on higher resolutions.
          * On Nexus S, the decoder latency seems to be about 7 packets.
          */
-        options = ":file-caching=1500 :network-caching=1500";
+        libvlc_media_add_option(p_md, ":file-caching=1500");
+        libvlc_media_add_option(p_md, ":network-caching=1500");
     } else {
-        options = ":codec=avcodec,all";
+        libvlc_media_add_option(p_md, ":codec=avcodec,all");
     }
-    libvlc_media_add_option(p_md, options);
 }
 
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
