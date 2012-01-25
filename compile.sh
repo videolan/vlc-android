@@ -24,7 +24,7 @@ export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux
 
 if [ ! -d "vlc" ]; then
 	echo "VLC source not found, cloning"
-        git clone git://git.videolan.org/vlc/vlc-1.2.git vlc
+        git clone git://git.videolan.org/vlc/vlc-2.0.git vlc
 else
 	echo "VLC source found, pulling from remote master"
 	pushd vlc > /dev/null
