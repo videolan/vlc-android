@@ -46,7 +46,7 @@
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No Subdirectory</string>
-    <string name="validation">Are you sure ?</string>
+    <string name="validation">Are you sure?</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
     <string name="surface_fit_horizontal">Fit horizontal</string>
