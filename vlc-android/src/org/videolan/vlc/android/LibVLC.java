@@ -83,25 +83,6 @@ public class LibVLC {
             /* First call */
             sInstance = new LibVLC();
             sInstance.init();
-
-            if (sListener == null && MainActivity.getInstance() != null) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
-                /* This needs to be stored in a local field, to avoid garbage collection, since
-                 * the shared prefs only keep a weak reference to it. */
-                sListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-                    {
-                        if (key.equals("enable_iomx")) {
-                            try {
-                                sInstance.reinit();
-                            } catch (LibVlcException lve) {
-                                Log.e(TAG, "Unable to reinit libvlc: " + lve);
-                            }
-                        }
-                    }
-                };
-                prefs.registerOnSharedPreferenceChangeListener(sListener);
-            }
         }
 
         return sInstance;
@@ -109,11 +90,6 @@ public class LibVLC {
 
     public static LibVLC getExistingInstance() {
         return sInstance;
-    }
-
-    public void reinit() throws LibVlcException {
-        destroy();
-        init();
     }
 
     /**
@@ -143,16 +119,23 @@ public class LibVLC {
     public native void setSurface(Surface f);
 
     /**
+     *
+     */
+    public boolean useIOMX() {
+        MainActivity activity = MainActivity.getInstance();
+        boolean useIomx = false;
+        if (activity != null)
+            useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
+        return useIomx;
+    }
+
+    /**
      * Initialize the libVLC class
      */
     private void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-            MainActivity activity = MainActivity.getInstance();
-            boolean useIomx = false;
-            if (activity != null)
-                useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
-            nativeInit(useIomx);
+            nativeInit();
             setEventManager(EventManager.getIntance());
             mIsInitialized = true;
         }
@@ -232,7 +215,7 @@ public class LibVLC {
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit(boolean useIomx) throws LibVlcException;
+    private native void nativeInit() throws LibVlcException;
 
     /**
      * Close the libvlc C library

@@ -27,11 +27,10 @@
 #define LOG_TAG "VLC/JNI/thumbnailer"
 #include "log.h"
 
+#include "utils.h"
+
 #define THUMBNAIL_POSITION 0.5
 #define PIXEL_SIZE 4 /* RGBA */
-
-extern void add_media_codec_options(libvlc_media_t *p_md);
-
 
 typedef struct
 {
@@ -135,18 +134,12 @@ jbyteArray Java_org_videolan_vlc_android_LibVLC_getThumbnail(JNIEnv *env, jobjec
     /* Create a media player playing environment */
     sys->mp = libvlc_media_player_new(libvlc);
 
-    /* Create a new item and assign it to the media player. */
-    jboolean isCopy;
-    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath,
-                                                           &isCopy);
-    libvlc_media_t *m = libvlc_media_new_path(libvlc, psz_filePath);
-    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
+    libvlc_media_t *m = new_media(instance, env, thiz, filePath);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
         goto end;
     }
-    add_media_codec_options(m);
     libvlc_media_add_option( m, ":no-audio" );
 
     libvlc_media_player_set_media(sys->mp, m);

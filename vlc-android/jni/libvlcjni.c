@@ -29,15 +29,24 @@
 
 #include "libvlcjni.h"
 #include "aout.h"
+#include "utils.h"
 
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
-static bool iomx_enabled;
-
-void add_media_codec_options(libvlc_media_t *p_md)
+libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring filePath)
 {
-    if (iomx_enabled) {
+    libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
+    jboolean isCopy;
+    const char *psz_path = (*env)->GetStringUTFChars(env, filePath, &isCopy);
+    libvlc_media_t *p_md = libvlc_media_new_path(libvlc, psz_path);
+    (*env)->ReleaseStringUTFChars(env, filePath, psz_path);
+    if (!p_md)
+        return NULL;
+
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
+    if ((*env)->CallBooleanMethod(env, thiz, methodId)) {
         /*
          * Set higher caching values if using iomx decoding, since some omx
          * decoders have a very high latency, and if the preroll data isn't
@@ -51,6 +60,7 @@ void add_media_codec_options(libvlc_media_t *p_md)
         libvlc_media_add_option(p_md, ":network-caching=1500");
         libvlc_media_add_option(p_md, ":codec=iomx,all");
     }
+    return p_md;
 }
 
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
@@ -204,9 +214,8 @@ void Java_org_videolan_vlc_android_LibVLC_detachSurface(JNIEnv *env, jobject thi
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean enable_iomx)
+void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
-    iomx_enabled = enable_iomx;
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     static const char *argv[] = {
         "-I", "dummy",
@@ -305,17 +314,12 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
             (*env)->FindClass(env, "java/lang/String"),
             (*env)->NewStringUTF(env, ""));
 
-    jboolean isCopy;
-    const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
-    libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
-                                              psz_mrl);
-    (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl);
     if (!m)
     {
         LOGE("readMediaMeta: Couldn't create the media!");
         return;
     }
-    add_media_codec_options(m);
 
     libvlc_media_parse(m);
 
@@ -353,18 +357,12 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     releaseMediaPlayer(env, thiz);
 
     /* Create a new item */
-    jboolean isCopy;
-    const char *psz_mrl = (*env)->GetStringUTFChars(env, mrl, &isCopy);
-    libvlc_media_t *m = libvlc_media_new_path((libvlc_instance_t*)instance,
-                                              psz_mrl);
-    (*env)->ReleaseStringUTFChars(env, mrl, psz_mrl);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl);
     if (!m)
     {
         LOGE("readMedia: Couldn't create the media!");
         return;
     }
-
-    add_media_codec_options(m);
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
@@ -407,20 +405,13 @@ void Java_org_videolan_vlc_android_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 jboolean Java_org_videolan_vlc_android_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
                                                             jint i_instance, jstring filePath)
 {
-    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
-    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
-
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = libvlc_media_new_path(p_instance, psz_filePath);
-    (*env)->ReleaseStringUTFChars(env, filePath, psz_filePath);
-
+    libvlc_media_t *p_m = new_media(i_instance, env, thiz, filePath);
     if (p_m == NULL)
     {
         LOGE("Couldn't create the media!");
         return JNI_FALSE;
     }
-
-    add_media_codec_options(p_m);
 
     /* Get the tracks information of the media. */
     libvlc_media_track_info_t *p_tracks;
@@ -471,18 +462,13 @@ jlong Java_org_videolan_vlc_android_LibVLC_getLengthFromFile(JNIEnv *env, jobjec
     pthread_cond_init(&monitor->doneCondVar, NULL);
     monitor->length_changed = false;
 
-    libvlc_instance_t *p_instance = (libvlc_instance_t *)i_instance;
-    const char *psz_filePath = (*env)->GetStringUTFChars(env, filePath, 0);
-
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *m = libvlc_media_new_path(p_instance, psz_filePath);
+    libvlc_media_t *m = new_media(i_instance, env, thiz, filePath);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");
         goto end;
     }
-
-    add_media_codec_options(m);
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new_from_media (m);
