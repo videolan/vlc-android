@@ -56,8 +56,8 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		vlc_modules="`echo $$vlc_modules|sed \"s|$(VLC_BUILD_DIR)|../$(VLC_BUILD_DIR)|g\"`" ; \
         VLC_BUILD_DIR="../$(VLC_BUILD_DIR)"; \
 	fi ; \
-	[ `echo "$$VLC_CONTRIB"   | head -c 1` != "/" ] && VLC_CONTRIB="../$$VLC_CONTRIB"; \
-	[ `echo "$$VLC_SRC_DIR"   | head -c 1` != "/" ] && VLC_SRC_DIR="../$$VLC_SRC_DIR"; \
+	[ `echo "$$VLC_CONTRIB" | head -c 1` != "/" ] && VLC_CONTRIB="../$$VLC_CONTRIB"; \
+	[ `echo "$$VLC_SRC_DIR" | head -c 1` != "/" ] && VLC_SRC_DIR="../$$VLC_SRC_DIR"; \
 	$(ANDROID_NDK)/ndk-build -C vlc-android \
 		VLC_SRC_DIR="$$VLC_SRC_DIR" \
 		VLC_CONTRIB="$$VLC_CONTRIB" \
