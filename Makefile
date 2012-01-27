@@ -15,11 +15,14 @@ LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 PRIVATE_LIBDIR=android-libs
 PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $(PRIVATE_LIBDIR)/libutils.so $(PRIVATE_LIBDIR)/libbinder.so
 
-# Verbose level: -q -v or nothing (default verbose)
-VERBOSE ?= -v
+ifneq ($(V),)
+ANT_OPTS += -v
+else
+ANT_OPTS += -q
+endif
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
-	cd vlc-android && ant $(VERBOSE) debug
+	cd vlc-android && ant $(ANT_OPTS) debug
 
 VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v stats|tr \\\\n \ `
 
