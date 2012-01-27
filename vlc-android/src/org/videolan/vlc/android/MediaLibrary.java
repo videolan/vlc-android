@@ -30,6 +30,7 @@ import java.util.Stack;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
@@ -120,7 +121,13 @@ public class MediaLibrary {
             mMainActivity = MainActivity.getInstance();
             Handler mainHandler = mMainActivity.mHandler;
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mMainActivity);
-            String root = pref.getString("directories_root", "/");
+
+            String root = pref.getString("directories_root", null);
+
+            // use the external storage as our default root directory (most often /mnt/sdcard)
+            if (root == null) {
+                root = Environment.getExternalStorageDirectory().getAbsolutePath();
+            }
 
             // show progressbar in header
             mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
