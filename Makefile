@@ -11,7 +11,7 @@ PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $
 # Verbose level: -q -v or nothing (default verbose)
 VERBOSE ?= -v
 
-$(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES) vlc-android/local.properties
+$(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	cd vlc-android && ant $(VERBOSE) debug
 
 VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v stats|tr \\\\n \ `
@@ -57,16 +57,12 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		VLC_BUILD_DIR="$$VLC_BUILD_DIR" \
 		VLC_MODULES="$$vlc_modules"
 
-vlc-android/local.properties:
-	@if [ -z "$$ANDROID_SDK" ]; then echo "ANDROID_SDK not defined" ; exit 1; fi
-	printf "# Auto-generated file. Do not edit.\nsdk.dir=$$ANDROID_SDK" > $@
-
 clean:
 	cd vlc-android && rm -rf gen libs obj bin $(VLC_APK)
 	rm -f $(PRIVATE_LIBDIR)/*.so $(PRIVATE_LIBDIR)/*.c
 
 distclean: clean
-	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H) vlc-android/local.properties
+	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H)
 
 install: $(VLC_APK)
 	@echo "=== Installing VLC on device ==="
