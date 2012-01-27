@@ -220,6 +220,9 @@ void Java_org_videolan_vlc_android_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     static const char *argv[] = {
         "-I", "dummy",
         "-vv",
+        "--no-osd",
+        "--no-video-title-show",
+        "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
         "--control", "logger",
