@@ -1,8 +1,15 @@
 # Sources and objects
+
+ifeq ($(NO_NEON),)
+ARCH = armeabi-v7a
+else
+ARCH = armeabi
+endif
+
 JAVA_SOURCES=vlc-android/src/org/videolan/vlc/android/*.java
 JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
 VLC_APK=vlc-android/bin/VLC-debug.apk
-LIBVLCJNI=vlc-android/libs/armeabi/libvlcjni.so
+LIBVLCJNI=vlc-android/libs/$(ARCH)/libvlcjni.so
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
 PRIVATE_LIBDIR=android-libs
