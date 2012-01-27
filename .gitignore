@@ -1,3 +1,3 @@
-vlc/
-android-libs/*.so
+/vlc/
+/android-libs/*.so
 update-cm-7.1.0.1-NS-signed.zip
