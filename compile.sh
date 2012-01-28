@@ -10,7 +10,11 @@
 # export NO_NEON=1
 # make sure it is set for both the contribs bootstrap next and the configure.sh later.
 
-# Also, if you do not have NDK v7 or later, then set HAS_NDK_V7 to 0 in vlc-android/jni/Android.mk:10
+# The script will attempt to automatically detect if you have NDK v7, but you can override this
+# If you do not have NDK v7 or later:
+# export NO_NDK_V7=1
+# or if you are sure you have NDK v7:
+# export NO_NDK_V7=0
 # to prevent this error message in your compile:
 # arm-linux-androideabi-g++: /opt/android-ndk/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/libgnustl_static.a: No such file or directory
 
@@ -18,6 +22,14 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK and ANDROID_SDK before starting."
    echo "They must point to your NDK and SDK directories."
    exit 1
+fi
+
+if [ -z "$NO_NDK_V7" ]; then
+    # try to detect NDK version
+    REL=$(grep -iw "r7" $ANDROID_NDK/RELEASE.TXT)
+    if [ -z $REL ]; then
+	export NO_NDK_V7=1
+    fi
 fi
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building

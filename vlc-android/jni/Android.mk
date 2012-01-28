@@ -7,18 +7,16 @@ LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
-HAS_NDK_V7 = 1
-
 ifeq ($(NO_NEON),)
 ARCH=armeabi-v7a
 else
 ARCH=armeabi
 endif
 
-ifeq ($(HAS_NDK_V7),1)
-CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
-else
+ifeq ($(NO_NDK_V7),1)
 CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libstdc++.a
+else
+CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
 endif
 
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
