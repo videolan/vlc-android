@@ -51,6 +51,7 @@ mkdir contrib/android; cd contrib/android
     --disable-gettext \
     --disable-mpcdec \
     --disable-upnp \
+    --disable-gme \
     --disable-sidplay2
 
 make fetch
