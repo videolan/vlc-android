@@ -309,6 +309,39 @@ public class AudioService extends Service {
         mRepeating = RepeatType.values()[t];
     }
 
+    private Bitmap getCover() {
+        try {
+            ContentResolver contentResolver = getContentResolver();
+            Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+            Cursor cursor = contentResolver.query(uri, new String[] {
+                           MediaStore.Audio.Albums.ALBUM,
+                           MediaStore.Audio.Albums.ALBUM_ART },
+                           MediaStore.Audio.Albums.ALBUM + " LIKE ?",
+                           new String[] { mCurrentMedia.getAlbum() }, null);
+            if (cursor == null) {
+                // do nothing
+            } else if (!cursor.moveToFirst()) {
+                // do nothing
+                cursor.close();
+            } else {
+                int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
+                String albumArt = cursor.getString(titleColumn);
+                cursor.close();
+                Bitmap b = BitmapFactory.decodeFile(albumArt);
+                if (b != null)
+                    return b;
+            }
+            File f = new File(mCurrentMedia.getPath());
+            for (File s : f.getParentFile().listFiles()) {
+                if (s.getAbsolutePath().endsWith("png") ||
+                        s.getAbsolutePath().endsWith("jpg"))
+                    return BitmapFactory.decodeFile(s.getAbsolutePath());
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
 
         @Override
@@ -377,35 +410,7 @@ public class AudioService extends Service {
 
         public Bitmap getCover() {
             if (mCurrentMedia != null) {
-                try {
-                    ContentResolver contentResolver = getContentResolver();
-                    Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-                    Cursor cursor = contentResolver.query(uri, new String[] {
-                                   MediaStore.Audio.Albums.ALBUM,
-                                   MediaStore.Audio.Albums.ALBUM_ART },
-                                   MediaStore.Audio.Albums.ALBUM + " LIKE ?",
-                                   new String[] { mCurrentMedia.getAlbum() }, null);
-                    if (cursor == null) {
-                        // do nothing
-                    } else if (!cursor.moveToFirst()) {
-                        // do nothing
-                        cursor.close();
-                    } else {
-                        int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
-                        String albumArt = cursor.getString(titleColumn);
-                        cursor.close();
-                        Bitmap b = BitmapFactory.decodeFile(albumArt);
-                        if (b != null)
-                            return b;
-                    }
-                    File f = new File(mCurrentMedia.getPath());
-                    for (File s : f.getParentFile().listFiles()) {
-                        if (s.getAbsolutePath().endsWith("png") ||
-                                s.getAbsolutePath().endsWith("jpg"))
-                            return BitmapFactory.decodeFile(s.getAbsolutePath());
-                    }
-                } catch (Exception e) {
-                }
+                return AudioService.this.getCover();
             }
             return null;
         }
@@ -517,15 +522,23 @@ public class AudioService extends Service {
     {
         Log.d(TAG, "Updating widget");
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
+        Bitmap cover = null;
 
         if (mCurrentMedia != null) {
             views.setTextViewText(R.id.songName, mCurrentMedia.getTitle());
             views.setTextViewText(R.id.artist, mCurrentMedia.getArtist());
+            cover = getCover();
         }
         else {
             views.setTextViewText(R.id.songName, "VLC mini player");
             views.setTextViewText(R.id.artist, "");
+            cover = null;
         }
+
+        if (cover != null)
+            views.setImageViewBitmap(R.id.imageView1, cover);
+        else
+            views.setImageViewResource(R.id.imageView1, R.drawable.cone);
 
         views.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
 
