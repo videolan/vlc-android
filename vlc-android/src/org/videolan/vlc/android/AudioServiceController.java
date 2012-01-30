@@ -24,10 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
-import org.videolan.vlc.android.widget.VLCAppWidgetProvider;
 import org.videolan.vlc.android.AudioPlayer;
 
-import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +36,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 public class AudioServiceController implements AudioPlayerControl {
     public static final String TAG = "VLC/AudioServiceContoller";
@@ -56,13 +53,10 @@ public class AudioServiceController implements AudioPlayerControl {
         }
     };
 
-    private AudioServiceController(Context c) {
+    private AudioServiceController() {
 
         // Get context from MainActivity
-    	if(c != null)
-    		mContext = c;
-    	else
-    		mContext = MainActivity.getInstance();
+        mContext = MainActivity.getInstance();
 
         mAudioPlayer = new ArrayList<AudioPlayer>();
 
@@ -94,12 +88,8 @@ public class AudioServiceController implements AudioPlayerControl {
     }
 
     public static AudioServiceController getInstance() {
-    	return getInstance(null);
-    }
-    
-    public static AudioServiceController getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new AudioServiceController(context);
+            mInstance = new AudioServiceController();
         }
         if (!mIsBound) {
             mInstance.bindAudioService();
@@ -170,12 +160,6 @@ public class AudioServiceController implements AudioPlayerControl {
      * Update all AudioPlayer
      */
     private void updateAudioPlayer() {
-    	/* Update widget */
-    	ComponentName componentName = new ComponentName(mContext, VLCAppWidgetProvider.class);
-    	RemoteViews views = new RemoteViews("org.videolan.vlc.android", R.layout.vlcwidget);
-    	AppWidgetManager.getInstance(mContext).updateAppWidget(componentName, views);
-
-        /* Update audio players */
         for (int i = 0; i < mAudioPlayer.size(); i++)
             mAudioPlayer.get(i).update();
     }
