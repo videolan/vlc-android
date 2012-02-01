@@ -528,7 +528,7 @@ public class AudioService extends Service {
         if (mCurrentMedia != null) {
             views.setTextViewText(R.id.songName, mCurrentMedia.getTitle());
             views.setTextViewText(R.id.artist, mCurrentMedia.getArtist());
-            cover = getCover();
+            cover = Util.scaleDownBitmap(context, getCover(), 64);
         }
         else {
             views.setTextViewText(R.id.songName, "VLC mini player");

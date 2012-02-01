@@ -23,6 +23,8 @@ package org.videolan.vlc.android;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.Toast;
 
 public class Util {
@@ -99,5 +101,15 @@ public class Util {
             }
         }
         return apiLevel;
+    }
+
+    public static Bitmap scaleDownBitmap(Context context, Bitmap bitmap, int width) {
+        if (bitmap != null) {
+            final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+            int w = (int) (width * densityMultiplier);
+            int h = (int) (w * bitmap.getHeight() / ((double) bitmap.getWidth()));
+            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
+        }
+        return bitmap;
     }
 }
