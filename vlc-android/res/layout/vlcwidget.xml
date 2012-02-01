@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="10dp"
-    android:background="@drawable/bg_with_shadow"
+    android:background="@drawable/background"
     android:clickable="true"
     android:clipChildren="true"
     android:gravity="center"
