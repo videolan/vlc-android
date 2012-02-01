@@ -537,9 +537,9 @@ public class AudioService extends Service {
         }
 
         if (cover != null)
-            views.setImageViewBitmap(R.id.imageView1, cover);
+            views.setImageViewBitmap(R.id.cover, cover);
         else
-            views.setImageViewResource(R.id.imageView1, R.drawable.cone);
+            views.setImageViewResource(R.id.cover, R.drawable.cone);
 
         views.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
 
@@ -565,7 +565,7 @@ public class AudioService extends Service {
         views.setOnClickPendingIntent(R.id.play_pause, piPlay);
         views.setOnClickPendingIntent(R.id.stop, piStop);
         views.setOnClickPendingIntent(R.id.forward, piForward);
-        views.setOnClickPendingIntent(R.id.imageView1, piVlc);
+        views.setOnClickPendingIntent(R.id.cover, piVlc);
 
         /* update widget */
         ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
