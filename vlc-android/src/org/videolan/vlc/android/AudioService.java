@@ -565,7 +565,7 @@ public class AudioService extends Service {
         views.setOnClickPendingIntent(R.id.play_pause, piPlay);
         views.setOnClickPendingIntent(R.id.stop, piStop);
         views.setOnClickPendingIntent(R.id.forward, piForward);
-        views.setOnClickPendingIntent(R.id.linearLayout1, piVlc);
+        views.setOnClickPendingIntent(R.id.imageView1, piVlc);
 
         /* update widget */
         ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
