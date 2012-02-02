@@ -28,7 +28,7 @@ if [ -z "$NO_NDK_V7" ]; then
     # try to detect NDK version
     REL=$(grep -iw "r7" $ANDROID_NDK/RELEASE.TXT)
     if [ -z $REL ]; then
-	export NO_NDK_V7=1
+        export NO_NDK_V7=1
     fi
 fi
 
@@ -39,13 +39,13 @@ export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux
 # 1/ libvlc, libvlccore and its plugins
 
 if [ ! -d "vlc" ]; then
-	echo "VLC source not found, cloning"
-        git clone git://git.videolan.org/vlc/vlc-2.0.git vlc
+    echo "VLC source not found, cloning"
+    git clone git://git.videolan.org/vlc/vlc-2.0.git vlc
 else
-	echo "VLC source found, pulling from remote master"
-	pushd vlc > /dev/null
-	git pull origin master
-	popd > /dev/null
+    echo "VLC source found, pulling from remote master"
+    pushd vlc > /dev/null
+    git pull origin master
+    popd > /dev/null
 fi
 
 echo "Applying the patches"
@@ -75,8 +75,7 @@ make
 
 cd ../.. && mkdir -p android && cd android
 
-if test ! -s "../configure"
-then
+if test ! -s "../configure" ; then
     echo "Bootstraping"
     ../bootstrap
 fi
