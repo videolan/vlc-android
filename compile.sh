@@ -73,6 +73,8 @@ mkdir contrib/android; cd contrib/android
     --disable-vorbis \
     --disable-sidplay2
 
+# TODO: mpeg2, dts, theora
+
 make fetch
 make
 
