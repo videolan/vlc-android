@@ -24,7 +24,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
 	$(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
 	$(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
-	-ldl -lz -lm -logg -lvorbis -lFLAC -lspeex -lspeexdsp -ltheora \
+	-ldl -lz -lm -logg -lFLAC -lspeex -lspeexdsp -ltheora \
 	-lavformat -lavcodec -lswscale -lavutil -lpostproc \
 	-lmpeg2 -lpng -ldvbpsi -llog -la52 -lebml -lmatroska -ltag \
 	-lgsm -lopenjpeg -lxml2 -lsamplerate -ldca \

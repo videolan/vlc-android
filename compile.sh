@@ -69,6 +69,8 @@ mkdir contrib/android; cd contrib/android
     --disable-mpcdec \
     --disable-upnp \
     --disable-gme \
+    --disable-tremor \
+    --disable-vorbis \
     --disable-sidplay2
 
 make fetch
