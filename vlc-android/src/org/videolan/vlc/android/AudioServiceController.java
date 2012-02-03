@@ -105,6 +105,14 @@ public class AudioServiceController implements AudioPlayerControl {
         }
     }
 
+    public void append(List<String> mediaPathList) {
+        try {
+            mAudioServiceBinder.append(mediaPathList);
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: append()");
+        }
+    }
+
     /**
      * Bind to audio service if it is running
      */

@@ -463,7 +463,21 @@ public class AudioService extends Service {
                 mLibVLC.readMedia(mCurrentMedia.getPath());
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
+        }
 
+        @Override
+        public void append(List<String> mediaPathList) throws RemoteException {
+            if (mMediaList.size() == 0) {
+                load(mediaPathList, 0);
+                return;
+            }
+
+            DatabaseManager db = DatabaseManager.getInstance();
+            for (int i = 0; i < mediaPathList.size(); i++) {
+                String path = mediaPathList.get(i);
+                Media media = db.getMedia(path);
+                mMediaList.add(media);
+            }
         }
 
         @Override
