@@ -5,31 +5,16 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dip">
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:text="@string/title"
-            android:textColor="#ffffff"
-            android:textSize="20dip" />
-        <ImageView
-            android:id="@+id/ml_item_more"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:src="@drawable/ic_next"
-            android:paddingRight="12dip"
-            android:paddingLeft="5dip" />
-    </LinearLayout>
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_marginTop="5dip"
+        android:text="@string/title"
+        android:textColor="#ffffff"
+        android:textSize="20dip" />
 
     <TextView
         android:id="@+id/text"

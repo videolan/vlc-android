@@ -78,9 +78,9 @@ public class AudioBrowserActivity extends Activity {
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
-        mArtistsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
-        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
-        mGenresAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_playlist);
+        mArtistsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
+        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
+        mGenresAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
         ListView songsList = (ListView) findViewById(R.id.songs_list);
         ListView artistList = (ListView) findViewById(R.id.artists_list);
         ListView albumList = (ListView) findViewById(R.id.albums_list);
@@ -114,12 +114,13 @@ public class AudioBrowserActivity extends Activity {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) av.getAdapter();
-            List<String> playlist = adapter.getPlaylist(p);
-            if (playlist.isEmpty())
-                return;
-            mAudioController.load(playlist, 0);
-            Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
-            startActivity(intent);
+            String name = adapter.getItem(p);
+
+            Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
+            AudioListActivity.set(intent, name, mFlingViewGroup.getPosition());
+
+            AudioActivityGroup group = (AudioActivityGroup) AudioBrowserActivity.this.getParent();
+            group.startChildAcitvity("AudioListActivity", intent);
         }
     };
 

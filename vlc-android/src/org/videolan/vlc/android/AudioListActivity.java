@@ -1,0 +1,132 @@
+package org.videolan.vlc.android;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+public class AudioListActivity extends ListActivity {
+
+    public final static String TAG = "VLC/AudioBrowserActivity";
+
+    private AudioServiceController mAudioController;
+    private MediaLibrary mMediaLibrary;
+
+    private TextView mTitle;
+    private AudioSongsListAdapter mSongsAdapter;
+
+    public final static int SORT_BY_TITLE = 0;
+    public final static int SORT_BY_LENGTH = 1;
+    private boolean mSortReverse = false;
+    private int mSortBy = SORT_BY_TITLE;
+    public final static String EXTRA_NAME = "name";
+    public final static String EXTRA_MODE = "mode";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.audio_list);
+
+        mAudioController = AudioServiceController.getInstance();
+
+        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary.addUpdateHandler(mHandler);
+
+        mTitle = (TextView) findViewById(R.id.title);
+
+        mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
+        setListAdapter(mSongsAdapter);
+
+        updateList();
+    }
+
+    public static void set(Intent intent, String name, int mode) {
+        intent.putExtra(EXTRA_NAME, name);
+        intent.putExtra(EXTRA_MODE, mode);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+
+        mAudioController.load(mSongsAdapter.getPaths(), position);
+        Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        startActivity(intent);
+        super.onListItemClick(l, v, position, id);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMediaLibrary.removeUpdateHandler(mHandler);
+        mSongsAdapter.clear();
+        super.onDestroy();
+    }
+
+    /**
+     * Handle changes on the list
+     */
+    protected Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                    updateList();
+                    break;
+            }
+        }
+    };
+
+    private Comparator<Media> byPath = new Comparator<Media>() {
+        public int compare(Media m1, Media m2) {
+            return String.CASE_INSENSITIVE_ORDER.compare(m1.getFile().getPath(), m2.getFile().getPath());
+        };
+    };
+
+    private Comparator<Media> byLength = new Comparator<Media>() {
+        public int compare(Media m1, Media m2) {
+            if (m1.getLength() > m2.getLength())
+                return -1;
+            if (m1.getLength() < m2.getLength())
+                return 1;
+            else
+                return 0;
+        };
+    };
+
+    private void updateList() {
+        String name = getIntent().getStringExtra(EXTRA_NAME);
+        int mode = getIntent().getIntExtra(EXTRA_MODE, 0);
+        if (name == null || mode == 0)
+            return;
+
+        mTitle.setText(name);
+        List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
+        mSongsAdapter.clear();
+
+        switch (mSortBy) {
+            case SORT_BY_LENGTH:
+                Collections.sort(audioList, byLength);
+                break;
+            case SORT_BY_TITLE:
+            default:
+                Collections.sort(audioList, byPath);
+                break;
+        }
+        if (mSortReverse) {
+            Collections.reverse(audioList);
+        }
+        for (int i = 0; i < audioList.size(); i++) {
+            mSongsAdapter.add(audioList.get(i));
+        }
+
+        mSongsAdapter.notifyDataSetChanged();
+    }
+}

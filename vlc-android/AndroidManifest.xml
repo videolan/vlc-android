@@ -62,6 +62,9 @@
             android:name=".AudioBrowserActivity"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
+            android:name="AudioListActivity"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
             android:name=".AudioActivityGroup"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity

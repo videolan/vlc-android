@@ -103,6 +103,10 @@ public class FlingViewGroup extends ViewGroup {
         }
     }
 
+    public int getPosition() {
+        return mCurrentView;
+    }
+
     public void setPosition(int position) {
         mCurrentView = position;
     }

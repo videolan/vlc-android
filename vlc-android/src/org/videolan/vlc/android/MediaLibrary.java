@@ -38,6 +38,9 @@ public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
 
     protected static final int MEDIA_ITEMS_UPDATED = 100;
+    public final static int MODE_ARTIST = 1;
+    public final static int MODE_ALBUM = 2;
+    public final static int MODE_GENRE = 3;
 
     private static MediaLibrary mInstance;
     private DatabaseManager mDBManager;
@@ -87,14 +90,42 @@ public class MediaLibrary {
     }
 
     public ArrayList<Media> getAudioItems() {
-        ArrayList<Media> videoItems = new ArrayList<Media>();
+        ArrayList<Media> audioItems = new ArrayList<Media>();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
             if (item.getType() == Media.TYPE_AUDIO) {
-                videoItems.add(item);
+                audioItems.add(item);
             }
         }
-        return videoItems;
+        return audioItems;
+    }
+
+    public ArrayList<Media> getAudioItems(String name, int mode) {
+        ArrayList<Media> audioItems = new ArrayList<Media>();
+        for (int i = 0; i < mItemList.size(); i++) {
+            Media item = mItemList.get(i);
+            if (item.getType() == Media.TYPE_AUDIO) {
+
+                boolean valid = false;
+                switch (mode) {
+                    case MODE_ARTIST:
+                        valid = name.equals(item.getArtist());
+                        break;
+                    case MODE_ALBUM:
+                        valid = name.equals(item.getAlbum());
+                        break;
+                    case MODE_GENRE:
+                        valid = name.equals(item.getGenre());
+                        break;
+                    default:
+                        break;
+                }
+                if (valid)
+                    audioItems.add(item);
+
+            }
+        }
+        return audioItems;
     }
 
     public ArrayList<Media> getMediaItems() {
