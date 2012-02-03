@@ -6,17 +6,18 @@
 # Create an AVD with this platform.
 
 # XXX : important!
-# If you plan to use the emulator, you need a build without neon
-# export NO_NEON=1
-# make sure it is set for both the contribs bootstrap next and the configure.sh later.
+cat << EOF
+If you plan to use the emulator, you need a build without neon:
+$ export NO_NEON=1
+make sure it is set for ALL the process
 
-# The script will attempt to automatically detect if you have NDK v7, but you can override this
-# If you do not have NDK v7 or later:
-# export NO_NDK_V7=1
-# or if you are sure you have NDK v7:
-# export NO_NDK_V7=0
-# to prevent this error message in your compile:
-# arm-linux-androideabi-g++: /opt/android-ndk/sources/cxx-stl/gnu-libstdc++/libs/armeabi-v7a/libgnustl_static.a: No such file or directory
+The script will attempt to automatically detect if you have NDK v7, but you can override this
+If you do not have NDK v7 or later:
+export NO_NDK_V7=1
+or if you are sure you have NDK v7:
+export NO_NDK_V7=0
+
+EOF
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK and ANDROID_SDK before starting."
