@@ -5,7 +5,6 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/header_layout"
         android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:background="@drawable/header"

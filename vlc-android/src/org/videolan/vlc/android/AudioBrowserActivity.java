@@ -137,9 +137,8 @@ public class AudioBrowserActivity extends Activity {
 
             Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
             AudioListActivity.set(intent, name, mFlingViewGroup.getPosition());
-
-            AudioActivityGroup group = (AudioActivityGroup) AudioBrowserActivity.this.getParent();
-            group.startChildAcitvity("AudioListActivity", intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     };
 

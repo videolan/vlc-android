@@ -46,7 +46,6 @@ public class AudioListActivity extends ListActivity {
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
-    private View mHeader;
     private TextView mTitle;
     private AudioSongsListAdapter mSongsAdapter;
 
@@ -67,7 +66,6 @@ public class AudioListActivity extends ListActivity {
         mMediaLibrary = MediaLibrary.getInstance(this);
         mMediaLibrary.addUpdateHandler(mHandler);
 
-        mHeader = (View) findViewById(R.id.header_layout);
         mTitle = (TextView) findViewById(R.id.title);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
@@ -177,13 +175,11 @@ public class AudioListActivity extends ListActivity {
         List<String> itemList;
 
         if (name == null || mode == 0) {
-            mHeader.setVisibility(View.VISIBLE);
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
             audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
         }
         else {
-            mHeader.setVisibility(View.GONE);
             mTitle.setText(name);
             audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
         }
