@@ -7,11 +7,11 @@
 
 # XXX : important!
 cat << EOF
-If you plan to use the emulator, you need a build without neon:
+If you plan to use a device without NEON (e.g. the emulator), you need a build without NEON:
 $ export NO_NEON=1
-make sure it is set for ALL the process
+Make sure it is set throughout the entire process.
 
-The script will attempt to automatically detect if you have NDK v7, but you can override this
+The script will attempt to automatically detect if you have NDK v7, but you can override this.
 If you do not have NDK v7 or later:
 export NO_NDK_V7=1
 or if you are sure you have NDK v7:
