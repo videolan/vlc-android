@@ -58,7 +58,6 @@ public class AudioService extends Service {
 
     private LibVLC mLibVLC;
     private ArrayList<Media> mMediaList;
-    private ArrayList<Media> mPlayedMedia;
     private Stack<Media> mPrevious;
     private Media mCurrentMedia;
     private ArrayList<IAudioServiceCallback> mCallback;
@@ -81,7 +80,6 @@ public class AudioService extends Service {
 
         mCallback = new ArrayList<IAudioServiceCallback>();
         mMediaList = new ArrayList<Media>();
-        mPlayedMedia = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
         mEventManager = EventManager.getIntance();
         updateWidget(this);
@@ -258,7 +256,6 @@ public class AudioService extends Service {
         mLibVLC.stop();
         mCurrentMedia = null;
         mMediaList.clear();
-        mPlayedMedia.clear();
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
         hideNotification();
@@ -270,11 +267,11 @@ public class AudioService extends Service {
         mPrevious.push(mCurrentMedia);
         if (mRepeating == RepeatType.Once)
             mCurrentMedia = mMediaList.get(index);
-        else if (mShuffling && mPlayedMedia.size() < mMediaList.size()) {
-            while (mPlayedMedia.contains(mCurrentMedia = mMediaList
+        else if (mShuffling && mPrevious.size() < mMediaList.size()) {
+            while (mPrevious.contains(mCurrentMedia = mMediaList
                            .get((int) (Math.random() * mMediaList.size()))))
                 ;
-        } else if (index < mMediaList.size() - 1) {
+        } else if (!mShuffling && index < mMediaList.size() - 1) {
             mCurrentMedia = mMediaList.get(index + 1);
         } else {
             if (mRepeating == RepeatType.All)
@@ -302,7 +299,7 @@ public class AudioService extends Service {
 
     private void shuffle() {
         if (mShuffling)
-            mPlayedMedia.clear();
+            mPrevious.clear();
         mShuffling = !mShuffling;
     }
 
@@ -446,7 +443,6 @@ public class AudioService extends Service {
                 throws RemoteException {
             mEventManager.addHandler(mEventHandler);
             mMediaList.clear();
-            mPlayedMedia.clear();
             mPrevious.clear();
             DatabaseManager db = DatabaseManager.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
@@ -518,8 +514,8 @@ public class AudioService extends Service {
             if (mRepeating == RepeatType.Once)
                 return false;
             int index = mMediaList.indexOf(mCurrentMedia);
-            if (mShuffling && mPlayedMedia.size() < mMediaList.size() ||
-                    index < mMediaList.size() - 1)
+            if (mShuffling && mPrevious.size() < mMediaList.size() - 1 ||
+                !mShuffling && index < mMediaList.size() - 1)
                 return true;
             else
                 return false;
