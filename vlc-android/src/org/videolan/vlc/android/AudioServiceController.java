@@ -113,6 +113,15 @@ public class AudioServiceController implements AudioPlayerControl {
         }
     }
 
+    public List<String> getItems() {
+        try {
+            return mAudioServiceBinder.getItems();
+        } catch (RemoteException e) {
+            Log.e(TAG, "remote procedure call failed: getItems()");
+        }
+        return new ArrayList<String>();
+    }
+
     /**
      * Bind to audio service if it is running
      */

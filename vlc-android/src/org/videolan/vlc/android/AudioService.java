@@ -480,6 +480,15 @@ public class AudioService extends Service {
             }
         }
 
+        public List<String> getItems() {
+            ArrayList<String> medias = new ArrayList<String>();
+            for (int i = 0; i < mMediaList.size(); i++) {
+                Media item = mMediaList.get(i);
+                medias.add(item.getPath());
+            }
+            return medias;
+        }
+
         @Override
         public void next() throws RemoteException {
             AudioService.this.next();

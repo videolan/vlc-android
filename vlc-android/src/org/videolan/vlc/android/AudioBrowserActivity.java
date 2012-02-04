@@ -124,6 +124,7 @@ public class AudioBrowserActivity extends Activity {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             mAudioController.load(mSongsAdapter.getPaths(), p);
             Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     };
@@ -195,6 +196,7 @@ public class AudioBrowserActivity extends Activity {
             mAudioController.load(medias, start_position);
 
         Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return super.onContextItemSelected(item);
     }

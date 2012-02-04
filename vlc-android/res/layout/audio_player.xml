@@ -105,7 +105,9 @@
         android:singleLine="true"
         android:ellipsize="marquee"
         android:layout_marginBottom="4dip"
-        android:id="@+id/title" />
+        android:id="@+id/title"
+        android:clickable="true"
+        android:onClick="onTextClick" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -117,7 +119,9 @@
         android:singleLine="true"
         android:ellipsize="marquee"
         android:layout_marginBottom="4dip"
-        android:id="@+id/artist" />
+        android:id="@+id/artist"
+        android:clickable="true"
+        android:onClick="onTextClick" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -128,7 +132,9 @@
         android:paddingRight="20dip"
         android:singleLine="true"
         android:ellipsize="marquee"
-        android:id="@+id/album" />
+        android:id="@+id/album"
+        android:clickable="true"
+        android:onClick="onTextClick" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

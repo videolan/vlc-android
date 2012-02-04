@@ -4,6 +4,20 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/header"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/header_logo" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"

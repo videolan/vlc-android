@@ -139,6 +139,15 @@ public class MediaLibrary {
         return null;
     }
 
+    public ArrayList<Media> getMediaItems(List<String> pathList) {
+        ArrayList<Media> items = new ArrayList<Media>();
+        for (int i = 0; i < pathList.size(); i++) {
+            Media item = getMediaItem(pathList.get(i));
+            items.add(item);
+        }
+        return items;
+    }
+
     private final Runnable mGetMediaItems = new Runnable() {
 
         private Stack<File> directorys = new Stack<File>();

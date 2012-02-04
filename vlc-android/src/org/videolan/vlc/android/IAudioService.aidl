@@ -32,6 +32,7 @@ interface IAudioService {
     String getCurrentMediaPath();
     void load(in List<String> mediaPathList, int position);
     void append(in List<String> mediaPathList);
+    List<String> getItems();
     boolean isPlaying();
     boolean isShuffling();
     int getRepeatType();

@@ -46,6 +46,7 @@ public class AudioListActivity extends ListActivity {
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
+    private View mHeader;
     private TextView mTitle;
     private AudioSongsListAdapter mSongsAdapter;
 
@@ -66,6 +67,7 @@ public class AudioListActivity extends ListActivity {
         mMediaLibrary = MediaLibrary.getInstance(this);
         mMediaLibrary.addUpdateHandler(mHandler);
 
+        mHeader = (View) findViewById(R.id.header_layout);
         mTitle = (TextView) findViewById(R.id.title);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
@@ -84,6 +86,7 @@ public class AudioListActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         mAudioController.load(mSongsAdapter.getPaths(), position);
         Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
     }
@@ -123,6 +126,7 @@ public class AudioListActivity extends ListActivity {
             mAudioController.load(medias, start_position);
 
         Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return super.onContextItemSelected(item);
     }
@@ -169,13 +173,22 @@ public class AudioListActivity extends ListActivity {
     private void updateList() {
         String name = getIntent().getStringExtra(EXTRA_NAME);
         int mode = getIntent().getIntExtra(EXTRA_MODE, 0);
-        if (name == null || mode == 0)
-            return;
+        List<Media> audioList;
+        List<String> itemList;
 
-        mTitle.setText(name);
-        List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
+        if (name == null || mode == 0) {
+            mHeader.setVisibility(View.VISIBLE);
+            mTitle.setText(R.string.songs);
+            itemList = AudioServiceController.getInstance().getItems();
+            audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
+        }
+        else {
+            mHeader.setVisibility(View.GONE);
+            mTitle.setText(name);
+            audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
+        }
+
         mSongsAdapter.clear();
-
         switch (mSortBy) {
             case SORT_BY_LENGTH:
                 Collections.sort(audioList, byLength);

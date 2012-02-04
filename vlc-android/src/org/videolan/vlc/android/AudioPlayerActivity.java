@@ -21,6 +21,7 @@
 package org.videolan.vlc.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -185,6 +186,12 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 
     public void onTimeLabelClick(View view) {
         mShowRemainingTime = !mShowRemainingTime;
+    }
+
+    public void onTextClick(View view) {
+        Intent intent = new Intent(this, AudioListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void onPlayPauseClick(View view) {
