@@ -33,8 +33,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -59,6 +65,14 @@ public class AudioBrowserActivity extends Activity {
     public final static int SORT_BY_LENGTH = 1;
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
+    public final static int MODE_SONG = 0;
+    public final static int MODE_ARTIST = 1;
+    public final static int MODE_ALBUM = 2;
+    public final static int MODE_GENRE = 3;
+    public final static int MENU_PLAY = Menu.FIRST;
+    public final static int MENU_APPEND = Menu.FIRST + 1;
+    public final static int MENU_PLAY_ALL = Menu.FIRST + 2;
+    public final static int MENU_APPEND_ALL = Menu.FIRST + 3;
 
     private static AudioBrowserActivity mInstance;
 
@@ -93,6 +107,10 @@ public class AudioBrowserActivity extends Activity {
         artistList.setOnItemClickListener(playlistListener);
         albumList.setOnItemClickListener(playlistListener);
         genreList.setOnItemClickListener(playlistListener);
+        songsList.setOnCreateContextMenuListener(contextMenuListener);
+        artistList.setOnCreateContextMenuListener(contextMenuListener);
+        albumList.setOnCreateContextMenuListener(contextMenuListener);
+        genreList.setOnCreateContextMenuListener(contextMenuListener);
 
         updateLists();
     }
@@ -123,6 +141,63 @@ public class AudioBrowserActivity extends Activity {
             group.startChildAcitvity("AudioListActivity", intent);
         }
     };
+
+    OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
+    {
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, MENU_PLAY, Menu.NONE, R.string.play);
+            menu.add(Menu.NONE, MENU_APPEND, Menu.NONE, R.string.append);
+            if (v.getId() == R.id.songs_list) {
+                menu.add(Menu.NONE, MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
+                menu.add(Menu.NONE, MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
+            }
+        }
+    };
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+        int id = item.getItemId();
+
+        boolean play_all = id == MENU_PLAY_ALL || id == MENU_APPEND_ALL;
+        boolean play_append = id == MENU_APPEND || id == MENU_APPEND_ALL;
+        int start_position;
+        List<String> medias;
+
+        if (play_all) {
+            start_position = menuInfo.position;
+            medias = mSongsAdapter.getPaths();
+        }
+        else {
+            start_position = 0;
+            switch (mFlingViewGroup.getPosition())
+            {
+                case MODE_SONG:
+                    medias = mSongsAdapter.getPath(menuInfo.position);
+                    break;
+                case MODE_ARTIST:
+                    medias = mArtistsAdapter.getPlaylist(menuInfo.position);
+                    break;
+                case MODE_ALBUM:
+                    medias = mAlbumsAdapter.getPlaylist(menuInfo.position);
+                    break;
+                case MODE_GENRE:
+                    medias = mGenresAdapter.getPlaylist(menuInfo.position);
+                    break;
+                default:
+                    return true;
+            }
+        }
+        if (play_append)
+            mAudioController.append(medias);
+        else
+            mAudioController.load(medias, start_position);
+
+        Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+        startActivity(intent);
+        return super.onContextItemSelected(item);
+    }
 
     @Override
     protected void onDestroy() {

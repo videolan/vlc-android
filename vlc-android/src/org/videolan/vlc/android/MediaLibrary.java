@@ -38,9 +38,6 @@ public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
 
     protected static final int MEDIA_ITEMS_UPDATED = 100;
-    public final static int MODE_ARTIST = 1;
-    public final static int MODE_ALBUM = 2;
-    public final static int MODE_GENRE = 3;
 
     private static MediaLibrary mInstance;
     private DatabaseManager mDBManager;
@@ -108,13 +105,13 @@ public class MediaLibrary {
 
                 boolean valid = false;
                 switch (mode) {
-                    case MODE_ARTIST:
+                    case AudioBrowserActivity.MODE_ARTIST:
                         valid = name.equals(item.getArtist());
                         break;
-                    case MODE_ALBUM:
+                    case AudioBrowserActivity.MODE_ALBUM:
                         valid = name.equals(item.getAlbum());
                         break;
-                    case MODE_GENRE:
+                    case AudioBrowserActivity.MODE_GENRE:
                         valid = name.equals(item.getGenre());
                         break;
                     default:

@@ -20,6 +20,9 @@
     <string name="show_player">Show Player</string>
     <string name="hide_mini_player">Hide Mini-Player</string>
     <string name="play">Play</string>
+    <string name="append">Append</string>
+    <string name="play_all">Play all</string>
+    <string name="append_all">Append all</string>
     <string name="pause">Pause</string>
     <string name="close">Close</string>
     <string name="not_show_again">"Don't show this Message again."</string>

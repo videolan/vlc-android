@@ -29,7 +29,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -64,6 +70,7 @@ public class AudioListActivity extends ListActivity {
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
         setListAdapter(mSongsAdapter);
+        getListView().setOnCreateContextMenuListener(contextMenuListener);
 
         updateList();
     }
@@ -75,11 +82,49 @@ public class AudioListActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-
         mAudioController.load(mSongsAdapter.getPaths(), position);
         Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
+    }
+
+    OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
+    {
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, AudioBrowserActivity.MENU_PLAY, Menu.NONE, R.string.play);
+            menu.add(Menu.NONE, AudioBrowserActivity.MENU_APPEND, Menu.NONE, R.string.append);
+            menu.add(Menu.NONE, AudioBrowserActivity.MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
+            menu.add(Menu.NONE, AudioBrowserActivity.MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
+        }
+    };
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+        int id = item.getItemId();
+
+        boolean play_all = id == AudioBrowserActivity.MENU_PLAY_ALL || id == AudioBrowserActivity.MENU_APPEND_ALL;
+        boolean play_append = id == AudioBrowserActivity.MENU_APPEND || id == AudioBrowserActivity.MENU_APPEND_ALL;
+        int start_position;
+        List<String> medias;
+
+        if (play_all) {
+            start_position = menuInfo.position;
+            medias = mSongsAdapter.getPaths();
+        }
+        else {
+            start_position = 0;
+            medias = mSongsAdapter.getPath(menuInfo.position);
+        }
+        if (play_append)
+            mAudioController.append(medias);
+        else
+            mAudioController.load(medias, start_position);
+
+        Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        startActivity(intent);
+        return super.onContextItemSelected(item);
     }
 
     @Override

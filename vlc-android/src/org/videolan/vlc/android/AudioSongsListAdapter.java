@@ -71,6 +71,13 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
         return v;
     }
 
+    public List<String> getPath(int position) {
+        List<String> paths = new ArrayList<String>();
+        if (position >= 0 && position < mMediaList.size())
+            paths.add(mMediaList.get(position).getPath());
+        return paths;
+    }
+
     public List<String> getPaths() {
         List<String> paths = new ArrayList<String>();
         for (int i = 0; i < mMediaList.size(); i++) {
