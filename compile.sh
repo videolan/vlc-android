@@ -71,7 +71,8 @@ mkdir contrib/android; cd contrib/android
     --disable-gme \
     --disable-tremor \
     --disable-vorbis \
-    --disable-sidplay2
+    --disable-sidplay2 \
+    --disable-samplerate
 
 # TODO: mpeg2, dts, theora
 
