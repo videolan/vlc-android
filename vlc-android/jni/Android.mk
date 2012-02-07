@@ -24,11 +24,14 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
 	$(VLC_BUILD_DIR)/src/.libs/libvlccore.a \
 	$(VLC_BUILD_DIR)/compat/.libs/libcompat.a \
-	-ldl -lz -lm -logg -lFLAC -lspeex -lspeexdsp -ltheora \
-	-lavformat -lavcodec -lswscale -lavutil -lpostproc \
-	-lmpeg2 -lpng -ldvbpsi -llog -la52 -lebml -lmatroska -ltag \
-	-lgsm -lopenjpeg -lxml2 -lsamplerate -ldca \
+	-ldl -lz -lm -llog \
+	-ldvbpsi -lebml -lmatroska -ltag \
+	-logg -lFLAC -ltheora \
+	-lmpeg2 -ldca -la52 \
+	-lavformat -lavcodec -lswscale -lavutil -lpostproc -lgsm -lopenjpeg \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
+	-lspeex -lspeexdsp \
+	-lxml2 -lpng \
 	$(CPP_STATIC)
 
 include $(BUILD_SHARED_LIBRARY)
