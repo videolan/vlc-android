@@ -1,45 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <SurfaceView
+        android:id="@+id/player_surface"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/player_overlay_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/player_surface" />
-    <LinearLayout
-        android:layout_height="fill_parent"
+        android:textColor="#ffffff"
+        android:textSize="42dip"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:id="@+id/player_overlay"
         android:layout_width="fill_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#AA000000"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="invisible" >
+
         <TextView
-            android:id="@+id/player_overlay_info"
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
-            android:layout_weight="2"
-            android:textSize="42dip"
-            android:visibility="invisible"
+            android:id="@+id/player_overlay_time"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/player_overlay_seekbar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/player_overlay_seekbar"
+            android:gravity="left|center_vertical"
+            android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:gravity="center" />
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="0dip"
-            android:layout_weight="1" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:paddingBottom="10dip"
-        android:id="@+id/player_overlay_decor">
-        <View
+            android:textSize="15dip" />
+
+        <SeekBar
+            android:id="@+id/player_overlay_seekbar"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:id="@+id/player_overlay_spacer" />
-    </LinearLayout>
-</FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:maxHeight="4dip"
+            android:minHeight="4dip"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/ic_seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/player_overlay_length"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/player_overlay_seekbar"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/player_overlay_seekbar"
+            android:gravity="right|center_vertical"
+            android:text="@string/time_0"
+            android:textColor="#ffffff"
+            android:textSize="15dip" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_size"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/player_overlay_seekbar"
+            android:background="@drawable/ic_size" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_play"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_below="@+id/player_overlay_seekbar"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_pause" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_lock"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/player_overlay_seekbar"
+            android:background="@drawable/ic_lock" />
+    </RelativeLayout>
+
+</merge>

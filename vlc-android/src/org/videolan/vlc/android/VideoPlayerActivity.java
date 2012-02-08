@@ -19,7 +19,7 @@
  *****************************************************************************/
 
 package org.videolan.vlc.android;
-import org.videolan.vlc.android.LibVlcException;
+
 import java.lang.reflect.Method;
 
 import android.app.Activity;
@@ -37,23 +37,21 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.SurfaceHolder.Callback;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 public class VideoPlayerActivity extends Activity {
 
@@ -72,9 +70,7 @@ public class VideoPlayerActivity extends Activity {
     private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
 
     /** Overlay */
-    private LinearLayout mOverlay;
-    private LinearLayout mDecor;
-    private View mSpacer;
+    private RelativeLayout mOverlay;
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
@@ -107,26 +103,20 @@ public class VideoPlayerActivity extends Activity {
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
 
         /** initialize Views an their Events */
-        mDecor = (LinearLayout) findViewById(R.id.player_overlay_decor);
-        mSpacer = (View) findViewById(R.id.player_overlay_spacer);
-        mSpacer.setOnTouchListener(mTouchListener);
+        mOverlay = (RelativeLayout) findViewById(R.id.player_overlay);
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
-        mOverlay = (LinearLayout) inflater.inflate(R.layout.player_overlay, null);
-
-        mTime = (TextView) mOverlay.findViewById(R.id.player_overlay_time);
-        mLength = (TextView) mOverlay.findViewById(R.id.player_overlay_length);
+        mTime = (TextView) findViewById(R.id.player_overlay_time);
+        mLength = (TextView) findViewById(R.id.player_overlay_length);
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mPause = (ImageButton) mOverlay.findViewById(R.id.player_overlay_play);
+        mPause = (ImageButton) findViewById(R.id.player_overlay_play);
         mPause.setOnClickListener(mPauseListener);
 
-        mLock = (ImageButton) mOverlay.findViewById(R.id.player_overlay_lock);
+        mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
         mLock.setOnClickListener(mLockListener);
 
-        mSize = (ImageButton) mOverlay.findViewById(R.id.player_overlay_size);
+        mSize = (ImageButton) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
@@ -135,7 +125,7 @@ public class VideoPlayerActivity extends Activity {
         mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
-        mSeekbar = (SeekBar) mOverlay.findViewById(R.id.player_overlay_seekbar);
+        mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
         try {
@@ -151,7 +141,6 @@ public class VideoPlayerActivity extends Activity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         load();
-
     }
 
     @Override
@@ -200,27 +189,27 @@ public class VideoPlayerActivity extends Activity {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         int rotation = display.getOrientation();
-        if(Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
-        	try {
-        		Method m = display.getClass().getDeclaredMethod("getRotation");
-            	rotation = (Integer)m.invoke(display);
-        	} catch(Exception e) {
-        		rotation = Surface.ROTATION_0;
-        	}
+        if (Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
+            try {
+                Method m = display.getClass().getDeclaredMethod("getRotation");
+                rotation = (Integer) m.invoke(display);
+            } catch (Exception e) {
+                rotation = Surface.ROTATION_0;
+            }
         } else {
-        	rotation = display.getOrientation();
+            rotation = display.getOrientation();
         }
         switch (rotation) {
-        	case Surface.ROTATION_0:
-        		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        		break;
-        	case Surface.ROTATION_90:
-        		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        		break;
-        	case Surface.ROTATION_270:
-        		// FIXME: API Level 9+ (not tested on a device with API Level < 9)
-        		setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-        		break;
+            case Surface.ROTATION_0:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
+            case Surface.ROTATION_90:
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                break;
+            case Surface.ROTATION_270:
+                // FIXME: API Level 9+ (not tested on a device with API Level < 9)
+                setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                break;
         }
 
         showInfo(R.string.locked, 500);
@@ -388,18 +377,18 @@ public class VideoPlayerActivity extends Activity {
     /**
      * show/hide the overlay
      */
-    private OnTouchListener mTouchListener = new OnTouchListener() {
-        public boolean onTouch(View v, MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (!mShowing) {
-                    showOverlay();
-                } else {
-                    hideOverlay(true);
-                }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (!mShowing) {
+                showOverlay();
+            } else {
+                hideOverlay(true);
             }
-            return false;
         }
-    };
+        return false;
+    }
 
     /**
      * handle changes of the seekbar (slicer)
@@ -471,26 +460,26 @@ public class VideoPlayerActivity extends Activity {
             changeSurfaceSize();
             switch (mCurrentSize) {
                 case SURFACE_FIT_HORIZONTAL:
-                showInfo(R.string.surface_fit_horizontal, 500);
-                break;
-            case SURFACE_FIT_VERTICAL:
-                showInfo(R.string.surface_fit_vertical, 500);
-                break;
-            case SURFACE_FILL:
-                showInfo(R.string.surface_fill, 500);
-                break;
-            case SURFACE_16_9:
-                showInfo("16:9", 500);
-                break;
-            case SURFACE_4_3:
-                showInfo("4:3", 500);
-                break;
-            case SURFACE_ORIGINAL:
-                showInfo(R.string.surface_original, 500);
-                break;
+                    showInfo(R.string.surface_fit_horizontal, 500);
+                    break;
+                case SURFACE_FIT_VERTICAL:
+                    showInfo(R.string.surface_fit_vertical, 500);
+                    break;
+                case SURFACE_FILL:
+                    showInfo(R.string.surface_fill, 500);
+                    break;
+                case SURFACE_16_9:
+                    showInfo("16:9", 500);
+                    break;
+                case SURFACE_4_3:
+                    showInfo("4:3", 500);
+                    break;
+                case SURFACE_ORIGINAL:
+                    showInfo(R.string.surface_original, 500);
+                    break;
+            }
+            showOverlay();
         }
-        showOverlay();
-    }
     };
 
     /**
@@ -523,7 +512,7 @@ public class VideoPlayerActivity extends Activity {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
-            mDecor.addView(mOverlay);
+            mOverlay.setVisibility(View.VISIBLE);
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
@@ -544,7 +533,7 @@ public class VideoPlayerActivity extends Activity {
                 mOverlay.startAnimation(AnimationUtils.loadAnimation(
                         this, android.R.anim.fade_out));
             }
-            mDecor.removeView(mOverlay);
+            mOverlay.setVisibility(View.INVISIBLE);
             mShowing = false;
         }
     }
