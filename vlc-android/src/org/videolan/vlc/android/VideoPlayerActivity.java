@@ -224,6 +224,7 @@ public class VideoPlayerActivity extends Activity {
         }
 
         showInfo(R.string.locked, 500);
+        mLock.setBackgroundResource(R.drawable.ic_lock_glow);
     }
 
     /**
@@ -232,6 +233,7 @@ public class VideoPlayerActivity extends Activity {
     private void unlockScreen() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 500);
+        mLock.setBackgroundResource(R.drawable.ic_lock);
     }
 
     /**
