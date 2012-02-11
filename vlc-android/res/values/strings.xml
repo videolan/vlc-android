@@ -31,6 +31,10 @@
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
     <string name="songs">Songs</string>
+    <plurals name="songs">
+        <item quantity="one">1 song</item>
+        <item quantity="other">%d songs</item>
+    </plurals>
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
     <string name="genres">Genres</string>

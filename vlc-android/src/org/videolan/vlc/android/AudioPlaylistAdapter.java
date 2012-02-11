@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +83,8 @@ public class AudioPlaylistAdapter extends ArrayAdapter<String> {
         String name = mTitles.get(position);
         ArrayList<Media> list = mPlaylists.get(name);
         holder.title.setText(name);
-        holder.text.setText(R.string.songs);
-        holder.text.setText(list.size() + " " + holder.text.getText());
+        Resources res = getContext().getResources();
+        holder.text.setText(res.getQuantityString(R.plurals.songs, list.size(), list.size()));
 
         return v;
     }
