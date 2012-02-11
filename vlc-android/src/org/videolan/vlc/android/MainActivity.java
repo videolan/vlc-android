@@ -207,6 +207,10 @@ public class MainActivity extends TabActivity {
                 intent = new Intent(this, PreferencesActivity.class);
                 startActivity(intent);
                 break;
+            // Refresh
+            case R.id.ml_menu_refresh:
+                MediaLibrary.getInstance(this).loadMediaItems();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
