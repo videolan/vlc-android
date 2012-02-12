@@ -82,7 +82,7 @@ public class VideoPlayerActivity extends Activity {
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
-    private ImageButton mPause;
+    private SeekBar mWheel;
     private ImageButton mLock;
     private ImageButton mSize;
 
@@ -99,6 +99,13 @@ public class VideoPlayerActivity extends Activity {
     private int mAudioDisplayRange;
     private float mTouchY, mVol;
     private boolean mIsAudioChanged;
+
+    //Wheel
+    private static final int WHEEL_DEAD_ZONE = 7;
+    private static final int WHEEL_RANGE = 60;
+    private int mMiddle = 0;
+    private long mPosition = 0;
+    private long mSeekTo = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +124,11 @@ public class VideoPlayerActivity extends Activity {
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mPause = (ImageButton) findViewById(R.id.player_overlay_play);
-        mPause.setOnClickListener(mPauseListener);
+        mWheel = (SeekBar) findViewById(R.id.player_overlay_wheelbar);
+        mWheel.setMax((WHEEL_DEAD_ZONE + WHEEL_RANGE) * 2);
+        mMiddle = WHEEL_DEAD_ZONE + WHEEL_RANGE;
+        mWheel.setProgress(mMiddle);
+        mWheel.setOnSeekBarChangeListener(mWheelListener);
 
         mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
         mLock.setOnClickListener(mLockListener);
@@ -333,8 +343,9 @@ public class VideoPlayerActivity extends Activity {
                     changeSurfaceSize();
                     break;
                 case FADE_OUT_INFO:
-                    mInfo.startAnimation(AnimationUtils.loadAnimation(
-                            VideoPlayerActivity.this, android.R.anim.fade_out));
+                    if (mInfo.getVisibility() == View.VISIBLE)
+                        mInfo.startAnimation(AnimationUtils.loadAnimation(
+                                VideoPlayerActivity.this, android.R.anim.fade_out));
                     mInfo.setVisibility(View.INVISIBLE);
             }
         }
@@ -461,11 +472,47 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnClickListener mPauseListener = new OnClickListener() {
-        public void onClick(View v) {
-            doPausePlay();
-            showOverlay();
+    private OnSeekBarChangeListener mWheelListener = new OnSeekBarChangeListener() {
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            mPosition = mLibVLC.getTime();
+            mSeekTo = -1;
+            showOverlay(3600000);
         }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            // if in dead zone, pause/unpause
+            if (mSeekTo < 0)
+            {
+                doPausePlay();
+                showOverlay();
+            }
+            else
+            {
+                mLibVLC.setTime(mSeekTo);
+                mTime.setText(Util.millisToString(mSeekTo));
+            }
+            seekBar.setProgress(mMiddle);
+            hideInfo();
+        }
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (!fromUser)
+                return;
+            int delta = progress - mMiddle;
+            if (mLibVLC != null && Math.abs(delta) >= WHEEL_DEAD_ZONE) {
+                delta -= Math.signum(delta) * WHEEL_DEAD_ZONE;
+                mSeekTo = Math.max(0, mPosition + delta * 1000);
+            }
+            else
+                delta = 0;
+            if (mSeekTo >= 0)
+                showInfo(String.format("%s%ds (%s)", delta >= 0 ? "+" : "", delta, Util.millisToString(mSeekTo)));
+        }
+
     };
 
     /**
@@ -585,10 +632,15 @@ public class VideoPlayerActivity extends Activity {
         }
 
         if (mLibVLC.isPlaying()) {
-            mPause.setBackgroundResource(R.drawable.ic_pause);
+            mWheel.setThumb(getResources().getDrawable(R.drawable.wheel_pause));
         } else {
-            mPause.setBackgroundResource(R.drawable.ic_play);
+            mWheel.setThumb(getResources().getDrawable(R.drawable.wheel_play));
         }
+        mWheel.setThumbOffset(0);
+
+        //force a refresh
+        mWheel.layout(mWheel.getLeft() - 1, mWheel.getTop(), mWheel.getRight(), mWheel.getBottom());
+        mWheel.layout(mWheel.getLeft() + 1, mWheel.getTop(), mWheel.getRight(), mWheel.getBottom());
     }
 
     /**

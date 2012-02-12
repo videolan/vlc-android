@@ -62,6 +62,21 @@
             android:textColor="#ffffff"
             android:textSize="15dip" />
 
+        <SeekBar
+            android:id="@+id/player_overlay_wheelbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_overlay_seekbar"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:maxHeight="5dp"
+            android:minHeight="5dp"
+            android:progressDrawable="@drawable/wheel_background"
+            android:thumb="@drawable/wheel_pause"
+            android:thumbOffset="0px" />
+
         <ImageButton
             android:id="@+id/player_overlay_size"
             android:layout_width="50dip"
@@ -69,14 +84,6 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
-
-        <ImageButton
-            android:id="@+id/player_overlay_play"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_below="@+id/player_overlay_seekbar"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/ic_pause" />
 
         <ImageButton
             android:id="@+id/player_overlay_lock"
