@@ -93,6 +93,13 @@ public class VideoPlayerActivity extends Activity {
     // stop screen from dimming
     private WakeLock mWakeLock;
 
+    //Audio
+    private AudioManager mAudioManager;
+    private int mAudioMax;
+    private int mAudioDisplayRange;
+    private float mTouchY, mVol;
+    private boolean mIsAudioChanged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +134,9 @@ public class VideoPlayerActivity extends Activity {
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
         try {
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
@@ -159,6 +169,8 @@ public class VideoPlayerActivity extends Activity {
 
         EventManager em = EventManager.getIntance();
         em.removeHandler(eventHandler);
+
+        mAudioManager = null;
 
         super.onDestroy();
     }
@@ -381,14 +393,42 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (!mShowing) {
-                showOverlay();
-            } else {
-                hideOverlay(true);
-            }
+
+        if (mAudioDisplayRange == 0)
+            mAudioDisplayRange = Math.min(
+                    getWindowManager().getDefaultDisplay().getWidth(),
+                    getWindowManager().getDefaultDisplay().getHeight());
+
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                mTouchY = event.getRawY();
+                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                mIsAudioChanged = false;
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                float y = event.getRawY();
+
+                int delta = (int) (((mTouchY - y) / mAudioDisplayRange) * mAudioMax);
+                int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+                if (delta != 0) {
+                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+                    mIsAudioChanged = true;
+                }
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (!mIsAudioChanged) {
+                    if (!mShowing) {
+                        showOverlay();
+                    } else {
+                        hideOverlay(true);
+                    }
+                }
+                break;
         }
-        return false;
+        return mIsAudioChanged;
     }
 
     /**
