@@ -67,4 +67,5 @@
     <string name="quit">Quitter l\'application</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
+    <string name="refresh">Rafraîchir</string>
 </resources>
