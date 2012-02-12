@@ -45,6 +45,7 @@ public class DatabaseManager {
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
     private final int DB_VERSION = 5;
+    private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
     private final String DIR_ROW_PATH = "path";
@@ -302,39 +303,46 @@ public class DatabaseManager {
         HashMap<String, Media> medias = new HashMap<String, Media>();
         Bitmap picture = null;
         byte[] blob;
+        int chunk_count = 0;
+        int count = 0;
 
-        cursor = mDb.query(
-                MEDIA_TABLE_NAME,
-                new String[] {
-                        MEDIA_TIME, //0 long
-                        MEDIA_LENGTH, //1 long
-                        MEDIA_TYPE, //2 int
-                        MEDIA_PICTURE, //3 Bitmap
-                        MEDIA_TITLE, //4 string
-                        MEDIA_ARTIST, //5 string
-                        MEDIA_GENRE, //6 string
-                        MEDIA_ALBUM, //7 string
-                        MEDIA_PATH //8 string
-                },
-                null, null, null, null, null);
+        do {
+            count = 0;
+            cursor = mDb.rawQuery(String.format("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
+                    MEDIA_TIME, //0 long
+                    MEDIA_LENGTH, //1 long
+                    MEDIA_TYPE, //2 int
+                    MEDIA_PICTURE, //3 Bitmap
+                    MEDIA_TITLE, //4 string
+                    MEDIA_ARTIST, //5 string
+                    MEDIA_GENRE, //6 string
+                    MEDIA_ALBUM, //7 string
+                    MEDIA_PATH, //8 string
+                    MEDIA_TABLE_NAME,
+                    CHUNK_SIZE,
+                    chunk_count * CHUNK_SIZE), null);
 
-        if (cursor.moveToFirst()) {
-            do {
-                blob = cursor.getBlob(3);
-                if (blob != null) {
-                    picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                }
+            if (cursor.moveToFirst()) {
+                do {
+                    blob = cursor.getBlob(3);
+                    if (blob != null) {
+                        picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                    }
 
-                Media media = new Media(mContext, new File(cursor.getString(8)), cursor.getLong(0),
-                        cursor.getLong(1), cursor.getInt(2),
-                        picture, cursor.getString(4),
-                        cursor.getString(5), cursor.getString(6),
-                        cursor.getString(7));
-                medias.put(media.getPath(), media);
-            } while (cursor.moveToNext());
-        }
+                    Media media = new Media(mContext, new File(cursor.getString(8)), cursor.getLong(0),
+                            cursor.getLong(1), cursor.getInt(2),
+                            picture, cursor.getString(4),
+                            cursor.getString(5), cursor.getString(6),
+                            cursor.getString(7));
+                    medias.put(media.getPath(), media);
+                    count++;
+                } while (cursor.moveToNext());
+            }
 
-        cursor.close();
+            cursor.close();
+            chunk_count++;
+        } while (count == CHUNK_SIZE);
+
         return medias;
     }
 
