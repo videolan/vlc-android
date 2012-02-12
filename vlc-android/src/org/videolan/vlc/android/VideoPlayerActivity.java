@@ -121,7 +121,6 @@ public class VideoPlayerActivity extends Activity {
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
-        mSurfaceHolder.setKeepScreenOn(true);
         mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
@@ -146,7 +145,9 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onPause() {
         if (mLibVLC.isPlaying())
-            pause();
+            mLibVLC.pause();
+        if (mWakeLock.isHeld())
+            mWakeLock.release();
         super.onPause();
     }
 
@@ -584,7 +585,8 @@ public class VideoPlayerActivity extends Activity {
      */
     private void play() {
         mLibVLC.play();
-        mWakeLock.acquire();
+        if (!mWakeLock.isHeld())
+            mWakeLock.acquire();
     }
 
     /**
@@ -592,7 +594,8 @@ public class VideoPlayerActivity extends Activity {
      */
     private void pause() {
         mLibVLC.pause();
-        mWakeLock.release();
+        if (mWakeLock.isHeld())
+            mWakeLock.release();
     }
 
     /**
@@ -610,7 +613,8 @@ public class VideoPlayerActivity extends Activity {
         }
         if (path != null && path.length() > 0) {
             mLibVLC.readMedia(path);
-            mWakeLock.acquire();
+            if (!mWakeLock.isHeld())
+                mWakeLock.acquire();
         }
     }
 }
