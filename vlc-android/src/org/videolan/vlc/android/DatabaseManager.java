@@ -25,6 +25,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -273,9 +275,9 @@ public class DatabaseManager {
      * Get all paths from the items in the database
      * @return list of File
      */
-    public synchronized List<File> getMediaFiles() {
+    public synchronized HashSet<File> getMediaFiles() {
 
-        List<File> files = new ArrayList<File>();
+        HashSet<File> files = new HashSet<File>();
         Cursor cursor;
 
         cursor = mDb.query(
@@ -292,6 +294,48 @@ public class DatabaseManager {
         cursor.close();
 
         return files;
+    }
+
+    public synchronized HashMap<String, Media> getMedias() {
+
+        Cursor cursor;
+        HashMap<String, Media> medias = new HashMap<String, Media>();
+        Bitmap picture = null;
+        byte[] blob;
+
+        cursor = mDb.query(
+                MEDIA_TABLE_NAME,
+                new String[] {
+                        MEDIA_TIME, //0 long
+                        MEDIA_LENGTH, //1 long
+                        MEDIA_TYPE, //2 int
+                        MEDIA_PICTURE, //3 Bitmap
+                        MEDIA_TITLE, //4 string
+                        MEDIA_ARTIST, //5 string
+                        MEDIA_GENRE, //6 string
+                        MEDIA_ALBUM, //7 string
+                        MEDIA_PATH //8 string
+                },
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                blob = cursor.getBlob(3);
+                if (blob != null) {
+                    picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                }
+
+                Media media = new Media(mContext, new File(cursor.getString(8)), cursor.getLong(0),
+                        cursor.getLong(1), cursor.getInt(2),
+                        picture, cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6),
+                        cursor.getString(7));
+                medias.put(media.getPath(), media);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return medias;
     }
 
     public synchronized Media getMedia(String path) {

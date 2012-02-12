@@ -25,6 +25,8 @@ import java.io.FileFilter;
 import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
@@ -174,11 +176,11 @@ public class MediaLibrary {
             if (directorys.isEmpty())
                 directorys.add(new File(root));
 
-            // get all paths of the existing media items
-            List<File> existingFiles = mDBManager.getMediaFiles();
+            // get all existing media items
+            HashMap<String, Media> existingMedias = mDBManager.getMedias();
 
             // list of all added files
-            List<File> addedFiles = new ArrayList<File>();
+            HashSet<File> addedFiles = new HashSet<File>();
 
             // clear all old item
             mItemList.clear();
@@ -194,10 +196,11 @@ public class MediaLibrary {
                 File[] f = null;
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
-                        if (f[i].isFile()) {
+                        File file = f[i];
+                        if (file.isFile()) {
                             total++;
-                        } else if (f[i].isDirectory()) {
-                            directorys.push(f[i]);
+                        } else if (file.isDirectory()) {
+                            directorys.push(file);
                         }
                     }
                 }
@@ -212,32 +215,32 @@ public class MediaLibrary {
                 File[] f = null;
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
-                        if (f[i].isFile()) {
+                        File file = f[i];
 
-                            MainActivity.sendTextInfo(mainHandler, f[i].getName(), count, total);
+                        if (file.isFile()) {
+
+                            MainActivity.sendTextInfo(mainHandler, file.getName(), count, total);
                             count++;
 
-                            if (existingFiles.contains(f[i])) {
+                            if (existingMedias.containsKey(file.getPath())) {
                                 /** only add file if it is not already in the
                                  * list. eg. if user select an subfolder as well
                                  */
-                                if (!addedFiles.contains(f[i])) {
+                                if (!addedFiles.contains(file)) {
                                     // get existing media item from database
-                                    mItemList.add(mDBManager.getMedia(
-                                            f[i].getPath()));
-                                    addedFiles.add(f[i]);
+                                    mItemList.add(existingMedias.get(file.getPath()));
+                                    addedFiles.add(file);
                                 }
                             } else {
                                 // create new media item
-                                mItemList.add(new Media(mContext, f[i]));
+                                mItemList.add(new Media(mContext, file));
                             }
-                        } else if (f[i].isDirectory()) {
-                            directorys.push(f[i]);
+                        } else if (file.isDirectory()) {
+                            directorys.push(file);
                         }
                     }
                 }
             }
-            MainActivity.clearTextInfo(mainHandler);
 
             // update the video and audio activities
             for (int i = 0; i < mUpdateHandler.size(); i++) {
@@ -246,12 +249,15 @@ public class MediaLibrary {
             }
 
             // remove file from database
-            for (int i = 0; i < existingFiles.size(); i++) {
-                if (!addedFiles.contains(existingFiles.get(i))) {
-                    mDBManager.removeMedia(existingFiles.get(i).getPath());
-                }
+            for (File file : addedFiles) {
+                existingMedias.remove(file.getPath());
             }
+            for (String path : existingMedias.keySet()) {
+                mDBManager.removeMedia(path);
+            }
+
             // hide progressbar in header
+            MainActivity.clearTextInfo(mainHandler);
             mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
         }
     };
