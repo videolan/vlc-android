@@ -608,3 +608,28 @@ jstring Java_org_videolan_vlc_android_LibVLC_changeset(JNIEnv* env, jobject thiz
 {
     return (*env)->NewStringUTF(env, libvlc_get_changeset());
 }
+
+jint Java_org_videolan_vlc_android_LibVLC_getAudioTracksCount(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jint) libvlc_audio_get_track_count(mp);
+    return -1;
+}
+
+jint Java_org_videolan_vlc_android_LibVLC_getVideoTracksCount(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jint) libvlc_video_get_track_count(mp);
+    return -1;
+}
+
+jint Java_org_videolan_vlc_android_LibVLC_getSpuTracksCount(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jint) libvlc_video_get_spu_count(mp);
+    return -1;
+}
+
