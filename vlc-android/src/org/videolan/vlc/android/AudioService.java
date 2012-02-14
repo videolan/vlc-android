@@ -114,6 +114,10 @@ public class AudioService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             int state = intent.getIntExtra("state", 0);
+            if( mLibVLC == null ) {
+                Log.w(TAG, "Intent received, but VLC is not loaded, skipping.");
+                return;
+            }
 
             if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_PLAY)) {
                 if (mLibVLC.isPlaying() && mCurrentMedia != null) {
