@@ -126,6 +126,10 @@ public class AudioServiceController implements AudioPlayerControl {
      * Bind to audio service if it is running
      */
     public void bindAudioService() {
+        if (mContext == null) {
+            Log.w(TAG, "bindAudioService() with null Context. Ooops" );
+            return;
+        }
         if (mAudioServiceBinder == null) {
             Intent service = new Intent(mContext, AudioService.class);
             mContext.startService(service);
