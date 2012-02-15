@@ -20,11 +20,14 @@
 
 package org.videolan.vlc.android;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -48,7 +51,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -70,7 +72,8 @@ public class VideoPlayerActivity extends Activity {
     private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
 
     /** Overlay */
-    private RelativeLayout mOverlay;
+    private View mOverlayHeader;
+    private View mOverlay;
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
@@ -79,6 +82,8 @@ public class VideoPlayerActivity extends Activity {
     private boolean mDragging;
     private boolean mShowing;
     private SeekBar mSeekbar;
+    private TextView mTitle;
+    private TextView mBattery;
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
@@ -117,7 +122,12 @@ public class VideoPlayerActivity extends Activity {
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
 
         /** initialize Views an their Events */
-        mOverlay = (RelativeLayout) findViewById(R.id.player_overlay);
+        mOverlayHeader = (View) findViewById(R.id.player_overlay_header);
+        mOverlay = (View) findViewById(R.id.player_overlay);
+
+        /* header */
+        mTitle = (TextView) findViewById(R.id.player_overlay_title);
+        mBattery = (TextView) findViewById(R.id.player_overlay_battery);
 
         mTime = (TextView) findViewById(R.id.player_overlay_time);
         mLength = (TextView) findViewById(R.id.player_overlay_length);
@@ -147,6 +157,8 @@ public class VideoPlayerActivity extends Activity {
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
+        registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
         try {
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
@@ -173,6 +185,7 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(mBatteryReceiver);
         if (mLibVLC != null) {
             mLibVLC.stop();
         }
@@ -184,6 +197,16 @@ public class VideoPlayerActivity extends Activity {
 
         super.onDestroy();
     }
+
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int batteryLevel = intent.getIntExtra("level", 0);
+            mBattery.setText(String.format("%d%%", batteryLevel));
+        }
+    };
 
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
@@ -600,6 +623,7 @@ public class VideoPlayerActivity extends Activity {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
+            mOverlayHeader.setVisibility(View.VISIBLE);
             mOverlay.setVisibility(View.VISIBLE);
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
@@ -618,9 +642,10 @@ public class VideoPlayerActivity extends Activity {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
             if (!fromUser) {
-                mOverlay.startAnimation(AnimationUtils.loadAnimation(
-                        this, android.R.anim.fade_out));
+                mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mOverlay.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
+            mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlay.setVisibility(View.INVISIBLE);
             mShowing = false;
         }
@@ -695,6 +720,8 @@ public class VideoPlayerActivity extends Activity {
      */
     private void load() {
         String path = null;
+        String title = null;
+
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
@@ -707,6 +734,12 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC.readMedia(path);
             if (!mWakeLock.isHeld())
                 mWakeLock.acquire();
+
+            title = new File(path).getName();
+            int dotIndex = title.lastIndexOf('.');
+            if (dotIndex != -1)
+                title = title.substring(0, dotIndex);
+            mTitle.setText(title);
         }
     }
 }
