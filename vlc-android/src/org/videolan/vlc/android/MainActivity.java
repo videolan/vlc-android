@@ -106,7 +106,6 @@ public class MainActivity extends TabActivity {
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
         mAudioController = AudioServiceController.getInstance();
-        mAudioController.addAudioPlayer(mAudioPlayer);
         mAudioPlayer.setAudioPlayerControl(mAudioController);
         mAudioPlayer.update();
 
@@ -139,6 +138,18 @@ public class MainActivity extends TabActivity {
 
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems();
+    }
+
+    @Override
+    protected void onStart() {
+        mAudioController.addAudioPlayer(mAudioPlayer);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mAudioController.removeAudioPlayer(mAudioPlayer);
+        super.onStop();
     }
 
     /** Create menu from XML
