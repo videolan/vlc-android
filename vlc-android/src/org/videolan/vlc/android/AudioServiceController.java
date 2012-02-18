@@ -124,7 +124,7 @@ public class AudioServiceController implements AudioPlayerControl {
         }
         context = context.getApplicationContext();
 
-        if (mAudioServiceBinder == null) {
+        if (!mIsBound) {
             Intent service = new Intent(context, AudioService.class);
             context.startService(service);
             mIsBound = context.bindService(service, mAudioServiceConnection, Context.BIND_AUTO_CREATE);
@@ -145,17 +145,15 @@ public class AudioServiceController implements AudioPlayerControl {
         }
         context = context.getApplicationContext();
 
-        if (mAudioServiceBinder != null) {
+        if (mIsBound) {
             try {
                 mAudioServiceBinder.removeAudioCallback(mCallback);
-                if (mIsBound) {
-                    context.unbindService(mAudioServiceConnection);
-                    mIsBound = false;
-                }
             } catch (RemoteException e) {
                 Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
             }
-
+            context.unbindService(mAudioServiceConnection);
+            mIsBound = false;
+            mAudioServiceBinder = null;
         }
     }
 
