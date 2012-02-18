@@ -187,6 +187,7 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
 
     public void onTimeLabelClick(View view) {
         mShowRemainingTime = !mShowRemainingTime;
+        update();
     }
 
     public void onTextClick(View view) {

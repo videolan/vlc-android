@@ -288,6 +288,7 @@ public class AudioService extends Service {
             }
         }
         mLibVLC.readMedia(mCurrentMedia.getPath());
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
     }
 
@@ -300,6 +301,7 @@ public class AudioService extends Service {
         else
             return;
         mLibVLC.readMedia(mCurrentMedia.getPath());
+        mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
     }
 
