@@ -92,7 +92,6 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     protected void onResume() {
         AudioServiceController.getInstance().bindAudioService(this);
         mAudioController.addAudioPlayer(this);
-        update();
         super.onResume();
     }
 
