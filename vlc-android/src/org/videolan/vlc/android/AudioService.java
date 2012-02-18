@@ -134,12 +134,14 @@ public class AudioService extends Service {
                 }
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD)) {
                 previous();
+                updateWidget(context);
             }
             else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_STOP)) {
                 stop();
             }
             else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD)) {
                 next();
+                updateWidget(context);
             }
 
             if (mDetectHeadset) {
