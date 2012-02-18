@@ -141,15 +141,15 @@ public class MainActivity extends TabActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
-        super.onStart();
+        super.onResume();
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         mAudioController.removeAudioPlayer(mAudioPlayer);
-        super.onStop();
+        super.onPause();
     }
 
     /** Create menu from XML

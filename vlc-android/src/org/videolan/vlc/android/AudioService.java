@@ -22,6 +22,7 @@ package org.videolan.vlc.android;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
@@ -60,7 +61,7 @@ public class AudioService extends Service {
     private ArrayList<Media> mMediaList;
     private Stack<Media> mPrevious;
     private Media mCurrentMedia;
-    private ArrayList<IAudioServiceCallback> mCallback;
+    private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventManager mEventManager;
     private Notification mNotification;
     private boolean mShuffling = false;
@@ -78,7 +79,7 @@ public class AudioService extends Service {
             e.printStackTrace();
         }
 
-        mCallback = new ArrayList<IAudioServiceCallback>();
+        mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
         mEventManager = EventManager.getIntance();
@@ -193,9 +194,9 @@ public class AudioService extends Service {
     }
 
     private void executeUpdate(Boolean updateWidget) {
-        for (int i = 0; i < mCallback.size(); i++) {
+        for (IAudioServiceCallback callback : mCallback.keySet()) {
             try {
-                mCallback.get(i).update();
+                callback.update();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -418,18 +419,25 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void addAudioCallback(IAudioServiceCallback cb)
+        public synchronized void addAudioCallback(IAudioServiceCallback cb)
                 throws RemoteException {
-            mCallback.add(cb);
+            Integer count = mCallback.get(cb);
+            if (count == null)
+                count = 0;
+            mCallback.put(cb, count + 1);
             executeUpdate();
         }
 
         @Override
-        public void removeAudioCallback(IAudioServiceCallback cb)
+        public synchronized void removeAudioCallback(IAudioServiceCallback cb)
                 throws RemoteException {
-            if (mCallback.contains(cb)) {
+            Integer count = mCallback.get(cb);
+            if (count == null)
+                count = 0;
+            if (count > 1)
+                mCallback.put(cb, count - 1);
+            else
                 mCallback.remove(cb);
-            }
         }
 
         @Override

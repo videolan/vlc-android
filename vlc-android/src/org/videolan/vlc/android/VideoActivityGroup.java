@@ -46,6 +46,18 @@ public class VideoActivityGroup extends ActivityGroup {
         startChildAcitvity("VideoListActivity", intent);
     }
 
+    @Override
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService(this);
+        super.onPause();
+    }
+
     public void startChildAcitvity(String id, Intent intent) {
         Window window = getLocalActivityManager().startActivity(
                 id, intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -85,11 +97,5 @@ public class VideoActivityGroup extends ActivityGroup {
             return;
         }
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onPause() {
-        AudioServiceController.getInstance().unbindAudioService();
-        super.onPause();
     }
 }

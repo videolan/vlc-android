@@ -35,7 +35,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class AudioPlayerActivity extends Activity implements AudioPlayer {
-    public final static String TAG = "VLC/AudioPlayerActiviy";
+    public final static String TAG = "VLC/AudioPlayerActivity";
 
     private ImageView mCover;
     private TextView mTitle;
@@ -89,16 +89,18 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     }
 
     @Override
-    protected void onStart() {
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
         mAudioController.addAudioPlayer(this);
         update();
-        super.onStart();
+        super.onResume();
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         mAudioController.removeAudioPlayer(this);
-        super.onStop();
+        AudioServiceController.getInstance().unbindAudioService(this);
+        super.onPause();
     }
 
     @Override
@@ -242,11 +244,5 @@ public class AudioPlayerActivity extends Activity implements AudioPlayer {
     		mAudioController.stop();
     	}
     	return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    protected void onPause() {
-        AudioServiceController.getInstance().unbindAudioService();
-        super.onPause();
     }
 }

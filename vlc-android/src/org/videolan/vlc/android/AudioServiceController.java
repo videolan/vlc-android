@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
-import org.videolan.vlc.android.AudioPlayer;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -42,7 +41,6 @@ public class AudioServiceController implements AudioPlayerControl {
 
     private static AudioServiceController mInstance;
     private static boolean mIsBound = false;
-    private Context mContext;
     private IAudioService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
     private ArrayList<AudioPlayer> mAudioPlayer;
@@ -54,9 +52,6 @@ public class AudioServiceController implements AudioPlayerControl {
     };
 
     private AudioServiceController() {
-
-        // Get context from MainActivity
-        mContext = MainActivity.getInstance();
 
         mAudioPlayer = new ArrayList<AudioPlayer>();
 
@@ -91,9 +86,6 @@ public class AudioServiceController implements AudioPlayerControl {
         if (mInstance == null) {
             mInstance = new AudioServiceController();
         }
-        if (!mIsBound) {
-            mInstance.bindAudioService();
-        }
         return mInstance;
     }
 
@@ -125,15 +117,17 @@ public class AudioServiceController implements AudioPlayerControl {
     /**
      * Bind to audio service if it is running
      */
-    public void bindAudioService() {
-        if (mContext == null) {
+    public void bindAudioService(Context context) {
+        if (context == null) {
             Log.w(TAG, "bindAudioService() with null Context. Ooops" );
             return;
         }
+        context = context.getApplicationContext();
+
         if (mAudioServiceBinder == null) {
-            Intent service = new Intent(mContext, AudioService.class);
-            mContext.startService(service);
-            mIsBound = mContext.bindService(service, mAudioServiceConnection, Context.BIND_AUTO_CREATE);
+            Intent service = new Intent(context, AudioService.class);
+            context.startService(service);
+            mIsBound = context.bindService(service, mAudioServiceConnection, Context.BIND_AUTO_CREATE);
         } else {
             // Register controller to the service
             try {
@@ -144,12 +138,18 @@ public class AudioServiceController implements AudioPlayerControl {
         }
     }
 
-    public void unbindAudioService() {
+    public void unbindAudioService(Context context) {
+        if (context == null) {
+            Log.w(TAG, "unbindAudioService() with null Context. Ooops" );
+            return;
+        }
+        context = context.getApplicationContext();
+
         if (mAudioServiceBinder != null) {
             try {
                 mAudioServiceBinder.removeAudioCallback(mCallback);
                 if (mIsBound) {
-                    mContext.unbindService(mAudioServiceConnection);
+                    context.unbindService(mAudioServiceConnection);
                     mIsBound = false;
                 }
             } catch (RemoteException e) {
@@ -181,8 +181,8 @@ public class AudioServiceController implements AudioPlayerControl {
      * Update all AudioPlayer
      */
     private void updateAudioPlayer() {
-        for (int i = 0; i < mAudioPlayer.size(); i++)
-            mAudioPlayer.get(i).update();
+        for (AudioPlayer player : mAudioPlayer)
+            player.update();
     }
 
     public void stop() {

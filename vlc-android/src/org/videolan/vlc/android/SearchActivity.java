@@ -81,6 +81,18 @@ public class SearchActivity extends ListActivity {
     }
 
     @Override
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService(this);
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         if (mHistoryAdapter != null)
             mHistoryAdapter.clear();
@@ -261,5 +273,4 @@ public class SearchActivity extends ListActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-
 }

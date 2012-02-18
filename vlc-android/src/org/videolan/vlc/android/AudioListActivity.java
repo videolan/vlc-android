@@ -75,6 +75,25 @@ public class AudioListActivity extends ListActivity {
         updateList();
     }
 
+    @Override
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService(this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMediaLibrary.removeUpdateHandler(mHandler);
+        mSongsAdapter.clear();
+        super.onDestroy();
+    }
+
     public static void set(Intent intent, String name, int mode) {
         intent.putExtra(EXTRA_NAME, name);
         intent.putExtra(EXTRA_MODE, mode);
@@ -127,13 +146,6 @@ public class AudioListActivity extends ListActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return super.onContextItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        mMediaLibrary.removeUpdateHandler(mHandler);
-        mSongsAdapter.clear();
-        super.onDestroy();
     }
 
     /**
