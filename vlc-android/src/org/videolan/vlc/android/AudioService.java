@@ -69,8 +69,8 @@ public class AudioService extends Service {
     private boolean mDetectHeadset = true;
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    public void onCreate() {
+        super.onCreate();
 
         // Get libVLC instance
         try {
@@ -83,17 +83,7 @@ public class AudioService extends Service {
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
         mEventManager = EventManager.getIntance();
-        updateWidget(this);
-    }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mInterface;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
         IntentFilter filter = new IntentFilter();
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_PLAY);
@@ -105,9 +95,20 @@ public class AudioService extends Service {
     }
 
     @Override
+    public void onStart(Intent intent, int startId) {
+        super.onStart(intent, startId);
+        updateWidget(this);
+    }
+
+    @Override
     public void onDestroy() {
         unregisterReceiver(serviceReciever);
         super.onDestroy();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mInterface;
     }
 
     private BroadcastReceiver serviceReciever = new BroadcastReceiver() {
