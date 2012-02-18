@@ -72,7 +72,7 @@ public class AudioListActivity extends ListActivity {
         setListAdapter(mSongsAdapter);
         getListView().setOnCreateContextMenuListener(contextMenuListener);
 
-        updateList();
+        mHandler.sendEmptyMessageDelayed(MediaLibrary.MEDIA_ITEMS_UPDATED, 250);
     }
 
     @Override
