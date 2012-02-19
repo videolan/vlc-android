@@ -463,7 +463,7 @@ public class AudioService extends Service {
             DatabaseManager db = DatabaseManager.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
-                Media media = db.getMedia(path);
+                Media media = db.getMedia(AudioService.this, path);
                 mMediaList.add(media);
             }
 
@@ -486,7 +486,7 @@ public class AudioService extends Service {
             DatabaseManager db = DatabaseManager.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
-                Media media = db.getMedia(path);
+                Media media = db.getMedia(AudioService.this, path);
                 mMediaList.add(media);
             }
         }

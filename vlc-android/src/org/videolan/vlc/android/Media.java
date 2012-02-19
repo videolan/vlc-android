@@ -70,15 +70,12 @@ public class Media implements Comparable<Media> {
     private int mHeight = 0;
     private Bitmap mPicture;
 
-    private Context mContext;
-
     /**
      * Create an new Media
      * @param file: path on the local storage
      */
     public Media(Context context, File file) {
         this.mFile = file;
-        mContext = context;
 
         LibVLC mLibVlc = null;
         try {
@@ -97,13 +94,13 @@ public class Media implements Comparable<Media> {
                     mTitle = v;
                     Log.d(TAG, "Title " + mTitle);
                 } else if (s.equals("artist")) {
-                    mArtist = v;
+                    mArtist = v != null ? v : context.getString(R.string.unknown_artist);
                     Log.d(TAG, "Artist " + mArtist);
                 } else if (s.equals("genre")) {
                     mGenre = v;
                     Log.d(TAG, "Genre " + mGenre);
                 } else if (s.equals("album")) {
-                    mAlbum = v;
+                    mAlbum = v != null ? v : context.getString(R.string.unknown_album);
                     Log.d(TAG, "Album " + mAlbum);
                 }
             }
@@ -118,8 +115,6 @@ public class Media implements Comparable<Media> {
 
     public Media(Context context, File file, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album) {
-        mContext = context;
-
         mFile = file;
         mTime = time;
         mLength = length;
@@ -127,9 +122,9 @@ public class Media implements Comparable<Media> {
         mPicture = picture;
 
         mTitle = title;
-        mArtist = artist;
+        mArtist = artist != null ? artist : context.getString(R.string.unknown_artist);
         mGenre = genre;
-        mAlbum = album;
+        mAlbum = album != null ? album : context.getString(R.string.unknown_album);
     }
 
     /**
@@ -201,10 +196,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getArtist() {
-        if (mArtist == null)
-            return mContext.getString(R.string.unknown_artist);
-        else
-            return mArtist;
+        return mArtist;
     }
 
     public String getGenre() {
@@ -216,10 +208,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getAlbum() {
-        if (mAlbum == null)
-            return mContext.getString(R.string.unknown_album);
-        else
-            return mAlbum;
+        return mAlbum;
     }
 
     public String getTrackNumber() {

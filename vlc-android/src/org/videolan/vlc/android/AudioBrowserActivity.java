@@ -88,7 +88,7 @@ public class AudioBrowserActivity extends Activity {
         mHeader = (HorizontalScrollView) findViewById(R.id.header);
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary = MediaLibrary.getInstance();
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
@@ -291,7 +291,7 @@ public class AudioBrowserActivity extends Activity {
     };
 
     private void updateLists() {
-        List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
+        List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();

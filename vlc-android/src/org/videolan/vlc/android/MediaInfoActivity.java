@@ -45,7 +45,7 @@ public class MediaInfoActivity extends Activity {
         String path = getIntent().getExtras().getString("filePath");
         if (path == null)
             return;
-        mItem = MediaLibrary.getInstance(this).getMediaItem(path);
+        mItem = MediaLibrary.getInstance().getMediaItem(path);
 
         // set title
         TextView titleView = (TextView) findViewById(R.id.title);

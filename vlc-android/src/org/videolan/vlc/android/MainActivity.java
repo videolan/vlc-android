@@ -137,7 +137,7 @@ public class MainActivity extends TabActivity {
         }
 
         /* Load media items from database and storage */
-        MediaLibrary.getInstance(this).loadMediaItems();
+        MediaLibrary.getInstance().loadMediaItems();
     }
 
     @Override
@@ -220,7 +220,7 @@ public class MainActivity extends TabActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                MediaLibrary.getInstance(this).loadMediaItems();
+                MediaLibrary.getInstance().loadMediaItems();
                 break;
         }
         return super.onOptionsItemSelected(item);

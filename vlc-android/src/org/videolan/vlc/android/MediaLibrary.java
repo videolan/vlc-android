@@ -30,7 +30,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
@@ -45,12 +44,10 @@ public class MediaLibrary {
     private DatabaseManager mDBManager;
     private ArrayList<Media> mItemList;
     private ArrayList<Handler> mUpdateHandler;
-    protected Context mContext;
     protected Thread mLoadingThread;
 
-    private MediaLibrary(Context context) {
+    private MediaLibrary() {
         mInstance = this;
-        mContext = context;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
         mDBManager = DatabaseManager.getInstance();
@@ -63,9 +60,9 @@ public class MediaLibrary {
         }
     }
 
-    public static MediaLibrary getInstance(Context context) {
+    public static MediaLibrary getInstance() {
         if (mInstance == null)
-            mInstance = new MediaLibrary(context);
+            mInstance = new MediaLibrary();
         return mInstance;
     }
 
@@ -177,7 +174,7 @@ public class MediaLibrary {
                 directorys.add(new File(root));
 
             // get all existing media items
-            HashMap<String, Media> existingMedias = mDBManager.getMedias();
+            HashMap<String, Media> existingMedias = mDBManager.getMedias(mMainActivity);
 
             // list of all added files
             HashSet<File> addedFiles = new HashSet<File>();
@@ -233,7 +230,7 @@ public class MediaLibrary {
                                 }
                             } else {
                                 // create new media item
-                                mItemList.add(new Media(mContext, file));
+                                mItemList.add(new Media(mMainActivity, file));
                             }
                         } else if (file.isDirectory()) {
                             directorys.push(file);

@@ -106,7 +106,7 @@ public class SearchActivity extends ListActivity {
         // set result adapter to the list
         mResultAdapter.clear();
         String[] keys = key.toString().split("\\s+");
-        ArrayList<Media> allItems = MediaLibrary.getInstance(this).getMediaItems();
+        ArrayList<Media> allItems = MediaLibrary.getInstance().getMediaItems();
         int results = 0;
         for (int i = 0; i < allItems.size(); i++) {
             Media item = allItems.get(i);

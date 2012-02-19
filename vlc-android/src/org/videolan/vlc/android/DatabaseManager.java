@@ -73,8 +73,6 @@ public class DatabaseManager {
     private final String SEARCHHISTORY_DATE = "date";
     private final String SEARCHHISTORY_KEY = "key";
 
-    private Context mContext;
-
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
         MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM
@@ -86,7 +84,6 @@ public class DatabaseManager {
      * @param context
      */
     private DatabaseManager(Context context) {
-        mContext = context;
         // create or open database
         DatabaseHelper helper = new DatabaseHelper(context);
         this.mDb = helper.getWritableDatabase();
@@ -223,7 +220,7 @@ public class DatabaseManager {
                 PLAYLIST_MEDIA_PLAYLISTNAME + "=?", new String[] { playlistName },
                 null, null, "ASC");
 
-        MediaLibrary mediaLibrary = MediaLibrary.getInstance(mContext);
+        MediaLibrary mediaLibrary = MediaLibrary.getInstance();
         cursor.moveToFirst();
         if (!cursor.isAfterLast()) {
             do {
@@ -297,7 +294,7 @@ public class DatabaseManager {
         return files;
     }
 
-    public synchronized HashMap<String, Media> getMedias() {
+    public synchronized HashMap<String, Media> getMedias(Context context) {
 
         Cursor cursor;
         HashMap<String, Media> medias = new HashMap<String, Media>();
@@ -329,7 +326,7 @@ public class DatabaseManager {
                         picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                     }
 
-                    Media media = new Media(mContext, new File(cursor.getString(8)), cursor.getLong(0),
+                    Media media = new Media(context, new File(cursor.getString(8)), cursor.getLong(0),
                             cursor.getLong(1), cursor.getInt(2),
                             picture, cursor.getString(4),
                             cursor.getString(5), cursor.getString(6),
@@ -346,7 +343,7 @@ public class DatabaseManager {
         return medias;
     }
 
-    public synchronized Media getMedia(String path) {
+    public synchronized Media getMedia(Context context, String path) {
 
         Cursor cursor;
         Media media = null;
@@ -375,7 +372,7 @@ public class DatabaseManager {
                 picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
             }
 
-            media = new Media(mContext, new File(path), cursor.getLong(0),
+            media = new Media(context, new File(path), cursor.getLong(0),
                     cursor.getLong(1), cursor.getInt(2),
                     picture, cursor.getString(4),
                     cursor.getString(5), cursor.getString(6),

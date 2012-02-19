@@ -23,7 +23,6 @@ import org.videolan.vlc.android.LibVlcException;
 import android.util.Log;
 import android.view.Surface;
 import android.preference.PreferenceManager;
-import android.content.SharedPreferences;
 import android.os.Build;
 
 public class LibVLC {

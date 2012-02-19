@@ -63,7 +63,7 @@ public class AudioListActivity extends ListActivity {
 
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary = MediaLibrary.getInstance();
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mTitle = (TextView) findViewById(R.id.title);
@@ -189,11 +189,11 @@ public class AudioListActivity extends ListActivity {
         if (name == null || mode == 0) {
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
-            audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
+            audioList = MediaLibrary.getInstance().getMediaItems(itemList);
         }
         else {
             mTitle.setText(name);
-            audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
+            audioList = MediaLibrary.getInstance().getAudioItems(name, mode);
         }
 
         mSongsAdapter.clear();

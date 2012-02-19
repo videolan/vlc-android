@@ -127,7 +127,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onStop() {
         // Update the MediaList
-        MediaLibrary.getInstance(this).loadMediaItems();
+        MediaLibrary.getInstance().loadMediaItems();
         super.onStop();
     }
 
