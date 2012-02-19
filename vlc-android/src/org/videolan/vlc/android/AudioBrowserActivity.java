@@ -85,7 +85,7 @@ public class AudioBrowserActivity extends Activity implements Sortable {
         mHeader = (HorizontalScrollView) findViewById(R.id.header);
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary = MediaLibrary.getInstance(this);
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
@@ -284,7 +284,7 @@ public class AudioBrowserActivity extends Activity implements Sortable {
     };
 
     private void updateLists() {
-        List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+        List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();

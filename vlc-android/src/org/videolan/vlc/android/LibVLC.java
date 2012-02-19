@@ -23,12 +23,14 @@ import org.videolan.vlc.android.LibVlcException;
 import android.util.Log;
 import android.view.Surface;
 import android.preference.PreferenceManager;
+import android.content.Context;
 import android.os.Build;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
     private static LibVLC sInstance;
+    private static boolean sUseIomx = false;
 
     /** libVLC instance C pointer */
     private int mLibVlcInstance = 0; // Read-only, reserved for JNI
@@ -120,11 +122,15 @@ public class LibVLC {
      *
      */
     public boolean useIOMX() {
-        MainActivity activity = MainActivity.getInstance();
-        boolean useIomx = false;
-        if (activity != null)
-            useIomx = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("enable_iomx", false);
-        return useIomx;
+        return sUseIomx;
+    }
+
+    public static synchronized void useIOMX(boolean enable) {
+        sUseIomx = enable;
+    }
+
+    public static synchronized void useIOMX(Context context) {
+        sUseIomx = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("enable_iomx", false);
     }
 
     /**

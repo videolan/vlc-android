@@ -74,6 +74,7 @@ public class AudioService extends Service {
 
         // Get libVLC instance
         try {
+            LibVLC.useIOMX(this);
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
@@ -460,7 +461,7 @@ public class AudioService extends Service {
             mEventManager.addHandler(mEventHandler);
             mMediaList.clear();
             mPrevious.clear();
-            DatabaseManager db = DatabaseManager.getInstance();
+            DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
                 Media media = db.getMedia(AudioService.this, path);
@@ -483,7 +484,7 @@ public class AudioService extends Service {
                 return;
             }
 
-            DatabaseManager db = DatabaseManager.getInstance();
+            DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
                 Media media = db.getMedia(AudioService.this, path);

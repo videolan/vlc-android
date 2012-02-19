@@ -130,7 +130,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         } else {
             // set default thumbnail
-            thumbnail = BitmapFactory.decodeResource(MainActivity.getInstance().getResources(), R.drawable.thumbnail);
+            thumbnail = BitmapFactory.decodeResource(v.getResources(), R.drawable.thumbnail);
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 

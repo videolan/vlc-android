@@ -52,34 +52,7 @@ public class AudioServiceController implements AudioPlayerControl {
     };
 
     private AudioServiceController() {
-
         mAudioPlayer = new ArrayList<AudioPlayer>();
-
-        // Setup audio service connection
-        mAudioServiceConnection = new ServiceConnection() {
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Log.d(TAG, "Service Disconnected");
-                mAudioServiceBinder = null;
-            }
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Log.d(TAG, "Service Connected");
-                mAudioServiceBinder = IAudioService.Stub.asInterface(service);
-
-                // Register controller to the service
-                try {
-                    mAudioServiceBinder.addAudioCallback(mCallback);
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.getInstance());
-                    boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
-                    AudioServiceController.getInstance().detectHeadset(enableHS);
-                } catch (RemoteException e) {
-                    Log.e(TAG, "remote procedure call failed: addAudioCallback()");
-                }
-                updateAudioPlayer();
-            }
-        };
     }
 
     public static AudioServiceController getInstance() {
@@ -127,6 +100,34 @@ public class AudioServiceController implements AudioPlayerControl {
         if (!mIsBound) {
             Intent service = new Intent(context, AudioService.class);
             context.startService(service);
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            final boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
+
+            // Setup audio service connection
+            mAudioServiceConnection = new ServiceConnection() {
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    Log.d(TAG, "Service Disconnected");
+                    mAudioServiceBinder = null;
+                }
+
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    Log.d(TAG, "Service Connected");
+                    mAudioServiceBinder = IAudioService.Stub.asInterface(service);
+
+                    // Register controller to the service
+                    try {
+                        mAudioServiceBinder.addAudioCallback(mCallback);
+                        mAudioServiceBinder.detectHeadset(enableHS);
+                    } catch (RemoteException e) {
+                        Log.e(TAG, "remote procedure call failed: addAudioCallback()");
+                    }
+                    updateAudioPlayer();
+                }
+            };
+
             mIsBound = context.bindService(service, mAudioServiceConnection, Context.BIND_AUTO_CREATE);
         } else {
             // Register controller to the service
@@ -154,6 +155,7 @@ public class AudioServiceController implements AudioPlayerControl {
             context.unbindService(mAudioServiceConnection);
             mIsBound = false;
             mAudioServiceBinder = null;
+            mAudioServiceConnection = null;
         }
     }
 

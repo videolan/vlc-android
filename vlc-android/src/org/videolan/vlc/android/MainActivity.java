@@ -81,6 +81,7 @@ public class MainActivity extends TabActivity {
 
         /* Get settings */
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        LibVLC.useIOMX(this);
 
         /* Initialize variables */
         mInstance = this;
@@ -132,7 +133,7 @@ public class MainActivity extends TabActivity {
         }
 
         /* Load media items from database and storage */
-        MediaLibrary.getInstance().loadMediaItems();
+        MediaLibrary.getInstance(this).loadMediaItems();
     }
 
     @Override
@@ -208,7 +209,7 @@ public class MainActivity extends TabActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                MediaLibrary.getInstance().loadMediaItems();
+                MediaLibrary.getInstance(this).loadMediaItems();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -223,8 +224,10 @@ public class MainActivity extends TabActivity {
                 } else {
                     mAudioController.play();
                 }
+                break;
             case R.id.show_player:
-                // TODO: start audio player activity
+                Intent intent = new Intent(this, AudioPlayerActivity.class);
+                startActivity(intent);
                 break;
             case R.id.hide_mini_player:
                 hideAudioPlayer();

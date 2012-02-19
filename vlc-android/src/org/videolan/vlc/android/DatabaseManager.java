@@ -89,10 +89,9 @@ public class DatabaseManager {
         this.mDb = helper.getWritableDatabase();
     }
 
-    public synchronized static DatabaseManager getInstance() {
+    public synchronized static DatabaseManager getInstance(Context context) {
         if (instance == null) {
-            Context context = MainActivity.getInstance();
-            instance = new DatabaseManager(context);
+            instance = new DatabaseManager(context.getApplicationContext());
         }
         return instance;
     }
@@ -210,26 +209,6 @@ public class DatabaseManager {
                 PLAYLIST_MEDIA_PLAYLISTNAME + "=? "
                         + PLAYLIST_MEDIA_MEDIAPATH + "=?",
                 new String[] { playlistName, mediaPath });
-    }
-
-    public Media[] getMediaFromPlaylist(String playlistName) {
-        ArrayList<Media> media = new ArrayList<Media>();
-
-        Cursor cursor = mDb.query(PLAYLIST_MEDIA_PLAYLISTNAME,
-                new String[] { PLAYLIST_MEDIA_MEDIAPATH },
-                PLAYLIST_MEDIA_PLAYLISTNAME + "=?", new String[] { playlistName },
-                null, null, "ASC");
-
-        MediaLibrary mediaLibrary = MediaLibrary.getInstance();
-        cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            do {
-                media.add(mediaLibrary.getMediaItem(cursor.getString(0)));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
-        return (Media[]) media.toArray();
     }
 
     /**

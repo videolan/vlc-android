@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
@@ -46,11 +47,11 @@ public class MediaLibrary {
     private ArrayList<Handler> mUpdateHandler;
     protected Thread mLoadingThread;
 
-    private MediaLibrary() {
+    private MediaLibrary(Context context) {
         mInstance = this;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
-        mDBManager = DatabaseManager.getInstance();
+        mDBManager = DatabaseManager.getInstance(context);
     }
 
     public void loadMediaItems() {
@@ -60,9 +61,9 @@ public class MediaLibrary {
         }
     }
 
-    public static MediaLibrary getInstance() {
+    public static MediaLibrary getInstance(Context context) {
         if (mInstance == null)
-            mInstance = new MediaLibrary();
+            mInstance = new MediaLibrary(context);
         return mInstance;
     }
 

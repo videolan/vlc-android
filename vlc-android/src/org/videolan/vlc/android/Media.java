@@ -109,7 +109,7 @@ public class Media implements Comparable<Media> {
         }
 
         // Add this item to database
-        DatabaseManager db = DatabaseManager.getInstance();
+        DatabaseManager db = DatabaseManager.getInstance(context);
         db.addMedia(this);
     }
 
@@ -179,9 +179,9 @@ public class Media implements Comparable<Media> {
         return mPicture;
     }
 
-    public void setPicture(Bitmap p) {
+    public void setPicture(Context context, Bitmap p) {
         Log.d(TAG, "Set new picture for " + getTitle());
-        DatabaseManager.getInstance().updateMedia(
+        DatabaseManager.getInstance(context).updateMedia(
                 mFile.getPath(),
                 DatabaseManager.mediaColumn.MEDIA_PICTURE,
                 p);

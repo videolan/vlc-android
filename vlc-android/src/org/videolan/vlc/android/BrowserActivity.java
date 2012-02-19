@@ -104,7 +104,7 @@ public class BrowserActivity extends ListActivity {
             mScollStates.push(new ScrollState(index, top));
             openDir(file);
         } else {
-            Util.toaster(R.string.nosubdirectory);
+            Util.toaster(this, R.string.nosubdirectory);
         }
     }
 
@@ -127,7 +127,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onStop() {
         // Update the MediaList
-        MediaLibrary.getInstance().loadMediaItems();
+        MediaLibrary.getInstance(this).loadMediaItems();
         super.onStop();
     }
 

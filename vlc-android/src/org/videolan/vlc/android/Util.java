@@ -30,27 +30,13 @@ import android.widget.Toast;
 public class Util {
     /** A set of utility functions for the VLC application */
 
-    @Deprecated
-    public static void toaster(String message, int duration) {
-        Toast.makeText(MainActivity.getInstance(),
-                       message, duration)
-                .show();
-    }
-
-    @Deprecated
-    public static void toaster(String message) {
-        toaster(message, Toast.LENGTH_SHORT);
-    }
-
     /** Print an on-screen message to alert the user */
-    public static void toaster(int stringId, int duration) {
-        Toast.makeText(MainActivity.getInstance(),
-                       stringId, duration)
-                .show();
+    public static void toaster(Context context, int stringId, int duration) {
+        Toast.makeText(context, stringId, duration).show();
     }
 
-    public static void toaster(int stringId) {
-        toaster(stringId, Toast.LENGTH_SHORT);
+    public static void toaster(Context context, int stringId) {
+        toaster(context, stringId, Toast.LENGTH_SHORT);
     }
 
     /**

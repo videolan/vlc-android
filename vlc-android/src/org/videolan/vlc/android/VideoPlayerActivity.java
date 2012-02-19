@@ -160,6 +160,7 @@ public class VideoPlayerActivity extends Activity {
         registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
         try {
+            LibVLC.useIOMX(this);
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();

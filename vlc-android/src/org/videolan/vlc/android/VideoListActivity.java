@@ -57,7 +57,7 @@ public class VideoListActivity extends ListActivity implements Sortable {
         mNoFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_nofile);
         mLoadFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_loadfile);
 
-        mMediaLibrary = MediaLibrary.getInstance();
+        mMediaLibrary = MediaLibrary.getInstance(this);
         mMediaLibrary.addUpdateHandler(mHandler);
         mThumbnailerManager = new ThumbnailerManager(this);
 
@@ -120,8 +120,6 @@ public class VideoListActivity extends ListActivity implements Sortable {
 
     private void updateList() {
 
-        MainActivity mainActivity = MainActivity.getInstance();
-
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
         mVideoAdapter.clear();
@@ -139,9 +137,6 @@ public class VideoListActivity extends ListActivity implements Sortable {
             mLoadFileLayout.setVisibility(View.INVISIBLE);
             mNoFileLayout.setVisibility(View.VISIBLE);
         }
-
-        mainActivity.mHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
-
     }
 
     public void sortBy(int sortby) {

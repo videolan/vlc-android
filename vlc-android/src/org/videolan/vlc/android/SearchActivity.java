@@ -106,7 +106,7 @@ public class SearchActivity extends ListActivity {
         // set result adapter to the list
         mResultAdapter.clear();
         String[] keys = key.toString().split("\\s+");
-        ArrayList<Media> allItems = MediaLibrary.getInstance().getMediaItems();
+        ArrayList<Media> allItems = MediaLibrary.getInstance(this).getMediaItems();
         int results = 0;
         for (int i = 0; i < allItems.size(); i++) {
             Media item = allItems.get(i);
@@ -157,7 +157,7 @@ public class SearchActivity extends ListActivity {
         String headerText = getString(R.string.search_history);
         showListHeader(headerText);
 
-        DatabaseManager db = DatabaseManager.getInstance();
+        DatabaseManager db = DatabaseManager.getInstance(this);
         mHistory.clear();
         mHistory.addAll(db.getSearchhistory(20));
         if (mHistoryAdapter == null) {
@@ -211,7 +211,7 @@ public class SearchActivity extends ListActivity {
         switch (item.getItemId()) {
             // Sort by name
             case R.id.search_clear_history:
-                DatabaseManager db = DatabaseManager.getInstance();
+                DatabaseManager db = DatabaseManager.getInstance(this);
                 db.clearSearchhistory();
                 if (mHistoryAdapter == getListAdapter())
                     showSearchHistory();
@@ -236,7 +236,7 @@ public class SearchActivity extends ListActivity {
             mSearchText.requestFocus();
         } else if (getListAdapter() == mResultAdapter) {
             // add search text to the database (history)
-            DatabaseManager db = DatabaseManager.getInstance();
+            DatabaseManager db = DatabaseManager.getInstance(this);
             db.addSearchhistoryItem(mSearchText.getText().toString());
 
             // open media in the player

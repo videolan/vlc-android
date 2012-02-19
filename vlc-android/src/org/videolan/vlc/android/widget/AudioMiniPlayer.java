@@ -22,7 +22,6 @@ package org.videolan.vlc.android.widget;
 
 import org.videolan.vlc.android.AudioPlayer;
 import org.videolan.vlc.android.AudioPlayerActivity;
-import org.videolan.vlc.android.MainActivity;
 import org.videolan.vlc.android.R;
 
 import android.content.Context;
@@ -131,7 +130,7 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
 
     @Override
     protected void onCreateContextMenu(ContextMenu menu) {
-        MenuInflater inflater = MainActivity.getInstance().getMenuInflater();
+        MenuInflater inflater = new MenuInflater(getContext());
         inflater.inflate(R.menu.audio_player_mini, menu);
         MenuItem hmi = menu.findItem(R.id.hide_mini_player);
         MenuItem pp = menu.findItem(R.id.play_pause);

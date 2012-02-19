@@ -44,8 +44,7 @@ public class PreferencesActivity extends PreferenceActivity {
                 new OnPreferenceClickListener() {
 
                     public boolean onPreferenceClick(Preference preference) {
-                        Intent intent = new Intent(MainActivity.getInstance(),
-                                BrowserActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), BrowserActivity.class);
                         startActivity(intent);
                         return true;
                     }
@@ -64,12 +63,23 @@ public class PreferencesActivity extends PreferenceActivity {
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                     public void onClick(DialogInterface dialog, int whichButton) {
-                                        DatabaseManager db = DatabaseManager.getInstance();
+                                        DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
                                         db.clearSearchhistory();
                                     }
                                 })
 
                                 .setNegativeButton(android.R.string.cancel, null).show();
+                        return true;
+                    }
+                });
+
+        // HW decoding
+        CheckBoxPreference checkboxHW = (CheckBoxPreference) findPreference("enable_iomx");
+        checkboxHW.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        CheckBoxPreference checkboxHW = (CheckBoxPreference) preference;
+                        LibVLC.useIOMX(checkboxHW.isChecked());
                         return true;
                     }
                 });
@@ -97,4 +107,15 @@ public class PreferencesActivity extends PreferenceActivity {
                 });
     }
 
+    @Override
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AudioServiceController.getInstance().unbindAudioService(this);
+        super.onPause();
+    }
 }

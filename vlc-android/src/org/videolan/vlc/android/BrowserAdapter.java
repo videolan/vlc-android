@@ -67,7 +67,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             holder = (ViewHolder) view.getTag();
 
         final File item = getItem(position);
-        final DatabaseManager dbManager = DatabaseManager.getInstance();
+        final DatabaseManager dbManager = DatabaseManager.getInstance(view.getContext());
 
         if (item != null && item.getName() != null) {
             holder.text.setText(item.getName());
@@ -98,7 +98,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
 
     private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            final DatabaseManager dbManager = DatabaseManager.getInstance();
+            final DatabaseManager dbManager = DatabaseManager.getInstance(buttonView.getContext());
             File item = (File) buttonView.getTag();
             if (item == null)
                 return;
