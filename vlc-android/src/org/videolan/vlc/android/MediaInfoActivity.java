@@ -28,7 +28,6 @@ import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,11 +56,6 @@ public class MediaInfoActivity extends Activity {
 
         new Thread(mLoadImage).start();
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        Log.e(TAG, TAG + " onBackPressed()");
     }
 
     Runnable mLoadImage = new Runnable() {

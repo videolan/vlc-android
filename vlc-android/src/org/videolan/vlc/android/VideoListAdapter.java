@@ -147,8 +147,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             Media item = (Media) v.getTag();
             Intent intent = new Intent(getContext(), MediaInfoActivity.class);
             intent.putExtra("filePath", item.getPath());
-            VideoActivityGroup group = VideoActivityGroup.getInstance();
-            group.startChildAcitvity("MediaInfo", intent);
+            getContext().startActivity(intent);
         }
     };
 

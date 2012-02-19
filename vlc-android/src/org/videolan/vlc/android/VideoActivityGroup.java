@@ -32,14 +32,12 @@ import android.view.Window;
 public class VideoActivityGroup extends ActivityGroup {
     public final static String TAG = "VLC/VideoActivityGroup";
 
-    private static VideoActivityGroup mInstance;
     private ArrayList<String> mHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.mHistory = new ArrayList<String>();
-        mInstance = this;
 
         // Load VideoListActivity by default
         Intent intent = new Intent(this, VideoListActivity.class);
@@ -65,10 +63,6 @@ public class VideoActivityGroup extends ActivityGroup {
             mHistory.add(id);
             setContentView(window.getDecorView());
         }
-    }
-
-    public static VideoActivityGroup getInstance() {
-        return mInstance;
     }
 
     @Override
