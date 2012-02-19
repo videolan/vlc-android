@@ -214,8 +214,7 @@ public class AudioService extends Service {
                     if (mCallback.size() > 0) {
                         removeMessages(SHOW_PROGRESS);
                         executeUpdate(false);
-                        int pos = (int) mLibVLC.getTime();
-                        sendEmptyMessageDelayed(SHOW_PROGRESS, 1000 - (pos % 1000));
+                        sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
                     }
                     break;
             }
