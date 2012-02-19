@@ -26,14 +26,15 @@ import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.Dialog;
 import android.app.TabActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -51,15 +52,15 @@ import android.widget.TextView;
 public class MainActivity extends TabActivity {
     public final static String TAG = "VLC/MainActivity";
 
-    protected static final int HIDE_PROGRESSBAR = 0;
-    protected static final int SHOW_PROGRESSBAR = 1;
-    protected static final int SHOW_TEXTINFO = 2;
+    protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.android.widget.ShowProgressBar";
+    protected static final String ACTION_HIDE_PROGRESSBAR = "org.videolan.vlc.android.widget.HideProgressBar";
+    protected static final String ACTION_SHOW_TEXTINFO = "org.videolan.vlc.android.widget.ShowTextInfo";
+
     private static final int VIDEO_TAB = 0;
     private static final int AUDIO_TAB = 1;
     public static final String START_FROM_NOTIFICATION = "from_notification";
     private static final String PREF_SHOW_INFO = "show_info";
 
-    private static MainActivity mInstance;
     private ProgressBar mProgressBar;
     private TabHost mTabHost;
     private int mCurrentState = 0;
@@ -84,7 +85,6 @@ public class MainActivity extends TabActivity {
         LibVLC.useIOMX(this);
 
         /* Initialize variables */
-        mInstance = this;
         mProgressBar = (ProgressBar) findViewById(R.id.ml_progress_bar);
         mChangeTab = (ImageButton) findViewById(R.id.change_tab);
         mInfoLayout = (View) findViewById(R.id.info_layout);
@@ -132,8 +132,14 @@ public class MainActivity extends TabActivity {
                 showInfoDialog();
         }
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_SHOW_PROGRESSBAR);
+        filter.addAction(ACTION_HIDE_PROGRESSBAR);
+        filter.addAction(ACTION_SHOW_TEXTINFO);
+        registerReceiver(messageReceiver, filter);
+
         /* Load media items from database and storage */
-        MediaLibrary.getInstance(this).loadMediaItems();
+        MediaLibrary.getInstance(this).loadMediaItems(this);
     }
 
     @Override
@@ -146,6 +152,12 @@ public class MainActivity extends TabActivity {
     protected void onPause() {
         mAudioController.removeAudioPlayer(mAudioPlayer);
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(messageReceiver);
+        super.onDestroy();
     }
 
     /** Create menu from XML
@@ -209,7 +221,7 @@ public class MainActivity extends TabActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                MediaLibrary.getInstance(this).loadMediaItems();
+                MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -298,52 +310,52 @@ public class MainActivity extends TabActivity {
         onSearchRequested();
     }
 
-    /**
-     * Get instance e.g. for Context or Handler
-     * @return this ;)
-     */
-    public static MainActivity getInstance() {
-        return mInstance;
-    }
-
-    protected Handler mHandler = new Handler() {
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SHOW_PROGRESSBAR:
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equalsIgnoreCase(ACTION_SHOW_PROGRESSBAR)) {
                 mProgressBar.setVisibility(View.VISIBLE);
-                break;
-            case HIDE_PROGRESSBAR:
+            }
+            else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
                 mProgressBar.setVisibility(View.INVISIBLE);
-                break;
-            case SHOW_TEXTINFO:
-                Bundle b = msg.getData();
-                String info = b.getString("info");
+            }
+            else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
+                String info = intent.getStringExtra("info");
+                int max = intent.getIntExtra("max", 0);
+                int progress = intent.getIntExtra("progress", 100);
                 mInfoText.setText(info);
-                mInfoProgress.setMax(b.getInt("max"));
-                mInfoProgress.setProgress(b.getInt("progress"));
+                mInfoProgress.setMax(max);
+                mInfoProgress.setProgress(progress);
                 mInfoLayout.setVisibility(info != null ? View.VISIBLE : View.GONE);
-                break;
+            }
         }
     };
-    };
 
-    public static void clearTextInfo(Handler handler)
-    {
-        Message m = handler.obtainMessage(MainActivity.SHOW_TEXTINFO);
-        Bundle b = m.getData();
-        b.putString("info", null);
-        b.putInt("progress", 0);
-        b.putInt("max", 100);
-        handler.sendMessage(m);
+    public static void showProgressBar(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SHOW_PROGRESSBAR);
+        context.getApplicationContext().sendBroadcast(intent);
     }
 
-    public static void sendTextInfo(Handler handler, String info, int progress, int max) {
-        Message m = handler.obtainMessage(MainActivity.SHOW_TEXTINFO);
-        Bundle b = m.getData();
-        b.putString("info", info);
-        b.putInt("progress", progress);
-        b.putInt("max", max);
-        handler.sendMessage(m);
+    public static void hideProgressBar(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_HIDE_PROGRESSBAR);
+        context.getApplicationContext().sendBroadcast(intent);
+    }
+
+
+    public static void clearTextInfo(Context context) {
+        sendTextInfo(context, null, 0, 100);
+    }
+
+    public static void sendTextInfo(Context context, String info, int progress, int max) {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SHOW_TEXTINFO);
+        intent.putExtra("info", info);
+        intent.putExtra("progress", progress);
+        intent.putExtra("max", max);
+        context.getApplicationContext().sendBroadcast(intent);
     }
 }

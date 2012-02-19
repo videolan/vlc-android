@@ -41,12 +41,10 @@ public class ThumbnailerManager extends Thread {
     private final Condition notEmpty = lock.newCondition();
 
     private LibVLC mLibVlc;
-    private MainActivity mMediaLibraryActivity;
     private VideoListActivity mVideoListActivity;
     private int totalCount;
 
     public ThumbnailerManager(VideoListActivity videoListActivity) {
-        mMediaLibraryActivity = MainActivity.getInstance();
         mVideoListActivity = videoListActivity;
         try {
             mLibVlc = LibVLC.getInstance();
@@ -94,10 +92,9 @@ public class ThumbnailerManager extends Thread {
             boolean killed = false;
             while (mItems.size() == 0) {
                 try {
-                    mMediaLibraryActivity.mHandler.sendEmptyMessage(
-                            MainActivity.HIDE_PROGRESSBAR);
                     Log.i(TAG, "hide ProgressBar!");
-                    MainActivity.clearTextInfo(mMediaLibraryActivity.mHandler);
+                    MainActivity.hideProgressBar(mVideoListActivity);
+                    MainActivity.clearTextInfo(mVideoListActivity);
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -110,11 +107,10 @@ public class ThumbnailerManager extends Thread {
             lock.unlock();
 
             Media item = mItems.poll();
-            mMediaLibraryActivity.mHandler.sendEmptyMessage(
-                    MainActivity.SHOW_PROGRESSBAR);
+            MainActivity.showProgressBar(mVideoListActivity);
 
             Log.i(TAG, "show ProgressBar!");
-            MainActivity.sendTextInfo(mMediaLibraryActivity.mHandler, String.format("%s %s", prefix, item.getFileName()), count, total);
+            MainActivity.sendTextInfo(mVideoListActivity, String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
             int width = 120;
@@ -135,8 +131,7 @@ public class ThumbnailerManager extends Thread {
             item.setPicture(mVideoListActivity, thumbnail);
             mVideoListActivity.mItemToUpdate = item;
             // Post to the file browser the new item.
-            mVideoListActivity.mHandler.sendEmptyMessage(
-                    VideoListActivity.UPDATE_ITEM);
+            mVideoListActivity.mHandler.sendEmptyMessage(VideoListActivity.UPDATE_ITEM);
 
             // Wait for the file browser to process the change.
             try {

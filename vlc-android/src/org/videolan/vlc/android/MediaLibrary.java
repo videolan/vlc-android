@@ -54,9 +54,9 @@ public class MediaLibrary {
         mDBManager = DatabaseManager.getInstance(context);
     }
 
-    public void loadMediaItems() {
+    public void loadMediaItems(Context context) {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
-            mLoadingThread = new Thread(mGetMediaItems);
+            mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
             mLoadingThread.start();
         }
     }
@@ -148,16 +148,18 @@ public class MediaLibrary {
         return items;
     }
 
-    private final Runnable mGetMediaItems = new Runnable() {
+    private class GetMediaItemsRunnable implements Runnable {
 
         private Stack<File> directorys = new Stack<File>();
-        private MainActivity mMainActivity;
+        private Context mContext;
+
+        public GetMediaItemsRunnable(Context context) {
+            mContext = context;
+        }
 
         public void run() {
             // Initialize variables
-            mMainActivity = MainActivity.getInstance();
-            Handler mainHandler = mMainActivity.mHandler;
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mMainActivity);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             String root = pref.getString("directories_root", null);
 
@@ -167,7 +169,7 @@ public class MediaLibrary {
             }
 
             // show progressbar in header
-            mainHandler.sendEmptyMessage(MainActivity.SHOW_PROGRESSBAR);
+            MainActivity.showProgressBar(mContext);
 
             // get directories from database
             directorys.addAll(mDBManager.getMediaDirs());
@@ -175,7 +177,7 @@ public class MediaLibrary {
                 directorys.add(new File(root));
 
             // get all existing media items
-            HashMap<String, Media> existingMedias = mDBManager.getMedias(mMainActivity);
+            HashMap<String, Media> existingMedias = mDBManager.getMedias(mContext);
 
             // list of all added files
             HashSet<File> addedFiles = new HashSet<File>();
@@ -217,7 +219,7 @@ public class MediaLibrary {
 
                         if (file.isFile()) {
 
-                            MainActivity.sendTextInfo(mainHandler, file.getName(), count, total);
+                            MainActivity.sendTextInfo(mContext, file.getName(), count, total);
                             count++;
 
                             if (existingMedias.containsKey(file.getPath())) {
@@ -231,7 +233,7 @@ public class MediaLibrary {
                                 }
                             } else {
                                 // create new media item
-                                mItemList.add(new Media(mMainActivity, file));
+                                mItemList.add(new Media(mContext, file));
                             }
                         } else if (file.isDirectory()) {
                             directorys.push(file);
@@ -255,8 +257,9 @@ public class MediaLibrary {
             }
 
             // hide progressbar in header
-            MainActivity.clearTextInfo(mainHandler);
-            mainHandler.sendEmptyMessage(MainActivity.HIDE_PROGRESSBAR);
+            MainActivity.clearTextInfo(mContext);
+            MainActivity.hideProgressBar(mContext);
+            mContext = null;
         }
     };
 
