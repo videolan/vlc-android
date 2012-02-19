@@ -45,9 +45,9 @@ public class ThumbnailerManager extends Thread {
     private VideoListActivity mVideoListActivity;
     private int totalCount;
 
-    public ThumbnailerManager() {
+    public ThumbnailerManager(VideoListActivity videoListActivity) {
         mMediaLibraryActivity = MainActivity.getInstance();
-        mVideoListActivity = VideoListActivity.getInstance();
+        mVideoListActivity = videoListActivity;
         try {
             mLibVlc = LibVLC.getInstance();
         } catch (LibVlcException e) {
@@ -85,6 +85,7 @@ public class ThumbnailerManager extends Thread {
     public void run() {
         int count = 0;
         int total = 0;
+
         String prefix = mVideoListActivity.getResources().getString(R.string.thumbnail);
 
         while (!isInterrupted()) {

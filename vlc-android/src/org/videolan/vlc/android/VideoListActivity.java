@@ -43,7 +43,6 @@ public class VideoListActivity extends ListActivity implements Sortable {
 
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     protected ThumbnailerManager mThumbnailerManager;
-    private static VideoListActivity mInstance;
 
     protected static final int UPDATE_ITEM = 0;
 
@@ -51,7 +50,6 @@ public class VideoListActivity extends ListActivity implements Sortable {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_list);
 
@@ -61,7 +59,7 @@ public class VideoListActivity extends ListActivity implements Sortable {
 
         mMediaLibrary = MediaLibrary.getInstance();
         mMediaLibrary.addUpdateHandler(mHandler);
-        mThumbnailerManager = new ThumbnailerManager();
+        mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
     }
@@ -86,10 +84,6 @@ public class VideoListActivity extends ListActivity implements Sortable {
         intent.putExtra("filePath", item.getPath());
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
-    }
-
-    public static VideoListActivity getInstance() {
-        return mInstance;
     }
 
     @Override
