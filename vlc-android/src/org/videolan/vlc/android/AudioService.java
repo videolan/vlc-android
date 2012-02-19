@@ -92,7 +92,7 @@ public class AudioService extends Service {
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        registerReceiver(serviceReciever, filter);
+        registerReceiver(serviceReceiver, filter);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class AudioService extends Service {
 
     @Override
     public void onDestroy() {
-        unregisterReceiver(serviceReciever);
+        unregisterReceiver(serviceReceiver);
         super.onDestroy();
     }
 
@@ -112,7 +112,7 @@ public class AudioService extends Service {
         return mInterface;
     }
 
-    private BroadcastReceiver serviceReciever = new BroadcastReceiver() {
+    private BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
