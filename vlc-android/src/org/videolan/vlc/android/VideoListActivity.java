@@ -33,7 +33,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class VideoListActivity extends ListActivity {
+public class VideoListActivity extends ListActivity implements Sortable {
 
     private LinearLayout mNoFileLayout;
     private LinearLayout mLoadFileLayout;

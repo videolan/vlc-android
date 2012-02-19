@@ -22,6 +22,8 @@ package org.videolan.vlc.android;
 
 import org.videolan.vlc.android.widget.AudioMiniPlayer;
 
+import android.app.Activity;
+import android.app.ActivityGroup;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -56,9 +58,6 @@ public class MainActivity extends TabActivity {
     private static final int AUDIO_TAB = 1;
     public static final String START_FROM_NOTIFICATION = "from_notification";
     private static final String PREF_SHOW_INFO = "show_info";
-
-    private VideoListActivity mVideoListActivity = null;
-    private AudioBrowserActivity mAudioBrowserActivity = null;
 
     private static MainActivity mInstance;
     private ProgressBar mProgressBar;
@@ -98,10 +97,6 @@ public class MainActivity extends TabActivity {
 
         mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
                 .setContent(new Intent(this, AudioActivityGroup.class)));
-
-        // Get video & audio list instances to sort the list.
-        mVideoListActivity = VideoListActivity.getInstance();
-        mAudioBrowserActivity = AudioBrowserActivity.getInstance();
 
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
@@ -186,27 +181,20 @@ public class MainActivity extends TabActivity {
         // Intent to start new Activity
         Intent intent;
 
+        Activity activity;
+
         // Handle item selection
         switch (item.getItemId()) {
-            // Sort by name
             case R.id.ml_menu_sortby_name:
-                if (mCurrentState == VIDEO_TAB) {
-                    mVideoListActivity.sortBy(
-                            VideoListAdapter.SORT_BY_TITLE);
-                } else if(mCurrentState == AUDIO_TAB) {
-                    mAudioBrowserActivity.sortBy(
-                            AudioBrowserActivity.SORT_BY_TITLE);
-                }
-                break;
-            // Sort by length
             case R.id.ml_menu_sortby_length:
-                if (mCurrentState == VIDEO_TAB) {
-                    mVideoListActivity.sortBy(
-                            VideoListAdapter.SORT_BY_LENGTH);
-                } else if(mCurrentState == AUDIO_TAB) {
-                    mAudioBrowserActivity.sortBy(
-                            AudioBrowserActivity.SORT_BY_LENGTH);
-                }
+                activity = getCurrentActivity();
+                if (!(activity instanceof ActivityGroup))
+                    break;
+                activity = ((ActivityGroup) activity).getCurrentActivity();
+                if (activity instanceof Sortable)
+                    ((Sortable) activity).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
+                            ? VideoListAdapter.SORT_BY_TITLE
+                            : VideoListAdapter.SORT_BY_LENGTH);
                 break;
             // About
             case R.id.ml_menu_about:
@@ -297,8 +285,6 @@ public class MainActivity extends TabActivity {
         mChangeTab.setImageResource(R.drawable.header_icon_video);
         mTabHost.setCurrentTab(AUDIO_TAB);
         mCurrentState = AUDIO_TAB;
-        if(mAudioBrowserActivity == null)
-            mAudioBrowserActivity = AudioBrowserActivity.getInstance();
     }
 
     /**

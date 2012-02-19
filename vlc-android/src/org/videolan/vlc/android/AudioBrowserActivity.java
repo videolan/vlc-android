@@ -47,7 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AudioBrowserActivity extends Activity {
+public class AudioBrowserActivity extends Activity implements Sortable {
     public final static String TAG = "VLC/AudioBrowserActivity";
 
     private FlingViewGroup mFlingViewGroup;
@@ -74,11 +74,8 @@ public class AudioBrowserActivity extends Activity {
     public final static int MENU_PLAY_ALL = Menu.FIRST + 2;
     public final static int MENU_APPEND_ALL = Menu.FIRST + 3;
 
-    private static AudioBrowserActivity mInstance;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mInstance = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.audio_browser);
 
@@ -113,10 +110,6 @@ public class AudioBrowserActivity extends Activity {
         genreList.setOnCreateContextMenuListener(contextMenuListener);
 
         updateLists();
-    }
-
-    public static AudioBrowserActivity getInstance() {
-        return mInstance;
     }
 
     OnItemClickListener songListener = new OnItemClickListener() {
