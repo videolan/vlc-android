@@ -30,7 +30,6 @@ public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
 
     private static LibVLC sInstance;
-    private static SharedPreferences.OnSharedPreferenceChangeListener sListener;
 
     /** libVLC instance C pointer */
     private int mLibVlcInstance = 0; // Read-only, reserved for JNI
