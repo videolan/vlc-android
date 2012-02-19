@@ -134,14 +134,12 @@ public class AudioService extends Service {
                 }
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD)) {
                 previous();
-                updateWidget(context);
             }
             else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_STOP)) {
                 stop();
             }
             else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD)) {
                 next();
-                updateWidget(context);
             }
 
             if (mDetectHeadset) {
@@ -213,10 +211,10 @@ public class AudioService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SHOW_PROGRESS:
-                    int pos = (int) mLibVLC.getTime();
                     if (mCallback.size() > 0) {
+                        removeMessages(SHOW_PROGRESS);
                         executeUpdate(false);
-                        mHandler.removeMessages(SHOW_PROGRESS);
+                        int pos = (int) mLibVLC.getTime();
                         sendEmptyMessageDelayed(SHOW_PROGRESS, 1000 - (pos % 1000));
                     }
                     break;
@@ -292,6 +290,7 @@ public class AudioService extends Service {
         mLibVLC.readMedia(mCurrentMedia.getPath());
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
+        updateWidget(this);
     }
 
     private void previous() {
@@ -305,6 +304,7 @@ public class AudioService extends Service {
         mLibVLC.readMedia(mCurrentMedia.getPath());
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
+        updateWidget(this);
     }
 
     private void shuffle() {
@@ -430,7 +430,7 @@ public class AudioService extends Service {
             if (count == null)
                 count = 0;
             mCallback.put(cb, count + 1);
-            executeUpdate();
+            mHandler.sendEmptyMessage(SHOW_PROGRESS);
         }
 
         @Override
@@ -474,7 +474,6 @@ public class AudioService extends Service {
 
             if (mCurrentMedia != null)
                 mLibVLC.readMedia(mCurrentMedia.getPath());
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
         }
 
