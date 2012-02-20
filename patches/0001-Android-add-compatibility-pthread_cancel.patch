@@ -1,7 +1,7 @@
-From 33122d01cb1b321b7058d1bb5dd3e13fc67671fb Mon Sep 17 00:00:00 2001
+From abd4cefb85c74f747b0f6d674d3e39c189bd4b1c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/4] Android: add compatibility pthread_cancel
+Subject: [PATCH 1/3] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -320,10 +320,10 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index 391af84..0b979bc 100644
+index c5de680..5e6f9fe 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -469,6 +469,10 @@ if test "${SYS}" = "mingw32" ; then
+@@ -483,6 +483,10 @@ if test "${SYS}" = "mingw32" ; then
      CFLAGS="${CFLAGS_save}"; CXXFLAGS="${CXXFLAGS_save}"
  fi
  
@@ -335,10 +335,10 @@ index 391af84..0b979bc 100644
  dnl Buggy glibc prevention. Purposedly not cached.
  dnl See sourceware.org bugs 5058 and 5443.
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 15ebb4c..16a460a 100644
+index 16172f5..e13b1ab 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -333,4 +333,29 @@ long nrand48 (unsigned short subi[3]);
+@@ -330,4 +330,29 @@ long nrand48 (unsigned short subi[3]);
  # undef HAVE_FORK   /* Implementation of fork() is imperfect on OS/2 */
  #endif
  
@@ -410,10 +410,10 @@ index ef2ecdc..441953c 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 122e201..b8211e5 100644
+index 1d0d077..6cfe7a0 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
-@@ -153,7 +153,9 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
+@@ -146,7 +146,9 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
  
  static inline unsigned long vlc_threadid (void)
  {
@@ -424,7 +424,7 @@ index 122e201..b8211e5 100644
       /* glibc does not provide a call for this */
       return syscall (SYS_gettid);
  
-@@ -435,7 +437,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -428,7 +430,11 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
   */
  void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
  {
@@ -436,7 +436,7 @@ index 122e201..b8211e5 100644
      VLC_THREAD_ASSERT ("waiting on condition");
  }
  
-@@ -472,7 +478,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+@@ -465,7 +471,12 @@ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
  #endif
  
      struct timespec ts = mtime_to_ts (deadline);
@@ -449,7 +449,7 @@ index 122e201..b8211e5 100644
      if (val != ETIMEDOUT)
          VLC_THREAD_ASSERT ("timed-waiting on condition");
      return val;
-@@ -511,6 +522,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
+@@ -504,6 +515,14 @@ void vlc_sem_destroy (vlc_sem_t *sem)
      val = errno;
  #endif
  
@@ -464,7 +464,7 @@ index 122e201..b8211e5 100644
      VLC_THREAD_ASSERT ("destroying semaphore");
  }
  
-@@ -741,7 +760,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+@@ -734,7 +753,11 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
      assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
  #endif
  
@@ -477,5 +477,5 @@ index 122e201..b8211e5 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.8.3
+1.7.9.1
 

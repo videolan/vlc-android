@@ -1,0 +1,62 @@
+From d74c51c6f7a3fa7a8df5e20bf71aabebd4342f42 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Thu, 9 Feb 2012 00:07:16 +0100
+Subject: [PATCH 3/3] Contribs: add an option to optimize a bit for the size
+
+Notably for libavcodec
+
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
+---
+ contrib/bootstrap            |    5 +++++
+ contrib/src/ffmpeg/rules.mak |    5 ++++-
+ 2 files changed, 9 insertions(+), 1 deletions(-)
+
+diff --git a/contrib/bootstrap b/contrib/bootstrap
+index a4b5410..32db642 100755
+--- a/contrib/bootstrap
++++ b/contrib/bootstrap
+@@ -28,6 +28,7 @@ usage()
+ 	echo "  --enable-FOO     configure to build package FOO"
+ 	echo "  --disable-disc   configure to not build optical discs packages"
+ 	echo "  --disable-sout   configure to not build stream output packages"
++	echo "  --enable-small   optimize libraries for size with slight speed decrease [DANGEROUS]"
+ }
+ 
+ BUILD=
+@@ -66,6 +67,9 @@ do
+ 		--disable-sout)
+ 			BUILD_ENCODERS=
+ 			;;
++		--enable-small)
++			ENABLE_SMALL=1
++			;;
+ 		--disable-*)
+ 			PKGS_DISABLE="${PKGS_DISABLE} ${1#--disable-}"
+ 			;;
+@@ -161,6 +165,7 @@ check_android_sdk()
+ test -z "$PREFIX" || add_make "PREFIX := $PREFIX"
+ test -z "$BUILD_DISCS" || add_make_enabled "BUILD_DISCS"
+ test -z "$BUILD_ENCODERS" || add_make_enabled "BUILD_ENCODERS"
++test -z "$ENABLE_SMALL" || add_make_enabled "ENABLE_SMALL"
+ 
+ #
+ # Checks
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index e92c191..b57989e 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -32,7 +32,10 @@ FFMPEGCONF += --enable-libmp3lame --enable-libvpx
+ DEPS_ffmpeg += lame $(DEPS_lame) vpx $(DEPS_vpx)
+ else
+ FFMPEGCONF += --disable-encoders --disable-muxers
+-# XXX: REVISIT --enable-small ?
++endif
++
++ifdef ENABLE_SMALL
++FFMPEGCONF += --enable-small --optflags=-O2
+ endif
+ 
+ # XXX: REVISIT
+-- 
+1.7.9.1
+
