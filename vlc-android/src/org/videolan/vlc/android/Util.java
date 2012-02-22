@@ -98,4 +98,9 @@ public class Util {
         }
         return bitmap;
     }
+
+    public static String getValue(Context context, String string, int defaultId)
+    {
+        return (string != null && string.length() > 0) ? string : context.getString(defaultId);
+    }
 }

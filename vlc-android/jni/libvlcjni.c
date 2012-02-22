@@ -340,7 +340,7 @@ jobjectArray Java_org_videolan_vlc_android_LibVLC_readMediaMeta(JNIEnv *env,
     for (i=0; i < sizeof(str) / sizeof(*str); i++) {
         char *meta = libvlc_media_get_meta(m, meta_id[i]);
         if (!meta)
-            meta = strdup("unknown");
+            meta = strdup("");
 
         jstring k = (*env)->NewStringUTF(env, str[i]);
         (*env)->SetObjectArrayElement(env, array, 2*i, k);

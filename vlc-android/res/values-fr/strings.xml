@@ -29,6 +29,7 @@
     <string name="info_title">Information</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
+    <string name="unknown_genre">Genre inconnu</string>
     <string name="songs">Chansons</string>
     <plurals name="songs">
         <item quantity="one">1 chanson</item>

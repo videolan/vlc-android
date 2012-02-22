@@ -94,13 +94,13 @@ public class Media implements Comparable<Media> {
                     mTitle = v;
                     Log.d(TAG, "Title " + mTitle);
                 } else if (s.equals("artist")) {
-                    mArtist = v != null ? v : context.getString(R.string.unknown_artist);
+                    mArtist = Util.getValue(context, v, R.string.unknown_artist);
                     Log.d(TAG, "Artist " + mArtist);
                 } else if (s.equals("genre")) {
-                    mGenre = v;
+                    mGenre = Util.getValue(context, v, R.string.unknown_genre);
                     Log.d(TAG, "Genre " + mGenre);
                 } else if (s.equals("album")) {
-                    mAlbum = v != null ? v : context.getString(R.string.unknown_album);
+                    mAlbum = Util.getValue(context, v, R.string.unknown_album);
                     Log.d(TAG, "Album " + mAlbum);
                 }
             }
@@ -122,9 +122,9 @@ public class Media implements Comparable<Media> {
         mPicture = picture;
 
         mTitle = title;
-        mArtist = artist != null ? artist : context.getString(R.string.unknown_artist);
-        mGenre = genre;
-        mAlbum = album != null ? album : context.getString(R.string.unknown_album);
+        mArtist = Util.getValue(context, artist, R.string.unknown_artist);
+        mGenre = Util.getValue(context, genre, R.string.unknown_genre);
+        mAlbum = Util.getValue(context, album, R.string.unknown_album);
     }
 
     /**
