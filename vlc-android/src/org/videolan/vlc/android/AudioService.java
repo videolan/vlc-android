@@ -80,6 +80,8 @@ public class AudioService extends Service {
             e.printStackTrace();
         }
 
+        Thread.setDefaultUncaughtExceptionHandler(new VlcCrashHandler());
+
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
