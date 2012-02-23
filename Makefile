@@ -6,7 +6,7 @@ else
 ARCH = armeabi
 endif
 
-JAVA_SOURCES=vlc-android/src/org/videolan/vlc/android/*.java
+JAVA_SOURCES=vlc-android/src/org/videolan/vlc/*.java
 JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
 VLC_APK=vlc-android/bin/VLC-debug.apk
 LIBVLCJNI=vlc-android/libs/$(ARCH)/libvlcjni.so
@@ -89,7 +89,7 @@ install: $(VLC_APK)
 run:
 	@echo "=== Running VLC on device ==="
 	adb wait-for-device
-	adb shell monkey -p org.videolan.vlc.android -s 0 1
+	adb shell monkey -p org.videolan.vlc -s 0 1
 
 build-and-run: install run
 

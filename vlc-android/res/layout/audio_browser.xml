@@ -54,7 +54,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dip"
         android:background="#f0f0f0" />
-    <org.videolan.vlc.android.widget.FlingViewGroup
+    <org.videolan.vlc.widget.FlingViewGroup
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
@@ -78,5 +78,5 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
-    </org.videolan.vlc.android.widget.FlingViewGroup>
+    </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>

@@ -86,7 +86,7 @@
                 android:layout_height="fill_parent" />
         </LinearLayout>
     </TabHost>
-    <org.videolan.vlc.android.widget.AudioMiniPlayer
+    <org.videolan.vlc.widget.AudioMiniPlayer
         android:id="@+id/audio_mini_player"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
