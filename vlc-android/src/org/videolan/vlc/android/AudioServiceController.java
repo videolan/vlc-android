@@ -23,8 +23,6 @@ package org.videolan.vlc.android;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.videolan.vlc.android.AudioPlayer.AudioPlayerControl;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -36,14 +34,14 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class AudioServiceController implements AudioPlayerControl {
+public class AudioServiceController implements IAudioPlayerControl {
     public static final String TAG = "VLC/AudioServiceContoller";
 
     private static AudioServiceController mInstance;
     private static boolean mIsBound = false;
     private IAudioService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
-    private ArrayList<AudioPlayer> mAudioPlayer;
+    private ArrayList<IAudioPlayer> mAudioPlayer;
     private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
         @Override
         public void update() throws RemoteException {
@@ -52,7 +50,7 @@ public class AudioServiceController implements AudioPlayerControl {
     };
 
     private AudioServiceController() {
-        mAudioPlayer = new ArrayList<AudioPlayer>();
+        mAudioPlayer = new ArrayList<IAudioPlayer>();
     }
 
     public static AudioServiceController getInstance() {
@@ -163,7 +161,7 @@ public class AudioServiceController implements AudioPlayerControl {
      * Add a AudioPlayer
      * @param ap
      */
-    public void addAudioPlayer(AudioPlayer ap) {
+    public void addAudioPlayer(IAudioPlayer ap) {
         mAudioPlayer.add(ap);
     }
 
@@ -171,7 +169,7 @@ public class AudioServiceController implements AudioPlayerControl {
      * Remove AudioPlayer from list
      * @param ap
      */
-    public void removeAudioPlayer(AudioPlayer ap) {
+    public void removeAudioPlayer(IAudioPlayer ap) {
         if (mAudioPlayer.contains(ap)) {
             mAudioPlayer.remove(ap);
         }
@@ -181,7 +179,7 @@ public class AudioServiceController implements AudioPlayerControl {
      * Update all AudioPlayer
      */
     private void updateAudioPlayer() {
-        for (AudioPlayer player : mAudioPlayer)
+        for (IAudioPlayer player : mAudioPlayer)
             player.update();
     }
 

@@ -47,7 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AudioBrowserActivity extends Activity implements Sortable {
+public class AudioBrowserActivity extends Activity implements ISortable {
     public final static String TAG = "VLC/AudioBrowserActivity";
 
     private FlingViewGroup mFlingViewGroup;

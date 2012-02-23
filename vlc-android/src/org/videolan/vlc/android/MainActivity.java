@@ -204,8 +204,8 @@ public class MainActivity extends TabActivity {
                 if (!(activity instanceof ActivityGroup))
                     break;
                 activity = ((ActivityGroup) activity).getCurrentActivity();
-                if (activity instanceof Sortable)
-                    ((Sortable) activity).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
+                if (activity instanceof ISortable)
+                    ((ISortable) activity).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
                             ? VideoListAdapter.SORT_BY_TITLE
                             : VideoListAdapter.SORT_BY_LENGTH);
                 break;

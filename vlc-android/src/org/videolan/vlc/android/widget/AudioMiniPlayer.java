@@ -20,8 +20,9 @@
 
 package org.videolan.vlc.android.widget;
 
-import org.videolan.vlc.android.AudioPlayer;
 import org.videolan.vlc.android.AudioPlayerActivity;
+import org.videolan.vlc.android.IAudioPlayer;
+import org.videolan.vlc.android.IAudioPlayerControl;
 import org.videolan.vlc.android.R;
 
 import android.content.Context;
@@ -39,10 +40,10 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
+public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
-    private AudioPlayerControl mAudioPlayerControl;
+    private IAudioPlayerControl mAudioPlayerControl;
     private String lastTitle;
 
     private TextView mTitle;
@@ -144,7 +145,7 @@ public class AudioMiniPlayer extends LinearLayout implements AudioPlayer {
         super.onCreateContextMenu(menu);
     }
 
-    public void setAudioPlayerControl(AudioPlayerControl control) {
+    public void setAudioPlayerControl(IAudioPlayerControl control) {
         mAudioPlayerControl = control;
     }
 

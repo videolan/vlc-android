@@ -34,7 +34,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements AudioPlayer {
+public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     public final static String TAG = "VLC/AudioPlayerActivity";
 
     private ImageView mCover;
