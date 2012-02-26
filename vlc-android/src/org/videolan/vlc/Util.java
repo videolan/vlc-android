@@ -102,9 +102,11 @@ public class Util {
     public static Bitmap cropBorders(Bitmap bitmap, int width, int height)
     {
         int top = 0;
-        for (int i = 0; i < height; i++) {
-            int pixel = bitmap.getPixel(width / 2, i);
-            if (pixel == 0 || pixel == -16777216) {
+        for (int i = 0; i < height / 2; i++) {
+            int pixel1 = bitmap.getPixel(width / 2, i);
+            int pixel2 = bitmap.getPixel(width / 2, height - i - 1);
+            if ((pixel1 == 0 || pixel1 == -16777216) &&
+                (pixel2 == 0 || pixel2 == -16777216)) {
                 top = i;
             } else {
                 break;
@@ -112,14 +114,19 @@ public class Util {
         }
 
         int left = 0;
-        for (int i = 0; i < width; i++) {
-            int pixel = bitmap.getPixel(i, height / 2);
-            if (pixel == 0 || pixel == -16777216) {
+        for (int i = 0; i < width / 2; i++) {
+            int pixel1 = bitmap.getPixel(i, height / 2);
+            int pixel2 = bitmap.getPixel(width - i - 1, height / 2);
+            if ((pixel1 == 0 || pixel1 == -16777216) &&
+                (pixel2 == 0 || pixel2 == -16777216)) {
                 left = i;
             } else {
                 break;
             }
         }
+
+        if (left >= width / 2 - 10 || top >= height / 2 - 10)
+            return bitmap;
 
         // Cut off the transparency on the borders
         return Bitmap.createBitmap(bitmap, left, top,
