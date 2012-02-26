@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <SurfaceView
         android:id="@+id/player_surface"
@@ -123,4 +125,4 @@
             android:background="@drawable/ic_lock" />
     </RelativeLayout>
 
-</merge>
+</FrameLayout>
