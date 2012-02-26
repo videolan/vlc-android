@@ -311,6 +311,43 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
     eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
 }
 
+void setInt(JNIEnv *env, jobject item, const char* field, int value)
+{
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "I");
+        if (fieldId == NULL)
+    return;
+
+    (*env)->SetIntField(env, item, fieldId, value);
+}
+
+void setString(JNIEnv *env, jobject item, const char* field, const char* text)
+{
+    jclass cls;
+    jfieldID fieldId;
+    jstring jstr;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "Ljava/lang/String;");
+        if (fieldId == NULL)
+    return;
+
+    /* Create a new string and overwrite the instance field */
+    jstr = (*env)->NewStringUTF(env, text);
+    if (jstr == NULL)
+        return;
+    (*env)->SetObjectField(env, item, fieldId, jstr);
+}
+
 jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
                                                         jobject thiz, jint instance, jstring mrl)
 {
@@ -435,6 +472,71 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     libvlc_media_release(p_m);
 
     return hasVideo;
+}
+
+jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject thiz,
+                                                         jint instance, jstring mrl)
+{
+    /* get java class */
+    jclass cls = (*env)->FindClass( env, "org/videolan/vlc/TrackInfo" );
+    if ( !cls )
+    {
+        LOGE( "Failed to load class (org/videolan/vlc/TrackInfo)" );
+        return NULL;
+    }
+
+    /* get java class contructor */
+    jmethodID clsCtor = (*env)->GetMethodID( env, cls, "<init>", "()V" );
+    if ( !clsCtor )
+    {
+        LOGE("Failed to find class constructor (org/videolan/vlc/TrackInfo)" );
+        return NULL;
+    }
+
+    /* Create a new item and assign it to the media player. */
+    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl);
+    if (p_m == NULL)
+    {
+        LOGE("Couldn't create the media!");
+        return NULL;
+    }
+
+    /* Get the tracks information of the media. */
+    libvlc_media_track_info_t *p_tracks;
+    libvlc_media_parse(p_m);
+
+    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
+    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks, cls, NULL);
+
+    unsigned i;
+    if (array != NULL)
+    {
+        for (i = 0; i < i_nbTracks; ++i)
+        {
+            jobject item = (*env)->NewObject(env, cls, clsCtor);
+            if (item == NULL)
+                continue;
+            (*env)->SetObjectArrayElement(env, array, i, item);
+            setInt(env, item, "Id", p_tracks[i].i_id);
+            setInt(env, item, "Type", p_tracks[i].i_type);
+            setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i].i_codec));
+
+            if (p_tracks[i].i_type == libvlc_track_video)
+            {
+                setInt(env, item, "Height", p_tracks[i].u.video.i_height);
+                setInt(env, item, "Width", p_tracks[i].u.video.i_width);
+            }
+            if (p_tracks[i].i_type == libvlc_track_audio)
+            {
+                setInt(env, item, "Channels", p_tracks[i].u.audio.i_channels);
+                setInt(env, item, "Samplerate", p_tracks[i].u.audio.i_rate);
+            }
+        }
+    }
+
+    free(p_tracks);
+    libvlc_media_release(p_m);
+    return array;
 }
 
 struct length_change_monitor {

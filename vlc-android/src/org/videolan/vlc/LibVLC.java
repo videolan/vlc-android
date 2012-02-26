@@ -340,6 +340,8 @@ public class LibVLC {
 
     private native String[] readMediaMeta(int instance, String mrl);
 
+    private native TrackInfo[] readTracksInfo(int instance, String mrl);
+
     /**
      * Return true if there is a video track in the file
      */
