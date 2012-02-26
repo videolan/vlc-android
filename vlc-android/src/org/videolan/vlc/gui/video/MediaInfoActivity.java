@@ -27,9 +27,10 @@ import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.TrackInfo;
 import org.videolan.vlc.Util;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
@@ -38,11 +39,14 @@ import android.os.Message;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MediaInfoActivity extends Activity {
+public class MediaInfoActivity extends ListActivity {
     public final static String TAG = "VLC/MediaInfoActivity";
     private Media mItem;
     private Bitmap mImage;
+    private TrackInfo[] mTracks;
+    private MediaInfoAdapter mAdapter;
     private final static int NEW_IMAGE = 0;
+    private final static int NEW_TEXT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +65,10 @@ public class MediaInfoActivity extends Activity {
         TextView lengthView = (TextView) findViewById(R.id.length);
         lengthView.setText(Util.millisToString(mItem.getLength()));
 
-        new Thread(mLoadImage).start();
+        mAdapter = new MediaInfoAdapter(MediaInfoActivity.this, R.layout.audio_browser_playlist);
+        setListAdapter(mAdapter);
 
+        new Thread(mLoadImage).start();
     }
 
     Runnable mLoadImage = new Runnable() {
@@ -75,9 +81,12 @@ public class MediaInfoActivity extends Activity {
                 return;
             }
 
+            mTracks = mLibVlc.readTracksInfo(mItem.getPath());
+            mHandler.sendEmptyMessage(NEW_TEXT);
+
             int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
-                                 getWindowManager().getDefaultDisplay().getHeight());
-            int height = width;
+                    getWindowManager().getDefaultDisplay().getHeight());
+            int height = width * 9 / 16;
 
             // Get the thumbnail.
             mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
@@ -121,13 +130,16 @@ public class MediaInfoActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case NEW_IMAGE:
-                ImageView imageView =
-                        (ImageView) MediaInfoActivity.this.findViewById(R.id.image);
-                imageView.setImageBitmap(mImage);
-                imageView.setVisibility(ImageView.VISIBLE);
-                break;
-        }
-    };
+                    ImageView imageView = (ImageView) MediaInfoActivity.this.findViewById(R.id.image);
+                    imageView.setImageBitmap(mImage);
+                    break;
+                case NEW_TEXT:
+                    for (TrackInfo track : mTracks) {
+                        mAdapter.add(track);
+                    }
+                    break;
+            }
+        };
 
     };
 

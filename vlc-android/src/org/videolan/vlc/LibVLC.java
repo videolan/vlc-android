@@ -197,6 +197,10 @@ public class LibVLC {
         return readMediaMeta(mLibVlcInstance, mrl);
     }
 
+    public TrackInfo[] readTracksInfo(String mrl) {
+        return readTracksInfo(mLibVlcInstance, mrl);
+    }
+
     /**
      * Get a media thumbnail.
      */

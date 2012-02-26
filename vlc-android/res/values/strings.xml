@@ -46,9 +46,6 @@
     <string name="album">Album</string>
     <string name="directory">Directory</string>
     <string name="directories">Directories</string>
-    <string name="stream_0">Stream 0</string>
-    <string name="stream_1">Stream 1</string>
-    <string name="stream_2">Stream 2</string>
     <string name="loading">Loading…</string>
     <string name="nomedia">No media files</string>
     <string name="mediafiles">Media files</string>
@@ -71,4 +68,13 @@
     <string name="detect_headset">Detect headset</string>
     <string name="detect_headset_detail">Pause on headset removed, Resume on headset inserted</string>
     <string name="refresh">Refresh</string>
+    <string name="track_audio">Audio track</string>
+    <plurals name="track_audio_info">
+        <item quantity="one">Codec: %1$s\n%2$d channel\nSample rate: %3$d Hz</item>
+        <item quantity="other">Codec: %1$s\n%2$d channels\nSample rate: %3$d Hz</item>
+    </plurals>
+    <string name="track_video">Video track</string>
+    <string name="track_video_info">Codec: %1$s\nResolution: %2$dx%3$d</string>
+    <string name="track_text">Subtitles track</string>
+    <string name="track_unknown">Unknown track</string>
 </resources>
