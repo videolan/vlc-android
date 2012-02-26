@@ -59,7 +59,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.video.MediaInfoActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="orientation" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation"
