@@ -89,13 +89,13 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     }
 
     /* Else we have received our first thumbnail and we can exit. */
-    const char *dataSrc = sys->frameData + sys->thumbnailOffset;
-    char *dataDest = sys->thumbnail;
+    const char *dataSrc = sys->frameData;
+    char *dataDest = sys->thumbnail + sys->thumbnailOffset;
     /* Copy the thumbnail. */
     unsigned i;
     for (i = 0; i < sys->nbLines; ++i)
     {
-        memcpy(dataDest, dataSrc, sys->lineSize);
+        memcpy(dataDest, dataSrc, sys->picPitch);
         dataDest += sys->lineSize;
         dataSrc += sys->picPitch;
     }
@@ -174,20 +174,21 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     unsigned picWidth  = width;
     unsigned picHeight = height;
     float videoAR = (float)videoWidth / videoHeight;
-    if (videoAR < ((float)width / height))
+    float screenAR = (float)width / height;
+    if (screenAR < videoAR)
     {
-        picHeight /= videoAR;
-        sys->thumbnailOffset = (picHeight - height) / 2 * sys->picPitch;
+        picHeight = (float)width / videoAR;
+        sys->thumbnailOffset = (height - picHeight) / 2 * width * PIXEL_SIZE;
     }
     else
     {
-        picWidth *= videoAR;
-        sys->thumbnailOffset = (picWidth - width) / 2 * PIXEL_SIZE;
+        picWidth = (float)height * videoAR;
+        sys->thumbnailOffset = (width - picWidth) / 2 * PIXEL_SIZE;
     }
 
     sys->picPitch = picWidth * PIXEL_SIZE;
     sys->lineSize = width * PIXEL_SIZE;
-    sys->nbLines = height;
+    sys->nbLines = picHeight;
 
     /* Allocate the memory to store the frames. */
     unsigned picSize = sys->picPitch * picHeight;
@@ -200,7 +201,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
 
     /* Allocate the memory to store the thumbnail. */
     unsigned thumbnailSize = width * height * PIXEL_SIZE;
-    sys->thumbnail = malloc(thumbnailSize);
+    sys->thumbnail = calloc(thumbnailSize, 1);
     if (sys->thumbnail == NULL)
     {
         LOGE("Couldn't allocate the memory to store the thumbnail!");
