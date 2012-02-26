@@ -99,6 +99,33 @@ public class Util {
         return bitmap;
     }
 
+    public static Bitmap cropBorders(Bitmap bitmap, int width, int height)
+    {
+        int top = 0;
+        for (int i = 0; i < height; i++) {
+            int pixel = bitmap.getPixel(width / 2, i);
+            if (pixel == 0 || pixel == -16777216) {
+                top = i;
+            } else {
+                break;
+            }
+        }
+
+        int left = 0;
+        for (int i = 0; i < width; i++) {
+            int pixel = bitmap.getPixel(i, height / 2);
+            if (pixel == 0 || pixel == -16777216) {
+                left = i;
+            } else {
+                break;
+            }
+        }
+
+        // Cut off the transparency on the borders
+        return Bitmap.createBitmap(bitmap, left, top,
+                (width - (2 * left)), (height - (2 * top)));
+    }
+
     public static String getValue(Context context, String string, int defaultId)
     {
         return (string != null && string.length() > 0) ? string : context.getString(defaultId);

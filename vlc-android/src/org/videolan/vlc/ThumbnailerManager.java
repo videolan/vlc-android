@@ -128,6 +128,7 @@ public class ThumbnailerManager extends Thread {
                 continue;
 
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
+            thumbnail = Util.cropBorders(thumbnail, width, height);
 
             Log.i(TAG, "Thumbnail created!");
 

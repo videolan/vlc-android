@@ -97,29 +97,7 @@ public class MediaInfoActivity extends ListActivity {
                 return;
 
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            int top = 0;
-            for (int i = 0; i < height; i++) {
-                int pixel = mImage.getPixel(width / 2, i);
-                if (pixel == 0 || pixel == -16777216) {
-                    top = i;
-                } else {
-                    break;
-                }
-            }
-
-            int left = 0;
-            for (int i = 0; i < width; i++) {
-                int pixel = mImage.getPixel(i, height / 2);
-                if (pixel == 0 || pixel == -16777216) {
-                    left = i;
-                } else {
-                    break;
-                }
-            }
-
-            // Cut off the transparency on the borders
-            mImage = Bitmap.createBitmap(mImage, left, top,
-                    (width - (2 * left)), (height - (2 * top)));
+            mImage = Util.cropBorders(mImage, width, height);
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }
