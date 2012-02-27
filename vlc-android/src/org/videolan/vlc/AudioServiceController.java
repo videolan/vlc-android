@@ -117,6 +117,8 @@ public class AudioServiceController implements IAudioPlayerControl {
 
                 @Override
                 public void onServiceConnected(ComponentName name, IBinder service) {
+                    if (!mIsBound) // Can happen if unbind is called quickly before this callback
+                        return;
                     Log.d(TAG, "Service Connected");
                     mAudioServiceBinder = IAudioService.Stub.asInterface(service);
 
@@ -135,7 +137,8 @@ public class AudioServiceController implements IAudioPlayerControl {
         } else {
             // Register controller to the service
             try {
-                mAudioServiceBinder.addAudioCallback(mCallback);
+                if (mAudioServiceBinder != null)
+                    mAudioServiceBinder.addAudioCallback(mCallback);
             } catch (RemoteException e) {
                 Log.e(TAG, "remote procedure call failed: addAudioCallback()");
             }
@@ -150,13 +153,14 @@ public class AudioServiceController implements IAudioPlayerControl {
         context = context.getApplicationContext();
 
         if (mIsBound) {
+            mIsBound = false;
             try {
-                mAudioServiceBinder.removeAudioCallback(mCallback);
+                if (mAudioServiceBinder != null)
+                    mAudioServiceBinder.removeAudioCallback(mCallback);
             } catch (RemoteException e) {
                 Log.e(TAG, "remote procedure call failed: removeAudioCallback()");
             }
             context.unbindService(mAudioServiceConnection);
-            mIsBound = false;
             mAudioServiceBinder = null;
             mAudioServiceConnection = null;
         }
