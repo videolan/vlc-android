@@ -320,8 +320,8 @@ void setInt(JNIEnv *env, jobject item, const char* field, int value)
 
     /* Look for the instance field s in cls */
     fieldId = (*env)->GetFieldID(env, cls, field, "I");
-        if (fieldId == NULL)
-    return;
+    if (fieldId == NULL)
+        return;
 
     (*env)->SetIntField(env, item, fieldId, value);
 }
@@ -337,8 +337,8 @@ void setString(JNIEnv *env, jobject item, const char* field, const char* text)
 
     /* Look for the instance field s in cls */
     fieldId = (*env)->GetFieldID(env, cls, field, "Ljava/lang/String;");
-        if (fieldId == NULL)
-    return;
+    if (fieldId == NULL)
+        return;
 
     /* Create a new string and overwrite the instance field */
     jstr = (*env)->NewStringUTF(env, text);
