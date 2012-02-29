@@ -242,7 +242,6 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     }
 
     LOGI("LibVLC initialized: %p", instance);
-    return;
 }
 
 
