@@ -44,9 +44,9 @@ if [ ! -d "vlc" ]; then
     git clone git://git.videolan.org/vlc/vlc-2.0.git vlc
 else
     echo "VLC source found, pulling from remote master"
-    pushd vlc > /dev/null
+    cd vlc
     git pull origin master
-    popd > /dev/null
+    cd -
 fi
 
 echo "Applying the patches"
