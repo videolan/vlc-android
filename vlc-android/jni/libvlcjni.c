@@ -719,6 +719,48 @@ jint Java_org_videolan_vlc_LibVLC_getAudioTracksCount(JNIEnv *env, jobject thiz)
     return -1;
 }
 
+jobjectArray Java_org_videolan_vlc_LibVLC_getAudioTrackDescription(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (!mp)
+        return NULL;
+
+    int i_nbTracks = libvlc_audio_get_track_count(mp) - 1;
+    if (i_nbTracks < 0)
+        i_nbTracks = 0;
+    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks,
+            (*env)->FindClass(env, "java/lang/String"),
+            NULL);
+
+    libvlc_track_description_t *first = libvlc_audio_get_track_description(mp);
+    libvlc_track_description_t *desc = first != NULL ? first->p_next : NULL;
+    unsigned i;
+    for (i = 0; i < i_nbTracks; ++i)
+    {
+        jstring name = (*env)->NewStringUTF(env, desc->psz_name);
+        (*env)->SetObjectArrayElement(env, array, i, name);
+        desc = desc->p_next;
+    }
+    libvlc_track_description_list_release(first);
+    return array;
+}
+
+jint Java_org_videolan_vlc_LibVLC_getAudioTrack(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_audio_get_track(mp);
+    return -1;
+}
+
+jint Java_org_videolan_vlc_LibVLC_setAudioTrack(JNIEnv *env, jobject thiz, jint index)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_audio_set_track(mp, index);
+    return -1;
+}
+
 jint Java_org_videolan_vlc_LibVLC_getVideoTracksCount(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);

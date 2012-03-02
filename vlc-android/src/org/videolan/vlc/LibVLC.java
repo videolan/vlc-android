@@ -346,6 +346,18 @@ public class LibVLC {
 
     private native TrackInfo[] readTracksInfo(int instance, String mrl);
 
+    public native int getAudioTracksCount();
+
+    public native String[] getAudioTrackDescription();
+
+    public native int getAudioTrack();
+
+    public native int setAudioTrack(int index);
+
+    public native int getVideoTracksCount();
+
+    public native int getSpuTracksCount();
+
     /**
      * Return true if there is a video track in the file
      */

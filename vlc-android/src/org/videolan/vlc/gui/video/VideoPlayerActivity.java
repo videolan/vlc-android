@@ -30,8 +30,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -44,6 +47,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -89,11 +93,13 @@ public class VideoPlayerActivity extends Activity {
     private boolean mShowing;
     private SeekBar mSeekbar;
     private TextView mTitle;
+    private TextView mSysTime;
     private TextView mBattery;
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
     private SeekBar mWheel;
+    private ImageButton mAudio;
     private ImageButton mLock;
     private ImageButton mSize;
 
@@ -110,6 +116,7 @@ public class VideoPlayerActivity extends Activity {
     private int mAudioDisplayRange;
     private float mTouchY, mVol;
     private boolean mIsAudioChanged;
+    private String[] mAudioTracks;
 
     //Wheel
     private static final int WHEEL_DEAD_ZONE = 7;
@@ -133,6 +140,7 @@ public class VideoPlayerActivity extends Activity {
 
         /* header */
         mTitle = (TextView) findViewById(R.id.player_overlay_title);
+        mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
 
         mTime = (TextView) findViewById(R.id.player_overlay_time);
@@ -145,6 +153,9 @@ public class VideoPlayerActivity extends Activity {
         mMiddle = WHEEL_DEAD_ZONE + WHEEL_RANGE;
         mWheel.setProgress(mMiddle);
         mWheel.setOnSeekBarChangeListener(mWheelListener);
+
+        mAudio = (ImageButton) findViewById(R.id.player_overlay_audio);
+        mAudio.setOnClickListener(mAudioListener);
 
         mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
         mLock.setOnClickListener(mLockListener);
@@ -545,6 +556,26 @@ public class VideoPlayerActivity extends Activity {
 
     };
 
+    private OnClickListener mAudioListener = new OnClickListener() {
+        public void onClick(View v) {
+            if (mAudioTracks == null || mAudioTracks.length <= 1)
+                return;
+
+            int current = mLibVLC.getAudioTrack() - 1;
+
+            Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
+            builder.setSingleChoiceItems(mAudioTracks, current, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    mLibVLC.setAudioTrack(which + 1);
+                }
+            });
+
+            builder.show();
+        }
+    };
+
     /**
      *
      */
@@ -638,6 +669,13 @@ public class VideoPlayerActivity extends Activity {
             mHandler.removeMessages(FADE_OUT);
             mHandler.sendMessageDelayed(msg, timeout);
         }
+        if (mAudioTracks == null) {
+            mAudioTracks = mLibVLC.getAudioTrackDescription();
+            if (mAudioTracks != null && mAudioTracks.length > 1)
+                mAudio.setVisibility(View.VISIBLE);
+            else
+                mAudio.setVisibility(View.GONE);
+        }
         updateOverlayPausePlay();
     }
 
@@ -699,6 +737,7 @@ public class VideoPlayerActivity extends Activity {
 
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
+        mSysTime.setText(DateFormat.format("kk:mm", System.currentTimeMillis()));
         mTime.setText(Util.millisToString(time));
         mLength.setText(Util.millisToString(length));
         return time;
