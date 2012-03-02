@@ -27,6 +27,7 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +37,12 @@ import android.widget.TextView;
 public class AudioSongsListAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
+    private int mCurrentIndex;
 
     public AudioSongsListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         mMediaList = new ArrayList<Media>();
+        mCurrentIndex = -1;
     }
 
     @Override
@@ -52,6 +55,10 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
     public void clear() {
         mMediaList.clear();
         super.clear();
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        mCurrentIndex = currentIndex;
     }
 
     @Override
@@ -70,6 +77,7 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
 
         Media media = getItem(position);
         holder.title.setText(media.getTitle());
+        holder.title.setTextColor(mCurrentIndex == position ? Color.RED : Color.WHITE);
         holder.artist.setText(media.getArtist() + " - " + media.getAlbum());
         return v;
     }

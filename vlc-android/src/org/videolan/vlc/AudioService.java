@@ -506,6 +506,12 @@ public class AudioService extends Service {
             return medias;
         }
 
+        public String getItem() {
+            return mCurrentMedia != null
+                    ? mCurrentMedia.getPath()
+                    : null;
+        }
+
         @Override
         public void next() throws RemoteException {
             AudioService.this.next();

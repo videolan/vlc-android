@@ -190,10 +190,13 @@ public class AudioListActivity extends ListActivity {
         int mode = getIntent().getIntExtra(EXTRA_MODE, 0);
         List<Media> audioList;
         List<String> itemList;
+        String currentItem = null;
+        int currentIndex = -1;
 
         if (name == null || mode == 0) {
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
+            currentItem = AudioServiceController.getInstance().getItem();
             audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
         }
         else {
@@ -214,9 +217,15 @@ public class AudioListActivity extends ListActivity {
         if (mSortReverse) {
             Collections.reverse(audioList);
         }
+
         for (int i = 0; i < audioList.size(); i++) {
-            mSongsAdapter.add(audioList.get(i));
+            Media media = audioList.get(i);
+            if (currentItem != null && currentItem.equals(media.getPath()))
+                currentIndex = i;
+            mSongsAdapter.add(media);
         }
+        mSongsAdapter.setCurrentIndex(currentIndex);
+        getListView().setSelection(currentIndex);
 
         mSongsAdapter.notifyDataSetChanged();
     }
