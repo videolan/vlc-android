@@ -9,7 +9,11 @@ endif
 JAVA_SOURCES=vlc-android/src/org/videolan/vlc/*.java
 JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
 VLC_APK=vlc-android/bin/VLC-debug.apk
-LIBVLCJNI=vlc-android/libs/$(ARCH)/libvlcjni.so
+LIBVLCJNI=	\
+	vlc-android/libs/$(ARCH)/libvlcjni.so \
+	vlc-android/libs/$(ARCH)/libiomx-ics.so \
+	vlc-android/libs/$(ARCH)/libiomx-gingerbread.so \
+
 LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
 
 PRIVATE_LIBDIR=android-libs
