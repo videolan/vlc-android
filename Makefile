@@ -11,9 +11,9 @@ JAVA_SOURCES=$(SRC)/src/org/videolan/vlc/*.java
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 VLC_APK=$(SRC)/bin/VLC-debug.apk
 LIBVLCJNI=	\
-	$(SRC)/libs/$(ARCH)/libvlcjni.so \
-	$(SRC)/libs/$(ARCH)/libiomx-ics.so \
-	$(SRC)/libs/$(ARCH)/libiomx-gingerbread.so \
+	$(SRC)/obj/local/$(ARCH)/libvlcjni.so \
+	$(SRC)/obj/local/$(ARCH)/libiomx-ics.so \
+	$(SRC)/obj/local/$(ARCH)/libiomx-gingerbread.so \
 
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h
 
