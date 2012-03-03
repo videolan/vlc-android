@@ -6,15 +6,16 @@ else
 ARCH = armeabi
 endif
 
-JAVA_SOURCES=vlc-android/src/org/videolan/vlc/*.java
-JNI_SOURCES=vlc-android/jni/*.c vlc-android/jni/*.h
-VLC_APK=vlc-android/bin/VLC-debug.apk
+SRC=vlc-android
+JAVA_SOURCES=$(SRC)/src/org/videolan/vlc/*.java
+JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
+VLC_APK=$(SRC)/bin/VLC-debug.apk
 LIBVLCJNI=	\
-	vlc-android/libs/$(ARCH)/libvlcjni.so \
-	vlc-android/libs/$(ARCH)/libiomx-ics.so \
-	vlc-android/libs/$(ARCH)/libiomx-gingerbread.so \
+	$(SRC)/libs/$(ARCH)/libvlcjni.so \
+	$(SRC)/libs/$(ARCH)/libiomx-ics.so \
+	$(SRC)/libs/$(ARCH)/libiomx-gingerbread.so \
 
-LIBVLCJNI_H=vlc-android/jni/libvlcjni.h
+LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h
 
 PRIVATE_LIBDIR=android-libs
 PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $(PRIVATE_LIBDIR)/libutils.so $(PRIVATE_LIBDIR)/libbinder.so
@@ -32,7 +33,7 @@ $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	@echo
 	@echo "=== Building $@ for $(ARCH) ==="
 	@echo
-	$(VERBOSE)cd vlc-android && ant $(ANT_OPTS) debug
+	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) debug
 
 VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v -E "stats|access_bd|oldrc|real|hotkeys|gestures|sap|dynamicoverlay|rss|logo|libball|bargraph|clone|access_shm|mosaic|logo|imem|osdmenu|puzzle|mediadirs|t140|ripple|motion|sharpen|grain|posterize|mirror|wall|scene|blendbench|psychedelic|alphamask|netsync|audioscrobbler|imem|motiondetect|export|smf|podcast|bluescreen|erase|record|speex_resampler" | tr \\\\n \ `
 
@@ -72,14 +73,14 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 	fi ; \
 	[ `echo "$$VLC_CONTRIB" | head -c 1` != "/" ] && VLC_CONTRIB="../$$VLC_CONTRIB"; \
 	[ `echo "$$VLC_SRC_DIR" | head -c 1` != "/" ] && VLC_SRC_DIR="../$$VLC_SRC_DIR"; \
-	$(ANDROID_NDK)/ndk-build -C vlc-android \
+	$(ANDROID_NDK)/ndk-build -C $(SRC) \
 		VLC_SRC_DIR="$$VLC_SRC_DIR" \
 		VLC_CONTRIB="$$VLC_CONTRIB" \
 		VLC_BUILD_DIR="$$VLC_BUILD_DIR" \
 		VLC_MODULES="$$vlc_modules"
 
 clean:
-	cd vlc-android && rm -rf gen libs obj bin $(VLC_APK)
+	cd $(SRC) && rm -rf gen libs obj bin $(VLC_APK)
 	rm -f $(PRIVATE_LIBDIR)/*.so $(PRIVATE_LIBDIR)/*.c
 
 distclean: clean
