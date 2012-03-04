@@ -277,7 +277,7 @@ public class VideoPlayerActivity extends Activity {
                 break;
         }
 
-        showInfo(R.string.locked, 500);
+        showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
     }
 
@@ -286,7 +286,7 @@ public class VideoPlayerActivity extends Activity {
      */
     private void unlockScreen() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        showInfo(R.string.unlocked, 500);
+        showInfo(R.string.unlocked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock);
     }
 
@@ -616,25 +616,25 @@ public class VideoPlayerActivity extends Activity {
             changeSurfaceSize();
             switch (mCurrentSize) {
                 case SURFACE_BEST_FIT:
-                    showInfo(R.string.surface_best_fit, 500);
+                    showInfo(R.string.surface_best_fit, 1000);
                     break;
                 case SURFACE_FIT_HORIZONTAL:
-                    showInfo(R.string.surface_fit_horizontal, 500);
+                    showInfo(R.string.surface_fit_horizontal, 1000);
                     break;
                 case SURFACE_FIT_VERTICAL:
-                    showInfo(R.string.surface_fit_vertical, 500);
+                    showInfo(R.string.surface_fit_vertical, 1000);
                     break;
                 case SURFACE_FILL:
-                    showInfo(R.string.surface_fill, 500);
+                    showInfo(R.string.surface_fill, 1000);
                     break;
                 case SURFACE_16_9:
-                    showInfo("16:9", 500);
+                    showInfo("16:9", 1000);
                     break;
                 case SURFACE_4_3:
-                    showInfo("4:3", 500);
+                    showInfo("4:3", 1000);
                     break;
                 case SURFACE_ORIGINAL:
-                    showInfo(R.string.surface_original, 500);
+                    showInfo(R.string.surface_original, 1000);
                     break;
             }
             showOverlay();
