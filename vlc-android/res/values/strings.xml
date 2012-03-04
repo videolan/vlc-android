@@ -54,6 +54,7 @@
     <string name="validation">Are you sure?</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
+    <string name="surface_best_fit">Best fit</string>
     <string name="surface_fit_horizontal">Fit horizontal</string>
     <string name="surface_fit_vertical">Fit vertical</string>
     <string name="surface_fill">Fill</string>

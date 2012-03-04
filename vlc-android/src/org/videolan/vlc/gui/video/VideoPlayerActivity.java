@@ -73,13 +73,14 @@ public class VideoPlayerActivity extends Activity {
     private SurfaceHolder mSurfaceHolder;
     private LibVLC mLibVLC;
 
-    private static final int SURFACE_FIT_HORIZONTAL = 0;
-    private static final int SURFACE_FIT_VERTICAL = 1;
-    private static final int SURFACE_FILL = 2;
-    private static final int SURFACE_16_9 = 3;
-    private static final int SURFACE_4_3 = 4;
-    private static final int SURFACE_ORIGINAL = 5;
-    private int mCurrentSize = SURFACE_FIT_HORIZONTAL;
+    private static final int SURFACE_BEST_FIT = 0;
+    private static final int SURFACE_FIT_HORIZONTAL = 1;
+    private static final int SURFACE_FIT_VERTICAL = 2;
+    private static final int SURFACE_FILL = 3;
+    private static final int SURFACE_16_9 = 4;
+    private static final int SURFACE_4_3 = 5;
+    private static final int SURFACE_ORIGINAL = 6;
+    private int mCurrentSize = SURFACE_BEST_FIT;
 
     /** Overlay */
     private View mOverlayHeader;
@@ -403,6 +404,12 @@ public class VideoPlayerActivity extends Activity {
         double dar = (double) dw / (double) dh;
 
         switch (mCurrentSize) {
+            case SURFACE_BEST_FIT:
+                if (dar < ar)
+                    dh = (int) (dw / ar);
+                else
+                    dw = (int) (dh * ar);
+                break;
             case SURFACE_FIT_HORIZONTAL:
                 dh = (int) (dw / ar);
                 break;
@@ -608,6 +615,9 @@ public class VideoPlayerActivity extends Activity {
             }
             changeSurfaceSize();
             switch (mCurrentSize) {
+                case SURFACE_BEST_FIT:
+                    showInfo(R.string.surface_best_fit, 500);
+                    break;
                 case SURFACE_FIT_HORIZONTAL:
                     showInfo(R.string.surface_fit_horizontal, 500);
                     break;

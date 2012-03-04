@@ -53,6 +53,7 @@
     <string name="validation">Etes-vous sûr ?</string>
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
+    <string name="surface_best_fit">Ajuster au mieux</string>
     <string name="surface_fit_horizontal">Ajuster horizontalement</string>
     <string name="surface_fit_vertical">Ajuster verticalement</string>
     <string name="surface_fill">Etirer</string>
