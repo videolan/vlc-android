@@ -28,6 +28,7 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.gui.PreferencesActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,6 +38,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -195,10 +197,19 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     protected void onPause() {
-        if (mLibVLC.isPlaying())
+        long time = 0;
+        if (mLibVLC.isPlaying()) {
+            time = mLibVLC.getTime() - 5000;
             mLibVLC.pause();
+        }
         if (mWakeLock.isHeld())
             mWakeLock.release();
+
+        // Save position
+        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(PreferencesActivity.LAST_TIME, time);
+        editor.commit();
         super.onPause();
     }
 
@@ -777,6 +788,9 @@ public class VideoPlayerActivity extends Activity {
     private void load() {
         String path = null;
         String title = null;
+        String lastPath = null;
+        long lastTime = 0;
+        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -786,10 +800,20 @@ public class VideoPlayerActivity extends Activity {
             /* Started from VideoListActivity */
             path = getIntent().getExtras().getString("filePath");
         }
+
         if (path != null && path.length() > 0) {
             mLibVLC.readMedia(path);
             if (!mWakeLock.isHeld())
                 mWakeLock.acquire();
+
+            // Save media for next time, and restore position if it's the same one as before
+            lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
+            lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PreferencesActivity.LAST_MEDIA, path);
+            editor.commit();
+            if (lastTime > 0 && path.equals(lastPath))
+                mLibVLC.setTime(lastTime);
 
             title = new File(path).getName();
             int dotIndex = title.lastIndexOf('.');

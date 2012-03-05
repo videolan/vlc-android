@@ -29,11 +29,14 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
+import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -70,6 +73,17 @@ public class VideoListActivity extends ListActivity implements ISortable {
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        //Get & highlight the last media
+        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
+        String lastPath = preferences.getString("LastMedia", null);
+        long lastTime = preferences.getLong("LastTime", 0);
+        mVideoAdapter.setLastMedia(lastTime > 0 ? lastPath : null);
+        mVideoAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,6 +46,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public final static int SORT_BY_LENGTH = 1;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
+    private String mLastPath;
 
     public VideoListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -58,6 +60,10 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             remove(item);
             insert(item, position);
         }
+    }
+
+    public void setLastMedia(String lastPath) {
+        mLastPath = lastPath;
     }
 
     public void sortBy(int sortby) {
@@ -138,6 +144,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
+        holder.title.setTextColor(media.getPath().equals(mLastPath) ? Color.RED : Color.WHITE);
         holder.more.setTag(media);
         holder.more.setOnClickListener(moreClickListener);
 
