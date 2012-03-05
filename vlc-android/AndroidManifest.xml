@@ -71,10 +71,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="video/*" />
-                <data android:mimeType="video/*" android:scheme="http" />
-                <data android:mimeType="video/*" android:scheme="rtsp" />
-                <data android:mimeType="video/*" android:scheme="file" />
-                <data android:mimeType="video/*" android:scheme="mms" />
+                <data android:scheme="http" />
+                <data android:scheme="rtsp" />
+                <data android:scheme="file" />
+                <data android:scheme="mms" />
             </intent-filter>
         </activity>
         <activity
