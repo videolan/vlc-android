@@ -47,3 +47,24 @@ int pthread_condattr_destroy(pthread_condattr_t *attr)
     return 0;
 }
 
+int pthread_condattr_getpshared(pthread_condattr_t *attr, int *pshared)
+{
+    if (attr == NULL || pshared == NULL)
+        return EINVAL;
+
+    *pshared = *attr;
+    return 0;
+}
+
+int pthread_condattr_setpshared(pthread_condattr_t *attr, int pshared)
+{
+    if (attr == NULL)
+        return EINVAL;
+
+    if (pshared != PTHREAD_PROCESS_SHARED &&
+        pshared != PTHREAD_PROCESS_PRIVATE)
+        return EINVAL;
+
+    *attr = pshared;
+    return 0;
+}
