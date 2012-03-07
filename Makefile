@@ -35,7 +35,7 @@ $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	@echo
 	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) debug
 
-VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v -E "stats|access_bd|oldrc|real|hotkeys|gestures|sap|dynamicoverlay|rss|logo|libball|bargraph|clone|access_shm|mosaic|logo|imem|osdmenu|puzzle|mediadirs|t140|ripple|motion|sharpen|grain|posterize|mirror|wall|scene|blendbench|psychedelic|alphamask|netsync|audioscrobbler|imem|motiondetect|export|smf|podcast|bluescreen|erase|record|speex_resampler" | tr \\\\n \ `
+VLC_MODULES=`find $(VLC_BUILD_DIR)/modules -name 'lib*_plugin.a'|grep -v -E "stats|access_bd|oldrc|real|hotkeys|gestures|sap|dynamicoverlay|rss|logo|libball|bargraph|clone|access_shm|mosaic|logo|imem|osdmenu|puzzle|mediadirs|t140|ripple|motion|sharpen|grain|posterize|mirror|wall|scene|blendbench|psychedelic|alphamask|netsync|audioscrobbler|imem|motiondetect|export|smf|podcast|bluescreen|erase|record|speex_resampler|remoteosd|magnify|gradient|spdif" | tr \\\\n \ `
 
 $(LIBVLCJNI_H):
 	$(VERBOSE)if [ -z "$(VLC_BUILD_DIR)" ]; then echo "VLC_BUILD_DIR not defined" ; exit 1; fi
