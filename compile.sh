@@ -38,14 +38,16 @@ fi
 export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-
+TESTED_HASH=797ca65c8f
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
-    git clone git://git.videolan.org/vlc/vlc-2.0.git vlc
+    git clone git://git.videolan.org/vlc.git vlc
+    git checkout -B android ${TESTED_HASH}
 else
-    echo "VLC source found, pulling from remote master"
+    echo "VLC source found, updating"
     cd vlc
-    git pull origin master
+    git fetch origin
+    git checkout -B android ${TESTED_HASH}
     cd -
 fi
 
