@@ -1,0 +1,487 @@
+From 1efcbc25a531c7166939fc7ddd6fc1e9575b1c2e Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
+Date: Sat, 10 Mar 2012 04:54:23 -0500
+Subject: [PATCH] android: threads support
+
+emulate pthread_cancel (based on win32 code)
+TODO:
+    - move initialization somewhere else
+
+    - use lock for cond/killed/killable?
+      -> ndk gcc doesn't support atomic ops nor __thread
+      -> read/writes should be atomic on arm (ldr/str)
+      -> cond atomic access should be guaranteed by using the cond's
+      mutex when signaling
+
+    - split thread.c to move specific code to own file:
+    affected functions are:
+     * vlc_cond_wait()
+     * vlc_cond_timedwait()
+     * vlc_clone_attr()
+     * vlc_join()
+     * vlc_cancel()
+     * vlc_savecancel()
+     * vlc_testcancel()
+     * vlc_restorecancel()
+     * vlc_control_cancel()
+
+timer, semaphores, rwlocks, mutexes, clock, mwait/msleep/mdate, threadvar
+are 100% shared with linux so it'd be useless to have 2 copies.
+---
+ include/vlc_threads.h |   13 +++
+ lib/error.c           |   16 ++++-
+ src/Makefile.am       |   17 ++++
+ src/posix/thread.c    |  205 +++++++++++++++++++++++++++++++++++++++++++------
+ 4 files changed, 226 insertions(+), 25 deletions(-)
+
+diff --git a/include/vlc_threads.h b/include/vlc_threads.h
+index ebf94e2..dad50b1 100644
+--- a/include/vlc_threads.h
++++ b/include/vlc_threads.h
+@@ -43,6 +43,15 @@
+ 
+ #   define pthread_sigmask  sigprocmask
+ 
++#elif defined( __ANDROID__ )      /* pthreads without pthread_cancel() */
++
++#   define LIBVLC_USE_PTHREAD 1
++
++#   include <unistd.h> /* _POSIX_SPIN_LOCKS */
++#   include <pthread.h>
++#   include <poll.h>
++#   include <semaphore.h>
++
+ #else                                         /* pthreads (like Linux & BSD) */
+ #   define LIBVLC_USE_PTHREAD 1
+ #   define LIBVLC_USE_PTHREAD_CANCEL 1
+@@ -118,7 +127,11 @@
+  *****************************************************************************/
+ 
+ #if defined (LIBVLC_USE_PTHREAD)
++# ifdef LIBVLC_USE_PTHREAD_CANCEL
+ typedef pthread_t       vlc_thread_t;
++# else
++typedef struct vlc_thread *vlc_thread_t;
++# endif
+ typedef pthread_mutex_t vlc_mutex_t;
+ #define VLC_STATIC_MUTEX PTHREAD_MUTEX_INITIALIZER
+ typedef pthread_cond_t  vlc_cond_t;
+diff --git a/lib/error.c b/lib/error.c
+index ef2ecdc..42f6b4e 100644
+--- a/lib/error.c
++++ b/lib/error.c
+@@ -35,17 +35,29 @@ static void libvlc_setup_threads (bool init)
+     static vlc_mutex_t lock = VLC_STATIC_MUTEX;
+     static uintptr_t refs = 0;
+ 
++    void andro_init_threads(bool);
++
+     vlc_mutex_lock (&lock);
+     if (init)
+     {
+-        if (refs++ == 0)
++        if (refs++ == 0) {
++#ifdef __ANDROID__
++            /* XXX: move somewhere else? */
++            andro_init_threads(init);
++#endif
+             vlc_threadvar_create (&context, free);
++        }
+     }
+     else
+     {
+         assert (refs > 0);
+-        if (--refs == 0)
++        if (--refs == 0) {
+             vlc_threadvar_delete (&context);
++#ifdef __ANDROID__
++            /* XXX: move somewhere else? */
++            andro_init_threads(init);
++#endif
++        }
+     }
+     vlc_mutex_unlock (&lock);
+ }
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 81b01fb..122cdd5 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -196,6 +196,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
+ EXTRA_libvlccore_la_SOURCES = \
+ 	$(SOURCES_libvlc_darwin) \
+ 	$(SOURCES_libvlc_linux) \
++	$(SOURCES_libvlc_android) \
+ 	$(SOURCES_libvlc_win32) \
+ 	$(SOURCES_libvlc_os2) \
+ 	$(SOURCES_libvlc_other) \
+@@ -206,6 +207,9 @@ EXTRA_libvlccore_la_SOURCES = \
+ if HAVE_DARWIN
+ libvlccore_la_SOURCES += $(SOURCES_libvlc_darwin)
+ else
++if HAVE_ANDROID
++libvlccore_la_SOURCES += $(SOURCES_libvlc_android)
++else
+ if HAVE_LINUX
+ libvlccore_la_SOURCES += $(SOURCES_libvlc_linux)
+ else
+@@ -228,6 +232,7 @@ endif
+ endif
+ endif
+ endif
++endif
+ if BUILD_HTTPD
+ libvlccore_la_SOURCES += $(SOURCES_libvlc_httpd)
+ endif
+@@ -248,6 +253,18 @@ SOURCES_libvlc_darwin = \
+ 	posix/rand.c \
+ 	$(NULL)
+ 
++SOURCES_libvlc_android = \
++	posix/dirs.c \
++	misc/atomic.c \
++	posix/filesystem.c \
++	posix/plugin.c \
++	posix/thread.c \
++	posix/linux_cpu.c \
++	posix/linux_specific.c \
++	posix/specific.c \
++	posix/rand.c \
++	$(NULL)
++
+ SOURCES_libvlc_linux = \
+ 	posix/dirs.c \
+ 	misc/atomic.c \
+diff --git a/src/posix/thread.c b/src/posix/thread.c
+index a7a4873..9fbd0d4 100644
+--- a/src/posix/thread.c
++++ b/src/posix/thread.c
+@@ -1,5 +1,5 @@
+ /*****************************************************************************
+- * thread.c : pthread back-end for LibVLC
++ * thread.c : android pthread back-end for LibVLC
+  *****************************************************************************
+  * Copyright (C) 1999-2009 VLC authors and VideoLAN
+  *
+@@ -43,6 +43,8 @@
+ #include <sched.h>
+ #include <sys/time.h> /* gettimeofday() */
+ 
++# include <android/log.h>
++
+ #ifdef __linux__
+ # include <sys/syscall.h> /* SYS_gettid */
+ #endif
+@@ -73,6 +75,17 @@
+ # define _POSIX_MONOTONIC_CLOCK (-1)
+ #endif
+ 
++
++#undef assert
++#define assert(x) do { \
++    if (!x) { \
++    __android_log_print(ANDROID_LOG_ERROR, "vlc", "assert failed %s:%d: %s", \
++        __FILE__, __LINE__, #x \
++        ); \
++        abort(); \
++    } \
++} while(0)
++
+ #if (_POSIX_TIMERS > 0)
+ static unsigned vlc_clock_prec;
+ 
+@@ -146,10 +159,11 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
+ 
+ static inline unsigned long vlc_threadid (void)
+ {
+-#if defined (__linux__)
++#if defined (__ANDROID__)
++     return syscall (__NR_gettid);
++#elif defined (__linux__)
+      /* glibc does not provide a call for this */
+      return syscall (SYS_gettid);
+-
+ #else
+      union { pthread_t th; unsigned long int i; } v = { };
+      v.th = pthread_self ();
+@@ -169,7 +183,7 @@ vlc_thread_fatal (const char *action, int error,
+                   const char *function, const char *file, unsigned line)
+ {
+     int canc = vlc_savecancel ();
+-    fprintf (stderr, "LibVLC fatal error %s (%d) in thread %lu ",
++    __android_log_print(ANDROID_LOG_ERROR, "vlc", "LibVLC fatal error %s (%d) in thread %lu ",
+              action, error, vlc_threadid ());
+     vlc_trace (function, file, line);
+ 
+@@ -335,6 +349,53 @@ void vlc_mutex_unlock (vlc_mutex_t *p_mutex)
+     VLC_THREAD_ASSERT ("unlocking mutex");
+ }
+ 
++struct vlc_thread
++{
++    pthread_t      thread;
++    pthread_cond_t *cond; /// Non-null if thread waiting on cond
++    pthread_mutex_t *lock ; /// Non-null if thread waiting on cond
++    vlc_cleanup_t *cleaners;
++
++    void *(*entry)(void*);
++    void *data;
++
++    bool killable;
++    bool killed;
++};
++
++static pthread_key_t thread_key = 0;
++
++/* XXX: move somewhere else? */
++void andro_init_threads(bool init)
++{
++    static struct vlc_thread main_thread = {
++        .cond     = NULL,
++        .lock     = NULL,
++        .cleaners = NULL,
++        .killable = false,
++        .killed   = false,
++        .entry    = NULL,
++        .data     = NULL,
++    };
++
++    if (init) {
++        main_thread.thread = pthread_self();
++        pthread_key_create(&thread_key, NULL);
++        if (pthread_setspecific(thread_key, &main_thread))
++            abort();
++    } else {
++        pthread_key_delete(thread_key);
++    }
++}
++
++static void *andro_Thread(void *data)
++{
++    vlc_thread_t thread = data;
++    if (pthread_setspecific(thread_key, thread))
++        abort();
++    return thread->entry(thread->data);
++}
++
+ /**
+  * Initializes a condition variable.
+  */
+@@ -428,7 +489,22 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+  */
+ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+ {
++    vlc_thread_t thread = pthread_getspecific(thread_key);
++
++    if (thread) {
++        vlc_testcancel();
++        thread->cond = p_condvar;
++        thread->lock = p_mutex;
++    }
++
+     int val = pthread_cond_wait( p_condvar, p_mutex );
++
++    if (thread) {
++        thread->cond = NULL;
++        thread->lock = NULL;
++        vlc_testcancel();
++    }
++
+     VLC_THREAD_ASSERT ("waiting on condition");
+ }
+ 
+@@ -450,10 +526,25 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+ int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
+                         mtime_t deadline)
+ {
++    vlc_thread_t thread = pthread_getspecific(thread_key);
+     struct timespec ts = mtime_to_ts (deadline);
++
++    if (thread) {
++        vlc_testcancel();
++        thread->cond = p_condvar;
++        thread->lock = p_mutex;
++    }
++
+     int val = pthread_cond_timedwait (p_condvar, p_mutex, &ts);
+     if (val != ETIMEDOUT)
+         VLC_THREAD_ASSERT ("timed-waiting on condition");
++
++    if (thread) {
++        thread->cond = NULL;
++        thread->lock = NULL;
++        vlc_testcancel();
++    }
++
+     return val;
+ }
+ 
+@@ -720,7 +811,21 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+     assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
+ #endif
+ 
+-    ret = pthread_create (th, attr, entry, data);
++    vlc_thread_t thread = malloc (sizeof (*thread));
++    if (unlikely(thread == NULL))
++        return ENOMEM;
++
++    thread->killable = true;
++    thread->killed = false;
++    thread->cond = NULL;
++    thread->lock = NULL;
++    thread->cleaners = NULL;
++    thread->entry = entry;
++    thread->data = data;
++
++    *th = thread;
++    ret = pthread_create (&thread->thread, attr, andro_Thread, thread);
++
+     pthread_sigmask (SIG_SETMASK, &oldset, NULL);
+     pthread_attr_destroy (attr);
+     return ret;
+@@ -761,8 +866,9 @@ int vlc_clone (vlc_thread_t *th, void *(*entry) (void *), void *data,
+  */
+ void vlc_join (vlc_thread_t handle, void **result)
+ {
+-    int val = pthread_join (handle, result);
++    int val = pthread_join (handle->thread, result);
+     VLC_THREAD_ASSERT ("joining thread");
++    free(handle);
+ }
+ 
+ /**
+@@ -828,6 +934,7 @@ int vlc_set_priority (vlc_thread_t th, int priority)
+             return VLC_EGENERIC;
+     }
+ #else
++    (void) th;
+     (void) priority;
+ #endif
+     return VLC_SUCCESS;
+@@ -842,10 +949,25 @@ int vlc_set_priority (vlc_thread_t th, int priority)
+  */
+ void vlc_cancel (vlc_thread_t thread_id)
+ {
+-    pthread_cancel (thread_id);
+-#ifdef HAVE_MAEMO
+-    pthread_kill (thread_id, SIGRTMIN);
+-#endif
++    bool self = thread_id == pthread_getspecific(thread_key);
++
++    thread_id->killed = true;
++    if (!thread_id->killable)
++        return;
++
++    vlc_mutex_t *lock = thread_id->lock;
++
++    if (lock) {
++        if (!self)
++            vlc_mutex_lock(lock);
++        if (thread_id->cond)
++            pthread_cond_broadcast(thread_id->cond);
++        if (!self)
++            vlc_mutex_unlock(lock);
++    }
++
++    if (self)
++        vlc_testcancel();
+ }
+ 
+ /**
+@@ -858,11 +980,13 @@ void vlc_cancel (vlc_thread_t thread_id)
+  */
+ int vlc_savecancel (void)
+ {
+-    int state;
+-    int val = pthread_setcancelstate (PTHREAD_CANCEL_DISABLE, &state);
++    vlc_thread_t thread = pthread_getspecific(thread_key);
++    if (!thread) /* not created by VLC, can't be cancelled */
++        return true;
+ 
+-    VLC_THREAD_ASSERT ("saving cancellation");
+-    return state;
++    int oldstate = thread->killable;
++    thread->killable = false;
++    return oldstate;
+ }
+ 
+ /**
+@@ -872,18 +996,19 @@ int vlc_savecancel (void)
+  */
+ void vlc_restorecancel (int state)
+ {
++    vlc_thread_t thread = pthread_getspecific(thread_key);
++    if (!thread) /* not created by VLC, can't be cancelled */
++        return;
+ #ifndef NDEBUG
+-    int oldstate, val;
++    int oldstate = thread->killable;
+ 
+-    val = pthread_setcancelstate (state, &oldstate);
+-    /* This should fail if an invalid value for given for state */
+-    VLC_THREAD_ASSERT ("restoring cancellation");
++    thread->killable = state;
+ 
+-    if (unlikely(oldstate != PTHREAD_CANCEL_DISABLE))
++    if (unlikely(oldstate != false))
+          vlc_thread_fatal ("restoring cancellation while not disabled", EINVAL,
+                            __func__, __FILE__, __LINE__);
+ #else
+-    pthread_setcancelstate (state, NULL);
++    thread->killable = state;
+ #endif
+ }
+ 
+@@ -896,13 +1021,47 @@ void vlc_restorecancel (int state)
+  */
+ void vlc_testcancel (void)
+ {
+-    pthread_testcancel ();
++    vlc_thread_t thread = pthread_getspecific(thread_key);
++    if (!thread) /* not created by VLC, can't be cancelled */
++        return;
++    if (!thread->killable || !thread->killed)
++        return;
++
++    for (vlc_cleanup_t *p = thread->cleaners; p != NULL; p = p->next)
++        p->proc (p->data);
++
++    pthread_exit(NULL);
+ }
+ 
+ void vlc_control_cancel (int cmd, ...)
+ {
+-    (void) cmd;
+-    assert (0);
++    vlc_thread_t thread = pthread_getspecific(thread_key);
++    if (!thread) /* not created by VLC, can't be cancelled */
++        return;
++    /* NOTE: This function only modifies thread-specific data, so there is no
++     * need to lock anything. */
++    va_list ap;
++
++    va_start (ap, cmd);
++    switch (cmd)
++    {
++        case VLC_CLEANUP_PUSH:
++        {
++            /* cleaner is a pointer to the caller stack, no need to allocate
++             * and copy anything. As a nice side effect, this cannot fail. */
++            vlc_cleanup_t *cleaner = va_arg (ap, vlc_cleanup_t *);
++            cleaner->next = thread->cleaners;
++            thread->cleaners = cleaner;
++            break;
++        }
++
++        case VLC_CLEANUP_POP:
++        {
++            thread->cleaners = thread->cleaners->next;
++            break;
++        }
++    }
++    va_end (ap);
+ }
+ 
+ /**
+-- 
+1.7.9.1
+
