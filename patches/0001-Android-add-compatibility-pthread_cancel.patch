@@ -6,9 +6,7 @@ Subject: [PATCH] Android: add compatibility pthread_cancel
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
                42336426297a2f0e38964f238208681a2b54d6d8
-               497c810426c2fc3d414ef8d98dd1ed321d86ece0
                96cd0d6dbc510f656a9b962b2b17c68e7f19d02e
-               bbf4bd81aa2ba5fef271b537ccc0ae9285ad6169
                fd3a78c13899095f75021b1aeb38b68e6c1f0164
                497c810426c2fc3d414ef8d98dd1ed321d86ece0
 Modified and ported-by: Jean-Baptiste Kempf <jb@videolan.org>
