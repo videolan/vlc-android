@@ -1,7 +1,7 @@
-From 77bd35387539d7d2d92e61b12f5ef27623683520 Mon Sep 17 00:00:00 2001
+From 1391ed6796be2ffe1625dfa05a6abbc8309726d4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jean-Philippe=20Andr=C3=A9?= <jpeg@videolan.org>
 Date: Thu, 2 Jun 2011 15:15:57 +0200
-Subject: [PATCH 1/3] Android: add compatibility pthread_cancel
+Subject: [PATCH] Android: add compatibility pthread_cancel
 
 Original-code: c1ee19f63a6c6773400e98a9265b0a7e49fd528c
                7884ed8d407647a1523afb8be6a2859477d54fd7
@@ -18,8 +18,8 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  configure.ac            |    4 +
  include/vlc_fixups.h    |   25 ++++
  lib/error.c             |   16 +++
- src/posix/thread.c      |   25 +++-
- 5 files changed, 360 insertions(+), 1 deletion(-)
+ src/posix/thread.c      |   25 ++++-
+ 5 files changed, 360 insertions(+), 1 deletions(-)
  create mode 100644 compat/pthread_cancel.c
 
 diff --git a/compat/pthread_cancel.c b/compat/pthread_cancel.c
@@ -320,11 +320,11 @@ index 0000000..8a39f5d
 +    return ret;
 +}
 diff --git a/configure.ac b/configure.ac
-index c5de680..5e6f9fe 100644
+index 5f99552..0f56da6 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -483,6 +483,10 @@ if test "${SYS}" = "mingw32" ; then
-     CFLAGS="${CFLAGS_save}"; CXXFLAGS="${CXXFLAGS_save}"
+@@ -458,6 +458,10 @@ if test "${SYS}" = "mingw32" ; then
+     fi
  fi
  
 +if test "${HAVE_ANDROID}" = "1"; then
@@ -335,10 +335,10 @@ index c5de680..5e6f9fe 100644
  dnl Buggy glibc prevention. Purposedly not cached.
  dnl See sourceware.org bugs 5058 and 5443.
 diff --git a/include/vlc_fixups.h b/include/vlc_fixups.h
-index 16172f5..e13b1ab 100644
+index d91e155..a0eca1c 100644
 --- a/include/vlc_fixups.h
 +++ b/include/vlc_fixups.h
-@@ -330,4 +330,29 @@ long nrand48 (unsigned short subi[3]);
+@@ -342,4 +342,29 @@ long nrand48 (unsigned short subi[3]);
  # undef HAVE_FORK   /* Implementation of fork() is imperfect on OS/2 */
  #endif
  
@@ -410,7 +410,7 @@ index ef2ecdc..441953c 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index f34620f..efb92b9 100644
+index a7a4873..1dd884e 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -146,7 +146,9 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
@@ -477,5 +477,5 @@ index f34620f..efb92b9 100644
      pthread_attr_destroy (attr);
      return ret;
 -- 
-1.7.9.2
+1.7.9.1
 
