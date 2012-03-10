@@ -46,7 +46,7 @@ import android.widget.TextView;
 
 public class AudioListActivity extends ListActivity {
 
-    public final static String TAG = "VLC/AudioBrowserActivity";
+    public final static String TAG = "VLC/AudioListActivity";
 
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
