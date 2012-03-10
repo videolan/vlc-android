@@ -46,7 +46,7 @@ public class Media implements Comparable<Media> {
     public final static int TYPE_VIDEO = 0;
     public final static int TYPE_AUDIO = 1;
 
-    /** Meta data form libvlc_media */
+    /** Metadata from libvlc_media */
     private String mTitle;
     private String mArtist;
     private String mGenre;
