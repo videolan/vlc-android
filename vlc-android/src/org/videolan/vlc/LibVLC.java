@@ -216,7 +216,7 @@ public class LibVLC {
     }
 
     /**
-     * Return true if there is a video track in the file
+     * Return the length of the stream, in milliseconds
      */
     public long getLengthFromFile(String filePath) {
         return getLengthFromFile(mLibVlcInstance, filePath);
@@ -359,7 +359,7 @@ public class LibVLC {
     public native int getSpuTracksCount();
 
     /**
-     * Return true if there is a video track in the file
+     * Return the length of the stream, in milliseconds
      */
     private native long getLengthFromFile(int instance, String filePath);
 
