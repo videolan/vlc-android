@@ -475,5 +475,11 @@ public class DatabaseManager {
     public synchronized void clearSearchhistory() {
         mDb.delete(SEARCHHISTORY_TABLE_NAME, null, null);
     }
-
+    
+    /**
+     * Empty the database for debugging purposes
+     */
+    public synchronized void emptyDatabase() {
+        mDb.delete(MEDIA_TABLE_NAME, null, null);
+    }
 }

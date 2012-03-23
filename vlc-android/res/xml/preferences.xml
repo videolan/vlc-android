@@ -34,6 +34,7 @@
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <PreferenceScreen android:title="@string/advanced_debugging">
             <Preference android:title="@string/quit" android:key="quit_app" android:enabled="true"/>
+            <Preference android:title="@string/clear_media_db" android:key="clear_media_db" android:enabled="true" />
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

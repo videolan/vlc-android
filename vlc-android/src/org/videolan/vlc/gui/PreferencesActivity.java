@@ -33,6 +33,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.widget.Toast;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -111,6 +112,16 @@ public class PreferencesActivity extends PreferenceActivity {
 
                     public boolean onPreferenceClick(Preference preference) {
                     	System.exit(0);
+                        return true;
+                    }
+                });
+        Preference clearMediaPref = (Preference)findPreference("clear_media_db");
+        clearMediaPref.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+
+                    public boolean onPreferenceClick(Preference preference) {
+                        DatabaseManager.getInstance(getBaseContext()).emptyDatabase();
+                        Toast.makeText(getBaseContext(), "Media database cleared!", Toast.LENGTH_SHORT);
                         return true;
                     }
                 });
