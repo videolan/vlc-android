@@ -786,36 +786,36 @@ public class VideoPlayerActivity extends Activity {
      *
      */
     private void load() {
-        String path = null;
+        String location = null;
         String title = null;
-        String lastPath = null;
+        String lastLocation = null;
         long lastTime = 0;
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
-            path = getIntent().getDataString();
+            location = getIntent().getDataString();
         } else {
             /* Started from VideoListActivity */
-            path = getIntent().getExtras().getString("filePath");
+            location = getIntent().getExtras().getString("itemLocation");
         }
 
-        if (path != null && path.length() > 0) {
-            mLibVLC.readMedia(path);
+        if (location != null && location.length() > 0) {
+            mLibVLC.readMedia(location);
             if (!mWakeLock.isHeld())
                 mWakeLock.acquire();
 
             // Save media for next time, and restore position if it's the same one as before
-            lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
+            lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
             lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(PreferencesActivity.LAST_MEDIA, path);
+            editor.putString(PreferencesActivity.LAST_MEDIA, location);
             editor.commit();
-            if (lastTime > 0 && path.equals(lastPath))
+            if (lastTime > 0 && location.equals(lastLocation))
                 mLibVLC.setTime(lastTime);
 
-            title = new File(path).getName();
+            title = new File(location).getName();
             int dotIndex = title.lastIndexOf('.');
             if (dotIndex != -1)
                 title = title.substring(0, dotIndex);

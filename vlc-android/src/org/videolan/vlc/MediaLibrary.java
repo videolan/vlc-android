@@ -132,10 +132,10 @@ public class MediaLibrary {
         return mItemList;
     }
 
-    public Media getMediaItem(String path) {
+    public Media getMediaItem(String location) {
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
-            if (item.getPath().equals(path)) {
+            if (item.getLocation().equals(location)) {
                 return item;
             }
         }
@@ -183,9 +183,9 @@ public class MediaLibrary {
             HashMap<String, Media> existingMedias = mDBManager.getMedias(mContext);
 
             // list of all added files
-            HashSet<File> addedFiles = new HashSet<File>();
+            HashSet<String> addedLocations = new HashSet<String>();
 
-            // clear all old item
+            // clear all old items
             mItemList.clear();
 
             MediaItemFilter mediaFileFilter = new MediaItemFilter();
@@ -221,18 +221,17 @@ public class MediaLibrary {
                         File file = f[i];
 
                         if (file.isFile()) {
-
                             MainActivity.sendTextInfo(mContext, file.getName(), count, total);
                             count++;
-
-                            if (existingMedias.containsKey(file.getPath())) {
+                            String fileURI = Util.PathToURI(file.getPath());
+                            if (existingMedias.containsKey(fileURI)) {
                                 /** only add file if it is not already in the
                                  * list. eg. if user select an subfolder as well
                                  */
-                                if (!addedFiles.contains(file)) {
+                                if (!addedLocations.contains(fileURI)) {
                                     // get existing media item from database
-                                    mItemList.add(existingMedias.get(file.getPath()));
-                                    addedFiles.add(file);
+                                    mItemList.add(existingMedias.get(fileURI));
+                                    addedLocations.add(fileURI);
                                 }
                             } else {
                                 // create new media item
@@ -252,11 +251,11 @@ public class MediaLibrary {
             }
 
             // remove file from database
-            for (File file : addedFiles) {
-                existingMedias.remove(file.getPath());
+            for (String fileURI : addedLocations) {
+                existingMedias.remove(fileURI);
             }
-            for (String path : existingMedias.keySet()) {
-                mDBManager.removeMedia(path);
+            for (String existingMedia : existingMedias.keySet()) {
+                mDBManager.removeMedia(existingMedia);
             }
 
             // hide progressbar in header

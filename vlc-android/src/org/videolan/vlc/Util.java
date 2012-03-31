@@ -20,6 +20,7 @@
 
 package org.videolan.vlc;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
@@ -37,6 +38,20 @@ public class Util {
 
     public static void toaster(Context context, int stringId) {
         toaster(context, stringId, Toast.LENGTH_SHORT);
+    }
+
+    public static File URItoFile(String URI) {
+        return new File(URI.replace("file://", "file:"));
+    }
+
+    public static String PathToURI(String path) {
+        String URI;
+        try {
+            URI = LibVLC.getInstance().nativeToURI(path);
+        } catch (LibVlcException e) {
+            URI = "";
+        }
+        return URI;
     }
 
     /**

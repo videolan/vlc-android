@@ -120,7 +120,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            mAudioController.load(mSongsAdapter.getPaths(), p);
+            mAudioController.load(mSongsAdapter.getLocations(), p);
             Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -165,14 +165,14 @@ public class AudioBrowserActivity extends Activity implements ISortable {
 
         if (play_all) {
             start_position = menuInfo.position;
-            medias = mSongsAdapter.getPaths();
+            medias = mSongsAdapter.getLocations();
         }
         else {
             start_position = 0;
             switch (mFlingViewGroup.getPosition())
             {
                 case MODE_SONG:
-                    medias = mSongsAdapter.getPath(menuInfo.position);
+                    medias = mSongsAdapter.getLocation(menuInfo.position);
                     break;
                 case MODE_ARTIST:
                     medias = mArtistsAdapter.getPlaylist(menuInfo.position);
@@ -247,9 +247,9 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     }
     };
 
-    private Comparator<Media> byPath = new Comparator<Media>() {
+    private Comparator<Media> byMRL = new Comparator<Media>() {
         public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getFile().getPath(), m2.getFile().getPath());
+            return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
         };
     };
 
@@ -265,7 +265,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
             if (res == 0)
-                res = byPath.compare(m1, m2);
+                res = byMRL.compare(m1, m2);
             return res;
         };
     };
@@ -301,7 +301,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
             break;
         case SORT_BY_TITLE:
         default:
-            Collections.sort(audioList, byPath);
+            Collections.sort(audioList, byMRL);
             break;
         }
         if(mSortReverse) {

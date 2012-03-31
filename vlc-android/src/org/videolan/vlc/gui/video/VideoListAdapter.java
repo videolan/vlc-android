@@ -46,7 +46,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public final static int SORT_BY_LENGTH = 1;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
-    private String mLastPath;
+    private String mLastMRL;
 
     public VideoListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -62,8 +62,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
     }
 
-    public void setLastMedia(String lastPath) {
-        mLastPath = lastPath;
+    public void setLastMedia(String lastMRL) {
+        mLastMRL = lastMRL;
     }
 
     public void sortBy(int sortby) {
@@ -144,7 +144,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        holder.title.setTextColor(media.getPath().equals(mLastPath) ? Color.RED : Color.WHITE);
+        holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? Color.RED : Color.WHITE);
         holder.more.setTag(media);
         holder.more.setOnClickListener(moreClickListener);
 
@@ -157,7 +157,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         public void onClick(View v) {
             Media item = (Media) v.getTag();
             Intent intent = new Intent(getContext(), MediaInfoActivity.class);
-            intent.putExtra("filePath", item.getPath());
+            intent.putExtra("itemLocation", item.getLocation());
             getContext().startActivity(intent);
         }
     };

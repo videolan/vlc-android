@@ -292,7 +292,7 @@ public class AudioService extends Service {
                 return;
             }
         }
-        mLibVLC.readMedia(mCurrentMedia.getPath());
+        mLibVLC.readMedia(mCurrentMedia.getLocation());
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -306,7 +306,7 @@ public class AudioService extends Service {
             mCurrentMedia = mMediaList.get(index - 1);
         else
             return;
-        mLibVLC.readMedia(mCurrentMedia.getPath());
+        mLibVLC.readMedia(mCurrentMedia.getLocation());
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -344,7 +344,7 @@ public class AudioService extends Service {
                 if (b != null)
                     return b;
             }
-            File f = new File(mCurrentMedia.getPath());
+            File f = new File(mCurrentMedia.getLocation());
             for (File s : f.getParentFile().listFiles()) {
                 if (s.getAbsolutePath().endsWith("png") ||
                         s.getAbsolutePath().endsWith("jpg"))
@@ -358,8 +358,8 @@ public class AudioService extends Service {
     private IAudioService.Stub mInterface = new IAudioService.Stub() {
 
         @Override
-        public String getCurrentMediaPath() throws RemoteException {
-            return mCurrentMedia.getPath();
+        public String getCurrentMediaLocation() throws RemoteException {
+            return mCurrentMedia.getLocation();
         }
 
         @Override
@@ -478,7 +478,7 @@ public class AudioService extends Service {
             }
 
             if (mCurrentMedia != null)
-                mLibVLC.readMedia(mCurrentMedia.getPath());
+                mLibVLC.readMedia(mCurrentMedia.getLocation());
             showNotification();
         }
 
@@ -501,14 +501,14 @@ public class AudioService extends Service {
             ArrayList<String> medias = new ArrayList<String>();
             for (int i = 0; i < mMediaList.size(); i++) {
                 Media item = mMediaList.get(i);
-                medias.add(item.getPath());
+                medias.add(item.getLocation());
             }
             return medias;
         }
 
         public String getItem() {
             return mCurrentMedia != null
-                    ? mCurrentMedia.getPath()
+                    ? mCurrentMedia.getLocation()
                     : null;
         }
 

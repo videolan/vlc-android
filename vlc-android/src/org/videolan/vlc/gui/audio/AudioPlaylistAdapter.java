@@ -102,7 +102,7 @@ public class AudioPlaylistAdapter extends ArrayAdapter<String> {
         if (position >= 0 && position < mTitles.size()) {
             List<Media> mediaList = mPlaylists.get(mTitles.get(position));
             for (int i = 0; i < mediaList.size(); i++) {
-                playlist.add(mediaList.get(i).getPath());
+                playlist.add(mediaList.get(i).getLocation());
             }
         }
         return playlist;

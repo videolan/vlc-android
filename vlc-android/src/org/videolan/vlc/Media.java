@@ -21,6 +21,8 @@
 package org.videolan.vlc;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -62,7 +64,8 @@ public class Media implements Comparable<Media> {
     private String mEncodedBy;
     private String mTrackID;
 
-    private File mFile;
+    private String mLocation;
+    private String mFilename;
     private long mTime = 0;
     private long mLength = 0;
     private int mType;
@@ -71,19 +74,32 @@ public class Media implements Comparable<Media> {
     private Bitmap mPicture;
 
     /**
-     * Create an new Media
-     * @param file: path on the local storage
+     * Create a new Media
+     * @param context Application context of the caller
+     * @param MRL the file's MRL (media resource locator)
+     * @param addToDb Should it be added to the file database?
      */
-    public Media(Context context, File file) {
-        this.mFile = file;
+    public Media(Context context, String MRL, Boolean addToDb) {
+        mLocation = MRL;
+        try {
+            URL urlobj = new URL(MRL);
+            mFilename = urlobj.getFile().substring(urlobj.getFile().lastIndexOf('/') + 1);
+            /* empty filenames are awkward */
+            if(mFilename.equals("")) {
+                mFilename = urlobj.getHost();
+            }
+        } catch (MalformedURLException e1) {
+            mFilename = "";
+        }
+
 
         LibVLC mLibVlc = null;
         try {
             mLibVlc = LibVLC.getInstance();
-            mType = (mLibVlc.hasVideoTrack(file.getPath())) ? TYPE_VIDEO : TYPE_AUDIO;
-            mLength = mLibVlc.getLengthFromFile(file.getPath());
+            mType = (mLibVlc.hasVideoTrack(mLocation)) ? TYPE_VIDEO : TYPE_AUDIO;
+            mLength = mLibVlc.getLengthFromLocation(mLocation);
 
-            String[] array = mLibVlc.readMediaMeta(file.getPath());
+            String[] array = mLibVlc.readMediaMeta(mLocation);
 
             int i;
             for (i = 0; i < array.length; i++) {
@@ -108,14 +124,28 @@ public class Media implements Comparable<Media> {
             e.printStackTrace();
         }
 
-        // Add this item to database
-        DatabaseManager db = DatabaseManager.getInstance(context);
-        db.addMedia(this);
+        if(addToDb) {
+            // Add this item to database
+            DatabaseManager db = DatabaseManager.getInstance(context);
+            db.addMedia(this);
+        }
     }
 
-    public Media(Context context, File file, long time, long length, int type,
+    /**
+     * Create from file
+     *
+     * @param context Context of the caller
+     * @param file File object of the file to be added
+     */
+    public Media(Context context, File file) {
+        this(context, Util.PathToURI(file.getPath()), true);
+        mFilename = file.getName().substring(0, file.getName().lastIndexOf('.'));
+    }
+
+    public Media(Context context, String location, String filename, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album) {
-        mFile = file;
+        mLocation = location;
+        mFilename = filename;
         mTime = time;
         mLength = length;
         mType = type;
@@ -135,12 +165,8 @@ public class Media implements Comparable<Media> {
                 another.getTitle().toUpperCase());
     }
 
-    public File getFile() {
-        return mFile;
-    }
-
-    public String getPath() {
-        return mFile.getPath();
+    public String getLocation() {
+        return mLocation;
     }
 
     public void updateMeta() {
@@ -148,7 +174,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getFileName() {
-        return mFile.getName().substring(0, mFile.getName().lastIndexOf('.'));
+        return mFilename;
     }
 
     public long getTime() {
@@ -182,17 +208,17 @@ public class Media implements Comparable<Media> {
     public void setPicture(Context context, Bitmap p) {
         Log.d(TAG, "Set new picture for " + getTitle());
         DatabaseManager.getInstance(context).updateMedia(
-                mFile.getPath(),
+                mLocation,
                 DatabaseManager.mediaColumn.MEDIA_PICTURE,
                 p);
         mPicture = p;
     }
 
     public String getTitle() {
-        if (mTitle == null)
-            return mFile.getName().substring(0, mFile.getName().lastIndexOf('.'));
-        else
+        if(mTitle != null)
             return mTitle;
+        else
+            return mFilename;
     }
 
     public String getArtist() {

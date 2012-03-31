@@ -51,7 +51,7 @@ public class DatabaseManager {
     private final String DIR_ROW_PATH = "path";
 
     private final String MEDIA_TABLE_NAME = "media_table";
-    private final String MEDIA_PATH = "path";
+    private final String MEDIA_LOCATION = "location";
     private final String MEDIA_TIME = "time";
     private final String MEDIA_LENGTH = "length";
     private final String MEDIA_TYPE = "type";
@@ -115,7 +115,7 @@ public class DatabaseManager {
 
             String createMediaTabelQuery = "CREATE TABLE IF NOT EXISTS "
                     + MEDIA_TABLE_NAME + " ("
-                    + MEDIA_PATH + " TEXT PRIMARY KEY NOT NULL, "
+                    + MEDIA_LOCATION + " TEXT PRIMARY KEY NOT NULL, "
                     + MEDIA_TIME + " INTEGER, "
                     + MEDIA_LENGTH + " INTEGER, "
                     + MEDIA_TYPE + " INTEGER, "
@@ -219,7 +219,7 @@ public class DatabaseManager {
 
         ContentValues values = new ContentValues();
 
-        values.put(MEDIA_PATH, media.getPath());
+        values.put(MEDIA_LOCATION, media.getLocation());
         values.put(MEDIA_TIME, media.getTime());
         values.put(MEDIA_LENGTH, media.getLength());
         values.put(MEDIA_TYPE, media.getType());
@@ -259,7 +259,7 @@ public class DatabaseManager {
 
         cursor = mDb.query(
                 MEDIA_TABLE_NAME,
-                new String[] { MEDIA_PATH },
+                new String[] { MEDIA_LOCATION },
                 null, null, null, null, null);
         cursor.moveToFirst();
         if (!cursor.isAfterLast()) {
@@ -293,7 +293,7 @@ public class DatabaseManager {
                     MEDIA_ARTIST, //5 string
                     MEDIA_GENRE, //6 string
                     MEDIA_ALBUM, //7 string
-                    MEDIA_PATH, //8 string
+                    MEDIA_LOCATION, //8 string
                     MEDIA_TABLE_NAME,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
@@ -304,13 +304,15 @@ public class DatabaseManager {
                     if (blob != null) {
                         picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                     }
-
-                    Media media = new Media(context, new File(cursor.getString(8)), cursor.getLong(0),
-                            cursor.getLong(1), cursor.getInt(2),
+                    String location = cursor.getString(8);
+                    File file = Util.URItoFile(location);
+                    Media media = new Media(context, location, file.getName().substring(0, file.getName().lastIndexOf('.')),
+                            cursor.getLong(0), cursor.getLong(1), cursor.getInt(2),
                             picture, cursor.getString(4),
                             cursor.getString(5), cursor.getString(6),
                             cursor.getString(7));
-                    medias.put(media.getPath(), media);
+                    medias.put(media.getLocation(), media);
+
                     picture = null;
                     count++;
                 } while (cursor.moveToNext());
@@ -323,7 +325,7 @@ public class DatabaseManager {
         return medias;
     }
 
-    public synchronized Media getMedia(Context context, String path) {
+    public synchronized Media getMedia(Context context, String location) {
 
         Cursor cursor;
         Media media = null;
@@ -342,8 +344,8 @@ public class DatabaseManager {
                         MEDIA_GENRE, //6 string
                         MEDIA_ALBUM //7 string
                 },
-                MEDIA_PATH + "=?",
-                new String[] { path },
+                MEDIA_LOCATION + "=?",
+                new String[] { location },
                 null, null, null);
         if (cursor.moveToFirst()) {
 
@@ -351,9 +353,9 @@ public class DatabaseManager {
             if (blob != null) {
                 picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
             }
-
-            media = new Media(context, new File(path), cursor.getLong(0),
-                    cursor.getLong(1), cursor.getInt(2),
+            File file = Util.URItoFile(location);
+            media = new Media(context, location, file.getName().substring(0, file.getName().lastIndexOf('.')),
+                    cursor.getLong(0), cursor.getLong(1), cursor.getInt(2),
                     picture, cursor.getString(4),
                     cursor.getString(5), cursor.getString(6),
                     cursor.getString(7));
@@ -362,11 +364,11 @@ public class DatabaseManager {
         return media;
     }
 
-    public synchronized void removeMedia(String path) {
-        mDb.delete(MEDIA_TABLE_NAME, MEDIA_PATH + "=?", new String[] { path });
+    public synchronized void removeMedia(String location) {
+        mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[] { location });
     }
 
-    public synchronized void updateMedia(String path, mediaColumn col,
+    public synchronized void updateMedia(String location, mediaColumn col,
             Object object) {
         ContentValues values = new ContentValues();
         switch (col) {
@@ -379,7 +381,7 @@ public class DatabaseManager {
             default:
                 return;
         }
-        mDb.update(MEDIA_TABLE_NAME, values, MEDIA_PATH + "=?", new String[] { path });
+        mDb.update(MEDIA_TABLE_NAME, values, MEDIA_LOCATION + "=?", new String[] { location });
     }
 
     /**

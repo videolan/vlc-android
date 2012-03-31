@@ -29,7 +29,7 @@ interface IAudioService {
     void previous();
     void shuffle();
     void setTime(long time);
-    String getCurrentMediaPath();
+    String getCurrentMediaLocation();
     void load(in List<String> mediaPathList, int position);
     void append(in List<String> mediaPathList);
     List<String> getItems();

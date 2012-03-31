@@ -22,6 +22,8 @@
 #include <pthread.h>
 
 #include <vlc/vlc.h>
+#include <vlc_common.h>
+#include <vlc_url.h>
 
 #include <jni.h>
 
@@ -34,13 +36,13 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
-libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring filePath)
+libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
     jboolean isCopy;
-    const char *psz_path = (*env)->GetStringUTFChars(env, filePath, &isCopy);
-    libvlc_media_t *p_md = libvlc_media_new_path(libvlc, psz_path);
-    (*env)->ReleaseStringUTFChars(env, filePath, psz_path);
+    const char *psz_location = (*env)->GetStringUTFChars(env, fileLocation, &isCopy);
+    libvlc_media_t *p_md = libvlc_media_new_location(libvlc, psz_location);
+    (*env)->ReleaseStringUTFChars(env, fileLocation, psz_location);
     if (!p_md)
         return NULL;
 
@@ -244,6 +246,20 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     LOGI("LibVLC initialized: %p", instance);
 }
 
+jstring Java_org_videolan_vlc_LibVLC_nativeToURI(JNIEnv *env, jobject thiz, jstring path)
+{
+    jboolean isCopy;
+    /* Get C string */
+    const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
+    /* Convert the path to URI */
+    char* psz_location = make_URI(psz_path, "file");
+    /* Box into jstring */
+    jstring t = (*env)->NewStringUTF(env, psz_location);
+    /* Clean up */
+    (*env)->ReleaseStringUTFChars(env, path, psz_path);
+    free(psz_location);
+    return t;
+}
 
 void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
@@ -443,10 +459,10 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 }
 
 jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
-                                                    jint i_instance, jstring filePath)
+                                                    jint i_instance, jstring fileLocation)
 {
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(i_instance, env, thiz, filePath);
+    libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation);
     if (p_m == NULL)
     {
         LOGE("Couldn't create the media!");
@@ -553,8 +569,8 @@ static void length_changed_callback(const libvlc_event_t *ev, void *data)
     pthread_mutex_unlock(&monitor->doneMutex);
 }
 
-jlong Java_org_videolan_vlc_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz,
-                                                     jint i_instance, jstring filePath)
+jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject thiz,
+                                                     jint i_instance, jstring fileLocation)
 {
     jlong length = 0;
     struct length_change_monitor *monitor;
@@ -568,7 +584,7 @@ jlong Java_org_videolan_vlc_LibVLC_getLengthFromFile(JNIEnv *env, jobject thiz,
     monitor->length_changed = false;
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *m = new_media(i_instance, env, thiz, filePath);
+    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");

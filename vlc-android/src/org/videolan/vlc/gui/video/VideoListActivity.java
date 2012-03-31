@@ -103,7 +103,7 @@ public class VideoListActivity extends ListActivity implements ISortable {
 
         Media item = (Media) getListAdapter().getItem(position);
         Intent intent = new Intent(this, VideoPlayerActivity.class);
-        intent.putExtra("filePath", item.getPath());
+        intent.putExtra("itemLocation", item.getLocation());
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
     }

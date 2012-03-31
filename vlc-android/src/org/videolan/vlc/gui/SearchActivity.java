@@ -122,9 +122,9 @@ public class SearchActivity extends ListActivity {
                 continue;
             boolean add = true;
             String name = item.getTitle().toLowerCase();
-            String path = item.getPath().toLowerCase();
+            String MRL = item.getLocation().toLowerCase();
             for (int k = 0; k < keys.length; k++) {
-                if (!(name.contains(keys[k].toLowerCase()) || path.contains(keys[k].toLowerCase()))) {
+                if (!(name.contains(keys[k].toLowerCase()) || MRL.contains(keys[k].toLowerCase()))) {
                     add = false;
                     break;
                 }
@@ -252,15 +252,15 @@ public class SearchActivity extends ListActivity {
             Intent intent;
             if (item.getType() == Media.TYPE_VIDEO) {
                 intent = new Intent(this, VideoPlayerActivity.class);
-                intent.putExtra("filePath", item.getPath());
+                intent.putExtra("itemLocation", item.getLocation());
             } else {
                 ArrayList<String> arr = new ArrayList<String>();
                 for (int i = 0; i < getListAdapter().getCount(); i++) {
                     Media audioItem = (Media) getListAdapter().getItem(i);
                     if (audioItem.getType() == Media.TYPE_AUDIO)
-                        arr.add(audioItem.getPath());
+                        arr.add(audioItem.getLocation());
                 }
-                AudioServiceController.getInstance().load(arr, arr.indexOf(item.getPath()));
+                AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
                 intent = new Intent(this, AudioPlayerActivity.class);
             }
             startActivity(intent);

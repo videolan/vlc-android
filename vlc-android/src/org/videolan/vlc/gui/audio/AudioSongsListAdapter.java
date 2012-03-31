@@ -82,19 +82,19 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
         return v;
     }
 
-    public List<String> getPath(int position) {
-        List<String> paths = new ArrayList<String>();
+    public List<String> getLocation(int position) {
+        List<String> locations = new ArrayList<String>();
         if (position >= 0 && position < mMediaList.size())
-            paths.add(mMediaList.get(position).getPath());
-        return paths;
+            locations.add(mMediaList.get(position).getLocation());
+        return locations;
     }
 
-    public List<String> getPaths() {
-        List<String> paths = new ArrayList<String>();
+    public List<String> getLocations() {
+        List<String> locations = new ArrayList<String>();
         for (int i = 0; i < mMediaList.size(); i++) {
-            paths.add(mMediaList.get(i).getPath());
+            locations.add(mMediaList.get(i).getLocation());
         }
-        return paths;
+        return locations;
     }
 
     static class ViewHolder {

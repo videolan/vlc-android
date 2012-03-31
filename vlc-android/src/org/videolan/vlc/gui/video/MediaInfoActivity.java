@@ -52,10 +52,10 @@ public class MediaInfoActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_info);
-        String path = getIntent().getExtras().getString("filePath");
-        if (path == null)
+        String MRL = getIntent().getExtras().getString("itemLocation");
+        if (MRL == null)
             return;
-        mItem = MediaLibrary.getInstance(this).getMediaItem(path);
+        mItem = MediaLibrary.getInstance(this).getMediaItem(MRL);
 
         // set title
         TextView titleView = (TextView) findViewById(R.id.title);
@@ -81,7 +81,7 @@ public class MediaInfoActivity extends ListActivity {
                 return;
             }
 
-            mTracks = mLibVlc.readTracksInfo(mItem.getPath());
+            mTracks = mLibVlc.readTracksInfo(mItem.getLocation());
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
@@ -91,7 +91,7 @@ public class MediaInfoActivity extends ListActivity {
             // Get the thumbnail.
             mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-            byte[] b = mLibVlc.getThumbnail(mItem.getPath(), width, height);
+            byte[] b = mLibVlc.getThumbnail(mItem.getLocation(), width, height);
 
             if (b == null) // We were not able to create a thumbnail for this item.
                 return;

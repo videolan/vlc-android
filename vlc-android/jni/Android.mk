@@ -19,6 +19,7 @@ else
 CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
 endif
 
+LOCAL_CFLAGS := -std=gnu99
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \

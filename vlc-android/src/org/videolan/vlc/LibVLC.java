@@ -204,22 +204,22 @@ public class LibVLC {
     /**
      * Get a media thumbnail.
      */
-    public byte[] getThumbnail(String filePath, int i_width, int i_height) {
-        return getThumbnail(mLibVlcInstance, filePath, i_width, i_height);
+    public byte[] getThumbnail(String mrl, int i_width, int i_height) {
+        return getThumbnail(mLibVlcInstance, mrl, i_width, i_height);
     }
 
     /**
      * Return true if there is a video track in the file
      */
-    public boolean hasVideoTrack(String filePath) {
-        return hasVideoTrack(mLibVlcInstance, filePath);
+    public boolean hasVideoTrack(String mrl) {
+        return hasVideoTrack(mLibVlcInstance, mrl);
     }
 
     /**
      * Return the length of the stream, in milliseconds
      */
-    public long getLengthFromFile(String filePath) {
-        return getLengthFromFile(mLibVlcInstance, filePath);
+    public long getLengthFromLocation(String mrl) {
+        return getLengthFromLocation(mLibVlcInstance, mrl);
     }
 
     /**
@@ -335,12 +335,12 @@ public class LibVLC {
      * Get a media thumbnail.
      * @return a bytearray with the RGBA thumbnail data inside.
      */
-    private native byte[] getThumbnail(int instance, String filePath, int i_width, int i_height);
+    private native byte[] getThumbnail(int instance, String mrl, int i_width, int i_height);
 
     /**
      * Return true if there is a video track in the file
      */
-    private native boolean hasVideoTrack(int instance, String filePath);
+    private native boolean hasVideoTrack(int instance, String mrl);
 
     private native String[] readMediaMeta(int instance, String mrl);
 
@@ -358,10 +358,12 @@ public class LibVLC {
 
     public native int getSpuTracksCount();
 
+    public native String nativeToURI(String path);
+
     /**
      * Return the length of the stream, in milliseconds
      */
-    private native long getLengthFromFile(int instance, String filePath);
+    private native long getLengthFromLocation(int instance, String mrl);
 
     private native void setEventManager(EventManager eventManager);
 
