@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.lang.Thread.State;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -270,20 +269,17 @@ public class MediaLibrary {
      */
     private class MediaItemFilter implements FileFilter {
 
-        // FIXME: save extensions in external database
-        private String[] extensions = Media.EXTENTIONS;
-
         public boolean accept(File f) {
             boolean accepted = false;
             if (!f.isHidden()) {
-                if (f.isDirectory()) {
+                if (f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase())) {
                     accepted = true;
                 } else {
                     String fileName = f.getName().toLowerCase();
                     int dotIndex = fileName.lastIndexOf(".");
                     if (dotIndex != -1) {
                         String fileExt = fileName.substring(dotIndex);
-                        accepted = Arrays.asList(extensions).contains(fileExt);
+                        accepted = Media.EXTENTIONS.contains(fileExt);
                     }
                 }
             }

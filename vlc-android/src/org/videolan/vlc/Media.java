@@ -23,6 +23,7 @@ package org.videolan.vlc;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,17 +33,39 @@ public class Media implements Comparable<Media> {
 
     public final static String TAG = "VLC/MediaItem";
 
-    public final static String[] EXTENTIONS = {
-            ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".dv", "f4v",
-            ".flv", ".gxf", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts", ".m4v", ".mkv", ".mov", ".mp2",
-            ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg", ".mpeg1", ".mpeg2", ".mpeg4", ".mpg",
-            ".mpv2", ".mts", ".mxf", ".nsv", ".nuv", ".ogg", ".ogm", ".ogv", ".ogx", ".ps", ".rec",
-            ".rm", ".rmvb", ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv",
+    public final static HashSet<String> EXTENTIONS;
+    public final static HashSet<String> FOLDER_BLACKLIST;
 
-            ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr", ".aob", ".ape",
-            ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
-            ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
-            ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
+    static {
+        String[] extensions = {
+                ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".dv", "f4v",
+                ".flv", ".gxf", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts", ".m4v", ".mkv", ".mov", ".mp2",
+                ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg", ".mpeg1", ".mpeg2", ".mpeg4", ".mpg",
+                ".mpv2", ".mts", ".mxf", ".nsv", ".nuv", ".ogg", ".ogm", ".ogv", ".ogx", ".ps", ".rec",
+                ".rm", ".rmvb", ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv",
+
+                ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr", ".aob", ".ape",
+                ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
+                ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
+                ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
+        String[] folder_blacklist = {
+                "/sdcard/alarms",
+                "/sdcard/notifications",
+                "/sdcard/ringtones",
+                "/sdcard/media/alarms",
+                "/sdcard/media/notifications",
+                "/sdcard/media/ringtones",
+                "/sdcard/media/audio/alarms",
+                "/sdcard/media/audio/notifications",
+                "/sdcard/media/audio/ringtones" };
+
+        EXTENTIONS = new HashSet<String>();
+        for (String item : extensions)
+            EXTENTIONS.add(item);
+        FOLDER_BLACKLIST = new HashSet<String>();
+        for (String item : folder_blacklist)
+            FOLDER_BLACKLIST.add(item);
+    }
 
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
@@ -85,13 +108,12 @@ public class Media implements Comparable<Media> {
             URL urlobj = new URL(MRL);
             mFilename = urlobj.getFile().substring(urlobj.getFile().lastIndexOf('/') + 1);
             /* empty filenames are awkward */
-            if(mFilename.equals("")) {
+            if (mFilename.equals("")) {
                 mFilename = urlobj.getHost();
             }
         } catch (MalformedURLException e1) {
             mFilename = "";
         }
-
 
         LibVLC mLibVlc = null;
         try {
@@ -124,7 +146,7 @@ public class Media implements Comparable<Media> {
             e.printStackTrace();
         }
 
-        if(addToDb) {
+        if (addToDb) {
             // Add this item to database
             DatabaseManager db = DatabaseManager.getInstance(context);
             db.addMedia(this);
@@ -215,7 +237,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getTitle() {
-        if(mTitle != null)
+        if (mTitle != null)
             return mTitle;
         else
             return mFilename;

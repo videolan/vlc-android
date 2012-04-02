@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Stack;
 
+import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -141,7 +142,7 @@ public class BrowserActivity extends ListActivity {
     private class DirFilter implements FileFilter {
 
         public boolean accept(File f) {
-            return f.isDirectory() && !f.isHidden();
+            return f.isDirectory() && !f.isHidden() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase());
         }
     }
 
