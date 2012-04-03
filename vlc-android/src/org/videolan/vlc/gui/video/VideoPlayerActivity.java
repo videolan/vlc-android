@@ -101,7 +101,9 @@ public class VideoPlayerActivity extends Activity {
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
-    private SeekBar mWheel;
+    private ImageButton mBackward;
+    private ImageButton mPlayPause;
+    private ImageButton mForward;
     private ImageButton mAudio;
     private ImageButton mLock;
     private ImageButton mSize;
@@ -120,13 +122,6 @@ public class VideoPlayerActivity extends Activity {
     private float mTouchY, mVol;
     private boolean mIsAudioChanged;
     private String[] mAudioTracks;
-
-    //Wheel
-    private static final int WHEEL_DEAD_ZONE = 7;
-    private static final int WHEEL_RANGE = 60;
-    private int mMiddle = 0;
-    private long mPosition = 0;
-    private long mSeekTo = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,11 +146,12 @@ public class VideoPlayerActivity extends Activity {
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mWheel = (SeekBar) findViewById(R.id.player_overlay_wheelbar);
-        mWheel.setMax((WHEEL_DEAD_ZONE + WHEEL_RANGE) * 2);
-        mMiddle = WHEEL_DEAD_ZONE + WHEEL_RANGE;
-        mWheel.setProgress(mMiddle);
-        mWheel.setOnSeekBarChangeListener(mWheelListener);
+        mBackward = (ImageButton) findViewById(R.id.player_overlay_backward);
+        mBackward.setOnClickListener(mBackwardListener);
+        mPlayPause = (ImageButton) findViewById(R.id.player_overlay_play);
+        mPlayPause.setOnClickListener(mPlayPauseListener);
+        mForward = (ImageButton) findViewById(R.id.player_overlay_forward);
+        mForward.setOnClickListener(mForwardListener);
 
         mAudio = (ImageButton) findViewById(R.id.player_overlay_audio);
         mAudio.setOnClickListener(mAudioListener);
@@ -531,47 +527,28 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnSeekBarChangeListener mWheelListener = new OnSeekBarChangeListener() {
-
+    private OnClickListener mBackwardListener = new OnClickListener() {
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            mPosition = mLibVLC.getTime();
-            mSeekTo = -1;
-            showOverlay(3600000);
+        public void onClick(View v) {
+            long position = mLibVLC.getTime();
+            mLibVLC.setTime(position - 10000);
+            showOverlay();
         }
-
+    };
+    private OnClickListener mPlayPauseListener = new OnClickListener() {
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            // if in dead zone, pause/unpause
-            if (mSeekTo < 0)
-            {
-                doPausePlay();
-                showOverlay();
-            }
-            else
-            {
-                mLibVLC.setTime(mSeekTo);
-                mTime.setText(Util.millisToString(mSeekTo));
-            }
-            seekBar.setProgress(mMiddle);
-            hideInfo();
+        public void onClick(View v) {
+            doPausePlay();
+            showOverlay();
         }
-
+    };
+    private OnClickListener mForwardListener = new OnClickListener() {
         @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (!fromUser)
-                return;
-            int delta = progress - mMiddle;
-            if (mLibVLC != null && Math.abs(delta) >= WHEEL_DEAD_ZONE) {
-                delta -= Math.signum(delta) * WHEEL_DEAD_ZONE;
-                mSeekTo = Math.max(0, mPosition + delta * 1000);
-            }
-            else
-                delta = 0;
-            if (mSeekTo >= 0)
-                showInfo(String.format("%s%ds (%s)", delta >= 0 ? "+" : "", delta, Util.millisToString(mSeekTo)));
+        public void onClick(View v) {
+            long position = mLibVLC.getTime();
+            mLibVLC.setTime(position + 10000);
+            showOverlay();
         }
-
     };
 
     private OnClickListener mAudioListener = new OnClickListener() {
@@ -723,15 +700,10 @@ public class VideoPlayerActivity extends Activity {
         }
 
         if (mLibVLC.isPlaying()) {
-            mWheel.setThumb(getResources().getDrawable(R.drawable.wheel_pause));
+            mPlayPause.setBackgroundResource(R.drawable.ic_pause);
         } else {
-            mWheel.setThumb(getResources().getDrawable(R.drawable.wheel_play));
+            mPlayPause.setBackgroundResource(R.drawable.ic_play);
         }
-        mWheel.setThumbOffset(0);
-
-        //force a refresh
-        mWheel.layout(mWheel.getLeft() - 1, mWheel.getTop(), mWheel.getRight(), mWheel.getBottom());
-        mWheel.layout(mWheel.getLeft() + 1, mWheel.getTop(), mWheel.getRight(), mWheel.getBottom());
     }
 
     /**
