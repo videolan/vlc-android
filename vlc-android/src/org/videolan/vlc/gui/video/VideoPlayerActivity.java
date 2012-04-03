@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 
 import org.videolan.vlc.EventManager;
 import org.videolan.vlc.LibVLC;
@@ -787,10 +788,13 @@ public class VideoPlayerActivity extends Activity {
             if (lastTime > 0 && location.equals(lastLocation))
                 mLibVLC.setTime(lastTime);
 
-            title = new File(location).getName();
-            int dotIndex = title.lastIndexOf('.');
-            if (dotIndex != -1)
-                title = title.substring(0, dotIndex);
+            title = URLDecoder.decode(location);
+            if (title.startsWith("file:")) {
+                title = new File(title).getName();
+                int dotIndex = title.lastIndexOf('.');
+                if (dotIndex != -1)
+                    title = title.substring(0, dotIndex);
+            }
             mTitle.setText(title);
         }
     }
