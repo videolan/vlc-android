@@ -14,15 +14,17 @@
         </menu>
     </item>
     <item
-        android:id="@+id/ml_menu_about"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:title="@string/about" />
+        android:id="@+id/ml_menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="@string/refresh" />
     <item
         android:id="@+id/ml_menu_preferences"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/preferences" />
     <item
-        android:id="@+id/ml_menu_refresh"
-        android:icon="@drawable/ic_menu_refresh"
-        android:title="@string/refresh" />
+        android:id="@+id/ml_menu_about"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/about" />
+
+
 </menu>
