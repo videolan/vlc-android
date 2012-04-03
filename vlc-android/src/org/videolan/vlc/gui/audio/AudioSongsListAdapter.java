@@ -77,7 +77,7 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
 
         Media media = getItem(position);
         holder.title.setText(media.getTitle());
-        holder.title.setTextColor(mCurrentIndex == position ? Color.RED : Color.WHITE);
+        holder.title.setTextColor(mCurrentIndex == position ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
         holder.artist.setText(media.getArtist() + " - " + media.getAlbum());
         return v;
     }

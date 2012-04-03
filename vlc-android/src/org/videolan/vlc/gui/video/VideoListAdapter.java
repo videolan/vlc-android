@@ -144,7 +144,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? Color.RED : Color.WHITE);
+        holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
         holder.more.setTag(media);
         holder.more.setOnClickListener(moreClickListener);
 
