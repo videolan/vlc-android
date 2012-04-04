@@ -344,7 +344,7 @@ public class AudioService extends Service {
                 if (b != null)
                     return b;
             }
-            File f = new File(mCurrentMedia.getLocation());
+            File f = Util.URItoFile(mCurrentMedia.getLocation());
             for (File s : f.getParentFile().listFiles()) {
                 if (s.getAbsolutePath().endsWith("png") ||
                         s.getAbsolutePath().endsWith("jpg"))

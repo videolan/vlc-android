@@ -26,6 +26,7 @@ import java.text.DecimalFormat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.Toast;
 
 public class Util {
@@ -41,7 +42,7 @@ public class Util {
     }
 
     public static File URItoFile(String URI) {
-        return new File(URI.replace("file://", "file:"));
+        return new File(Uri.decode(URI).replace("file://",""));
     }
 
     public static String PathToURI(String path) {
