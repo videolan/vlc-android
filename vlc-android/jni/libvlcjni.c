@@ -36,7 +36,7 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
-libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation)
+libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
     jboolean isCopy;
@@ -46,21 +46,23 @@ libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring file
     if (!p_md)
         return NULL;
 
-    jclass cls = (*env)->GetObjectClass(env, thiz);
-    jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
-    if ((*env)->CallBooleanMethod(env, thiz, methodId)) {
-        /*
-         * Set higher caching values if using iomx decoding, since some omx
-         * decoders have a very high latency, and if the preroll data isn't
-         * enough to make the decoder output a frame, the playback timing gets
-         * started too soon, and every decoded frame appears to be too late.
-         * On Nexus One, the decoder latency seems to be 25 input packets
-         * for 320x170 H.264, a few packets less on higher resolutions.
-         * On Nexus S, the decoder latency seems to be about 7 packets.
-         */
-        libvlc_media_add_option(p_md, ":file-caching=1500");
-        libvlc_media_add_option(p_md, ":network-caching=1500");
-        libvlc_media_add_option(p_md, ":codec=iomx,all");
+    if (!noOmx) {
+        jclass cls = (*env)->GetObjectClass(env, thiz);
+        jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
+        if ((*env)->CallBooleanMethod(env, thiz, methodId)) {
+            /*
+             * Set higher caching values if using iomx decoding, since some omx
+             * decoders have a very high latency, and if the preroll data isn't
+             * enough to make the decoder output a frame, the playback timing gets
+             * started too soon, and every decoded frame appears to be too late.
+             * On Nexus One, the decoder latency seems to be 25 input packets
+             * for 320x170 H.264, a few packets less on higher resolutions.
+             * On Nexus S, the decoder latency seems to be about 7 packets.
+             */
+            libvlc_media_add_option(p_md, ":file-caching=1500");
+            libvlc_media_add_option(p_md, ":network-caching=1500");
+            libvlc_media_add_option(p_md, ":codec=iomx,all");
+        }
     }
     return p_md;
 }
@@ -370,7 +372,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
             (*env)->FindClass(env, "java/lang/String"),
             (*env)->NewStringUTF(env, ""));
 
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
     if (!m)
     {
         LOGE("readMediaMeta: Couldn't create the media!");
@@ -413,7 +415,7 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     releaseMediaPlayer(env, thiz);
 
     /* Create a new item */
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
     if (!m)
     {
         LOGE("readMedia: Couldn't create the media!");
@@ -462,7 +464,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
                                                     jint i_instance, jstring fileLocation)
 {
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation);
+    libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation, false);
     if (p_m == NULL)
     {
         LOGE("Couldn't create the media!");
@@ -509,7 +511,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     }
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl);
+    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false);
     if (p_m == NULL)
     {
         LOGE("Couldn't create the media!");
@@ -584,7 +586,7 @@ jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject th
     monitor->length_changed = false;
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation);
+    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation, false);
     if (m == NULL)
     {
         LOGE("Couldn't create the media to play!");

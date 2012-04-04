@@ -21,7 +21,7 @@
 #ifndef LIBVLCJNI_UTILS_H
 #define LIBVLCJNI_UTILS_H
 
-libvlc_media_t *new_media(jint libvlc, JNIEnv *env, jobject thiz, jstring filePath);
+libvlc_media_t *new_media(jint libvlc, JNIEnv *env, jobject thiz, jstring filePath, bool noOmx);
 
 
 #endif // LIBVLCJNI_UTILS_H
