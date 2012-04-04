@@ -305,8 +305,7 @@ public class DatabaseManager {
                         picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                     }
                     String location = cursor.getString(8);
-                    File file = Util.URItoFile(location);
-                    Media media = new Media(context, location, file.getName().substring(0, file.getName().lastIndexOf('.')),
+                    Media media = new Media(context, location,
                             cursor.getLong(0), cursor.getLong(1), cursor.getInt(2),
                             picture, cursor.getString(4),
                             cursor.getString(5), cursor.getString(6),
@@ -353,8 +352,7 @@ public class DatabaseManager {
             if (blob != null) {
                 picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
             }
-            File file = Util.URItoFile(location);
-            media = new Media(context, location, file.getName().substring(0, file.getName().lastIndexOf('.')),
+            media = new Media(context, location,
                     cursor.getLong(0), cursor.getLong(1), cursor.getInt(2),
                     picture, cursor.getString(4),
                     cursor.getString(5), cursor.getString(6),

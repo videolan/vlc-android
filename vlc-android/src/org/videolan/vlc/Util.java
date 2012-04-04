@@ -45,6 +45,12 @@ public class Util {
         return new File(Uri.decode(URI).replace("file://",""));
     }
 
+    public static String URItoFileName(String URI) {
+        int sep = URI.lastIndexOf('/');
+        int dot = URI.lastIndexOf('.');
+        return Uri.decode(URI.substring(sep + 1, dot));
+    }
+
     public static String PathToURI(String path) {
         String URI;
         try {

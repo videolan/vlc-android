@@ -164,10 +164,10 @@ public class Media implements Comparable<Media> {
         mFilename = file.getName().substring(0, file.getName().lastIndexOf('.'));
     }
 
-    public Media(Context context, String location, String filename, long time, long length, int type,
+    public Media(Context context, String location, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album) {
         mLocation = location;
-        mFilename = filename;
+        mFilename = null;
         mTime = time;
         mLength = length;
         mType = type;
@@ -196,6 +196,9 @@ public class Media implements Comparable<Media> {
     }
 
     public String getFileName() {
+        if (mFilename == null) {
+            mFilename = Util.URItoFileName(mLocation);
+        }
         return mFilename;
     }
 
@@ -240,7 +243,7 @@ public class Media implements Comparable<Media> {
         if (mTitle != null)
             return mTitle;
         else
-            return mFilename;
+            return getFileName();
     }
 
     public String getArtist() {
