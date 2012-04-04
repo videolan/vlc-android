@@ -20,9 +20,6 @@
 
 package org.videolan.vlc;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashSet;
 
 import android.content.Context;
@@ -99,21 +96,11 @@ public class Media implements Comparable<Media> {
     /**
      * Create a new Media
      * @param context Application context of the caller
-     * @param MRL the file's MRL (media resource locator)
+     * @param media URI
      * @param addToDb Should it be added to the file database?
      */
-    public Media(Context context, String MRL, Boolean addToDb) {
-        mLocation = MRL;
-        try {
-            URL urlobj = new URL(MRL);
-            mFilename = urlobj.getFile().substring(urlobj.getFile().lastIndexOf('/') + 1);
-            /* empty filenames are awkward */
-            if (mFilename.equals("")) {
-                mFilename = urlobj.getHost();
-            }
-        } catch (MalformedURLException e1) {
-            mFilename = "";
-        }
+    public Media(Context context, String URI, Boolean addToDb) {
+        mLocation = URI;
 
         LibVLC mLibVlc = null;
         try {
@@ -151,17 +138,6 @@ public class Media implements Comparable<Media> {
             DatabaseManager db = DatabaseManager.getInstance(context);
             db.addMedia(this);
         }
-    }
-
-    /**
-     * Create from file
-     *
-     * @param context Context of the caller
-     * @param file File object of the file to be added
-     */
-    public Media(Context context, File file) {
-        this(context, Util.PathToURI(file.getPath()), true);
-        mFilename = file.getName().substring(0, file.getName().lastIndexOf('.'));
     }
 
     public Media(Context context, String location, long time, long length, int type,

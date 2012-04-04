@@ -234,7 +234,7 @@ public class MediaLibrary {
                                 }
                             } else {
                                 // create new media item
-                                mItemList.add(new Media(mContext, file));
+                                mItemList.add(new Media(mContext, fileURI, true));
                             }
                         } else if (file.isDirectory()) {
                             directorys.push(file);
