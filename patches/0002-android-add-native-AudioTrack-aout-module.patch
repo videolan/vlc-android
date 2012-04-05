@@ -1,14 +1,14 @@
-From 0ed3d4f45e9c186264412db4b210fd21a2de4bea Mon Sep 17 00:00:00 2001
+From 1b61750e27f62c6d9d9977c0da6208e51f9ab3c2 Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Thu, 8 Mar 2012 22:46:57 -0800
-Subject: [PATCH 2/2] android: add native AudioTrack aout module
+Subject: [PATCH 2/2] Android: add native AudioTrack aout module
 
 ---
  configure.ac                        |   12 ++
  extras/package/android/configure.sh |    1 +
  modules/audio_output/Modules.am     |    1 +
- modules/audio_output/audiotrack.c   |  285 +++++++++++++++++++++++++++++++++++
- 4 files changed, 299 insertions(+)
+ modules/audio_output/audiotrack.c   |  303 +++++++++++++++++++++++++++++++++++
+ 4 files changed, 317 insertions(+)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
@@ -60,10 +60,10 @@ index 1c571ee..fcdd5e4 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..d21c999
+index 0000000..297c48e
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,285 @@
+@@ -0,0 +1,303 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
@@ -94,13 +94,12 @@ index 0000000..d21c999
 +#include <vlc_aout.h>
 +
 +#include <dlfcn.h>
++#include <assert.h>
 +
 +#define SIZE_OF_AUDIOTRACK 256
 +
-+/* see AudioSystem.h */
-+enum stream_type {
-+    MUSIC            = 3
-+};
++/* From AudioSystem.h */
++#define MUSIC 3
 +
 +enum pcm_sub_format {
 +    PCM_SUB_16_BIT          = 0x1, // must be 1 for backward compatibility
@@ -110,12 +109,19 @@ index 0000000..d21c999
 +enum audio_format {
 +    PCM                 = 0x00000000, // must be 0 for backward compatibility
 +    PCM_16_BIT          = (PCM|PCM_SUB_16_BIT),
-+    PCM_8_BIT          = (PCM|PCM_SUB_8_BIT)
++    PCM_8_BIT           = (PCM|PCM_SUB_8_BIT)
 +};
 +
 +enum audio_channels {
-+    CHANNEL_OUT_FRONT_LEFT = 0x4,
-+    CHANNEL_OUT_FRONT_RIGHT = 0x8,
++    CHANNEL_OUT_FRONT_LEFT            = 0x4,
++    CHANNEL_OUT_FRONT_RIGHT           = 0x8,
++    CHANNEL_OUT_FRONT_CENTER          = 0x10,
++    CHANNEL_OUT_LOW_FREQUENCY         = 0x20,
++    CHANNEL_OUT_BACK_LEFT             = 0x40,
++    CHANNEL_OUT_BACK_RIGHT            = 0x80,
++    CHANNEL_OUT_FRONT_LEFT_OF_CENTER  = 0x100,
++    CHANNEL_OUT_FRONT_RIGHT_OF_CENTER = 0x200,
++    CHANNEL_OUT_BACK_CENTER           = 0x400,
 +    CHANNEL_OUT_MONO = CHANNEL_OUT_FRONT_LEFT,
 +    CHANNEL_OUT_STEREO = (CHANNEL_OUT_FRONT_LEFT | CHANNEL_OUT_FRONT_RIGHT)
 +};
@@ -148,16 +154,13 @@ index 0000000..d21c999
 +typedef int (*AudioTrack_flush)(void *);
 +
 +struct aout_sys_t {
-+    int type;
-+    uint32_t rate;
-+    int channel;
-+    int format;
-+    int size;
 +    void *libmedia;
 +    void *AudioTrack;
++
 +    AudioSystem_getOutputFrameCount as_getOutputFrameCount;
 +    AudioSystem_getOutputLatency as_getOutputLatency;
 +    AudioSystem_getOutputSamplingRate as_getOutputSamplingRate;
++
 +    AudioTrack_getMinFrameCount at_getMinFrameCount;
 +    AudioTrack_ctor at_ctor;
 +    AudioTrack_ctor_legacy at_ctor_legacy;
@@ -186,11 +189,13 @@ index 0000000..d21c999
 +vlc_module_end ()
 +
 +static void *InitLibrary(struct aout_sys_t *p_sys) {
++    /* DL Open libmedia */
 +    void *p_library;
-+
 +    p_library = dlopen("libmedia.so", RTLD_NOW);
 +    if (!p_library)
 +        return NULL;
++
++    /* Register symbols */
 +    p_sys->as_getOutputFrameCount = (AudioSystem_getOutputFrameCount)(dlsym(p_library, "_ZN7android11AudioSystem19getOutputFrameCountEPii"));
 +    p_sys->as_getOutputLatency = (AudioSystem_getOutputLatency)(dlsym(p_library, "_ZN7android11AudioSystem16getOutputLatencyEPji"));
 +    p_sys->as_getOutputSamplingRate = (AudioSystem_getOutputSamplingRate)(dlsym(p_library, "_ZN7android11AudioSystem21getOutputSamplingRateEPii"));
@@ -203,13 +208,17 @@ index 0000000..d21c999
 +    p_sys->at_stop = (AudioTrack_stop)(dlsym(p_library, "_ZN7android10AudioTrack4stopEv"));
 +    p_sys->at_write = (AudioTrack_write)(dlsym(p_library, "_ZN7android10AudioTrack5writeEPKvj"));
 +    p_sys->at_flush = (AudioTrack_flush)(dlsym(p_library, "_ZN7android10AudioTrack5flushEv"));
-+    // need the first 3 or the last 1
-+    if (!((p_sys->as_getOutputFrameCount && p_sys->as_getOutputLatency && p_sys->as_getOutputSamplingRate) || p_sys->at_getMinFrameCount)) {
++
++    /* We need the first 3 or the last 1 */
++    if (!((p_sys->as_getOutputFrameCount && p_sys->as_getOutputLatency && p_sys->as_getOutputSamplingRate)
++        || p_sys->at_getMinFrameCount)) {
 +        dlclose(p_library);
 +        return NULL;
 +    }
-+    // need all in the list
-+    if (!((p_sys->at_ctor || p_sys->at_ctor_legacy) && p_sys->at_dtor && p_sys->at_initCheck && p_sys->at_start && p_sys->at_stop && p_sys->at_write && p_sys->at_flush)) {
++
++    // We need all the other Symbols
++    if (!((p_sys->at_ctor || p_sys->at_ctor_legacy) && p_sys->at_dtor && p_sys->at_initCheck &&
++           p_sys->at_start && p_sys->at_stop && p_sys->at_write && p_sys->at_flush)) {
 +        dlclose(p_library);
 +        return NULL;
 +    }
@@ -218,54 +227,58 @@ index 0000000..d21c999
 +
 +static int Open(vlc_object_t *p_this) {
 +    struct aout_sys_t *p_sys;
-+    void *p_library;
 +    audio_output_t *p_aout = (audio_output_t*)(p_this);
-+    int status;
++
++    int status, size;
 +    int afSampleRate, afFrameCount, afLatency, minBufCount, minFrameCount;
-+    int type, channel, rate, format;
++    int stream_type, channel, rate, format;
 +
 +    p_sys = (struct aout_sys_t*) malloc(sizeof(aout_sys_t));
-+    if (p_sys == NULL)
++    if (!p_sys)
 +        return VLC_ENOMEM;
-+    p_library = InitLibrary(p_sys);
-+    if (!p_library) {
++
++    p_sys->libmedia = InitLibrary(p_sys);
++    if (!p_sys->libmedia) {
 +        msg_Err(p_aout, "Could not initialize libmedia.so!");
 +        return VLC_EGENERIC;
 +    }
-+    p_sys->libmedia = p_library;
-+    // AudioSystem::MUSIC = 3
-+    type = MUSIC;
-+    p_sys->type = type;
-+    // 4000 <= frequency <= 48000
++
++    /* 4000 <= frequency <= 48000 */
 +    if (p_aout->format.i_rate < 4000)
 +        p_aout->format.i_rate = 4000;
 +    if (p_aout->format.i_rate > 48000)
 +        p_aout->format.i_rate = 48000;
 +    rate = p_aout->format.i_rate;
-+    p_sys->rate = rate;
-+    // U8/S16 only
++
++    stream_type = MUSIC;
++
++    /* We can only accept U8 and S16L */
 +    if (p_aout->format.i_format != VLC_CODEC_U8 && p_aout->format.i_format != VLC_CODEC_S16L)
 +        p_aout->format.i_format = VLC_CODEC_S16L;
-+    // AudioSystem::PCM_16_BIT = 1
-+    // AudioSystem::PCM_8_BIT = 2
 +    format = (p_aout->format.i_format == VLC_CODEC_S16L) ? PCM_16_BIT : PCM_8_BIT;
-+    p_sys->format = format;
-+    // TODO: android supports more channels
-+    channel = aout_FormatNbChannels(&p_aout->format);
-+    if (channel > 2) {
-+        channel = 2;
++
++    /* TODO: android supports more channels */
++    switch(aout_FormatNbChannels(&p_aout->format))
++    {
++    case 1:
++        channel = CHANNEL_OUT_MONO;
++        break;
++    case 2:
++        channel = CHANNEL_OUT_STEREO;
++        break;
++    default:
++        channel = CHANNEL_OUT_STEREO;
 +        p_aout->format.i_physical_channels = AOUT_CHAN_LEFT | AOUT_CHAN_RIGHT;
++        break;
 +    }
-+    // AudioSystem::CHANNEL_OUT_STEREO = 12
-+    // AudioSystem::CHANNEL_OUT_MONO = 4
-+    channel = (channel == 2) ? CHANNEL_OUT_STEREO : CHANNEL_OUT_MONO;
-+    p_sys->channel = channel;
-+    // use the minium value
++
++    /* Get the minimum buffer value */
 +    if (!p_sys->at_getMinFrameCount) {
-+        status = p_sys->as_getOutputSamplingRate(&afSampleRate, type);
-+        status ^= p_sys->as_getOutputFrameCount(&afFrameCount, type);
-+        status ^= p_sys->as_getOutputLatency((uint32_t*)(&afLatency), type);
++        status = p_sys->as_getOutputSamplingRate(&afSampleRate, stream_type);
++        status ^= p_sys->as_getOutputFrameCount(&afFrameCount, stream_type);
++        status ^= p_sys->as_getOutputLatency((uint32_t*)(&afLatency), stream_type);
 +        if (status != 0) {
++            msg_Err(p_aout, "Could not query the AudioStream parameters");
 +            free(p_sys);
 +            dlclose(p_sys->libmedia);
 +            return VLC_EGENERIC;
@@ -277,38 +290,43 @@ index 0000000..d21c999
 +        p_aout->format.i_bytes_per_frame = minFrameCount;
 +    }
 +    else {
-+        status = p_sys->at_getMinFrameCount(&p_aout->format.i_bytes_per_frame, type, rate);
++        status = p_sys->at_getMinFrameCount((int*)&p_aout->format.i_bytes_per_frame, stream_type, rate);
 +        if (status != 0) {
++            msg_Err(p_aout, "Could not query the AudioTrack parameters");
 +            dlclose(p_sys->libmedia);
 +            free(p_sys);
 +            return VLC_EGENERIC;
 +        }
 +    }
++
 +    p_aout->format.i_bytes_per_frame <<= 1;
-+    p_sys->size = p_aout->format.i_bytes_per_frame;
-+    // sizeof(AudioTrack) == 0x58 (not sure) on 2.2.1, this should be enough
++    size = p_aout->format.i_bytes_per_frame;
++
++    /* Sizeof(AudioTrack) == 0x58 (not sure) on 2.2.1, this should be enough */
 +    p_sys->AudioTrack = malloc(SIZE_OF_AUDIOTRACK);
 +    if (!p_sys->AudioTrack) {
 +        dlclose(p_sys->libmedia);
 +        free(p_sys);
 +        return VLC_ENOMEM;
 +    }
++
 +    *((uint32_t *) p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4) = 0xbaadbaad;
-+    // higher than android 2.2
++    // Higher than android 2.2
 +    if (p_sys->at_ctor)
-+        p_sys->at_ctor(p_sys->AudioTrack, p_sys->type, p_sys->rate, p_sys->format, p_sys->channel, p_sys->size, 0, NULL, NULL, 0, 0);
-+    // higher than android 1.6
++        p_sys->at_ctor(p_sys->AudioTrack, stream_type, rate, format, channel, size, 0, NULL, NULL, 0, 0);
++    // Higher than android 1.6
 +    else if (p_sys->at_ctor_legacy)
-+        p_sys->at_ctor_legacy(p_sys->AudioTrack, p_sys->type, p_sys->rate, p_sys->format, p_sys->channel, p_sys->size, 0, NULL, NULL, 0);
-+    if (*((uint32_t *) p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4) != 0xbaadbaad) {
-+        msg_Err(p_aout, "AudioTrack ctor touched somewhere not belongs to it, abort now!");
-+        abort();
-+    }
++        p_sys->at_ctor_legacy(p_sys->AudioTrack, stream_type, rate, format, channel, size, 0, NULL, NULL, 0);
++
++    assert( (*((uint32_t *) p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4) == 0xbaadbaad) );
++
++    /* And Init */
 +    status = p_sys->at_initCheck(p_sys->AudioTrack);
-+    // android 1.6 uses channel count instead of type
++
++    /* android 1.6 uses channel count instead of stream_type */
 +    if (status != 0) {
-+        p_sys->channel = (p_sys->channel == CHANNEL_OUT_STEREO) ? 2 : 1;
-+        p_sys->at_ctor_legacy(p_sys->AudioTrack, p_sys->type, p_sys->rate, p_sys->format, p_sys->channel, p_sys->size, 0, NULL, NULL, 0);
++        channel = (channel == CHANNEL_OUT_STEREO) ? 2 : 1;
++        p_sys->at_ctor_legacy(p_sys->AudioTrack, stream_type, rate, format, channel, size, 0, NULL, NULL, 0);
 +        status = p_sys->at_initCheck(p_sys->AudioTrack);
 +    }
 +    if (status != 0) {

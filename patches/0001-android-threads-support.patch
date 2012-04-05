@@ -1,7 +1,7 @@
-From 45f522e1bce9582ac69af72af91f7dcb2eafcade Mon Sep 17 00:00:00 2001
+From 85fd132bfd3b6316af4363dab3d4ed2586b7245e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
 Date: Sat, 10 Mar 2012 04:54:23 -0500
-Subject: [PATCH] android: threads support
+Subject: [PATCH 1/2] android: threads support
 
 emulate pthread_cancel (based on win32 code)
 TODO:
@@ -105,10 +105,10 @@ index ef2ecdc..42f6b4e 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 24632ac..848ccea 100644
+index 9ab1ca6..27bf38e 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -196,6 +196,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
+@@ -195,6 +195,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
  EXTRA_libvlccore_la_SOURCES = \
  	$(SOURCES_libvlc_darwin) \
  	$(SOURCES_libvlc_linux) \
@@ -116,7 +116,7 @@ index 24632ac..848ccea 100644
  	$(SOURCES_libvlc_win32) \
  	$(SOURCES_libvlc_os2) \
  	$(SOURCES_libvlc_other) \
-@@ -206,6 +207,9 @@ EXTRA_libvlccore_la_SOURCES = \
+@@ -205,6 +206,9 @@ EXTRA_libvlccore_la_SOURCES = \
  if HAVE_DARWIN
  libvlccore_la_SOURCES += $(SOURCES_libvlc_darwin)
  else
@@ -126,7 +126,7 @@ index 24632ac..848ccea 100644
  if HAVE_LINUX
  libvlccore_la_SOURCES += $(SOURCES_libvlc_linux)
  else
-@@ -228,6 +232,7 @@ endif
+@@ -227,6 +231,7 @@ endif
  endif
  endif
  endif
@@ -134,7 +134,7 @@ index 24632ac..848ccea 100644
  if BUILD_HTTPD
  libvlccore_la_SOURCES += $(SOURCES_libvlc_httpd)
  endif
-@@ -248,6 +253,18 @@ SOURCES_libvlc_darwin = \
+@@ -247,6 +252,18 @@ SOURCES_libvlc_darwin = \
  	posix/rand.c \
  	$(NULL)
  
@@ -540,5 +540,5 @@ index a7a4873..598c692 100644
  #endif
  }
 -- 
-1.7.9.1
+1.7.9.6
 
