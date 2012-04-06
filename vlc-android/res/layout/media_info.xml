@@ -17,6 +17,13 @@
             android:src="@drawable/header_logo" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/video_list_length_bg"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
@@ -33,13 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="fitCenter" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/video_list_length_bg"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/length"
