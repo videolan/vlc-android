@@ -31,11 +31,14 @@ import org.videolan.vlc.TrackInfo;
 import org.videolan.vlc.Util;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +46,7 @@ public class MediaInfoActivity extends ListActivity {
     public final static String TAG = "VLC/MediaInfoActivity";
     private Media mItem;
     private Bitmap mImage;
+    private ImageButton mPlayButton;
     private TrackInfo[] mTracks;
     private MediaInfoAdapter mAdapter;
     private final static int NEW_IMAGE = 0;
@@ -65,10 +69,18 @@ public class MediaInfoActivity extends ListActivity {
         TextView lengthView = (TextView) findViewById(R.id.length);
         lengthView.setText(Util.millisToString(mItem.getLength()));
 
+        mPlayButton = (ImageButton) findViewById(R.id.play);
+
         mAdapter = new MediaInfoAdapter(MediaInfoActivity.this, R.layout.audio_browser_playlist);
         setListAdapter(mAdapter);
 
         new Thread(mLoadImage).start();
+    }
+
+    public void onPlayClick(View v) {
+        Intent intent = new Intent(this, VideoPlayerActivity.class);
+        intent.putExtra("itemLocation", mItem.getLocation());
+        startActivity(intent);
     }
 
     Runnable mLoadImage = new Runnable() {
@@ -110,6 +122,7 @@ public class MediaInfoActivity extends ListActivity {
                 case NEW_IMAGE:
                     ImageView imageView = (ImageView) MediaInfoActivity.this.findViewById(R.id.image);
                     imageView.setImageBitmap(mImage);
+                    mPlayButton.setVisibility(View.VISIBLE);
                     break;
                 case NEW_TEXT:
                     for (TrackInfo track : mTracks) {
