@@ -149,7 +149,7 @@
             android:id="@+id/player_overlay_size"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
 
@@ -157,7 +157,7 @@
             android:id="@+id/player_overlay_lock"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_lock" />
     </RelativeLayout>
