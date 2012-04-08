@@ -522,7 +522,7 @@ index a7a4873..598c692 100644
 +    vlc_testcancel();
 +    for (;;) {
 +        struct timespec t = { 0, 10 * 1000 * 1000 };
-+        if (t.tv_nsec < ts.tv_nsec)
++        if (ts.tv_sec <= 0 && t.tv_nsec > ts.tv_nsec)
 +            t.tv_nsec = ts.tv_nsec;
 +        while (nanosleep (&t, &t) == -1) {
 +            vlc_testcancel();
