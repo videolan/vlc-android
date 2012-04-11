@@ -344,6 +344,22 @@ void setInt(JNIEnv *env, jobject item, const char* field, int value)
     (*env)->SetIntField(env, item, fieldId, value);
 }
 
+void SetFloat(JNIEnv *env, jobject item, const char* field, float value)
+{
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "F");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetFloatField(env, item, fieldId, value);
+}
+
 void setString(JNIEnv *env, jobject item, const char* field, const char* text)
 {
     jclass cls;
@@ -537,11 +553,14 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
             setInt(env, item, "Id", p_tracks[i].i_id);
             setInt(env, item, "Type", p_tracks[i].i_type);
             setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i].i_codec));
+            setString(env, item, "Language", p_tracks[i].psz_language);
+            free(p_tracks[i].psz_language);
 
             if (p_tracks[i].i_type == libvlc_track_video)
             {
                 setInt(env, item, "Height", p_tracks[i].u.video.i_height);
                 setInt(env, item, "Width", p_tracks[i].u.video.i_width);
+                SetFloat(env, item, "Framerate", p_tracks[i].u.video.f_frame_rate);
             }
             if (p_tracks[i].i_type == libvlc_track_audio)
             {

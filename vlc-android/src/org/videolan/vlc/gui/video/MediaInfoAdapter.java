@@ -52,6 +52,7 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
             holder = (ViewHolder) v.getTag();
 
         TrackInfo track = getItem(position);
+        String language = track.Language != null ? track.Language : "und";
         String title;
         String text;
         Resources res = getContext().getResources();
@@ -59,15 +60,15 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
         {
             case TrackInfo.TYPE_AUDIO:
                 title = res.getString(R.string.track_audio);
-                text = res.getQuantityString(R.plurals.track_audio_info, track.Channels, track.Codec, track.Channels, track.Samplerate);
+                text = res.getQuantityString(R.plurals.track_audio_info, track.Channels, track.Codec, language, track.Channels, track.Samplerate);
                 break;
             case TrackInfo.TYPE_VIDEO:
                 title = res.getString(R.string.track_video);
-                text = res.getString(R.string.track_video_info, track.Codec, track.Width, track.Height);
+                text = res.getString(R.string.track_video_info, track.Codec, language, track.Width, track.Height, track.Framerate);
                 break;
             case TrackInfo.TYPE_TEXT:
                 title = res.getString(R.string.track_text);
-                text = track.Codec;
+                text = res.getString(R.string.track_text_info, track.Codec, language);
                 break;
             default:
                 title = res.getString(R.string.track_unknown);

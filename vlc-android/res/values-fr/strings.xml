@@ -69,11 +69,12 @@
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <plurals name="track_audio_info">
-        <item quantity="one">Codec: %1$s\n%2$d canal\nFréquence d\'échantillonage: %3$d Hz</item>
-        <item quantity="other">Codec: %1$s\n%2$d canaux\nFréquence d\'échantillonage: %3$d Hz</item>
+        <item quantity="one">Codec: %1$s\nLangue: %2$s\n%3$d canal\nFréquence d\'échantillonage: %4$d Hz</item>
+        <item quantity="other">Codec: %1$s\nLangue: %2$s\n%3$d canaux\nFréquence d\'échantillonage: %4$d Hz</item>
     </plurals>
     <string name="track_video">Piste vidéo</string>
-    <string name="track_video_info">Codec: %1$s\nRésolution: %2$dx%3$d</string>
+    <string name="track_video_info">Codec: %1$s\nLangue: %2$s\nRésolution: %3$dx%4$d\nDébit d\'images: %5$.3f</string>
     <string name="track_text">Piste sous-titres</string>
+    <string name="track_text_info">Codec: %1$s\nLangue: %2$s</string>
     <string name="track_unknown">Piste inconnue</string>
 </resources>

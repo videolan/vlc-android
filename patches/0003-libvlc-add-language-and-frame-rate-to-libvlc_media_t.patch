@@ -1,0 +1,56 @@
+From 283011cced8ee43f19747d14f5b257d0b00e5039 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
+Date: Wed, 11 Apr 2012 21:30:31 +0200
+Subject: [PATCH 3/3] libvlc: add language and frame rate to
+ libvlc_media_track_info_t
+
+---
+ include/vlc/libvlc_media.h |    3 +++
+ lib/media.c                |    3 +++
+ 2 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/include/vlc/libvlc_media.h b/include/vlc/libvlc_media.h
+index 279a29c..e43a5b4 100644
+--- a/include/vlc/libvlc_media.h
++++ b/include/vlc/libvlc_media.h
+@@ -150,6 +150,8 @@ typedef struct libvlc_media_track_info_t
+     int         i_id;
+     libvlc_track_type_t i_type;
+ 
++    char        *psz_language;
++
+     /* Codec specific */
+     int         i_profile;
+     int         i_level;
+@@ -164,6 +166,7 @@ typedef struct libvlc_media_track_info_t
+             /* Video specific */
+             unsigned    i_height;
+             unsigned    i_width;
++            float       f_frame_rate;
+         } video;
+     } u;
+ 
+diff --git a/lib/media.c b/lib/media.c
+index 2c01c80..4bc832b 100644
+--- a/lib/media.c
++++ b/lib/media.c
+@@ -707,6 +707,8 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+         p_mes->i_codec = p_es->i_codec;
+         p_mes->i_id = p_es->i_id;
+ 
++        p_mes->psz_language = p_es->psz_language != NULL ? strdup(p_es->psz_language) : NULL;
++
+         p_mes->i_profile = p_es->i_profile;
+         p_mes->i_level = p_es->i_level;
+ 
+@@ -720,6 +722,7 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+             p_mes->i_type = libvlc_track_video;
+             p_mes->u.video.i_height = p_es->video.i_height;
+             p_mes->u.video.i_width = p_es->video.i_width;
++            p_mes->u.video.f_frame_rate = p_es->video.i_frame_rate / (float) p_es->video.i_frame_rate_base;
+             break;
+         case AUDIO_ES:
+             p_mes->i_type = libvlc_track_audio;
+-- 
+1.7.5.4
+

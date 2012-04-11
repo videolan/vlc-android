@@ -10,10 +10,12 @@ public class TrackInfo {
     public int Type;
     public int Id;
     public String Codec;
+    public String Language;
 
     /* Video */
     public int Height;
     public int Width;
+    public float Framerate;
 
     /* Audio */
     public int Channels;

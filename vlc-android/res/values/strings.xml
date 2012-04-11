@@ -71,11 +71,12 @@
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
     <plurals name="track_audio_info">
-        <item quantity="one">Codec: %1$s\n%2$d channel\nSample rate: %3$d Hz</item>
-        <item quantity="other">Codec: %1$s\n%2$d channels\nSample rate: %3$d Hz</item>
+        <item quantity="one">Codec: %1$s\nLanguage: %2$s\n%3$d channel\nSample rate: %4$d Hz</item>
+        <item quantity="other">Codec: %1$s\nLanguage: %2$s\n%3$d channels\nSample rate: %4$d Hz</item>
     </plurals>
     <string name="track_video">Video track</string>
-    <string name="track_video_info">Codec: %1$s\nResolution: %2$dx%3$d</string>
+    <string name="track_video_info">Codec: %1$s\nLanguage: %2$s\nResolution: %3$dx%4$d\nFrame rate: %5$.3f</string>
     <string name="track_text">Subtitles track</string>
+    <string name="track_text_info">Codec: %1$s\nLanguage: %2$s</string>
     <string name="track_unknown">Unknown track</string>
 </resources>
