@@ -95,6 +95,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/title"
         android:textColor="#ffffff"
         android:textSize="20dip"
@@ -109,6 +110,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/artist"
         android:textColor="#888888"
         android:textSize="18dip"
@@ -123,6 +125,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/album"
         android:textColor="#888888"
         android:textSize="18dip"
