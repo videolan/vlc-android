@@ -1,6 +1,6 @@
-From 283011cced8ee43f19747d14f5b257d0b00e5039 Mon Sep 17 00:00:00 2001
+From 52e0e35615298f7589f116c3835f6a67fafe0de1 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Wed, 11 Apr 2012 21:30:31 +0200
+Date: Thu, 12 Apr 2012 19:22:43 +0200
 Subject: [PATCH 3/3] libvlc: add language and frame rate to
  libvlc_media_track_info_t
 
@@ -10,25 +10,21 @@ Subject: [PATCH 3/3] libvlc: add language and frame rate to
  2 files changed, 6 insertions(+), 0 deletions(-)
 
 diff --git a/include/vlc/libvlc_media.h b/include/vlc/libvlc_media.h
-index 279a29c..e43a5b4 100644
+index 279a29c..577e363 100644
 --- a/include/vlc/libvlc_media.h
 +++ b/include/vlc/libvlc_media.h
-@@ -150,6 +150,8 @@ typedef struct libvlc_media_track_info_t
-     int         i_id;
-     libvlc_track_type_t i_type;
- 
-+    char        *psz_language;
-+
-     /* Codec specific */
-     int         i_profile;
-     int         i_level;
-@@ -164,6 +166,7 @@ typedef struct libvlc_media_track_info_t
+@@ -164,9 +164,12 @@ typedef struct libvlc_media_track_info_t
              /* Video specific */
              unsigned    i_height;
              unsigned    i_width;
 +            float       f_frame_rate;
          } video;
      } u;
+ 
++    char *psz_language;
++
+ } libvlc_media_track_info_t;
+ 
  
 diff --git a/lib/media.c b/lib/media.c
 index 2c01c80..4bc832b 100644
