@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_with_shadow"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="48dip"
+        android:background="@drawable/header"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/header_logo" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip" >
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:clickable="true"
+            android:onClick="onTimeLabelClick"
+            android:text="@string/time_0"
+            android:textColor="#ffffff"
+            android:textSize="18dip" />
+
+        <SeekBar
+            android:id="@+id/timeline"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="4dip"
+            android:minHeight="4dip"
+            android:paddingLeft="60dip"
+            android:paddingRight="60dip"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/ic_seekbar_thumb" />
+
+        <TextView
+            android:id="@+id/length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:text="@string/time_0"
+            android:textColor="#ffffff"
+            android:textSize="18dip" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="140dip"
+            android:layout_height="140dip"
+            android:background="#00ffffff" />
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dip"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:onClick="onTextClick"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:singleLine="true"
+                android:text="@string/title"
+                android:textColor="#ffffff"
+                android:textSize="20dip" />
+
+            <TextView
+                android:id="@+id/artist"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dip"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:onClick="onTextClick"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:singleLine="true"
+                android:text="@string/artist"
+                android:textColor="#888888"
+                android:textSize="18dip" />
+
+            <TextView
+                android:id="@+id/album"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:onClick="onTextClick"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:singleLine="true"
+                android:text="@string/album"
+                android:textColor="#888888"
+                android:textSize="18dip" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/shuffle"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_gravity="top"
+                android:layout_marginTop="20dip"
+                android:background="#00000000"
+                android:onClick="onShuffleClick"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_shuffle" />
+
+            <ImageButton
+                android:id="@+id/repeat"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="20dip"
+                android:background="#00000000"
+                android:onClick="onRepeatClick"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_repeat" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dip"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/ic_backward"
+            android:onClick="onPreviousClick" />
+
+        <ImageButton
+            android:id="@+id/play_pause"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/ic_pause"
+            android:onClick="onPlayPauseClick" />
+
+        <ImageButton
+            android:id="@+id/stop"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/ic_stop"
+            android:onClick="onStopClick" />
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/ic_forward"
+            android:onClick="onNextClick" />
+    </LinearLayout>
+
+</LinearLayout>
