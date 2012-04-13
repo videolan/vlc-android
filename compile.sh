@@ -47,7 +47,11 @@ else
     echo "VLC source found, updating"
     cd vlc
     git fetch origin
-    git checkout -B android ${TESTED_HASH}
+    if git branch --list | grep -qw android; then
+        git merge ${TESTED_HASH}
+    else
+        git checkout -B android ${TESTED_HASH}
+    fi
     cd -
 fi
 
