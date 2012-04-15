@@ -240,8 +240,8 @@ public class MainActivity extends TabActivity {
             case R.id.ml_menu_open_mrl:
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 final EditText input = new EditText(this);
-                b.setTitle("Open Network stream");
-                b.setMessage("Enter network MRL: e.g. http://, mms:// or rtsp://");
+                b.setTitle(R.string.open_mrl_dialog_title);
+                b.setMessage(R.string.open_mrl_dialog_msg);
                 b.setView(input);
                 b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int button) {
