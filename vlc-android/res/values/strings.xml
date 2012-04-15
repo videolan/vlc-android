@@ -80,4 +80,5 @@
     <string name="track_text">Subtitles track</string>
     <string name="track_text_info">Codec: %1$s\nLanguage: %2$s</string>
     <string name="track_unknown">Unknown track</string>
+    <string name="open_mrl">Open MRL</string>
 </resources>

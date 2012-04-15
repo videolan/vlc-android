@@ -25,6 +25,9 @@
         android:id="@+id/ml_menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/about" />
-
+    <item
+        android:id="@+id/ml_menu_open_mrl"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:title="@string/open_mrl" />
 
 </menu>

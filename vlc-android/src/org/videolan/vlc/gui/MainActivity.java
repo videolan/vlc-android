@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.gui;
 
+import java.util.ArrayList;
+
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
@@ -33,10 +35,12 @@ import org.videolan.vlc.widget.AudioMiniPlayer;
 
 import android.app.Activity;
 import android.app.ActivityGroup;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -53,6 +57,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
@@ -231,6 +236,28 @@ public class MainActivity extends TabActivity {
             // Refresh
             case R.id.ml_menu_refresh:
                 MediaLibrary.getInstance(this).loadMediaItems(this);
+                break;
+            case R.id.ml_menu_open_mrl:
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                final EditText input = new EditText(this);
+                b.setTitle("Resource MRL");
+                b.setMessage("Enter MRL (media resource locator): e.g. rtsp:// or http://");
+                b.setView(input);
+                b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int button) {
+                        AudioServiceController c = AudioServiceController.getInstance();
+                        ArrayList<String> media = new ArrayList<String>();
+                        media.add(input.getText().toString());
+                        c.append(media);
+                        }
+                    }
+                );
+                b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        return;
+                        }});
+                b.show();
                 break;
         }
         return super.onOptionsItemSelected(item);

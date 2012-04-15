@@ -463,6 +463,7 @@ public class AudioService extends Service {
         @Override
         public void load(List<String> mediaPathList, int position)
                 throws RemoteException {
+            Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
             mEventManager.addHandler(mEventHandler);
             mMediaList.clear();
             mPrevious.clear();
@@ -470,6 +471,10 @@ public class AudioService extends Service {
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
                 Media media = db.getMedia(AudioService.this, path);
+                if(media == null) {
+                    Log.v(TAG, "Creating on-the-fly Media object for " + path);
+                    media = new Media(AudioService.this, path, false);
+                }
                 mMediaList.add(media);
             }
 
