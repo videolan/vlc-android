@@ -93,7 +93,7 @@ if test ! -s "../configure" ; then
 fi
 
 echo "Configuring"
-sh ../extras/package/android/configure.sh
+../../configure.sh
 
 echo "Building"
 make
