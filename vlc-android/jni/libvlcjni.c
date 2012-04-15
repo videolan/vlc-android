@@ -392,7 +392,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
     if (!m)
     {
         LOGE("readMediaMeta: Couldn't create the media!");
-        return;
+        return array;
     }
 
     libvlc_media_parse(m);
@@ -406,8 +406,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
         libvlc_meta_Title,
         libvlc_meta_Genre,
     };
-    int i;
-    for (i=0; i < sizeof(str) / sizeof(*str); i++) {
+    for (int i=0; i < sizeof(str) / sizeof(*str); i++) {
         char *meta = libvlc_media_get_meta(m, meta_id[i]);
         if (!meta)
             meta = strdup("");

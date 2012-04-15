@@ -92,8 +92,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     const char *dataSrc = sys->frameData;
     char *dataDest = sys->thumbnail + sys->thumbnailOffset;
     /* Copy the thumbnail. */
-    unsigned i;
-    for (i = 0; i < sys->nbLines; ++i)
+    for (unsigned i = 0; i < sys->nbLines; ++i)
     {
         memcpy(dataDest, dataSrc, sys->picPitch);
         dataDest += sys->lineSize;
@@ -152,9 +151,9 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_parse(m);
     int nbTracks = libvlc_media_get_tracks_info(m, &tracks);
 
-    unsigned i, videoWidth, videoHeight;
+    unsigned videoWidth, videoHeight;
     bool hasVideoTrack = false;
-    for (i = 0; i < nbTracks; ++i)
+    for (unsigned i = 0; i < nbTracks; ++i)
         if (tracks[i].i_type == libvlc_track_video)
         {
             videoWidth = tracks[i].u.video.i_width;
