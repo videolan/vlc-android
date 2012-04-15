@@ -141,6 +141,8 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         goto end;
     }
     libvlc_media_add_option( m, ":no-audio" );
+    libvlc_media_add_option( m, ":no-spu" );
+    libvlc_media_add_option( m, ":no-osd" );
 
     libvlc_media_player_set_media(sys->mp, m);
     libvlc_media_release(m);
