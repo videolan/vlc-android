@@ -193,6 +193,12 @@ public class VideoPlayerActivity extends Activity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        dimStatusBar(true);
+    }
+
+    @Override
     protected void onPause() {
         long time = 0;
         if (mLibVLC.isPlaying()) {
@@ -662,6 +668,7 @@ public class VideoPlayerActivity extends Activity {
             mShowing = true;
             mOverlayHeader.setVisibility(View.VISIBLE);
             mOverlay.setVisibility(View.VISIBLE);
+            dimStatusBar(false);
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
@@ -692,8 +699,25 @@ public class VideoPlayerActivity extends Activity {
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlay.setVisibility(View.INVISIBLE);
             mShowing = false;
+            dimStatusBar(true);
         }
     }
+
+    /**
+     * Dim the status bar and/or navigation icons when needed.
+     * Android 3.0 and later
+     */
+    private void dimStatusBar(boolean dim) {
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            if (dim) {
+                mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+            } else {
+                mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
+        }
+    }
+
+
 
     private void updateOverlayPausePlay() {
         if (mLibVLC == null) {
