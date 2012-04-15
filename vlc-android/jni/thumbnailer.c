@@ -246,8 +246,6 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     (*env)->SetByteArrayRegion(env, byteArray, 0, thumbnailSize,
                                  (jbyte *)sys->thumbnail);
 
-    (*env)->DeleteLocalRef(env, byteArray);
-
 end:
     pthread_mutex_destroy(&sys->doneMutex);
     pthread_cond_destroy(&sys->doneCondVar);
