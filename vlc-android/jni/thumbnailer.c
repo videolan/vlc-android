@@ -171,6 +171,13 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         goto end;
     }
 
+    /* VLC could not tell us the size */
+    if( videoWidth == 0 || videoHeight == 0 )
+    {
+        LOGE("Could not find correct dimensions.\n");
+        goto end;
+    }
+
     /* Compute the size parameters of the frame to generate. */
     unsigned picWidth  = width;
     unsigned picHeight = height;
