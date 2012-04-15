@@ -55,8 +55,9 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --enable-debug \
                 --enable-mkv \
                 --enable-taglib \
+                --enable-iomx \
                 --disable-vlc --disable-shared \
-                --disable-vlm --disable-sout \
+                --disable-vlm \
                 --disable-dbus \
                 --disable-lua \
                 --disable-vcd \
@@ -72,10 +73,8 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-mod \
                 --disable-sid \
                 --disable-gme \
-                --disable-tremor --disable-vorbis \
-                --disable-x264 \
+                --disable-tremor \
                 --disable-mad \
-                --disable-schroedinger --disable-dirac \
                 --disable-sdl-image \
                 --disable-zvbi \
                 --disable-fluidsynth \
@@ -101,5 +100,8 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-egl \
                 --disable-goom \
                 --disable-projectm \
-                --enable-iomx \
+                --disable-sout \
+                --disable-vorbis \
+                --disable-x264 \
+                --disable-schroedinger --disable-dirac \
                 $*
