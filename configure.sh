@@ -89,7 +89,6 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-qt4 \
                 --disable-skins2 \
                 --disable-mtp \
-                --enable-taglib \
                 --disable-notify \
                 --disable-freetype \
                 --disable-libass \
