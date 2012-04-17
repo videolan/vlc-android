@@ -7,7 +7,7 @@ fi
 
 ANDROID_API=android-9
 
-VLC_SOURCEDIR="`dirname $0`/../../.."
+VLC_SOURCEDIR=..
 
 CFLAGS="-g -O2 -mlong-calls -fstrict-aliasing -mfloat-abi=softfp -funsafe-math-optimizations"
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
