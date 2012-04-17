@@ -1,7 +1,7 @@
-From 85fd132bfd3b6316af4363dab3d4ed2586b7245e Mon Sep 17 00:00:00 2001
+From dc995ad26afac5a8f86dde801df87b62a73d2e58 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
 Date: Sat, 10 Mar 2012 04:54:23 -0500
-Subject: [PATCH 1/2] android: threads support
+Subject: [PATCH 1/3] android: threads support
 
 emulate pthread_cancel (based on win32 code)
 TODO:
@@ -154,7 +154,7 @@ index 9ab1ca6..27bf38e 100644
  	posix/dirs.c \
  	misc/atomic.c \
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index a7a4873..598c692 100644
+index a7a4873..6c36980 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -1,5 +1,5 @@
@@ -540,5 +540,5 @@ index a7a4873..598c692 100644
  #endif
  }
 -- 
-1.7.9.6
+1.7.9.5
 
