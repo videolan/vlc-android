@@ -54,7 +54,8 @@ public class Media implements Comparable<Media> {
                 "/sdcard/media/ringtones",
                 "/sdcard/media/audio/alarms",
                 "/sdcard/media/audio/notifications",
-                "/sdcard/media/audio/ringtones" };
+                "/sdcard/media/audio/ringtones",
+                "/sdcard/Android/data/" };
 
         EXTENTIONS = new HashSet<String>();
         for (String item : extensions)
