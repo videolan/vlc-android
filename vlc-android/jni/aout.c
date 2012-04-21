@@ -171,6 +171,22 @@ void aout_close(void *opaque)
 
     JNIEnv *p_env;
     (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+
+    // Call the close function.
+    jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
+    jmethodID methodIdCloseAout = (*p_env)->GetMethodID (p_env, cls, "closeAout", "()V");
+    if (!methodIdCloseAout)
+        LOGE ("Method closeAout() could not be found!");
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdCloseAout);
+    if ((*p_env)->ExceptionCheck (p_env))
+    {
+        LOGE ("Unable to close audio player!");
+#ifndef NDEBUG
+        (*p_env)->ExceptionDescribe (p_env);
+#endif
+        (*p_env)->ExceptionClear (p_env);
+    }
+
     (*p_env)->DeleteGlobalRef (p_env, p_sys->buffer);
     (*myVm)->DetachCurrentThread (myVm);
     free (p_sys);
