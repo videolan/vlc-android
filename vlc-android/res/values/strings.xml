@@ -71,15 +71,18 @@
     <string name="detect_headset_detail">Pause on headset removed, Resume on headset inserted</string>
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
-    <plurals name="track_audio_info">
-        <item quantity="one">Codec: %1$s\nLanguage: %2$s\n%3$d channel\nSample rate: %4$d Hz</item>
-        <item quantity="other">Codec: %1$s\nLanguage: %2$s\n%3$d channels\nSample rate: %4$d Hz</item>
-    </plurals>
     <string name="track_video">Video track</string>
-    <string name="track_video_info">Codec: %1$s\nLanguage: %2$s\nResolution: %3$dx%4$d\nFrame rate: %5$.3f</string>
     <string name="track_text">Subtitles track</string>
-    <string name="track_text_info">Codec: %1$s\nLanguage: %2$s</string>
     <string name="track_unknown">Unknown track</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Language: %1$s\n</string>
+    <plurals name="track_channels_info">
+        <item quantity="one">%1$d channel\n</item>
+        <item quantity="other">%1$d channels\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolution: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
     <string name="open_mrl">Open MRL</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>

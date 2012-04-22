@@ -68,13 +68,16 @@
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
-    <plurals name="track_audio_info">
-        <item quantity="one">Codec: %1$s\nLangue: %2$s\n%3$d canal\nFréquence d\'échantillonage: %4$d Hz</item>
-        <item quantity="other">Codec: %1$s\nLangue: %2$s\n%3$d canaux\nFréquence d\'échantillonage: %4$d Hz</item>
-    </plurals>
     <string name="track_video">Piste vidéo</string>
-    <string name="track_video_info">Codec: %1$s\nLangue: %2$s\nRésolution: %3$dx%4$d\nDébit d\'images: %5$.3f</string>
     <string name="track_text">Piste sous-titres</string>
-    <string name="track_text_info">Codec: %1$s\nLangue: %2$s</string>
     <string name="track_unknown">Piste inconnue</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Langue: %1$s\n</string>
+    <plurals name="track_channels_info">
+        <item quantity="one">%1$d canal\n</item>
+        <item quantity="other">%1$d canaux\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Fréquence d\'échantillonage: %1$d Hz\n</string>
+    <string name="track_resolution_info">Résolution: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Débit d\'images: %1$.3f\n</string>
 </resources>
