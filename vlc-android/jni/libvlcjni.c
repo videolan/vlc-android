@@ -500,7 +500,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
             break;
         }
 
-    free(p_tracks);
+    libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
     libvlc_media_release(p_m);
 
     return hasVideo;
@@ -553,7 +553,6 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
             setInt(env, item, "Type", p_tracks[i].i_type);
             setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i].i_codec));
             setString(env, item, "Language", p_tracks[i].psz_language);
-            free(p_tracks[i].psz_language);
 
             if (p_tracks[i].i_type == libvlc_track_video)
             {
@@ -569,7 +568,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
         }
     }
 
-    free(p_tracks);
+    libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
     libvlc_media_release(p_m);
     return array;
 }

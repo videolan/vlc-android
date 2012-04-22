@@ -1,16 +1,16 @@
-From e6a39bfa4bb94d70a1315c1e7322cd9dfc4fb8de Mon Sep 17 00:00:00 2001
+From 313b27201aa4757678bfc995ea611e640294ab41 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
-Date: Thu, 12 Apr 2012 19:22:43 +0200
+Date: Sun, 22 Apr 2012 09:35:52 +0200
 Subject: [PATCH 3/3] libvlc: add language and frame rate to
  libvlc_media_track_info_t
 
 ---
- include/vlc/libvlc_media.h |    3 +++
- lib/media.c                |    3 +++
- 2 files changed, 6 insertions(+)
+ include/vlc/libvlc_media.h |   14 ++++++++++++++
+ lib/media.c                |   15 +++++++++++++++
+ 2 files changed, 29 insertions(+), 0 deletions(-)
 
 diff --git a/include/vlc/libvlc_media.h b/include/vlc/libvlc_media.h
-index 279a29c..577e363 100644
+index 279a29c..d4b1524 100644
 --- a/include/vlc/libvlc_media.h
 +++ b/include/vlc/libvlc_media.h
 @@ -164,9 +164,12 @@ typedef struct libvlc_media_track_info_t
@@ -26,8 +26,26 @@ index 279a29c..577e363 100644
  } libvlc_media_track_info_t;
  
  
+@@ -504,6 +507,17 @@ LIBVLC_API
+ int libvlc_media_get_tracks_info( libvlc_media_t *p_md,
+                                   libvlc_media_track_info_t **tracks );
+ 
++/**
++ * Release media descriptor's elementary streams description array
++ *
++ * \param p_tracks tracks info array to release
++ * \param i_count number of elements in the array
++ */
++LIBVLC_API
++void libvlc_media_tracks_info_release( libvlc_media_track_info_t *p_tracks,
++                                       int i_count );
++
++
+ /** @}*/
+ 
+ # ifdef __cplusplus
 diff --git a/lib/media.c b/lib/media.c
-index 2c01c80..4bc832b 100644
+index 2c01c80..b3f5a9a 100644
 --- a/lib/media.c
 +++ b/lib/media.c
 @@ -707,6 +707,8 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
@@ -47,6 +65,22 @@ index 2c01c80..4bc832b 100644
              break;
          case AUDIO_ES:
              p_mes->i_type = libvlc_track_audio;
+@@ -735,3 +738,15 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+     vlc_mutex_unlock( &p_input_item->lock );
+     return i_es;
+ }
++
++/**************************************************************************
++ * Release media descriptor's elementary streams description array
++ **************************************************************************/
++void libvlc_media_tracks_info_release( libvlc_media_track_info_t *p_tracks, int i_count )
++{
++    if (!p_tracks)
++        return;
++    for (int i = 0; i < i_count; ++i)
++        free( p_tracks[i].psz_language );
++    free( p_tracks );
++}
 -- 
-1.7.9.5
+1.7.5.4
 
