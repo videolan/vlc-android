@@ -1,20 +1,20 @@
-From 9443715f57ea585d899e942a49861fc246a8b826 Mon Sep 17 00:00:00 2001
+From e5fa715d70557610b376b34f069635af77e69492 Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
-Date: Thu, 8 Mar 2012 22:46:57 -0800
+Date: Sun, 29 Apr 2012 18:57:28 +0200
 Subject: [PATCH 2/3] Android: add native AudioTrack aout module
 
 ---
  configure.ac                      |   24 +++
  modules/audio_output/Modules.am   |    1 +
- modules/audio_output/audiotrack.c |  303 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 328 insertions(+)
+ modules/audio_output/audiotrack.c |  304 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 329 insertions(+), 0 deletions(-)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index ea54735..9766404 100644
+index 0b82490..291dfec 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3556,6 +3556,30 @@ if test "${HAVE_ANDROID}" = "1"; then
+@@ -3555,6 +3555,30 @@ if test "${HAVE_ANDROID}" = "1"; then
  fi
  
  dnl
@@ -59,10 +59,10 @@ index 357bc1d..c4b5a37 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..297c48e
+index 0000000..5c4a0ce
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,303 @@
+@@ -0,0 +1,304 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
@@ -239,6 +239,7 @@ index 0000000..297c48e
 +    p_sys->libmedia = InitLibrary(p_sys);
 +    if (!p_sys->libmedia) {
 +        msg_Err(p_aout, "Could not initialize libmedia.so!");
++        free(p_sys);
 +        return VLC_EGENERIC;
 +    }
 +
@@ -278,8 +279,8 @@ index 0000000..297c48e
 +        status ^= p_sys->as_getOutputLatency((uint32_t*)(&afLatency), stream_type);
 +        if (status != 0) {
 +            msg_Err(p_aout, "Could not query the AudioStream parameters");
-+            free(p_sys);
 +            dlclose(p_sys->libmedia);
++            free(p_sys);
 +            return VLC_EGENERIC;
 +        }
 +        minBufCount = afLatency / ((1000 * afFrameCount) / afSampleRate);
@@ -309,7 +310,7 @@ index 0000000..297c48e
 +        return VLC_ENOMEM;
 +    }
 +
-+    *((uint32_t *) p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4) = 0xbaadbaad;
++    *((uint32_t *) ((uint32_t)p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4)) = 0xbaadbaad;
 +    // Higher than android 2.2
 +    if (p_sys->at_ctor)
 +        p_sys->at_ctor(p_sys->AudioTrack, stream_type, rate, format, channel, size, 0, NULL, NULL, 0, 0);
@@ -317,7 +318,7 @@ index 0000000..297c48e
 +    else if (p_sys->at_ctor_legacy)
 +        p_sys->at_ctor_legacy(p_sys->AudioTrack, stream_type, rate, format, channel, size, 0, NULL, NULL, 0);
 +
-+    assert( (*((uint32_t *) p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4) == 0xbaadbaad) );
++    assert( (*((uint32_t *) ((uint32_t)p_sys->AudioTrack + SIZE_OF_AUDIOTRACK - 4)) == 0xbaadbaad) );
 +
 +    /* And Init */
 +    status = p_sys->at_initCheck(p_sys->AudioTrack);
@@ -367,5 +368,5 @@ index 0000000..297c48e
 +}
 +
 -- 
-1.7.9.5
+1.7.5.4
 
