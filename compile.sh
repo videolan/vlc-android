@@ -62,7 +62,8 @@ cd vlc
 git am ../patches/*.patch || git am --abort
 
 echo "Building the contribs"
-mkdir contrib/android; cd contrib/android
+mkdir -p contrib/android
+cd contrib/android
 ../bootstrap --host=arm-linux-androideabi --disable-disc --disable-sout --enable-small \
     --disable-sdl \
     --disable-SDL_image \
