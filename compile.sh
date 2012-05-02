@@ -85,6 +85,12 @@ cd contrib/android
 
 # TODO: mpeg2, dts, theora
 
+if test -z "${NO_NEON}" -o -n "${TEGRA2}"; then
+    # assumes armv7-a
+    echo "EXTRA_CFLAGS += -mthumb" >> config.mak
+    echo "NOTHUMB := -marm" >> config.mak
+fi
+
 make fetch
 make
 

@@ -14,12 +14,12 @@ LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
 
 if [ -z "$NO_NEON" ]; then
     CXX_TARGET="armeabi-v7a"
-    CFLAGS="$CFLAGS -mfpu=neon -mcpu=cortex-a8"
+    CFLAGS="$CFLAGS -mfpu=neon -mcpu=cortex-a8 -mthumb"
     LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
     EXTRA_PARAMS=" --enable-neon"
 elif [ -n "$TEGRA2" ]; then
     CXX_TARGET="armeabi-v7a"
-    CFLAGS="$CFLAGS -mfpu=vfpv3-d16 -mcpu=cortex-a9"
+    CFLAGS="$CFLAGS -mfpu=vfpv3-d16 -mcpu=cortex-a9 -mthumb"
     EXTRA_PARAMS=" --disable-neon"
 else
     CXX_TARGET="armeabi"
