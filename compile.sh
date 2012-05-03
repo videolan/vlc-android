@@ -27,7 +27,7 @@ fi
 
 if [ -z "$NO_NDK_V7" ]; then
     # try to detect NDK version
-    REL=$(grep "r7" $ANDROID_NDK/RELEASE.TXT)
+    REL=$(grep -e "r[78]" $ANDROID_NDK/RELEASE.TXT)
     if [ -z $REL ]; then
         export NO_NDK_V7=1
     fi
