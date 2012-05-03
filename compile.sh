@@ -5,6 +5,8 @@
 # or modify numbers in configure.sh and vlc-android/default.properties.
 # Create an AVD with this platform.
 
+set -e
+
 # XXX : important!
 cat << EOF
 If you plan to use a device without NEON (e.g. the emulator), you need a build without NEON:
@@ -27,7 +29,7 @@ fi
 
 if [ -z "$NO_NDK_V7" ]; then
     # try to detect NDK version
-    REL=$(grep -e "r[78]" $ANDROID_NDK/RELEASE.TXT)
+    REL=$(grep -o '^r[0-9]*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
     if [ -z $REL ]; then
         export NO_NDK_V7=1
     fi
@@ -43,23 +45,32 @@ if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
     git checkout -B android ${TESTED_HASH}
-else
-    echo "VLC source found, updating"
+    echo "Applying the patches"
     cd vlc
-    git fetch origin
-    if git branch | grep -q '.*android$'; then
-        echo "Android branch found, merging"
-        git merge ${TESTED_HASH}
-    else
-        echo "Creating android branch"
-        git checkout -B android ${TESTED_HASH}
-    fi
-    cd -
-fi
+    git am ../patches/*.patch
+else
+    echo "VLC source found"
+    cd vlc
+    if ! git cat-file -e ${TESTED_HASH}; then
+        cat << EOF
+***
+*** Error: Your vlc checkout does not contain the latest tested commit ***
+***
 
-echo "Applying the patches"
+Please update your source with something like:
+
 cd vlc
-git am ../patches/*.patch || git am --abort
+git reset --hard origin
+git pull origin master
+git checkout -B android ${TESTED_HASH}
+git am ../patches/*
+
+*** : This will delete any changes you made to the current branch ***
+
+EOF
+        exit 1
+    fi
+fi
 
 echo "Building the contribs"
 mkdir -p contrib/android
