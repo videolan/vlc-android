@@ -1,7 +1,5 @@
 #! /bin/sh
 
-set -e
-
 # Read the Android HOWTO and setup all that stuff correctly.
 # Get the Android SDK Platform 2.1, 2.2 and 2.3 API : version 7, 8 and (9 or 10)
 # or modify numbers in configure.sh and vlc-android/default.properties.
@@ -49,9 +47,11 @@ else
     echo "VLC source found, updating"
     cd vlc
     git fetch origin
-    if git branch | grep -q '* android$'; then
+    if git branch | grep -q '.*android$'; then
+        echo "Android branch found, merging"
         git merge ${TESTED_HASH}
     else
+        echo "Creating android branch"
         git checkout -B android ${TESTED_HASH}
     fi
     cd -
