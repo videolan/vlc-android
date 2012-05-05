@@ -33,6 +33,7 @@ import org.videolan.vlc.gui.video.VideoListActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 public class ThumbnailerManager extends Thread {
@@ -46,6 +47,7 @@ public class ThumbnailerManager extends Thread {
     private LibVLC mLibVlc;
     private VideoListActivity mVideoListActivity;
     private int totalCount;
+    private float mDensity;
 
     public ThumbnailerManager(VideoListActivity videoListActivity) {
         mVideoListActivity = videoListActivity;
@@ -54,6 +56,10 @@ public class ThumbnailerManager extends Thread {
         } catch (LibVlcException e) {
             e.printStackTrace();
         }
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        mVideoListActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mDensity = metrics.density;
         start();
     }
 
@@ -116,8 +122,8 @@ public class ThumbnailerManager extends Thread {
             MainActivity.sendTextInfo(mVideoListActivity, String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
-            int width = 120;
-            int height = 120;
+            int width = (int) (120 * mDensity);
+            int height = (int) (120 * mDensity);
 
             // Get the thumbnail.
             Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
