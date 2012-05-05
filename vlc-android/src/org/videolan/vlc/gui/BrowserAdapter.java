@@ -42,8 +42,8 @@ public class BrowserAdapter extends ArrayAdapter<File>
                             implements Comparator<File> {
     public final static String TAG = "VLC/BrowserAdapter";
 
-    public BrowserAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public BrowserAdapter(Context context) {
+        super(context, 0);
     }
 
     @Override

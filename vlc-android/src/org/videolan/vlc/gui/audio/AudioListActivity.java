@@ -74,7 +74,7 @@ public class AudioListActivity extends ListActivity {
 
         mTitle = (TextView) findViewById(R.id.title);
 
-        mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
+        mSongsAdapter = new AudioSongsListAdapter(this);
         setListAdapter(mSongsAdapter);
         getListView().setOnCreateContextMenuListener(contextMenuListener);
 

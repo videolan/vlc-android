@@ -34,8 +34,8 @@ import android.widget.TextView;
 public class SearchResultAdapter extends ArrayAdapter<Media>
                                     implements Comparator<Media> {
 
-    public SearchResultAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public SearchResultAdapter(Context context) {
+        super(context, 0);
     }
 
     @Override

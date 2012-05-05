@@ -63,7 +63,7 @@ public class BrowserActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.browser);
         super.onCreate(savedInstanceState);
-        mAdapter = new BrowserAdapter(this, R.layout.browser_item);
+        mAdapter = new BrowserAdapter(this);
         setListAdapter(mAdapter);
 
         //get the root from the settings

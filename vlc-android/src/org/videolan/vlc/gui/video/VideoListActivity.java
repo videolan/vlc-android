@@ -64,7 +64,7 @@ public class VideoListActivity extends ListActivity implements ISortable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_list);
 
-        mVideoAdapter = new VideoListAdapter(this, R.layout.video_list_item);
+        mVideoAdapter = new VideoListAdapter(this);
         mNoFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_nofile);
         mLoadFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_loadfile);
 

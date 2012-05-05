@@ -97,7 +97,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         mMediaLibrary = MediaLibrary.getInstance(this);
         mMediaLibrary.addUpdateHandler(mHandler);
 
-        mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
+        mSongsAdapter = new AudioSongsListAdapter(this);
         mArtistsAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);
         mAlbumsAdapter = new AudioPlaylistAdapter(this, R.plurals.songs, R.plurals.songs);
         mGenresAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);

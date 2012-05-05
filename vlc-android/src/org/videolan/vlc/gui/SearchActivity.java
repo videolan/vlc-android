@@ -67,7 +67,7 @@ public class SearchActivity extends ListActivity {
         setContentView(R.layout.search);
 
         // TODO: create layout
-        mResultAdapter = new SearchResultAdapter(this, android.R.layout.simple_list_item_1);
+        mResultAdapter = new SearchResultAdapter(this);
 
         mSearchText = (EditText) findViewById(R.id.search_text);
         mSearchText.setOnEditorActionListener(searchTextListener);

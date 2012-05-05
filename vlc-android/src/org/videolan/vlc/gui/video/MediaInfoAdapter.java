@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
 
-    public MediaInfoAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public MediaInfoAdapter(Context context) {
+        super(context, 0);
     }
 
     @Override

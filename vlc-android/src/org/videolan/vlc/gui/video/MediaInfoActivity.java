@@ -71,7 +71,7 @@ public class MediaInfoActivity extends ListActivity {
 
         mPlayButton = (ImageButton) findViewById(R.id.play);
 
-        mAdapter = new MediaInfoAdapter(MediaInfoActivity.this, R.layout.audio_browser_playlist);
+        mAdapter = new MediaInfoAdapter(MediaInfoActivity.this);
         setListAdapter(mAdapter);
 
         new Thread(mLoadImage).start();

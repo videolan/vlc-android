@@ -39,8 +39,8 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
 
-    public AudioSongsListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public AudioSongsListAdapter(Context context) {
+        super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
     }

@@ -48,8 +48,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortBy = SORT_BY_TITLE;
     private String mLastMRL;
 
-    public VideoListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public VideoListAdapter(Context context) {
+        super(context, 0);
     }
 
     public final static String TAG = "VLC/MediaLibraryAdapter";
