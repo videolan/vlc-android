@@ -122,6 +122,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.video_list_item, parent, false);
             holder = new ViewHolder();
+            holder.layout = (View) v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.length = (TextView) v.findViewById(R.id.ml_item_length);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
@@ -131,6 +132,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
+        Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
         holder.length.setText(" " + Util.millisToString(media.getLength()) + " ");
 
@@ -163,6 +165,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     };
 
     static class ViewHolder {
+        View layout;
         ImageView thumbnail;
         TextView length;
         TextView title;

@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/item_common">
     <HorizontalScrollView
         android:id="@+id/header"
         android:scrollbars="none"
@@ -62,23 +63,34 @@
             android:id="@+id/songs_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/artists_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:childDivider="@color/item_common"
+            android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:childDivider="@color/item_common"
+            android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/genres_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:childDivider="@color/item_common"
+            android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
     </org.videolan.vlc.widget.FlingViewGroup>

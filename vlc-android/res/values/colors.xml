@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="item_common">#F111</color>
+    <color name="item_1">#F222</color>
+    <color name="item_2">#F000</color>
+    <color name="orange">#FFF48B00</color>
+
+</resources>

@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -150,6 +151,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         if (v == null) {
             v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
             holder = new GroupViewHolder();
+            holder.layout = (View) v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.more = (ImageView) v.findViewById(R.id.more);
@@ -162,6 +164,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         int countMedia = mGroups.get(name).get(null).size();
         Resources res = mContext.getResources();
 
+        Util.setItemBackground(holder.layout, groupPosition);
         holder.title.setText(name);
         if (count > 2)
             holder.text.setText(res.getQuantityString(mGroupTextId, count - 1, count - 1));
@@ -185,6 +188,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         if (v == null) {
             v = mInflater.inflate(R.layout.audio_browser_playlist_child, parent, false);
             holder = new ChildViewHolder();
+            holder.layout = (View) v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             v.setTag(holder);
@@ -197,6 +201,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         int count = list.size();
         Resources res = mContext.getResources();
 
+        Util.setItemBackground(holder.layout, childPosition);
         if (name != null)
             holder.title.setText(name);
         else
@@ -207,12 +212,14 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
     }
 
     static class GroupViewHolder {
+        View layout;
         TextView title;
         TextView text;
         ImageView more;
     }
 
     static class ChildViewHolder {
+        View layout;
         TextView title;
         TextView text;
     }

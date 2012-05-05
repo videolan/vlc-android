@@ -27,6 +27,7 @@ import java.text.DecimalFormat;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.view.View;
 import android.widget.Toast;
 
 public class Util {
@@ -158,5 +159,11 @@ public class Util {
     public static String getValue(Context context, String string, int defaultId)
     {
         return (string != null && string.length() > 0) ? string : context.getString(defaultId);
+    }
+
+    public static void setItemBackground(View v, int position) {
+        v.setBackgroundResource(position % 2 == 0
+                ? R.drawable.background_item1
+                : R.drawable.background_item2);
     }
 }
