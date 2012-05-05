@@ -43,7 +43,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MediaInfoActivity extends ListActivity {
+
     public final static String TAG = "VLC/MediaInfoActivity";
+    public static final String KEY = "MediaInfoActivity.image";
     private Media mItem;
     private Bitmap mImage;
     private ImageButton mPlayButton;
@@ -56,6 +58,9 @@ public class MediaInfoActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.media_info);
+        if (savedInstanceState != null)
+            mImage = savedInstanceState.getParcelable(KEY);
+
         String MRL = getIntent().getExtras().getString("itemLocation");
         if (MRL == null)
             return;
@@ -77,6 +82,12 @@ public class MediaInfoActivity extends ListActivity {
         new Thread(mLoadImage).start();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY, mImage);
+    }
+
     public void onPlayClick(View v) {
         Intent intent = new Intent(this, VideoPlayerActivity.class);
         intent.putExtra("itemLocation", mItem.getLocation());
@@ -96,20 +107,22 @@ public class MediaInfoActivity extends ListActivity {
             mTracks = mLibVlc.readTracksInfo(mItem.getLocation());
             mHandler.sendEmptyMessage(NEW_TEXT);
 
-            int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
-                    getWindowManager().getDefaultDisplay().getHeight());
-            int height = width * 9 / 16;
+            if (mImage == null) {
+                int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
+                                     getWindowManager().getDefaultDisplay().getHeight());
+                int height = width * 9 / 16;
 
-            // Get the thumbnail.
-            mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+                // Get the thumbnail.
+                mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-            byte[] b = mLibVlc.getThumbnail(mItem.getLocation(), width, height);
+                byte[] b = mLibVlc.getThumbnail(mItem.getLocation(), width, height);
 
-            if (b == null) // We were not able to create a thumbnail for this item.
-                return;
+                if (b == null) // We were not able to create a thumbnail for this item.
+                    return;
 
-            mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            mImage = Util.cropBorders(mImage, width, height);
+                mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
+                mImage = Util.cropBorders(mImage, width, height);
+            }
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }
