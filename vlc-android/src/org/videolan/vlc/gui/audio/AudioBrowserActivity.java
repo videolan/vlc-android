@@ -47,6 +47,10 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,21 +98,24 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioSongsListAdapter(this, R.layout.audio_browser_item);
-        mArtistsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
-        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
-        mGenresAdapter = new AudioPlaylistAdapter(this, R.layout.audio_browser_item);
+        mArtistsAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);
+        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.plurals.songs, R.plurals.songs);
+        mGenresAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);
         ListView songsList = (ListView) findViewById(R.id.songs_list);
-        ListView artistList = (ListView) findViewById(R.id.artists_list);
-        ListView albumList = (ListView) findViewById(R.id.albums_list);
-        ListView genreList = (ListView) findViewById(R.id.genres_list);
+        ExpandableListView artistList = (ExpandableListView) findViewById(R.id.artists_list);
+        ExpandableListView albumList = (ExpandableListView) findViewById(R.id.albums_list);
+        ExpandableListView genreList = (ExpandableListView) findViewById(R.id.genres_list);
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
         songsList.setOnItemClickListener(songListener);
-        artistList.setOnItemClickListener(playlistListener);
-        albumList.setOnItemClickListener(playlistListener);
-        genreList.setOnItemClickListener(playlistListener);
+        artistList.setOnGroupClickListener(playlistListener);
+        albumList.setOnGroupClickListener(playlistListener);
+        genreList.setOnGroupClickListener(playlistListener);
+        artistList.setOnChildClickListener(playlistChildListener);
+        albumList.setOnChildClickListener(playlistChildListener);
+        genreList.setOnChildClickListener(playlistChildListener);
         songsList.setOnCreateContextMenuListener(contextMenuListener);
         artistList.setOnCreateContextMenuListener(contextMenuListener);
         albumList.setOnCreateContextMenuListener(contextMenuListener);
@@ -127,16 +134,33 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         }
     };
 
-    OnItemClickListener playlistListener = new OnItemClickListener() {
+    OnGroupClickListener playlistListener = new OnGroupClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) av.getAdapter();
-            String name = adapter.getItem(p);
+        public boolean onGroupClick(ExpandableListView elv, View v, int groupPosition, long id) {
+            AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
+            if (adapter.getChildrenCount(groupPosition) > 2)
+                return false;
 
+            String name = adapter.getGroup(groupPosition);
             Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
-            AudioListActivity.set(intent, name, mFlingViewGroup.getPosition());
+            AudioListActivity.set(intent, name, null, mFlingViewGroup.getPosition());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            return true;
+        }
+    };
+
+    OnChildClickListener playlistChildListener = new OnChildClickListener() {
+        @Override
+        public boolean onChildClick(ExpandableListView elv, View v, int groupPosition, int childPosition, long id) {
+            AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
+            String name = adapter.getGroup(groupPosition);
+            String child = adapter.getChild(groupPosition, childPosition);
+            Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
+            AudioListActivity.set(intent, name, child, mFlingViewGroup.getPosition());
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return false;
         }
     };
 
@@ -155,33 +179,48 @@ public class AudioBrowserActivity extends Activity implements ISortable {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+        int startPosition;
+        int groupPosition;
+        int childPosition;
+        List<String> medias;
         int id = item.getItemId();
-
         boolean play_all = id == MENU_PLAY_ALL || id == MENU_APPEND_ALL;
         boolean play_append = id == MENU_APPEND || id == MENU_APPEND_ALL;
-        int start_position;
-        List<String> medias;
+
+        ContextMenuInfo menuInfo = item.getMenuInfo();
+        if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
+            ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
+            groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
+            if (childPosition < 0)
+                childPosition = 0;
+        }
+        else {
+
+            AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+            groupPosition = info.position;
+            childPosition = 0;
+        }
 
         if (play_all) {
-            start_position = menuInfo.position;
+            startPosition = groupPosition;
             medias = mSongsAdapter.getLocations();
         }
         else {
-            start_position = 0;
+            startPosition = 0;
             switch (mFlingViewGroup.getPosition())
             {
                 case MODE_SONG:
-                    medias = mSongsAdapter.getLocation(menuInfo.position);
+                    medias = mSongsAdapter.getLocation(groupPosition);
                     break;
                 case MODE_ARTIST:
-                    medias = mArtistsAdapter.getPlaylist(menuInfo.position);
+                    medias = mArtistsAdapter.getPlaylist(groupPosition, childPosition);
                     break;
                 case MODE_ALBUM:
-                    medias = mAlbumsAdapter.getPlaylist(menuInfo.position);
+                    medias = mAlbumsAdapter.getPlaylist(groupPosition, childPosition);
                     break;
                 case MODE_GENRE:
-                    medias = mGenresAdapter.getPlaylist(menuInfo.position);
+                    medias = mGenresAdapter.getPlaylist(groupPosition, childPosition);
                     break;
                 default:
                     return true;
@@ -190,7 +229,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         if (play_append)
             mAudioController.append(medias);
         else
-            mAudioController.load(medias, start_position);
+            mAudioController.load(medias, startPosition);
 
         Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -313,19 +352,21 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            mArtistsAdapter.add(media.getArtist(), media);
+            mArtistsAdapter.add(media.getArtist(), null, media);
+            mArtistsAdapter.add(media.getArtist(), media.getAlbum(), media);
         }
 
         Collections.sort(audioList, byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            mAlbumsAdapter.add(media.getAlbum(), media);
+            mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
 
         Collections.sort(audioList, byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            mGenresAdapter.add(media.getGenre(), media);
+            mGenresAdapter.add(media.getGenre(), null, media);
+            mGenresAdapter.add(media.getGenre(), media.getAlbum(), media);
         }
 
         mSongsAdapter.notifyDataSetChanged();

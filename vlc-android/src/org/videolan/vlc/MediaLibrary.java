@@ -99,7 +99,7 @@ public class MediaLibrary {
         return audioItems;
     }
 
-    public ArrayList<Media> getAudioItems(String name, int mode) {
+    public ArrayList<Media> getAudioItems(String name, String name2, int mode) {
         ArrayList<Media> audioItems = new ArrayList<Media>();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
@@ -108,13 +108,13 @@ public class MediaLibrary {
                 boolean valid = false;
                 switch (mode) {
                     case AudioBrowserActivity.MODE_ARTIST:
-                        valid = name.equals(item.getArtist());
+                        valid = name.equals(item.getArtist()) && (name2 == null || name2.equals(item.getAlbum()));
                         break;
                     case AudioBrowserActivity.MODE_ALBUM:
                         valid = name.equals(item.getAlbum());
                         break;
                     case AudioBrowserActivity.MODE_GENRE:
-                        valid = name.equals(item.getGenre());
+                        valid = name.equals(item.getGenre()) && (name2 == null || name2.equals(item.getAlbum()));
                         break;
                     default:
                         break;

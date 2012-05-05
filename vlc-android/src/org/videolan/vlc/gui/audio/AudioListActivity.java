@@ -59,6 +59,7 @@ public class AudioListActivity extends ListActivity {
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
     public final static String EXTRA_NAME = "name";
+    public final static String EXTRA_NAME2 = "name2";
     public final static String EXTRA_MODE = "mode";
 
     @Override
@@ -99,8 +100,9 @@ public class AudioListActivity extends ListActivity {
         super.onDestroy();
     }
 
-    public static void set(Intent intent, String name, int mode) {
+    public static void set(Intent intent, String name, String name2, int mode) {
         intent.putExtra(EXTRA_NAME, name);
+        intent.putExtra(EXTRA_NAME2, name2);
         intent.putExtra(EXTRA_MODE, mode);
     }
 
@@ -187,6 +189,7 @@ public class AudioListActivity extends ListActivity {
 
     private void updateList() {
         String name = getIntent().getStringExtra(EXTRA_NAME);
+        String name2 = getIntent().getStringExtra(EXTRA_NAME2);
         int mode = getIntent().getIntExtra(EXTRA_MODE, 0);
         List<Media> audioList;
         List<String> itemList;
@@ -200,8 +203,8 @@ public class AudioListActivity extends ListActivity {
             audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
         }
         else {
-            mTitle.setText(name);
-            audioList = MediaLibrary.getInstance(this).getAudioItems(name, mode);
+            mTitle.setText(name2 != null ? name2 : name);
+            audioList = MediaLibrary.getInstance(this).getAudioItems(name, name2, mode);
         }
 
         mSongsAdapter.clear();

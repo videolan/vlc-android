@@ -2,29 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="vertical">
+    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/title"
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:text="@string/title"
+            android:textColor="#ffffff"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/songs"
+            android:textColor="#888888"
+            android:textSize="14dip" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginTop="5dip"
-        android:text="@string/title"
-        android:textColor="#ffffff"
-        android:textSize="20dip" />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginBottom="5dip"
-        android:text="@string/songs"
-        android:textColor="#888888"
-        android:textSize="14dip" />
+        android:layout_gravity="center_vertical|right"
+        android:layout_marginRight="15dip"
+        android:src="@drawable/ic_down" />
 
 </LinearLayout>

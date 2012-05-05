@@ -38,6 +38,11 @@
     </plurals>
     <string name="artists">Artists</string>
     <string name="albums">Albums</string>
+    <plurals name="albums">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
     <string name="time_0">0:00</string>

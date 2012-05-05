@@ -63,20 +63,23 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fastScrollEnabled="true" />
-        <ListView
+        <ExpandableListView
             android:id="@+id/artists_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
-        <ListView
+        <ExpandableListView
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
-        <ListView
+        <ExpandableListView
             android:id="@+id/genres_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>
