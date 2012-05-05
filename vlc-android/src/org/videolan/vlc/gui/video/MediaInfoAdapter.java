@@ -43,10 +43,10 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.audio_browser_playlist_child, parent, false);
+            v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
-            holder.text = (TextView) v.findViewById(R.id.text);
+            holder.text = (TextView) v.findViewById(R.id.artist);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
