@@ -94,7 +94,7 @@ cd contrib/android
     --disable-sidplay2 \
     --disable-samplerate
 
-# TODO: mpeg2, dts, theora
+# TODO: mpeg2, theora
 
 if test -z "${NO_NEON}" -o -n "${TEGRA2}"; then
     # assumes armv7-a

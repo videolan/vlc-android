@@ -76,6 +76,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-gme \
                 --disable-tremor \
                 --disable-mad \
+                --disable-dca \
                 --disable-sdl-image \
                 --disable-zvbi \
                 --disable-fluidsynth \
