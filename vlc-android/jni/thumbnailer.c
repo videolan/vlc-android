@@ -122,7 +122,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     thumbnailer_sys_t *sys = calloc(1, sizeof(thumbnailer_sys_t));
     if (sys == NULL)
     {
-        LOGE("Couldn't create the thumbnailer data structure!");
+        LOGE("Could not create the thumbnailer data structure!");
         return NULL;
     }
 
@@ -136,7 +136,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_t *m = new_media(instance, env, thiz, filePath, true);
     if (m == NULL)
     {
-        LOGE("Couldn't create the media to play!");
+        LOGE("Could not create the media to play!");
         goto end;
     }
     libvlc_media_add_option( m, ":no-audio" );
@@ -167,14 +167,14 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     /* Abord if we have not found a video track. */
     if (!hasVideoTrack)
     {
-        LOGE("Could not find a video track in this file.\n");
+        LOGE("Could not find any video track in this file.\n");
         goto end;
     }
 
     /* VLC could not tell us the size */
     if( videoWidth == 0 || videoHeight == 0 )
     {
-        LOGE("Could not find correct dimensions.\n");
+        LOGE("Could not find the video dimensions.\n");
         goto end;
     }
 
@@ -203,7 +203,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     sys->frameData = malloc(picSize);
     if (sys->frameData == NULL)
     {
-        LOGE("Couldn't allocate the memory to store the frame!");
+        LOGE("Could not allocate the memory to store the frame!");
         goto end;
     }
 
@@ -212,7 +212,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     sys->thumbnail = calloc(thumbnailSize, 1);
     if (sys->thumbnail == NULL)
     {
-        LOGE("Couldn't allocate the memory to store the thumbnail!");
+        LOGE("Could not allocate the memory to store the thumbnail!");
         goto end;
     }
 
@@ -239,7 +239,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     byteArray = (*env)->NewByteArray(env, thumbnailSize);
     if (byteArray == NULL)
     {
-        LOGE("Couldn't allocate the Java byte array to store the frame!");
+        LOGE("Could not allocate the Java byte array to store the frame!");
         goto end;
     }
 

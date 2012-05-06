@@ -283,7 +283,7 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
     jclass  cls = (*p_env)->FindClass( p_env, "org/videolan/vlc/Util" );
     if ( !cls )
     {
-        LOGE( "Failed to load util class (org/videolan/vlc/Util)" );
+        LOGE("Failed to load util class (org/videolan/vlc/Util)" );
         return 0;
     }
     jmethodID methodSdkVersion = (*p_env)->GetStaticMethodID( p_env, cls,
@@ -294,7 +294,7 @@ int currentSdk( JNIEnv *p_env, jobject thiz )
         return 0;
     }
     int version = (*p_env)->CallStaticIntMethod( p_env, cls, methodSdkVersion );
-    LOGI("Got version: %d\n", version );
+    LOGI("Phone running on API level %d\n", version );
     return version;
 }
 
@@ -391,7 +391,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
     libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
     if (!m)
     {
-        LOGE("readMediaMeta: Couldn't create the media!");
+        LOGE("readMediaMeta: Could not create the media!");
         return array;
     }
 
@@ -433,7 +433,7 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
     if (!m)
     {
-        LOGE("readMedia: Couldn't create the media!");
+        LOGE("readMedia: Could not create the media!");
         return;
     }
 
@@ -482,7 +482,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation, false);
     if (p_m == NULL)
     {
-        LOGE("Couldn't create the media!");
+        LOGE("Could not create the media!");
         return JNI_FALSE;
     }
 
@@ -513,7 +513,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     jclass cls = (*env)->FindClass( env, "org/videolan/vlc/TrackInfo" );
     if ( !cls )
     {
-        LOGE( "Failed to load class (org/videolan/vlc/TrackInfo)" );
+        LOGE("Failed to load class (org/videolan/vlc/TrackInfo)" );
         return NULL;
     }
 
@@ -529,7 +529,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false);
     if (p_m == NULL)
     {
-        LOGE("Couldn't create the media!");
+        LOGE("Could not create the media!");
         return NULL;
     }
 
@@ -606,7 +606,7 @@ jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject th
     libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation, false);
     if (m == NULL)
     {
-        LOGE("Couldn't create the media to play!");
+        LOGE("Could not create the media to play!");
         goto end;
     }
 

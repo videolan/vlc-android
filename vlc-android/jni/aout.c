@@ -47,7 +47,7 @@ extern JavaVM *myVm;
 
 int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels)
 {
-    LOGI("Opening the JNI audio output");
+    LOGI ("Opening the JNI audio output");
 
     aout_sys_t *p_sys = calloc (1, sizeof (*p_sys));
     if (!p_sys)
@@ -62,7 +62,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     JNIEnv *p_env;
     if ((*myVm)->AttachCurrentThread (myVm, &p_env, NULL) != 0)
     {
-        LOGE("Couldn't attach the display thread to the JVM !");
+        LOGE("Could not attach the display thread to the JVM !");
         return -1;
     }
 
@@ -76,7 +76,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
         goto error;
     }
 
-    LOGV ("Fixed number of channels to 2, number of samples to %d", FRAME_SIZE);
+    LOGV ("Number of channels forced to 2, number of samples to %d", FRAME_SIZE);
     *nb_channels = 2;
 
     (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdInitAout,
@@ -98,7 +98,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
                                                    sizeof (uint16_t) /* =2 */);
     if (buffer == NULL)
     {
-        LOGE("Couldn't allocate the Java byte array to store the audio data!");
+        LOGE ("Could not allocate the Java byte array to store the audio data!");
         goto error;
     }
 
@@ -109,7 +109,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     (*p_env)->DeleteLocalRef (p_env, buffer);
     if (p_sys->buffer == NULL)
     {
-        LOGE ("Couldn't create the global reference!");
+        LOGE ("Could not create the global reference!");
         goto error;
     }
 
