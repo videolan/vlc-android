@@ -164,7 +164,9 @@ public class SearchActivity extends ListActivity {
 
         DatabaseManager db = DatabaseManager.getInstance(this);
         mHistoryAdapter.clear();
-        mHistoryAdapter.addAll(db.getSearchhistory(20));
+        ArrayList<String> history = db.getSearchhistory(20);
+        for (String s : history)
+            mHistoryAdapter.add(s);
         mHistoryAdapter.notifyDataSetChanged();
         setListAdapter(mHistoryAdapter);
     }
