@@ -67,6 +67,7 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:divider="#00000000"
+        android:listSelector="@android:color/transparent"
         android:fastScrollEnabled="true" />
 
 </LinearLayout>

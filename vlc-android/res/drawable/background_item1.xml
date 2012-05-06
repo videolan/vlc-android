@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <gradient
-        android:angle="270"
-        android:centerColor="@color/item_1"
-        android:endColor="@color/item_common"
-        android:startColor="@color/item_common" />
-
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:centerColor="@color/orange"
+                android:endColor="@color/item_common"
+                android:startColor="@color/item_common" />
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <gradient
+                android:angle="270"
+                android:centerColor="@color/item_1"
+                android:endColor="@color/item_common"
+                android:startColor="@color/item_common" />
+        </shape>
+    </item>
+</selector>
