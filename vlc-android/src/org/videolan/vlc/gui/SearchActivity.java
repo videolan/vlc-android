@@ -44,7 +44,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -56,8 +55,7 @@ public class SearchActivity extends ListActivity {
     public final static String TAG = "VLC/SearchActivit";
 
     private EditText mSearchText;
-    private ArrayAdapter<String> mHistoryAdapter;
-    private ArrayList<String> mHistory = new ArrayList<String>();
+    private SearchHistoryAdapter mHistoryAdapter;
     private SearchResultAdapter mResultAdapter;
     private LinearLayout mListHeader;
 
@@ -67,6 +65,7 @@ public class SearchActivity extends ListActivity {
         setContentView(R.layout.search);
 
         // TODO: create layout
+        mHistoryAdapter = new SearchHistoryAdapter(this);
         mResultAdapter = new SearchResultAdapter(this);
 
         mSearchText = (EditText) findViewById(R.id.search_text);
@@ -102,9 +101,7 @@ public class SearchActivity extends ListActivity {
 
     @Override
     protected void onDestroy() {
-        if (mHistoryAdapter != null)
-            mHistoryAdapter.clear();
-        mHistory.clear();
+        mHistoryAdapter.clear();
         mResultAdapter.clear();
         super.onDestroy();
     }
@@ -166,14 +163,9 @@ public class SearchActivity extends ListActivity {
         showListHeader(headerText);
 
         DatabaseManager db = DatabaseManager.getInstance(this);
-        mHistory.clear();
-        mHistory.addAll(db.getSearchhistory(20));
-        if (mHistoryAdapter == null) {
-            mHistoryAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, mHistory);
-        } else {
-            mHistoryAdapter.notifyDataSetChanged();
-        }
+        mHistoryAdapter.clear();
+        mHistoryAdapter.addAll(db.getSearchhistory(20));
+        mHistoryAdapter.notifyDataSetChanged();
         setListAdapter(mHistoryAdapter);
     }
 

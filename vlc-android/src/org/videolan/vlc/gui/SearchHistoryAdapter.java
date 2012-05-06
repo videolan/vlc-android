@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.util.Comparator;
-
-import org.videolan.vlc.Media;
 import org.videolan.vlc.Util;
 
 import android.content.Context;
@@ -32,10 +29,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SearchResultAdapter extends ArrayAdapter<Media>
-        implements Comparator<Media> {
+public class SearchHistoryAdapter extends ArrayAdapter<String> {
 
-    public SearchResultAdapter(Context context) {
+    public SearchHistoryAdapter(Context context) {
         super(context, 0);
     }
 
@@ -52,20 +48,11 @@ public class SearchResultAdapter extends ArrayAdapter<Media>
         } else
             holder = (ViewHolder) view.getTag();
 
-        Media item = getItem(position);
+        String item = getItem(position);
         Util.setItemBackground(holder.text, position);
-        holder.text.setText(item.getTitle());
+        holder.text.setText(item);
 
         return view;
-    }
-
-    @Override
-    public int compare(Media object1, Media object2) {
-        return object1.getTitle().compareToIgnoreCase(object2.getTitle());
-    }
-
-    public void sort() {
-        super.sort(this);
     }
 
     static class ViewHolder {

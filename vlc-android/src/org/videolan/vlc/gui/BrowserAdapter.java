@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.util.Log;
@@ -63,6 +64,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.browser_item, parent, false);
             holder = new ViewHolder();
+            holder.layout = (View) view.findViewById(R.id.layout_item);
             holder.check = (CheckBox) view.findViewById(R.id.browser_item_selected);
             holder.text = (TextView) view.findViewById(R.id.browser_item_dir);
             view.setTag(holder);
@@ -73,6 +75,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
         final DatabaseManager dbManager = DatabaseManager.getInstance(view.getContext());
 
         if (item != null && item.getName() != null) {
+            Util.setItemBackground(holder.layout, position);
             holder.text.setText(item.getName());
             holder.check.setOnCheckedChangeListener(null);
             holder.check.setTag(item);
@@ -129,6 +132,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
     }
 
     static class ViewHolder {
+        View layout;
         CheckBox check;
         TextView text;
     }
