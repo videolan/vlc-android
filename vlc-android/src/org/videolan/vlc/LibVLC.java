@@ -27,13 +27,19 @@ import android.util.Log;
 import android.view.Surface;
 import android.preference.PreferenceManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
+    private static final int AOUT_AUDIOTRACK = 0;
+    private static final int AOUT_AUDIOTRACK_JAVA = 1;
+    private static final int AOUT_OPENSLES = 2;
 
     private static LibVLC sInstance;
     private static boolean sUseIomx = false;
+    private static int sAout = AOUT_AUDIOTRACK;
 
     /** libVLC instance C pointer */
     private int mLibVlcInstance = 0; // Read-only, reserved for JNI
@@ -132,8 +138,33 @@ public class LibVLC {
         sUseIomx = enable;
     }
 
+    public int getAout() {
+        return sAout;
+    }
+
     public static synchronized void useIOMX(Context context) {
-        sUseIomx = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("enable_iomx", false);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        sUseIomx = pref.getBoolean("enable_iomx", false);
+        setAout(context, pref.getString("aout", "error"), false);
+    }
+
+    public static synchronized void setAout(Context context, String aoutPref, boolean reset) {
+        Resources res = context.getResources();
+        if (aoutPref.equals(res.getString(R.string.aout_audiotrack_java)))
+            sAout = AOUT_AUDIOTRACK_JAVA;
+        else if (aoutPref.equals(res.getString(R.string.aout_opensles)) && Util.isGingerbread())
+            sAout = AOUT_OPENSLES;
+        else
+            sAout = AOUT_AUDIOTRACK;
+
+        if (reset && sInstance != null) {
+            try {
+                sInstance.destroy();
+                sInstance.init();
+            } catch (LibVlcException lve) {
+                Log.e(TAG, "Unable to reinit libvlc: " + lve);
+            }
+        }
     }
 
     /**

@@ -93,4 +93,17 @@
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
 
+    <string name="aout">Audio output</string>
+    <string name="aout_audiotrack">AudioTrack (native)</string>
+    <string name="aout_audiotrack_java">AudioTrack (java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string-array name="aouts_froyo">
+        <item>@string/aout_audiotrack</item>
+        <item>@string/aout_audiotrack_java</item>
+    </string-array>
+    <string-array name="aouts">
+        <item>@string/aout_audiotrack</item>
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_opensles</item>
+    </string-array>
 </resources>

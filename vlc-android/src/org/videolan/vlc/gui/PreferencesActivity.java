@@ -24,13 +24,16 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
@@ -104,6 +107,19 @@ public class PreferencesActivity extends PreferenceActivity {
                         return true;
                     }
                 });
+
+        // Audio output
+        ListPreference aoutPref = (ListPreference) findPreference("aout");
+        int aoutEntriesId = Util.isGingerbread() ? R.array.aouts : R.array.aouts_froyo;
+        aoutPref.setEntries(aoutEntriesId);
+        aoutPref.setEntryValues(aoutEntriesId);
+        aoutPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                LibVLC.setAout(PreferencesActivity.this, (String) newValue, true);
+                return true;
+            }
+        });
 
         // Attach debugging items
         Preference quitAppPref = (Preference) findPreference("quit_app");

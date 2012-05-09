@@ -36,6 +36,10 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
+#define AOUT_AUDIOTRACK      0
+#define AOUT_AUDIOTRACK_JAVA 1
+#define AOUT_OPENSLES        2
+
 libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
@@ -220,8 +224,13 @@ void Java_org_videolan_vlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
 
 void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
+    //only use OpenSLES if java side says we can
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
+    bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
+
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
-    static const char *argv[] = {
+    const char *argv[] = {
         "-I", "dummy",
         "-vv",
         "--no-osd",
@@ -232,6 +241,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--control", "logger",
         "--logmode", "android",
         "--ffmpeg-fast",
+        use_opensles ? "--aout=opensles" : "--aout=android_audiotrack"
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
@@ -444,7 +454,10 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
 
     libvlc_media_player_set_media(mp, m);
 
-    if ( currentSdk( env, thiz )  < 9 ) //On newer version, we can use SLES
+    //if AOUT_AUDIOTRACK_JAVA, we use amem
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
+    if ( (*env)->CallIntMethod(env, thiz, methodId) == AOUT_AUDIOTRACK_JAVA )
     {
         libvlc_audio_set_callbacks(mp, aout_play, NULL, NULL, NULL, NULL,
                                    (void*) myJavaLibVLC);

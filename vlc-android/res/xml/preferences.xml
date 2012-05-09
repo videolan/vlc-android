@@ -37,6 +37,11 @@
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <ListPreference
+            android:key="aout"
+            android:defaultValue="@string/aout_audiotrack"
+            android:title="@string/aout" >
+        </ListPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
             <Preference android:title="@string/quit" android:key="quit_app" android:enabled="true"/>
             <Preference android:title="@string/clear_media_db" android:key="clear_media_db" android:enabled="true" />
