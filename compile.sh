@@ -44,9 +44,9 @@ TESTED_HASH=5069692bfb
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
+    cd vlc
     git checkout -B android ${TESTED_HASH}
     echo "Applying the patches"
-    cd vlc
     git am ../patches/*.patch
 else
     echo "VLC source found"
