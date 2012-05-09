@@ -71,6 +71,7 @@
     <string name="quit">Quitter l\'application</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
+    <string name="enable_wheel_bar">Activer la wheel bar</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>

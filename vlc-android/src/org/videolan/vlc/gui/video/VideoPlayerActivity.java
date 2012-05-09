@@ -30,6 +30,10 @@ import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.interfaces.IPlayerControl;
+import org.videolan.vlc.interfaces.OnPlayerControlListener;
+import org.videolan.vlc.widget.PlayerControlClassic;
+import org.videolan.vlc.widget.PlayerControlWheel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -50,6 +54,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
@@ -63,6 +68,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -102,9 +108,7 @@ public class VideoPlayerActivity extends Activity {
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
-    private ImageButton mBackward;
-    private ImageButton mPlayPause;
-    private ImageButton mForward;
+    private IPlayerControl mControls;
     private ImageButton mAudio;
     private ImageButton mLock;
     private ImageButton mSize;
@@ -129,6 +133,8 @@ public class VideoPlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player);
 
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
         // stop screen from dimming
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
@@ -147,12 +153,12 @@ public class VideoPlayerActivity extends Activity {
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mBackward = (ImageButton) findViewById(R.id.player_overlay_backward);
-        mBackward.setOnClickListener(mBackwardListener);
-        mPlayPause = (ImageButton) findViewById(R.id.player_overlay_play);
-        mPlayPause.setOnClickListener(mPlayPauseListener);
-        mForward = (ImageButton) findViewById(R.id.player_overlay_forward);
-        mForward.setOnClickListener(mForwardListener);
+        mControls = pref.getBoolean("enable_wheel_bar", false)
+                ? new PlayerControlWheel(this)
+                : new PlayerControlClassic(this);
+        mControls.setOnPlayerControlListener(mPlayerControlListener);
+        FrameLayout mControlContainer = (FrameLayout) findViewById(R.id.player_control);
+        mControlContainer.addView((View) mControls);
 
         mAudio = (ImageButton) findViewById(R.id.player_overlay_audio);
         mAudio.setOnClickListener(mAudioListener);
@@ -534,30 +540,6 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnClickListener mBackwardListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            long position = mLibVLC.getTime();
-            mLibVLC.setTime(position - 10000);
-            showOverlay();
-        }
-    };
-    private OnClickListener mPlayPauseListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            doPausePlay();
-            showOverlay();
-        }
-    };
-    private OnClickListener mForwardListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            long position = mLibVLC.getTime();
-            mLibVLC.setTime(position + 10000);
-            showOverlay();
-        }
-    };
-
     private OnClickListener mAudioListener = new OnClickListener() {
         public void onClick(View v) {
             if (mAudioTracks == null || mAudioTracks.length <= 1)
@@ -575,6 +557,49 @@ public class VideoPlayerActivity extends Activity {
             });
 
             builder.show();
+        }
+    };
+
+    /**
+    *
+    */
+    private OnPlayerControlListener mPlayerControlListener = new OnPlayerControlListener() {
+        @Override
+        public void onPlayPause() {
+            if (mLibVLC.isPlaying())
+                pause();
+            else
+                play();
+            showOverlay();
+        }
+
+        @Override
+        public void onSeek(int delta) {
+            long position = mLibVLC.getTime();
+            mLibVLC.setTime(position + delta);
+            showOverlay();
+        }
+
+        @Override
+        public void onSeekTo(long position) {
+            mLibVLC.setTime(position);
+            mTime.setText(Util.millisToString(position));
+        }
+
+        @Override
+        public long onWheelStart() {
+            showOverlay(3600000);
+            return mLibVLC.getTime();
+        }
+
+        @Override
+        public void onShowInfo(String info) {
+            if (info != null)
+                showInfo(info);
+            else {
+                hideInfo();
+                showOverlay();
+            }
         }
     };
 
@@ -708,7 +733,7 @@ public class VideoPlayerActivity extends Activity {
      * Android 3.0 and later
      */
     private void dimStatusBar(boolean dim) {
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             if (dim) {
                 mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
             } else {
@@ -717,29 +742,12 @@ public class VideoPlayerActivity extends Activity {
         }
     }
 
-
-
     private void updateOverlayPausePlay() {
         if (mLibVLC == null) {
             return;
         }
 
-        if (mLibVLC.isPlaying()) {
-            mPlayPause.setBackgroundResource(R.drawable.ic_pause);
-        } else {
-            mPlayPause.setBackgroundResource(R.drawable.ic_play);
-        }
-    }
-
-    /**
-     * play or pause the media
-     */
-    private void doPausePlay() {
-        if (mLibVLC.isPlaying()) {
-            pause();
-        } else {
-            play();
-        }
+        mControls.setState(mLibVLC.isPlaying());
     }
 
     /**

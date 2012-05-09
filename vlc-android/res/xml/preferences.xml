@@ -24,6 +24,11 @@
             android:summary="@string/detect_headset_detail"
             android:defaultValue="true">
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="enable_wheel_bar"
+            android:title="@string/enable_wheel_bar"
+            android:defaultValue="false">
+        </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/searchable_hint">
         <PreferenceScreen
