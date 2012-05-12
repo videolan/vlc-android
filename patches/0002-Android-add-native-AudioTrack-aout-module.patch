@@ -1,4 +1,4 @@
-From e5fa715d70557610b376b34f069635af77e69492 Mon Sep 17 00:00:00 2001
+From a973c5d80a69311be1f8d4b426b23e9edcd9c1ce Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 29 Apr 2012 18:57:28 +0200
 Subject: [PATCH 2/3] Android: add native AudioTrack aout module
@@ -7,11 +7,11 @@ Subject: [PATCH 2/3] Android: add native AudioTrack aout module
  configure.ac                      |   24 +++
  modules/audio_output/Modules.am   |    1 +
  modules/audio_output/audiotrack.c |  304 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 329 insertions(+), 0 deletions(-)
+ 3 files changed, 329 insertions(+)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 0b82490..291dfec 100644
+index 62d13ad..08005d7 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -3555,6 +3555,30 @@ if test "${HAVE_ANDROID}" = "1"; then
@@ -59,7 +59,7 @@ index 357bc1d..c4b5a37 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..5c4a0ce
+index 0000000..d20b138
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
 @@ -0,0 +1,304 @@
@@ -180,7 +180,7 @@ index 0000000..5c4a0ce
 +vlc_module_begin ()
 +    set_shortname("AudioTrack")
 +    set_description(N_("Android AudioTrack audio output"))
-+    set_capability("audio output", 25)
++    set_capability("audio output", 225)
 +    set_category(CAT_AUDIO)
 +    set_subcategory(SUBCAT_AUDIO_AOUT)
 +    add_shortcut("android")
@@ -368,5 +368,5 @@ index 0000000..5c4a0ce
 +}
 +
 -- 
-1.7.5.4
+1.7.10.2
 

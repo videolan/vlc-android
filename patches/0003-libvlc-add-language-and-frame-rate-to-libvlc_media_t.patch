@@ -1,4 +1,4 @@
-From 313b27201aa4757678bfc995ea611e640294ab41 Mon Sep 17 00:00:00 2001
+From 4519e40c6b16942e46b8d4da01b7f358cd21319a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Sun, 22 Apr 2012 09:35:52 +0200
 Subject: [PATCH 3/3] libvlc: add language and frame rate to
@@ -7,7 +7,7 @@ Subject: [PATCH 3/3] libvlc: add language and frame rate to
 ---
  include/vlc/libvlc_media.h |   14 ++++++++++++++
  lib/media.c                |   15 +++++++++++++++
- 2 files changed, 29 insertions(+), 0 deletions(-)
+ 2 files changed, 29 insertions(+)
 
 diff --git a/include/vlc/libvlc_media.h b/include/vlc/libvlc_media.h
 index 279a29c..d4b1524 100644
@@ -82,5 +82,5 @@ index 2c01c80..b3f5a9a 100644
 +    free( p_tracks );
 +}
 -- 
-1.7.5.4
+1.7.10.2
 
