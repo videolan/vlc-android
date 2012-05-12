@@ -62,7 +62,9 @@ public class LibVLC {
         try {
             if (Build.VERSION.SDK_INT <= 10)
                 System.loadLibrary("iomx-gingerbread");
-            else /* No honeycomb build for now */
+            else if (Build.VERSION.SDK_INT <= 13)
+                System.loadLibrary("iomx-hc");
+            else
                 System.loadLibrary("iomx-ics");
         } catch (Throwable t) {
             Log.w(TAG, "Unable to load the iomx library: " + t);

@@ -13,6 +13,7 @@ VLC_APK=$(SRC)/bin/VLC-debug.apk
 LIBVLCJNI=	\
 	$(SRC)/obj/local/$(ARCH)/libvlcjni.so \
 	$(SRC)/obj/local/$(ARCH)/libiomx-ics.so \
+	$(SRC)/obj/local/$(ARCH)/libiomx-hc.so \
 	$(SRC)/obj/local/$(ARCH)/libiomx-gingerbread.so \
 
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h

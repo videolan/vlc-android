@@ -125,6 +125,7 @@ echo "Building Android"
 cd ../../
 
 export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
+export ANDROID_SYS_HEADERS_HC=${PWD}/android-headers-hc
 export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 
 export ANDROID_LIBS=${PWD}/android-libs
