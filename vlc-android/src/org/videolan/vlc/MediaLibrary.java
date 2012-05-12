@@ -249,12 +249,14 @@ public class MediaLibrary {
                 h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
             }
 
-            // remove file from database
-            for (String fileURI : addedLocations) {
-                existingMedias.remove(fileURI);
-            }
-            for (String existingMedia : existingMedias.keySet()) {
-                mDBManager.removeMedia(existingMedia);
+            // remove file from database if storage is mounted
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                for (String fileURI : addedLocations) {
+                    existingMedias.remove(fileURI);
+                }
+                for (String existingMedia : existingMedias.keySet()) {
+                    mDBManager.removeMedia(existingMedia);
+                }
             }
 
             // hide progressbar in header
