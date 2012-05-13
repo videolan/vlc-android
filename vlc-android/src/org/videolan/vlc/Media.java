@@ -106,27 +106,26 @@ public class Media implements Comparable<Media> {
         LibVLC mLibVlc = null;
         try {
             mLibVlc = LibVLC.getInstance();
-            mType = (mLibVlc.hasVideoTrack(mLocation)) ? TYPE_VIDEO : TYPE_AUDIO;
-            mLength = mLibVlc.getLengthFromLocation(mLocation);
+            mType = TYPE_AUDIO;
 
-            String[] array = mLibVlc.readMediaMeta(mLocation);
+            TrackInfo[] tracks = mLibVlc.readTracksInfo(mLocation);
 
-            int i;
-            for (i = 0; i < array.length; i++) {
-                String s = array[i++];
-                String v = array[i];
+            for (TrackInfo track : tracks) {
+                if (track.Type == TrackInfo.TYPE_VIDEO) {
+                    mType = TYPE_VIDEO;
+                    mWidth = track.Width;
+                    mHeight = track.Height;
+                }
 
-                if (s.equals("title")) {
-                    mTitle = v;
+                if (track.Type == TrackInfo.TYPE_META) {
+                    mLength = track.Length;
+                    mTitle = track.Title;
+                    mArtist = Util.getValue(context, track.Artist, R.string.unknown_artist);
+                    mAlbum = Util.getValue(context, track.Album, R.string.unknown_album);
+                    mGenre = Util.getValue(context, track.Genre, R.string.unknown_genre);
                     Log.d(TAG, "Title " + mTitle);
-                } else if (s.equals("artist")) {
-                    mArtist = Util.getValue(context, v, R.string.unknown_artist);
                     Log.d(TAG, "Artist " + mArtist);
-                } else if (s.equals("genre")) {
-                    mGenre = Util.getValue(context, v, R.string.unknown_genre);
                     Log.d(TAG, "Genre " + mGenre);
-                } else if (s.equals("album")) {
-                    mAlbum = Util.getValue(context, v, R.string.unknown_album);
                     Log.d(TAG, "Album " + mAlbum);
                 }
             }
