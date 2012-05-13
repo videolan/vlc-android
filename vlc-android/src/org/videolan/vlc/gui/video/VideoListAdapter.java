@@ -124,8 +124,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder = new ViewHolder();
             holder.layout = (View) v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
-            holder.length = (TextView) v.findViewById(R.id.ml_item_length);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
+            holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
             holder.more = (ImageView) v.findViewById(R.id.ml_item_more);
             v.setTag(holder);
         } else
@@ -134,7 +134,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Media media = getItem(position);
         Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
-        holder.length.setText(" " + Util.millisToString(media.getLength()) + " ");
 
         Bitmap thumbnail;
         if (media.getPicture() != null) {
@@ -147,6 +146,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
 
         holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
+        holder.subtitle.setText(String.format("%s - %dx%d",
+                                Util.millisToString(media.getLength()), media.getWidth(), media.getHeight()));
         holder.more.setTag(media);
         holder.more.setOnClickListener(moreClickListener);
 
@@ -167,8 +168,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     static class ViewHolder {
         View layout;
         ImageView thumbnail;
-        TextView length;
         TextView title;
+        TextView subtitle;
         ImageView more;
     }
 }
