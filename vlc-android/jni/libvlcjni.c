@@ -354,6 +354,22 @@ void setInt(JNIEnv *env, jobject item, const char* field, int value)
     (*env)->SetIntField(env, item, fieldId, value);
 }
 
+void setLong(JNIEnv *env, jobject item, const char* field, long value)
+{
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "J");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetLongField(env, item, fieldId, value);
+}
+
 void SetFloat(JNIEnv *env, jobject item, const char* field, float value)
 {
     jclass cls;
@@ -551,17 +567,30 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     libvlc_media_parse(p_m);
 
     int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
-    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks, cls, NULL);
+    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks + 1, cls, NULL);
 
     unsigned i;
     if (array != NULL)
     {
-        for (i = 0; i < i_nbTracks; ++i)
+        for (i = 0; i <= i_nbTracks; ++i)
         {
             jobject item = (*env)->NewObject(env, cls, clsCtor);
             if (item == NULL)
                 continue;
             (*env)->SetObjectArrayElement(env, array, i, item);
+
+            // use last track for metadata
+            if (i == i_nbTracks)
+            {
+                setInt(env, item, "Type", 3 /* TYPE_META */);
+                setLong(env, item, "Length", libvlc_media_get_duration(p_m));
+                setString(env, item, "Title", libvlc_media_get_meta(p_m, libvlc_meta_Title));
+                setString(env, item, "Artist", libvlc_media_get_meta(p_m, libvlc_meta_Artist));
+                setString(env, item, "Album", libvlc_media_get_meta(p_m, libvlc_meta_Album));
+                setString(env, item, "Genre", libvlc_media_get_meta(p_m, libvlc_meta_Genre));
+                continue;
+            }
+
             setInt(env, item, "Id", p_tracks[i].i_id);
             setInt(env, item, "Type", p_tracks[i].i_type);
             setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i].i_codec));

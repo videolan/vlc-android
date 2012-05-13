@@ -139,7 +139,8 @@ public class MediaInfoActivity extends ListActivity {
                     break;
                 case NEW_TEXT:
                     for (TrackInfo track : mTracks) {
-                        mAdapter.add(track);
+                        if (track.Type != TrackInfo.TYPE_META)
+                            mAdapter.add(track);
                     }
                     break;
             }

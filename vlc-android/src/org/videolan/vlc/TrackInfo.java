@@ -6,6 +6,7 @@ public class TrackInfo {
     public static final int TYPE_AUDIO = 0;
     public static final int TYPE_VIDEO = 1;
     public static final int TYPE_TEXT = 2;
+    public static final int TYPE_META = 3;
 
     public int Type;
     public int Id;
@@ -20,4 +21,11 @@ public class TrackInfo {
     /* Audio */
     public int Channels;
     public int Samplerate;
+
+    /* MetaData */
+    public long Length;
+    public String Title;
+    public String Artist;
+    public String Album;
+    public String Genre;
 }
