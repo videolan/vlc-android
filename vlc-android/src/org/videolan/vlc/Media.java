@@ -141,13 +141,16 @@ public class Media implements Comparable<Media> {
     }
 
     public Media(Context context, String location, long time, long length, int type,
-            Bitmap picture, String title, String artist, String genre, String album) {
+            Bitmap picture, String title, String artist, String genre, String album,
+            int width, int height) {
         mLocation = location;
         mFilename = null;
         mTime = time;
         mLength = length;
         mType = type;
         mPicture = picture;
+        mWidth = width;
+        mHeight = height;
 
         mTitle = title;
         mArtist = Util.getValue(context, artist, R.string.unknown_artist);
