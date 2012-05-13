@@ -222,12 +222,35 @@ void Java_org_videolan_vlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_unlock(&vout_android_lock);
 }
 
+static void debug_log(void *data, int level, const char *fmt, va_list ap)
+{
+    (void)data;
+
+    static const uint8_t priority[5] = {
+        [LIBVLC_DEBUG]   = ANDROID_LOG_DEBUG,
+        [1 /* ??? */]    = ANDROID_LOG_DEBUG,
+        [LIBVLC_NOTICE]  = ANDROID_LOG_INFO,
+        [LIBVLC_WARNING] = ANDROID_LOG_WARN,
+        [LIBVLC_ERROR]   = ANDROID_LOG_ERROR,
+    };
+
+    int prio = ANDROID_LOG_DEBUG;
+    if (level >= LIBVLC_DEBUG && level <= LIBVLC_ERROR)
+        prio = priority[level];
+
+    __android_log_vprint(prio, "VLC", fmt, ap);
+}
+
+static libvlc_log_subscriber_t debug_subscriber;
+
 void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     //only use OpenSLES if java side says we can
     jclass cls = (*env)->GetObjectClass(env, thiz);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
+
+    libvlc_log_subscribe(&debug_subscriber, debug_log, NULL);
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
@@ -238,8 +261,6 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-        "--control", "logger",
-        "--logmode", "android",
         "--ffmpeg-fast",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack"
     };
@@ -284,6 +305,7 @@ void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 
     libvlc_instance_t *instance = (libvlc_instance_t*) libVlcInstance;
     libvlc_release(instance);
+    libvlc_log_unsubscribe(&debug_subscriber);
 
     (*env)->SetIntField(env, thiz, field, 0);
 }
