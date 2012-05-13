@@ -1,17 +1,17 @@
-From a973c5d80a69311be1f8d4b426b23e9edcd9c1ce Mon Sep 17 00:00:00 2001
+From 1e9eb93307aa878f37d4d97e1767474d752d21fe Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
-Date: Sun, 29 Apr 2012 18:57:28 +0200
+Date: Sun, 13 May 2012 22:20:34 +0200
 Subject: [PATCH 2/3] Android: add native AudioTrack aout module
 
 ---
- configure.ac                      |   24 +++
+ configure.ac                      |   12 ++
  modules/audio_output/Modules.am   |    1 +
- modules/audio_output/audiotrack.c |  304 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 329 insertions(+)
+ modules/audio_output/audiotrack.c |  302 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 315 insertions(+)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 62d13ad..08005d7 100644
+index 62d13ad..12c1cbe 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -3555,6 +3555,18 @@ if test "${HAVE_ANDROID}" = "1"; then
@@ -47,10 +47,10 @@ index 357bc1d..c4b5a37 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..d20b138
+index 0000000..0aebbbb
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,304 @@
+@@ -0,0 +1,302 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
@@ -275,10 +275,9 @@ index 0000000..d20b138
 +        if (minBufCount < 2)
 +            minBufCount = 2;
 +        minFrameCount = (afFrameCount * rate * minBufCount) / afSampleRate;
-+        p_aout->format.i_bytes_per_frame = minFrameCount;
 +    }
 +    else {
-+        status = p_sys->at_getMinFrameCount((int*)&p_aout->format.i_bytes_per_frame, stream_type, rate);
++        status = p_sys->at_getMinFrameCount(&minFrameCount, stream_type, rate);
 +        if (status != 0) {
 +            msg_Err(p_aout, "Could not query the AudioTrack parameters");
 +            dlclose(p_sys->libmedia);
@@ -287,8 +286,7 @@ index 0000000..d20b138
 +        }
 +    }
 +
-+    p_aout->format.i_bytes_per_frame <<= 1;
-+    size = p_aout->format.i_bytes_per_frame;
++    size = minFrameCount * (channel == CHANNEL_OUT_STEREO ? 2 : 1) * 4;
 +
 +    /* Sizeof(AudioTrack) == 0x58 (not sure) on 2.2.1, this should be enough */
 +    p_sys->AudioTrack = malloc(SIZE_OF_AUDIOTRACK);
@@ -356,5 +354,5 @@ index 0000000..d20b138
 +}
 +
 -- 
-1.7.10.2
+1.7.9.5
 
