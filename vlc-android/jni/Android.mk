@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libvlcjni
 
-LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-rwlocks.c eventfd.c
+LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-rwlocks.c eventfd.c sem.c
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
