@@ -261,7 +261,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-        "--ffmpeg-fast",
+        "--avcodec-fast",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack"
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
