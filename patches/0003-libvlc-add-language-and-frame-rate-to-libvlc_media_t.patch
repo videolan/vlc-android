@@ -1,4 +1,4 @@
-From 4519e40c6b16942e46b8d4da01b7f358cd21319a Mon Sep 17 00:00:00 2001
+From 796397ae813096cb86e3effd9b6709e2039be8d4 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Sun, 22 Apr 2012 09:35:52 +0200
 Subject: [PATCH 3/3] libvlc: add language and frame rate to

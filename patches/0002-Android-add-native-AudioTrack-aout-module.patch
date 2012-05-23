@@ -1,8 +1,9 @@
-From 1e9eb93307aa878f37d4d97e1767474d752d21fe Mon Sep 17 00:00:00 2001
+From 3c946805a63828f4b7d5ee4a7d99a8546c74213c Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 13 May 2012 22:20:34 +0200
 Subject: [PATCH 2/3] Android: add native AudioTrack aout module
 
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  configure.ac                      |   12 ++
  modules/audio_output/Modules.am   |    1 +
@@ -11,10 +12,10 @@ Subject: [PATCH 2/3] Android: add native AudioTrack aout module
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 62d13ad..12c1cbe 100644
+index 8765b14..1bf7692 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3555,6 +3555,18 @@ if test "${HAVE_ANDROID}" = "1"; then
+@@ -3536,6 +3536,18 @@ if test "${HAVE_ANDROID}" = "1"; then
  fi
  
  dnl
@@ -34,7 +35,7 @@ index 62d13ad..12c1cbe 100644
  dnl
  PKG_ENABLE_MODULES_VLC([SAMPLERATE], [], [samplerate], [Resampler with libsamplerate], [auto])
 diff --git a/modules/audio_output/Modules.am b/modules/audio_output/Modules.am
-index 357bc1d..c4b5a37 100644
+index ea30d4d..85f2b3d 100644
 --- a/modules/audio_output/Modules.am
 +++ b/modules/audio_output/Modules.am
 @@ -5,6 +5,7 @@ SOURCES_auhal = auhal.c packet.c
@@ -47,7 +48,7 @@ index 357bc1d..c4b5a37 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..0aebbbb
+index 0000000..2e5cab1
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
 @@ -0,0 +1,302 @@
@@ -350,9 +351,9 @@ index 0000000..0aebbbb
 +        length += p_sys->at_write(p_sys->AudioTrack, (char*)(p_buffer->p_buffer) + length, p_buffer->i_buffer - length);
 +    }
 +
-+    aout_BufferFree(p_buffer);
++    block_Release( p_buffer );
 +}
 +
 -- 
-1.7.9.5
+1.7.10.2
 
