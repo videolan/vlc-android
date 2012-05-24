@@ -46,6 +46,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public final static int SORT_BY_LENGTH = 1;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
+    private long mLastTime;
     private String mLastMRL;
 
     public VideoListAdapter(Context context) {
@@ -62,8 +63,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
     }
 
-    public void setLastMedia(String lastMRL) {
-        mLastMRL = lastMRL;
+    public void setLastMedia(long lastTime, String lastMRL) {
+        mLastTime = lastTime;
+        mLastMRL = lastTime > 0 ? lastMRL : null;
     }
 
     public void sortBy(int sortby) {
@@ -145,9 +147,21 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
-        holder.subtitle.setText(String.format("%s - %dx%d",
-                                Util.millisToString(media.getLength()), media.getWidth(), media.getHeight()));
+        if (media.getLocation().equals(mLastMRL))
+        {
+            holder.title.setTextColor(0xFFF48B00 /* ORANGE */);
+            holder.subtitle.setText(String.format("%s / %s - %dx%d",
+                    Util.millisToString(mLastTime),
+                    Util.millisToString(media.getLength()),
+                    media.getWidth(), media.getHeight()));
+        }
+        else
+        {
+            holder.title.setTextColor(Color.WHITE);
+            holder.subtitle.setText(String.format("%s - %dx%d",
+                    Util.millisToString(media.getLength()),
+                    media.getWidth(), media.getHeight()));
+        }
         holder.more.setTag(media);
         holder.more.setOnClickListener(moreClickListener);
 

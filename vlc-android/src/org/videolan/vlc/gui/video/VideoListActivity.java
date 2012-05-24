@@ -81,7 +81,7 @@ public class VideoListActivity extends ListActivity implements ISortable {
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
         String lastPath = preferences.getString("LastMedia", null);
         long lastTime = preferences.getLong("LastTime", 0);
-        mVideoAdapter.setLastMedia(lastTime > 0 ? lastPath : null);
+        mVideoAdapter.setLastMedia(lastTime, lastPath);
         mVideoAdapter.notifyDataSetChanged();
         super.onResume();
     }
