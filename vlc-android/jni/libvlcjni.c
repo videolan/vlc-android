@@ -870,6 +870,30 @@ jint Java_org_videolan_vlc_LibVLC_getVideoTracksCount(JNIEnv *env, jobject thiz)
     return -1;
 }
 
+jobjectArray Java_org_videolan_vlc_LibVLC_getSpuTrackDescription(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (!mp)
+        return NULL;
+
+    int i_nbTracks = libvlc_video_get_spu_count(mp);
+    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks,
+            (*env)->FindClass(env, "java/lang/String"),
+            NULL);
+
+    libvlc_track_description_t *first = libvlc_video_get_spu_description(mp);
+    libvlc_track_description_t *desc = first;
+    unsigned i;
+    for (i = 0; i < i_nbTracks; ++i)
+    {
+        jstring name = (*env)->NewStringUTF(env, desc->psz_name);
+        (*env)->SetObjectArrayElement(env, array, i, name);
+        desc = desc->p_next;
+    }
+    libvlc_track_description_list_release(first);
+    return array;
+}
+
 jint Java_org_videolan_vlc_LibVLC_getSpuTracksCount(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
@@ -878,3 +902,18 @@ jint Java_org_videolan_vlc_LibVLC_getSpuTracksCount(JNIEnv *env, jobject thiz)
     return -1;
 }
 
+jint Java_org_videolan_vlc_LibVLC_getSpuTrack(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_video_get_spu(mp);
+    return -1;
+}
+
+jint Java_org_videolan_vlc_LibVLC_setSpuTrack(JNIEnv *env, jobject thiz, jint index)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_video_set_spu(mp, index);
+    return -1;
+}

@@ -110,6 +110,7 @@ public class VideoPlayerActivity extends Activity {
     private TextView mInfo;
     private IPlayerControl mControls;
     private ImageButton mAudio;
+    private ImageButton mSubtitles;
     private ImageButton mLock;
     private ImageButton mSize;
 
@@ -127,6 +128,7 @@ public class VideoPlayerActivity extends Activity {
     private float mTouchY, mVol;
     private boolean mIsAudioChanged;
     private String[] mAudioTracks;
+    private String[] mSubtitleTracks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +164,9 @@ public class VideoPlayerActivity extends Activity {
 
         mAudio = (ImageButton) findViewById(R.id.player_overlay_audio);
         mAudio.setOnClickListener(mAudioListener);
+
+        mSubtitles = (ImageButton) findViewById(R.id.player_overlay_subtitle);
+        mSubtitles.setOnClickListener(mSubtitlesListener);
 
         mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
         mLock.setOnClickListener(mLockListener);
@@ -563,6 +568,30 @@ public class VideoPlayerActivity extends Activity {
     /**
     *
     */
+   private OnClickListener mSubtitlesListener = new OnClickListener() {
+       public void onClick(View v) {
+           if (mSubtitleTracks == null || mSubtitleTracks.length == 0)
+               return;
+
+           int current = mLibVLC.getSpuTrack();
+
+           Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
+           builder.setSingleChoiceItems(mSubtitleTracks, current, new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   dialog.dismiss();
+                   mLibVLC.setSpuTrack(which);
+               }
+           });
+
+           builder.show();
+       }
+   };
+
+
+    /**
+    *
+    */
     private OnPlayerControlListener mPlayerControlListener = new OnPlayerControlListener() {
         @Override
         public void onPlayPause() {
@@ -706,6 +735,13 @@ public class VideoPlayerActivity extends Activity {
                 mAudio.setVisibility(View.VISIBLE);
             else
                 mAudio.setVisibility(View.GONE);
+        }
+        if (mSubtitleTracks == null) {
+            mSubtitleTracks = mLibVLC.getSpuTrackDescription();
+            if (mSubtitleTracks != null && mSubtitleTracks.length > 0)
+                mSubtitles.setVisibility(View.VISIBLE);
+            else
+                mSubtitles.setVisibility(View.GONE);
         }
         updateOverlayPausePlay();
     }
