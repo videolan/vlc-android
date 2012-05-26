@@ -8,7 +8,7 @@ fi
 
 blacklist="
 stats
-access_bd
+access_(bd|shm|imem)
 oldrc
 real
 hotkeys
@@ -16,12 +16,10 @@ gestures
 sap
 dynamicoverlay
 rss
-libball
-bargraph
+ball
+audiobargraph_[av]
 clone
-access_shm
 mosaic
-imem
 osdmenu
 puzzle
 mediadirs
@@ -39,21 +37,27 @@ psychedelic
 alphamask
 netsync
 audioscrobbler
-imem
 motiondetect
+motionblur
 export
 smf
 podcast
 bluescreen
 erase
-record
+stream_filter_record
 speex_resampler
 remoteosd
 magnify
 gradient
-spdif
+.*tospdif
 dtstofloat32
 logger
+visual
+fb
+aout_file
+vmem
+yuv
+.dummy
 "
 
 regexp=
@@ -67,4 +71,4 @@ do
     fi
 done
 
-find $1/modules -name 'lib*plugin.a' | grep -vE "${regexp}" | tr '\n' ' '
+find $1/modules -name 'lib*plugin.a' | grep -vE "lib(${regexp})_plugin.a" | tr '\n' ' '
