@@ -40,7 +40,7 @@ fi
 export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=2ac6942827e8
+TESTED_HASH=e354bf04a542
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
@@ -80,7 +80,6 @@ cd contrib/android
     --disable-SDL_image \
     --disable-fontconfig \
     --disable-ass \
-    --disable-freetyp2 \
     --disable-fribidi \
     --disable-zvbi \
     --disable-kate \
@@ -92,7 +91,8 @@ cd contrib/android
     --disable-tremor \
     --disable-vorbis \
     --disable-sidplay2 \
-    --disable-samplerate
+    --disable-samplerate \
+    --enable-iconv
 
 # TODO: mpeg2, theora
 
