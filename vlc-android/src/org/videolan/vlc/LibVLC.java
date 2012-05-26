@@ -221,9 +221,9 @@ public class LibVLC {
     /**
      * Read a media.
      */
-    public void readMedia(String mrl) {
+    public void readMedia(String mrl, boolean novideo) {
         Log.v(TAG, "Reading " + mrl);
-        readMedia(mLibVlcInstance, mrl);
+        readMedia(mLibVlcInstance, mrl, novideo);
     }
 
     public String[] readMediaMeta(String mrl) {
@@ -272,7 +272,7 @@ public class LibVLC {
      * @param instance: the instance of libVLC
      * @param mrl: the media mrl
      */
-    private native void readMedia(int instance, String mrl);
+    private native void readMedia(int instance, String mrl, boolean novideo);
 
     /**
      * Return true if there is currently a running media player.

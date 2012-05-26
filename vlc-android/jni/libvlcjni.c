@@ -40,7 +40,7 @@
 #define AOUT_AUDIOTRACK_JAVA 1
 #define AOUT_OPENSLES        2
 
-libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx)
+libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
     jboolean isCopy;
@@ -67,6 +67,8 @@ libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring file
             libvlc_media_add_option(p_md, ":network-caching=1500");
             libvlc_media_add_option(p_md, ":codec=iomx,all");
         }
+        if (noVideo)
+            libvlc_media_add_option(p_md, ":no-video");
     }
     return p_md;
 }
@@ -436,7 +438,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
             (*env)->FindClass(env, "java/lang/String"),
             (*env)->NewStringUTF(env, ""));
 
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, false);
     if (!m)
     {
         LOGE("readMediaMeta: Could not create the media!");
@@ -472,13 +474,13 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
 }
 
 void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
-                                            jint instance, jstring mrl)
+                                            jint instance, jstring mrl, jboolean novideo)
 {
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
     /* Create a new item */
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false);
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, novideo);
     if (!m)
     {
         LOGE("readMedia: Could not create the media!");
@@ -530,7 +532,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
                                                     jint i_instance, jstring fileLocation)
 {
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation, false);
+    libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation, false, false);
     if (p_m == NULL)
     {
         LOGE("Could not create the media!");
@@ -577,7 +579,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     }
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false);
+    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false, false);
     if (p_m == NULL)
     {
         LOGE("Could not create the media!");
@@ -667,7 +669,7 @@ jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject th
     monitor->length_changed = false;
 
     /* Create a new item and assign it to the media player. */
-    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation, false);
+    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation, false, false);
     if (m == NULL)
     {
         LOGE("Could not create the media to play!");

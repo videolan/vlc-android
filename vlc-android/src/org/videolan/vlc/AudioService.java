@@ -292,7 +292,7 @@ public class AudioService extends Service {
                 return;
             }
         }
-        mLibVLC.readMedia(mCurrentMedia.getLocation());
+        mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -306,7 +306,7 @@ public class AudioService extends Service {
             mCurrentMedia = mMediaList.get(index - 1);
         else
             return;
-        mLibVLC.readMedia(mCurrentMedia.getLocation());
+        mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -483,7 +483,7 @@ public class AudioService extends Service {
             }
 
             if (mCurrentMedia != null)
-                mLibVLC.readMedia(mCurrentMedia.getLocation());
+                mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
             showNotification();
         }
 

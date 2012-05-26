@@ -807,7 +807,7 @@ public class VideoPlayerActivity extends Activity {
         }
 
         if (location != null && location.length() > 0) {
-            mLibVLC.readMedia(location);
+            mLibVLC.readMedia(location, false);
             if (!mWakeLock.isHeld())
                 mWakeLock.acquire();
 

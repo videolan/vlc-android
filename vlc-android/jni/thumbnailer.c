@@ -133,7 +133,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     /* Create a media player playing environment */
     sys->mp = libvlc_media_player_new(libvlc);
 
-    libvlc_media_t *m = new_media(instance, env, thiz, filePath, true);
+    libvlc_media_t *m = new_media(instance, env, thiz, filePath, true, false);
     if (m == NULL)
     {
         LOGE("Could not create the media to play!");
