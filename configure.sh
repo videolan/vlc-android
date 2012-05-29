@@ -70,7 +70,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-linsys \
                 --disable-decklink \
                 --disable-libva \
-                --disable-dv \
+                --disable-dv1394 \
                 --disable-mod \
                 --disable-sid \
                 --disable-gme \
