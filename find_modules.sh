@@ -55,7 +55,6 @@ logger
 visual
 fb
 aout_file
-vmem
 yuv
 .dummy
 "
