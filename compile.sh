@@ -40,7 +40,7 @@ fi
 export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=f8aa395031
+TESTED_HASH=defdb5a9e1
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
@@ -79,8 +79,6 @@ cd contrib/android
     --disable-sdl \
     --disable-SDL_image \
     --disable-fontconfig \
-    --disable-ass \
-    --disable-fribidi \
     --disable-zvbi \
     --disable-kate \
     --disable-caca \
