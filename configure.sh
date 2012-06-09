@@ -5,6 +5,8 @@ if [ -z "$ANDROID_NDK" ]; then
     exit 1
 fi
 
+# Must use android-9 here. Any replacement functions needed are in the vlc-android/jni
+# folder.
 ANDROID_API=android-9
 
 VLC_SOURCEDIR=..
