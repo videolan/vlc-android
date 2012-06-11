@@ -48,10 +48,10 @@ index ea30d4d..85f2b3d 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..2e5cab1
+index 0000000..78289af
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,302 @@
+@@ -0,0 +1,301 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
@@ -353,7 +353,6 @@ index 0000000..2e5cab1
 +
 +    block_Release( p_buffer );
 +}
-+
 -- 
-1.7.10.2
+1.7.5.4
 
