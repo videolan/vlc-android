@@ -25,7 +25,7 @@ elif [ -n "$TEGRA2" ]; then
     EXTRA_PARAMS=" --disable-neon"
 else
     CXX_TARGET="armeabi"
-    CFLAGS="$CFLAGS -mcpu=arm1136jf-s -mfpu=vfp"
+    CFLAGS="$CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
     EXTRA_PARAMS=" --disable-neon"
 fi
 
