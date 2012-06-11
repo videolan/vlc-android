@@ -15,7 +15,7 @@
     <string name="searchable_hint">Search…</string>
     <string name="searchable_label">VLC Media Player</string>
     <string name="search_history">History</string>
-    <string name="clear_history">Clear History</string>
+    <string name="clear_history">Clear history</string>
     <string name="search_found_results">%1$d Results Found</string>
     <string name="show_player">Show Player</string>
     <string name="hide_mini_player">Hide Mini-Player</string>
@@ -69,8 +69,8 @@
     <string name="main_prefs_category">Main</string>
     <string name="advanced_prefs_category">Advanced</string>
     <string name="enable_iomx">Enable hardware accelerated decoding</string>
-    <string name="advanced_debugging">Advanced Debugging</string>
-    <string name="quit">Quit Application</string>
+    <string name="advanced_debugging">Advanced debugging</string>
+    <string name="quit">Quit application</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="detect_headset">Detect headset</string>
     <string name="detect_headset_detail">Pause on headset removed, Resume on headset inserted</string>
