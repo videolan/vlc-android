@@ -137,7 +137,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
                     public boolean onPreferenceClick(Preference preference) {
                         DatabaseManager.getInstance(getBaseContext()).emptyDatabase();
-                        Toast.makeText(getBaseContext(), "Media database cleared!", Toast.LENGTH_SHORT);
+                        Toast.makeText(getBaseContext(), "Media database cleared!", Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
