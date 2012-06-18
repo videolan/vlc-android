@@ -23,6 +23,8 @@
 #include <vlc/vlc.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <time.h>
+#include <errno.h>
 
 #define LOG_TAG "VLC/JNI/thumbnailer"
 #include "log.h"
@@ -227,24 +229,32 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
 
     /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&sys->doneMutex);
-    while (!sys->hasThumb)
-        pthread_cond_wait(&sys->doneCondVar, &sys->doneMutex);
+    struct timespec deadline;
+    clock_gettime(CLOCK_REALTIME, &deadline);
+    deadline.tv_sec += 10; /* amount of seconds before we abort thumbnailer */
+    while (!sys->hasThumb) {
+        int ret = pthread_cond_timedwait(&sys->doneCondVar, &sys->doneMutex, &deadline);
+        if (ret == ETIMEDOUT)
+            break;
+    }
     pthread_mutex_unlock(&sys->doneMutex);
 
-    /* Stop and realease the media player. */
+    /* Stop and release the media player. */
     libvlc_media_player_stop(sys->mp);
     libvlc_media_player_release(sys->mp);
 
-    /* Create the Java byte array to return the create thumbnail. */
-    byteArray = (*env)->NewByteArray(env, thumbnailSize);
-    if (byteArray == NULL)
-    {
-        LOGE("Could not allocate the Java byte array to store the frame!");
-        goto end;
-    }
+    if (sys->hasThumb) {
+        /* Create the Java byte array to return the create thumbnail. */
+        byteArray = (*env)->NewByteArray(env, thumbnailSize);
+        if (byteArray == NULL)
+        {
+            LOGE("Could not allocate the Java byte array to store the frame!");
+            goto end;
+        }
 
-    (*env)->SetByteArrayRegion(env, byteArray, 0, thumbnailSize,
-                                 (jbyte *)sys->thumbnail);
+        (*env)->SetByteArrayRegion(env, byteArray, 0, thumbnailSize,
+                (jbyte *)sys->thumbnail);
+    }
 
 end:
     pthread_mutex_destroy(&sys->doneMutex);
