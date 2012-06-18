@@ -91,6 +91,7 @@ cd contrib/android
     --disable-sidplay2 \
     --disable-samplerate \
     --enable-iconv
+echo EXTRA_CFLAGS=-g >> config.mak
 
 # TODO: mpeg2, theora
 
