@@ -39,12 +39,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="10dip">
+        android:padding="10dip"
+        android:visibility="invisible">
         <CheckBox
             android:id="@+id/not_show_again"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dip" />
+            android:layout_marginRight="4dip"/>
         <TextView
             android:id="@+id/hide"
             android:singleLine="true"

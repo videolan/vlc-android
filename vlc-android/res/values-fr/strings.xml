@@ -25,8 +25,8 @@
     <string name="pause">Pause</string>
     <string name="close">Fermer</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
-    <string name="beta_warning">Ceci est une version alpha\n(NON STABLE!).</string>
-    <string name="info_title">Information</string>
+    <string name="beta_warning">Ceci est une version bêta\n(NON STABLE!).</string>
+    <string name="info_title">VLC Bêta</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
