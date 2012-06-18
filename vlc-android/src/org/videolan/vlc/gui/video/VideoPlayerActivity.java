@@ -35,6 +35,7 @@ import org.videolan.vlc.interfaces.OnPlayerControlListener;
 import org.videolan.vlc.widget.PlayerControlClassic;
 import org.videolan.vlc.widget.PlayerControlWheel;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -768,7 +769,8 @@ public class VideoPlayerActivity extends Activity {
      * Dim the status bar and/or navigation icons when needed.
      * Android 3.0 and later
      */
-    private void dimStatusBar(boolean dim) {
+    @TargetApi(11)
+	private void dimStatusBar(boolean dim) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             if (dim) {
                 mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
