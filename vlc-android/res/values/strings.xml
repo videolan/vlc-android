@@ -26,7 +26,7 @@
     <string name="pause">Pause</string>
     <string name="close">Close</string>
     <string name="not_show_again">"Don't show this message again."</string>
-    <string name="beta_warning">This is an beta version\n(NOT STABLE!).</string>
+    <string name="beta_warning">This is a beta version.\n\nThis version is NOT STABLE!\n\nDo NOT use, unless you know what you are doing.\n\nIt might kill your kitten, destroy your house and start the mayan apocalypse.\nUse it at your own risk.\n\nHave Fun! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
