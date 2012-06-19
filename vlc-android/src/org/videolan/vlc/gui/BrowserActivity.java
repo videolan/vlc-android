@@ -90,6 +90,12 @@ public class BrowserActivity extends ListActivity {
         mAdapter.clear();
         mCurrentDir = file;
         File[] files = file.listFiles(new DirFilter());
+        /* If no sub-directories or I/O error don't crash */
+        if(files == null || files.length < 1) {
+            Util.toaster(this, R.string.nosubdirectory);
+            this.finish();
+            return;
+        }
         for (int i = 0; i < files.length; i++) {
             mAdapter.add(files[i]);
         }
