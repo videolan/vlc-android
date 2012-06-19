@@ -1,3 +1,4 @@
 /vlc/
 /android-libs/*.so
 vlc-android/local.properties
+.DS_Store
