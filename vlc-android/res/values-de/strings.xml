@@ -64,7 +64,7 @@
     <string name="surface_fit_vertical">Vertikal anpassen</string>
     <string name="surface_fill">Ausfüllen</string>
     <string name="surface_original">Zentrieren</string>
-    <string name="about_text" translatable="false">VLC media player\n\nVLC Autoren und VideoLAN\n\nLizensiert unter der GPLv2\n</string>
+    <string name="about_text" translatable="false">VLC media player\n\nVLC authors and VideoLAN\n\nLicensed under the GPLv2\n</string>
     <string name="thumbnail">Vorschau</string>
     <string name="main_prefs_category">Allgemein</string>
     <string name="advanced_prefs_category">Erweitert</string>
