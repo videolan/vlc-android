@@ -93,8 +93,10 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
     }
 
     private void appendVideo(StringBuilder textBuilder, Resources res, TrackInfo track) {
-        textBuilder.append(res.getString(R.string.track_resolution_info, track.Width, track.Height));
-        textBuilder.append(res.getString(R.string.track_framerate_info, track.Framerate));
+        if( track.Width != 0 && track.Height != 0 )
+            textBuilder.append(res.getString(R.string.track_resolution_info, track.Width, track.Height));
+        if( !Float.isNaN(track.Framerate) )
+            textBuilder.append(res.getString(R.string.track_framerate_info, track.Framerate));
     }
 
     static class ViewHolder {
