@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, vlc!</string>
+    <string name="hello">Hallo Welt, vlc!</string>
     <string name="app_name" translatable="false">VLC media player</string>
     <string name="filebrowser_sdfail">Konnte SD-Karte nicht öffnen. Bitte prüfen, ob sie korrekt gemounted wurde.</string>
-    <string name="filebrowser_root">Root</string>
+    <string name="filebrowser_root">Stammverzeichnis</string>
     <string name="filebrowser_parent">..</string>
-    <string name="filebrowser_title">Abzuspielende Medien auswählen</string>
+    <string name="filebrowser_title">Medium zur Wiedergabe auswählen</string>
     <string name="preferences">Einstellungen</string>
     <string name="about">Über</string>
     <string name="ml_no_media_dir">Kein Medien-Verzeichnis</string>
@@ -18,15 +18,15 @@
     <string name="clear_history">Verlauf löschen</string>
     <string name="search_found_results">%1$d Ergebnisse gefunden</string>
     <string name="show_player">Player anzeigen</string>
-    <string name="hide_mini_player">Mini-Player verstecken</string>
-    <string name="play">Play</string>
+    <string name="hide_mini_player">Mini-Player ausblenden</string>
+    <string name="play">Wiedergabe</string>
     <string name="append">Anhängen</string>
-    <string name="play_all">Alle abspielen</string>
+    <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
     <string name="pause">Pause</string>
     <string name="close">Schließen</string>
     <string name="not_show_again">"Diese Nachricht nicht mehr anzeigen."</string>
-    <string name="beta_warning">Dies ist eine Beta-Version.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten, das eigene Haus zerstören und die Apokalypse der Maya starten.\nVerwendung auf eingene Gefahr.\n\nViel Spaß! :)</string>
+    <string name="beta_warning">Dies ist eine Beta-Version.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten, das eigene Haus zerstören und die Apokalypse der Maya starten.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unbekannter Künstler</string>
     <string name="unknown_album">Unbekanntes Album</string>
@@ -56,45 +56,44 @@
     <string name="mediafiles">Mediendateien</string>
     <string name="notavailable">nicht verfügbar</string>
     <string name="nosubdirectory">Kein Unterverzeichnis</string>
-    <string name="validation">Wirklich?</string>
-    <string name="locked">Locked</string>
-    <string name="unlocked">Unlocked</string>
-    <string name="surface_best_fit">Best fit</string>
+    <string name="validation">Sind Sie sicher?</string>
+    <string name="locked">Gesperrt</string>
+    <string name="unlocked">Entsperrt</string>
+    <string name="surface_best_fit">Beste Größe</string>
     <string name="surface_fit_horizontal">Horizontal anpassen</string>
     <string name="surface_fit_vertical">Vertikal anpassen</string>
-    <string name="surface_fill">Fill</string>
-    <string name="surface_original">Center</string>
-    <string name="about_text" translatable="false">VLC media player\n\nVLC authors and VideoLAN\n\nLicensed under the GPLv2\n</string>
-    <string name="thumbnail">Thumbnail</string>
-    <string name="main_prefs_category">Main</string>
+    <string name="surface_fill">Ausfüllen</string>
+    <string name="surface_original">Zentrieren</string>
+    <string name="about_text" translatable="false">VLC media player\n\nVLC Autoren und VideoLAN\n\nLizensiert unter der GPLv2\n</string>
+    <string name="thumbnail">Vorschau</string>
+    <string name="main_prefs_category">Allgemein</string>
     <string name="advanced_prefs_category">Erweitert</string>
-    <string name="enable_iomx">Hardware-beschleunigtes Decodieren aktivieren</string>
+    <string name="enable_iomx">Hardware-beschleunigte Dekodierung aktivieren</string>
     <string name="advanced_debugging">Erweitertes Debuggen</string>
-    <string name="quit">Applikation verlassen</string>
+    <string name="quit">Applikation beenden</string>
     <string name="clear_media_db">Medien-Datenbank leeren</string>
     <string name="detect_headset">Headset erkennen</string>
-    <string name="detect_headset_detail">Pause beim Entfernen des Headsets, Fortsetzung bei Wiederverfügbarkeit</string>
+    <string name="detect_headset_detail">Pause beim Entfernen des Headsets, Fortsetzung beim Einstecken</string>
     <string name="enable_wheel_bar">Wheel bar aktivieren</string>
     <string name="refresh">Aktualisieren</string>
-    <string name="track_audio">Audio track</string>
-    <string name="track_video">Video track</string>
-    <string name="track_text">Subtitles track</string>
-    <string name="track_unknown">Unknown track</string>
+    <string name="track_audio">Audiospur</string>
+    <string name="track_video">Videospur</string>
+    <string name="track_text">Untertitelspur</string>
+    <string name="track_unknown">Unbekannter Titel</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Sprache: %1$s\n</string>
     <plurals name="track_channels_info">
         <item quantity="one">%1$d Kanal\n</item>
         <item quantity="other">%1$d Kanäle\n</item>
     </plurals>
-    <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
+    <string name="track_samplerate_info">Abtastrate: %1$d Hz\n</string>
     <string name="track_resolution_info">Auflösung: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
+    <string name="track_framerate_info">Bildrate: %1$.3f\n</string>
     <string name="open_mrl">MRL öffnen</string>
     <string name="open_mrl_dialog_title">Netzwerk-Stream öffnen</string>
     <string name="open_mrl_dialog_msg">Netzwerk-MRL eingeben: z.B. http://, mms:// oder rtsp://</string>
-
-    <string name="aout">Audio output</string>
-    <string name="aout_audiotrack">AudioTrack (native)</string>
+    <string name="aout">Audioausgabe</string>
+    <string name="aout_audiotrack">AudioTrack (nativ)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string-array name="aouts_froyo">
