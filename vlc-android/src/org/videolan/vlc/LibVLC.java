@@ -243,7 +243,7 @@ public class LibVLC {
     /**
      * Return true if there is a video track in the file
      */
-    public boolean hasVideoTrack(String mrl) {
+    public boolean hasVideoTrack(String mrl) throws java.io.IOException {
         return hasVideoTrack(mLibVlcInstance, mrl);
     }
 

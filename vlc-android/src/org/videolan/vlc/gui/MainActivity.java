@@ -20,12 +20,14 @@
 
 package org.videolan.vlc.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.audio.AudioActivityGroup;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoActivityGroup;
@@ -38,6 +40,7 @@ import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -246,22 +249,50 @@ public class MainActivity extends TabActivity {
                 b.setView(input);
                 b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int button) {
-                            AudioServiceController c = AudioServiceController.getInstance();
-                            String s = input.getText().toString();
+                        ProgressDialog pd = ProgressDialog.show(
+                                MainActivity.this,
+                                getApplicationContext().getString(R.string.loading),
+                                "Please wait...", true);
+                        pd.setCancelable(true);
 
-                            if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
-                                Log.d(TAG, "Auto-detected audio for " + s);
-                                ArrayList<String> media = new ArrayList<String>();
-                                media.add(input.getText().toString());
-                                c.append(media);
-                            } else {
-                                Log.d(TAG, "Auto-detected Video for " + s);
-                                Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
-                                intent.putExtra("itemLocation", s);
-                                startActivity(intent);
-                            }
-                        }
+                        VLCCallbackTask t = new VLCCallbackTask(
+                            /* Task to run */
+                            new VLCCallbackTask.CallbackListener() {
+                                @Override
+                                public void callback() {
+                                    AudioServiceController c = AudioServiceController.getInstance();
+                                    String s = input.getText().toString();
+
+                                    try {
+                                        if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
+                                            Log.d(TAG, "Auto-detected audio for " + s);
+                                            ArrayList<String> media = new ArrayList<String>();
+                                            media.add(input.getText().toString());
+                                            c.append(media);
+                                        } else {
+                                            Log.d(TAG, "Auto-detected Video for " + s);
+                                            Intent intent = new Intent(getApplicationContext(),
+                                                                       VideoPlayerActivity.class);
+                                            intent.putExtra("itemLocation", s);
+                                            startActivity(intent);
+                                        }
+                                    } catch(IOException e) {
+                                        /* VLC is unable to open the MRL */
+                                        return;
+                                    }
+                                }
+
+                                @Override
+                                public void callback_object(Object o) {
+                                    ProgressDialog pd = (ProgressDialog)o;
+                                    pd.dismiss();
+                                }
+                            }, pd);
+
+                        /* Start this in a new friend as to not block the UI thread */
+                        new Thread(t).start();
                     }
+                }
                 );
                 b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

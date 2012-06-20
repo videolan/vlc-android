@@ -574,11 +574,22 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     libvlc_media_player_play( p_mp );
 
     pthread_mutex_lock(&monitor->doneMutex);
-    while (!monitor->length_changed)
-        pthread_cond_wait(&monitor->doneCondVar, &monitor->doneMutex);
+
+    struct timespec deadline;
+    clock_gettime(CLOCK_REALTIME, &deadline);
+    deadline.tv_sec += 2; /* If "VLC can't open the file", return */
+    int mp_alive = 1;
+    while( !monitor->length_changed && mp_alive ) {
+        pthread_cond_timedwait(&monitor->doneCondVar, &monitor->doneMutex, &deadline);
+        mp_alive = libvlc_media_player_will_play(p_mp);
+    }
     pthread_mutex_unlock(&monitor->doneMutex);
 
-    int i_nbTracks = libvlc_video_get_track_count(p_mp);
+    int i_nbTracks;
+    if( mp_alive )
+        i_nbTracks = libvlc_video_get_track_count(p_mp);
+    else
+        i_nbTracks = -1;
     LOGI("Number of video tracks: %d",i_nbTracks);
 
     libvlc_event_detach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, monitor);
@@ -592,6 +603,8 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
 
     if(i_nbTracks > 0)
         return JNI_TRUE;
+    else if(i_nbTracks < 0)
+        (*env)->ThrowNew(env, (*env)->FindClass(env, "java/io/IOException"), "VLC can't open the file");
     else
         return JNI_FALSE;
 }
