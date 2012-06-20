@@ -53,6 +53,12 @@ public class AudioSongsListAdapter extends ArrayAdapter<Media> {
     }
 
     @Override
+    public void remove(Media m) {
+        mMediaList.remove(m);
+        super.remove(m);
+    }
+
+    @Override
     public void clear() {
         mMediaList.clear();
         super.clear();

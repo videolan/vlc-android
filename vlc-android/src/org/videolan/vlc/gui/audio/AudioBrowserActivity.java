@@ -20,6 +20,9 @@
 
 package org.videolan.vlc.gui.audio;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -33,6 +36,8 @@ import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -82,6 +87,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     public final static int MENU_APPEND = Menu.FIRST + 1;
     public final static int MENU_PLAY_ALL = Menu.FIRST + 2;
     public final static int MENU_APPEND_ALL = Menu.FIRST + 3;
+    public final static int MENU_DELETE = Menu.FIRST + 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +179,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
             if (v.getId() == R.id.songs_list) {
                 menu.add(Menu.NONE, MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
                 menu.add(Menu.NONE, MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
+                menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.delete);
             }
         }
     };
@@ -196,10 +203,36 @@ public class AudioBrowserActivity extends Activity implements ISortable {
                 childPosition = 0;
         }
         else {
-
             AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
             groupPosition = info.position;
             childPosition = 0;
+        }
+
+        if (id == MENU_DELETE){
+            final int groupPositionDelete = groupPosition;
+            AlertDialog alertDialog = new AlertDialog.Builder(this.getParent())
+            .setTitle(R.string.confirm_delete)
+            .setMessage(R.string.validation)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    List<String> adressMedia = mSongsAdapter.getLocation(groupPositionDelete);
+                    URI adressMediaUri = null;
+                    try {
+                        adressMediaUri = new URI (adressMedia.get(0));
+                    } catch (URISyntaxException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    File fileMedia =  new File(adressMediaUri);
+                    fileMedia.delete();
+                    mMediaLibrary.getMediaItems().remove(mSongsAdapter.getItem(groupPositionDelete));
+                    updateLists();
+                }
+            })
+            .setNegativeButton(android.R.string.cancel, null).create();
+            alertDialog.show();
+            return true;
         }
 
         if (play_all) {
