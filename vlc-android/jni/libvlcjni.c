@@ -40,6 +40,21 @@
 #define AOUT_AUDIOTRACK_JAVA 1
 #define AOUT_OPENSLES        2
 
+struct length_change_monitor {
+    pthread_mutex_t doneMutex;
+    pthread_cond_t doneCondVar;
+    bool length_changed;
+};
+
+static void length_changed_callback(const libvlc_event_t *ev, void *data)
+{
+    struct length_change_monitor *monitor = data;
+    pthread_mutex_lock(&monitor->doneMutex);
+    monitor->length_changed = true;
+    pthread_cond_signal(&monitor->doneCondVar);
+    pthread_mutex_unlock(&monitor->doneMutex);
+}
+
 libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
@@ -637,21 +652,6 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
     libvlc_media_release(p_m);
     return array;
-}
-
-struct length_change_monitor {
-    pthread_mutex_t doneMutex;
-    pthread_cond_t doneCondVar;
-    bool length_changed;
-};
-
-static void length_changed_callback(const libvlc_event_t *ev, void *data)
-{
-    struct length_change_monitor *monitor = data;
-    pthread_mutex_lock(&monitor->doneMutex);
-    monitor->length_changed = true;
-    pthread_cond_signal(&monitor->doneCondVar);
-    pthread_mutex_unlock(&monitor->doneMutex);
 }
 
 jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject thiz,
