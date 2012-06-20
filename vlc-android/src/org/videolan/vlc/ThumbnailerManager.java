@@ -58,7 +58,7 @@ public class ThumbnailerManager extends Thread {
         }
 
         DisplayMetrics metrics = new DisplayMetrics();
-        mVideoListActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mVideoListActivity.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDensity = metrics.density;
         start();
     }
@@ -102,8 +102,8 @@ public class ThumbnailerManager extends Thread {
             while (mItems.size() == 0) {
                 try {
                     Log.i(TAG, "hide ProgressBar!");
-                    MainActivity.hideProgressBar(mVideoListActivity);
-                    MainActivity.clearTextInfo(mVideoListActivity);
+                    MainActivity.hideProgressBar(mVideoListActivity.getActivity());
+                    MainActivity.clearTextInfo(mVideoListActivity.getActivity());
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
@@ -116,10 +116,10 @@ public class ThumbnailerManager extends Thread {
             lock.unlock();
 
             Media item = mItems.poll();
-            MainActivity.showProgressBar(mVideoListActivity);
+            MainActivity.showProgressBar(mVideoListActivity.getActivity());
 
             Log.i(TAG, "show ProgressBar!");
-            MainActivity.sendTextInfo(mVideoListActivity, String.format("%s %s", prefix, item.getFileName()), count, total);
+            MainActivity.sendTextInfo(mVideoListActivity.getActivity(), String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
             int width = (int) (120 * mDensity);
@@ -138,7 +138,7 @@ public class ThumbnailerManager extends Thread {
 
             Log.i(TAG, "Thumbnail created!");
 
-            item.setPicture(mVideoListActivity, thumbnail);
+            item.setPicture(mVideoListActivity.getActivity(), thumbnail);
             // Post to the file browser the new item.
             mVideoListActivity.setItemToUpdate(item);
 

@@ -33,6 +33,9 @@ import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
+
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,11 +43,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class VideoListActivity extends ListActivity implements ISortable {
+public class VideoListActivity extends SherlockListFragment implements ISortable {
 
     private LinearLayout mNoFileLayout;
     private LinearLayout mLoadFileLayout;
@@ -60,25 +65,39 @@ public class VideoListActivity extends ListActivity implements ISortable {
     private MediaLibrary mMediaLibrary;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.video_list);
 
-        mVideoAdapter = new VideoListAdapter(this);
-        mNoFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_nofile);
-        mLoadFileLayout = (LinearLayout) findViewById(R.id.video_list_empty_loadfile);
+        mVideoAdapter = new VideoListAdapter(getActivity());
 
-        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary = MediaLibrary.getInstance(getActivity());
         mMediaLibrary.addUpdateHandler(mHandler);
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
     }
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View v = inflater.inflate(R.layout.video_list, container, false);
+        
+        mNoFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_nofile);
+        mLoadFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_loadfile);
+        
+        return v;
+    }
+    
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         //Get & highlight the last media
-        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
+        SharedPreferences preferences = getActivity().getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
         String lastPath = preferences.getString("LastMedia", null);
         long lastTime = preferences.getLong("LastTime", 0);
         mVideoAdapter.setLastMedia(lastTime, lastPath);
@@ -87,7 +106,7 @@ public class VideoListActivity extends ListActivity implements ISortable {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
         mThumbnailerManager.clearJobs();
         mVideoAdapter.clear();
@@ -95,25 +114,25 @@ public class VideoListActivity extends ListActivity implements ISortable {
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(ListView l, View v, int position, long id) {
 
         // Stop the currently running audio
         AudioServiceController asc = AudioServiceController.getInstance();
         asc.stop();
 
         Media item = (Media) getListAdapter().getItem(position);
-        Intent intent = new Intent(this, VideoPlayerActivity.class);
+        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
         intent.putExtra("itemLocation", item.getLocation());
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
     }
 
-    @Override
+    /*@Override
     public boolean onSearchRequested() {
-        Intent intent = new Intent(this, SearchActivity.class);
+        Intent intent = new Intent(getActivity(), SearchActivity.class);
         startActivity(intent);
         return false;
-    }
+    }*/
 
     /**
      * Handle changes on the list

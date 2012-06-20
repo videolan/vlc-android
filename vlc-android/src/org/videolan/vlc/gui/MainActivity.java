@@ -22,6 +22,7 @@ package org.videolan.vlc.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
@@ -29,12 +30,21 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.audio.AudioActivityGroup;
+import org.videolan.vlc.gui.audio.AudioBrowserActivity;
+import org.videolan.vlc.gui.audio.AudioListActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoActivityGroup;
+import org.videolan.vlc.gui.video.VideoListActivity;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import android.app.Activity;
 import android.app.ActivityGroup;
@@ -53,10 +63,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -66,8 +80,9 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends SherlockFragmentActivity {
     public final static String TAG = "VLC/MainActivity";
 
     protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.gui.ShowProgressBar";
@@ -79,6 +94,7 @@ public class MainActivity extends TabActivity {
     public static final String START_FROM_NOTIFICATION = "from_notification";
     private static final String PREF_SHOW_INFO = "show_info";
 
+    private ActionBar mActionBar;
     private ProgressBar mProgressBar;
     private TabHost mTabHost;
     private int mCurrentState = 0;
@@ -108,14 +124,29 @@ public class MainActivity extends TabActivity {
         mInfoLayout = (View) findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
         mInfoText = (TextView) findViewById(R.id.info_text);
-
-        /* Initialize the TabView */
-        mTabHost = getTabHost();
-        mTabHost.addTab(mTabHost.newTabSpec("VIDEO TAB").setIndicator("VIDEO TAB")
-                .setContent(new Intent(this, VideoActivityGroup.class)));
-
-        mTabHost.addTab(mTabHost.newTabSpec("AUDIO TAB").setIndicator("AUDIO TAB")
-                .setContent(new Intent(this, AudioActivityGroup.class)));
+        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        
+        /* Initialize the tabs */
+        
+        mActionBar = getSupportActionBar();
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Video")
+                .setIcon(R.drawable.header_icon_video)
+                .setTabListener(new TabListener<VideoListActivity>(
+                        this, "video", VideoListActivity.class)));
+        
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Audio")
+                .setIcon(R.drawable.header_icon_audio)
+                .setTabListener(new TabListener<AudioBrowserActivity>(
+                        this, "audio", AudioBrowserActivity.class)));
+        
+        if (savedInstanceState != null) {
+            mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+        }
 
         // add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
@@ -163,6 +194,7 @@ public class MainActivity extends TabActivity {
     @Override
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
+        AudioServiceController.getInstance().bindAudioService(this);
         super.onResume();
     }
 
@@ -182,7 +214,7 @@ public class MainActivity extends TabActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -199,8 +231,8 @@ public class MainActivity extends TabActivity {
      */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt("mCurrentState", mCurrentState);
         super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("tab", mActionBar.getSelectedNavigationIndex());
     }
 
     /**
@@ -218,14 +250,13 @@ public class MainActivity extends TabActivity {
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
-                activity = getCurrentActivity();
-                if (!(activity instanceof ActivityGroup))
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+                if (current == null)
                     break;
-                activity = ((ActivityGroup) activity).getCurrentActivity();
-                if (activity instanceof ISortable)
-                    ((ISortable) activity).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
-                            ? VideoListAdapter.SORT_BY_TITLE
-                            : VideoListAdapter.SORT_BY_LENGTH);
+                if (current instanceof ISortable)
+                    ((ISortable) current).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
+                    ? VideoListAdapter.SORT_BY_TITLE
+                    : VideoListAdapter.SORT_BY_LENGTH);
                 break;
             // About
             case R.id.ml_menu_about:
@@ -301,11 +332,14 @@ public class MainActivity extends TabActivity {
                         }});
                 b.show();
                 break;
+            case R.id.ml_menu_search:
+            	onSearchRequested();
+            	break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.play_pause:
@@ -324,7 +358,7 @@ public class MainActivity extends TabActivity {
                 break;
         }
         return super.onContextItemSelected(item);
-    }
+    }*/
 
     public void hideAudioPlayer() {
         mAudioPlayer.setVisibility(AudioMiniPlayer.GONE);
@@ -361,7 +395,7 @@ public class MainActivity extends TabActivity {
      */
     public void changeTabClick(View view) {
         // Toggle audio- and video-tab
-        if (mCurrentState == VIDEO_TAB) {
+        if (mActionBar.getSelectedNavigationIndex() == VIDEO_TAB) {
             showAudioTab();
         } else {
             showVideoTab();
@@ -369,15 +403,11 @@ public class MainActivity extends TabActivity {
     }
 
     private void showVideoTab() {
-        mChangeTab.setImageResource(R.drawable.header_icon_audio);
-        mTabHost.setCurrentTab(VIDEO_TAB);
-        mCurrentState = VIDEO_TAB;
+        mActionBar.setSelectedNavigationItem(VIDEO_TAB);
     }
 
     private void showAudioTab() {
-        mChangeTab.setImageResource(R.drawable.header_icon_video);
-        mTabHost.setCurrentTab(AUDIO_TAB);
-        mCurrentState = AUDIO_TAB;
+        mActionBar.setSelectedNavigationItem(AUDIO_TAB);
     }
 
     /**
@@ -435,5 +465,69 @@ public class MainActivity extends TabActivity {
         intent.putExtra("progress", progress);
         intent.putExtra("max", max);
         context.getApplicationContext().sendBroadcast(intent);
+    }
+
+    
+    
+    
+    
+    
+    
+    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
+        private final SherlockFragmentActivity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+        private final Bundle mArgs;
+        private Fragment mFragment;
+
+        public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz) {
+            this(activity, tag, clz, null);
+        }
+
+        public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz, Bundle args) {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+            mArgs = args;
+
+            // Check to see if we already have a fragment for this tab, probably
+            // from a previously saved state.  If so, deactivate it, because our
+            // initial state is that a tab isn't shown.
+            mFragment = mActivity.getSupportFragmentManager().findFragmentByTag(mTag);
+            if (mFragment != null && !mFragment.isDetached()) {
+                FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
+                ft.detach(mFragment);
+                ft.commit();
+            }
+        }
+
+        public void onTabSelected(Tab tab, FragmentTransaction ft) {
+            if (mTag.equalsIgnoreCase("video"))
+                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
+            else if (mTag.equalsIgnoreCase("audio"))
+                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
+            
+            if (mFragment == null) {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
+                ft.add(R.id.fragment_placeholder, mFragment, mTag);
+            } else {
+                ft.attach(mFragment);
+            }
+        }
+
+        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+            if (mTag.equalsIgnoreCase("video"))
+                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
+            else if (mTag.equalsIgnoreCase("audio"))
+                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
+            
+            if (mFragment != null) {
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(Tab tab, FragmentTransaction ft) {
+            
+        }
     }
 }

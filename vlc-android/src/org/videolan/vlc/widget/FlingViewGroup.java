@@ -82,10 +82,15 @@ public class FlingViewGroup extends ViewGroup {
         final int width = MeasureSpec.getSize(widthMeasureSpec);
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+
+        //FIXME I had to comment this block after switching to Fragments
+        // I don't know if it was useful or not, but apparently it still works without.
+        /*
         if (widthMode != MeasureSpec.EXACTLY ||
                 heightMode != MeasureSpec.EXACTLY) {
             throw new IllegalStateException("can only be used in EXACTLY mode.");
         }
+        */
 
         final int count = getChildCount();
         for (int i = 0; i < count; i++) {

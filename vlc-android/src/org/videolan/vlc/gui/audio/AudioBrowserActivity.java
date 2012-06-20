@@ -35,7 +35,8 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,9 +46,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -61,7 +64,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AudioBrowserActivity extends Activity implements ISortable {
+public class AudioBrowserActivity extends SherlockFragment implements ISortable {
     public final static String TAG = "VLC/AudioBrowserActivity";
 
     private FlingViewGroup mFlingViewGroup;
@@ -92,27 +95,34 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     public final static int MENU_DELETE = Menu.FIRST + 4;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.audio_browser);
 
-        mFlingViewGroup = (FlingViewGroup) findViewById(R.id.content);
-        mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
-
-        mHeader = (HorizontalScrollView) findViewById(R.id.header);
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary = MediaLibrary.getInstance(getActivity());
         mMediaLibrary.addUpdateHandler(mHandler);
 
-        mSongsAdapter = new AudioSongsListAdapter(this);
-        mArtistsAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);
-        mAlbumsAdapter = new AudioPlaylistAdapter(this, R.plurals.songs, R.plurals.songs);
-        mGenresAdapter = new AudioPlaylistAdapter(this, R.plurals.albums, R.plurals.songs);
-        ListView songsList = (ListView) findViewById(R.id.songs_list);
-        ExpandableListView artistList = (ExpandableListView) findViewById(R.id.artists_list);
-        ExpandableListView albumList = (ExpandableListView) findViewById(R.id.albums_list);
-        ExpandableListView genreList = (ExpandableListView) findViewById(R.id.genres_list);
+        mSongsAdapter = new AudioSongsListAdapter(getActivity());
+        mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
+        mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs, R.plurals.songs);
+        mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View v = inflater.inflate(R.layout.audio_browser, container, false);
+
+        mFlingViewGroup = (FlingViewGroup)v.findViewById(R.id.content);
+        mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
+
+        mHeader = (HorizontalScrollView)v.findViewById(R.id.header);
+
+        ListView songsList = (ListView)v.findViewById(R.id.songs_list);
+        ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
+        ExpandableListView albumList = (ExpandableListView)v.findViewById(R.id.albums_list);
+        ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
         albumList.setAdapter(mAlbumsAdapter);
@@ -129,6 +139,12 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         albumList.setOnCreateContextMenuListener(contextMenuListener);
         genreList.setOnCreateContextMenuListener(contextMenuListener);
 
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         updateLists();
     }
 
@@ -136,7 +152,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             mAudioController.load(mSongsAdapter.getLocations(), p);
-            Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+            Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
@@ -150,7 +166,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
                 return false;
 
             String name = adapter.getGroup(groupPosition);
-            Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
+            Intent intent = new Intent(getActivity(), AudioListActivity.class);
             AudioListActivity.set(intent, name, null, mFlingViewGroup.getPosition());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -164,7 +180,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
             AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
             String name = adapter.getGroup(groupPosition);
             String child = adapter.getChild(groupPosition, childPosition);
-            Intent intent = new Intent(AudioBrowserActivity.this, AudioListActivity.class);
+            Intent intent = new Intent(getActivity(), AudioListActivity.class);
             AudioListActivity.set(intent, name, child, mFlingViewGroup.getPosition());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -212,7 +228,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
 
         if (id == MENU_DELETE){
             final int groupPositionDelete = groupPosition;
-            AlertDialog alertDialog = new AlertDialog.Builder(this.getParent())
+            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
             .setTitle(R.string.confirm_delete)
             .setMessage(R.string.validation)
             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -266,14 +282,14 @@ public class AudioBrowserActivity extends Activity implements ISortable {
         else
             mAudioController.load(medias, startPosition);
 
-        Intent intent = new Intent(AudioBrowserActivity.this, AudioPlayerActivity.class);
+        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return super.onContextItemSelected(item);
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
@@ -288,7 +304,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
 
         @Override
         public void onSwitching(float progress) {
-            LinearLayout hl = (LinearLayout) findViewById(R.id.header_layout);
+            LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
             int width = hl.getChildAt(0).getWidth();
             int x = (int) (progress * width);
             mHeader.smoothScrollTo(x, 0);
@@ -296,7 +312,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
 
         @Override
         public void onSwitched(int position) {
-            LinearLayout hl = (LinearLayout) findViewById(R.id.header_layout);
+            LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
             TextView oldView = (TextView) hl.getChildAt(mCurrentPosition);
             oldView.setTextColor(Color.GRAY);
             TextView newView = (TextView) hl.getChildAt(position);
@@ -363,7 +379,7 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     };
 
     private void updateLists() {
-        List<Media> audioList = MediaLibrary.getInstance(this).getAudioItems();
+        List<Media> audioList = MediaLibrary.getInstance(getActivity()).getAudioItems();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();

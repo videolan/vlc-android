@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/ml_menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/searchable_hint"
+        android:showAsAction="ifRoom" />
+    <item
         android:id="@+id/ml_menu_open_mrl"
         android:icon="@android:drawable/ic_btn_speak_now"
         android:title="@string/open_mrl" />

@@ -8,6 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="48dip"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:background="@drawable/header">
         <ImageView
             android:src="@drawable/header_logo"
@@ -42,26 +43,10 @@
             android:padding="10dip"
             android:onClick="searchClick" />
     </LinearLayout>
-    <TabHost
-        android:id="@android:id/tabhost"
+	<FrameLayout android:id="@+id/fragment_placeholder"
+	    android:layout_weight="1"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-        </LinearLayout>
-    </TabHost>
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:id="@+id/info_layout"
         android:layout_width="fill_parent"
