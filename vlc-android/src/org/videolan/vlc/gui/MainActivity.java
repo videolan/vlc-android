@@ -24,8 +24,6 @@ import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
-import org.videolan.vlc.LibVlcException;
-import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioActivityGroup;
