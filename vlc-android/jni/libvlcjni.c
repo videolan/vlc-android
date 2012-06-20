@@ -558,20 +558,37 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     libvlc_media_track_info_t *p_tracks;
     libvlc_media_parse(p_m);
 
-    jboolean hasVideo = JNI_FALSE;
-    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
-    unsigned i;
-    for (i = 0; i < i_nbTracks; ++i)
-        if (p_tracks[i].i_type == libvlc_track_video)
-        {
-            hasVideo = JNI_TRUE;
-            break;
-        }
+    libvlc_media_player_t* p_mp = libvlc_media_player_new_from_media(p_m);
 
-    libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
+    struct length_change_monitor* monitor;
+    monitor = malloc(sizeof(struct length_change_monitor));
+    if (!monitor) return 0;
+
+    /* Initialize pthread variables. */
+    pthread_mutex_init(&monitor->doneMutex, NULL);
+    pthread_cond_init(&monitor->doneCondVar, NULL);
+    monitor->length_changed = false;
+
+    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(p_mp);
+    libvlc_event_attach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, monitor);
+    libvlc_media_player_play( p_mp );
+
+    pthread_mutex_lock(&monitor->doneMutex);
+    while (!monitor->length_changed)
+        pthread_cond_wait(&monitor->doneCondVar, &monitor->doneMutex);
+    pthread_mutex_unlock(&monitor->doneMutex);
+
+    int i_nbTracks = libvlc_video_get_track_count(p_mp);
+    LOGI("Number of video tracks: %d",i_nbTracks);
+
+    libvlc_media_player_stop(p_mp);
+    libvlc_media_player_release(p_mp);
     libvlc_media_release(p_m);
 
-    return hasVideo;
+    if(i_nbTracks > 0)
+        return JNI_TRUE;
+    else
+        return JNI_FALSE;
 }
 
 jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject thiz,
