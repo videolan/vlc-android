@@ -581,9 +581,14 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     int i_nbTracks = libvlc_video_get_track_count(p_mp);
     LOGI("Number of video tracks: %d",i_nbTracks);
 
+    libvlc_event_detach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, monitor);
     libvlc_media_player_stop(p_mp);
     libvlc_media_player_release(p_mp);
     libvlc_media_release(p_m);
+
+    pthread_mutex_destroy(&monitor->doneMutex);
+    pthread_cond_destroy(&monitor->doneCondVar);
+    free(monitor);
 
     if(i_nbTracks > 0)
         return JNI_TRUE;
