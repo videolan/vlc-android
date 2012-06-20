@@ -24,12 +24,15 @@ import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
+import org.videolan.vlc.LibVlcException;
+import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioActivityGroup;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoActivityGroup;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
@@ -245,10 +248,20 @@ public class MainActivity extends TabActivity {
                 b.setView(input);
                 b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int button) {
-                        AudioServiceController c = AudioServiceController.getInstance();
-                        ArrayList<String> media = new ArrayList<String>();
-                        media.add(input.getText().toString());
-                        c.append(media);
+                            AudioServiceController c = AudioServiceController.getInstance();
+                            String s = input.getText().toString();
+
+                            if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
+                                Log.d(TAG, "Auto-detected audio for " + s);
+                                ArrayList<String> media = new ArrayList<String>();
+                                media.add(input.getText().toString());
+                                c.append(media);
+                            } else {
+                                Log.d(TAG, "Auto-detected Video for " + s);
+                                Intent intent = new Intent(getApplicationContext(), VideoPlayerActivity.class);
+                                intent.putExtra("itemLocation", s);
+                                startActivity(intent);
+                            }
                         }
                     }
                 );
