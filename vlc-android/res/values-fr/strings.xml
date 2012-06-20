@@ -22,10 +22,12 @@
     <string name="append">Lire à la suite</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
+    <string name="delete">Supprimer</string>
+    <string name="confirm_delete">Supprimer ce média ?</string>
     <string name="pause">Pause</string>
     <string name="close">Fermer</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
-    <string name="beta_warning">Ceci est une version bêta\n(NON STABLE!).</string>
+    <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat, détruire votre maison et déclencher l\'apocalypse Maya !\n\n Amusez-vous bien ;)</string>
     <string name="info_title">VLC Bêta</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
