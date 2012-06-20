@@ -20,6 +20,9 @@
 
 package org.videolan.vlc.gui.video;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -32,7 +35,9 @@ import org.videolan.vlc.ThumbnailerManager;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,6 +48,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View.OnCreateContextMenuListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -61,6 +72,10 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
 
     private MediaLibrary mMediaLibrary;
 
+    public final static int MENU_PLAY = Menu.FIRST;
+    public final static int MENU_INFO = Menu.FIRST + 1;
+    public final static int MENU_DELETE = Menu.FIRST + 2;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,19 +87,20 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
+        getListView().setOnCreateContextMenuListener(contextMenuListener);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_list, container, false);
-        
+
         mNoFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_nofile);
         mLoadFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_loadfile);
-        
+
         return v;
     }
-    
+
     @Override
     public void onPause()
     {
@@ -112,7 +128,11 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+    	playVideo(position);
+        super.onListItemClick(l, v, position, id);
+    }
 
+    protected void playVideo(int position) {
         // Stop the currently running audio
         AudioServiceController asc = AudioServiceController.getInstance();
         asc.stop();
@@ -121,7 +141,60 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
         Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
         intent.putExtra("itemLocation", item.getLocation());
         startActivity(intent);
-        super.onListItemClick(l, v, position, id);
+    }
+
+	OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
+    {
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, MENU_PLAY, Menu.NONE, R.string.play);
+            menu.add(Menu.NONE, MENU_INFO, Menu.NONE, R.string.info);
+            menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.delete);
+        }
+    };
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menu) {
+    	AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
+    	switch (menu.getItemId())
+        {
+            case MENU_PLAY:
+            	playVideo(info.position);
+                break;
+            case MENU_INFO:
+                Intent intent = new Intent(this, MediaInfoActivity.class);
+                intent.putExtra("itemLocation",
+                		mVideoAdapter.getItem(info.position).getLocation());
+                startActivity(intent);
+                break;
+            case MENU_DELETE:
+                final int positionDelete = info.position;
+                AlertDialog alertDialog = new AlertDialog.Builder(this.getParent())
+                .setTitle(R.string.confirm_delete)
+                .setMessage(R.string.validation)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        URI adressMediaUri = null;
+                        try {
+                            adressMediaUri = new URI (mVideoAdapter.
+                            		getItem(positionDelete).getLocation());
+                        } catch (URISyntaxException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        File fileMedia =  new File(adressMediaUri);
+                        fileMedia.delete();
+                        mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null).create();
+                alertDialog.show();
+                break;
+            default:
+                return true;
+        }
+        return super.onContextItemSelected(menu);
     }
 
     /*@Override
