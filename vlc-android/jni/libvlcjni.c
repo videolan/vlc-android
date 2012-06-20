@@ -327,26 +327,6 @@ void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
     (*env)->SetIntField(env, thiz, field, 0);
 }
 
-int currentSdk( JNIEnv *p_env, jobject thiz )
-{
-    jclass  cls = (*p_env)->FindClass( p_env, "org/videolan/vlc/Util" );
-    if ( !cls )
-    {
-        LOGE("Failed to load util class (org/videolan/vlc/Util)" );
-        return 0;
-    }
-    jmethodID methodSdkVersion = (*p_env)->GetStaticMethodID( p_env, cls,
-                                                       "getApiLevel", "()I" );
-    if ( !methodSdkVersion )
-    {
-        LOGE("Failed to load method getApiLevel()" );
-        return 0;
-    }
-    int version = (*p_env)->CallStaticIntMethod( p_env, cls, methodSdkVersion );
-    LOGI("Phone running on API level %d\n", version );
-    return version;
-}
-
 void Java_org_videolan_vlc_LibVLC_detachEventManager(JNIEnv *env, jobject thiz)
 {
     if (eventManagerInstance != NULL) {

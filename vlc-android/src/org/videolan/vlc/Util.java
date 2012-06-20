@@ -21,7 +21,6 @@
 package org.videolan.vlc;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
 import android.content.Context;
@@ -86,30 +85,6 @@ public class Util {
             time = (negative ? "-" : "") + min + ":" + format.format(sec);
         }
         return time;
-    }
-
-    private static int apiLevel = 0;
-
-    /**
-     * Returns the current Android SDK version
-     * This function is called by the native code.
-     * This is used to know if we should use the native audio output,
-     * or the amem as a fallback.
-     */
-    public static int getApiLevel() {
-        if (apiLevel > 0)
-            return apiLevel;
-        if (android.os.Build.VERSION.SDK.equalsIgnoreCase("3")) {
-            apiLevel = 3;
-        } else {
-            try {
-                final Field f = android.os.Build.VERSION.class.getDeclaredField("SDK_INT");
-                apiLevel = (Integer) f.get(null);
-            } catch (final Exception e) {
-                return 0;
-            }
-        }
-        return apiLevel;
     }
 
     public static Bitmap scaleDownBitmap(Context context, Bitmap bitmap, int width) {
