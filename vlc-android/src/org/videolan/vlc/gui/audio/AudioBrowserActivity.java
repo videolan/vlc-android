@@ -79,10 +79,12 @@ public class AudioBrowserActivity extends Activity implements ISortable {
     public final static int SORT_BY_LENGTH = 1;
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
-    public final static int MODE_SONG = 0;
-    public final static int MODE_ARTIST = 1;
-    public final static int MODE_ALBUM = 2;
+    
+    public final static int MODE_ARTIST = 0;
+    public final static int MODE_ALBUM = 1;
+    public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
+    
     public final static int MENU_PLAY = Menu.FIRST;
     public final static int MENU_APPEND = Menu.FIRST + 1;
     public final static int MENU_PLAY_ALL = Menu.FIRST + 2;

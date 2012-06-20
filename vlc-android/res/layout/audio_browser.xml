@@ -18,17 +18,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:text="@string/songs"
-                android:textSize="16dip"
-                android:textColor="#ffffff"
-                android:id="@+id/songs"
-                android:layout_width="80dip"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-            <TextView
                 android:text="@string/artists"
                 android:textSize="16dip"
-                android:textColor="#888888"
+                android:textColor="#ffffff"
                 android:id="@+id/artists"
                 android:layout_width="80dip"
                 android:layout_height="wrap_content"
@@ -38,6 +30,14 @@
                 android:textSize="16dip"
                 android:textColor="#888888"
                 android:id="@+id/albums"
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
+            <TextView
+                android:text="@string/songs"
+                android:textSize="16dip"
+                android:textColor="#888888"
+                android:id="@+id/songs"
                 android:layout_width="80dip"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
@@ -59,13 +59,6 @@
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <ListView
-            android:id="@+id/songs_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@color/item_common"
-            android:dividerHeight="1dp"
-            android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/artists_list"
             android:layout_width="fill_parent"
@@ -83,6 +76,13 @@
             android:childDivider="@color/item_common"
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
+            android:fastScrollEnabled="true" />
+       <ListView
+            android:id="@+id/songs_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/genres_list"
