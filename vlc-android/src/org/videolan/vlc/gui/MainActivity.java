@@ -22,18 +22,13 @@ package org.videolan.vlc.gui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.gui.audio.AudioActivityGroup;
 import org.videolan.vlc.gui.audio.AudioBrowserActivity;
-import org.videolan.vlc.gui.audio.AudioListActivity;
-import org.videolan.vlc.gui.audio.AudioPlayerActivity;
-import org.videolan.vlc.gui.video.VideoActivityGroup;
 import org.videolan.vlc.gui.video.VideoListActivity;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -42,16 +37,12 @@ import org.videolan.vlc.widget.AudioMiniPlayer;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 import android.app.Activity;
-import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -64,8 +55,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import com.actionbarsherlock.view.Menu;
@@ -82,7 +71,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends SherlockFragmentActivity {
     public final static String TAG = "VLC/MainActivity";
@@ -97,9 +85,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private static final String PREF_SHOW_INFO = "show_info";
 
     private ActionBar mActionBar;
-    private TabHost mTabHost;
-    private int mCurrentState = 0;
-    private ImageButton mChangeTab;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
     private View mInfoLayout;
@@ -122,11 +107,9 @@ public class MainActivity extends SherlockFragmentActivity {
         LibVLC.useIOMX(this);
 
         /* Initialize variables */
-        mChangeTab = (ImageButton) findViewById(R.id.change_tab);
         mInfoLayout = (View) findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
         mInfoText = (TextView) findViewById(R.id.info_text);
-        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         
         /* Initialize the tabs */
         
@@ -245,8 +228,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         // Intent to start new Activity
         Intent intent;
-
-        Activity activity;
 
         // Handle item selection
         switch (item.getItemId()) {

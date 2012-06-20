@@ -31,7 +31,6 @@ import org.videolan.vlc.R;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;

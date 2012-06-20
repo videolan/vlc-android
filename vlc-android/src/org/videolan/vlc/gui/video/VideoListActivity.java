@@ -30,13 +30,8 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
 import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
-import com.actionbarsherlock.app.SherlockListActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +43,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.actionbarsherlock.app.SherlockListFragment;
 
 public class VideoListActivity extends SherlockListFragment implements ISortable {
 
