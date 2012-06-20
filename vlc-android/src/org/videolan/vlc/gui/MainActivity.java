@@ -71,6 +71,8 @@ import android.util.Log;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -95,7 +97,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private static final String PREF_SHOW_INFO = "show_info";
 
     private ActionBar mActionBar;
-    private ProgressBar mProgressBar;
     private TabHost mTabHost;
     private int mCurrentState = 0;
     private ImageButton mChangeTab;
@@ -111,7 +112,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
+
         super.onCreate(savedInstanceState);
 
         /* Get settings */
@@ -119,7 +122,6 @@ public class MainActivity extends SherlockFragmentActivity {
         LibVLC.useIOMX(this);
 
         /* Initialize variables */
-        mProgressBar = (ProgressBar) findViewById(R.id.ml_progress_bar);
         mChangeTab = (ImageButton) findViewById(R.id.change_tab);
         mInfoLayout = (View) findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
@@ -424,10 +426,10 @@ public class MainActivity extends SherlockFragmentActivity {
             String action = intent.getAction();
 
             if (action.equalsIgnoreCase(ACTION_SHOW_PROGRESSBAR)) {
-                mProgressBar.setVisibility(View.VISIBLE);
+                setProgressBarIndeterminateVisibility(Boolean.TRUE);
             }
             else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
-                mProgressBar.setVisibility(View.INVISIBLE);
+                setProgressBarIndeterminateVisibility(Boolean.FALSE);
             }
             else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
                 String info = intent.getStringExtra("info");
