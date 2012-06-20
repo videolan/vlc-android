@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="8" />
+        android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
