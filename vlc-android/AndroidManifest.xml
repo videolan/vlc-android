@@ -28,7 +28,6 @@
             android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -69,15 +68,19 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
                 <data android:scheme="http" />
+                <data android:scheme="icyx" />
+                <data android:scheme="https" />
+                <data android:scheme="rtp" />
                 <data android:scheme="rtsp" />
+                <data android:scheme="rtmp" />
                 <data android:scheme="file" />
                 <data android:scheme="mms" />
+                <data android:scheme="mmsh" />
             </intent-filter>
         </activity>
         <activity
