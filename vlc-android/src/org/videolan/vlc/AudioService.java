@@ -50,8 +50,10 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.RemoteViews;
 
 public class AudioService extends Service {
@@ -70,6 +72,8 @@ public class AudioService extends Service {
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
+    private long mHeadsetDownTime = 0;
+    private long mHeadsetUpTime = 0;
 
     @Override
     public void onCreate() {
@@ -91,12 +95,14 @@ public class AudioService extends Service {
         mEventManager = EventManager.getIntance();
 
         IntentFilter filter = new IntentFilter();
+        filter.setPriority(Integer.MAX_VALUE);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_PLAY);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_STOP);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        filter.addAction(Intent.ACTION_MEDIA_BUTTON);
         registerReceiver(serviceReceiver, filter);
     }
 
@@ -127,6 +133,9 @@ public class AudioService extends Service {
                 return;
             }
 
+            /*
+             * widget events
+             */
             if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_PLAY)) {
                 if (mLibVLC.isPlaying() && mCurrentMedia != null) {
                     pause();
@@ -148,6 +157,74 @@ public class AudioService extends Service {
                 next();
             }
 
+            /*
+             * headset controller events
+             */
+            else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
+                KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                if (mCurrentMedia == null || event == null)
+                    return;
+
+                switch (event.getKeyCode())
+                {
+                /*
+                 * one click => play/pause
+                 * long click => previous
+                 * double click => next
+                 */
+                    case KeyEvent.KEYCODE_HEADSETHOOK:
+                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+                        long time = SystemClock.uptimeMillis();
+                        switch (event.getAction())
+                        {
+                            case KeyEvent.ACTION_DOWN:
+                                if (event.getRepeatCount() > 0)
+                                    break;
+                                mHeadsetDownTime = time;
+                                break;
+                            case KeyEvent.ACTION_UP:
+                                // long click
+                                if (time - mHeadsetDownTime >= 1000) {
+                                    previous();
+                                    time = 0;
+                                    // double click
+                                } else if (time - mHeadsetUpTime <= 500) {
+                                    next();
+                                    // block the double click event to prevent android from dialing last number
+                                    abortBroadcast();
+                                }
+                                // one click
+                                else {
+                                    if (mLibVLC.isPlaying())
+                                        pause();
+                                    else
+                                        play();
+                                }
+                                mHeadsetUpTime = time;
+                                break;
+                        }
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        play();
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                        pause();
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_STOP:
+                        stop();
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_NEXT:
+                        next();
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                        previous();
+                        break;
+                }
+            }
+
+            /*
+             * headset plug events
+             */
             if (mDetectHeadset) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
