@@ -162,14 +162,14 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
             	playVideo(info.position);
                 break;
             case MENU_INFO:
-                Intent intent = new Intent(this, MediaInfoActivity.class);
+                Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
                 intent.putExtra("itemLocation",
                 		mVideoAdapter.getItem(info.position).getLocation());
                 startActivity(intent);
                 break;
             case MENU_DELETE:
                 final int positionDelete = info.position;
-                AlertDialog alertDialog = new AlertDialog.Builder(this.getParent())
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getParent())
                 .setTitle(R.string.confirm_delete)
                 .setMessage(R.string.validation)
                 .setIcon(android.R.drawable.ic_dialog_alert)
