@@ -20,10 +20,10 @@
 
 package org.videolan.vlc;
 
-import android.util.Log;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.util.Log;
 
 public class Aout {
     /**

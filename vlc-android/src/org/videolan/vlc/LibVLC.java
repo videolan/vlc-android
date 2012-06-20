@@ -20,16 +20,15 @@
 
 package org.videolan.vlc;
 
-import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
-import android.util.Log;
-import android.view.Surface;
-import android.preference.PreferenceManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
