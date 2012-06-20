@@ -87,7 +87,7 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
-        getListView().setOnCreateContextMenuListener(contextMenuListener);
+        //getListView().setOnCreateContextMenuListener(contextMenuListener);
     }
 
     @Override
