@@ -9,6 +9,15 @@
                 android:startColor="@color/item_common" />
         </shape>
     </item>
+    <item android:state_selected="true">
+        <shape>
+            <gradient
+                android:angle="270"
+                android:centerColor="@color/orange"
+                android:endColor="@color/item_common"
+                android:startColor="@color/item_common" />
+        </shape>
+    </item>
     <item>
         <shape>
             <gradient
