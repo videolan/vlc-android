@@ -81,7 +81,7 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		VLC_MODULES="$$vlc_modules"
 
 apkclean:
-	rm $(VLC_APK)
+	rm -f $(VLC_APK)
 
 clean:
 	cd $(SRC) && rm -rf gen libs obj bin $(VLC_APK)
