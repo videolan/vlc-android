@@ -372,6 +372,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         @Override
         public void onSwitching(float progress) {
             LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
+            if (hl == null)
+                return;
             int width = hl.getChildAt(0).getWidth();
             int x = (int) (progress * width);
             mHeader.smoothScrollTo(x, 0);
@@ -380,6 +382,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         @Override
         public void onSwitched(int position) {
             LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
+            if (hl == null)
+                return;
             TextView oldView = (TextView) hl.getChildAt(mCurrentPosition);
             oldView.setTextColor(Color.GRAY);
             TextView newView = (TextView) hl.getChildAt(position);
