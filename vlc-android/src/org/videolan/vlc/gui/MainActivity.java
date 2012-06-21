@@ -30,8 +30,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.video.VideoListFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.gui.video.VideoListFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
@@ -51,7 +51,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -106,33 +105,32 @@ public class MainActivity extends SherlockFragmentActivity {
         LibVLC.useIOMX(this);
 
         /* Initialize variables */
-        mInfoLayout = (View) findViewById(R.id.info_layout);
+        mInfoLayout = findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
         mInfoText = (TextView) findViewById(R.id.info_text);
-        
+
         /* Initialize the tabs */
-        
         mActionBar = getSupportActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-        
+
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Video")
                 .setIcon(R.drawable.header_icon_video)
                 .setTabListener(new TabListener<VideoListFragment>(
                         this, "video", VideoListFragment.class)));
-        
+
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Audio")
                 .setIcon(R.drawable.header_icon_audio)
                 .setTabListener(new TabListener<AudioBrowserFragment>(
                         this, "audio", AudioBrowserFragment.class)));
-        
+
         if (savedInstanceState != null) {
             mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
         }
 
-        // add mini audio player
+        // Add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
         mAudioController = AudioServiceController.getInstance();
         mAudioPlayer.setAudioPlayerControl(mAudioController);
@@ -261,6 +259,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 b.setMessage(R.string.open_mrl_dialog_msg);
                 b.setView(input);
                 b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int button) {
                         ProgressDialog pd = ProgressDialog.show(
                                 MainActivity.this,
@@ -400,7 +399,7 @@ public class MainActivity extends SherlockFragmentActivity {
         onSearchRequested();
     }
 
-    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -449,12 +448,12 @@ public class MainActivity extends SherlockFragmentActivity {
         context.getApplicationContext().sendBroadcast(intent);
     }
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
         private final SherlockFragmentActivity mActivity;
         private final String mTag;
@@ -483,12 +482,13 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         }
 
+        @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft) {
             if (mTag.equalsIgnoreCase("video"))
                 ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
             else if (mTag.equalsIgnoreCase("audio"))
                 ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
-            
+
             if (mFragment == null) {
                 mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
                 ft.add(R.id.fragment_placeholder, mFragment, mTag);
@@ -497,6 +497,7 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         }
 
+        @Override
         public void onTabUnselected(Tab tab, FragmentTransaction ft) {
             if (mTag.equalsIgnoreCase("video"))
                 ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
@@ -510,8 +511,9 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         }
 
+        @Override
         public void onTabReselected(Tab tab, FragmentTransaction ft) {
-            
+
         }
     }
 }

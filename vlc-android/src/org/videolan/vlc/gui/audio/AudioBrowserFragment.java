@@ -46,6 +46,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -67,7 +68,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -90,13 +90,13 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public final static int SORT_BY_LENGTH = 1;
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
-    
+
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
     public final static int MODE_DIRECTORY = 4;
-    
+
     public final static int MENU_PLAY = Menu.FIRST;
     public final static int MENU_APPEND = Menu.FIRST + 1;
     public final static int MENU_PLAY_ALL = Menu.FIRST + 2;
@@ -219,7 +219,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                 return false;
 
             String name = adapter.getGroup(groupPosition);
-            
+
             AudioListFragment audioList = new AudioListFragment();
             Bundle b = new Bundle();
             b.putString(AudioListFragment.EXTRA_NAME, name);
@@ -242,7 +242,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
             String name = adapter.getGroup(groupPosition);
             String child = adapter.getChild(groupPosition, childPosition);
-            
+
             AudioListFragment audioList = new AudioListFragment();
             Bundle b = new Bundle();
             b.putString(AudioListFragment.EXTRA_NAME, name);
@@ -279,6 +279,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         .setMessage(R.string.validation)
         .setIcon(android.R.drawable.ic_dialog_alert)
         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 URI adressMediaUri = null;
                 try {
@@ -294,7 +295,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             }
         })
         .setNegativeButton(android.R.string.cancel, null).create();
-        
+
         alertDialog.show();
     }
 
@@ -374,7 +375,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         super.onDestroy();
     }
 
-    private ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
+    private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
 
         int mCurrentPosition = 0;
 
@@ -417,13 +418,15 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     }
     };
 
-    private Comparator<Media> byMRL = new Comparator<Media>() {
+    private final Comparator<Media> byMRL = new Comparator<Media>() {
+        @Override
         public int compare(Media m1, Media m2) {
             return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
         };
     };
 
-    private Comparator<Media> byLength = new Comparator<Media>() {
+    private final Comparator<Media> byLength = new Comparator<Media>() {
+        @Override
         public int compare(Media m1, Media m2) {
             if(m1.getLength() > m2.getLength()) return -1;
             if(m1.getLength() < m2.getLength()) return 1;
@@ -431,7 +434,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         };
     };
 
-    private Comparator<Media> byAlbum = new Comparator<Media>() {
+    private final Comparator<Media> byAlbum = new Comparator<Media>() {
+        @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
             if (res == 0)
@@ -440,7 +444,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         };
     };
 
-    private Comparator<Media> byArtist = new Comparator<Media>() {
+    private final Comparator<Media> byArtist = new Comparator<Media>() {
+        @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getArtist(), m2.getArtist());
             if (res == 0)
@@ -449,7 +454,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         };
     };
 
-    private Comparator<Media> byGenre = new Comparator<Media>() {
+    private final Comparator<Media> byGenre = new Comparator<Media>() {
+        @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getGenre(), m2.getGenre());
             if (res == 0)
@@ -508,6 +514,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mDirectoryAdapter.notifyDataSetChanged();
     }
 
+    @Override
     public void sortBy(int sortby) {
         if(mSortBy == sortby) {
             mSortReverse = !mSortReverse;
