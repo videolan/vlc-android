@@ -152,7 +152,7 @@ public class MediaLibrary {
 
     private class GetMediaItemsRunnable implements Runnable {
 
-        private Stack<File> directorys = new Stack<File>();
+        private Stack<File> directories = new Stack<File>();
         private Context mContext;
 
         public GetMediaItemsRunnable(Context context) {
@@ -174,9 +174,9 @@ public class MediaLibrary {
             MainActivity.showProgressBar(mContext);
 
             // get directories from database
-            directorys.addAll(mDBManager.getMediaDirs());
-            if (directorys.isEmpty())
-                directorys.add(new File(root));
+            directories.addAll(mDBManager.getMediaDirs());
+            if (directories.isEmpty())
+                directories.add(new File(root));
 
             // get all existing media items
             HashMap<String, Media> existingMedias = mDBManager.getMedias(mContext);
@@ -193,8 +193,8 @@ public class MediaLibrary {
             int total = 0;
 
             //first pass : count total files
-            while (!directorys.isEmpty()) {
-                File dir = directorys.pop();
+            while (!directories.isEmpty()) {
+                File dir = directories.pop();
                 File[] f = null;
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
@@ -202,18 +202,18 @@ public class MediaLibrary {
                         if (file.isFile()) {
                             total++;
                         } else if (file.isDirectory()) {
-                            directorys.push(file);
+                            directories.push(file);
                         }
                     }
                 }
             }
-            directorys.addAll(mDBManager.getMediaDirs());
-            if (directorys.isEmpty())
-                directorys.add(new File(root));
+            directories.addAll(mDBManager.getMediaDirs());
+            if (directories.isEmpty())
+                directories.add(new File(root));
 
             //second pass : load Medias
-            while (!directorys.isEmpty()) {
-                File dir = directorys.pop();
+            while (!directories.isEmpty()) {
+                File dir = directories.pop();
                 File[] f = null;
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
@@ -237,7 +237,7 @@ public class MediaLibrary {
                                 mItemList.add(new Media(mContext, fileURI, true));
                             }
                         } else if (file.isDirectory()) {
-                            directorys.push(file);
+                            directories.push(file);
                         }
                     }
                 }
