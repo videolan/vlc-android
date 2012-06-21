@@ -102,18 +102,6 @@ public class AudioListFragment extends SherlockListFragment {
     }
 
     @Override
-    public void onResume() {
-        AudioServiceController.getInstance().bindAudioService(getActivity());
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        AudioServiceController.getInstance().unbindAudioService(getActivity());
-        super.onPause();
-    }
-
-    @Override
     public void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
         mSongsAdapter.clear();
