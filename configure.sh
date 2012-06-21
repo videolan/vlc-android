@@ -55,7 +55,6 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --enable-opensles \
                 --enable-audiotrack \
                 --enable-android-surface \
-                --enable-debug \
                 --enable-mkv \
                 --enable-taglib \
                 --enable-iomx \

@@ -19,6 +19,7 @@ export NO_NDK_V7=1
 or if you are sure you have NDK v7:
 export NO_NDK_V7=0
 
+If you plan to use a release build, run 'compile.sh release'
 EOF
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
@@ -101,6 +102,14 @@ if test -z "${NO_NEON}" -o -n "${TEGRA2}"; then
     echo "NOTHUMB := -marm" >> config.mak
 fi
 
+# Release or not?
+if [ $1 == "release" ]; then
+    OPTS=""
+    echo "EXTRA_CFLAGS += -DNDEBUG" >> config.mak
+else
+    OPTS="--enable-debug"
+fi
+
 make fetch
 make
 
@@ -112,7 +121,7 @@ if test ! -s "../configure" ; then
 fi
 
 echo "Configuring"
-../../configure.sh
+../../configure.sh $OPTS
 
 echo "Building"
 make
