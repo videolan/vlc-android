@@ -25,7 +25,8 @@
     <item
         android:id="@+id/ml_menu_refresh"
         android:icon="@drawable/ic_menu_refresh"
-        android:title="@string/refresh" />
+        android:title="@string/refresh"
+        android:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_preferences"
         android:icon="@android:drawable/ic_menu_preferences"
