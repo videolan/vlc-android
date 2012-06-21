@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.audio;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -29,9 +30,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
@@ -176,12 +179,24 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             Boolean success = mDirectoryAdapter.browse(p);
             if(!success) { /* Clicked on a media file */
-                ArrayList<String> arrayList = new ArrayList<String>();
-                arrayList.add(mDirectoryAdapter.getMediaLocation(p));
-                mAudioController.load(arrayList, 0);
-                Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                String mediaFile = mDirectoryAdapter.getMediaLocation(p);
+                try {
+                    if(!LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
+                        ArrayList<String> arrayList = new ArrayList<String>();
+                        arrayList.add(mDirectoryAdapter.getMediaLocation(p));
+                        mAudioController.load(arrayList, 0);
+                        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    } else {
+                        mAudioController.stop();
+                        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                        intent.putExtra("itemLocation", mediaFile);
+                        startActivity(intent);
+                    }
+                } catch (IOException e) {
+                    /* disk error maybe? */
+                }
             }
         }
     };
