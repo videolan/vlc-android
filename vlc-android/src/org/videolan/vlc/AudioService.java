@@ -52,6 +52,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.RemoteViews;
@@ -162,7 +163,9 @@ public class AudioService extends Service {
              */
             else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
                 KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                if (mCurrentMedia == null || event == null)
+                TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                if (mCurrentMedia == null || event == null ||
+                        telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                     return;
 
                 switch (event.getKeyCode())
