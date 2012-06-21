@@ -110,7 +110,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
-        int aoutEntriesId = Util.isGingerbread() ? R.array.aouts : R.array.aouts_froyo;
+        int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
         aoutPref.setEntries(aoutEntriesId);
         aoutPref.setEntryValues(aoutEntriesId);
         aoutPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

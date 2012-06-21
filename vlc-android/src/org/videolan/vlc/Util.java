@@ -142,17 +142,17 @@ public class Util {
                 : R.drawable.background_item2);
     }
 
-    public static boolean isGingerbread()
+    public static boolean isGingerbreadOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
     }
 
-    public static boolean isHoneycomb()
+    public static boolean isHoneycombOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
     }
 
-    public static boolean isICS()
+    public static boolean isICSOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }

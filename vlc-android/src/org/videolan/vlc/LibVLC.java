@@ -153,7 +153,7 @@ public class LibVLC {
         Resources res = context.getResources();
         if (aoutPref.equals(res.getString(R.string.aout_audiotrack_java)))
             sAout = AOUT_AUDIOTRACK_JAVA;
-        else if (aoutPref.equals(res.getString(R.string.aout_opensles)) && Util.isGingerbread())
+        else if (aoutPref.equals(res.getString(R.string.aout_opensles)) && Util.isGingerbreadOrLater())
             sAout = AOUT_OPENSLES;
         else
             sAout = AOUT_AUDIOTRACK;
