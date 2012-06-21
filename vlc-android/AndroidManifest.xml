@@ -18,14 +18,14 @@
     <application
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Sherlock"
+        android:theme="@style/Theme.VLC"
         android:hardwareAccelerated="true" >
         <activity
             android:name=".gui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/icon"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock" >
+            android:theme="@style/Theme.VLC" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -58,7 +58,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.video.VideoListFragment"
-            android:theme="@style/Theme.Sherlock"/>
+            android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.video.MediaInfoActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
@@ -88,7 +88,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.audio.AudioListActivity"
-            android:theme="@style/Theme.Sherlock"  />
+            android:theme="@style/Theme.VLC"  />
         <activity
             android:name=".gui.audio.AudioActivityGroup"
             android:theme="@android:style/Theme.NoTitleBar" />
