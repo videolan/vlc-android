@@ -66,7 +66,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class AudioBrowserFragment extends SherlockFragment implements ISortable {
-    public final static String TAG = "VLC/AudioBrowserActivity";
+    public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
 
