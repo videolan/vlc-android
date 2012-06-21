@@ -211,11 +211,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
             String name = adapter.getGroup(groupPosition);
             
-            AudioListActivity audioList = new AudioListActivity();
+            AudioListFragment audioList = new AudioListFragment();
             Bundle b = new Bundle();
-            b.putString(AudioListActivity.EXTRA_NAME, name);
-            b.putString(AudioListActivity.EXTRA_NAME2, null);
-            b.putInt(AudioListActivity.EXTRA_MODE, mFlingViewGroup.getPosition());
+            b.putString(AudioListFragment.EXTRA_NAME, name);
+            b.putString(AudioListFragment.EXTRA_NAME2, null);
+            b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
             audioList.setArguments(b);
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -234,11 +234,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             String name = adapter.getGroup(groupPosition);
             String child = adapter.getChild(groupPosition, childPosition);
             
-            AudioListActivity audioList = new AudioListActivity();
+            AudioListFragment audioList = new AudioListFragment();
             Bundle b = new Bundle();
-            b.putString(AudioListActivity.EXTRA_NAME, name);
-            b.putString(AudioListActivity.EXTRA_NAME2, child);
-            b.putInt(AudioListActivity.EXTRA_MODE, mFlingViewGroup.getPosition());
+            b.putString(AudioListFragment.EXTRA_NAME, name);
+            b.putString(AudioListFragment.EXTRA_NAME2, child);
+            b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
             audioList.setArguments(b);
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

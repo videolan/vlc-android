@@ -52,7 +52,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class AudioListActivity extends SherlockListFragment {
+public class AudioListFragment extends SherlockListFragment {
 
     public final static String TAG = "VLC/AudioListActivity";
 

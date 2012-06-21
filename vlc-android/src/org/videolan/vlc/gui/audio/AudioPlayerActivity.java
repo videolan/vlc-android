@@ -195,7 +195,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public void onTextClick(View view) {
-        Intent intent = new Intent(this, AudioListActivity.class);
+        Intent intent = new Intent(this, AudioListFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

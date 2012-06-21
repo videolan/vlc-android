@@ -88,7 +88,7 @@
             android:name=".gui.audio.AudioBrowserFragment"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".gui.audio.AudioListActivity"
+            android:name=".gui.audio.AudioListFragment"
             android:theme="@style/Theme.VLC"  />
         <activity
             android:name=".gui.audio.AudioActivityGroup"
