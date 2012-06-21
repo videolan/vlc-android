@@ -51,6 +51,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -499,9 +500,11 @@ public class MainActivity extends SherlockFragmentActivity {
         public void onTabUnselected(Tab tab, FragmentTransaction ft) {
             if (mTag.equalsIgnoreCase("video"))
                 ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
-            else if (mTag.equalsIgnoreCase("audio"))
+            else if (mTag.equalsIgnoreCase("audio")) {
                 ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
-            
+                mActivity.getSupportFragmentManager().popBackStack();
+            }
+
             if (mFragment != null) {
                 ft.detach(mFragment);
             }

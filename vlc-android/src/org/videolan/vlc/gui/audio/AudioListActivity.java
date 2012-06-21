@@ -40,17 +40,19 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.app.SherlockListFragment;
 
-public class AudioListActivity extends SherlockListActivity {
+public class AudioListActivity extends SherlockListFragment {
 
     public final static String TAG = "VLC/AudioListActivity";
 
@@ -69,38 +71,50 @@ public class AudioListActivity extends SherlockListActivity {
     public final static String EXTRA_MODE = "mode";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.audio_list);
 
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance(this);
+        mMediaLibrary = MediaLibrary.getInstance(getActivity());
         mMediaLibrary.addUpdateHandler(mHandler);
 
-        mTitle = (TextView) findViewById(R.id.title);
-
-        mSongsAdapter = new AudioSongsListAdapter(this);
+        mSongsAdapter = new AudioSongsListAdapter(getActivity());
         setListAdapter(mSongsAdapter);
-        getListView().setOnCreateContextMenuListener(contextMenuListener);
 
         mHandler.sendEmptyMessageDelayed(MediaLibrary.MEDIA_ITEMS_UPDATED, 250);
     }
 
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setOnCreateContextMenuListener(contextMenuListener);
+        updateList();
+    }
+
     @Override
-    protected void onResume() {
-        AudioServiceController.getInstance().bindAudioService(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.audio_list, container, false);
+
+        mTitle = (TextView) v.findViewById(R.id.title);
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        AudioServiceController.getInstance().bindAudioService(getActivity());
         super.onResume();
     }
 
     @Override
-    protected void onPause() {
-        AudioServiceController.getInstance().unbindAudioService(this);
+    public void onPause() {
+        AudioServiceController.getInstance().unbindAudioService(getActivity());
         super.onPause();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
         mSongsAdapter.clear();
         super.onDestroy();
@@ -113,9 +127,9 @@ public class AudioListActivity extends SherlockListActivity {
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(ListView l, View v, int position, long id) {
         mAudioController.load(mSongsAdapter.getLocations(), position);
-        Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
@@ -134,7 +148,7 @@ public class AudioListActivity extends SherlockListActivity {
     };
 
     public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this)
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.confirm_delete)
         .setMessage(R.string.validation)
         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -187,7 +201,7 @@ public class AudioListActivity extends SherlockListActivity {
         else
             mAudioController.load(medias, startPosition);
 
-        Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
+        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         return super.onContextItemSelected(item);
@@ -226,9 +240,11 @@ public class AudioListActivity extends SherlockListActivity {
     };
 
     private void updateList() {
-        String name = getIntent().getStringExtra(EXTRA_NAME);
-        String name2 = getIntent().getStringExtra(EXTRA_NAME2);
-        int mode = getIntent().getIntExtra(EXTRA_MODE, 0);
+        final Bundle b = getArguments();
+        String name = b.getString(EXTRA_NAME);
+        String name2 = b.getString(EXTRA_NAME2);
+        int mode = b.getInt(EXTRA_MODE, 0);
+
         List<Media> audioList;
         List<String> itemList;
         String currentItem = null;
@@ -238,11 +254,11 @@ public class AudioListActivity extends SherlockListActivity {
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
             currentItem = AudioServiceController.getInstance().getItem();
-            audioList = MediaLibrary.getInstance(this).getMediaItems(itemList);
+            audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
         }
         else {
             mTitle.setText(name2 != null ? name2 : name);
-            audioList = MediaLibrary.getInstance(this).getAudioItems(name, name2, mode);
+            audioList = MediaLibrary.getInstance(getActivity()).getAudioItems(name, name2, mode);
         }
 
         mSongsAdapter.clear();

@@ -65,6 +65,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -209,10 +210,19 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                 return false;
 
             String name = adapter.getGroup(groupPosition);
-            Intent intent = new Intent(getActivity(), AudioListActivity.class);
-            AudioListActivity.set(intent, name, null, mFlingViewGroup.getPosition());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            
+            AudioListActivity audioList = new AudioListActivity();
+            Bundle b = new Bundle();
+            b.putString(AudioListActivity.EXTRA_NAME, name);
+            b.putString(AudioListActivity.EXTRA_NAME2, null);
+            b.putInt(AudioListActivity.EXTRA_MODE, mFlingViewGroup.getPosition());
+            audioList.setArguments(b);
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_placeholder, audioList);
+            ft.addToBackStack(null);
+            ft.commit();
+
             return true;
         }
     };
@@ -223,10 +233,19 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
             String name = adapter.getGroup(groupPosition);
             String child = adapter.getChild(groupPosition, childPosition);
-            Intent intent = new Intent(getActivity(), AudioListActivity.class);
-            AudioListActivity.set(intent, name, child, mFlingViewGroup.getPosition());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            
+            AudioListActivity audioList = new AudioListActivity();
+            Bundle b = new Bundle();
+            b.putString(AudioListActivity.EXTRA_NAME, name);
+            b.putString(AudioListActivity.EXTRA_NAME2, child);
+            b.putInt(AudioListActivity.EXTRA_MODE, mFlingViewGroup.getPosition());
+            audioList.setArguments(b);
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_placeholder, audioList);
+            ft.addToBackStack(null);
+            ft.commit();
+
             return false;
         }
     };
