@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Stack;
 
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioBrowserActivity;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -107,13 +107,13 @@ public class MediaLibrary {
 
                 boolean valid = false;
                 switch (mode) {
-                    case AudioBrowserActivity.MODE_ARTIST:
+                    case AudioBrowserFragment.MODE_ARTIST:
                         valid = name.equals(item.getArtist()) && (name2 == null || name2.equals(item.getAlbum()));
                         break;
-                    case AudioBrowserActivity.MODE_ALBUM:
+                    case AudioBrowserFragment.MODE_ALBUM:
                         valid = name.equals(item.getAlbum());
                         break;
-                    case AudioBrowserActivity.MODE_GENRE:
+                    case AudioBrowserFragment.MODE_GENRE:
                         valid = name.equals(item.getGenre()) && (name2 == null || name2.equals(item.getAlbum()));
                         break;
                     default:

@@ -120,10 +120,10 @@ public class AudioListActivity extends SherlockListActivity {
     {
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, AudioBrowserActivity.MENU_PLAY, Menu.NONE, R.string.play);
-            menu.add(Menu.NONE, AudioBrowserActivity.MENU_APPEND, Menu.NONE, R.string.append);
-            menu.add(Menu.NONE, AudioBrowserActivity.MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
-            menu.add(Menu.NONE, AudioBrowserActivity.MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
+            menu.add(Menu.NONE, AudioBrowserFragment.MENU_PLAY, Menu.NONE, R.string.play);
+            menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND, Menu.NONE, R.string.append);
+            menu.add(Menu.NONE, AudioBrowserFragment.MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
+            menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
         }
     };
 
@@ -132,8 +132,8 @@ public class AudioListActivity extends SherlockListActivity {
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         int id = item.getItemId();
 
-        boolean play_all = id == AudioBrowserActivity.MENU_PLAY_ALL || id == AudioBrowserActivity.MENU_APPEND_ALL;
-        boolean play_append = id == AudioBrowserActivity.MENU_APPEND || id == AudioBrowserActivity.MENU_APPEND_ALL;
+        boolean play_all = id == AudioBrowserFragment.MENU_PLAY_ALL || id == AudioBrowserFragment.MENU_APPEND_ALL;
+        boolean play_append = id == AudioBrowserFragment.MENU_APPEND || id == AudioBrowserFragment.MENU_APPEND_ALL;
         int start_position;
         List<String> medias;
 
@@ -197,7 +197,7 @@ public class AudioListActivity extends SherlockListActivity {
         String currentItem = null;
         int currentIndex = -1;
 
-        if (name == null || mode == AudioBrowserActivity.MODE_SONG) {
+        if (name == null || mode == AudioBrowserFragment.MODE_SONG) {
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
             currentItem = AudioServiceController.getInstance().getItem();

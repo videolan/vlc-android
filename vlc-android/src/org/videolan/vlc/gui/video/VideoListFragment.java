@@ -57,7 +57,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class VideoListActivity extends SherlockListFragment implements ISortable {
+public class VideoListFragment extends SherlockListFragment implements ISortable {
 
     private LinearLayout mNoFileLayout;
     private LinearLayout mLoadFileLayout;

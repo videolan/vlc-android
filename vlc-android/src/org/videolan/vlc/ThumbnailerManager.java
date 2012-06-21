@@ -29,7 +29,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.video.VideoListActivity;
+import org.videolan.vlc.gui.video.VideoListFragment;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -45,11 +45,11 @@ public class ThumbnailerManager extends Thread {
     private final Condition notEmpty = lock.newCondition();
 
     private LibVLC mLibVlc;
-    private VideoListActivity mVideoListActivity;
+    private VideoListFragment mVideoListActivity;
     private int totalCount;
     private float mDensity;
 
-    public ThumbnailerManager(VideoListActivity videoListActivity) {
+    public ThumbnailerManager(VideoListFragment videoListActivity) {
         mVideoListActivity = videoListActivity;
         try {
             mLibVlc = LibVLC.getInstance();

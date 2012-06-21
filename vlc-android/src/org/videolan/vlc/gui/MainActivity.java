@@ -28,8 +28,8 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.gui.audio.AudioBrowserActivity;
-import org.videolan.vlc.gui.video.VideoListActivity;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.video.VideoListFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
@@ -116,14 +116,14 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Video")
                 .setIcon(R.drawable.header_icon_video)
-                .setTabListener(new TabListener<VideoListActivity>(
-                        this, "video", VideoListActivity.class)));
+                .setTabListener(new TabListener<VideoListFragment>(
+                        this, "video", VideoListFragment.class)));
         
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Audio")
                 .setIcon(R.drawable.header_icon_audio)
-                .setTabListener(new TabListener<AudioBrowserActivity>(
-                        this, "audio", AudioBrowserActivity.class)));
+                .setTabListener(new TabListener<AudioBrowserFragment>(
+                        this, "audio", AudioBrowserFragment.class)));
         
         if (savedInstanceState != null) {
             mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
