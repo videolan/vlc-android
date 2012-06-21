@@ -27,6 +27,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoListFragment;
@@ -93,7 +94,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        if (Util.isICSOrLater()) /* Bug on pre-ICS, the progress bar is always present */
+            requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
 
         super.onCreate(savedInstanceState);
