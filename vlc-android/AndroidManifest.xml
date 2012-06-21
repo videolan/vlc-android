@@ -88,7 +88,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.audio.AudioListActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@style/Theme.Sherlock"  />
         <activity
             android:name=".gui.audio.AudioActivityGroup"
             android:theme="@android:style/Theme.NoTitleBar" />
