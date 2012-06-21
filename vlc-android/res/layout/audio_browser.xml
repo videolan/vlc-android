@@ -49,6 +49,14 @@
                 android:layout_width="80dip"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
+            <TextView
+                android:text="@string/directories"
+                android:textSize="16dip"
+                android:textColor="#888888"
+                android:id="@+id/directory"
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal" />
         </LinearLayout>
     </HorizontalScrollView>
     <View
@@ -92,6 +100,13 @@
             android:childDivider="@color/item_common"
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
+            android:fastScrollEnabled="true" />
+        <ListView
+            android:id="@+id/directory_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@color/item_common"
+            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>

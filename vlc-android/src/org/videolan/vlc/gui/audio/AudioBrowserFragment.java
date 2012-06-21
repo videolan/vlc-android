@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -77,6 +78,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioPlaylistAdapter mArtistsAdapter;
     private AudioPlaylistAdapter mAlbumsAdapter;
     private AudioPlaylistAdapter mGenresAdapter;
+    private AudioDirectoryAdapter mDirectoryAdapter;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
@@ -87,6 +89,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
+    public final static int MODE_DIRECTORY = 4;
     
     public final static int MENU_PLAY = Menu.FIRST;
     public final static int MENU_APPEND = Menu.FIRST + 1;
@@ -107,6 +110,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
         mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs, R.plurals.songs);
         mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
+        mDirectoryAdapter = new AudioDirectoryAdapter(getActivity());
     }
 
     @Override
@@ -123,21 +127,30 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
         ExpandableListView albumList = (ExpandableListView)v.findViewById(R.id.albums_list);
         ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
+        ListView directoryList = (ListView)v.findViewById(R.id.directory_list);
+
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
+        directoryList.setAdapter(mDirectoryAdapter);
+
         songsList.setOnItemClickListener(songListener);
         artistList.setOnGroupClickListener(playlistListener);
         albumList.setOnGroupClickListener(playlistListener);
         genreList.setOnGroupClickListener(playlistListener);
+        directoryList.setOnItemClickListener(directoryListener);
+
         artistList.setOnChildClickListener(playlistChildListener);
         albumList.setOnChildClickListener(playlistChildListener);
         genreList.setOnChildClickListener(playlistChildListener);
+        //directoryList.setOnChildClickListener(playlistChildListener);
+
         songsList.setOnCreateContextMenuListener(contextMenuListener);
         artistList.setOnCreateContextMenuListener(contextMenuListener);
         albumList.setOnCreateContextMenuListener(contextMenuListener);
         genreList.setOnCreateContextMenuListener(contextMenuListener);
+        directoryList.setOnCreateContextMenuListener(contextMenuListener);
 
         return v;
     }
@@ -155,6 +168,21 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        }
+    };
+
+    OnItemClickListener directoryListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> av, View v, int p, long id) {
+            Boolean success = mDirectoryAdapter.browse(p);
+            if(!success) { /* Clicked on a media file */
+                ArrayList<String> arrayList = new ArrayList<String>();
+                arrayList.add(mDirectoryAdapter.getMediaLocation(p));
+                mAudioController.load(arrayList, 0);
+                Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
         }
     };
 
@@ -389,6 +417,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
+        mDirectoryAdapter.clear();
 
         switch(mSortBy) {
         case SORT_BY_LENGTH:
@@ -429,6 +458,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
+        mDirectoryAdapter.notifyDataSetChanged();
     }
 
     public void sortBy(int sortby) {
