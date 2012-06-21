@@ -13,7 +13,8 @@
         <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 
-    <style name="ActionBar" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="ActionBar" parent="Widget.Sherlock.ActionBar">
         <item name="android:background">@drawable/actionbar_background</item>
+        <item name="background">@drawable/actionbar_background</item>
     </style>
 </resources>
