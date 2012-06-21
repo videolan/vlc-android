@@ -20,6 +20,9 @@
 
 package org.videolan.vlc.gui.audio;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +32,8 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -124,31 +129,63 @@ public class AudioListActivity extends SherlockListActivity {
             menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND, Menu.NONE, R.string.append);
             menu.add(Menu.NONE, AudioBrowserFragment.MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
             menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
+            menu.add(Menu.NONE, AudioBrowserFragment.MENU_DELETE, Menu.NONE, R.string.delete);
         }
     };
+
+    public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+        .setTitle(R.string.confirm_delete)
+        .setMessage(R.string.validation)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                URI adressMediaUri = null;
+                try {
+                    adressMediaUri = new URI (addressMedia.get(0));
+                } catch (URISyntaxException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                File fileMedia =  new File(adressMediaUri);
+                fileMedia.delete();
+                mMediaLibrary.getMediaItems().remove(aMedia);
+                updateList();
+            }
+        })
+        .setNegativeButton(android.R.string.cancel, null).create();
+        
+        alertDialog.show();
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+        int startPosition;
+        List<String> medias;
         int id = item.getItemId();
 
-        boolean play_all = id == AudioBrowserFragment.MENU_PLAY_ALL || id == AudioBrowserFragment.MENU_APPEND_ALL;
-        boolean play_append = id == AudioBrowserFragment.MENU_APPEND || id == AudioBrowserFragment.MENU_APPEND_ALL;
-        int start_position;
-        List<String> medias;
+        boolean useAllItems = id == AudioBrowserFragment.MENU_PLAY_ALL || id == AudioBrowserFragment.MENU_APPEND_ALL;
+        boolean append = id == AudioBrowserFragment.MENU_APPEND || id == AudioBrowserFragment.MENU_APPEND_ALL;
 
-        if (play_all) {
-            start_position = menuInfo.position;
+        if (id == AudioBrowserFragment.MENU_DELETE) {
+            deleteMedia(mSongsAdapter.getLocation(menuInfo.position),
+                        mSongsAdapter.getItem(menuInfo.position));
+            return true;
+        }
+
+        if (useAllItems) {
+            startPosition = menuInfo.position;
             medias = mSongsAdapter.getLocations();
         }
         else {
-            start_position = 0;
+            startPosition = 0;
             medias = mSongsAdapter.getLocation(menuInfo.position);
         }
-        if (play_append)
+        if (append)
             mAudioController.append(medias);
         else
-            mAudioController.load(medias, start_position);
+            mAudioController.load(medias, startPosition);
 
         Intent intent = new Intent(AudioListActivity.this, AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

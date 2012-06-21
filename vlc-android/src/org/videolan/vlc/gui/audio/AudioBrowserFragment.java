@@ -201,7 +201,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             }
         }
     };
-    
+
     public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.confirm_delete)
@@ -226,7 +226,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         
         alertDialog.show();
     }
-    
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int startPosition;
@@ -234,8 +234,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         int childPosition;
         List<String> medias;
         int id = item.getItemId();
-        boolean play_all = id == MENU_PLAY_ALL || id == MENU_APPEND_ALL;
-        boolean play_append = id == MENU_APPEND || id == MENU_APPEND_ALL;
+
+        boolean useAllItems = id == MENU_PLAY_ALL || id == MENU_APPEND_ALL;
+        boolean append = id == MENU_APPEND || id == MENU_APPEND_ALL;
 
         ContextMenuInfo menuInfo = item.getMenuInfo();
         if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
@@ -255,8 +256,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             deleteMedia(mSongsAdapter.getLocation(groupPosition), mSongsAdapter.getItem(groupPosition));
             return true;
         }
-        
-        if (play_all) {
+
+        if (useAllItems) {
             startPosition = groupPosition;
             medias = mSongsAdapter.getLocations();
         }
@@ -280,7 +281,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                     return true;
             }
         }
-        if (play_append)
+
+        if (append)
             mAudioController.append(medias);
         else
             mAudioController.load(medias, startPosition);
