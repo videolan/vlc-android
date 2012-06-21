@@ -87,7 +87,6 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
-        //getListView().setOnCreateContextMenuListener(contextMenuListener);
     }
 
     @Override
@@ -99,6 +98,12 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
         mLoadFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_loadfile);
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setOnCreateContextMenuListener(contextMenuListener);
     }
 
     @Override
