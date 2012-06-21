@@ -54,7 +54,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class AudioListFragment extends SherlockListFragment {
 
-    public final static String TAG = "VLC/AudioListActivity";
+    public final static String TAG = "VLC/AudioListFragment";
 
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
