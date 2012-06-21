@@ -61,6 +61,13 @@ public class Util {
         return URI;
     }
 
+    public static String stripTrailingSlash(String _s) {
+        String s = _s;
+        if(s.endsWith("/"))
+            s = s.substring(0,s.length()-1);
+        return s;
+    }
+
     /**
      * Convert time to a string
      * @param millis e.g.time/length from file
