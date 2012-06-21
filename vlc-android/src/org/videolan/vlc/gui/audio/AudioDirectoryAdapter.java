@@ -134,7 +134,6 @@ public class AudioDirectoryAdapter extends BaseAdapter {
     }
 
     public void populateNode(AudioDirectoryAdapter.Node n, String MRL) {
-        Log.v(TAG, "populating " + MRL);
         File file = new File(MRL);
         if(!file.exists() || !file.isDirectory())
             return;
@@ -279,6 +278,9 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         } catch (URISyntaxException e) {
             /* blah blah blah blah blah */
         }
+
+        Log.d(TAG, "Browsing to " + this.mCurrentDir);
+
         this.mCurrentNode.children.clear();
         this.mCurrentNode = new AudioDirectoryAdapter.Node(mCurrentDir);
         this.populateNode(mCurrentNode, mCurrentDir);
