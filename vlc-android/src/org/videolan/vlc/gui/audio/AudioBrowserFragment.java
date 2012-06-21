@@ -51,8 +51,10 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -126,6 +128,13 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
 
         mHeader = (HorizontalScrollView)v.findViewById(R.id.header);
+        mHeader.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent e) {
+                // prevent the user to scroll the header
+                return true;
+            }
+        });
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
         ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
