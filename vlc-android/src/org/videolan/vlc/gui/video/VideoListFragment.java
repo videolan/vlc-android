@@ -58,6 +58,7 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class VideoListFragment extends SherlockListFragment implements ISortable {
+    public final static String TAG = "VLC/VideoListFragment";
 
     private LinearLayout mNoFileLayout;
     private LinearLayout mLoadFileLayout;
