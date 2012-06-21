@@ -103,9 +103,10 @@ if test -z "${NO_NEON}" -o -n "${TEGRA2}"; then
 fi
 
 # Release or not?
-if [ $1 == "release" ]; then
+if [ $# -ne 0 ] && [ "$1" == "release" ]; then
     OPTS=""
     echo "EXTRA_CFLAGS += -DNDEBUG" >> config.mak
+    MAKEFLAGS="RELEASE=1"
 else
     OPTS="--enable-debug"
 fi
@@ -140,4 +141,4 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
 make distclean
-make
+make $MAKEFLAGS

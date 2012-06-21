@@ -9,7 +9,6 @@ endif
 SRC=vlc-android
 JAVA_SOURCES=$(SRC)/src/org/videolan/vlc/*.java
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
-VLC_APK=$(SRC)/bin/VLC-debug.apk
 LIBVLCJNI=	\
 	$(SRC)/obj/local/$(ARCH)/libvlcjni.so \
 	$(SRC)/obj/local/$(ARCH)/libiomx-ics.so \
@@ -30,11 +29,19 @@ VERBOSE = @
 GEN = @echo "Generating" $@;
 endif
 
+ifneq ($(RELEASE),)
+ANT_TARGET = release
+VLC_APK=$(SRC)/bin/VLC-release-unsigned.apk
+else
+ANT_TARGET = debug
+VLC_APK=$(SRC)/bin/VLC-debug.apk
+endif
+
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	@echo
 	@echo "=== Building $@ for $(ARCH) ==="
 	@echo
-	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) debug
+	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) $(ANT_TARGET)
 
 VLC_MODULES=`./find_modules.sh $(VLC_BUILD_DIR)`
 
