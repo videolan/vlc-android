@@ -45,24 +45,25 @@ public class Media implements Comparable<Media> {
                 ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
                 ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
                 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
+
         String[] folder_blacklist = {
-                "/sdcard/alarms",
-                "/sdcard/notifications",
-                "/sdcard/ringtones",
-                "/sdcard/media/alarms",
-                "/sdcard/media/notifications",
-                "/sdcard/media/ringtones",
-                "/sdcard/media/audio/alarms",
-                "/sdcard/media/audio/notifications",
-                "/sdcard/media/audio/ringtones",
-                "/sdcard/Android/data/" };
+                "/alarms",
+                "/notifications",
+                "/ringtones",
+                "/media/alarms",
+                "/media/notifications",
+                "/media/ringtones",
+                "/media/audio/alarms",
+                "/media/audio/notifications",
+                "/media/audio/ringtones",
+                "/Android/data/" };
 
         EXTENTIONS = new HashSet<String>();
         for (String item : extensions)
             EXTENTIONS.add(item);
         FOLDER_BLACKLIST = new HashSet<String>();
         for (String item : folder_blacklist)
-            FOLDER_BLACKLIST.add(item);
+            FOLDER_BLACKLIST.add(android.os.Environment.getExternalStorageDirectory().getPath() + item);
     }
 
     public final static int TYPE_ALL = -1;
