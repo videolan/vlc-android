@@ -197,7 +197,7 @@ public class AudioListActivity extends SherlockListActivity {
         String currentItem = null;
         int currentIndex = -1;
 
-        if (name == null || mode == 0) {
+        if (name == null || mode == AudioBrowserActivity.MODE_SONG) {
             mTitle.setText(R.string.songs);
             itemList = AudioServiceController.getInstance().getItems();
             currentItem = AudioServiceController.getInstance().getItem();
