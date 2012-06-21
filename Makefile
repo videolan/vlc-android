@@ -95,6 +95,10 @@ install: $(VLC_APK)
 	adb wait-for-device
 	adb install -r $(VLC_APK)
 
+uninstall:
+	adb wait-for-device
+	adb uninstall org.videolan.vlc
+
 run:
 	@echo "=== Running VLC on device ==="
 	adb wait-for-device
