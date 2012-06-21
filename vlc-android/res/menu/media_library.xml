@@ -7,8 +7,9 @@
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_open_mrl"
-        android:icon="@android:drawable/ic_btn_speak_now"
-        android:title="@string/open_mrl" />
+        android:icon="@drawable/ic_menu_goto"
+        android:title="@string/open_mrl"
+        android:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
         android:icon="@android:drawable/ic_menu_sort_alphabetically"
