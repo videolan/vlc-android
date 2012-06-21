@@ -201,7 +201,32 @@ public class AudioBrowserActivity extends SherlockFragment implements ISortable 
             }
         }
     };
-
+    
+    public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+        .setTitle(R.string.confirm_delete)
+        .setMessage(R.string.validation)
+        .setIcon(android.R.drawable.ic_dialog_alert)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                URI adressMediaUri = null;
+                try {
+                    adressMediaUri = new URI (addressMedia.get(0));
+                } catch (URISyntaxException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                File fileMedia =  new File(adressMediaUri);
+                fileMedia.delete();
+                mMediaLibrary.getMediaItems().remove(aMedia);
+                updateLists();
+            }
+        })
+        .setNegativeButton(android.R.string.cancel, null).create();
+        
+        alertDialog.show();
+    }
+    
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int startPosition;
@@ -226,33 +251,11 @@ public class AudioBrowserActivity extends SherlockFragment implements ISortable 
             childPosition = 0;
         }
 
-        if (id == MENU_DELETE){
-            final int groupPositionDelete = groupPosition;
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-            .setTitle(R.string.confirm_delete)
-            .setMessage(R.string.validation)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    List<String> adressMedia = mSongsAdapter.getLocation(groupPositionDelete);
-                    URI adressMediaUri = null;
-                    try {
-                        adressMediaUri = new URI (adressMedia.get(0));
-                    } catch (URISyntaxException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    File fileMedia =  new File(adressMediaUri);
-                    fileMedia.delete();
-                    mMediaLibrary.getMediaItems().remove(mSongsAdapter.getItem(groupPositionDelete));
-                    updateLists();
-                }
-            })
-            .setNegativeButton(android.R.string.cancel, null).create();
-            alertDialog.show();
+        if (id == MENU_DELETE) {
+            deleteMedia(mSongsAdapter.getLocation(groupPosition), mSongsAdapter.getItem(groupPosition));
             return true;
         }
-
+        
         if (play_all) {
             startPosition = groupPosition;
             medias = mSongsAdapter.getLocations();
