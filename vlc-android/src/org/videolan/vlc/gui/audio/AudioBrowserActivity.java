@@ -35,8 +35,6 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,8 +48,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnCreateContextMenuListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -63,6 +61,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockFragment;
 
 public class AudioBrowserActivity extends SherlockFragment implements ISortable {
     public final static String TAG = "VLC/AudioBrowserActivity";

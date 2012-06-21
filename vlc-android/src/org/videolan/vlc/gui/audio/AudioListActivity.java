@@ -29,8 +29,6 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 
-import com.actionbarsherlock.app.SherlockListActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,6 +42,8 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockListActivity;
 
 public class AudioListActivity extends SherlockListActivity {
 
