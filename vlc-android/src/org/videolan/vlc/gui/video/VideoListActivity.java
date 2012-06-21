@@ -174,7 +174,7 @@ public class VideoListActivity extends SherlockListFragment implements ISortable
                 break;
             case MENU_DELETE:
                 final int positionDelete = info.position;
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getParent())
+                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.confirm_delete)
                 .setMessage(R.string.validation)
                 .setIcon(android.R.drawable.ic_dialog_alert)
