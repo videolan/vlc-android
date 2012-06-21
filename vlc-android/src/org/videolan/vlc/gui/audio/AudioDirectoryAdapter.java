@@ -239,8 +239,14 @@ public class AudioDirectoryAdapter extends BaseAdapter {
 
         Util.setItemBackground(holder.layout, position);
 
-        holder.title.setText(selectedNode.name);
-        String holderText;
+        String holderText = "";
+        if(selectedNode.isFile()) {
+            Media m = new Media(mContext, getMediaLocation(position), false);
+            holder.title.setText(m.getTitle());
+            holderText = m.getArtist() + " - " + m.getAlbum();
+        } else
+            holder.title.setText(selectedNode.name);
+
         if(selectedNode.name == "..")
             holderText = mContext.getString(R.string.parent_folder);
         else if(!selectedNode.isFile()) {
@@ -259,7 +265,6 @@ public class AudioDirectoryAdapter extends BaseAdapter {
                         R.plurals.songs, songCount, songCount
                 );
         }
-        else holderText = "Media file here";
         holder.text.setText(holderText);
 
         return v;
