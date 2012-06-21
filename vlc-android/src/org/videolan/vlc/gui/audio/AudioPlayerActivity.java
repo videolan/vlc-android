@@ -195,9 +195,12 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public void onTextClick(View view) {
-        Intent intent = new Intent(this, AudioListFragment.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        //FIXME disabled until AudioPlayerActivity is converted to a fragment
+        // it's not possible to call startActivity on a Fragment.
+
+        //Intent intent = new Intent(this, AudioListFragment.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //startActivity(intent);
     }
 
     public void onPlayPauseClick(View view) {
