@@ -87,6 +87,9 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
+    private DirectoryViewFragment mDirectoryView;
+    private int mCurrentViewTab;
+    private Boolean mMediaLibraryActive;
 
     private SharedPreferences mSettings;
 
@@ -114,21 +117,22 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        mActionBar.addTab(mActionBar.newTab()
-                .setText("Video")
-                .setIcon(R.drawable.header_icon_video)
-                .setTabListener(new TabListener<VideoListFragment>(
-                        this, "video", VideoListFragment.class)));
-
-        mActionBar.addTab(mActionBar.newTab()
-                .setText("Audio")
-                .setIcon(R.drawable.header_icon_audio)
-                .setTabListener(new TabListener<AudioBrowserFragment>(
-                        this, "audio", AudioBrowserFragment.class)));
-
+        int tabToShow = 0;
         if (savedInstanceState != null) {
-            mActionBar.setSelectedNavigationItem(savedInstanceState.getInt("tab", 0));
+            tabToShow = savedInstanceState.getInt("tab", 0);
         }
+
+        addMediaLibraryTabs(tabToShow);
+        mCurrentViewTab = tabToShow;
+        mMediaLibraryActive = true;
+        mDirectoryView = new DirectoryViewFragment(this);
+        mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
+        getSupportFragmentManager().beginTransaction()
+            .add(R.id.fragment_placeholder, mDirectoryView)
+            .commit();
+        getSupportFragmentManager().beginTransaction()
+            .detach(mDirectoryView)
+            .commit();
 
         // Add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
@@ -141,7 +145,7 @@ public class MainActivity extends SherlockFragmentActivity {
             Log.d(TAG, "Started from notification.");
             showAudioTab();
         } else {
-            // load the last tab-state
+            // load the last tab-state (TODO: Broken)
             int state = savedInstanceState == null ? VIDEO_TAB : savedInstanceState.getInt("mCurrentState");
             if(state == VIDEO_TAB)
                 showVideoTab();
@@ -171,6 +175,22 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems(this);
+    }
+
+    private void addMediaLibraryTabs(int tabToShow) {
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Video")
+                .setIcon(R.drawable.header_icon_video)
+                .setTabListener(new TabListener<VideoListFragment>(
+                        this, "video", VideoListFragment.class)));
+
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Audio")
+                .setIcon(R.drawable.header_icon_audio)
+                .setTabListener(new TabListener<AudioBrowserFragment>(
+                        this, "audio", AudioBrowserFragment.class)));
+
+        mActionBar.setSelectedNavigationItem(tabToShow);
     }
 
     @Override
@@ -254,10 +274,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // Browse Folders
             case R.id.ml_menu_browse:
-                FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_placeholder, new DirectoryViewFragment(this));
-                ft.addToBackStack(null);
-                ft.commit();
+                showDirectoryView();
                 break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
@@ -326,6 +343,31 @@ public class MainActivity extends SherlockFragmentActivity {
             	break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDirectoryView() {
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+        if(!mMediaLibraryActive) {
+            /* Animate based on which tab is about to be loaded
+             * Video comes in on left so exit right
+             * Audio comes in on right so exit left */
+            if(mCurrentViewTab == AUDIO_TAB)
+                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
+            else if(mCurrentViewTab == VIDEO_TAB)
+                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
+            /* Remove the directory view from the tabs */
+            ft.detach(mDirectoryView);
+            ft.commit();
+            /* Restore the tabs */
+            addMediaLibraryTabs(mCurrentViewTab);
+        } else {
+            /* Remove existing tabs */
+            mActionBar.removeAllTabs();
+            /* Load directory view fragment */
+            ft.attach(mDirectoryView);
+            ft.commit();
+        }
+        this.mMediaLibraryActive = !this.mMediaLibraryActive;
     }
 
     /*@Override
@@ -462,12 +504,6 @@ public class MainActivity extends SherlockFragmentActivity {
         context.getApplicationContext().sendBroadcast(intent);
     }
 
-
-
-
-
-
-
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
         private final SherlockFragmentActivity mActivity;
         private final String mTag;
@@ -498,13 +534,17 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	        if (mTag.equalsIgnoreCase("video"))
+	        if (mTag.equalsIgnoreCase("video")) {
 	            ft.setCustomAnimations((mFragment == null) ? 0 : R.anim.anim_enter_left, R.anim.anim_leave_left);
-	        else if (mTag.equalsIgnoreCase("audio"))
+	            ((MainActivity)mActivity).mCurrentViewTab = VIDEO_TAB;
+	        } else if (mTag.equalsIgnoreCase("audio")) {
 	            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
+	            ((MainActivity)mActivity).mCurrentViewTab = AUDIO_TAB;
+	        }
 
             if (mFragment == null) {
                 mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
+                mFragment.setRetainInstance(true);
                 ft.add(R.id.fragment_placeholder, mFragment, mTag);
             } else {
                 ft.attach(mFragment);
