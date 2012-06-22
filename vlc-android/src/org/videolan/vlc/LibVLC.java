@@ -21,6 +21,8 @@
 package org.videolan.vlc;
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.LibVlcException;
+import org.videolan.vlc.TrackInfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -174,7 +176,9 @@ public class LibVLC {
     private void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-            nativeInit();
+            Context context = VLCApplication.getAppContext();
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            nativeInit(pref.getBoolean("enable_verbose_mode", true));
             setEventManager(EventManager.getIntance());
             mIsInitialized = true;
         }
@@ -255,10 +259,16 @@ public class LibVLC {
     }
 
     /**
+     * Change the verbosity of libvlc
+     * @param verbose: true for increased verbosity
+     */
+    public native void changeVerbosity(boolean verbose);
+
+    /**
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit() throws LibVlcException;
+    private native void nativeInit(boolean verbose) throws LibVlcException;
 
     /**
      * Close the libvlc C library

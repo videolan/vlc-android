@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.LibVLC;
+import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
@@ -36,6 +37,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -107,6 +109,25 @@ public class PreferencesActivity extends PreferenceActivity {
                         return true;
                     }
                 });
+
+        // Change verbosity (logcat)
+        CheckBoxPreference checkboxVerbosity = (CheckBoxPreference) findPreference("enable_verbose_mode");
+        checkboxVerbosity.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                try {
+                    LibVLC.getInstance().changeVerbosity((Boolean) newValue);
+                } catch (LibVlcException e) {
+                    Log.e(TAG, "Failed to change logs verbosity");
+                    e.printStackTrace();
+                    return true;
+                }
+                String newstatus = ((Boolean)newValue) ? "enabled" : "disabled";
+                Log.i(TAG, "Verbosity mode is now " + newstatus);
+                return true;
+            }
+        });
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
