@@ -108,9 +108,9 @@ public class AudioService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    public int onStartCommand(Intent intent, int flags, int startId) {
         updateWidget(this);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -164,9 +164,13 @@ public class AudioService extends Service {
             else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
                 KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
                 TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                if (mCurrentMedia == null || event == null ||
-                        telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
+                if (event == null || telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                     return;
+
+                if (mCurrentMedia == null) {
+                    abortBroadcast();
+                    return;
+                }
 
                 switch (event.getKeyCode())
                 {
@@ -193,8 +197,6 @@ public class AudioService extends Service {
                                     // double click
                                 } else if (time - mHeadsetUpTime <= 500) {
                                     next();
-                                    // block the double click event to prevent android from dialing last number
-                                    abortBroadcast();
                                 }
                                 // one click
                                 else {
@@ -223,6 +225,7 @@ public class AudioService extends Service {
                         previous();
                         break;
                 }
+                abortBroadcast();
             }
 
             /*
