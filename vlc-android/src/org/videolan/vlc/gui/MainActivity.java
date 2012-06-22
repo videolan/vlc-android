@@ -252,6 +252,14 @@ public class MainActivity extends SherlockFragmentActivity {
             case R.id.ml_menu_refresh:
                 MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
+            // Browse Folders
+            case R.id.ml_menu_browse:
+                FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_placeholder, new DirectoryViewFragment(this));
+                ft.addToBackStack(null);
+                ft.commit();
+                break;
+            // Open MRL  
             case R.id.ml_menu_open_mrl:
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 final EditText input = new EditText(this);

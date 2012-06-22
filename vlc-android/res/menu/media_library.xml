@@ -29,6 +29,11 @@
         android:title="@string/refresh"
         android:showAsAction="ifRoom" />
     <item
+        android:id="@+id/ml_menu_browse"
+        android:icon="@drawable/ic_folder"
+        android:title="@string/directories"
+        android:showAsAction="ifRoom" />
+    <item
         android:id="@+id/ml_menu_preferences"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/preferences" />
