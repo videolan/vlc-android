@@ -93,12 +93,5 @@
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
-        <ListView
-            android:id="@+id/directory_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:divider="@color/item_common"
-            android:dividerHeight="1dp"
-            android:fastScrollEnabled="true" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>

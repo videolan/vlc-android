@@ -137,7 +137,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
         ExpandableListView albumList = (ExpandableListView)v.findViewById(R.id.albums_list);
         ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
-        ListView directoryList = (ListView)v.findViewById(R.id.directory_list);
 
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
