@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.video;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 
@@ -849,7 +850,10 @@ public class VideoPlayerActivity extends Activity {
             if (lastTime > 0 && location.equals(lastLocation))
                 mLibVLC.setTime(lastTime);
 
-            title = URLDecoder.decode(location);
+            try {
+                title = URLDecoder.decode(location, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+            }
             if (title.startsWith("file:")) {
                 title = new File(title).getName();
                 int dotIndex = title.lastIndexOf('.');
