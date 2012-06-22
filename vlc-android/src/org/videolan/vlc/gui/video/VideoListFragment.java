@@ -246,7 +246,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
             for (Media item : itemList) {
                 if (item.getType() == Media.TYPE_VIDEO) {
                     mVideoAdapter.add(item);
-                    if (item.getPicture() == null)
+                    if (item.getPicture() == null && !item.isPictureParsed())
                         mThumbnailerManager.addJob(item);
                 }
             }

@@ -324,7 +324,7 @@ public class DatabaseManager {
             if (cursor.moveToFirst()) {
                 do {
                     blob = cursor.getBlob(3);
-                    if (blob != null) {
+                    if (blob != null && blob.length > 1) {
                         picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                     }
                     String location = cursor.getString(11);
@@ -340,6 +340,7 @@ public class DatabaseManager {
                             cursor.getInt(8),
                             cursor.getInt(9),
                             cursor.getString(10));
+                    media.setPictureParsed(blob != null);
                     medias.put(media.getLocation(), media);
 
                     picture = null;
@@ -382,7 +383,7 @@ public class DatabaseManager {
         if (cursor.moveToFirst()) {
 
             blob = cursor.getBlob(3);
-            if (blob != null) {
+            if (blob != null && blob.length > 1) {
                 picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
             }
             media = new Media(context, location,
@@ -397,6 +398,7 @@ public class DatabaseManager {
                     cursor.getInt(8),
                     cursor.getInt(9),
                     cursor.getString(10));
+            media.setPictureParsed(blob != null);
         }
         cursor.close();
         return media;
@@ -411,10 +413,15 @@ public class DatabaseManager {
         ContentValues values = new ContentValues();
         switch (col) {
             case MEDIA_PICTURE:
-                Bitmap picture = (Bitmap) object;
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                picture.compress(Bitmap.CompressFormat.PNG, 100, out);
-                values.put(MEDIA_PICTURE, out.toByteArray());
+                if (object != null) {
+                    Bitmap picture = (Bitmap) object;
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    picture.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    values.put(MEDIA_PICTURE, out.toByteArray());
+                }
+                else {
+                    values.put(MEDIA_PICTURE, new byte[1]);
+                }
                 break;
             default:
                 return;

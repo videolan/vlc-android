@@ -95,6 +95,7 @@ public class Media implements Comparable<Media> {
     private int mWidth = 0;
     private int mHeight = 0;
     private Bitmap mPicture;
+    private boolean mIsPictureParsed;
 
     /**
      * Create a new Media
@@ -221,6 +222,15 @@ public class Media implements Comparable<Media> {
                 DatabaseManager.mediaColumn.MEDIA_PICTURE,
                 p);
         mPicture = p;
+        mIsPictureParsed = true;
+    }
+
+    public boolean isPictureParsed() {
+        return mIsPictureParsed;
+    }
+
+    public void setPictureParsed(boolean isParsed) {
+        mIsPictureParsed = isParsed;
     }
 
     public String getTitle() {
