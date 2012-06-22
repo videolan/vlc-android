@@ -1,4 +1,4 @@
-From f812e399247f80d7d65b06da96b34ec332b276f0 Mon Sep 17 00:00:00 2001
+From 51d9ec8b18cbb9c6c4446ee6787dda218ae4d878 Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 13 May 2012 22:20:34 +0200
 Subject: [PATCH 2/4] Android: add native AudioTrack aout module
@@ -7,8 +7,8 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  configure.ac                      |   12 ++
  modules/audio_output/Modules.am   |    1 +
- modules/audio_output/audiotrack.c |  333 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 346 insertions(+)
+ modules/audio_output/audiotrack.c |  322 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 335 insertions(+)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
@@ -48,10 +48,10 @@ index ea30d4d..85f2b3d 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..555b0b8
+index 0000000..43a437a
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,333 @@
+@@ -0,0 +1,322 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
@@ -355,17 +355,6 @@ index 0000000..555b0b8
 +static void Play(audio_output_t *p_aout, block_t *p_buffer)
 +{
 +    aout_sys_t *p_sys = p_aout->sys;
-+
-+    uint32_t latency;
-+    int ret = p_sys->as_getOutputLatency(&latency, MUSIC);
-+    if (!ret) {
-+        mtime_t delay = latency * CLOCK_FREQ / 100;
-+        if (latency != 55)
-+            msg_Dbg(p_aout, "latency %d", latency);
-+        aout_TimeReport(p_aout, p_buffer->i_pts - delay);
-+    } else {
-+        msg_Err(p_aout, "Could not get latency");
-+    }
 +
 +    size_t length = 0;
 +    while (length < p_buffer->i_buffer) {
