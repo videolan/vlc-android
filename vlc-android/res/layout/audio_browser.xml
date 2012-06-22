@@ -49,14 +49,6 @@
                 android:layout_width="80dip"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
-            <TextView
-                android:text="@string/directories"
-                android:textSize="16dip"
-                android:textColor="#888888"
-                android:id="@+id/directory"
-                android:layout_width="80dip"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
         </LinearLayout>
     </HorizontalScrollView>
     <View
