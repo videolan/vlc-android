@@ -54,10 +54,11 @@ public class PreferencesActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
 
         // Create onClickListen
-        Preference directoriesPref = (Preference) findPreference("directories");
+        Preference directoriesPref = findPreference("directories");
         directoriesPref.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(getApplicationContext(), BrowserActivity.class);
                         startActivity(intent);
@@ -66,10 +67,11 @@ public class PreferencesActivity extends PreferenceActivity {
                 });
 
         // Create onClickListen
-        Preference clearHistoryPref = (Preference) findPreference("clear_history");
+        Preference clearHistoryPref = findPreference("clear_history");
         clearHistoryPref.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                         new AlertDialog.Builder(PreferencesActivity.this)
                                 .setTitle(R.string.clear_history)
@@ -77,6 +79,7 @@ public class PreferencesActivity extends PreferenceActivity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
+                                    @Override
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
                                         db.clearSearchhistory();
@@ -92,6 +95,7 @@ public class PreferencesActivity extends PreferenceActivity {
         CheckBoxPreference checkboxHW = (CheckBoxPreference) findPreference("enable_iomx");
         checkboxHW.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                         CheckBoxPreference checkboxHW = (CheckBoxPreference) preference;
                         LibVLC.useIOMX(checkboxHW.isChecked());
@@ -103,6 +107,7 @@ public class PreferencesActivity extends PreferenceActivity {
         CheckBoxPreference checkboxHS = (CheckBoxPreference) findPreference("enable_headset_detection");
         checkboxHS.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                         CheckBoxPreference checkboxHS = (CheckBoxPreference) preference;
                         AudioServiceController.getInstance().detectHeadset(checkboxHS.isChecked());
@@ -143,19 +148,21 @@ public class PreferencesActivity extends PreferenceActivity {
         });
 
         // Attach debugging items
-        Preference quitAppPref = (Preference) findPreference("quit_app");
+        Preference quitAppPref = findPreference("quit_app");
         quitAppPref.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                     	System.exit(0);
                         return true;
                     }
                 });
-        Preference clearMediaPref = (Preference)findPreference("clear_media_db");
+        Preference clearMediaPref = findPreference("clear_media_db");
         clearMediaPref.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
+                    @Override
                     public boolean onPreferenceClick(Preference preference) {
                         DatabaseManager.getInstance(getBaseContext()).emptyDatabase();
                         Toast.makeText(getBaseContext(), "Media database cleared!", Toast.LENGTH_SHORT).show();

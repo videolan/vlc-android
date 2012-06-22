@@ -33,7 +33,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
 
-    private SeekBar mWheel;
+    private final SeekBar mWheel;
     private OnPlayerControlListener listener = null;
 
     private static final int WHEEL_DEAD_ZONE = 7;
@@ -54,7 +54,7 @@ public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
         mWheel.setOnSeekBarChangeListener(mWheelListener);
     }
 
-    private OnSeekBarChangeListener mWheelListener = new OnSeekBarChangeListener() {
+    private final OnSeekBarChangeListener mWheelListener = new OnSeekBarChangeListener() {
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             mPosition = listener != null ? listener.onWheelStart() : 0;

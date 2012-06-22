@@ -25,7 +25,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
-    private Context mContext;
+    private final Context mContext;
 
     public DirectoryViewFragment(Context context) {
         mContext = context;

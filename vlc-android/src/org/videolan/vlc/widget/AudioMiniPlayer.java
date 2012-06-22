@@ -55,7 +55,7 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
     private SeekBar mSeekbar;
 
     // Listener for the play and pause buttons
-    private OnClickListener onMediaControlClickListener = new OnClickListener() {
+    private final OnClickListener onMediaControlClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
             if (mAudioPlayerControl != null) {
@@ -149,6 +149,7 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
         mAudioPlayerControl = control;
     }
 
+    @Override
     public void update() {
         if (mAudioPlayerControl != null) {
 
@@ -185,8 +186,8 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
                 mBackward.setVisibility(ImageButton.VISIBLE);
             else
                 mBackward.setVisibility(ImageButton.INVISIBLE);
-            int time = (int) mAudioPlayerControl.getTime();
-            int length = (int) mAudioPlayerControl.getLength();
+            int time = mAudioPlayerControl.getTime();
+            int length = mAudioPlayerControl.getLength();
             // Update all view elements
 
             mSeekbar.setMax(length);

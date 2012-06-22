@@ -64,7 +64,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.browser_item, parent, false);
             holder = new ViewHolder();
-            holder.layout = (View) view.findViewById(R.id.layout_item);
+            holder.layout = view.findViewById(R.id.layout_item);
             holder.check = (CheckBox) view.findViewById(R.id.browser_item_selected);
             holder.text = (TextView) view.findViewById(R.id.browser_item_dir);
             view.setTag(holder);
@@ -102,7 +102,8 @@ public class BrowserAdapter extends ArrayAdapter<File>
         return view;
     }
 
-    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+    private final OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
+        @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             final DatabaseManager dbManager = DatabaseManager.getInstance(buttonView.getContext());
             File item = (File) buttonView.getTag();
@@ -126,6 +127,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
         super.sort(this);
     }
 
+    @Override
     public int compare(File file1, File file2) {
         return file1.getName().toUpperCase().compareTo(
                 file2.getName().toUpperCase());

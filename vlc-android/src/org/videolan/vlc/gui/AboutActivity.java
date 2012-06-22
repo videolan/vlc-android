@@ -38,7 +38,7 @@ public class AboutActivity extends Activity {
         displayVersionName();
         super.onCreate(savedInstanceState);
     }
-    
+
     private void displayVersionName() {
         String versionName = "";
         PackageInfo packageInfo;

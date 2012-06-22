@@ -46,7 +46,7 @@ public class BrowserActivity extends ListActivity {
 
     private BrowserAdapter mAdapter;
     private File mCurrentDir;
-    private Stack<ScrollState> mScollStates = new Stack<ScrollState>();
+    private final Stack<ScrollState> mScollStates = new Stack<ScrollState>();
     private String mRoot;
 
     private class ScrollState {
@@ -147,6 +147,7 @@ public class BrowserActivity extends ListActivity {
      */
     private class DirFilter implements FileFilter {
 
+        @Override
         public boolean accept(File f) {
             return f.isDirectory() && !f.isHidden() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase());
         }

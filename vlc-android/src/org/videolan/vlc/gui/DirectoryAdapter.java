@@ -31,6 +31,7 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+
 import android.content.Context;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -48,6 +49,7 @@ public class DirectoryAdapter extends BaseAdapter {
      */
     private class AudioDirectoryAdapterFilter implements FileFilter {
 
+        @Override
         public boolean accept(File f) {
             if(f.isHidden())
                 return false;
@@ -228,7 +230,7 @@ public class DirectoryAdapter extends BaseAdapter {
             else
                 v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
             holder = new DirectoryViewHolder();
-            holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.isFile = selectedNode.isFile();

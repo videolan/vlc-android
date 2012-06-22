@@ -35,13 +35,13 @@ public class FlingViewGroup extends ViewGroup {
     private final static int TOUCH_STATE_REST = 1;
 
     private int mCurrentView = 0;
-    private Scroller mScroller;
+    private final Scroller mScroller;
     private VelocityTracker mVelocityTracker;
 
     private int mTouchState = TOUCH_STATE_REST;
     private int mInterceptTouchState = TOUCH_STATE_REST;
-    private int mTouchSlop;
-    private int mMaximumVelocity;
+    private final int mTouchSlop;
+    private final int mMaximumVelocity;
 
     private float mLastX;
     private float mLastInterceptDownY;
