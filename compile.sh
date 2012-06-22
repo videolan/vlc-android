@@ -118,7 +118,7 @@ else
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
-export VLC_EXTRA_CFLAGS=${EXTRA_CFLAGS}
+export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
 
 make fetch
 make
