@@ -27,8 +27,8 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,10 +64,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-        int width = size.x;
-        int height = size.y;
+        android.view.Display display = getWindowManager().getDefaultDisplay(); 
+        int width = display.getWidth();
+        int height = display.getHeight();
         Log.v(TAG, "width = " + width + " : height = " + height);
         if(width == 240 && height == 320) /* QVGA 2.7in */
         	setContentView(R.layout.audio_player_qvga);
