@@ -498,10 +498,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft) {
-            if (mTag.equalsIgnoreCase("video"))
-                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
-            else if (mTag.equalsIgnoreCase("audio"))
-                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
+	        if (mTag.equalsIgnoreCase("video"))
+	            ft.setCustomAnimations((mFragment == null) ? 0 : R.anim.anim_enter_left, R.anim.anim_leave_left);
+	        else if (mTag.equalsIgnoreCase("audio"))
+	            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
 
             if (mFragment == null) {
                 mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
