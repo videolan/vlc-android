@@ -116,4 +116,10 @@ run:
 
 build-and-run: install run
 
-.PHONY: clean distclean install run build-and-run
+apkclean-run: apkclean build-and-run
+	adb logcat -c
+
+distclean-run: distclean build-and-run
+	adb logcat -c
+
+.PHONY: clean distclean distclean-run apkclean apkclean-run install run build-and-run
