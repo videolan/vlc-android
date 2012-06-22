@@ -23,7 +23,10 @@ package org.videolan.vlc.gui;
 import org.videolan.vlc.R;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class AboutActivity extends Activity {
 
@@ -32,7 +35,21 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.about);
+        displayVersionName();
         super.onCreate(savedInstanceState);
+    }
+    
+    private void displayVersionName() {
+        String versionName = "";
+        PackageInfo packageInfo;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionName = "v " + packageInfo.versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        TextView tv = (TextView) findViewById(R.id.textViewVersion);
+        tv.setText(versionName);
     }
 
 }

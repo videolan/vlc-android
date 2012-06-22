@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center"
-    android:orientation="vertical" 
-    android:weightSum="1">
+    android:gravity="center|fill_vertical"
+    android:orientation="vertical"
+    android:weightSum="1" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -30,14 +30,12 @@
             android:src="@drawable/header_logo" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textViewVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="@string/about_version" />
-
+            android:gravity="center"/>
     </RelativeLayout>
 
     <LinearLayout
