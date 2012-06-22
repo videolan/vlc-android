@@ -54,8 +54,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -120,9 +118,6 @@ public class VideoPlayerActivity extends Activity {
     private int mVideoHeight;
     private int mVideoWidth;
 
-    // stop screen from dimming
-    private WakeLock mWakeLock;
-
     //Audio
     private AudioManager mAudioManager;
     private int mAudioMax;
@@ -138,10 +133,6 @@ public class VideoPlayerActivity extends Activity {
         setContentView(R.layout.player);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        // stop screen from dimming
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, TAG);
 
         /** initialize Views an their Events */
         mOverlayHeader = (View) findViewById(R.id.player_overlay_header);
@@ -218,8 +209,7 @@ public class VideoPlayerActivity extends Activity {
             time = mLibVLC.getTime() - 5000;
             mLibVLC.pause();
         }
-        if (mWakeLock.isHeld())
-            mWakeLock.release();
+        mOverlay.setKeepScreenOn(false);
 
         // Save position
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
@@ -816,8 +806,7 @@ public class VideoPlayerActivity extends Activity {
      */
     private void play() {
         mLibVLC.play();
-        if (!mWakeLock.isHeld())
-            mWakeLock.acquire();
+        mOverlay.setKeepScreenOn(true);
     }
 
     /**
@@ -825,8 +814,7 @@ public class VideoPlayerActivity extends Activity {
      */
     private void pause() {
         mLibVLC.pause();
-        if (mWakeLock.isHeld())
-            mWakeLock.release();
+        mOverlay.setKeepScreenOn(false);
     }
 
     /**
@@ -850,8 +838,7 @@ public class VideoPlayerActivity extends Activity {
 
         if (location != null && location.length() > 0) {
             mLibVLC.readMedia(location, false);
-            if (!mWakeLock.isHeld())
-                mWakeLock.acquire();
+            mOverlay.setKeepScreenOn(true);
 
             // Save media for next time, and restore position if it's the same one as before
             lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
