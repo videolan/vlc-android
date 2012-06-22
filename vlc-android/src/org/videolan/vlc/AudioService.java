@@ -124,7 +124,7 @@ public class AudioService extends Service {
         return mInterface;
     }
 
-    private BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -249,7 +249,7 @@ public class AudioService extends Service {
     /**
      * Handle libvlc asynchronous events
      */
-    private Handler mEventHandler = new Handler() {
+    private final Handler mEventHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -295,7 +295,7 @@ public class AudioService extends Service {
             updateWidget(this);
     }
 
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -438,7 +438,7 @@ public class AudioService extends Service {
         return null;
     }
 
-    private IAudioService.Stub mInterface = new IAudioService.Stub() {
+    private final IAudioService.Stub mInterface = new IAudioService.Stub() {
 
         @Override
         public String getCurrentMediaLocation() throws RemoteException {
@@ -504,6 +504,7 @@ public class AudioService extends Service {
                 return null;
         }
 
+        @Override
         public Bitmap getCover() {
             if (mCurrentMedia != null) {
                 return AudioService.this.getCover();
@@ -585,6 +586,7 @@ public class AudioService extends Service {
             }
         }
 
+        @Override
         public List<String> getItems() {
             ArrayList<String> medias = new ArrayList<String>();
             for (int i = 0; i < mMediaList.size(); i++) {
@@ -594,6 +596,7 @@ public class AudioService extends Service {
             return medias;
         }
 
+        @Override
         public String getItem() {
             return mCurrentMedia != null
                     ? mCurrentMedia.getLocation()
@@ -610,6 +613,7 @@ public class AudioService extends Service {
             AudioService.this.previous();
         }
 
+        @Override
         public void shuffle() throws RemoteException {
             AudioService.this.shuffle();
         }

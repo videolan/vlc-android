@@ -86,7 +86,7 @@ public class Media implements Comparable<Media> {
     private String mEncodedBy;
     private String mTrackID;
 
-    private String mLocation;
+    private final String mLocation;
     private String mFilename;
     private long mTime = 0;
     private long mLength = 0;
@@ -162,6 +162,7 @@ public class Media implements Comparable<Media> {
     /**
      * Compare the filenames to sort items
      */
+    @Override
     public int compareTo(Media another) {
         return mTitle.toUpperCase().compareTo(
                 another.getTitle().toUpperCase());

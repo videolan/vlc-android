@@ -46,8 +46,8 @@ public class AudioServiceController implements IAudioPlayerControl {
     private static boolean mIsBound = false;
     private IAudioService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
-    private ArrayList<IAudioPlayer> mAudioPlayer;
-    private IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
+    private final ArrayList<IAudioPlayer> mAudioPlayer;
+    private final IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
         @Override
         public void update() throws RemoteException {
             updateAudioPlayer();

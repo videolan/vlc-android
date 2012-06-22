@@ -45,9 +45,9 @@ public class ThumbnailerManager extends Thread {
     private final Condition notEmpty = lock.newCondition();
 
     private LibVLC mLibVlc;
-    private VideoListFragment mVideoListActivity;
+    private final VideoListFragment mVideoListActivity;
     private int totalCount;
-    private float mDensity;
+    private final float mDensity;
 
     public ThumbnailerManager(VideoListFragment videoListActivity) {
         mVideoListActivity = videoListActivity;
@@ -89,6 +89,7 @@ public class ThumbnailerManager extends Thread {
     /**
      * Thread main function.
      */
+    @Override
     public void run() {
         int count = 0;
         int total = 0;

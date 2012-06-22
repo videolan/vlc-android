@@ -171,7 +171,7 @@ public class SearchActivity extends ListActivity {
         setListAdapter(mHistoryAdapter);
     }
 
-    private TextWatcher searchTextWatcher = new TextWatcher() {
+    private final TextWatcher searchTextWatcher = new TextWatcher() {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -221,7 +221,7 @@ public class SearchActivity extends ListActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private OnEditorActionListener searchTextListener = new OnEditorActionListener() {
+    private final OnEditorActionListener searchTextListener = new OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -230,6 +230,7 @@ public class SearchActivity extends ListActivity {
         }
     };
 
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         if (getListAdapter() == mHistoryAdapter) {
             String selection = ((TextView) v.findViewById(android.R.id.text1)).getText().toString();

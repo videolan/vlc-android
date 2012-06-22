@@ -44,9 +44,9 @@ public class MediaLibrary {
     public static final int MEDIA_ITEMS_UPDATED = 100;
 
     private static MediaLibrary mInstance;
-    private DatabaseManager mDBManager;
-    private ArrayList<Media> mItemList;
-    private ArrayList<Handler> mUpdateHandler;
+    private final DatabaseManager mDBManager;
+    private final ArrayList<Media> mItemList;
+    private final ArrayList<Handler> mUpdateHandler;
     protected Thread mLoadingThread;
 
     private MediaLibrary(Context context) {
@@ -152,13 +152,14 @@ public class MediaLibrary {
 
     private class GetMediaItemsRunnable implements Runnable {
 
-        private Stack<File> directories = new Stack<File>();
+        private final Stack<File> directories = new Stack<File>();
         private Context mContext;
 
         public GetMediaItemsRunnable(Context context) {
             mContext = context;
         }
 
+        @Override
         public void run() {
             // Initialize variables
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -271,6 +272,7 @@ public class MediaLibrary {
      */
     private class MediaItemFilter implements FileFilter {
 
+        @Override
         public boolean accept(File f) {
             boolean accepted = false;
             if (!f.isHidden()) {
