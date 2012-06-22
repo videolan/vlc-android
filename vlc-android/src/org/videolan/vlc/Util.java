@@ -63,7 +63,7 @@ public class Util {
 
     public static String stripTrailingSlash(String _s) {
         String s = _s;
-        if(s.endsWith("/"))
+        if( s.endsWith("/") && s.length() > 1 )
             s = s.substring(0,s.length()-1);
         return s;
     }
