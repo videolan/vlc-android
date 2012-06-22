@@ -33,6 +33,7 @@ import org.videolan.vlc.Util;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,8 +109,9 @@ public class MediaInfoActivity extends ListActivity {
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             if (mImage == null) {
-                int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
-                                     getWindowManager().getDefaultDisplay().getHeight());
+                Point size = new Point();
+                getWindowManager().getDefaultDisplay().getSize(size);
+                int width = Math.min(size.x, size.y);
                 int height = width * 9 / 16;
 
                 // Get the thumbnail.

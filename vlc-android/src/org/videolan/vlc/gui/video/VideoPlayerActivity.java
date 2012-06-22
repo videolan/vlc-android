@@ -48,6 +48,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -421,8 +422,10 @@ public class VideoPlayerActivity extends Activity {
 
     private void changeSurfaceSize() {
         // get screen size
-        int dw = getWindowManager().getDefaultDisplay().getWidth();
-        int dh = getWindowManager().getDefaultDisplay().getHeight();
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        int dw = size.x;
+        int dh = size.y;
 
         // calculate aspect ratio
         double ar = (double) mVideoWidth / (double) mVideoHeight;
@@ -479,10 +482,11 @@ public class VideoPlayerActivity extends Activity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        if (mAudioDisplayRange == 0)
-            mAudioDisplayRange = Math.min(
-                    getWindowManager().getDefaultDisplay().getWidth(),
-                    getWindowManager().getDefaultDisplay().getHeight());
+        if (mAudioDisplayRange == 0) {
+            Point size = new Point();
+            getWindowManager().getDefaultDisplay().getSize(size);
+            mAudioDisplayRange = Math.min(size.x, size.y);
+        }
 
         switch (event.getAction()) {
 
