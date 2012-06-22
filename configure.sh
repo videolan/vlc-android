@@ -1,7 +1,8 @@
 #!/bin/sh
 
-if [ -z "$ANDROID_NDK" ]; then
-    echo "Please set the ANDROID_NDK environment variable with its path."
+if [ -z "$ANDROID_NDK" -o -z "$ANDROID_ABI" ]; then
+    echo "Please set the ANDROID_NDK environment variable with its path.\n"
+    echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
     exit 1
 fi
 
@@ -11,34 +12,25 @@ ANDROID_API=android-9
 
 VLC_SOURCEDIR=..
 
-CFLAGS="-g -O2 -mlong-calls -fstrict-aliasing -mfloat-abi=softfp -funsafe-math-optimizations"
+CFLAGS="-g -O2 -mlong-calls -fstrict-aliasing -funsafe-math-optimizations"
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
 
 if [ -z "$NO_NEON" ]; then
-    CXX_TARGET="armeabi-v7a"
-    CFLAGS="$CFLAGS -mfpu=neon -mcpu=cortex-a8 -mthumb"
-    LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
     EXTRA_PARAMS=" --enable-neon"
-elif [ -n "$TEGRA2" ]; then
-    CXX_TARGET="armeabi-v7a"
-    CFLAGS="$CFLAGS -mfpu=vfpv3-d16 -mcpu=cortex-a9 -mthumb"
-    EXTRA_PARAMS=" --disable-neon"
+    LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
 else
-    CXX_TARGET="armeabi"
-    CFLAGS="$CFLAGS -march=armv6j -mtune=arm1136j-s -msoft-float"
     EXTRA_PARAMS=" --disable-neon"
 fi
 
-
-CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${CXX_TARGET}/include"
-LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${CXX_TARGET}"
+CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}/include"
+LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}"
 
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm
 ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/*-x86/bin/
 CROSS_COMPILE=${ANDROID_BIN}/arm-linux-androideabi-
 
 CPPFLAGS="$CPPFLAGS" \
-CFLAGS="$CFLAGS" \
+CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
 LDFLAGS="$LDFLAGS" \
 CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \

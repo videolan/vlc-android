@@ -22,9 +22,10 @@ export NO_NDK_V7=0
 If you plan to use a release build, run 'compile.sh release'
 EOF
 
-if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
-   echo "You must define ANDROID_NDK and ANDROID_SDK before starting."
-   echo "They must point to your NDK and SDK directories."
+if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
+   echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
+   echo "They must point to your NDK and SDK directories.\n"
+   echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
    exit 1
 fi
 
@@ -41,7 +42,7 @@ fi
 export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=defdb5a9e1
+TESTED_HASH=3e140bd0
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
@@ -92,24 +93,40 @@ cd contrib/android
     --disable-sidplay2 \
     --disable-samplerate \
     --enable-iconv
-echo EXTRA_CFLAGS=-g >> config.mak
 
 # TODO: mpeg2, theora
 
-if test -z "${NO_NEON}" -o -n "${TEGRA2}"; then
-    # assumes armv7-a
-    echo "EXTRA_CFLAGS += -mthumb" >> config.mak
+if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
+    if test -z "${NO_NEON}" ; then
+        EXTRA_CFLAGS="-mfpu=neon -mcpu=cortex-a8"
+    else
+        EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a9"
+    fi
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
     echo "NOTHUMB := -marm" >> config.mak
+elif [ ${ANDROID_ABI} = "armeabi" ] ; then
+    export NO_NEON=1
+    if test -z "${NO_FPU}" ; then
+        EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
+    else
+        EXTRA_CFLAGS="-march=armv6j -mtune=arm1136j-s -msoft-float"
+    fi
+else
+    echo "Unknown ABI. Die, die, die!"
+    exit 2
 fi
 
 # Release or not?
 if [ $# -ne 0 ] && [ "$1" == "release" ]; then
     OPTS=""
-    echo "EXTRA_CFLAGS += -DNDEBUG" >> config.mak
-    MAKEFLAGS="RELEASE=1"
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
+    RELEASEFLAG="RELEASE=1"
 else
     OPTS="--enable-debug"
 fi
+
+echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
+export VLC_EXTRA_CFLAGS=${EXTRA_CFLAGS}
 
 make fetch
 make
@@ -141,4 +158,4 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
 make distclean
-make $MAKEFLAGS
+make $RELEASEFLAG
