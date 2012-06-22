@@ -22,7 +22,6 @@ package org.videolan.vlc;
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.LibVlcException;
-import org.videolan.vlc.TrackInfo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -117,6 +116,7 @@ public class LibVLC {
      * It is bad practice to rely on them, so please don't forget to call
      * destroy() before exiting.
      */
+    @Override
     public void finalize() {
         if (mLibVlcInstance != 0) {
             Log.d(TAG, "LibVLC is was destroyed yet before finalize()");
@@ -153,12 +153,12 @@ public class LibVLC {
 
     public static synchronized void setAout(Context context, String aoutPref, boolean reset) {
         Resources res = context.getResources();
-        if (aoutPref.equals(res.getString(R.string.aout_audiotrack_java)))
-            sAout = AOUT_AUDIOTRACK_JAVA;
+        if (aoutPref.equals(res.getString(R.string.aout_audiotrack)))
+            sAout = AOUT_AUDIOTRACK;
         else if (aoutPref.equals(res.getString(R.string.aout_opensles)) && Util.isGingerbreadOrLater())
             sAout = AOUT_OPENSLES;
         else
-            sAout = AOUT_AUDIOTRACK;
+            sAout = AOUT_AUDIOTRACK_JAVA;
 
         if (reset && sInstance != null) {
             try {

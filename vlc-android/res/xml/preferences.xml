@@ -45,7 +45,7 @@
         </CheckBoxPreference>
         <ListPreference
             android:key="aout"
-            android:defaultValue="@string/aout_audiotrack"
+            android:defaultValue="@string/aout_audiotrack_java"
             android:title="@string/aout" >
         </ListPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
