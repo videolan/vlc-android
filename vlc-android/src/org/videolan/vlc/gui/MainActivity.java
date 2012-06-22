@@ -431,12 +431,16 @@ public class MainActivity extends SherlockFragmentActivity {
     };
 
     public static void showProgressBar(Context context) {
+        if (context == null)
+            return;
         Intent intent = new Intent();
         intent.setAction(ACTION_SHOW_PROGRESSBAR);
         context.getApplicationContext().sendBroadcast(intent);
     }
 
     public static void hideProgressBar(Context context) {
+        if (context == null)
+            return;
         Intent intent = new Intent();
         intent.setAction(ACTION_HIDE_PROGRESSBAR);
         context.getApplicationContext().sendBroadcast(intent);
