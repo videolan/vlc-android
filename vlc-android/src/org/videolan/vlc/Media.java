@@ -85,6 +85,7 @@ public class Media implements Comparable<Media> {
     private String mPublisher;
     private String mEncodedBy;
     private String mTrackID;
+    private String mArtworkURL;
 
     private final String mLocation;
     private String mFilename;
@@ -124,6 +125,7 @@ public class Media implements Comparable<Media> {
                     mArtist = Util.getValue(context, track.Artist, R.string.unknown_artist);
                     mAlbum = Util.getValue(context, track.Album, R.string.unknown_album);
                     mGenre = Util.getValue(context, track.Genre, R.string.unknown_genre);
+                    mArtworkURL = track.ArtworkURL;
                     Log.d(TAG, "Title " + mTitle);
                     Log.d(TAG, "Artist " + mArtist);
                     Log.d(TAG, "Genre " + mGenre);
@@ -143,7 +145,7 @@ public class Media implements Comparable<Media> {
 
     public Media(Context context, String location, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album,
-            int width, int height) {
+            int width, int height, String artworkURL) {
         mLocation = location;
         mFilename = null;
         mTime = time;
@@ -157,6 +159,7 @@ public class Media implements Comparable<Media> {
         mArtist = Util.getValue(context, artist, R.string.unknown_artist);
         mGenre = Util.getValue(context, genre, R.string.unknown_genre);
         mAlbum = Util.getValue(context, album, R.string.unknown_album);
+        mArtworkURL = artworkURL;
     }
 
     /**
@@ -279,4 +282,7 @@ public class Media implements Comparable<Media> {
         return mTrackID;
     }
 
+    public String getArtworkURL() {
+        return mArtworkURL;
+    }
 }

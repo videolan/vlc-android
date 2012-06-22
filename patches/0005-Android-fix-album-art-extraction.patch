@@ -1,0 +1,28 @@
+From 333b15549243936ad7c559bf1930f3b358e9a254 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
+Date: Fri, 22 Jun 2012 23:05:37 +0200
+Subject: [PATCH] Android: fix album art extraction
+
+---
+ src/playlist/art.c |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/playlist/art.c b/src/playlist/art.c
+index 79ca30f..6f8b9db 100644
+--- a/src/playlist/art.c
++++ b/src/playlist/art.c
+@@ -64,7 +64,11 @@ static char* ArtCacheGetDirPath( const char *psz_arturl, const char *psz_artist,
+                                  const char *psz_album,  const char *psz_title )
+ {
+     char *psz_dir;
++#ifdef __ANDROID__
++    char *psz_cachedir = strdup("/sdcard/Android/data/org.videolan.vlc/cache");
++#else
+     char *psz_cachedir = config_GetUserDir(VLC_CACHE_DIR);
++#endif
+ 
+     if( !EMPTY_STR(psz_artist) && !EMPTY_STR(psz_album) )
+     {
+-- 
+1.7.9.5
+

@@ -407,6 +407,7 @@ public class AudioService extends Service {
 
     private Bitmap getCover() {
         try {
+            // try to get the cover from android MediaStore
             ContentResolver contentResolver = getContentResolver();
             Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
             Cursor cursor = contentResolver.query(uri, new String[] {
@@ -427,6 +428,13 @@ public class AudioService extends Service {
                 if (b != null)
                     return b;
             }
+
+            //cover not in MediaStore, trying vlc
+            String artworkURL = mCurrentMedia.getArtworkURL();
+            if (artworkURL != null && artworkURL.startsWith("file://"))
+                return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
+
+            //still no cover found, looking in folder ...
             File f = Util.URItoFile(mCurrentMedia.getLocation());
             for (File s : f.getParentFile().listFiles()) {
                 if (s.getAbsolutePath().endsWith("png") ||

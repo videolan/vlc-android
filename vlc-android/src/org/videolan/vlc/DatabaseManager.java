@@ -44,7 +44,7 @@ public class DatabaseManager {
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 6;
+    private final int DB_VERSION = 7;
     private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
@@ -62,6 +62,7 @@ public class DatabaseManager {
     private final String MEDIA_ALBUM = "album";
     private final String MEDIA_WIDTH = "width";
     private final String MEDIA_HEIGHT = "height";
+    private final String MEDIA_ARTWORKURL = "artwork_url";
 
     private final String PLAYLIST_TABLE_NAME = "playlist_table";
     private final String PLAYLIST_NAME = "name";
@@ -78,7 +79,7 @@ public class DatabaseManager {
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
         MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM,
-        MEDIA_WIDTH, MEDIA_HEIGHT
+        MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_ARTWORKURL
     }
 
     /**
@@ -123,7 +124,8 @@ public class DatabaseManager {
                     + MEDIA_GENRE + " VARCHAR(200), "
                     + MEDIA_ALBUM + " VARCHAR(200), "
                     + MEDIA_WIDTH + " INTEGER, "
-                    + MEDIA_HEIGHT + " INTEGER"
+                    + MEDIA_HEIGHT + " INTEGER, "
+                    + MEDIA_ARTWORKURL + " VARCHAR(256)"
                     + ");";
             db.execSQL(query);
         }
@@ -168,7 +170,7 @@ public class DatabaseManager {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion == 5 && newVersion == 6) {
+            if (oldVersion < 7 && newVersion == 7) {
                 dropMediaTabelQuery(db);
                 createMediaTabelQuery(db);
             }
@@ -244,6 +246,7 @@ public class DatabaseManager {
         values.put(MEDIA_ALBUM, media.getAlbum());
         values.put(MEDIA_WIDTH, media.getWidth());
         values.put(MEDIA_HEIGHT, media.getHeight());
+        values.put(MEDIA_ARTWORKURL, media.getArtworkURL());
 
         mDb.replace(MEDIA_TABLE_NAME, "NULL", values);
 
@@ -301,7 +304,7 @@ public class DatabaseManager {
 
         do {
             count = 0;
-            cursor = mDb.rawQuery(String.format("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
+            cursor = mDb.rawQuery(String.format("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
                     MEDIA_TIME, //0 long
                     MEDIA_LENGTH, //1 long
                     MEDIA_TYPE, //2 int
@@ -312,7 +315,8 @@ public class DatabaseManager {
                     MEDIA_ALBUM, //7 string
                     MEDIA_WIDTH, //8 int
                     MEDIA_HEIGHT, //9 int
-                    MEDIA_LOCATION, //10 string
+                    MEDIA_ARTWORKURL, //10 string
+                    MEDIA_LOCATION, //11 string
                     MEDIA_TABLE_NAME,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
@@ -323,7 +327,7 @@ public class DatabaseManager {
                     if (blob != null) {
                         picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                     }
-                    String location = cursor.getString(10);
+                    String location = cursor.getString(11);
                     Media media = new Media(context, location,
                             cursor.getLong(0),
                             cursor.getLong(1),
@@ -334,7 +338,8 @@ public class DatabaseManager {
                             cursor.getString(6),
                             cursor.getString(7),
                             cursor.getInt(8),
-                            cursor.getInt(9));
+                            cursor.getInt(9),
+                            cursor.getString(10));
                     medias.put(media.getLocation(), media);
 
                     picture = null;
@@ -369,6 +374,7 @@ public class DatabaseManager {
                         MEDIA_ALBUM, //7 string
                         MEDIA_WIDTH, //8 int
                         MEDIA_HEIGHT, //9 int
+                        MEDIA_ARTWORKURL //10 string
                 },
                 MEDIA_LOCATION + "=?",
                 new String[] { location },
@@ -389,7 +395,8 @@ public class DatabaseManager {
                     cursor.getString(6),
                     cursor.getString(7),
                     cursor.getInt(8),
-                    cursor.getInt(9));
+                    cursor.getInt(9),
+                    cursor.getString(10));
         }
         cursor.close();
         return media;

@@ -651,6 +651,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
                 setString(env, item, "Artist", libvlc_media_get_meta(p_m, libvlc_meta_Artist));
                 setString(env, item, "Album", libvlc_media_get_meta(p_m, libvlc_meta_Album));
                 setString(env, item, "Genre", libvlc_media_get_meta(p_m, libvlc_meta_Genre));
+                setString(env, item, "ArtworkURL", libvlc_media_get_meta(p_m, libvlc_meta_ArtworkURL));
                 continue;
             }
 

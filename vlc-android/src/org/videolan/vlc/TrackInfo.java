@@ -28,4 +28,5 @@ public class TrackInfo {
     public String Artist;
     public String Album;
     public String Genre;
+    public String ArtworkURL;
 }
