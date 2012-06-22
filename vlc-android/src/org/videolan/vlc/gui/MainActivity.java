@@ -259,7 +259,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 ft.addToBackStack(null);
                 ft.commit();
                 break;
-            // Open MRL  
+            // Open MRL
             case R.id.ml_menu_open_mrl:
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 final EditText input = new EditText(this);
@@ -452,6 +452,8 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     public static void sendTextInfo(Context context, String info, int progress, int max) {
+        if (context == null)
+            return;
         Intent intent = new Intent();
         intent.setAction(ACTION_SHOW_TEXTINFO);
         intent.putExtra("info", info);
