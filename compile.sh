@@ -1,26 +1,11 @@
 #! /bin/sh
 
-# Read the Android HOWTO and setup all that stuff correctly.
+# Read the Android Wiki and setup all that stuff correctly.
 # Get the Android SDK Platform 2.1, 2.2 and 2.3 API : version 7, 8 and (9 or 10)
 # or modify numbers in configure.sh and vlc-android/default.properties.
 # Create an AVD with this platform.
 
 set -e
-
-# XXX : important!
-cat << EOF
-If you plan to use a device without NEON (e.g. the emulator), you need a build without NEON:
-$ export NO_NEON=1
-Make sure it is set throughout the entire process.
-
-The script will attempt to automatically detect if you have NDK v7, but you can override this.
-If you do not have NDK v7 or later:
-export NO_NDK_V7=1
-or if you are sure you have NDK v7:
-export NO_NDK_V7=0
-
-If you plan to use a release build, run 'compile.sh release'
-EOF
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
    echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
@@ -29,12 +14,20 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
    exit 1
 fi
 
-if [ -z "$NO_NDK_V7" ]; then
-    # try to detect NDK version
-    REL=$(grep -o '^r[0-9]*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
-    if [ -z $REL ]; then
-        export NO_NDK_V7=1
-    fi
+# XXX : important!
+cat << EOF
+For an ARMv7-A device without NEON or the emulator, you need a build without NEON:
+$ export NO_NEON=1
+For an ARMv6 device without FPU, you need a build without FPU:
+$ export NO_FPU=1
+
+If you plan to use a release build, run 'compile.sh release'
+EOF
+# try to detect NDK version
+REL=$(grep -o '^r[0-9]*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
+if [ -z $REL ]; then
+    echo "You need the NDKv7 or later"
+    exit 1
 fi
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
