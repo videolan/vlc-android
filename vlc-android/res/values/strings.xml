@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, vlc!</string>
+
+    <!--  Main VLC Interface  -->
     <string name="app_name" translatable="false">VLC media player</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Select media to play</string>
-    <string name="preferences">Preferences</string>
     <string name="about">About</string>
     <string name="ml_no_media_dir">No media directory</string>
     <string name="sortby">Sort by…</string>
@@ -74,15 +75,6 @@
     <string name="surface_original">Center</string>
     <string name="about_text">\nVLC media player\n\nVLC authors and VideoLAN\n\nLicensed under the GPLv3\n</string>
     <string name="thumbnail">Thumbnail</string>
-    <string name="main_prefs_category">Main</string>
-    <string name="advanced_prefs_category">Advanced</string>
-    <string name="enable_iomx">Enable hardware accelerated decoding</string>
-    <string name="advanced_debugging">Advanced debugging</string>
-    <string name="quit">Quit application</string>
-    <string name="clear_media_db">Clear media database</string>
-    <string name="detect_headset">Detect headset</string>
-    <string name="detect_headset_detail">Pause on headset removed; resume on headset inserted</string>
-    <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
     <string name="track_video">Video track</string>
@@ -100,6 +92,18 @@
     <string name="open_mrl">Open MRL</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
+
+    <!--  Preferences -->
+    <string name="preferences">Preferences</string>
+    <string name="main_prefs_category">Main</string>
+    <string name="advanced_prefs_category">Advanced</string>
+    <string name="enable_iomx">Enable hardware accelerated decoding</string>
+    <string name="advanced_debugging">Advanced debugging</string>
+    <string name="quit">Quit application</string>
+    <string name="clear_media_db">Clear media database</string>
+    <string name="detect_headset">Detect headset</string>
+    <string name="detect_headset_detail">Pause on headset removed; resume on headset inserted</string>
+    <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_detail">Increase the verbosity (logcat)</string>
     <string name="aout">Audio output</string>
