@@ -3,3 +3,5 @@
 vlc-android/local.properties
 .DS_Store
 *.keystore
+*~
+.*.swp
