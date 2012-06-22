@@ -1,5 +1,5 @@
 /*****************************************************************************
- * AudioPlaylistAdapter.java
+ * DirectoryAdapter.java
  *****************************************************************************
  * Copyright © 2012 VLC authors and VideoLAN
  * Copyright © 2012 Edward Wang
@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.gui.audio;
+package org.videolan.vlc.gui;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -40,8 +40,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class AudioDirectoryAdapter extends BaseAdapter {
-    public final static String TAG = "VLC/AudioDirectoryAdapter";
+public class DirectoryAdapter extends BaseAdapter {
+    public final static String TAG = "VLC/DirectoryAdapter";
 
     /**
      * Filter: accept only media files and directories
@@ -64,14 +64,14 @@ public class AudioDirectoryAdapter extends BaseAdapter {
     /**
      * Private helper class to implement the directory tree
      */
-    public class Node implements Comparable<AudioDirectoryAdapter.Node> {
-        public ArrayList<AudioDirectoryAdapter.Node> children;
+    public class Node implements Comparable<DirectoryAdapter.Node> {
+        public ArrayList<DirectoryAdapter.Node> children;
         String name;
         public Boolean isFile;
 
         public Node(String _name) {
             this.name = _name;
-            this.children = new ArrayList<AudioDirectoryAdapter.Node>();
+            this.children = new ArrayList<DirectoryAdapter.Node>();
             this.isFile = false;
         }
 
@@ -84,24 +84,24 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         }
 
         public Boolean existsChild(String _n) {
-            for(AudioDirectoryAdapter.Node n : this.children) {
+            for(DirectoryAdapter.Node n : this.children) {
                 if(n.name == _n) return true;
             }
             return false;
         }
 
-        public AudioDirectoryAdapter.Node ensureExists(String _n) {
-            for(AudioDirectoryAdapter.Node n : this.children) {
+        public DirectoryAdapter.Node ensureExists(String _n) {
+            for(DirectoryAdapter.Node n : this.children) {
                 if(n.name == _n) return n;
             }
-            AudioDirectoryAdapter.Node nn = new Node(_n);
+            DirectoryAdapter.Node nn = new Node(_n);
             this.children.add(nn);
             return nn;
         }
 
         public int subfolderCount() {
             int c = 0;
-            for(AudioDirectoryAdapter.Node n : this.children) {
+            for(DirectoryAdapter.Node n : this.children) {
                 if(n.isFile() == false && n.name != "..") c++;
             }
             return c;
@@ -109,7 +109,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
 
         public int subfilesCount() {
             int c = 0;
-            for(AudioDirectoryAdapter.Node n : this.children) {
+            for(DirectoryAdapter.Node n : this.children) {
                 if(n.isFile() == true) c++;
             }
             return c;
@@ -133,7 +133,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         Boolean isFile;
     }
 
-    public void populateNode(AudioDirectoryAdapter.Node n, String MRL) {
+    public void populateNode(DirectoryAdapter.Node n, String MRL) {
         File file = new File(MRL);
         if(!file.exists() || !file.isDirectory())
             return;
@@ -144,7 +144,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
             //return
         } else {
             for(int i = 0; i < files.length; i++) {
-                AudioDirectoryAdapter.Node nss = new AudioDirectoryAdapter.Node(files[i].getName());
+                DirectoryAdapter.Node nss = new DirectoryAdapter.Node(files[i].getName());
                 if(files[i].isFile())
                     nss.setIsFile();
 
@@ -159,25 +159,25 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         }
         /* Don't let the user escape into the wild by jumping above the root dir */
         if(mCurrentDir.contains(mRootDir) && !mCurrentDir.equals(mRootDir)) {
-            AudioDirectoryAdapter.Node up = new AudioDirectoryAdapter.Node("..");
+            DirectoryAdapter.Node up = new DirectoryAdapter.Node("..");
             n.children.add(0, up);
         }
     }
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private AudioDirectoryAdapter.Node mRootNode;
-    private AudioDirectoryAdapter.Node mCurrentNode;
+    private DirectoryAdapter.Node mRootNode;
+    private DirectoryAdapter.Node mCurrentNode;
     private String mRootDir;
     private String mCurrentDir;
 
-    public AudioDirectoryAdapter(Context context) {
+    public DirectoryAdapter(Context context) {
         AudioDirectoryAdapter_Core(context,
                 PreferenceManager.getDefaultSharedPreferences(context).getString("directories_root", "/")
                 );
     }
 
-    public AudioDirectoryAdapter(Context context, String rootDir) {
+    public DirectoryAdapter(Context context, String rootDir) {
         AudioDirectoryAdapter_Core(context, rootDir);
     }
 
@@ -186,7 +186,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         Log.v(TAG, "rootMRL is " + rootDir);
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mRootNode = new AudioDirectoryAdapter.Node(rootDir);
+        mRootNode = new DirectoryAdapter.Node(rootDir);
         mCurrentDir = rootDir;
         mRootDir = rootDir;
         this.populateNode(mRootNode, rootDir);
@@ -218,7 +218,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AudioDirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
+        DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         DirectoryViewHolder holder;
         View v = convertView;
         /* If view not created or type changed */
@@ -270,7 +270,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
     }
 
     public Boolean browse(int position) {
-        AudioDirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
+        DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         if(selectedNode.isFile()) return false;
         try {
             this.mCurrentDir = new URI(this.mCurrentDir + "/" + selectedNode.name).normalize().getPath();
@@ -282,7 +282,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
         Log.d(TAG, "Browsing to " + this.mCurrentDir);
 
         this.mCurrentNode.children.clear();
-        this.mCurrentNode = new AudioDirectoryAdapter.Node(mCurrentDir);
+        this.mCurrentNode = new DirectoryAdapter.Node(mCurrentDir);
         this.populateNode(mCurrentNode, mCurrentDir);
 
         this.notifyDataSetChanged();
@@ -297,7 +297,7 @@ public class AudioDirectoryAdapter extends BaseAdapter {
 
     public void clear() {
         this.mRootNode.children.clear();
-        this.mRootNode = new AudioDirectoryAdapter.Node(mRootDir);
+        this.mRootNode = new DirectoryAdapter.Node(mRootDir);
         this.populateNode(mRootNode, mRootDir);
         this.mCurrentDir = mRootDir;
         this.mCurrentNode = mRootNode;

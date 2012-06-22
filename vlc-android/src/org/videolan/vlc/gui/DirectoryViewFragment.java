@@ -7,7 +7,6 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
-import org.videolan.vlc.gui.audio.AudioDirectoryAdapter;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
@@ -25,7 +24,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class DirectoryViewFragment extends SherlockListFragment implements ISortable {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
-    private AudioDirectoryAdapter mDirectoryAdapter;
+    private DirectoryAdapter mDirectoryAdapter;
     private Context mContext;
 
     public DirectoryViewFragment(Context context) {
@@ -36,7 +35,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDirectoryAdapter = new AudioDirectoryAdapter(mContext);
+        mDirectoryAdapter = new DirectoryAdapter(mContext);
     }
 
     @Override
