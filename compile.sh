@@ -1,9 +1,8 @@
 #! /bin/sh
 
-# Read the Android Wiki and setup all that stuff correctly.
-# Get the Android SDK Platform 2.1, 2.2 and 2.3 API : version 7, 8 and (9 or 10)
-# or modify numbers in configure.sh and vlc-android/default.properties.
-# Create an AVD with this platform.
+# Read the Android Wiki http://wiki.videolan.org/AndroidCompile
+# Setup all that stuff correctly.
+# Get the latest Android SDK Platform or modify numbers in configure.sh and vlc-android/default.properties.
 
 set -e
 

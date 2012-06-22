@@ -13,11 +13,7 @@ else
 ARCH=armeabi
 endif
 
-ifeq ($(NO_NDK_V7),1)
-CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libstdc++.a
-else
 CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
-endif
 
 LOCAL_CFLAGS := -std=gnu99
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
