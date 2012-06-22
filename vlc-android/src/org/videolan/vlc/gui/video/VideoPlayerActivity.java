@@ -210,7 +210,7 @@ public class VideoPlayerActivity extends Activity {
             time = mLibVLC.getTime() - 5000;
             mLibVLC.pause();
         }
-        mOverlay.setKeepScreenOn(false);
+        mSurface.setKeepScreenOn(false);
 
         // Save position
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
@@ -807,7 +807,7 @@ public class VideoPlayerActivity extends Activity {
      */
     private void play() {
         mLibVLC.play();
-        mOverlay.setKeepScreenOn(true);
+        mSurface.setKeepScreenOn(true);
     }
 
     /**
@@ -815,7 +815,7 @@ public class VideoPlayerActivity extends Activity {
      */
     private void pause() {
         mLibVLC.pause();
-        mOverlay.setKeepScreenOn(false);
+        mSurface.setKeepScreenOn(false);
     }
 
     /**
@@ -839,7 +839,7 @@ public class VideoPlayerActivity extends Activity {
 
         if (location != null && location.length() > 0) {
             mLibVLC.readMedia(location, false);
-            mOverlay.setKeepScreenOn(true);
+            mSurface.setKeepScreenOn(true);
 
             // Save media for next time, and restore position if it's the same one as before
             lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
