@@ -35,12 +35,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class AudioSongsListAdapter extends ArrayAdapter<Media> {
+public class AudioListAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
 
-    public AudioSongsListAdapter(Context context) {
+    public AudioListAdapter(Context context) {
         super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;

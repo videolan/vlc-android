@@ -60,7 +60,7 @@ public class AudioListFragment extends SherlockListFragment {
     private MediaLibrary mMediaLibrary;
 
     private TextView mTitle;
-    private AudioSongsListAdapter mSongsAdapter;
+    private AudioListAdapter mSongsAdapter;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
@@ -79,7 +79,7 @@ public class AudioListFragment extends SherlockListFragment {
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
         mMediaLibrary.addUpdateHandler(mHandler);
 
-        mSongsAdapter = new AudioSongsListAdapter(getActivity());
+        mSongsAdapter = new AudioListAdapter(getActivity());
         setListAdapter(mSongsAdapter);
 
         mHandler.sendEmptyMessageDelayed(MediaLibrary.MEDIA_ITEMS_UPDATED, 250);
