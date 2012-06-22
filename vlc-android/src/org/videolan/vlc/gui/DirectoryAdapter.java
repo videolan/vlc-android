@@ -39,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class DirectoryAdapter extends BaseAdapter {
@@ -132,7 +133,7 @@ public class DirectoryAdapter extends BaseAdapter {
         View layout;
         TextView title;
         TextView text;
-        Boolean isFile;
+        ImageView icon;
     }
 
     public void populateNode(DirectoryAdapter.Node n, String MRL) {
@@ -223,17 +224,14 @@ public class DirectoryAdapter extends BaseAdapter {
         DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         DirectoryViewHolder holder;
         View v = convertView;
-        /* If view not created or type changed */
-        if (v == null || ((DirectoryViewHolder)v.getTag()).isFile != selectedNode.isFile()) {
-            if(selectedNode.isFile())
-                v = mInflater.inflate(R.layout.audio_browser_playlist_child, parent, false);
-            else
-                v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
+        /* If view not created */
+        if (v == null) {
+            v = mInflater.inflate(R.layout.directory_view_item, parent, false);
             holder = new DirectoryViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
-            holder.isFile = selectedNode.isFile();
+            holder.icon = (ImageView) v.findViewById(R.id.dvi_icon);
             v.setTag(holder);
         } else
             holder = (DirectoryViewHolder) v.getTag();
@@ -267,6 +265,10 @@ public class DirectoryAdapter extends BaseAdapter {
                 );
         }
         holder.text.setText(holderText);
+        if(selectedNode.isFile())
+            holder.icon.setImageResource(R.drawable.icon);
+        else
+            holder.icon.setImageResource(R.drawable.ic_folder);
 
         return v;
     }
