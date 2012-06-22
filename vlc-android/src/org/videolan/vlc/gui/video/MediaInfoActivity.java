@@ -130,6 +130,7 @@ public class MediaInfoActivity extends ListActivity {
 
     Handler mHandler = new Handler() {
 
+        @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case NEW_IMAGE:

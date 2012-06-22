@@ -180,6 +180,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 .setMessage(R.string.validation)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                         URI adressMediaUri = null;
                         try {
@@ -256,6 +257,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         }
     }
 
+    @Override
     public void sortBy(int sortby) {
         mVideoAdapter.sortBy(sortby);
     }

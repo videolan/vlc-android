@@ -135,8 +135,8 @@ public class VideoPlayerActivity extends Activity {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         /** initialize Views an their Events */
-        mOverlayHeader = (View) findViewById(R.id.player_overlay_header);
-        mOverlay = (View) findViewById(R.id.player_overlay);
+        mOverlayHeader = findViewById(R.id.player_overlay_header);
+        mOverlay = findViewById(R.id.player_overlay);
 
         /* header */
         mTitle = (TextView) findViewById(R.id.player_overlay_title);
@@ -234,7 +234,7 @@ public class VideoPlayerActivity extends Activity {
         super.onDestroy();
     }
 
-    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()
+    private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -354,7 +354,7 @@ public class VideoPlayerActivity extends Activity {
     /**
      *  Handle libvlc asynchronous events
      */
-    private Handler eventHandler = new Handler() {
+    private final Handler eventHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.getData().getInt("event")) {
@@ -383,7 +383,7 @@ public class VideoPlayerActivity extends Activity {
     /**
      * Handle resize of the surface and the overlay
      */
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -510,19 +510,22 @@ public class VideoPlayerActivity extends Activity {
     /**
      * handle changes of the seekbar (slicer)
      */
-    private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
+    private final OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
 
+        @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             mDragging = true;
             showOverlay(3600000);
         }
 
+        @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             mDragging = false;
             showOverlay();
             hideInfo();
         }
 
+        @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (fromUser) {
                 mLibVLC.setTime(progress);
@@ -537,7 +540,8 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnClickListener mAudioListener = new OnClickListener() {
+    private final OnClickListener mAudioListener = new OnClickListener() {
+        @Override
         public void onClick(View v) {
             if (mAudioTracks == null || mAudioTracks.length <= 1)
                 return;
@@ -560,8 +564,9 @@ public class VideoPlayerActivity extends Activity {
     /**
     *
     */
-   private OnClickListener mSubtitlesListener = new OnClickListener() {
-       public void onClick(View v) {
+   private final OnClickListener mSubtitlesListener = new OnClickListener() {
+       @Override
+    public void onClick(View v) {
            if (mSubtitleTracks == null || mSubtitleTracks.length == 0)
                return;
 
@@ -584,7 +589,7 @@ public class VideoPlayerActivity extends Activity {
     /**
     *
     */
-    private OnPlayerControlListener mPlayerControlListener = new OnPlayerControlListener() {
+    private final OnPlayerControlListener mPlayerControlListener = new OnPlayerControlListener() {
         @Override
         public void onPlayPause() {
             if (mLibVLC.isPlaying())
@@ -627,9 +632,10 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnClickListener mLockListener = new OnClickListener() {
+    private final OnClickListener mLockListener = new OnClickListener() {
         boolean isLocked = false;
 
+        @Override
         public void onClick(View v) {
             if (isLocked) {
                 unlockScreen();
@@ -645,7 +651,7 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private OnClickListener mSizeListener = new OnClickListener() {
+    private final OnClickListener mSizeListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -685,14 +691,17 @@ public class VideoPlayerActivity extends Activity {
     /**
      * attach and disattach surface to the lib
      */
-    private SurfaceHolder.Callback mSurfaceCallback = new Callback() {
+    private final SurfaceHolder.Callback mSurfaceCallback = new Callback() {
+        @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this, width, height);
         }
 
+        @Override
         public void surfaceCreated(SurfaceHolder holder) {
         }
 
+        @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
             mLibVLC.detachSurface();
         }

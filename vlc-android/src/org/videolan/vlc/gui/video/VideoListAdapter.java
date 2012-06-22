@@ -98,6 +98,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         super.sort(this);
     }
 
+    @Override
     public int compare(Media item1, Media item2) {
         int compare = 0;
         switch (mSortBy) {
@@ -124,7 +125,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.video_list_item, parent, false);
             holder = new ViewHolder();
-            holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
@@ -168,7 +169,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         return v;
     }
 
-    private OnClickListener moreClickListener = new OnClickListener() {
+    private final OnClickListener moreClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {

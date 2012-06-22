@@ -27,7 +27,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -64,7 +63,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        android.view.Display display = getWindowManager().getDefaultDisplay(); 
+        android.view.Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();
         Log.v(TAG, "width = " + width + " : height = " + height);
@@ -125,8 +124,8 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());
         mAlbum.setText(mAudioController.getAlbum());
-        int time = (int) mAudioController.getTime();
-        int length = (int) mAudioController.getLength();
+        int time = mAudioController.getTime();
+        int length = mAudioController.getLength();
         mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
@@ -210,7 +209,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mAudioController.play();
         }
     }
-    
+
     public void onStopClick(View view) {
     	mAudioController.stop();
     	finish();
@@ -244,7 +243,8 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mAudioController.shuffle();
         update();
     }
-    
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	/* Stop the controller if we are going home */
     	if(keyCode == KeyEvent.KEYCODE_HOME) {
