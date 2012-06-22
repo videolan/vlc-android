@@ -32,9 +32,11 @@ endif
 ifneq ($(RELEASE),)
 ANT_TARGET = release
 VLC_APK=$(SRC)/bin/VLC-release-unsigned.apk
+NDK_DEBUG=0
 else
 ANT_TARGET = debug
 VLC_APK=$(SRC)/bin/VLC-debug.apk
+NDK_DEBUG=1
 endif
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
@@ -85,7 +87,8 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		VLC_SRC_DIR="$$VLC_SRC_DIR" \
 		VLC_CONTRIB="$$VLC_CONTRIB" \
 		VLC_BUILD_DIR="$$VLC_BUILD_DIR" \
-		VLC_MODULES="$$vlc_modules"
+		VLC_MODULES="$$vlc_modules" \
+		NDK_DEBUG=$(NDK_DEBUG)
 
 apkclean:
 	rm -f $(VLC_APK)
