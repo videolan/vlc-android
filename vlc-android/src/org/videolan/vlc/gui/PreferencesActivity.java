@@ -48,6 +48,7 @@ public class PreferencesActivity extends PreferenceActivity {
     public final static String LAST_MEDIA = "LastMedia";
     public final static String LAST_TIME = "LastTime";
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
