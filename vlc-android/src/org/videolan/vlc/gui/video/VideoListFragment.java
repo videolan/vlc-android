@@ -47,6 +47,7 @@ import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
@@ -73,10 +74,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     private MediaLibrary mMediaLibrary;
 
-    public final static int MENU_PLAY = Menu.FIRST;
-    public final static int MENU_INFO = Menu.FIRST + 1;
-    public final static int MENU_DELETE = Menu.FIRST + 2;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,17 +91,15 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_list, container, false);
-
         mNoFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_nofile);
         mLoadFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_loadfile);
-
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListView().setOnCreateContextMenuListener(contextMenuListener);
+        registerForContextMenu(getListView());
     }
 
     @Override
@@ -149,31 +144,29 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         startActivity(intent);
     }
 
-	OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
-    {
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, MENU_PLAY, Menu.NONE, R.string.play);
-            menu.add(Menu.NONE, MENU_INFO, Menu.NONE, R.string.info);
-            menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.delete);
-        }
-    };
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.video_list, menu);
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
     	AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
     	switch (menu.getItemId())
         {
-            case MENU_PLAY:
+            case R.id.video_list_play:
             	playVideo(info.position);
-                break;
-            case MENU_INFO:
+                return true;
+            case R.id.video_list_info:
                 Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
                 intent.putExtra("itemLocation",
                 		mVideoAdapter.getItem(info.position).getLocation());
                 startActivity(intent);
-                break;
-            case MENU_DELETE:
+                return true;
+            case R.id.video_list_delete:
                 final int positionDelete = info.position;
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.confirm_delete)
@@ -197,8 +190,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 })
                 .setNegativeButton(android.R.string.cancel, null).create();
                 alertDialog.show();
-                break;
-            default:
                 return true;
         }
         return super.onContextItemSelected(menu);
