@@ -264,7 +264,10 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                MediaLibrary.getInstance(this).loadMediaItems(this);
+                if(mMediaLibraryActive)
+                    MediaLibrary.getInstance(this).loadMediaItems(this);
+                else
+                    mDirectoryView.refresh();
                 break;
             // Browse Folders
             case R.id.ml_menu_browse:

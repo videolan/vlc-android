@@ -301,10 +301,12 @@ public class DirectoryAdapter extends BaseAdapter {
     }
 
     public void clear() {
-        this.mRootNode.children.clear();
-        this.mRootNode = new DirectoryAdapter.Node(mRootDir);
-        this.populateNode(mRootNode, mRootDir);
-        this.mCurrentDir = mRootDir;
-        this.mCurrentNode = mRootNode;
+        for(DirectoryAdapter.Node n : this.mCurrentNode.children)
+            n.children.clear();
+        this.mCurrentNode.children.clear();
+        this.mCurrentNode = new DirectoryAdapter.Node(mCurrentDir);
+        this.populateNode(mCurrentNode, mCurrentDir);
+
+        this.notifyDataSetChanged();
     }
 }

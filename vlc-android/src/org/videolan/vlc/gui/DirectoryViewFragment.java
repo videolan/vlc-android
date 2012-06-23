@@ -100,4 +100,8 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         Util.toaster(getActivity(), R.string.notavailable);
     }
 
+    public void refresh() {
+        mDirectoryAdapter.clear();
+    }
+
 }
