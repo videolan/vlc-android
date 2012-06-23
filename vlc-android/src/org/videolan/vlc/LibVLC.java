@@ -408,6 +408,8 @@ public class LibVLC {
 
     public native String nativeToURI(String path);
 
+    public native int nativeCountDirectoryContents(String path);
+
     /**
      * Return the length of the stream, in milliseconds
      */

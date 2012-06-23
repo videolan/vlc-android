@@ -151,10 +151,12 @@ public class DirectoryAdapter extends BaseAdapter {
                 if(files[i].isFile())
                     nss.setIsFile();
 
-                /*String mCurrentDir_old = mCurrentDir;
-                mCurrentDir = MRL;
-                this.populateNode(nss, MRL + "/" + nss.name);
-                mCurrentDir = mCurrentDir_old;*/
+                if(nss.isFile() && LibVLC.getExistingInstance().nativeCountDirectoryContents(MRL + "/" + nss.name) < 6) {
+                    String mCurrentDir_old = mCurrentDir;
+                    mCurrentDir = MRL;
+                    this.populateNode(nss, MRL + "/" + nss.name);
+                    mCurrentDir = mCurrentDir_old;
+                }
 
                 n.children.add(nss);
             }

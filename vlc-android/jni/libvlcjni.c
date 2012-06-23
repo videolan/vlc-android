@@ -18,8 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#include <dirent.h>
+#include <errno.h>
 #include <string.h>
 #include <pthread.h>
+#include <sys/types.h>
 
 #include <vlc/vlc.h>
 #include <vlc_common.h>
@@ -944,4 +947,34 @@ jint Java_org_videolan_vlc_LibVLC_setSpuTrack(JNIEnv *env, jobject thiz, jint in
     if (mp)
         return libvlc_video_set_spu(mp, index);
     return -1;
+}
+
+jint Java_org_videolan_vlc_LibVLC_nativeCountDirectoryContents(JNIEnv *env, jobject thiz, jstring path)
+{
+    jboolean isCopy;
+    /* Get C string */
+    const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
+
+    jint childrenCount = 0;
+    DIR* p_dir = opendir(psz_path);
+    if(!p_dir)
+        return 0;
+
+    struct dirent* p_dirent;
+    while(1) {
+        errno = 0;
+        p_dirent = readdir(p_dir);
+        if(p_dirent == NULL) {
+            if(errno > 0) /* error reading this entry */
+                continue;
+            else if(errno == 0) /* end of stream */
+                break;
+        }
+        childrenCount++;
+    }
+    closedir(p_dir);
+
+    /* Clean up */
+    (*env)->ReleaseStringUTFChars(env, path, psz_path);
+    return childrenCount;
 }
