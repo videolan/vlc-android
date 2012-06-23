@@ -151,10 +151,10 @@ public class DirectoryAdapter extends BaseAdapter {
                 if(files[i].isFile())
                     nss.setIsFile();
 
-                String mCurrentDir_old = mCurrentDir;
+                /*String mCurrentDir_old = mCurrentDir;
                 mCurrentDir = MRL;
                 this.populateNode(nss, MRL + "/" + nss.name);
-                mCurrentDir = mCurrentDir_old;
+                mCurrentDir = mCurrentDir_old;*/
 
                 n.children.add(nss);
             }
