@@ -155,7 +155,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                    	System.exit(0);
+                        android.os.Process.killProcess(android.os.Process.myPid());
                         return true;
                     }
                 });
