@@ -81,16 +81,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         }
     };
 
-    /*public AudioMiniPlayer(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public AudioMiniPlayer(Context context) {
-        super(context);
-        init();
-    }*/
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
