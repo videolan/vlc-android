@@ -275,6 +275,10 @@ public class MainActivity extends SherlockFragmentActivity {
             // Browse Folders
             case R.id.ml_menu_browse:
                 showDirectoryView();
+                if(mMediaLibraryActive)
+                    item.setTitle(R.string.directories);
+                else
+                    item.setTitle(R.string.media_library);
                 break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
