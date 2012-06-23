@@ -117,11 +117,12 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        int tabToShow = getSharedPreferences("MainActivity", MODE_PRIVATE).getInt("tab", 0);
+        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
+        int tabToShow = sharedPrefs.getInt("tab", VIDEO_TAB);
+        Boolean isMediaLib = sharedPrefs.getBoolean("medialibrary", true);
 
         addMediaLibraryTabs(tabToShow);
         mCurrentViewTab = tabToShow;
-        mMediaLibraryActive = true;
         mDirectoryView = new DirectoryViewFragment(this);
         mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
         getSupportFragmentManager().beginTransaction()
@@ -130,6 +131,11 @@ public class MainActivity extends SherlockFragmentActivity {
         getSupportFragmentManager().beginTransaction()
             .detach(mDirectoryView)
             .commit();
+        mMediaLibraryActive = true;
+
+        /* Restore directory view if it was active last */
+        if(!isMediaLib)
+            showDirectoryView();
 
         // Add mini audio player
         mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
@@ -196,7 +202,8 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     protected void onPause() {
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
-        editor.putInt("tab", mActionBar.getSelectedNavigationIndex());
+        editor.putInt("tab", mCurrentViewTab);
+        editor.putBoolean("medialibrary", mMediaLibraryActive);
         editor.commit();
         mAudioController.removeAudioPlayer(mAudioPlayer);
         super.onPause();
