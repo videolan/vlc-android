@@ -71,9 +71,8 @@
             android:shadowDx="1"
             android:shadowDy="1"/>
     </RelativeLayout>
-    <org.videolan.vlc.widget.AudioMiniPlayer
+    <FrameLayout
         android:id="@+id/audio_mini_player"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:visibility="gone" />
+        android:layout_width="fill_parent"/>
 </LinearLayout>

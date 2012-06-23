@@ -25,22 +25,28 @@ import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.AttributeSet;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
+public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
     private IAudioPlayerControl mAudioPlayerControl;
@@ -75,7 +81,7 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
         }
     };
 
-    public AudioMiniPlayer(Context context, AttributeSet attrs) {
+    /*public AudioMiniPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -83,56 +89,67 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
     public AudioMiniPlayer(Context context) {
         super(context);
         init();
-    }
+    }*/
 
-    private void init() {
-        // get inflater and create the new view
-        LayoutInflater layoutInflater =
-                (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View mMiniPlayerView = layoutInflater.inflate(R.layout.audio_player_mini, this, false);
-
-        addView(mMiniPlayerView);
-
-        // Initialize the children
-        mCover = (ImageView) findViewById(R.id.cover);
-        mTitle = (TextView) findViewById(R.id.title);
-        mArtist = (TextView) findViewById(R.id.artist);
-        mPlayPause = (ImageButton) findViewById(R.id.play_pause);
-        mForward = (ImageButton) findViewById(R.id.forward);
-        mBackward = (ImageButton) findViewById(R.id.backward);
-        mPlayPause.setOnClickListener(onMediaControlClickListener);
-        mForward.setOnClickListener(onMediaControlClickListener);
-        mBackward.setOnClickListener(onMediaControlClickListener);
-        mSeekbar = (SeekBar) findViewById(R.id.timeline);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         lastTitle = "";
-
-        this.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                // Start audio player
-
-                Intent intent = new Intent(getContext(),
-                        AudioPlayerActivity.class);
-                getContext().startActivity(intent);
-            }
-
-        });
-
-        this.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override
-            public boolean onLongClick(View arg0) {
-                showContextMenu();
-                return true;
-            }
-        });
     }
 
     @Override
-    protected void onCreateContextMenu(ContextMenu menu) {
-        MenuInflater inflater = new MenuInflater(getContext());
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.audio_player_mini, container, false);
+
+        // Initialize the children
+        mCover = (ImageView) v.findViewById(R.id.cover);
+        mTitle = (TextView) v.findViewById(R.id.title);
+        mArtist = (TextView) v.findViewById(R.id.artist);
+        mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
+        mForward = (ImageButton) v.findViewById(R.id.forward);
+        mBackward = (ImageButton) v.findViewById(R.id.backward);
+        mPlayPause.setOnClickListener(onMediaControlClickListener);
+        mForward.setOnClickListener(onMediaControlClickListener);
+        mBackward.setOnClickListener(onMediaControlClickListener);
+        mSeekbar = (SeekBar) v.findViewById(R.id.timeline);
+
+        LinearLayout root = (LinearLayout) v.findViewById(R.id.root_node);
+
+        root.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),
+                        AudioPlayerActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        root.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View arg0) {
+                //FIXME getActivity().openContextMenu(getView());
+                return true;
+            }
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //FIXME registerForContextMenu(getView());
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_player_mini, menu);
+
         MenuItem hmi = menu.findItem(R.id.hide_mini_player);
         MenuItem pp = menu.findItem(R.id.play_pause);
         if (mAudioPlayerControl.isPlaying()) {
@@ -141,8 +158,6 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
         } else {
             pp.setTitle(R.string.play);
         }
-
-        super.onCreateContextMenu(menu);
     }
 
     public void setAudioPlayerControl(IAudioPlayerControl control) {
@@ -151,12 +166,19 @@ public class AudioMiniPlayer extends LinearLayout implements IAudioPlayer {
 
     @Override
     public void update() {
-        if (mAudioPlayerControl != null) {
+        if (mAudioPlayerControl != null && getActivity() != null) {
+
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
 
             if (mAudioPlayerControl.hasMedia()) {
-                this.setVisibility(LinearLayout.VISIBLE);
+                ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
+                ft.show(this);
+                ft.commit();
             } else {
-                this.setVisibility(LinearLayout.GONE);
+                ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
+                ft.hide(this);
+                ft.commit();
                 return;
             }
 

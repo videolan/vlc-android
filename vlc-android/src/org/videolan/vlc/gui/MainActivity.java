@@ -51,6 +51,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -138,7 +139,12 @@ public class MainActivity extends SherlockFragmentActivity {
             showDirectoryView();
 
         // Add mini audio player
-        mAudioPlayer = (AudioMiniPlayer) findViewById(R.id.audio_mini_player);
+        mAudioPlayer = new AudioMiniPlayer();
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.audio_mini_player, mAudioPlayer);
+        ft.commit();
+
         mAudioController = AudioServiceController.getInstance();
         mAudioPlayer.setAudioPlayerControl(mAudioController);
         mAudioPlayer.update();
@@ -393,12 +399,18 @@ public class MainActivity extends SherlockFragmentActivity {
     }*/
 
     public void hideAudioPlayer() {
-        mAudioPlayer.setVisibility(AudioMiniPlayer.GONE);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.hide(mAudioPlayer);
+        ft.commit();
         mAudioController.stop();
     }
 
     public void showAudioPlayer() {
-        mAudioPlayer.setVisibility(AudioMiniPlayer.VISIBLE);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.show(mAudioPlayer);
+        ft.commit();
     }
 
     private void showInfoDialog() {
@@ -457,11 +469,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
             if (action.equalsIgnoreCase(ACTION_SHOW_PROGRESSBAR)) {
                 setProgressBarIndeterminateVisibility(Boolean.TRUE);
-            }
-            else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
+            } else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
                 setProgressBarIndeterminateVisibility(Boolean.FALSE);
-            }
-            else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
+            } else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
                 String info = intent.getStringExtra("info");
                 int max = intent.getIntExtra("max", 0);
                 int progress = intent.getIntExtra("progress", 100);
