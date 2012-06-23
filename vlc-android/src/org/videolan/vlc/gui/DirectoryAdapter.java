@@ -176,8 +176,9 @@ public class DirectoryAdapter extends BaseAdapter {
 
     public DirectoryAdapter(Context context) {
         AudioDirectoryAdapter_Core(context,
-                PreferenceManager.getDefaultSharedPreferences(context).getString("directories_root", "/")
-                );
+                PreferenceManager.getDefaultSharedPreferences(context)
+                .getString("directories_root", android.os.Environment.getExternalStorageDirectory().getPath())
+        );
     }
 
     public DirectoryAdapter(Context context, String rootDir) {
