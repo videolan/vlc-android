@@ -86,6 +86,7 @@ public class AudioListFragment extends SherlockListFragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        registerForContextMenu(getListView());
         updateList();
     }
 
@@ -93,7 +94,6 @@ public class AudioListFragment extends SherlockListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.audio_list, container, false);
         mTitle = (TextView) v.findViewById(R.id.title);
-        registerForContextMenu(getListView());
         return v;
     }
 
