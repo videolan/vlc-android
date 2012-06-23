@@ -80,8 +80,6 @@ public class AudioListFragment extends SherlockListFragment {
 
         mSongsAdapter = new AudioListAdapter(getActivity());
         setListAdapter(mSongsAdapter);
-
-        mHandler.sendEmptyMessageDelayed(MediaLibrary.MEDIA_ITEMS_UPDATED, 250);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -262,13 +260,7 @@ public class AudioListFragment extends SherlockListFragment {
             mSongsAdapter.add(media);
         }
         mSongsAdapter.setCurrentIndex(currentIndex);
-        try {
-            getListView().setSelection(currentIndex);
-        } catch(IllegalStateException e) {
-            /* Happens if updateList() message is received before onCreateView()
-             * finishes. Nothing we can do here...
-             */
-        }
+        getListView().setSelection(currentIndex);
 
         mSongsAdapter.notifyDataSetChanged();
     }
