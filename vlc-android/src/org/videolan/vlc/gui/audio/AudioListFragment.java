@@ -270,7 +270,13 @@ public class AudioListFragment extends SherlockListFragment {
             mSongsAdapter.add(media);
         }
         mSongsAdapter.setCurrentIndex(currentIndex);
-        getListView().setSelection(currentIndex);
+        try {
+            getListView().setSelection(currentIndex);
+        } catch(IllegalStateException e) {
+            /* Happens if updateList() message is received before onCreateView()
+             * finishes. Nothing we can do here...
+             */
+        }
 
         mSongsAdapter.notifyDataSetChanged();
     }
