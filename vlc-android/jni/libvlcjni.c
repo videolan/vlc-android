@@ -242,7 +242,7 @@ void Java_org_videolan_vlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
 
 static void debug_log(void *data, int level, const char *fmt, va_list ap)
 {
-    bool *verbose = (bool*)data;
+    bool *verbose = data;
 
     static const uint8_t priority[5] = {
         [LIBVLC_DEBUG]   = ANDROID_LOG_DEBUG,
@@ -263,11 +263,13 @@ static void debug_log(void *data, int level, const char *fmt, va_list ap)
 }
 
 static libvlc_log_subscriber_t debug_subscriber;
+static bool verbosity;
 
 void Java_org_videolan_vlc_LibVLC_changeVerbosity(JNIEnv *env, jobject thiz, jboolean verbose)
 {
+    verbosity = verbose;
     libvlc_log_unsubscribe(&debug_subscriber);
-    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbose);
+    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
 }
 
 void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean verbose)
@@ -277,7 +279,8 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
 
-    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbose);
+    verbosity = verbose;
+    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
