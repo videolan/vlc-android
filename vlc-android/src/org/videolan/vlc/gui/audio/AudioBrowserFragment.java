@@ -47,11 +47,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -91,12 +90,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
-
-    public final static int MENU_PLAY = Menu.FIRST;
-    public final static int MENU_APPEND = Menu.FIRST + 1;
-    public final static int MENU_PLAY_ALL = Menu.FIRST + 2;
-    public final static int MENU_APPEND_ALL = Menu.FIRST + 3;
-    public final static int MENU_DELETE = Menu.FIRST + 4;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -149,10 +142,10 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         albumList.setOnChildClickListener(playlistChildListener);
         genreList.setOnChildClickListener(playlistChildListener);
 
-        songsList.setOnCreateContextMenuListener(contextMenuListener);
-        artistList.setOnCreateContextMenuListener(contextMenuListener);
-        albumList.setOnCreateContextMenuListener(contextMenuListener);
-        genreList.setOnCreateContextMenuListener(contextMenuListener);
+        registerForContextMenu(songsList);
+        registerForContextMenu(artistList);
+        registerForContextMenu(albumList);
+        registerForContextMenu(genreList);
 
         return v;
     }
@@ -225,20 +218,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
-    {
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, MENU_PLAY, Menu.NONE, R.string.play);
-            menu.add(Menu.NONE, MENU_APPEND, Menu.NONE, R.string.append);
-            if (v.getId() == R.id.songs_list) {
-                menu.add(Menu.NONE, MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
-                menu.add(Menu.NONE, MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
-                menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, R.string.delete);
-            }
-        }
-    };
-
     public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.confirm_delete)
@@ -266,6 +245,15 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.audio_list_browser, menu);
+
+        if (v.getId() != R.id.songs_list)
+            menu.setGroupEnabled(R.id.songs_view_only, false);
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         int startPosition;
         int groupPosition;
@@ -273,8 +261,10 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         List<String> medias;
         int id = item.getItemId();
 
-        boolean useAllItems = id == MENU_PLAY_ALL || id == MENU_APPEND_ALL;
-        boolean append = id == MENU_APPEND || id == MENU_APPEND_ALL;
+        boolean useAllItems = (id == R.id.audio_list_browser_play_all ||
+                               id == R.id.audio_list_browser_append_all);
+        boolean append = (id == R.id.audio_list_browser_append ||
+                          id == R.id.audio_list_browser_append_all);
 
         ContextMenuInfo menuInfo = item.getMenuInfo();
         if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
@@ -290,7 +280,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             childPosition = 0;
         }
 
-        if (id == MENU_DELETE) {
+        if (id == R.id.audio_list_browser_delete) {
             deleteMedia(mSongsAdapter.getLocation(groupPosition), mSongsAdapter.getItem(groupPosition));
             return true;
         }

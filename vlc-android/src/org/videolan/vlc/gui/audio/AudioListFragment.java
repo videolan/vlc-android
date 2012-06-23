@@ -41,11 +41,10 @@ import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -87,17 +86,14 @@ public class AudioListFragment extends SherlockListFragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListView().setOnCreateContextMenuListener(contextMenuListener);
         updateList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.audio_list, container, false);
-
         mTitle = (TextView) v.findViewById(R.id.title);
-
+        registerForContextMenu(getListView());
         return v;
     }
 
@@ -122,18 +118,6 @@ public class AudioListFragment extends SherlockListFragment {
         startActivity(intent);
         super.onListItemClick(l, v, position, id);
     }
-
-    OnCreateContextMenuListener contextMenuListener = new OnCreateContextMenuListener()
-    {
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, AudioBrowserFragment.MENU_PLAY, Menu.NONE, R.string.play);
-            menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND, Menu.NONE, R.string.append);
-            menu.add(Menu.NONE, AudioBrowserFragment.MENU_PLAY_ALL, Menu.NONE, R.string.play_all);
-            menu.add(Menu.NONE, AudioBrowserFragment.MENU_APPEND_ALL, Menu.NONE, R.string.append_all);
-            menu.add(Menu.NONE, AudioBrowserFragment.MENU_DELETE, Menu.NONE, R.string.delete);
-        }
-    };
 
     public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
@@ -161,16 +145,24 @@ public class AudioListFragment extends SherlockListFragment {
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.audio_list_browser, menu);
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         int startPosition;
         List<String> medias;
         int id = item.getItemId();
 
-        boolean useAllItems = id == AudioBrowserFragment.MENU_PLAY_ALL || id == AudioBrowserFragment.MENU_APPEND_ALL;
-        boolean append = id == AudioBrowserFragment.MENU_APPEND || id == AudioBrowserFragment.MENU_APPEND_ALL;
+        boolean useAllItems = (id == R.id.audio_list_browser_play_all ||
+                               id == R.id.audio_list_browser_append_all);
+        boolean append = (id == R.id.audio_list_browser_append ||
+                          id == R.id.audio_list_browser_append_all);
 
-        if (id == AudioBrowserFragment.MENU_DELETE) {
+        if (id == R.id.audio_list_browser_delete) {
             deleteMedia(mSongsAdapter.getLocation(menuInfo.position),
                         mSongsAdapter.getItem(menuInfo.position));
             return true;
