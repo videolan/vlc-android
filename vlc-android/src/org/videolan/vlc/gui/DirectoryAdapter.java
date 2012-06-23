@@ -151,7 +151,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 if(files[i].isFile())
                     nss.setIsFile();
 
-                if(nss.isFile() && LibVLC.getExistingInstance().nativeCountDirectoryContents(MRL + "/" + nss.name) < 6) {
+                if(!nss.isFile() && LibVLC.getExistingInstance().nativeCountDirectoryContents(MRL + "/" + nss.name) < 6) {
                     String mCurrentDir_old = mCurrentDir;
                     mCurrentDir = MRL;
                     this.populateNode(nss, MRL + "/" + nss.name);
