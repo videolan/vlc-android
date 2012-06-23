@@ -399,18 +399,12 @@ public class MainActivity extends SherlockFragmentActivity {
     }*/
 
     public void hideAudioPlayer() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.hide(mAudioPlayer);
-        ft.commit();
+        mAudioPlayer.hide();
         mAudioController.stop();
     }
 
     public void showAudioPlayer() {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.show(mAudioPlayer);
-        ft.commit();
+        mAudioPlayer.show();
     }
 
     private void showInfoDialog() {

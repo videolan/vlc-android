@@ -168,17 +168,10 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public void update() {
         if (mAudioPlayerControl != null && getActivity() != null) {
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-
             if (mAudioPlayerControl.hasMedia()) {
-                ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
-                ft.show(this);
-                ft.commit();
+                show();
             } else {
-                ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
-                ft.hide(this);
-                ft.commit();
+                hide();
                 return;
             }
 
@@ -216,6 +209,22 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             mSeekbar.setProgress(time);
         }
 
+    }
+
+    public void show() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                .beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
+        ft.show(this);
+        ft.commit();
+    }
+
+    public void hide() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                .beginTransaction();
+        ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
+        ft.hide(this);
+        ft.commit();
     }
 
 }
