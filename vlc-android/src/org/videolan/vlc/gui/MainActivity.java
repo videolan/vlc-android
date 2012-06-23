@@ -117,10 +117,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        int tabToShow = 0;
-        if (savedInstanceState != null) {
-            tabToShow = savedInstanceState.getInt("tab", 0);
-        }
+        int tabToShow = getSharedPreferences("MainActivity", MODE_PRIVATE).getInt("tab", 0);
 
         addMediaLibraryTabs(tabToShow);
         mCurrentViewTab = tabToShow;
@@ -144,13 +141,6 @@ public class MainActivity extends SherlockFragmentActivity {
         if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
             Log.d(TAG, "Started from notification.");
             showAudioTab();
-        } else {
-            // load the last tab-state (TODO: Broken)
-            int state = savedInstanceState == null ? VIDEO_TAB : savedInstanceState.getInt("mCurrentState");
-            if(state == VIDEO_TAB)
-                showVideoTab();
-            else
-                showAudioTab();
         }
 
         /* Show info/alpha/beta Warning */
@@ -200,8 +190,14 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onResume();
     }
 
+    /**
+     * Stop audio player and save opened tab
+     */
     @Override
     protected void onPause() {
+        SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
+        editor.putInt("tab", mActionBar.getSelectedNavigationIndex());
+        editor.commit();
         mAudioController.removeAudioPlayer(mAudioPlayer);
         super.onPause();
     }
@@ -226,15 +222,6 @@ public class MainActivity extends SherlockFragmentActivity {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
         return false;
-    }
-
-    /**
-     * Save currently opened tab (video/audio) for above
-     */
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt("tab", mActionBar.getSelectedNavigationIndex());
     }
 
     /**
