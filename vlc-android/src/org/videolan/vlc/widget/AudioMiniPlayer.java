@@ -115,21 +115,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             }
         });
 
-        root.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View arg0) {
-                //FIXME getActivity().openContextMenu(getView());
-                return true;
-            }
-        });
-
+        registerForContextMenu(v);
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //FIXME registerForContextMenu(getView());
     }
 
     @Override
@@ -140,14 +127,25 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_player_mini, menu);
 
-        MenuItem hmi = menu.findItem(R.id.hide_mini_player);
         MenuItem pp = menu.findItem(R.id.play_pause);
         if (mAudioPlayerControl.isPlaying()) {
-            hmi.setVisible(false);
             pp.setTitle(R.string.pause);
         } else {
             pp.setTitle(R.string.play);
         }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.play_pause:
+                if (mAudioPlayerControl.isPlaying())
+                    mAudioPlayerControl.pause();
+                else
+                    mAudioPlayerControl.play();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     public void setAudioPlayerControl(IAudioPlayerControl control) {
