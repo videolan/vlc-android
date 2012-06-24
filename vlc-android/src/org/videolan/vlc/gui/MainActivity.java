@@ -208,7 +208,7 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         unregisterReceiver(messageReceiver);
         super.onDestroy();
     }
