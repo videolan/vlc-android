@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
-import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -118,12 +117,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
-        int tabToShow = sharedPrefs.getInt("tab", VIDEO_TAB);
-        Boolean isMediaLib = sharedPrefs.getBoolean("medialibrary", true);
-
-        addMediaLibraryTabs(tabToShow);
-        mCurrentViewTab = tabToShow;
+        addMediaLibraryTabs();
         mDirectoryView = new DirectoryViewFragment(this);
         mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
         getSupportFragmentManager().beginTransaction()
@@ -132,11 +126,6 @@ public class MainActivity extends SherlockFragmentActivity {
         getSupportFragmentManager().beginTransaction()
             .detach(mDirectoryView)
             .commit();
-        mMediaLibraryActive = true;
-
-        /* Restore directory view if it was active last */
-        if(!isMediaLib)
-            showDirectoryView();
 
         // Add mini audio player
         mAudioPlayer = new AudioMiniPlayer();
@@ -148,12 +137,6 @@ public class MainActivity extends SherlockFragmentActivity {
         mAudioController = AudioServiceController.getInstance();
         mAudioPlayer.setAudioPlayerControl(mAudioController);
         mAudioPlayer.update();
-
-        // Start audio player when audio is playing
-        if (getIntent().hasExtra(START_FROM_NOTIFICATION)) {
-            Log.d(TAG, "Started from notification.");
-            showAudioTab();
-        }
 
         /* Show info/alpha/beta Warning */
         PackageInfo pinfo = null;
@@ -179,7 +162,7 @@ public class MainActivity extends SherlockFragmentActivity {
         MediaLibrary.getInstance(this).loadMediaItems(this);
     }
 
-    private void addMediaLibraryTabs(int tabToShow) {
+    private void addMediaLibraryTabs() {
         mActionBar.addTab(mActionBar.newTab()
                 .setText("Video")
                 .setIcon(R.drawable.header_icon_video)
@@ -191,14 +174,24 @@ public class MainActivity extends SherlockFragmentActivity {
                 .setIcon(R.drawable.header_icon_audio)
                 .setTabListener(new TabListener<AudioBrowserFragment>(
                         this, "audio", AudioBrowserFragment.class)));
-
-        mActionBar.setSelectedNavigationItem(tabToShow);
     }
 
     @Override
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
+        mCurrentViewTab = sharedPrefs.getInt("tab", VIDEO_TAB);
+        mMediaLibraryActive = sharedPrefs.getBoolean("medialibrary", true);
+
+        /* Restore last view */
+        if(!mMediaLibraryActive)
+            showDirectoryView();
+        else if (getIntent().hasExtra(START_FROM_NOTIFICATION) || mCurrentViewTab == AUDIO_TAB)
+            showAudioTab();
+        else
+            showVideoTab();
         super.onResume();
     }
 
@@ -277,11 +270,17 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // Browse Folders
             case R.id.ml_menu_browse:
-                showDirectoryView();
-                if(mMediaLibraryActive)
-                    item.setTitle(R.string.directories);
-                else
+                if(mMediaLibraryActive) {
                     item.setTitle(R.string.media_library);
+                    showDirectoryView();
+                }
+                else {
+                    item.setTitle(R.string.directories);
+                    if (mCurrentViewTab == AUDIO_TAB)
+                        showAudioTab();
+                    else
+                        showVideoTab();
+                }
                 break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
@@ -354,27 +353,32 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private void showDirectoryView() {
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-        if(!mMediaLibraryActive) {
-            /* Animate based on which tab is about to be loaded
-             * Video comes in on left so exit right
-             * Audio comes in on right so exit left */
-            if(mCurrentViewTab == AUDIO_TAB)
-                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
-            else if(mCurrentViewTab == VIDEO_TAB)
-                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
-            /* Remove the directory view from the tabs */
-            ft.detach(mDirectoryView);
-            ft.commit();
-            /* Restore the tabs */
-            addMediaLibraryTabs(mCurrentViewTab);
-        } else {
-            /* Remove existing tabs */
-            mActionBar.removeAllTabs();
-            /* Load directory view fragment */
-            ft.attach(mDirectoryView);
-            ft.commit();
-        }
-        this.mMediaLibraryActive = !this.mMediaLibraryActive;
+
+        /* Remove existing tabs */
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        /* Load directory view fragment */
+        ft.attach(mDirectoryView);
+        ft.commit();
+        mMediaLibraryActive = false;
+    }
+
+    private void hideDirectoryView() {
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+
+        /* Animate based on which tab is about to be loaded
+        * Video comes in on left so exit right
+        * Audio comes in on right so exit left */
+//        if (mCurrentViewTab == AUDIO_TAB)
+//            ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left, R.anim.anim_enter_left, 0);
+//        else if (mCurrentViewTab == VIDEO_TAB)
+//            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
+
+        /* Restore the tabs */
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        /* Remove the directory view from the tabs */
+        ft.detach(mDirectoryView);
+        ft.commit();
+        mMediaLibraryActive = true;
     }
 
     /*@Override
@@ -441,10 +445,12 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     private void showVideoTab() {
+        hideDirectoryView();
         mActionBar.setSelectedNavigationItem(VIDEO_TAB);
     }
 
     private void showAudioTab() {
+        hideDirectoryView();
         mActionBar.setSelectedNavigationItem(AUDIO_TAB);
     }
 
