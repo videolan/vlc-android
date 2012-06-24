@@ -136,7 +136,7 @@ public class DirectoryAdapter extends BaseAdapter {
             for(int i = 0; i < files.size(); i++) {
                 String filename = files.get(i);
                 /* Avoid infinite loop */
-                if(filename.equals(".") || filename.equals("..")) continue;
+                if(filename.equals(".") || filename.equals("..") || filename.startsWith(".")) continue;
 
                 DirectoryAdapter.Node nss = new DirectoryAdapter.Node(filename);
                 nss.isFile = false;
