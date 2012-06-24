@@ -287,7 +287,7 @@ public class DirectoryAdapter extends BaseAdapter {
         DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         if(selectedNode.isFile()) return false;
         try {
-            this.mCurrentDir = new URI(this.mCurrentDir + "/" + selectedNode.name).normalize().getPath();
+            this.mCurrentDir = new URI(LibVLC.getExistingInstance().nativeToURI(this.mCurrentDir + "/" + selectedNode.name)).normalize().getPath();
             this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
         } catch (URISyntaxException e) {
             /* blah blah blah blah blah */
