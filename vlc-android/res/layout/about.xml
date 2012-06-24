@@ -33,9 +33,12 @@
             android:id="@+id/textViewVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:gravity="center"/>
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="26sp" />
+
     </RelativeLayout>
 
     <TabHost
@@ -45,8 +48,7 @@
 	    <LinearLayout
 	        android:orientation="vertical"
 	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:padding="5dp">
+	        android:layout_height="fill_parent">
 	        <TabWidget
 	            android:id="@android:id/tabs"
 	            android:layout_width="fill_parent"
@@ -54,8 +56,7 @@
 	        <FrameLayout
 	            android:id="@android:id/tabcontent"
 	            android:layout_width="fill_parent"
-	            android:layout_height="fill_parent"
-	            android:padding="5dp" />
+	            android:layout_height="fill_parent" />
 	    </LinearLayout>
 	</TabHost>
 </LinearLayout>

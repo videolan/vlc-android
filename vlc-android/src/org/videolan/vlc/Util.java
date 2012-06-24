@@ -20,7 +20,12 @@
 
 package org.videolan.vlc;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 
 import android.content.Context;
@@ -66,6 +71,22 @@ public class Util {
         if( s.endsWith("/") && s.length() > 1 )
             s = s.substring(0,s.length()-1);
         return s;
+    }
+
+    public static String readAsset(Context ctx, String assetName, String defaultS) {
+        try {
+            InputStream is = ctx.getResources().getAssets().open(assetName);
+            BufferedReader r = new BufferedReader(new InputStreamReader(is, "UTF8"));
+            StringBuilder sb = new StringBuilder();
+            String line = r.readLine();
+            while(line != null) {
+                sb.append(line);
+                line = r.readLine();
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            return defaultS;
+        }
     }
 
     /**

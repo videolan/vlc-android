@@ -23,7 +23,6 @@ package org.videolan.vlc.gui;
 import org.videolan.vlc.R;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -31,6 +30,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
@@ -55,7 +55,6 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
     private TabHost mTabHost;
     private String mCurrentTabTag;
     private AboutMainFragment mMainFragment;
-    private AboutCreditsFragment mCreditsFragment;
     private AboutLicenceFragment mLicenceFragment;
 
     @Override
@@ -65,11 +64,9 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
         displayVersionName();
 
         mMainFragment = new AboutMainFragment();
-        mCreditsFragment = new AboutCreditsFragment();
         mLicenceFragment = new AboutLicenceFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(android.R.id.tabcontent, mMainFragment);
-        ft.add(android.R.id.tabcontent, mCreditsFragment);
         ft.add(android.R.id.tabcontent, mLicenceFragment);
         ft.commit();
         DummyContentFactory dcf = new DummyContentFactory(this);
@@ -78,16 +75,16 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
         mTabHost.setup();
         TabHost.TabSpec tab_main = mTabHost.newTabSpec("main");
         tab_main.setContent(dcf);
-        tab_main.setIndicator("About", getResources().getDrawable(R.drawable.icon));
+        tab_main.setIndicator("About");
         mTabHost.addTab(tab_main);
-        TabHost.TabSpec tab_credits = mTabHost.newTabSpec("credits");
-        tab_credits.setContent(dcf);
-        tab_credits.setIndicator("Credits", getResources().getDrawable(R.drawable.icon)); /* people icon */
-        mTabHost.addTab(tab_credits);
         TabHost.TabSpec tab_licence = mTabHost.newTabSpec("licence");
         tab_licence.setContent(dcf);
-        tab_licence.setIndicator("Licence", getResources().getDrawable(R.drawable.icon)); /* scroll */
+        tab_licence.setIndicator("Licence");
         mTabHost.addTab(tab_licence);
+
+        for(int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 60;
+        }
 
         mTabHost.setOnTabChangedListener(this);
         this.onTabChanged("main");
@@ -97,9 +94,9 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
     public void onTabChanged(String newTag) {
         String oldTag = mCurrentTabTag; /* cosmetics */
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if((oldTag == "main" && newTag == "credits") || (oldTag == "credits" && newTag == "licence")) {
+        if(oldTag == "main" && newTag == "licence") {
             ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left);
-        } else if((newTag == "main" && oldTag == "credits") || (newTag == "credits" && oldTag == "licence")) {
+        } else if(newTag == "main" && oldTag == "licence") {
             ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_right);
         }
         ft.detach(getFragmentFromTag(oldTag));
@@ -111,23 +108,26 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
     private Fragment getFragmentFromTag(String tag) {
         if(tag == "main")
             return mMainFragment;
-        else if(tag == "credits")
-            return mCreditsFragment;
         else
             return mLicenceFragment;
     }
 
     private void displayVersionName() {
+        String versionName = getVersion(this);
+        TextView tv = (TextView) findViewById(R.id.textViewVersion);
+        tv.setText(versionName);
+    }
+
+    public static String getVersion(Context ctx) {
         String versionName = "";
         PackageInfo packageInfo;
         try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            versionName = "v " + packageInfo.versionName;
+            packageInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            versionName = "v" + packageInfo.versionName;
         } catch (NameNotFoundException e) {
             e.printStackTrace();
         }
-        TextView tv = (TextView) findViewById(R.id.textViewVersion);
-        tv.setText(versionName);
+        return versionName;
     }
 
 }

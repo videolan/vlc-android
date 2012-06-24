@@ -6,7 +6,6 @@
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Select media to play</string>
-    <string name="about">About</string>
     <string name="ml_no_media_dir">No media directory</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
@@ -71,7 +70,6 @@
     <string name="surface_fit_vertical">Fit vertical</string>
     <string name="surface_fill">Fill</string>
     <string name="surface_original">Center</string>
-    <string name="about_text">\nVLC media player\n\nVLC authors and VideoLAN\n\nLicensed under the GPLv3\n</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
@@ -91,6 +89,16 @@
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
     <string name="media_library">Media library</string>
+
+    <!-- About -->
+    <string name="version">Version</string>
+    <string name="about">About</string>
+    <string name="about_text">VLC media player for Android is a port of VLC, the free media player that can read from files and network streams, to the Android operating system.</string>
+    <string name="about_link">
+        &lt;a href=&quot;http://www.videolan.org/&quot;&gt;http://www.videolan.org/&lt;/a&gt;</string>
+    <string name="about_copyright">Copyright &#169; 1996&#8211;2012 by the VideoLAN Team.\nSee the \'Licence\' tab for licensing information.</string>
+    <string name="for_android">for Android</string>
+    <string name="compiled_by">This version of VLC is compiled by:</string>
 
     <!--  Preferences -->
     <string name="preferences">Preferences</string>
