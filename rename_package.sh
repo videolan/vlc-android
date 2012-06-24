@@ -1,7 +1,7 @@
 #! /bin/sh
 
 OLD_NAME=org.videolan.vlc
-NEW_NAME=org.videolan.vlc.beta_v7neon
+NEW_NAME=org.videolan.vlc.$1
 
 OLD_PATH=$(echo $OLD_NAME |sed 's/\./\//g')
 NEW_PATH=$(echo $NEW_NAME |sed 's/\./\//g')
