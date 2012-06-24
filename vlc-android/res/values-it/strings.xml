@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Ciao Mondo, vlc!</string>
     <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Si prega di controllare che sia montata correttamente.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>

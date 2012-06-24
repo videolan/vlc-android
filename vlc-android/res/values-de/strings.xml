@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hallo Welt, vlc!</string>
-    <string name="app_name" translatable="false">VLC media player</string>
     <string name="filebrowser_sdfail">Konnte SD-Karte nicht öffnen. Bitte prüfen, ob sie korrekt gemounted wurde.</string>
     <string name="filebrowser_root">Stammverzeichnis</string>
     <string name="filebrowser_parent">..</string>
