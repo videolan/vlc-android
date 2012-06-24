@@ -110,7 +110,7 @@ public class DirectoryAdapter extends BaseAdapter {
             else if(!(this.isFile) && arg0.isFile)
                 return -1;
             else
-                return this.name.compareTo(arg0.name);
+                return String.CASE_INSENSITIVE_ORDER.compare(this.name, arg0.name);
         }
     }
 
