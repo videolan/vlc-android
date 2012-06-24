@@ -183,17 +183,17 @@ public class DirectoryAdapter extends BaseAdapter {
     private String mCurrentDir;
 
     public DirectoryAdapter(Context context) {
-        AudioDirectoryAdapter_Core(context,
+        DirectoryAdapter_Core(context,
                 PreferenceManager.getDefaultSharedPreferences(context)
                 .getString("directories_root", android.os.Environment.getExternalStorageDirectory().getPath())
         );
     }
 
     public DirectoryAdapter(Context context, String rootDir) {
-        AudioDirectoryAdapter_Core(context, rootDir);
+        DirectoryAdapter_Core(context, rootDir);
     }
 
-    private void AudioDirectoryAdapter_Core(Context context, String rootDir) {
+    private void DirectoryAdapter_Core(Context context, String rootDir) {
         rootDir = Util.stripTrailingSlash(rootDir);
         Log.v(TAG, "rootMRL is " + rootDir);
         mContext = context;
