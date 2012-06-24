@@ -117,7 +117,19 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        addMediaLibraryTabs();
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Video")
+                .setIcon(R.drawable.header_icon_video)
+                .setTabListener(new TabListener<VideoListFragment>(
+                        this, "video", VideoListFragment.class)));
+
+        mActionBar.addTab(mActionBar.newTab()
+                .setText("Audio")
+                .setIcon(R.drawable.header_icon_audio)
+                .setTabListener(new TabListener<AudioBrowserFragment>(
+                        this, "audio", AudioBrowserFragment.class)));
+
+        /* DirectoryView */
         mDirectoryView = new DirectoryViewFragment(this);
         mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
         getSupportFragmentManager().beginTransaction()
@@ -127,7 +139,7 @@ public class MainActivity extends SherlockFragmentActivity {
             .detach(mDirectoryView)
             .commit();
 
-        // Add mini audio player
+        /* Set up the mini audio player */
         mAudioPlayer = new AudioMiniPlayer();
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -152,6 +164,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 showInfoDialog();
         }
 
+        /* Prepare the progressBar */
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_SHOW_PROGRESSBAR);
         filter.addAction(ACTION_HIDE_PROGRESSBAR);
@@ -160,20 +173,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems(this);
-    }
-
-    private void addMediaLibraryTabs() {
-        mActionBar.addTab(mActionBar.newTab()
-                .setText("Video")
-                .setIcon(R.drawable.header_icon_video)
-                .setTabListener(new TabListener<VideoListFragment>(
-                        this, "video", VideoListFragment.class)));
-
-        mActionBar.addTab(mActionBar.newTab()
-                .setText("Audio")
-                .setIcon(R.drawable.header_icon_audio)
-                .setTabListener(new TabListener<AudioBrowserFragment>(
-                        this, "audio", AudioBrowserFragment.class)));
     }
 
     @Override
