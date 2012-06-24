@@ -141,14 +141,13 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Set up the mini audio player */
         mAudioPlayer = new AudioMiniPlayer();
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.audio_mini_player, mAudioPlayer);
-        ft.commit();
-
         mAudioController = AudioServiceController.getInstance();
         mAudioPlayer.setAudioPlayerControl(mAudioController);
         mAudioPlayer.update();
+
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.audio_mini_player, mAudioPlayer)
+            .commit();
 
         /* Show info/alpha/beta Warning */
         PackageInfo pinfo = null;
