@@ -285,65 +285,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
-                AlertDialog.Builder b = new AlertDialog.Builder(this);
-                final EditText input = new EditText(this);
-                b.setTitle(R.string.open_mrl_dialog_title);
-                b.setMessage(R.string.open_mrl_dialog_msg);
-                b.setView(input);
-                b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int button) {
-                        ProgressDialog pd = ProgressDialog.show(
-                                MainActivity.this,
-                                getApplicationContext().getString(R.string.loading),
-                                "Please wait...", true);
-                        pd.setCancelable(true);
-
-                        VLCCallbackTask t = new VLCCallbackTask(
-                            /* Task to run */
-                            new VLCCallbackTask.CallbackListener() {
-                                @Override
-                                public void callback() {
-                                    AudioServiceController c = AudioServiceController.getInstance();
-                                    String s = input.getText().toString();
-
-                                    try {
-                                        if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
-                                            Log.d(TAG, "Auto-detected audio for " + s);
-                                            ArrayList<String> media = new ArrayList<String>();
-                                            media.add(input.getText().toString());
-                                            c.append(media);
-                                        } else {
-                                            Log.d(TAG, "Auto-detected Video for " + s);
-                                            Intent intent = new Intent(getApplicationContext(),
-                                                                       VideoPlayerActivity.class);
-                                            intent.putExtra("itemLocation", s);
-                                            startActivity(intent);
-                                        }
-                                    } catch(IOException e) {
-                                        /* VLC is unable to open the MRL */
-                                        return;
-                                    }
-                                }
-
-                                @Override
-                                public void callback_object(Object o) {
-                                    ProgressDialog pd = (ProgressDialog)o;
-                                    pd.dismiss();
-                                }
-                            }, pd);
-
-                        /* Start this in a new friend as to not block the UI thread */
-                        new Thread(t).start();
-                    }
-                }
-                );
-                b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        return;
-                        }});
-                b.show();
+                onOpenMRL();
                 break;
             case R.id.ml_menu_search:
             	onSearchRequested();
@@ -516,6 +458,68 @@ public class MainActivity extends SherlockFragmentActivity {
         context.getApplicationContext().sendBroadcast(intent);
     }
 
+    private void onOpenMRL() {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        final EditText input = new EditText(this);
+        b.setTitle(R.string.open_mrl_dialog_title);
+        b.setMessage(R.string.open_mrl_dialog_msg);
+        b.setView(input);
+        b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int button) {
+                ProgressDialog pd = ProgressDialog.show(
+                        MainActivity.this,
+                        getApplicationContext().getString(R.string.loading),
+                        "Please wait...", true);
+                pd.setCancelable(true);
+
+                VLCCallbackTask t = new VLCCallbackTask(
+                    /* Task to run */
+                    new VLCCallbackTask.CallbackListener() {
+                        @Override
+                        public void callback() {
+                            AudioServiceController c = AudioServiceController.getInstance();
+                            String s = input.getText().toString();
+
+                            try {
+                                if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
+                                    Log.d(TAG, "Auto-detected audio for " + s);
+                                    ArrayList<String> media = new ArrayList<String>();
+                                    media.add(input.getText().toString());
+                                    c.append(media);
+                                } else {
+                                    Log.d(TAG, "Auto-detected Video for " + s);
+                                    Intent intent = new Intent(getApplicationContext(),
+                                                               VideoPlayerActivity.class);
+                                    intent.putExtra("itemLocation", s);
+                                    startActivity(intent);
+                                }
+                            } catch(IOException e) {
+                                /* VLC is unable to open the MRL */
+                                return;
+                            }
+                        }
+
+                        @Override
+                        public void callback_object(Object o) {
+                            ProgressDialog pd = (ProgressDialog)o;
+                            pd.dismiss();
+                        }
+                    }, pd);
+
+                /* Start this in a new friend as to not block the UI thread */
+                new Thread(t).start();
+            }
+        }
+        );
+        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                return;
+                }});
+        b.show();
+    }
+
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
         private final SherlockFragmentActivity mActivity;
         private final String mTag;
@@ -579,7 +583,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         public void onTabReselected(Tab tab, FragmentTransaction ft) {
-
         }
     }
 }
