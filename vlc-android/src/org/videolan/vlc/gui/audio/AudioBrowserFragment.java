@@ -209,8 +209,12 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
             audioList.setArguments(b);
 
-            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, audioList);
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left, R.anim.anim_enter_left, 0);
+            ft.detach(fm.findFragmentByTag("audio"));
+            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
+            ft.replace(R.id.fragment_placeholder, audioList, "tracks");
             ft.addToBackStack(null);
             ft.commit();
 
