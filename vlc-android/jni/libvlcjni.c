@@ -22,7 +22,9 @@
 #include <errno.h>
 #include <string.h>
 #include <pthread.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include <vlc/vlc.h>
 #include <vlc_common.h>
@@ -949,16 +951,19 @@ jint Java_org_videolan_vlc_LibVLC_setSpuTrack(JNIEnv *env, jobject thiz, jint in
     return -1;
 }
 
-jint Java_org_videolan_vlc_LibVLC_nativeCountDirectoryContents(JNIEnv *env, jobject thiz, jstring path)
+void Java_org_videolan_vlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject thiz, jstring path, jobject arrayList)
 {
     jboolean isCopy;
     /* Get C string */
     const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
 
-    jint childrenCount = 0;
     DIR* p_dir = opendir(psz_path);
+    (*env)->ReleaseStringUTFChars(env, path, psz_path);
     if(!p_dir)
-        return 0;
+        return;
+
+    jclass arrayClass = (*env)->FindClass(env, "java/util/ArrayList");
+    jmethodID methodID = (*env)->GetMethodID(env, arrayClass, "add", "(Ljava/lang/Object;)Z");
 
     struct dirent* p_dirent;
     while(1) {
@@ -970,11 +975,29 @@ jint Java_org_videolan_vlc_LibVLC_nativeCountDirectoryContents(JNIEnv *env, jobj
             else if(errno == 0) /* end of stream */
                 break;
         }
-        childrenCount++;
+        (*env)->CallBooleanMethod(env, arrayList, methodID, (*env)->NewStringUTF(env, p_dirent->d_name));
     }
     closedir(p_dir);
+}
 
-    /* Clean up */
+jboolean Java_org_videolan_vlc_LibVLC_nativeIsPathDirectory(JNIEnv *env, jobject thiz, jstring path)
+{
+    jboolean isCopy;
+    /* Get C string */
+    const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
+
+    jboolean isDirectory;
+    struct stat buf;
+    if(stat(psz_path, &buf) != 0)
+        /* couldn't stat */
+        isDirectory = JNI_FALSE;
+    else {
+        if(S_ISDIR(buf.st_mode))
+            isDirectory = JNI_TRUE;
+        else
+            isDirectory = JNI_FALSE;
+    }
+
     (*env)->ReleaseStringUTFChars(env, path, psz_path);
-    return childrenCount;
+    return isDirectory;
 }

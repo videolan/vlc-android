@@ -21,11 +21,11 @@
 package org.videolan.vlc.gui;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.Media;
@@ -45,23 +45,8 @@ import android.widget.TextView;
 public class DirectoryAdapter extends BaseAdapter {
     public final static String TAG = "VLC/DirectoryAdapter";
 
-    /**
-     * Filter: accept only media files and directories
-     */
-    private class AudioDirectoryAdapterFilter implements FileFilter {
-
-        @Override
-        public boolean accept(File f) {
-            if(f.isHidden())
-                return false;
-            if(f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase()))
-                return true;
-            for(String ext : Media.EXTENTIONS) {
-                if(f.getPath().toLowerCase().endsWith(ext))
-                    return true;
-            }
-            return false;
-        }
+    public static boolean acceptedPath(String f) {
+        return Pattern.compile(Media.EXTENTIONS_REGEX, Pattern.CASE_INSENSITIVE).matcher(f).matches();
     }
 
     /**
@@ -136,26 +121,47 @@ public class DirectoryAdapter extends BaseAdapter {
         ImageView icon;
     }
 
-    public void populateNode(DirectoryAdapter.Node n, String MRL) {
-        File file = new File(MRL);
+    public void populateNode(DirectoryAdapter.Node n, String path) {
+        File file = new File(path);
         if(!file.exists() || !file.isDirectory())
             return;
 
-        File[] files = file.listFiles(new AudioDirectoryAdapterFilter());
+        ArrayList<String> files = new ArrayList<String>();
+        LibVLC.getExistingInstance().nativeReadDirectory(path, files);
+        StringBuilder sb = new StringBuilder(100);
         /* If no sub-directories or I/O error don't crash */
-        if(files == null || files.length < 1) {
+        if(files == null || files.size() < 1) {
             //return
         } else {
-            for(int i = 0; i < files.length; i++) {
-                DirectoryAdapter.Node nss = new DirectoryAdapter.Node(files[i].getName());
-                if(files[i].isFile())
-                    nss.setIsFile();
+            for(int i = 0; i < files.size(); i++) {
+                String filename = files.get(i);
+                /* Avoid infinite loop */
+                if(filename.equals(".") || filename.equals("..")) continue;
 
-                if(!nss.isFile() && LibVLC.getExistingInstance().nativeCountDirectoryContents(MRL + "/" + nss.name) < 6) {
-                    String mCurrentDir_old = mCurrentDir;
-                    mCurrentDir = MRL;
-                    this.populateNode(nss, MRL + "/" + nss.name);
-                    mCurrentDir = mCurrentDir_old;
+                DirectoryAdapter.Node nss = new DirectoryAdapter.Node(filename);
+                nss.isFile = false;
+                sb.append(path);
+                sb.append("/");
+                sb.append(filename);
+                String newPath = sb.toString();
+                sb.setLength(0);
+
+                if(LibVLC.getExistingInstance().nativeIsPathDirectory(newPath)) {
+                    ArrayList<String> files_int = new ArrayList<String>();
+                    LibVLC.getExistingInstance().nativeReadDirectory(newPath, files_int);
+                    if(files_int.size() < 8) { /* Optimisation: If there are more than 8
+                                                   sub-folders, don't scan each one, otherwise
+                                                   when scaled it is very slow to load */
+                        String mCurrentDir_old = mCurrentDir;
+                        mCurrentDir = path;
+                        this.populateNode(nss, newPath);
+                        mCurrentDir = mCurrentDir_old;
+                    }
+                } else {
+                    if(acceptedPath(newPath))
+                        nss.setIsFile();
+                    else
+                        continue;
                 }
 
                 n.children.add(nss);
@@ -243,6 +249,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
         String holderText = "";
         if(selectedNode.isFile()) {
+            Log.d(TAG, "Loading media " + selectedNode.name);
             Media m = new Media(mContext, getMediaLocation(position), false);
             holder.title.setText(m.getTitle());
             holderText = m.getArtist() + " - " + m.getAlbum();

@@ -20,6 +20,8 @@
 
 package org.videolan.vlc;
 
+import java.util.ArrayList;
+
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.LibVlcException;
 
@@ -408,7 +410,9 @@ public class LibVLC {
 
     public native String nativeToURI(String path);
 
-    public native int nativeCountDirectoryContents(String path);
+    public native void nativeReadDirectory(String path, ArrayList<String> res);
+
+    public native boolean nativeIsPathDirectory(String path);
 
     /**
      * Return the length of the stream, in milliseconds
