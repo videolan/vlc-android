@@ -130,7 +130,7 @@ public class MainActivity extends SherlockFragmentActivity {
                         this, "audio", AudioBrowserFragment.class)));
 
         /* DirectoryView */
-        mDirectoryView = new DirectoryViewFragment(this);
+        mDirectoryView = new DirectoryViewFragment();
         mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
         getSupportFragmentManager().beginTransaction()
             .add(R.id.fragment_placeholder, mDirectoryView)

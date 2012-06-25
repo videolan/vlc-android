@@ -31,7 +31,6 @@ import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,17 +44,12 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
-    private final Context mContext;
-
-    public DirectoryViewFragment(Context context) {
-        mContext = context;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDirectoryAdapter = new DirectoryAdapter(mContext);
+        mDirectoryAdapter = new DirectoryAdapter();
     }
 
     @Override

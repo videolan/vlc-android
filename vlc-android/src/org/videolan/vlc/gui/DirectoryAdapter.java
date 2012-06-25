@@ -31,6 +31,7 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -175,29 +176,27 @@ public class DirectoryAdapter extends BaseAdapter {
         }
     }
 
-    private Context mContext;
     private LayoutInflater mInflater;
     private DirectoryAdapter.Node mRootNode;
     private DirectoryAdapter.Node mCurrentNode;
     private String mRootDir;
     private String mCurrentDir;
 
-    public DirectoryAdapter(Context context) {
-        DirectoryAdapter_Core(context,
-                PreferenceManager.getDefaultSharedPreferences(context)
+    public DirectoryAdapter() {
+        DirectoryAdapter_Core(
+                PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
                 .getString("directories_root", android.os.Environment.getExternalStorageDirectory().getPath())
         );
     }
 
     public DirectoryAdapter(Context context, String rootDir) {
-        DirectoryAdapter_Core(context, rootDir);
+        DirectoryAdapter_Core(rootDir);
     }
 
-    private void DirectoryAdapter_Core(Context context, String rootDir) {
+    private void DirectoryAdapter_Core(String rootDir) {
         rootDir = Util.stripTrailingSlash(rootDir);
         Log.v(TAG, "rootMRL is " + rootDir);
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(VLCApplication.getAppContext());
         mRootNode = new DirectoryAdapter.Node(rootDir);
         mCurrentDir = rootDir;
         mRootDir = rootDir;
@@ -233,6 +232,9 @@ public class DirectoryAdapter extends BaseAdapter {
         DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         DirectoryViewHolder holder;
         View v = convertView;
+
+        Context context = VLCApplication.getAppContext();
+
         /* If view not created */
         if (v == null) {
             v = mInflater.inflate(R.layout.directory_view_item, parent, false);
@@ -257,20 +259,20 @@ public class DirectoryAdapter extends BaseAdapter {
             holder.title.setText(selectedNode.name);
 
         if(selectedNode.name == "..")
-            holderText = mContext.getString(R.string.parent_folder);
+            holderText = context.getString(R.string.parent_folder);
         else if(!selectedNode.isFile()) {
             int folderCount = selectedNode.subfolderCount();
             int songCount = selectedNode.subfilesCount();
             holderText = "";
 
             if(folderCount > 0)
-                holderText += mContext.getResources().getQuantityString(
+                holderText += context.getResources().getQuantityString(
                         R.plurals.subfolders, folderCount, folderCount
                 );
             if(folderCount > 0 && songCount > 0)
                 holderText += ", ";
             if(songCount > 0)
-                holderText += mContext.getResources().getQuantityString(
+                holderText += context.getResources().getQuantityString(
                         R.plurals.songs, songCount, songCount
                 );
         }
