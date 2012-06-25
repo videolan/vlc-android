@@ -20,13 +20,16 @@
 
 package org.videolan.vlc.gui.audio;
 
+import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -103,6 +106,21 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mAudioController.removeAudioPlayer(this);
         AudioServiceController.getInstance().unbindAudioService(this);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null && extras.containsKey(AudioService.START_FROM_NOTIFICATION)) {
+            // Launched from notification (adding the MainActivity to the backstack)
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Stack;
 
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
@@ -62,6 +63,7 @@ public class AudioService extends Service {
     private static final String TAG = "VLC/AudioService";
 
     private static final int SHOW_PROGRESS = 0;
+    public static final String START_FROM_NOTIFICATION = "from_notification";
 
     private LibVLC mLibVLC;
     private ArrayList<Media> mMediaList;
@@ -143,8 +145,8 @@ public class AudioService extends Service {
                 } else if (!mLibVLC.isPlaying() && mCurrentMedia != null) {
                     play();
                 } else {
-                    Intent iVlc = new Intent(context, MainActivity.class);
-                    iVlc.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
+                    Intent iVlc = new Intent(context, AudioPlayerActivity.class);
+                    iVlc.putExtra(START_FROM_NOTIFICATION, "");
                     iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iVlc);
                 }
@@ -316,10 +318,10 @@ public class AudioService extends Service {
             mNotification = new Notification(R.drawable.icon, null,
                     System.currentTimeMillis());
         }
-        Intent notificationIntent = new Intent(this, MainActivity.class);
+        Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        notificationIntent.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
+        notificationIntent.putExtra(START_FROM_NOTIFICATION, "");
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
                 mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum(), pendingIntent);
@@ -699,7 +701,7 @@ public class AudioService extends Service {
         Intent iForward = new Intent();
         iForward.setAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
         Intent iVlc = new Intent(context, MainActivity.class);
-        iVlc.putExtra(MainActivity.START_FROM_NOTIFICATION, "");
+        iVlc.putExtra(START_FROM_NOTIFICATION, "");
 
         PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);

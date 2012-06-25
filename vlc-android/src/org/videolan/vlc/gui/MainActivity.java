@@ -78,7 +78,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private static final int VIDEO_TAB = 0;
     private static final int AUDIO_TAB = 1;
-    public static final String START_FROM_NOTIFICATION = "from_notification";
     private static final String PREF_SHOW_INFO = "show_info";
 
     private ActionBar mActionBar;
@@ -186,7 +185,7 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Restore last view */
         if(!mMediaLibraryActive)
             showDirectoryView();
-        else if (getIntent().hasExtra(START_FROM_NOTIFICATION) || mCurrentViewTab == AUDIO_TAB)
+        else if (mCurrentViewTab == AUDIO_TAB)
             showAudioTab();
         else
             showVideoTab();
