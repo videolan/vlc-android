@@ -82,7 +82,9 @@
 
     <!-- About -->
     <string name="version">Version</string>
+    <string name="licence">Licence</string>
     <string name="about">À propos</string>
+    <string name="about_copyright">Copyright &#169; 1996&#8211;2012 par l\'équipe VideoLAN.\nConsultez le onglet «Licence» pour informations relatives aux licences.</string>
     <string name="for_android">pour Android</string>
     <string name="compiled_by">Cette version de VLC est compilé par:</string>
 
