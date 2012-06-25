@@ -88,6 +88,7 @@
         android:gravity="center"
         android:text="@string/about_link"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:autoLink="web" />
 
 </LinearLayout>
