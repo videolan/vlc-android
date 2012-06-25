@@ -12,7 +12,6 @@
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
     <string name="searchable_hint">Search…</string>
-    <string name="searchable_label">VLC media player</string>
     <string name="search_history">History</string>
     <string name="clear_history">Clear history</string>
     <string name="search_found_results">%1$d results found</string>

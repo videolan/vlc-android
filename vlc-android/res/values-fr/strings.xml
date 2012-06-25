@@ -13,7 +13,6 @@
     <string name="sortby_name">Nom</string>
     <string name="sortby_length">Durée</string>
     <string name="searchable_hint">Recherche…</string>
-    <string name="searchable_label">VLC Media Player</string>
     <string name="search_history">Historique</string>
     <string name="clear_history">Vider l\'historique</string>
     <string name="search_found_results">%1$d résultats trouvés</string>
@@ -67,14 +66,6 @@
     <string name="surface_fill">Etirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
-    <string name="main_prefs_category">Général</string>
-    <string name="advanced_prefs_category">Avancé</string>
-    <string name="enable_iomx">Activer le décodage matériel</string>
-    <string name="advanced_debugging">Débogage avancé</string>
-    <string name="quit">Quitter l\'application</string>
-    <string name="detect_headset">Détecter le casque</string>
-    <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
-    <string name="enable_wheel_bar">Activer la wheel bar</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>
@@ -90,6 +81,21 @@
     <string name="track_resolution_info">Résolution: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Débit d\'images: %1$.3f\n</string>
 
+    <!-- About -->
+    <string name="version">Version</string>
+    <string name="about">À propos</string>
+    <string name="for_android">pour Android</string>
+    <string name="compiled_by">Cette version de VLC est compilé par:</string>
+
+    <!--  Preferences -->
+    <string name="main_prefs_category">Général</string>
+    <string name="advanced_prefs_category">Avancé</string>
+    <string name="enable_iomx">Activer le décodage matériel</string>
+    <string name="advanced_debugging">Débogage avancé</string>
+    <string name="quit">Quitter l\'application</string>
+    <string name="detect_headset">Détecter le casque</string>
+    <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
+    <string name="enable_wheel_bar">Activer la wheel bar</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
