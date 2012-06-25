@@ -14,7 +14,6 @@
     <string name="sortby_length">Durée</string>
     <string name="searchable_hint">Recherche…</string>
     <string name="search_history">Historique</string>
-    <string name="clear_history">Vider l\'historique</string>
     <string name="search_found_results">%1$d résultats trouvés</string>
     <string name="show_player">Afficher Lecteur</string>
     <string name="hide_mini_player">Cacher Mini-lecteur</string>
@@ -89,6 +88,8 @@
 
     <!--  Preferences -->
     <string name="main_prefs_category">Général</string>
+    <string name="privacy_prefs_category">Vie privée</string>
+    <string name="clear_history">Vider l\'historique des recherches</string>
     <string name="advanced_prefs_category">Avancé</string>
     <string name="enable_iomx">Activer le décodage matériel</string>
     <string name="advanced_debugging">Débogage avancé</string>
