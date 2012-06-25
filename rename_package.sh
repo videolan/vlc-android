@@ -11,4 +11,5 @@ mkdir -p vlc-android/src/${OLD_PATH}
 mv vlc-android/src/tmp vlc-android/src/${NEW_PATH}
 
 find vlc-android \( -name "*.xml" -o -name "*.java" -o -name "*.cfg" -o -name "*.aidl" \) -print0 | xargs -0 sed -ri "s/${OLD_NAME}/${NEW_NAME}/g"
+sed -ri "s,${OLD_PATH},${NEW_PATH},g" Makefile
 
