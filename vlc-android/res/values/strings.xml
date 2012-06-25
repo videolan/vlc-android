@@ -96,8 +96,8 @@
     <string name="about">About</string>
     <string name="about_text">VLC media player for Android is a port of VLC, the free media player that can read from files and network streams, to the Android operating system.</string>
     <string name="about_link">
-        &lt;a href=&quot;http://www.videolan.org/&quot;&gt;http://www.videolan.org/&lt;/a&gt;</string>
-    <string name="about_copyright">Copyright &#169; 1996&#8211;2012 by the VideoLAN Team.\nSee the \'Licence\' tab for licensing information.</string>
+        &lt;a href=&quot;http://www.videolan.org/vlc/&quot;&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
+    <string name="about_copyright">Copyright &#169; 1996&#8211;2012 by VideoLAN.\nSee the \'Licence\' tab for licensing information.</string>
     <string name="for_android">for Android</string>
     <string name="compiled_by">This version of VLC is compiled by:</string>
 
