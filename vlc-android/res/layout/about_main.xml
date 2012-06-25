@@ -29,7 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"
-                android:text="@string/app_name"
+                android:text="@string/app_name_full"
                 android:textColor="@android:color/black"
                 android:textSize="27sp" />
 
