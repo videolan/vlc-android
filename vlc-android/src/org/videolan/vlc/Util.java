@@ -158,9 +158,10 @@ public class Util {
                 (width - (2 * left)), (height - (2 * top)));
     }
 
-    public static String getValue(Context context, String string, int defaultId)
+    public static String getValue(String string, int defaultId)
     {
-        return (string != null && string.length() > 0) ? string : context.getString(defaultId);
+        return (string != null && string.length() > 0) ?
+                string : VLCApplication.getAppContext().getString(defaultId);
     }
 
     public static void setItemBackground(View v, int position) {

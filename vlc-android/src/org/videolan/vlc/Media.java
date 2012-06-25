@@ -134,9 +134,9 @@ public class Media implements Comparable<Media> {
                 if (track.Type == TrackInfo.TYPE_META) {
                     mLength = track.Length;
                     mTitle = track.Title;
-                    mArtist = Util.getValue(context, track.Artist, R.string.unknown_artist);
-                    mAlbum = Util.getValue(context, track.Album, R.string.unknown_album);
-                    mGenre = Util.getValue(context, track.Genre, R.string.unknown_genre);
+                    mArtist = Util.getValue(track.Artist, R.string.unknown_artist);
+                    mAlbum = Util.getValue(track.Album, R.string.unknown_album);
+                    mGenre = Util.getValue(track.Genre, R.string.unknown_genre);
                     mArtworkURL = track.ArtworkURL;
                     Log.d(TAG, "Title " + mTitle);
                     Log.d(TAG, "Artist " + mArtist);
@@ -168,9 +168,9 @@ public class Media implements Comparable<Media> {
         mHeight = height;
 
         mTitle = title;
-        mArtist = Util.getValue(context, artist, R.string.unknown_artist);
-        mGenre = Util.getValue(context, genre, R.string.unknown_genre);
-        mAlbum = Util.getValue(context, album, R.string.unknown_album);
+        mArtist = Util.getValue(artist, R.string.unknown_artist);
+        mGenre = Util.getValue(genre, R.string.unknown_genre);
+        mAlbum = Util.getValue(album, R.string.unknown_album);
         mArtworkURL = artworkURL;
     }
 
