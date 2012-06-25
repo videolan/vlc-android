@@ -74,11 +74,11 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
         mTabHost.setup();
         TabHost.TabSpec tab_main = mTabHost.newTabSpec("main");
         tab_main.setContent(dcf);
-        tab_main.setIndicator("About");
+        tab_main.setIndicator(getResources().getText(R.string.about));
         mTabHost.addTab(tab_main);
         TabHost.TabSpec tab_licence = mTabHost.newTabSpec("licence");
         tab_licence.setContent(dcf);
-        tab_licence.setIndicator("Licence");
+        tab_licence.setIndicator(getResources().getText(R.string.licence));
         mTabHost.addTab(tab_licence);
 
         for(int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
