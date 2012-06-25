@@ -114,7 +114,7 @@ public class Media implements Comparable<Media> {
      * @param media URI
      * @param addToDb Should it be added to the file database?
      */
-    public Media(Context context, String URI, Boolean addToDb) {
+    public Media(String URI, Boolean addToDb) {
         mLocation = URI;
 
         LibVLC mLibVlc = null;
@@ -150,7 +150,7 @@ public class Media implements Comparable<Media> {
 
         if (addToDb) {
             // Add this item to database
-            DatabaseManager db = DatabaseManager.getInstance(context);
+            DatabaseManager db = DatabaseManager.getInstance(VLCApplication.getAppContext());
             db.addMedia(this);
         }
     }

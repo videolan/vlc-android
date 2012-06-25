@@ -565,7 +565,7 @@ public class AudioService extends Service {
                 Media media = db.getMedia(AudioService.this, path);
                 if(media == null) {
                     Log.v(TAG, "Creating on-the-fly Media object for " + path);
-                    media = new Media(AudioService.this, path, false);
+                    media = new Media(path, false);
                 }
                 mMediaList.add(media);
             }

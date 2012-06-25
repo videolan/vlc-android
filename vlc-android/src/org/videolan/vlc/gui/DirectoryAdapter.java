@@ -250,7 +250,7 @@ public class DirectoryAdapter extends BaseAdapter {
         String holderText = "";
         if(selectedNode.isFile()) {
             Log.d(TAG, "Loading media " + selectedNode.name);
-            Media m = new Media(mContext, getMediaLocation(position), false);
+            Media m = new Media(getMediaLocation(position), false);
             holder.title.setText(m.getTitle());
             holderText = m.getArtist() + " - " + m.getAlbum();
         } else
