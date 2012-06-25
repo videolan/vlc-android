@@ -15,10 +15,12 @@ fi
 
 # XXX : important!
 cat << EOF
-For an ARMv7-A device without NEON or the emulator, you need a build without NEON:
+For an ARMv7-A device without NEON, you need a build without NEON:
 $ export NO_NEON=1
 For an ARMv6 device without FPU, you need a build without FPU:
 $ export NO_FPU=1
+For an ARMv5 device or the Android emulator, you need an ARMv5 build:
+$ export NO_ARMV6=1
 
 If you plan to use a release build, run 'compile.sh release'
 EOF
@@ -98,10 +100,14 @@ if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     echo "NOTHUMB := -marm" >> config.mak
 elif [ ${ANDROID_ABI} = "armeabi" ] ; then
     export NO_NEON=1
-    if test -z "${NO_FPU}" ; then
-        EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
+    if [ -n "${NO_ARMV6}" ]; then
+        EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
     else
-        EXTRA_CFLAGS="-march=armv6j -mtune=arm1136j-s -msoft-float"
+        if [ -n "${NO_FPU}" ]; then
+            EXTRA_CFLAGS="-march=armv6j -mtune=arm1136j-s -msoft-float"
+        else
+            EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
+        fi
     fi
 else
     echo "Unknown ABI. Die, die, die!"
