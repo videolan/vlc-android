@@ -43,9 +43,12 @@ public class AboutMainFragment extends Fragment {
 
         String builddate = Util.readAsset("builddate.txt", "Unknown");
         String builder = Util.readAsset("builder.txt", "unknown");
+        String revision = Util.readAsset("revision.txt", "unknown");
 
         TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
+        TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
+        textview_rev.setText(getResources().getString(R.string.revision) + " " + revision + " (" + builddate + ")");
 
         return v;
     }

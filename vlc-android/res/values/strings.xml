@@ -92,6 +92,7 @@
     <!-- About -->
     <string name="version">Version</string>
     <string name="licence">Licence</string>
+    <string name="revision">Revision</string>
     <string name="about">About</string>
     <string name="about_text">VLC media player for Android is a port of VLC, the free media player that can read from files and network streams, to the Android operating system.</string>
     <string name="about_link">
