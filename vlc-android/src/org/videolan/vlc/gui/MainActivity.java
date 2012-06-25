@@ -323,36 +323,6 @@ public class MainActivity extends SherlockFragmentActivity {
         mMediaLibraryActive = true;
     }
 
-    /*@Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.play_pause:
-                if (mAudioController.isPlaying()) {
-                    mAudioController.pause();
-                } else {
-                    mAudioController.play();
-                }
-                break;
-            case R.id.show_player:
-                Intent intent = new Intent(this, AudioPlayerActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.hide_mini_player:
-                hideAudioPlayer();
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }*/
-
-    public void hideAudioPlayer() {
-        mAudioPlayer.hide();
-        mAudioController.stop();
-    }
-
-    public void showAudioPlayer() {
-        mAudioPlayer.show();
-    }
-
     private void showInfoDialog() {
         final Dialog infoDialog = new Dialog(this, R.style.info_dialog);
         infoDialog.setContentView(R.layout.info_dialog);
