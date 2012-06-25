@@ -21,6 +21,7 @@ package org.videolan.vlc;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 
 public class VLCApplication extends Application {
     private static VLCApplication instance;
@@ -31,8 +32,19 @@ public class VLCApplication extends Application {
         instance = this;
     }
 
+    /**
+     * @return the main context of the Application
+     */
     public static Context getAppContext()
     {
         return instance;
+    }
+
+    /**
+     * @return the main resources from the Application
+     */
+    public static Resources getAppResources()
+    {
+        return instance.getResources();
     }
 }
