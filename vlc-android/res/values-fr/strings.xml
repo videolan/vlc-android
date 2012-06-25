@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  Main VLC Interface  -->
+    <string name="app_name_full">Lecteur multimédia VLC</string>
     <string name="filebrowser_sdfail">Impossible de lire la Carte SD. Veuillez vérifier qu\'elle est montée correctement.</string>
     <string name="filebrowser_root">Racine</string>
     <string name="filebrowser_parent">..</string>
