@@ -146,7 +146,7 @@ public class AudioService extends Service {
                     play();
                 } else {
                     Intent iVlc = new Intent(context, AudioPlayerActivity.class);
-                    iVlc.putExtra(START_FROM_NOTIFICATION, "");
+                    iVlc.putExtra(START_FROM_NOTIFICATION, true);
                     iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iVlc);
                 }
@@ -321,7 +321,7 @@ public class AudioService extends Service {
         Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        notificationIntent.putExtra(START_FROM_NOTIFICATION, "");
+        notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
                 mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum(), pendingIntent);
@@ -701,7 +701,7 @@ public class AudioService extends Service {
         Intent iForward = new Intent();
         iForward.setAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
         Intent iVlc = new Intent(context, MainActivity.class);
-        iVlc.putExtra(START_FROM_NOTIFICATION, "");
+        iVlc.putExtra(START_FROM_NOTIFICATION, true);
 
         PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
         PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
