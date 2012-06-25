@@ -6,9 +6,9 @@
         android:title="@string/searchable_hint"
         android:showAsAction="ifRoom" />
     <item
-        android:id="@+id/ml_menu_browse"
-        android:icon="@drawable/ic_folder"
-        android:title="@string/directories"
+        android:id="@+id/ml_menu_open_mrl"
+        android:icon="@drawable/ic_menu_goto"
+        android:title="@string/open_mrl"
         android:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
@@ -29,9 +29,9 @@
         android:title="@string/refresh"
         android:showAsAction="ifRoom" />
     <item
-        android:id="@+id/ml_menu_open_mrl"
-        android:icon="@drawable/ic_menu_goto"
-        android:title="@string/open_mrl"
+        android:id="@+id/ml_menu_browse"
+        android:icon="@drawable/ic_folder"
+        android:title="@string/directories"
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_preferences"
