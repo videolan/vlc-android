@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="app_name" translatable="false">VLC media player</string>
+    <string name="app_name" translatable="false">VLC</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
