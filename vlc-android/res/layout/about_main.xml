@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/about_bg"
+        android:gravity="bottom"
         android:orientation="vertical"
         android:paddingBottom="15dp"
         android:paddingLeft="5dp"
@@ -27,23 +28,15 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:gravity="bottom"
                 android:orientation="vertical" >
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|top"
                     android:text="@string/app_name_full"
                     android:textColor="@android:color/black"
                     android:textSize="29sp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|top"
-                    android:text="@string/for_android"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -54,13 +47,14 @@
             android:gravity="center"
             android:text="@string/about_text"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:gravity="center"
+            android:layout_weight="0.12"
+            android:gravity="center|top"
             android:text="@string/about_copyright"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
@@ -75,6 +69,18 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/main_link"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.27"
+            android:autoLink="web"
+            android:gravity="center"
+            android:text="@string/about_link"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/main_revision"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -82,7 +88,7 @@
             android:gravity="center"
             android:text="@string/revision"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="fill_parent"
@@ -103,16 +109,6 @@
             android:textColor="@android:color/black"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/main_link"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:autoLink="web"
-            android:gravity="center"
-            android:text="@string/about_link"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
     </LinearLayout>
 
 </ScrollView>
