@@ -34,11 +34,6 @@ public class AboutLicenceFragment extends Fragment {
     public final static String TAG = "VLC/AboutLicenceFragment";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         super.onCreateView(inflater, container, savedInstanceState);
