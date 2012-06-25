@@ -43,9 +43,9 @@ public class AboutLicenceFragment extends Fragment {
     {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.about_licence, container, false);
-        String revision = Util.readAsset(getActivity(), "revision.txt", "Unknown revision");
+        String revision = Util.readAsset("revision.txt", "Unknown revision");
         WebView t = (WebView)v.findViewById(R.id.webview);
-        t.loadData(Util.readAsset(getActivity(), "licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
+        t.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
         return v;
     }
 }

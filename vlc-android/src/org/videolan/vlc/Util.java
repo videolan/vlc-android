@@ -72,9 +72,9 @@ public class Util {
         return s;
     }
 
-    public static String readAsset(Context ctx, String assetName, String defaultS) {
+    public static String readAsset(String assetName, String defaultS) {
         try {
-            InputStream is = ctx.getResources().getAssets().open(assetName);
+            InputStream is = VLCApplication.getAppResources().getAssets().open(assetName);
             BufferedReader r = new BufferedReader(new InputStreamReader(is, "UTF8"));
             StringBuilder sb = new StringBuilder();
             String line = r.readLine();

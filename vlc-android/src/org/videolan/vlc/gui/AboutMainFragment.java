@@ -46,8 +46,8 @@ public class AboutMainFragment extends Fragment {
         TextView link = (TextView) v.findViewById(R.id.main_link);
         link.setText(Html.fromHtml(this.getString(R.string.about_link)));
 
-        String builddate = Util.readAsset(getActivity(), "builddate.txt", "Unknown");
-        String builder = Util.readAsset(getActivity(), "builder.txt", "unknown");
+        String builddate = Util.readAsset("builddate.txt", "Unknown");
+        String builder = Util.readAsset("builder.txt", "unknown");
 
         TextView compiled = (TextView) v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
