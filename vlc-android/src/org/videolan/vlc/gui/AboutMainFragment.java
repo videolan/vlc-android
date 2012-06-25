@@ -26,7 +26,6 @@ import org.videolan.vlc.Util;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class AboutMainFragment extends Fragment {
         View v = inflater.inflate(R.layout.about_main, container, false);
         TextView link = (TextView) v.findViewById(R.id.main_link);
         link.setText(Html.fromHtml(this.getString(R.string.about_link)));
-        link.setMovementMethod(LinkMovementMethod.getInstance());
 
         String builddate = Util.readAsset(getActivity(), "builddate.txt", "Unknown");
         String builder = Util.readAsset(getActivity(), "builder.txt", "unknown");
