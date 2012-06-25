@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="foo@bar (xxxx-xx-xx)"
+            android:text=""
             android:textColor="@android:color/black"
             android:textSize="11sp" />
 
