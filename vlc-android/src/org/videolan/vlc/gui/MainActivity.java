@@ -182,14 +182,17 @@ public class MainActivity extends SherlockFragmentActivity {
         SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
         mCurrentViewTab = sharedPrefs.getInt("tab", VIDEO_TAB);
         mMediaLibraryActive = sharedPrefs.getBoolean("medialibrary", true);
+        Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Restore last view */
         if(!mMediaLibraryActive)
             showDirectoryView();
-        else if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION) || mCurrentViewTab == AUDIO_TAB)
+        else if (startFromNotification || mCurrentViewTab == AUDIO_TAB)
             showAudioTab();
         else
             showVideoTab();
+        if (startFromNotification)
+            getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
         super.onResume();
     }
 
