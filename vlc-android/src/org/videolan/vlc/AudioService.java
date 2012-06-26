@@ -145,7 +145,7 @@ public class AudioService extends Service {
                 } else if (!mLibVLC.isPlaying() && mCurrentMedia != null) {
                     play();
                 } else {
-                    Intent iVlc = new Intent(context, AudioPlayerActivity.class);
+                    Intent iVlc = new Intent(context, MainActivity.class);
                     iVlc.putExtra(START_FROM_NOTIFICATION, true);
                     iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iVlc);

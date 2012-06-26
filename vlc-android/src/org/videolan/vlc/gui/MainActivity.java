@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.MediaLibrary;
@@ -185,7 +186,7 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Restore last view */
         if(!mMediaLibraryActive)
             showDirectoryView();
-        else if (mCurrentViewTab == AUDIO_TAB)
+        else if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION) || mCurrentViewTab == AUDIO_TAB)
             showAudioTab();
         else
             showVideoTab();
