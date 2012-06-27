@@ -302,7 +302,8 @@ public class MainActivity extends SherlockFragmentActivity {
         ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
 
         /* Remove existing tabs */
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        if (mActionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD)
+            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         /* Load directory view fragment */
         ft.attach(mDirectoryView);
         ft.commit();
@@ -315,7 +316,8 @@ public class MainActivity extends SherlockFragmentActivity {
         ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
 
         /* Restore the tabs */
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        if (mActionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
+            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         /* Remove the directory view from the tabs */
         ft.detach(mDirectoryView);
         ft.commit();
