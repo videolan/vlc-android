@@ -529,7 +529,7 @@ public class MainActivity extends SherlockFragmentActivity {
             else if (mTag.equalsIgnoreCase("audio"))
                 ((MainActivity)mActivity).mCurrentViewTab = AUDIO_TAB;
 
-            if (current != null) {
+            if (current != null && current.getTag() != null) {
                 if (current.getTag() == mTag)
                     return;
                 if (mTag.equalsIgnoreCase("video"))
