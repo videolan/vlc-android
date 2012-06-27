@@ -45,7 +45,7 @@ $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	@echo
 	date +"%Y-%m-%d" > $(SRC)/assets/builddate.txt
 	echo `id -u -n`@`hostname` > $(SRC)/assets/builder.txt
-	git describe --always > $(SRC)/assets/revision.txt
+	echo `git describe --always` > $(SRC)/assets/revision.txt
 	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) $(ANT_TARGET)
 
 VLC_MODULES=`./find_modules.sh $(VLC_BUILD_DIR)`
