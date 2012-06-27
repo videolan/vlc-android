@@ -522,13 +522,27 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	        if (mTag.equalsIgnoreCase("video")) {
-	            ft.setCustomAnimations((mFragment == null) ? 0 : R.anim.anim_enter_left, R.anim.anim_leave_left);
-	            ((MainActivity)mActivity).mCurrentViewTab = VIDEO_TAB;
-	        } else if (mTag.equalsIgnoreCase("audio")) {
-	            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
-	            ((MainActivity)mActivity).mCurrentViewTab = AUDIO_TAB;
-	        }
+            Fragment current = mActivity.getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+
+            if (mTag.equalsIgnoreCase("video"))
+                ((MainActivity)mActivity).mCurrentViewTab = VIDEO_TAB;
+            else if (mTag.equalsIgnoreCase("audio"))
+                ((MainActivity)mActivity).mCurrentViewTab = AUDIO_TAB;
+
+            if (current != null) {
+                if (current.getTag() == mTag)
+                    return;
+                if (mTag.equalsIgnoreCase("video"))
+                    ft.setCustomAnimations(0, R.anim.anim_leave_right);
+                else if (mTag.equalsIgnoreCase("audio"))
+                    ft.setCustomAnimations(0, R.anim.anim_leave_left);
+                ft.detach(current);
+            }
+
+            if (mTag.equalsIgnoreCase("video"))
+                ft.setCustomAnimations(R.anim.anim_enter_left, 0);
+            else if (mTag.equalsIgnoreCase("audio"))
+                ft.setCustomAnimations(R.anim.anim_enter_right, 0);
 
             if (mFragment == null) {
                 mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
@@ -541,16 +555,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         @Override
         public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-            if (mTag.equalsIgnoreCase("video"))
-                ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left);
-            else if (mTag.equalsIgnoreCase("audio")) {
-                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right);
-                mActivity.getSupportFragmentManager().popBackStack();
-            }
-
-            if (mFragment != null) {
-                ft.detach(mFragment);
-            }
         }
 
         @Override
