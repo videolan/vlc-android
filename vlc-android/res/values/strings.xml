@@ -56,7 +56,7 @@
     <string name="directory">Directory</string>
     <string name="directories">Directories</string>
     <string name="loading">Loading…</string>
-    <string name="nomedia">No media files</string>
+    <string name="nomedia">No media files found, please transfer files to your device or adjust your preferences.</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>
