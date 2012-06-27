@@ -51,7 +51,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -59,8 +58,6 @@ import com.actionbarsherlock.app.SherlockListFragment;
 public class VideoListFragment extends SherlockListFragment implements ISortable {
     public final static String TAG = "VLC/VideoListFragment";
 
-    private LinearLayout mNoFileLayout;
-    private LinearLayout mLoadFileLayout;
     private VideoListAdapter mVideoAdapter;
 
     protected Media mItemToUpdate;
@@ -89,8 +86,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_list, container, false);
-        mNoFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_nofile);
-        mLoadFileLayout = (LinearLayout) v.findViewById(R.id.video_list_empty_loadfile);
         return v;
     }
 
@@ -240,9 +235,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 }
             }
             mVideoAdapter.sort();
-        } else {
-            mLoadFileLayout.setVisibility(View.INVISIBLE);
-            mNoFileLayout.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -11,36 +11,11 @@
         android:divider="@color/item_common"
         android:dividerHeight="1dp"
         android:fastScrollEnabled="true" />
-    <FrameLayout
+     <TextView
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <LinearLayout
-            android:id="@+id/video_list_empty_loadfile"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center">
-            <ProgressBar
-                android:layout_width="20dip"
-                android:layout_height="20dip"
-                android:layout_margin="11dip" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                android:textSize="20dip" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/video_list_empty_nofile"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:visibility="invisible">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nomedia"
-                android:textSize="20dip" />
-        </LinearLayout>
-    </FrameLayout>
-</LinearLayout>
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/nomedia"
+        android:textSize="20dip" />
+</FrameLayout>
