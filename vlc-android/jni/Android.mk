@@ -12,6 +12,12 @@ ARCH=$(ANDROID_ABI)
 CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
 
 LOCAL_CFLAGS := -std=gnu99
+ifeq ($(ARCH), "armeabi")
+	LOCAL_CFLAGS += -DHAVE_ARMEABI
+endif
+ifeq ($(ARCH), "armeabi-v7a")
+	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
+endif
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
