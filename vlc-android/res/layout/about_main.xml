@@ -20,6 +20,7 @@
             android:orientation="horizontal" >
 
             <ImageView
+                android:id="@+id/logo"
                 android:layout_width="80dp"
                 android:layout_height="fill_parent"
                 android:contentDescription="@string/info"

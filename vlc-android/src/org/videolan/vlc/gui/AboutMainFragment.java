@@ -28,7 +28,13 @@ import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutMainFragment extends Fragment {
@@ -49,6 +55,19 @@ public class AboutMainFragment extends Fragment {
         compiled.setText(builder + " (" + builddate + ")");
         TextView textview_rev = (TextView) v.findViewById(R.id.main_revision);
         textview_rev.setText(getResources().getString(R.string.revision) + " " + revision + " (" + builddate + ")");
+
+        final ImageView logo = (ImageView) v.findViewById(R.id.logo);
+        logo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationSet anim = new AnimationSet(true);
+                RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(800);
+                rotate.setInterpolator(new DecelerateInterpolator());
+                anim.addAnimation(rotate);
+                logo.startAnimation(anim);
+            }
+        });
 
         return v;
     }
