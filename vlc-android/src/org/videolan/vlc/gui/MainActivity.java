@@ -299,6 +299,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private void showDirectoryView() {
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 
+        ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
+
         /* Remove existing tabs */
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         /* Load directory view fragment */
@@ -310,13 +312,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private void hideDirectoryView() {
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
 
-        /* Animate based on which tab is about to be loaded
-        * Video comes in on left so exit right
-        * Audio comes in on right so exit left */
-//        if (mCurrentViewTab == AUDIO_TAB)
-//            ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left, R.anim.anim_enter_left, 0);
-//        else if (mCurrentViewTab == VIDEO_TAB)
-//            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
+        ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
 
         /* Restore the tabs */
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
