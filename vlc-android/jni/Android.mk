@@ -7,11 +7,7 @@ LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-r
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
-ifeq ($(NO_NEON),)
-ARCH=armeabi-v7a
-else
-ARCH=armeabi
-endif
+ARCH=$(ANDROID_ABI)
 
 CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
 
