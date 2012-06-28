@@ -21,6 +21,8 @@
 package org.videolan.vlc;
 
 import java.io.File;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -433,8 +435,38 @@ public class AudioService extends Service {
 
             //cover not in MediaStore, trying vlc
             String artworkURL = mCurrentMedia.getArtworkURL();
-            if (artworkURL != null && artworkURL.startsWith("file://"))
+            final String cacheDir = "/sdcard/Android/data/org.videolan.vlc/cache";
+            if (artworkURL != null && artworkURL.startsWith("file://")) {
                 return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
+            } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
+                // Decode if the album art is embedded in the file
+                String mArtist = mCurrentMedia.getArtist();
+                String mAlbum = mCurrentMedia.getAlbum();
+
+                /* Parse decoded attachment */
+                if( mArtist.length() == 0 || mAlbum.length() == 0 ||
+                    mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
+                    mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
+                {
+                    /* If artist or album are missing, it was cached by title MD5 hash */
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    byte[] binHash = md.digest((artworkURL + mCurrentMedia.getTitle()).getBytes("UTF-8"));
+                    /* Convert binary hash to normal hash */
+                    BigInteger hash = new BigInteger(1, binHash);
+                    String titleHash = hash.toString(16);
+                    while(titleHash.length() < 32) {
+                        titleHash = "0" + titleHash;
+                    }
+                    /* Use generated hash to find art */
+                    artworkURL = cacheDir + "/art/arturl/" + titleHash + "/art.png";
+                } else {
+                    /* Otherwise, it was cached by artist and album */
+                    artworkURL = cacheDir + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
+                }
+
+                Log.v(TAG, "artworkURL (calculated) = " + artworkURL);
+                return BitmapFactory.decodeFile(artworkURL);
+            }
 
             //still no cover found, looking in folder ...
             File f = Util.URItoFile(mCurrentMedia.getLocation());
