@@ -216,6 +216,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onRestart() {
+        super.onRestart();
         /* Reload the latest preferences */
         reloadPreferences();
     }
