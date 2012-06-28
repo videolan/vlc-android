@@ -170,6 +170,9 @@ public class MainActivity extends SherlockFragmentActivity {
         filter.addAction(ACTION_SHOW_TEXTINFO);
         registerReceiver(messageReceiver, filter);
 
+        /* Reload the latest preferences */
+        reloadPreferences();
+
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems(this);
     }
@@ -178,10 +181,6 @@ public class MainActivity extends SherlockFragmentActivity {
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
-
-        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
-        mCurrentViewTab = sharedPrefs.getInt("tab", VIDEO_TAB);
-        mMediaLibraryActive = sharedPrefs.getBoolean("medialibrary", true);
         Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Restore last view */
@@ -215,10 +214,20 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onRestart() {
+        /* Reload the latest preferences */
+        reloadPreferences();
+    }
+
     /** Create menu from XML
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        /* Note: on Android 3.0+ with an action bar this method
+         * is called while the view is created. This can happen
+         * any time after onCreate.
+         */
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
         MenuItem browse = menu.findItem(R.id.ml_menu_browse);
@@ -294,6 +303,12 @@ public class MainActivity extends SherlockFragmentActivity {
             	break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void reloadPreferences() {
+        SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
+        mCurrentViewTab = sharedPrefs.getInt("tab", VIDEO_TAB);
+        mMediaLibraryActive = sharedPrefs.getBoolean("medialibrary", true);
     }
 
     private void showDirectoryView() {
