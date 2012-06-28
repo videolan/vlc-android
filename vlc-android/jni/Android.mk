@@ -3,7 +3,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libvlcjni
 
-LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-rwlocks.c eventfd.c sem.c
+LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-rwlocks.c pthread-once.c eventfd.c sem.c
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
@@ -14,6 +14,9 @@ CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_s
 LOCAL_CFLAGS := -std=gnu99
 ifeq ($(ARCH), armeabi)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI
+	# Needed by ARMv6 Thumb1 (the System Control coprocessor/CP15 is mandatory on ARMv6)
+	# On newer ARM architectures we can use Thumb2
+	LOCAL_ARM_MODE := arm
 endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
