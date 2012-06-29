@@ -35,7 +35,8 @@
         <activity
             android:name=".gui.SearchActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -99,14 +100,17 @@
 
         <service android:name=".AudioService" />
 
-        <receiver android:name="PhoneStateReceiver" >
+        <receiver
+            android:name="PhoneStateReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".widget.VLCAppWidgetProvider"
-            android:label="VLC mini player" >
+            android:label="VLC mini player"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
