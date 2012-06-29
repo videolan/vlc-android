@@ -450,7 +450,7 @@ public class MainActivity extends SherlockFragmentActivity {
         b.setTitle(R.string.open_mrl_dialog_title);
         b.setMessage(R.string.open_mrl_dialog_msg);
         b.setView(input);
-        b.setPositiveButton("Open", new DialogInterface.OnClickListener() {
+        b.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int button) {
                 ProgressDialog pd = ProgressDialog.show(
