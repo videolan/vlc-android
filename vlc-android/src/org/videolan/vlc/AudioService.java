@@ -34,6 +34,7 @@ import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -409,6 +410,7 @@ public class AudioService extends Service {
         mRepeating = RepeatType.values()[t];
     }
 
+    @SuppressLint("SdCardPath")
     private Bitmap getCover() {
         try {
             // try to get the cover from android MediaStore
