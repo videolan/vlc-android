@@ -256,7 +256,10 @@ public class Media implements Comparable<Media> {
     }
 
     public String getGenre() {
-        return mGenre;
+        if(mGenre == VLCApplication.getAppContext().getString(R.string.unknown_genre))
+            return mGenre;
+        else /* Make genres case insensitive via normalisation */
+            return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase();
     }
 
     public String getCopyright() {
