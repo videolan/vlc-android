@@ -11,7 +11,6 @@
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Durata</string>
     <string name="searchable_hint">Cerca&#8230;</string>
-    <string name="searchable_label">VLC Media Player</string>
     <string name="search_history">Cronologia</string>
     <string name="clear_history">Cancella Cronologia</string>
     <string name="search_found_results">%1$d Risultati Trovati</string>
