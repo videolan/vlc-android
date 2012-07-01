@@ -966,6 +966,7 @@ void Java_org_videolan_vlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject thiz,
     jmethodID methodID = (*env)->GetMethodID(env, arrayClass, "add", "(Ljava/lang/Object;)Z");
 
     struct dirent* p_dirent;
+    jstring str;
     while(1) {
         errno = 0;
         p_dirent = readdir(p_dir);
@@ -975,7 +976,9 @@ void Java_org_videolan_vlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject thiz,
             else if(errno == 0) /* end of stream */
                 break;
         }
-        (*env)->CallBooleanMethod(env, arrayList, methodID, (*env)->NewStringUTF(env, p_dirent->d_name));
+        str = (*env)->NewStringUTF(env, p_dirent->d_name);
+        (*env)->CallBooleanMethod(env, arrayList, methodID, str);
+        (*env)->DeleteLocalRef(env, str);
     }
     closedir(p_dir);
 }
