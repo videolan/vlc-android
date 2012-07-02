@@ -131,4 +131,5 @@
         <item>@string/aout_audiotrack</item>
         <item>@string/aout_opensles</item>
     </string-array>
+    <string name="error_no_neon">Sorry, but your device is currently not supported by this version of VLC for Android™</string>
 </resources>

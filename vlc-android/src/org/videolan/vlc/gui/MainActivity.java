@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
+import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -97,6 +98,15 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (!Util.hasNeon()) {
+            Log.e(TAG, "CPU is missing NEON.");
+            super.onCreate(savedInstanceState);
+            Intent i = new Intent(this, CompatErrorActivity.class);
+            startActivity(i);
+            finish();
+            return;
+        }
+
         if (Util.isICSOrLater()) /* Bug on pre-ICS, the progress bar is always present */
             requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main);
@@ -210,7 +220,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(messageReceiver);
+        try {
+            unregisterReceiver(messageReceiver);
+        } catch (IllegalArgumentException e) {}
         super.onDestroy();
     }
 

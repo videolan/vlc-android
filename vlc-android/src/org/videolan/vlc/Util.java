@@ -184,4 +184,26 @@ public class Util {
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
+
+    public static boolean hasNeon()
+    {
+        ProcessBuilder cmd;
+
+        try {
+            String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
+            cmd = new ProcessBuilder(args);
+
+            Process process = cmd.start();
+            InputStream in = process.getInputStream();
+            byte[] re = new byte[1024];
+            while(in.read(re) != -1){
+                if (new String(re).contains("neon"))
+                    return true;
+            }
+            in.close();
+        } catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
 }

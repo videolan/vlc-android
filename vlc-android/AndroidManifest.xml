@@ -33,6 +33,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".gui.CompatErrorActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
             android:name=".gui.SearchActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"
