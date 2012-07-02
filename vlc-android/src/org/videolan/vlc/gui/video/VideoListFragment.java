@@ -224,6 +224,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
+        mThumbnailerManager.clearJobs();
         mVideoAdapter.clear();
 
         if (itemList.size() > 0) {
