@@ -60,6 +60,8 @@ public class Aout {
     }
 
     public void playBuffer(byte[] audioData, int bufferSize) {
+        if (mAudioTrack.getState() == AudioTrack.STATE_UNINITIALIZED)
+            return;
         if (mAudioTrack.write(audioData, 0, bufferSize) != bufferSize) {
             Log.w(TAG, "Could not write all the samples to the audio device");
         }
