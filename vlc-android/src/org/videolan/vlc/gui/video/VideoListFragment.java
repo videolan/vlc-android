@@ -76,7 +76,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mVideoAdapter = new VideoListAdapter(getActivity());
 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
-        mMediaLibrary.addUpdateHandler(mHandler);
         mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
@@ -96,9 +95,9 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
+        mMediaLibrary.removeUpdateHandler(mHandler);
     }
 
     @Override
@@ -109,12 +108,12 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         long lastTime = preferences.getLong("LastTime", 0);
         mVideoAdapter.setLastMedia(lastTime, lastPath);
         mVideoAdapter.notifyDataSetChanged();
+        mMediaLibrary.addUpdateHandler(mHandler);
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
-        mMediaLibrary.removeUpdateHandler(mHandler);
         mThumbnailerManager.clearJobs();
         mThumbnailerManager.interrupt();
         mBarrier.reset();

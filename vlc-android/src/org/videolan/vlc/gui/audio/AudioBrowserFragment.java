@@ -98,7 +98,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mAudioController = AudioServiceController.getInstance();
 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
-        mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioListAdapter(getActivity());
         mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
@@ -154,6 +153,18 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         updateLists();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMediaLibrary.removeUpdateHandler(mHandler);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMediaLibrary.addUpdateHandler(mHandler);
     }
 
     OnItemClickListener songListener = new OnItemClickListener() {
@@ -327,7 +338,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     @Override
     public void onDestroy() {
-        mMediaLibrary.removeUpdateHandler(mHandler);
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();

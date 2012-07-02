@@ -76,7 +76,6 @@ public class AudioListFragment extends SherlockListFragment {
         mAudioController = AudioServiceController.getInstance();
 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
-        mMediaLibrary.addUpdateHandler(mHandler);
 
         mSongsAdapter = new AudioListAdapter(getActivity());
         setListAdapter(mSongsAdapter);
@@ -96,8 +95,19 @@ public class AudioListFragment extends SherlockListFragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
+        super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMediaLibrary.addUpdateHandler(mHandler);
+    }
+
+    @Override
+    public void onDestroy() {
         mSongsAdapter.clear();
         super.onDestroy();
     }
