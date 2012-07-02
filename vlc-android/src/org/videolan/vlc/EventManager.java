@@ -43,12 +43,12 @@ public class EventManager {
     //public static final int MediaPlayerNothingSpecial       = 0x101;
     //public static final int MediaPlayerOpening              = 0x102;
     //public static final int MediaPlayerBuffering            = 0x103;
-    public static final int MediaPlayerPlaying = 0x104;
-    public static final int MediaPlayerPaused = 0x105;
-    public static final int MediaPlayerStopped = 0x106;
+    public static final int MediaPlayerPlaying                = 0x104;
+    public static final int MediaPlayerPaused                 = 0x105;
+    public static final int MediaPlayerStopped                = 0x106;
     //public static final int MediaPlayerForward              = 0x107;
     //public static final int MediaPlayerBackward             = 0x108;
-    public static final int MediaPlayerEndReached = 0x109;
+    public static final int MediaPlayerEndReached             = 0x109;
     //public static final int MediaPlayerEncounteredError     = 0x10a;
     //public static final int MediaPlayerTimeChanged          = 0x10b;
     //public static final int MediaPlayerPositionChanged      = 0x10c;
