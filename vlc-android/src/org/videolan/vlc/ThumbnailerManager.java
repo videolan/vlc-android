@@ -114,9 +114,9 @@ public class ThumbnailerManager extends Thread {
             if (killed)
                 break;
             total = totalCount;
+            Media item = mItems.poll();
             lock.unlock();
 
-            Media item = mItems.poll();
             MainActivity.showProgressBar(mVideoListActivity.getActivity());
 
             Log.i(TAG, "show ProgressBar!");
