@@ -20,8 +20,6 @@
 
 package org.videolan.vlc;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -180,10 +178,10 @@ public class LibVLC {
     private void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-            if (!Util.hasNeon()) {
+            /* if (!Util.hasNeon()) {
                 Log.e(TAG, "Required CPU feature is missing.");
                 return;
-            }
+            } */
             Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             nativeInit(pref.getBoolean("enable_verbose_mode", true));
