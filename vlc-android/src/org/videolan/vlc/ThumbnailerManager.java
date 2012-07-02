@@ -131,6 +131,10 @@ public class ThumbnailerManager extends Thread {
             //Log.i(TAG, "create new bitmap for: " + item.getName());
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
+            // Activity stopped & destroyed, abort everything
+            if (isInterrupted())
+                break;
+
             if (b == null) {// We were not able to create a thumbnail for this item.
                 item.setPicture(mVideoListActivity.getActivity(), null);
                 continue;

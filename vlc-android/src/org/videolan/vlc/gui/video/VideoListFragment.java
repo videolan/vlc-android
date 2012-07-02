@@ -116,6 +116,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public void onDestroy() {
         mMediaLibrary.removeUpdateHandler(mHandler);
         mThumbnailerManager.clearJobs();
+        mThumbnailerManager.interrupt();
+        mBarrier.reset();
         mVideoAdapter.clear();
         super.onDestroy();
     }
@@ -208,9 +210,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 try {
                     mBarrier.await();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 } catch (BrokenBarrierException e) {
-                    e.printStackTrace();
                 }
                 break;
             case MediaLibrary.MEDIA_ITEMS_UPDATED:
