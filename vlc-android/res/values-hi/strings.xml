@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!--Main VLC Interface-->
+  <string name="app_name">VLC</string>
+  <string name="filebrowser_sdfail">एसडी कार्ड को खोलने में असमर्थ | कृपया जांचें लें कि इसे सही ढंग से माउंट किया गया हैं |</string>
+  <string name="filebrowser_root">मूल</string>
+  <string name="filebrowser_parent">..</string>
+  <string name="filebrowser_title">चलाने के लिए मीडिया का चयन करें</string>
+  <string name="ml_no_media_dir">कोई मीडिया निर्देशिका नहीं</string>
+  <string name="sortby">द्वारा क्रमबद्ध करें…</string>
+  <string name="sortby_name">नाम</string>
+  <string name="sortby_length">अवधि</string>
+  <string name="searchable_hint">खोजें …</string>
+  <string name="search_history">इतिहास</string>
+  <string name="search_found_results">%1$d परिणाम मिला</string>
+  <string name="show_player"> प्लेयर को दिखाएँ</string>
+  <string name="hide_mini_player">छोटा प्लेयर को छुपाएँ</string>
+  <string name="play">चलायें</string>
+  <string name="append">संलग्न करें</string>
+  <string name="play_all">सभी को चलायें</string>
+  <string name="append_all">सभी को संलग्न करें</string>
+  <string name="delete">हटाएँ</string>
+  <string name="info">जानकारी</string>
+  <string name="confirm_delete">इस फ़ाइल को हटाएँ?</string>
+  <string name="pause">विराम दें</string>
+  <string name="close">बंद करें</string>
+  <string name="not_show_again">इस संदेश को फिर मत दिखाएँ.</string>
+  <string name="beta_warning">यह एक बीटा संस्करण है|\n\nइस संस्करण स्थिर नहीं है!\n\nउपयोग न करें जब तक आप यह न जाने कि आप क्या कर रहे हैं |\n\nयह आपके बिल्ली के बच्चे को मार, आपके घर को नष्ट कर सकता है और Mayan सर्वनाश शुरू कर सकते हैं|\nयह अपने जोखिम पर प्रयोग करें|\n\nमज़ा लें! :)</string>
+  <string name="info_title">VLC बीटा</string>
+  <string name="unknown_artist">अज्ञात कलाकार</string>
+  <string name="unknown_album">अज्ञात एल्बम</string>
+  <string name="unknown_genre">अज्ञात शैली</string>
+  <string name="songs">गाने</string>
+  <plurals name="songs">
+    <item quantity="one">1 गाने</item>
+    <item quantity="other">गाने</item>
+  </plurals>
+  <string name="artists">कलाकार</string>
+  <string name="albums">एल्बम</string>
+  <plurals name="albums">
+    <item quantity="one">1 एल्बम</item>
+    <item quantity="other">एल्बम</item>
+  </plurals>
+  <plurals name="subfolders">
+    <item quantity="one">1 उप-फ़ोल्डर</item>
+    <item quantity="other">%d उप-फ़ोल्डर</item>
+  </plurals>
+  <string name="parent_folder">मूल फ़ोल्डर तक</string>
+  <string name="all_albums">सभी एल्बम</string>
+  <string name="genres">शैलियों</string>
+  <string name="playlists">गीतसूची</string>
+  <string name="time_0">0:00</string>
+  <string name="title">शीर्षक</string>
+  <string name="artist">कलाकार</string>
+  <string name="album">एल्बम</string>
+  <string name="directory">निर्देशिका</string>
+  <string name="directories">निर्देशिकाएँ</string>
+  <string name="loading">लोड हो रहा है …</string>
+  <string name="nomedia">कोई मीडिया फ़ाइल नहीं मिला, कृपया अपनी डिवाइस के लिए फ़ाइलें स्थानांतरित या अपनी वरीयताओं को समायोजित करें.</string>
+  <string name="mediafiles">मीडिया फ़ाइलें</string>
+  <string name="notavailable">उपलब्ध नहीं</string>
+  <string name="nosubdirectory">कोई उपनिर्देशिका नहीं है |</string>
+  <string name="validation">क्या आपको यकीन है?</string>
+  <string name="locked">अवरोधित</string>
+  <string name="unlocked">अनवरोधित</string>
+  <string name="surface_best_fit">बेहतरीन फिट</string>
+  <string name="surface_fit_horizontal">क्षैतिज फ़िट</string>
+  <string name="surface_fit_vertical">ऊर्ध्वाधर फ़िट</string>
+  <string name="surface_fill">पूर्ण</string>
+  <string name="surface_original">मध्य</string>
+  <string name="thumbnail">अँगूठाकार प्रारूप</string>
+  <string name="refresh">तरोताज़ा करें</string>
+  <string name="track_audio">ऑडियो रील</string>
+  <string name="track_video">वीडियो रील</string>
+  <string name="track_text">उपशीर्षक रील</string>
+  <string name="track_unknown">अज्ञात रील</string>
+  <string name="track_codec_info">कोडेक: %1$s\n</string>
+  <string name="track_language_info">भाषा: %1$s\n</string>
+  <plurals name="track_channels_info">
+    <item quantity="one">%1$d चैनल\n</item>
+    <item quantity="other">%1$d चैनलों\n</item>
+  </plurals>
+  <string name="track_samplerate_info">नमूना दर: %1$d Hz\n</string>
+  <string name="track_resolution_info">स्थिरता: %1$dx%2$d\n</string>
+  <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
+  <string name="open">खोलें</string>
+  <string name="open_mrl">MRL खोलें</string>
+  <string name="open_mrl_dialog_title">संजाल प्रवाह को खोलें</string>
+  <string name="open_mrl_dialog_msg">संजाल MRL प्रविष्ट करें: e.g. http://, mms:// or rtsp://</string>
+  <string name="media_library">मीडिया लाइब्रेरी</string>
+  <!--About-->
+  <string name="app_name_full">Android™ के लिए VLC </string>
+  <string name="version">संस्करण</string>
+  <string name="licence">लाइसेंस</string>
+  <string name="revision">संशोधन</string>
+  <string name="about">के संबंध में</string>
+  <string name="about_text">VLCAndroid ™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
+  <string name="about_link">\n        &lt;a href=\"http://www.videolan.org/vlc/\"&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
+  <string name="about_copyright">VideoLAN द्वारा Copyleft © 1996–2012.\n</string>
+  <string name="for_android">Android™ के लिए</string>
+  <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
+  <string name="authors">सेबेस्तियन&amp;nbsp;टोउक, राफेल&amp;nbsp;कर्री, जीन बैप्टिस्ट&amp;nbsp;केम्प्फ़, एडवर्ड&amp;nbsp;वांग, मिचेल &amp;nbsp;मर्ग, लुडोविक&amp;nbsp;फौवेत, \nअद्रिएँ&amp;nbsp;मग्लो, रेमी&amp;nbsp;दुराफ्फोर्ट , दोमिनिकुए&amp;nbsp;मर्तिनेट , \nजें-फिलिप्पे&amp;nbsp;आंद्रे, मार्टिन&amp;nbsp;स्तोर्स्जो , \nअलेक्सांद्रे &amp;nbsp;पेर्रौड़ , हुगो&amp;nbsp;बौजी-लुय्स्सें , \nफेलिक्स&amp;nbsp;पुल&amp;nbsp;कुहने, जॉन  मूरिंग , पावोल  रुस्नक , रोहित यादव, \nतन्गुय प्रुवोत, थोमस क्लाविएर, असद महमूद, च्रिस्तोफ मिएबच, दविड़  \nकर्रे, गर्रेट केल्ली, फिलिप्प ड्रेइमन्न, वाल्टर हेस्क|\nVLC लेखक|</string>
+  <!--Preferences-->
+  <string name="preferences">प्राथमिकताएं</string>
+  <string name="main_prefs_category">मुख्य</string>
+  <string name="privacy_prefs_category">गोपनीयता</string>
+  <string name="clear_history">खोज के इतिहास को हटायें</string>
+  <string name="advanced_prefs_category">उन्नत</string>
+  <string name="enable_iomx">हार्डवेयर त्वरित व्याख्या सक्रिय करें</string>
+  <string name="advanced_debugging">उन्नत दोषमार्जन</string>
+  <string name="quit">अनुप्रयोग से बाहर निकलें</string>
+  <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
+  <string name="detect_headset">हेडसेट का पता लगायें</string>
+  <string name="detect_headset_detail">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
+  <string name="enable_wheel_bar">पहिया पट्टी सक्रिय करें</string>
+  <string name="enable_verbose_mode">शब्दबहुल</string>
+  <string name="enable_verbose_mode_detail">शब्दाडंबर (logcat) में वृद्धि करें</string>
+  <string name="aout">ऑडियो आउटपुट</string>
+  <string name="aout_audiotrack">ऑडियो रील (मूल)</string>
+  <string name="aout_audiotrack_java">ऑडियो रील (जावा)</string>
+  <string name="aout_opensles">OpenSL ES</string>
+  <string-array name="aouts_froyo">
+    <item>@string/aout_audiotrack_java</item>
+    <item>@string/aout_audiotrack</item>
+  </string-array>
+  <string-array name="aouts">
+    <item>@string/aout_audiotrack_java</item>
+    <item>@string/aout_audiotrack</item>
+    <item>@string/aout_opensles</item>
+  </string-array>
+  <string name="error_no_neon">क्षमा करें, लेकिन फिलहाल आपका उपकरण Android™ के लिए VLC के इस संस्करण के द्वारा समर्थित नहीं है</string>
+</resources>
