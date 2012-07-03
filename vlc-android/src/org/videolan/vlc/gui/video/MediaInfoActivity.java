@@ -65,6 +65,10 @@ public class MediaInfoActivity extends ListActivity {
         if (MRL == null)
             return;
         mItem = MediaLibrary.getInstance(this).getMediaItem(MRL);
+        if(mItem == null) {
+            // Shouldn't happen, maybe user opened it faster than Media Library could index it
+            return;
+        }
 
         // set title
         TextView titleView = (TextView) findViewById(R.id.title);
