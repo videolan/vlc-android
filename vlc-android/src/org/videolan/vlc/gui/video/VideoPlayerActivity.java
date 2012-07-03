@@ -837,7 +837,7 @@ public class VideoPlayerActivity extends Activity {
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
             location = getIntent().getDataString();
-        } else {
+        } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             location = getIntent().getExtras().getString("itemLocation");
         }
