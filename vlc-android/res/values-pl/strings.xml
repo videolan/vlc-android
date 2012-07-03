@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="app_name" translatable="false">VLC</string>
     <string name="filebrowser_sdfail">Nie można otworzyć karty SD. Proszę sprawdzić czy jest prawidłowo zamontowana.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
@@ -96,12 +95,8 @@
     <string name="revision">Rewizja</string>
     <string name="about">O</string>
     <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego wolnego oprogramowania. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
-    <string name="about_link"  translatable="false">
-        &lt;a href=&quot;http://www.videolan.org/vlc/&quot;&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
-    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2012 przez VideoLAN.\n</string>
     <string name="for_android">dla Androida™</string>
     <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
-    <string name="authors" translatable="false">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nautorów VLC.</string>
 
     <!--  Preferences -->
     <string name="preferences">Ustawienia</string>
