@@ -99,7 +99,7 @@
   <string name="about_copyright">VideoLAN द्वारा Copyleft © 1996–2012.\n</string>
   <string name="for_android">Android™ के लिए</string>
   <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
-  <string name="authors">सेबेस्तियन&amp;nbsp;टोउक, राफेल&amp;nbsp;कर्री, जीन बैप्टिस्ट&amp;nbsp;केम्प्फ़, एडवर्ड&amp;nbsp;वांग, मिचेल &amp;nbsp;मर्ग, लुडोविक&amp;nbsp;फौवेत, \nअद्रिएँ&amp;nbsp;मग्लो, रेमी&amp;nbsp;दुराफ्फोर्ट , दोमिनिकुए&amp;nbsp;मर्तिनेट , \nजें-फिलिप्पे&amp;nbsp;आंद्रे, मार्टिन&amp;nbsp;स्तोर्स्जो , \nअलेक्सांद्रे &amp;nbsp;पेर्रौड़ , हुगो&amp;nbsp;बौजी-लुय्स्सें , \nफेलिक्स&amp;nbsp;पुल&amp;nbsp;कुहने, जॉन  मूरिंग , पावोल  रुस्नक , रोहित यादव, \nतन्गुय प्रुवोत, थोमस क्लाविएर, असद महमूद, च्रिस्तोफ मिएबच, दविड़  \nकर्रे, गर्रेट केल्ली, फिलिप्प ड्रेइमन्न, वाल्टर हेस्क|\nVLC लेखक|</string>
+  <string name="authors">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck\nVLC लेखक|</string>
   <!--Preferences-->
   <string name="preferences">प्राथमिकताएं</string>
   <string name="main_prefs_category">मुख्य</string>
@@ -116,8 +116,8 @@
   <string name="enable_verbose_mode">शब्दबहुल</string>
   <string name="enable_verbose_mode_detail">शब्दाडंबर (logcat) में वृद्धि करें</string>
   <string name="aout">ऑडियो आउटपुट</string>
-  <string name="aout_audiotrack">ऑडियो रील (मूल)</string>
-  <string name="aout_audiotrack_java">ऑडियो रील (जावा)</string>
+  <string name="aout_audiotrack">AudioTrack (मूल)</string>
+  <string name="aout_audiotrack_java">AudioTrack (जावा)</string>
   <string name="aout_opensles">OpenSL ES</string>
   <string-array name="aouts_froyo">
     <item>@string/aout_audiotrack_java</item>
