@@ -77,7 +77,7 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
     <plurals name="track_channels_info">
-        <item quantity="one">%1$d channel\n</item>
+        <item quantity="one">1 channel\n</item>
         <item quantity="other">%1$d channels\n</item>
     </plurals>
     <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
