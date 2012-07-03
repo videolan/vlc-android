@@ -55,6 +55,10 @@ public class VlcCrashHandler implements UncaughtExceptionHandler {
         printWriter.close();
 
         Log.e(TAG, stacktrace);
+        if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            defaultUEH.uncaughtException(thread, ex);
+            return; // We can't save the log if SD card is unavailable
+        }
         String sdcardPath = Environment.getExternalStorageDirectory().getPath();
         writeLog(stacktrace, sdcardPath + "/vlc_crash");
         writeLogcat(sdcardPath + "/vlc_logcat");
