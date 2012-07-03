@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!--  Main VLC Interface  -->
+    <string name="filebrowser_sdfail">Kon SD-kaart niet openen. Controleer of het correct geplaatst is.</string>
+    <string name="filebrowser_root">Root</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Selecteer media om af te spelen</string>
+    <string name="ml_no_media_dir">Geen mediamap</string>
+    <string name="sortby">Sorteren op…</string>
+    <string name="sortby_name">Naam</string>
+    <string name="sortby_length">Lengte</string>
+    <string name="searchable_hint">Zoeken…</string>
+    <string name="search_history">Geschiedenis</string>
+    <string name="search_found_results">%1$d resultaten gevonden</string>
+    <string name="show_player">Speler weergeven</string>
+    <string name="hide_mini_player">Minispeler verbergen</string>
+    <string name="play">Afspelen</string>
+    <string name="append">Toevoegen</string>
+    <string name="play_all">Alles afspelen</string>
+    <string name="append_all">Alles toevoegen</string>
+    <string name="delete">Verwijderen</string>
+    <string name="info">Informatie</string>
+    <string name="confirm_delete">Dit bestand verwijderen?</string>
+    <string name="pause">Pauzeren</string>
+    <string name="close">Sluiten</string>
+    <string name="not_show_again">"Deze boodschap niet meer weergeven."</string>
+    <string name="beta_warning">Dit is een bèta-versie.\n\nDit is geen stabiele versie!\n\nGebruik dit NIET, tenzij u weet wat u doet.\n\nHet kan uw kat vermoorden, uw huis vernietigen en de apocalyps van de Maya\'s starten.\nGebruik het op eigen risico.\n\nVeel plezier! :)</string>
+    <string name="info_title">VLC bèta</string>
+    <string name="unknown_artist">Onbekende artiest</string>
+    <string name="unknown_album">Onbekend album</string>
+    <string name="unknown_genre">Onbekend genre</string>
+    <string name="songs">Nummers</string>
+    <plurals name="songs">
+        <item quantity="one">1 nummer</item>
+        <item quantity="other">%d nummers</item>
+    </plurals>
+    <string name="artists">Artiesten</string>
+    <string name="albums">Albums</string>
+    <plurals name="albums">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+    <plurals name="subfolders">
+        <item quantity="one">1 submap</item>
+        <item quantity="other">%d submappen</item>
+    </plurals>
+    <string name="parent_folder">Naar bovenliggende map</string>
+    <string name="all_albums">Alle albums</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Afspeellijsten</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Titel</string>
+    <string name="artist">Artiest</string>
+    <string name="album">Album</string>
+    <string name="directory">Map</string>
+    <string name="directories">Mappen</string>
+    <string name="loading">Laden…</string>
+    <string name="nomedia">Geen mediabestanden gevonden. Zet mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
+    <string name="mediafiles">Mediabestanden</string>
+    <string name="notavailable">niet beschikbaar</string>
+    <string name="nosubdirectory">Geen submappen.</string>
+    <string name="validation">Bent u zeker?</string>
+    <string name="locked">Geblokkeerd</string>
+    <string name="unlocked">Gedeblokkeerd</string>
+    <string name="surface_best_fit">Best passend</string>
+    <string name="surface_fit_horizontal">Horizontaal passend</string>
+    <string name="surface_fit_vertical">Verticaal passend</string>
+    <string name="surface_fill">Schermvullend</string>
+    <string name="surface_original">Centreren</string>
+    <string name="thumbnail">Icoon</string>
+    <string name="refresh">Verversen</string>
+    <string name="track_audio">Audiospoor</string>
+    <string name="track_video">Videospoor</string>
+    <string name="track_text">Ondertitelspoor</string>
+    <string name="track_unknown">Onbekende track</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Taal: %1$s\n</string>
+    <plurals name="track_channels_info">
+        <item quantity="one">%1$d kanaal\n</item>
+        <item quantity="other">%1$d kanalen\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Samplerate: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolutie: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Beeldsnelheid: %1$.3f\n</string>
+    <string name="open">Openen</string>
+    <string name="open_mrl">MRL openen</string>
+    <string name="open_mrl_dialog_title">Netwerkstream openen</string>
+    <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
+    <string name="media_library">Mediabibliotheek</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC voor Android™</string>
+    <string name="version">Versie</string>
+    <string name="licence">Licentie</string>
+    <string name="revision">Revisie</string>
+    <string name="about">Over</string>
+    <string name="about_text">VLC voor Android™ is een port van VLC media player, de populaire open source mediaspeler. De Android™-versie kan de meeste bestanden en netwerk-streams lezen.</string>
+    <string name="for_android">voor Android™</string>
+    <string name="compiled_by">Deze versie van VLC is gecompileerd door:</string>
+    <string name="authors" translatable="false">Sébastien Toque, Rafaël Carré, Jean-Baptiste Kempf, Edward Wang, Michael Merg, Ludovic Fauvet, Adrien Maglo, Rémi Duraffort, Dominique Martinet, Jean-Philippe André, Martin Storsjö, Alexandre Perraud, Hugo Beauzée-Luyssen, Felix Paul Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nVLC Authors.</string>
+
+    <!--  Preferences -->
+    <string name="preferences">Voorkeuren</string>
+    <string name="main_prefs_category">Basis</string>
+    <string name="privacy_prefs_category">Privacy</string>
+    <string name="clear_history">Zoekgeschiedenis wissen</string>
+    <string name="advanced_prefs_category">Geavanceerd</string>
+    <string name="enable_iomx">Hardwareversnelling inschakelen bij decoderen</string>
+    <string name="advanced_debugging">Geavanceerd debuggen</string>
+    <string name="quit">Applicatie afsluiten</string>
+    <string name="clear_media_db">Media-database wissen</string>
+    <string name="detect_headset">Hoofdtelefoon detecteren</string>
+    <string name="detect_headset_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
+    <string name="enable_wheel_bar">Wheel bar activeren</string>
+    <string name="enable_verbose_mode">Uitgebreid</string>
+    <string name="enable_verbose_mode_detail">Verbosity verhogen</string>
+    <string name="aout">Audio-uitvoer</string>
+    <string name="aout_audiotrack">AudioTrack (native)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string-array name="aouts_froyo">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+    </string-array>
+    <string-array name="aouts">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+        <item>@string/aout_opensles</item>
+    </string-array>
+</resources>
