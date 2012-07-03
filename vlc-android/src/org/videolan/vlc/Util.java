@@ -21,11 +21,13 @@
 package org.videolan.vlc;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.util.Properties;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,6 +36,7 @@ import android.view.View;
 import android.widget.Toast;
 
 public class Util {
+    public final static String TAG = "VLC/Util";
     /** A set of utility functions for the VLC application */
 
     /** Print an on-screen message to alert the user */
@@ -185,8 +188,32 @@ public class Util {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
 
-    public static boolean hasNeon()
+    private static String errorMsg = null;
+    private static boolean isCompatible = false;
+    public static String getErrorMsg() {
+        return errorMsg;
+    }
+    public static boolean hasCompatibleCPU()
     {
+        // If already checked return cached result
+        if(errorMsg != null) return isCompatible;
+
+        Properties properties = new Properties();
+        try {
+            properties.load(new ByteArrayInputStream(Util.readAsset("env.txt", "").getBytes("UTF-8")));
+        } catch (IOException e) {
+            // Shouldn't happen if done correctly
+            e.printStackTrace();
+            errorMsg = "IOException whilst reading compile flags";
+            isCompatible = false;
+            return false;
+        }
+
+        String ANDROID_ABI = properties.getProperty("ANDROID_ABI");
+        boolean NO_NEON = properties.getProperty("NO_NEON").equals("1");
+        boolean NO_FPU = properties.getProperty("NO_FPU").equals("1");
+        boolean NO_ARMV6 = properties.getProperty("NO_ARMV6").equals("1");
+        boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
         ProcessBuilder cmd;
 
         try {
@@ -197,13 +224,46 @@ public class Util {
             InputStream in = process.getInputStream();
             byte[] re = new byte[1024];
             while(in.read(re) != -1){
-                if (new String(re).contains("neon"))
-                    return true;
+                if(!hasNeon && new String(re).contains("neon"))
+                    hasNeon = true;
+                if(!hasArmV7 && new String(re).contains("ARMv7"))
+                    hasArmV7 = true;
+                if(!hasArmV7 && !hasArmV6 && new String(re).contains("ARMv6"))
+                    hasArmV6 = true;
+                if(!hasFpu && new String(re).contains("vfp"))
+                    hasFpu = true;
             }
             in.close();
         } catch(IOException ex){
             ex.printStackTrace();
+            errorMsg = "IOException whilst reading cpuinfo flags";
+            isCompatible = false;
+            return false;
         }
-        return false;
+
+        if(ANDROID_ABI.equals("armeabi-v7a") && !hasArmV7) {
+            errorMsg = "ARMv7 build on non-ARMv7 device";
+            isCompatible = false;
+            return false;
+        }
+        if(ANDROID_ABI.equals("armeabi")) {
+            if(!NO_ARMV6 && !hasArmV6) {
+                errorMsg = "ARMv6 build on non-ARMv6 device";
+                isCompatible = false;
+                return false;
+            } else if(!NO_FPU && !hasFpu) {
+                errorMsg = "FPU-enabled build on non-FPU device";
+                isCompatible = false;
+                return false;
+            }
+        }
+        if(!NO_NEON && !hasNeon) {
+            errorMsg = "NEON build on non-NEON device";
+            isCompatible = false;
+            return false;
+        }
+        errorMsg = null;
+        isCompatible = true;
+        return true;
     }
 }

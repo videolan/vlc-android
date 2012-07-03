@@ -98,14 +98,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (!Util.hasNeon()) {
-            Log.e(TAG, "CPU is missing NEON.");
+        if (!Util.hasCompatibleCPU()) {
+            Log.e(TAG, Util.getErrorMsg());
             super.onCreate(savedInstanceState);
             Intent i = new Intent(this, CompatErrorActivity.class);
             startActivity(i);
             finish();
             return;
-        }*/
+        }
 
         if (Util.isICSOrLater()) /* Bug on pre-ICS, the progress bar is always present */
             requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);

@@ -178,10 +178,10 @@ public class LibVLC {
     private void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         if (!mIsInitialized) {
-            /* if (!Util.hasNeon()) {
-                Log.e(TAG, "Required CPU feature is missing.");
+            if(!Util.hasCompatibleCPU()) {
+                Log.e(TAG, Util.getErrorMsg());
                 return;
-            } */
+            }
             Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             nativeInit(pref.getBoolean("enable_verbose_mode", true));

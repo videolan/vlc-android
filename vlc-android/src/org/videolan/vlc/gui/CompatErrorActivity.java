@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -13,22 +12,29 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
+
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.os.Build;
+//import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 public class CompatErrorActivity extends Activity {
     public final static String TAG = "VLC/CompatErrorActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.no_neon);
+        setContentView(R.layout.not_compatible);
+
+        TextView tv = (TextView)findViewById(R.id.errormsg);
+        tv.setText(getResources().getString(R.string.error_not_compatible) + "\n" + Util.getErrorMsg());
+
         super.onCreate(savedInstanceState);
 
-        AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
-        asyncHttpRequest.execute(Build.MODEL, Build.DEVICE);
+        //AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
+        //asyncHttpRequest.execute(Build.MODEL, Build.DEVICE);
     }
 
     public class AsyncHttpRequest extends AsyncTask<String, String, Boolean> {
