@@ -20,6 +20,8 @@
 
 package org.videolan.vlc;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,40 +65,6 @@ public class AudioServiceController implements IAudioPlayerControl {
             mInstance = new AudioServiceController();
         }
         return mInstance;
-    }
-
-    public void load(List<String> mediaPathList, int position) {
-        try {
-            mAudioServiceBinder.load(mediaPathList, position);
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: load()");
-        }
-    }
-
-    public void append(List<String> mediaPathList) {
-        try {
-            mAudioServiceBinder.append(mediaPathList);
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: append()");
-        }
-    }
-
-    public List<String> getItems() {
-        try {
-            return mAudioServiceBinder.getItems();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getItems()");
-        }
-        return new ArrayList<String>();
-    }
-
-    public String getItem() {
-        try {
-            return mAudioServiceBinder.getItem();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getItem()");
-        }
-        return null;
     }
 
     /**
@@ -201,216 +169,178 @@ public class AudioServiceController implements IAudioPlayerControl {
             player.update();
     }
 
-    public void stop() {
-        if (mAudioServiceBinder == null)
-            return;
-        try {
-            mAudioServiceBinder.stop();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: stop()");
+    /**
+     * This is a handy utility function to call remote procedure calls from mAudioServiceBinder
+     * to reduce code duplication across methods of AudioServiceController.
+     *
+     * @param instance The instance of IAudioService to call, usually mAudioServiceBinder
+     * @param returnType Return type of the method being called
+     * @param defaultValue Default value to return in case of null or exception
+     * @param functionName The function name to call, e.g. "stop"
+     * @param parameterTypes List of parameter types. Pass null if none.
+     * @param parameters List of parameters. Must be in same order as parameterTypes. Pass null if none.
+     * @return The results of the RPC or defaultValue if error
+     */
+    private <T> T remoteProcedureCall(IAudioService instance, Class<T> returnType, T defaultValue, String functionName, Class<?> parameterTypes[], Object parameters[]) {
+        if(instance == null) {
+            return defaultValue;
         }
+
+        try {
+            Method m = IAudioService.class.getMethod(functionName, parameterTypes);
+            @SuppressWarnings("unchecked")
+            T returnVal = (T) m.invoke(instance, parameters);
+            return returnVal;
+        } catch(NoSuchMethodException e) {
+            e.printStackTrace();
+            return defaultValue;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return defaultValue;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return defaultValue;
+        } catch (InvocationTargetException e) {
+            if(e.getTargetException() instanceof RemoteException) {
+                Log.e(TAG, "remote procedure call failed: " + functionName + "()");
+            }
+            return defaultValue;
+        }
+    }
+
+    public void load(List<String> mediaPathList, int position) {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "load",
+                new Class<?>[] { List.class, int.class },
+                new Object[] { mediaPathList, position } );
+    }
+
+    public void append(List<String> mediaPathList) {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "append",
+                new Class<?>[] { List.class },
+                new Object[] { mediaPathList } );
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getItems() {
+        List<String> def = new ArrayList<String>();
+        return (List<String>)remoteProcedureCall(mAudioServiceBinder, List.class, def, "getItems", null, null);
+    }
+
+    public String getItem() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getItem", null, null);
+    }
+
+    public void stop() {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "stop", null, null);
         updateAudioPlayer();
     }
 
     @Override
     public String getAlbum() {
-        String album = null;
-        try {
-            album = mAudioServiceBinder.getAlbum();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getAlbum()");
-        }
-        return album;
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getAlbum", null, null);
     }
 
     @Override
     public String getArtist() {
-        String artist = null;
-        try {
-            artist = mAudioServiceBinder.getArtist();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getArtist()");
-        }
-        return artist;
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtist", null, null);
     }
 
     @Override
     public String getTitle() {
-        String title = null;
-        try {
-            title = mAudioServiceBinder.getTitle();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getTitle()");
-        }
-        return title;
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitle", null, null);
     }
 
     @Override
     public boolean isPlaying() {
-        boolean playing = false;
-        if (mAudioServiceBinder != null) {
-            try {
-                playing = (hasMedia() && mAudioServiceBinder.isPlaying());
-
-            } catch (RemoteException e) {
-                Log.e(TAG, "remote procedure call failed: isPlaying()");
-            }
-        }
-        return playing;
+        return hasMedia() && remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isPlaying", null, null);
     }
 
     @Override
     public void pause() {
-        try {
-            mAudioServiceBinder.pause();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: pause()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "pause", null, null);
         updateAudioPlayer();
     }
 
     @Override
     public void play() {
-        try {
-            mAudioServiceBinder.play();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: play()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "play", null, null);
         updateAudioPlayer();
     }
 
     @Override
     public boolean hasMedia() {
-        if (mAudioServiceBinder != null) {
-            try {
-                return mAudioServiceBinder.hasMedia();
-            } catch (RemoteException e) {
-                Log.e(TAG, "remote procedure call failed: hasMedia()");
-            }
-        }
-        return false;
+        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasMedia", null, null);
     }
 
     @Override
     public int getLength() {
-        try {
-            return mAudioServiceBinder.getLength();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getLength()");
-        }
-        return 0;
+        return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getLength", null, null);
     }
 
     @Override
     public int getTime() {
-        try {
-            return mAudioServiceBinder.getTime();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getTime()");
-        }
-        return 0;
+        return remoteProcedureCall(mAudioServiceBinder, int.class, 0, "getTime", null, null);
     }
 
     @Override
     public Bitmap getCover() {
-        try {
-            return mAudioServiceBinder.getCover();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: getCover()");
-            return null;
-        }
+        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCover", null, null);
     }
 
     @Override
     public void next() {
-        try {
-            mAudioServiceBinder.next();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: next()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "next", null, null);
     }
 
     @Override
     public void previous() {
-        try {
-            mAudioServiceBinder.previous();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: previous()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "previous", null, null);
     }
 
     public void setTime(long time) {
-        try {
-            mAudioServiceBinder.setTime(time);
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: setTime()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setTime",
+                new Class<?>[] { long.class },
+                new Object[] { time } );
     }
 
     @Override
     public boolean hasNext() {
-        try {
-            return mAudioServiceBinder.hasNext();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: hasNext()");
-        }
-        return false;
+        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasNext", null, null);
     }
 
     @Override
     public boolean hasPrevious() {
-        try {
-            return mAudioServiceBinder.hasPrevious();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: hasPrevious()");
-        }
-        return false;
+        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "hasPrevious", null, null);
     }
 
     @Override
     public void shuffle() {
-        try {
-            mAudioServiceBinder.shuffle();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: shuffle()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "shuffle", null, null);
     }
 
     @Override
     public void setRepeatType(RepeatType t) {
-        try {
-            mAudioServiceBinder.setRepeatType(t.ordinal());
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: repeat()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "setRepeatType",
+                new Class<?>[] { int.class },
+                new Object[] { t.ordinal() } );
     }
 
     @Override
     public boolean isShuffling() {
-        try {
-            return mAudioServiceBinder.isShuffling();
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: isShuffling()");
-            return false;
-        }
+        return remoteProcedureCall(mAudioServiceBinder, boolean.class, false, "isShuffling", null, null);
     }
 
     @Override
     public RepeatType getRepeatType() {
-        try {
-            return RepeatType.values()[mAudioServiceBinder.getRepeatType()];
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: isRepeating()");
-            return RepeatType.None;
-        }
+        return RepeatType.values()[
+            remoteProcedureCall(mAudioServiceBinder, int.class, RepeatType.None.ordinal(), "getRepeatType", null, null)
+        ];
     }
 
     @Override
     public void detectHeadset(boolean enable) {
-        try {
-            mAudioServiceBinder.detectHeadset(enable);
-        } catch (RemoteException e) {
-            Log.e(TAG, "remote procedure call failed: detectHeadset()");
-        }
+        remoteProcedureCall(mAudioServiceBinder, Void.class, null, "detectHeadset",
+                new Class<?>[] { boolean.class },
+                new Object[] { enable } );
     }
 }
