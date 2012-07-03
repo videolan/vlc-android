@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -304,7 +305,8 @@ public class DatabaseManager {
 
         do {
             count = 0;
-            cursor = mDb.rawQuery(String.format("SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
+            cursor = mDb.rawQuery(String.format(Locale.ROOT,
+                    "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
                     MEDIA_TIME, //0 long
                     MEDIA_LENGTH, //1 long
                     MEDIA_TYPE, //2 int
