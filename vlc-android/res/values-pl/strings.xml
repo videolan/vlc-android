@@ -119,8 +119,8 @@
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
     <string name="aout">Wyjście dźwiękowe</string>
-    <string name="aout_audiotrack">Ścieżka dźwiękowa (rodzima)</string>
-    <string name="aout_audiotrack_java">Ścieżka dźwiękowa (Java)</string>
+    <string name="aout_audiotrack">AudioTrack (rodzima)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string-array name="aouts_froyo">
         <item>@string/aout_audiotrack_java</item>
