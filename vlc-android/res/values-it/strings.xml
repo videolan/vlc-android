@@ -1,17 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Si prega di controllare che sia montata correttamente.</string>
-    <string name="filebrowser_root">Root</string>
+    <!--  Main VLC Interface  -->
+    <string name="app_name" translatable="false">VLC</string>
+    <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Controlla che sia montata correttamente.</string>
+    <string name="filebrowser_root">Radice</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Seleziona media da riprodurre</string>
-    <string name="preferences">Preferenze</string>
-    <string name="about">Info</string>
-    <string name="ml_no_media_dir">Nessun Elenco Media</string>
-    <string name="sortby">Ordina secondo&#8230;</string>
+    <string name="ml_no_media_dir">Nessuna cartella multimediale</string>
+    <string name="sortby">Ordina per…</string>
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Durata</string>
-    <string name="searchable_hint">Cerca&#8230;</string>
+    <string name="searchable_hint">Cerca…</string>
     <string name="search_history">Cronologia</string>
-    <string name="clear_history">Cancella Cronologia</string>
-    <string name="search_found_results">%1$d Risultati Trovati</string>
+    <string name="search_found_results">%1$d risultati trovati</string>
+    <string name="show_player">Mostra lettore</string>
+    <string name="hide_mini_player">Nascondi lettore minimale</string>
+    <string name="play">Riproduci</string>
+    <string name="append">Aggiungi</string>
+    <string name="play_all">Riproduci tutto</string>
+    <string name="append_all">Aggiungi tutto</string>
+    <string name="delete">Elimina</string>
+    <string name="info">Informazioni</string>
+    <string name="confirm_delete">Vuoi eliminare questo file?</string>
+    <string name="pause">Pausa</string>
+    <string name="close">Chiudi</string>
+    <string name="not_show_again">"Non mostrare ancora questo messaggio."</string>
+    <string name="beta_warning">Questa è una versione beta.\n\nNON è una versione STABILE!\n\nNON utilizzarla se non sai cosa stai facendo.\n\nPotrebbe uccidere il tuo gatto, distruggere la tua casa e dare il via all'apocalisse maya.\nUsala a tuo rischio e pericolo.\n\nDivertiti! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Artista sconosciuto</string>
+    <string name="unknown_album">Album sconosciuto</string>
+    <string name="unknown_genre">Genere sconosciuto</string>
+    <string name="songs">Brani</string>
+    <plurals name="songs">
+        <item quantity="one">1 brano</item>
+        <item quantity="other">%d brani</item>
+    </plurals>
+    <string name="artists">Artisti</string>
+    <string name="albums">Album</string>
+    <plurals name="albums">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="subfolders">
+        <item quantity="one">1 sottocartella</item>
+        <item quantity="other">%d sottocartelle</item>
+    </plurals>
+    <string name="parent_folder">Livello superiore</string>
+    <string name="all_albums">Tutti gli album</string>
+    <string name="genres">Generi</string>
+    <string name="playlists">Scalette</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Titolo</string>
+    <string name="artist">Artista</string>
+    <string name="album">Album</string>
+    <string name="directory">Cartella</string>
+    <string name="directories">Cartelle</string>
+    <string name="loading">Caricamento in corso…</string>
+    <string name="nomedia">Nessun file multimediale trovato, trasferisci i file al tuo dispositivo o modifica le preferenze.</string>
+    <string name="mediafiles">File multimediali</string>
+    <string name="notavailable">non disponibile</string>
+    <string name="nosubdirectory">Nessuna sottocartella.</string>
+    <string name="validation">Sei sicuro?</string>
+    <string name="locked">Bloccato</string>
+    <string name="unlocked">Sbloccato</string>
+    <string name="surface_best_fit">Adatta allo schermo</string>
+    <string name="surface_fit_horizontal">Adatta orizzontalmente</string>
+    <string name="surface_fit_vertical">Adatta verticalmente</string>
+    <string name="surface_fill">Riempi</string>
+    <string name="surface_original">Centra</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="refresh">Aggiorna</string>
+    <string name="track_audio">Traccia audio</string>
+    <string name="track_video">Traccia video</string>
+    <string name="track_text">Traccia sottotitoli</string>
+    <string name="track_unknown">Traccia sconosciuta</string>
+    <string name="track_codec_info">Codificatore: %1$s\n</string>
+    <string name="track_language_info">Lingua: %1$s\n</string>
+    <plurals name="track_channels_info">
+        <item quantity="one">%1$d canale\n</item>
+        <item quantity="other">%1$d canali\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Campionamento: %1$d Hz\n</string>
+    <string name="track_resolution_info">Risoluzione: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Velocità: %1$.3f\n</string>
+    <string name="open">Apri</string>
+    <string name="open_mrl">Apri MRL</string>
+    <string name="open_mrl_dialog_title">Apri flusso di rete</string>
+    <string name="open_mrl_dialog_msg">Inserisci MRL di rete: ad es. http://, mms:// o rtsp://</string>
+    <string name="media_library">Raccolta multimediale</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC per Android™</string>
+    <string name="version">Versione</string>
+    <string name="licence">Licenza</string>
+    <string name="revision">Revisione</string>
+    <string name="about">Informazioni</string>
+    <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La version per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
+    <string name="about_link"  translatable="false">
+        &lt;a href=&quot;http://www.videolan.org/vlc/&quot;&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
+    <string name="about_copyright" translatable="false">Copyleft &#169; 1996&#8211;2012 di VideoLAN.\n</string>
+    <string name="for_android">per Android™</string>
+    <string name="compiled_by">Questa versione di VLC è compilata da:</string>
+    <string name="authors" translatable="false">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nAutori di VLC.</string>
+
+    <!--  Preferences -->
+    <string name="preferences">Preferenze</string>
+    <string name="main_prefs_category">Principale</string>
+    <string name="privacy_prefs_category">Riservatezza</string>
+    <string name="clear_history">Cancella la cronologia delle ricerche</string>
+    <string name="advanced_prefs_category">Avanzate</string>
+    <string name="enable_iomx">Abilita decodifica con accelerazione hardware</string>
+    <string name="advanced_debugging">Debug avanzato</string>
+    <string name="quit">Esci dall'applicazione</string>
+    <string name="clear_media_db">Cancella il database multimediale</string>
+    <string name="detect_headset">Rileva cuffie</string>
+    <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all'inserimento</string>
+    <string name="enable_wheel_bar">Abilita wheel bar</string>
+    <string name="enable_verbose_mode">Verboso</string>
+    <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
+    <string name="aout">Uscita audio</string>
+    <string name="aout_audiotrack">AudioTrack (nativa)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string-array name="aouts_froyo">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+    </string-array>
+    <string-array name="aouts">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+        <item>@string/aout_opensles</item>
+    </string-array>
+    <string name="error_no_neon">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™</string>
 </resources>
