@@ -233,8 +233,10 @@ public class Util {
             while(in.read(re) != -1){
                 if(!hasNeon && new String(re).contains("neon"))
                     hasNeon = true;
-                if(!hasArmV7 && new String(re).contains("ARMv7"))
+                if(!hasArmV7 && new String(re).contains("ARMv7")) {
                     hasArmV7 = true;
+                    hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
+                }
                 if(!hasArmV7 && !hasArmV6 && new String(re).contains("ARMv6"))
                     hasArmV6 = true;
                 if(!hasFpu && new String(re).contains("vfp"))
