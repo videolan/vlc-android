@@ -334,7 +334,7 @@ public class MainActivity extends SherlockFragmentActivity {
             mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         /* Load directory view fragment */
         ft.attach(mDirectoryView);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         mMediaLibraryActive = false;
     }
 
@@ -348,7 +348,7 @@ public class MainActivity extends SherlockFragmentActivity {
             mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         /* Remove the directory view from the tabs */
         ft.detach(mDirectoryView);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         mMediaLibraryActive = true;
     }
 
