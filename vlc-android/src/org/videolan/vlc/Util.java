@@ -27,11 +27,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -81,9 +83,14 @@ public class Util {
             BufferedReader r = new BufferedReader(new InputStreamReader(is, "UTF8"));
             StringBuilder sb = new StringBuilder();
             String line = r.readLine();
-            while(line != null) {
+            if(line != null) {
                 sb.append(line);
                 line = r.readLine();
+                while(line != null) {
+                    sb.append('\n');
+                    sb.append(line);
+                    line = r.readLine();
+                }
             }
             return sb.toString();
         } catch (IOException e) {
