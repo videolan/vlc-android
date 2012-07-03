@@ -31,6 +31,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -54,8 +55,9 @@ public class VlcCrashHandler implements UncaughtExceptionHandler {
         printWriter.close();
 
         Log.e(TAG, stacktrace);
-        writeLog(stacktrace, "//sdcard//vlc_crash");
-        writeLogcat("//sdcard//vlc_logcat");
+        String sdcardPath = Environment.getExternalStorageDirectory().getPath();
+        writeLog(stacktrace, sdcardPath + "/vlc_crash");
+        writeLogcat(sdcardPath + "/vlc_logcat");
 
         defaultUEH.uncaughtException(thread, ex);
     }
