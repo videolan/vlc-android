@@ -24,7 +24,7 @@
     <string name="pause">Pausa</string>
     <string name="close">Chiudi</string>
     <string name="not_show_again">"Non mostrare ancora questo messaggio."</string>
-    <string name="beta_warning">Questa è una versione beta.\n\nNON è una versione STABILE!\n\nNON utilizzarla se non sai cosa stai facendo.\n\nPotrebbe uccidere il tuo gatto, distruggere la tua casa e dare il via all'apocalisse maya.\nUsala a tuo rischio e pericolo.\n\nDivertiti! :)</string>
+    <string name="beta_warning">Questa è una versione beta.\n\nNON è una versione STABILE!\n\nNON utilizzarla se non sai cosa stai facendo.\n\nPotrebbe uccidere il tuo gatto, distruggere la tua casa e dare il via all\'apocalisse maya.\nUsala a tuo rischio e pericolo.\n\nDivertiti! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista sconosciuto</string>
     <string name="unknown_album">Album sconosciuto</string>
@@ -106,10 +106,10 @@
     <string name="advanced_prefs_category">Avanzate</string>
     <string name="enable_iomx">Abilita decodifica con accelerazione hardware</string>
     <string name="advanced_debugging">Debug avanzato</string>
-    <string name="quit">Esci dall'applicazione</string>
+    <string name="quit">Esci dall\'applicazione</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="detect_headset">Rileva cuffie</string>
-    <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all'inserimento</string>
+    <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="enable_wheel_bar">Abilita wheel bar</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
