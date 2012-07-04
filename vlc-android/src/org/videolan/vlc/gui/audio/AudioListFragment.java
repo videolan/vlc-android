@@ -31,6 +31,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.WeakHandler;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -198,13 +199,19 @@ public class AudioListFragment extends SherlockListFragment {
     /**
      * Handle changes on the list
      */
-    protected Handler mHandler = new Handler() {
+    private Handler mHandler = new AudioListHandler(this);
+
+    private static class AudioListHandler extends WeakHandler<AudioListFragment> {
+        public AudioListHandler(AudioListFragment owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            AudioListFragment fragment = getOwner();
             switch (msg.what) {
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                    updateList();
+                    fragment.updateList();
                     break;
             }
         }

@@ -31,6 +31,7 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
@@ -385,12 +386,26 @@ public class VideoPlayerActivity extends Activity {
         hideInfo(0);
     }
 
+    private void fadeOutInfo() {
+        if (mInfo.getVisibility() == View.VISIBLE)
+            mInfo.startAnimation(AnimationUtils.loadAnimation(
+                    VideoPlayerActivity.this, android.R.anim.fade_out));
+        mInfo.setVisibility(View.INVISIBLE);
+    }
+
     /**
      *  Handle libvlc asynchronous events
      */
-    private final Handler eventHandler = new Handler() {
+    private final Handler eventHandler = new VideoPlayerEventHandler(this);
+
+    private static class VideoPlayerEventHandler extends WeakHandler<VideoPlayerActivity> {
+        public VideoPlayerEventHandler(VideoPlayerActivity owner) {
+            super(owner);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            VideoPlayerActivity activity = getOwner();
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
@@ -403,55 +418,70 @@ public class VideoPlayerActivity extends Activity {
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
-                    /* Exit player when reach the end */
-                    mEndReached = true;
-                    VideoPlayerActivity.this.finish();
+                    activity.endReached();
                     break;
                 case EventManager.MediaPlayerVout:
-                    if(msg.getData().getInt("data") == 0 && !mEndReached) {
-                        /* Video track lost, open in audio mode */
-                        Log.i(TAG, "Video track lost, switching to audio");
-                        VideoPlayerActivity.this.mSwitchingView = true;
-                        VideoPlayerActivity.this.finish();
-                    }
+                    activity.handleVout(msg);
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
                     break;
             }
-            updateOverlayPausePlay();
+            activity.updateOverlayPausePlay();
         }
     };
 
     /**
      * Handle resize of the surface and the overlay
      */
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new VideoPlayerHandler(this);
+
+    private static class VideoPlayerHandler extends WeakHandler<VideoPlayerActivity> {
+        public VideoPlayerHandler(VideoPlayerActivity owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            VideoPlayerActivity activity = getOwner();
             switch (msg.what) {
                 case FADE_OUT:
-                    hideOverlay(false);
+                    activity.hideOverlay(false);
                     break;
                 case SHOW_PROGRESS:
-                    int pos = setOverlayProgress();
-                    if (!mDragging && mShowing && mLibVLC.isPlaying()) {
+                    int pos = activity.setOverlayProgress();
+                    if (activity.canShowProgress()) {
                         msg = obtainMessage(SHOW_PROGRESS);
                         sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
                     break;
                 case SURFACE_SIZE:
-                    changeSurfaceSize();
+                    activity.changeSurfaceSize();
                     break;
                 case FADE_OUT_INFO:
-                    if (mInfo.getVisibility() == View.VISIBLE)
-                        mInfo.startAnimation(AnimationUtils.loadAnimation(
-                                VideoPlayerActivity.this, android.R.anim.fade_out));
-                    mInfo.setVisibility(View.INVISIBLE);
+                    activity.fadeOutInfo();
             }
         }
     };
+
+    private boolean canShowProgress() {
+        return !mDragging && mShowing && mLibVLC.isPlaying();
+    }
+
+    private void endReached() {
+        /* Exit player when reach the end */
+        mEndReached = true;
+        finish();
+    }
+
+    private void handleVout(Message msg) {
+        if (msg.getData().getInt("data") == 0 && !mEndReached) {
+            /* Video track lost, open in audio mode */
+            Log.i(TAG, "Video track lost, switching to audio");
+            mSwitchingView = true;
+            finish();
+        }
+    }
 
     private void changeSurfaceSize() {
         // get screen size

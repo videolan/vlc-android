@@ -29,6 +29,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.TrackInfo;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.WeakHandler;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -132,21 +133,35 @@ public class MediaInfoActivity extends ListActivity {
         }
     };
 
-    Handler mHandler = new Handler() {
+    private void updateImage() {
+        ImageView imageView = (ImageView) MediaInfoActivity.this.findViewById(R.id.image);
+        imageView.setImageBitmap(mImage);
+        mPlayButton.setVisibility(View.VISIBLE);
+    }
+
+    private void updateText() {
+        for (TrackInfo track : mTracks) {
+            if (track.Type != TrackInfo.TYPE_META)
+                mAdapter.add(track);
+        }
+    }
+
+    private Handler mHandler = new MediaInfoHandler(this);
+
+    private static class MediaInfoHandler extends WeakHandler<MediaInfoActivity> {
+        public MediaInfoHandler(MediaInfoActivity owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            MediaInfoActivity activity = getOwner();
             switch (msg.what) {
                 case NEW_IMAGE:
-                    ImageView imageView = (ImageView) MediaInfoActivity.this.findViewById(R.id.image);
-                    imageView.setImageBitmap(mImage);
-                    mPlayButton.setVisibility(View.VISIBLE);
+                    activity.updateImage();
                     break;
                 case NEW_TEXT:
-                    for (TrackInfo track : mTracks) {
-                        if (track.Type != TrackInfo.TYPE_META)
-                            mAdapter.add(track);
-                    }
+                    activity.updateText();
                     break;
             }
         };

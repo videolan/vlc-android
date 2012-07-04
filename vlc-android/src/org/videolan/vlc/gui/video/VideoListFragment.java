@@ -32,6 +32,7 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
+import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
@@ -200,25 +201,35 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     /**
      * Handle changes on the list
      */
-    protected Handler mHandler = new Handler() {
+    private Handler mHandler = new VideoListHandler(this);
+
+    private static class VideoListHandler extends WeakHandler<VideoListFragment> {
+        public VideoListHandler(VideoListFragment owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            VideoListFragment fragment = getOwner();
             switch (msg.what) {
                 case UPDATE_ITEM:
-                mVideoAdapter.update(mItemToUpdate);
-                try {
-                    mBarrier.await();
-                } catch (InterruptedException e) {
-                } catch (BrokenBarrierException e) {
-                }
-                break;
-            case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                updateList();
-                break;
+                    fragment.updateItem();
+                    break;
+                case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                    fragment.updateList();
+                    break;
+            }
+        }
+    };
+
+    private void updateItem() {
+        mVideoAdapter.update(mItemToUpdate);
+        try {
+            mBarrier.await();
+        } catch (InterruptedException e) {
+        } catch (BrokenBarrierException e) {
         }
     }
-    };
 
     private void updateList() {
 

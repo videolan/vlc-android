@@ -31,6 +31,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
@@ -376,16 +377,22 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     /**
      * Handle changes on the list
      */
-    protected Handler mHandler = new Handler() {
+    private Handler mHandler = new AudioBrowserHandler(this);
+
+    private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
+        public AudioBrowserHandler(AudioBrowserFragment owner) {
+            super(owner);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            AudioBrowserFragment fragment = getOwner();
             switch (msg.what) {
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                updateLists();
-                break;
+                    fragment.updateLists();
+                    break;
+            }
         }
-    }
     };
 
     private final Comparator<Media> byMRL = new Comparator<Media>() {

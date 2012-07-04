@@ -255,42 +255,38 @@ public class AudioService extends Service {
     /**
      * Handle libvlc asynchronous events
      */
-    private final Handler mEventHandler = new Handler() {
+    private final Handler mEventHandler = new AudioServiceEventHandler(this);
+
+    private static class AudioServiceEventHandler extends WeakHandler<AudioService> {
+        public AudioServiceEventHandler(AudioService fragment) {
+            super(fragment);
+        }
 
         @Override
         public void handleMessage(Message msg) {
+            AudioService service = getOwner();
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
-                    executeUpdate();
+                    service.executeUpdate();
                     // also hide notification if phone ringing
-                    hideNotification();
+                    service.hideNotification();
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
-                    executeUpdate();
+                    service.executeUpdate();
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
-                    executeUpdate();
-                    next();
+                    service.executeUpdate();
+                    service.next();
                     break;
                 case EventManager.MediaPlayerVout:
                     if(msg.getData().getInt("data") > 0) {
-                        Log.i(TAG, "Obtained video track");
-                        mMediaList.clear();
-                        hideNotification();
-
-                        // Got video, switch to the video player
-                        Intent intent = new Intent(VLCApplication.getAppContext(), VideoPlayerActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                        intent.putExtra("itemLocation", mCurrentMedia.getLocation());
-                        // Don't lose the currently playing stream
-                        intent.putExtra("dontParse", true);
-                        startActivity(intent);
+                        service.handleVout();
                     }
                     break;
                 default:
@@ -299,6 +295,20 @@ public class AudioService extends Service {
             }
         }
     };
+
+    private void handleVout() {
+        Log.i(TAG, "Obtained video track");
+        mMediaList.clear();
+        hideNotification();
+
+        // Got video, switch to the video player
+        Intent intent = new Intent(VLCApplication.getAppContext(), VideoPlayerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra("itemLocation", mCurrentMedia.getLocation());
+        // Don't lose the currently playing stream
+        intent.putExtra("dontParse", true);
+        startActivity(intent);
+    }
 
     private void executeUpdate() {
         executeUpdate(true);
@@ -316,14 +326,21 @@ public class AudioService extends Service {
             updateWidget(this);
     }
 
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new AudioServiceHandler(this);
+
+    private static class AudioServiceHandler extends WeakHandler<AudioService> {
+        public AudioServiceHandler(AudioService fragment) {
+            super(fragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            AudioService service = getOwner();
             switch (msg.what) {
                 case SHOW_PROGRESS:
-                    if (mCallback.size() > 0) {
+                    if (service.mCallback.size() > 0) {
                         removeMessages(SHOW_PROGRESS);
-                        executeUpdate(false);
+                        service.executeUpdate(false);
                         sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
                     }
                     break;
