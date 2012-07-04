@@ -105,8 +105,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public void onResume() {
         //Get & highlight the last media
         SharedPreferences preferences = getActivity().getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
-        String lastPath = preferences.getString("LastMedia", null);
-        long lastTime = preferences.getLong("LastTime", 0);
+        String lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
+        long lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
         mVideoAdapter.setLastMedia(lastTime, lastPath);
         mVideoAdapter.notifyDataSetChanged();
         mMediaLibrary.addUpdateHandler(mHandler);

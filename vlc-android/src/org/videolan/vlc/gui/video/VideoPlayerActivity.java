@@ -81,6 +81,7 @@ public class VideoPlayerActivity extends Activity {
     private SurfaceView mSurface;
     private SurfaceHolder mSurfaceHolder;
     private LibVLC mLibVLC;
+    private String mLocation;
 
     private static final int SURFACE_BEST_FIT = 0;
     private static final int SURFACE_FIT_HORIZONTAL = 1;
@@ -212,10 +213,13 @@ public class VideoPlayerActivity extends Activity {
         mSurface.setKeepScreenOn(false);
 
         // Save position
-        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putLong(PreferencesActivity.LAST_TIME, time);
-        editor.commit();
+        if (time >= 0) {
+            SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
+            editor.putLong(PreferencesActivity.LAST_TIME, time);
+            editor.commit();
+        }
         super.onPause();
     }
 
@@ -827,7 +831,7 @@ public class VideoPlayerActivity extends Activity {
      *
      */
     private void load() {
-        String location = null;
+        mLocation = null;
         String title = null;
         String lastLocation = null;
         long lastTime = 0;
@@ -836,27 +840,24 @@ public class VideoPlayerActivity extends Activity {
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
-            location = getIntent().getDataString();
+            mLocation = getIntent().getDataString();
         } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
-            location = getIntent().getExtras().getString("itemLocation");
+            mLocation = getIntent().getExtras().getString("itemLocation");
         }
 
-        if (location != null && location.length() > 0) {
-            mLibVLC.readMedia(location, false);
+        if (mLocation != null && mLocation.length() > 0) {
+            mLibVLC.readMedia(mLocation, false);
             mSurface.setKeepScreenOn(true);
 
             // Save media for next time, and restore position if it's the same one as before
             lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
             lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(PreferencesActivity.LAST_MEDIA, location);
-            editor.commit();
-            if (lastTime > 0 && location.equals(lastLocation))
+            if (lastTime > 0 && mLocation.equals(lastLocation))
                 mLibVLC.setTime(lastTime);
 
             try {
-                title = URLDecoder.decode(location, "UTF-8");
+                title = URLDecoder.decode(mLocation, "UTF-8");
             } catch (UnsupportedEncodingException e) {
             }
             if (title.startsWith("file:")) {
