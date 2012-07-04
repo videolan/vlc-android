@@ -47,7 +47,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public final static String TAG = "VLC/DirectoryAdapter";
 
     public static boolean acceptedPath(String f) {
-        return Pattern.compile(Media.EXTENTIONS_REGEX, Pattern.CASE_INSENSITIVE).matcher(f).matches();
+        return Pattern.compile(Media.EXTENSIONS_REGEX, Pattern.CASE_INSENSITIVE).matcher(f).matches();
     }
 
     /**

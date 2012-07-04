@@ -30,8 +30,8 @@ public class Media implements Comparable<Media> {
 
     public final static String TAG = "VLC/MediaItem";
 
-    public final static HashSet<String> EXTENTIONS;
-    public final static String EXTENTIONS_REGEX;
+    public final static HashSet<String> EXTENSIONS;
+    public final static String EXTENSIONS_REGEX;
     public final static HashSet<String> FOLDER_BLACKLIST;
 
     static {
@@ -60,11 +60,11 @@ public class Media implements Comparable<Media> {
                 "/media/audio/ringtones",
                 "/Android/data/" };
 
-        EXTENTIONS = new HashSet<String>();
+        EXTENSIONS = new HashSet<String>();
         for (String item : video_extensions)
-            EXTENTIONS.add(item);
+            EXTENSIONS.add(item);
         for (String item : audio_extensions)
-            EXTENTIONS.add(item);
+            EXTENSIONS.add(item);
 
         StringBuilder sb = new StringBuilder(115);
         sb.append(".+(\\.)((?i)(");
@@ -78,7 +78,7 @@ public class Media implements Comparable<Media> {
             sb.append(audio_extensions[i].substring(1));
         }
         sb.append("))");
-        EXTENTIONS_REGEX = sb.toString();
+        EXTENSIONS_REGEX = sb.toString();
         FOLDER_BLACKLIST = new HashSet<String>();
         for (String item : folder_blacklist)
             FOLDER_BLACKLIST.add(android.os.Environment.getExternalStorageDirectory().getPath() + item);
