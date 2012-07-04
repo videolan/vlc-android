@@ -737,7 +737,8 @@ public class AudioService extends Service {
         iStop.setAction(VLCAppWidgetProvider.ACTION_WIDGET_STOP);
         Intent iForward = new Intent();
         iForward.setAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
-        Intent iVlc = new Intent(context, MainActivity.class);
+        Class<?> cls = (mCurrentMedia != null) ? AudioPlayerActivity.class : MainActivity.class;
+        Intent iVlc = new Intent(context, cls);
         iVlc.putExtra(START_FROM_NOTIFICATION, true);
 
         PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
