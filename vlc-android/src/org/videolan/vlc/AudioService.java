@@ -615,6 +615,7 @@ public class AudioService extends Service {
             if (mCurrentMedia != null) {
                 mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
                 showNotification();
+                updateWidget(AudioService.this);
             }
         }
 
