@@ -316,9 +316,6 @@ public class AudioService extends Service {
     };
 
     private void showNotification() {
-        if (mCurrentMedia == null)
-            return;
-
         // add notification to status bar
         if (mNotification == null) {
             mNotification = new Notification(R.drawable.icon, null,
