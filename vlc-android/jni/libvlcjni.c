@@ -164,6 +164,11 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     JNIEnv *env;
     JavaVM *myVm = data;
 
+    int ev_opt_data = 0;
+    if(ev->type == libvlc_MediaPlayerVout) {
+        /* For determining the vout/ES track change */
+        ev_opt_data = ev->u.media_player_vout.new_count;
+    }
     bool isAttached = false;
 
     if (eventManagerInstance == NULL)
@@ -187,9 +192,9 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     }
 
     /* Find the callback ID */
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(I)V");
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(II)V");
     if (methodID) {
-        (*env)->CallVoidMethod(env, eventManagerInstance, methodID, ev->type);
+        (*env)->CallVoidMethod(env, eventManagerInstance, methodID, ev->type, ev_opt_data);
     } else {
         LOGE("EventManager: failed to get the callback method");
     }
@@ -365,7 +370,7 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
         return;
     }
 
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(I)V");
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(II)V");
     if (!methodID) {
         LOGE("setEventManager: failed to get the callback method");
         return;
@@ -526,6 +531,7 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         libvlc_MediaPlayerPaused,
         libvlc_MediaPlayerEndReached,
         libvlc_MediaPlayerStopped,
+        libvlc_MediaPlayerVout,
     };
     int i;
     for (i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); ++i)

@@ -227,6 +227,10 @@ public class LibVLC {
         mAout.release();
     }
 
+    public void readMedia(String mrl) {
+        readMedia(mLibVlcInstance, mrl, false);
+    }
+
     /**
      * Read a media.
      */

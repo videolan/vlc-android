@@ -57,6 +57,7 @@ public class EventManager {
     //public static final int MediaPlayerTitleChanged         = 0x10f;
     //public static final int MediaPlayerSnapshotTaken        = 0x110;
     //public static final int MediaPlayerLengthChanged        = 0x111;
+    public static final int MediaPlayerVout                   = 0x112;
 
     //public static final int MediaListItemAdded              = 0x200;
     //public static final int MediaListWillAddItem            = 0x201;
@@ -111,9 +112,10 @@ public class EventManager {
     }
 
     /** This method is called by a native thread **/
-    public void callback(int event) {
+    public void callback(int event, int optional_data) {
         Bundle b = new Bundle();
         b.putInt("event", event);
+        b.putInt("data", optional_data);
         for (int i = 0; i < mEventHandler.size(); i++) {
             Message msg = Message.obtain();
             msg.setData(b);

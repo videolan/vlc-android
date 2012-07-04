@@ -25,12 +25,14 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 
+import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.EventManager;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
 import org.videolan.vlc.interfaces.OnPlayerControlListener;
 import org.videolan.vlc.widget.PlayerControlClassic;
@@ -115,6 +117,12 @@ public class VideoPlayerActivity extends Activity {
     private ImageButton mLock;
     private ImageButton mSize;
 
+    /**
+     * For uninterrupted switching between audio and video mode
+     */
+    private boolean mSwitchingView;
+    private boolean mEndReached;
+
     // size of the video
     private int mVideoHeight;
     private int mVideoWidth;
@@ -179,6 +187,9 @@ public class VideoPlayerActivity extends Activity {
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
+        mSwitchingView = false;
+        mEndReached = false;
+
         registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
         try {
@@ -201,10 +212,15 @@ public class VideoPlayerActivity extends Activity {
     protected void onStart() {
         super.onStart();
         dimStatusBar(true);
+        mSwitchingView = false;
     }
 
     @Override
     protected void onPause() {
+        if(mSwitchingView) {
+            super.onPause();
+            return;
+        }
         long time = 0;
         if (mLibVLC.isPlaying()) {
             time = mLibVLC.getTime() - 5000;
@@ -226,7 +242,7 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(mBatteryReceiver);
-        if (mLibVLC != null) {
+        if (mLibVLC != null && !mSwitchingView) {
             mLibVLC.stop();
         }
 
@@ -235,7 +251,21 @@ public class VideoPlayerActivity extends Activity {
 
         mAudioManager = null;
 
+        if(mSwitchingView) {
+            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
+            AudioServiceController.getInstance().showWithoutParse(mLocation);
+            Intent i = new Intent(this, AudioPlayerActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            startActivity(i);
+        }
+        //AudioServiceController.getInstance().unbindAudioService(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        AudioServiceController.getInstance().bindAudioService(this);
+        super.onResume();
     }
 
     private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()
@@ -374,7 +404,16 @@ public class VideoPlayerActivity extends Activity {
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     /* Exit player when reach the end */
+                    mEndReached = true;
                     VideoPlayerActivity.this.finish();
+                    break;
+                case EventManager.MediaPlayerVout:
+                    if(msg.getData().getInt("data") == 0 && !mEndReached) {
+                        /* Video track lost, open in audio mode */
+                        Log.i(TAG, "Video track lost, switching to audio");
+                        VideoPlayerActivity.this.mSwitchingView = true;
+                        VideoPlayerActivity.this.finish();
+                    }
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
@@ -835,6 +874,7 @@ public class VideoPlayerActivity extends Activity {
         String title = null;
         String lastLocation = null;
         long lastTime = 0;
+        boolean dontParse = false;
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
 
         if (getIntent().getAction() != null
@@ -844,9 +884,10 @@ public class VideoPlayerActivity extends Activity {
         } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             mLocation = getIntent().getExtras().getString("itemLocation");
+            dontParse = getIntent().getExtras().getBoolean("dontParse");
         }
 
-        if (mLocation != null && mLocation.length() > 0) {
+        if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             mLibVLC.readMedia(mLocation, false);
             mSurface.setKeepScreenOn(true);
 

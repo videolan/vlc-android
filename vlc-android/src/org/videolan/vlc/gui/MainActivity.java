@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.videolan.vlc.AudioService;
@@ -34,7 +33,6 @@ import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoListFragment;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
@@ -479,23 +477,15 @@ public class MainActivity extends SherlockFragmentActivity {
                             AudioServiceController c = AudioServiceController.getInstance();
                             String s = input.getText().toString();
 
-                            try {
-                                if(!LibVLC.getExistingInstance().hasVideoTrack(s)) {
-                                    Log.d(TAG, "Auto-detected audio for " + s);
-                                    ArrayList<String> media = new ArrayList<String>();
-                                    media.add(input.getText().toString());
-                                    c.append(media);
-                                } else {
-                                    Log.d(TAG, "Auto-detected Video for " + s);
-                                    Intent intent = new Intent(getApplicationContext(),
-                                                               VideoPlayerActivity.class);
-                                    intent.putExtra("itemLocation", s);
-                                    startActivity(intent);
-                                }
-                            } catch(IOException e) {
-                                /* VLC is unable to open the MRL */
-                                return;
-                            }
+                            /* Use the audio player by default. If a video track is
+                             * detected, then it will automatically switch to the video
+                             * player. This allows us to support more types of streams
+                             * (for example, RTSP and TS streaming) where ES can be
+                             * dynamically adapted rather than a simple scan.
+                             */
+                            ArrayList<String> media = new ArrayList<String>();
+                            media.add(s);
+                            c.append(media);
                         }
 
                         @Override

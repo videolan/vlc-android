@@ -30,6 +30,7 @@ import java.util.Stack;
 
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
@@ -276,6 +277,21 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerEndReached");
                     executeUpdate();
                     next();
+                    break;
+                case EventManager.MediaPlayerVout:
+                    if(msg.getData().getInt("data") > 0) {
+                        Log.i(TAG, "Obtained video track");
+                        mMediaList.clear();
+                        hideNotification();
+
+                        // Got video, switch to the video player
+                        Intent intent = new Intent(VLCApplication.getAppContext(), VideoPlayerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        intent.putExtra("itemLocation", mCurrentMedia.getLocation());
+                        // Don't lose the currently playing stream
+                        intent.putExtra("dontParse", true);
+                        startActivity(intent);
+                    }
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
@@ -613,10 +629,43 @@ public class AudioService extends Service {
             }
 
             if (mCurrentMedia != null) {
-                mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
+                mLibVLC.readMedia(mCurrentMedia.getLocation());
                 showNotification();
                 updateWidget(AudioService.this);
             }
+        }
+
+        @Override
+        public void showWithoutParse(String URI) throws RemoteException {
+            Log.v(TAG, "Showing playing URI " + URI);
+            // Show an URI without interrupting/losing the current stream
+
+            if(!mLibVLC.isPlaying())
+                return;
+            mEventManager.addHandler(mEventHandler);
+            mMediaList.clear();
+            mPrevious.clear();
+            // Prevent re-parsing the media, which would mean losing the connection
+            mCurrentMedia = new Media(
+                    getApplicationContext(),
+                    URI,
+                    0,
+                    0,
+                    Media.TYPE_AUDIO,
+                    null,
+                    URI,
+                    VLCApplication.getAppContext().getString(R.string.unknown_artist),
+                    VLCApplication.getAppContext().getString(R.string.unknown_genre),
+                    VLCApplication.getAppContext().getString(R.string.unknown_album),
+                    0,
+                    0,
+                    "");
+            mMediaList.add(mCurrentMedia);
+
+            // Notify everyone
+            mHandler.sendEmptyMessage(SHOW_PROGRESS);
+            showNotification();
+            executeUpdate();
         }
 
         @Override
