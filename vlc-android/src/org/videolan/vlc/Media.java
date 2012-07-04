@@ -138,7 +138,7 @@ public class Media implements Comparable<Media> {
                     mType = TYPE_VIDEO;
                     mWidth = track.Width;
                     mHeight = track.Height;
-                } else if (track.Type == TrackInfo.TYPE_AUDIO){
+                } else if (mType == TYPE_ALL && track.Type == TrackInfo.TYPE_AUDIO){
                     mType = TYPE_AUDIO;
                 } else if (track.Type == TrackInfo.TYPE_META) {
                     mLength = track.Length;
