@@ -30,7 +30,8 @@ public class Media implements Comparable<Media> {
 
     public final static String TAG = "VLC/MediaItem";
 
-    public final static HashSet<String> EXTENSIONS;
+    public final static HashSet<String> VIDEO_EXTENSIONS;
+    public final static HashSet<String> AUDIO_EXTENSIONS;
     public final static String EXTENSIONS_REGEX;
     public final static HashSet<String> FOLDER_BLACKLIST;
 
@@ -60,11 +61,12 @@ public class Media implements Comparable<Media> {
                 "/media/audio/ringtones",
                 "/Android/data/" };
 
-        EXTENSIONS = new HashSet<String>();
+        VIDEO_EXTENSIONS = new HashSet<String>();
         for (String item : video_extensions)
-            EXTENSIONS.add(item);
+            VIDEO_EXTENSIONS.add(item);
+        AUDIO_EXTENSIONS = new HashSet<String>();
         for (String item : audio_extensions)
-            EXTENSIONS.add(item);
+            AUDIO_EXTENSIONS.add(item);
 
         StringBuilder sb = new StringBuilder(115);
         sb.append(".+(\\.)((?i)(");

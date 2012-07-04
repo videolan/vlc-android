@@ -283,7 +283,8 @@ public class MediaLibrary {
                     int dotIndex = fileName.lastIndexOf(".");
                     if (dotIndex != -1) {
                         String fileExt = fileName.substring(dotIndex);
-                        accepted = Media.EXTENSIONS.contains(fileExt);
+                        accepted = Media.AUDIO_EXTENSIONS.contains(fileExt) ||
+                                   Media.VIDEO_EXTENSIONS.contains(fileExt);
                     }
                 }
             }
