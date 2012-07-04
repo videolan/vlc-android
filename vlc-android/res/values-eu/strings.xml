@@ -31,11 +31,13 @@
   <string name="unknown_genre">Genero ezezaguna</string>
   <string name="songs">Kantak</string>
   <plurals name="songs">
+    <item quantity="one">Kanta</item>
     <item quantity="other">Kantak</item>
   </plurals>
   <string name="artists">Artistak</string>
   <string name="albums">Albumak</string>
   <plurals name="albums">
+    <item quantity="one">Album</item>
     <item quantity="other">Albumak</item>
   </plurals>
   <plurals name="subfolders">
