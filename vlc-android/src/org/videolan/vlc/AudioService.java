@@ -344,10 +344,12 @@ public class AudioService extends Service {
     }
 
     private void play() {
-        mLibVLC.play();
-        mHandler.sendEmptyMessage(SHOW_PROGRESS);
-        showNotification();
-        updateWidget(this);
+        if (mCurrentMedia != null) {
+            mLibVLC.play();
+            mHandler.sendEmptyMessage(SHOW_PROGRESS);
+            showNotification();
+            updateWidget(this);
+        }
     }
 
     private void stop() {
@@ -610,9 +612,10 @@ public class AudioService extends Service {
                 mCurrentMedia = mMediaList.get(position);
             }
 
-            if (mCurrentMedia != null)
+            if (mCurrentMedia != null) {
                 mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
-            showNotification();
+                showNotification();
+            }
         }
 
         @Override
