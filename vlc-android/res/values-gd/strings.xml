@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="filebrowser_sdfail">Cha ghabh a' chairt SD fhosgladh. Dèan cinnteach gu bheil e air a mhunntachadh mar bu chòir.</string>
+    <string name="filebrowser_sdfail">Cha ghabh a\' chairt SD fhosgladh. Dèan cinnteach gu bheil e air a mhunntachadh mar bu chòir.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Tagh meadhan gus a chluich</string>
@@ -24,7 +24,7 @@
     <string name="pause">Cuir na stad</string>
     <string name="close">Dùin</string>
     <string name="not_show_again">"Na seall an teachdaireachd seo a-rithist."</string>
-    <string name="beta_warning">Seo tionndadh beta.\n\nCHAN E tionndadh seasmhach a tha seo!\n\nNA CLEACHD e ach ma tha eòlach air a leithid a rud.\n\nDh'fhaoidte gum marbh e do phiseagan, gun cuir e do thaigh 'na theine 's gun ith Kali an saoghal mar thoradh air.\nCleachd e air do chunnart fhèin.\n\nAn dòchas gun còrd e riut! :)</string>
+    <string name="beta_warning">Seo tionndadh beta.\n\nCHAN E tionndadh seasmhach a tha seo!\n\nNA CLEACHD e ach ma tha eòlach air a leithid a rud.\n\nDh\'fhaoidte gum marbh e do phiseagan, gun cuir e do thaigh \'na theine \'s gun ith Kali an saoghal mar thoradh air.\nCleachd e air do chunnart fhèin.\n\nAn dòchas gun còrd e riut! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Neach-ealain neo-aithnichte</string>
     <string name="unknown_album">Albam neo-aithnichte</string>
@@ -50,7 +50,7 @@
 		<item quantity="two">%d fho-phasgan</item>
 		<item quantity="few">%d fo-phasgain</item>
     </plurals>
-    <string name="parent_folder">Suas gu pàrant a' phasgain</string>
+    <string name="parent_folder">Suas gu pàrant a\' phasgain</string>
     <string name="all_albums">Gach albam</string>
     <string name="genres">Gnèithean</string>
     <string name="playlists">Liostaichean-cluich</string>
@@ -60,7 +60,7 @@
     <string name="album">Albam</string>
     <string name="directory">Eòlaire</string>
     <string name="directories">Eòlairean</string>
-    <string name="loading">'Ga luchdadh…</string>
+    <string name="loading">\'Ga luchdadh…</string>
     <string name="nomedia">Cha deach faidhle meadhain a lorg, gluais feadhainn dhan uidheam agad no rèitich na roghainnean agad.</string>
     <string name="mediafiles">Faidhlichean mheananan</string>
     <string name="notavailable">chan eil seo ri fhaighinn</string>
@@ -69,7 +69,7 @@
     <string name="locked">Glaiste</string>
     <string name="unlocked">Neo-ghlaiste</string>
     <string name="surface_best_fit">Meud as fhearr</string>
-    <string name="surface_fit_horizontal">Co-fhreagair air a' chòmhnard</string>
+    <string name="surface_fit_horizontal">Co-fhreagair air a\' chòmhnard</string>
     <string name="surface_fit_vertical">Co-fhreagair gu inghearach</string>
     <string name="surface_fill">Lìon</string>
     <string name="surface_original">Meadhan</string>
@@ -102,10 +102,9 @@
     <string name="licence">Ceadachas</string>
     <string name="revision">Lèirmheas</string>
     <string name="about">Mu dheidhinn</string>
-    <string name="about_text">Tha VLC airson Android™ 'na phort de chluicheadair mheadhanan VLC, cluicheadaire le còd fosgailte air a bheil fèill mhòr. Cluichidh an tionndadh Android™ a' mhòrchuid dhe na faidhlichean is sruthan lìonraidh.</string>
+    <string name="about_text">Tha VLC airson Android™ \'na phort de chluicheadair mheadhanan VLC, cluicheadaire le còd fosgailte air a bheil fèill mhòr. Cluichidh an tionndadh Android™ a\' mhòrchuid dhe na faidhlichean is sruthan lìonraidh.</string>
     <string name="for_android">airson Android™</string>
     <string name="compiled_by">Chaidh an tionndadh seo de VLC a thrusadh le:</string>
-    <string name="authors" translatable="false">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nÙghdaran VLC.</string>
 
     <!--  Preferences -->
     <string name="preferences">Roghainnean</string>
@@ -118,7 +117,7 @@
     <string name="quit">Fàg an aplacaid</string>
     <string name="clear_media_db">Falamhaich stòr-dàta nam meadhanan</string>
     <string name="detect_headset">Mothaich dha headset</string>
-    <string name="detect_headset_detail">Chan eil an headset 'na stad tuilleadh; a' leantainn air adhart air an headset</string>
+    <string name="detect_headset_detail">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
     <string name="enable_wheel_bar">Cuir am bàr cuibhle an comas</string>
     <string name="enable_verbose_mode">Briathrachas</string>
     <string name="enable_verbose_mode_detail">Cuir am briathrachas an àirde (logcat)</string>
