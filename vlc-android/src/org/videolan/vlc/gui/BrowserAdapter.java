@@ -115,7 +115,8 @@ public class BrowserAdapter extends ArrayAdapter<File>
                 File tmpFile = item;
                 while (!tmpFile.getPath().equals("/")) {
                     tmpFile = tmpFile.getParentFile();
-                    dbManager.removeDir(tmpFile.getPath());
+                    if (tmpFile != null)
+                        dbManager.removeDir(tmpFile.getPath());
                 }
             } else {
                 dbManager.removeDir(item.getPath());
