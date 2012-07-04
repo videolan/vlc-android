@@ -129,7 +129,7 @@ public class Media implements Comparable<Media> {
         LibVLC mLibVlc = null;
         try {
             mLibVlc = LibVLC.getInstance();
-            mType = TYPE_AUDIO;
+            mType = TYPE_ALL;
 
             TrackInfo[] tracks = mLibVlc.readTracksInfo(mLocation);
 
@@ -138,9 +138,9 @@ public class Media implements Comparable<Media> {
                     mType = TYPE_VIDEO;
                     mWidth = track.Width;
                     mHeight = track.Height;
-                }
-
-                if (track.Type == TrackInfo.TYPE_META) {
+                } else if (track.Type == TrackInfo.TYPE_AUDIO){
+                    mType = TYPE_AUDIO;
+                } else if (track.Type == TrackInfo.TYPE_META) {
                     mLength = track.Length;
                     mTitle = track.Title;
                     mArtist = Util.getValue(track.Artist, R.string.unknown_artist);
@@ -151,6 +151,19 @@ public class Media implements Comparable<Media> {
                     Log.d(TAG, "Artist " + mArtist);
                     Log.d(TAG, "Genre " + mGenre);
                     Log.d(TAG, "Album " + mAlbum);
+                }
+            }
+
+            /* No useful ES found */
+            if (mType == TYPE_ALL) {
+                int dotIndex = mLocation.lastIndexOf(".");
+                if (dotIndex != -1) {
+                    String fileExt = mLocation.substring(dotIndex);
+                    if( Media.VIDEO_EXTENSIONS.contains(fileExt) ) {
+                        mType = TYPE_VIDEO;
+                    } else if (Media.AUDIO_EXTENSIONS.contains(fileExt)) {
+                        mType = TYPE_AUDIO;
+                    }
                 }
             }
         } catch (LibVlcException e) {
