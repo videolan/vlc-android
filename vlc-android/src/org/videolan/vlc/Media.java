@@ -35,13 +35,14 @@ public class Media implements Comparable<Media> {
     public final static HashSet<String> FOLDER_BLACKLIST;
 
     static {
-        String[] extensions = {
+        String[] video_extensions = {
                 ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".dv", "f4v",
                 ".flv", ".gxf", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts", ".m4v", ".mkv", ".mov", ".mp2",
                 ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg", ".mpeg1", ".mpeg2", ".mpeg4", ".mpg",
                 ".mpv2", ".mts", ".mxf", ".nsv", ".nuv", ".ogg", ".ogm", ".ogv", ".ogx", ".ps", ".rec",
-                ".rm", ".rmvb", ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv",
+                ".rm", ".rmvb", ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv" };
 
+        String[] audio_extensions = {
                 ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr", ".aob", ".ape",
                 ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
                 ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".rmi", ".s3m", ".spx", ".tta",
@@ -60,15 +61,21 @@ public class Media implements Comparable<Media> {
                 "/Android/data/" };
 
         EXTENTIONS = new HashSet<String>();
-        for (String item : extensions)
+        for (String item : video_extensions)
             EXTENTIONS.add(item);
-        // .+(\.)((?i)(mp3|flac|mp4|ogg|ogv))
+        for (String item : audio_extensions)
+            EXTENTIONS.add(item);
+
         StringBuilder sb = new StringBuilder(115);
         sb.append(".+(\\.)((?i)(");
-        sb.append(extensions[0].substring(1));
-        for(int i = 1; i < extensions.length; i++) {
+        sb.append(video_extensions[0].substring(1));
+        for(int i = 1; i < video_extensions.length; i++) {
             sb.append('|');
-            sb.append(extensions[i].substring(1));
+            sb.append(video_extensions[i].substring(1));
+        }
+        for(int i = 0; i < audio_extensions.length; i++) {
+            sb.append('|');
+            sb.append(audio_extensions[i].substring(1));
         }
         sb.append("))");
         EXTENTIONS_REGEX = sb.toString();
