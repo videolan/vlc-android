@@ -305,7 +305,7 @@ public class DatabaseManager {
 
         do {
             count = 0;
-            cursor = mDb.rawQuery(String.format(Locale.ROOT,
+            cursor = mDb.rawQuery(String.format(Locale.US,
                     "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
                     MEDIA_TIME, //0 long
                     MEDIA_LENGTH, //1 long
