@@ -1,16 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--Main VLC Interface-->
-  <string name="app_name">VLC</string>
   <string name="filebrowser_sdfail">एसडी कार्ड को खोलने में असमर्थ | कृपया जांचें लें कि इसे सही ढंग से माउंट किया गया हैं |</string>
   <string name="filebrowser_root">मूल</string>
   <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">चलाने के लिए मीडिया का चयन करें</string>
   <string name="ml_no_media_dir">कोई मीडिया निर्देशिका नहीं</string>
-  <string name="sortby">द्वारा क्रमबद्ध करें…</string>
+  <string name="sortby">द्वारा क्रमबद्ध करें .&#8230;</string>
   <string name="sortby_name">नाम</string>
   <string name="sortby_length">अवधि</string>
-  <string name="searchable_hint">खोजें …</string>
+  <string name="searchable_hint">खोजें &#8230;</string>
   <string name="search_history">इतिहास</string>
   <string name="search_found_results">%1$d परिणाम मिला</string>
   <string name="show_player"> प्लेयर को दिखाएँ</string>
@@ -32,18 +31,18 @@
   <string name="unknown_genre">अज्ञात शैली</string>
   <string name="songs">गाने</string>
   <plurals name="songs_quantity">
-    <item quantity="one">1 गाने</item>
-    <item quantity="other">गाने</item>
+    <item quantity="one">1 गाना</item>
+    <item quantity="other">%d गाने</item>
   </plurals>
   <string name="artists">कलाकार</string>
   <string name="albums">एल्बम</string>
   <plurals name="albums_quantity">
     <item quantity="one">1 एल्बम</item>
-    <item quantity="other">एल्बम</item>
+    <item quantity="other">%d एल्बम</item>
   </plurals>
   <plurals name="subfolders_quantity">
-    <item quantity="one">1 उप-फ़ोल्डर</item>
-    <item quantity="other">%d उप-फ़ोल्डर</item>
+    <item quantity="one">1 सबफ़ोल्डर</item>
+    <item quantity="other">%d सबफ़ोल्डर</item>
   </plurals>
   <string name="parent_folder">मूल फ़ोल्डर तक</string>
   <string name="all_albums">सभी एल्बम</string>
@@ -55,7 +54,7 @@
   <string name="album">एल्बम</string>
   <string name="directory">निर्देशिका</string>
   <string name="directories">निर्देशिकाएँ</string>
-  <string name="loading">लोड हो रहा है …</string>
+  <string name="loading">लोड हो रहा है .&#8230;</string>
   <string name="nomedia">कोई मीडिया फ़ाइल नहीं मिला, कृपया अपनी डिवाइस के लिए फ़ाइलें स्थानांतरित या अपनी वरीयताओं को समायोजित करें.</string>
   <string name="mediafiles">मीडिया फ़ाइलें</string>
   <string name="notavailable">उपलब्ध नहीं</string>
@@ -77,7 +76,7 @@
   <string name="track_codec_info">कोडेक: %1$s\n</string>
   <string name="track_language_info">भाषा: %1$s\n</string>
   <plurals name="track_channels_info_quantity">
-    <item quantity="one">%1$d चैनल\n</item>
+    <item quantity="one">1 चैनल\n</item>
     <item quantity="other">%1$d चैनलों\n</item>
   </plurals>
   <string name="track_samplerate_info">नमूना दर: %1$d Hz\n</string>
@@ -88,6 +87,7 @@
   <string name="open_mrl_dialog_title">संजाल प्रवाह को खोलें</string>
   <string name="open_mrl_dialog_msg">संजाल MRL प्रविष्ट करें: e.g. http://, mms:// or rtsp://</string>
   <string name="media_library">मीडिया लाइब्रेरी</string>
+  <string name="error_not_compatible">क्षमा करें, लेकिन वर्तमान में आपके डिवाइस पर Android™ के लिए VLC के इस संस्करण द्वारा समर्थित नहीं है.\n\n\nत्रुटि संदेश(दोषारोपण के दौरान त्रुटि सन्देश उल्लेख करें) हैं: \n</string>
   <!--About-->
   <string name="app_name_full">Android™ के लिए VLC </string>
   <string name="version">संस्करण</string>
@@ -95,11 +95,9 @@
   <string name="revision">संशोधन</string>
   <string name="about">के संबंध में</string>
   <string name="about_text">VLCAndroid ™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
-  <string name="about_link">\n        &lt;a href=\"http://www.videolan.org/vlc/\"&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
-  <string name="about_copyright">VideoLAN द्वारा Copyleft © 1996–2012.\n</string>
   <string name="for_android">Android™ के लिए</string>
   <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
-  <string name="authors">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck\nVLC लेखक|</string>
+
   <!--Preferences-->
   <string name="preferences">प्राथमिकताएं</string>
   <string name="main_prefs_category">मुख्य</string>
@@ -128,5 +126,4 @@
     <item>@string/aout_audiotrack</item>
     <item>@string/aout_opensles</item>
   </string-array>
-  <string name="error_no_neon">क्षमा करें, लेकिन फिलहाल आपका उपकरण Android™ के लिए VLC के इस संस्करण के द्वारा समर्थित नहीं है</string>
 </resources>
