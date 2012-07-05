@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!--  Main VLC Interface  -->
+    <string name="filebrowser_sdfail">Nemožno otvoriť kartu SD. Skontrolujte prosím, že je správne pripojená.</string>
+    <string name="filebrowser_root">Hlavný</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Vyberte médium, ktoré chcete prehrať</string>
+    <string name="ml_no_media_dir">Žiadny priečinok s médiami</string>
+    <string name="sortby">Zoradiť podľa&#8230;</string>
+    <string name="sortby_name">názvu</string>
+    <string name="sortby_length">dĺžky</string>
+    <string name="searchable_hint">Vyhľadávať&#8230;</string>
+    <string name="search_history">História</string>
+    <string name="search_found_results">Našlo sa %1$d výsledkov</string>
+    <string name="show_player">Zobraziť prehrávač</string>
+    <string name="hide_mini_player">Skryť mini-prehrávač</string>
+    <string name="play">Prehrať</string>
+    <string name="append">Pripojiť</string>
+    <string name="play_all">Prehrať všetko</string>
+    <string name="append_all">Pripojiť všetko</string>
+    <string name="delete">Vymazať</string>
+    <string name="info">Informácia</string>
+    <string name="confirm_delete">Vymazať tento súbor?</string>
+    <string name="pause">Pozastaviť</string>
+    <string name="close">Zatvoriť</string>
+    <string name="not_show_again">"Už nezobrazovať túto správu."</string>
+    <string name="beta_warning">Toto je beta-verzia.\n\nTáto verzia NIE JE STABILNÁ!\n\nNEPOUŽÍVAJTE JU, pokiaľ presne neviete čo robíte.\n\nMôže zabiť Vašu mačku, zničiť Váš dom a spustiť Mayskú apokalypsu.\nPoužívate ju na vlastné riziko.\n\nVeľa zábavy! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Neznámy umelec</string>
+    <string name="unknown_album">Neznámy album</string>
+    <string name="unknown_genre">Neznámy žáner</string>
+    <string name="songs">Skladby</string>
+    <plurals name="songs">
+        <item quantity="one">1 skladba</item>
+        <item quantity="other">počet skladieb: %d</item>
+    </plurals>
+    <string name="artists">Umelci</string>
+    <string name="albums">Albumy</string>
+    <plurals name="albums">
+        <item quantity="one">1 album</item>
+        <item quantity="other">počet albumov: %d</item>
+    </plurals>
+    <plurals name="subfolders">
+        <item quantity="one">1 podpriečinok</item>
+        <item quantity="other">Počet podpriečinkov: %d</item>
+    </plurals>
+    <string name="parent_folder">Do rodičovského priečinka</string>
+    <string name="all_albums">Všetky albumy</string>
+    <string name="genres">Žánre</string>
+    <string name="playlists">Playlisty</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Titul</string>
+    <string name="artist">Umelec</string>
+    <string name="album">Album</string>
+    <string name="directory">Priečinok</string>
+    <string name="directories">Priečinky</string>
+    <string name="loading">Načítava sa&#8230;</string>
+    <string name="nomedia">Nenašli sa žiadne médiá, preneste prosím súbory do zariadenia alebo upravte nastavenia.</string>
+    <string name="mediafiles">Súbory médií</string>
+    <string name="notavailable">nedostupné</string>
+    <string name="nosubdirectory">Žiadne podpriečinky.</string>
+    <string name="validation">Naozaj?</string>
+    <string name="locked">Uzamknuté</string>
+    <string name="unlocked">Odomknuté</string>
+    <string name="surface_best_fit">Najlepšie prispôsobenie</string>
+    <string name="surface_fit_horizontal">Prispôsobiť horizontálne</string>
+    <string name="surface_fit_vertical">Prispôsobiť vertikálne</string>
+    <string name="surface_fill">Vyplniť</string>
+    <string name="surface_original">Vycentrovať</string>
+    <string name="thumbnail">Náhľad</string>
+    <string name="refresh">Obnoviť</string>
+    <string name="track_audio">Zvuková stopa</string>
+    <string name="track_video">Stopa s videom</string>
+    <string name="track_text">Stopa s titulkami</string>
+    <string name="track_unknown">Neznáma stopa</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Jazyk: %1$s\n</string>
+    <plurals name="track_channels_info">
+        <item quantity="one">1 kanál\n</item>
+        <item quantity="other">Kanálov: %1$d\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz\n</string>
+    <string name="track_resolution_info">Rozlíšenie: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Rýchlosť snímkovania: %1$.3f\n</string>
+    <string name="open">Otvoriť</string>
+    <string name="open_mrl">Otvoriť MRL</string>
+    <string name="open_mrl_dialog_title">Otvoriť sieťový stream</string>
+    <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu MRL: napr. http://, mms:// alebo rtsp://</string>
+    <string name="media_library">Knižnica médií</string>
+    <string name="error_not_compatible">Ľutujeme, ale toto zariadenie momentálne nie je podporované touto verziou programu VLC for Android™.\n\nSpráva o chybe (prosím uveďte pri ladení):\n</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC for Android™</string>
+    <string name="version">Verzia</string>
+    <string name="licence">Licencia</string>
+    <string name="revision">Revízia</string>
+    <string name="about">O programe</string>
+    <string name="about_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať väčšinu súborov a sieťových streamov.</string>
+    <string name="for_android">for Android™</string>
+    <string name="compiled_by">Túto verziu VLC skompiloval:</string>
+
+    <!--  Preferences -->
+    <string name="preferences">Nastavenia</string>
+    <string name="main_prefs_category">Hlavné</string>
+    <string name="privacy_prefs_category">Súkromie</string>
+    <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
+    <string name="advanced_prefs_category">Pokročilé</string>
+    <string name="enable_iomx">Zapnúť hardvérovú akceleráciu dekódovania</string>
+    <string name="advanced_debugging">Pokročilé ladenie</string>
+    <string name="quit">Ukončiť program</string>
+    <string name="clear_media_db">Vyčistiť databázu médií</string>
+    <string name="detect_headset">Detegovať headset</string>
+    <string name="detect_headset_detail">Pozastaviť pri odobraní headset-u; pokračovať pri jeho pripojení</string>
+    <string name="enable_wheel_bar">Zapnúť lištu v elipse</string>
+    <string name="enable_verbose_mode">Komunikatívnosť</string>
+    <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
+    <string name="aout">Zvukový výstup</string>
+    <string name="aout_audiotrack">AudioTrack (natívne)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string-array name="aouts_froyo">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+    </string-array>
+    <string-array name="aouts">
+        <item>@string/aout_audiotrack_java</item>
+        <item>@string/aout_audiotrack</item>
+        <item>@string/aout_opensles</item>
+    </string-array>
+</resources>
