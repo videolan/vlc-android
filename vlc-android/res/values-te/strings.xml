@@ -30,17 +30,17 @@
   <string name="unknown_album">తెలియని ఆల్బమ్</string>
   <string name="unknown_genre">తెలియని సాహిత్యం</string>
   <string name="songs">పాటలు</string>
-  <plurals name="songs">
+  <plurals name="songs_quantity">
     <item quantity="one">1 పాట</item>
     <item quantity="other">%d పాటలు</item>
   </plurals>
   <string name="artists">కళాకారులు</string>
   <string name="albums">ఆల్బమ్లు</string>
-  <plurals name="albums">
+  <plurals name="albums_quantity">
     <item quantity="one">ఆల్బమ్</item>
     <item quantity="other">%d ఆల్బమ్లు</item>
   </plurals>
-  <plurals name="subfolders">
+  <plurals name="subfolders_quantity">
     <item quantity="one">ఉపసంచయం</item>
     <item quantity="other">%d ఉపసంచయాలు</item>
   </plurals>
@@ -75,7 +75,7 @@
   <string name="track_unknown">తెలియని ట్రాక్</string>
   <string name="track_codec_info">కొడెక్: %1$s\n</string>
   <string name="track_language_info">భాష: %1$s\n</string>
-  <plurals name="track_channels_info">
+  <plurals name="track_channels_info_quantity">
     <item quantity="one">1 వాహిక\n</item>
     <item quantity="other">%1$d వాహికలు\n</item>
   </plurals>

@@ -88,7 +88,7 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
     }
 
     private void appendAudio(StringBuilder textBuilder, Resources res, TrackInfo track) {
-        textBuilder.append(res.getQuantityString(R.plurals.track_channels_info, track.Channels, track.Channels));
+        textBuilder.append(res.getQuantityString(R.plurals.track_channels_info_quantity, track.Channels, track.Channels));
         textBuilder.append(res.getString(R.string.track_samplerate_info, track.Samplerate));
     }
 

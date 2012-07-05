@@ -30,17 +30,17 @@
     <string name="unknown_album">אלבום בלתי ידוע</string>
     <string name="unknown_genre">סגנון בלתי ידוע</string>
     <string name="songs">שירים</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">שיר אחד</item>
         <item quantity="other">%d שירים</item>
     </plurals>
     <string name="artists">אמנים</string>
     <string name="albums">אלבומים</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">אלבום אחד</item>
         <item quantity="other">%d אלבומים</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">תיקיית משנה אחת</item>
         <item quantity="other">%d תיקיות משנה</item>
     </plurals>
@@ -75,7 +75,7 @@
     <string name="track_unknown">רצועה בלתי ידועה</string>
     <string name="track_codec_info">מקודד: %1$s\n</string>
     <string name="track_language_info">שפה: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">ערוץ אחד\n</item>
         <item quantity="other">%1$d ערוצים\n</item>
     </plurals>

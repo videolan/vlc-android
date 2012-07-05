@@ -31,17 +31,17 @@
   <string name="unknown_album">अज्ञात एल्बम</string>
   <string name="unknown_genre">अज्ञात शैली</string>
   <string name="songs">गाने</string>
-  <plurals name="songs">
+  <plurals name="songs_quantity">
     <item quantity="one">1 गाने</item>
     <item quantity="other">गाने</item>
   </plurals>
   <string name="artists">कलाकार</string>
   <string name="albums">एल्बम</string>
-  <plurals name="albums">
+  <plurals name="albums_quantity">
     <item quantity="one">1 एल्बम</item>
     <item quantity="other">एल्बम</item>
   </plurals>
-  <plurals name="subfolders">
+  <plurals name="subfolders_quantity">
     <item quantity="one">1 उप-फ़ोल्डर</item>
     <item quantity="other">%d उप-फ़ोल्डर</item>
   </plurals>
@@ -76,7 +76,7 @@
   <string name="track_unknown">अज्ञात रील</string>
   <string name="track_codec_info">कोडेक: %1$s\n</string>
   <string name="track_language_info">भाषा: %1$s\n</string>
-  <plurals name="track_channels_info">
+  <plurals name="track_channels_info_quantity">
     <item quantity="one">%1$d चैनल\n</item>
     <item quantity="other">%1$d चैनलों\n</item>
   </plurals>

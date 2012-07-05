@@ -30,7 +30,7 @@
     <string name="unknown_album">Albam neo-aithnichte</string>
     <string name="unknown_genre">Gnè neo-aithnichte</string>
     <string name="songs">Òrain</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="zero">%d òran</item>
         <item quantity="one">%d òran</item>
 		<item quantity="two">%d òran</item>
@@ -38,13 +38,13 @@
     </plurals>
     <string name="artists">Luchd-ealain</string>
     <string name="albums">Albaman</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="zero">%d albam</item>
         <item quantity="one">%d albam</item>
         <item quantity="two">%d albam</item>
         <item quantity="few">%d albaim</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
 	    <item quantity="zero">%d fo-phasgan</item>
         <item quantity="one">%d fho-phasgan</item>
 		<item quantity="two">%d fho-phasgan</item>
@@ -81,7 +81,7 @@
     <string name="track_unknown">Traca neo-aithnichte</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Cànan: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="zero">0 seanail\n</item>
         <item quantity="one">1 seanail\n</item>
 		<item quantity="two">2 sheanail\n</item>

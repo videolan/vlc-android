@@ -30,17 +30,17 @@
     <string name="unknown_album">Onbekend album</string>
     <string name="unknown_genre">Onbekend genre</string>
     <string name="songs">Nummers</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 nummer</item>
         <item quantity="other">%d nummers</item>
     </plurals>
     <string name="artists">Artiesten</string>
     <string name="albums">Albums</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 submap</item>
         <item quantity="other">%d submappen</item>
     </plurals>
@@ -75,7 +75,7 @@
     <string name="track_unknown">Onbekende track</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Taal: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanaal\n</item>
         <item quantity="other">%1$d kanalen\n</item>
     </plurals>

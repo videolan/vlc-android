@@ -30,17 +30,17 @@
     <string name="unknown_album">Nieznany album</string>
     <string name="unknown_genre">Nieznany gatunek</string>
     <string name="songs">Piosenki</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 piosenka</item>
         <item quantity="other">%d piosen(ki/ek)</item>
     </plurals>
     <string name="artists">Wykonawcy</string>
     <string name="albums">Albumy</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album(y/ów)</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 podfolder</item>
         <item quantity="other">%d podfolder(y/ów)</item>
     </plurals>
@@ -75,7 +75,7 @@
     <string name="track_unknown">Nieznana ścieżka</string>
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Język: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanał\n</item>
         <item quantity="other">%1$d kanał(y/ów)\n</item>
     </plurals>

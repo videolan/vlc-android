@@ -30,17 +30,17 @@
     <string name="unknown_album">Nepoznati album</string>
     <string name="unknown_genre">Nepoznati smjer</string>
     <string name="songs">Skladbe</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 skladba</item>
         <item quantity="other">%d skladbi</item>
     </plurals>
     <string name="artists">Izvođači</string>
     <string name="albums">Albumi</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albuma</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 podmapa</item>
         <item quantity="other">%d podmapa</item>
     </plurals>
@@ -75,7 +75,7 @@
     <string name="track_unknown">Nepoznati zapis</string>
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Jezik: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanal\n</item>
         <item quantity="other">%1$d kanala\n</item>
     </plurals>

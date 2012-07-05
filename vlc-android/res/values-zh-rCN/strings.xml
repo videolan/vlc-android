@@ -30,17 +30,17 @@
   <string name="unknown_album">未知专辑</string>
   <string name="unknown_genre">未知流派</string>
   <string name="songs">歌曲</string>
-  <plurals name="songs">
+  <plurals name="songs_quantity">
   	<item quantity="one">一首歌曲</item>
     <item quantity="other">%d 首歌曲</item>
   </plurals>
   <string name="artists">艺术家</string>
   <string name="albums">专辑</string>
-  <plurals name="albums">
+  <plurals name="albums_quantity">
   	<item quantity="one">一张专辑</item>
     <item quantity="other">%d 张专辑</item>
   </plurals>
-  <plurals name="subfolders">
+  <plurals name="subfolders_quantity">
   	<item quantity="one">一个子文件夹</item>
     <item quantity="other">%d 个子文件夹</item>
   </plurals>
@@ -75,7 +75,7 @@
   <string name="track_unknown">未知轨</string>
   <string name="track_codec_info">编解码器: %1$s\n</string>
   <string name="track_language_info">预言: %1$s\n</string>
-  <plurals name="track_channels_info">
+  <plurals name="track_channels_info_quantity">
   	<item quantity="one">单声道\n</item>
     <item quantity="other">%1$d 声道\n</item>
   </plurals>

@@ -33,7 +33,7 @@
   <string name="songs">Písničky</string>
   <string name="artists">Umělci</string>
   <string name="albums">Alba</string>
-  <plurals name="subfolders">
+  <plurals name="subfolders_quantity">
     <item quantity="one">1 podsložka</item>
     <item quantity="few">%d podsložky</item>
     <item quantity="other">%d podsložek</item>
@@ -69,7 +69,7 @@
   <string name="track_unknown">Neznámá stopa</string>
   <string name="track_codec_info">Kodek: %1$s\n</string>
   <string name="track_language_info">Jazyk: %1$s\n</string>
-  <plurals name="track_channels_info">
+  <plurals name="track_channels_info_quantity">
     <item quantity="one">1 kanál\n</item>
     <item quantity="few">%1$d kanály\n</item>
     <item quantity="other">%1$d kanálů\n</item>

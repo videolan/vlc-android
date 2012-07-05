@@ -30,15 +30,15 @@
   <string name="unknown_album">未知のアルバム</string>
   <string name="unknown_genre">未知のジャンル</string>
   <string name="songs">曲</string>
-  <plurals name="songs">
+  <plurals name="songs_quantity">
     <item quantity="other">%d 曲</item>
   </plurals>
   <string name="artists">アーティスト</string>
   <string name="albums">アルバム</string>
-  <plurals name="albums">
+  <plurals name="albums_quantity">
     <item quantity="other">%d アルバム</item>
   </plurals>
-  <plurals name="subfolders">
+  <plurals name="subfolders_quantity">
     <item quantity="other">%d サブフォルダ</item>
   </plurals>
   <string name="parent_folder">一階層上に</string>
@@ -72,7 +72,7 @@
   <string name="track_unknown">未知のトラック</string>
   <string name="track_codec_info">コーデック: %1$s\n</string>
   <string name="track_language_info">言語: %1$s\n</string>
-  <plurals name="track_channels_info">
+  <plurals name="track_channels_info_quantity">
     <item quantity="other">%1$d チャンネル</item>
   </plurals>
   <string name="track_samplerate_info">サンプリングレート: %1$d Hz\n</string>

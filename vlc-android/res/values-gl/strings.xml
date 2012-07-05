@@ -30,17 +30,17 @@
     <string name="unknown_album">Álbum descoñecido</string>
     <string name="unknown_genre">Xénero descoñecido</string>
     <string name="songs">Cancións</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 canción</item>
         <item quantity="other">%d cancións</item>
     </plurals>
     <string name="artists">Artistas</string>
     <string name="albums">Álbumes</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
         <item quantity="other">%d álbumes</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 subcartafol</item>
         <item quantity="other">%d subcartafoles</item>
     </plurals>
@@ -75,7 +75,7 @@
     <string name="track_unknown">Pista descoñecida</string>
     <string name="track_codec_info">Códec: %1$s\n</string>
     <string name="track_language_info">Idioma: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canle\n</item>
         <item quantity="other">%1$d canles\n</item>
     </plurals>

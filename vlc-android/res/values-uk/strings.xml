@@ -30,19 +30,19 @@
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
     <string name="songs">Пісні</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 пісня</item>
         <item quantity="few">%d пісні</item>
         <item quantity="other">%d пісень</item>
     </plurals>
     <string name="artists">Виконавці</string>
     <string name="albums">Альбоми</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 альбом</item>
         <item quantity="few">%d альбоми</item>
         <item quantity="other">%d альбомів</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 підкаталог</item>
         <item quantity="few">%d підкаталога</item>
         <item quantity="other">%d підкаталогів</item>
@@ -78,7 +78,7 @@
     <string name="track_unknown">Невідома доріжка</string>
     <string name="track_codec_info">Кодек: %1$s\n</string>
     <string name="track_language_info">Мова: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d канал\n</item>
         <item quantity="few">%1$d канали\n</item>
         <item quantity="other">%1$d каналів\n</item>

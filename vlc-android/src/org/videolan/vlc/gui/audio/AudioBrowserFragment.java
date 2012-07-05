@@ -101,9 +101,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
 
         mSongsAdapter = new AudioListAdapter(getActivity());
-        mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
-        mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs, R.plurals.songs);
-        mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums, R.plurals.songs);
+        mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
+        mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs_quantity, R.plurals.songs_quantity);
+        mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
     }
 
     @Override

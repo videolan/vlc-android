@@ -267,13 +267,13 @@ public class DirectoryAdapter extends BaseAdapter {
 
             if(folderCount > 0)
                 holderText += context.getResources().getQuantityString(
-                        R.plurals.subfolders, folderCount, folderCount
+                        R.plurals.subfolders_quantity, folderCount, folderCount
                 );
             if(folderCount > 0 && songCount > 0)
                 holderText += ", ";
             if(songCount > 0)
                 holderText += context.getResources().getQuantityString(
-                        R.plurals.songs, songCount, songCount
+                        R.plurals.songs_quantity, songCount, songCount
                 );
         }
         holder.text.setText(holderText);

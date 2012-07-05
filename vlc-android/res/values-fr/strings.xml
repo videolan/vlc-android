@@ -32,13 +32,13 @@
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
     <string name="songs">Chansons</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 chanson</item>
         <item quantity="other">%d chansons</item>
     </plurals>
     <string name="artists">Artistes</string>
     <string name="albums">Albums</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
     </plurals>
@@ -72,7 +72,7 @@
     <string name="track_unknown">Piste inconnue</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Langue: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canal\n</item>
         <item quantity="other">%1$d canaux\n</item>
     </plurals>
