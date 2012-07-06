@@ -23,6 +23,7 @@ package org.videolan.vlc;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -219,28 +220,24 @@ public class Util {
         boolean NO_FPU = properties.getProperty("NO_FPU").equals("1");
         boolean NO_ARMV6 = properties.getProperty("NO_ARMV6").equals("1");
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
-        ProcessBuilder cmd;
 
         try {
-            String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
-            cmd = new ProcessBuilder(args);
-
-            Process process = cmd.start();
-            InputStream in = process.getInputStream();
-            byte[] re = new byte[1024];
-            while(in.read(re) != -1){
-                if(!hasNeon && new String(re).contains("neon"))
+            FileReader fileReader = new FileReader("/proc/cpuinfo");
+            BufferedReader br = new BufferedReader(fileReader);
+            String line;
+            while((line = br.readLine()) != null) {
+                if(!hasNeon && line.contains("neon"))
                     hasNeon = true;
-                if(!hasArmV7 && new String(re).contains("ARMv7")) {
+                if(!hasArmV7 && line.contains("ARMv7")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
                 }
-                if(!hasArmV7 && !hasArmV6 && new String(re).contains("ARMv6"))
+                if(!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
                     hasArmV6 = true;
-                if(!hasFpu && new String(re).contains("vfp"))
+                if(!hasFpu && line.contains("vfp"))
                     hasFpu = true;
             }
-            in.close();
+            fileReader.close();
         } catch(IOException ex){
             ex.printStackTrace();
             errorMsg = "IOException whilst reading cpuinfo flags";
