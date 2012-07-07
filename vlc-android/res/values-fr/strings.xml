@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="app_name_full">Lecteur multimédia VLC</string>
     <string name="filebrowser_sdfail">Impossible de lire la Carte SD. Veuillez vérifier qu\'elle est montée correctement.</string>
     <string name="filebrowser_root">Racine</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Sélection des médias</string>
-    <string name="preferences">Préférences</string>
-    <string name="about">A Propos</string>
     <string name="ml_no_media_dir">Pas de répertoire multimédia</string>
     <string name="sortby">Trier par…</string>
     <string name="sortby_name">Nom</string>
@@ -22,6 +19,7 @@
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
     <string name="delete">Supprimer</string>
+    <string name="info">Information</string>
     <string name="confirm_delete">Supprimer ce média ?</string>
     <string name="pause">Pause</string>
     <string name="close">Fermer</string>
@@ -42,6 +40,11 @@
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
     </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 sous-répertoire</item>
+        <item quantity="other">%d sous-répertoires</item>
+    </plurals>
+    <string name="parent_folder">Répertoire parent</string>
     <string name="all_albums">Tous les albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Listes</string>
@@ -79,16 +82,25 @@
     <string name="track_samplerate_info">Fréquence d\'échantillonage: %1$d Hz\n</string>
     <string name="track_resolution_info">Résolution: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Débit d\'images: %1$.3f\n</string>
+    <string name="open">Ouvrir</string>
+    <string name="open_mrl">Ouvrir MRL</string>
+    <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
+    <string name="open_mrl_dialog_msg">Enter une addresse réseau: e.g. http://, mms:// ou rtsp://</string>
+    <string name="media_library">Bibliothèque</string>
+    <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.\n\nLe message d\'erreur est (veuillez le mentionner lors du débogage):\n</string>
 
     <!-- About -->
+    <string name="app_name_full">Lecteur multimédia VLC</string>
     <string name="version">Version</string>
     <string name="licence">Licence</string>
     <string name="revision">Révision</string>
     <string name="about">À propos</string>
-    <string name="for_android">pour Android</string>
+    <string name="about_text">VLC pour Android™ est un portage de VLC media player, le célèbre lecteur multimedia open source. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
+    <string name="for_android">pour Android™</string>
     <string name="compiled_by">Cette version de VLC est compilé par:</string>
 
     <!--  Preferences -->
+    <string name="preferences">Préférences</string>
     <string name="main_prefs_category">Général</string>
     <string name="privacy_prefs_category">Vie privée</string>
     <string name="clear_history">Vider l\'historique des recherches</string>
@@ -96,9 +108,13 @@
     <string name="enable_iomx">Activer le décodage matériel</string>
     <string name="advanced_debugging">Débogage avancé</string>
     <string name="quit">Quitter l\'application</string>
+    <string name="clear_media_db">Vider la base de données multimedia</string>
+    <string name="media_db_cleared">Base de données multimedia vidée!</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="enable_wheel_bar">Activer la wheel bar</string>
+    <string name="enable_verbose_mode">Verbosité</string>
+    <string name="enable_verbose_mode_detail">Augmenter la verbosité (logcat)</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
