@@ -117,13 +117,4 @@
   <string name="aout_audiotrack">AudioTrack (मूल)</string>
   <string name="aout_audiotrack_java">AudioTrack (जावा)</string>
   <string name="aout_opensles">OpenSL ES</string>
-  <string-array name="aouts_froyo">
-    <item>@string/aout_audiotrack_java</item>
-    <item>@string/aout_audiotrack</item>
-  </string-array>
-  <string-array name="aouts">
-    <item>@string/aout_audiotrack_java</item>
-    <item>@string/aout_audiotrack</item>
-    <item>@string/aout_opensles</item>
-  </string-array>
 </resources>

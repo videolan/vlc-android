@@ -115,14 +115,5 @@
   <string name="aout_audiotrack">AudioTrack (natiboa)</string>
   <string name="aout_audiotrack_java">AudioTrack (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
-  <string-array name="aouts_froyo">
-    <item>@string/aout_audiotrack_java</item>
-    <item>@string/aout_audiotrack</item>
-  </string-array>
-  <string-array name="aouts">
-    <item>@string/aout_audiotrack_java</item>
-    <item>@string/aout_audiotrack</item>
-    <item>@string/aout_opensles</item>
-  </string-array>
   <string name="error_no_neon">Sentitzen dugu baina Android™-erako VCL bertsio honek ez du zure gailua onartzen oraindik.</string>
 </resources>
