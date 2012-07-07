@@ -68,6 +68,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
@@ -103,6 +104,7 @@ public class VideoPlayerActivity extends Activity {
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_SIZE = 3;
     private static final int FADE_OUT_INFO = 4;
+    private static final int HIDE_NAV = 5;
     private boolean mDragging;
     private boolean mShowing;
     private SeekBar mSeekbar;
@@ -143,6 +145,17 @@ public class VideoPlayerActivity extends Activity {
         setContentView(R.layout.player);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(Util.isICSOrLater())
+            getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
+                    new OnSystemUiVisibilityChangeListener() {
+                        @Override
+                        @TargetApi(14)
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if(visibility == View.SYSTEM_UI_FLAG_VISIBLE && Util.isICSOrLater())
+                                mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
+                        }
+                    }
+            );
 
         /** initialize Views an their Events */
         mOverlayHeader = findViewById(R.id.player_overlay_header);
@@ -460,6 +473,10 @@ public class VideoPlayerActivity extends Activity {
                     break;
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
+                    break;
+                case HIDE_NAV:
+                    activity.dimStatusBarICS();
+                    break;
             }
         }
     };
@@ -573,6 +590,8 @@ public class VideoPlayerActivity extends Activity {
                         showOverlay();
                     } else {
                         hideOverlay(true);
+                        if(Util.isICSOrLater())
+                            mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
                     }
                 }
                 break;
@@ -791,6 +810,7 @@ public class VideoPlayerActivity extends Activity {
      * show overlay
      */
     private void showOverlay(int timeout) {
+        mHandler.removeMessages(HIDE_NAV);
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
@@ -844,13 +864,23 @@ public class VideoPlayerActivity extends Activity {
      */
     @TargetApi(11)
 	private void dimStatusBar(boolean dim) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+        if(Util.isHoneycombOrLater()) {
             if (dim) {
                 mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
             } else {
                 mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
+    }
+
+    /**
+     * ICS full-screen profile
+     * Android 4.0 and later only
+     */
+    @TargetApi(14)
+    private void dimStatusBarICS() {
+        if(Util.isICSOrLater())
+            mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     private void updateOverlayPausePlay() {
