@@ -97,7 +97,6 @@
     <string name="about_text">VLC za Android™ je izdanak medijskog izvođača VLC, popularnog medijskog izvođača otvorenog kôda. Inačica za Android™ može čitati većinu datoteka i mrežnih tokova.</string>
     <string name="for_android">za Android™</string>
     <string name="compiled_by">Ovu inačicu VLC-a su sastavili:</string>
-    <string name="authors" translatable="false">Sébastien&#160;Toque, Rafaël&#160;Carré, Jean-Baptiste&#160;Kempf, Edward&#160;Wang, Michael&#160;Merg, Ludovic&#160;Fauvet, Adrien&#160;Maglo, Rémi&#160;Duraffort, Dominique&#160;Martinet, Jean-Philippe&#160;André, Martin&#160;Storsjö, Alexandre&#160;Perraud, Hugo&#160;Beauzée-Luyssen, Felix&#160;Paul&#160;Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nVLC Authors.</string>
 
     <!--  Preferences -->
     <string name="preferences">Postavke</string>

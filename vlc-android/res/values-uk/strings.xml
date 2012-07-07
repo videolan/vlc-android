@@ -101,7 +101,6 @@
     <string name="about_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може відтворювати більшість файлів і мережевих потоків.</string>
     <string name="for_android">для Android™</string>
     <string name="compiled_by">Цю версію VLC скомпільовано:</string>
-    <string name="authors" translatable="false">Sébastien Toque, Rafaël Carré, Jean-Baptiste Kempf, Edward Wang, Michael Merg, Ludovic Fauvet, Adrien Maglo, Rémi Duraffort, Dominique Martinet, Jean-Philippe André, Martin Storsjö, Alexandre Perraud, Hugo Beauzée-Luyssen, Felix Paul Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nVLC Authors.</string>
 
     <!--  Preferences -->
     <string name="preferences">Параметри</string>

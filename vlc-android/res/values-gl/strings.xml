@@ -95,12 +95,8 @@
     <string name="revision">Revisión</string>
     <string name="about">Sobre</string>
     <string name="about_text">VLC for Android™ é un aplicativo portado do VLC media player, o popular reprodutor multimedia de código aberto. A versión para Android™ pode ler a maioría dos ficheiros e fluxos de rede.</string>
-    <string name="about_link" translatable="false">
-        &lt;a href=\&quot;http://www.videolan.org/vlc/\&quot;&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
-    <string name="about_copyright" translatable="false">Copyleft © 1996–2012 por VideoLAN.\n</string>
     <string name="for_android">para Android™</string>
     <string name="compiled_by">Esta versión do VLC foi compilada por:</string>
-    <string name="authors" translatable="false">Sébastien Toque, Rafaël Carré, Jean-Baptiste Kempf, Edward Wang, Michael Merg, Ludovic Fauvet, Adrien Maglo, Rémi Duraffort, Dominique Martinet, Jean-Philippe André, Martin Storsjö, Alexandre Perraud, Hugo Beauzée-Luyssen, Felix Paul Kühne, John Mooring, Pavol Rusnak, Rohit Yadav, Tanguy Pruvot, Thomas Clavier, Asad Mehmood, Christoph Miebach, David Carré, Garret Kelly, Philipp Dreimann, Walter Heck.\nVLC Authors.</string>
 
     <!--  Preferences -->
     <string name="preferences">Preferencias</string>
