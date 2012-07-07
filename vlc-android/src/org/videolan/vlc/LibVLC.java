@@ -92,17 +92,21 @@ public class LibVLC {
      * @throws LibVlcException
      */
     public static LibVLC getInstance() throws LibVlcException {
-        if (sInstance == null) {
-            /* First call */
-            sInstance = new LibVLC();
-            sInstance.init();
+        synchronized (LibVLC.class) {
+            if (sInstance == null) {
+                /* First call */
+                sInstance = new LibVLC();
+                sInstance.init();
+            }
         }
 
         return sInstance;
     }
 
     public static LibVLC getExistingInstance() {
-        return sInstance;
+        synchronized (LibVLC.class) {
+            return sInstance;
+        }
     }
 
     /**
