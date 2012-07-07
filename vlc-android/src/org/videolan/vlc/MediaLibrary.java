@@ -216,6 +216,15 @@ public class MediaLibrary {
             while (!directories.isEmpty()) {
                 File dir = directories.pop();
                 File[] f = null;
+                /* .nomedia tells media players on Android to skip the
+                 * folder in the media library because they don't contain
+                 * useful music, such as notification sounds,
+                 * navigation voice phrases etc.
+                 */
+                if(new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
+                    continue;
+                }
+
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
                         File file = f[i];
