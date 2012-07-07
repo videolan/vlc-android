@@ -140,6 +140,7 @@ public class VideoPlayerActivity extends Activity {
     private String[] mSubtitleTracks;
 
     @Override
+    @TargetApi(11)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player);
