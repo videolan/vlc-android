@@ -1,8 +1,14 @@
 Changes between 0.0.1 and 0.0.2-git:
 --------------------------------
 
+Interface:
+ * Dynamically switch from audio to video player on ES change
+
 Stability issues:
  * Fix various crashes
+ * Fix some memory leaks
 
 Translations:
- * Added Hebrew and Polish translations
+ * Added Hebrew, Polish, Hindi, Basque, Galician, Dutch, Ukrainian, Croatian,
+   Czech, Scottish Gaelic, Telugu, Japanese, Chinese Simplified, Slovak,
+   Spanish and Estonian translations
