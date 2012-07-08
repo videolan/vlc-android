@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="filebrowser_sdfail">Nie można otworzyć karty SD. Proszę sprawdzić czy jest prawidłowo zamontowana.</string>
-    <string name="filebrowser_root">Root</string>
+    <string name="filebrowser_sdfail">Nie można otworzyć karty SD. Proszę sprawdź czy jest prawidłowo zamontowana.</string>
+    <string name="filebrowser_root">Katalog główny</string>
     <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Wybierz plik do odtwarzania</string>
     <string name="ml_no_media_dir">Brak katalogu mediów</string>
@@ -12,6 +12,11 @@
     <string name="searchable_hint">Szukaj…</string>
     <string name="search_history">Historia</string>
     <string name="search_found_results">Znaleziono %1$d pozycji</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Znaleziono %1$d pozycję</item>
+        <item quantity="few">Znaleziono %1$d pozycje</item>
+        <item quantity="other">Znaleziono %1$d pozycji</item>
+    </plurals>
     <string name="show_player">Pokaż odtwarzacz</string>
     <string name="hide_mini_player">Ukryj mini-odtwarzacz</string>
     <string name="play">Odtwórz</string>
@@ -24,7 +29,7 @@
     <string name="pause">Pauza</string>
     <string name="close">Zamknij</string>
     <string name="not_show_again">"Nie pokazuj tego komunikatu ponownie."</string>
-    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nOna może zabić twojego kota, zniszczyć twój dom i rozpocząć apokalipsę Majów.\nUżyj ją na własne ryzyko.\n\nBaw się dobrze! :)</string>
+    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota, zniszczyć twój dom i rozpocząć apokalipsę Majów.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Nieznany wykonawca</string>
     <string name="unknown_album">Nieznany album</string>
@@ -32,17 +37,20 @@
     <string name="songs">Piosenki</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 piosenka</item>
-        <item quantity="other">%d piosen(ki/ek)</item>
+        <item quantity="few">%d piosenki</item>
+        <item quantity="other">%d piosenek</item>
     </plurals>
     <string name="artists">Wykonawcy</string>
     <string name="albums">Albumy</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
-        <item quantity="other">%d album(y/ów)</item>
+        <item quantity="few">%d albumy</item>
+        <item quantity="other">%d albumów</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 podfolder</item>
-        <item quantity="other">%d podfolder(y/ów)</item>
+        <item quantity="few">%d podfoldery</item>
+        <item quantity="other">%d podfolderów</item>
     </plurals>
     <string name="parent_folder">Do folderu nadrzędnego</string>
     <string name="all_albums">Wszystkie albumy</string>
@@ -55,7 +63,7 @@
     <string name="directory">Katalog</string>
     <string name="directories">Katalogi</string>
     <string name="loading">Ładowanie…</string>
-    <string name="nomedia">Brak plików multimedialnych, proszę przenieś pliki do twojego urządzenia lub zmień ustawienia.</string>
+    <string name="nomedia">Brak plików multimedialnych, proszę przenieś pliki na twoje urządzenie lub zmień ustawienia.</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
     <string name="nosubdirectory">Brak podkatalogów.</string>
@@ -77,7 +85,8 @@
     <string name="track_language_info">Język: %1$s\n</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanał\n</item>
-        <item quantity="other">%1$d kanał(y/ów)\n</item>
+        <item quantity="few">%1$d kanały\n</item>
+        <item quantity="other">%1$d kanałów\n</item>
     </plurals>
     <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d\n</string>
@@ -85,8 +94,9 @@
     <string name="open">Otwórz</string>
     <string name="open_mrl">Otwórz adres MRL</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
-    <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// or rtsp://</string>
+    <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="media_library">Biblioteka multimediów</string>
+    <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
 
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
@@ -108,14 +118,14 @@
     <string name="advanced_debugging">Zaawansowane debugowanie</string>
     <string name="quit">Zakończ aplikację</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
-    <string name="detect_headset">Wykryj słuchawki</string>
-    <string name="detect_headset_detail">Zatrzymaj przy usuniętych słuchawkach; wznów pryz włożonych słuchawkach</string>
-    <string name="enable_wheel_bar">Włącz pasek koła</string>
+    <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
+    <string name="detect_headset">Wykrywanie słuchawek</string>
+    <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
+    <string name="enable_wheel_bar">Wyłącz okrągły pasek kontroli</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
     <string name="aout">Wyjście dźwiękowe</string>
-    <string name="aout_audiotrack">AudioTrack (rodzima)</string>
+    <string name="aout_audiotrack">AudioTrack (natywny)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="error_no_neon">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™</string>
 </resources>
