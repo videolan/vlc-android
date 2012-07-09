@@ -87,6 +87,7 @@
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
     <string name="open_mrl_dialog_msg">Inserisci MRL di rete: ad es. http://, mms:// o rtsp://</string>
     <string name="media_library">Raccolta multimediale</string>
+    <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.\n\nIl messaggio di errore è (da citare in caso di debug):\n</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
@@ -108,6 +109,7 @@
     <string name="advanced_debugging">Debug avanzato</string>
     <string name="quit">Esci dall\'applicazione</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
+    <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="enable_wheel_bar">Abilita wheel bar</string>
@@ -117,5 +119,4 @@
     <string name="aout_audiotrack">AudioTrack (nativa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="error_no_neon">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™</string>
 </resources>
