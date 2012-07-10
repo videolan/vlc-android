@@ -311,6 +311,13 @@ public class DirectoryAdapter extends BaseAdapter {
         );
     }
 
+    public ArrayList<String> getAllMediaLocations() {
+        ArrayList<String> a = new ArrayList<String>();
+        for(int i = 0; i < mCurrentNode.children.size(); i++)
+            a.add(getMediaLocation(i));
+        return a;
+    }
+
     public void clear() {
         for(DirectoryAdapter.Node n : this.mCurrentNode.children)
             n.children.clear();

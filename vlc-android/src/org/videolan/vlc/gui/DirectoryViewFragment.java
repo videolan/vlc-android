@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
@@ -70,9 +69,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
             try {
                 if(!LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
-                    ArrayList<String> arrayList = new ArrayList<String>();
-                    arrayList.add(mDirectoryAdapter.getMediaLocation(p));
-                    audioController.load(arrayList, 0);
+                    audioController.load(mDirectoryAdapter.getAllMediaLocations(), p);
                     Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
