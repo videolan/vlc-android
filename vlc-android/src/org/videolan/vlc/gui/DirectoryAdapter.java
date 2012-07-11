@@ -282,6 +282,10 @@ public class DirectoryAdapter extends BaseAdapter {
         else
             holder.icon.setImageResource(R.drawable.ic_folder);
 
+        if(selectedNode.isFile())
+            v.setLongClickable(true);
+        else
+            v.setLongClickable(false);
         return v;
     }
 
@@ -305,6 +309,11 @@ public class DirectoryAdapter extends BaseAdapter {
         return true;
     }
 
+    public boolean isChildFile(int position) {
+        DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
+        return selectedNode.isFile();
+    }
+
     public String getMediaLocation(int position) {
         return LibVLC.getExistingInstance().nativeToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
@@ -313,7 +322,8 @@ public class DirectoryAdapter extends BaseAdapter {
 
     public ArrayList<String> getAllMediaLocations() {
         ArrayList<String> a = new ArrayList<String>();
-        for(int i = 0; i < mCurrentNode.children.size(); i++)
+        // i = 1 to exclude ".." folder
+        for(int i = 1; i < mCurrentNode.children.size(); i++)
             a.add(getMediaLocation(i));
         return a;
     }

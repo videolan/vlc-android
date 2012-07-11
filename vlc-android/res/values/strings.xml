@@ -16,6 +16,8 @@
     <string name="show_player">Show player</string>
     <string name="hide_mini_player">Hide mini-player</string>
     <string name="play">Play</string>
+    <string name="play_as_audio">Play as audio</string>
+    <string name="play_as_video">Play as video</string>
     <string name="append">Append</string>
     <string name="play_all">Play all</string>
     <string name="append_all">Append all</string>
