@@ -80,7 +80,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-sdl \
                 --disable-xcb \
                 --disable-atmo \
-                --disable-qt4 \
+                --disable-qt \
                 --disable-skins2 \
                 --disable-mtp \
                 --disable-notify \
