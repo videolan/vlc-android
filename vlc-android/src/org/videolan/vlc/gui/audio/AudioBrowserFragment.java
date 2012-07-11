@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,13 +28,14 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -234,32 +232,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-        .setTitle(R.string.confirm_delete)
-        .setMessage(R.string.validation)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                URI adressMediaUri = null;
-                try {
-                    adressMediaUri = new URI (addressMedia.get(0));
-                } catch (URISyntaxException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                File fileMedia =  new File(adressMediaUri);
-                fileMedia.delete();
-                mMediaLibrary.getMediaItems().remove(aMedia);
-                updateLists();
-            }
-        })
-        .setNegativeButton(android.R.string.cancel, null).create();
-
-        alertDialog.show();
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
@@ -297,7 +269,20 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
 
         if (id == R.id.audio_list_browser_delete) {
-            deleteMedia(mSongsAdapter.getLocation(groupPosition), mSongsAdapter.getItem(groupPosition));
+            AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mSongsAdapter.getLocation(groupPosition).get(0),
+                    new VLCCallbackTask(new VLCCallbackTask.CallbackListener() {
+
+                @Override
+                public void callback_object(Object o) {
+                    Media aMedia = (Media)o;
+                    mMediaLibrary.getMediaItems().remove(aMedia);
+                    updateLists();
+                }
+
+                @Override
+                public void callback() { }
+            }, mSongsAdapter.getItem(groupPosition)));
+            alertDialog.show();
             return true;
         }
 
