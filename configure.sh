@@ -16,10 +16,14 @@ CFLAGS="-g -O2 -mlong-calls -fstrict-aliasing -funsafe-math-optimizations"
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
 
 if [ -z "$NO_NEON" ]; then
+    NO_NEON=0
+fi
+
+if [ $NO_NEON -gt 0 ]; then
+    EXTRA_PARAMS=" --disable-neon"
+else
     EXTRA_PARAMS=" --enable-neon"
     LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
-else
-    EXTRA_PARAMS=" --disable-neon"
 fi
 
 CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}/include"
