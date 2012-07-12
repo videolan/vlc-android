@@ -33,15 +33,12 @@ import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.vlc.widget.VLCAppWidgetProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -60,7 +57,6 @@ import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.RemoteViews;
 
 public class AudioService extends Service {
 
@@ -68,6 +64,14 @@ public class AudioService extends Service {
 
     private static final int SHOW_PROGRESS = 0;
     public static final String START_FROM_NOTIFICATION = "from_notification";
+    public static final String ACTION_WIDGET_BACKWARD = "org.videolan.vlc.widget.Backward";
+    public static final String ACTION_WIDGET_PLAY = "org.videolan.vlc.widget.Play";
+    public static final String ACTION_WIDGET_STOP = "org.videolan.vlc.widget.Stop";
+    public static final String ACTION_WIDGET_FORWARD = "org.videolan.vlc.widget.Forward";
+    public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
+
+    public static final String WIDGET_PACKAGE = "org.videolan.vlc";
+    public static final String WIDGET_CLASS = "org.videolan.vlc.widget.VLCAppWidgetProvider";
 
     private LibVLC mLibVLC;
     private ArrayList<Media> mMediaList;
@@ -103,10 +107,10 @@ public class AudioService extends Service {
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
-        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD);
-        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_PLAY);
-        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_STOP);
-        filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
+        filter.addAction(ACTION_WIDGET_BACKWARD);
+        filter.addAction(ACTION_WIDGET_PLAY);
+        filter.addAction(ACTION_WIDGET_STOP);
+        filter.addAction(ACTION_WIDGET_FORWARD);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(Intent.ACTION_MEDIA_BUTTON);
@@ -143,7 +147,7 @@ public class AudioService extends Service {
             /*
              * widget events
              */
-            if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_PLAY)) {
+            if (action.equalsIgnoreCase(ACTION_WIDGET_PLAY)) {
                 if (mLibVLC.isPlaying() && mCurrentMedia != null) {
                     pause();
                 } else if (!mLibVLC.isPlaying() && mCurrentMedia != null) {
@@ -154,13 +158,13 @@ public class AudioService extends Service {
                     iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(iVlc);
                 }
-            } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD)) {
+            } else if (action.equalsIgnoreCase(ACTION_WIDGET_BACKWARD)) {
                 previous();
             }
-            else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_STOP)) {
+            else if (action.equalsIgnoreCase(ACTION_WIDGET_STOP)) {
                 stop();
             }
-            else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD)) {
+            else if (action.equalsIgnoreCase(ACTION_WIDGET_FORWARD)) {
                 next();
             }
 
@@ -774,55 +778,23 @@ public class AudioService extends Service {
     private void updateWidget(Context context)
     {
         Log.d(TAG, "Updating widget");
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
-        Bitmap cover = null;
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE);
 
         if (mCurrentMedia != null) {
-            views.setTextViewText(R.id.songName, mCurrentMedia.getTitle());
-            views.setTextViewText(R.id.artist, mCurrentMedia.getArtist());
-            cover = Util.scaleDownBitmap(context, getCover(), 64);
+            i.putExtra("title", mCurrentMedia.getTitle());
+            i.putExtra("artist", mCurrentMedia.getArtist());
         }
         else {
-            views.setTextViewText(R.id.songName, "VLC mini player");
-            views.setTextViewText(R.id.artist, "");
-            cover = null;
+            i.putExtra("title", "VLC mini player");
+            i.putExtra("artist", "");
         }
+        i.putExtra("isplaying", mLibVLC.isPlaying());
 
-        if (cover != null)
-            views.setImageViewBitmap(R.id.cover, cover);
-        else
-            views.setImageViewResource(R.id.cover, R.drawable.cone);
+        Bitmap cover = mCurrentMedia != null ? Util.scaleDownBitmap(context, getCover(), 64) : null;
+        i.putExtra("cover", cover);
 
-        views.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
-
-        /* commands */
-        Intent iBackward = new Intent();
-        iBackward.setAction(VLCAppWidgetProvider.ACTION_WIDGET_BACKWARD);
-        Intent iPlay = new Intent();
-        iPlay.setAction(VLCAppWidgetProvider.ACTION_WIDGET_PLAY);
-        Intent iStop = new Intent();
-        iStop.setAction(VLCAppWidgetProvider.ACTION_WIDGET_STOP);
-        Intent iForward = new Intent();
-        iForward.setAction(VLCAppWidgetProvider.ACTION_WIDGET_FORWARD);
-        Class<?> cls = (mCurrentMedia != null) ? AudioPlayerActivity.class : MainActivity.class;
-        Intent iVlc = new Intent(context, cls);
-        iVlc.putExtra(START_FROM_NOTIFICATION, true);
-
-        PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent piStop = PendingIntent.getBroadcast(context, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent piForward = PendingIntent.getBroadcast(context, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        views.setOnClickPendingIntent(R.id.backward, piBackward);
-        views.setOnClickPendingIntent(R.id.play_pause, piPlay);
-        views.setOnClickPendingIntent(R.id.stop, piStop);
-        views.setOnClickPendingIntent(R.id.forward, piForward);
-        views.setOnClickPendingIntent(R.id.cover, piVlc);
-
-        /* update widget */
-        ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
-        AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        manager.updateAppWidget(widget, views);
+        sendBroadcast(i);
     }
 }
