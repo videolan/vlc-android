@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -32,13 +29,14 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
+import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -164,27 +162,18 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 return true;
             case R.id.video_list_delete:
                 final int positionDelete = info.position;
-                AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.confirm_delete)
-                .setMessage(R.string.validation)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                AlertDialog alertDialog = CommonDialogs.deleteMedia(
+                        getActivity(),
+                        mVideoAdapter.getItem(positionDelete).getLocation(),
+                        new VLCCallbackTask(new VLCCallbackTask.CallbackListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        URI adressMediaUri = null;
-                        try {
-                            adressMediaUri = new URI (mVideoAdapter.
-                            		getItem(positionDelete).getLocation());
-                        } catch (URISyntaxException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        File fileMedia =  new File(adressMediaUri);
-                        fileMedia.delete();
+                    public void callback() {
                         mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
                     }
-                })
-                .setNegativeButton(android.R.string.cancel, null).create();
+
+                    @Override
+                    public void callback_object(Object o) { }
+                }));
                 alertDialog.show();
                 return true;
         }
