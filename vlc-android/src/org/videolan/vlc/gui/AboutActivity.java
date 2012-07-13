@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -82,7 +83,11 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
         mTabHost.addTab(tab_licence);
 
         for(int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = 60;
+            TextView tv = (TextView)mTabHost.getTabWidget().getChildTabViewAt(i).findViewById(android.R.id.title);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+            //android.util.Log.d(TAG, "TextSize = " + ((Float)tv.getTextSize()).toString());
+            // Scale the tab height to the text size on the device and leave enough space
+            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = (int)(tv.getTextSize() * 2.21);
         }
 
         mTabHost.setOnTabChangedListener(this);
