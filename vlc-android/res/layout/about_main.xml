@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="22dp"
             android:layout_weight="0.12"
             android:gravity="center|top"
             android:text="@string/about_copyright"
