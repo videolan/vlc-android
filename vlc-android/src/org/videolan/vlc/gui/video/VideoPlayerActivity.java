@@ -151,7 +151,10 @@ public class VideoPlayerActivity extends Activity {
             getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
                         public void onSystemUiVisibilityChange(int visibility) {
-                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && visibility != mUiVisibility) {
+                            if (visibility == mUiVisibility)
+                                return;
+                            setSurfaceSize(mVideoWidth, mVideoHeight);
+                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing) {
                                 showOverlay();
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
                             }
@@ -505,8 +508,18 @@ public class VideoPlayerActivity extends Activity {
 
     private void changeSurfaceSize() {
         // get screen size
-        int dw = getWindowManager().getDefaultDisplay().getWidth();
-        int dh = getWindowManager().getDefaultDisplay().getHeight();
+        int dw = getWindow().getDecorView().getWidth();
+        int dh = getWindow().getDecorView().getHeight();
+
+        // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
+        boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (dw > dh && isPortrait || dw < dh && !isPortrait) {
+            int d = dw;
+            dw = dh;
+            dh = d;
+        }
+        if (dw * dh == 0)
+            return;
 
         // calculate aspect ratio
         double ar = (double) mVideoWidth / (double) mVideoHeight;
