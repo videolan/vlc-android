@@ -476,7 +476,7 @@ public class VideoPlayerActivity extends Activity {
                     activity.fadeOutInfo();
                     break;
                 case HIDE_NAV:
-                    activity.dimStatusBarICS();
+                    activity.dimStatusBar(true);
                     break;
             }
         }
@@ -860,28 +860,20 @@ public class VideoPlayerActivity extends Activity {
     }
 
     /**
-     * Dim the status bar and/or navigation icons when needed.
-     * Android 3.0 and later
+     * Dim the status bar and/or navigation icons when needed on Android 3.x.
+     * Hide it on Android 4.0 and later
      */
     @TargetApi(11)
-	private void dimStatusBar(boolean dim) {
-        if(Util.isHoneycombOrLater()) {
+    private void dimStatusBar(boolean dim) {
+        if (Util.isHoneycombOrLater()) {
             if (dim) {
-                mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                mSurface.setSystemUiVisibility(Util.isICSOrLater()
+                        ? View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        : View.SYSTEM_UI_FLAG_LOW_PROFILE);
             } else {
                 mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
-    }
-
-    /**
-     * ICS full-screen profile
-     * Android 4.0 and later only
-     */
-    @TargetApi(14)
-    private void dimStatusBarICS() {
-        if(Util.isICSOrLater())
-            mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     private void updateOverlayPausePlay() {
