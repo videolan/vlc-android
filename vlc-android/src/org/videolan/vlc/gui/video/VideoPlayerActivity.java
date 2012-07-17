@@ -107,6 +107,7 @@ public class VideoPlayerActivity extends Activity {
     private static final int HIDE_NAV = 5;
     private boolean mDragging;
     private boolean mShowing;
+    private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
     private TextView mSysTime;
@@ -149,11 +150,12 @@ public class VideoPlayerActivity extends Activity {
         if(Util.isICSOrLater())
             getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
-                        @Override
-                        @TargetApi(14)
                         public void onSystemUiVisibilityChange(int visibility) {
-                            if(visibility == View.SYSTEM_UI_FLAG_VISIBLE && Util.isICSOrLater())
+                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && visibility != mUiVisibility) {
+                                showOverlay();
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
+                            }
+                            mUiVisibility = visibility;
                         }
                     }
             );
