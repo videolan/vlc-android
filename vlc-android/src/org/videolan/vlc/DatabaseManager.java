@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -408,6 +409,17 @@ public class DatabaseManager {
 
     public synchronized void removeMedia(String location) {
         mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[] { location });
+    }
+
+    public void removeMedias(Set<String> locations) {
+        mDb.beginTransaction();
+        try {
+            for (String location : locations)
+                mDb.delete(MEDIA_TABLE_NAME, MEDIA_LOCATION + "=?", new String[] { location });
+            mDb.setTransactionSuccessful();
+        } finally {
+            mDb.endTransaction();
+        }
     }
 
     public synchronized void updateMedia(String location, mediaColumn col,

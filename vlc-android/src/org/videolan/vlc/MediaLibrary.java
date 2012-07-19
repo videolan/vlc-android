@@ -264,9 +264,7 @@ public class MediaLibrary {
                 for (String fileURI : addedLocations) {
                     existingMedias.remove(fileURI);
                 }
-                for (String existingMedia : existingMedias.keySet()) {
-                    mDBManager.removeMedia(existingMedia);
-                }
+                mDBManager.removeMedias(existingMedias.keySet());
             }
 
             // hide progressbar in header
