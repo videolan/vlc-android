@@ -1,14 +1,23 @@
-Changes between 0.0.1 and 0.0.2-git:
+Changes between 0.0.1 and 0.0.2:
 --------------------------------
+
+Core:
+ * the application can now go on the SDcard
+ * Database speed improvements
+ * .nomedia folders are correctly ignored now
 
 Interface:
  * Dynamically switch from audio to video player on ES change
+ * Reduce video player control size
+ * ICS: better integration when dimming and fullscreen
+ * Deletion is possible in folder mode
 
 Stability issues:
- * Fix various crashes
+ * Fix numerous crashes
  * Fix some memory leaks
+ * Better separation of the audio widget and the service
 
 Translations:
  * Added Hebrew, Polish, Hindi, Basque, Galician, Dutch, Ukrainian, Croatian,
    Czech, Scottish Gaelic, Telugu, Japanese, Chinese Simplified, Slovak,
-   Spanish and Estonian translations
+   Spanish, Walloon, Marathi, Khmer, Italian, Polish and Estonian translations
