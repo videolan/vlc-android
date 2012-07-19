@@ -6,22 +6,22 @@
 
     <ImageButton
         android:id="@+id/player_overlay_backward"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:background="@drawable/ic_backward" />
 
     <ImageButton
         android:id="@+id/player_overlay_play"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/ic_pause" />
 
     <ImageButton
         android:id="@+id/player_overlay_forward"
-        android:layout_width="50dip"
-        android:layout_height="50dip"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:background="@drawable/ic_forward" />
 
 </LinearLayout>

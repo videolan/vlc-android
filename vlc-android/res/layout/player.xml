@@ -129,7 +129,7 @@
         <FrameLayout
             android:id="@+id/player_control"
             android:layout_width="fill_parent"
-            android:layout_height="50dip"
+            android:layout_height="40dip"
             android:layout_below="@+id/player_overlay_seekbar"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="60dp"
@@ -137,16 +137,16 @@
 
         <ImageButton
             android:id="@+id/player_overlay_size"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
 
         <ImageButton
             android:id="@+id/player_overlay_lock"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_lock" />
