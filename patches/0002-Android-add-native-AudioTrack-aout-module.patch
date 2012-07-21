@@ -1,4 +1,4 @@
-From 51d9ec8b18cbb9c6c4446ee6787dda218ae4d878 Mon Sep 17 00:00:00 2001
+From 28b9370aff48408734c41986a0bd42c61192f1f8 Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 13 May 2012 22:20:34 +0200
 Subject: [PATCH 2/4] Android: add native AudioTrack aout module
@@ -8,14 +8,14 @@ Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
  configure.ac                      |   12 ++
  modules/audio_output/Modules.am   |    1 +
  modules/audio_output/audiotrack.c |  322 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 335 insertions(+)
+ 3 files changed, 335 insertions(+), 0 deletions(-)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 3b66640..5e0619b 100644
+index 1f79164..c760c00 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3538,6 +3538,18 @@ if test "${HAVE_ANDROID}" = "1"; then
+@@ -3509,6 +3509,18 @@ if test "${HAVE_ANDROID}" = "1"; then
  fi
  
  dnl
@@ -35,11 +35,11 @@ index 3b66640..5e0619b 100644
  dnl
  PKG_ENABLE_MODULES_VLC([SAMPLERATE], [], [samplerate], [Resampler with libsamplerate], [auto])
 diff --git a/modules/audio_output/Modules.am b/modules/audio_output/Modules.am
-index ea30d4d..85f2b3d 100644
+index c780ff1..48442f8 100644
 --- a/modules/audio_output/Modules.am
 +++ b/modules/audio_output/Modules.am
-@@ -5,6 +5,7 @@ SOURCES_auhal = auhal.c packet.c
- SOURCES_jack = jack.c packet.c
+@@ -3,6 +3,7 @@ SOURCES_waveout = waveout.c windows_audio_common.h packet.c
+ SOURCES_auhal = auhal.c packet.c
  SOURCES_audioqueue = audioqueue.c packet.c
  SOURCES_opensles_android = opensles_android.c
 +SOURCES_android_audiotrack = audiotrack.c
@@ -375,5 +375,5 @@ index 0000000..43a437a
 +    }
 +}
 -- 
-1.7.9.5
+1.7.5.4
 
