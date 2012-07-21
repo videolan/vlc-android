@@ -4,7 +4,6 @@
     <string name="app_name" translatable="false">VLC</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_root">Root</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Select media to play</string>
     <string name="ml_no_media_dir">No media directory</string>
     <string name="sortby">Sort by…</string>
@@ -51,7 +50,6 @@
     <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
-    <string name="time_0">0:00</string>
     <string name="title">Title</string>
     <string name="artist">Artist</string>
     <string name="album">Album</string>
