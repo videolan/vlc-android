@@ -21,65 +21,6 @@
         android:textSize="36dp"
         android:visibility="invisible" />
 
-    <LinearLayout
-        android:id="@+id/player_overlay_header"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="#AA000000"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:visibility="invisible" >
-
-        <TextView
-            android:id="@+id/player_overlay_title"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="@string/title"
-            android:textColor="#ffffff"
-            android:textSize="15dip" />
-
-        <ImageButton
-            android:id="@+id/player_overlay_audio"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/header_icon_audio" />
-
-        <ImageButton
-            android:id="@+id/player_overlay_subtitle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/header_icon_subtitle" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/player_overlay_systime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:textColor="#ffffff"
-                android:textSize="15dip" />
-
-            <TextView
-                android:id="@+id/player_overlay_battery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:textColor="#ffffff"
-                android:textSize="15dip" />
-        </LinearLayout>
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/player_overlay"
         android:layout_width="fill_parent"
@@ -151,5 +92,104 @@
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_lock" />
     </RelativeLayout>
+
+    <SlidingDrawer
+        android:id="@+id/player_overlay_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:content="@+id/header_content"
+        android:handle="@+id/header_handle"
+        android:rotation="180"
+        android:visibility="invisible" >
+
+        <LinearLayout
+            android:id="@+id/header_handle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#AA000000"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:rotation="180" >
+
+                <TextView
+                    android:id="@+id/player_overlay_title"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/title"
+                    android:textColor="#ffffff"
+                    android:textSize="15dip" />
+
+                <TextView
+                    android:id="@+id/player_overlay_systime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:textColor="#ffffff"
+                    android:textSize="15dip" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/header_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#AA000000"
+            android:orientation="vertical"
+            android:rotation="180" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/header_icon_audio" />
+
+                <Spinner
+                    android:id="@+id/player_overlay_audio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/header_icon_subtitle" />
+
+                <Spinner
+                    android:id="@+id/player_overlay_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/player_overlay_battery"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="right"
+                android:gravity="bottom"
+                android:textColor="#ffffff"
+                android:textSize="15dip" />
+        </LinearLayout>
+    </SlidingDrawer>
 
 </FrameLayout>

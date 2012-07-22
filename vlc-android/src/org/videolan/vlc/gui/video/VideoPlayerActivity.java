@@ -41,11 +41,8 @@ import org.videolan.vlc.widget.PlayerControlWheel;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -69,13 +66,22 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.SlidingDrawer;
+import android.widget.SlidingDrawer.OnDrawerCloseListener;
+import android.widget.SlidingDrawer.OnDrawerOpenListener;
+import android.widget.SlidingDrawer.OnDrawerScrollListener;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class VideoPlayerActivity extends Activity {
@@ -97,9 +103,10 @@ public class VideoPlayerActivity extends Activity {
     private int mCurrentSize = SURFACE_BEST_FIT;
 
     /** Overlay */
-    private View mOverlayHeader;
+    private SlidingDrawer mOverlayHeader;
     private View mOverlay;
     private static final int OVERLAY_TIMEOUT = 4000;
+    private static final int OVERLAY_INFINITE = 3600000;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_SIZE = 3;
@@ -116,8 +123,8 @@ public class VideoPlayerActivity extends Activity {
     private TextView mLength;
     private TextView mInfo;
     private IPlayerControl mControls;
-    private ImageButton mAudio;
-    private ImageButton mSubtitles;
+    private Spinner mAudio;
+    private Spinner mSubtitles;
     private ImageButton mLock;
     private ImageButton mSize;
 
@@ -164,8 +171,41 @@ public class VideoPlayerActivity extends Activity {
             );
 
         /** initialize Views an their Events */
-        mOverlayHeader = findViewById(R.id.player_overlay_header);
+        mOverlayHeader = (SlidingDrawer) findViewById(R.id.player_overlay_header);
         mOverlay = findViewById(R.id.player_overlay);
+
+        /* prevent touch event from going through the view */
+        View headerContent = findViewById(R.id.header_content);
+        headerContent.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+        mOverlayHeader.setOnDrawerScrollListener(new OnDrawerScrollListener() {
+            @Override
+            public void onScrollStarted() {
+                showOverlay(OVERLAY_INFINITE);
+            }
+
+            @Override
+            public void onScrollEnded() {
+                showOverlay(mOverlayHeader.isOpened() ? OVERLAY_INFINITE : OVERLAY_TIMEOUT);
+            }
+        });
+        mOverlayHeader.setOnDrawerOpenListener(new OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
+                showOverlay(OVERLAY_INFINITE);
+            }
+        });
+        mOverlayHeader.setOnDrawerCloseListener(new OnDrawerCloseListener() {
+            @Override
+            public void onDrawerClosed() {
+                showOverlay(OVERLAY_TIMEOUT);
+            }
+        });
 
         /* header */
         mTitle = (TextView) findViewById(R.id.player_overlay_title);
@@ -184,11 +224,8 @@ public class VideoPlayerActivity extends Activity {
         FrameLayout mControlContainer = (FrameLayout) findViewById(R.id.player_control);
         mControlContainer.addView((View) mControls);
 
-        mAudio = (ImageButton) findViewById(R.id.player_overlay_audio);
-        mAudio.setOnClickListener(mAudioListener);
-
-        mSubtitles = (ImageButton) findViewById(R.id.player_overlay_subtitle);
-        mSubtitles.setOnClickListener(mSubtitlesListener);
+        mAudio = (Spinner) findViewById(R.id.player_overlay_audio);
+        mSubtitles = (Spinner) findViewById(R.id.player_overlay_subtitle);
 
         mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
         mLock.setOnClickListener(mLockListener);
@@ -623,7 +660,7 @@ public class VideoPlayerActivity extends Activity {
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             mDragging = true;
-            showOverlay(3600000);
+            showOverlay(OVERLAY_INFINITE);
         }
 
         @Override
@@ -648,50 +685,30 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
-    private final OnClickListener mAudioListener = new OnClickListener() {
+    private final OnItemSelectedListener mAudioListener = new OnItemSelectedListener() {
         @Override
-        public void onClick(View v) {
-            if (mAudioTracks == null || mAudioTracks.length <= 1)
-                return;
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mLibVLC.setAudioTrack(position + 1);
+        }
 
-            int current = mLibVLC.getAudioTrack() - 1;
-
-            Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
-            builder.setSingleChoiceItems(mAudioTracks, current, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    mLibVLC.setAudioTrack(which + 1);
-                }
-            });
-
-            builder.show();
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
         }
     };
 
     /**
     *
     */
-   private final OnClickListener mSubtitlesListener = new OnClickListener() {
-       @Override
-    public void onClick(View v) {
-           if (mSubtitleTracks == null || mSubtitleTracks.length == 0)
-               return;
+    private final OnItemSelectedListener mSubtitlesListener = new OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mLibVLC.setSpuTrack(position);
+        }
 
-           int current = mLibVLC.getSpuTrack();
-
-           Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
-           builder.setSingleChoiceItems(mSubtitleTracks, current, new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   dialog.dismiss();
-                   mLibVLC.setSpuTrack(which);
-               }
-           });
-
-           builder.show();
-       }
-   };
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+        }
+    };
 
 
     /**
@@ -722,7 +739,7 @@ public class VideoPlayerActivity extends Activity {
 
         @Override
         public long onWheelStart() {
-            showOverlay(3600000);
+            showOverlay(OVERLAY_INFINITE);
             return mLibVLC.getTime();
         }
 
@@ -841,17 +858,35 @@ public class VideoPlayerActivity extends Activity {
         }
         if (mAudioTracks == null) {
             mAudioTracks = mLibVLC.getAudioTrackDescription();
-            if (mAudioTracks != null && mAudioTracks.length > 1)
-                mAudio.setVisibility(View.VISIBLE);
-            else
-                mAudio.setVisibility(View.GONE);
+            if (mAudioTracks != null && mAudioTracks.length > 1) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mAudioTracks);
+                mAudio.setAdapter(adapter);
+                int current = mLibVLC.getAudioTrack() - 1;
+                mAudio.setSelection(current);
+                mAudio.setOnItemSelectedListener(mAudioListener);
+                mAudio.setEnabled(true);
+            }
+            else {
+                mAudio.setEnabled(false);
+                mAudio.setOnItemSelectedListener(null);
+                mAudio.setAdapter(null);
+            }
         }
         if (mSubtitleTracks == null) {
             mSubtitleTracks = mLibVLC.getSpuTrackDescription();
-            if (mSubtitleTracks != null && mSubtitleTracks.length > 0)
-                mSubtitles.setVisibility(View.VISIBLE);
-            else
-                mSubtitles.setVisibility(View.GONE);
+            if (mSubtitleTracks != null && mSubtitleTracks.length > 0) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSubtitleTracks);
+                mSubtitles.setAdapter(adapter);
+                int current = mLibVLC.getSpuTrack();
+                mSubtitles.setSelection(current);
+                mSubtitles.setOnItemSelectedListener(mSubtitlesListener);
+                mSubtitles.setEnabled(true);
+            }
+            else {
+                mSubtitles.setEnabled(false);
+                mSubtitles.setOnItemSelectedListener(null);
+                mSubtitles.setAdapter(null);
+            }
         }
         updateOverlayPausePlay();
     }
