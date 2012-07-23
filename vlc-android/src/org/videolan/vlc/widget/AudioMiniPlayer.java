@@ -161,7 +161,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 return;
             }
 
-            if (!mAudioPlayerControl.getTitle().equals(lastTitle)) {
+            String title = mAudioPlayerControl.getTitle();
+            if (title != null && !title.equals(lastTitle)) {
                 Bitmap cover = mAudioPlayerControl.getCover();
                 if (cover != null) {
                     mCover.setVisibility(ImageView.VISIBLE);
@@ -171,7 +172,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 }
             }
 
-            lastTitle = mAudioPlayerControl.getTitle();
+            lastTitle = title;
             mTitle.setText(lastTitle);
             mArtist.setText(mAudioPlayerControl.getArtist());
             if (mAudioPlayerControl.isPlaying()) {

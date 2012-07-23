@@ -131,14 +131,15 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             return;
         }
 
-        if (!mAudioController.getTitle().equals(lastTitle)) {
+        String title = mAudioController.getTitle();
+        if (title != null && !title.equals(lastTitle)) {
             Bitmap cover = mAudioController.getCover();
             if (cover != null)
                 mCover.setImageBitmap(cover);
             else
                 mCover.setImageResource(R.drawable.cone);
         }
-        lastTitle = mAudioController.getTitle();
+        lastTitle = title;
         mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());
         mAlbum.setText(mAudioController.getAlbum());
