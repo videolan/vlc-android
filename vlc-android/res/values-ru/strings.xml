@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Main VLC Interface -->
+    <!--  Main VLC Interface  -->
     <string name="filebrowser_sdfail">Не удалось открыть SD-карту. Проверьте, подключена ли она.</string>
-    <string name="filebrowser_root">Корень</string>
-    <string name="filebrowser_parent">..</string>
-    <string name="filebrowser_title">Выберите медиа-файл</string>
+    <string name="filebrowser_root">Корневой каталог</string>
+    <string name="filebrowser_title">Выберите местоположения медиа-файлов</string>
     <string name="ml_no_media_dir">Нет каталога медиа-файлов</string>
-    <string name="sortby">Сортировка</string>
-    <string name="sortby_name">Имя</string>
-    <string name="sortby_length">Длина</string>
+    <string name="sortby">Сортировка…</string>
+    <string name="sortby_name">по имени</string>
+    <string name="sortby_length">по размеру</string>
     <string name="searchable_hint">Поиск</string>
     <string name="search_history">История</string>
     <string name="search_found_results">Найдено результатов: %1$d</string>
     <string name="show_player">Показать плеер</string>
     <string name="hide_mini_player">Скрыть мини-плеер</string>
     <string name="play">Воспроизвести</string>
-    <string name="play_as_audio">Воспроизвести видео</string>
-    <string name="play_as_video">Воспроизвести звук</string>
+    <string name="play_as_audio">Воспроизвести как аудио</string>
+    <string name="play_as_video">Воспроизвести как видео</string>
     <string name="append">Добавить</string>
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
@@ -26,7 +25,7 @@
     <string name="pause">Пауза</string>
     <string name="close">Закрыть</string>
     <string name="not_show_again">"Больше не выводить это сообщение."</string>
-	<string name="beta_warning">Это бета-версия программы.\n\nОна НЕ СТАБИЛЬНА!\n\nНЕ используйте её, если не уверены в своих действиях.\n\nОна может убить вашу зверушку, разрушить дом и привести к майскому концу света.\nИспользуйте её на свой страх и риск.\n\nУдачи! :)</string>
+    <string name="beta_warning">Это бета-версия программы.\n\nОна НЕ СТАБИЛЬНА!\n\nНЕ используйте её, если не уверены в своих действиях.\n\nОна может убить вашу зверушку, разрушить дом и привести к майскому концу света.\nИспользуйте её на свой страх и риск.\n\nУдачи! :)</string>
     <string name="info_title">VLC (бета)</string>
     <string name="unknown_artist">Неизвестный исполнитель</string>
     <string name="unknown_album">Неизвестный альбом</string>
@@ -46,11 +45,10 @@
         <item quantity="one">Подпапок: 1</item>
         <item quantity="other">Подпапок: %d</item>
     </plurals>
-    <string name="parent_folder">Перейти на уровень выше</string>
+    <string name="parent_folder">Предыдущий уровень</string>
     <string name="all_albums">Все альбомы</string>
     <string name="genres">Жанры</string>
     <string name="playlists">Плейлисты</string>
-    <string name="time_0">0:00</string>
     <string name="title">Название</string>
     <string name="artist">Исполнитель</string>
     <string name="album">Альбом</string>
@@ -62,12 +60,12 @@
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Нет подкаталогов.</string>
     <string name="validation">Вы уверены?</string>
-    <string name="locked">Закрыто</string>
-    <string name="unlocked">Открыто</string>
-    <string name="surface_best_fit">Лучшее размещение</string>
-    <string name="surface_fit_horizontal">Уместить по горизонтали</string>
-    <string name="surface_fit_vertical">Уместить по вертикали</string>
-    <string name="surface_fill">Заполнить</string>
+    <string name="locked">Заблокировано</string>
+    <string name="unlocked">Разблокировано</string>
+    <string name="surface_best_fit">Оптимальное размещение</string>
+    <string name="surface_fit_horizontal">По горизонтали</string>
+    <string name="surface_fit_vertical">По вертикали</string>
+    <string name="surface_fill">Заполнение</string>
     <string name="surface_original">По центру</string>
     <string name="thumbnail">Эскиз</string>
     <string name="refresh">Обновить</string>
@@ -81,15 +79,15 @@
         <item quantity="one">Каналов: 1\n</item>
         <item quantity="other">Каналов: %1$d\n</item>
     </plurals>
-    <string name="track_samplerate_info">Частота дискр.: %1$d Hz\n</string>
+    <string name="track_samplerate_info">Частота дискр.: %1$d Гц\n</string>
     <string name="track_resolution_info">Разрешение: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Частота кадров: %1$.3f\n</string>
     <string name="open">Открыть</string>
-    <string name="open_mrl">Открыть MRL</string>
-    <string name="open_mrl_dialog_title">Открыть сетевой поток</string>
-    <string name="open_mrl_dialog_msg">Открыть сетевой адрес MRL: e.g. http://, mms:// or rtsp://</string>
+    <string name="open_mrl">Открыть MRL...</string>
+    <string name="open_mrl_dialog_title">Воспроизведение сетевого потока</string>
+    <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
     <string name="media_library">Медиатека</string>
-    <string name="error_not_compatible">Простите, но эта версия VLC для Android не работает на вашем устройстве™.\n\nСообщение об ошибке (оно будет полезно нам при отладке):\n</string>
+    <string name="error_not_compatible">Извините, эта версия VLC для Android не работает на вашем устройстве™.\n\nСообщение об ошибке (оно будет полезно нам при отладке):\n</string>
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
@@ -99,7 +97,7 @@
     <string name="about">О программе</string>
     <string name="about_text">VLC для Android™ - порт медиаплеера VLC, популярного медиаплеера с открытым исходным кодом. Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
     <string name="for_android">для Android™</string>
-    <string name="compiled_by">Эта версия VLC скомпилирована:</string>
+    <string name="compiled_by">Эту версию VLC скомпилировал:</string>
 
     <!--  Preferences -->
     <string name="preferences">Настройки</string>
@@ -107,17 +105,17 @@
     <string name="privacy_prefs_category">Личные</string>
     <string name="clear_history">Очистить историю поиска</string>
     <string name="advanced_prefs_category">Расширенные</string>
-    <string name="enable_iomx">Включить аппаратное декодирование</string>
+    <string name="enable_iomx">Аппаратное декодирование</string>
     <string name="advanced_debugging">Расширенная отладка</string>
     <string name="quit">Завершить приложение</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
-    <string name="media_db_cleared">База метаданных очищена!</string>
-    <string name="detect_headset">Отслеживать гарнитуру</string>
+    <string name="media_db_cleared">База метаданных очищена.</string>
+    <string name="detect_headset">Отслеживание гарнитуры</string>
     <string name="detect_headset_detail">Пауза при отключении гарнитуры; продолжение при подключении</string>
-    <string name="enable_wheel_bar">Включить полосу прокрутки</string>
+    <string name="enable_wheel_bar">Ползунок прокрутки</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_detail">Степень детализации сообщений (logcat)</string>
-    <string name="aout">Вывод аудио</string>
+    <string name="aout">Вывод звука</string>
     <string name="aout_audiotrack">AudioTrack (нативный код)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
