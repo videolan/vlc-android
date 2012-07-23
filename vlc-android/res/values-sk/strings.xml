@@ -2,19 +2,20 @@
 <resources>
     <!--  Main VLC Interface  -->
     <string name="filebrowser_sdfail">Nemožno otvoriť kartu SD. Skontrolujte prosím, že je správne pripojená.</string>
-    <string name="filebrowser_root">Hlavný</string>
-    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_root">Hlavný priečinok</string>
     <string name="filebrowser_title">Vyberte médium, ktoré chcete prehrať</string>
     <string name="ml_no_media_dir">Žiadny priečinok s médiami</string>
-    <string name="sortby">Zoradiť podľa&#8230;</string>
+    <string name="sortby">Zoradiť podľa…</string>
     <string name="sortby_name">názvu</string>
     <string name="sortby_length">dĺžky</string>
-    <string name="searchable_hint">Vyhľadávať&#8230;</string>
+    <string name="searchable_hint">Vyhľadávať…</string>
     <string name="search_history">História</string>
     <string name="search_found_results">Našlo sa %1$d výsledkov</string>
     <string name="show_player">Zobraziť prehrávač</string>
     <string name="hide_mini_player">Skryť mini-prehrávač</string>
     <string name="play">Prehrať</string>
+    <string name="play_as_audio">Prehrať ako audio</string>
+    <string name="play_as_video">Prehrať ako video</string>
     <string name="append">Pripojiť</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
@@ -30,31 +31,30 @@
     <string name="unknown_album">Neznámy album</string>
     <string name="unknown_genre">Neznámy žáner</string>
     <string name="songs">Skladby</string>
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 skladba</item>
         <item quantity="other">počet skladieb: %d</item>
     </plurals>
     <string name="artists">Umelci</string>
     <string name="albums">Albumy</string>
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">počet albumov: %d</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 podpriečinok</item>
-        <item quantity="other">Počet podpriečinkov: %d</item>
+        <item quantity="other">počet podpriečinkov: %d</item>
     </plurals>
     <string name="parent_folder">Do rodičovského priečinka</string>
     <string name="all_albums">Všetky albumy</string>
     <string name="genres">Žánre</string>
     <string name="playlists">Playlisty</string>
-    <string name="time_0">0:00</string>
     <string name="title">Titul</string>
     <string name="artist">Umelec</string>
     <string name="album">Album</string>
     <string name="directory">Priečinok</string>
     <string name="directories">Priečinky</string>
-    <string name="loading">Načítava sa&#8230;</string>
+    <string name="loading">Načítava sa…</string>
     <string name="nomedia">Nenašli sa žiadne médiá, preneste prosím súbory do zariadenia alebo upravte nastavenia.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
@@ -75,9 +75,9 @@
     <string name="track_unknown">Neznáma stopa</string>
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Jazyk: %1$s\n</string>
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
-        <item quantity="other">Kanálov: %1$d\n</item>
+        <item quantity="other">Počet kanálov: %1$d\n</item>
     </plurals>
     <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozlíšenie: %1$dx%2$d\n</string>
@@ -105,7 +105,7 @@
     <string name="privacy_prefs_category">Súkromie</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="advanced_prefs_category">Pokročilé</string>
-    <string name="enable_iomx">Zapnúť hardvérovú akceleráciu dekódovania</string>
+    <string name="enable_iomx">Zapnúť HW akceleráciu dekódovania</string>
     <string name="advanced_debugging">Pokročilé ladenie</string>
     <string name="quit">Ukončiť program</string>
     <string name="clear_media_db">Vyčistiť databázu médií</string>
