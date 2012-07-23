@@ -19,29 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#include <sys/syscall.h>
 #include <sys/linux-syscalls.h>
 #include <errno.h>
 
 int eventfd(unsigned int initval, int flags)
 {
-    int ret;
-    int syscall_nr = __NR_eventfd2;
-
-    asm(
-    "mov    r0, %[initval]      \n\t"
-    "mov    r1, %[flags]        \n\t"
-    "mov    r7, %[nr]           \n\t"
-    "svc    #0                  \n\t"
-    "mov    %[ret], r0          \n\t"
-    : [ret] "=r" (ret)
-    : [initval] "r" (initval), [flags] "r" (flags), [nr] "r" (syscall_nr)
-    : "r7"
-    );
-
-    if (ret < 0) {
-        errno = -ret;
-        return -1;
-    }
-
-    return ret;
+    return syscall(__NR_eventfd2, initval, flags);
 }
