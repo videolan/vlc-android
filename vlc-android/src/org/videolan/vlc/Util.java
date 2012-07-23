@@ -56,7 +56,8 @@ public class Util {
     public static String URItoFileName(String URI) {
         int sep = URI.lastIndexOf('/');
         int dot = URI.lastIndexOf('.');
-        return Uri.decode(URI.substring(sep + 1, dot));
+        String name = dot >= 0 ? URI.substring(sep + 1, dot) : URI;
+        return Uri.decode(name);
     }
 
     public static String PathToURI(String path) {
