@@ -1,10 +1,6 @@
 # Sources and objects
 
-ifeq ($(NO_NEON),)
-ARCH = armeabi-v7a
-else
-ARCH = armeabi
-endif
+ARCH = $(ANDROID_ABI)
 
 SRC=vlc-android
 JAVA_SOURCES=$(SRC)/src/org/videolan/vlc/*.java
