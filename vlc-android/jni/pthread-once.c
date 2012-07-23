@@ -29,7 +29,10 @@
 #include <pthread.h>
 #include <unistd.h>
 
+#if defined(__arm__)
+/* The file only exists for ARM, for now */
 #include <machine/cpu-features.h>
+#endif
 
 /* Adapted from bionic_atomic_inline.h */
 static inline void ANDROID_MEMBAR_FULL(void) {
