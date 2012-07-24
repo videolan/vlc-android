@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#include <sys/syscall.h>
 #include <sys/linux-syscalls.h>
+#include <sys/syscall.h>
 #include <errno.h>
 
 int eventfd(unsigned int initval, int flags)
