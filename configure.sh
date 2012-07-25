@@ -100,6 +100,7 @@ sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-
                 --disable-projectm \
                 --disable-sout \
                 --disable-vorbis \
+                --disable-faad \
                 --disable-x264 \
                 --disable-schroedinger --disable-dirac \
                 $*

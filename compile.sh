@@ -91,6 +91,7 @@ cd contrib/android
     --disable-vorbis \
     --disable-sidplay2 \
     --disable-samplerate \
+    --disable-faad2 \
     --enable-iconv
 
 # TODO: mpeg2, theora
