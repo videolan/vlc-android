@@ -278,9 +278,14 @@ public class VideoPlayerActivity extends Activity {
             super.onPause();
             return;
         }
-        long time = 0;
+        long time = mLibVLC.getTime();
+        long length = mLibVLC.getLength();
+        //remove saved position if in the last 5 seconds
+        if (length - time < 5000)
+            time = 0;
+        else
+            time -= 5000; // go back 5 seconds, to compensate loading time
         if (mLibVLC.isPlaying()) {
-            time = mLibVLC.getTime() - 5000;
             mLibVLC.pause();
         }
         mSurface.setKeepScreenOn(false);
@@ -994,7 +999,7 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC.readMedia(mLocation, false);
             mSurface.setKeepScreenOn(true);
 
-            // Save media for next time, and restore position if it's the same one as before
+            // restore last position
             lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
             lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
             if (lastTime > 0 && mLocation.equals(lastLocation))
