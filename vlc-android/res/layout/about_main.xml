@@ -68,6 +68,13 @@
             android:text="@string/authors"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/vlc_authors"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/main_link"
