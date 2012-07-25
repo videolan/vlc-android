@@ -11,7 +11,10 @@
     <string name="sortby_length">Length</string>
     <string name="searchable_hint">Search…</string>
     <string name="search_history">History</string>
-    <string name="search_found_results">%1$d results found</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d result found</item>
+        <item quantity="other">%d results found</item>
+    </plurals>
     <string name="show_player">Show player</string>
     <string name="hide_mini_player">Hide mini-player</string>
     <string name="play">Play</string>

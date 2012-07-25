@@ -135,7 +135,7 @@ public class SearchActivity extends ListActivity {
         }
         mResultAdapter.sort();
 
-        String headerText = getString(R.string.search_found_results, results);
+        String headerText = getResources().getQuantityString(R.plurals.search_found_results_quantity, results, results);
         showListHeader(headerText);
 
         setListAdapter(mResultAdapter);
