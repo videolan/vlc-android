@@ -922,7 +922,7 @@ public class VideoPlayerActivity extends Activity {
     private void dimStatusBar(boolean dim) {
         if (Util.isHoneycombOrLater()) {
             if (dim) {
-                mSurface.setSystemUiVisibility(Util.isICSOrLater()
+                mSurface.setSystemUiVisibility(Util.hasNavBar()
                         ? View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         : View.SYSTEM_UI_FLAG_LOW_PROFILE);
             } else {

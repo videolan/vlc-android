@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
+import java.util.HashSet;
 import java.util.Properties;
 
 import android.content.Context;
@@ -38,7 +39,17 @@ import android.widget.Toast;
 
 public class Util {
     public final static String TAG = "VLC/Util";
+    public final static boolean hasNavBar;
     /** A set of utility functions for the VLC application */
+
+    static {
+        HashSet<String> devicesWithoutNavBar = new HashSet<String>();
+        devicesWithoutNavBar.add("HTC One V");
+        devicesWithoutNavBar.add("HTC One S");
+        devicesWithoutNavBar.add("HTC One X");
+        devicesWithoutNavBar.add("HTC One XL");
+        hasNavBar = isICSOrLater() && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+    }
 
     /** Print an on-screen message to alert the user */
     public static void toaster(Context context, int stringId, int duration) {
@@ -193,6 +204,11 @@ public class Util {
     public static boolean isICSOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    }
+
+    public static boolean hasNavBar()
+    {
+        return hasNavBar;
     }
 
     private static String errorMsg = null;
