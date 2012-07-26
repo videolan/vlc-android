@@ -12,26 +12,32 @@ ANDROID_API=android-9
 
 VLC_SOURCEDIR=..
 
-CFLAGS="-g -O2 -mlong-calls -fstrict-aliasing -funsafe-math-optimizations"
-LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
-
-if [ -z "$NO_NEON" ]; then
-    NO_NEON=0
+CFLAGS="-g -O2 -fstrict-aliasing -funsafe-math-optimizations"
+if [ -n "$HAVE_ARM" ]; then
+    CFLAGS="${CFLAGS} -mlong-calls"
 fi
 
-if [ $NO_NEON -gt 0 ]; then
-    EXTRA_PARAMS=" --disable-neon"
-else
-    EXTRA_PARAMS=" --enable-neon"
-    LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
+LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
+
+if [ -n "$HAVE_ARM" ]; then
+    if [ -z "$NO_NEON" ]; then
+        NO_NEON=0
+    fi
+
+    if [ $NO_NEON -gt 0 ]; then
+        EXTRA_PARAMS=" --disable-neon"
+    else
+        EXTRA_PARAMS=" --enable-neon"
+        LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
+    fi
 fi
 
 CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}/include"
 LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}"
 
-SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-arm
-ANDROID_BIN=$ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/*-x86/bin/
-CROSS_COMPILE=${ANDROID_BIN}/arm-linux-androideabi-
+SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
+ANDROID_BIN=$ANDROID_NDK/toolchains/${PATH_HOST}-4.4.3/prebuilt/linux-x86/bin/
+CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
 CPPFLAGS="$CPPFLAGS" \
 CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS}" \
@@ -43,7 +49,7 @@ NM="${CROSS_COMPILE}nm" \
 STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
 AR="${CROSS_COMPILE}ar" \
-sh $VLC_SOURCEDIR/configure --host=arm-linux-androideabi --build=x86_64-unknown-linux $EXTRA_PARAMS \
+sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS \
                 --enable-live555 --enable-realrtsp \
                 --enable-avformat \
                 --enable-swscale \

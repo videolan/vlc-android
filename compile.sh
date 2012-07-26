@@ -31,9 +31,33 @@ if [ -z $REL ]; then
     exit 1
 fi
 
+# Set up ABI variables
+if [ ${ANDROID_ABI} = "x86" ] ; then
+    TARGET_TUPLE="i686-android-linux"
+    PATH_HOST="x86"
+    HAVE_X86=1
+    PLATFORM_SHORT_ARCH="x86"
+elif [ ${ANDROID_ABI} = "mips" ] ; then
+    TARGET_TUPLE="mipsel-linux-android"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_MIPS=1
+    PLATFORM_SHORT_ARCH="mips"
+else
+    TARGET_TUPLE="arm-linux-androideabi"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_ARM=1
+    PLATFORM_SHORT_ARCH="arm"
+fi
+export TARGET_TUPLE
+export PATH_HOST
+export HAVE_ARM
+export HAVE_X86
+export HAVE_MIPS
+export PLATFORM_SHORT_ARCH
+
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
-export PATH=${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.4.3/prebuilt/linux-x86/bin:${PATH}
+export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
 TESTED_HASH=57cace3
@@ -76,7 +100,7 @@ fi
 echo "Building the contribs"
 mkdir -p contrib/android
 cd contrib/android
-../bootstrap --host=arm-linux-androideabi --disable-disc --disable-sout --enable-small \
+../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout --enable-small \
     --disable-sdl \
     --disable-SDL_image \
     --disable-fontconfig \
@@ -115,6 +139,8 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
             EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
         fi
     fi
+elif [ ${ANDROID_ABI} = "x86" ] ; then
+    EXTRA_CFLAGS="-march=pentium -ffunction-sections -funwind-tables -frtti -fno-exceptions"
 else
     echo "Unknown ABI. Die, die, die!"
     exit 2
@@ -162,4 +188,4 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
 make distclean
-make $RELEASEFLAG
+make TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH $RELEASEFLAG
