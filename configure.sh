@@ -59,6 +59,7 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --enable-android-surface \
                 --enable-mkv \
                 --enable-taglib \
+                --enable-dvbpsi \
                 --enable-iomx \
                 --disable-vlc --disable-shared \
                 --disable-vlm \
