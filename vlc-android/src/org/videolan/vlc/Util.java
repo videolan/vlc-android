@@ -237,6 +237,16 @@ public class Util {
         boolean NO_FPU = properties.getProperty("NO_FPU","0").equals("1");
         boolean NO_ARMV6 = properties.getProperty("NO_ARMV6","0").equals("1");
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
+        boolean hasX86 = false;
+
+        if(android.os.Build.CPU_ABI.equals("armeabi-v7a")) {
+            hasArmV7 = true;
+            hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
+        } else if(android.os.Build.CPU_ABI.equals("armeabi")) {
+            hasArmV6 = true;
+        } else if(android.os.Build.CPU_ABI.equals("x86")) {
+            hasX86 = true;
+        }
 
         try {
             FileReader fileReader = new FileReader("/proc/cpuinfo");
@@ -245,12 +255,6 @@ public class Util {
             while((line = br.readLine()) != null) {
                 if(!hasNeon && line.contains("neon"))
                     hasNeon = true;
-                if(!hasArmV7 && line.contains("ARMv7")) {
-                    hasArmV7 = true;
-                    hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-                }
-                if(!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
-                    hasArmV6 = true;
                 if(!hasFpu && line.contains("vfp"))
                     hasFpu = true;
             }
@@ -258,6 +262,17 @@ public class Util {
         } catch(IOException ex){
             ex.printStackTrace();
             errorMsg = "IOException whilst reading cpuinfo flags";
+            isCompatible = false;
+            return false;
+        }
+
+        // Enforce proper architecture to prevent problems
+        if(ANDROID_ABI.equals("x86") && !hasX86) {
+            errorMsg = "x86 build on non-x86 device";
+            isCompatible = false;
+            return false;
+        } else if(hasX86 && ANDROID_ABI.contains("armeabi")) {
+            errorMsg = "ARM build on x86 device";
             isCompatible = false;
             return false;
         }
@@ -278,10 +293,12 @@ public class Util {
                 return false;
             }
         }
-        if(!NO_NEON && !hasNeon) {
-            errorMsg = "NEON build on non-NEON device";
-            isCompatible = false;
-            return false;
+        if(ANDROID_ABI.equals("armeabi") || ANDROID_ABI.equals("armeabi-v7a")) {
+            if(!NO_NEON && !hasNeon) {
+                errorMsg = "NEON build on non-NEON device";
+                isCompatible = false;
+                return false;
+            }
         }
         errorMsg = null;
         isCompatible = true;
