@@ -22,10 +22,12 @@ package org.videolan.vlc.gui.audio;
 
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
@@ -51,6 +53,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     private TextView mAlbum;
     private TextView mTime;
     private TextView mLength;
+    private TextView mSpeed;
     private ImageButton mPlayPause;
     private ImageButton mNext;
     private ImageButton mPrevious;
@@ -81,6 +84,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mAlbum = (TextView) findViewById(R.id.album);
         mTime = (TextView) findViewById(R.id.time);
         mLength = (TextView) findViewById(R.id.length);
+        mSpeed = (TextView) findViewById(R.id.current_speed);
         mPlayPause = (ImageButton) findViewById(R.id.play_pause);
         mNext = (ImageButton) findViewById(R.id.next);
         mPrevious = (ImageButton) findViewById(R.id.previous);
@@ -180,6 +184,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mPrevious.setVisibility(ImageButton.VISIBLE);
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
+        mSpeed.setText(String.format("%.2fx", LibVLC.getExistingInstance().getRate()));
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
     }
 
@@ -270,5 +275,10 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     		mAudioController.stop();
     	}
     	return super.onKeyDown(keyCode, event);
+    }
+
+    public void onSpeedLabelClick(View view) {
+        new SpeedSelectorDialog(this).show();
+        update();
     }
 }

@@ -273,6 +273,18 @@ public class LibVLC {
     }
 
     /**
+     * Sets the speed of playback (1 being normal speed, 2 being twice as fast)
+     *
+     * @param rate
+     */
+    public native void setRate(float rate);
+
+    /**
+     * Get the current playback speed
+     */
+    public native float getRate();
+
+    /**
      * Change the verbosity of libvlc
      * @param verbose: true for increased verbosity
      */

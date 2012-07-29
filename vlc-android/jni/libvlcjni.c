@@ -546,6 +546,20 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_player_play(mp);
 }
 
+jfloat Java_org_videolan_vlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {
+    libvlc_media_player_t* mp = getMediaPlayer(env, thiz);
+    if(mp)
+        return libvlc_media_player_get_rate(mp);
+    else
+        return 1.00;
+}
+
+void Java_org_videolan_vlc_LibVLC_setRate(JNIEnv *env, jobject thiz, jfloat rate) {
+    libvlc_media_player_t* mp = getMediaPlayer(env, thiz);
+    if(mp)
+        libvlc_media_player_set_rate(mp, rate);
+}
+
 jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
                                                     jint i_instance, jstring fileLocation)
 {

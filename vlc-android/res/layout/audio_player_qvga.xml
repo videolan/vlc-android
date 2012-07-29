@@ -51,8 +51,20 @@
                 android:padding="5dip"
                 android:layout_height="50dip"
                 android:layout_width="50dip"
+                android:layout_marginTop="-5dip"
+                android:layout_marginBottom="-5dip"
                 android:id="@+id/repeat"
                 android:onClick="onRepeatClick" />
+
+            <TextView
+                android:id="@+id/current_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onSpeedLabelClick"
+                android:text="1.00x"
+                android:textSize="20dp" />
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

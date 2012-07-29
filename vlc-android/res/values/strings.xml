@@ -92,6 +92,8 @@
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
     <string name="media_library">Media library</string>
     <string name="error_not_compatible">Sorry, but your device is currently not supported by this version of VLC for Android™.\n\nThe error message is (please mention this when debugging):\n</string>
+    <string name="playback_speed">Playback speed</string>
+    <string name="time_0" translatable="false">0:00</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>

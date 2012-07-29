@@ -124,7 +124,7 @@
                 android:textSize="18dip" />
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
@@ -133,8 +133,8 @@
                 android:id="@+id/shuffle"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:layout_gravity="top"
-                android:layout_marginTop="20dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
                 android:background="#00000000"
                 android:onClick="onShuffleClick"
                 android:scaleType="fitXY"
@@ -144,13 +144,25 @@
                 android:id="@+id/repeat"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="20dip"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dip"
                 android:background="#00000000"
                 android:onClick="onRepeatClick"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_repeat" />
-        </FrameLayout>
+
+            <TextView
+                android:id="@+id/current_speed"
+                android:layout_width="60dip"
+                android:layout_height="40dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:clickable="true"
+                android:onClick="onSpeedLabelClick"
+                android:text="1.00x"
+                android:textSize="24dp" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
