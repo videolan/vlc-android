@@ -57,6 +57,7 @@ export PLATFORM_SHORT_ARCH
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
+export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-4.4.3/prebuilt/darwin-x86/bin:${PATH}
 export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-4.4.3/prebuilt/linux-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins

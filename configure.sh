@@ -36,7 +36,7 @@ CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/include -I${ANDROID_NDK
 LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/libs/${ANDROID_ABI}"
 
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
-ANDROID_BIN=$ANDROID_NDK/toolchains/${PATH_HOST}-4.4.3/prebuilt/linux-x86/bin/
+ANDROID_BIN=$ANDROID_NDK/toolchains/${PATH_HOST}-4.4.3/prebuilt/*-x86/bin/
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
 CPPFLAGS="$CPPFLAGS" \
