@@ -176,6 +176,11 @@ public class LibVLC {
         }
     }
 
+    public boolean timeStretchingEnabled() {
+        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return p.getBoolean("enable_time_stretching_audio", false);
+    }
+
     /**
      * Initialize the libVLC class
      */

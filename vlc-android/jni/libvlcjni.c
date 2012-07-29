@@ -289,6 +289,9 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
 
+    methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
+    bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
+
     verbosity = verbose;
     libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
 
@@ -301,6 +304,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
         "--no-plugins-cache",
         "--no-drop-late-frames",
         "--avcodec-fast",
+        enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
