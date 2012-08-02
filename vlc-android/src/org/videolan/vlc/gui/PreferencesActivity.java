@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -170,6 +171,15 @@ public class PreferencesActivity extends PreferenceActivity {
                         return true;
                     }
                 });
+        EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
+        setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Toast.makeText(getBaseContext(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
     }
 
     @Override

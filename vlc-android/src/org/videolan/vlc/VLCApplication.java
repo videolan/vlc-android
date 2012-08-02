@@ -19,9 +19,14 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import java.util.Locale;
+
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 
 public class VLCApplication extends Application {
     private static VLCApplication instance;
@@ -29,6 +34,25 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Are we using advanced debugging - locale?
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String p = pref.getString("set_locale", "");
+        if (p != null && !p.equals("")) {
+            Locale locale;
+            // workaround due to region code
+            if(p.startsWith("zh")) {
+                locale = Locale.CHINA;
+            } else {
+                locale = new Locale(p);
+            }
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
         instance = this;
     }
 
