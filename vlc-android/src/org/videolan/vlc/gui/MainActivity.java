@@ -126,13 +126,13 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
         mActionBar.addTab(mActionBar.newTab()
-                .setText("Video")
+                .setText(R.string.video)
                 .setIcon(R.drawable.header_icon_video)
                 .setTabListener(new TabListener<VideoListFragment>(
                         this, "video", VideoListFragment.class)));
 
         mActionBar.addTab(mActionBar.newTab()
-                .setText("Audio")
+                .setText(R.string.audio)
                 .setIcon(R.drawable.header_icon_audio)
                 .setTabListener(new TabListener<AudioBrowserFragment>(
                         this, "audio", AudioBrowserFragment.class)));
