@@ -38,6 +38,7 @@ import org.videolan.vlc.interfaces.IPlayerControl;
 import org.videolan.vlc.interfaces.OnPlayerControlListener;
 import org.videolan.vlc.widget.PlayerControlClassic;
 import org.videolan.vlc.widget.PlayerControlWheel;
+import org.videolan.vlc.widget.SlidingPanel;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -77,7 +78,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.SlidingDrawer;
 import android.widget.SlidingDrawer.OnDrawerCloseListener;
 import android.widget.SlidingDrawer.OnDrawerOpenListener;
 import android.widget.SlidingDrawer.OnDrawerScrollListener;
@@ -103,8 +103,9 @@ public class VideoPlayerActivity extends Activity {
     private int mCurrentSize = SURFACE_BEST_FIT;
 
     /** Overlay */
-    private SlidingDrawer mOverlayHeader;
+    private View mOverlayHeader;
     private View mOverlay;
+    private SlidingPanel mOverlaySlider;
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int OVERLAY_INFINITE = 3600000;
     private static final int FADE_OUT = 1;
@@ -171,19 +172,20 @@ public class VideoPlayerActivity extends Activity {
             );
 
         /** initialize Views an their Events */
-        mOverlayHeader = (SlidingDrawer) findViewById(R.id.player_overlay_header);
+        mOverlayHeader = findViewById(R.id.player_overlay_header);
         mOverlay = findViewById(R.id.player_overlay);
+        mOverlaySlider = (SlidingPanel) findViewById(R.id.player_overlay_slider);
 
-        /* prevent touch event from going through the view */
-        View headerContent = findViewById(R.id.header_content);
-        headerContent.setOnTouchListener(new OnTouchListener() {
+        /* prevent touch event from going through the slider view */
+        View sliderContent = findViewById(R.id.slider_content);
+        sliderContent.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
 
-        mOverlayHeader.setOnDrawerScrollListener(new OnDrawerScrollListener() {
+        mOverlaySlider.setOnDrawerScrollListener(new OnDrawerScrollListener() {
             @Override
             public void onScrollStarted() {
                 showOverlay(OVERLAY_INFINITE);
@@ -191,18 +193,27 @@ public class VideoPlayerActivity extends Activity {
 
             @Override
             public void onScrollEnded() {
-                showOverlay(mOverlayHeader.isOpened() ? OVERLAY_INFINITE : OVERLAY_TIMEOUT);
+                if (mOverlaySlider.isOpened()) {
+                    mOverlaySlider.ExpandHandle();
+                    showOverlay(OVERLAY_INFINITE);
+                }
+                else {
+                    mOverlaySlider.CollapseHandle();
+                    showOverlay(OVERLAY_TIMEOUT);
+                }
             }
         });
-        mOverlayHeader.setOnDrawerOpenListener(new OnDrawerOpenListener() {
+        mOverlaySlider.setOnDrawerOpenListener(new OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
+                mOverlaySlider.ExpandHandle();
                 showOverlay(OVERLAY_INFINITE);
             }
         });
-        mOverlayHeader.setOnDrawerCloseListener(new OnDrawerCloseListener() {
+        mOverlaySlider.setOnDrawerCloseListener(new OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
+                mOverlaySlider.CollapseHandle();
                 showOverlay(OVERLAY_TIMEOUT);
             }
         });
@@ -854,6 +865,7 @@ public class VideoPlayerActivity extends Activity {
             mShowing = true;
             mOverlayHeader.setVisibility(View.VISIBLE);
             mOverlay.setVisibility(View.VISIBLE);
+            mOverlaySlider.setVisibility(View.VISIBLE);
             dimStatusBar(false);
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
@@ -906,9 +918,11 @@ public class VideoPlayerActivity extends Activity {
             if (!fromUser) {
                 mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlay.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mOverlaySlider.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlay.setVisibility(View.INVISIBLE);
+            mOverlaySlider.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         }
