@@ -245,7 +245,8 @@ public class Util {
         if(android.os.Build.CPU_ABI.equals("armeabi-v7a")) {
             hasArmV7 = true;
             hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-        } else if(android.os.Build.CPU_ABI.equals("armeabi")) {
+        } else if(android.os.Build.CPU_ABI.equals("armeabi") ||
+                  android.os.Build.CPU_ABI2.equals("armeabi")) {
             hasArmV6 = true;
         } else if(android.os.Build.CPU_ABI.equals("x86")) {
             hasX86 = true;
