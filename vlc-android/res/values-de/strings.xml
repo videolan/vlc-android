@@ -49,6 +49,8 @@
     <item quantity="other">%d Unterverzeichnisse</item>
   </plurals>
   <string name="parent_folder">Zum darüberliegenden Ordner</string>
+  <string name="audio">Audio</string>
+  <string name="video">Video</string>
   <string name="all_albums">Alle Alben</string>
   <string name="genres">Genres</string>
   <string name="playlists">Wiedergabelisten</string>
@@ -91,6 +93,7 @@
   <string name="open_mrl_dialog_msg">Netzwerk-MRL eingeben: z.B. http://, mms:// oder rtsp://</string>
   <string name="media_library">Medienbibliothek</string>
   <string name="error_not_compatible">VLC für Android™ unterstützt dieses Gerät leider derzeit nicht.\n\nDie Fehlermeldung lautet (bitte für das Debuggen angeben):\n</string>
+  <string name="playback_speed">Wiedergabegeschwindigkeit</string>
 
   <!--About-->
   <string name="app_name_full">VLC für Android™</string>
@@ -114,6 +117,9 @@
   <string name="quit">Applikation beenden</string>
   <string name="clear_media_db">Medienbibliothek leeren</string>
   <string name="media_db_cleared">Mediendatenbank geleert!</string>
+  <string name="set_locale">Landessprache einstellen</string>
+  <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
+  <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
   <string name="detect_headset">Headset erkennen</string>
   <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
   <string name="enable_wheel_bar">Wheel bar aktivieren</string>
@@ -123,4 +129,6 @@
   <string name="aout_audiotrack">AudioTrack (nativ)</string>
   <string name="aout_audiotrack_java">AudioTrack (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">Zeitdehnung für Audio aktivieren</string>
+  <string name="enable_time_stretching_audio_detail">Beschleunigt und verlangsamt Audio ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
 </resources>
