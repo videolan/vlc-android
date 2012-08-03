@@ -156,6 +156,8 @@ public class MediaInfoActivity extends ListActivity {
         @Override
         public void handleMessage(Message msg) {
             MediaInfoActivity activity = getOwner();
+            if(activity == null) return;
+
             switch (msg.what) {
                 case NEW_IMAGE:
                     activity.updateImage();
