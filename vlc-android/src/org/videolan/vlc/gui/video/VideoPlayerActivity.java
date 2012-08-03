@@ -516,6 +516,9 @@ public class VideoPlayerActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             VideoPlayerActivity activity = getOwner();
+            if(activity == null) // WeakReference could be GC'ed early
+                return;
+
             switch (msg.what) {
                 case FADE_OUT:
                     activity.hideOverlay(false);
