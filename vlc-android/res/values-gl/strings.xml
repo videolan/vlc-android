@@ -49,6 +49,8 @@
     <item quantity="other">%d subcartafoles</item>
   </plurals>
   <string name="parent_folder">Ir arriba ao cartafol pai</string>
+  <string name="audio">Audio</string>
+  <string name="video">Video</string>
   <string name="all_albums">Todos os álbumes</string>
   <string name="genres">Xéneros</string>
   <string name="playlists">Listas de reprodución</string>
@@ -91,6 +93,7 @@
   <string name="open_mrl_dialog_msg">Introduza un MRL de rede, por exemplo: http://, mms:// ou rtsp://</string>
   <string name="media_library">Biblioteca multimedia</string>
   <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.\n\nA mensaxe de erro é (mencione isto na depuración):\n</string>
+  <string name="playback_speed">Velocidade de reprodución</string>
 
   <!--About-->
   <string name="app_name_full">VLC para Android™</string>
@@ -114,6 +117,9 @@
   <string name="quit">Saír do aplicativo</string>
   <string name="clear_media_db">Limpar a base de datos de medios</string>
   <string name="media_db_cleared">Limpouse a base de datos de medios!</string>
+  <string name="set_locale">Definir a configuración rexional</string>
+  <string name="set_locale_detail">Déixeo en branco para restauralo</string>
+  <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
   <string name="detect_headset">Detectar os auriculares</string>
   <string name="detect_headset_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
   <string name="enable_wheel_bar">Activar a barra de roda</string>
@@ -123,4 +129,6 @@
   <string name="aout_audiotrack">AudioTrack (nativo)</string>
   <string name="aout_audiotrack_java">AudioTrack (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
+  <string name="enable_time_stretching_audio_detail">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
 </resources>
