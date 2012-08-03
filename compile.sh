@@ -63,6 +63,19 @@ else
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 fi
+
+if [ ${ANDROID_ABI} = "x86" ] ; then
+    # x86 toolchain location changes in NDK r8b
+    case "$REL" in
+        8?)
+            TARGET_TUPLE="i686-linux-android"
+        ;;
+        *)
+            TARGET_TUPLE="i686-android-linux"
+        ;;
+    esac
+fi
+
 export TARGET_TUPLE
 export PATH_HOST
 export HAVE_ARM
