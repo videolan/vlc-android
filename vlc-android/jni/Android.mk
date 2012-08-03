@@ -9,7 +9,7 @@ LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
 ARCH=$(ANDROID_ABI)
 
-CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/libs/$(ARCH)/libgnustl_static.a
+CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++$(CXXSTL)/libs/$(ARCH)/libgnustl_static.a
 
 LOCAL_CFLAGS := -std=gnu99
 ifeq ($(ARCH), armeabi)

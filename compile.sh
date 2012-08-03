@@ -12,6 +12,27 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
    echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
    exit 1
 fi
+# try to detect NDK version
+REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
+case "$REL" in
+    7|8)
+        # NDK > v7, only gcc 4.4.3 available
+        GCCVER=4.4.3
+        CXXSTL=""
+    ;;
+    8?)
+        # NDK >= v8b, both 4.4.3 and 4.6 available, we use 4.6
+        GCCVER=4.6
+        CXXSTL="/4.6"
+    ;;
+    *)
+        echo "You need the NDKv7 or later"
+        exit 1
+    ;;
+esac
+
+export GCCVER
+export CXXSTL
 
 # XXX : important!
 cat << EOF
@@ -24,12 +45,6 @@ $ export NO_ARMV6=1
 
 If you plan to use a release build, run 'compile.sh release'
 EOF
-# try to detect NDK version
-REL=$(grep -o '^r[0-9]*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
-if [ -z $REL ]; then
-    echo "You need the NDKv7 or later"
-    exit 1
-fi
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
@@ -57,11 +72,10 @@ export PLATFORM_SHORT_ARCH
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
-export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-4.4.3/prebuilt/darwin-x86/bin:${PATH}
-export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-4.4.3/prebuilt/linux-x86/bin:${PATH}
+export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/`uname|tr A-Z a-z`-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=57cace3
+TESTED_HASH=17fbcd4ed8
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
@@ -147,6 +161,10 @@ else
     exit 2
 fi
 
+EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
+EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
+
+
 # Release or not?
 if [ $# -ne 0 ] && [ "$1" == "release" ]; then
     OPTS=""
@@ -189,4 +207,4 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
 make distclean
-make TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH $RELEASEFLAG
+make TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL $RELEASEFLAG
