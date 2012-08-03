@@ -1,21 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--Main VLC Interface-->
-  <string name="app_name">VLC</string>
   <string name="filebrowser_sdfail">Nelze otevřít kartu SD. Prosím ověřte zda je správně připojena.</string>
   <string name="filebrowser_root">Kořen</string>
-  <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">Vyberte soubor k přehrání</string>
   <string name="ml_no_media_dir">Žádný adresář médií</string>
-  <string name="sortby">Třídit dle...</string>
+  <string name="sortby">Třídit dle…</string>
   <string name="sortby_name">Název</string>
   <string name="sortby_length">Délka</string>
-  <string name="searchable_hint">Hledat...</string>
+  <string name="searchable_hint">Hledat…</string>
   <string name="search_history">Historie</string>
-  <string name="search_found_results">%1$d výsledků nalezeno</string>
+  <plurals name="search_found_results_quantity">
+    <item quantity="one">%d nalezený výsledek</item>
+    <item quantity="few">%d nalezené výsledky</item>
+    <item quantity="other">%d nalezených výsledků</item>
+  </plurals>
   <string name="show_player">Zobrazit přehrávač</string>
   <string name="hide_mini_player">Skrýt mini přehrávač</string>
   <string name="play">Přehrát</string>
+  <string name="play_as_audio">Přehrát jako zvuk</string>
+  <string name="play_as_video">Přehrát jako video</string>
   <string name="append">Připojit</string>
   <string name="play_all">Přehrát vše</string>
   <string name="append_all">Připojit vše</string>
@@ -31,24 +35,35 @@
   <string name="unknown_album">Neznámé album</string>
   <string name="unknown_genre">Neznámý žánr</string>
   <string name="songs">Písničky</string>
+  <plurals name="songs_quantity">
+    <item quantity="one">1 skladba</item>
+    <item quantity="few">%d skladby</item>
+    <item quantity="other">%d skladeb</item>
+  </plurals>
   <string name="artists">Umělci</string>
   <string name="albums">Alba</string>
+  <plurals name="albums_quantity">
+    <item quantity="one">1 album</item>
+    <item quantity="few">%d alba</item>
+    <item quantity="other">%d alb</item>
+  </plurals>
   <plurals name="subfolders_quantity">
     <item quantity="one">1 podsložka</item>
     <item quantity="few">%d podsložky</item>
     <item quantity="other">%d podsložek</item>
   </plurals>
   <string name="parent_folder">Vzhůru do nadřazené složky</string>
+  <string name="audio">Zvuk</string>
+  <string name="video">Video</string>
   <string name="all_albums">Všechna alba</string>
   <string name="genres">Žánry</string>
   <string name="playlists">Seznamy skladeb</string>
-  <string name="time_0">0:00</string>
   <string name="title">Název</string>
   <string name="artist">Umělec</string>
   <string name="album">Album</string>
   <string name="directory">Adresář</string>
   <string name="directories">Adresáře</string>
-  <string name="loading">Načítám...</string>
+  <string name="loading">Načítám…</string>
   <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
   <string name="mediafiles">Mediální soubory</string>
   <string name="notavailable">nedostupné</string>
@@ -83,6 +98,7 @@
   <string name="open_mrl_dialog_msg">Zadejte síťovou MRL: např. http://, mms://, nebo rtsp://</string>
   <string name="media_library">Knihovna médií</string>
   <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.\n\nChybové hlášení (prosím zmiňte jej při ladění) je:\n</string>
+  <string name="playback_speed">Rychlost přehrávání</string>
 
   <!--About-->
   <string name="app_name_full">VLC pro Android™</string>
@@ -93,6 +109,7 @@
   <string name="about_text">VLC pro Android™ je port populárního přehrávače VLC s otevřeným kódem. Android™ verze umí přehrát většinu souborů a síťových proudů.</string>
   <string name="for_android">pro Android™</string>
   <string name="compiled_by">Tato verze přehrávače VLC byla zkompilována:\n </string>
+  <string name="vlc_authors">Autoři VLC.</string>
 
   <!--Preferences-->
   <string name="preferences">Nastavení</string>
@@ -104,6 +121,10 @@
   <string name="advanced_debugging">Pokročilé ladění</string>
   <string name="quit">Ukončit aplikaci</string>
   <string name="clear_media_db">Vyčistit databázi médií</string>
+  <string name="media_db_cleared">Databáze médií vyčištěna</string>
+  <string name="set_locale">Nastavit jazyk</string>
+  <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
+  <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
   <string name="detect_headset">Detekovat sluchátka</string>
   <string name="detect_headset_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
   <string name="enable_wheel_bar">Povolit kolečkovou lištu</string>
@@ -113,4 +134,6 @@
   <string name="aout_audiotrack">AudioTrack (původní)</string>
   <string name="aout_audiotrack_java">AudioTrack (java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">Povolit časové roztažení zvuku</string>
+  <string name="enable_time_stretching_audio_detail">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení)</string>
 </resources>
