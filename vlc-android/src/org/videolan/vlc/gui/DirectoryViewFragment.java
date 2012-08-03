@@ -84,8 +84,12 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.directory_view, menu);
+        int position = ((AdapterContextMenuInfo)menuInfo).position;
+
+        if(mDirectoryAdapter.isChildFile(position)) {
+            MenuInflater menuInflater = getActivity().getMenuInflater();
+            menuInflater.inflate(R.menu.directory_view, menu);
+        }
     }
 
     @Override

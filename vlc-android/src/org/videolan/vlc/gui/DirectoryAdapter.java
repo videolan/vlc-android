@@ -282,10 +282,6 @@ public class DirectoryAdapter extends BaseAdapter {
         else
             holder.icon.setImageResource(R.drawable.ic_folder);
 
-        if(selectedNode.isFile())
-            v.setLongClickable(true);
-        else
-            v.setLongClickable(false);
         return v;
     }
 
