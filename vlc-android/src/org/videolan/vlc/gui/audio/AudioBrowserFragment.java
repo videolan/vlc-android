@@ -372,6 +372,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         @Override
         public void handleMessage(Message msg) {
             AudioBrowserFragment fragment = getOwner();
+            if(fragment == null) return;
+
             switch (msg.what) {
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
                     fragment.updateLists();

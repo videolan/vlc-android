@@ -209,6 +209,8 @@ public class AudioListFragment extends SherlockListFragment {
         @Override
         public void handleMessage(Message msg) {
             AudioListFragment fragment = getOwner();
+            if(fragment == null) return;
+
             switch (msg.what) {
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
                     fragment.updateList();

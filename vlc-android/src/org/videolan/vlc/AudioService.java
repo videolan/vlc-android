@@ -269,6 +269,8 @@ public class AudioService extends Service {
         @Override
         public void handleMessage(Message msg) {
             AudioService service = getOwner();
+            if(service == null) return;
+
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
@@ -340,6 +342,8 @@ public class AudioService extends Service {
         @Override
         public void handleMessage(Message msg) {
             AudioService service = getOwner();
+            if(service == null) return;
+
             switch (msg.what) {
                 case SHOW_PROGRESS:
                     if (service.mCallback.size() > 0) {

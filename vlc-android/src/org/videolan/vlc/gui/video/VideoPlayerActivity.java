@@ -478,6 +478,8 @@ public class VideoPlayerActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             VideoPlayerActivity activity = getOwner();
+            if(activity == null) return;
+
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
