@@ -200,6 +200,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         @Override
         public void handleMessage(Message msg) {
             VideoListFragment fragment = getOwner();
+            if(fragment == null) return;
+
             switch (msg.what) {
                 case UPDATE_ITEM:
                     fragment.updateItem();
