@@ -307,6 +307,9 @@ public class AudioService extends Service {
         mMediaList.clear();
         hideNotification();
 
+        // Don't crash if user stopped the media
+        if(mCurrentMedia == null) return;
+
         // Got video, switch to the video player
         Intent intent = new Intent(VLCApplication.getAppContext(), VideoPlayerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
