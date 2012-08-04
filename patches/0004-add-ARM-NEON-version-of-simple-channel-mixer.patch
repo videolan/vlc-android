@@ -1,4 +1,4 @@
-From bffbcd26576f6cd169abcc974dc9a66671cfd19f Mon Sep 17 00:00:00 2001
+From d8ba9cd813625fb4cfecd1d4207ea3d27cd0e4a8 Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
 Subject: [PATCH] add ARM/NEON version of simple channel mixer
@@ -6,17 +6,17 @@ Subject: [PATCH] add ARM/NEON version of simple channel mixer
 ---
  modules/LIST                            |    1 +
  modules/arm_neon/Modules.am             |    8 +
- modules/arm_neon/simple_channel_mixer.S |  295 +++++++++++++++++++++++++++++++
- modules/arm_neon/simple_channel_mixer.c |  171 ++++++++++++++++++
- 4 files changed, 475 insertions(+)
+ modules/arm_neon/simple_channel_mixer.S |  279 +++++++++++++++++++++++++++++++
+ modules/arm_neon/simple_channel_mixer.c |  171 +++++++++++++++++++
+ 4 files changed, 459 insertions(+), 0 deletions(-)
  create mode 100644 modules/arm_neon/simple_channel_mixer.S
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
 diff --git a/modules/LIST b/modules/LIST
-index 4eb07e9..b1e3398 100644
+index f6dda85..a586069 100644
 --- a/modules/LIST
 +++ b/modules/LIST
-@@ -297,6 +297,7 @@ $Id$
+@@ -291,6 +291,7 @@ $Id$
   * shine: MP3 encoder using Shine, a fixed point implementation
   * sid: Sidplay demuxer
   * simple_channel_mixer: channel mixer
@@ -25,7 +25,7 @@ index 4eb07e9..b1e3398 100644
   * smf: Standard MIDI file demuxer
   * sndio: OpenBSD sndio audio output
 diff --git a/modules/arm_neon/Modules.am b/modules/arm_neon/Modules.am
-index 9dfd4ab..c430913 100644
+index b60011b..ca6c2ff 100644
 --- a/modules/arm_neon/Modules.am
 +++ b/modules/arm_neon/Modules.am
 @@ -9,6 +9,13 @@ libaudio_format_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
@@ -42,17 +42,17 @@ index 9dfd4ab..c430913 100644
  libchroma_yuv_neon_plugin_la_SOURCES = \
  	i420_yuyv.S \
  	i422_yuyv.S \
-@@ -29,6 +36,7 @@ libyuv_rgb_neon_plugin_la_DEPENDENCIES =
+@@ -34,6 +41,7 @@ libyuv_rgb_neon_plugin_la_DEPENDENCIES =
  
  libvlc_LTLIBRARIES += \
  	libaudio_format_neon_plugin.la \
 +	libsimple_channel_mixer_neon_plugin.la \
  	libchroma_yuv_neon_plugin.la \
+ 	libvolume_neon_plugin.la \
  	libyuv_rgb_neon_plugin.la \
- 	$(NULL)
 diff --git a/modules/arm_neon/simple_channel_mixer.S b/modules/arm_neon/simple_channel_mixer.S
 new file mode 100644
-index 0000000..6842f73
+index 0000000..16d6702
 --- /dev/null
 +++ b/modules/arm_neon/simple_channel_mixer.S
 @@ -0,0 +1,279 @@
@@ -513,5 +513,5 @@ index 0000000..515a390
 +    return VLC_EGENERIC;
 +}
 -- 
-1.7.9.5
+1.7.5.4
 
