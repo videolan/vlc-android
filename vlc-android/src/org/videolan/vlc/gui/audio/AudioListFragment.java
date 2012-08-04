@@ -162,6 +162,9 @@ public class AudioListFragment extends SherlockListFragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+        if(menuInfo == null) // getMenuInfo can be NULL
+            return super.onContextItemSelected(item);
+
         int startPosition;
         List<String> medias;
         int id = item.getItemId();
