@@ -3,18 +3,21 @@
   <!--Main VLC Interface-->
   <string name="filebrowser_sdfail">SD kart açılamadı. Düzgün takıldığından emin olun.</string>
   <string name="filebrowser_root">Kök</string>
-  <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">Oynatılacak ortamı seçin</string>
   <string name="ml_no_media_dir">Ortam klasörü yok</string>
-  <string name="sortby">Sıralama...</string>
+  <string name="sortby">Sıralama…</string>
   <string name="sortby_name">Ad</string>
   <string name="sortby_length">Uzunluk</string>
-  <string name="searchable_hint">Arama...</string>
+  <string name="searchable_hint">Arama…</string>
   <string name="search_history">Geçmiş</string>
-  <string name="search_found_results">%1$d sonuç bulundu</string>
+  <plurals name="search_found_results_quantity">
+    <item quantity="other">%d sonuç bulundu</item>
+  </plurals>
   <string name="show_player">Oynatıcıyı göster</string>
   <string name="hide_mini_player">Mini oynatıcıyı gizle</string>
   <string name="play">Oynat</string>
+  <string name="play_as_audio">Ses olarak oynat</string>
+  <string name="play_as_video">Görüntü olarak oynat</string>
   <string name="append">Ekle</string>
   <string name="play_all">Tümünü oynat</string>
   <string name="append_all">Tümünü ekle</string>
@@ -24,7 +27,7 @@
   <string name="pause">Duraklat</string>
   <string name="close">Kapat</string>
   <string name="not_show_again">Artık bu iletiyi gösterme.</string>
-  <string name="beta_warning">Bu bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi öldürebilir, evinizi yıkabilir ve maya kıyametini başlatabilir.\nKullanımdan doğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
+  <string name="beta_warning">Bu bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi öldürebilir, evinizi yıkabilir ve Maya kıyametini başlatabilir.\nKullanımdan doğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
   <string name="info_title">VLC Beta</string>
   <string name="unknown_artist">Bilinmeyen Sanatçı</string>
   <string name="unknown_album">Bilinmeyen Albüm</string>
@@ -42,16 +45,17 @@
     <item quantity="other">%d altklasör</item>
   </plurals>
   <string name="parent_folder">Üst klasör</string>
+  <string name="audio">Ses</string>
+  <string name="video">Görüntü</string>
   <string name="all_albums">Tüm albümler</string>
   <string name="genres">Türler</string>
   <string name="playlists">Oynatma listeleri</string>
-  <string name="time_0">0:00</string>
   <string name="title">Başlık</string>
   <string name="artist">Sanatçı</string>
   <string name="album">Albüm</string>
   <string name="directory">Klasör</string>
   <string name="directories">Klasörler</string>
-  <string name="loading">Yükleniyor...</string>
+  <string name="loading">Yükleniyor…</string>
   <string name="nomedia">Ortam dosyaları bulunamadı, dosyalarınızı aktarın ya da ayarlarınızı denetleyin.</string>
   <string name="mediafiles">Ortam dosyaları</string>
   <string name="notavailable">kullanılamaz</string>
@@ -84,6 +88,7 @@
   <string name="open_mrl_dialog_msg">Ağ MRL yazın: örneğin http://, mms:// or rtsp://</string>
   <string name="media_library">Ortam kütüphanesi</string>
   <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
+  <string name="playback_speed">Oynatma hızı</string>
 
   <!--About-->
   <string name="app_name_full">Android™ için VLC</string>
@@ -94,6 +99,7 @@
   <string name="about_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir sürümüdür. Android™ sürümü pek çok dosya ve ağ akışlarını okuyabilir.</string>
   <string name="for_android">Android™ için</string>
   <string name="compiled_by">Bu VLC sürümü şu kişiler tarafından oluşturulmuştur:</string>
+  <string name="vlc_authors">VLC Yazarları.</string>
 
   <!--Preferences-->
   <string name="preferences">Ayarlar</string>
@@ -106,6 +112,9 @@
   <string name="quit">Uygulamadan çık</string>
   <string name="clear_media_db">Ortam veritabanını temizle</string>
   <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
+  <string name="set_locale">Yerel ayar</string>
+  <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
+  <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
   <string name="detect_headset">Kulaklığı algıla</string>
   <string name="detect_headset_detail">Kulaklık çıkarıldığında duraklat, takıldığında oynat</string>
   <string name="enable_wheel_bar">Tekerlek çubuğunu etkinleştir</string>
@@ -115,4 +124,6 @@
   <string name="aout_audiotrack">AudioTrack (doğal)</string>
   <string name="aout_audiotrack_java">AudioTrack (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">Zamana yaymalı sesi etkinleştir</string>
+  <string name="enable_time_stretching_audio_detail">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
 </resources>
