@@ -243,6 +243,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        ContextMenuInfo menuInfo = item.getMenuInfo();
+        if(menuInfo == null) return super.onContextItemSelected(item);
+
         int startPosition;
         int groupPosition;
         int childPosition;
@@ -254,7 +257,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         boolean append = (id == R.id.audio_list_browser_append ||
                           id == R.id.audio_list_browser_append_all);
 
-        ContextMenuInfo menuInfo = item.getMenuInfo();
         if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
             groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
