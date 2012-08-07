@@ -47,7 +47,6 @@ public class PreferencesActivity extends PreferenceActivity {
 
     public final static String NAME = "VlcSharedPreferences";
     public final static String LAST_MEDIA = "LastMedia";
-    public final static String LAST_TIME = "LastTime";
 
     @SuppressWarnings("deprecation")
     @Override

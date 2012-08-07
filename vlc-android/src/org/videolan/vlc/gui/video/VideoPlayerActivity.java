@@ -26,9 +26,11 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.EventManager;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
+import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
@@ -306,8 +308,11 @@ public class VideoPlayerActivity extends Activity {
             SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
-            editor.putLong(PreferencesActivity.LAST_TIME, time);
             editor.commit();
+            DatabaseManager.getInstance(this).updateMedia(
+                    mLocation,
+                    DatabaseManager.mediaColumn.MEDIA_TIME,
+                    time);
         }
         super.onPause();
     }
@@ -999,10 +1004,7 @@ public class VideoPlayerActivity extends Activity {
     private void load() {
         mLocation = null;
         String title = null;
-        String lastLocation = null;
-        long lastTime = 0;
         boolean dontParse = false;
-        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -1019,10 +1021,9 @@ public class VideoPlayerActivity extends Activity {
             mSurface.setKeepScreenOn(true);
 
             // restore last position
-            lastLocation = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
-            lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
-            if (lastTime > 0 && mLocation.equals(lastLocation))
-                mLibVLC.setTime(lastTime);
+            Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
+            if (media != null && media.getTime() > 0)
+                mLibVLC.setTime(media.getTime());
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");

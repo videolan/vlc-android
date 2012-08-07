@@ -20,11 +20,13 @@
 
 package org.videolan.vlc.gui.video;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -105,8 +107,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         //Get & highlight the last media
         SharedPreferences preferences = getActivity().getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
         String lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
-        long lastTime = preferences.getLong(PreferencesActivity.LAST_TIME, 0);
-        mVideoAdapter.setLastMedia(lastTime, lastPath);
+        HashMap<String, Long> times = DatabaseManager.getInstance(getActivity()).getVideoTimes(getActivity());
+        mVideoAdapter.setLastMedia(lastPath, times);
         mVideoAdapter.notifyDataSetChanged();
         mMediaLibrary.addUpdateHandler(mHandler);
         super.onResume();

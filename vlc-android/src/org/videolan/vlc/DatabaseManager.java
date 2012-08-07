@@ -358,6 +358,41 @@ public class DatabaseManager {
         return medias;
     }
 
+    public synchronized HashMap<String, Long> getVideoTimes(Context context) {
+
+        Cursor cursor;
+        HashMap<String, Long> times = new HashMap<String, Long>();
+        int chunk_count = 0;
+        int count = 0;
+
+        do {
+            count = 0;
+            cursor = mDb.rawQuery(String.format(Locale.US,
+                    "SELECT %s,%s FROM %s WHERE %s=%d LIMIT %d OFFSET %d",
+                    MEDIA_LOCATION, //0 string
+                    MEDIA_TIME, //1 long
+                    MEDIA_TABLE_NAME,
+                    MEDIA_TYPE,
+                    Media.TYPE_VIDEO,
+                    CHUNK_SIZE,
+                    chunk_count * CHUNK_SIZE), null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    String location = cursor.getString(0);
+                    long time = cursor.getLong(1);
+                    times.put(location, time);
+                    count++;
+                } while (cursor.moveToNext());
+            }
+
+            cursor.close();
+            chunk_count++;
+        } while (count == CHUNK_SIZE);
+
+        return times;
+    }
+
     public synchronized Media getMedia(Context context, String location) {
 
         Cursor cursor;
@@ -436,6 +471,10 @@ public class DatabaseManager {
                 else {
                     values.put(MEDIA_PICTURE, new byte[1]);
                 }
+                break;
+            case MEDIA_TIME:
+                if (object != null)
+                    values.put(MEDIA_TIME, (Long)object);
                 break;
             default:
                 return;
