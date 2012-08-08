@@ -142,8 +142,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.video_list, menu);
     }
