@@ -125,29 +125,6 @@ EOF
     fi
 fi
 
-echo "Building the contribs"
-mkdir -p contrib/android
-cd contrib/android
-../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout --enable-small \
-    --disable-sdl \
-    --disable-SDL_image \
-    --disable-fontconfig \
-    --disable-zvbi \
-    --disable-kate \
-    --disable-caca \
-    --disable-gettext \
-    --disable-mpcdec \
-    --disable-upnp \
-    --disable-gme \
-    --disable-tremor \
-    --disable-vorbis \
-    --disable-sidplay2 \
-    --disable-samplerate \
-    --disable-faad2 \
-    --enable-iconv
-
-# TODO: mpeg2, theora
-
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     if test -z "${NO_NEON}" ; then
         EXTRA_CFLAGS="-mfpu=neon -mcpu=cortex-a8"
@@ -176,6 +153,29 @@ fi
 
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
+
+echo "Building the contribs"
+mkdir -p contrib/android
+cd contrib/android
+../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout --enable-small \
+    --disable-sdl \
+    --disable-SDL_image \
+    --disable-fontconfig \
+    --disable-zvbi \
+    --disable-kate \
+    --disable-caca \
+    --disable-gettext \
+    --disable-mpcdec \
+    --disable-upnp \
+    --disable-gme \
+    --disable-tremor \
+    --disable-vorbis \
+    --disable-sidplay2 \
+    --disable-samplerate \
+    --disable-faad2 \
+    --enable-iconv
+
+# TODO: mpeg2, theora
 
 
 # Release or not?
