@@ -149,7 +149,7 @@ public class BrowserActivity extends ListActivity {
 
         @Override
         public boolean accept(File f) {
-            return f.isDirectory() && !f.isHidden() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase());
+            return f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase());
         }
     }
 
