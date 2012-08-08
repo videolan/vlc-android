@@ -81,7 +81,7 @@ public class MediaLibrary {
         ArrayList<Media> videoItems = new ArrayList<Media>();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
-            if (item.getType() == Media.TYPE_VIDEO) {
+            if (item != null && item.getType() == Media.TYPE_VIDEO) {
                 videoItems.add(item);
             }
         }
