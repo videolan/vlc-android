@@ -132,7 +132,6 @@ if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
         EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a9"
     fi
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
-    echo "NOTHUMB := -marm" >> config.mak
 elif [ ${ANDROID_ABI} = "armeabi" ] ; then
     export NO_NEON=1
     if [ -n "${NO_ARMV6}" ]; then
@@ -177,6 +176,7 @@ cd contrib/android
 
 # TODO: mpeg2, theora
 
+[ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
 # Release or not?
 if [ $# -ne 0 ] && [ "$1" == "release" ]; then
