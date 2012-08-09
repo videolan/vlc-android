@@ -176,6 +176,8 @@ cd contrib/android
 
 # TODO: mpeg2, theora
 
+# Some libraries have arm assembly which won't build in thumb mode
+# We append -marm to the CFLAGS of these libs to disable thumb mode
 [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
 # Release or not?
