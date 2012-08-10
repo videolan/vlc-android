@@ -59,6 +59,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -145,7 +146,7 @@ public class VideoPlayerActivity extends Activity {
     private AudioManager mAudioManager;
     private int mAudioMax;
     private int mAudioDisplayRange;
-    private float mTouchY, mVol;
+    private float mTouchY, mTouchX, mVol;
     private boolean mIsAudioChanged;
     private String[] mAudioTracks;
     private String[] mSubtitleTracks;
@@ -644,36 +645,59 @@ public class VideoPlayerActivity extends Activity {
                     getWindowManager().getDefaultDisplay().getWidth(),
                     getWindowManager().getDefaultDisplay().getHeight());
 
+        float y_changed = event.getRawY() - mTouchY;
+        float x_changed = event.getRawX() - mTouchX;
+
         switch (event.getAction()) {
 
-            case MotionEvent.ACTION_DOWN:
-                mTouchY = event.getRawY();
-                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                mIsAudioChanged = false;
-                break;
+        case MotionEvent.ACTION_DOWN:
+            // Audio
+            mTouchY = event.getRawY();
+            mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            mIsAudioChanged = false;
+            // Seek
+            mTouchX = event.getRawX();
+            break;
 
-            case MotionEvent.ACTION_MOVE:
-                float y = event.getRawY();
-
-                int delta = (int) (((mTouchY - y) / mAudioDisplayRange) * mAudioMax);
+        case MotionEvent.ACTION_MOVE:
+            if (Math.abs(y_changed) > Math.abs(x_changed)) {
+                // Audio
+                int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
                 int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
                 if (delta != 0) {
-                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                            vol, AudioManager.FLAG_SHOW_UI);
                     mIsAudioChanged = true;
                 }
-                break;
+            }
+            break;
 
-            case MotionEvent.ACTION_UP:
-                if (!mIsAudioChanged) {
-                    if (!mShowing) {
-                        showOverlay();
-                    } else {
-                        hideOverlay(true);
-                        if(Util.isICSOrLater())
-                            mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
-                    }
+        case MotionEvent.ACTION_UP:
+            // Audio
+            if (!mIsAudioChanged) {
+                if (!mShowing) {
+                    showOverlay();
+                } else {
+                    hideOverlay(true);
+                    if (Util.isICSOrLater())
+                        mHandler.sendMessageDelayed(
+                                mHandler.obtainMessage(HIDE_NAV),
+                                OVERLAY_TIMEOUT);
                 }
-                break;
+            }
+            // Seek
+            if (Math.abs(y_changed) < Math.abs(x_changed)) {
+                // Tools to get the screen size for the cubic progression
+                DisplayMetrics screen = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(screen);
+
+                // Size of the jump, 10 minutes max (600000) with a cubic
+                // progression
+                int jump = (int) (600000 * Math.pow(
+                        (x_changed / screen.widthPixels), 3));
+                mPlayerControlListener.onSeek(jump);
+            }
+            break;
         }
         return mIsAudioChanged;
     }
