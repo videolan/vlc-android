@@ -1,0 +1,5 @@
+bin/
+gen/
+obj/
+.settings
+
