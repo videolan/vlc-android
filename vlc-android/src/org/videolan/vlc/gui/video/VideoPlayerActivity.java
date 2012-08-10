@@ -752,8 +752,9 @@ public class VideoPlayerActivity extends Activity {
 
         @Override
         public void onSeek(int delta) {
-            long position = mLibVLC.getTime();
-            mLibVLC.setTime(position + delta);
+            long position = mLibVLC.getTime() + delta;
+            if (position < 0) position = 0;
+            mLibVLC.setTime(position);
             showOverlay();
         }
 
