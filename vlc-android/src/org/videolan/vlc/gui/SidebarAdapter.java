@@ -21,13 +21,18 @@
 package org.videolan.vlc.gui;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.video.VideoListFragment;
 
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +61,9 @@ public class SidebarAdapter extends BaseAdapter {
     }
 
     private LayoutInflater mInflater;
+    private FragmentManager mFragmentManager;
     static final List<SidebarEntry> entries;
+    private HashMap<String, Fragment> mFragments;
 
     static {
         SidebarEntry entries2[] = {
@@ -70,8 +77,10 @@ public class SidebarAdapter extends BaseAdapter {
         entries = Arrays.asList(entries2);
     }
 
-    public SidebarAdapter() {
+    public SidebarAdapter(FragmentManager fm) {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
+        mFragmentManager = fm;
+        mFragments = new HashMap<String, Fragment>(entries.size());
     }
 
     @Override
@@ -108,4 +117,25 @@ public class SidebarAdapter extends BaseAdapter {
         return v;
     }
 
+    public Fragment getFragment(String id) {
+        if(mFragments.containsKey(id) && mFragments.get(id) != null) {
+            return mFragments.get(id);
+        }
+        Fragment f;
+        if(id.equals("audio")) {
+            f = new AudioBrowserFragment();
+        } else if(id.equals("video")) {
+            f = new VideoListFragment();
+        } else if(id.endsWith("directories")) {
+            f = new DirectoryViewFragment();
+        } else { /* TODO */
+            f = new AboutLicenceFragment();
+        }
+        f.setRetainInstance(true);
+        mFragmentManager.beginTransaction()
+            .add(R.id.fragment_placeholder, f, id)
+            .commitAllowingStateLoss();
+        mFragments.put(id, f);
+        return f;
+    }
 }

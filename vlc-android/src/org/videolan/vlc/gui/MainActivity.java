@@ -30,9 +30,8 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.video.VideoListAdapter;
-import org.videolan.vlc.gui.video.VideoListFragment;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
@@ -60,6 +59,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -89,6 +90,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private ActionBar mActionBar;
     private SlidingMenu mMenu;
+    private SidebarAdapter mSidebarAdapter;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
     private View mInfoLayout;
@@ -129,7 +131,8 @@ public class MainActivity extends SherlockFragmentActivity {
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         ((ListView)sidebar).setFooterDividersEnabled(true);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
-        listView.setAdapter(new SidebarAdapter());
+        mSidebarAdapter = new SidebarAdapter(getSupportFragmentManager());
+        listView.setAdapter(mSidebarAdapter);
         listView.setBackgroundColor(Color.parseColor("#1f3f61"));
         mMenu.setViewBehind(sidebar);
 
@@ -138,6 +141,12 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Get settings */
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         LibVLC.useIOMX(this);
+        try {
+            // Start libvlc
+            LibVLC.getInstance();
+        } catch (LibVlcException e) {
+            e.printStackTrace();
+        }
 
         /* Initialize variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
@@ -146,20 +155,26 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Initialize the tabs */
         mActionBar = getSupportActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 
-        mActionBar.addTab(mActionBar.newTab()
-                .setText(R.string.video)
-                .setIcon(R.drawable.header_icon_video)
-                .setTabListener(new TabListener<VideoListFragment>(
-                        this, "video", VideoListFragment.class)));
+        /* Set up the sidebar click listener */
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
-        mActionBar.addTab(mActionBar.newTab()
-                .setText(R.string.audio)
-                .setIcon(R.drawable.header_icon_audio)
-                .setTabListener(new TabListener<AudioBrowserFragment>(
-                        this, "audio", AudioBrowserFragment.class)));
+            @Override
+            public void onItemClick (AdapterView<?> parent, View view,
+                    int position, long id) {
+                SidebarAdapter.SidebarEntry entry = (SidebarEntry) listView.getItemAtPosition(position);
+                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+                if(current.getTag() == entry.id) /* Already selected */
+                    return;
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.detach(current);
+                ft.attach(mSidebarAdapter.getFragment(entry.id));
+                ft.commit();
+            }
+        });
 
         /* DirectoryView */
         mDirectoryView = new DirectoryViewFragment();
@@ -212,6 +227,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private void updateMenuOffset() {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
+        @SuppressWarnings("deprecation")
         int behindOffset_dp = Util.convertPxToDp(display.getWidth()) - 208;
         mMenu.setBehindOffset(Util.convertDpToPx(behindOffset_dp));
     }
