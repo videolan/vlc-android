@@ -97,8 +97,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private TextView mInfoText;
     private DirectoryViewFragment mDirectoryView;
     private String mCurrentFragment;
-    private int mCurrentViewTab;
-    private Boolean mMediaLibraryActive;
 
     private SharedPreferences mSettings;
 
@@ -176,16 +174,6 @@ public class MainActivity extends SherlockFragmentActivity {
                 mCurrentFragment = entry.id;
             }
         });
-
-        /* DirectoryView */
-        mDirectoryView = new DirectoryViewFragment();
-        mDirectoryView.setRetainInstance(true); /* Retain instance across attach/detach */
-        getSupportFragmentManager().beginTransaction()
-            .add(R.id.fragment_placeholder, mDirectoryView)
-            .commit();
-        getSupportFragmentManager().beginTransaction()
-            .detach(mDirectoryView)
-            .commit();
 
         /* Set up the mini audio player */
         mAudioPlayer = new AudioMiniPlayer();
@@ -341,20 +329,6 @@ public class MainActivity extends SherlockFragmentActivity {
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
-            // Browse Folders
-            case R.id.ml_menu_browse:
-                if(mMediaLibraryActive) {
-                    item.setTitle(R.string.media_library);
-                    showDirectoryView();
-                }
-                else {
-                    item.setTitle(R.string.directories);
-                    if (mCurrentViewTab == AUDIO_TAB)
-                        showAudioTab();
-                    else
-                        showVideoTab();
-                }
-                break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
                 onOpenMRL();
@@ -369,34 +343,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private void reloadPreferences() {
         SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
         mCurrentFragment = sharedPrefs.getString("fragment", "audio");
-    }
-
-    private void showDirectoryView() {
-        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-
-        ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
-
-        /* Remove existing tabs */
-        if (mActionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_STANDARD)
-            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        /* Load directory view fragment */
-        ft.attach(mDirectoryView);
-        ft.commitAllowingStateLoss();
-        mMediaLibraryActive = false;
-    }
-
-    private void hideDirectoryView() {
-        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-
-        ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
-
-        /* Restore the tabs */
-        if (mActionBar.getNavigationMode() != ActionBar.NAVIGATION_MODE_TABS)
-            mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        /* Remove the directory view from the tabs */
-        ft.detach(mDirectoryView);
-        ft.commitAllowingStateLoss();
-        mMediaLibraryActive = true;
     }
 
     private void showInfoDialog() {
@@ -417,29 +363,6 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         });
         infoDialog.show();
-    }
-
-    /**
-     * onClick event from xml
-     * @param view
-     */
-    public void changeTabClick(View view) {
-        // Toggle audio- and video-tab
-        if (mActionBar.getSelectedNavigationIndex() == VIDEO_TAB) {
-            showAudioTab();
-        } else {
-            showVideoTab();
-        }
-    }
-
-    private void showVideoTab() {
-        hideDirectoryView();
-        mActionBar.setSelectedNavigationItem(VIDEO_TAB);
-    }
-
-    private void showAudioTab() {
-        hideDirectoryView();
-        mActionBar.setSelectedNavigationItem(AUDIO_TAB);
     }
 
     /**
