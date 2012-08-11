@@ -155,6 +155,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         /* Set up the sidebar click listener */
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -346,6 +347,13 @@ public class MainActivity extends SherlockFragmentActivity {
             case R.id.ml_menu_search:
             	onSearchRequested();
             	break;
+            case android.R.id.home:
+                /* Toggle the sidebar */
+                if(mMenu.isBehindShowing())
+                    mMenu.showAbove();
+                else
+                    mMenu.showBehind();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
