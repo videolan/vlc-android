@@ -69,7 +69,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -97,6 +96,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
     private DirectoryViewFragment mDirectoryView;
+    private String mCurrentFragment;
     private int mCurrentViewTab;
     private Boolean mMediaLibraryActive;
 
@@ -153,7 +153,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mInfoProgress = (ProgressBar) v_main.findViewById(R.id.info_progress);
         mInfoText = (TextView) v_main.findViewById(R.id.info_text);
 
-        /* Initialize the tabs */
+        /* Set up the action bar */
         mActionBar = getSupportActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
@@ -173,6 +173,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 ft.detach(current);
                 ft.attach(mSidebarAdapter.getFragment(entry.id));
                 ft.commit();
+                mCurrentFragment = entry.id;
             }
         });
 
@@ -239,12 +240,10 @@ public class MainActivity extends SherlockFragmentActivity {
         Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Restore last view */
-        if(!mMediaLibraryActive)
-            showDirectoryView();
-        else if (startFromNotification || mCurrentViewTab == AUDIO_TAB)
-            showAudioTab();
-        else
-            showVideoTab();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_placeholder, mSidebarAdapter.getFragment(mCurrentFragment));
+        ft.commit();
+
         if (startFromNotification)
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
         super.onResume();
@@ -256,8 +255,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     protected void onPause() {
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
-        editor.putInt("tab", mCurrentViewTab);
-        editor.putBoolean("medialibrary", mMediaLibraryActive);
+        editor.putString("fragment", mCurrentFragment);
         editor.commit();
         mAudioController.removeAudioPlayer(mAudioPlayer);
         super.onPause();
@@ -337,10 +335,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                if(mMediaLibraryActive)
-                    MediaLibrary.getInstance(this).loadMediaItems(this);
-                else
+                // TODO: factor this into each fragment
+                if(mCurrentFragment.equals("directories"))
                     mDirectoryView.refresh();
+                else
+                    MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
             // Browse Folders
             case R.id.ml_menu_browse:
@@ -369,8 +368,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private void reloadPreferences() {
         SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
-        mCurrentViewTab = sharedPrefs.getInt("tab", VIDEO_TAB);
-        mMediaLibraryActive = sharedPrefs.getBoolean("medialibrary", true);
+        mCurrentFragment = sharedPrefs.getString("fragment", "audio");
     }
 
     private void showDirectoryView() {
@@ -557,75 +555,5 @@ public class MainActivity extends SherlockFragmentActivity {
                 return;
                 }});
         b.show();
-    }
-
-    public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
-        private final SherlockFragmentActivity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-        private final Bundle mArgs;
-        private Fragment mFragment;
-
-        public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz) {
-            this(activity, tag, clz, null);
-        }
-
-        public TabListener(SherlockFragmentActivity activity, String tag, Class<T> clz, Bundle args) {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
-            mArgs = args;
-
-            // Check to see if we already have a fragment for this tab, probably
-            // from a previously saved state.  If so, deactivate it, because our
-            // initial state is that a tab isn't shown.
-            mFragment = mActivity.getSupportFragmentManager().findFragmentByTag(mTag);
-            if (mFragment != null && !mFragment.isDetached()) {
-                FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-                ft.detach(mFragment);
-                ft.commit();
-            }
-        }
-
-        @Override
-        public void onTabSelected(Tab tab, FragmentTransaction ft) {
-            Fragment current = mActivity.getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-
-            if (mTag.equalsIgnoreCase("video"))
-                ((MainActivity)mActivity).mCurrentViewTab = VIDEO_TAB;
-            else if (mTag.equalsIgnoreCase("audio"))
-                ((MainActivity)mActivity).mCurrentViewTab = AUDIO_TAB;
-
-            if (current != null && current.getTag() != null) {
-                if (current.getTag() == mTag)
-                    return;
-                if (mTag.equalsIgnoreCase("video"))
-                    ft.setCustomAnimations(0, R.anim.anim_leave_right);
-                else if (mTag.equalsIgnoreCase("audio"))
-                    ft.setCustomAnimations(0, R.anim.anim_leave_left);
-                ft.detach(current);
-            }
-
-            if (mTag.equalsIgnoreCase("video"))
-                ft.setCustomAnimations(R.anim.anim_enter_left, 0);
-            else if (mTag.equalsIgnoreCase("audio"))
-                ft.setCustomAnimations(R.anim.anim_enter_right, 0);
-
-            if (mFragment == null) {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName(), mArgs);
-                mFragment.setRetainInstance(true);
-                ft.add(R.id.fragment_placeholder, mFragment, mTag);
-            } else {
-                ft.attach(mFragment);
-            }
-        }
-
-        @Override
-        public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-        }
-
-        @Override
-        public void onTabReselected(Tab tab, FragmentTransaction ft) {
-        }
     }
 }
