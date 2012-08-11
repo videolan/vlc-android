@@ -36,7 +36,11 @@ import java.util.Properties;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class Util {
@@ -192,6 +196,24 @@ public class Util {
         v.setBackgroundResource(position % 2 == 0
                 ? R.drawable.background_item1
                 : R.drawable.background_item2);
+    }
+
+    public static int convertPxToDp(int px) {
+        WindowManager wm = (WindowManager)VLCApplication.getAppContext().
+                getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        float logicalDensity = metrics.density;
+        int dp = Math.round(px / logicalDensity);
+        return dp;
+    }
+
+    public static int convertDpToPx(int dp) {
+        return Math.round(
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                VLCApplication.getAppResources().getDisplayMetrics())
+                         );
     }
 
     public static boolean isGingerbreadOrLater()
