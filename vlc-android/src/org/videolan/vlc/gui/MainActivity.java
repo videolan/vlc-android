@@ -264,6 +264,16 @@ public class MainActivity extends SherlockFragmentActivity {
         reloadPreferences();
     }
 
+    @Override
+    public void onBackPressed() {
+        if(mMenu.isBehindShowing()) {
+            /* Close the menu first */
+            mMenu.showAbove();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     /** Create menu from XML
      */
     @Override
