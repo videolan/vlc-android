@@ -48,16 +48,22 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -68,6 +74,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends SherlockFragmentActivity {
     public final static String TAG = "VLC/MainActivity";
@@ -81,6 +88,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private static final String PREF_SHOW_INFO = "show_info";
 
     private ActionBar mActionBar;
+    private SlidingMenu mMenu;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
     private View mInfoLayout;
@@ -110,7 +118,20 @@ public class MainActivity extends SherlockFragmentActivity {
 
         if (Util.isICSOrLater()) /* Bug on pre-ICS, the progress bar is always present */
             requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.main);
+
+        // Set up the sliding menu
+        setContentView(R.layout.sliding_menu);
+        mMenu = (SlidingMenu) findViewById(R.id.sliding_menu);
+        updateMenuOffset();
+
+        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
+        mMenu.setViewAbove(v_main);
+        View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
+        ((ListView)sidebar).setFooterDividersEnabled(true);
+        final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
+        listView.setAdapter(new SidebarAdapter());
+        listView.setBackgroundColor(Color.parseColor("#1f3f61"));
+        mMenu.setViewBehind(sidebar);
 
         super.onCreate(savedInstanceState);
 
@@ -119,9 +140,9 @@ public class MainActivity extends SherlockFragmentActivity {
         LibVLC.useIOMX(this);
 
         /* Initialize variables */
-        mInfoLayout = findViewById(R.id.info_layout);
-        mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
-        mInfoText = (TextView) findViewById(R.id.info_text);
+        mInfoLayout = v_main.findViewById(R.id.info_layout);
+        mInfoProgress = (ProgressBar) v_main.findViewById(R.id.info_progress);
+        mInfoText = (TextView) v_main.findViewById(R.id.info_text);
 
         /* Initialize the tabs */
         mActionBar = getSupportActionBar();
@@ -188,6 +209,13 @@ public class MainActivity extends SherlockFragmentActivity {
         MediaLibrary.getInstance(this).loadMediaItems(this);
     }
 
+    private void updateMenuOffset() {
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int behindOffset_dp = Util.convertPxToDp(display.getWidth()) - 208;
+        mMenu.setBehindOffset(Util.convertDpToPx(behindOffset_dp));
+    }
+
     @Override
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
@@ -247,6 +275,12 @@ public class MainActivity extends SherlockFragmentActivity {
         MenuItem browse = menu.findItem(R.id.ml_menu_browse);
         browse.setTitle(mMediaLibraryActive ? R.string.directories : R.string.media_library);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateMenuOffset();
     }
 
     @Override
