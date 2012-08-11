@@ -288,8 +288,6 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
-        MenuItem browse = menu.findItem(R.id.ml_menu_browse);
-        browse.setTitle(mMediaLibraryActive ? R.string.directories : R.string.media_library);
         return super.onCreateOptionsMenu(menu);
     }
 
