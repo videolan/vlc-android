@@ -173,6 +173,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 ft.attach(mSidebarAdapter.getFragment(entry.id));
                 ft.commit();
                 mCurrentFragment = entry.id;
+                mMenu.showAbove();
             }
         });
 
