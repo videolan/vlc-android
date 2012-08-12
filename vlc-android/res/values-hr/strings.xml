@@ -10,7 +10,7 @@
     <string name="sortby_name">nazivu</string>
     <string name="sortby_length">veličini</string>
     <string name="searchable_hint">Traži…</string>
-    <string name="search_history">Povijest</string>
+    <string name="history">Povijest</string>
     <string name="search_found_results">Pronađeno je %1$d rezultata</string>
     <string name="show_player">Prikaži izvođač medija</string>
     <string name="hide_mini_player">Sakrij mini-izvođač medija</string>

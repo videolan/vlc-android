@@ -10,7 +10,7 @@
     <string name="sortby_name">Ainm</string>
     <string name="sortby_length">Faid</string>
     <string name="searchable_hint">Lorg…</string>
-    <string name="search_history">Eachdraidh</string>
+    <string name="history">Eachdraidh</string>
     <string name="search_found_results">Chaidh %1$d toraidhean a lorg</string>
     <string name="show_player">Seall an cluicheadair</string>
     <string name="hide_mini_player">Falaich am meanbh-chluicheadair</string>

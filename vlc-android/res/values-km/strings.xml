@@ -10,7 +10,7 @@
   <string name="sortby_name">ឈ្មោះ</string>
   <string name="sortby_length">រយៈពេល</string>
   <string name="searchable_hint">ស្វែងរក...</string>
-  <string name="search_history">ប្រវត្តិ</string>
+  <string name="history">ប្រវត្តិ</string>
   <string name="search_found_results">រក​ឃើញ​លទ្ធផល %1$d</string>
   <string name="show_player">បង្ហាញ​កម្មវិធី​ចាក់</string>
   <string name="hide_mini_player">លាក់​កម្មវិធី​ចាក់​តូច</string>

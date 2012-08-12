@@ -9,7 +9,7 @@
   <string name="sortby_name">Název</string>
   <string name="sortby_length">Délka</string>
   <string name="searchable_hint">Hledat…</string>
-  <string name="search_history">Historie</string>
+  <string name="history">Historie</string>
   <plurals name="search_found_results_quantity">
     <item quantity="one">%d nalezený výsledek</item>
     <item quantity="few">%d nalezené výsledky</item>

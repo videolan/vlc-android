@@ -9,7 +9,7 @@
     <string name="sortby_name">по имени</string>
     <string name="sortby_length">по размеру</string>
     <string name="searchable_hint">Поиск</string>
-    <string name="search_history">История</string>
+    <string name="history">История</string>
     <string name="search_found_results">Найдено результатов: %1$d</string>
     <string name="show_player">Показать плеер</string>
     <string name="hide_mini_player">Скрыть мини-плеер</string>

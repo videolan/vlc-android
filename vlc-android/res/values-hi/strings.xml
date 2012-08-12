@@ -9,7 +9,7 @@
   <string name="sortby_name">नाम</string>
   <string name="sortby_length">अवधि</string>
   <string name="searchable_hint">खोजे&#8230;</string>
-  <string name="search_history">इतिहास</string>
+  <string name="history">इतिहास</string>
   <plurals name="search_found_results_quantity">
     <item quantity="one">%d परिणाम मिल गया</item>
     <item quantity="other">%d परिणाम मिल गया</item>

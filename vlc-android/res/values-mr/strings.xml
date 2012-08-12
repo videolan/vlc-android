@@ -10,7 +10,7 @@
   <string name="sortby_name">नाव</string>
   <string name="sortby_length">लांबी</string>
   <string name="searchable_hint">शोध</string>
-  <string name="search_history">इतिहास</string>
+  <string name="history">इतिहास</string>
   <string name="search_found_results">%1$d निकाल मिळाले</string>
   <string name="show_player">प्लेयर दाखवा</string>
   <string name="hide_mini_player">मिनी-प्लेयर लपवा</string>

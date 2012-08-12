@@ -10,7 +10,7 @@
     <string name="sortby_name">Naam</string>
     <string name="sortby_length">Lengte</string>
     <string name="searchable_hint">Zoeken…</string>
-    <string name="search_history">Geschiedenis</string>
+    <string name="history">Geschiedenis</string>
     <string name="search_found_results">%1$d resultaten gevonden</string>
     <string name="show_player">Speler weergeven</string>
     <string name="hide_mini_player">Minispeler verbergen</string>

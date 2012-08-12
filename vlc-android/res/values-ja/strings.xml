@@ -10,7 +10,7 @@
   <string name="sortby_name">名前</string>
   <string name="sortby_length">長さ</string>
   <string name="searchable_hint">検索...</string>
-  <string name="search_history">履歴</string>
+  <string name="history">履歴</string>
   <string name="search_found_results">%1$d 件見つかりました</string>
   <string name="show_player">プレイヤーを表示</string>
   <string name="hide_mini_player">ミニプレイヤーを隠す</string>

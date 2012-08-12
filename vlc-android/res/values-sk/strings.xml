@@ -9,7 +9,7 @@
     <string name="sortby_name">názvu</string>
     <string name="sortby_length">dĺžky</string>
     <string name="searchable_hint">Vyhľadávať…</string>
-    <string name="search_history">História</string>
+    <string name="history">História</string>
     <string name="search_found_results">Našlo sa %1$d výsledkov</string>
     <string name="show_player">Zobraziť prehrávač</string>
     <string name="hide_mini_player">Skryť mini-prehrávač</string>

@@ -10,7 +10,7 @@
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Durata</string>
     <string name="searchable_hint">Cerca…</string>
-    <string name="search_history">Cronologia</string>
+    <string name="history">Cronologia</string>
     <string name="search_found_results">%1$d risultati trovati</string>
     <string name="show_player">Mostra lettore</string>
     <string name="hide_mini_player">Nascondi lettore minimale</string>

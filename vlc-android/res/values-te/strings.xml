@@ -10,7 +10,7 @@
   <string name="sortby_name">పేరు</string>
   <string name="sortby_length">పొడవు</string>
   <string name="searchable_hint">శోధించు...</string>
-  <string name="search_history">చరిత్ర</string>
+  <string name="history">చరిత్ర</string>
   <string name="search_found_results">%1$d ఫలితాలు కనబడ్డాయి</string>
   <string name="show_player">ప్రదర్శకాన్ని చూపించు</string>
   <string name="hide_mini_player">చిన్ని-ప్రదర్శకాన్ని దాయి</string>

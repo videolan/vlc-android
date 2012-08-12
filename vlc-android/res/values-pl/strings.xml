@@ -9,7 +9,7 @@
   <string name="sortby_name">Nazwy</string>
   <string name="sortby_length">Długości</string>
   <string name="searchable_hint">Szukaj…</string>
-  <string name="search_history">Historia</string>
+  <string name="history">Historia</string>
   <plurals name="search_found_results_quantity">
     <item quantity="one">Znaleziono %1$d pozycję</item>
     <item quantity="few">Znaleziono %1$d pozycje</item>

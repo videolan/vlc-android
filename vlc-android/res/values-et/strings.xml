@@ -10,7 +10,7 @@
     <string name="sortby_name">Nimi</string>
     <string name="sortby_length">Kestus</string>
     <string name="searchable_hint">Otsi…</string>
-    <string name="search_history">Ajalugu</string>
+    <string name="history">Ajalugu</string>
     <string name="search_found_results">Leiti %1$d vastet</string>
     <string name="show_player">Kuva esitaja</string>
     <string name="hide_mini_player">Peida miniesitaja</string>

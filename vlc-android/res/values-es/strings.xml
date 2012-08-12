@@ -10,7 +10,7 @@
     <string name="sortby_name">Nombre</string>
     <string name="sortby_length">Longitud</string>
     <string name="searchable_hint">Buscar…</string>
-    <string name="search_history">Historial</string>
+    <string name="history">Historial</string>
     <string name="search_found_results">%1$d resultados encontrados</string>
     <string name="show_player">Mostrar reproductor</string>
     <string name="hide_mini_player">Ocultar minireproductor</string>

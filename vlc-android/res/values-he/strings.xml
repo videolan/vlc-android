@@ -10,7 +10,7 @@
     <string name="sortby_name">שם</string>
     <string name="sortby_length">משך</string>
     <string name="searchable_hint">חיפוש…</string>
-    <string name="search_history">היסטוריה</string>
+    <string name="history">היסטוריה</string>
     <string name="search_found_results">נמצאו %1$d תוצאות</string>
     <string name="show_player">הצגת הנגן</string>
     <string name="hide_mini_player">הסתרת הנגן המוקטן</string>

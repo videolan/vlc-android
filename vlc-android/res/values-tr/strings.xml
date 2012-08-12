@@ -9,7 +9,7 @@
   <string name="sortby_name">Ad</string>
   <string name="sortby_length">Uzunluk</string>
   <string name="searchable_hint">Arama…</string>
-  <string name="search_history">Geçmiş</string>
+  <string name="history">Geçmiş</string>
   <plurals name="search_found_results_quantity">
     <item quantity="other">%d sonuç bulundu</item>
   </plurals>

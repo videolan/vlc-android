@@ -9,7 +9,7 @@
   <string name="sortby_name">Nome</string>
   <string name="sortby_length">Lonxitude</string>
   <string name="searchable_hint">Buscar…</string>
-  <string name="search_history">Historial</string>
+  <string name="history">Historial</string>
   <plurals name="search_found_results_quantity">
     <item quantity="one">encontrouse %d resultado</item>
     <item quantity="other">encontráronse %d resultados</item>

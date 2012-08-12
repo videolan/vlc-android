@@ -9,7 +9,7 @@
     <string name="sortby_name">الإسم</string>
     <string name="sortby_length">الطول</string>
     <string name="searchable_hint">البحث…</string>
-    <string name="search_history">المحفوظات</string>
+    <string name="history">المحفوظات</string>
     <string name="search_found_results">%1$d العثور على نتائج</string>
     <string name="show_player">إظهار المشغل</string>
     <string name="hide_mini_player">إخفاء مصغر للمشغل</string>

@@ -10,7 +10,7 @@
   <string name="sortby_name">Izena</string>
   <string name="sortby_length">Luzera</string>
   <string name="searchable_hint">Bilatu…</string>
-  <string name="search_history">Historia</string>
+  <string name="history">Historia</string>
   <string name="search_found_results">%1$d emaitza aurkitu dira</string>
   <string name="show_player">Erakutsi erreproduzitzailea</string>
   <string name="hide_mini_player">Ezkutatu mini-erreproduzitzailea</string>
