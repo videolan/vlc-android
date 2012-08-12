@@ -10,7 +10,7 @@
     <string name="sortby_name">Nom</string>
     <string name="sortby_length">Durée</string>
     <string name="searchable_hint">Recherche…</string>
-    <string name="search_history">Historique</string>
+    <string name="history">Historique</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d résultat trouvé</item>
         <item quantity="other">%d résultats trouvés</item>
@@ -48,6 +48,9 @@
         <item quantity="other">%d sous-répertoires</item>
     </plurals>
     <string name="parent_folder">Répertoire parent</string>
+    <string name="audio">Audio</string>
+    <string name="video">Vidéo</string>
+    <string name="bookmarks">Signets</string>
     <string name="all_albums">Tous les albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Listes</string>

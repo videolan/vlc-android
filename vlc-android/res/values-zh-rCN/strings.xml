@@ -10,7 +10,7 @@
   <string name="sortby_name">名称</string>
   <string name="sortby_length">长度</string>
   <string name="searchable_hint">搜索…</string>
-  <string name="search_history">历史</string>
+  <string name="history">历史</string>
   <string name="search_found_results">找到 %1$d 条结果</string>
   <string name="show_player">显示播放器</string>
   <string name="hide_mini_player">隐藏迷你播放器</string>
@@ -45,10 +45,12 @@
     <item quantity="other">%d 个子文件夹</item>
   </plurals>
   <string name="parent_folder">转到上级目录</string>
+  <string name="audio">音频</string>
+  <string name="video">视频</string>
+  <string name="bookmarks">书签</string>
   <string name="all_albums">所有专辑</string>
   <string name="genres">流派</string>
   <string name="playlists">播放列表</string>
-  <string name="time_0">0:00</string>
   <string name="title">标题</string>
   <string name="artist">艺术家</string>
   <string name="album">专辑</string>
@@ -115,5 +117,4 @@
   <string name="aout_audiotrack">AudioTrack 类 (原生)</string>
   <string name="aout_audiotrack_java">AudioTrack 类 (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
-  <string name="error_no_neon">抱歉，此版本的 VLC for Android™ 尚不支持您的设备</string>
 </resources>

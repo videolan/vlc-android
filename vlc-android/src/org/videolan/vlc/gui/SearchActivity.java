@@ -159,7 +159,7 @@ public class SearchActivity extends ListActivity {
     private void showSearchHistory() {
 
         // Add header to the history
-        String headerText = getString(R.string.search_history);
+        String headerText = getString(R.string.history);
         showListHeader(headerText);
 
         DatabaseManager db = DatabaseManager.getInstance(this);

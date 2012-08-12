@@ -10,7 +10,7 @@
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
     <string name="searchable_hint">Search…</string>
-    <string name="search_history">History</string>
+    <string name="history">History</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d result found</item>
         <item quantity="other">%d results found</item>
@@ -52,6 +52,7 @@
     <string name="parent_folder">Up to parent folder</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
+    <string name="bookmarks">Bookmarks</string>
     <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
