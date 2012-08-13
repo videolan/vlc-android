@@ -647,6 +647,9 @@ public class VideoPlayerActivity extends Activity {
 
         float y_changed = event.getRawY() - mTouchY;
         float x_changed = event.getRawX() - mTouchX;
+        // coef is the gradient's move to determine a neutral zone
+        float coef = Math.abs (y_changed / x_changed);
+        Log.i(TAG, "coef " + Float.toString(coef));
 
         switch (event.getAction()) {
 
@@ -660,8 +663,9 @@ public class VideoPlayerActivity extends Activity {
             break;
 
         case MotionEvent.ACTION_MOVE:
-            if (Math.abs(y_changed) > Math.abs(x_changed)) {
-                // Audio
+            // Audio
+            // No audio action if coef < 2
+            if ((Math.abs(y_changed) > Math.abs(x_changed)) && (coef > 2)){
                 int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
                 int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
                 if (delta != 0) {
@@ -686,13 +690,13 @@ public class VideoPlayerActivity extends Activity {
                 }
             }
             // Seek
-            if (Math.abs(y_changed) < Math.abs(x_changed)) {
+            // No seek action if coef > 0.5
+            if ((Math.abs(y_changed) < Math.abs(x_changed)) && (coef < 0.5)){
                 // Tools to get the screen size for the cubic progression
                 DisplayMetrics screen = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(screen);
 
-                // Size of the jump, 10 minutes max (600000) with a cubic
-                // progression
+                // Size of the jump, 10 minutes max (600000) with a cubic progression
                 int jump = (int) (600000 * Math.pow(
                         (x_changed / screen.widthPixels), 3));
                 mPlayerControlListener.onSeek(jump);
