@@ -696,6 +696,7 @@ public class VideoPlayerActivity extends Activity {
                 int jump = (int) (600000 * Math.pow(
                         (x_changed / screen.widthPixels), 3));
                 mPlayerControlListener.onSeek(jump);
+                showInfo(String.format("%s%ss", jump >= 0 ? "+" : "", Util.millisToString(jump)),1000);
             }
             break;
         }
