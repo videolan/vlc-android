@@ -134,17 +134,24 @@ public class MainActivity extends SherlockFragmentActivity {
         listView.setBackgroundColor(Color.parseColor("#1f3f61"));
         mMenu.setViewBehind(sidebar);
 
-        super.onCreate(savedInstanceState);
-
         /* Get settings */
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         LibVLC.useIOMX(this);
         try {
-            // Start libvlc
+            // Start LibVLC
             LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
+            super.onCreate(null);
+            Intent i = new Intent(this, CompatErrorActivity.class);
+            i.putExtra("runtimeError", true);
+            i.putExtra("message", "LibVLC failed to initialize (LibVlcException)");
+            startActivity(i);
+            finish();
+            return;
         }
+
+        super.onCreate(savedInstanceState);
 
         /* Initialize variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
