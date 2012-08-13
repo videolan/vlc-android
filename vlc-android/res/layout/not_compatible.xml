@@ -19,11 +19,21 @@
 	        android:src="@drawable/cone" />
 
 	    <TextView
-	        android:id="@+id/errormsg"
+	        android:id="@+id/message"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal"
 	        android:text="@string/error_not_compatible"
+	        android:textColor="#FF0000"
+	        android:textSize="20dp" />
+
+	    <TextView
+	        android:id="@+id/errormsg"
+	        android:layout_marginTop="26dp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:text="@string/error_message_is"
 	        android:textColor="#FF0000"
 	        android:textSize="20dp" />
 	</LinearLayout>
