@@ -100,6 +100,9 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
         int id = item.getItemId();
         String mediaLocation = mDirectoryAdapter.getMediaLocation(info.position);
+        if (mediaLocation == null)
+            return super.onContextItemSelected(item);
+
         if(id == R.id.directory_view_play) {
             openMediaFile(info.position);
             return true;

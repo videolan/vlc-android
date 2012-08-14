@@ -311,6 +311,8 @@ public class DirectoryAdapter extends BaseAdapter {
     }
 
     public String getMediaLocation(int position) {
+        if (position >= mCurrentNode.children.size())
+            return null;
         return LibVLC.getExistingInstance().nativeToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
         );
