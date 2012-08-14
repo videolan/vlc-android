@@ -191,7 +191,6 @@ public class MediaLibrary {
             MediaItemFilter mediaFileFilter = new MediaItemFilter();
 
             int count = 0;
-            int total = 0;
 
             ArrayList<File> mediaToScan = new ArrayList<File>();
 
@@ -210,7 +209,6 @@ public class MediaLibrary {
                     for (File file : f) {
                         if (file.isFile()) {
                             mediaToScan.add(file);
-                            total++;
                         } else if (file.isDirectory()) {
                             directories.push(file);
                         }
@@ -222,7 +220,7 @@ public class MediaLibrary {
             for (File file : mediaToScan) {
                 String fileURI = Util.PathToURI(file.getPath());
                 MainActivity.sendTextInfo(mContext, file.getName(), count,
-                        total);
+                        mediaToScan.size());
                 count++;
                 if (existingMedias.containsKey(fileURI)) {
                     /**
