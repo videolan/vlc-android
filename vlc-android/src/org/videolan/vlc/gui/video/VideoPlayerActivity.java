@@ -664,7 +664,7 @@ public class VideoPlayerActivity extends Activity {
         case MotionEvent.ACTION_MOVE:
             // Audio
             // No audio action if coef < 2
-            if ((Math.abs(y_changed) > Math.abs(x_changed)) && (coef > 2)){
+            if (coef > 2) {
                 int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
                 int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
                 if (delta != 0) {
@@ -692,9 +692,7 @@ public class VideoPlayerActivity extends Activity {
             // Seek
             float gesturesize = (float) ((x_changed / screen.xdpi) * 2.54);
             // No seek action if coef > 0.5 and gesturesize < 1cm
-            if ((Math.abs(y_changed) < Math.abs(x_changed))
-                    && (coef < 0.5)
-                    && (Math.abs(gesturesize) > 1)) {
+            if (coef < 0.5 && Math.abs(gesturesize) > 1) {
 
                 // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
                 int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
