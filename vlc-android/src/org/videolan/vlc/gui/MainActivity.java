@@ -83,8 +83,6 @@ public class MainActivity extends SherlockFragmentActivity {
     protected static final String ACTION_HIDE_PROGRESSBAR = "org.videolan.vlc.gui.HideProgressBar";
     protected static final String ACTION_SHOW_TEXTINFO = "org.videolan.vlc.gui.ShowTextInfo";
 
-    private static final int VIDEO_TAB = 0;
-    private static final int AUDIO_TAB = 1;
     private static final String PREF_SHOW_INFO = "show_info";
 
     private ActionBar mActionBar;

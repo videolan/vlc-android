@@ -200,7 +200,7 @@ public class MediaLibrary {
                 File dir = directories.pop();
                 File[] f = null;
 
-                // Do no take the media in .nomedia folders
+                // Do no scan media in .nomedia folders
                 if (new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
                     continue;
                 }
