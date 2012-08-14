@@ -637,14 +637,13 @@ public class VideoPlayerActivity extends Activity {
      * show/hide the overlay
      */
 
-    @SuppressWarnings("deprecation")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        DisplayMetrics screen = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(screen);
 
         if (mAudioDisplayRange == 0)
-            mAudioDisplayRange = Math.min(
-                    getWindowManager().getDefaultDisplay().getWidth(),
-                    getWindowManager().getDefaultDisplay().getHeight());
+            mAudioDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
 
         float y_changed = event.getRawY() - mTouchY;
         float x_changed = event.getRawX() - mTouchX;
@@ -689,11 +688,8 @@ public class VideoPlayerActivity extends Activity {
                                 OVERLAY_TIMEOUT);
                 }
             }
-            // Seek
-            // Tools to get the xdpi resolution for the cubic progression
-            DisplayMetrics screen = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(screen);
 
+            // Seek
             float gesturesize = (float) ((x_changed / screen.xdpi) * 2.54);
             // No seek action if coef > 0.5 and gesturesize < 1cm
             if ((Math.abs(y_changed) < Math.abs(x_changed))
