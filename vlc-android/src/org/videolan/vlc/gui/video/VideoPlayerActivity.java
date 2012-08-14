@@ -690,24 +690,27 @@ public class VideoPlayerActivity extends Activity {
             }
 
             // Seek
-            float gesturesize = (float) ((x_changed / screen.xdpi) * 2.54);
+            float gesturesize = ((x_changed / screen.xdpi) * 2.54f);
             // No seek action if coef > 0.5 and gesturesize < 1cm
             if (coef < 0.5 && Math.abs(gesturesize) > 1) {
+
+                long length = mLibVLC.getLength();
+                long time = mLibVLC.getTime();
 
                 // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
                 int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
 
                 // Adjust the jump
-                if ((jump > 0) && ((mLibVLC.getTime() + jump) > mLibVLC.getLength()))
-                    jump = (int) (mLibVLC.getLength() - mLibVLC.getTime());
-                if ((jump < 0) && ((mLibVLC.getTime() + jump) < 0))
-                    jump = (int) - mLibVLC.getTime();
+                if ((jump > 0) && ((time + jump) > length))
+                    jump = (int) (length - time);
+                if ((jump < 0) && ((time + jump) < 0))
+                    jump = (int) -time;
 
                 //Jump !
                 mPlayerControlListener.onSeek(jump);
 
                 //Show the jump's size
-                showInfo(String.format("%s%ss", jump >= 0 ? "+" : "", Util.millisToString(jump)),1000);
+                showInfo(String.format("%s%s", jump >= 0 ? "+" : "", Util.millisToString(jump)), 1000);
             }
             break;
         }
