@@ -637,6 +637,7 @@ public class VideoPlayerActivity extends Activity {
      * show/hide the overlay
      */
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -649,7 +650,6 @@ public class VideoPlayerActivity extends Activity {
         float x_changed = event.getRawX() - mTouchX;
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
-        Log.i(TAG, "coef " + Float.toString(coef));
 
         switch (event.getAction()) {
 
@@ -690,16 +690,29 @@ public class VideoPlayerActivity extends Activity {
                 }
             }
             // Seek
-            // No seek action if coef > 0.5
-            if ((Math.abs(y_changed) < Math.abs(x_changed)) && (coef < 0.5)){
-                // Tools to get the screen size for the cubic progression
-                DisplayMetrics screen = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(screen);
+            // Tools to get the xdpi resolution for the cubic progression
+            DisplayMetrics screen = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(screen);
 
-                // Size of the jump, 10 minutes max (600000) with a cubic progression
-                int jump = (int) (600000 * Math.pow(
-                        (x_changed / screen.widthPixels), 3));
+            float gesturesize = (float) ((x_changed / screen.xdpi) * 2.54);
+            // No seek action if coef > 0.5 and gesturesize < 1cm
+            if ((Math.abs(y_changed) < Math.abs(x_changed))
+                    && (coef < 0.5)
+                    && (Math.abs(gesturesize) > 1)) {
+
+                // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
+                int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
+
+                // Adjust the jump
+                if ((jump > 0) && ((mLibVLC.getTime() + jump) > mLibVLC.getLength()))
+                    jump = (int) (mLibVLC.getLength() - mLibVLC.getTime());
+                if ((jump < 0) && ((mLibVLC.getTime() + jump) < 0))
+                    jump = (int) - mLibVLC.getTime();
+
+                //Jump !
                 mPlayerControlListener.onSeek(jump);
+
+                //Show the jump's size
                 showInfo(String.format("%s%ss", jump >= 0 ? "+" : "", Util.millisToString(jump)),1000);
             }
             break;
