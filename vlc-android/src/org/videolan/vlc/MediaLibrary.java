@@ -171,7 +171,7 @@ public class MediaLibrary {
                 root = Environment.getExternalStorageDirectory().getAbsolutePath();
             }
 
-            // show progressbar in header
+            // show progressbar in footer
             MainActivity.showProgressBar(mContext);
 
             // get directories from database
@@ -200,16 +200,17 @@ public class MediaLibrary {
                 File dir = directories.pop();
                 File[] f = null;
 
+                // Do no take the media in .nomedia folders
                 if (new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
                     continue;
                 }
 
+                // Filter the extensions and the folders
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                    for (int i = 0; i < f.length; i++) {
-                        File file = f[i];
+                    for (File file : f) {
                         if (file.isFile()) {
-                            total++;
                             mediaToScan.add(file);
+                            total++;
                         } else if (file.isDirectory()) {
                             directories.push(file);
                         }
@@ -253,7 +254,7 @@ public class MediaLibrary {
                 mDBManager.removeMedias(existingMedias.keySet());
             }
 
-            // hide progressbar in header
+            // hide progressbar in footer
             MainActivity.clearTextInfo(mContext);
             MainActivity.hideProgressBar(mContext);
             mContext = null;
