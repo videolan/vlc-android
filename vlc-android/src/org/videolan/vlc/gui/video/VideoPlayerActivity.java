@@ -270,7 +270,7 @@ public class VideoPlayerActivity extends Activity {
             e.printStackTrace();
         }
 
-        EventManager em = EventManager.getIntance();
+        EventManager em = EventManager.getInstance();
         em.addHandler(eventHandler);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -325,7 +325,7 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC.stop();
         }
 
-        EventManager em = EventManager.getIntance();
+        EventManager em = EventManager.getInstance();
         em.removeHandler(eventHandler);
 
         mAudioManager = null;

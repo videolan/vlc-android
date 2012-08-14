@@ -194,7 +194,7 @@ public class LibVLC {
             Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             nativeInit(pref.getBoolean("enable_verbose_mode", true));
-            setEventManager(EventManager.getIntance());
+            setEventManager(EventManager.getInstance());
             mIsInitialized = true;
         }
     }

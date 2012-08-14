@@ -95,7 +95,7 @@ public class EventManager {
         mEventHandler = new ArrayList<Handler>();
     }
 
-    public static EventManager getIntance() {
+    public static EventManager getInstance() {
         if (mInstance == null) {
             mInstance = new EventManager();
         }

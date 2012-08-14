@@ -103,7 +103,7 @@ public class AudioService extends Service {
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
-        mEventManager = EventManager.getIntance();
+        mEventManager = EventManager.getInstance();
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
