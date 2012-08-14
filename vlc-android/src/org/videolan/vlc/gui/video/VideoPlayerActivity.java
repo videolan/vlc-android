@@ -649,6 +649,7 @@ public class VideoPlayerActivity extends Activity {
         float x_changed = event.getRawX() - mTouchX;
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
+        float gesturesize = ((x_changed / screen.xdpi) * 2.54f);
 
         switch (event.getAction()) {
 
@@ -673,6 +674,8 @@ public class VideoPlayerActivity extends Activity {
                     mIsAudioChanged = true;
                 }
             }
+            // Seek
+            evalTouchSeek(coef, gesturesize, false);
             break;
 
         case MotionEvent.ACTION_UP:
@@ -690,31 +693,38 @@ public class VideoPlayerActivity extends Activity {
             }
 
             // Seek
-            float gesturesize = ((x_changed / screen.xdpi) * 2.54f);
-            // No seek action if coef > 0.5 and gesturesize < 1cm
-            if (coef < 0.5 && Math.abs(gesturesize) > 1) {
-
-                long length = mLibVLC.getLength();
-                long time = mLibVLC.getTime();
-
-                // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
-                int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
-
-                // Adjust the jump
-                if ((jump > 0) && ((time + jump) > length))
-                    jump = (int) (length - time);
-                if ((jump < 0) && ((time + jump) < 0))
-                    jump = (int) -time;
-
-                //Jump !
-                mPlayerControlListener.onSeek(jump);
-
-                //Show the jump's size
-                showInfo(String.format("%s%s", jump >= 0 ? "+" : "", Util.millisToString(jump)), 1000);
-            }
+            evalTouchSeek(coef, gesturesize, true);
             break;
         }
         return mIsAudioChanged;
+    }
+
+    private void evalTouchSeek(float coef, float gesturesize, boolean seek) {
+        // No seek action if coef > 0.5 and gesturesize < 1cm
+        if (coef > 0.5 || Math.abs(gesturesize) < 1)
+            return;
+
+        long length = mLibVLC.getLength();
+        long time = mLibVLC.getTime();
+
+        // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
+        int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
+
+        // Adjust the jump
+        if ((jump > 0) && ((time + jump) > length))
+            jump = (int) (length - time);
+        if ((jump < 0) && ((time + jump) < 0))
+            jump = (int) -time;
+
+        //Jump !
+        if (seek)
+            mPlayerControlListener.onSeekTo(time + jump);
+
+        //Show the jump's size
+        showInfo(String.format("%s%s (%s)",
+                jump >= 0 ? "+" : "",
+                Util.millisToString(jump),
+                Util.millisToString(time + jump)), 1000);
     }
 
     /**
