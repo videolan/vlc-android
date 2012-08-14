@@ -193,63 +193,49 @@ public class MediaLibrary {
             int count = 0;
             int total = 0;
 
-            //first pass : count total files
-            while (!directories.isEmpty()) {
-                File dir = directories.pop();
-                File[] f = null;
-                if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                    for (int i = 0; i < f.length; i++) {
-                        File file = f[i];
-                        if (file.isFile()) {
-                            total++;
-                        } else if (file.isDirectory()) {
-                            directories.push(file);
-                        }
-                    }
-                }
-            }
-            directories.addAll(mDBManager.getMediaDirs());
-            if (directories.isEmpty())
-                directories.add(new File(root));
+            ArrayList<File> mediaToScan = new ArrayList<File>();
 
-            //second pass : load Medias
+            // Count total files, and stack them
             while (!directories.isEmpty()) {
                 File dir = directories.pop();
                 File[] f = null;
-                /* .nomedia tells media players on Android to skip the
-                 * folder in the media library because they don't contain
-                 * useful music, such as notification sounds,
-                 * navigation voice phrases etc.
-                 */
-                if(new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
+
+                if (new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
                     continue;
                 }
 
                 if ((f = dir.listFiles(mediaFileFilter)) != null) {
                     for (int i = 0; i < f.length; i++) {
                         File file = f[i];
-
                         if (file.isFile()) {
-                            MainActivity.sendTextInfo(mContext, file.getName(), count, total);
-                            count++;
-                            String fileURI = Util.PathToURI(file.getPath());
-                            if (existingMedias.containsKey(fileURI)) {
-                                /** only add file if it is not already in the
-                                 * list. eg. if user select an subfolder as well
-                                 */
-                                if (!addedLocations.contains(fileURI)) {
-                                    // get existing media item from database
-                                    mItemList.add(existingMedias.get(fileURI));
-                                    addedLocations.add(fileURI);
-                                }
-                            } else {
-                                // create new media item
-                                mItemList.add(new Media(fileURI, true));
-                            }
+                            total++;
+                            mediaToScan.add(file);
                         } else if (file.isDirectory()) {
                             directories.push(file);
                         }
                     }
+                }
+            }
+
+            // Process the stacked items
+            for (File file : mediaToScan) {
+                String fileURI = Util.PathToURI(file.getPath());
+                MainActivity.sendTextInfo(mContext, file.getName(), count,
+                        total);
+                count++;
+                if (existingMedias.containsKey(fileURI)) {
+                    /**
+                     * only add file if it is not already in the list. eg. if
+                     * user select an subfolder as well
+                     */
+                    if (!addedLocations.contains(fileURI)) {
+                        // get existing media item from database
+                        mItemList.add(existingMedias.get(fileURI));
+                        addedLocations.add(fileURI);
+                    }
+                } else {
+                    // create new media item
+                    mItemList.add(new Media(fileURI, true));
                 }
             }
 
