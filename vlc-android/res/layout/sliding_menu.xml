@@ -4,4 +4,6 @@
     android:id="@+id/sliding_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    sliding:behindScrollScale="0.5" />
+    sliding:behindScrollScale="0.5"
+    sliding:shadowDrawable="@drawable/slidingmenu_shadow"
+    sliding:shadowWidth="@dimen/shadow_width" />
