@@ -32,8 +32,7 @@
             android:scaleType="fitXY"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="10dip"
-            android:onClick="changeTabClick" />
+            android:padding="10dip" />
         <ImageButton
             android:layout_width="48dip"
             android:layout_height="48dip"
