@@ -4,46 +4,8 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="48dip"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:background="@drawable/header">
-        <ImageView
-            android:src="@drawable/header_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:scaleType="centerInside" />
-        <View
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-        <ProgressBar
-            android:id="@+id/ml_progress_bar"
-            android:layout_width="22dip"
-            android:layout_height="22dip"
-            android:layout_margin="13dip"
-            android:visibility="invisible" />
-        <ImageButton
-            android:id="@+id/change_tab"
-            android:background="@drawable/header_button"
-            android:src="@drawable/header_icon_audio"
-            android:scaleType="fitXY"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="10dip" />
-        <ImageButton
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:background="@drawable/header_button"
-            android:src="@drawable/header_icon_loupe"
-            android:scaleType="fitXY"
-            android:padding="10dip"
-            android:onClick="searchClick" />
-    </LinearLayout>
-	<FrameLayout android:id="@+id/fragment_placeholder"
-	    android:layout_weight="1"
+    <FrameLayout android:id="@+id/fragment_placeholder"
+        android:layout_weight="1"
         android:layout_width="fill_parent"
         android:layout_height="0dip" />
     <RelativeLayout
