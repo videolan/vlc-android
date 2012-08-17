@@ -58,6 +58,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.Settings.SettingNotFoundException;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -151,6 +152,9 @@ public class VideoPlayerActivity extends Activity {
     private String[] mAudioTracks;
     private String[] mSubtitleTracks;
 
+    //Contrast
+    private float mBrightnessValue = 0;
+
     @Override
     @TargetApi(11)
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +165,7 @@ public class VideoPlayerActivity extends Activity {
         if(Util.isICSOrLater())
             getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
+                        @Override
                         public void onSystemUiVisibilityChange(int visibility) {
                             if (visibility == mUiVisibility)
                                 return;
@@ -257,6 +262,19 @@ public class VideoPlayerActivity extends Activity {
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        // Initialize the layoutParams screen brightness
+        try {
+            int brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS);
+            mBrightnessValue = brightnesstemp / 255.0f;
+        } catch (SettingNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = mBrightnessValue;
+        getWindow().setAttributes(lp);
 
         mSwitchingView = false;
         mEndReached = false;
@@ -647,9 +665,11 @@ public class VideoPlayerActivity extends Activity {
 
         float y_changed = event.getRawY() - mTouchY;
         float x_changed = event.getRawX() - mTouchX;
+
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
-        float gesturesize = ((x_changed / screen.xdpi) * 2.54f);
+        float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
+        float ygesturesize = ((y_changed / screen.ydpi) * 2.54f);
 
         switch (event.getAction()) {
 
@@ -663,19 +683,25 @@ public class VideoPlayerActivity extends Activity {
             break;
 
         case MotionEvent.ACTION_MOVE:
-            // Audio
-            // No audio action if coef < 2
+            // No audio/contrast action if coef < 2
             if (coef > 2) {
-                int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
-                int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-                if (delta != 0) {
-                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                            vol, AudioManager.FLAG_SHOW_UI);
-                    mIsAudioChanged = true;
+                // Audio (Up or Down - Right side)
+                if (mTouchX > (screen.widthPixels / 2)){
+                    int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
+                    int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+                    if (delta != 0) {
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                                vol, AudioManager.FLAG_SHOW_UI);
+                        mIsAudioChanged = true;
+                    }
+                }
+                // Contrast (Up or Down - Left side)
+                if (mTouchX < (screen.widthPixels / 2)){
+                    evalTouchContrast(coef, - ygesturesize);
                 }
             }
-            // Seek
-            evalTouchSeek(coef, gesturesize, false);
+            // Seek (Right or Left move)
+            evalTouchSeek(coef, xgesturesize, false);
             break;
 
         case MotionEvent.ACTION_UP:
@@ -691,9 +717,8 @@ public class VideoPlayerActivity extends Activity {
                                 OVERLAY_TIMEOUT);
                 }
             }
-
             // Seek
-            evalTouchSeek(coef, gesturesize, true);
+            evalTouchSeek(coef, xgesturesize, true);
             break;
         }
         return mIsAudioChanged;
@@ -725,6 +750,21 @@ public class VideoPlayerActivity extends Activity {
                 jump >= 0 ? "+" : "",
                 Util.millisToString(jump),
                 Util.millisToString(time + jump)), 1000);
+    }
+
+    private void evalTouchContrast(float coef, float gesturesize) {
+        // No contrast action if gesturesize < 0.4 cm
+        if (Math.abs(gesturesize) < 0.4)
+            return;
+
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        float jump = lp.screenBrightness + Math.signum(gesturesize) * 0.05f;
+        // Adjust contrast
+        if (jump > 0 || jump <= 1) lp.screenBrightness = jump;
+        else if (jump > 1) lp.screenBrightness = 1;
+        else if (jump <= 0) lp.screenBrightness = 0.01f;
+        // Set contrast
+        getWindow().setAttributes(lp);
     }
 
     /**
