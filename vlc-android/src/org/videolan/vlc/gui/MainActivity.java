@@ -130,7 +130,6 @@ public class MainActivity extends SherlockFragmentActivity {
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
         mSidebarAdapter = new SidebarAdapter(getSupportFragmentManager());
         listView.setAdapter(mSidebarAdapter);
-        listView.setBackgroundColor(Color.parseColor("#424242"));
         mMenu.setViewBehind(sidebar);
 
         /* Get settings */

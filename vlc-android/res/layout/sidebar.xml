@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:divider="@color/item_common"
     android:dividerHeight="1dp"
-    android:background="@android:color/black"
-    android:layout_width="208dp">
+    android:layout_width="208dp"
+    android:background="#424242">
 
 </ListView>
