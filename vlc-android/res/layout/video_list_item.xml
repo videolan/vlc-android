@@ -33,11 +33,4 @@
             android:textColor="#888888"
             android:paddingLeft="12dip" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/ml_item_more"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:src="@drawable/ic_next"
-        android:paddingRight="12dip"
-        android:paddingLeft="5dip" />
 </LinearLayout>

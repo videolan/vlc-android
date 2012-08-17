@@ -135,7 +135,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
-            holder.more = (ImageView) v.findViewById(R.id.ml_item_more);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
@@ -167,22 +166,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
                     Util.millisToString(media.getLength()),
                     media.getWidth(), media.getHeight()));
         }
-        holder.more.setTag(media);
-        holder.more.setOnClickListener(moreClickListener);
 
         return v;
     }
-
-    private final OnClickListener moreClickListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Media item = (Media) v.getTag();
-            Intent intent = new Intent(getContext(), MediaInfoActivity.class);
-            intent.putExtra("itemLocation", item.getLocation());
-            getContext().startActivity(intent);
-        }
-    };
 
     static class ViewHolder {
         View layout;
