@@ -51,7 +51,7 @@ public class FlingViewGroup extends ViewGroup {
         super(context, attrs);
         this.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.FILL_PARENT));
+                ViewGroup.LayoutParams.MATCH_PARENT));
 
         mScroller = new Scroller(context);
         ViewConfiguration config = ViewConfiguration.get(getContext());

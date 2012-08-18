@@ -38,6 +38,7 @@ import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -113,8 +114,9 @@ public class MediaInfoActivity extends ListActivity {
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             if (mImage == null) {
-                int width = Math.min(getWindowManager().getDefaultDisplay().getWidth(),
-                                     getWindowManager().getDefaultDisplay().getHeight());
+                DisplayMetrics screen = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(screen);
+                int width = Math.min(screen.widthPixels, screen.heightPixels);
                 int height = width * 9 / 16;
 
                 // Get the thumbnail.

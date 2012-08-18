@@ -408,7 +408,7 @@ public class VideoPlayerActivity extends Activity {
     private void lockScreen() {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        int rotation = display.getOrientation();
+        int rotation;
         if (Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
             try {
                 Method m = display.getClass().getDeclaredMethod("getRotation");

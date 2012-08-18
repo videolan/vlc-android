@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -69,11 +70,10 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        android.view.Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
-        Log.v(TAG, "width = " + width + " : height = " + height);
-        if(width == 240 && height == 320) /* QVGA 2.7in */
+        DisplayMetrics screen = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(screen);
+        Log.v(TAG, "width = " + screen.widthPixels + " : height = " + screen.heightPixels);
+        if(screen.widthPixels == 240 && screen.heightPixels == 320) /* QVGA 2.7in */
         	setContentView(R.layout.audio_player_qvga);
         else
         	setContentView(R.layout.audio_player);
