@@ -132,6 +132,7 @@
     <string name="detect_headset">Detect headset</string>
     <string name="detect_headset_detail">Pause on headset removed; resume on headset inserted</string>
     <string name="enable_wheel_bar">Enable wheel bar</string>
+    <string name="enable_gesture_brightness">Enable brightness gesture</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_detail">Increase the verbosity (logcat)</string>
     <string name="aout">Audio output</string>

@@ -128,6 +128,8 @@ public class VideoPlayerActivity extends Activity {
     private TextView mLength;
     private TextView mInfo;
     private IPlayerControl mControls;
+    private boolean mEnableWheelbar;
+    private boolean mEnableBrightnessGesture;
     private Spinner mAudio;
     private Spinner mSubtitles;
     private ImageButton mLock;
@@ -236,7 +238,9 @@ public class VideoPlayerActivity extends Activity {
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mControls = pref.getBoolean("enable_wheel_bar", false)
+        mEnableWheelbar = pref.getBoolean("enable_wheel_bar", false);
+        mEnableBrightnessGesture = pref.getBoolean("enable_gesture_brightness", true);
+        mControls = mEnableWheelbar
                 ? new PlayerControlWheel(this)
                 : new PlayerControlClassic(this);
         mControls.setOnPlayerControlListener(mPlayerControlListener);
@@ -263,18 +267,21 @@ public class VideoPlayerActivity extends Activity {
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-        // Initialize the layoutParams screen brightness
-        try {
-            int brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
-                    android.provider.Settings.System.SCREEN_BRIGHTNESS);
-            mBrightnessValue = brightnesstemp / 255.0f;
-        } catch (SettingNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (mEnableBrightnessGesture)
+        {
+            // Initialize the layoutParams screen brightness
+            try {
+                int brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS);
+                mBrightnessValue = brightnesstemp / 255.0f;
+            } catch (SettingNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.screenBrightness = mBrightnessValue;
+            getWindow().setAttributes(lp);
         }
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = mBrightnessValue;
-        getWindow().setAttributes(lp);
 
         mSwitchingView = false;
         mEndReached = false;
@@ -686,7 +693,7 @@ public class VideoPlayerActivity extends Activity {
             // No audio/contrast action if coef < 2
             if (coef > 2) {
                 // Audio (Up or Down - Right side)
-                if (mTouchX > (screen.widthPixels / 2)){
+                if (!mEnableBrightnessGesture || mTouchX > (screen.widthPixels / 2)){
                     int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
                     int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
                     if (delta != 0) {
@@ -696,7 +703,7 @@ public class VideoPlayerActivity extends Activity {
                     }
                 }
                 // Contrast (Up or Down - Left side)
-                if (mTouchX < (screen.widthPixels / 2)){
+                if (mEnableBrightnessGesture && mTouchX < (screen.widthPixels / 2)){
                     evalTouchContrast(coef, - ygesturesize);
                 }
             }
@@ -726,7 +733,7 @@ public class VideoPlayerActivity extends Activity {
 
     private void evalTouchSeek(float coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (coef > 0.5 || Math.abs(gesturesize) < 1)
+        if (mEnableWheelbar || coef > 0.5 || Math.abs(gesturesize) < 1)
             return;
 
         long length = mLibVLC.getLength();

@@ -119,6 +119,7 @@
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="enable_wheel_bar">Activer la wheel bar</string>
+    <string name="enable_gesture_brightness">Activer le geste de luminosité</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_detail">Augmenter la verbosité (logcat)</string>
     <string name="aout">Sortie audio</string>

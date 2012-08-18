@@ -29,6 +29,11 @@
             android:title="@string/enable_wheel_bar"
             android:defaultValue="false">
         </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="enable_gesture_brightness"
+            android:title="@string/enable_gesture_brightness"
+            android:defaultValue="true">
+        </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/privacy_prefs_category">
         <PreferenceScreen
