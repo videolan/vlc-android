@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="filebrowser_sdfail">Kon SD-kaart niet openen. Controleer of het correct geplaatst is.</string>
-    <string name="filebrowser_root">Root</string>
-    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_sdfail">Kon SD-kaart niet openen. Controleer of ze correct geplaatst is.</string>
+    <string name="filebrowser_root">Basismap</string>
     <string name="filebrowser_title">Selecteer media om af te spelen</string>
     <string name="ml_no_media_dir">Geen mediamap</string>
     <string name="sortby">Sorteren op…</string>
@@ -11,20 +10,25 @@
     <string name="sortby_length">Lengte</string>
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
-    <string name="search_found_results">%1$d resultaten gevonden</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultaat gevonden</item>
+        <item quantity="other">%d resultaten gevonden</item>
+    </plurals>
     <string name="show_player">Speler weergeven</string>
     <string name="hide_mini_player">Minispeler verbergen</string>
     <string name="play">Afspelen</string>
+    <string name="play_as_audio">Als audio afspelen</string>
+    <string name="play_as_video">Als video afspelen</string>
     <string name="append">Toevoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
     <string name="delete">Verwijderen</string>
     <string name="info">Informatie</string>
-    <string name="confirm_delete">Dit bestand verwijderen?</string>
+    <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
     <string name="pause">Pauzeren</string>
     <string name="close">Sluiten</string>
     <string name="not_show_again">"Deze boodschap niet meer weergeven."</string>
-    <string name="beta_warning">Dit is een bèta-versie.\n\nDit is geen stabiele versie!\n\nGebruik dit NIET, tenzij u weet wat u doet.\n\nHet kan uw kat vermoorden, uw huis vernietigen en de apocalyps van de Maya\'s starten.\nGebruik het op eigen risico.\n\nVeel plezier! :)</string>
+    <string name="beta_warning">Dit is een bèta-versie.\n\nDit is geen stabiele versie!\n\nGebruik ze NIET, tenzij u weet wat u doet.\n\nZe kan uw kat vermoorden, uw huis vernietigen en de apocalyps van de Maya\'s starten.\nGebruik het op eigen risico.\n\nVeel plezier! :)</string>
     <string name="info_title">VLC bèta</string>
     <string name="unknown_artist">Onbekende artiest</string>
     <string name="unknown_album">Onbekend album</string>
@@ -45,10 +49,12 @@
         <item quantity="other">%d submappen</item>
     </plurals>
     <string name="parent_folder">Naar bovenliggende map</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Bladwijzers</string>
     <string name="all_albums">Alle albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Afspeellijsten</string>
-    <string name="time_0">0:00</string>
     <string name="title">Titel</string>
     <string name="artist">Artiest</string>
     <string name="album">Album</string>
@@ -60,6 +66,7 @@
     <string name="notavailable">niet beschikbaar</string>
     <string name="nosubdirectory">Geen submappen.</string>
     <string name="validation">Bent u zeker?</string>
+    <string name="lock_rotation">Schermrotatie vergrendelen</string>
     <string name="locked">Geblokkeerd</string>
     <string name="unlocked">Gedeblokkeerd</string>
     <string name="surface_best_fit">Best passend</string>
@@ -87,6 +94,10 @@
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
     <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
     <string name="media_library">Mediabibliotheek</string>
+    <string name="error_not_compatible">Sorry, uw toestel wordt op dit moment niet ondersteund door deze versie van VLC voor Android™.</string>
+    <string name="error_problem">Sorry, VLC voor Android had een probleem bij het laden en moest afgesloten worden.</string>
+    <string name="error_message_is">De foutmelding is (vermeld dit bij het debuggen):\n</string>
+    <string name="playback_speed">Afspeelsnelheid</string>
 
     <!-- About -->
     <string name="app_name_full">VLC voor Android™</string>
@@ -97,6 +108,7 @@
     <string name="about_text">VLC voor Android™ is een port van VLC media player, de populaire open source mediaspeler. De Android™-versie kan de meeste bestanden en netwerk-streams lezen.</string>
     <string name="for_android">voor Android™</string>
     <string name="compiled_by">Deze versie van VLC is gecompileerd door:</string>
+    <string name="vlc_authors">VLC-auteurs.</string>
 
     <!--  Preferences -->
     <string name="preferences">Voorkeuren</string>
@@ -108,13 +120,20 @@
     <string name="advanced_debugging">Geavanceerd debuggen</string>
     <string name="quit">Applicatie afsluiten</string>
     <string name="clear_media_db">Media-database wissen</string>
+    <string name="media_db_cleared">Media-database gewist</string>
+    <string name="set_locale">Taal instellen</string>
+    <string name="set_locale_detail">Leeglaten om te herstellen</string>
+    <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
     <string name="detect_headset">Hoofdtelefoon detecteren</string>
     <string name="detect_headset_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
-    <string name="enable_wheel_bar">Wheel bar activeren</string>
+    <string name="enable_wheel_bar">Wheel bar inschakelen</string>
+    <string name="enable_gesture_brightness">Helderheidsgebaren inschakelen</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
-    <string name="enable_verbose_mode_detail">Verbosity verhogen</string>
+    <string name="enable_verbose_mode_detail">Verbosity verhogen (logcat)</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
+    <string name="enable_time_stretching_audio_detail">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
 </resources>
