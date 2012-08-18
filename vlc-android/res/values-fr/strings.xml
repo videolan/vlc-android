@@ -23,7 +23,7 @@
     <string name="append_all">Lire tout à la suite</string>
     <string name="delete">Supprimer</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Supprimer ce média ?</string>
+    <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
     <string name="pause">Pause</string>
     <string name="close">Fermer</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>

@@ -25,7 +25,7 @@
     <string name="append_all">Append all</string>
     <string name="delete">Delete</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Delete this file?</string>
+    <string name="confirm_delete">Delete the file \'%1$s\' ?</string>
     <string name="pause">Pause</string>
     <string name="close">Close</string>
     <string name="not_show_again">"Don't show this message again."</string>

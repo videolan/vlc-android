@@ -34,21 +34,22 @@ public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
 
     public static AlertDialog deleteMedia( final Context context, final String addressMedia, final VLCCallbackTask task ) {
+        URI adressMediaUri = null;
+        try {
+            adressMediaUri = new URI (addressMedia);
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        final File fileMedia = new File(adressMediaUri);
+
         AlertDialog alertDialog = new AlertDialog.Builder(context)
-        .setTitle(R.string.confirm_delete)
-        .setMessage(R.string.validation)
+        .setTitle(R.string.validation)
+        .setMessage(context.getResources().getString(R.string.confirm_delete, fileMedia.getName()))
         .setIcon(android.R.drawable.ic_dialog_alert)
         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-                URI adressMediaUri = null;
-                try {
-                    adressMediaUri = new URI (addressMedia);
-                } catch (URISyntaxException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                File fileMedia = new File(adressMediaUri);
                 fileMedia.delete();
                 if(task != null)
                     task.run();
