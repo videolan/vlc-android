@@ -26,7 +26,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="#AA000000"
+        android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:visibility="invisible" >
@@ -55,7 +55,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#AA000000"
+        android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:visibility="invisible" >
@@ -122,19 +122,30 @@
         android:handle="@+id/slider_handle"
         android:visibility="invisible" >
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/slider_handle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="7dp"
-            android:src="@drawable/ic_seekbar_thumb" />
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="7dp"
+                android:src="@drawable/ic_seekbar_thumb" />
+
+            <View
+                android:id="@+id/slider_handle_filler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/slider_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#AA000000"
+            android:background="@color/transparent_gray"
             android:orientation="vertical" >
 
             <TextView
@@ -149,11 +160,12 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
                 <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/header_icon_audio" />
@@ -161,18 +173,18 @@
                 <Spinner
                     android:id="@+id/player_overlay_audio"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
                 <ImageButton
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/header_icon_subtitle" />
@@ -180,15 +192,29 @@
                 <Spinner
                     android:id="@+id/player_overlay_subtitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/player_overlay_lock"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/ic_lock" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/player_overlay_lock"
+                    android:layout_width="40dip"
+                    android:layout_height="40dip"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/ic_lock" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lock_rotation"
+                    android:textSize="18dip" />
+            </LinearLayout>
         </LinearLayout>
     </org.videolan.vlc.widget.SlidingPanel>
 

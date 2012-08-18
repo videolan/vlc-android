@@ -67,6 +67,7 @@
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>
     <string name="validation">Are you sure?</string>
+    <string name="lock_rotation">Lock screen rotation</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
     <string name="surface_best_fit">Best fit</string>

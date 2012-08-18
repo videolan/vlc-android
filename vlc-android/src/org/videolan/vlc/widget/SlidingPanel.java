@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.widget;
 
+import org.videolan.vlc.R;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,19 +43,25 @@ public class SlidingPanel extends SlidingDrawer {
 
     public void CollapseHandle() {
         View handle = getHandle();
+        View filler = handle.findViewById(R.id.slider_handle_filler);
         LayoutParams lp = handle.getLayoutParams();
         if (lp.width == LayoutParams.WRAP_CONTENT)
             return;
         lp.width = LayoutParams.WRAP_CONTENT;
         handle.setLayoutParams(lp);
+        handle.setBackgroundResource(android.R.color.transparent);
+        filler.setVisibility(View.GONE);
     }
 
     public void ExpandHandle() {
         View handle = getHandle();
+        View filler = handle.findViewById(R.id.slider_handle_filler);
         LayoutParams lp = handle.getLayoutParams();
         if (lp.width == LayoutParams.MATCH_PARENT)
             return;
         lp.width = LayoutParams.MATCH_PARENT;
         handle.setLayoutParams(lp);
+        handle.setBackgroundResource(R.color.transparent_gray);
+        filler.setVisibility(View.VISIBLE);
     }
 }

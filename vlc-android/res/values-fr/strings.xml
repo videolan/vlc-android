@@ -66,6 +66,7 @@
     <string name="notavailable">Non disponible</string>
     <string name="nosubdirectory">Pas de sous-répertoires</string>
     <string name="validation">Etes-vous sûr ?</string>
+    <string name="lock_rotation">Verrouiller la rotation de l\'écran</string>
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
