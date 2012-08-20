@@ -154,9 +154,6 @@ public class VideoPlayerActivity extends Activity {
     private String[] mAudioTracks;
     private String[] mSubtitleTracks;
 
-    //Contrast
-    private float mBrightnessValue = 0;
-
     @Override
     @TargetApi(11)
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,19 +264,18 @@ public class VideoPlayerActivity extends Activity {
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-        if (mEnableBrightnessGesture)
-        {
+        if (mEnableBrightnessGesture) {
+            float brightnesstemp = 0;
             // Initialize the layoutParams screen brightness
             try {
-                int brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
-                        android.provider.Settings.System.SCREEN_BRIGHTNESS);
-                mBrightnessValue = brightnesstemp / 255.0f;
-            } catch (SettingNotFoundException e) {
+                brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
+                } catch (SettingNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.screenBrightness = mBrightnessValue;
+            lp.screenBrightness = brightnesstemp;
             getWindow().setAttributes(lp);
         }
 
@@ -763,13 +759,11 @@ public class VideoPlayerActivity extends Activity {
         // No contrast action if gesturesize < 0.4 cm
         if (Math.abs(gesturesize) < 0.4)
             return;
-
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        float jump = lp.screenBrightness + Math.signum(gesturesize) * 0.05f;
+        lp.screenBrightness += Math.signum(gesturesize) * 0.05f;
         // Adjust contrast
-        if (jump > 0 || jump <= 1) lp.screenBrightness = jump;
-        else if (jump > 1) lp.screenBrightness = 1;
-        else if (jump <= 0) lp.screenBrightness = 0.01f;
+        if (lp.screenBrightness > 1) lp.screenBrightness = 1;
+        else if (lp.screenBrightness <= 0) lp.screenBrightness = 0.01f;
         // Set contrast
         getWindow().setAttributes(lp);
     }
