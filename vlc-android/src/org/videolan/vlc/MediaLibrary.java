@@ -244,12 +244,16 @@ public class MediaLibrary {
                 h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
             }
 
-            // remove file from database if storage is mounted
+            // remove old files & folders from database if storage is mounted
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 for (String fileURI : addedLocations) {
                     existingMedias.remove(fileURI);
                 }
                 mDBManager.removeMedias(existingMedias.keySet());
+
+                for (File file : mDBManager.getMediaDirs())
+                    if (!file.isDirectory())
+                        mDBManager.removeDir(file.getAbsolutePath());
             }
 
             // hide progressbar in footer
