@@ -150,9 +150,11 @@ public class VideoPlayerActivity extends Activity {
     private int mAudioMax;
     private int mAudioDisplayRange;
     private float mTouchY, mTouchX, mVol;
-    private boolean mIsAudioChanged;
     private String[] mAudioTracks;
     private String[] mSubtitleTracks;
+
+    //Audio Or Contrast
+    private boolean mIsAudioOrContrastChanged;
 
     @Override
     @TargetApi(11)
@@ -680,7 +682,7 @@ public class VideoPlayerActivity extends Activity {
             // Audio
             mTouchY = event.getRawY();
             mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            mIsAudioChanged = false;
+            mIsAudioOrContrastChanged = false;
             // Seek
             mTouchX = event.getRawX();
             break;
@@ -695,7 +697,7 @@ public class VideoPlayerActivity extends Activity {
                     if (delta != 0) {
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 vol, AudioManager.FLAG_SHOW_UI);
-                        mIsAudioChanged = true;
+                        mIsAudioOrContrastChanged = true;
                     }
                 }
                 // Contrast (Up or Down - Left side)
@@ -708,8 +710,8 @@ public class VideoPlayerActivity extends Activity {
             break;
 
         case MotionEvent.ACTION_UP:
-            // Audio
-            if (!mIsAudioChanged) {
+            // Audio or Contrast
+            if (!mIsAudioOrContrastChanged) {
                 if (!mShowing) {
                     showOverlay();
                 } else {
@@ -724,13 +726,16 @@ public class VideoPlayerActivity extends Activity {
             evalTouchSeek(coef, xgesturesize, true);
             break;
         }
-        return mIsAudioChanged;
+        return mIsAudioOrContrastChanged;
     }
 
     private void evalTouchSeek(float coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
         if (mEnableWheelbar || coef > 0.5 || Math.abs(gesturesize) < 1)
             return;
+
+        // Always show seekbar when searching
+        if (!mShowing) showOverlay();
 
         long length = mLibVLC.getLength();
         long time = mLibVLC.getTime();
@@ -759,6 +764,8 @@ public class VideoPlayerActivity extends Activity {
         // No contrast action if gesturesize < 0.4 cm
         if (Math.abs(gesturesize) < 0.4)
             return;
+
+        mIsAudioOrContrastChanged = true;
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness += Math.signum(gesturesize) * 0.05f;
         // Adjust contrast
