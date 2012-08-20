@@ -156,6 +156,9 @@ public class VideoPlayerActivity extends Activity {
     //Audio Or Contrast
     private boolean mIsAudioOrContrastChanged;
 
+    // Contrast
+    private boolean mIsFirstContrastGesture = true;
+
     @Override
     @TargetApi(11)
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,21 +268,6 @@ public class VideoPlayerActivity extends Activity {
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
-        if (mEnableBrightnessGesture) {
-            float brightnesstemp = 0;
-            // Initialize the layoutParams screen brightness
-            try {
-                brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
-                        android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
-                } catch (SettingNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.screenBrightness = brightnesstemp;
-            getWindow().setAttributes(lp);
-        }
 
         mSwitchingView = false;
         mEndReached = false;
@@ -702,7 +690,8 @@ public class VideoPlayerActivity extends Activity {
                 }
                 // Contrast (Up or Down - Left side)
                 if (mEnableBrightnessGesture && mTouchX < (screen.widthPixels / 2)){
-                    evalTouchContrast(coef, - ygesturesize);
+                    if (mIsFirstContrastGesture) initContrastTouch();
+                    doContrastTouch( - ygesturesize);
                 }
             }
             // Seek (Right or Left move)
@@ -760,7 +749,23 @@ public class VideoPlayerActivity extends Activity {
                 Util.millisToString(time + jump)), 1000);
     }
 
-    private void evalTouchContrast(float coef, float gesturesize) {
+    private void initContrastTouch() {
+        float brightnesstemp = 0.01f;
+        // Initialize the layoutParams screen brightness
+        try {
+            brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
+                    android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
+        } catch (SettingNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brightnesstemp;
+        getWindow().setAttributes(lp);
+        mIsFirstContrastGesture = false;
+    }
+    
+    private void doContrastTouch(float gesturesize) {
         // No contrast action if gesturesize < 0.4 cm
         if (Math.abs(gesturesize) < 0.4)
             return;
