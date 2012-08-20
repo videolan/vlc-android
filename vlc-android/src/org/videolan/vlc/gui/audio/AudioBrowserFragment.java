@@ -28,7 +28,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.interfaces.ISortable;
@@ -271,19 +271,17 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
 
         if (id == R.id.audio_list_browser_delete) {
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mSongsAdapter.getLocation(groupPosition).get(0),
-                    new VLCCallbackTask(new VLCCallbackTask.CallbackListener() {
-
-                @Override
-                public void callback_object(Object o) {
-                    Media aMedia = (Media)o;
-                    mMediaLibrary.getMediaItems().remove(aMedia);
-                    updateLists();
-                }
-
-                @Override
-                public void callback() { }
-            }, mSongsAdapter.getItem(groupPosition)));
+            AlertDialog alertDialog = CommonDialogs.deleteMedia(
+                    getActivity(),
+                    mSongsAdapter.getLocation(groupPosition).get(0),
+                    new VlcRunnable(mSongsAdapter.getItem(groupPosition)) {
+                        @Override
+                        public void run(Object o) {
+                            Media aMedia = (Media) o;
+                            mMediaLibrary.getMediaItems().remove(aMedia);
+                            updateLists();
+                        }
+                    });
             alertDialog.show();
             return true;
         }

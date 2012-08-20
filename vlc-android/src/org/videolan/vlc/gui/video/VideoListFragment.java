@@ -31,7 +31,7 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
-import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -165,15 +165,12 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 AlertDialog alertDialog = CommonDialogs.deleteMedia(
                         getActivity(),
                         mVideoAdapter.getItem(positionDelete).getLocation(),
-                        new VLCCallbackTask(new VLCCallbackTask.CallbackListener() {
-                    @Override
-                    public void callback() {
-                        mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
-                    }
-
-                    @Override
-                    public void callback_object(Object o) { }
-                }));
+                        new VlcRunnable() {
+                            @Override
+                            public void run(Object o) {
+                                mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
+                            }
+                        });
                 alertDialog.show();
                 return true;
         }

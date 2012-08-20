@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,10 +28,11 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.gui.CommonDialogs;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -128,31 +126,6 @@ public class AudioListFragment extends SherlockListFragment {
         super.onListItemClick(l, v, position, id);
     }
 
-    public void deleteMedia( final List<String> addressMedia, final Media aMedia ) {
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-        .setTitle(R.string.confirm_delete)
-        .setMessage(R.string.validation)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                URI adressMediaUri = null;
-                try {
-                    adressMediaUri = new URI (addressMedia.get(0));
-                } catch (URISyntaxException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                File fileMedia =  new File(adressMediaUri);
-                fileMedia.delete();
-                mMediaLibrary.getMediaItems().remove(aMedia);
-                updateList();
-            }
-        })
-        .setNegativeButton(android.R.string.cancel, null).create();
-        
-        alertDialog.show();
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
@@ -175,8 +148,18 @@ public class AudioListFragment extends SherlockListFragment {
                           id == R.id.audio_list_browser_append_all);
 
         if (id == R.id.audio_list_browser_delete) {
-            deleteMedia(mSongsAdapter.getLocation(menuInfo.position),
-                        mSongsAdapter.getItem(menuInfo.position));
+            final Media media = mSongsAdapter.getItem(menuInfo.position);
+            AlertDialog dialog = CommonDialogs.deleteMedia(
+                    getActivity(),
+                    media.getLocation(),
+                    new VlcRunnable(media) {
+                        @Override
+                        public void run(Object o) {
+                            mMediaLibrary.getMediaItems().remove(media);
+                            updateList();
+                        }
+                    });
+            dialog.show();
             return true;
         }
 

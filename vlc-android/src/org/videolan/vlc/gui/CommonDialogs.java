@@ -23,8 +23,9 @@ package org.videolan.vlc.gui;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.VlcRunnable;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,12 +34,13 @@ import android.content.DialogInterface;
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
 
-    public static AlertDialog deleteMedia( final Context context, final String addressMedia, final VLCCallbackTask task ) {
+    public static AlertDialog deleteMedia(final Context context,
+                                          final String addressMedia,
+                                          final VlcRunnable runnable) {
         URI adressMediaUri = null;
         try {
             adressMediaUri = new URI (addressMedia);
         } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         final File fileMedia = new File(adressMediaUri);
@@ -51,8 +53,8 @@ public class CommonDialogs {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 fileMedia.delete();
-                if(task != null)
-                    task.run();
+                if(runnable != null)
+                    runnable.run();
             }
         })
         .setNegativeButton(android.R.string.cancel, null).create();
