@@ -19,46 +19,60 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+
 /**
  * A small callback helper class to make running callbacks in threads easier
  */
-public class VLCCallbackTask implements Runnable {
-    private final CallbackListener callback;
-    private final Object user;
+public abstract class VLCCallbackTask extends AsyncTask<Void, Void, Void> {
+
+    private Context context;
+    private ProgressDialog dialog;
 
     /**
-     * The callback interface. Implement callback() to run as the main thread,
-     * and implement callback_object() to run when the main thread completes.
+     * Runs a callback in a background thread
      */
-    public interface CallbackListener {
-        public abstract void callback();
-        public abstract void callback_object(Object o);
+    public VLCCallbackTask() {
     }
 
     /**
-     * @param _callback The CallbackListener as described above
-     * @param _user Any user object you want to pass
+     * Runs a callback in a background thread, and display a ProgressDialog until it's finished
      */
-    public VLCCallbackTask(CallbackListener _callback, Object _user) {
-      this.callback = _callback;
-      this.user = _user;
+    public VLCCallbackTask(Context context) {
+        this.context = context;
     }
 
-    /**
-     * A version of VLCCallbackTask if you are not using the user parameter
-     *
-     * @param _callback The CallbackListener as described above
-     */
-    public VLCCallbackTask(CallbackListener _callback) {
-        this.callback = _callback;
-        this.user = null;
+    @Override
+    /* Runs on the UI thread */
+    protected void onPreExecute() {
+        if (context != null) {
+            dialog = ProgressDialog.show(
+                    context,
+                    context.getApplicationContext().getString(R.string.loading),
+                    "Please wait...", true);
+            dialog.setCancelable(true);
+        }
+        super.onPreExecute();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
-      callback.callback();
-      callback.callback_object(user);
+    public abstract void run();
+
+    @Override
+    /* Runs on a background thread */
+    protected Void doInBackground(Void... params) {
+        run();
+        return null;
+    }
+
+    @Override
+    /* Runs on the UI thread */
+    protected void onPostExecute(Void result) {
+        if (dialog != null)
+            dialog.dismiss();
+        dialog = null;
+        context = null;
+        super.onPostExecute(result);
     }
 }

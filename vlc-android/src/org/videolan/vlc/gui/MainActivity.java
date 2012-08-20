@@ -37,7 +37,6 @@ import org.videolan.vlc.widget.AudioMiniPlayer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -464,40 +463,27 @@ public class MainActivity extends SherlockFragmentActivity {
         b.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int button) {
-                ProgressDialog pd = ProgressDialog.show(
-                        MainActivity.this,
-                        getApplicationContext().getString(R.string.loading),
-                        "Please wait...", true);
-                pd.setCancelable(true);
 
-                VLCCallbackTask t = new VLCCallbackTask(
-                    /* Task to run */
-                    new VLCCallbackTask.CallbackListener() {
-                        @Override
-                        public void callback() {
-                            AudioServiceController c = AudioServiceController.getInstance();
-                            String s = input.getText().toString();
+                /* Start this in a new thread as to not block the UI thread */
+                VLCCallbackTask task = new VLCCallbackTask(MainActivity.this)
+                {
+                    @Override
+                    public void run() {
+                      AudioServiceController c = AudioServiceController.getInstance();
+                      String s = input.getText().toString();
 
-                            /* Use the audio player by default. If a video track is
-                             * detected, then it will automatically switch to the video
-                             * player. This allows us to support more types of streams
-                             * (for example, RTSP and TS streaming) where ES can be
-                             * dynamically adapted rather than a simple scan.
-                             */
-                            ArrayList<String> media = new ArrayList<String>();
-                            media.add(s);
-                            c.append(media);
-                        }
-
-                        @Override
-                        public void callback_object(Object o) {
-                            ProgressDialog pd = (ProgressDialog)o;
-                            pd.dismiss();
-                        }
-                    }, pd);
-
-                /* Start this in a new friend as to not block the UI thread */
-                new Thread(t).start();
+                      /* Use the audio player by default. If a video track is
+                       * detected, then it will automatically switch to the video
+                       * player. This allows us to support more types of streams
+                       * (for example, RTSP and TS streaming) where ES can be
+                       * dynamically adapted rather than a simple scan.
+                       */
+                      ArrayList<String> media = new ArrayList<String>();
+                      media.add(s);
+                      c.append(media);
+                    }
+                };
+                task.execute();
             }
         }
         );
