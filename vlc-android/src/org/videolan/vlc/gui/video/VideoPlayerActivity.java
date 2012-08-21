@@ -153,11 +153,11 @@ public class VideoPlayerActivity extends Activity {
     private String[] mAudioTracks;
     private String[] mSubtitleTracks;
 
-    //Audio Or Contrast
-    private boolean mIsAudioOrContrastChanged;
+    //Audio Or Brightness
+    private boolean mIsAudioOrBrightnessChanged;
 
-    // Contrast
-    private boolean mIsFirstContrastGesture = true;
+    // Brightness
+    private boolean mIsFirstBrightnessGesture = true;
 
     @Override
     @TargetApi(11)
@@ -670,13 +670,13 @@ public class VideoPlayerActivity extends Activity {
             // Audio
             mTouchY = event.getRawY();
             mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            mIsAudioOrContrastChanged = false;
+            mIsAudioOrBrightnessChanged = false;
             // Seek
             mTouchX = event.getRawX();
             break;
 
         case MotionEvent.ACTION_MOVE:
-            // No audio/contrast action if coef < 2
+            // No audio/brightness action if coef < 2
             if (coef > 2) {
                 // Audio (Up or Down - Right side)
                 if (!mEnableBrightnessGesture || mTouchX > (screen.widthPixels / 2)){
@@ -685,13 +685,13 @@ public class VideoPlayerActivity extends Activity {
                     if (delta != 0) {
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                                 vol, AudioManager.FLAG_SHOW_UI);
-                        mIsAudioOrContrastChanged = true;
+                        mIsAudioOrBrightnessChanged = true;
                     }
                 }
-                // Contrast (Up or Down - Left side)
+                // Brightness (Up or Down - Left side)
                 if (mEnableBrightnessGesture && mTouchX < (screen.widthPixels / 2)){
-                    if (mIsFirstContrastGesture) initContrastTouch();
-                    doContrastTouch( - ygesturesize);
+                    if (mIsFirstBrightnessGesture) initBrightnessTouch();
+                    doBrightnessTouch( - ygesturesize);
                 }
             }
             // Seek (Right or Left move)
@@ -699,8 +699,8 @@ public class VideoPlayerActivity extends Activity {
             break;
 
         case MotionEvent.ACTION_UP:
-            // Audio or Contrast
-            if (!mIsAudioOrContrastChanged) {
+            // Audio or Brightness
+            if (!mIsAudioOrBrightnessChanged) {
                 if (!mShowing) {
                     showOverlay();
                 } else {
@@ -715,7 +715,7 @@ public class VideoPlayerActivity extends Activity {
             evalTouchSeek(coef, xgesturesize, true);
             break;
         }
-        return mIsAudioOrContrastChanged;
+        return mIsAudioOrBrightnessChanged;
     }
 
     private void evalTouchSeek(float coef, float gesturesize, boolean seek) {
@@ -749,7 +749,7 @@ public class VideoPlayerActivity extends Activity {
                 Util.millisToString(time + jump)), 1000);
     }
 
-    private void initContrastTouch() {
+    private void initBrightnessTouch() {
         float brightnesstemp = 0.01f;
         // Initialize the layoutParams screen brightness
         try {
@@ -762,21 +762,21 @@ public class VideoPlayerActivity extends Activity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness = brightnesstemp;
         getWindow().setAttributes(lp);
-        mIsFirstContrastGesture = false;
+        mIsFirstBrightnessGesture = false;
     }
     
-    private void doContrastTouch(float gesturesize) {
-        // No contrast action if gesturesize < 0.4 cm
+    private void doBrightnessTouch(float gesturesize) {
+        // No Brightness action if gesturesize < 0.4 cm
         if (Math.abs(gesturesize) < 0.4)
             return;
 
-        mIsAudioOrContrastChanged = true;
+        mIsAudioOrBrightnessChanged = true;
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness += Math.signum(gesturesize) * 0.05f;
-        // Adjust contrast
+        // Adjust Brightness
         if (lp.screenBrightness > 1) lp.screenBrightness = 1;
         else if (lp.screenBrightness <= 0) lp.screenBrightness = 0.01f;
-        // Set contrast
+        // Set Brightness
         getWindow().setAttributes(lp);
     }
 
