@@ -312,7 +312,7 @@ public class LibVLC {
      * @param instance: the instance of libVLC
      * @param mrl: the media mrl
      */
-    private native void readMedia(int instance, String mrl, boolean novideo);
+    private native void readMedia(long instance, String mrl, boolean novideo);
 
     /**
      * Return true if there is currently a running media player.
@@ -408,16 +408,16 @@ public class LibVLC {
      * Get a media thumbnail.
      * @return a bytearray with the RGBA thumbnail data inside.
      */
-    private native byte[] getThumbnail(int instance, String mrl, int i_width, int i_height);
+    private native byte[] getThumbnail(long instance, String mrl, int i_width, int i_height);
 
     /**
      * Return true if there is a video track in the file
      */
-    private native boolean hasVideoTrack(int instance, String mrl);
+    private native boolean hasVideoTrack(long instance, String mrl);
 
-    private native String[] readMediaMeta(int instance, String mrl);
+    private native String[] readMediaMeta(long instance, String mrl);
 
-    private native TrackInfo[] readTracksInfo(int instance, String mrl);
+    private native TrackInfo[] readTracksInfo(long instance, String mrl);
 
     public native int getAudioTracksCount();
 
@@ -446,7 +446,7 @@ public class LibVLC {
     /**
      * Return the length of the stream, in milliseconds
      */
-    private native long getLengthFromLocation(int instance, String mrl);
+    private native long getLengthFromLocation(long instance, String mrl);
 
     private native void setEventManager(EventManager eventManager);
 

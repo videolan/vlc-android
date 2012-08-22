@@ -114,7 +114,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
  * return null if the thumbail generation failed.
  **/
 jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
-                                                     jint instance, jstring filePath,
+                                                     jlong instance, jstring filePath,
                                                      jint width, jint height)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t *)instance;

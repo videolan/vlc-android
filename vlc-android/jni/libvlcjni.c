@@ -137,7 +137,7 @@ static void length_changed_callback(const libvlc_event_t *ev, void *data)
     pthread_mutex_unlock(&monitor->doneMutex);
 }
 
-libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
+libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)instance;
     jboolean isCopy;
@@ -454,7 +454,7 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
 }
 
 jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
-                                                        jobject thiz, jint instance, jstring mrl)
+                                                        jobject thiz, jlong instance, jstring mrl)
 {
     jobjectArray array = (*env)->NewObjectArray(env, 8,
             (*env)->FindClass(env, "java/lang/String"),
@@ -496,7 +496,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
 }
 
 void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
-                                            jint instance, jstring mrl, jboolean novideo)
+                                            jlong instance, jstring mrl, jboolean novideo)
 {
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
@@ -629,7 +629,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
 }
 
 jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject thiz,
-                                                         jint instance, jstring mrl)
+                                                         jlong instance, jstring mrl)
 {
     /* get java class */
     jclass cls = (*env)->FindClass( env, "org/videolan/vlc/TrackInfo" );
