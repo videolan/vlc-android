@@ -564,19 +564,10 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
    return array;
 }
 
-void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
-                                            jlong instance, jstring mrl, jboolean novideo)
-{
+static void create_player_and_play(JNIEnv* env, jobject thiz,
+                                   jlong instance, int position) {
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
-
-    /* Create a new item */
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, novideo);
-    if (!m)
-    {
-        LOGE("readMedia: Could not create the media!");
-        return;
-    }
 
     libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
 
@@ -585,11 +576,6 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
 
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
-
-    libvlc_media_list_lock(p_mlist);
-    libvlc_media_list_add_media(p_mlist, m);
-    int position = libvlc_media_list_index_of_item(p_mlist, m);
-    libvlc_media_list_unlock(p_mlist);
 
     //if AOUT_AUDIOTRACK_JAVA, we use amem
     jclass cls = (*env)->GetObjectClass(env, thiz);
@@ -600,9 +586,6 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                    (void*) myJavaLibVLC);
         libvlc_audio_set_format_callbacks(mp, aout_open, aout_close);
     }
-
-    /* No need to keep the media now */
-    libvlc_media_release(m);
 
     /* Connect the event manager */
     libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
@@ -624,6 +607,53 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)mp);
 
     libvlc_media_list_player_play_item_at_index(p_mlp, position);
+}
+
+void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
+                                            jlong instance, jstring mrl, jboolean novideo)
+{
+    /* Create a new item */
+    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, novideo);
+    if (!m)
+    {
+        LOGE("readMedia: Could not create the media!");
+        return;
+    }
+
+    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+
+    libvlc_media_list_lock(p_mlist);
+    libvlc_media_list_add_media(p_mlist, m);
+    int position = libvlc_media_list_index_of_item(p_mlist, m);
+    libvlc_media_list_unlock(p_mlist);
+
+    /* No need to keep the media now */
+    libvlc_media_release(m);
+
+    create_player_and_play(env, thiz, instance, position);
+}
+
+void Java_org_videolan_vlc_LibVLC_playIndex(JNIEnv *env, jobject thiz,
+                                            jlong instance, int position) {
+    create_player_and_play(env, thiz, instance, position);
+}
+
+void Java_org_videolan_vlc_LibVLC_getMediaListItems(
+                JNIEnv *env, jobject thiz, jobject arrayList) {
+    jclass arrayClass = (*env)->FindClass(env, "java/util/ArrayList");
+    jmethodID methodID = (*env)->GetMethodID(env, arrayClass, "add", "(Ljava/lang/Object;)Z");
+    jstring str;
+
+    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+    libvlc_media_list_lock( p_mlist );
+    for(int i = 0; i < libvlc_media_list_count( p_mlist ); i++) {
+        char* mrl = libvlc_media_get_mrl( libvlc_media_list_item_at_index( p_mlist, i ) );
+        str = (*env)->NewStringUTF(env, mrl);
+        (*env)->CallBooleanMethod(env, arrayList, methodID, str);
+        (*env)->DeleteLocalRef(env, str);
+        free(mrl);
+    }
+    libvlc_media_list_unlock( p_mlist );
 }
 
 jfloat Java_org_videolan_vlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {

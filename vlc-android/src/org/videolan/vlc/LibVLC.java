@@ -252,6 +252,15 @@ public class LibVLC {
         readMedia(mLibVlcInstance, mrl, novideo);
     }
 
+    /**
+     * Play a media from the media list (playlist)
+     *
+     * @param position The index of the media
+     */
+    public void playIndex(int position) {
+        playIndex(mLibVlcInstance, position);
+    }
+
     public String[] readMediaMeta(String mrl) {
         return readMediaMeta(mLibVlcInstance, mrl);
     }
@@ -317,6 +326,11 @@ public class LibVLC {
      * @param mrl: the media mrl
      */
     private native void readMedia(long instance, String mrl, boolean novideo);
+
+    /**
+     * Play an index in the native media list (playlist)
+     */
+    private native void playIndex(long instance, int position);
 
     /**
      * Return true if there is currently a running media player.
@@ -456,6 +470,11 @@ public class LibVLC {
     public native void nativeReadDirectory(String path, ArrayList<String> res);
 
     public native boolean nativeIsPathDirectory(String path);
+
+    /**
+     * Get the list of existing items in the media list (playlist)
+     */
+    public native void getMediaListItems(ArrayList<String> arl);
 
     /**
      * Return the length of the stream, in milliseconds
