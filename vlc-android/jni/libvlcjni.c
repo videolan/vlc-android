@@ -424,7 +424,7 @@ void setLong(JNIEnv *env, jobject item, const char* field, long value)
     (*env)->SetLongField(env, item, fieldId, value);
 }
 
-void SetFloat(JNIEnv *env, jobject item, const char* field, float value)
+void setFloat(JNIEnv *env, jobject item, const char* field, float value)
 {
     jclass cls;
     jfieldID fieldId;
@@ -705,7 +705,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
             {
                 setInt(env, item, "Height", p_tracks[i].u.video.i_height);
                 setInt(env, item, "Width", p_tracks[i].u.video.i_width);
-                SetFloat(env, item, "Framerate", p_tracks[i].u.video.f_frame_rate);
+                setFloat(env, item, "Framerate", p_tracks[i].u.video.f_frame_rate);
             }
             if (p_tracks[i].i_type == libvlc_track_audio)
             {
