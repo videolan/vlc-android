@@ -170,24 +170,37 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
     return p_md;
 }
 
+static libvlc_media_list_t *getMediaList(JNIEnv *env, jobject thiz)
+{
+    return (libvlc_media_list_t*)getLong(env, thiz, "mMediaListInstance");
+}
+
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    return (libvlc_media_player_t*)getLong(env, thiz, "mMediaPlayerInstance");
+    return (libvlc_media_player_t*)getLong(env, thiz, "mInternalMediaPlayerInstance");
+}
+
+static libvlc_media_list_player_t *getMediaListPlayer(JNIEnv *env, jobject thiz)
+{
+    return (libvlc_media_list_player_t*)getLong(env, thiz, "mMediaListPlayerInstance");
 }
 
 static void unsetMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    setLong(env, thiz, "mMediaPlayerInstance", (jlong)0);
+    setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)0);
 }
 
 static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
-    if (mp)
+    libvlc_media_list_player_t* p_mlp = getMediaListPlayer(env, thiz);
+    if (p_mlp)
     {
-        libvlc_media_player_stop(mp);
-        libvlc_media_player_release(mp);
+        libvlc_media_list_player_stop(p_mlp);
+        libvlc_media_list_player_release(p_mlp);
+        /* libvlc_media_list_player_release frees the media player, so
+         * we don't free it ourselves. */
         unsetMediaPlayer(env, thiz);
+        setLong(env, thiz, "mInternalMediaPlayerInstance", 0);
     }
 }
 
@@ -388,6 +401,16 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     }
 
     LOGI("LibVLC initialized: %p", instance);
+
+    /* Initialize media list (a.k.a. playlist/history) */
+    libvlc_media_list_t* pointer = libvlc_media_list_new( instance );
+    if(!pointer) {
+        jclass exc = (*env)->FindClass(env, "org/videolan/vlc/LibVlcException");
+        (*env)->ThrowNew(env, exc, "Unable to create LibVLC media list");
+        return;
+    }
+
+    setLong(env, thiz, "mMediaListInstance", (jlong)pointer);
 }
 
 jstring Java_org_videolan_vlc_LibVLC_nativeToURI(JNIEnv *env, jobject thiz, jstring path)
@@ -509,12 +532,18 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         return;
     }
 
+    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+
     /* Create a media player playing environment */
+    libvlc_media_list_player_t* p_mlp = libvlc_media_list_player_new((libvlc_instance_t*)instance);
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)instance);
 
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
-    libvlc_media_player_set_media(mp, m);
+    libvlc_media_list_lock(p_mlist);
+    libvlc_media_list_add_media(p_mlist, m);
+    int position = libvlc_media_list_index_of_item(p_mlist, m);
+    libvlc_media_list_unlock(p_mlist);
 
     //if AOUT_AUDIOTRACK_JAVA, we use amem
     jclass cls = (*env)->GetObjectClass(env, thiz);
@@ -538,14 +567,17 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         libvlc_MediaPlayerStopped,
         libvlc_MediaPlayerVout,
     };
-    int i;
-    for (i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); ++i)
+    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
-    /* Keep a pointer to this media player */
-    setLong(env, thiz, "mMediaPlayerInstance", (jlong) mp);
+    libvlc_media_list_player_set_media_list(p_mlp, p_mlist);
+    libvlc_media_list_player_set_media_player(p_mlp, mp);
 
-    libvlc_media_player_play(mp);
+    /* Keep a pointer to this media player */
+    setLong(env, thiz, "mMediaListPlayerInstance", (jlong)p_mlp);
+    setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)mp);
+
+    libvlc_media_list_player_play_item_at_index(p_mlp, position);
 }
 
 jfloat Java_org_videolan_vlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {
@@ -757,15 +789,16 @@ end:
 
 jboolean Java_org_videolan_vlc_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    return !!getMediaPlayer(env, thiz);
+    return !!getMediaListPlayer(env, thiz);
 }
 
 jboolean Java_org_videolan_vlc_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
 {
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
     if (mp)
-        return !!libvlc_media_player_is_playing(mp);
-    return 0;
+        return !!libvlc_media_list_player_is_playing(mp);
+    else
+        return 0;
 }
 
 jboolean Java_org_videolan_vlc_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
@@ -778,23 +811,23 @@ jboolean Java_org_videolan_vlc_LibVLC_isSeekable(JNIEnv *env, jobject thiz)
 
 void Java_org_videolan_vlc_LibVLC_play(JNIEnv *env, jobject thiz)
 {
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
     if (mp)
-        libvlc_media_player_play(mp);
+        libvlc_media_list_player_play(mp);
 }
 
 void Java_org_videolan_vlc_LibVLC_pause(JNIEnv *env, jobject thiz)
 {
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
     if (mp)
-        libvlc_media_player_pause(mp);
+        libvlc_media_list_player_pause(mp);
 }
 
 void Java_org_videolan_vlc_LibVLC_stop(JNIEnv *env, jobject thiz)
 {
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
     if (mp)
-        libvlc_media_player_stop(mp);
+        libvlc_media_list_player_stop(mp);
 }
 
 jint Java_org_videolan_vlc_LibVLC_getVolume(JNIEnv *env, jobject thiz)
