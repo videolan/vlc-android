@@ -92,7 +92,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
-    private DirectoryViewFragment mDirectoryView;
     private String mCurrentFragment;
 
     private SharedPreferences mSettings;
@@ -345,8 +344,10 @@ public class MainActivity extends SherlockFragmentActivity {
             // Refresh
             case R.id.ml_menu_refresh:
                 // TODO: factor this into each fragment
-                if(mCurrentFragment.equals("directories"))
-                    mDirectoryView.refresh();
+                if(mCurrentFragment.equals("directories")) {
+                    DirectoryViewFragment directoryView = (DirectoryViewFragment) mSidebarAdapter.getFragment(mCurrentFragment);
+                    directoryView.refresh();
+                }
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
