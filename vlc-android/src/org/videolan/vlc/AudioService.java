@@ -86,6 +86,8 @@ public class AudioService extends Service {
     private long mHeadsetDownTime = 0;
     private long mHeadsetUpTime = 0;
 
+    private boolean mRealPlaylist = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -421,7 +423,16 @@ public class AudioService extends Service {
                 return;
             }
         }
-        mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
+        if(mRealPlaylist) {
+            if(mRepeating == RepeatType.None)
+                mLibVLC.next();
+            else if(mRepeating == RepeatType.Once)
+                mLibVLC.playIndex(index);
+            else
+                mLibVLC.playIndex(mMediaList.indexOf(mCurrentMedia));
+        } else {
+            mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
+        }
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -435,7 +446,16 @@ public class AudioService extends Service {
             mCurrentMedia = mMediaList.get(index - 1);
         else
             return;
-        mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
+        if(mRealPlaylist) {
+            if(mRepeating == RepeatType.None)
+                mLibVLC.previous();
+            else if(mRepeating == RepeatType.Once)
+                mLibVLC.playIndex(index);
+            else
+                mLibVLC.playIndex(mMediaList.indexOf(mCurrentMedia));
+        } else {
+            mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
+        }
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
@@ -632,21 +652,30 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void load(List<String> mediaPathList, int position)
+        public void load(List<String> mediaPathList, int position, boolean realPlaylist)
                 throws RemoteException {
+            mRealPlaylist = realPlaylist;
+
             Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
             mEventManager.addHandler(mEventHandler);
+
             mMediaList.clear();
             mPrevious.clear();
-            DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
-            for (int i = 0; i < mediaPathList.size(); i++) {
-                String path = mediaPathList.get(i);
-                Media media = db.getMedia(AudioService.this, path);
-                if(media == null) {
-                    Log.v(TAG, "Creating on-the-fly Media object for " + path);
-                    media = new Media(path, false);
+
+            if(realPlaylist) {
+                for(int i = 0; i < mediaPathList.size(); i++)
+                    mMediaList.add(new Media(mediaPathList.get(i), false));
+            } else {
+                DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
+                for (int i = 0; i < mediaPathList.size(); i++) {
+                    String path = mediaPathList.get(i);
+                    Media media = db.getMedia(AudioService.this, path);
+                    if(media == null) {
+                        Log.v(TAG, "Creating on-the-fly Media object for " + path);
+                        media = new Media(path, false);
+                    }
+                    mMediaList.add(media);
                 }
-                mMediaList.add(media);
             }
 
             if (mMediaList.size() > position) {
@@ -654,7 +683,11 @@ public class AudioService extends Service {
             }
 
             if (mCurrentMedia != null) {
-                mLibVLC.readMedia(mCurrentMedia.getLocation());
+                if(realPlaylist) {
+                    mLibVLC.playIndex(position);
+                } else {
+                    mLibVLC.readMedia(mCurrentMedia.getLocation());
+                }
                 showNotification();
                 updateWidget(AudioService.this);
             }
@@ -696,10 +729,13 @@ public class AudioService extends Service {
         @Override
         public void append(List<String> mediaPathList) throws RemoteException {
             if (mMediaList.size() == 0) {
-                load(mediaPathList, 0);
+                load(mediaPathList, 0, false);
                 return;
             }
 
+            if(mRealPlaylist) {
+                return;
+            }
             DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
