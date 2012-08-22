@@ -46,6 +46,27 @@
 #define AOUT_AUDIOTRACK_JAVA 1
 #define AOUT_OPENSLES        2
 
+static jint getInt(JNIEnv *env, jobject thiz, const char* field) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          field, "I");
+    return (*env)->GetIntField(env, thiz, fieldMP);
+}
+static void setInt(JNIEnv *env, jobject item, const char* field, jint value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "I");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetIntField(env, item, fieldId, value);
+}
+
 struct length_change_monitor {
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;
@@ -385,22 +406,6 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
     }
 
     eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
-}
-
-void setInt(JNIEnv *env, jobject item, const char* field, int value)
-{
-    jclass cls;
-    jfieldID fieldId;
-
-    /* Get a reference to item's class */
-    cls = (*env)->GetObjectClass(env, item);
-
-    /* Look for the instance field s in cls */
-    fieldId = (*env)->GetFieldID(env, cls, field, "I");
-    if (fieldId == NULL)
-        return;
-
-    (*env)->SetIntField(env, item, fieldId, value);
 }
 
 void setLong(JNIEnv *env, jobject item, const char* field, long value)
