@@ -349,6 +349,16 @@ public class LibVLC {
     public native void stop();
 
     /**
+     * Play the previous media (if any) in the media list
+     */
+    public native void previous();
+
+    /**
+     * Play the next media (if any) in the media list
+     */
+    public native void next();
+
+    /**
      * Gets volume as integer
      */
     public native int getVolume();

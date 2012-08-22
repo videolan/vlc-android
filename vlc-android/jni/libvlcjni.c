@@ -830,6 +830,20 @@ void Java_org_videolan_vlc_LibVLC_stop(JNIEnv *env, jobject thiz)
         libvlc_media_list_player_stop(mp);
 }
 
+void Java_org_videolan_vlc_LibVLC_previous(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
+    if (mp)
+        libvlc_media_list_player_previous(mp);
+}
+
+void Java_org_videolan_vlc_LibVLC_next(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_list_player_t *mp = getMediaListPlayer(env, thiz);
+    if (mp)
+        libvlc_media_list_player_next(mp);
+}
+
 jint Java_org_videolan_vlc_LibVLC_getVolume(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
