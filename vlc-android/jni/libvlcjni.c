@@ -67,6 +67,61 @@ static void setInt(JNIEnv *env, jobject item, const char* field, jint value) {
     (*env)->SetIntField(env, item, fieldId, value);
 }
 
+static jlong getLong(JNIEnv *env, jobject thiz, const char* field) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          field, "J");
+    return (*env)->GetLongField(env, thiz, fieldMP);
+}
+static void setLong(JNIEnv *env, jobject item, const char* field, jlong value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "J");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetLongField(env, item, fieldId, value);
+}
+
+static void setFloat(JNIEnv *env, jobject item, const char* field, jfloat value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "F");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetFloatField(env, item, fieldId, value);
+}
+static void setString(JNIEnv *env, jobject item, const char* field, const char* text) {
+    jclass cls;
+    jfieldID fieldId;
+    jstring jstr;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "Ljava/lang/String;");
+    if (fieldId == NULL)
+        return;
+
+    /* Create a new string and overwrite the instance field */
+    jstr = (*env)->NewStringUTF(env, text);
+    if (jstr == NULL)
+        return;
+    (*env)->SetObjectField(env, item, fieldId, jstr);
+}
+
 struct length_change_monitor {
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;
@@ -406,59 +461,6 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
     }
 
     eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
-}
-
-void setLong(JNIEnv *env, jobject item, const char* field, long value)
-{
-    jclass cls;
-    jfieldID fieldId;
-
-    /* Get a reference to item's class */
-    cls = (*env)->GetObjectClass(env, item);
-
-    /* Look for the instance field s in cls */
-    fieldId = (*env)->GetFieldID(env, cls, field, "J");
-    if (fieldId == NULL)
-        return;
-
-    (*env)->SetLongField(env, item, fieldId, value);
-}
-
-void setFloat(JNIEnv *env, jobject item, const char* field, float value)
-{
-    jclass cls;
-    jfieldID fieldId;
-
-    /* Get a reference to item's class */
-    cls = (*env)->GetObjectClass(env, item);
-
-    /* Look for the instance field s in cls */
-    fieldId = (*env)->GetFieldID(env, cls, field, "F");
-    if (fieldId == NULL)
-        return;
-
-    (*env)->SetFloatField(env, item, fieldId, value);
-}
-
-void setString(JNIEnv *env, jobject item, const char* field, const char* text)
-{
-    jclass cls;
-    jfieldID fieldId;
-    jstring jstr;
-
-    /* Get a reference to item's class */
-    cls = (*env)->GetObjectClass(env, item);
-
-    /* Look for the instance field s in cls */
-    fieldId = (*env)->GetFieldID(env, cls, field, "Ljava/lang/String;");
-    if (fieldId == NULL)
-        return;
-
-    /* Create a new string and overwrite the instance field */
-    jstr = (*env)->NewStringUTF(env, text);
-    if (jstr == NULL)
-        return;
-    (*env)->SetObjectField(env, item, fieldId, jstr);
 }
 
 jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,
