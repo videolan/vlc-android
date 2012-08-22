@@ -25,7 +25,6 @@ import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -107,9 +106,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         root.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),
-                        AudioPlayerActivity.class);
-                getActivity().startActivity(intent);
+                AudioPlayerActivity.start(getActivity());
             }
         });
 

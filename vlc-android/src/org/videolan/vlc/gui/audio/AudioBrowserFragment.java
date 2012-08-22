@@ -36,7 +36,6 @@ import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -170,9 +169,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             mAudioController.load(mSongsAdapter.getLocations(), p);
-            Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            AudioPlayerActivity.start(getActivity());
         }
     };
 
@@ -316,9 +313,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         else
             mAudioController.load(medias, startPosition);
 
-        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        AudioPlayerActivity.start(getActivity());
         return super.onContextItemSelected(item);
     }
 

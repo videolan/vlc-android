@@ -344,9 +344,7 @@ public class VideoPlayerActivity extends Activity {
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
             AudioServiceController.getInstance().showWithoutParse(mLocation);
-            Intent i = new Intent(this, AudioPlayerActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            startActivity(i);
+            AudioPlayerActivity.start(this, true);
         }
         //AudioServiceController.getInstance().unbindAudioService(this);
         super.onDestroy();
@@ -356,6 +354,26 @@ public class VideoPlayerActivity extends Activity {
     protected void onResume() {
         AudioServiceController.getInstance().bindAudioService(this);
         super.onResume();
+    }
+
+    public static void start(Context context, String location) {
+        start(context, location, false);
+    }
+
+    public static void start(Context context, String location, Boolean dontParse) {
+        Intent intent = new Intent(context, VideoPlayerActivity.class);
+        intent.putExtra("itemLocation", location);
+        intent.putExtra("dontParse", dontParse);
+
+        if (dontParse)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        else {
+            // Stop the currently running audio
+            AudioServiceController asc = AudioServiceController.getInstance();
+            asc.stop();
+        }
+
+        context.startActivity(intent);
     }
 
     private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()

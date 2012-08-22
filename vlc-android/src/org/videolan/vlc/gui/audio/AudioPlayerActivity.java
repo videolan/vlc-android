@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -110,6 +111,18 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mAudioController.removeAudioPlayer(this);
         AudioServiceController.getInstance().unbindAudioService(this);
         super.onPause();
+    }
+
+    public static void start(Context context) {
+        start(context, false);
+    }
+
+    public static void start(Context context, Boolean dontParse) {
+        Intent intent = new Intent(context, AudioPlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (dontParse)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        context.startActivity(intent);
     }
 
     @Override

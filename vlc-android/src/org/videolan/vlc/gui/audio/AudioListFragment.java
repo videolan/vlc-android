@@ -120,9 +120,7 @@ public class AudioListFragment extends SherlockListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         mAudioController.load(mSongsAdapter.getLocations(), position);
-        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        AudioPlayerActivity.start(getActivity());
         super.onListItemClick(l, v, position, id);
     }
 
@@ -176,9 +174,7 @@ public class AudioListFragment extends SherlockListFragment {
         else
             mAudioController.load(medias, startPosition);
 
-        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        AudioPlayerActivity.start(getActivity());
         return super.onContextItemSelected(item);
     }
 

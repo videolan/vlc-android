@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
@@ -130,14 +129,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     protected void playVideo(int position) {
-        // Stop the currently running audio
-        AudioServiceController asc = AudioServiceController.getInstance();
-        asc.stop();
-
         Media item = (Media) getListAdapter().getItem(position);
-        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-        intent.putExtra("itemLocation", item.getLocation());
-        startActivity(intent);
+        VideoPlayerActivity.start(getActivity(), item.getLocation());
     }
 
     @Override

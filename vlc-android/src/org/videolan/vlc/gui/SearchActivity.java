@@ -244,10 +244,8 @@ public class SearchActivity extends ListActivity {
 
             // open media in the player
             Media item = (Media) getListAdapter().getItem(position - 1);
-            Intent intent;
             if (item.getType() == Media.TYPE_VIDEO) {
-                intent = new Intent(this, VideoPlayerActivity.class);
-                intent.putExtra("itemLocation", item.getLocation());
+                VideoPlayerActivity.start(this, item.getLocation());
             } else {
                 ArrayList<String> arr = new ArrayList<String>();
                 for (int i = 0; i < getListAdapter().getCount(); i++) {
@@ -256,9 +254,8 @@ public class SearchActivity extends ListActivity {
                         arr.add(audioItem.getLocation());
                 }
                 AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
-                intent = new Intent(this, AudioPlayerActivity.class);
+                AudioPlayerActivity.start(this);
             }
-            startActivity(intent);
             super.onListItemClick(l, v, position, id);
 
         }

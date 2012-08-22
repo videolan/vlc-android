@@ -33,7 +33,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -127,13 +126,9 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add(mediaLocation);
             audioController.load(arrayList, 0);
-            Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            AudioPlayerActivity.start(getActivity());
         } else if(id == R.id.directory_view_play_video) {
-            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-            intent.putExtra("itemLocation", mediaLocation);
-            startActivity(intent);
+            VideoPlayerActivity.start(getActivity(), mediaLocation);
         }
         return super.onContextItemSelected(item);
     }
@@ -153,14 +148,9 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         try {
             if(!LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
                 audioController.load(mDirectoryAdapter.getAllMediaLocations(), p-1); /* p-1 to exclude ".," */
-                Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                AudioPlayerActivity.start(getActivity());
             } else {
-                audioController.stop();
-                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-                intent.putExtra("itemLocation", mediaFile);
-                startActivity(intent);
+                VideoPlayerActivity.start(getActivity(), mediaFile);
             }
         } catch (IOException e) {
             /* disk error maybe? */

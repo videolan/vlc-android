@@ -310,13 +310,8 @@ public class AudioService extends Service {
         // Don't crash if user stopped the media
         if(mCurrentMedia == null) return;
 
-        // Got video, switch to the video player
-        Intent intent = new Intent(VLCApplication.getAppContext(), VideoPlayerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtra("itemLocation", mCurrentMedia.getLocation());
-        // Don't lose the currently playing stream
-        intent.putExtra("dontParse", true);
-        startActivity(intent);
+        // Switch to the video player & don't lose the currently playing stream
+        VideoPlayerActivity.start(VLCApplication.getAppContext(), mCurrentMedia.getLocation(), true);
     }
 
     private void executeUpdate() {

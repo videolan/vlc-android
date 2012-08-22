@@ -32,7 +32,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 
 import android.app.ListActivity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
@@ -95,9 +94,7 @@ public class MediaInfoActivity extends ListActivity {
     }
 
     public void onPlayClick(View v) {
-        Intent intent = new Intent(this, VideoPlayerActivity.class);
-        intent.putExtra("itemLocation", mItem.getLocation());
-        startActivity(intent);
+        VideoPlayerActivity.start(this, mItem.getLocation());
     }
 
     Runnable mLoadImage = new Runnable() {
