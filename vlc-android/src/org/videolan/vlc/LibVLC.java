@@ -447,6 +447,8 @@ public class LibVLC {
 
     private native TrackInfo[] readTracksInfo(long instance, String mrl);
 
+    public native TrackInfo[] readTracksInfoPosition(int position);
+
     public native int getAudioTracksCount();
 
     public native String[] getAudioTrackDescription();

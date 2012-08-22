@@ -736,8 +736,7 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
         return JNI_FALSE;
 }
 
-jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject thiz,
-                                                         jlong instance, jstring mrl)
+jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t* p_m)
 {
     /* get java class */
     jclass cls = (*env)->FindClass( env, "org/videolan/vlc/TrackInfo" );
@@ -755,17 +754,8 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
         return NULL;
     }
 
-    /* Create a new item and assign it to the media player. */
-    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false, false);
-    if (p_m == NULL)
-    {
-        LOGE("Could not create the media!");
-        return NULL;
-    }
-
     /* Get the tracks information of the media. */
     libvlc_media_track_info_t *p_tracks;
-    libvlc_media_parse(p_m);
 
     int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
     jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks + 1, cls, NULL);
@@ -813,8 +803,38 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject th
     }
 
     libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
-    libvlc_media_release(p_m);
     return array;
+}
+
+
+jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfo(JNIEnv *env, jobject thiz,
+                                                         jlong instance, jstring mrl)
+{
+    /* Create a new item and assign it to the media player. */
+    libvlc_media_t *p_m = new_media(instance, env, thiz, mrl, false, false);
+    if (p_m == NULL)
+    {
+        LOGE("Could not create the media!");
+        return NULL;
+    }
+
+    libvlc_media_parse(p_m);
+    jobjectArray jar = read_track_info_internal(env, thiz, p_m);
+    libvlc_media_release(p_m);
+    return jar;
+}
+
+
+jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfoPosition(JNIEnv *env, jobject thiz,
+                                                         jint position)
+{
+    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+    libvlc_media_t *p_m = libvlc_media_list_item_at_index( p_mlist, position );
+    if (p_m == NULL) {
+        LOGE("Could not load get media @ position %d!", position);
+        return NULL;
+    } else
+        return read_track_info_internal(env, thiz, p_m);
 }
 
 jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject thiz,
