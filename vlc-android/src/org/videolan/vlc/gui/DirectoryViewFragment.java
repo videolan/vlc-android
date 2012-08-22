@@ -27,6 +27,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
@@ -113,7 +114,13 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
             audioController.append(tmp);
             return true;
         } else if(id == R.id.directory_view_delete) {
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mediaLocation, null);
+            AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mediaLocation,
+                    new VlcRunnable() {
+                        @Override
+                        public void run(Object o) {
+                            refresh();
+                        }
+                    });
             alertDialog.show();
         } else if(id == R.id.directory_view_play_audio) {
             AudioServiceController audioController = AudioServiceController.getInstance();
