@@ -133,39 +133,7 @@ public class Media implements Comparable<Media> {
 
             TrackInfo[] tracks = mLibVlc.readTracksInfo(mLocation);
 
-            for (TrackInfo track : tracks) {
-                if (track.Type == TrackInfo.TYPE_VIDEO) {
-                    mType = TYPE_VIDEO;
-                    mWidth = track.Width;
-                    mHeight = track.Height;
-                } else if (mType == TYPE_ALL && track.Type == TrackInfo.TYPE_AUDIO){
-                    mType = TYPE_AUDIO;
-                } else if (track.Type == TrackInfo.TYPE_META) {
-                    mLength = track.Length;
-                    mTitle = track.Title;
-                    mArtist = Util.getValue(track.Artist, R.string.unknown_artist);
-                    mAlbum = Util.getValue(track.Album, R.string.unknown_album);
-                    mGenre = Util.getValue(track.Genre, R.string.unknown_genre);
-                    mArtworkURL = track.ArtworkURL;
-                    Log.d(TAG, "Title " + mTitle);
-                    Log.d(TAG, "Artist " + mArtist);
-                    Log.d(TAG, "Genre " + mGenre);
-                    Log.d(TAG, "Album " + mAlbum);
-                }
-            }
-
-            /* No useful ES found */
-            if (mType == TYPE_ALL) {
-                int dotIndex = mLocation.lastIndexOf(".");
-                if (dotIndex != -1) {
-                    String fileExt = mLocation.substring(dotIndex);
-                    if( Media.VIDEO_EXTENSIONS.contains(fileExt) ) {
-                        mType = TYPE_VIDEO;
-                    } else if (Media.AUDIO_EXTENSIONS.contains(fileExt)) {
-                        mType = TYPE_AUDIO;
-                    }
-                }
-            }
+            extractTrackInfo(tracks);
         } catch (LibVlcException e) {
             e.printStackTrace();
         }
@@ -174,6 +142,58 @@ public class Media implements Comparable<Media> {
             // Add this item to database
             DatabaseManager db = DatabaseManager.getInstance(VLCApplication.getAppContext());
             db.addMedia(this);
+        }
+    }
+
+    public Media(String URI, int position) {
+        mLocation = URI;
+
+        LibVLC mLibVlc = null;
+        try {
+            mLibVlc = LibVLC.getInstance();
+            mType = TYPE_ALL;
+
+            TrackInfo[] tracks = mLibVlc.readTracksInfoPosition(position);
+
+            extractTrackInfo(tracks);
+        } catch (LibVlcException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void extractTrackInfo(TrackInfo[] tracks) {
+        for (TrackInfo track : tracks) {
+            if (track.Type == TrackInfo.TYPE_VIDEO) {
+                mType = TYPE_VIDEO;
+                mWidth = track.Width;
+                mHeight = track.Height;
+            } else if (mType == TYPE_ALL && track.Type == TrackInfo.TYPE_AUDIO){
+                mType = TYPE_AUDIO;
+            } else if (track.Type == TrackInfo.TYPE_META) {
+                mLength = track.Length;
+                mTitle = track.Title;
+                mArtist = Util.getValue(track.Artist, R.string.unknown_artist);
+                mAlbum = Util.getValue(track.Album, R.string.unknown_album);
+                mGenre = Util.getValue(track.Genre, R.string.unknown_genre);
+                mArtworkURL = track.ArtworkURL;
+                Log.d(TAG, "Title " + mTitle);
+                Log.d(TAG, "Artist " + mArtist);
+                Log.d(TAG, "Genre " + mGenre);
+                Log.d(TAG, "Album " + mAlbum);
+            }
+        }
+
+        /* No useful ES found */
+        if (mType == TYPE_ALL) {
+            int dotIndex = mLocation.lastIndexOf(".");
+            if (dotIndex != -1) {
+                String fileExt = mLocation.substring(dotIndex);
+                if( Media.VIDEO_EXTENSIONS.contains(fileExt) ) {
+                    mType = TYPE_VIDEO;
+                } else if (Media.AUDIO_EXTENSIONS.contains(fileExt)) {
+                    mType = TYPE_AUDIO;
+                }
+            }
         }
     }
 
