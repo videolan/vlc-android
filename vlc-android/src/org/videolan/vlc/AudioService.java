@@ -664,7 +664,7 @@ public class AudioService extends Service {
 
             if(realPlaylist) {
                 for(int i = 0; i < mediaPathList.size(); i++)
-                    mMediaList.add(new Media(mediaPathList.get(i), false));
+                    mMediaList.add(new Media(mediaPathList.get(i), i));
             } else {
                 DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
                 for (int i = 0; i < mediaPathList.size(); i++) {
