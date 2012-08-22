@@ -172,18 +172,12 @@ libvlc_media_t *new_media(jint instance, JNIEnv *env, jobject thiz, jstring file
 
 static libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
-                                          "mMediaPlayerInstance", "I");
-    return (libvlc_media_player_t*)(*env)->GetIntField(env, thiz, fieldMP);
+    return (libvlc_media_player_t*)getLong(env, thiz, "mMediaPlayerInstance");
 }
 
 static void unsetMediaPlayer(JNIEnv *env, jobject thiz)
 {
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
-                                          "mMediaPlayerInstance", "I");
-    (*env)->SetIntField(env, thiz, fieldMP, 0);
+    setLong(env, thiz, "mMediaPlayerInstance", (jlong)0);
 }
 
 static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
@@ -385,9 +379,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
-    (*env)->SetIntField(env, thiz, field, (jint) instance);
+    setLong(env, thiz, "mLibVlcInstance", (jlong) instance);
 
     if (!instance)
     {
@@ -420,9 +412,7 @@ jstring Java_org_videolan_vlc_LibVLC_nativeToURI(JNIEnv *env, jobject thiz, jstr
 void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
     releaseMediaPlayer(env, thiz);
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID field = (*env)->GetFieldID(env, clazz, "mLibVlcInstance", "I");
-    jint libVlcInstance = (*env)->GetIntField(env, thiz, field);
+    jlong libVlcInstance = getLong(env, thiz, "mLibVlcInstance");
     if (!libVlcInstance)
         return; // Already destroyed
 
@@ -430,7 +420,7 @@ void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
     libvlc_release(instance);
     libvlc_log_unsubscribe(&debug_subscriber);
 
-    (*env)->SetIntField(env, thiz, field, 0);
+    setLong(env, thiz, "mLibVlcInstance", 0);
 }
 
 void Java_org_videolan_vlc_LibVLC_detachEventManager(JNIEnv *env, jobject thiz)
@@ -553,10 +543,7 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
     /* Keep a pointer to this media player */
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID field = (*env)->GetFieldID(env, clazz,
-                                        "mMediaPlayerInstance", "I");
-    (*env)->SetIntField(env, thiz, field, (jint) mp);
+    setLong(env, thiz, "mMediaPlayerInstance", (jlong) mp);
 
     libvlc_media_player_play(mp);
 }

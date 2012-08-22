@@ -44,8 +44,8 @@ public class LibVLC {
     private static int sAout = AOUT_AUDIOTRACK;
 
     /** libVLC instance C pointer */
-    private int mLibVlcInstance = 0; // Read-only, reserved for JNI
-    private int mMediaPlayerInstance = 0; // Read-only, reserved for JNI
+    private long mLibVlcInstance = 0; // Read-only, reserved for JNI
+    private long mMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private Aout mAout;
 
