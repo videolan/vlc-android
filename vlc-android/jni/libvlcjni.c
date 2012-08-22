@@ -328,7 +328,11 @@ jstring Java_org_videolan_vlc_LibVLC_nativeToURI(JNIEnv *env, jobject thiz, jstr
     /* Get C string */
     const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
     /* Convert the path to URI */
-    char* psz_location = make_URI(psz_path, "file");
+    char* psz_location;
+    if(unlikely( strstr( psz_path, "://" ) ))
+        psz_location = strdup(psz_path);
+    else
+        psz_location = vlc_path2uri(psz_path, "file");
     /* Box into jstring */
     jstring t = (*env)->NewStringUTF(env, psz_location);
     /* Clean up */
