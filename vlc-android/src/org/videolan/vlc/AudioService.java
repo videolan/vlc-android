@@ -313,7 +313,7 @@ public class AudioService extends Service {
         if(mCurrentMedia == null) return;
 
         // Switch to the video player & don't lose the currently playing stream
-        VideoPlayerActivity.start(VLCApplication.getAppContext(), mCurrentMedia.getLocation(), true);
+        VideoPlayerActivity.start(VLCApplication.getAppContext(), mCurrentMedia.getLocation(), mCurrentMedia.getTitle(), true);
     }
 
     private void executeUpdate() {

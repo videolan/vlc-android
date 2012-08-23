@@ -357,12 +357,13 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public static void start(Context context, String location) {
-        start(context, location, false);
+        start(context, location, null, false);
     }
 
-    public static void start(Context context, String location, Boolean dontParse) {
+    public static void start(Context context, String location, String title, Boolean dontParse) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.putExtra("itemLocation", location);
+        intent.putExtra("itemTitle", title);
         intent.putExtra("dontParse", dontParse);
 
         if (dontParse)
@@ -1124,8 +1125,9 @@ public class VideoPlayerActivity extends Activity {
      */
     private void load() {
         mLocation = null;
-        String title = null;
+        String title = getResources().getString(R.string.title);
         boolean dontParse = false;
+        String itemTitle = null;
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -1134,6 +1136,7 @@ public class VideoPlayerActivity extends Activity {
         } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             mLocation = getIntent().getExtras().getString("itemLocation");
+            itemTitle = getIntent().getExtras().getString("itemTitle");
             dontParse = getIntent().getExtras().getBoolean("dontParse");
         }
 
@@ -1156,7 +1159,9 @@ public class VideoPlayerActivity extends Activity {
                 if (dotIndex != -1)
                     title = title.substring(0, dotIndex);
             }
-            mTitle.setText(title);
+        } else if(itemTitle != null) {
+            title = itemTitle;
         }
+        mTitle.setText(title);
     }
 }
