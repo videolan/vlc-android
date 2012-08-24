@@ -28,6 +28,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
@@ -128,6 +129,8 @@ public class AudioListFragment extends SherlockListFragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
+        if (!Util.isPhone())
+            menu.setGroupVisible(R.id.phone_only, false);
     }
 
     @Override
@@ -158,6 +161,11 @@ public class AudioListFragment extends SherlockListFragment {
                         }
                     });
             dialog.show();
+            return true;
+        }
+
+        if (id == R.id.audio_list_browser_set_song) {
+            AudioUtil.setRingtone(mSongsAdapter.getItem(menuInfo.position),getActivity());
             return true;
         }
 

@@ -36,6 +36,7 @@ import java.util.Properties;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -329,5 +330,13 @@ public class Util {
         errorMsg = null;
         isCompatible = true;
         return true;
+    }
+    public static boolean isPhone(){
+        TelephonyManager manager = (TelephonyManager)VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
+        if(manager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

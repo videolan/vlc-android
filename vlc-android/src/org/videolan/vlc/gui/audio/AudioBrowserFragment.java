@@ -28,6 +28,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
@@ -234,8 +235,12 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
 
-        if (v.getId() != R.id.songs_list)
+        if (v.getId() != R.id.songs_list) {
             menu.setGroupEnabled(R.id.songs_view_only, false);
+            menu.setGroupEnabled(R.id.phone_only, false);
+        }
+        if (!Util.isPhone())
+            menu.setGroupVisible(R.id.phone_only, false);
     }
 
     @Override
@@ -280,6 +285,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                         }
                     });
             alertDialog.show();
+            return true;
+        }
+
+        if (id == R.id.audio_list_browser_set_song) {
+            AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition),getActivity());
             return true;
         }
 

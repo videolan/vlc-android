@@ -22,6 +22,7 @@
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
     <string name="delete">Supprimer</string>
+    <string name="set_song">Définir comme sonnerie</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
     <string name="pause">Pause</string>

@@ -15,6 +15,12 @@
 	        android:title="@string/append_all" />
 	    <item
 	        android:id="@+id/audio_list_browser_delete"
-	        android:title="@string/delete" />
+	        android:title="@string/delete"/>
     </group>
+    <group android:id="@+id/phone_only" >
+	    <item
+	        android:id="@+id/audio_list_browser_set_song"
+	        android:title="@string/set_song"/>
+    </group>
+
 </menu>
