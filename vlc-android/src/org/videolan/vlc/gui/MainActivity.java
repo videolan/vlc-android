@@ -238,9 +238,28 @@ public class MainActivity extends SherlockFragmentActivity {
         Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Restore last view */
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_placeholder, mSidebarAdapter.getFragment(mCurrentFragment));
-        ft.commit();
+        Fragment current = getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_placeholder);
+        boolean found = false;
+        if(current != null) {
+            for(int i = 0; i < SidebarAdapter.entries.size(); i++) {
+                if(SidebarAdapter.entries.get(i).id == current.getTag()) {
+                    found = true;
+                    break;
+                }
+            }
+        } else {
+            found = true;
+        }
+        /* Don't call replace() on a non-sidebar fragment, since replace() will
+         * remove() the currently displayed fragment and replace it with a
+         * blank screen.
+         */
+        if(found) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_placeholder, mSidebarAdapter.getFragment(mCurrentFragment));
+            ft.commit();
+        }
 
         if (startFromNotification)
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
