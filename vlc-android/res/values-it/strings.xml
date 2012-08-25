@@ -3,7 +3,6 @@
     <!--  Main VLC Interface  -->
     <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Controlla che sia montata correttamente.</string>
     <string name="filebrowser_root">Radice</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Seleziona media da riprodurre</string>
     <string name="ml_no_media_dir">Nessuna cartella multimediale</string>
     <string name="sortby">Ordina per…</string>
@@ -11,10 +10,15 @@
     <string name="sortby_length">Durata</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
-    <string name="search_found_results">%1$d risultati trovati</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d risultato trovato</item>
+        <item quantity="other">%d risultati trovati</item>
+    </plurals>
     <string name="show_player">Mostra lettore</string>
     <string name="hide_mini_player">Nascondi lettore minimale</string>
     <string name="play">Riproduci</string>
+    <string name="play_as_audio">Riproduci come audio</string>
+    <string name="play_as_video">Riproduci come video</string>
     <string name="append">Aggiungi</string>
     <string name="play_all">Riproduci tutto</string>
     <string name="append_all">Aggiungi tutto</string>
@@ -31,24 +35,26 @@
     <string name="unknown_genre">Genere sconosciuto</string>
     <string name="songs">Brani</string>
     <plurals name="songs_quantity">
-        <item quantity="one">1 brano</item>
+        <item quantity="one">Un brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
     <plurals name="albums_quantity">
-        <item quantity="one">1 album</item>
+        <item quantity="one">Un album</item>
         <item quantity="other">%d album</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">1 sottocartella</item>
+        <item quantity="one">Una sottocartella</item>
         <item quantity="other">%d sottocartelle</item>
     </plurals>
     <string name="parent_folder">Livello superiore</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Segnalibri</string>
     <string name="all_albums">Tutti gli album</string>
     <string name="genres">Generi</string>
     <string name="playlists">Scalette</string>
-    <string name="time_0">0:00</string>
     <string name="title">Titolo</string>
     <string name="artist">Artista</string>
     <string name="album">Album</string>
@@ -60,6 +66,7 @@
     <string name="notavailable">non disponibile</string>
     <string name="nosubdirectory">Nessuna sottocartella.</string>
     <string name="validation">Sei sicuro?</string>
+    <string name="lock_rotation">Blocca rotazione schermo</string>
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
@@ -88,6 +95,9 @@
     <string name="open_mrl_dialog_msg">Inserisci MRL di rete: ad es. http://, mms:// o rtsp://</string>
     <string name="media_library">Raccolta multimediale</string>
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.\n\nIl messaggio di errore è (da citare in caso di debug):\n</string>
+    <string name="error_problem">Spiacenti, VLC per Android ha riscontrato un problema in fase di caricamento ed è stato chiuso.</string>
+    <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
+    <string name="playback_speed">Velocità di riproduzione</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
@@ -98,6 +108,7 @@
     <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La version per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
     <string name="for_android">per Android™</string>
     <string name="compiled_by">Questa versione di VLC è compilata da:</string>
+    <string name="vlc_authors">Autori di VLC.</string>
 
     <!--  Preferences -->
     <string name="preferences">Preferenze</string>
@@ -110,13 +121,19 @@
     <string name="quit">Esci dall\'applicazione</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
+    <string name="set_locale">Imposta locale</string>
+    <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
+    <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="enable_wheel_bar">Abilita wheel bar</string>
+    <string name="enable_gesture_brightness">Abilità gesti della luminosità</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
     <string name="aout">Uscita audio</string>
     <string name="aout_audiotrack">AudioTrack (nativa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Abilita l\'allungamento temporale dell\'audio</string>
+    <string name="enable_time_stretching_audio_detail">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
 </resources>
