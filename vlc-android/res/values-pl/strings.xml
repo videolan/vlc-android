@@ -53,6 +53,9 @@
     <item quantity="other">%d podfolderów</item>
   </plurals>
   <string name="parent_folder">Do folderu nadrzędnego</string>
+  <string name="audio">Dźwięk</string>
+  <string name="video">Wideo</string>
+  <string name="bookmarks">Zakładki</string>
   <string name="all_albums">Wszystkie albumy</string>
   <string name="genres">Gatunki</string>
   <string name="playlists">Listy odtwarzania</string>
@@ -67,6 +70,7 @@
   <string name="notavailable">niedostępne</string>
   <string name="nosubdirectory">Brak podkatalogów.</string>
   <string name="validation">Czy jesteś pewny?</string>
+  <string name="lock_rotation">Zablokuj obracanie ekranu</string>
   <string name="locked">zablokowane</string>
   <string name="unlocked">odblokowane</string>
   <string name="surface_best_fit">Najlepsze dopasowanie</string>
@@ -96,6 +100,8 @@
   <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
   <string name="media_library">Biblioteka multimediów</string>
   <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
+  <string name="error_problem">Niestety, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
+  <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
 
   <!--About-->
   <string name="app_name_full">VLC dla Androida™</string>
@@ -119,9 +125,13 @@
   <string name="quit">Zakończ aplikację</string>
   <string name="clear_media_db">Wyczyść bazę danych mediów</string>
   <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
+  <string name="set_locale">Ustaw język</string>
+  <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
+  <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
   <string name="detect_headset">Wykrywanie słuchawek</string>
   <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
   <string name="enable_wheel_bar">Wyłącz okrągły pasek kontroli</string>
+  <string name="enable_gesture_brightness">Włącz gesty jasności</string>
   <string name="enable_verbose_mode">Szczegółowość</string>
   <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
   <string name="aout">Wyjście dźwiękowe</string>
