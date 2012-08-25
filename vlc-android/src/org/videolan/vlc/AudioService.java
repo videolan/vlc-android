@@ -471,9 +471,11 @@ public class AudioService extends Service {
                 int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
                 String albumArt = cursor.getString(titleColumn);
                 cursor.close();
-                Bitmap b = BitmapFactory.decodeFile(albumArt);
-                if (b != null)
-                    return b;
+                if(albumArt != null) { // could be null (no album art stored)
+                    Bitmap b = BitmapFactory.decodeFile(albumArt);
+                    if (b != null)
+                        return b;
+                }
             }
 
             //cover not in MediaStore, trying vlc
