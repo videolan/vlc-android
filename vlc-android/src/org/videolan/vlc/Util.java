@@ -265,7 +265,8 @@ public class Util {
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
         boolean hasX86 = false;
 
-        if(android.os.Build.CPU_ABI.equals("armeabi-v7a")) {
+        if(android.os.Build.CPU_ABI.equals("armeabi-v7a") ||
+           android.os.Build.CPU_ABI2.equals("armeabi-v7a")) {
             hasArmV7 = true;
             hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
         } else if(android.os.Build.CPU_ABI.equals("armeabi") ||
