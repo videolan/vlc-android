@@ -176,6 +176,16 @@ public class MainActivity extends SherlockFragmentActivity {
                 if(current.getTag() == entry.id) /* Already selected */
                     return;
 
+                /* Clear any backstack before switching tabs.
+                 * This way it's more consistent for the user, who might have
+                 * switched tabs and hit back to quit, only to activate an old
+                 * backstack.
+                 */
+                if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+                        getSupportFragmentManager().popBackStack();
+                    }
+                }
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.detach(current);
                 ft.attach(mSidebarAdapter.getFragment(entry.id));
