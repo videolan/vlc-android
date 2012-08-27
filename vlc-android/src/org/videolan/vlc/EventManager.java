@@ -112,10 +112,8 @@ public class EventManager {
     }
 
     /** This method is called by a native thread **/
-    public void callback(int event, int optional_data) {
-        Bundle b = new Bundle();
+    public void callback(int event, Bundle b) {
         b.putInt("event", event);
-        b.putInt("data", optional_data);
         for (int i = 0; i < mEventHandler.size(); i++) {
             Message msg = Message.obtain();
             msg.setData(b);

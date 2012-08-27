@@ -247,11 +247,6 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     JNIEnv *env;
     JavaVM *myVm = data;
 
-    int ev_opt_data = 0;
-    if(ev->type == libvlc_MediaPlayerVout) {
-        /* For determining the vout/ES track change */
-        ev_opt_data = ev->u.media_player_vout.new_count;
-    }
     bool isAttached = false;
 
     if (eventManagerInstance == NULL)
@@ -267,6 +262,25 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
         isAttached = true;
     }
 
+    /* Creating the bundle in C allows us to subscribe to more events
+     * and get better flexibility for each event. For example, we can
+     * have totally different types of data for each event, instead of,
+     * for example, only an integer and/or string.
+     */
+    jclass clsBundle = (*env)->FindClass(env, "android/os/Bundle");
+    jmethodID clsCtor = (*env)->GetMethodID(env, clsBundle, "<init>", "()V" );
+    jobject bundle = (*env)->NewObject(env, clsBundle, clsCtor);
+
+    jmethodID putInt = (*env)->GetMethodID(env, clsBundle, "putInt", "(Ljava/lang/String;I)V" );
+    jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
+
+    if(ev->type == libvlc_MediaPlayerVout) {
+        /* For determining the vout/ES track change */
+        jstring sData = (*env)->NewStringUTF(env, "data");
+        (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_vout.new_count);
+        (*env)->DeleteLocalRef(env, sData);
+    }
+
     /* Get the object class */
     jclass cls = (*env)->GetObjectClass(env, eventManagerInstance);
     if (!cls) {
@@ -275,9 +289,9 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     }
 
     /* Find the callback ID */
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(II)V");
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
     if (methodID) {
-        (*env)->CallVoidMethod(env, eventManagerInstance, methodID, ev->type, ev_opt_data);
+        (*env)->CallVoidMethod(env, eventManagerInstance, methodID, ev->type, bundle);
     } else {
         LOGE("EventManager: failed to get the callback method");
     }
@@ -467,7 +481,7 @@ void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, job
         return;
     }
 
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(II)V");
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
     if (!methodID) {
         LOGE("setEventManager: failed to get the callback method");
         return;
