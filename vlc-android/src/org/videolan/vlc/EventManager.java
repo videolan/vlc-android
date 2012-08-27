@@ -59,9 +59,9 @@ public class EventManager {
     //public static final int MediaPlayerLengthChanged        = 0x111;
     public static final int MediaPlayerVout                   = 0x112;
 
-    //public static final int MediaListItemAdded              = 0x200;
+    public static final int MediaListItemAdded                = 0x200;
     //public static final int MediaListWillAddItem            = 0x201;
-    //public static final int MediaListItemDeleted            = 0x202;
+    public static final int MediaListItemDeleted              = 0x202;
     //public static final int MediaListWillDeleteItem         = 0x203;
 
     //public static final int MediaListViewItemAdded          = 0x300;

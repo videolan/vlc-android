@@ -279,6 +279,29 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
         jstring sData = (*env)->NewStringUTF(env, "data");
         (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_vout.new_count);
         (*env)->DeleteLocalRef(env, sData);
+    } else if(ev->type == libvlc_MediaListItemAdded ||
+              ev->type == libvlc_MediaListItemDeleted ) {
+        jstring item_uri = (*env)->NewStringUTF(env, "item_uri");
+        jstring item_index = (*env)->NewStringUTF(env, "item_index");
+        char* mrl = libvlc_media_get_mrl(
+            ev->type == libvlc_MediaListItemAdded ?
+            ev->u.media_list_item_added.item :
+            ev->u.media_list_item_deleted.item
+            );
+        jstring item_uri_value = (*env)->NewStringUTF(env, mrl);
+        jint item_index_value;
+        if(ev->type == libvlc_MediaListItemAdded)
+            item_index_value = ev->u.media_list_item_added.index;
+        else
+            item_index_value = ev->u.media_list_item_deleted.index;
+
+        (*env)->CallVoidMethod(env, bundle, putString, item_uri, item_uri_value);
+        (*env)->CallVoidMethod(env, bundle, putInt, item_index, item_index_value);
+
+        (*env)->DeleteLocalRef(env, item_uri);
+        (*env)->DeleteLocalRef(env, item_uri_value);
+        (*env)->DeleteLocalRef(env, item_index);
+        free(mrl);
     }
 
     /* Get the object class */
@@ -423,6 +446,15 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
         (*env)->ThrowNew(env, exc, "Unable to create LibVLC media list");
         return;
     }
+
+    /* Connect the event manager */
+    libvlc_event_manager_t *ev = libvlc_media_list_event_manager(pointer);
+    static const libvlc_event_type_t mp_events[] = {
+        libvlc_MediaListItemAdded,
+        libvlc_MediaListItemDeleted,
+    };
+    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
+        libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
     setLong(env, thiz, "mMediaListInstance", (jlong)pointer);
 }
