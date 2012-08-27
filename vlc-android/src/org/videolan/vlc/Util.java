@@ -281,6 +281,17 @@ public class Util {
             BufferedReader br = new BufferedReader(fileReader);
             String line;
             while((line = br.readLine()) != null) {
+                if(!hasArmV7 && line.contains("ARMv7")) {
+                    hasArmV7 = true;
+                    hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
+                }
+                if(!hasArmV7 && !hasArmV6 && line.contains("ARMv6"))
+                    hasArmV6 = true;
+                // "clflush size" is a x86-specific cpuinfo tag.
+                // (see kernel sources arch/x86/kernel/cpu/proc.c)
+                if(!(hasArmV6 || hasArmV7 || hasX86) && line.contains("clflush size"))
+                    hasX86 = true;
+                // TODO: MIPS - "microsecond timers"; see arch/mips/kernel/proc.c
                 if(!hasNeon && line.contains("neon"))
                     hasNeon = true;
                 if(!hasFpu && line.contains("vfp"))
