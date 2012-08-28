@@ -671,7 +671,7 @@ void Java_org_videolan_vlc_LibVLC_setRate(JNIEnv *env, jobject thiz, jfloat rate
 }
 
 jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
-                                                    jint i_instance, jstring fileLocation)
+                                                    jlong i_instance, jstring fileLocation)
 {
     /* Create a new item and assign it to the media player. */
     libvlc_media_t *p_m = new_media(i_instance, env, thiz, fileLocation, false, false);
@@ -838,7 +838,7 @@ jobjectArray Java_org_videolan_vlc_LibVLC_readTracksInfoPosition(JNIEnv *env, jo
 }
 
 jlong Java_org_videolan_vlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject thiz,
-                                                     jint i_instance, jstring fileLocation)
+                                                     jlong i_instance, jstring fileLocation)
 {
     jlong length = 0;
     struct length_change_monitor *monitor;
