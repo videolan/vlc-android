@@ -623,7 +623,12 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
 
     libvlc_media_list_lock(p_mlist);
-    libvlc_media_list_add_media(p_mlist, m);
+    if(libvlc_media_list_add_media(p_mlist, m) != 0) {
+        LOGE("readMedia: Could not add to the media list!");
+        libvlc_media_list_unlock(p_mlist);
+        libvlc_media_release(m);
+        return;
+    }
     int position = libvlc_media_list_index_of_item(p_mlist, m);
     libvlc_media_list_unlock(p_mlist);
 
