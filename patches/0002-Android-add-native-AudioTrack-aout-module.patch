@@ -1,21 +1,21 @@
-From 28b9370aff48408734c41986a0bd42c61192f1f8 Mon Sep 17 00:00:00 2001
+From c93ba47a19e0b668282ab8336608939435d1dd2d Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 13 May 2012 22:20:34 +0200
-Subject: [PATCH 2/4] Android: add native AudioTrack aout module
+Subject: [PATCH 2/5] Android: add native AudioTrack aout module
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  configure.ac                      |   12 ++
  modules/audio_output/Modules.am   |    1 +
- modules/audio_output/audiotrack.c |  322 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 335 insertions(+), 0 deletions(-)
+ modules/audio_output/audiotrack.c |  331 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 344 insertions(+), 0 deletions(-)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 1f79164..c760c00 100644
+index f1174d4..ed94961 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3509,6 +3509,18 @@ if test "${HAVE_ANDROID}" = "1"; then
+@@ -3586,6 +3586,18 @@ if test "${HAVE_ANDROID}" = "1"; then
  fi
  
  dnl
@@ -35,7 +35,7 @@ index 1f79164..c760c00 100644
  dnl
  PKG_ENABLE_MODULES_VLC([SAMPLERATE], [], [samplerate], [Resampler with libsamplerate], [auto])
 diff --git a/modules/audio_output/Modules.am b/modules/audio_output/Modules.am
-index c780ff1..48442f8 100644
+index 8051672..c4ca373 100644
 --- a/modules/audio_output/Modules.am
 +++ b/modules/audio_output/Modules.am
 @@ -3,6 +3,7 @@ SOURCES_waveout = waveout.c windows_audio_common.h packet.c
@@ -48,13 +48,14 @@ index c780ff1..48442f8 100644
  libadummy_plugin_la_CFLAGS = $(AM_CFLAGS)
 diff --git a/modules/audio_output/audiotrack.c b/modules/audio_output/audiotrack.c
 new file mode 100644
-index 0000000..43a437a
+index 0000000..8ad32c3
 --- /dev/null
 +++ b/modules/audio_output/audiotrack.c
-@@ -0,0 +1,322 @@
+@@ -0,0 +1,331 @@
 +/*****************************************************************************
 + * audiotrack.c: Android native AudioTrack audio output module
 + *****************************************************************************
++ * Copyright © 2012 VLC authors and VideoLAN
 + *
 + * Authors: Ming Hu <tewilove@gmail.com>
 + *
@@ -191,8 +192,16 @@ index 0000000..43a437a
 +    /* Register symbols */
 +    p_sys->as_getOutputFrameCount = (AudioSystem_getOutputFrameCount)(dlsym(p_library, "_ZN7android11AudioSystem19getOutputFrameCountEPii"));
 +    p_sys->as_getOutputLatency = (AudioSystem_getOutputLatency)(dlsym(p_library, "_ZN7android11AudioSystem16getOutputLatencyEPji"));
++    if(p_sys->as_getOutputLatency == NULL) {
++        /* 4.1 Jellybean prototype */
++        p_sys->as_getOutputLatency = (AudioSystem_getOutputLatency)(dlsym(p_library, "_ZN7android11AudioSystem16getOutputLatencyEPj19audio_stream_type_t"));
++    }
 +    p_sys->as_getOutputSamplingRate = (AudioSystem_getOutputSamplingRate)(dlsym(p_library, "_ZN7android11AudioSystem21getOutputSamplingRateEPii"));
 +    p_sys->at_getMinFrameCount = (AudioTrack_getMinFrameCount)(dlsym(p_library, "_ZN7android10AudioTrack16getMinFrameCountEPiij"));
++    if(p_sys->at_getMinFrameCount == NULL) {
++        /* 4.1 Jellybean prototype */
++        p_sys->at_getMinFrameCount = (AudioTrack_getMinFrameCount)(dlsym(p_library, "_ZN7android10AudioTrack16getMinFrameCountEPi19audio_stream_type_tj"));
++    }
 +    p_sys->at_ctor = (AudioTrack_ctor)(dlsym(p_library, "_ZN7android10AudioTrackC1EijiiijPFviPvS1_ES1_ii"));
 +    p_sys->at_ctor_legacy = (AudioTrack_ctor_legacy)(dlsym(p_library, "_ZN7android10AudioTrackC1EijiiijPFviPvS1_ES1_i"));
 +    p_sys->at_dtor = (AudioTrack_dtor)(dlsym(p_library, "_ZN7android10AudioTrackD1Ev"));
