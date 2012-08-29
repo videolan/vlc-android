@@ -128,6 +128,8 @@ public class SidebarAdapter extends BaseAdapter {
             f = new VideoListFragment();
         } else if(id.endsWith("directories")) {
             f = new DirectoryViewFragment();
+        } else if(id.equals("history")) {
+            f = new HistoryFragment();
         } else { /* TODO */
             f = new AboutLicenceFragment();
         }
