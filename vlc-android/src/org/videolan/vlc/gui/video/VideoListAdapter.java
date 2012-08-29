@@ -153,17 +153,22 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 
         holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
         long lastTime = media.getTime();
+        String text;
         if (lastTime > 0) {
-            holder.subtitle.setText(String.format("%s / %s - %dx%d",
+            text = String.format("%s / %s",
                     Util.millisToString(lastTime),
-                    Util.millisToString(media.getLength()),
-                    media.getWidth(), media.getHeight()));
+                    Util.millisToString(media.getLength()));
         }
         else {
-            holder.subtitle.setText(String.format("%s - %dx%d",
-                    Util.millisToString(media.getLength()),
-                    media.getWidth(), media.getHeight()));
+            text = String.format("%s",
+                    Util.millisToString(media.getLength()));
         }
+        
+        if (media.getWidth() > 0 && media.getHeight() > 0) {
+            text += String.format(" - %dx%d", media.getWidth(), media.getHeight());
+        }
+
+        holder.subtitle.setText(text);
 
         return v;
     }
