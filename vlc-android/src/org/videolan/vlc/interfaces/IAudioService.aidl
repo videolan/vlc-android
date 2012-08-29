@@ -30,7 +30,7 @@ interface IAudioService {
     void shuffle();
     void setTime(long time);
     String getCurrentMediaLocation();
-    void load(in List<String> mediaPathList, int position, boolean realPlaylist);
+    void load(in List<String> mediaPathList, int position, boolean libvlcBacked);
     void append(in List<String> mediaPathList);
     List<String> getItems();
     String getItem();

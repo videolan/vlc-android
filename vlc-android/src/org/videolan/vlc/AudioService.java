@@ -86,7 +86,13 @@ public class AudioService extends Service {
     private long mHeadsetDownTime = 0;
     private long mHeadsetUpTime = 0;
 
-    private boolean mRealPlaylist = false;
+    /**
+     * Distinguish between the "fake" (Java-backed) playlist versus the "real"
+     * (LibVLC/LibVLCcore) backed playlist.
+     *
+     * True if being backed by LibVLC, false if "virtually" backed by Java.
+     */
+    private boolean mLibVLCPlaylistActive = false;
 
     @Override
     public void onCreate() {
@@ -423,7 +429,7 @@ public class AudioService extends Service {
                 return;
             }
         }
-        if(mRealPlaylist) {
+        if(mLibVLCPlaylistActive) {
             if(mRepeating == RepeatType.None)
                 mLibVLC.next();
             else if(mRepeating == RepeatType.Once)
@@ -446,7 +452,7 @@ public class AudioService extends Service {
             mCurrentMedia = mMediaList.get(index - 1);
         else
             return;
-        if(mRealPlaylist) {
+        if(mLibVLCPlaylistActive) {
             if(mRepeating == RepeatType.None)
                 mLibVLC.previous();
             else if(mRepeating == RepeatType.Once)
@@ -652,9 +658,9 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void load(List<String> mediaPathList, int position, boolean realPlaylist)
+        public void load(List<String> mediaPathList, int position, boolean libvlcBacked)
                 throws RemoteException {
-            mRealPlaylist = realPlaylist;
+            mLibVLCPlaylistActive = libvlcBacked;
 
             Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
             mEventManager.addHandler(mEventHandler);
@@ -662,7 +668,7 @@ public class AudioService extends Service {
             mMediaList.clear();
             mPrevious.clear();
 
-            if(realPlaylist) {
+            if(mLibVLCPlaylistActive) {
                 for(int i = 0; i < mediaPathList.size(); i++)
                     mMediaList.add(new Media(mediaPathList.get(i), i));
             } else {
@@ -683,7 +689,7 @@ public class AudioService extends Service {
             }
 
             if (mCurrentMedia != null) {
-                if(realPlaylist) {
+                if(mLibVLCPlaylistActive) {
                     mLibVLC.playIndex(position);
                 } else {
                     mLibVLC.readMedia(mCurrentMedia.getLocation());
@@ -733,7 +739,7 @@ public class AudioService extends Service {
                 return;
             }
 
-            if(mRealPlaylist) {
+            if(mLibVLCPlaylistActive) {
                 return;
             }
             DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
