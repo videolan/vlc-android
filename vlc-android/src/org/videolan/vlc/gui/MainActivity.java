@@ -377,6 +377,8 @@ public class MainActivity extends SherlockFragmentActivity {
                     DirectoryViewFragment directoryView = (DirectoryViewFragment) mSidebarAdapter.getFragment(mCurrentFragment);
                     directoryView.refresh();
                 }
+                else if(mCurrentFragment.equals("history"))
+                    ((HistoryFragment)mSidebarAdapter.getFragment(mCurrentFragment)).refresh();
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;
