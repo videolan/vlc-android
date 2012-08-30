@@ -22,6 +22,7 @@ package org.videolan.vlc;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,6 +154,7 @@ public class MediaLibrary {
     private class GetMediaItemsRunnable implements Runnable {
 
         private final Stack<File> directories = new Stack<File>();
+        private final HashSet<String> directoriesScanned = new HashSet<String>();
         private Context mContext;
 
         public GetMediaItemsRunnable(Context context) {
@@ -200,10 +202,22 @@ public class MediaLibrary {
             // Count total files, and stack them
             while (!directories.isEmpty()) {
                 File dir = directories.pop();
+                String dirPath = dir.getAbsolutePath();
                 File[] f = null;
 
+                // Do not scan again if same canonical path
+                try {
+                    dirPath = dir.getCanonicalPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (directoriesScanned.contains(dirPath))
+                    continue;
+                else
+                    directoriesScanned.add(dirPath);
+
                 // Do no scan media in .nomedia folders
-                if (new File(dir.getAbsolutePath() + "/.nomedia").exists()) {
+                if (new File(dirPath + "/.nomedia").exists()) {
                     continue;
                 }
 
