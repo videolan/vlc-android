@@ -205,6 +205,10 @@ public class MediaLibrary {
                 String dirPath = dir.getAbsolutePath();
                 File[] f = null;
 
+                // Skip some system folders
+                if (dirPath.startsWith("/proc/") || dirPath.startsWith("/sys/") || dirPath.startsWith("/dev/"))
+                    continue;
+
                 // Do not scan again if same canonical path
                 try {
                     dirPath = dir.getCanonicalPath();
