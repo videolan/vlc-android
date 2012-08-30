@@ -169,12 +169,15 @@ public class MediaLibrary {
             // use the external storage as our default root directory (most often /mnt/sdcard)
             if (root == null) {
                 root = Environment.getExternalStorageDirectory().getAbsolutePath();
+            } else {
+                root = new File(root).getAbsolutePath();
             }
 
             // show progressbar in footer
             MainActivity.showProgressBar(mContext);
 
             // get directories from database
+            mDBManager.removeDirNotUnder(root);
             directories.addAll(mDBManager.getMediaDirs());
             if (directories.isEmpty())
                 directories.add(new File(root));

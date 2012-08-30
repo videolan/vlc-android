@@ -505,6 +505,15 @@ public class DatabaseManager {
     }
 
     /**
+     * Delete directory from directories table if not under root folder
+     *
+     * @param path
+     */
+    public synchronized void removeDirNotUnder(String root) {
+        mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + " NOT LIKE ?", new String[] { root+"%" });
+    }
+
+    /**
      *
      * @return
      */
