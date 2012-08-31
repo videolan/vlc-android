@@ -289,7 +289,7 @@ public class Util {
                     hasArmV6 = true;
                 // "clflush size" is a x86-specific cpuinfo tag.
                 // (see kernel sources arch/x86/kernel/cpu/proc.c)
-                if(!(hasArmV6 || hasArmV7 || hasX86) && line.contains("clflush size"))
+                if(line.contains("clflush size"))
                     hasX86 = true;
                 // TODO: MIPS - "microsecond timers"; see arch/mips/kernel/proc.c
                 if(!hasNeon && line.contains("neon"))
