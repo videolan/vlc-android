@@ -258,6 +258,14 @@ public class Util {
             return false;
         }
 
+        String CPU_ABI = android.os.Build.CPU_ABI;
+        String CPU_ABI2 = "none";
+        if(android.os.Build.VERSION.SDK_INT >= 8) { // CPU_ABI2 since 2.2
+            try {
+                CPU_ABI2 = (String)android.os.Build.class.getDeclaredField("CPU_ABI2").get(null);
+            } catch (Exception e) { }
+        }
+
         String ANDROID_ABI = properties.getProperty("ANDROID_ABI");
         boolean NO_NEON = properties.getProperty("NO_NEON","0").equals("1");
         boolean NO_FPU = properties.getProperty("NO_FPU","0").equals("1");
@@ -265,14 +273,14 @@ public class Util {
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
         boolean hasX86 = false;
 
-        if(android.os.Build.CPU_ABI.equals("x86")) {
+        if(CPU_ABI.equals("x86")) {
             hasX86 = true;
-        } else if(android.os.Build.CPU_ABI.equals("armeabi-v7a") ||
-           android.os.Build.CPU_ABI2.equals("armeabi-v7a")) {
+        } else if(CPU_ABI.equals("armeabi-v7a") ||
+                  CPU_ABI2.equals("armeabi-v7a")) {
             hasArmV7 = true;
             hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
-        } else if(android.os.Build.CPU_ABI.equals("armeabi") ||
-                  android.os.Build.CPU_ABI2.equals("armeabi")) {
+        } else if(CPU_ABI.equals("armeabi") ||
+                  CPU_ABI2.equals("armeabi")) {
             hasArmV6 = true;
         }
 
@@ -343,6 +351,7 @@ public class Util {
         isCompatible = true;
         return true;
     }
+
     public static boolean isPhone(){
         TelephonyManager manager = (TelephonyManager)VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
         if(manager.getPhoneType() == TelephonyManager.PHONE_TYPE_NONE){
