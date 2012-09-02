@@ -5,8 +5,8 @@
             <gradient
                 android:angle="270"
                 android:centerColor="@color/orange"
-                android:endColor="@color/item_common"
-                android:startColor="@color/item_common" />
+                android:endColor="@color/darkorange"
+                android:startColor="@color/darkorange" />
         </shape>
     </item>
     <item android:state_selected="true">
@@ -14,8 +14,8 @@
             <gradient
                 android:angle="270"
                 android:centerColor="@color/orange"
-                android:endColor="@color/item_common"
-                android:startColor="@color/item_common" />
+                android:endColor="@color/darkorange"
+                android:startColor="@color/darkorange" />
         </shape>
     </item>
     <item>

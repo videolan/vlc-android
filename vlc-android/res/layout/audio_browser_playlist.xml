@@ -20,7 +20,7 @@
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
             android:text="@string/title"
-            android:textColor="#ffffff"
+            android:textColor="@color/list_title"
             android:textSize="20dip" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:text="@string/songs"
-            android:textColor="#888888"
+            android:textColor="@color/list_subtitle"
             android:textSize="14dip" />
     </LinearLayout>
 

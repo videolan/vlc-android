@@ -23,14 +23,14 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="17dip"
-            android:textColor="@color/video_list_title"
+            android:textColor="@color/list_title"
             android:paddingLeft="12dip" />
         <TextView
             android:id="@+id/ml_item_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dip"
-            android:textColor="#888888"
+            android:textColor="@color/list_subtitle"
             android:paddingLeft="12dip" />
     </LinearLayout>
 </LinearLayout>

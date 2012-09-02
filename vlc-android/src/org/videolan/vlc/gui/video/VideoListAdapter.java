@@ -28,9 +28,9 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +151,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        holder.title.setTextColor(media.getLocation().equals(mLastMRL) ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
+        ColorStateList titleColor = v.getResources().getColorStateList(media.getLocation().equals(mLastMRL)
+                ? R.color.list_title_last
+                : R.color.list_title);
+        holder.title.setTextColor(titleColor);
+
         long lastTime = media.getTime();
         String text;
         if (lastTime > 0) {

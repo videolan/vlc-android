@@ -28,7 +28,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +86,10 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
         Media media = getItem(position);
         Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
-        holder.title.setTextColor(mCurrentIndex == position ? 0xFFF48B00 /* ORANGE */ : Color.WHITE);
+        ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
+                ? R.color.list_title_last
+                : R.color.list_title);
+        holder.title.setTextColor(titleColor);
         holder.artist.setText(media.getArtist() + " - " + media.getAlbum());
         return v;
     }

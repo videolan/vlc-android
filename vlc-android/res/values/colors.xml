@@ -5,6 +5,7 @@
     <color name="item_1">#F222</color>
     <color name="item_2">#F000</color>
     <color name="orange">#FFF48B00</color>
+    <color name="darkorange">#FF824600</color>
     <color name="transparent_gray">#A000</color>
 
 </resources>
