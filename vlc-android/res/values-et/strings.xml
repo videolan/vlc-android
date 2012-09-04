@@ -3,24 +3,29 @@
     <!--  Main VLC Interface  -->
     <string name="filebrowser_sdfail">SD-kaardi avamine nurjus. Palun kontrolli, kas ta on korralikult haagitud.</string>
     <string name="filebrowser_root">Juur</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Vali esitatav meedia</string>
     <string name="ml_no_media_dir">Pole meediakataloogi</string>
     <string name="sortby">Sorteeri…</string>
     <string name="sortby_name">Nimi</string>
     <string name="sortby_length">Kestus</string>
     <string name="searchable_hint">Otsi…</string>
-    <string name="history">Ajalugu</string>
-    <string name="search_found_results">Leiti %1$d vastet</string>
+    <string name="search_history">Ajalugu</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Leiti %d vaste</item>
+        <item quantity="other">Leiti %d vastet</item>
+    </plurals>
     <string name="show_player">Kuva esitaja</string>
     <string name="hide_mini_player">Peida miniesitaja</string>
     <string name="play">Esita</string>
+    <string name="play_as_audio">Esita kui audio</string>
+    <string name="play_as_video">Esita kui video</string>
     <string name="append">Liida</string>
     <string name="play_all">Esita kõik</string>
     <string name="append_all">Liida kõik</string>
     <string name="delete">Kustuta</string>
+    <string name="set_song">Määra helinaks</string>
     <string name="info">Informatsioon</string>
-    <string name="confirm_delete">Kustuta see fail?</string>
+    <string name="confirm_delete">Kustuta fail \'%1$s\'?</string>
     <string name="pause">Paus</string>
     <string name="close">Sulge</string>
     <string name="not_show_again">"Ära seda teadet enam kuva."</string>
@@ -45,21 +50,25 @@
         <item quantity="other">%d alamkataloogi</item>
     </plurals>
     <string name="parent_folder">Ülemisse kataloogi</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Lemmikud</string>
     <string name="all_albums">Kõik albumid</string>
     <string name="genres">Stiilid</string>
-    <string name="playlists">Esitusloend</string>
-    <string name="time_0">0:00</string>
+    <string name="playlists">Esitusloendid</string>
     <string name="title">Pealkiri</string>
     <string name="artist">Artist</string>
     <string name="album">Album</string>
     <string name="directory">Kataloog</string>
     <string name="directories">Kataloogid</string>
     <string name="loading">Laadimine…</string>
+    <string name="please_wait">Palun oota…</string>
     <string name="nomedia">Ühtegi meediafaili ei leitud. Palun kanna failid oma seadmesse või kohanda oma eelistusi.</string>
     <string name="mediafiles">Meediafailid</string>
     <string name="notavailable">pole saadaval</string>
     <string name="nosubdirectory">Puuduvad alamkataloogid.</string>
     <string name="validation">Oled sa kindel?</string>
+    <string name="lock_rotation">Lukusta ekraani pööramine</string>
     <string name="locked">Lukustatud</string>
     <string name="unlocked">Lukust lahti võetud</string>
     <string name="surface_best_fit">Parim sobitus</string>
@@ -87,7 +96,10 @@
     <string name="open_mrl_dialog_title">Ava võrguvoog</string>
     <string name="open_mrl_dialog_msg">Sisesta võrgu MRL: nt. http://, mms:// või rtsp://</string>
     <string name="media_library">Meediakogu</string>
-    <string name="error_not_compatible">Kahjuks pole sinu seade selle VLC Androidi™ versiooni poolt hetkel toetatud.\n\nVeateade on (palun maini seda silumisel):\n</string>
+    <string name="error_not_compatible">Kahjuks pole sinu seade selle VLC Androidi™ versiooni poolt hetkel toetatud.</string>
+    <string name="error_problem">Kahjuks tekkis VLC Androidi versioonil laadimisel viga ja ta tuli sulgeda.</string>
+    <string name="error_message_is">Veateade on (palun maini seda silumisel):\n</string>
+    <string name="playback_speed">Taasesitamise kiirus</string>
 
     <!-- About -->
     <string name="app_name_full">VLC Androidile™</string>
@@ -98,6 +110,7 @@
     <string name="about_text">VLC Androidile™ on VLC meediaesitaja, populaarse meediaesitaja, port. Androidi™ versioon suudab avada enamikke meediafaile ja võrguvoogusid.</string>
     <string name="for_android">Androidile™</string>
     <string name="compiled_by">Selle VLC versiooni kompilleerisid:</string>
+    <string name="vlc_authors">VLC autorid.</string>
 
     <!--  Preferences -->
     <string name="preferences">Eelistused</string>
@@ -109,13 +122,20 @@
     <string name="advanced_debugging">Täpsustatud silumine</string>
     <string name="quit">Sulge rakendus</string>
     <string name="clear_media_db">Puhasta meedia andmebaas</string>
+    <string name="media_db_cleared">Meedia andmebaas puhastatud!</string>
+    <string name="set_locale">Määra lokaat</string>
+    <string name="set_locale_detail">Lähtestamiseks jäta tühjaks</string>
+    <string name="set_locale_popup">Sulge ja lähtesta VLC muutuste kinnitamiseks.</string>
     <string name="detect_headset">Tuvasta kõrvaklapid</string>
     <string name="detect_headset_detail">Kõrvaklapide eemaldamisel pausi; jätka klapide ühendamisel</string>
     <string name="enable_wheel_bar">Võimalda juhtnupud</string>
+    <string name="enable_gesture_brightness">Võimalda heleduse žestid</string>
     <string name="enable_verbose_mode">Jutukas</string>
     <string name="enable_verbose_mode_detail">Suurenda jutukust (logcat)</string>
     <string name="aout">Audioväljund</string>
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
+    <string name="enable_time_stretching_audio_detail">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
 </resources>
