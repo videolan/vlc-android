@@ -3,7 +3,6 @@
   <!--Main VLC Interface-->
   <string name="filebrowser_sdfail">SDカードを開けません。正しくマウントされていることを確認してください。</string>
   <string name="filebrowser_root">ルート</string>
-  <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">再生するメディアの選択</string>
   <string name="ml_no_media_dir">ディレクトリにメディアがありません</string>
   <string name="sortby">並べ替え...</string>
@@ -11,14 +10,19 @@
   <string name="sortby_length">長さ</string>
   <string name="searchable_hint">検索...</string>
   <string name="history">履歴</string>
-  <string name="search_found_results">%1$d 件見つかりました</string>
+  <plurals name="search_found_results_quantity">
+    <item quantity="other">%d 件見つかりました</item>
+  </plurals>
   <string name="show_player">プレイヤーを表示</string>
   <string name="hide_mini_player">ミニプレイヤーを隠す</string>
   <string name="play">再生</string>
+  <string name="play_as_audio">オーディオとして再生</string>
+  <string name="play_as_video">ビデオとして再生</string>
   <string name="append">追加</string>
   <string name="play_all">すべて再生</string>
   <string name="append_all">すべて追加</string>
   <string name="delete">削除</string>
+  <string name="set_song">呼び出し音に設定</string>
   <string name="info">情報</string>
   <string name="confirm_delete">このファイルを削除しますか?</string>
   <string name="pause">一時停止</string>
@@ -39,24 +43,28 @@
     <item quantity="other">%d アルバム</item>
   </plurals>
   <plurals name="subfolders_quantity">
-    <item quantity="other">%d サブフォルダ</item>
+    <item quantity="other">%d サブフォルダー</item>
   </plurals>
   <string name="parent_folder">一階層上に</string>
+  <string name="audio">オーディオ</string>
+  <string name="video">ビデオ</string>
+  <string name="bookmarks">ブックマーク</string>
   <string name="all_albums">すべてのアルバム</string>
   <string name="genres">ジャンル</string>
   <string name="playlists">プレイリスト</string>
-  <string name="time_0">0:00</string>
   <string name="title">タイトル</string>
   <string name="artist">アーティスト</string>
   <string name="album">アルバム</string>
   <string name="directory">ディレクトリ</string>
   <string name="directories">ディレクトリ</string>
   <string name="loading">ロード中...</string>
+  <string name="please_wait">しばらくおまちください...</string>
   <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
   <string name="mediafiles">メディアファイル</string>
   <string name="notavailable">利用できません</string>
   <string name="nosubdirectory">サブディレクトリ無し</string>
   <string name="validation">本当に実行しますか?</string>
+  <string name="lock_rotation">画面の自動回転をロック</string>
   <string name="locked">ロック中</string>
   <string name="unlocked">ロック解除</string>
   <string name="surface_best_fit">スクリーンに最適化</string>
@@ -83,7 +91,10 @@
   <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
   <string name="open_mrl_dialog_msg">ネットワークMRLを入力: 例 http://, mms:// または rtsp://</string>
   <string name="media_library">メディアライブラリ</string>
-  <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのVLC for Android™ではサポートされていません。 \n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
+  <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。\n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
+  <string name="error_problem">VLC for Androidはローディングで問題が発生したため、クローズします。</string>
+  <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):\n</string>
+  <string name="playback_speed">再生速度</string>
 
   <!--About-->
   <string name="app_name_full">VLC for Android™</string>
@@ -94,6 +105,7 @@
   <string name="about_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
   <string name="for_android">for Android™</string>
   <string name="compiled_by">このバージョンのVLCのコンパイラ:</string>
+  <string name="vlc_authors">VLCの著作者</string>
 
   <!--Preferences-->
   <string name="preferences">設定</string>
@@ -101,17 +113,24 @@
   <string name="privacy_prefs_category">プライバシー</string>
   <string name="clear_history">検索履歴をクリア</string>
   <string name="advanced_prefs_category">拡張設定</string>
-  <string name="enable_iomx">ハードウェアによるデコーディングを有効化</string>
+  <string name="enable_iomx">ハードウェアデコーディングの有効化</string>
   <string name="advanced_debugging">高度なデバッグ</string>
   <string name="quit">アプリケーションを終了</string>
   <string name="clear_media_db">メディアデータベースをクリア</string>
+  <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
+  <string name="set_locale">ロケールの設定</string>
+  <string name="set_locale_detail">ブランクでリセット</string>
+  <string name="set_locale_popup">変更を反映するためにVLCを終了・リセットします。</string>
   <string name="detect_headset">ヘッドセットの検出</string>
   <string name="detect_headset_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
   <string name="enable_wheel_bar">ホイールバーを有効化</string>
+  <string name="enable_gesture_brightness">ジェスチャーで輝度を調整</string>
   <string name="enable_verbose_mode">出力レベル</string>
-  <string name="enable_verbose_mode_detail">出力レベルを増加(logcat)</string>
+  <string name="enable_verbose_mode_detail">出力レベルを増加 (logcat)</string>
   <string name="aout">オーディオ出力</string>
-  <string name="aout_audiotrack">オーディオトラック(ネイティブ)</string>
-  <string name="aout_audiotrack_java">オーディオトラック(Java)</string>
+  <string name="aout_audiotrack">オーディオトラック (ネイティブ)</string>
+  <string name="aout_audiotrack_java">オーディオトラック (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
+  <string name="enable_time_stretching_audio_detail">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
 </resources>
