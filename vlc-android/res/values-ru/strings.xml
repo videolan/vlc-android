@@ -10,7 +10,10 @@
     <string name="sortby_length">по размеру</string>
     <string name="searchable_hint">Поиск</string>
     <string name="history">История</string>
-    <string name="search_found_results">Найдено результатов: %1$d</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Результатов поиска: %d</item>
+        <item quantity="other">Результатов поиска: %d</item>
+    </plurals>
     <string name="show_player">Показать плеер</string>
     <string name="hide_mini_player">Скрыть мини-плеер</string>
     <string name="play">Воспроизвести</string>
@@ -20,8 +23,9 @@
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
     <string name="delete">Удалить</string>
+    <string name="set_song">Сделать мелодией звонка</string>
     <string name="info">Информация</string>
-    <string name="confirm_delete">Удалить этот файл?</string>
+    <string name="confirm_delete">Удалить файл \'%1$s\' ?</string>
     <string name="pause">Пауза</string>
     <string name="close">Закрыть</string>
     <string name="not_show_again">"Больше не выводить это сообщение."</string>
@@ -46,6 +50,9 @@
         <item quantity="other">Подпапок: %d</item>
     </plurals>
     <string name="parent_folder">Предыдущий уровень</string>
+    <string name="audio">Аудио</string>
+    <string name="video">Видео</string>
+    <string name="bookmarks">Избранное</string>
     <string name="all_albums">Все альбомы</string>
     <string name="genres">Жанры</string>
     <string name="playlists">Плейлисты</string>
@@ -54,15 +61,17 @@
     <string name="album">Альбом</string>
     <string name="directory">Каталог</string>
     <string name="directories">Каталоги</string>
-    <string name="loading">Загружается…</string>
+    <string name="loading">Загрузка…</string>
+    <string name="please_wait">Пожалуйста, подождите...</string>
     <string name="nomedia">Медиа-файлы не найдены. Пожалуйста, перенесите файлы на ваше устройство или измените настройки.</string>
     <string name="mediafiles">Медиа-файлы</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Нет подкаталогов.</string>
     <string name="validation">Вы уверены?</string>
+    <string name="lock_rotation">Блокировка поворота экрана</string>
     <string name="locked">Заблокировано</string>
     <string name="unlocked">Разблокировано</string>
-    <string name="surface_best_fit">Оптимальное размещение</string>
+    <string name="surface_best_fit">Оптимально</string>
     <string name="surface_fit_horizontal">По горизонтали</string>
     <string name="surface_fit_vertical">По вертикали</string>
     <string name="surface_fill">Заполнение</string>
@@ -87,7 +96,10 @@
     <string name="open_mrl_dialog_title">Воспроизведение сетевого потока</string>
     <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
     <string name="media_library">Медиатека</string>
-    <string name="error_not_compatible">Извините, эта версия VLC для Android не работает на вашем устройстве™.\n\nСообщение об ошибке (оно будет полезно нам при отладке):\n</string>
+    <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
+    <string name="error_problem">К сожалению, VLC для Android не смог загрузиться и его пришлось закрыть.</string>
+    <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\п</string>
+    <string name="playback_speed">Скорость воспроизведения</string>
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
@@ -95,9 +107,10 @@
     <string name="licence">Лицензия</string>
     <string name="revision">Ревизия</string>
     <string name="about">О программе</string>
-    <string name="about_text">VLC для Android™ - порт медиаплеера VLC, популярного медиаплеера с открытым исходным кодом. Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
+    <string name="about_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
     <string name="for_android">для Android™</string>
     <string name="compiled_by">Эту версию VLC скомпилировал:</string>
+    <string name="vlc_authors">Разработчики VLC.</string>
 
     <!--  Preferences -->
     <string name="preferences">Настройки</string>
@@ -110,13 +123,19 @@
     <string name="quit">Завершить приложение</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
+    <string name="set_locale">Языковая среда</string>
+    <string name="set_locale_detail">Пустая строка подразумевает значение по умолчанию</string>
+    <string name="set_locale_popup">Закройте и перезапустите VLC, чтобы изменения вступили в силу.</string>
     <string name="detect_headset">Отслеживание гарнитуры</string>
     <string name="detect_headset_detail">Пауза при отключении гарнитуры; продолжение при подключении</string>
     <string name="enable_wheel_bar">Ползунок прокрутки</string>
+    <string name="enable_gesture_brightness">Изменение яркости жестом</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_detail">Степень детализации сообщений (logcat)</string>
     <string name="aout">Вывод звука</string>
     <string name="aout_audiotrack">AudioTrack (нативный код)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Изменение скорости звука</string>
+    <string name="enable_time_stretching_audio_detail">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство)</string>
 </resources>
