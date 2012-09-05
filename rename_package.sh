@@ -14,4 +14,4 @@ find vlc-android \( -name "*.xml" -o -name "*.java" -o -name "*.cfg" -o -name "*
 find vlc-android \( -name "*.c" \) -print0 | xargs -0 sed -ri "s,${OLD_PATH},${NEW_PATH},g"
 sed -ri "s,${OLD_PATH},${NEW_PATH},g" Makefile
 
-find vlc-android/jni/* -print0 | xargs -0  sed -ri "s,$(echo $OLD_NAME |sed 's/\./_/g'),$(echo $NEW_NAME |sed 's/\./_/g'),g"
+find vlc-android/jni -type f -print0 | xargs -0  sed -ri "s,$(echo $OLD_NAME |sed 's/\./_/g'),$(echo $NEW_NAME |sed 's/\./_/g'),g"
