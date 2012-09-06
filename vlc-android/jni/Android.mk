@@ -65,7 +65,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lliveMedia -lUsageEnvironment -lBasicUsageEnvironment -lgroupsock \
 	-lspeex -lspeexdsp \
 	-lxml2 -lpng -lgnutls -lgcrypt -lgpg-error \
-	-lfreetype -liconv -lass -lfribidi \
+	-lfreetype -liconv -lass -lfribidi -lopus \
 	$(CPP_STATIC)
 
 include $(BUILD_SHARED_LIBRARY)
