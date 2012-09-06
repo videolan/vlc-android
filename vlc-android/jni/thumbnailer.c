@@ -80,15 +80,8 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     if (hasThumb)
         return;
 
-    sys->nbReceivedFrames++;
-
-    if (libvlc_media_player_get_position(sys->mp) < THUMBNAIL_POSITION / 2
-        // Arbitrary choice to work around broken files.
-        && libvlc_media_player_get_length(sys->mp) > 1000
-        && sys->nbReceivedFrames < 10)
-    {
+    if (++sys->nbReceivedFrames < 10)
         return;
-    }
 
     /* Else we have received our first thumbnail and we can exit. */
     const char *dataSrc = sys->frameData;
