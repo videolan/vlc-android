@@ -23,6 +23,7 @@
   <string name="play_all">Alle wiedergeben</string>
   <string name="append_all">Alle anhängen</string>
   <string name="delete">Löschen</string>
+  <string name="set_song">Als Klingelton festlegen</string>
   <string name="info">Information</string>
   <string name="confirm_delete">Diese Datei löschen?</string>
   <string name="pause">Pause</string>
@@ -51,6 +52,7 @@
   <string name="parent_folder">Zum darüberliegenden Ordner</string>
   <string name="audio">Audio</string>
   <string name="video">Video</string>
+  <string name="bookmarks">Lesezeichen</string>
   <string name="all_albums">Alle Alben</string>
   <string name="genres">Genres</string>
   <string name="playlists">Wiedergabelisten</string>
@@ -60,11 +62,13 @@
   <string name="directory">Verzeichnis</string>
   <string name="directories">Verzeichnisse</string>
   <string name="loading">Laden…</string>
-  <string name="nomedia">Keine Mediendateien</string>
+  <string name="please_wait">Bitte warten…</string>
+  <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
   <string name="mediafiles">Mediendateien</string>
   <string name="notavailable">nicht verfügbar</string>
   <string name="nosubdirectory">Kein Unterverzeichnis</string>
   <string name="validation">Sind Sie sicher?</string>
+  <string name="lock_rotation">Sperre Bildschirmrotation</string>
   <string name="locked">Gesperrt</string>
   <string name="unlocked">Entsperrt</string>
   <string name="surface_best_fit">Beste Größe</string>
@@ -93,6 +97,8 @@
   <string name="open_mrl_dialog_msg">Netzwerk-MRL eingeben: z.B. http://, mms:// oder rtsp://</string>
   <string name="media_library">Medienbibliothek</string>
   <string name="error_not_compatible">VLC für Android™ unterstützt dieses Gerät leider derzeit nicht.\n\nDie Fehlermeldung lautet (bitte für das Debuggen angeben):\n</string>
+  <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
+  <string name="error_message_is">Die Fehlermeldung ist (beachten Sie dies bitte bei der Fehlersuche):\n</string>
   <string name="playback_speed">Wiedergabegeschwindigkeit</string>
 
   <!--About-->
@@ -123,6 +129,7 @@
   <string name="detect_headset">Headset erkennen</string>
   <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
   <string name="enable_wheel_bar">Wheel bar aktivieren</string>
+  <string name="enable_gesture_brightness">Helligkeit-Gesten aktivieren</string>
   <string name="enable_verbose_mode">Ausführlichkeit</string>
   <string name="enable_verbose_mode_detail">Ausführlichkeit des Logs erhöhen (Logcat)</string>
   <string name="aout">Audioausgabe</string>
