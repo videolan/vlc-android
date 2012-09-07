@@ -24,6 +24,7 @@
   <string name="play_all">Odtwórz wszystko</string>
   <string name="append_all">Dołącz wszystko</string>
   <string name="delete">Usuń</string>
+  <string name="set_song">Ustaw jako dzwonek</string>
   <string name="info">Informacje</string>
   <string name="confirm_delete">Usunąć ten plik?</string>
   <string name="pause">Pauza</string>
@@ -65,6 +66,7 @@
   <string name="directory">Katalog</string>
   <string name="directories">Katalogi</string>
   <string name="loading">Ładowanie…</string>
+  <string name="please_wait">Proszę czekać…</string>
   <string name="nomedia">Brak plików multimedialnych, proszę przenieś pliki na twoje urządzenie lub zmień ustawienia.</string>
   <string name="mediafiles">Pliki multimedialne</string>
   <string name="notavailable">niedostępne</string>
@@ -102,6 +104,7 @@
   <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
   <string name="error_problem">Niestety, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
   <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
+  <string name="playback_speed">Prędkość odtwarzania</string>
 
   <!--About-->
   <string name="app_name_full">VLC dla Androida™</string>
@@ -138,4 +141,6 @@
   <string name="aout_audiotrack">AudioTrack (natywny)</string>
   <string name="aout_audiotrack_java">AudioTrack (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
+  <string name="enable_time_stretching_audio_detail">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
 </resources>
