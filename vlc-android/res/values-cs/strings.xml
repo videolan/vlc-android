@@ -24,6 +24,7 @@
   <string name="play_all">Přehrát vše</string>
   <string name="append_all">Připojit vše</string>
   <string name="delete">Smazat</string>
+  <string name="set_song">Nastavit jako vyzváněcí melodii</string>
   <string name="info">Informace</string>
   <string name="confirm_delete">Odstranit soubor?</string>
   <string name="pause">Pozastavit</string>
@@ -55,6 +56,7 @@
   <string name="parent_folder">Vzhůru do nadřazené složky</string>
   <string name="audio">Zvuk</string>
   <string name="video">Video</string>
+  <string name="bookmarks">Záložky</string>
   <string name="all_albums">Všechna alba</string>
   <string name="genres">Žánry</string>
   <string name="playlists">Seznamy skladeb</string>
@@ -64,11 +66,13 @@
   <string name="directory">Adresář</string>
   <string name="directories">Adresáře</string>
   <string name="loading">Načítám…</string>
+  <string name="please_wait">Vyčkejte prosím…</string>
   <string name="nomedia">Nenalezeny žádné mediální soubory. Prosím nahrajte soubory na Vaše zařízení, nebo upravte nastavení.</string>
   <string name="mediafiles">Mediální soubory</string>
   <string name="notavailable">nedostupné</string>
   <string name="nosubdirectory">Žádné podadresáře.</string>
   <string name="validation">Jste si jisti?</string>
+  <string name="lock_rotation">Uzamknout rotaci obrazovky</string>
   <string name="locked">Uzamčeno</string>
   <string name="unlocked">Odemčeno</string>
   <string name="surface_best_fit">Nejvhodněji přizpůsobit</string>
@@ -98,6 +102,8 @@
   <string name="open_mrl_dialog_msg">Zadejte síťovou MRL: např. http://, mms://, nebo rtsp://</string>
   <string name="media_library">Knihovna médií</string>
   <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.\n\nChybové hlášení (prosím zmiňte jej při ladění) je:\n</string>
+  <string name="error_problem">Lituji, VLC pro Android mělo problém s načítáním a muselo se ukončit.</string>
+  <string name="error_message_is">Chybová zpráva je (prosím oznamte při debugování):\n</string>
   <string name="playback_speed">Rychlost přehrávání</string>
 
   <!--About-->
@@ -128,6 +134,7 @@
   <string name="detect_headset">Detekovat sluchátka</string>
   <string name="detect_headset_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
   <string name="enable_wheel_bar">Povolit kolečkovou lištu</string>
+  <string name="enable_gesture_brightness">Povolit gesto jasu</string>
   <string name="enable_verbose_mode">Podrobné</string>
   <string name="enable_verbose_mode_detail">Zvýší podrobnosti v záznamu (logcat)</string>
   <string name="aout">Zvukový výstup</string>
