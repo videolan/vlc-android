@@ -23,6 +23,7 @@
   <string name="play_all">Reproducir todos</string>
   <string name="append_all">Anexar todos</string>
   <string name="delete">Eliminar</string>
+  <string name="set_song">Definir como ton de chamada</string>
   <string name="info">Información</string>
   <string name="confirm_delete">Quere eliminar este ficheiro?</string>
   <string name="pause">En pausa</string>
@@ -51,6 +52,7 @@
   <string name="parent_folder">Ir arriba ao cartafol pai</string>
   <string name="audio">Audio</string>
   <string name="video">Video</string>
+  <string name="bookmarks">Marcadores</string>
   <string name="all_albums">Todos os álbumes</string>
   <string name="genres">Xéneros</string>
   <string name="playlists">Listas de reprodución</string>
@@ -60,11 +62,13 @@
   <string name="directory">Directorio</string>
   <string name="directories">Directorios</string>
   <string name="loading">Cargando…</string>
+  <string name="please_wait">Agarde…</string>
   <string name="nomedia">Non se encontraron ficheiros multumedia. Por favor, transfira os ficheiros ao seu dispositivo ou axuste as súas preferencias.</string>
   <string name="mediafiles">Ficheiros multimedia</string>
   <string name="notavailable">non está dispoñíbel</string>
   <string name="nosubdirectory">Non hai subdirectorios.</string>
   <string name="validation">Está seguro?</string>
+  <string name="lock_rotation">Bloquear a rotación da pantalla</string>
   <string name="locked">Bloqueado</string>
   <string name="unlocked">Desbloqueado</string>
   <string name="surface_best_fit">Mellor axuste</string>
@@ -93,6 +97,8 @@
   <string name="open_mrl_dialog_msg">Introduza un MRL de rede, por exemplo: http://, mms:// ou rtsp://</string>
   <string name="media_library">Biblioteca multimedia</string>
   <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.\n\nA mensaxe de erro é (mencione isto na depuración):\n</string>
+  <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
+  <string name="error_message_is">A mensaxe de erro é (por favor, menciónea para a depuración):\n</string>
   <string name="playback_speed">Velocidade de reprodución</string>
 
   <!--About-->
@@ -123,6 +129,7 @@
   <string name="detect_headset">Detectar os auriculares</string>
   <string name="detect_headset_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
   <string name="enable_wheel_bar">Activar a barra de roda</string>
+  <string name="enable_gesture_brightness">Activar o xesto para o brillo</string>
   <string name="enable_verbose_mode">Detallado</string>
   <string name="enable_verbose_mode_detail">Incrementar o nivel de detalle (logcat)</string>
   <string name="aout">Saída de audio</string>
