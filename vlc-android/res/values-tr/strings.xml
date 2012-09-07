@@ -22,6 +22,7 @@
   <string name="play_all">Tümünü oynat</string>
   <string name="append_all">Tümünü ekle</string>
   <string name="delete">Sil</string>
+  <string name="set_song">Zil sesi yap</string>
   <string name="info">Bilgiler</string>
   <string name="confirm_delete">Bu dosya silinsin mi?</string>
   <string name="pause">Duraklat</string>
@@ -47,6 +48,7 @@
   <string name="parent_folder">Üst klasör</string>
   <string name="audio">Ses</string>
   <string name="video">Görüntü</string>
+  <string name="bookmarks">Yer İmleri</string>
   <string name="all_albums">Tüm albümler</string>
   <string name="genres">Türler</string>
   <string name="playlists">Oynatma listeleri</string>
@@ -56,11 +58,13 @@
   <string name="directory">Klasör</string>
   <string name="directories">Klasörler</string>
   <string name="loading">Yükleniyor…</string>
+  <string name="please_wait">Lütfen bekleyin…</string>
   <string name="nomedia">Ortam dosyaları bulunamadı, dosyalarınızı aktarın ya da ayarlarınızı denetleyin.</string>
   <string name="mediafiles">Ortam dosyaları</string>
   <string name="notavailable">kullanılamaz</string>
   <string name="nosubdirectory">Alt klasör yok.</string>
   <string name="validation">Emin misiniz?</string>
+  <string name="lock_rotation">Ekran döndürmeyi kilitle</string>
   <string name="locked">Kilitli</string>
   <string name="unlocked">Kilitsiz</string>
   <string name="surface_best_fit">En uygun</string>
@@ -88,6 +92,8 @@
   <string name="open_mrl_dialog_msg">Ağ MRL yazın: örneğin http://, mms:// or rtsp://</string>
   <string name="media_library">Ortam kütüphanesi</string>
   <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
+  <string name="error_problem">Android için VLC yüklenirken bir sorun çıktı ve kapatılması gerekti.</string>
+  <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):</string>
   <string name="playback_speed">Oynatma hızı</string>
 
   <!--About-->
@@ -118,6 +124,7 @@
   <string name="detect_headset">Kulaklığı algıla</string>
   <string name="detect_headset_detail">Kulaklık çıkarıldığında duraklat, takıldığında oynat</string>
   <string name="enable_wheel_bar">Tekerlek çubuğunu etkinleştir</string>
+  <string name="enable_gesture_brightness">Parlaklık işaretini etkinleştir</string>
   <string name="enable_verbose_mode">Ayrıntıları göster</string>
   <string name="enable_verbose_mode_detail">Ayrıntıları arttır (logcat)</string>
   <string name="aout">Ses çıkışı</string>
