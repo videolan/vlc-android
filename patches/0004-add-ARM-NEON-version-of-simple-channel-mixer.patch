@@ -1,7 +1,7 @@
-From d8ba9cd813625fb4cfecd1d4207ea3d27cd0e4a8 Mon Sep 17 00:00:00 2001
+From c761c0665c0fd9d3cf5fee05979a87d86795b0ab Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
-Subject: [PATCH] add ARM/NEON version of simple channel mixer
+Subject: [PATCH 4/5] add ARM/NEON version of simple channel mixer
 
 ---
  modules/LIST                            |    1 +
@@ -13,10 +13,10 @@ Subject: [PATCH] add ARM/NEON version of simple channel mixer
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
 diff --git a/modules/LIST b/modules/LIST
-index f6dda85..a586069 100644
+index 52b34c3..fc82183 100644
 --- a/modules/LIST
 +++ b/modules/LIST
-@@ -291,6 +291,7 @@ $Id$
+@@ -287,6 +287,7 @@ $Id$
   * shine: MP3 encoder using Shine, a fixed point implementation
   * sid: Sidplay demuxer
   * simple_channel_mixer: channel mixer
@@ -25,12 +25,12 @@ index f6dda85..a586069 100644
   * smf: Standard MIDI file demuxer
   * sndio: OpenBSD sndio audio output
 diff --git a/modules/arm_neon/Modules.am b/modules/arm_neon/Modules.am
-index b60011b..ca6c2ff 100644
+index 498368a..4f2af9e 100644
 --- a/modules/arm_neon/Modules.am
 +++ b/modules/arm_neon/Modules.am
-@@ -9,6 +9,13 @@ libaudio_format_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
+@@ -8,6 +8,13 @@ libaudio_format_neon_plugin_la_SOURCES = \
+ libaudio_format_neon_plugin_la_CFLAGS = $(AM_CFLAGS)
  libaudio_format_neon_plugin_la_LIBADD = $(AM_LIBADD)
- libaudio_format_neon_plugin_la_DEPENDENCIES =
  
 +libsimple_channel_mixer_neon_plugin_la_SOURCES = \
 +	simple_channel_mixer.S \
@@ -42,7 +42,7 @@ index b60011b..ca6c2ff 100644
  libchroma_yuv_neon_plugin_la_SOURCES = \
  	i420_yuyv.S \
  	i422_yuyv.S \
-@@ -34,6 +41,7 @@ libyuv_rgb_neon_plugin_la_DEPENDENCIES =
+@@ -30,6 +37,7 @@ libyuv_rgb_neon_plugin_la_LIBADD = $(AM_LIBADD)
  
  libvlc_LTLIBRARIES += \
  	libaudio_format_neon_plugin.la \

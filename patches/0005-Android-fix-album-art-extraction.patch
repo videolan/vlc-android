@@ -1,14 +1,14 @@
-From 333b15549243936ad7c559bf1930f3b358e9a254 Mon Sep 17 00:00:00 2001
+From e25c37feb5743091291653329a7801926d7bb419 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Fri, 22 Jun 2012 23:05:37 +0200
-Subject: [PATCH] Android: fix album art extraction
+Subject: [PATCH 5/5] Android: fix album art extraction
 
 ---
  src/playlist/art.c |    4 ++++
- 1 file changed, 4 insertions(+)
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
 diff --git a/src/playlist/art.c b/src/playlist/art.c
-index 79ca30f..6f8b9db 100644
+index 9a93762..fbcb8c6 100644
 --- a/src/playlist/art.c
 +++ b/src/playlist/art.c
 @@ -64,7 +64,11 @@ static char* ArtCacheGetDirPath( const char *psz_arturl, const char *psz_artist,
@@ -24,5 +24,5 @@ index 79ca30f..6f8b9db 100644
      if( !EMPTY_STR(psz_artist) && !EMPTY_STR(psz_album) )
      {
 -- 
-1.7.9.5
+1.7.5.4
 

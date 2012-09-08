@@ -1,4 +1,4 @@
-From 6db17a74d36e03c198e513dd26bb78a9c7b311ae Mon Sep 17 00:00:00 2001
+From 54572a6b6a895706cabd9ca77b2007fe3055f6f3 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
 Date: Sat, 10 Mar 2012 04:54:23 -0500
 Subject: [PATCH 1/5] android: threads support
@@ -33,14 +33,14 @@ are 100% shared with linux so it'd be useless to have 2 copies.
  include/vlc_threads.h |   13 +++
  lib/error.c           |   10 ++
  src/Makefile.am       |   17 ++++
- src/posix/thread.c    |  245 +++++++++++++++++++++++++++++++++++++++++++------
- 4 files changed, 257 insertions(+), 28 deletions(-)
+ src/posix/thread.c    |  244 +++++++++++++++++++++++++++++++++++++++++++------
+ 4 files changed, 256 insertions(+), 28 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
-index ebf94e2..dad50b1 100644
+index 7fcbf25..a32375f 100644
 --- a/include/vlc_threads.h
 +++ b/include/vlc_threads.h
-@@ -43,6 +43,15 @@
+@@ -42,6 +42,15 @@
  
  #   define pthread_sigmask  sigprocmask
  
@@ -56,7 +56,7 @@ index ebf94e2..dad50b1 100644
  #else                                         /* pthreads (like Linux & BSD) */
  #   define LIBVLC_USE_PTHREAD 1
  #   define LIBVLC_USE_PTHREAD_CANCEL 1
-@@ -118,7 +127,11 @@
+@@ -117,7 +126,11 @@
   *****************************************************************************/
  
  #if defined (LIBVLC_USE_PTHREAD)
@@ -102,10 +102,10 @@ index d053faa..52840e8 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/Makefile.am b/src/Makefile.am
-index d8f4890..37bf044 100644
+index 9572480..40c71de 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -195,6 +195,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
+@@ -198,6 +198,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
  EXTRA_libvlccore_la_SOURCES = \
  	$(SOURCES_libvlc_darwin) \
  	$(SOURCES_libvlc_linux) \
@@ -113,7 +113,7 @@ index d8f4890..37bf044 100644
  	$(SOURCES_libvlc_win32) \
  	$(SOURCES_libvlc_os2) \
  	$(SOURCES_libvlc_other) \
-@@ -205,6 +206,9 @@ EXTRA_libvlccore_la_SOURCES = \
+@@ -208,6 +209,9 @@ EXTRA_libvlccore_la_SOURCES = \
  if HAVE_DARWIN
  libvlccore_la_SOURCES += $(SOURCES_libvlc_darwin)
  else
@@ -123,7 +123,7 @@ index d8f4890..37bf044 100644
  if HAVE_LINUX
  libvlccore_la_SOURCES += $(SOURCES_libvlc_linux)
  else
-@@ -227,6 +231,7 @@ endif
+@@ -226,6 +230,7 @@ endif
  endif
  endif
  endif
@@ -131,7 +131,7 @@ index d8f4890..37bf044 100644
  if BUILD_HTTPD
  libvlccore_la_SOURCES += $(SOURCES_libvlc_httpd)
  endif
-@@ -247,6 +252,18 @@ SOURCES_libvlc_darwin = \
+@@ -246,6 +251,18 @@ SOURCES_libvlc_darwin = \
  	posix/rand.c \
  	$(NULL)
  
@@ -151,7 +151,7 @@ index d8f4890..37bf044 100644
  	posix/dirs.c \
  	posix/filesystem.c \
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index cc5381e..e528499 100644
+index 5da8805..965c516 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -1,5 +1,5 @@
@@ -376,15 +376,7 @@ index cc5381e..e528499 100644
  }
  
  /**
-@@ -828,6 +948,7 @@ int vlc_set_priority (vlc_thread_t th, int priority)
-             return VLC_EGENERIC;
-     }
- #else
-+    (void) th;
-     (void) priority;
- #endif
-     return VLC_SUCCESS;
-@@ -842,10 +963,25 @@ int vlc_set_priority (vlc_thread_t th, int priority)
+@@ -842,10 +962,25 @@ int vlc_set_priority (vlc_thread_t th, int priority)
   */
  void vlc_cancel (vlc_thread_t thread_id)
  {
@@ -414,7 +406,7 @@ index cc5381e..e528499 100644
  }
  
  /**
-@@ -858,11 +994,13 @@ void vlc_cancel (vlc_thread_t thread_id)
+@@ -858,11 +993,13 @@ void vlc_cancel (vlc_thread_t thread_id)
   */
  int vlc_savecancel (void)
  {
@@ -432,7 +424,7 @@ index cc5381e..e528499 100644
  }
  
  /**
-@@ -872,18 +1010,19 @@ int vlc_savecancel (void)
+@@ -872,18 +1009,19 @@ int vlc_savecancel (void)
   */
  void vlc_restorecancel (int state)
  {
@@ -458,7 +450,7 @@ index cc5381e..e528499 100644
  #endif
  }
  
-@@ -896,13 +1035,48 @@ void vlc_restorecancel (int state)
+@@ -896,13 +1034,48 @@ void vlc_restorecancel (int state)
   */
  void vlc_testcancel (void)
  {
@@ -510,7 +502,7 @@ index cc5381e..e528499 100644
  }
  
  /**
-@@ -979,8 +1153,23 @@ void msleep (mtime_t delay)
+@@ -979,8 +1152,23 @@ void msleep (mtime_t delay)
      while (clock_nanosleep (vlc_clock_id, 0, &ts, &ts) == EINTR);
  
  #else

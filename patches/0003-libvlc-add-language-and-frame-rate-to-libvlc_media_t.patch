@@ -1,16 +1,16 @@
-From 796397ae813096cb86e3effd9b6709e2039be8d4 Mon Sep 17 00:00:00 2001
+From d48944b701bddb7594446d2b43f64a62b3ff9afd Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=A9bastien=20Toque?= <xilasz@gmail.com>
 Date: Sun, 22 Apr 2012 09:35:52 +0200
-Subject: [PATCH 3/3] libvlc: add language and frame rate to
+Subject: [PATCH 3/5] libvlc: add language and frame rate to
  libvlc_media_track_info_t
 
 ---
  include/vlc/libvlc_media.h |   14 ++++++++++++++
  lib/media.c                |   15 +++++++++++++++
- 2 files changed, 29 insertions(+)
+ 2 files changed, 29 insertions(+), 0 deletions(-)
 
 diff --git a/include/vlc/libvlc_media.h b/include/vlc/libvlc_media.h
-index 279a29c..d4b1524 100644
+index f8b267d..5773ad2 100644
 --- a/include/vlc/libvlc_media.h
 +++ b/include/vlc/libvlc_media.h
 @@ -164,9 +164,12 @@ typedef struct libvlc_media_track_info_t
@@ -26,7 +26,7 @@ index 279a29c..d4b1524 100644
  } libvlc_media_track_info_t;
  
  
-@@ -504,6 +507,17 @@ LIBVLC_API
+@@ -512,6 +515,17 @@ LIBVLC_API
  int libvlc_media_get_tracks_info( libvlc_media_t *p_md,
                                    libvlc_media_track_info_t **tracks );
  
@@ -45,10 +45,10 @@ index 279a29c..d4b1524 100644
  
  # ifdef __cplusplus
 diff --git a/lib/media.c b/lib/media.c
-index 2c01c80..b3f5a9a 100644
+index 600e10a..ab33fd6 100644
 --- a/lib/media.c
 +++ b/lib/media.c
-@@ -707,6 +707,8 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+@@ -706,6 +706,8 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
          p_mes->i_codec = p_es->i_codec;
          p_mes->i_id = p_es->i_id;
  
@@ -57,7 +57,7 @@ index 2c01c80..b3f5a9a 100644
          p_mes->i_profile = p_es->i_profile;
          p_mes->i_level = p_es->i_level;
  
-@@ -720,6 +722,7 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+@@ -719,6 +721,7 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
              p_mes->i_type = libvlc_track_video;
              p_mes->u.video.i_height = p_es->video.i_height;
              p_mes->u.video.i_width = p_es->video.i_width;
@@ -65,7 +65,7 @@ index 2c01c80..b3f5a9a 100644
              break;
          case AUDIO_ES:
              p_mes->i_type = libvlc_track_audio;
-@@ -735,3 +738,15 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
+@@ -734,3 +737,15 @@ libvlc_media_get_tracks_info( libvlc_media_t *p_md, libvlc_media_track_info_t **
      vlc_mutex_unlock( &p_input_item->lock );
      return i_es;
  }
@@ -82,5 +82,5 @@ index 2c01c80..b3f5a9a 100644
 +    free( p_tracks );
 +}
 -- 
-1.7.10.2
+1.7.5.4
 
