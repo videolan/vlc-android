@@ -13,9 +13,9 @@
 
     <ImageView
         android:id="@+id/cover"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="10dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/cone" />
 
     <LinearLayout
@@ -56,6 +56,7 @@
                 android:id="@+id/backward"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginRight="13dp"
                 android:background="#00ffffff"
                 android:clickable="true"
                 android:scaleType="fitXY"
@@ -65,7 +66,6 @@
                 android:id="@+id/play_pause"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="#00ffffff"
                 android:clickable="true"
@@ -76,8 +76,7 @@
                 android:id="@+id/stop"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="13dp"
                 android:background="#00ffffff"
                 android:clickable="true"
                 android:scaleType="fitXY"
