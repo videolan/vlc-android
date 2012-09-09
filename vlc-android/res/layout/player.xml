@@ -215,6 +215,21 @@
                     android:text="@string/lock_rotation"
                     android:textSize="18dip" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/player_overlay_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.00x"
+                    android:textSize="22dip"
+                    android:clickable="true" />
+            </LinearLayout>
         </LinearLayout>
     </org.videolan.vlc.widget.SlidingPanel>
 

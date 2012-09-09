@@ -35,6 +35,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
 import org.videolan.vlc.interfaces.OnPlayerControlListener;
@@ -46,6 +47,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -134,6 +136,7 @@ public class VideoPlayerActivity extends Activity {
     private Spinner mSubtitles;
     private ImageButton mLock;
     private ImageButton mSize;
+    private TextView mSpeedLabel;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -257,6 +260,9 @@ public class VideoPlayerActivity extends Activity {
 
         mSize = (ImageButton) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
+
+        mSpeedLabel = (TextView) findViewById(R.id.player_overlay_speed);
+        mSpeedLabel.setOnClickListener(mSpeedLabelListener);
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
@@ -958,6 +964,21 @@ public class VideoPlayerActivity extends Activity {
                     break;
             }
             showOverlay();
+        }
+    };
+
+    private final OnClickListener mSpeedLabelListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SpeedSelectorDialog d = new SpeedSelectorDialog(VideoPlayerActivity.this);
+            d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mSpeedLabel.setText(String.format(java.util.Locale.US, "%.2fx", LibVLC.getExistingInstance().getRate()));
+                }
+            });
+            d.show();
         }
     };
 
