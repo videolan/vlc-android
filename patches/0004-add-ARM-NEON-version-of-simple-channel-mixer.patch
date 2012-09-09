@@ -1,4 +1,4 @@
-From c761c0665c0fd9d3cf5fee05979a87d86795b0ab Mon Sep 17 00:00:00 2001
+From 6d6cae0ec66474df81da77e0b4dd0d533000b699 Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
 Subject: [PATCH 4/5] add ARM/NEON version of simple channel mixer
@@ -13,11 +13,11 @@ Subject: [PATCH 4/5] add ARM/NEON version of simple channel mixer
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
 diff --git a/modules/LIST b/modules/LIST
-index 52b34c3..fc82183 100644
+index b7ec0f3..0066411 100644
 --- a/modules/LIST
 +++ b/modules/LIST
-@@ -287,6 +287,7 @@ $Id$
-  * shine: MP3 encoder using Shine, a fixed point implementation
+@@ -289,6 +289,7 @@ $Id$
+  * shm: Shared memory framebuffer access module
   * sid: Sidplay demuxer
   * simple_channel_mixer: channel mixer
 + * simple_channel_mixer_neon: channel mixer using NEON assembly
