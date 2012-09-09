@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/widget_margin"
     android:background="@drawable/background"
     android:clickable="true"
     android:clipChildren="true"
@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/cover"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="10dp"
         android:src="@drawable/cone" />
 
@@ -54,8 +54,8 @@
 
             <ImageButton
                 android:id="@+id/backward"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#00ffffff"
                 android:clickable="true"
                 android:scaleType="fitXY"
@@ -85,8 +85,8 @@
 
             <ImageButton
                 android:id="@+id/forward"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="#00ffffff"
                 android:clickable="true"
                 android:scaleType="fitXY"

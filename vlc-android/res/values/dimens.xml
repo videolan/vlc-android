@@ -1,3 +1,4 @@
 <resources>
 	<dimen name="shadow_width">6px</dimen>
+	<dimen name="widget_margin">10dp</dimen>
 </resources>

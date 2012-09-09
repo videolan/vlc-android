@@ -1,6 +1,6 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="294dp"
-    android:minHeight="72dp"
+    android:minHeight="40dp"
     android:updatePeriodMillis="86400000"
     android:initialLayout="@layout/vlcwidget">
 </appwidget-provider>
