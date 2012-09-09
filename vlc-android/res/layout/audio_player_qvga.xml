@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:onClick="onSpeedLabelClick"
-                android:text="1.00x"
+                android:text="@string/speed_placeholder"
                 android:textSize="20dp" />
 
         </LinearLayout>
@@ -179,4 +179,3 @@
             android:onClick="onNextClick" />
     </LinearLayout>
 </LinearLayout>
-

@@ -102,6 +102,7 @@
     <string name="error_message_is">The error message is (please mention this when debugging):\n</string>
     <string name="playback_speed">Playback speed</string>
     <string name="time_0" translatable="false">0:00</string>
+    <string name="speed_placeholder" translatable="false">1.00x</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>

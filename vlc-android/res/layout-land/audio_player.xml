@@ -159,7 +159,7 @@
                 android:layout_marginBottom="10dip"
                 android:clickable="true"
                 android:onClick="onSpeedLabelClick"
-                android:text="1.00x"
+                android:text="@string/speed_placeholder"
                 android:textSize="24dp" />
 
         </LinearLayout>
