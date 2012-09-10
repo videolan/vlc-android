@@ -188,20 +188,6 @@ index 1fc2b67..4bdc7b5 100644
  #if (_POSIX_TIMERS > 0)
  static unsigned vlc_clock_prec;
  
-@@ -141,10 +154,11 @@ void vlc_trace (const char *fn, const char *file, unsigned line)
- 
- static inline unsigned long vlc_threadid (void)
- {
--#if defined (__linux__)
-+#if defined (__ANDROID__)
-+     return syscall (__NR_gettid);
-+#elif defined (__linux__)
-      /* glibc does not provide a call for this */
-      return syscall (SYS_gettid);
--
- #else
-      union { pthread_t th; unsigned long int i; } v = { };
-      v.th = pthread_self ();
 @@ -162,7 +176,7 @@ vlc_thread_fatal (const char *action, int error,
                    const char *function, const char *file, unsigned line)
  {
