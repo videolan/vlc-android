@@ -40,6 +40,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +50,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaMetadataRetriever;
+import android.media.RemoteControlClient;
+import android.media.RemoteControlClient.MetadataEditor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -89,6 +93,20 @@ public class AudioService extends Service {
     private long mHeadsetUpTime = 0;
 
     /**
+     * The RemoteControlClient class doesn't exist at all <ICS, so we need
+     * to cache some constants.
+     */
+    private static class RemoteControlClientConstants {
+        public static final int PLAYSTATE_STOPPED = 1;
+        public static final int PLAYSTATE_PAUSED = 2;
+        public static final int PLAYSTATE_PLAYING = 3;
+    }
+    /**
+     * RemoteControlClient is for lock screen playback control.
+     */
+    private RemoteControlClient mRemoteControlClient = null;
+
+    /**
      * Distinguish between the "fake" (Java-backed) playlist versus the "real"
      * (LibVLC/LibVLCcore) backed playlist.
      *
@@ -125,6 +143,48 @@ public class AudioService extends Service {
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(Intent.ACTION_MEDIA_BUTTON);
         registerReceiver(serviceReceiver, filter);
+
+        if(Util.isICSOrLater())
+            setUpRemoteControlClient();
+    }
+
+    @TargetApi(14)
+    private void setUpRemoteControlClient() {
+        if(!Util.isICSOrLater()) // sanity check
+            return;
+
+        AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
+        ComponentName eventReceiverComponent = new ComponentName(getPackageName(), RemoteControlClientReceiver.class.getName());
+
+        audioManager.registerMediaButtonEventReceiver(eventReceiverComponent);
+
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        mediaButtonIntent.setComponent(eventReceiverComponent);
+        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, 0);
+
+        // create and register the remote control client
+        mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+        mRemoteControlClient.setTransportControlFlags(
+                RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+                RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+                RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
+                RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                RemoteControlClient.FLAG_KEY_MEDIA_STOP);
+        audioManager.registerRemoteControlClient(mRemoteControlClient);
+    }
+
+    /**
+     * A function to control the Remote Control Client. It is needed for
+     * compatibility with devices below Ice Cream Sandwich (4.0).
+     *
+     * @param p Playback state
+     */
+    @TargetApi(14)
+    private void setRemoteControlClientPlaybackState(int p) {
+        if(!Util.isICSOrLater())
+            return;
+
+        mRemoteControlClient.setPlaybackState(p);
     }
 
     @Override
@@ -320,16 +380,19 @@ public class AudioService extends Service {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.changeAudioFocus(true);
+                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_PLAYING);
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
                     // also hide notification if phone ringing
                     service.hideNotification();
+                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_PAUSED);
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
+                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_STOPPED);
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
@@ -440,6 +503,7 @@ public class AudioService extends Service {
     private void stop() {
         mEventManager.removeHandler(mEventHandler);
         mLibVLC.stop();
+        setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_STOPPED);
         mCurrentMedia = null;
         mMediaList.clear();
         mPrevious.clear();
@@ -481,6 +545,22 @@ public class AudioService extends Service {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
+        updateRemoteControlClientMetadata();
+    }
+
+    @TargetApi(14)
+    private void updateRemoteControlClientMetadata() {
+        if(!Util.isICSOrLater()) // NOP check
+            return;
+
+        MetadataEditor editor = mRemoteControlClient.editMetadata(true);
+        editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, mCurrentMedia.getAlbum());
+        editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, mCurrentMedia.getArtist());
+        editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, mCurrentMedia.getGenre());
+        editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, mCurrentMedia.getTitle());
+        editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, mCurrentMedia.getLength());
+        editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, getCover());
+        editor.apply();
     }
 
     private void previous() {
@@ -504,6 +584,7 @@ public class AudioService extends Service {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         showNotification();
         updateWidget(this);
+        updateRemoteControlClientMetadata();
     }
 
     private void shuffle() {
@@ -735,6 +816,7 @@ public class AudioService extends Service {
                 }
                 showNotification();
                 updateWidget(AudioService.this);
+                updateRemoteControlClientMetadata();
             }
         }
 
