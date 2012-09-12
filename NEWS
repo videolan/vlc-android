@@ -1,8 +1,26 @@
 Changes between 0.0.2 and 0.0.3-git:
 --------------------------------
 
+Core:
+ * Many, many bugfixes and stability improvements
+ * Building for Android-x86 is now supported
+ * IOMX hardware acceleration and AudioTrack improvements on Jellybean
+ * Media library scanning is now faster and more efficient
+
+Interface:
+ * Sliding panel added in video player
+ * Tabs replaced with a sliding sidebar
+ * Added the feature to change the playback speed in audio and video
+ * Improved seek gesture
+ * Added optional brightness gesture
+ * Added ability to set the system ringtone to a song from VLC
+ * Added history support
+
 Translations:
- * Added Russian translation
+ * Added Arabic, Bengali, Bosnian, Korean, Russian, Thai translations
+ * Updates for the Simplified Chinese, Turkish, Polish, Hebrew,
+   Galician, German, Czech, Bosnian, Estonian, Japanese, Italian, Dutch,
+   Hindi and Slovak translations
 
 Changes between 0.0.1 and 0.0.2:
 --------------------------------
