@@ -93,15 +93,6 @@ public class AudioService extends Service {
     private long mHeadsetUpTime = 0;
 
     /**
-     * The RemoteControlClient class doesn't exist at all <ICS, so we need
-     * to cache some constants.
-     */
-    private static class RemoteControlClientConstants {
-        public static final int PLAYSTATE_STOPPED = 1;
-        public static final int PLAYSTATE_PAUSED = 2;
-        public static final int PLAYSTATE_PLAYING = 3;
-    }
-    /**
      * RemoteControlClient is for lock screen playback control.
      */
     private RemoteControlClient mRemoteControlClient = null;
@@ -380,19 +371,19 @@ public class AudioService extends Service {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.changeAudioFocus(true);
-                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_PLAYING);
+                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
                     // also hide notification if phone ringing
                     service.hideNotification();
-                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_PAUSED);
+                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
-                    service.setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_STOPPED);
+                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
@@ -503,7 +494,7 @@ public class AudioService extends Service {
     private void stop() {
         mEventManager.removeHandler(mEventHandler);
         mLibVLC.stop();
-        setRemoteControlClientPlaybackState(RemoteControlClientConstants.PLAYSTATE_STOPPED);
+        setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
         mCurrentMedia = null;
         mMediaList.clear();
         mPrevious.clear();
