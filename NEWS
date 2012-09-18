@@ -15,6 +15,7 @@ Interface:
  * Added optional brightness gesture
  * Added ability to set the system ringtone to a song from VLC
  * Added history support
+ * On ICS and above, added lockscreen control for music
 
 Translations:
  * Added Arabic, Bengali, Bosnian, Korean, Russian, Thai translations
