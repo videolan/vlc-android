@@ -180,12 +180,12 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     float screenAR = (float)width / height;
     if (screenAR < videoAR)
     {
-        picHeight = (float)width / videoAR;
+        picHeight = (float)width / videoAR + 1;
         sys->thumbnailOffset = (height - picHeight) / 2 * width * PIXEL_SIZE;
     }
     else
     {
-        picWidth = (float)height * videoAR;
+        picWidth = (float)height * videoAR + 1;
         sys->thumbnailOffset = (width - picWidth) / 2 * PIXEL_SIZE;
     }
 
@@ -194,7 +194,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     sys->nbLines = picHeight;
 
     /* Allocate the memory to store the frames. */
-    unsigned picSize = sys->picPitch * picHeight;
+    size_t picSize = sys->picPitch * sys->nbLines;
     sys->frameData = malloc(picSize);
     if (sys->frameData == NULL)
     {
