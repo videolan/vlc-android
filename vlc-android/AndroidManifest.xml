@@ -81,32 +81,23 @@
 
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:scheme="file" />
-                <data android:scheme="rtsp" />
-                <data android:scheme="rtmp" />
-                <data android:scheme="rtp" />
-                <data android:scheme="mms" />
-                <data android:scheme="mmsh" />
-                <data android:scheme="icyx" />
-                <data android:scheme="udp" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:mimeType="video/*" />
+                <data android:scheme="http" android:mimeType="audio/*" />
+                <data android:scheme="https" android:mimeType="video/*" />
+                <data android:scheme="https" android:mimeType="audio/*" />
+                <data android:scheme="file" android:mimeType="video/*" />
+                <data android:scheme="file" android:mimeType="audio/*" />
+                <data android:scheme="udp" android:mimeType="video/*" />
+                <data android:scheme="udp" android:mimeType="audio/*" />
+                <data android:scheme="ftp" android:mimeType="video/*" />
+                <data android:scheme="ftp" android:mimeType="audio/*" />
 
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:scheme="file" />
                 <data android:scheme="rtsp" />
                 <data android:scheme="rtmp" />
                 <data android:scheme="rtp" />
                 <data android:scheme="mms" />
                 <data android:scheme="mmsh" />
                 <data android:scheme="icyx" />
-                <data android:scheme="udp" />
             </intent-filter>
         </activity>
         <activity
