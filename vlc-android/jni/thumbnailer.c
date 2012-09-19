@@ -139,7 +139,6 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_add_option( m, ":no-osd" );
 
     libvlc_media_player_set_media(sys->mp, m);
-    libvlc_media_release(m);
 
     /* Get the size of the video with the tracks information of the media. */
     libvlc_media_track_info_t *tracks;
@@ -158,6 +157,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         }
 
     free(tracks);
+    libvlc_media_release(m);
 
     /* Abord if we have not found a video track. */
     if (!hasVideoTrack)
