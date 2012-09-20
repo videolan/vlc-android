@@ -34,19 +34,42 @@
 #define THUMBNAIL_POSITION 0.5
 #define PIXEL_SIZE 4 /* RGBA */
 
+
+/*
+   Frame is:   thumbnail + black borders
+   frameData = frameWidth * frameHeight (values given by Java UI)
+
+   ┌————————————————————————————————————————————————————┐
+   │                                                    │
+   │                 Black Borders                      │
+   │                                                    │
+   ├————————————————————————————————————————————————————┤
+   │                                                    │
+   │                 Thumbnail Data                     │
+   │                                                    │
+   │             thumbHeight x thumbWidth               │
+   │             thumbPitch = thumbWidth * 4            │
+   │                                                    │
+   ├————————————————————————————————————————————————————┤
+   │                                                    │
+   │                                                    │
+   │                                                    │
+   └————————————————————————————————————————————————————┘
+*/
+
 typedef struct
 {
     libvlc_media_player_t *mp;
 
     bool hasThumb;
 
+    char *thumbData;
     char *frameData;
-    char *thumbnail;
 
-    unsigned thumbnailOffset;
-    unsigned lineSize;
-    unsigned nbLines;
-    unsigned picPitch;
+    unsigned blackBorders;
+    unsigned frameWidth;
+    unsigned thumbHeight;
+    unsigned thumbPitch;
 
     unsigned nbReceivedFrames;
 
@@ -61,7 +84,7 @@ typedef struct
 static void *thumbnailer_lock(void *opaque, void **pixels)
 {
     thumbnailer_sys_t *sys = opaque;
-    *pixels = sys->frameData;
+    *pixels = sys->thumbData;
     return NULL;
 }
 
@@ -84,14 +107,15 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
         return;
 
     /* Else we have received our first thumbnail and we can exit. */
-    const char *dataSrc = sys->frameData;
-    char *dataDest = sys->thumbnail + sys->thumbnailOffset;
+    const char *dataSrc = sys->thumbData;
+    char *dataDest = sys->frameData + sys->blackBorders * PIXEL_SIZE;
+
     /* Copy the thumbnail. */
-    for (unsigned i = 0; i < sys->nbLines; ++i)
+    for (unsigned i = 0; i < sys->thumbHeight; ++i)
     {
-        memcpy(dataDest, dataSrc, sys->picPitch);
-        dataDest += sys->lineSize;
-        dataSrc += sys->picPitch;
+        memcpy(dataDest, dataSrc, sys->thumbPitch);
+        dataDest += sys->frameWidth * PIXEL_SIZE;
+        dataSrc += sys->thumbPitch;
     }
 
     /* Signal that the thumbnail was created. */
@@ -108,9 +132,9 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
  **/
 jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
                                                      jlong instance, jstring filePath,
-                                                     jint width, jint height)
+                                                     const jint frameWidth, const jint frameHeight)
 {
-    libvlc_instance_t *libvlc = (libvlc_instance_t *)instance;
+    libvlc_instance_t *libvlc = (libvlc_instance_t *)(intptr_t)instance;
     jbyteArray byteArray = NULL;
 
     /* Create the thumbnailer data structure */
@@ -134,6 +158,8 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         LOGE("Could not create the media to play!");
         goto end;
     }
+
+    /* Fast and no options */
     libvlc_media_add_option( m, ":no-audio" );
     libvlc_media_add_option( m, ":no-spu" );
     libvlc_media_add_option( m, ":no-osd" );
@@ -144,7 +170,9 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_track_info_t *tracks;
     libvlc_media_parse(m);
     int nbTracks = libvlc_media_get_tracks_info(m, &tracks);
+    libvlc_media_release(m);
 
+    /* Parse the results */
     unsigned videoWidth, videoHeight;
     bool hasVideoTrack = false;
     for (unsigned i = 0; i < nbTracks; ++i)
@@ -157,9 +185,8 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         }
 
     free(tracks);
-    libvlc_media_release(m);
 
-    /* Abord if we have not found a video track. */
+    /* Abort if we have not found a video track. */
     if (!hasVideoTrack)
     {
         LOGE("Could not find any video track in this file.\n");
@@ -174,45 +201,48 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     }
 
     /* Compute the size parameters of the frame to generate. */
-    unsigned picWidth  = width;
-    unsigned picHeight = height;
-    float videoAR = (float)videoWidth / videoHeight;
-    float screenAR = (float)width / height;
-    if (screenAR < videoAR)
+    unsigned thumbWidth  = frameWidth;
+    unsigned thumbHeight = frameHeight;
+    const float inputAR = (float)videoWidth / videoHeight;
+    const float screenAR = (float)frameWidth / frameHeight;
+
+    /* Most of the cases, video is wider than tall */
+    if (screenAR < inputAR)
     {
-        picHeight = (float)width / videoAR + 1;
-        sys->thumbnailOffset = (height - picHeight) / 2 * width * PIXEL_SIZE;
+        thumbHeight = (float)frameWidth / inputAR + 1;
+        sys->blackBorders = ( (frameHeight - thumbHeight) / 2 ) * frameWidth;
     }
     else
     {
-        picWidth = (float)height * videoAR + 1;
-        sys->thumbnailOffset = (width - picWidth) / 2 * PIXEL_SIZE;
+        LOGD("Weird aspect Ratio.\n");
+        thumbWidth = (float)frameHeight * inputAR;
+        sys->blackBorders = (frameWidth - thumbWidth) / 2;
     }
 
-    sys->picPitch = picWidth * PIXEL_SIZE;
-    sys->lineSize = width * PIXEL_SIZE;
-    sys->nbLines = picHeight;
+    sys->thumbPitch  = thumbWidth * PIXEL_SIZE;
+    sys->thumbHeight = thumbHeight;
+    sys->frameWidth  = frameWidth;
 
     /* Allocate the memory to store the frames. */
-    size_t picSize = sys->picPitch * sys->nbLines;
-    sys->frameData = malloc(picSize);
-    if (sys->frameData == NULL)
+    size_t thumbSize = sys->thumbPitch * (sys->thumbHeight+1);
+    sys->thumbData = malloc(thumbSize);
+    if (sys->thumbData == NULL)
     {
         LOGE("Could not allocate the memory to store the frame!");
         goto end;
     }
 
     /* Allocate the memory to store the thumbnail. */
-    unsigned thumbnailSize = width * height * PIXEL_SIZE;
-    sys->thumbnail = calloc(thumbnailSize, 1);
-    if (sys->thumbnail == NULL)
+    unsigned frameSize = frameWidth * frameHeight * PIXEL_SIZE;
+    sys->frameData = calloc(frameSize, 1);
+    if (sys->frameData == NULL)
     {
         LOGE("Could not allocate the memory to store the thumbnail!");
         goto end;
     }
 
     /* Set the video format and the callbacks. */
-    libvlc_video_set_format(sys->mp, "RGBA", picWidth, picHeight, sys->picPitch);
+    libvlc_video_set_format(sys->mp, "RGBA", thumbWidth, thumbHeight, sys->thumbPitch);
     libvlc_video_set_callbacks(sys->mp, thumbnailer_lock, thumbnailer_unlock,
                                NULL, (void*)sys);
 
@@ -238,22 +268,22 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
 
     if (sys->hasThumb) {
         /* Create the Java byte array to return the create thumbnail. */
-        byteArray = (*env)->NewByteArray(env, thumbnailSize);
+        byteArray = (*env)->NewByteArray(env, frameSize);
         if (byteArray == NULL)
         {
             LOGE("Could not allocate the Java byte array to store the frame!");
             goto end;
         }
 
-        (*env)->SetByteArrayRegion(env, byteArray, 0, thumbnailSize,
-                (jbyte *)sys->thumbnail);
+        (*env)->SetByteArrayRegion(env, byteArray, 0, frameSize,
+                (jbyte *)sys->frameData);
     }
 
 end:
     pthread_mutex_destroy(&sys->doneMutex);
     pthread_cond_destroy(&sys->doneCondVar);
-    free(sys->thumbnail);
     free(sys->frameData);
+    free(sys->thumbData);
     free(sys);
 
     return byteArray;
