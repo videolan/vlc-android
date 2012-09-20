@@ -147,6 +147,8 @@ public class VideoPlayerActivity extends Activity {
     // size of the video
     private int mVideoHeight;
     private int mVideoWidth;
+    private int mSarNum;
+    private int mSarDen;
 
     //Audio
     private AudioManager mAudioManager;
@@ -176,7 +178,7 @@ public class VideoPlayerActivity extends Activity {
                         public void onSystemUiVisibilityChange(int visibility) {
                             if (visibility == mUiVisibility)
                                 return;
-                            setSurfaceSize(mVideoWidth, mVideoHeight);
+                            setSurfaceSize(mVideoWidth, mVideoHeight, mSarNum, mSarDen);
                             if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing) {
                                 showOverlay();
                                 mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
@@ -401,14 +403,16 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        setSurfaceSize(mVideoWidth, mVideoHeight);
+        setSurfaceSize(mVideoWidth, mVideoHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
     }
 
-    public void setSurfaceSize(int width, int height) {
+    public void setSurfaceSize(int width, int height, int sar_num, int sar_den) {
         // store video size
         mVideoHeight = height;
         mVideoWidth = width;
+        mSarNum = sar_num;
+        mSarDen = sar_den;
         Message msg = mHandler.obtainMessage(SURFACE_SIZE);
         mHandler.sendMessage(msg);
     }
@@ -621,9 +625,20 @@ public class VideoPlayerActivity extends Activity {
         if (dw * dh == 0)
             return;
 
-        // calculate aspect ratio
-        double ar = (double) mVideoWidth / (double) mVideoHeight;
-        // calculate display aspect ratio
+        // compute the aspect ratio
+        double ar, vw;
+        double density = (double)mSarNum / (double)mSarDen;
+        if (density == 1.0) {
+            /* No indication about the density, assuming 1:1 */
+            vw = mVideoWidth;
+            ar = (double)mVideoWidth / (double)mVideoHeight;
+        } else {
+            /* Use the specified aspect ratio */
+            vw = (double)mVideoWidth * density;
+            ar = vw / (double)mVideoHeight;
+        }
+
+        // compute the display aspect ratio
         double dar = (double) dw / (double) dh;
 
         switch (mCurrentSize) {
@@ -657,7 +672,7 @@ public class VideoPlayerActivity extends Activity {
                 break;
             case SURFACE_ORIGINAL:
                 dh = mVideoHeight;
-                dw = mVideoWidth;
+                dw = (int) vw;
                 break;
         }
 
