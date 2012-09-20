@@ -124,7 +124,7 @@ public class ThumbnailerManager extends Thread {
             count++;
 
             int width = (int) (120 * mDensity);
-            int height = (int) (120 * mDensity);
+            int height = (int) (80 * mDensity);
 
             // Get the thumbnail.
             Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
