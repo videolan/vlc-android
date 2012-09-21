@@ -53,6 +53,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.os.Build;
@@ -391,6 +392,12 @@ public class VideoPlayerActivity extends Activity {
         public void onReceive(Context context, Intent intent)
         {
             int batteryLevel = intent.getIntExtra("level", 0);
+            if (batteryLevel >= 50)
+                mBattery.setTextColor(Color.GREEN);
+            else if  (batteryLevel >= 30)
+                mBattery.setTextColor(Color.YELLOW);
+            else
+                mBattery.setTextColor(Color.RED);
             mBattery.setText(String.format("%d%%", batteryLevel));
         }
     };
