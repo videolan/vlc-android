@@ -42,6 +42,15 @@
             android:textSize="15dip" />
 
         <TextView
+            android:id="@+id/player_overlay_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="5dp"
+            android:textColor="#ffffff"
+            android:textSize="15dip" />
+
+        <TextView
             android:id="@+id/player_overlay_systime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -147,15 +156,6 @@
             android:layout_height="match_parent"
             android:background="@color/transparent_gray"
             android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/player_overlay_battery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="bottom"
-                android:textColor="#ffffff"
-                android:textSize="15dip" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
