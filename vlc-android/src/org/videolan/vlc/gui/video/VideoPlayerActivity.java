@@ -1176,9 +1176,9 @@ public class VideoPlayerActivity extends Activity {
             dontParse = getIntent().getExtras().getBoolean("dontParse");
         }
 
+        mSurface.setKeepScreenOn(true);
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             mLibVLC.readMedia(mLocation, false);
-            mSurface.setKeepScreenOn(true);
 
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
