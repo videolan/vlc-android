@@ -388,6 +388,8 @@ public class VideoPlayerActivity extends Activity {
                 mLibVLC.setTime(media.getTime());
         }
 
+        showOverlay();
+
         super.onResume();
     }
 
