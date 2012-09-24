@@ -145,6 +145,9 @@ public class VideoPlayerActivity extends Activity {
     private boolean mSwitchingView;
     private boolean mEndReached;
 
+    // Playlist
+    private int savedIndexPosition = -1;
+
     // size of the video
     private int mVideoHeight;
     private int mVideoWidth;
@@ -319,9 +322,24 @@ public class VideoPlayerActivity extends Activity {
             time = 0;
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
-        if (mLibVLC.isPlaying()) {
+
+        /*
+         * Pausing here generates errors because the vout is constantly
+         * trying to refresh itself every 80ms while the surface is not
+         * accessible anymore.
+         * To workaround that, we keep the last known position in the playlist
+         * in savedIndexPosition to be able to restore it during onResume().
+         */
+        if (savedIndexPosition >= 0)
+            mLibVLC.stop();
+        else {
+            /* FIXME when the playback is started externally from AudioService
+             * we don't have a savedIndexPosition. Use pause as a fallback until
+             * we find a solution.
+             */
             mLibVLC.pause();
         }
+
         mSurface.setKeepScreenOn(false);
 
         // Save position
@@ -362,6 +380,14 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onResume() {
         AudioServiceController.getInstance().bindAudioService(this);
+
+        if (savedIndexPosition >= 0) {
+            mLibVLC.playIndex(savedIndexPosition);
+            Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
+            if (media != null && media.getTime() > 0)
+                mLibVLC.setTime(media.getTime());
+        }
+
         super.onResume();
     }
 
@@ -1185,7 +1211,7 @@ public class VideoPlayerActivity extends Activity {
 
         mSurface.setKeepScreenOn(true);
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
-            mLibVLC.readMedia(mLocation, false);
+            savedIndexPosition = mLibVLC.readMedia(mLocation, false);
 
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
