@@ -609,7 +609,7 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     libvlc_media_list_player_play_item_at_index(p_mlp, position);
 }
 
-void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
+jint Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                             jlong instance, jstring mrl, jboolean novideo)
 {
     /* Create a new item */
@@ -636,6 +636,8 @@ void Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     libvlc_media_release(m);
 
     create_player_and_play(env, thiz, instance, position);
+
+    return position;
 }
 
 void Java_org_videolan_vlc_LibVLC_playIndex(JNIEnv *env, jobject thiz,

@@ -247,9 +247,9 @@ public class LibVLC {
     /**
      * Read a media.
      */
-    public void readMedia(String mrl, boolean novideo) {
+    public int readMedia(String mrl, boolean novideo) {
         Log.v(TAG, "Reading " + mrl);
-        readMedia(mLibVlcInstance, mrl, novideo);
+        return readMedia(mLibVlcInstance, mrl, novideo);
     }
 
     /**
@@ -324,8 +324,9 @@ public class LibVLC {
      * Read a media
      * @param instance: the instance of libVLC
      * @param mrl: the media mrl
+     * @return the position in the playlist
      */
-    private native void readMedia(long instance, String mrl, boolean novideo);
+    private native int readMedia(long instance, String mrl, boolean novideo);
 
     /**
      * Play an index in the native media list (playlist)
