@@ -48,6 +48,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -217,6 +218,20 @@ public class MainActivity extends SherlockFragmentActivity {
 
             if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
                 showInfoDialog();
+            else {
+                /*
+                 * The sliding menu is automatically opened when the user closes
+                 * the info dialog. If (for any reason) the dialog is not shown,
+                 * open the menu after a short delay.
+                 */
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMenu.showBehind();
+                    }
+                }, 1000);
+            }
         }
 
         /* Prepare the progressBar */
@@ -419,7 +434,10 @@ public class MainActivity extends SherlockFragmentActivity {
                     editor.putInt(PREF_SHOW_INFO, mVersionNumber);
                     editor.commit();
                 }
+                /* Close the dialog */
                 infoDialog.dismiss();
+                /* and finally open the sliding menu */
+                mMenu.showBehind();
             }
         });
         infoDialog.show();
