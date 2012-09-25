@@ -402,7 +402,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private void reloadPreferences() {
         SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
-        mCurrentFragment = sharedPrefs.getString("fragment", "audio");
+        mCurrentFragment = sharedPrefs.getString("fragment", "video");
     }
 
     private void showInfoDialog() {
