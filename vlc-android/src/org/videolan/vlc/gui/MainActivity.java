@@ -230,7 +230,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     public void run() {
                         mMenu.showBehind();
                     }
-                }, 1000);
+                }, 500);
             }
         }
 
