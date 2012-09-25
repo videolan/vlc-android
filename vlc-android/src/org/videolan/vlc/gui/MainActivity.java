@@ -84,6 +84,7 @@ public class MainActivity extends SherlockFragmentActivity {
     protected static final String ACTION_SHOW_TEXTINFO = "org.videolan.vlc.gui.ShowTextInfo";
 
     private static final String PREF_SHOW_INFO = "show_info";
+    private static final String PREF_FIRST_RUN = "first_run";
 
     private ActionBar mActionBar;
     private SlidingMenu mMenu;
@@ -98,6 +99,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private SharedPreferences mSettings;
 
     private int mVersionNumber = -1;
+    private boolean mFirstRun = false;
 
     public MainActivity() {
     }
@@ -130,8 +132,27 @@ public class MainActivity extends SherlockFragmentActivity {
         listView.setAdapter(mSidebarAdapter);
         mMenu.setViewBehind(sidebar);
 
+        /* Get the current version from package */
+        PackageInfo pinfo = null;
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (NameNotFoundException e) {
+            Log.e(TAG, "package info not found.");
+        }
+        if (pinfo != null)
+            mVersionNumber = pinfo.versionCode;
+
         /* Get settings */
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        /* Check if it's the first run */
+        mFirstRun = mSettings.getInt(PREF_FIRST_RUN, -1) != mVersionNumber;
+        if (mFirstRun) {
+            Editor editor = mSettings.edit();
+            editor.putInt(PREF_FIRST_RUN, mVersionNumber);
+            editor.commit();
+        }
+
         LibVLC.useIOMX(this);
         try {
             // Start LibVLC
@@ -207,31 +228,21 @@ public class MainActivity extends SherlockFragmentActivity {
             .commit();
 
         /* Show info/alpha/beta Warning */
-        PackageInfo pinfo = null;
-        try {
-            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (NameNotFoundException e) {
-            Log.e(TAG, "package info not found.");
-        }
-        if (pinfo != null) {
-            mVersionNumber = pinfo.versionCode;
-
-            if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
-                showInfoDialog();
-            else {
-                /*
-                 * The sliding menu is automatically opened when the user closes
-                 * the info dialog. If (for any reason) the dialog is not shown,
-                 * open the menu after a short delay.
-                 */
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mMenu.showBehind();
-                    }
-                }, 500);
-            }
+        if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
+            showInfoDialog();
+        else if (mFirstRun) {
+            /*
+             * The sliding menu is automatically opened when the user closes
+             * the info dialog. If (for any reason) the dialog is not shown,
+             * open the menu after a short delay.
+             */
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMenu.showBehind();
+                }
+            }, 500);
         }
 
         /* Prepare the progressBar */
@@ -436,8 +447,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 }
                 /* Close the dialog */
                 infoDialog.dismiss();
-                /* and finally open the sliding menu */
-                mMenu.showBehind();
+                /* and finally open the sliding menu if first run */
+                if (mFirstRun)
+                    mMenu.showBehind();
             }
         });
         infoDialog.show();
