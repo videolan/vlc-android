@@ -13,7 +13,9 @@
         android:minHeight="2dip"
         android:maxHeight="2dip"
         android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/spacer" />
+        android:thumb="@drawable/spacer"
+        android:paddingLeft="0px"
+        android:paddingRight="0px" />
     <LinearLayout
         android:id="@+id/mini_player"
         android:layout_width="fill_parent"
