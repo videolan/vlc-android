@@ -46,7 +46,8 @@
     <TabHost
 	    android:id="@+id/about_tabhost"
 	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent">
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/about_bg">
 	    <LinearLayout
 	        android:orientation="vertical"
 	        android:layout_width="fill_parent"
