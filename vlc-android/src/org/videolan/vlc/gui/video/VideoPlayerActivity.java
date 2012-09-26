@@ -45,6 +45,7 @@ import org.videolan.vlc.widget.SlidingPanel;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -381,6 +382,21 @@ public class VideoPlayerActivity extends Activity {
         AudioServiceController.getInstance().bindAudioService(this);
 
         load();
+
+        /*
+         * if the activity has been paused by pressing the power button,
+         * pressing it again will show the lock screen.
+         * But onResume will also be called, even if vlc-android is still in the background.
+         * To workaround that, pause playback if the lockscreen is displayed
+         */
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                if (mLibVLC != null && mLibVLC.isPlaying()) {
+                    KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
+                    if (km.inKeyguardRestrictedInputMode())
+                        mLibVLC.pause();
+                }
+            }}, 500);
 
         showOverlay();
 
