@@ -1,11 +1,16 @@
-Changes between 0.0.2 and 0.0.3-git:
+Changes between 0.0.2 and 0.0.3:
 --------------------------------
+
+Device specific:
+ * Add support for the Nexus7
+ * Add support for Android x86
 
 Core:
  * Many, many bugfixes and stability improvements
  * Building for Android-x86 is now supported
  * IOMX hardware acceleration and AudioTrack improvements on Jellybean
  * Media library scanning is now faster and more efficient
+ * The aspect ratio is now correctly handled in software decoding
 
 Interface:
  * Sliding panel added in video player
