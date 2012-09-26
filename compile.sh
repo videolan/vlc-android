@@ -22,8 +22,8 @@ case "$REL" in
     ;;
     8?)
         # NDK >= v8b, both 4.4.3 and 4.6 available, we use 4.6
-        GCCVER=4.6
-        CXXSTL="/4.6"
+        GCCVER=4.4.3
+        CXXSTL="/4.4.3"
     ;;
     *)
         echo "You need the NDKv7 or later"
