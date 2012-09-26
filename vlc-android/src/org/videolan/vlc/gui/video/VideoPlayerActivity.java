@@ -299,7 +299,6 @@ public class VideoPlayerActivity extends Activity {
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        load();
     }
 
     @Override
@@ -381,12 +380,7 @@ public class VideoPlayerActivity extends Activity {
     protected void onResume() {
         AudioServiceController.getInstance().bindAudioService(this);
 
-        if (savedIndexPosition >= 0) {
-            mLibVLC.playIndex(savedIndexPosition);
-            Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
-            if (media != null && media.getTime() > 0)
-                mLibVLC.setTime(media.getTime());
-        }
+        load();
 
         showOverlay();
 
