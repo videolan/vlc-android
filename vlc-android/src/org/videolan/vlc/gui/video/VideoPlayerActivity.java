@@ -1222,9 +1222,15 @@ public class VideoPlayerActivity extends Activity {
         }
 
         mSurface.setKeepScreenOn(true);
-        if (mLocation != null && mLocation.length() > 0 && !dontParse) {
-            savedIndexPosition = mLibVLC.readMedia(mLocation, false);
 
+        /* Start / resume playback */
+        if (savedIndexPosition > -1) {
+            mLibVLC.playIndex(savedIndexPosition);
+        } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
+            savedIndexPosition = mLibVLC.readMedia(mLocation, false);
+        }
+
+        if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
             if (media != null && media.getTime() > 0)
