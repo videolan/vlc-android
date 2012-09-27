@@ -124,13 +124,13 @@ public class MainActivity extends SherlockFragmentActivity {
         updateMenuOffset();
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
-        mMenu.setViewAbove(v_main);
+        mMenu.setContent(v_main);
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         ((ListView)sidebar).setFooterDividersEnabled(true);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
         mSidebarAdapter = new SidebarAdapter(getSupportFragmentManager());
         listView.setAdapter(mSidebarAdapter);
-        mMenu.setViewBehind(sidebar);
+        mMenu.setMenu(sidebar);
 
         /* Get the current version from package */
         PackageInfo pinfo = null;
@@ -184,7 +184,7 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Add padding between the home button and the arrow */
         ImageView home = (ImageView)findViewById(Util.isHoneycombOrLater()
                 ? android.R.id.home : R.id.abs__home);
-        if (home != null) 
+        if (home != null)
             home.setPadding(20, 0, 0, 0);
 
         /* Set up the sidebar click listener */
