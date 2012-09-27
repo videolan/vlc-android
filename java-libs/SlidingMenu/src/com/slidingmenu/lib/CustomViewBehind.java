@@ -1,14 +1,22 @@
 package com.slidingmenu.lib;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Transformation;
+
+import com.slidingmenu.lib.SlidingMenu.CanvasTransformer;
 
 public class CustomViewBehind extends CustomViewAbove {
-	
+
 	private static final String TAG = "CustomViewBehind";
+
+	private CustomViewAbove mViewAbove;
+	private CanvasTransformer mTransformer;
 	private boolean mChildrenEnabled;
 
 	public CustomViewBehind(Context context) {
@@ -17,6 +25,21 @@ public class CustomViewBehind extends CustomViewAbove {
 
 	public CustomViewBehind(Context context, AttributeSet attrs) {
 		super(context, attrs, false);
+	}
+
+	public void setCustomViewAbove(CustomViewAbove customViewAbove) {
+		mViewAbove = customViewAbove;
+		mViewAbove.setTouchModeBehind(mTouchMode);
+	}
+
+	public void setTouchMode(int i) {
+		mTouchMode = i;
+		if (mViewAbove != null)
+			mViewAbove.setTouchModeBehind(i);
+	}
+
+	public void setCanvasTransformer(CanvasTransformer t) {
+		mTransformer = t;
 	}
 
 	public int getChildLeft(int i) {
@@ -47,19 +70,37 @@ public class CustomViewBehind extends CustomViewAbove {
 	public void setContent(View v) {
 		super.setMenu(v);
 	}
-	
+
 	public void setChildrenEnabled(boolean enabled) {
 		mChildrenEnabled = enabled;
 	}
 	
 	@Override
+	public void scrollTo(int x, int y) {
+		super.scrollTo(x, y);
+		if (mTransformer != null)
+			invalidate();
+	}
+
+	@Override
 	public boolean onInterceptTouchEvent(MotionEvent e) {
 		return !mChildrenEnabled;
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent e) {
 		return false;
+	}
+
+	@Override
+	protected void dispatchDraw(Canvas canvas) {
+		if (mTransformer != null) {
+			canvas.save();
+			mTransformer.transformCanvas(canvas, mViewAbove.getPercentOpen());
+			super.dispatchDraw(canvas);
+			canvas.restore();
+		} else
+			super.dispatchDraw(canvas);
 	}
 
 }
