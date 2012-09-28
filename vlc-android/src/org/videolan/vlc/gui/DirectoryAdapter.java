@@ -326,10 +326,11 @@ public class DirectoryAdapter extends BaseAdapter {
         return a;
     }
 
-    public void clear() {
+    public void refresh() {
         for(DirectoryAdapter.Node n : this.mCurrentNode.children)
             n.children.clear();
         this.mCurrentNode.children.clear();
+
         this.mCurrentNode = new DirectoryAdapter.Node(mCurrentDir);
         this.populateNode(mCurrentNode, mCurrentDir);
 
