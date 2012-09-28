@@ -308,6 +308,9 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     @Override
     protected void onPause() {
+        /* Stop scanning for files */
+        MediaLibrary.getInstance(this).stop();
+
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
         editor.commit();

@@ -125,8 +125,15 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     @Override
+    public void onStart() {
+        mThumbnailerManager.start();
+        super.onStart();
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
+        mThumbnailerManager.stop();
         mMediaLibrary.removeUpdateHandler(mHandler);
     }
 
@@ -145,7 +152,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     @Override
     public void onDestroy() {
         mThumbnailerManager.clearJobs();
-        mThumbnailerManager.interrupt();
+        mThumbnailerManager.stop();
         mBarrier.reset();
         mVideoAdapter.clear();
         getActivity().unregisterReceiver(messageReceiverVideoListFragment);

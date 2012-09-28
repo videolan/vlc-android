@@ -20,6 +20,7 @@
 
 package org.videolan.vlc;
 
+import java.lang.Thread.State;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -36,14 +37,16 @@ import android.graphics.Bitmap.Config;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-public class ThumbnailerManager extends Thread {
+public class ThumbnailerManager implements Runnable {
     public final static String TAG = "VLC/ThumbnailerManager";
 
     private final Queue<Media> mItems = new LinkedList<Media>();
 
+    private boolean isStopping = false;
     private final Lock lock = new ReentrantLock();
     private final Condition notEmpty = lock.newCondition();
 
+    protected Thread mThread;
     private LibVLC mLibVlc;
     private final VideoListFragment mVideoListActivity;
     private int totalCount;
@@ -60,7 +63,18 @@ public class ThumbnailerManager extends Thread {
         DisplayMetrics metrics = new DisplayMetrics();
         mVideoListActivity.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDensity = metrics.density;
-        start();
+    }
+
+    public void start() {
+        if (mThread == null || mThread.getState() == State.TERMINATED) {
+            isStopping = false;
+            mThread = new Thread(this);
+            mThread.start();
+        }
+    }
+
+    public void stop() {
+        isStopping = true;
     }
 
     /**
@@ -94,9 +108,11 @@ public class ThumbnailerManager extends Thread {
         int count = 0;
         int total = 0;
 
+        Log.d(TAG, "Thumbnailer started");
+
         String prefix = mVideoListActivity.getResources().getString(R.string.thumbnail);
 
-        while (!isInterrupted()) {
+        while (!isStopping) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean killed = false;
@@ -105,14 +121,17 @@ public class ThumbnailerManager extends Thread {
                     Log.i(TAG, "hide ProgressBar!");
                     MainActivity.hideProgressBar(mVideoListActivity.getActivity());
                     MainActivity.clearTextInfo(mVideoListActivity.getActivity());
+                    totalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
                     killed = true;
                     break;
                 }
             }
-            if (killed)
+            if (killed) {
+                lock.unlock();
                 break;
+            }
             total = totalCount;
             Media item = mItems.poll();
             lock.unlock();
@@ -130,10 +149,6 @@ public class ThumbnailerManager extends Thread {
             Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
             //Log.i(TAG, "create new bitmap for: " + item.getName());
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
-
-            // Activity stopped & destroyed, abort everything
-            if (isInterrupted())
-                break;
 
             if (b == null) {// We were not able to create a thumbnail for this item.
                 item.setPicture(mVideoListActivity.getActivity(), null);
@@ -158,5 +173,6 @@ public class ThumbnailerManager extends Thread {
                 break;
             }
         }
+        Log.d(TAG, "Thumbnailer stopped");
     }
 }

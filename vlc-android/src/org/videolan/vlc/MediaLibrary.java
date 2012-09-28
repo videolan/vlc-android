@@ -39,6 +39,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class MediaLibrary {
     public final static String TAG = "VLC/MediaLibrary";
@@ -49,6 +50,7 @@ public class MediaLibrary {
     private final DatabaseManager mDBManager;
     private final ArrayList<Media> mItemList;
     private final ArrayList<Handler> mUpdateHandler;
+    private boolean isStopping = false;
     protected Thread mLoadingThread;
 
     private MediaLibrary(Context context) {
@@ -60,10 +62,15 @@ public class MediaLibrary {
 
     public void loadMediaItems(Context context) {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
+            isStopping = false;
             VideoListFragment.actionScanStart(context.getApplicationContext());
             mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
             mLoadingThread.start();
         }
+    }
+
+    public void stop() {
+        isStopping = true;
     }
 
     public static MediaLibrary getInstance(Context context) {
@@ -204,98 +211,108 @@ public class MediaLibrary {
             int count = 0;
 
             ArrayList<File> mediaToScan = new ArrayList<File>();
+            try {
+                // Count total files, and stack them
+                while (!directories.isEmpty()) {
+                    File dir = directories.pop();
+                    String dirPath = dir.getAbsolutePath();
+                    File[] f = null;
 
-            // Count total files, and stack them
-            while (!directories.isEmpty()) {
-                File dir = directories.pop();
-                String dirPath = dir.getAbsolutePath();
-                File[] f = null;
+                    // Skip some system folders
+                    if (dirPath.startsWith("/proc/") || dirPath.startsWith("/sys/") || dirPath.startsWith("/dev/"))
+                        continue;
 
-                // Skip some system folders
-                if (dirPath.startsWith("/proc/") || dirPath.startsWith("/sys/") || dirPath.startsWith("/dev/"))
-                    continue;
+                    // Do not scan again if same canonical path
+                    try {
+                        dirPath = dir.getCanonicalPath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (directoriesScanned.contains(dirPath))
+                        continue;
+                    else
+                        directoriesScanned.add(dirPath);
 
-                // Do not scan again if same canonical path
-                try {
-                    dirPath = dir.getCanonicalPath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (directoriesScanned.contains(dirPath))
-                    continue;
-                else
-                    directoriesScanned.add(dirPath);
+                    // Do no scan media in .nomedia folders
+                    if (new File(dirPath + "/.nomedia").exists()) {
+                        continue;
+                    }
 
-                // Do no scan media in .nomedia folders
-                if (new File(dirPath + "/.nomedia").exists()) {
-                    continue;
-                }
-
-                // Filter the extensions and the folders
-                try { 
-                    if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                        for (File file : f) {
-                            if (file.isFile()) {
-                                mediaToScan.add(file);
-                            } else if (file.isDirectory()) {
-                                directories.push(file);
+                    // Filter the extensions and the folders
+                    try { 
+                        if ((f = dir.listFiles(mediaFileFilter)) != null) {
+                            for (File file : f) {
+                                if (file.isFile()) {
+                                    mediaToScan.add(file);
+                                } else if (file.isDirectory()) {
+                                    directories.push(file);
+                                }
                             }
                         }
+                    } catch (Exception e)
+                    {
+                        // listFiles can fail in OutOfMemoryError, go to the next folder
+                        continue;
                     }
-                } catch (Exception e)
-                {
-                    // listFiles can fail in OutOfMemoryError, go to the next folder
-                    continue;
-                }
-            }
 
-            // Process the stacked items
-            for (File file : mediaToScan) {
-                String fileURI = Util.PathToURI(file.getPath());
-                MainActivity.sendTextInfo(mContext, file.getName(), count,
-                        mediaToScan.size());
-                count++;
-                if (existingMedias.containsKey(fileURI)) {
-                    /**
-                     * only add file if it is not already in the list. eg. if
-                     * user select an subfolder as well
-                     */
-                    if (!addedLocations.contains(fileURI)) {
-                        // get existing media item from database
-                        mItemList.add(existingMedias.get(fileURI));
-                        addedLocations.add(fileURI);
+                    if (isStopping) {
+                        Log.d(TAG, "Stopping scan");
+                        return;
                     }
-                } else {
-                    // create new media item
-                    mItemList.add(new Media(fileURI, true));
                 }
-            }
 
-            // update the video and audio activities
-            for (int i = 0; i < mUpdateHandler.size(); i++) {
-                Handler h = mUpdateHandler.get(i);
-                h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
-            }
-
-            // remove old files & folders from database if storage is mounted
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                for (String fileURI : addedLocations) {
-                    existingMedias.remove(fileURI);
+                // Process the stacked items
+                for (File file : mediaToScan) {
+                    String fileURI = Util.PathToURI(file.getPath());
+                    MainActivity.sendTextInfo(mContext, file.getName(), count,
+                            mediaToScan.size());
+                    count++;
+                    if (existingMedias.containsKey(fileURI)) {
+                        /**
+                         * only add file if it is not already in the list. eg. if
+                         * user select an subfolder as well
+                         */
+                        if (!addedLocations.contains(fileURI)) {
+                            // get existing media item from database
+                            mItemList.add(existingMedias.get(fileURI));
+                            addedLocations.add(fileURI);
+                        }
+                    } else {
+                        // create new media item
+                        mItemList.add(new Media(fileURI, true));
+                    }
+                    if (isStopping) {
+                        Log.d(TAG, "Stopping scan");
+                        return;
+                    }
                 }
-                mDBManager.removeMedias(existingMedias.keySet());
+            } finally {
+                // update the video and audio activities
+                for (int i = 0; i < mUpdateHandler.size(); i++) {
+                    Handler h = mUpdateHandler.get(i);
+                    h.sendEmptyMessage(MEDIA_ITEMS_UPDATED);
+                }
 
-                for (File file : mDBManager.getMediaDirs())
-                    if (!file.isDirectory())
-                        mDBManager.removeDir(file.getAbsolutePath());
+                // remove old files & folders from database if storage is mounted
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                    for (String fileURI : addedLocations) {
+                        existingMedias.remove(fileURI);
+                    }
+                    mDBManager.removeMedias(existingMedias.keySet());
+
+                    for (File file : mDBManager.getMediaDirs())
+                        if (!file.isDirectory())
+                            mDBManager.removeDir(file.getAbsolutePath());
+                }
+
+                // hide progressbar in footer
+                MainActivity.clearTextInfo(mContext);
+                MainActivity.hideProgressBar(mContext);
+
+                VideoListFragment.actionScanStop(mContext);
+
+                mContext = null;
             }
-
-            // hide progressbar in footer
-            MainActivity.clearTextInfo(mContext);
-            MainActivity.hideProgressBar(mContext);
-
-            VideoListFragment.actionScanStop(mContext);
-
-            mContext = null;
         }
     };
 
