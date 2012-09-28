@@ -95,7 +95,7 @@ if [ ! -d "vlc" ]; then
     cd vlc
     git checkout -B android ${TESTED_HASH}
     echo "Applying the patches"
-    git am ../patches/*.patch
+    git am -3 ../patches/*.patch
     if [ $? -ne 0 ]; then
         git am --abort
         echo "Applying the patches failed, aborting git-am"
