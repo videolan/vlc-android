@@ -211,6 +211,11 @@ public class VideoPlayerActivity extends Activity {
             @Override
             public void onScrollStarted() {
                 showOverlay(OVERLAY_INFINITE);
+                /*FIXME
+                 * The setTracksAndSubtitles function probably doesn't work in case of many many Tracks and Subtitles
+                 * Moreover, in a video flux, if Tracks & Subtitles change, they won't be updated
+                 */
+                setTracksAndSubtitles();
             }
 
             @Override
