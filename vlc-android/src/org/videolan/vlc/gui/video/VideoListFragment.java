@@ -37,12 +37,15 @@ import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -52,10 +55,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class VideoListFragment extends SherlockListFragment implements ISortable {
+
+    protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
+    protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
+
+    protected ViewFlipper mFlipperViewLoading;
+    protected TextView mTextViewNomedia;
+
     public final static String TAG = "VLC/VideoListFragment";
 
     private VideoListAdapter mVideoAdapter;
@@ -85,6 +97,11 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_list, container, false);
+
+        // init the information for the scan (1/2)
+        mFlipperViewLoading = (ViewFlipper) v.findViewById(R.id.flipper_loading);
+        mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
+        
         return v;
     }
 
@@ -92,6 +109,18 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerForContextMenu(getListView());
+        
+        // init the information for the scan (2/2)
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_SCAN_START);
+        filter.addAction(ACTION_SCAN_STOP);
+        getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
+        Log.i(TAG,"mMediaLibrary.ismLoadingThreadrunning() " + Boolean.toString(mMediaLibrary.ismLoadingThreadrunning()));
+        if (mMediaLibrary.ismLoadingThreadrunning()) {
+            actionScanStart(getActivity().getApplicationContext());
+            
+        }
+
         updateList();
     }
 
@@ -119,12 +148,13 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mThumbnailerManager.interrupt();
         mBarrier.reset();
         mVideoAdapter.clear();
+        getActivity().unregisterReceiver(messageReceiverVideoListFragment);
         super.onDestroy();
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-    	playVideo(position);
+        playVideo(position);
         super.onListItemClick(l, v, position, id);
     }
 
@@ -141,31 +171,31 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
-    	AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
-    	switch (menu.getItemId())
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
+        switch (menu.getItemId())
         {
-            case R.id.video_list_play:
-            	playVideo(info.position);
-                return true;
-            case R.id.video_list_info:
-                Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
-                intent.putExtra("itemLocation",
-                		mVideoAdapter.getItem(info.position).getLocation());
-                startActivity(intent);
-                return true;
-            case R.id.video_list_delete:
-                final int positionDelete = info.position;
-                AlertDialog alertDialog = CommonDialogs.deleteMedia(
-                        getActivity(),
-                        mVideoAdapter.getItem(positionDelete).getLocation(),
-                        new VlcRunnable() {
-                            @Override
-                            public void run(Object o) {
-                                mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
-                            }
-                        });
-                alertDialog.show();
-                return true;
+        case R.id.video_list_play:
+            playVideo(info.position);
+            return true;
+        case R.id.video_list_info:
+            Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
+            intent.putExtra("itemLocation",
+                    mVideoAdapter.getItem(info.position).getLocation());
+            startActivity(intent);
+            return true;
+        case R.id.video_list_delete:
+            final int positionDelete = info.position;
+            AlertDialog alertDialog = CommonDialogs.deleteMedia(
+                    getActivity(),
+                    mVideoAdapter.getItem(positionDelete).getLocation(),
+                    new VlcRunnable() {
+                        @Override
+                        public void run(Object o) {
+                            mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
+                        }
+                    });
+            alertDialog.show();
+            return true;
         }
         return super.onContextItemSelected(menu);
     }
@@ -193,12 +223,12 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
             if(fragment == null) return;
 
             switch (msg.what) {
-                case UPDATE_ITEM:
-                    fragment.updateItem();
-                    break;
-                case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                    fragment.updateList();
-                    break;
+            case UPDATE_ITEM:
+                fragment.updateItem();
+                break;
+            case MediaLibrary.MEDIA_ITEMS_UPDATED:
+                fragment.updateList();
+                break;
             }
         }
     };
@@ -245,4 +275,34 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mBarrier.await();
     }
 
+    private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equalsIgnoreCase(ACTION_SCAN_START)) {
+                mFlipperViewLoading.setVisibility(View.VISIBLE);
+                mTextViewNomedia.setVisibility(View.INVISIBLE);
+            } else if (action.equalsIgnoreCase(ACTION_SCAN_STOP)) {
+                mFlipperViewLoading.setVisibility(View.INVISIBLE);
+                mTextViewNomedia.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    public static void actionScanStart(Context context) {
+        if (context == null)
+            return;
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SCAN_START);
+        context.getApplicationContext().sendBroadcast(intent);
+    }
+
+    public static void actionScanStop(Context context) {
+        if (context == null)
+            return;
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SCAN_STOP);
+        context.getApplicationContext().sendBroadcast(intent);
+    }
 }

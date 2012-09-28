@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/item_common">
+    android:background="@color/item_common" >
+
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"
@@ -11,11 +11,43 @@
         android:divider="@color/item_common"
         android:dividerHeight="1dp"
         android:fastScrollEnabled="true" />
-     <TextView
+
+    <LinearLayout
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:gravity="center"
-        android:text="@string/nomedia"
-        android:textSize="20dip" />
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textview_nomedia"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/nomedia"
+            android:textSize="20dip"
+            android:visibility="visible" />
+
+        <ViewFlipper
+            android:id="@+id/flipper_loading"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:autoStart="true"
+            android:flipInterval="1000"
+            android:visibility="invisible" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/loadmedia"
+                android:textSize="20dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="" />
+        </ViewFlipper>
+    </LinearLayout>
+
 </FrameLayout>

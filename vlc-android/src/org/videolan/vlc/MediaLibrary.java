@@ -32,6 +32,7 @@ import java.util.Stack;
 
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.video.VideoListFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -59,6 +60,7 @@ public class MediaLibrary {
 
     public void loadMediaItems(Context context) {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
+            VideoListFragment.actionScanStart(context.getApplicationContext());
             mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
             mLoadingThread.start();
         }
@@ -150,6 +152,10 @@ public class MediaLibrary {
         }
         return items;
     }
+
+    public boolean ismLoadingThreadrunning () {
+        return mLoadingThread.isAlive();
+    };
 
     private class GetMediaItemsRunnable implements Runnable {
 
@@ -286,6 +292,9 @@ public class MediaLibrary {
             // hide progressbar in footer
             MainActivity.clearTextInfo(mContext);
             MainActivity.hideProgressBar(mContext);
+
+            VideoListFragment.actionScanStop(mContext);
+
             mContext = null;
         }
     };
