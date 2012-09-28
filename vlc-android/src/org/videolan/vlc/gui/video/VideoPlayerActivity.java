@@ -1086,38 +1086,6 @@ public class VideoPlayerActivity extends Activity {
             mHandler.removeMessages(FADE_OUT);
             mHandler.sendMessageDelayed(msg, timeout);
         }
-        if (mAudioTracks == null) {
-            mAudioTracks = mLibVLC.getAudioTrackDescription();
-            if (mAudioTracks != null && mAudioTracks.length > 1) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mAudioTracks);
-                mAudio.setAdapter(adapter);
-                int current = mLibVLC.getAudioTrack() - 1;
-                mAudio.setSelection(current);
-                mAudio.setOnItemSelectedListener(mAudioListener);
-                mAudio.setEnabled(true);
-            }
-            else {
-                mAudio.setEnabled(false);
-                mAudio.setOnItemSelectedListener(null);
-                mAudio.setAdapter(null);
-            }
-        }
-        if (mSubtitleTracks == null) {
-            mSubtitleTracks = mLibVLC.getSpuTrackDescription();
-            if (mSubtitleTracks != null && mSubtitleTracks.length > 0) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSubtitleTracks);
-                mSubtitles.setAdapter(adapter);
-                int current = mLibVLC.getSpuTrack();
-                mSubtitles.setSelection(current);
-                mSubtitles.setOnItemSelectedListener(mSubtitlesListener);
-                mSubtitles.setEnabled(true);
-            }
-            else {
-                mSubtitles.setEnabled(false);
-                mSubtitles.setOnItemSelectedListener(null);
-                mSubtitles.setAdapter(null);
-            }
-        }
         updateOverlayPausePlay();
     }
 
@@ -1184,6 +1152,42 @@ public class VideoPlayerActivity extends Activity {
         mLength.setText(Util.millisToString(length));
         return time;
     }
+
+    private void setTracksAndSubtitles () {
+        if (mAudioTracks == null) {
+            mAudioTracks = mLibVLC.getAudioTrackDescription();
+            if (mAudioTracks != null && mAudioTracks.length > 1) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mAudioTracks);
+                mAudio.setAdapter(adapter);
+                int current = mLibVLC.getAudioTrack() - 1;
+                mAudio.setSelection(current);
+                mAudio.setOnItemSelectedListener(mAudioListener);
+                mAudio.setEnabled(true);
+            }
+            else {
+                mAudio.setEnabled(false);
+                mAudio.setOnItemSelectedListener(null);
+                mAudio.setAdapter(null);
+            }
+        }
+        if (mSubtitleTracks == null) {
+            mSubtitleTracks = mLibVLC.getSpuTrackDescription();
+            if (mSubtitleTracks != null && mSubtitleTracks.length > 0) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mSubtitleTracks);
+                mSubtitles.setAdapter(adapter);
+                int current = mLibVLC.getSpuTrack();
+                mSubtitles.setSelection(current);
+                mSubtitles.setOnItemSelectedListener(mSubtitlesListener);
+                mSubtitles.setEnabled(true);
+            }
+            else {
+                mSubtitles.setEnabled(false);
+                mSubtitles.setOnItemSelectedListener(null);
+                mSubtitles.setAdapter(null);
+            }
+        }
+    }
+
 
     /**
      *
