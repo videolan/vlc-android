@@ -118,7 +118,6 @@ public class ThumbnailerManager implements Runnable {
             boolean killed = false;
             while (mItems.size() == 0) {
                 try {
-                    Log.i(TAG, "hide ProgressBar!");
                     MainActivity.hideProgressBar(mVideoListActivity.getActivity());
                     MainActivity.clearTextInfo(mVideoListActivity.getActivity());
                     totalCount = 0;
@@ -138,7 +137,6 @@ public class ThumbnailerManager implements Runnable {
 
             MainActivity.showProgressBar(mVideoListActivity.getActivity());
 
-            Log.i(TAG, "show ProgressBar!");
             MainActivity.sendTextInfo(mVideoListActivity.getActivity(), String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
@@ -158,7 +156,7 @@ public class ThumbnailerManager implements Runnable {
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
             thumbnail = Util.cropBorders(thumbnail, width, height);
 
-            Log.i(TAG, "Thumbnail created!");
+            Log.i(TAG, "Thumbnail created for " + item.getFileName());
 
             item.setPicture(mVideoListActivity.getActivity(), thumbnail);
             // Post to the file browser the new item.
