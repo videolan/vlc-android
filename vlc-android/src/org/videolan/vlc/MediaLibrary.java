@@ -226,14 +226,20 @@ public class MediaLibrary {
                 }
 
                 // Filter the extensions and the folders
-                if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                    for (File file : f) {
-                        if (file.isFile()) {
-                            mediaToScan.add(file);
-                        } else if (file.isDirectory()) {
-                            directories.push(file);
+                try { 
+                    if ((f = dir.listFiles(mediaFileFilter)) != null) {
+                        for (File file : f) {
+                            if (file.isFile()) {
+                                mediaToScan.add(file);
+                            } else if (file.isDirectory()) {
+                                directories.push(file);
+                            }
                         }
                     }
+                } catch (Exception e)
+                {
+                    // listFiles can fail in OutOfMemoryError, go to the next folder
+                    continue;
                 }
             }
 
