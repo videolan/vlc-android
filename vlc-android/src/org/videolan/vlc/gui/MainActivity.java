@@ -195,9 +195,11 @@ public class MainActivity extends SherlockFragmentActivity {
                     int position, long id) {
                 SidebarAdapter.SidebarEntry entry = (SidebarEntry) listView.getItemAtPosition(position);
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-             
-                if(current == null || current.getTag() == entry.id) /* Already selected */
+
+                if(current == null || current.getTag() == entry.id) { /* Already selected */
+                    mMenu.showAbove();
                     return;
+                }
 
                 /* Clear any backstack before switching tabs.
                  * This way it's more consistent for the user, who might have
