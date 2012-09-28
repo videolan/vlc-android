@@ -164,7 +164,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     }
 
     public void refresh() {
-        mDirectoryAdapter.clear();
+        if (mDirectoryAdapter != null)
+            mDirectoryAdapter.clear();
     }
-
 }
