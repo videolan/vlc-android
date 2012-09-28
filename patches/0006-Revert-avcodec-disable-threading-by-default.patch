@@ -1,4 +1,4 @@
-From 9552d400be547dde2bce2af1c2b0a48bd5fa9abd Mon Sep 17 00:00:00 2001
+From dee03508f38b5101cf5b58f3c795dfdb384e1dc6 Mon Sep 17 00:00:00 2001
 From: Ludovic Fauvet <etix@videolan.org>
 Date: Tue, 25 Sep 2012 18:40:05 +0200
 Subject: [PATCH 6/6] Revert "avcodec: disable threading by default"

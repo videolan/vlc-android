@@ -1,7 +1,7 @@
-From cd7c00d436350273366720bb3a4d99c1799a4d92 Mon Sep 17 00:00:00 2001
+From 1c54a378849090489b1c83159217f24375e66627 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Rafa=C3=ABl=20Carr=C3=A9?= <funman@videolan.org>
 Date: Sat, 10 Mar 2012 04:54:23 -0500
-Subject: [PATCH] android: threads support
+Subject: [PATCH 1/6] android: threads support
 
 emulate pthread_cancel (based on win32 code)
 TODO:
@@ -30,14 +30,14 @@ TODO:
 timer, rwlocks, mutexes, clock, threadvar
 are 100% shared with linux so it'd be useless to have 2 copies.
 ---
- include/vlc_threads.h |   13 +++
- lib/error.c           |   10 ++
- src/Makefile.am       |   17 ++++
- src/posix/thread.c    |  244 +++++++++++++++++++++++++++++++++++++++++++------
- 4 files changed, 256 insertions(+), 28 deletions(-)
+ include/vlc_threads.h |  13 +++
+ lib/error.c           |  10 +++
+ src/Makefile.am       |  17 ++++
+ src/posix/thread.c    | 239 ++++++++++++++++++++++++++++++++++++++++++++------
+ 4 files changed, 253 insertions(+), 26 deletions(-)
 
 diff --git a/include/vlc_threads.h b/include/vlc_threads.h
-index 4dd6335..01a8101 100644
+index cc0e8b1..77ab8a5 100644
 --- a/include/vlc_threads.h
 +++ b/include/vlc_threads.h
 @@ -42,6 +42,15 @@
@@ -102,7 +102,7 @@ index d053faa..52840e8 100644
      vlc_mutex_unlock (&lock);
  }
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 8f9a237..a267412 100644
+index 9ac25d3..bdf1fb6 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
 @@ -205,6 +205,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
@@ -151,7 +151,7 @@ index 8f9a237..a267412 100644
  	posix/dirs.c \
  	posix/filesystem.c \
 diff --git a/src/posix/thread.c b/src/posix/thread.c
-index 1fc2b67..4bdc7b5 100644
+index c414def..ab2a3af 100644
 --- a/src/posix/thread.c
 +++ b/src/posix/thread.c
 @@ -1,5 +1,5 @@
@@ -188,7 +188,7 @@ index 1fc2b67..4bdc7b5 100644
  #if (_POSIX_TIMERS > 0)
  static unsigned vlc_clock_prec;
  
-@@ -162,7 +176,7 @@ vlc_thread_fatal (const char *action, int error,
+@@ -162,7 +175,7 @@ vlc_thread_fatal (const char *action, int error,
                    const char *function, const char *file, unsigned line)
  {
      int canc = vlc_savecancel ();
@@ -197,7 +197,7 @@ index 1fc2b67..4bdc7b5 100644
               action, error, vlc_threadid ());
      vlc_trace (function, file, line);
  
-@@ -332,6 +346,57 @@ void vlc_mutex_unlock (vlc_mutex_t *p_mutex)
+@@ -318,6 +331,57 @@ void vlc_mutex_unlock (vlc_mutex_t *p_mutex)
      VLC_THREAD_ASSERT ("unlocking mutex");
  }
  
@@ -255,7 +255,7 @@ index 1fc2b67..4bdc7b5 100644
  /**
   * Initializes a condition variable.
   */
-@@ -425,7 +490,22 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
+@@ -411,7 +475,22 @@ void vlc_cond_broadcast (vlc_cond_t *p_condvar)
   */
  void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
  {
@@ -278,7 +278,7 @@ index 1fc2b67..4bdc7b5 100644
      VLC_THREAD_ASSERT ("waiting on condition");
  }
  
-@@ -447,10 +527,25 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
+@@ -433,10 +512,25 @@ void vlc_cond_wait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex)
  int vlc_cond_timedwait (vlc_cond_t *p_condvar, vlc_mutex_t *p_mutex,
                          mtime_t deadline)
  {
@@ -304,7 +304,7 @@ index 1fc2b67..4bdc7b5 100644
      return val;
  }
  
-@@ -529,10 +624,14 @@ void vlc_sem_wait (vlc_sem_t *sem)
+@@ -515,10 +609,14 @@ void vlc_sem_wait (vlc_sem_t *sem)
  
      val = EINVAL;
  #else
@@ -322,7 +322,7 @@ index 1fc2b67..4bdc7b5 100644
  #endif
  
      VLC_THREAD_ASSERT ("locking semaphore");
-@@ -719,7 +818,22 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
+@@ -705,7 +803,22 @@ static int vlc_clone_attr (vlc_thread_t *th, pthread_attr_t *attr,
      assert (ret == 0); /* fails iif VLC_STACKSIZE is invalid */
  #endif
  
@@ -346,7 +346,7 @@ index 1fc2b67..4bdc7b5 100644
      pthread_sigmask (SIG_SETMASK, &oldset, NULL);
      pthread_attr_destroy (attr);
      return ret;
-@@ -760,8 +874,14 @@ int vlc_clone (vlc_thread_t *th, void *(*entry) (void *), void *data,
+@@ -746,8 +859,14 @@ int vlc_clone (vlc_thread_t *th, void *(*entry) (void *), void *data,
   */
  void vlc_join (vlc_thread_t handle, void **result)
  {
@@ -362,7 +362,7 @@ index 1fc2b67..4bdc7b5 100644
  }
  
  /**
-@@ -841,10 +961,25 @@ int vlc_set_priority (vlc_thread_t th, int priority)
+@@ -827,10 +946,25 @@ int vlc_set_priority (vlc_thread_t th, int priority)
   */
  void vlc_cancel (vlc_thread_t thread_id)
  {
@@ -392,7 +392,7 @@ index 1fc2b67..4bdc7b5 100644
  }
  
  /**
-@@ -857,11 +992,13 @@ void vlc_cancel (vlc_thread_t thread_id)
+@@ -843,11 +977,13 @@ void vlc_cancel (vlc_thread_t thread_id)
   */
  int vlc_savecancel (void)
  {
@@ -410,7 +410,7 @@ index 1fc2b67..4bdc7b5 100644
  }
  
  /**
-@@ -871,18 +1008,19 @@ int vlc_savecancel (void)
+@@ -857,18 +993,19 @@ int vlc_savecancel (void)
   */
  void vlc_restorecancel (int state)
  {
@@ -436,7 +436,7 @@ index 1fc2b67..4bdc7b5 100644
  #endif
  }
  
-@@ -895,13 +1033,48 @@ void vlc_restorecancel (int state)
+@@ -881,13 +1018,48 @@ void vlc_restorecancel (int state)
   */
  void vlc_testcancel (void)
  {
@@ -488,7 +488,7 @@ index 1fc2b67..4bdc7b5 100644
  }
  
  /**
-@@ -978,8 +1151,23 @@ void msleep (mtime_t delay)
+@@ -964,8 +1136,23 @@ void msleep (mtime_t delay)
      while (clock_nanosleep (vlc_clock_id, 0, &ts, &ts) == EINTR);
  
  #else
@@ -515,5 +515,5 @@ index 1fc2b67..4bdc7b5 100644
  #endif
  }
 -- 
-1.7.5.4
+1.7.12.1
 

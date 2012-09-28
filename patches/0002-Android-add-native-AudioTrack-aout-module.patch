@@ -1,21 +1,21 @@
-From 0686a550cbb87e33b6162158f61e7d9de80e50b5 Mon Sep 17 00:00:00 2001
+From 8b6fad6b9a4f77c3ffaa69dde98358c7b7c5d73d Mon Sep 17 00:00:00 2001
 From: Ming Hu <tewilove@gmail.com>
 Date: Sun, 13 May 2012 22:20:34 +0200
-Subject: [PATCH 2/5] Android: add native AudioTrack aout module
+Subject: [PATCH 2/6] Android: add native AudioTrack aout module
 
 Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
- configure.ac                      |   12 ++
- modules/audio_output/Modules.am   |    1 +
- modules/audio_output/audiotrack.c |  331 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 344 insertions(+), 0 deletions(-)
+ configure.ac                      |  12 ++
+ modules/audio_output/Modules.am   |   1 +
+ modules/audio_output/audiotrack.c | 331 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 344 insertions(+)
  create mode 100644 modules/audio_output/audiotrack.c
 
 diff --git a/configure.ac b/configure.ac
-index 8fbcd81..131fc0e 100644
+index 3b9cb77..10b0579 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -3548,6 +3548,18 @@ if test "${HAVE_ANDROID}" = "1"; then
+@@ -3446,6 +3446,18 @@ if test "${HAVE_ANDROID}" = "1"; then
  fi
  
  dnl
@@ -384,5 +384,5 @@ index 0000000..8ad32c3
 +    }
 +}
 -- 
-1.7.5.4
+1.7.12.1
 

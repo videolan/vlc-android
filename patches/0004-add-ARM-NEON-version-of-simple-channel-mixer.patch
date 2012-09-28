@@ -1,14 +1,14 @@
-From d012ffe8db121c21012b645ce7ae0bcd7f3ba7b6 Mon Sep 17 00:00:00 2001
+From 8355dc787c57dcca1bdb4debd3a43608c5308854 Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
-Subject: [PATCH 4/5] add ARM/NEON version of simple channel mixer
+Subject: [PATCH 4/6] add ARM/NEON version of simple channel mixer
 
 ---
- modules/LIST                            |    1 +
- modules/arm_neon/Modules.am             |    8 +
- modules/arm_neon/simple_channel_mixer.S |  279 +++++++++++++++++++++++++++++++
- modules/arm_neon/simple_channel_mixer.c |  171 +++++++++++++++++++
- 4 files changed, 459 insertions(+), 0 deletions(-)
+ modules/LIST                            |   1 +
+ modules/arm_neon/Modules.am             |   8 +
+ modules/arm_neon/simple_channel_mixer.S | 279 ++++++++++++++++++++++++++++++++
+ modules/arm_neon/simple_channel_mixer.c | 171 ++++++++++++++++++++
+ 4 files changed, 459 insertions(+)
  create mode 100644 modules/arm_neon/simple_channel_mixer.S
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
@@ -513,5 +513,5 @@ index 0000000..515a390
 +    return VLC_EGENERIC;
 +}
 -- 
-1.7.5.4
+1.7.12.1
 
