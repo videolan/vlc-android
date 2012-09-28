@@ -1,6 +1,18 @@
 Changes between 0.0.3 and 0.0.4:
 --------------------------------
 
+Interface:
+ * Many Sliding Menu fixes
+ * Fix subtitles and audio tracks selection
+ * Fix Sliding menu selection
+ * Fix about dialog
+ * Update the android compatibility library to avoid crashes (r10)
+ * Miscellaneous fixes
+
+Core:
+ * fix mp4 playback
+ * correctly restrain the background processing of thumbnails and medialibrary
+
 
 Changes between 0.0.2 and 0.0.3:
 --------------------------------
