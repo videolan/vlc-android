@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Main VLC Interface  -->
+
+    <!-- Main VLC Interface -->
     <string name="filebrowser_sdfail">Imposible abrir la tarjeta SD. Compruebe que está montada correctamente.</string>
     <string name="filebrowser_root">Raíz</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Seleccione un medio a reproducir</string>
     <string name="ml_no_media_dir">No hay carpeta multimedia</string>
     <string name="sortby">Ordenar por…</string>
@@ -30,12 +30,15 @@
     <string name="unknown_album">Álbum desconocido</string>
     <string name="unknown_genre">Género desconocido</string>
     <string name="songs">Canciones</string>
+
     <plurals name="songs">
         <item quantity="one">1 canción</item>
         <item quantity="other">%d canciones</item>
     </plurals>
+
     <string name="artists">Artistas</string>
     <string name="albums">Álbumes</string>
+
     <plurals name="albums">
         <item quantity="one">1 álbum</item>
         <item quantity="other">%d álbumes</item>
@@ -44,6 +47,7 @@
         <item quantity="one">1 subcarpeta</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
+
     <string name="parent_folder">Hasta la carpeta padre</string>
     <string name="all_albums">Todos los álbumes</string>
     <string name="genres">Géneros</string>
@@ -75,10 +79,12 @@
     <string name="track_unknown">Pista desconocida</string>
     <string name="track_codec_info">Códec: %1$s\n</string>
     <string name="track_language_info">Lenguaje: %1$s\n</string>
+
     <plurals name="track_channels_info">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canales\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Tasa de muestreo: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n</string>
@@ -99,7 +105,7 @@
     <string name="for_android">para Android™</string>
     <string name="compiled_by">Esta versión de VLC la compiló:</string>
 
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">Preferencias</string>
     <string name="main_prefs_category">Principal</string>
     <string name="privacy_prefs_category">Privacidad</string>
@@ -118,4 +124,5 @@
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+
 </resources>

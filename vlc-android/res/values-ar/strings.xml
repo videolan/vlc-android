@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Main VLC Interface  -->
+
+    <!-- Main VLC Interface -->
     <string name="filebrowser_sdfail">غير قادر على فتح بطاقة الذاكره الخارجيه.يرجى فحصه انه ملصوق بشكل صحيح</string>
     <string name="filebrowser_root">الجذر</string>
     <string name="filebrowser_title">إختر الوسائط للتشغيل</string>
@@ -10,7 +11,6 @@
     <string name="sortby_length">الطول</string>
     <string name="searchable_hint">البحث…</string>
     <string name="history">المحفوظات</string>
-    <string name="search_found_results">%1$d العثور على نتائج</string>
     <string name="show_player">إظهار المشغل</string>
     <string name="hide_mini_player">إخفاء مصغر للمشغل</string>
     <string name="play">تشغيل</string>
@@ -31,12 +31,15 @@
     <string name="unknown_album">البوم غير معروف</string>
     <string name="unknown_genre">النوع غير معروف</string>
     <string name="songs">الاغاني</string>
+
     <plurals name="songs_quantity">
         <item quantity="one">اغنيه واحده</item>
         <item quantity="other">%d الاغاني</item>
     </plurals>
+
     <string name="artists">الفنانين</string>
     <string name="albums">الالبومات</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">البوم واحد</item>
         <item quantity="other">%d الالبومات</item>
@@ -45,6 +48,7 @@
         <item quantity="one">مجلد فرعي واحد</item>
         <item quantity="other">%d المجلدات الفرعيه</item>
     </plurals>
+
     <string name="parent_folder">الوصول للمجلد الاصل</string>
     <string name="all_albums">كل الالبومات</string>
     <string name="genres">الانواع</string>
@@ -73,10 +77,12 @@
     <string name="track_video">مسار الفيديو</string>
     <string name="track_text">مسار الترجمه</string>
     <string name="track_unknown">مسار غير معروف</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">قناة واحده\n</item>
         <item quantity="other">%1$d القنوات\n</item>
     </plurals>
+
     <string name="open">فتح</string>
     <string name="open_mrl">MRL فتح</string>
     <string name="open_mrl_dialog_title">فتح تدفق الشبكه</string>
@@ -94,7 +100,7 @@
     <string name="for_android">من اندرويد</string>
     <string name="compiled_by">مجمعه بواسطة VLC هذه النسخه من:</string>
 
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">التفضيلات</string>
     <string name="main_prefs_category">الرئيسيه</string>
     <string name="privacy_prefs_category">الخصوصيه</string>
@@ -114,4 +120,5 @@
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">ES SLفتح</string>
+
 </resources>

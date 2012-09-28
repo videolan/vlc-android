@@ -1,119 +1,126 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <!--Main VLC Interface-->
-  <string name="filebrowser_sdfail">Ezin da SD txartela ireki. Egiaztatu ondo muntatuta dagoela.</string>
-  <string name="filebrowser_root">Erroa</string>
-  <string name="filebrowser_parent">..</string>
-  <string name="filebrowser_title">Hautatu erreproduzitzeko multimedia</string>
-  <string name="ml_no_media_dir">Multimedia-direktoriorik ez</string>
-  <string name="sortby">Ordenatu…</string>
-  <string name="sortby_name">Izena</string>
-  <string name="sortby_length">Luzera</string>
-  <string name="searchable_hint">Bilatu…</string>
-  <string name="history">Historia</string>
-  <string name="search_found_results">%1$d emaitza aurkitu dira</string>
-  <string name="show_player">Erakutsi erreproduzitzailea</string>
-  <string name="hide_mini_player">Ezkutatu mini-erreproduzitzailea</string>
-  <string name="play">Erreproduzitu</string>
-  <string name="append">Erantsi</string>
-  <string name="play_all">Erreproduzitu denak</string>
-  <string name="append_all">Erantsi denak</string>
-  <string name="delete">Ezabatu</string>
-  <string name="info">Informazioa</string>
-  <string name="confirm_delete">Ezabatu fitxategi hau?</string>
-  <string name="pause">Pausatu</string>
-  <string name="close">Itxi</string>
-  <string name="not_show_again">Ez erakutsi mezu hau berriro.</string>
-  <string name="beta_warning">Beta bertsioa da hau.\n\nBertsio hau EZ DA EGONKORRA!\n\nEZ erabili ez baldin badakizu zertan ari zaren.\n\nZure katutxoa aka lezake edo zure etxea txikitu eta mayen apokalipsia abiarazi.\nErabil ezazu zure ardurapean.\n\nGozatu! :)</string>
-  <string name="info_title">VLC Beta</string>
-  <string name="unknown_artist">Artista ezezaguna</string>
-  <string name="unknown_album">Album ezezaguna</string>
-  <string name="unknown_genre">Genero ezezaguna</string>
-  <string name="songs">Kantak</string>
-  <plurals name="songs_quantity">
-    <item quantity="one">Kanta</item>
-    <item quantity="other">Kantak</item>
-  </plurals>
-  <string name="artists">Artistak</string>
-  <string name="albums">Albumak</string>
-  <plurals name="albums_quantity">
-    <item quantity="one">Album</item>
-    <item quantity="other">Albumak</item>
-  </plurals>
-  <plurals name="subfolders_quantity">
-    <item quantity="one">Azpikarpeta bat</item>
-    <item quantity="other">%d azpikarpeta</item>
-  </plurals>
-  <string name="parent_folder">Gora karpeta gurasora</string>
-  <string name="all_albums">Album guztiak</string>
-  <string name="genres">Generoak</string>
-  <string name="playlists">Erreprodukzio-zerrendak</string>
-  <string name="time_0">0:00</string>
-  <string name="title">Titulua</string>
-  <string name="artist">Artista</string>
-  <string name="album">Albuma</string>
-  <string name="directory">Direktorioa</string>
-  <string name="directories">Direktorioak</string>
-  <string name="loading">Kargatzen…</string>
-  <string name="nomedia">Ez da multimedia-fitxategirik aurkitu, transferitu fitxategiak zure gailura edo doitu zure hobespenak.</string>
-  <string name="mediafiles">Multimedia-fitxategiak</string>
-  <string name="notavailable">ez dago erabilgarri</string>
-  <string name="nosubdirectory">Azpidirektoriorik ez.</string>
-  <string name="validation">Ziur zaude?</string>
-  <string name="locked">Blokeatuta</string>
-  <string name="unlocked">Desblokeatuta</string>
-  <string name="surface_best_fit">Egokitze optimoa</string>
-  <string name="surface_fit_horizontal">Egokitze horizontala</string>
-  <string name="surface_fit_vertical">Egokitze bertikala</string>
-  <string name="surface_fill">Bete</string>
-  <string name="surface_original">Zentratu</string>
-  <string name="thumbnail">Koadro txikia</string>
-  <string name="refresh">Freskatu</string>
-  <string name="track_audio">Audio-pista</string>
-  <string name="track_video">Bideo-pista</string>
-  <string name="track_text">Azpitituluen pista</string>
-  <string name="track_unknown">Pista ezezaguna</string>
-  <string name="track_codec_info">Kodeka: %1$s\n</string>
-  <string name="track_language_info">Hizkuntza: %1$s\n</string>
-  <plurals name="track_channels_info_quantity">
-    <item quantity="one">Kanal %1$d\n</item>
-    <item quantity="other">%1$d kanal\n</item>
-  </plurals>
-  <string name="track_samplerate_info">Lagin-emaria: %1$d Hz\n</string>
-  <string name="track_resolution_info">Bereizmena: %1$dx%2$d\n</string>
-  <string name="track_framerate_info">Marko-emaria: %1$.3f\n</string>
-  <string name="open">Ireki</string>
-  <string name="open_mrl">Ireki MRLa</string>
-  <string name="open_mrl_dialog_title">Ireki sareko transmisio jarraitua</string>
-  <string name="open_mrl_dialog_msg">Ireki sareko MRLa: adib. http://, mms:// edo rtsp://</string>
-  <string name="media_library">Multimedia liburutegia</string>
-  <!--About-->
-  <string name="app_name_full">Android™-erako VLC</string>
-  <string name="version">Bertsioa</string>
-  <string name="licence">Lizentzia</string>
-  <string name="revision">Berrikuspena</string>
-  <string name="about">Honi buruz</string>
-  <string name="about_text">VLC kode irekiko multimedia-erreproduzitzaile ezagunaren moldaketa da Android™-erako VLC. Android™ bertsioak fitxategi eta sareko transmisio-jarraitu gehienak irakur ditzake.</string>
-  <string name="for_android">Android™-erako</string>
-  <string name="compiled_by">VLC bertsio hau honek konpilatu du:</string>
-  <!--Preferences-->
-  <string name="preferences">Hobespenak</string>
-  <string name="main_prefs_category">Nagusia</string>
-  <string name="privacy_prefs_category">Pribatutasuna</string>
-  <string name="clear_history">Garbitu bilaketa-historia</string>
-  <string name="advanced_prefs_category">Aurreratua</string>
-  <string name="enable_iomx">Gaitu hardware-azeleratutako deskodetzea</string>
-  <string name="advanced_debugging">Arazte aurreratua</string>
-  <string name="quit">Irten aplikaziotik</string>
-  <string name="clear_media_db">Garbitu multimedia datu-basea</string>
-  <string name="detect_headset">Detektatu aurikular+mikroa</string>
-  <string name="detect_headset_detail">Pausatu aurikular+mikroa kentzean; berrekin aurikular+mikroa sartzean</string>
-  <string name="enable_wheel_bar">Gaitu gurpil-barra</string>
-  <string name="enable_verbose_mode">Xehetua</string>
-  <string name="enable_verbose_mode_detail">Handitu xehetasun-maila (logcat)</string>
-  <string name="aout">Audio-irteera</string>
-  <string name="aout_audiotrack">AudioTrack (natiboa)</string>
-  <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-  <string name="aout_opensles">OpenSL ES</string>
-  <string name="error_no_neon">Sentitzen dugu baina Android™-erako VCL bertsio honek ez du zure gailua onartzen oraindik.</string>
+
+    <!-- Main VLC Interface -->
+    <string name="filebrowser_sdfail">Ezin da SD txartela ireki. Egiaztatu ondo muntatuta dagoela.</string>
+    <string name="filebrowser_root">Erroa</string>
+    <string name="filebrowser_parent">..</string>
+    <string name="filebrowser_title">Hautatu erreproduzitzeko multimedia</string>
+    <string name="ml_no_media_dir">Multimedia-direktoriorik ez</string>
+    <string name="sortby">Ordenatu…</string>
+    <string name="sortby_name">Izena</string>
+    <string name="sortby_length">Luzera</string>
+    <string name="searchable_hint">Bilatu…</string>
+    <string name="history">Historia</string>
+    <string name="search_found_results">%1$d emaitza aurkitu dira</string>
+    <string name="show_player">Erakutsi erreproduzitzailea</string>
+    <string name="hide_mini_player">Ezkutatu mini-erreproduzitzailea</string>
+    <string name="play">Erreproduzitu</string>
+    <string name="append">Erantsi</string>
+    <string name="play_all">Erreproduzitu denak</string>
+    <string name="append_all">Erantsi denak</string>
+    <string name="delete">Ezabatu</string>
+    <string name="info">Informazioa</string>
+    <string name="confirm_delete">Ezabatu fitxategi hau?</string>
+    <string name="pause">Pausatu</string>
+    <string name="close">Itxi</string>
+    <string name="not_show_again">Ez erakutsi mezu hau berriro.</string>
+    <string name="beta_warning">Beta bertsioa da hau.\n\nBertsio hau EZ DA EGONKORRA!\n\nEZ erabili ez baldin badakizu zertan ari zaren.\n\nZure katutxoa aka lezake edo zure etxea txikitu eta mayen apokalipsia abiarazi.\nErabil ezazu zure ardurapean.\n\nGozatu! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Artista ezezaguna</string>
+    <string name="unknown_album">Album ezezaguna</string>
+    <string name="unknown_genre">Genero ezezaguna</string>
+    <string name="songs">Kantak</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">Kanta</item>
+        <item quantity="other">Kantak</item>
+    </plurals>
+
+    <string name="artists">Artistak</string>
+    <string name="albums">Albumak</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">Album</item>
+        <item quantity="other">Albumak</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">Azpikarpeta bat</item>
+        <item quantity="other">%d azpikarpeta</item>
+    </plurals>
+
+    <string name="parent_folder">Gora karpeta gurasora</string>
+    <string name="all_albums">Album guztiak</string>
+    <string name="genres">Generoak</string>
+    <string name="playlists">Erreprodukzio-zerrendak</string>
+    <string name="time_0">0:00</string>
+    <string name="title">Titulua</string>
+    <string name="artist">Artista</string>
+    <string name="album">Albuma</string>
+    <string name="directory">Direktorioa</string>
+    <string name="directories">Direktorioak</string>
+    <string name="loading">Kargatzen…</string>
+    <string name="nomedia">Ez da multimedia-fitxategirik aurkitu, transferitu fitxategiak zure gailura edo doitu zure hobespenak.</string>
+    <string name="mediafiles">Multimedia-fitxategiak</string>
+    <string name="notavailable">ez dago erabilgarri</string>
+    <string name="nosubdirectory">Azpidirektoriorik ez.</string>
+    <string name="validation">Ziur zaude?</string>
+    <string name="locked">Blokeatuta</string>
+    <string name="unlocked">Desblokeatuta</string>
+    <string name="surface_best_fit">Egokitze optimoa</string>
+    <string name="surface_fit_horizontal">Egokitze horizontala</string>
+    <string name="surface_fit_vertical">Egokitze bertikala</string>
+    <string name="surface_fill">Bete</string>
+    <string name="surface_original">Zentratu</string>
+    <string name="thumbnail">Koadro txikia</string>
+    <string name="refresh">Freskatu</string>
+    <string name="track_audio">Audio-pista</string>
+    <string name="track_video">Bideo-pista</string>
+    <string name="track_text">Azpitituluen pista</string>
+    <string name="track_unknown">Pista ezezaguna</string>
+    <string name="track_codec_info">Kodeka: %1$s\n</string>
+    <string name="track_language_info">Hizkuntza: %1$s\n</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">Kanal %1$d\n</item>
+        <item quantity="other">%1$d kanal\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Lagin-emaria: %1$d Hz\n</string>
+    <string name="track_resolution_info">Bereizmena: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Marko-emaria: %1$.3f\n</string>
+    <string name="open">Ireki</string>
+    <string name="open_mrl">Ireki MRLa</string>
+    <string name="open_mrl_dialog_title">Ireki sareko transmisio jarraitua</string>
+    <string name="open_mrl_dialog_msg">Ireki sareko MRLa: adib. http://, mms:// edo rtsp://</string>
+    <string name="media_library">Multimedia liburutegia</string>
+    <!-- About -->
+    <string name="app_name_full">Android™-erako VLC</string>
+    <string name="version">Bertsioa</string>
+    <string name="licence">Lizentzia</string>
+    <string name="revision">Berrikuspena</string>
+    <string name="about">Honi buruz</string>
+    <string name="about_text">VLC kode irekiko multimedia-erreproduzitzaile ezagunaren moldaketa da Android™-erako VLC. Android™ bertsioak fitxategi eta sareko transmisio-jarraitu gehienak irakur ditzake.</string>
+    <string name="for_android">Android™-erako</string>
+    <string name="compiled_by">VLC bertsio hau honek konpilatu du:</string>
+    <!-- Preferences -->
+    <string name="preferences">Hobespenak</string>
+    <string name="main_prefs_category">Nagusia</string>
+    <string name="privacy_prefs_category">Pribatutasuna</string>
+    <string name="clear_history">Garbitu bilaketa-historia</string>
+    <string name="advanced_prefs_category">Aurreratua</string>
+    <string name="enable_iomx">Gaitu hardware-azeleratutako deskodetzea</string>
+    <string name="advanced_debugging">Arazte aurreratua</string>
+    <string name="quit">Irten aplikaziotik</string>
+    <string name="clear_media_db">Garbitu multimedia datu-basea</string>
+    <string name="detect_headset">Detektatu aurikular+mikroa</string>
+    <string name="detect_headset_detail">Pausatu aurikular+mikroa kentzean; berrekin aurikular+mikroa sartzean</string>
+    <string name="enable_wheel_bar">Gaitu gurpil-barra</string>
+    <string name="enable_verbose_mode">Xehetua</string>
+    <string name="enable_verbose_mode_detail">Handitu xehetasun-maila (logcat)</string>
+    <string name="aout">Audio-irteera</string>
+    <string name="aout_audiotrack">AudioTrack (natiboa)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+
 </resources>
