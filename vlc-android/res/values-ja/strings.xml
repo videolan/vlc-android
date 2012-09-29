@@ -5,10 +5,10 @@
   <string name="filebrowser_root">ルート</string>
   <string name="filebrowser_title">再生するメディアの選択</string>
   <string name="ml_no_media_dir">ディレクトリにメディアがありません</string>
-  <string name="sortby">並べ替え...</string>
+  <string name="sortby">並べ替え…</string>
   <string name="sortby_name">名前</string>
   <string name="sortby_length">長さ</string>
-  <string name="searchable_hint">検索...</string>
+  <string name="searchable_hint">検索…</string>
   <string name="history">履歴</string>
   <plurals name="search_found_results_quantity">
     <item quantity="other">%d 件見つかりました</item>
@@ -57,8 +57,8 @@
   <string name="album">アルバム</string>
   <string name="directory">ディレクトリ</string>
   <string name="directories">ディレクトリ</string>
-  <string name="loading">ロード中...</string>
-  <string name="please_wait">しばらくおまちください...</string>
+  <string name="loading">ロード中…</string>
+  <string name="please_wait">しばらくおまちください…</string>
   <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
   <string name="mediafiles">メディアファイル</string>
   <string name="notavailable">利用できません</string>
@@ -81,7 +81,7 @@
   <string name="track_codec_info">コーデック: %1$s\n</string>
   <string name="track_language_info">言語: %1$s\n</string>
   <plurals name="track_channels_info_quantity">
-    <item quantity="other">%1$d チャンネル</item>
+    <item quantity="other">%1$d チャンネル\n</item>
   </plurals>
   <string name="track_samplerate_info">サンプリングレート: %1$d Hz\n</string>
   <string name="track_resolution_info">解像度: %1$dx%2$d\n</string>
