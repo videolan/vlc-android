@@ -273,14 +273,6 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     @Override
-    protected void onStart() {
-        /* Start the thumbnailer */
-        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
-        ThumbnailerManager.getInstance(this).start(f);
-        super.onStart();
-    }
-
-    @Override
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
@@ -312,6 +304,11 @@ public class MainActivity extends SherlockFragmentActivity {
 
         if (startFromNotification)
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
+
+        /* Start the thumbnailer */
+        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
+        ThumbnailerManager.getInstance(this).start(f);
+
         super.onResume();
     }
 
