@@ -3,15 +3,16 @@
   <!--Main VLC Interface-->
   <string name="filebrowser_sdfail">មិន​អាច​បើក​កាត​អេសឌី​បាន​ទេ ។ សូម​ពិនិត្យ​មើល​ថាតើ វា​ត្រូវ​បាន​ម៉ោន​ត្រឹមត្រូវ​ដែរឬទេ ។\n</string>
   <string name="filebrowser_root">Root</string>
-  <string name="filebrowser_parent">..</string>
   <string name="filebrowser_title">ជ្រើស​មេឌៀ​ ដើម្បី​ចាក់</string>
   <string name="ml_no_media_dir">គ្មាន​ថត​មេឌៀ</string>
-  <string name="sortby">តម្រៀប​តាម...</string>
+  <string name="sortby">តម្រៀប​តាម…</string>
   <string name="sortby_name">ឈ្មោះ</string>
   <string name="sortby_length">រយៈពេល</string>
-  <string name="searchable_hint">ស្វែងរក...</string>
+  <string name="searchable_hint">ស្វែងរក…</string>
   <string name="history">ប្រវត្តិ</string>
-  <string name="search_found_results">រក​ឃើញ​លទ្ធផល %1$d</string>
+  <plurals name="search_found_results_quantity">
+    <item quantity="other">រក​ឃើញ​លទ្ធផល %d</item>
+  </plurals>
   <string name="show_player">បង្ហាញ​កម្មវិធី​ចាក់</string>
   <string name="hide_mini_player">លាក់​កម្មវិធី​ចាក់​តូច</string>
   <string name="play">ចាក់</string>
@@ -21,6 +22,7 @@
   <string name="play_all">ចាក់​ទាំងអស់</string>
   <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
   <string name="delete">លុប</string>
+  <string name="set_song">កំណត់​ជា​សំឡេង​រោទិ៍</string>
   <string name="info">ព័ត៌មាន</string>
   <string name="confirm_delete">លុប​ឯកសារ​នេះ ?</string>
   <string name="pause">ផ្អាក</string>
@@ -44,21 +46,25 @@
     <item quantity="other">ថត​រង %d</item>
   </plurals>
   <string name="parent_folder">ទៅ​ថត​មេ</string>
+  <string name="audio">អូឌីយ៉ូ</string>
+  <string name="video">វីដេអូ</string>
+  <string name="bookmarks">ចំណាំ</string>
   <string name="all_albums">គ្រប់​អាល់ប៊ុម</string>
   <string name="genres">ចង្វាក់</string>
   <string name="playlists">បញ្ជី​ចាក់</string>
-  <string name="time_0">0:00</string>
   <string name="title">ចំណង​ជើង</string>
   <string name="artist">សិល្បករ</string>
   <string name="album">អាល់ប៊ុម</string>
   <string name="directory">ថត</string>
   <string name="directories">ថត</string>
-  <string name="loading">កំពុង​ផ្ទុក...</string>
+  <string name="loading">កំពុង​ផ្ទុក…</string>
+  <string name="please_wait">សូម​រង់ចាំ…</string>
   <string name="nomedia">រក​មិន​ឃើញ​ឯកសារ​មេឌៀ សូម​​ផ្ទេរ​ឯកសារ​ទៅ​ឧបករណ៍​របស់​អ្នក​ ឬ​កែសម្រួល​ចំណូល​ចិត្ត​របស់​អ្នក ។</string>
   <string name="mediafiles">ឯកសារ​មេឌៀ</string>
   <string name="notavailable">មិន​អាច​ប្រើ​បាន</string>
   <string name="nosubdirectory">គ្មាន​ថត​រង ។</string>
   <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ ?</string>
+  <string name="lock_rotation">ចាក់​សោ​ការ​បង្វិល​អេក្រង់</string>
   <string name="locked">បាន​ចាក់សោ</string>
   <string name="unlocked">បាន​ដោះសោ</string>
   <string name="surface_best_fit">សម​បំផុត</string>
@@ -86,6 +92,10 @@
   <string name="open_mrl_dialog_msg">បញ្ចូល MRL បណ្ដាញ ៖ ឧ. http://, mms:// ឬ rtsp://</string>
   <string name="media_library">បណ្ណាល័យ​មេឌៀ</string>
   <string name="error_not_compatible">សូម​ទោស ប៉ុន្តែ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បានគាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ ។\n\nសារ​កំហុស​គឺ (សូ​ម​បញ្ជាក់​វា ​នៅ​ពេល​កែ) ៖\n</string>
+  <string name="error_problem">សូម​ទោស VLC សម្រាប់ Android មាន​បញ្ហា​ក្នុង​កា​រ​ផ្ទុក និង​ពិបាក​បិទ​ណាស់ ។</string>
+  <string name="error_message_is">សារ​កំហុស​គឺ (សូម​រៀបរាប់​បញ្ហា​នេះ​នៅ​ពេល​កែ​កំហុស) ៖⏎</string>
+  <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
+
   <!--About-->
   <string name="app_name_full">VLC សម្រាប់ Android™</string>
   <string name="version">កំណែ</string>
@@ -95,6 +105,7 @@
   <string name="about_text">VLC សម្រាប់ Android™ គឺ​ជា​កម្មវិធី​ចាក់​មេឌៀ VLC ដែល​ជា​កម្មវិធី​មេឌៀ​កូដ​ចំ​ហ​ដ៏​មាន​ប្រជាប្រិយ ។ Android™ អាច​អាន​ឯកសារ និង​​ស្ទ្រីម​បណ្ដាញ​​ភាគ​ច្រើន ។</string>
   <string name="for_android">សម្រាប់ Android™</string>
   <string name="compiled_by">VLC កំណែ​នេះ​ត្រូវ​បាន​ចងក្រង​ដោយ ៖</string>
+  <string name="vlc_authors">អ្នក​និពន្ធ VLC</string>
 
   <!--Preferences-->
   <string name="preferences">ចំណូល​ចិត្ត</string>
@@ -107,13 +118,19 @@
   <string name="quit">ចេញ​ពី​កម្មវិធី</string>
   <string name="clear_media_db">សម្អាត​មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ</string>
   <string name="media_db_cleared">មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ​​បាន​សម្អាត !</string>
+  <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
+  <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
+  <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
   <string name="detect_headset">រក​​​កាស</string>
   <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
   <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>
+  <string name="enable_gesture_brightness">បើក​កាយវិកា​ពន្លឺ</string>
   <string name="enable_verbose_mode">បរិយាយ</string>
   <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
   <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
-  <string name="aout_audiotrack">AudioTrack (ដើម)</string>
-  <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+  <string name="aout_audiotrack">បទ​អូឌីយ៉ូ (ដើម)</string>
+  <string name="aout_audiotrack_java">បទ​អូឌីយ៉ូ (Java)</string>
   <string name="aout_opensles">OpenSL ES</string>
+  <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
+  <string name="enable_time_stretching_audio_detail">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
 </resources>
