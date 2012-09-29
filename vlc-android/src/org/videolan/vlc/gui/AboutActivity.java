@@ -38,6 +38,9 @@ import android.widget.TextView;
 public class AboutActivity extends FragmentActivity implements OnTabChangeListener {
     public final static String TAG = "VLC/AboutActivity";
 
+    private final static String CURRENT_TAB_TAG = "tabtag";
+    private final static String CURRENT_TAB_ID = "tabid";
+
     private class DummyContentFactory implements TabHost.TabContentFactory {
         private final Context mContext;
         public DummyContentFactory(Context ctx) {
@@ -92,6 +95,15 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
 
         mTabHost.setOnTabChangedListener(this);
         this.onTabChanged("main");
+        if (savedInstanceState != null) {
+            mTabHost.setCurrentTab(savedInstanceState.getInt(CURRENT_TAB_ID));
+            this.onTabChanged(savedInstanceState.getString(CURRENT_TAB_TAG));
+        }
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(CURRENT_TAB_TAG, mCurrentTabTag);
+        outState.putInt(CURRENT_TAB_ID, mTabHost.getCurrentTab());
     }
 
     @Override
