@@ -93,6 +93,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private SidebarAdapter mSidebarAdapter;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
+    private ThumbnailerManager mThumbnailerManager;
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
@@ -262,6 +263,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Load media items from database and storage */
         MediaLibrary.getInstance(this).loadMediaItems(this);
+
+        /* Load the thumbnailer */
+        mThumbnailerManager = new ThumbnailerManager(this,
+                getWindowManager().getDefaultDisplay());
     }
 
     private void updateMenuOffset() {
@@ -307,7 +312,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Start the thumbnailer */
         VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
-        ThumbnailerManager.getInstance(this).start(f);
+        mThumbnailerManager.start(f);
 
         super.onResume();
     }
@@ -320,7 +325,7 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Stop scanning for files */
         MediaLibrary.getInstance(this).stop();
         /* Stop the thumbnailer */
-        ThumbnailerManager.getInstance(this).stop();
+        mThumbnailerManager.stop();
 
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
@@ -334,7 +339,7 @@ public class MainActivity extends SherlockFragmentActivity {
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}
-        ThumbnailerManager.getInstance(this).clearJobs();
+        mThumbnailerManager.clearJobs();
         super.onDestroy();
     }
 

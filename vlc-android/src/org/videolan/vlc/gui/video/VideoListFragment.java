@@ -79,6 +79,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     protected static final int UPDATE_ITEM = 0;
 
     private MediaLibrary mMediaLibrary;
+    private ThumbnailerManager mThumbnailerManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -245,10 +246,13 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     private void updateList() {
 
+        if (mThumbnailerManager == null) {
+            Log.w(TAG, "Can't update the list, thumbnailer missing");
+            return;
+        }
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
-        ThumbnailerManager t = ThumbnailerManager.getInstance(getActivity());
-        t.clearJobs();
+        mThumbnailerManager.clearJobs();
         mVideoAdapter.clear();
 
         if (itemList.size() > 0) {
@@ -256,7 +260,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 if (item.getType() == Media.TYPE_VIDEO) {
                     mVideoAdapter.add(item);
                     if (item.getPicture() == null && !item.isPictureParsed())
-                        t.addJob(item);
+                        mThumbnailerManager.addJob(item);
                 }
             }
             mVideoAdapter.sort();
@@ -306,5 +310,9 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
         context.getApplicationContext().sendBroadcast(intent);
+    }
+
+    public void setThumbnailerManager(ThumbnailerManager thumbnailerManager) {
+        mThumbnailerManager = thumbnailerManager;
     }
 }
