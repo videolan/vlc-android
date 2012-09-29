@@ -126,8 +126,8 @@ public class MainActivity extends SherlockFragmentActivity {
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         mMenu.setContent(v_main);
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
-        ((ListView)sidebar).setFooterDividersEnabled(true);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
+        listView.setFooterDividersEnabled(true);
         mSidebarAdapter = new SidebarAdapter(getSupportFragmentManager());
         listView.setAdapter(mSidebarAdapter);
         mMenu.setMenu(sidebar);
