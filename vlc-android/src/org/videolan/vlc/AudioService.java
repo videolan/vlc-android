@@ -60,6 +60,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -85,7 +86,6 @@ public class AudioService extends Service {
     private Media mCurrentMedia;
     private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventManager mEventManager;
-    private Notification mNotification;
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
@@ -456,23 +456,26 @@ public class AudioService extends Service {
 
     private void showNotification() {
         // add notification to status bar
-        if (mNotification == null) {
-            mNotification = new Notification(R.drawable.icon, null,
-                    System.currentTimeMillis());
-        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+            .setSmallIcon(R.drawable.icon)
+            .setLargeIcon(mCurrentMedia.getPicture())
+            .setContentTitle(mCurrentMedia.getTitle())
+            .setContentText(mCurrentMedia.getArtist())
+            .setContentInfo(mCurrentMedia.getAlbum())
+            .setAutoCancel(false)
+            .setOngoing(true);
+
         Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        mNotification.setLatestEventInfo(this, mCurrentMedia.getTitle(),
-                mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum(), pendingIntent);
-        startForeground(3, mNotification);
 
+        builder.setContentIntent(pendingIntent);
+        startForeground(3, builder.build());
     }
 
     private void hideNotification() {
-        mNotification = null;
         stopForeground(true);
     }
 
