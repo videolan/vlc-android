@@ -280,6 +280,10 @@ public class MainActivity extends SherlockFragmentActivity {
         AudioServiceController.getInstance().bindAudioService(this);
         Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
+        /* Start the thumbnailer */
+        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
+        mThumbnailerManager.start(f);
+
         /* Restore last view */
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
@@ -306,10 +310,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
         if (startFromNotification)
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
-
-        /* Start the thumbnailer */
-        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
-        mThumbnailerManager.start(f);
 
         super.onResume();
     }
