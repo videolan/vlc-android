@@ -94,7 +94,7 @@
   <string name="open">খোলা</string>
   <string name="open_mrl">MRL খুলুন</string>
   <string name="open_mrl_dialog_title">ওপেন সোর্স নেটওয়ার্ক প্রবাহ</string>
-  <string name="open_mrl_dialog_msg">নেটওয়ার্ক MRL লিখুন: যেমন এখানে http://, mms:// বা  rtsp://</string>
+  <string name="open_mrl_dialog_msg">নেটওযারক MRL লিখন: যেমন এখানে http://, mms:// বা  rtsp://</string>
   <string name="media_library">মিডিয়া লাইব্রেরি</string>
   <string name="error_not_compatible">দুঃখিত, আপনার ডিভাইস Android™এর জন্য VLCএর এই সংস্করণটির দ্বারা বর্তমানে সমর্থন করা হয় না।</string>
   <string name="error_problem">দুঃখিত, Android এর জন্য VLC একটি সমস্যা লোড হয় এবং বন্ধ ছিল.</string>
