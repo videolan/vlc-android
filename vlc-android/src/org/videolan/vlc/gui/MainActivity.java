@@ -104,9 +104,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
 
-    public MainActivity() {
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (!Util.hasCompatibleCPU()) {
