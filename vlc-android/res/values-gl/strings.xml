@@ -25,10 +25,10 @@
   <string name="delete">Eliminar</string>
   <string name="set_song">Definir como ton de chamada</string>
   <string name="info">Información</string>
-  <string name="confirm_delete">Quere eliminar este ficheiro?</string>
-  <string name="pause">En pausa</string>
+  <string name="confirm_delete">Quere eliminar o ficheiro \'%1$s\'?</string>
+  <string name="pause">Pausa</string>
   <string name="close">Pechar</string>
-  <string name="not_show_again">\"Non mostrar esta mensaxe de novo.\"</string>
+  <string name="not_show_again">Non mostrar esta mensaxe de novo.</string>
   <string name="beta_warning">Esta é unha versión beta.\n\nEsta versión NON é estábel!\n\nNON a use a menos que saiba o que está a facer.\n\nPode matar o seu gato, destruír a súa casa e iniciar a apocalipse dos maias.\nÚsea baixo a súa responsabilidade.\n\nDivírtase! :) </string>
   <string name="info_title">VLC Beta</string>
   <string name="unknown_artist">Artista descoñecido</string>
@@ -63,7 +63,8 @@
   <string name="directories">Directorios</string>
   <string name="loading">Cargando…</string>
   <string name="please_wait">Agarde…</string>
-  <string name="nomedia">Non se encontraron ficheiros multumedia. Por favor, transfira os ficheiros ao seu dispositivo ou axuste as súas preferencias.</string>
+  <string name="nomedia">Non se encontraron ficheiros multimedia. Por favor, transfira os ficheiros ao seu dispositivo ou axuste as súas preferencias.</string>
+  <string name="loadmedia">Cargando…</string>
   <string name="mediafiles">Ficheiros multimedia</string>
   <string name="notavailable">non está dispoñíbel</string>
   <string name="nosubdirectory">Non hai subdirectorios.</string>
@@ -96,7 +97,7 @@
   <string name="open_mrl_dialog_title">Abrir un fluxo de rede</string>
   <string name="open_mrl_dialog_msg">Introduza un MRL de rede, por exemplo: http://, mms:// ou rtsp://</string>
   <string name="media_library">Biblioteca multimedia</string>
-  <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.\n\nA mensaxe de erro é (mencione isto na depuración):\n</string>
+  <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.</string>
   <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
   <string name="error_message_is">A mensaxe de erro é (por favor, menciónea para a depuración):\n</string>
   <string name="playback_speed">Velocidade de reprodución</string>
