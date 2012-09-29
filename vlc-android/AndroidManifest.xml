@@ -111,7 +111,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.audio.AudioPlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTop" />
 
         <service android:name=".AudioService" />
 
