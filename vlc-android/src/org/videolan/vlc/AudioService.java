@@ -459,7 +459,8 @@ public class AudioService extends Service {
             .setSmallIcon(R.drawable.icon)
             .setLargeIcon(mCurrentMedia.getPicture())
             .setContentTitle(mCurrentMedia.getTitle())
-            .setContentText(mCurrentMedia.getArtist())
+            .setContentText((Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist()
+                    : mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum()))
             .setContentInfo(mCurrentMedia.getAlbum())
             .setAutoCancel(false)
             .setOngoing(true);
