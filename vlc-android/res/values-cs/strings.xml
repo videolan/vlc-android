@@ -35,7 +35,7 @@
   <string name="unknown_artist">Neznámý umělec</string>
   <string name="unknown_album">Neznámé album</string>
   <string name="unknown_genre">Neznámý žánr</string>
-  <string name="songs">Písničky</string>
+  <string name="songs">Skladby</string>
   <plurals name="songs_quantity">
     <item quantity="one">1 skladba</item>
     <item quantity="few">%d skladby</item>
