@@ -90,7 +90,7 @@ public class CustomViewAbove extends ViewGroup {
 	private int mFlingDistance;
 
 	private boolean mLastTouchAllowed = false;
-	private final int mSlidingMenuThreshold = 10;
+	private final int mSlidingMenuThreshold = 16;
 	private CustomViewBehind mCustomViewBehind;
 	private boolean mEnabled = true;
 
