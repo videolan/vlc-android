@@ -47,7 +47,6 @@ public class MediaLibrary {
     public static final int MEDIA_ITEMS_UPDATED = 100;
 
     private static MediaLibrary mInstance;
-    private final DatabaseManager mDBManager;
     private final ArrayList<Media> mItemList;
     private final ArrayList<Handler> mUpdateHandler;
     private boolean isStopping = false;
@@ -57,7 +56,6 @@ public class MediaLibrary {
         mInstance = this;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
-        mDBManager = DatabaseManager.getInstance(context);
     }
 
     public void loadMediaItems(Context context) {
@@ -177,7 +175,8 @@ public class MediaLibrary {
         @Override
         public void run() {
             // Initialize variables
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            final DatabaseManager DBManager = DatabaseManager.getInstance(VLCApplication.getAppContext());
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             String root = pref.getString("directories_root", null);
 
@@ -192,13 +191,13 @@ public class MediaLibrary {
             MainActivity.showProgressBar(mContext);
 
             // get directories from database
-            mDBManager.removeDirNotUnder(root);
-            directories.addAll(mDBManager.getMediaDirs());
+            DBManager.removeDirNotUnder(root);
+            directories.addAll(DBManager.getMediaDirs());
             if (directories.isEmpty())
                 directories.add(new File(root));
 
             // get all existing media items
-            HashMap<String, Media> existingMedias = mDBManager.getMedias(mContext);
+            HashMap<String, Media> existingMedias = DBManager.getMedias(mContext);
 
             // list of all added files
             HashSet<String> addedLocations = new HashSet<String>();
@@ -298,11 +297,11 @@ public class MediaLibrary {
                     for (String fileURI : addedLocations) {
                         existingMedias.remove(fileURI);
                     }
-                    mDBManager.removeMedias(existingMedias.keySet());
+                    DBManager.removeMedias(existingMedias.keySet());
 
-                    for (File file : mDBManager.getMediaDirs())
+                    for (File file : DBManager.getMediaDirs())
                         if (!file.isDirectory())
-                            mDBManager.removeDir(file.getAbsolutePath());
+                            DBManager.removeDir(file.getAbsolutePath());
                 }
 
                 // hide progressbar in footer
