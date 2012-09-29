@@ -17,9 +17,9 @@
   <string name="play">เล่น</string>
   <string name="play_as_audio">เล่นแต่เสียง</string>
   <string name="play_as_video">เล่นทั้งภาพและเสียง</string>
-  <string name="append">ผนวกเข้า</string>
+  <string name="append">เพิ่มเข้า</string>
   <string name="play_all">เล่นทั้งหมด</string>
-  <string name="append_all">ผนวกเข้าทั้งหมด</string>
+  <string name="append_all">เพิ่มเข้าทั้งหมด</string>
   <string name="delete">ลบ</string>
   <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
   <string name="info">ข้อมูล</string>
@@ -58,7 +58,7 @@
   <string name="directories">ที่เก็บแฟ้มต่างๆ</string>
   <string name="loading">กําลังโหลด…</string>
   <string name="please_wait">กรุณารอสักครู่…</string>
-  <string name="nomedia">ไม่พบแฟ้มสื่อ โปรดหาแฟ้มส่งมายังอุปกรณ์ของคุณ หรือปรับเปลี่ยนการปรับแต่งของคุณ</string>
+  <string name="nomedia">ไม่พบแฟ้มสื่อ โปรดหาแฟ้มส่งมายังอุปกรณ์ของคุณ หรือปรับเปลี่ยนค่าปรับแต่งของคุณ</string>
   <string name="mediafiles">แฟ้มสื่อ</string>
   <string name="notavailable">ไม่สามารถใช้ได้</string>
   <string name="nosubdirectory">ไม่มีที่เก็บแฟ้มย่อย</string>
@@ -87,12 +87,12 @@
   <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
   <string name="open">เปิด</string>
   <string name="open_mrl">เปิด MRL</string>
-  <string name="open_mrl_dialog_title">เปิกกระแสเครือข่าย</string>
+  <string name="open_mrl_dialog_title">เปิดกระแสเครือข่าย</string>
   <string name="open_mrl_dialog_msg">เลือกเครือข่าย MRL: ตย. http://, mms:// หรือ rtsp://</string>
   <string name="media_library">คลังสื่อ</string>
   <string name="error_not_compatible">ขออภัย, อุปกรณ์ของคุณในขณะนี้ไม่รองรับการใช้งานกับ VLC สำหรับ Android™ ในรุ่นนี้.</string>
   <string name="error_problem">ขออภัยด้วย ที่ VLC สำหรับ Andriod ปิดโปรแกรมไป อันเนื่องจากมีปัญหาในการโหลด</string>
-  <string name="error_message_is">ข้อความแจ้งข้อผิดพลาดคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการตรวจสอบข้อผิดพลาด):\n</string>
+  <string name="error_message_is">ข้อความแจ้งข้อผิดพลาดคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):\n</string>
   <string name="playback_speed">ความเร็วการเล่น</string>
   <!--About-->
   <string name="app_name_full">VLC สำหรับ Android™</string>
@@ -124,10 +124,10 @@
   <string name="enable_gesture_brightness">เปิดใช้การเลื่อน ปรับความสว่าง</string>
   <string name="enable_verbose_mode">รายละเอียด</string>
   <string name="enable_verbose_mode_detail">เพิ่มรายละเอียด (ปูม)</string>
-  <string name="aout">ส่วนส่งออกเสียง</string>
+  <string name="aout">ส่วนส่งเสียง</string>
   <string name="aout_audiotrack">AudioTrack (เนทีฟ)</string>
   <string name="aout_audiotrack_java">AudioTrack (จาวา)</string>
   <string name="aout_opensles">OpenSL ES</string>
   <string name="enable_time_stretching_audio">เปิดใช้การยืดยานเสียง</string>
-  <string name="enable_time_stretching_audio_detail">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ทำงานเร็ว)</string>
+  <string name="enable_time_stretching_audio_detail">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่ทำงานเร็ว)</string>
 </resources>
