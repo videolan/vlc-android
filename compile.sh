@@ -21,7 +21,8 @@ case "$REL" in
         CXXSTL=""
     ;;
     8?)
-        # NDK >= v8b, both 4.4.3 and 4.6 available, we use 4.6
+        # NDK >= v8b, both 4.4.3 and 4.6 available,
+        # we use 4.4.3 because there is a regression in gcc 4.6, DECL_USER_ALIGN is not handled properly
         GCCVER=4.4.3
         CXXSTL="/4.4.3"
     ;;
@@ -116,7 +117,7 @@ cd vlc
 git reset --hard origin
 git pull origin master
 git checkout -B android ${TESTED_HASH}
-git am ../patches/*
+git am -3 ../patches/*
 
 *** : This will delete any changes you made to the current branch ***
 
