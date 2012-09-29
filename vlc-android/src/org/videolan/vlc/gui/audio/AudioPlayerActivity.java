@@ -249,6 +249,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
 
     public void onStopClick(View view) {
     	mAudioController.stop();
+    	Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     	finish();
     }
 
