@@ -28,10 +28,12 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.ThumbnailerManager;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.gui.video.VideoListFragment;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
@@ -271,6 +273,14 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     @Override
+    protected void onStart() {
+        /* Start the thumbnailer */
+        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
+        ThumbnailerManager.getInstance(this).start(f);
+        super.onStart();
+    }
+
+    @Override
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
@@ -312,6 +322,8 @@ public class MainActivity extends SherlockFragmentActivity {
     protected void onPause() {
         /* Stop scanning for files */
         MediaLibrary.getInstance(this).stop();
+        /* Stop the thumbnailer */
+        ThumbnailerManager.getInstance(this).stop();
 
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
@@ -325,6 +337,7 @@ public class MainActivity extends SherlockFragmentActivity {
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}
+        ThumbnailerManager.getInstance(this).clearJobs();
         super.onDestroy();
     }
 

@@ -75,7 +75,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     protected Media mItemToUpdate;
 
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
-    protected ThumbnailerManager mThumbnailerManager;
 
     protected static final int UPDATE_ITEM = 0;
 
@@ -88,7 +87,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mVideoAdapter = new VideoListAdapter(getActivity());
 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
-        mThumbnailerManager = new ThumbnailerManager(this);
 
         setListAdapter(mVideoAdapter);
     }
@@ -126,14 +124,12 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public void onStart() {
-        mThumbnailerManager.start();
         super.onStart();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mThumbnailerManager.stop();
         mMediaLibrary.removeUpdateHandler(mHandler);
     }
 
@@ -151,8 +147,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public void onDestroy() {
-        mThumbnailerManager.clearJobs();
-        mThumbnailerManager.stop();
         mBarrier.reset();
         mVideoAdapter.clear();
         getActivity().unregisterReceiver(messageReceiverVideoListFragment);
@@ -253,7 +247,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
-        mThumbnailerManager.clearJobs();
+        ThumbnailerManager t = ThumbnailerManager.getInstance(getActivity());
+        t.clearJobs();
         mVideoAdapter.clear();
 
         if (itemList.size() > 0) {
@@ -261,7 +256,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
                 if (item.getType() == Media.TYPE_VIDEO) {
                     mVideoAdapter.add(item);
                     if (item.getPicture() == null && !item.isPictureParsed())
-                        mThumbnailerManager.addJob(item);
+                        t.addJob(item);
                 }
             }
             mVideoAdapter.sort();

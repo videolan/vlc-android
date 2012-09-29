@@ -32,6 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.video.VideoListFragment;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.util.DisplayMetrics;
@@ -39,6 +40,9 @@ import android.util.Log;
 
 public class ThumbnailerManager implements Runnable {
     public final static String TAG = "VLC/ThumbnailerManager";
+
+    private static ThumbnailerManager mInstance;
+    private VideoListFragment mVideoListFragment;
 
     private final Queue<Media> mItems = new LinkedList<Media>();
 
@@ -48,12 +52,12 @@ public class ThumbnailerManager implements Runnable {
 
     protected Thread mThread;
     private LibVLC mLibVlc;
-    private final VideoListFragment mVideoListActivity;
+    private final Activity mActivity;
     private int totalCount;
     private final float mDensity;
 
-    public ThumbnailerManager(VideoListFragment videoListActivity) {
-        mVideoListActivity = videoListActivity;
+    private ThumbnailerManager(Activity parentActivity) {
+        mActivity = parentActivity;
         try {
             mLibVlc = LibVLC.getInstance();
         } catch (LibVlcException e) {
@@ -61,12 +65,19 @@ public class ThumbnailerManager implements Runnable {
         }
 
         DisplayMetrics metrics = new DisplayMetrics();
-        mVideoListActivity.getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDensity = metrics.density;
     }
 
-    public void start() {
+    public static ThumbnailerManager getInstance(Activity activity) {
+        if (mInstance == null)
+            mInstance = new ThumbnailerManager(activity);
+        return mInstance;
+    }
+
+    public void start(VideoListFragment videoListFragment) {
         if (mThread == null || mThread.getState() == State.TERMINATED) {
+            mVideoListFragment = videoListFragment;
             isStopping = false;
             mThread = new Thread(this);
             mThread.start();
@@ -110,7 +121,7 @@ public class ThumbnailerManager implements Runnable {
 
         Log.d(TAG, "Thumbnailer started");
 
-        String prefix = mVideoListActivity.getResources().getString(R.string.thumbnail);
+        String prefix = mActivity.getResources().getString(R.string.thumbnail);
 
         while (!isStopping) {
             lock.lock();
@@ -118,8 +129,8 @@ public class ThumbnailerManager implements Runnable {
             boolean killed = false;
             while (mItems.size() == 0) {
                 try {
-                    MainActivity.hideProgressBar(mVideoListActivity.getActivity());
-                    MainActivity.clearTextInfo(mVideoListActivity.getActivity());
+                    MainActivity.hideProgressBar(mActivity);
+                    MainActivity.clearTextInfo(mActivity);
                     totalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
@@ -135,9 +146,9 @@ public class ThumbnailerManager implements Runnable {
             Media item = mItems.poll();
             lock.unlock();
 
-            MainActivity.showProgressBar(mVideoListActivity.getActivity());
+            MainActivity.showProgressBar(mActivity);
 
-            MainActivity.sendTextInfo(mVideoListActivity.getActivity(), String.format("%s %s", prefix, item.getFileName()), count, total);
+            MainActivity.sendTextInfo(mActivity, String.format("%s %s", prefix, item.getFileName()), count, total);
             count++;
 
             int width = (int) (120 * mDensity);
@@ -149,7 +160,7 @@ public class ThumbnailerManager implements Runnable {
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
             if (b == null) {// We were not able to create a thumbnail for this item.
-                item.setPicture(mVideoListActivity.getActivity(), null);
+                item.setPicture(mActivity, null);
                 continue;
             }
 
@@ -158,13 +169,13 @@ public class ThumbnailerManager implements Runnable {
 
             Log.i(TAG, "Thumbnail created for " + item.getFileName());
 
-            item.setPicture(mVideoListActivity.getActivity(), thumbnail);
+            item.setPicture(mActivity, thumbnail);
             // Post to the file browser the new item.
-            mVideoListActivity.setItemToUpdate(item);
+            mVideoListFragment.setItemToUpdate(item);
 
             // Wait for the file browser to process the change.
             try {
-                mVideoListActivity.await();
+                mVideoListFragment.await();
             } catch (InterruptedException e) {
                 break;
             } catch (BrokenBarrierException e) {
