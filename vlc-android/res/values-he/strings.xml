@@ -96,7 +96,7 @@
   <string name="open_mrl_dialog_title">פתיחת תזרים רשת</string>
   <string name="open_mrl_dialog_msg">נא להזין קישור למדיה מוזרמת: לדוגמהhttp://, mms:// או rtsp://</string>
   <string name="media_library">ספריית מדיה</string>
-  <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC לאנדרויד™, עמך הסליחה.\n\nהודעת השגיאה היא (נא לציין זאת בעת ניפוי שגיאות):\n</string>
+  <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC ל־Android™, עמך הסליחה.</string>
   <string name="error_problem">VLC לאנדרויד נתקבל בשגיאה והיה עליו להיסגר, עמך הסליחה.</string>
   <string name="error_message_is">הודעת השגיאה היא (נא לציין אותה לצורך ניפוי שגיאות):\n</string>
   <string name="playback_speed">מהירות הנגינה</string>
@@ -127,6 +127,7 @@
   <string name="set_locale_detail">להשאיר ריק כדי לאפס</string>
   <string name="set_locale_popup">יש לצאת ולאפס את VLC כדי שהשינויים ייכנסו לתוקף.</string>
   <string name="detect_headset">זיהוי ערכת שמע</string>
+  <string name="detect_headset_detail">השהייה עם הסרת אביזר שמע; המשך בעת חיבור אביזר שמע</string>
   <string name="enable_wheel_bar">הפעלת סרגל גלגלת</string>
   <string name="enable_gesture_brightness">הפעלת מחוות בהירות</string>
   <string name="enable_verbose_mode">פירוט</string>
