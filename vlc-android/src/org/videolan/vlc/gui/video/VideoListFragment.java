@@ -111,7 +111,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         registerForContextMenu(getListView());
-        
+
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_SCAN_START);
@@ -120,7 +120,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         Log.i(TAG,"mMediaLibrary.ismLoadingThreadrunning() " + Boolean.toString(mMediaLibrary.ismLoadingThreadrunning()));
         if (mMediaLibrary.ismLoadingThreadrunning()) {
             actionScanStart(getActivity().getApplicationContext());
-            
         }
 
         updateList();
@@ -150,10 +149,15 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(messageReceiverVideoListFragment);
+        super.onDestroyView();
+    }
+
+    @Override
     public void onDestroy() {
         mBarrier.reset();
         mVideoAdapter.clear();
-        getActivity().unregisterReceiver(messageReceiverVideoListFragment);
         super.onDestroy();
     }
 
