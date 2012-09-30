@@ -69,6 +69,7 @@ public class HistoryFragment extends SherlockListFragment {
 
     public void refresh() {
         Log.d(TAG, "Refreshing view!");
-        mHistoryAdapter.refresh();
+        if( mHistoryAdapter != null )
+            mHistoryAdapter.refresh();
     }
 }
