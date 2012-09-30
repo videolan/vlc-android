@@ -90,6 +90,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public AudioBrowserFragment() { }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

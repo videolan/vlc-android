@@ -53,6 +53,9 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     private DirectoryAdapter mDirectoryAdapter;
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public DirectoryViewFragment() { }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

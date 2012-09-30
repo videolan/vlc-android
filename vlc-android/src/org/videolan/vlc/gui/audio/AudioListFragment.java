@@ -69,6 +69,9 @@ public class AudioListFragment extends SherlockListFragment {
     public final static String EXTRA_NAME2 = "name2";
     public final static String EXTRA_MODE = "mode";
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public AudioListFragment() { }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

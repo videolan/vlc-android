@@ -81,6 +81,9 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     private MediaLibrary mMediaLibrary;
     private ThumbnailerManager mThumbnailerManager;
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public VideoListFragment() { }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

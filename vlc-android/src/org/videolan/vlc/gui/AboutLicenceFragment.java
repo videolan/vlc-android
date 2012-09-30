@@ -33,6 +33,9 @@ import android.webkit.WebView;
 public class AboutLicenceFragment extends Fragment {
     public final static String TAG = "VLC/AboutLicenceFragment";
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public AboutLicenceFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

@@ -38,6 +38,9 @@ public class HistoryFragment extends SherlockListFragment {
 
     private HistoryAdapter mHistoryAdapter;
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public HistoryFragment() { }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

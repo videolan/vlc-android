@@ -40,6 +40,9 @@ import android.widget.TextView;
 public class AboutMainFragment extends Fragment {
     public final static String TAG = "VLC/AboutMainFragment";
 
+    /* All subclasses of Fragment must include a public empty constructor. */
+    public AboutMainFragment() { }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
