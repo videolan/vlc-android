@@ -309,7 +309,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            MediaLibrary.getInstance(this).loadMediaItems(this, true);
+            MediaLibrary.getInstance(this).loadMediaItems(this);
 
         super.onResume();
     }
@@ -468,7 +468,7 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                mScanNeeded = true;
+                MediaLibrary.getInstance(this).loadMediaItems(this, true);
         }
     }
 
