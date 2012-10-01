@@ -1,14 +1,15 @@
-From b6290d24fbbd5c87fe5cf4b837faf6a6e76c06e9 Mon Sep 17 00:00:00 2001
+From ef9d9b8446e925e8714604188338a2e669e98e41 Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
 Subject: [PATCH 4/6] add ARM/NEON version of simple channel mixer
 
+Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
 ---
  modules/LIST                            |   1 +
  modules/arm_neon/Modules.am             |   8 +
  modules/arm_neon/simple_channel_mixer.S | 279 ++++++++++++++++++++++++++++++++
- modules/arm_neon/simple_channel_mixer.c | 174 ++++++++++++++++++++
- 4 files changed, 462 insertions(+)
+ modules/arm_neon/simple_channel_mixer.c | 175 ++++++++++++++++++++
+ 4 files changed, 463 insertions(+)
  create mode 100644 modules/arm_neon/simple_channel_mixer.S
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
@@ -337,10 +338,10 @@ index 0000000..16d6702
 +	pop {r4,pc}
 diff --git a/modules/arm_neon/simple_channel_mixer.c b/modules/arm_neon/simple_channel_mixer.c
 new file mode 100644
-index 0000000..28a6721
+index 0000000..687ae2b
 --- /dev/null
 +++ b/modules/arm_neon/simple_channel_mixer.c
-@@ -0,0 +1,174 @@
+@@ -0,0 +1,175 @@
 +/*****************************************************************************
 + * simple_channel_mixer.c : simple channel mixer plug-in using NEON assembly
 + *****************************************************************************
@@ -378,6 +379,7 @@ index 0000000..28a6721
 +#include <vlc_aout.h>
 +#include <vlc_filter.h>
 +#include <vlc_block.h>
++#include <vlc_cpu.h>
 +#include <assert.h>
 +
 +/*****************************************************************************
