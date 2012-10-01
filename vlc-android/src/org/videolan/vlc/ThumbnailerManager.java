@@ -178,6 +178,8 @@ public class ThumbnailerManager implements Runnable {
             }
         }
         /* cleanup */
+        MainActivity.hideProgressBar(mContext);
+        MainActivity.clearTextInfo(mContext);
         mVideoListFragment.setThumbnailerManager(null);
         mVideoListFragment = null;
         Log.d(TAG, "Thumbnailer stopped");
