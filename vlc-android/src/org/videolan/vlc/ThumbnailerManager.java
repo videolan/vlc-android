@@ -70,10 +70,10 @@ public class ThumbnailerManager implements Runnable {
     }
 
     public void start(VideoListFragment videoListFragment) {
+        isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
             mVideoListFragment = videoListFragment;
             mVideoListFragment.setThumbnailerManager(this);
-            isStopping = false;
             mThread = new Thread(this);
             mThread.start();
         }
@@ -81,6 +81,7 @@ public class ThumbnailerManager implements Runnable {
 
     public void stop() {
         isStopping = true;
+        mThread.interrupt();
     }
 
     /**
@@ -121,7 +122,7 @@ public class ThumbnailerManager implements Runnable {
         while (!isStopping) {
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
-            boolean killed = false;
+            boolean interrupted = false;
             while (mItems.size() == 0) {
                 try {
                     MainActivity.hideProgressBar(mContext);
@@ -129,11 +130,12 @@ public class ThumbnailerManager implements Runnable {
                     totalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
-                    killed = true;
+                    interrupted = true;
+                    Log.i(TAG, "interruption probably requested by stop()");
                     break;
                 }
             }
-            if (killed) {
+            if (interrupted) {
                 lock.unlock();
                 break;
             }
@@ -172,8 +174,11 @@ public class ThumbnailerManager implements Runnable {
             try {
                 mVideoListFragment.await();
             } catch (InterruptedException e) {
+                Log.i(TAG, "interruption probably requested by stop()");
                 break;
             } catch (BrokenBarrierException e) {
+                Log.e(TAG, "Unexpected BrokenBarrierException");
+                e.printStackTrace();
                 break;
             }
         }
