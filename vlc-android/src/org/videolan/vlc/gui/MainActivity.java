@@ -103,6 +103,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
+    private boolean mScanNeeded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,7 +306,8 @@ public class MainActivity extends SherlockFragmentActivity {
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Load media items from database and storage */
-        MediaLibrary.getInstance(this).loadMediaItems(this);
+        if (mScanNeeded)
+            MediaLibrary.getInstance(this).loadMediaItems(this);
 
         super.onResume();
     }
@@ -315,6 +317,8 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     @Override
     protected void onPause() {
+        /* Check for an ongoing scan that needs to be resumed during onResume */
+        mScanNeeded = MediaLibrary.getInstance(this).isWorking();
         /* Stop scanning for files */
         MediaLibrary.getInstance(this).stop();
         /* Stop the thumbnailer */

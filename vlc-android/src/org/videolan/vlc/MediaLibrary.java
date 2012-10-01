@@ -71,6 +71,14 @@ public class MediaLibrary {
         isStopping = true;
     }
 
+    public boolean isWorking() {
+        if (mLoadingThread != null &&
+            mLoadingThread.getState() != State.TERMINATED &&
+            mLoadingThread.getState() != State.NEW)
+            return true;
+        return false;
+    }
+
     public static MediaLibrary getInstance(Context context) {
         if (mInstance == null)
             mInstance = new MediaLibrary(context);
