@@ -135,13 +135,6 @@ public class BrowserActivity extends ListActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onStop() {
-        // Update the MediaList
-        MediaLibrary.getInstance(this).loadMediaItems(this);
-        super.onStop();
-    }
-
     /**
      * Filter: accept only directories
      */
