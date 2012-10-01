@@ -252,21 +252,20 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     private void updateList() {
-
-        if (mThumbnailerManager == null) {
-            Log.w(TAG, "Can't update the list, thumbnailer missing");
-            return;
-        }
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
-        mThumbnailerManager.clearJobs();
+        if (mThumbnailerManager != null)
+            mThumbnailerManager.clearJobs();
+        else
+            Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
+
         mVideoAdapter.clear();
 
         if (itemList.size() > 0) {
             for (Media item : itemList) {
                 if (item.getType() == Media.TYPE_VIDEO) {
                     mVideoAdapter.add(item);
-                    if (item.getPicture() == null && !item.isPictureParsed())
+                    if (mThumbnailerManager != null && item.getPicture() == null && !item.isPictureParsed())
                         mThumbnailerManager.addJob(item);
                 }
             }
