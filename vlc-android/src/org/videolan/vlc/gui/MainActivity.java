@@ -128,7 +128,7 @@ public class MainActivity extends SherlockFragmentActivity {
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
         listView.setFooterDividersEnabled(true);
-        mSidebarAdapter = new SidebarAdapter(getSupportFragmentManager());
+        mSidebarAdapter = new SidebarAdapter();
         listView.setAdapter(mSidebarAdapter);
         mMenu.setMenu(sidebar);
 
@@ -213,7 +213,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 }
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.detach(current);
-                ft.attach(mSidebarAdapter.getFragment(entry.id));
+                ft.attach(getFragment(entry.id));
                 ft.commit();
                 mCurrentFragment = entry.id;
                 mMenu.showAbove();
@@ -280,10 +280,6 @@ public class MainActivity extends SherlockFragmentActivity {
         AudioServiceController.getInstance().bindAudioService(this);
         Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
 
-        /* Start the thumbnailer */
-        VideoListFragment f = (VideoListFragment)mSidebarAdapter.getFragment("video");
-        mThumbnailerManager.start(f);
-
         /* Restore last view */
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
@@ -304,7 +300,7 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         if(found) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, mSidebarAdapter.getFragment(mCurrentFragment));
+            ft.replace(R.id.fragment_placeholder, getFragment(mCurrentFragment));
             ft.commit();
         }
 
@@ -355,6 +351,23 @@ public class MainActivity extends SherlockFragmentActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public Fragment getFragment(String id)
+    {
+        Fragment fragment = mSidebarAdapter.getFragment(id);
+
+        if (!fragment.isAdded())
+            getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_placeholder, fragment, id)
+                .commitAllowingStateLoss();
+
+        /* Start the thumbnailer */
+        if (id.equals("video"))
+            mThumbnailerManager.start((VideoListFragment)fragment);
+
+        return fragment;
     }
 
     /** Create menu from XML
@@ -418,11 +431,11 @@ public class MainActivity extends SherlockFragmentActivity {
             case R.id.ml_menu_refresh:
                 // TODO: factor this into each fragment
                 if(mCurrentFragment.equals("directories")) {
-                    DirectoryViewFragment directoryView = (DirectoryViewFragment) mSidebarAdapter.getFragment(mCurrentFragment);
+                    DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
                     directoryView.refresh();
                 }
                 else if(mCurrentFragment.equals("history"))
-                    ((HistoryFragment)mSidebarAdapter.getFragment(mCurrentFragment)).refresh();
+                    ((HistoryFragment) getFragment(mCurrentFragment)).refresh();
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this);
                 break;

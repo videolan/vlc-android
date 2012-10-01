@@ -32,7 +32,6 @@ import org.videolan.vlc.gui.video.VideoListFragment;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,6 @@ public class SidebarAdapter extends BaseAdapter {
     }
 
     private LayoutInflater mInflater;
-    private FragmentManager mFragmentManager;
     static final List<SidebarEntry> entries;
     private HashMap<String, Fragment> mFragments;
 
@@ -77,9 +75,8 @@ public class SidebarAdapter extends BaseAdapter {
         entries = Arrays.asList(entries2);
     }
 
-    public SidebarAdapter(FragmentManager fm) {
+    public SidebarAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
-        mFragmentManager = fm;
         mFragments = new HashMap<String, Fragment>(entries.size());
     }
 
@@ -134,9 +131,6 @@ public class SidebarAdapter extends BaseAdapter {
             f = new AboutLicenceFragment();
         }
         f.setRetainInstance(true);
-        mFragmentManager.beginTransaction()
-            .add(R.id.fragment_placeholder, f, id)
-            .commitAllowingStateLoss();
         mFragments.put(id, f);
         return f;
     }
