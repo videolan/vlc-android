@@ -103,7 +103,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         // init the information for the scan (1/2)
         mFlipperViewLoading = (ViewFlipper) v.findViewById(R.id.flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
-        
+
         return v;
     }
 
@@ -117,8 +117,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         filter.addAction(ACTION_SCAN_START);
         filter.addAction(ACTION_SCAN_STOP);
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
-        Log.i(TAG,"mMediaLibrary.ismLoadingThreadrunning() " + Boolean.toString(mMediaLibrary.ismLoadingThreadrunning()));
-        if (mMediaLibrary.ismLoadingThreadrunning()) {
+        Log.i(TAG,"mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
+        if (mMediaLibrary.isWorking()) {
             actionScanStart(getActivity().getApplicationContext());
         }
 

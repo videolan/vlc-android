@@ -180,10 +180,6 @@ public class MediaLibrary {
         return items;
     }
 
-    public boolean ismLoadingThreadrunning () {
-        return mLoadingThread.isAlive();
-    };
-
     private class GetMediaItemsRunnable implements Runnable {
 
         private final Stack<File> directories = new Stack<File>();
