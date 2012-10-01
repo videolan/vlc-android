@@ -37,17 +37,19 @@ public class Media implements Comparable<Media> {
 
     static {
         String[] video_extensions = {
-                ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".dv", "f4v",
-                ".flv", ".gxf", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts", ".m4v", ".mkv", ".mov", ".mp2",
-                ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg", ".mpeg1", ".mpeg2", ".mpeg4", ".mpg",
-                ".mpv2", ".mts", ".mxf", ".nsv", ".nuv", ".ogm", ".ogv", ".ogx", ".ps", ".rec",
-                ".rm", ".rmvb", ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv" };
+                ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".dv",
+                "f4v", ".flv", ".gxf", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts", ".m4v",
+                ".mkv", ".mov", ".mp2", ".mp2v", ".mp4", ".mp4v", ".mpa", ".mpe", ".mpeg",
+                ".mpeg1", ".mpeg2", ".mpeg4", ".mpg", ".mpv2", ".mts", ".mxf", ".nsv",
+                ".nuv", ".ogm", ".ogv", ".ogx", ".ps", ".rec", ".rm", ".rmvb", ".tod",
+                ".ts", ".tts", ".vob", ".vro", ".webm", ".wmv", "wtv", "xesc" };
 
         String[] audio_extensions = {
-                ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr", ".aob", ".ape",
-                ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p", ".mid", ".mka", ".mlp", ".mod",
-                ".mp1", ".mp2", ".mp3", ".mpc", ".oga", ".ogg", ".oma", ".opus", ".rmi", ".s3m", ".spx",
-                ".tta", ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
+                ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr",
+                ".aob", ".ape", ".awb", ".cda", ".dts", ".flac", ".it", ".m4a", ".m4p",
+                ".mid", ".mka", ".mlp", ".mod", ".mp1", ".mp2", ".mp3", ".mpc",
+                ".oga", ".ogg", ".oma", ".opus", ".rmi", ".s3m", ".spx", ".tta",
+                ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
 
         String[] folder_blacklist = {
                 "/alarms",
