@@ -162,6 +162,9 @@ public class Media implements Comparable<Media> {
     }
 
     private void extractTrackInfo(TrackInfo[] tracks) {
+        if (tracks == null)
+            return;
+
         for (TrackInfo track : tracks) {
             if (track.Type == TrackInfo.TYPE_VIDEO) {
                 mType = TYPE_VIDEO;
