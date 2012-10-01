@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Main VLC Interface -->
     <string name="filebrowser_sdfail">SD-kaardi avamine nurjus. Palun kontrolli, kas ta on korralikult haagitud.</string>
     <string name="filebrowser_root">Juur</string>
@@ -10,12 +9,11 @@
     <string name="sortby_name">Nimi</string>
     <string name="sortby_length">Kestus</string>
     <string name="searchable_hint">Otsi…</string>
-
+    <string name="history">Ajalugu</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">Leiti %d vaste</item>
         <item quantity="other">Leiti %d vastet</item>
     </plurals>
-
     <string name="show_player">Kuva esitaja</string>
     <string name="hide_mini_player">Peida miniesitaja</string>
     <string name="play">Esita</string>
@@ -37,24 +35,20 @@
     <string name="unknown_album">Tundmatu album</string>
     <string name="unknown_genre">Tundmatu stiil</string>
     <string name="songs">Lood</string>
-
-    <plurals name="songs">
+    <plurals name="songs_quantity">
         <item quantity="one">1 lugu</item>
         <item quantity="other">%d lugu</item>
     </plurals>
-
     <string name="artists">Artistid</string>
     <string name="albums">Albumid</string>
-
-    <plurals name="albums">
+    <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albumit</item>
     </plurals>
-    <plurals name="subfolders">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 alamkataloog</item>
         <item quantity="other">%d alamkataloogi</item>
     </plurals>
-
     <string name="parent_folder">Ülemisse kataloogi</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -70,6 +64,7 @@
     <string name="loading">Laadimine…</string>
     <string name="please_wait">Palun oota…</string>
     <string name="nomedia">Ühtegi meediafaili ei leitud. Palun kanna failid oma seadmesse või kohanda oma eelistusi.</string>
+    <string name="loadmedia">Laadimine...</string>
     <string name="mediafiles">Meediafailid</string>
     <string name="notavailable">pole saadaval</string>
     <string name="nosubdirectory">Puuduvad alamkataloogid.</string>
@@ -90,12 +85,10 @@
     <string name="track_unknown">Tundmatu rada</string>
     <string name="track_codec_info">Koodek: %1$s\n</string>
     <string name="track_language_info">Keel: %1$s\n</string>
-
-    <plurals name="track_channels_info">
+    <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanalit\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Diskreetimissagedus: %1$d Hz\n</string>
     <string name="track_resolution_info">Eraldusvõime: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kaadrisagedus: %1$.3f\n</string>
@@ -146,5 +139,4 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
     <string name="enable_time_stretching_audio_detail">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
-
 </resources>
