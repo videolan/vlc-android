@@ -239,6 +239,8 @@ public class AudioService extends Service {
                 return;
             }
 
+            TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+
             /*
              * widget events
              */
@@ -268,7 +270,6 @@ public class AudioService extends Service {
              */
             else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
                 KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 if (event == null || telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                     return;
 
@@ -336,7 +337,7 @@ public class AudioService extends Service {
             /*
              * headset plug events
              */
-            if (mDetectHeadset) {
+            if (mDetectHeadset && telManager.getCallState() == TelephonyManager.CALL_STATE_IDLE) {
                 if (action.equalsIgnoreCase(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
                     Log.i(TAG, "Headset Removed.");
                     if (mLibVLC.isPlaying() && mCurrentMedia != null)
