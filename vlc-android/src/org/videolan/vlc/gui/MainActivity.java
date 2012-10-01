@@ -258,9 +258,6 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Reload the latest preferences */
         reloadPreferences();
 
-        /* Load media items from database and storage */
-        MediaLibrary.getInstance(this).loadMediaItems(this);
-
         /* Load the thumbnailer */
         mThumbnailerManager = new ThumbnailerManager(this,
                 getWindowManager().getDefaultDisplay());
@@ -306,6 +303,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
         if (startFromNotification)
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
+
+        /* Load media items from database and storage */
+        MediaLibrary.getInstance(this).loadMediaItems(this);
 
         super.onResume();
     }
