@@ -38,6 +38,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -50,12 +51,25 @@ public class MediaLibrary {
     private final ArrayList<Media> mItemList;
     private final ArrayList<Handler> mUpdateHandler;
     private boolean isStopping = false;
+    private boolean mRestart = false;
+    private Context mRestartContext;
     protected Thread mLoadingThread;
 
     private MediaLibrary(Context context) {
         mInstance = this;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
+    }
+
+    public void loadMediaItems(Context context, boolean restart) {
+        if (restart && isWorking()) {
+            /* do a clean restart if a scan is ongoing */
+            mRestart = true;
+            isStopping = true;
+            mRestartContext = context;
+        } else {
+            loadMediaItems(context);
+        }
     }
 
     public void loadMediaItems(Context context) {
@@ -246,7 +260,7 @@ public class MediaLibrary {
                     }
 
                     // Filter the extensions and the folders
-                    try { 
+                    try {
                         if ((f = dir.listFiles(mediaFileFilter)) != null) {
                             for (File file : f) {
                                 if (file.isFile()) {
@@ -318,8 +332,30 @@ public class MediaLibrary {
 
                 VideoListFragment.actionScanStop(mContext);
 
-                mContext = null;
+                if (mRestart) {
+                    Log.d(TAG, "Restarting scan");
+                    mRestart = false;
+                    restartHandler.sendEmptyMessage(1);
+                } else {
+                    mRestartContext = null;
+                    mContext = null;
+                }
             }
+        }
+    };
+
+    private Handler restartHandler = new Handler() {
+        @Override
+        public void handleMessage(final Message msgs) {
+            restartHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mRestartContext != null)
+                        loadMediaItems(mRestartContext);
+                    else
+                        Log.e(TAG, "Context lost in a black hole");
+                }
+            }, 200);
         }
     };
 

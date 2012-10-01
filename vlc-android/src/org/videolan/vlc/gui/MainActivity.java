@@ -309,7 +309,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            MediaLibrary.getInstance(this).loadMediaItems(this);
+            MediaLibrary.getInstance(this).loadMediaItems(this, true);
 
         super.onResume();
     }
@@ -443,7 +443,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 else if(mCurrentFragment.equals("history"))
                     ((HistoryFragment) getFragment(mCurrentFragment)).refresh();
                 else
-                    MediaLibrary.getInstance(this).loadMediaItems(this);
+                    MediaLibrary.getInstance(this).loadMediaItems(this, true);
                 break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
