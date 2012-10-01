@@ -47,12 +47,24 @@ public class PreferencesActivity extends PreferenceActivity {
 
     public final static String NAME = "VlcSharedPreferences";
     public final static String LAST_MEDIA = "LastMedia";
+    public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        // Create onPrefChange
+        Preference rootDirectoryPref = findPreference("directories_root");
+        rootDirectoryPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        setResult(RESULT_RESCAN);
+                        return true;
+                    }
+                });
 
         // Create onClickListen
         Preference directoriesPref = findPreference("directories");
@@ -63,6 +75,7 @@ public class PreferencesActivity extends PreferenceActivity {
                     public boolean onPreferenceClick(Preference preference) {
                         Intent intent = new Intent(getApplicationContext(), BrowserActivity.class);
                         startActivity(intent);
+                        setResult(RESULT_RESCAN);
                         return true;
                     }
                 });

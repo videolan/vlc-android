@@ -88,6 +88,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private static final String PREF_SHOW_INFO = "show_info";
     private static final String PREF_FIRST_RUN = "first_run";
 
+    private static final int ACTIVITY_RESULT_PREFERENCES = 1;
+
     private ActionBar mActionBar;
     private SlidingMenu mMenu;
     private SidebarAdapter mSidebarAdapter;
@@ -429,7 +431,7 @@ public class MainActivity extends SherlockFragmentActivity {
             // Preferences
             case R.id.ml_menu_preferences:
                 intent = new Intent(this, PreferencesActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
@@ -459,6 +461,15 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
+            if (resultCode == PreferencesActivity.RESULT_RESCAN)
+                mScanNeeded = true;
+        }
     }
 
     private void reloadPreferences() {
