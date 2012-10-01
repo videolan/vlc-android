@@ -69,6 +69,7 @@
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>
+    <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>
     <string name="lock_rotation">Lock screen rotation</string>
     <string name="locked">Locked</string>

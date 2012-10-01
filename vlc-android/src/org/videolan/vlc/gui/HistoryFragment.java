@@ -52,7 +52,7 @@ public class HistoryFragment extends SherlockListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.directory_view, container, false);
+        View v = inflater.inflate(R.layout.history_list, container, false);
         setListAdapter(mHistoryAdapter);
         return v;
     }
