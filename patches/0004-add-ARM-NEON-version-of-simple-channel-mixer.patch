@@ -1,4 +1,4 @@
-From 8355dc787c57dcca1bdb4debd3a43608c5308854 Mon Sep 17 00:00:00 2001
+From b6290d24fbbd5c87fe5cf4b837faf6a6e76c06e9 Mon Sep 17 00:00:00 2001
 From: David Geldreich <david.geldreich@free.fr>
 Date: Sun, 20 May 2012 11:16:31 +0200
 Subject: [PATCH 4/6] add ARM/NEON version of simple channel mixer
@@ -7,8 +7,8 @@ Subject: [PATCH 4/6] add ARM/NEON version of simple channel mixer
  modules/LIST                            |   1 +
  modules/arm_neon/Modules.am             |   8 +
  modules/arm_neon/simple_channel_mixer.S | 279 ++++++++++++++++++++++++++++++++
- modules/arm_neon/simple_channel_mixer.c | 171 ++++++++++++++++++++
- 4 files changed, 459 insertions(+)
+ modules/arm_neon/simple_channel_mixer.c | 174 ++++++++++++++++++++
+ 4 files changed, 462 insertions(+)
  create mode 100644 modules/arm_neon/simple_channel_mixer.S
  create mode 100644 modules/arm_neon/simple_channel_mixer.c
 
@@ -337,10 +337,10 @@ index 0000000..16d6702
 +	pop {r4,pc}
 diff --git a/modules/arm_neon/simple_channel_mixer.c b/modules/arm_neon/simple_channel_mixer.c
 new file mode 100644
-index 0000000..515a390
+index 0000000..28a6721
 --- /dev/null
 +++ b/modules/arm_neon/simple_channel_mixer.c
-@@ -0,0 +1,171 @@
+@@ -0,0 +1,174 @@
 +/*****************************************************************************
 + * simple_channel_mixer.c : simple channel mixer plug-in using NEON assembly
 + *****************************************************************************
@@ -468,6 +468,9 @@ index 0000000..515a390
 +{
 +    filter_t *p_filter = (filter_t *)p_this;
 +
++    if (!vlc_CPU_ARM_NEON())
++        return VLC_EGENERIC;
++
 +    audio_format_t fmt_in  = p_filter->fmt_in.audio;
 +    audio_format_t fmt_out = p_filter->fmt_out.audio;
 +
@@ -513,5 +516,5 @@ index 0000000..515a390
 +    return VLC_EGENERIC;
 +}
 -- 
-1.7.12.1
+1.7.12.2
 
