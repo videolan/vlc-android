@@ -234,8 +234,7 @@ public class Util {
 
     public static boolean isJellyBeanOrLater()
     {
-        //TODO Compare with VERSION_CODES once targetSdkVersion >= 16
-        return android.os.Build.VERSION.SDK_INT >= 16;
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
     }
 
     public static boolean hasNavBar()
