@@ -294,8 +294,10 @@ public class Media implements Comparable<Media> {
     public String getTitle() {
         if (mTitle != null)
             return mTitle;
-        else
-            return getFileName();
+        else {
+            int end = getFileName().lastIndexOf(".");
+            return getFileName().substring(0, end);
+        }
     }
 
     public String getArtist() {
