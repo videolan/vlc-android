@@ -120,6 +120,7 @@ public class ThumbnailerManager implements Runnable {
         String prefix = mContext.getResources().getString(R.string.thumbnail);
 
         while (!isStopping) {
+            mVideoListFragment.resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean interrupted = false;

@@ -287,6 +287,10 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mBarrier.await();
     }
 
+    public void resetBarrier() {
+        mBarrier.reset();
+    }
+
     private final BroadcastReceiver messageReceiverVideoListFragment = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
