@@ -408,6 +408,15 @@ public class VideoPlayerActivity extends Activity {
         super.onResume();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mOverlaySlider.isOpened()){
+            mOverlaySlider.animateClose();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     public static void start(Context context, String location) {
         start(context, location, null, false);
     }
