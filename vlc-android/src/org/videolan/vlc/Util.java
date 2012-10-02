@@ -85,10 +85,9 @@ public class Util {
         return URI;
     }
 
-    public static String stripTrailingSlash(String _s) {
-        String s = _s;
+    public static String stripTrailingSlash(String s) {
         if( s.endsWith("/") && s.length() > 1 )
-            s = s.substring(0,s.length()-1);
+            return s.substring(0, s.length() - 1);
         return s;
     }
 
