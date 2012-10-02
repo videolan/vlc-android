@@ -23,7 +23,6 @@ package org.videolan.vlc;
 import java.util.ArrayList;
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.LibVlcException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -147,7 +146,7 @@ public class LibVLC {
         return sUseIomx;
     }
 
-    public static synchronized void useIOMX(boolean enable) {
+    public static synchronized void setIOMX(boolean enable) {
         sUseIomx = enable;
     }
 

@@ -112,7 +112,7 @@ public class PreferencesActivity extends PreferenceActivity {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         CheckBoxPreference checkboxHW = (CheckBoxPreference) preference;
-                        LibVLC.useIOMX(checkboxHW.isChecked());
+                        LibVLC.setIOMX(checkboxHW.isChecked());
                         return true;
                     }
                 });
