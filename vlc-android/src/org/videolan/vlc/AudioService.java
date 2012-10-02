@@ -21,8 +21,10 @@
 package org.videolan.vlc;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -595,78 +597,103 @@ public class AudioService extends Service {
         mRepeating = RepeatType.values()[t];
     }
 
-    @SuppressLint("SdCardPath")
-    private Bitmap getCover() {
-        try {
-            // try to get the cover from android MediaStore
-            ContentResolver contentResolver = getContentResolver();
-            Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-            Cursor cursor = contentResolver.query(uri, new String[] {
-                           MediaStore.Audio.Albums.ALBUM,
-                           MediaStore.Audio.Albums.ALBUM_ART },
-                           MediaStore.Audio.Albums.ALBUM + " LIKE ?",
-                           new String[] { mCurrentMedia.getAlbum() }, null);
-            if (cursor == null) {
-                // do nothing
-            } else if (!cursor.moveToFirst()) {
-                // do nothing
-                cursor.close();
-            } else {
-                int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
-                String albumArt = cursor.getString(titleColumn);
-                cursor.close();
-                if(albumArt != null) { // could be null (no album art stored)
-                    Bitmap b = BitmapFactory.decodeFile(albumArt);
-                    if (b != null)
-                        return b;
-                }
+    private static Bitmap getCoverFromMediaStore(Context context, Media media) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+        Cursor cursor = contentResolver.query(uri, new String[] {
+                       MediaStore.Audio.Albums.ALBUM,
+                       MediaStore.Audio.Albums.ALBUM_ART },
+                       MediaStore.Audio.Albums.ALBUM + " LIKE ?",
+                       new String[] { media.getAlbum() }, null);
+        if (cursor == null) {
+            // do nothing
+        } else if (!cursor.moveToFirst()) {
+            // do nothing
+            cursor.close();
+        } else {
+            int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
+            String albumArt = cursor.getString(titleColumn);
+            cursor.close();
+            if(albumArt != null) { // could be null (no album art stored)
+                Bitmap b = BitmapFactory.decodeFile(albumArt);
+                if (b != null)
+                    return b;
             }
-
-            //cover not in MediaStore, trying vlc
-            String artworkURL = mCurrentMedia.getArtworkURL();
-            final String cacheDir = "/sdcard/Android/data/org.videolan.vlc/cache";
-            if (artworkURL != null && artworkURL.startsWith("file://")) {
-                return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
-            } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
-                // Decode if the album art is embedded in the file
-                String mArtist = mCurrentMedia.getArtist();
-                String mAlbum = mCurrentMedia.getAlbum();
-
-                /* Parse decoded attachment */
-                if( mArtist.length() == 0 || mAlbum.length() == 0 ||
-                    mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
-                    mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
-                {
-                    /* If artist or album are missing, it was cached by title MD5 hash */
-                    MessageDigest md = MessageDigest.getInstance("MD5");
-                    byte[] binHash = md.digest((artworkURL + mCurrentMedia.getTitle()).getBytes("UTF-8"));
-                    /* Convert binary hash to normal hash */
-                    BigInteger hash = new BigInteger(1, binHash);
-                    String titleHash = hash.toString(16);
-                    while(titleHash.length() < 32) {
-                        titleHash = "0" + titleHash;
-                    }
-                    /* Use generated hash to find art */
-                    artworkURL = cacheDir + "/art/arturl/" + titleHash + "/art.png";
-                } else {
-                    /* Otherwise, it was cached by artist and album */
-                    artworkURL = cacheDir + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
-                }
-
-                Log.v(TAG, "artworkURL (calculated) = " + artworkURL);
-                return BitmapFactory.decodeFile(artworkURL);
-            }
-
-            //still no cover found, looking in folder ...
-            File f = Util.URItoFile(mCurrentMedia.getLocation());
-            for (File s : f.getParentFile().listFiles()) {
-                if (s.getAbsolutePath().endsWith("png") ||
-                        s.getAbsolutePath().endsWith("jpg"))
-                    return BitmapFactory.decodeFile(s.getAbsolutePath());
-            }
-        } catch (Exception e) {
         }
         return null;
+    }
+
+    @SuppressLint("SdCardPath")
+    private static Bitmap getCoverFromVlc(Context context, Media media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        String artworkURL = media.getArtworkURL();
+        final String cacheDir = "/sdcard/Android/data/org.videolan.vlc/cache";
+        if (artworkURL != null && artworkURL.startsWith("file://")) {
+            return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
+        } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
+            // Decode if the album art is embedded in the file
+            String mArtist = media.getArtist();
+            String mAlbum = media.getAlbum();
+
+            /* Parse decoded attachment */
+            if( mArtist.length() == 0 || mAlbum.length() == 0 ||
+                mArtist.equals(VLCApplication.getAppContext().getString(R.string.unknown_artist)) ||
+                mAlbum.equals(VLCApplication.getAppContext().getString(R.string.unknown_album)) )
+            {
+                /* If artist or album are missing, it was cached by title MD5 hash */
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] binHash = md.digest((artworkURL + media.getTitle()).getBytes("UTF-8"));
+                /* Convert binary hash to normal hash */
+                BigInteger hash = new BigInteger(1, binHash);
+                String titleHash = hash.toString(16);
+                while(titleHash.length() < 32) {
+                    titleHash = "0" + titleHash;
+                }
+                /* Use generated hash to find art */
+                artworkURL = cacheDir + "/art/arturl/" + titleHash + "/art.png";
+            } else {
+                /* Otherwise, it was cached by artist and album */
+                artworkURL = cacheDir + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
+            }
+
+            return BitmapFactory.decodeFile(artworkURL);
+        }
+        return null;
+    }
+
+    private static Bitmap getCoverFromFolder(Context context, Media media) {
+        File f = Util.URItoFile(media.getLocation());
+        for (File s : f.getParentFile().listFiles()) {
+            if (s.getAbsolutePath().endsWith("png") ||
+                    s.getAbsolutePath().endsWith("jpg"))
+                return BitmapFactory.decodeFile(s.getAbsolutePath());
+        }
+        return null;
+    }
+
+    public static Bitmap getCover(Context context, Media media, int width) {
+        Bitmap cover = null;
+        try {
+            // try to get the cover from android MediaStore
+            cover = getCoverFromMediaStore(context, media);
+
+            //cover not in MediaStore, trying vlc
+            if (cover == null)
+                cover = getCoverFromVlc(context, media);
+
+            //still no cover found, looking in folder ...
+            if (cover == null)
+                cover = getCoverFromFolder(context, media);
+
+            //scale down if requested
+            if (cover != null && width > 0)
+                cover = Util.scaleDownBitmap(context, cover, width);
+        } catch (Exception e) {
+        }
+        return cover;
+    }
+
+    private Bitmap getCover() {
+        return getCover(this, mCurrentMedia, 0);
     }
 
     private final IAudioService.Stub mInterface = new IAudioService.Stub() {
