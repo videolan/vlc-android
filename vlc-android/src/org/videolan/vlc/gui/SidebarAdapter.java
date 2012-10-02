@@ -114,7 +114,7 @@ public class SidebarAdapter extends BaseAdapter {
         return v;
     }
 
-    public Fragment getFragment(String id) {
+    public Fragment fetchFragment(String id) {
         if(mFragments.containsKey(id) && mFragments.get(id) != null) {
             return mFragments.get(id);
         }

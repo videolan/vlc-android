@@ -96,6 +96,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
     private ThumbnailerManager mThumbnailerManager;
+
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
@@ -124,10 +125,11 @@ public class MainActivity extends SherlockFragmentActivity {
         // Set up the sliding menu
         setContentView(R.layout.sliding_menu);
         mMenu = (SlidingMenu) findViewById(R.id.sliding_menu);
-        updateMenuOffset();
+        changeMenuOffset();
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         mMenu.setContent(v_main);
+
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
         listView.setFooterDividersEnabled(true);
@@ -156,7 +158,9 @@ public class MainActivity extends SherlockFragmentActivity {
             editor.commit();
         }
 
+        /* Start VLC prefs */
         LibVLC.useIOMX(this);
+
         try {
             // Start LibVLC
             LibVLC.getInstance();
@@ -173,7 +177,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         super.onCreate(savedInstanceState);
 
-        /* Initialize variables */
+        /* Initialize UI variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) v_main.findViewById(R.id.info_progress);
         mInfoText = (TextView) v_main.findViewById(R.id.info_text);
@@ -194,7 +198,7 @@ public class MainActivity extends SherlockFragmentActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
-            public void onItemClick (AdapterView<?> parent, View view,
+            public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
                 SidebarAdapter.SidebarEntry entry = (SidebarEntry) listView.getItemAtPosition(position);
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
@@ -204,16 +208,15 @@ public class MainActivity extends SherlockFragmentActivity {
                     return;
                 }
 
-                /* Clear any backstack before switching tabs.
-                 * This way it's more consistent for the user, who might have
-                 * switched tabs and hit back to quit, only to activate an old
-                 * backstack.
+                /*
+                 * Clear any backstack before switching tabs. This avoids
+                 * activating an old backstack, when a user hits the back button
+                 * to quit
                  */
-                if(getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                    for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-                        getSupportFragmentManager().popBackStack();
-                    }
+                for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+                    getSupportFragmentManager().popBackStack();
                 }
+
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.detach(current);
                 ft.attach(getFragment(entry.id));
@@ -266,7 +269,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 getWindowManager().getDefaultDisplay());
     }
 
-    private void updateMenuOffset() {
+    private void changeMenuOffset() {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         @SuppressWarnings("deprecation")
@@ -278,7 +281,10 @@ public class MainActivity extends SherlockFragmentActivity {
     protected void onResume() {
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
-        Boolean startFromNotification = getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION);
+
+        /* FIXME: this is used to avoid having MainActivity twice in the backstack */
+        if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
+            getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
 
         /* Restore last view */
         Fragment current = getSupportFragmentManager()
@@ -304,9 +310,6 @@ public class MainActivity extends SherlockFragmentActivity {
             ft.commit();
         }
 
-        if (startFromNotification)
-            getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
-
         /* Load media items from database and storage */
         if (mScanNeeded)
             MediaLibrary.getInstance(this).loadMediaItems(this);
@@ -325,10 +328,11 @@ public class MainActivity extends SherlockFragmentActivity {
         MediaLibrary.getInstance(this).stop();
         /* Stop the thumbnailer */
         mThumbnailerManager.stop();
-
+        /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
         editor.commit();
+
         mAudioController.removeAudioPlayer(mAudioPlayer);
         super.onPause();
     }
@@ -359,9 +363,9 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     }
 
-    public Fragment getFragment(String id)
+    private Fragment getFragment(String id)
     {
-        Fragment fragment = mSidebarAdapter.getFragment(id);
+        Fragment fragment = mSidebarAdapter.fetchFragment(id);
 
         if (!fragment.isAdded())
             getSupportFragmentManager()
@@ -392,7 +396,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateMenuOffset();
+        changeMenuOffset();
     }
 
     @Override
@@ -408,7 +412,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Intent to start new Activity
+        // Intent to start a new Activity
         Intent intent;
 
         // Handle item selection
@@ -546,11 +550,6 @@ public class MainActivity extends SherlockFragmentActivity {
         context.getApplicationContext().sendBroadcast(intent);
     }
 
-
-    public static void clearTextInfo(Context context) {
-        sendTextInfo(context, null, 0, 100);
-    }
-
     public static void sendTextInfo(Context context, String info, int progress, int max) {
         if (context == null)
             return;
@@ -560,6 +559,10 @@ public class MainActivity extends SherlockFragmentActivity {
         intent.putExtra("progress", progress);
         intent.putExtra("max", max);
         context.getApplicationContext().sendBroadcast(intent);
+    }
+
+    public static void clearTextInfo(Context context) {
+        sendTextInfo(context, null, 0, 100);
     }
 
     private void onOpenMRL() {
