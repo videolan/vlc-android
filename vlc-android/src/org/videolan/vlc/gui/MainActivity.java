@@ -118,8 +118,8 @@ public class MainActivity extends SherlockFragmentActivity {
             return;
         }
 
-        if (Util.isICSOrLater()) /* Bug on pre-ICS, the progress bar is always present */
-            requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        /* Enable the indeterminate progress feature */
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         // Set up the sliding menu
         setContentView(R.layout.sliding_menu);
@@ -515,9 +515,9 @@ public class MainActivity extends SherlockFragmentActivity {
             String action = intent.getAction();
 
             if (action.equalsIgnoreCase(ACTION_SHOW_PROGRESSBAR)) {
-                setProgressBarIndeterminateVisibility(Boolean.TRUE);
+                setSupportProgressBarIndeterminateVisibility(true);
             } else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
-                setProgressBarIndeterminateVisibility(Boolean.FALSE);
+                setSupportProgressBarIndeterminateVisibility(false);
             } else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
                 String info = intent.getStringExtra("info");
                 int max = intent.getIntExtra("max", 0);
