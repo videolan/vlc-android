@@ -286,7 +286,7 @@ public class MainActivity extends SherlockFragmentActivity {
         boolean found = false;
         if(current != null) {
             for(int i = 0; i < SidebarAdapter.entries.size(); i++) {
-                if(SidebarAdapter.entries.get(i).id == current.getTag()) {
+                if(SidebarAdapter.entries.get(i).id.equals(current.getTag())) {
                     found = true;
                     break;
                 }
