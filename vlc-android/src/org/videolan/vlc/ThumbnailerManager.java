@@ -81,7 +81,8 @@ public class ThumbnailerManager implements Runnable {
 
     public void stop() {
         isStopping = true;
-        mThread.interrupt();
+        if (mThread != null)
+            mThread.interrupt();
     }
 
     /**
