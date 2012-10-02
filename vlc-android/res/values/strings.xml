@@ -65,7 +65,11 @@
     <string name="loading">Loading…</string>
     <string name="please_wait">Please wait…</string>
     <string name="nomedia">No media files found, please transfer files to your device or adjust your preferences.</string>
-    <string name="loadmedia">Loading...</string>
+    <string name="loadmedia">Loading</string>
+    <string name="load_no_period"></string>
+    <string name="load_1_period">.</string>
+    <string name="load_2_period">..</string>
+    <string name="load_3_period">...</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>

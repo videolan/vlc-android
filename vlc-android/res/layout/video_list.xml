@@ -27,27 +27,58 @@
             android:textSize="20dip"
             android:visibility="visible" />
 
-        <ViewFlipper
-            android:id="@+id/flipper_loading"
+        <LinearLayout
+            android:id="@+id/layout_flipper_loading"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:autoStart="true"
-            android:flipInterval="1000"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
             android:visibility="invisible" >
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="right"
                 android:text="@string/loadmedia"
                 android:textSize="20dip" />
 
-            <TextView
-                android:layout_width="fill_parent"
+            <ViewFlipper
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="" />
-        </ViewFlipper>
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:autoStart="true"
+                android:flipInterval="1000" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_no_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_1_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_2_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_3_period"
+                    android:textSize="20dip" />
+            </ViewFlipper>
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

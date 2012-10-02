@@ -54,9 +54,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -65,7 +65,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
     protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
 
-    protected ViewFlipper mFlipperViewLoading;
+    protected LinearLayout mLayoutFlipperLoading;
     protected TextView mTextViewNomedia;
 
     public final static String TAG = "VLC/VideoListFragment";
@@ -101,7 +101,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         View v = inflater.inflate(R.layout.video_list, container, false);
 
         // init the information for the scan (1/2)
-        mFlipperViewLoading = (ViewFlipper) v.findViewById(R.id.flipper_loading);
+        mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
 
         return v;
@@ -297,10 +297,10 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
             String action = intent.getAction();
 
             if (action.equalsIgnoreCase(ACTION_SCAN_START)) {
-                mFlipperViewLoading.setVisibility(View.VISIBLE);
+                mLayoutFlipperLoading.setVisibility(View.VISIBLE);
                 mTextViewNomedia.setVisibility(View.INVISIBLE);
             } else if (action.equalsIgnoreCase(ACTION_SCAN_STOP)) {
-                mFlipperViewLoading.setVisibility(View.INVISIBLE);
+                mLayoutFlipperLoading.setVisibility(View.INVISIBLE);
                 mTextViewNomedia.setVisibility(View.VISIBLE);
             }
         }
