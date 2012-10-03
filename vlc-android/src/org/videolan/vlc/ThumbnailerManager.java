@@ -55,7 +55,7 @@ public class ThumbnailerManager implements Runnable {
     private final Context mContext;
     private int totalCount;
     private final float mDensity;
-    private String mPrefix;
+    private final String mPrefix;
 
     public ThumbnailerManager(Context context, Display display) {
         try {
