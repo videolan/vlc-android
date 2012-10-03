@@ -60,8 +60,8 @@ public class BrowserActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.browser);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.browser);
         mAdapter = new BrowserAdapter(this);
         setListAdapter(mAdapter);
 
@@ -80,9 +80,9 @@ public class BrowserActivity extends ListActivity {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         mAdapter.clear();
         mScollStates.clear();
-        super.onDestroy();
     }
 
     private void openDir(File file) {

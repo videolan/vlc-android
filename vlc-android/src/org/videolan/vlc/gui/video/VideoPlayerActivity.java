@@ -316,10 +316,11 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     protected void onPause() {
-        if(mSwitchingView) {
-            super.onPause();
+        super.onPause();
+
+        if(mSwitchingView)
             return;
-        }
+
         long time = mLibVLC.getTime();
         long length = mLibVLC.getLength();
         //remove saved position if in the last 5 seconds
@@ -358,11 +359,11 @@ public class VideoPlayerActivity extends Activity {
                     DatabaseManager.mediaColumn.MEDIA_TIME,
                     time);
         }
-        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         unregisterReceiver(mBatteryReceiver);
         if (mLibVLC != null && !mSwitchingView) {
             mLibVLC.stop();
@@ -379,11 +380,11 @@ public class VideoPlayerActivity extends Activity {
             AudioPlayerActivity.start(this, true);
         }
         //AudioServiceController.getInstance().unbindAudioService(this);
-        super.onDestroy();
     }
 
     @Override
     protected void onResume() {
+        super.onResume();
         AudioServiceController.getInstance().bindAudioService(this);
 
         load();
@@ -404,8 +405,6 @@ public class VideoPlayerActivity extends Activity {
             }}, 500);
 
         showOverlay();
-
-        super.onResume();
     }
 
     @Override
@@ -863,7 +862,7 @@ public class VideoPlayerActivity extends Activity {
         getWindow().setAttributes(lp);
         mIsFirstBrightnessGesture = false;
     }
-    
+
     private void doBrightnessTouch(float gesturesize) {
         // No Brightness action if gesturesize < 0.4 cm
         if (Math.abs(gesturesize) < 0.4)

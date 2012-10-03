@@ -101,16 +101,16 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
 
     @Override
     protected void onResume() {
+        super.onResume();
         AudioServiceController.getInstance().bindAudioService(this);
         mAudioController.addAudioPlayer(this);
-        super.onResume();
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
         mAudioController.removeAudioPlayer(this);
         AudioServiceController.getInstance().unbindAudioService(this);
-        super.onPause();
     }
 
     public static void start(Context context) {

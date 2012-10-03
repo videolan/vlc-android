@@ -111,8 +111,8 @@ public class AudioListFragment extends SherlockListFragment {
 
     @Override
     public void onDestroy() {
-        mSongsAdapter.clear();
         super.onDestroy();
+        mSongsAdapter.clear();
     }
 
     public static void set(Intent intent, String name, String name2, int mode) {

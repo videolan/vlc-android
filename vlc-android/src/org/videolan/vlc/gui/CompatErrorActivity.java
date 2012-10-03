@@ -34,6 +34,7 @@ public class CompatErrorActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.not_compatible);
 
         String errorMsg = Util.getErrorMsg();
@@ -46,8 +47,6 @@ public class CompatErrorActivity extends Activity {
 
         TextView tv = (TextView)findViewById(R.id.errormsg);
         tv.setText(getResources().getString(R.string.error_message_is) + "\n" + errorMsg);
-
-        super.onCreate(savedInstanceState);
 
         //AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
         //asyncHttpRequest.execute(Build.MODEL, Build.DEVICE);

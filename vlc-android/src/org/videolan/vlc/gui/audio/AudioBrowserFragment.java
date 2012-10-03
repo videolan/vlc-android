@@ -332,11 +332,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
-        super.onDestroy();
     }
 
     private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {

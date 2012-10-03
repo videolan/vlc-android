@@ -110,9 +110,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         if (!Util.hasCompatibleCPU()) {
             Log.e(TAG, Util.getErrorMsg());
-            super.onCreate(savedInstanceState);
             Intent i = new Intent(this, CompatErrorActivity.class);
             startActivity(i);
             finish();
@@ -166,7 +167,6 @@ public class MainActivity extends SherlockFragmentActivity {
             LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
-            super.onCreate(null);
             Intent i = new Intent(this, CompatErrorActivity.class);
             i.putExtra("runtimeError", true);
             i.putExtra("message", "LibVLC failed to initialize (LibVlcException)");
@@ -174,8 +174,6 @@ public class MainActivity extends SherlockFragmentActivity {
             finish();
             return;
         }
-
-        super.onCreate(savedInstanceState);
 
         /* Initialize UI variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
@@ -279,6 +277,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onResume() {
+        super.onResume();
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
 
@@ -313,8 +312,6 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Load media items from database and storage */
         if (mScanNeeded)
             MediaLibrary.getInstance(this).loadMediaItems(this);
-
-        super.onResume();
     }
 
     /**
@@ -322,6 +319,8 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     @Override
     protected void onPause() {
+        super.onPause();
+
         /* Check for an ongoing scan that needs to be resumed during onResume */
         mScanNeeded = MediaLibrary.getInstance(this).isWorking();
         /* Stop scanning for files */
@@ -334,11 +333,12 @@ public class MainActivity extends SherlockFragmentActivity {
         editor.commit();
 
         mAudioController.removeAudioPlayer(mAudioPlayer);
-        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
+
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}

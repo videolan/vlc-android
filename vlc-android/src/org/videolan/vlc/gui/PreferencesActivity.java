@@ -196,13 +196,13 @@ public class PreferencesActivity extends PreferenceActivity {
 
     @Override
     protected void onResume() {
-        AudioServiceController.getInstance().bindAudioService(this);
         super.onResume();
+        AudioServiceController.getInstance().bindAudioService(this);
     }
 
     @Override
     protected void onPause() {
-        AudioServiceController.getInstance().unbindAudioService(this);
         super.onPause();
+        AudioServiceController.getInstance().unbindAudioService(this);
     }
 }

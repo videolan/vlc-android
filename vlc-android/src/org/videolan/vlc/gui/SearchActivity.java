@@ -89,21 +89,21 @@ public class SearchActivity extends ListActivity {
 
     @Override
     protected void onResume() {
-        AudioServiceController.getInstance().bindAudioService(this);
         super.onResume();
+        AudioServiceController.getInstance().bindAudioService(this);
     }
 
     @Override
     protected void onPause() {
-        AudioServiceController.getInstance().unbindAudioService(this);
         super.onPause();
+        AudioServiceController.getInstance().unbindAudioService(this);
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         mHistoryAdapter.clear();
         mResultAdapter.clear();
-        super.onDestroy();
     }
 
     private void search(CharSequence key, int type) {

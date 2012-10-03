@@ -126,6 +126,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public void onResume() {
+        super.onResume();
         //Get & highlight the last media
         SharedPreferences preferences = getActivity().getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
         String lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
@@ -133,7 +134,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         mVideoAdapter.setLastMedia(lastPath, times);
         mVideoAdapter.notifyDataSetChanged();
         mMediaLibrary.addUpdateHandler(mHandler);
-        super.onResume();
     }
 
     @Override
@@ -144,9 +144,9 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         mBarrier.reset();
         mVideoAdapter.clear();
-        super.onDestroy();
     }
 
     @Override
