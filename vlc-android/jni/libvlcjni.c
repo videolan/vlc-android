@@ -617,7 +617,7 @@ jint Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
     if (!m)
     {
         LOGE("readMedia: Could not create the media!");
-        return;
+        return -1;
     }
 
     libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
@@ -627,7 +627,7 @@ jint Java_org_videolan_vlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
         LOGE("readMedia: Could not add to the media list!");
         libvlc_media_list_unlock(p_mlist);
         libvlc_media_release(m);
-        return;
+        return -1;
     }
     int position = libvlc_media_list_index_of_item(p_mlist, m);
     libvlc_media_list_unlock(p_mlist);
