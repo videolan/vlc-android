@@ -58,12 +58,6 @@ public class ThumbnailerManager implements Runnable {
     private final String mPrefix;
 
     public ThumbnailerManager(Context context, Display display) {
-        try {
-            mLibVlc = LibVLC.getInstance();
-        } catch (LibVlcException e) {
-            e.printStackTrace();
-        }
-
         mContext = context;
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
@@ -72,6 +66,16 @@ public class ThumbnailerManager implements Runnable {
     }
 
     public void start(VideoListFragment videoListFragment) {
+        if (mLibVlc == null) {
+            try {
+                mLibVlc = LibVLC.getInstance();
+            } catch (LibVlcException e) {
+                Log.e(TAG, "Can't obtain libvlc instance");
+                e.printStackTrace();
+                return;
+            }
+        }
+
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
             mVideoListFragment = videoListFragment;
