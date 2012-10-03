@@ -55,6 +55,7 @@ public class ThumbnailerManager implements Runnable {
     private final Context mContext;
     private int totalCount;
     private final float mDensity;
+    private String mPrefix;
 
     public ThumbnailerManager(Context context, Display display) {
         try {
@@ -67,6 +68,7 @@ public class ThumbnailerManager implements Runnable {
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         mDensity = metrics.density;
+        mPrefix = mContext.getResources().getString(R.string.thumbnail);
     }
 
     public void start(VideoListFragment videoListFragment) {
@@ -118,8 +120,6 @@ public class ThumbnailerManager implements Runnable {
 
         Log.d(TAG, "Thumbnailer started");
 
-        String prefix = mContext.getResources().getString(R.string.thumbnail);
-
         while (!isStopping) {
             mVideoListFragment.resetBarrier();
             lock.lock();
@@ -147,7 +147,7 @@ public class ThumbnailerManager implements Runnable {
 
             MainActivity.showProgressBar(mContext);
 
-            MainActivity.sendTextInfo(mContext, String.format("%s %s", prefix, item.getFileName()), count, total);
+            MainActivity.sendTextInfo(mContext, String.format("%s %s", mPrefix, item.getFileName()), count, total);
             count++;
 
             int width = (int) (120 * mDensity);
