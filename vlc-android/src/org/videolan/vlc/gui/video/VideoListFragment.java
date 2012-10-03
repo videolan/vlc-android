@@ -62,22 +62,18 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class VideoListFragment extends SherlockListFragment implements ISortable {
 
+    public final static String TAG = "VLC/VideoListFragment";
+
     protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
     protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
+    protected static final int UPDATE_ITEM = 0;
 
     protected LinearLayout mLayoutFlipperLoading;
     protected TextView mTextViewNomedia;
-
-    public final static String TAG = "VLC/VideoListFragment";
-
-    private VideoListAdapter mVideoAdapter;
-
     protected Media mItemToUpdate;
-
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 
-    protected static final int UPDATE_ITEM = 0;
-
+    private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
     private ThumbnailerManager mThumbnailerManager;
 
@@ -87,11 +83,8 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mVideoAdapter = new VideoListAdapter(getActivity());
-
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
-
         setListAdapter(mVideoAdapter);
     }
 
