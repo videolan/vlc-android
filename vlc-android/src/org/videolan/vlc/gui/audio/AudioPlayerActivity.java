@@ -118,6 +118,10 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public static void start(Context context, Boolean dontParse) {
+        if (context == null) {
+            Log.e(TAG, "No context when starting AudioPlayerActivity");
+            return;
+        }
         Intent intent = new Intent(context, AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (dontParse)
