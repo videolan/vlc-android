@@ -126,11 +126,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
