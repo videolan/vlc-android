@@ -342,8 +342,8 @@ public class MainActivity extends SherlockFragmentActivity {
         try {
             unregisterReceiver(messageReceiver);
         } catch (IllegalArgumentException e) {}
-        mThumbnailerManager.clearJobs();
-        super.onDestroy();
+        if (mThumbnailerManager != null)
+            mThumbnailerManager.clearJobs();
     }
 
     @Override
