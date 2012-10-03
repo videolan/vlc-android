@@ -209,13 +209,6 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
         return super.onContextItemSelected(menu);
     }
 
-    /*@Override
-    public boolean onSearchRequested() {
-        Intent intent = new Intent(getActivity(), SearchActivity.class);
-        startActivity(intent);
-        return false;
-    }*/
-
     /**
      * Handle changes on the list
      */
