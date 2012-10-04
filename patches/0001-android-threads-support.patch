@@ -101,55 +101,6 @@ index d053faa..52840e8 100644
      }
      vlc_mutex_unlock (&lock);
  }
-diff --git a/src/Makefile.am b/src/Makefile.am
-index 9ac25d3..bdf1fb6 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -205,6 +205,7 @@ libvlc_win32_rc.$(OBJEXT): libvlc_win32_rc.rc
- EXTRA_libvlccore_la_SOURCES = \
- 	$(SOURCES_libvlc_darwin) \
- 	$(SOURCES_libvlc_linux) \
-+	$(SOURCES_libvlc_android) \
- 	$(SOURCES_libvlc_win32) \
- 	$(SOURCES_libvlc_os2) \
- 	$(SOURCES_libvlc_other) \
-@@ -215,6 +216,9 @@ EXTRA_libvlccore_la_SOURCES = \
- if HAVE_DARWIN
- libvlccore_la_SOURCES += $(SOURCES_libvlc_darwin)
- else
-+if HAVE_ANDROID
-+libvlccore_la_SOURCES += $(SOURCES_libvlc_android)
-+else
- if HAVE_LINUX
- libvlccore_la_SOURCES += $(SOURCES_libvlc_linux)
- else
-@@ -233,6 +237,7 @@ endif
- endif
- endif
- endif
-+endif
- if BUILD_HTTPD
- libvlccore_la_SOURCES += $(SOURCES_libvlc_httpd)
- endif
-@@ -253,6 +258,18 @@ SOURCES_libvlc_darwin = \
- 	posix/rand.c \
- 	$(NULL)
- 
-+SOURCES_libvlc_android = \
-+	posix/dirs.c \
-+	posix/filesystem.c \
-+	posix/plugin.c \
-+	posix/thread.c \
-+	posix/timer.c \
-+	posix/linux_cpu.c \
-+	posix/linux_specific.c \
-+	posix/specific.c \
-+	posix/rand.c \
-+	$(NULL)
-+
- SOURCES_libvlc_linux = \
- 	posix/dirs.c \
- 	posix/filesystem.c \
 diff --git a/src/posix/thread.c b/src/posix/thread.c
 index c414def..ab2a3af 100644
 --- a/src/posix/thread.c
