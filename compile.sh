@@ -191,11 +191,17 @@ else
     OPTS="--enable-debug"
 fi
 
+MAKEFLAGS=
+if which nproc >/dev/null
+then
+MAKEFLAGS=-j`nproc`
+fi
+
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
 export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
 
 make fetch
-make
+make $MAKEFLAGS
 
 cd ../.. && mkdir -p android && cd android
 
@@ -208,7 +214,7 @@ echo "Configuring"
 ../../configure.sh $OPTS
 
 echo "Building"
-make
+make $MAKEFLAGS
 
 
 # 2/ VLC android UI and specific code
