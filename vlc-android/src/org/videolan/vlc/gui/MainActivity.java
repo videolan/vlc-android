@@ -358,9 +358,17 @@ public class MainActivity extends SherlockFragmentActivity {
         if(mMenu.isBehindShowing()) {
             /* Close the menu first */
             mMenu.showAbove();
-        } else {
-            super.onBackPressed();
+            return;
         }
+        // If it's the directory view, a "backpressed" action shows a parent.
+        if (mCurrentFragment.equals("directories")) {
+            DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
+            if (!directoryView.isRootDirectory()) {
+                directoryView.showParentDirectory();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 
     private Fragment getFragment(String id)

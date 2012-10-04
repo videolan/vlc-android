@@ -285,14 +285,19 @@ public class DirectoryAdapter extends BaseAdapter {
         return v;
     }
 
-    public Boolean browse(int position) {
+    public boolean browse(int position) {
         DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         if(selectedNode.isFile()) return false;
+        return browse(selectedNode.name);
+    }
+
+    public boolean browse(String directoryName) {
         try {
-            this.mCurrentDir = new URI(LibVLC.getExistingInstance().nativeToURI(this.mCurrentDir + "/" + selectedNode.name)).normalize().getPath();
+            this.mCurrentDir = new URI(LibVLC.getExistingInstance().nativeToURI(this.mCurrentDir + "/" + directoryName)).normalize().getPath();
             this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
         } catch (URISyntaxException e) {
-            /* blah blah blah blah blah */
+            e.printStackTrace();
+            return false;
         }
 
         Log.d(TAG, "Browsing to " + this.mCurrentDir);
@@ -316,6 +321,14 @@ public class DirectoryAdapter extends BaseAdapter {
         return LibVLC.getExistingInstance().nativeToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
         );
+    }
+
+    public String getmRootDir() {
+        return mRootDir;
+    }
+
+    public String getmCurrentDir() {
+        return mCurrentDir;
     }
 
     public ArrayList<String> getAllMediaLocations() {

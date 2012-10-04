@@ -144,6 +144,17 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         }
     }
 
+    public boolean isRootDirectory () {
+        if (mDirectoryAdapter.getmCurrentDir().equals(mDirectoryAdapter.getmRootDir())) {
+            return true;
+        }
+        return false;
+    };
+
+    public void showParentDirectory() {
+            mDirectoryAdapter.browse("..");
+    };
+
     private void openMediaFile(int p) {
         AudioServiceController audioController = AudioServiceController.getInstance();
         String mediaFile = mDirectoryAdapter.getMediaLocation(p);
