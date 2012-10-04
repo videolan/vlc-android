@@ -602,7 +602,7 @@ public class VideoPlayerActivity extends Activity {
                     activity.handleVout(msg);
                     break;
                 default:
-                    Log.e(TAG, "Event not handled");
+                    Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
             }
             activity.updateOverlayPausePlay();
