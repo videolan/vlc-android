@@ -87,6 +87,7 @@
                 <data android:scheme="mmsh" />
                 <data android:scheme="icyx" />
                 <data android:scheme="httplive" />
+                <data android:scheme="udp" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -98,7 +99,6 @@
                 <data android:scheme="content" />
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:scheme="udp" />
                 <data android:mimeType="video/*" />
                 <data android:mimeType="audio/*" />
                 <data android:mimeType="*/rmvb" />
@@ -134,7 +134,6 @@
                 <data android:scheme="content" />
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:scheme="udp" />
                 <data android:host="*" />
 
                 <!-- video -->
