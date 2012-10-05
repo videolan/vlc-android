@@ -56,7 +56,6 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --enable-avcodec \
                 --enable-opus \
                 --enable-opensles \
-                --enable-audiotrack \
                 --enable-android-surface \
                 --enable-mkv \
                 --enable-taglib \
