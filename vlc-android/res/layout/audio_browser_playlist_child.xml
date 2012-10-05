@@ -11,6 +11,12 @@
         android:layout_marginLeft="5dip"
         android:background="@color/orange" />
 
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"

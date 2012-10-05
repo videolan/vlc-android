@@ -3,29 +3,42 @@
     android:id="@+id/layout_item"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginTop="5dip"
-        android:text="@string/title"
-        android:textColor="@color/list_title"
-        android:textSize="20dip" />
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/artist"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginBottom="5dip"
-        android:text="@string/artist"
-        android:textColor="@color/list_subtitle"
-        android:textSize="14dip" />
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:text="@string/title"
+            android:textColor="@color/list_title"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:text="@string/artist"
+            android:textColor="@color/list_subtitle"
+            android:textSize="14dip" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -30,6 +30,7 @@ import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,6 +153,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
             v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
             holder = new GroupViewHolder();
             holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.more = (ImageView) v.findViewById(R.id.more);
@@ -161,8 +163,12 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
         String name = mTitles.get(groupPosition);
         int count = mSubTitles.get(name).size();
-        int countMedia = mGroups.get(name).get(null).size();
+        ArrayList<Media> list = mGroups.get(name).get(null);
+        int countMedia = list.size();
         Resources res = mContext.getResources();
+
+        Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
+        holder.cover.setImageBitmap(cover);
 
         Util.setItemBackground(holder.layout, groupPosition);
         holder.title.setText(name);
@@ -189,6 +195,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
             v = mInflater.inflate(R.layout.audio_browser_playlist_child, parent, false);
             holder = new ChildViewHolder();
             holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             v.setTag(holder);
@@ -200,6 +207,9 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         ArrayList<Media> list = mGroups.get(key).get(name);
         int count = list.size();
         Resources res = mContext.getResources();
+
+        Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
+        holder.cover.setImageBitmap(cover);
 
         Util.setItemBackground(holder.layout, childPosition);
         if (name != null)
@@ -213,6 +223,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
     static class GroupViewHolder {
         View layout;
+        ImageView cover;
         TextView title;
         TextView text;
         ImageView more;
@@ -220,6 +231,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
     static class ChildViewHolder {
         View layout;
+        ImageView cover;
         TextView title;
         TextView text;
     }

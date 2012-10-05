@@ -29,10 +29,12 @@ import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AudioListAdapter extends ArrayAdapter<Media> {
@@ -77,6 +79,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
             holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.artist = (TextView) v.findViewById(R.id.artist);
             v.setTag(holder);
@@ -84,6 +87,10 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
+
+        Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
+        holder.cover.setImageBitmap(cover);
+
         Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
         ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
@@ -111,6 +118,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
 
     static class ViewHolder {
         View layout;
+        ImageView cover;
         TextView title;
         TextView artist;
     }
