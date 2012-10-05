@@ -28,7 +28,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.video.VideoListFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -122,7 +122,7 @@ public class SidebarAdapter extends BaseAdapter {
         if(id.equals("audio")) {
             f = new AudioBrowserFragment();
         } else if(id.equals("video")) {
-            f = new VideoListFragment();
+            f = new VideoGridFragment();
         } else if(id.endsWith("directories")) {
             f = new DirectoryViewFragment();
         } else if(id.equals("history")) {

@@ -30,7 +30,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.video.VideoListFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -42,7 +42,7 @@ import android.view.Display;
 public class ThumbnailerManager implements Runnable {
     public final static String TAG = "VLC/ThumbnailerManager";
 
-    private VideoListFragment mVideoListFragment;
+    private VideoGridFragment mVideoGridFragment;
 
     private final Queue<Media> mItems = new LinkedList<Media>();
 
@@ -65,7 +65,7 @@ public class ThumbnailerManager implements Runnable {
         mPrefix = mContext.getResources().getString(R.string.thumbnail);
     }
 
-    public void start(VideoListFragment videoListFragment) {
+    public void start(VideoGridFragment videoGridFragment) {
         if (mLibVlc == null) {
             try {
                 mLibVlc = LibVLC.getInstance();
@@ -78,8 +78,8 @@ public class ThumbnailerManager implements Runnable {
 
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
-            mVideoListFragment = videoListFragment;
-            mVideoListFragment.setThumbnailerManager(this);
+            mVideoGridFragment = videoGridFragment;
+            mVideoGridFragment.setThumbnailerManager(this);
             mThread = new Thread(this);
             mThread.start();
         }
@@ -125,7 +125,7 @@ public class ThumbnailerManager implements Runnable {
         Log.d(TAG, "Thumbnailer started");
 
         while (!isStopping) {
-            mVideoListFragment.resetBarrier();
+            mVideoGridFragment.resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean interrupted = false;
@@ -174,11 +174,11 @@ public class ThumbnailerManager implements Runnable {
 
             item.setPicture(mContext, thumbnail);
             // Post to the file browser the new item.
-            mVideoListFragment.setItemToUpdate(item);
+            mVideoGridFragment.setItemToUpdate(item);
 
             // Wait for the file browser to process the change.
             try {
-                mVideoListFragment.await();
+                mVideoGridFragment.await();
             } catch (InterruptedException e) {
                 Log.i(TAG, "interruption probably requested by stop()");
                 break;
@@ -191,8 +191,8 @@ public class ThumbnailerManager implements Runnable {
         /* cleanup */
         MainActivity.hideProgressBar(mContext);
         MainActivity.clearTextInfo(mContext);
-        mVideoListFragment.setThumbnailerManager(null);
-        mVideoListFragment = null;
+        mVideoGridFragment.setThumbnailerManager(null);
+        mVideoGridFragment = null;
         Log.d(TAG, "Thumbnailer stopped");
     }
 }

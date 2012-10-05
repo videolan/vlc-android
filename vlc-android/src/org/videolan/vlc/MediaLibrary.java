@@ -32,7 +32,7 @@ import java.util.Stack;
 
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.video.VideoListFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -75,7 +75,7 @@ public class MediaLibrary {
     public void loadMediaItems(Context context) {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
-            VideoListFragment.actionScanStart(context.getApplicationContext());
+            VideoGridFragment.actionScanStart(context.getApplicationContext());
             mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
             mLoadingThread.start();
         }
@@ -326,7 +326,7 @@ public class MediaLibrary {
                 MainActivity.clearTextInfo(mContext);
                 MainActivity.hideProgressBar(mContext);
 
-                VideoListFragment.actionScanStop(mContext);
+                VideoGridFragment.actionScanStop(mContext);
 
                 if (mRestart) {
                     Log.d(TAG, "Restarting scan");

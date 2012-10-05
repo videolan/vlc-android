@@ -33,7 +33,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.video.VideoListAdapter;
-import org.videolan.vlc.gui.video.VideoListFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
@@ -383,7 +383,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         /* Start the thumbnailer */
         if (id.equals("video"))
-            mThumbnailerManager.start((VideoListFragment)fragment);
+            mThumbnailerManager.start((VideoGridFragment)fragment);
 
         return fragment;
     }

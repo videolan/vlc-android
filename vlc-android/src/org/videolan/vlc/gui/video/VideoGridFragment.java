@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
+import org.videolan.android.ui.SherlockGridFragment;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
@@ -54,13 +55,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
-public class VideoListFragment extends SherlockListFragment implements ISortable {
+public class VideoGridFragment extends SherlockGridFragment implements ISortable {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -78,7 +77,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     private ThumbnailerManager mThumbnailerManager;
 
     /* All subclasses of Fragment must include a public empty constructor. */
-    public VideoListFragment() { }
+    public VideoGridFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.video_list, container, false);
+        View v = inflater.inflate(R.layout.video_grid, container, false);
 
         // init the information for the scan (1/2)
         mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
@@ -103,7 +102,7 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        registerForContextMenu(getListView());
+        registerForContextMenu(getGridView());
 
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
@@ -150,9 +149,9 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onGridItemClick(GridView l, View v, int position, long id) {
         playVideo(position);
-        super.onListItemClick(l, v, position, id);
+        super.onGridItemClick(l, v, position, id);
     }
 
     protected void playVideo(int position) {
@@ -202,14 +201,14 @@ public class VideoListFragment extends SherlockListFragment implements ISortable
      */
     private Handler mHandler = new VideoListHandler(this);
 
-    private static class VideoListHandler extends WeakHandler<VideoListFragment> {
-        public VideoListHandler(VideoListFragment owner) {
+    private static class VideoListHandler extends WeakHandler<VideoGridFragment> {
+        public VideoListHandler(VideoGridFragment owner) {
             super(owner);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            VideoListFragment fragment = getOwner();
+            VideoGridFragment fragment = getOwner();
             if(fragment == null) return;
 
             switch (msg.what) {

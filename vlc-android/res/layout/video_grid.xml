@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/item_common" >
+
+    <GridView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:numColumns="auto_fit"
+        android:columnWidth="150dip"
+        android:fastScrollEnabled="true"
+        android:horizontalSpacing="20dp"
+        android:verticalSpacing="20dp"
+        android:stretchMode="spacingWidthUniform" />
+
+    <LinearLayout
+        android:id="@id/android:empty"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textview_nomedia"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/nomedia"
+            android:textSize="20dip"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/layout_flipper_loading"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:visibility="invisible" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/loading"
+                android:textSize="20dip" />
+
+            <ViewFlipper
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:autoStart="true"
+                android:flipInterval="1000" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_no_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_1_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_2_period"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/load_3_period"
+                    android:textSize="20dip" />
+            </ViewFlipper>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

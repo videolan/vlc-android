@@ -35,6 +35,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -127,18 +128,20 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.video_list_item, parent, false);
+            v = inflater.inflate(R.layout.video_grid_item, parent, false);
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
             v.setTag(holder);
+            /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
+            v.setLayoutParams(new GridView.LayoutParams(v.getLayoutParams().width, v.getLayoutParams().height));
         } else
             holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
-        Util.setItemBackground(holder.layout, position);
+        //Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
 
         Bitmap thumbnail;
@@ -154,7 +157,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         ColorStateList titleColor = v.getResources().getColorStateList(media.getLocation().equals(mLastMRL)
                 ? R.color.list_title_last
                 : R.color.list_title);
-        holder.title.setTextColor(titleColor);
+        //holder.title.setTextColor(titleColor);
 
         long lastTime = media.getTime();
         String text;
@@ -167,7 +170,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             text = String.format("%s",
                     Util.millisToString(media.getLength()));
         }
-        
+
         if (media.getWidth() > 0 && media.getHeight() > 0) {
             text += String.format(" - %dx%d", media.getWidth(), media.getHeight());
         }

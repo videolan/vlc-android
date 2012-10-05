@@ -65,7 +65,7 @@
             android:name=".gui.video.VideoActivityGroup"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".gui.video.VideoListFragment"
+            android:name=".gui.video.VideoGridFragment"
             android:theme="@style/Theme.VLC"/>
         <activity
             android:name=".gui.video.MediaInfoActivity"
