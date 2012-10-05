@@ -424,6 +424,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
         "--no-plugins-cache",
         "--no-drop-late-frames",
         "--avcodec-fast",
+        "--avcodec-threads=0",
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
     };
