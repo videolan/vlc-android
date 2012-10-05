@@ -47,6 +47,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private String mLastMRL;
+    private boolean mListMode = false;
 
     public VideoListAdapter(Context context) {
         super(context, 0);
@@ -128,7 +129,10 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         View v = convertView;
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.video_grid_item, parent, false);
+            if (!mListMode)
+                v = inflater.inflate(R.layout.video_grid_item, parent, false);
+            else
+                v = inflater.inflate(R.layout.video_list_item, parent, false);
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
@@ -186,5 +190,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         TextView title;
         TextView subtitle;
         ImageView more;
+    }
+
+    public void setListMode(boolean value) {
+        mListMode = value;
     }
 }

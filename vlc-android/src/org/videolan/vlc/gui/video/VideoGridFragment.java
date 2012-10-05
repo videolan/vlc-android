@@ -37,6 +37,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -88,6 +89,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     }
 
     @Override
+    @TargetApi(11)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_grid, container, false);
@@ -95,6 +97,23 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         // init the information for the scan (1/2)
         mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
+
+        /* Determine if we need to show items in list or grid */
+        int columns = 1;
+        GridView gv = (GridView)v.findViewById(android.R.id.list);
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+            columns = gv.getNumColumns();
+
+        if (columns == 1) {
+            gv.setNumColumns(1);
+            gv.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+            gv.setHorizontalSpacing(0);
+            gv.setVerticalSpacing(0);
+            mVideoAdapter.setListMode(true);
+        } else {
+            float density = getResources().getDisplayMetrics().density;
+            gv.setColumnWidth((int) (150 * density + 0.5f));
+        }
 
         return v;
     }
