@@ -161,22 +161,22 @@ public class AudioUtil {
             if (cover != null)
                 return cover;
 
-            // try to get the cover from android MediaStore
-            cover = getCoverFromMediaStore(context, media);
+            // try to get the cover from vlc art cache
+            cover = getCoverFromVlc(context, media);
 
-            //cover not in MediaStore, trying vlc
-            if (cover == null)
-                cover = getCoverFromVlc(context, media);
-
-            //still no cover found, looking in folder ...
+            // no found yet, looking in folder
             if (cover == null)
                 cover = getCoverFromFolder(context, media);
 
-            //scale down if requested
+            // try to get the cover from android MediaStore
+            if (cover == null)
+                cover = getCoverFromMediaStore(context, media);
+
+            // scale down if requested
             if (cover != null && width > 0)
                 cover = Util.scaleDownBitmap(context, cover, width);
 
-            //store cover into cache
+            // store cover into cache
             if (cover != null)
                 writeBitmap(cover, cachePath);
 
