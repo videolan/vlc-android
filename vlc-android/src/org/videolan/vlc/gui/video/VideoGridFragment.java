@@ -104,14 +104,14 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         if (android.os.Build.VERSION.SDK_INT >= 11)
             columns = gv.getNumColumns();
 
+        float density = getResources().getDisplayMetrics().density;
         if (columns == 1) {
             gv.setNumColumns(1);
             gv.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
             gv.setHorizontalSpacing(0);
-            gv.setVerticalSpacing(0);
+            gv.setVerticalSpacing((int) (10 * density + 0.5f));
             mVideoAdapter.setListMode(true);
         } else {
-            float density = getResources().getDisplayMetrics().density;
             gv.setColumnWidth((int) (150 * density + 0.5f));
         }
 

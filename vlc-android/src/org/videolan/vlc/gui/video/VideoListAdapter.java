@@ -145,11 +145,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
-        //Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
 
         Bitmap thumbnail;
         if (media.getPicture() != null) {
+            //FIXME Warning: the thumbnails are upscaled in the grid view!
             thumbnail = media.getPicture();
             holder.thumbnail.setImageBitmap(thumbnail);
         } else {
@@ -161,7 +161,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         ColorStateList titleColor = v.getResources().getColorStateList(media.getLocation().equals(mLastMRL)
                 ? R.color.list_title_last
                 : R.color.list_title);
-        //holder.title.setTextColor(titleColor);
+        holder.title.setTextColor(titleColor);
 
         long lastTime = media.getTime();
         String text;

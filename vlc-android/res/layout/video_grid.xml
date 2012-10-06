@@ -8,11 +8,16 @@
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:scrollbarStyle="outsideInset"
         android:numColumns="auto_fit"
         android:fastScrollEnabled="true"
         android:horizontalSpacing="20dp"
         android:verticalSpacing="20dp"
-        android:stretchMode="spacingWidthUniform" />
+        android:stretchMode="spacingWidth"
+        android:background="@drawable/background_pattern_dark_repeat"
+        android:gravity="center" />
 
     <LinearLayout
         android:id="@id/android:empty"
