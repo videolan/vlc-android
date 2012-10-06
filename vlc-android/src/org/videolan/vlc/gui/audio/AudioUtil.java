@@ -19,13 +19,18 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.audio;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.videolan.vlc.Media;
+import org.videolan.vlc.MurmurHash;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
@@ -37,12 +42,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 public class AudioUtil {
+
+    public final static String TAG = "VLC/AudioUtil";
 
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
@@ -138,9 +147,20 @@ public class AudioUtil {
         return null;
     }
 
-    public static Bitmap getCover(Context context, Media media, int width) {
+    @SuppressLint("SdCardPath")
+    public synchronized static Bitmap getCover(Context context, Media media, int width) {
         Bitmap cover = null;
+        String cachePath = null;
+
         try {
+            // try to load from cache
+            int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
+            cachePath = "/sdcard/Android/data/org.videolan.vlc/cache/covers/" +
+                        (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+            cover = readBitmap(cachePath);
+            if (cover != null)
+                return cover;
+
             // try to get the cover from android MediaStore
             cover = getCoverFromMediaStore(context, media);
 
@@ -155,8 +175,35 @@ public class AudioUtil {
             //scale down if requested
             if (cover != null && width > 0)
                 cover = Util.scaleDownBitmap(context, cover, width);
+
+            //store cover into cache
+            if (cover != null)
+                writeBitmap(cover, cachePath);
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return cover;
+    }
+
+    private static void writeBitmap(Bitmap bitmap, String path) throws IOException {
+        OutputStream out = null;
+        try {
+            File file = new File(path);
+            out = new BufferedOutputStream(new FileOutputStream(file), 4096);
+            bitmap.compress(CompressFormat.JPEG, 90, out);
+        } catch (Exception e) {
+            Log.e(TAG, "writeBitmap failed : "+ e.getMessage());
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+    }
+
+    private static Bitmap readBitmap(String path) {
+        File file = new File(path);
+        if (file == null || !file.exists()) return null;
+        return BitmapFactory.decodeFile(path);
     }
 }
