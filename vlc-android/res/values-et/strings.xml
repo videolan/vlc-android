@@ -64,7 +64,6 @@
     <string name="loading">Laadimine…</string>
     <string name="please_wait">Palun oota…</string>
     <string name="nomedia">Ühtegi meediafaili ei leitud. Palun kanna failid oma seadmesse või kohanda oma eelistusi.</string>
-    <string name="loadmedia">Laadimine...</string>
     <string name="mediafiles">Meediafailid</string>
     <string name="notavailable">pole saadaval</string>
     <string name="nosubdirectory">Puuduvad alamkataloogid.</string>
