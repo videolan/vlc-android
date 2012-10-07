@@ -50,7 +50,7 @@ public abstract class VLCCallbackTask extends AsyncTask<Void, Void, Void> {
         if (context != null) {
             dialog = ProgressDialog.show(
                     context,
-                    context.getApplicationContext().getString(R.string.loading),
+                    context.getApplicationContext().getString(R.string.loading) + "…",
                     context.getApplicationContext().getString(R.string.please_wait), true);
             dialog.setCancelable(true);
         }
