@@ -37,8 +37,6 @@ export CXXSTL
 
 # XXX : important!
 cat << EOF
-For an ARMv7-A device without NEON, you need a build without NEON:
-$ export NO_NEON=1
 For an ARMv6 device without FPU, you need a build without FPU:
 $ export NO_FPU=1
 For an ARMv5 device or the Android emulator, you need an ARMv5 build:
@@ -127,14 +125,9 @@ EOF
 fi
 
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
-    if test -z "${NO_NEON}" ; then
-        EXTRA_CFLAGS="-mfpu=neon -mcpu=cortex-a8"
-    else
-        EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a9"
-    fi
+    EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
 elif [ ${ANDROID_ABI} = "armeabi" ] ; then
-    export NO_NEON=1
     if [ -n "${NO_ARMV6}" ]; then
         EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
     else

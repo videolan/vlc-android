@@ -16,6 +16,5 @@ function optional_var {
 
 rm -f $ENVTXT
 echo -e "ANDROID_ABI=$ANDROID_ABI" >> $ENVTXT
-optional_var "NO_NEON"
 optional_var "NO_FPU"
 optional_var "NO_ARMV6"

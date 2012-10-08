@@ -20,13 +20,7 @@ fi
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
 
 if [ -n "$HAVE_ARM" ]; then
-    if [ -z "$NO_NEON" ]; then
-        NO_NEON=0
-    fi
-
-    if [ $NO_NEON -gt 0 ]; then
-        EXTRA_PARAMS=" --disable-neon"
-    else
+    if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_PARAMS=" --enable-neon"
         LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
     fi
