@@ -1,0 +1,371 @@
+From c891c22b39216467a32ff0bcdb862b5915f7a1f5 Mon Sep 17 00:00:00 2001
+From: Jean-Baptiste Kempf <jb@videolan.org>
+Date: Fri, 5 Oct 2012 16:39:18 +0200
+Subject: [PATCH 2/3] FFmpeg: allow runtime NEON detection
+
+---
+ ...1-ARM-RV30-40-check-NEON-flags-at-runtime.patch |  67 ++++++++
+ .../0002-ARM-Reindent-after-previous-commit.patch  | 172 +++++++++++++++++++++
+ ...-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch |  66 ++++++++
+ contrib/src/ffmpeg/rules.mak                       |   8 +-
+ 4 files changed, 312 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/src/ffmpeg/0001-ARM-RV30-40-check-NEON-flags-at-runtime.patch
+ create mode 100644 contrib/src/ffmpeg/0002-ARM-Reindent-after-previous-commit.patch
+ create mode 100644 contrib/src/ffmpeg/0003-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch
+
+diff --git a/contrib/src/ffmpeg/0001-ARM-RV30-40-check-NEON-flags-at-runtime.patch b/contrib/src/ffmpeg/0001-ARM-RV30-40-check-NEON-flags-at-runtime.patch
+new file mode 100644
+index 0000000..e764944
+--- /dev/null
++++ b/contrib/src/ffmpeg/0001-ARM-RV30-40-check-NEON-flags-at-runtime.patch
+@@ -0,0 +1,67 @@
++From bd8c7b8125b9eeb5c9e2f09f5fd25dc40b43f3b0 Mon Sep 17 00:00:00 2001
++From: Jean-Baptiste Kempf <jb@videolan.org>
++Date: Fri, 5 Oct 2012 11:58:10 +0200
++Subject: [PATCH 1/4] ARM: RV30/40, check NEON flags at runtime
++
++---
++ libavcodec/arm/rv34dsp_init_neon.c | 5 +++++
++ libavcodec/arm/rv40dsp_init_neon.c | 5 +++++
++ 2 files changed, 10 insertions(+)
++
++diff --git a/libavcodec/arm/rv34dsp_init_neon.c b/libavcodec/arm/rv34dsp_init_neon.c
++index b4a2f01..3abc2c6 100644
++--- a/libavcodec/arm/rv34dsp_init_neon.c
+++++ b/libavcodec/arm/rv34dsp_init_neon.c
++@@ -22,6 +22,7 @@
++ 
++ #include "libavcodec/avcodec.h"
++ #include "libavcodec/rv34dsp.h"
+++#include "libavutil/arm/cpu.h"
++ 
++ void ff_rv34_inv_transform_noround_neon(DCTELEM *block);
++ 
++@@ -32,9 +33,13 @@ void ff_rv34_idct_dc_add_neon(uint8_t *dst, ptrdiff_t stride, int dc);
++ 
++ void ff_rv34dsp_init_neon(RV34DSPContext *c, DSPContext* dsp)
++ {
+++    int cpu_flags = av_get_cpu_flags();
+++
+++    if (have_neon(cpu_flags)) {
++     c->rv34_inv_transform    = ff_rv34_inv_transform_noround_neon;
++     c->rv34_inv_transform_dc = ff_rv34_inv_transform_noround_dc_neon;
++ 
++     c->rv34_idct_add    = ff_rv34_idct_add_neon;
++     c->rv34_idct_dc_add = ff_rv34_idct_dc_add_neon;
+++    }
++ }
++diff --git a/libavcodec/arm/rv40dsp_init_neon.c b/libavcodec/arm/rv40dsp_init_neon.c
++index 2ce50a2..1bdfd58 100644
++--- a/libavcodec/arm/rv40dsp_init_neon.c
+++++ b/libavcodec/arm/rv40dsp_init_neon.c
++@@ -22,6 +22,7 @@
++ 
++ #include "libavcodec/avcodec.h"
++ #include "libavcodec/rv34dsp.h"
+++#include "libavutil/arm/cpu.h"
++ 
++ #define DECL_QPEL3(type, w, pos) \
++     void ff_##type##_rv40_qpel##w##_mc##pos##_neon(uint8_t *dst, uint8_t *src,\
++@@ -70,6 +71,9 @@ void ff_rv40_v_weak_loop_filter_neon(uint8_t *src, ptrdiff_t stride, int filter_
++ 
++ void ff_rv40dsp_init_neon(RV34DSPContext *c, DSPContext* dsp)
++ {
+++    int cpu_flags = av_get_cpu_flags();
+++
+++    if (have_neon(cpu_flags)) {
++     c->put_pixels_tab[0][ 1] = ff_put_rv40_qpel16_mc10_neon;
++     c->put_pixels_tab[0][ 3] = ff_put_rv40_qpel16_mc30_neon;
++     c->put_pixels_tab[0][ 4] = ff_put_rv40_qpel16_mc01_neon;
++@@ -135,4 +139,5 @@ void ff_rv40dsp_init_neon(RV34DSPContext *c, DSPContext* dsp)
++     c->rv40_loop_filter_strength[1] = ff_rv40_v_loop_filter_strength_neon;
++     c->rv40_weak_loop_filter[0]     = ff_rv40_h_weak_loop_filter_neon;
++     c->rv40_weak_loop_filter[1]     = ff_rv40_v_weak_loop_filter_neon;
+++    }
++ }
++-- 
++1.7.12.2
++
+diff --git a/contrib/src/ffmpeg/0002-ARM-Reindent-after-previous-commit.patch b/contrib/src/ffmpeg/0002-ARM-Reindent-after-previous-commit.patch
+new file mode 100644
+index 0000000..02f1dea
+--- /dev/null
++++ b/contrib/src/ffmpeg/0002-ARM-Reindent-after-previous-commit.patch
+@@ -0,0 +1,172 @@
++From 0cfc7c5087a4163d357e3a3e780747c0124ff05b Mon Sep 17 00:00:00 2001
++From: Jean-Baptiste Kempf <jb@videolan.org>
++Date: Fri, 5 Oct 2012 12:04:20 +0200
++Subject: [PATCH 2/4] ARM: Reindent after previous commit
++
++---
++ libavcodec/arm/rv34dsp_init_neon.c |   8 +--
++ libavcodec/arm/rv40dsp_init_neon.c | 130 ++++++++++++++++++-------------------
++ 2 files changed, 69 insertions(+), 69 deletions(-)
++
++diff --git a/libavcodec/arm/rv34dsp_init_neon.c b/libavcodec/arm/rv34dsp_init_neon.c
++index 3abc2c6..41e0e51 100644
++--- a/libavcodec/arm/rv34dsp_init_neon.c
+++++ b/libavcodec/arm/rv34dsp_init_neon.c
++@@ -36,10 +36,10 @@ void ff_rv34dsp_init_neon(RV34DSPContext *c, DSPContext* dsp)
++     int cpu_flags = av_get_cpu_flags();
++ 
++     if (have_neon(cpu_flags)) {
++-    c->rv34_inv_transform    = ff_rv34_inv_transform_noround_neon;
++-    c->rv34_inv_transform_dc = ff_rv34_inv_transform_noround_dc_neon;
+++        c->rv34_inv_transform    = ff_rv34_inv_transform_noround_neon;
+++        c->rv34_inv_transform_dc = ff_rv34_inv_transform_noround_dc_neon;
++ 
++-    c->rv34_idct_add    = ff_rv34_idct_add_neon;
++-    c->rv34_idct_dc_add = ff_rv34_idct_dc_add_neon;
+++        c->rv34_idct_add    = ff_rv34_idct_add_neon;
+++        c->rv34_idct_dc_add = ff_rv34_idct_dc_add_neon;
++     }
++ }
++diff --git a/libavcodec/arm/rv40dsp_init_neon.c b/libavcodec/arm/rv40dsp_init_neon.c
++index 1bdfd58..c236915 100644
++--- a/libavcodec/arm/rv40dsp_init_neon.c
+++++ b/libavcodec/arm/rv40dsp_init_neon.c
++@@ -74,70 +74,70 @@ void ff_rv40dsp_init_neon(RV34DSPContext *c, DSPContext* dsp)
++     int cpu_flags = av_get_cpu_flags();
++ 
++     if (have_neon(cpu_flags)) {
++-    c->put_pixels_tab[0][ 1] = ff_put_rv40_qpel16_mc10_neon;
++-    c->put_pixels_tab[0][ 3] = ff_put_rv40_qpel16_mc30_neon;
++-    c->put_pixels_tab[0][ 4] = ff_put_rv40_qpel16_mc01_neon;
++-    c->put_pixels_tab[0][ 5] = ff_put_rv40_qpel16_mc11_neon;
++-    c->put_pixels_tab[0][ 6] = ff_put_rv40_qpel16_mc21_neon;
++-    c->put_pixels_tab[0][ 7] = ff_put_rv40_qpel16_mc31_neon;
++-    c->put_pixels_tab[0][ 9] = ff_put_rv40_qpel16_mc12_neon;
++-    c->put_pixels_tab[0][10] = ff_put_rv40_qpel16_mc22_neon;
++-    c->put_pixels_tab[0][11] = ff_put_rv40_qpel16_mc32_neon;
++-    c->put_pixels_tab[0][12] = ff_put_rv40_qpel16_mc03_neon;
++-    c->put_pixels_tab[0][13] = ff_put_rv40_qpel16_mc13_neon;
++-    c->put_pixels_tab[0][14] = ff_put_rv40_qpel16_mc23_neon;
++-    c->put_pixels_tab[0][15] = ff_put_rv40_qpel16_mc33_neon;
++-    c->avg_pixels_tab[0][ 1] = ff_avg_rv40_qpel16_mc10_neon;
++-    c->avg_pixels_tab[0][ 3] = ff_avg_rv40_qpel16_mc30_neon;
++-    c->avg_pixels_tab[0][ 4] = ff_avg_rv40_qpel16_mc01_neon;
++-    c->avg_pixels_tab[0][ 5] = ff_avg_rv40_qpel16_mc11_neon;
++-    c->avg_pixels_tab[0][ 6] = ff_avg_rv40_qpel16_mc21_neon;
++-    c->avg_pixels_tab[0][ 7] = ff_avg_rv40_qpel16_mc31_neon;
++-    c->avg_pixels_tab[0][ 9] = ff_avg_rv40_qpel16_mc12_neon;
++-    c->avg_pixels_tab[0][10] = ff_avg_rv40_qpel16_mc22_neon;
++-    c->avg_pixels_tab[0][11] = ff_avg_rv40_qpel16_mc32_neon;
++-    c->avg_pixels_tab[0][12] = ff_avg_rv40_qpel16_mc03_neon;
++-    c->avg_pixels_tab[0][13] = ff_avg_rv40_qpel16_mc13_neon;
++-    c->avg_pixels_tab[0][14] = ff_avg_rv40_qpel16_mc23_neon;
++-    c->avg_pixels_tab[0][15] = ff_avg_rv40_qpel16_mc33_neon;
++-    c->put_pixels_tab[1][ 1] = ff_put_rv40_qpel8_mc10_neon;
++-    c->put_pixels_tab[1][ 3] = ff_put_rv40_qpel8_mc30_neon;
++-    c->put_pixels_tab[1][ 4] = ff_put_rv40_qpel8_mc01_neon;
++-    c->put_pixels_tab[1][ 5] = ff_put_rv40_qpel8_mc11_neon;
++-    c->put_pixels_tab[1][ 6] = ff_put_rv40_qpel8_mc21_neon;
++-    c->put_pixels_tab[1][ 7] = ff_put_rv40_qpel8_mc31_neon;
++-    c->put_pixels_tab[1][ 9] = ff_put_rv40_qpel8_mc12_neon;
++-    c->put_pixels_tab[1][10] = ff_put_rv40_qpel8_mc22_neon;
++-    c->put_pixels_tab[1][11] = ff_put_rv40_qpel8_mc32_neon;
++-    c->put_pixels_tab[1][12] = ff_put_rv40_qpel8_mc03_neon;
++-    c->put_pixels_tab[1][13] = ff_put_rv40_qpel8_mc13_neon;
++-    c->put_pixels_tab[1][14] = ff_put_rv40_qpel8_mc23_neon;
++-    c->put_pixels_tab[1][15] = ff_put_rv40_qpel8_mc33_neon;
++-    c->avg_pixels_tab[1][ 1] = ff_avg_rv40_qpel8_mc10_neon;
++-    c->avg_pixels_tab[1][ 3] = ff_avg_rv40_qpel8_mc30_neon;
++-    c->avg_pixels_tab[1][ 4] = ff_avg_rv40_qpel8_mc01_neon;
++-    c->avg_pixels_tab[1][ 5] = ff_avg_rv40_qpel8_mc11_neon;
++-    c->avg_pixels_tab[1][ 6] = ff_avg_rv40_qpel8_mc21_neon;
++-    c->avg_pixels_tab[1][ 7] = ff_avg_rv40_qpel8_mc31_neon;
++-    c->avg_pixels_tab[1][ 9] = ff_avg_rv40_qpel8_mc12_neon;
++-    c->avg_pixels_tab[1][10] = ff_avg_rv40_qpel8_mc22_neon;
++-    c->avg_pixels_tab[1][11] = ff_avg_rv40_qpel8_mc32_neon;
++-    c->avg_pixels_tab[1][12] = ff_avg_rv40_qpel8_mc03_neon;
++-    c->avg_pixels_tab[1][13] = ff_avg_rv40_qpel8_mc13_neon;
++-    c->avg_pixels_tab[1][14] = ff_avg_rv40_qpel8_mc23_neon;
++-    c->avg_pixels_tab[1][15] = ff_avg_rv40_qpel8_mc33_neon;
++-
++-    c->put_chroma_pixels_tab[0] = ff_put_rv40_chroma_mc8_neon;
++-    c->put_chroma_pixels_tab[1] = ff_put_rv40_chroma_mc4_neon;
++-    c->avg_chroma_pixels_tab[0] = ff_avg_rv40_chroma_mc8_neon;
++-    c->avg_chroma_pixels_tab[1] = ff_avg_rv40_chroma_mc4_neon;
++-
++-    c->rv40_weight_pixels_tab[0][0] = ff_rv40_weight_func_16_neon;
++-    c->rv40_weight_pixels_tab[0][1] = ff_rv40_weight_func_8_neon;
++-
++-    c->rv40_loop_filter_strength[0] = ff_rv40_h_loop_filter_strength_neon;
++-    c->rv40_loop_filter_strength[1] = ff_rv40_v_loop_filter_strength_neon;
++-    c->rv40_weak_loop_filter[0]     = ff_rv40_h_weak_loop_filter_neon;
++-    c->rv40_weak_loop_filter[1]     = ff_rv40_v_weak_loop_filter_neon;
+++        c->put_pixels_tab[0][ 1] = ff_put_rv40_qpel16_mc10_neon;
+++        c->put_pixels_tab[0][ 3] = ff_put_rv40_qpel16_mc30_neon;
+++        c->put_pixels_tab[0][ 4] = ff_put_rv40_qpel16_mc01_neon;
+++        c->put_pixels_tab[0][ 5] = ff_put_rv40_qpel16_mc11_neon;
+++        c->put_pixels_tab[0][ 6] = ff_put_rv40_qpel16_mc21_neon;
+++        c->put_pixels_tab[0][ 7] = ff_put_rv40_qpel16_mc31_neon;
+++        c->put_pixels_tab[0][ 9] = ff_put_rv40_qpel16_mc12_neon;
+++        c->put_pixels_tab[0][10] = ff_put_rv40_qpel16_mc22_neon;
+++        c->put_pixels_tab[0][11] = ff_put_rv40_qpel16_mc32_neon;
+++        c->put_pixels_tab[0][12] = ff_put_rv40_qpel16_mc03_neon;
+++        c->put_pixels_tab[0][13] = ff_put_rv40_qpel16_mc13_neon;
+++        c->put_pixels_tab[0][14] = ff_put_rv40_qpel16_mc23_neon;
+++        c->put_pixels_tab[0][15] = ff_put_rv40_qpel16_mc33_neon;
+++        c->avg_pixels_tab[0][ 1] = ff_avg_rv40_qpel16_mc10_neon;
+++        c->avg_pixels_tab[0][ 3] = ff_avg_rv40_qpel16_mc30_neon;
+++        c->avg_pixels_tab[0][ 4] = ff_avg_rv40_qpel16_mc01_neon;
+++        c->avg_pixels_tab[0][ 5] = ff_avg_rv40_qpel16_mc11_neon;
+++        c->avg_pixels_tab[0][ 6] = ff_avg_rv40_qpel16_mc21_neon;
+++        c->avg_pixels_tab[0][ 7] = ff_avg_rv40_qpel16_mc31_neon;
+++        c->avg_pixels_tab[0][ 9] = ff_avg_rv40_qpel16_mc12_neon;
+++        c->avg_pixels_tab[0][10] = ff_avg_rv40_qpel16_mc22_neon;
+++        c->avg_pixels_tab[0][11] = ff_avg_rv40_qpel16_mc32_neon;
+++        c->avg_pixels_tab[0][12] = ff_avg_rv40_qpel16_mc03_neon;
+++        c->avg_pixels_tab[0][13] = ff_avg_rv40_qpel16_mc13_neon;
+++        c->avg_pixels_tab[0][14] = ff_avg_rv40_qpel16_mc23_neon;
+++        c->avg_pixels_tab[0][15] = ff_avg_rv40_qpel16_mc33_neon;
+++        c->put_pixels_tab[1][ 1] = ff_put_rv40_qpel8_mc10_neon;
+++        c->put_pixels_tab[1][ 3] = ff_put_rv40_qpel8_mc30_neon;
+++        c->put_pixels_tab[1][ 4] = ff_put_rv40_qpel8_mc01_neon;
+++        c->put_pixels_tab[1][ 5] = ff_put_rv40_qpel8_mc11_neon;
+++        c->put_pixels_tab[1][ 6] = ff_put_rv40_qpel8_mc21_neon;
+++        c->put_pixels_tab[1][ 7] = ff_put_rv40_qpel8_mc31_neon;
+++        c->put_pixels_tab[1][ 9] = ff_put_rv40_qpel8_mc12_neon;
+++        c->put_pixels_tab[1][10] = ff_put_rv40_qpel8_mc22_neon;
+++        c->put_pixels_tab[1][11] = ff_put_rv40_qpel8_mc32_neon;
+++        c->put_pixels_tab[1][12] = ff_put_rv40_qpel8_mc03_neon;
+++        c->put_pixels_tab[1][13] = ff_put_rv40_qpel8_mc13_neon;
+++        c->put_pixels_tab[1][14] = ff_put_rv40_qpel8_mc23_neon;
+++        c->put_pixels_tab[1][15] = ff_put_rv40_qpel8_mc33_neon;
+++        c->avg_pixels_tab[1][ 1] = ff_avg_rv40_qpel8_mc10_neon;
+++        c->avg_pixels_tab[1][ 3] = ff_avg_rv40_qpel8_mc30_neon;
+++        c->avg_pixels_tab[1][ 4] = ff_avg_rv40_qpel8_mc01_neon;
+++        c->avg_pixels_tab[1][ 5] = ff_avg_rv40_qpel8_mc11_neon;
+++        c->avg_pixels_tab[1][ 6] = ff_avg_rv40_qpel8_mc21_neon;
+++        c->avg_pixels_tab[1][ 7] = ff_avg_rv40_qpel8_mc31_neon;
+++        c->avg_pixels_tab[1][ 9] = ff_avg_rv40_qpel8_mc12_neon;
+++        c->avg_pixels_tab[1][10] = ff_avg_rv40_qpel8_mc22_neon;
+++        c->avg_pixels_tab[1][11] = ff_avg_rv40_qpel8_mc32_neon;
+++        c->avg_pixels_tab[1][12] = ff_avg_rv40_qpel8_mc03_neon;
+++        c->avg_pixels_tab[1][13] = ff_avg_rv40_qpel8_mc13_neon;
+++        c->avg_pixels_tab[1][14] = ff_avg_rv40_qpel8_mc23_neon;
+++        c->avg_pixels_tab[1][15] = ff_avg_rv40_qpel8_mc33_neon;
+++
+++        c->put_chroma_pixels_tab[0] = ff_put_rv40_chroma_mc8_neon;
+++        c->put_chroma_pixels_tab[1] = ff_put_rv40_chroma_mc4_neon;
+++        c->avg_chroma_pixels_tab[0] = ff_avg_rv40_chroma_mc8_neon;
+++        c->avg_chroma_pixels_tab[1] = ff_avg_rv40_chroma_mc4_neon;
+++
+++        c->rv40_weight_pixels_tab[0][0] = ff_rv40_weight_func_16_neon;
+++        c->rv40_weight_pixels_tab[0][1] = ff_rv40_weight_func_8_neon;
+++
+++        c->rv40_loop_filter_strength[0] = ff_rv40_h_loop_filter_strength_neon;
+++        c->rv40_loop_filter_strength[1] = ff_rv40_v_loop_filter_strength_neon;
+++        c->rv40_weak_loop_filter[0]     = ff_rv40_h_weak_loop_filter_neon;
+++        c->rv40_weak_loop_filter[1]     = ff_rv40_v_weak_loop_filter_neon;
++     }
++ }
++-- 
++1.7.12.2
++
+diff --git a/contrib/src/ffmpeg/0003-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch b/contrib/src/ffmpeg/0003-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch
+new file mode 100644
+index 0000000..99d3338
+--- /dev/null
++++ b/contrib/src/ffmpeg/0003-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch
+@@ -0,0 +1,66 @@
++From 6762b92295902894922be0bc634917e72501dd89 Mon Sep 17 00:00:00 2001
++From: Janne Grunau <janne-libav@jannau.net>
++Date: Fri, 5 Oct 2012 17:34:57 +0200
++Subject: [PATCH 3/4] arm: use HAVE_NEON_INLINE for NEON inline asm
++
++This allows a build with -march=armv7-a -mfpu=vfpv3-d16 to still use
++external NEON asm if the target supports it. Since there is no auto
++detection of NEON cpuflags have to be used on targets without NEON.
++
++Signed-off-by: Jean-Baptiste Kempf <jb@videolan.org>
++---
++ configure            | 2 +-
++ libavcodec/arm/aac.h | 4 ++--
++ libavcodec/arm/dca.h | 2 +-
++ 3 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/configure b/configure
++index 34680d4..dbdf967 100755
++--- a/configure
+++++ b/configure
++@@ -3016,7 +3016,7 @@ EOF
++     enabled armv6   && check_inline_asm armv6   '"sadd16 r0, r0, r0"'
++     enabled armv6t2 && check_inline_asm armv6t2 '"movt r0, #0"'
++     enabled armvfp  && check_inline_asm armvfp  '"fadds s0, s0, s0"'
++-    enabled neon    && check_inline_asm neon    '"vadd.i16 q0, q0, q0"'
+++    enabled neon    && check_inline_asm neon_inline '"vadd.i16 q0, q0, q0"'
++     enabled vfpv3   && check_inline_asm vfpv3   '"vmov.f32 s0, #1.0"'
++ 
++     check_inline_asm asm_mod_q '"add r0, %Q0, %R0" :: "r"((long long)0)'
++diff --git a/libavcodec/arm/aac.h b/libavcodec/arm/aac.h
++index 83b5aef..4f143cb 100644
++--- a/libavcodec/arm/aac.h
+++++ b/libavcodec/arm/aac.h
++@@ -23,7 +23,7 @@
++ 
++ #include "config.h"
++ 
++-#if HAVE_NEON && HAVE_INLINE_ASM
+++#if HAVE_NEON_INLINE
++ 
++ #define VMUL2 VMUL2
++ static inline float *VMUL2(float *dst, const float *v, unsigned idx,
++@@ -138,6 +138,6 @@ static inline float *VMUL4S(float *dst, const float *v, unsigned idx,
++     return dst;
++ }
++ 
++-#endif /* HAVE_NEON && HAVE_INLINE_ASM */
+++#endif /* HAVE_NEON_INLINE */
++ 
++ #endif /* AVCODEC_ARM_AAC_H */
++diff --git a/libavcodec/arm/dca.h b/libavcodec/arm/dca.h
++index 9b0efc0..2ba27ee 100644
++--- a/libavcodec/arm/dca.h
+++++ b/libavcodec/arm/dca.h
++@@ -79,7 +79,7 @@ static inline int decode_blockcodes(int code1, int code2, int levels,
++ 
++ #endif
++ 
++-#if HAVE_NEON && HAVE_INLINE_ASM && HAVE_ASM_MOD_Y
+++#if HAVE_NEON_INLINE && HAVE_ASM_MOD_Y
++ 
++ #define int8x8_fmul_int32 int8x8_fmul_int32
++ static inline void int8x8_fmul_int32(float *dst, const int8_t *src, int scale)
++-- 
++1.7.12.2
++
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index 04de268..17857b8 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -55,11 +55,14 @@ endif
+ # ARM stuff
+ ifeq ($(ARCH),arm)
+ FFMPEGCONF += --arch=arm
+-ifdef HAVE_NEON
++ifdef HAVE_ARMV7A
+ FFMPEGCONF += --cpu=cortex-a8 --enable-neon
++FFMPEG_CFLAGS += -mfpu=vfpv3-d16
++ifndef HAVE_ANDROID # We want NEON autodetect on Android
+ FFMPEG_CFLAGS += -mfpu=neon
+ endif
+ endif
++endif
+ 
+ # x86 stuff
+ ifeq ($(ARCH),i386)
+@@ -142,6 +145,9 @@ ffmpeg: ffmpeg-$(FFMPEG_VERSION).tar.gz .sum-ffmpeg
+ ifdef HAVE_WIN32
+ 	sed -i "s/std=c99/std=gnu99/" $@-$(FFMPEG_VERSION)/configure
+ endif
++	$(APPLY) $(SRC)/ffmpeg/0001-ARM-RV30-40-check-NEON-flags-at-runtime.patch
++	$(APPLY) $(SRC)/ffmpeg/0002-ARM-Reindent-after-previous-commit.patch
++	$(APPLY) $(SRC)/ffmpeg/0003-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch
+ 	$(MOVE)
+ 
+ .ffmpeg: ffmpeg
+-- 
+1.7.12.2
+
