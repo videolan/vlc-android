@@ -157,7 +157,7 @@ public class PreferencesActivity extends PreferenceActivity {
         aoutPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                LibVLC.setAout(PreferencesActivity.this, (Integer) newValue, true);
+                LibVLC.setAout(PreferencesActivity.this, Integer.valueOf((String) newValue), true);
                 return true;
             }
         });

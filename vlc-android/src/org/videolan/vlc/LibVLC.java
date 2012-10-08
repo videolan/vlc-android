@@ -156,7 +156,11 @@ public class LibVLC {
     public static synchronized void useIOMX(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         sUseIomx = pref.getBoolean("enable_iomx", false);
-        sAout = pref.getInt("aout", AOUT_AUDIOTRACK_JAVA);
+        try {
+            sAout = Integer.parseInt(pref.getString("aout", String.valueOf(AOUT_AUDIOTRACK_JAVA)));
+        } catch (NumberFormatException nfe) {
+            sAout = AOUT_AUDIOTRACK_JAVA;
+        }
     }
 
     public static synchronized void setAout(Context context, Integer aoutPref,
