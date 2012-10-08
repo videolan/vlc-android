@@ -268,7 +268,6 @@ public class Util {
         }
 
         String ANDROID_ABI = properties.getProperty("ANDROID_ABI");
-        boolean NO_NEON = properties.getProperty("NO_NEON","0").equals("1");
         boolean NO_FPU = properties.getProperty("NO_FPU","0").equals("1");
         boolean NO_ARMV6 = properties.getProperty("NO_ARMV6","0").equals("1");
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
@@ -342,10 +341,8 @@ public class Util {
             }
         }
         if(ANDROID_ABI.equals("armeabi") || ANDROID_ABI.equals("armeabi-v7a")) {
-            if(!NO_NEON && !hasNeon) {
+            if(!hasNeon) {
                 errorMsg = "NEON build on non-NEON device";
-                isCompatible = false;
-                return false;
             }
         }
         errorMsg = null;
