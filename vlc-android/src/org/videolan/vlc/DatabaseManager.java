@@ -459,6 +459,10 @@ public class DatabaseManager {
 
     public synchronized void updateMedia(String location, mediaColumn col,
             Object object) {
+
+        if (location == null)
+            return;
+
         ContentValues values = new ContentValues();
         switch (col) {
             case MEDIA_PICTURE:
@@ -584,7 +588,7 @@ public class DatabaseManager {
     public synchronized void clearSearchhistory() {
         mDb.delete(SEARCHHISTORY_TABLE_NAME, null, null);
     }
-    
+
     /**
      * Empty the database for debugging purposes
      */
