@@ -124,10 +124,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
         View v = convertView;
-        if (v == null) {
+        if (v == null || (((ViewHolder)v.getTag()).listmode != mListMode)) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (!mListMode)
                 v = inflater.inflate(R.layout.video_grid_item, parent, false);
@@ -138,6 +137,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
+            holder.listmode = mListMode;
             v.setTag(holder);
             /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
             v.setLayoutParams(new GridView.LayoutParams(v.getLayoutParams().width, v.getLayoutParams().height));
@@ -185,6 +185,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     }
 
     static class ViewHolder {
+        boolean listmode;
         View layout;
         ImageView thumbnail;
         TextView title;

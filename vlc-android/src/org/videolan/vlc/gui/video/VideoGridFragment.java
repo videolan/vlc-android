@@ -31,22 +31,25 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ThumbnailerManager;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
-import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -67,6 +70,16 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     protected static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
     protected static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
     protected static final int UPDATE_ITEM = 0;
+
+    /* Constants used to switch from Grid to List and vice versa */
+    //FIXME If you know a way to do this in pure XML please do it!
+    private static final int GRID_ITEM_WIDTH_DP = 156;
+    private static final int GRID_HORIZONTAL_SPACING_DP = 20;
+    private static final int GRID_VERTICAL_SPACING_DP = 20;
+    private static final int GRID_STRETCH_MODE = GridView.STRETCH_SPACING;
+    private static final int LIST_HORIZONTAL_SPACING_DP = 0;
+    private static final int LIST_VERTICAL_SPACING_DP = 10;
+    private static final int LIST_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
 
     protected LinearLayout mLayoutFlipperLoading;
     protected TextView mTextViewNomedia;
@@ -89,7 +102,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     }
 
     @Override
-    @TargetApi(11)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = inflater.inflate(R.layout.video_grid, container, false);
@@ -97,23 +109,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         // init the information for the scan (1/2)
         mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
-
-        /* Determine if we need to show items in list or grid */
-        int columns = 1;
-        GridView gv = (GridView)v.findViewById(android.R.id.list);
-        if (android.os.Build.VERSION.SDK_INT >= 11)
-            columns = gv.getNumColumns();
-
-        float density = getResources().getDisplayMetrics().density;
-        if (columns == 1) {
-            gv.setNumColumns(1);
-            gv.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-            gv.setHorizontalSpacing(0);
-            gv.setVerticalSpacing((int) (10 * density + 0.5f));
-            mVideoAdapter.setListMode(true);
-        } else {
-            gv.setColumnWidth((int) (150 * density + 0.5f));
-        }
 
         return v;
     }
@@ -152,6 +147,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mVideoAdapter.setLastMedia(lastPath, times);
         mVideoAdapter.notifyDataSetChanged();
         mMediaLibrary.addUpdateHandler(mHandler);
+        updateViewMode();
     }
 
     @Override
@@ -165,6 +161,63 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         super.onDestroy();
         mBarrier.reset();
         mVideoAdapter.clear();
+    }
+
+    private boolean hasSpaceForGrid() {
+        final Activity activity = getActivity();
+        if (activity == null)
+            return true;
+
+        final LayoutInflater inflater = (LayoutInflater)activity.getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        final View v = inflater.inflate(R.layout.video_grid, null);
+        final GridView grid = (GridView)v.findViewById(android.R.id.list);
+
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+
+        final int itemWidth = Util.convertDpToPx(GRID_ITEM_WIDTH_DP);
+        final int horizontalspacing = Util.convertDpToPx(GRID_HORIZONTAL_SPACING_DP);
+        final int width = grid.getPaddingLeft() + grid.getPaddingRight() + horizontalspacing + (itemWidth * 2);
+        if (width < outMetrics.widthPixels)
+            return true;
+        return false;
+    }
+
+    private void updateViewMode() {
+        if (getView() == null) {
+            Log.w(TAG, "Unable to setup the view");
+            return;
+        }
+
+        final GridView gv = (GridView)getView().findViewById(android.R.id.list);
+        if (hasSpaceForGrid()) {
+            Log.d(TAG, "Switching to grid mode");
+            gv.setNumColumns(GridView.AUTO_FIT);
+            gv.setStretchMode(GRID_STRETCH_MODE);
+            gv.setHorizontalSpacing(Util.convertDpToPx(GRID_HORIZONTAL_SPACING_DP));
+            gv.setVerticalSpacing(Util.convertDpToPx(GRID_VERTICAL_SPACING_DP));
+            gv.setColumnWidth(Util.convertDpToPx(GRID_ITEM_WIDTH_DP));
+            mVideoAdapter.setListMode(false);
+        } else {
+            Log.e(TAG, "Switching to list mode");
+            gv.setNumColumns(1);
+            gv.setStretchMode(LIST_STRETCH_MODE);
+            gv.setHorizontalSpacing(LIST_HORIZONTAL_SPACING_DP);
+            gv.setVerticalSpacing(Util.convertDpToPx(LIST_VERTICAL_SPACING_DP));
+            mVideoAdapter.setListMode(true);
+        }
+        gv.forceLayout();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+            newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            updateViewMode();
+        }
     }
 
     @Override
