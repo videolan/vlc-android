@@ -30,9 +30,10 @@
             android:defaultValue="false">
         </CheckBoxPreference>
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="enable_gesture_brightness"
-            android:title="@string/enable_gesture_brightness"
-            android:defaultValue="true">
+            android:title="@string/enable_gesture_brightness" >
+
         </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/privacy_prefs_category">
@@ -42,21 +43,14 @@
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
-        <CheckBoxPreference
-            android:key="enable_verbose_mode"
-            android:title="@string/enable_verbose_mode"
-            android:summary="@string/enable_verbose_mode_detail"
-            android:defaultValue="true">
-        </CheckBoxPreference>
-        <ListPreference
-            android:key="aout"
-            android:defaultValue="@string/aout_audiotrack_java"
-            android:title="@string/aout" />
+        <ListPreference android:key="aout" android:defaultValue="@string/aout_audiotrack_java" android:title="@string/aout" />
+        
         <CheckBoxPreference
             android:key="enable_time_stretching_audio"
             android:title="@string/enable_time_stretching_audio"
             android:summary="@string/enable_time_stretching_audio_detail"
-            android:defaultValue="false" />
+            android:defaultValue="false" /><CheckBoxPreference android:key="enable_verbose_mode" android:title="@string/enable_verbose_mode" android:summary="@string/enable_verbose_mode_detail" android:defaultValue="true">
+        </CheckBoxPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
             <Preference
                 android:title="@string/quit"
