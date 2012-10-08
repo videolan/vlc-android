@@ -162,7 +162,7 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
              */
             libvlc_media_add_option(p_md, ":file-caching=1500");
             libvlc_media_add_option(p_md, ":network-caching=1500");
-            libvlc_media_add_option(p_md, ":codec=iomx,all");
+            libvlc_media_add_option(p_md, ":codec=mediacodec,iomx,all");
         }
         if (noVideo)
             libvlc_media_add_option(p_md, ":no-video");
