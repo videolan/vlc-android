@@ -53,6 +53,10 @@ public class AudioUtil {
 
     public final static String TAG = "VLC/AudioUtil";
 
+    @SuppressLint("SdCardPath")
+    public final static String CACHE_DIR = "/sdcard/Android/data/org.videolan.vlc/cache";
+    public final static String COVER_DIR = CACHE_DIR + "/covers/";
+
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
         ContentValues values = new ContentValues();
@@ -72,6 +76,12 @@ public class AudioUtil {
                 RingtoneManager.TYPE_RINGTONE,
                 newUri
                 );
+    }
+
+    public static void prepareCacheFolder() {
+        File file = new File(COVER_DIR);
+        if (!file.exists())
+            file.mkdirs();
     }
 
     private static Bitmap getCoverFromMediaStore(Context context, Media media) {
@@ -100,10 +110,8 @@ public class AudioUtil {
         return null;
     }
 
-    @SuppressLint("SdCardPath")
     private static Bitmap getCoverFromVlc(Context context, Media media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String artworkURL = media.getArtworkURL();
-        final String cacheDir = "/sdcard/Android/data/org.videolan.vlc/cache";
         if (artworkURL != null && artworkURL.startsWith("file://")) {
             return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
         } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
@@ -126,10 +134,10 @@ public class AudioUtil {
                     titleHash = "0" + titleHash;
                 }
                 /* Use generated hash to find art */
-                artworkURL = cacheDir + "/art/arturl/" + titleHash + "/art.png";
+                artworkURL = CACHE_DIR + "/art/arturl/" + titleHash + "/art.png";
             } else {
                 /* Otherwise, it was cached by artist and album */
-                artworkURL = cacheDir + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
+                artworkURL = CACHE_DIR + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
             }
 
             return BitmapFactory.decodeFile(artworkURL);
@@ -147,7 +155,6 @@ public class AudioUtil {
         return null;
     }
 
-    @SuppressLint("SdCardPath")
     public synchronized static Bitmap getCover(Context context, Media media, int width) {
         Bitmap cover = null;
         String cachePath = null;
@@ -155,8 +162,7 @@ public class AudioUtil {
         try {
             // try to load from cache
             int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
-            cachePath = "/sdcard/Android/data/org.videolan.vlc/cache/covers/" +
-                        (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+            cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
             cover = readBitmap(cachePath);
             if (cover != null)
                 return cover;
