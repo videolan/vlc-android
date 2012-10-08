@@ -457,7 +457,7 @@ public class AudioService extends Service {
         // add notification to status bar
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
             .setSmallIcon(R.drawable.icon)
-            .setLargeIcon(mCurrentMedia.getPicture())
+            .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
             .setContentTitle(mCurrentMedia.getTitle())
             .setContentText((Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist()
                     : mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum()))
