@@ -151,12 +151,13 @@ public class PreferencesActivity extends PreferenceActivity {
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
         int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
+        int aoutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
         aoutPref.setEntries(aoutEntriesId);
-        aoutPref.setEntryValues(aoutEntriesId);
+        aoutPref.setEntryValues(aoutEntriesIdValues);
         aoutPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                LibVLC.setAout(PreferencesActivity.this, (String) newValue, true);
+                LibVLC.setAout(PreferencesActivity.this, (Integer) newValue, true);
                 return true;
             }
         });

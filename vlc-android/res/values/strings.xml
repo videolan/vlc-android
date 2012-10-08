@@ -168,4 +168,14 @@
         <item>@string/aout_audiotrack</item>
         <item>@string/aout_opensles</item>
     </string-array>
+    <string-array name="aouts_values_froyo">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="aouts_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
 </resources>

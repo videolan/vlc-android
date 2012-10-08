@@ -26,7 +26,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -34,13 +33,13 @@ import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
-    private static final int AOUT_AUDIOTRACK = 0;
-    private static final int AOUT_AUDIOTRACK_JAVA = 1;
+    private static final int AOUT_AUDIOTRACK = 1;
+    private static final int AOUT_AUDIOTRACK_JAVA = 0;
     private static final int AOUT_OPENSLES = 2;
 
     private static LibVLC sInstance;
     private static boolean sUseIomx = false;
-    private static int sAout = AOUT_AUDIOTRACK;
+    private static int sAout = AOUT_AUDIOTRACK_JAVA;
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
@@ -157,14 +156,14 @@ public class LibVLC {
     public static synchronized void useIOMX(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         sUseIomx = pref.getBoolean("enable_iomx", false);
-        setAout(context, pref.getString("aout", "error"), false);
+        sAout = pref.getInt("aout", AOUT_AUDIOTRACK_JAVA);
     }
 
-    public static synchronized void setAout(Context context, String aoutPref, boolean reset) {
-        Resources res = context.getResources();
-        if (aoutPref.equals(res.getString(R.string.aout_audiotrack)))
+    public static synchronized void setAout(Context context, Integer aoutPref,
+            boolean reset) {
+        if (aoutPref == AOUT_AUDIOTRACK)
             sAout = AOUT_AUDIOTRACK;
-        else if (aoutPref.equals(res.getString(R.string.aout_opensles)) && Util.isGingerbreadOrLater())
+        else if (aoutPref == AOUT_OPENSLES && Util.isGingerbreadOrLater())
             sAout = AOUT_OPENSLES;
         else
             sAout = AOUT_AUDIOTRACK_JAVA;
