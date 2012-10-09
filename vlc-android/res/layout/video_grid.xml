@@ -15,6 +15,7 @@
         android:numColumns="auto_fit"
         android:fastScrollEnabled="true"
         android:background="@drawable/background_pattern_dark_repeat"
+        android:fadingEdge="none"
         android:gravity="center" />
 
     <LinearLayout
