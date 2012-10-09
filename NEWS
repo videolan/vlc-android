@@ -1,6 +1,35 @@
 Changes between 0.0.4 and 0.0.5:
 --------------------------------
 
+Core:
+ * Autodetection of NEON at runtime: ARMv7-a builds should work everywhere
+   including tegra2 and cortex-a8 without NEON
+ * Better threading support
+ * Support for MediaCodec Jelly Bean hardware decoding
+
+Main application
+ * Better extensions and intent integration
+ * Better service start/stop to avoid using CPU when VLC is not running or
+   when we are playing a video
+ * Automatic rescan when needed
+ * Fix headset detection during phone calls
+ * Fix several crashes
+ * Fix compatibility with Android 2.1 (android-7)
+
+Interface:
+ * New grid look for Video List on tablets and phone in landscape-mode
+ * Cover arts are now shown in Audio List panels
+ * Better notification and use of covers in notifications
+ * Directory View back button does now a parent-up action
+ * Fix several crashes and misbehaviour of fragments
+ * Fix small issues in About dialog, Video List, menu and preferences
+ * Back button correctly behaves in fullscreen
+ * Fix several sliding menu bugs
+
+Translations
+ * many :)
+
+
 Changes between 0.0.3 and 0.0.4:
 --------------------------------
 
