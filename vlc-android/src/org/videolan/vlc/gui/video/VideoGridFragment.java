@@ -163,14 +163,11 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mVideoAdapter.clear();
     }
 
-    private boolean hasSpaceForGrid() {
+    private boolean hasSpaceForGrid(View v) {
         final Activity activity = getActivity();
         if (activity == null)
             return true;
 
-        final LayoutInflater inflater = (LayoutInflater)activity.getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
-        final View v = inflater.inflate(R.layout.video_grid, null);
         final GridView grid = (GridView)v.findViewById(android.R.id.list);
 
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -185,13 +182,22 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     }
 
     private void updateViewMode() {
-        if (getView() == null) {
+        if (getView() == null || getActivity() == null) {
             Log.w(TAG, "Unable to setup the view");
             return;
         }
 
-        final GridView gv = (GridView)getView().findViewById(android.R.id.list);
-        if (hasSpaceForGrid()) {
+        GridView gv = (GridView)getView().findViewById(android.R.id.list);
+
+        // Compute the left/right padding dynamically
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        int sidePadding = (int) (outMetrics.widthPixels / 100 * Math.pow(outMetrics.density, 3) / 2);
+        sidePadding = Math.max(0, Math.min(100, sidePadding));
+        gv.setPadding(sidePadding, gv.getPaddingTop(), sidePadding, gv.getPaddingBottom());
+
+        // Select between grid or list
+        if (hasSpaceForGrid(getView())) {
             Log.d(TAG, "Switching to grid mode");
             gv.setNumColumns(GridView.AUTO_FIT);
             gv.setStretchMode(GRID_STRETCH_MODE);

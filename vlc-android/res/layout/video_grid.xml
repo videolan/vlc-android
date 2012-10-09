@@ -8,8 +8,6 @@
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingLeft="20dip"
-        android:paddingRight="20dip"
         android:paddingTop="10dip"
         android:paddingBottom="10dip"
         android:clipToPadding="false"
