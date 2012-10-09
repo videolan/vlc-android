@@ -12,7 +12,7 @@
         android:layout_height="100dip"
         android:scaleType="fitCenter"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/black" />
+        android:background="@drawable/dropshadow" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
