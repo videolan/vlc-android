@@ -285,6 +285,17 @@ public class MainActivity extends SherlockFragmentActivity {
         if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
 
+        /* Load media items from database and storage */
+        if (mScanNeeded)
+            MediaLibrary.getInstance(this).loadMediaItems(this);
+    }
+
+
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+
         /* Restore last view */
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
@@ -308,10 +319,6 @@ public class MainActivity extends SherlockFragmentActivity {
             ft.replace(R.id.fragment_placeholder, getFragment(mCurrentFragment));
             ft.commit();
         }
-
-        /* Load media items from database and storage */
-        if (mScanNeeded)
-            MediaLibrary.getInstance(this).loadMediaItems(this);
     }
 
     /**
