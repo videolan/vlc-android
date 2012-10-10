@@ -15,19 +15,14 @@ fi
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
-    7|8)
-        # NDK > v7, only gcc 4.4.3 available
-        GCCVER=4.4.3
-        CXXSTL=""
-    ;;
     8?)
         # NDK >= v8b, both 4.4.3 and 4.6 available,
-        # we use 4.4.3 because there is a regression in gcc 4.6, DECL_USER_ALIGN is not handled properly
-        GCCVER=4.4.3
-        CXXSTL="/4.4.3"
+        # we use 4.6 because 4.4.3 doesn't handle threads correctly.
+        GCCVER=4.6
+        CXXSTL="/4.6"
     ;;
-    *)
-        echo "You need the NDKv7 or later"
+    7|8|*)
+        echo "You need the NDKv8b or later"
         exit 1
     ;;
 esac
