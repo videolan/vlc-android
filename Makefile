@@ -72,7 +72,7 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 	@if [ -z "$(VLC_BUILD_DIR)" ]; then echo "VLC_BUILD_DIR not defined" ; exit 1; fi
 	@if [ -z "$(ANDROID_NDK)" ]; then echo "ANDROID_NDK not defined" ; exit 1; fi
 	@echo
-	@echo "=== Building libvlcjni with$${NO_NEON:+out} neon ==="
+	@echo "=== Building libvlcjni ==="
 	@echo
 	$(VERBOSE)if [ -z "$(VLC_SRC_DIR)" ] ; then VLC_SRC_DIR=./vlc; fi ; \
 	if [ -z "$(VLC_CONTRIB)" ] ; then VLC_CONTRIB="$$VLC_SRC_DIR/contrib/$(TARGET_TUPLE)"; fi ; \
