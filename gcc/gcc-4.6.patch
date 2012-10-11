@@ -1,0 +1,53 @@
+2012-02-09  Jakub Jelinek  <jakub@redhat.com>
+
+    PR c/52181
+    * c-decl.c (merge_decls): Copy DECL_USER_ALIGN bit from olddecl to
+    newdecl.
+
+    * decl.c (duplicate_decls): If olddecl has bigger DECL_ALIGN than
+    newdecl, copy DECL_ALIGN to newdecl and or DECL_USER_ALIGN bits.
+
+    * c-c++-common/pr52181.c: New test.
+
+--- gcc/cp/decl.c.jj    2012-01-26 09:22:19.000000000 +0100
++++ gcc/cp/decl.c   2012-02-09 09:56:42.129108618 +0100
+@@ -2214,7 +2214,12 @@ duplicate_decls (tree newdecl, tree oldd
+       SET_DECL_INIT_PRIORITY (olddecl, DECL_INIT_PRIORITY (newdecl));
+       DECL_HAS_INIT_PRIORITY_P (olddecl) = 1;
+     }
+-  /* Likewise for DECL_USER_ALIGN and DECL_PACKED.  */
++  /* Likewise for DECL_ALIGN, DECL_USER_ALIGN and DECL_PACKED.  */
++  if (DECL_ALIGN (olddecl) > DECL_ALIGN (newdecl))
++    {
++      DECL_ALIGN (newdecl) = DECL_ALIGN (olddecl);
++      DECL_USER_ALIGN (newdecl) |= DECL_USER_ALIGN (olddecl);
++    }
+   DECL_USER_ALIGN (olddecl) = DECL_USER_ALIGN (newdecl);
+   if (TREE_CODE (newdecl) == FIELD_DECL)
+     DECL_PACKED (olddecl) = DECL_PACKED (newdecl);
+--- gcc/testsuite/c-c++-common/pr52181.c.jj 2012-02-09 09:36:36.332028377 +0100
++++ gcc/testsuite/c-c++-common/pr52181.c    2012-02-09 09:36:04.000000000 +0100
+@@ -0,0 +1,13 @@
++/* PR c/52181 */
++/* { dg-do compile } */
++
++extern const int v1[];
++const int __attribute__((aligned(16))) v1[] = { 1 };
++extern const int __attribute__((aligned(16))) v2[];
++const int v2[] = { 1 };
++extern const int __attribute__((aligned(16))) v3[];
++const int __attribute__((aligned(16))) v3[] = { 1 };
++const int __attribute__((aligned(16))) v4[] = { 1 };
++int test[(__alignof__ (v4) != __alignof__ (v1)     /* { dg-bogus "is negative" } */
++    || __alignof__ (v4) != __alignof__ (v2)
++    || __alignof__ (v4) != __alignof__ (v3)) ? -1 : 0];
+--- gcc/c-decl.c.orig	2012-10-10 16:16:19.000000000 +0200
++++ gcc/c-decl.c	2012-10-10 16:22:07.884715576 +0200
+@@ -2486,6 +2486,7 @@
+     memcpy ((char *) olddecl + sizeof (struct tree_common),
+ 	    (char *) newdecl + sizeof (struct tree_common),
+ 	    sizeof (struct tree_decl_common) - sizeof (struct tree_common));
++    DECL_USER_ALIGN (olddecl) = DECL_USER_ALIGN (newdecl);
+     switch (TREE_CODE (olddecl))
+       {
+       case FUNCTION_DECL:
