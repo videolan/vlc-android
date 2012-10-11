@@ -1,7 +1,15 @@
 #! /bin/sh
 
+# Usage rename_package.sh <new_name> <ABI>
+#  new_name should be a string
+#  ABI should be an integer, between 0 and 4
+
 OLD_NAME=org.videolan.vlc
 NEW_NAME=org.videolan.vlc.$1
+
+echo $NEW_NAME $2
+
+sed -i vlc-android/AndroidManifest.xml  -e "s/versionCode\(.*\)0\"/versionCode\1$2\"/"
 
 OLD_PATH=$(echo $OLD_NAME |sed 's/\./\//g')
 NEW_PATH=$(echo $NEW_NAME |sed 's/\./\//g')
