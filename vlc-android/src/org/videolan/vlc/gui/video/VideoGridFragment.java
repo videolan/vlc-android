@@ -89,6 +89,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
     private ThumbnailerManager mThumbnailerManager;
+    private VideoGridAnimator mAnimator;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
@@ -129,6 +130,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         }
 
         updateList();
+        mAnimator = new VideoGridAnimator(getGridView());
     }
 
     @Override
@@ -148,6 +150,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mVideoAdapter.notifyDataSetChanged();
         mMediaLibrary.addUpdateHandler(mHandler);
         updateViewMode();
+        mAnimator.animate();
     }
 
     @Override
@@ -293,7 +296,11 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
                 fragment.updateItem();
                 break;
             case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                fragment.updateList();
+                // Don't update the adapter while the layout animation is running
+                if (fragment.mAnimator.isAnimationDone())
+                    fragment.updateList();
+                else
+                    sendEmptyMessageDelayed(msg.what, 500);
                 break;
             }
         }

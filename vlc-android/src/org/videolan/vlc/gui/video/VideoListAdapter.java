@@ -196,4 +196,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public void setListMode(boolean value) {
         mListMode = value;
     }
+
+    public boolean isListMode() {
+        return mListMode;
+    }
 }
