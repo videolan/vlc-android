@@ -56,6 +56,10 @@ public class VideoGridAnimator {
         mGridView.post(r);
     }
 
+    /* If animation is running, hide the items as they are added to the grid
+     * so they don't flicker after being laid out and before the animation
+     * starts.
+     */
     OnHierarchyChangeListener mHCL = new OnHierarchyChangeListener() {
         @Override
         public void onChildViewRemoved(View parent, View child) {
@@ -72,7 +76,9 @@ public class VideoGridAnimator {
     final Runnable r = new Runnable() {
         @Override
         public void run() {
+            /* Ensure the number of visible items is stable between two run */
             if (mGridView.getChildCount() != mLastNItems) {
+                /* List not not ready yet: reschedule */
                 mLastNItems = mGridView.getChildCount();
                 Log.e(TAG, "Rescheduling animation: list not ready");
                 mGridView.postDelayed(this, 10);
