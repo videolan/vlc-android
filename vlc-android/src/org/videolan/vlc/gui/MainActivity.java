@@ -110,33 +110,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         if (!Util.hasCompatibleCPU()) {
             Log.e(TAG, Util.getErrorMsg());
             Intent i = new Intent(this, CompatErrorActivity.class);
             startActivity(i);
             finish();
+            super.onCreate(savedInstanceState);
             return;
         }
-
-        /* Enable the indeterminate progress feature */
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-        // Set up the sliding menu
-        setContentView(R.layout.sliding_menu);
-        mMenu = (SlidingMenu) findViewById(R.id.sliding_menu);
-        changeMenuOffset();
-
-        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
-        mMenu.setContent(v_main);
-
-        View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
-        final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
-        listView.setFooterDividersEnabled(true);
-        mSidebarAdapter = new SidebarAdapter();
-        listView.setAdapter(mSidebarAdapter);
-        mMenu.setMenu(sidebar);
 
         /* Get the current version from package */
         PackageInfo pinfo = null;
@@ -172,8 +153,31 @@ public class MainActivity extends SherlockFragmentActivity {
             i.putExtra("message", "LibVLC failed to initialize (LibVlcException)");
             startActivity(i);
             finish();
+            super.onCreate(savedInstanceState);
             return;
         }
+
+        super.onCreate(savedInstanceState);
+
+        /*** Start initializing the UI ***/
+
+        /* Enable the indeterminate progress feature */
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        // Set up the sliding menu
+        setContentView(R.layout.sliding_menu);
+        mMenu = (SlidingMenu) findViewById(R.id.sliding_menu);
+        changeMenuOffset();
+
+        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
+        mMenu.setContent(v_main);
+
+        View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
+        final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
+        listView.setFooterDividersEnabled(true);
+        mSidebarAdapter = new SidebarAdapter();
+        listView.setAdapter(mSidebarAdapter);
+        mMenu.setMenu(sidebar);
 
         /* Initialize UI variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
