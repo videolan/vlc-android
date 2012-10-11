@@ -213,7 +213,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             gv.setVerticalSpacing(Util.convertDpToPx(LIST_VERTICAL_SPACING_DP));
             mVideoAdapter.setListMode(true);
         }
-        gv.forceLayout();
     }
 
     @Override
