@@ -40,7 +40,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
@@ -55,7 +55,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private ImageButton mForward;
     private ImageButton mBackward;
     private ImageView mCover;
-    private SeekBar mSeekbar;
+    private ProgressBar mProgressBar;
 
     // Listener for the play and pause buttons
     private final OnClickListener onMediaControlClickListener = new OnClickListener() {
@@ -99,7 +99,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mPlayPause.setOnClickListener(onMediaControlClickListener);
         mForward.setOnClickListener(onMediaControlClickListener);
         mBackward.setOnClickListener(onMediaControlClickListener);
-        mSeekbar = (SeekBar) v.findViewById(R.id.timeline);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.timeline);
 
         LinearLayout root = (LinearLayout) v.findViewById(R.id.root_node);
 
@@ -189,8 +189,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             int length = mAudioPlayerControl.getLength();
             // Update all view elements
 
-            mSeekbar.setMax(length);
-            mSeekbar.setProgress(time);
+            mProgressBar.setMax(length);
+            mProgressBar.setProgress(time);
         }
 
     }
