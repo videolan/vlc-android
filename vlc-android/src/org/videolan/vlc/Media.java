@@ -270,7 +270,13 @@ public class Media implements Comparable<Media> {
     }
 
     public Bitmap getPicture() {
-        return mPicture;
+        if (mPicture == null) {
+            /* Lazy loading: slower but memory efficient */
+            Context c = VLCApplication.getAppContext();
+            return DatabaseManager.getInstance(c).getPicture(c, mLocation);
+        } else {
+            return mPicture;
+        }
     }
 
     public void setPicture(Context context, Bitmap p) {
@@ -279,7 +285,6 @@ public class Media implements Comparable<Media> {
                 mLocation,
                 DatabaseManager.mediaColumn.MEDIA_PICTURE,
                 p);
-        mPicture = p;
         mIsPictureParsed = true;
     }
 

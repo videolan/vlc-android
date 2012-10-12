@@ -299,54 +299,45 @@ public class DatabaseManager {
 
         Cursor cursor;
         HashMap<String, Media> medias = new HashMap<String, Media>();
-        Bitmap picture = null;
-        byte[] blob;
         int chunk_count = 0;
         int count = 0;
 
         do {
             count = 0;
             cursor = mDb.rawQuery(String.format(Locale.US,
-                    "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
+                    "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
                     MEDIA_TIME, //0 long
                     MEDIA_LENGTH, //1 long
                     MEDIA_TYPE, //2 int
-                    MEDIA_PICTURE, //3 Bitmap
-                    MEDIA_TITLE, //4 string
-                    MEDIA_ARTIST, //5 string
-                    MEDIA_GENRE, //6 string
-                    MEDIA_ALBUM, //7 string
-                    MEDIA_WIDTH, //8 int
-                    MEDIA_HEIGHT, //9 int
-                    MEDIA_ARTWORKURL, //10 string
-                    MEDIA_LOCATION, //11 string
+                    MEDIA_TITLE, //3 string
+                    MEDIA_ARTIST, //4 string
+                    MEDIA_GENRE, //5 string
+                    MEDIA_ALBUM, //6 string
+                    MEDIA_WIDTH, //7 int
+                    MEDIA_HEIGHT, //8 int
+                    MEDIA_ARTWORKURL, //9 string
+                    MEDIA_LOCATION, //10 string
                     MEDIA_TABLE_NAME,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
             if (cursor.moveToFirst()) {
                 do {
-                    blob = cursor.getBlob(3);
-                    if (blob != null && blob.length > 1) {
-                        picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                    }
-                    String location = cursor.getString(11);
+                    String location = cursor.getString(10);
                     Media media = new Media(context, location,
                             cursor.getLong(0),      // MEDIA_PICTURE
                             cursor.getLong(1),      // MEDIA_LENGTH
                             cursor.getInt(2),       // MEDIA_TYPE
-                            picture,                // MEDIA_PICTURE
-                            cursor.getString(4),    // MEDIA_TITLE
-                            cursor.getString(5),    // MEDIA_ARTIST
-                            cursor.getString(6),    // MEDIA_GENRE
-                            cursor.getString(7),    // MEDIA_ALBUM
-                            cursor.getInt(8),       // MEDIA_WIDTH
-                            cursor.getInt(9),       // MEDIA_HEIGHT
-                            cursor.getString(10));  // MEDIA_ARTWORKURL
-                    media.setPictureParsed(blob != null);
+                            null,                   // MEDIA_PICTURE
+                            cursor.getString(3),    // MEDIA_TITLE
+                            cursor.getString(4),    // MEDIA_ARTIST
+                            cursor.getString(5),    // MEDIA_GENRE
+                            cursor.getString(6),    // MEDIA_ALBUM
+                            cursor.getInt(7),       // MEDIA_WIDTH
+                            cursor.getInt(8),       // MEDIA_HEIGHT
+                            cursor.getString(9));   // MEDIA_ARTWORKURL
                     medias.put(media.getLocation(), media);
 
-                    picture = null;
                     count++;
                 } while (cursor.moveToNext());
             }
@@ -397,8 +388,6 @@ public class DatabaseManager {
 
         Cursor cursor;
         Media media = null;
-        Bitmap picture = null;
-        byte[] blob;
 
         cursor = mDb.query(
                 MEDIA_TABLE_NAME,
@@ -406,40 +395,55 @@ public class DatabaseManager {
                         MEDIA_TIME, //0 long
                         MEDIA_LENGTH, //1 long
                         MEDIA_TYPE, //2 int
-                        MEDIA_PICTURE, //3 Bitmap
-                        MEDIA_TITLE, //4 string
-                        MEDIA_ARTIST, //5 string
-                        MEDIA_GENRE, //6 string
-                        MEDIA_ALBUM, //7 string
-                        MEDIA_WIDTH, //8 int
-                        MEDIA_HEIGHT, //9 int
-                        MEDIA_ARTWORKURL //10 string
+                        MEDIA_TITLE, //3 string
+                        MEDIA_ARTIST, //4 string
+                        MEDIA_GENRE, //5 string
+                        MEDIA_ALBUM, //6 string
+                        MEDIA_WIDTH, //7 int
+                        MEDIA_HEIGHT, //8 int
+                        MEDIA_ARTWORKURL //9 string
                 },
                 MEDIA_LOCATION + "=?",
                 new String[] { location },
                 null, null, null);
         if (cursor.moveToFirst()) {
-
-            blob = cursor.getBlob(3);
-            if (blob != null && blob.length > 1) {
-                picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-            }
             media = new Media(context, location,
                     cursor.getLong(0),
                     cursor.getLong(1),
                     cursor.getInt(2),
-                    picture,
+                    null,
+                    cursor.getString(3),
                     cursor.getString(4),
                     cursor.getString(5),
                     cursor.getString(6),
-                    cursor.getString(7),
+                    cursor.getInt(7),
                     cursor.getInt(8),
-                    cursor.getInt(9),
-                    cursor.getString(10));
-            media.setPictureParsed(blob != null);
+                    cursor.getString(9));
         }
         cursor.close();
         return media;
+    }
+
+    public synchronized Bitmap getPicture(Context context, String location) {
+        /* Used for the lazy loading */
+        Cursor cursor;
+        Bitmap picture = null;
+        byte[] blob;
+
+        cursor = mDb.query(
+                MEDIA_TABLE_NAME,
+                new String[] { MEDIA_PICTURE },
+                MEDIA_LOCATION + "=?",
+                new String[] { location },
+                null, null, null);
+        if (cursor.moveToFirst()) {
+            blob = cursor.getBlob(0);
+            if (blob != null && blob.length > 1) {
+                picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                blob = null;
+            }
+        }
+        return picture;
     }
 
     public synchronized void removeMedia(String location) {
