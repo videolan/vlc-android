@@ -47,7 +47,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public final static int SORT_BY_LENGTH = 1;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
-    private String mLastMRL;
     private boolean mListMode = false;
 
     public VideoListAdapter(Context context) {
@@ -65,7 +64,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     }
 
     public void setLastMedia(String lastMRL, HashMap<String, Long> times) {
-        mLastMRL = lastMRL;
         // update times
         for (int i = 0; i < getCount(); ++i) {
             Media media = getItem(i);
@@ -160,9 +158,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         }
 
-        ColorStateList titleColor = v.getResources().getColorStateList(media.getLocation().equals(mLastMRL)
-                ? R.color.list_title_last
-                : R.color.list_title);
+        ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);
         holder.title.setTextColor(titleColor);
 
         long lastTime = media.getTime();
