@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class VideoListAdapter extends ArrayAdapter<Media>
@@ -137,6 +138,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
+            holder.progress = (ProgressBar) v.findViewById(R.id.ml_item_progress);
             holder.listmode = mListMode;
             v.setTag(holder);
             /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
@@ -169,10 +171,13 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             text = String.format("%s / %s",
                     Util.millisToString(lastTime),
                     Util.millisToString(media.getLength()));
-        }
-        else {
+            holder.progress.setVisibility(View.VISIBLE);
+            holder.progress.setMax((int) (media.getLength() / 1000));
+            holder.progress.setProgress((int) (lastTime / 1000));
+        } else {
             text = String.format("%s",
                     Util.millisToString(media.getLength()));
+            holder.progress.setVisibility(View.GONE);
         }
 
         if (media.getWidth() > 0 && media.getHeight() > 0) {
@@ -191,6 +196,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         TextView title;
         TextView subtitle;
         ImageView more;
+        ProgressBar progress;
     }
 
     public void setListMode(boolean value) {
