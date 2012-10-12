@@ -332,17 +332,17 @@ public class DatabaseManager {
                     }
                     String location = cursor.getString(11);
                     Media media = new Media(context, location,
-                            cursor.getLong(0),
-                            cursor.getLong(1),
-                            cursor.getInt(2),
-                            picture,
-                            cursor.getString(4),
-                            cursor.getString(5),
-                            cursor.getString(6),
-                            cursor.getString(7),
-                            cursor.getInt(8),
-                            cursor.getInt(9),
-                            cursor.getString(10));
+                            cursor.getLong(0),      // MEDIA_PICTURE
+                            cursor.getLong(1),      // MEDIA_LENGTH
+                            cursor.getInt(2),       // MEDIA_TYPE
+                            picture,                // MEDIA_PICTURE
+                            cursor.getString(4),    // MEDIA_TITLE
+                            cursor.getString(5),    // MEDIA_ARTIST
+                            cursor.getString(6),    // MEDIA_GENRE
+                            cursor.getString(7),    // MEDIA_ALBUM
+                            cursor.getInt(8),       // MEDIA_WIDTH
+                            cursor.getInt(9),       // MEDIA_HEIGHT
+                            cursor.getString(10));  // MEDIA_ARTWORKURL
                     media.setPictureParsed(blob != null);
                     medias.put(media.getLocation(), media);
 
