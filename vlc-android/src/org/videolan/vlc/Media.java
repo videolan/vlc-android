@@ -301,6 +301,8 @@ public class Media implements Comparable<Media> {
             return mTitle;
         else {
             int end = getFileName().lastIndexOf(".");
+            if (end <= 0)
+                return getFileName();
             return getFileName().substring(0, end);
         }
     }
