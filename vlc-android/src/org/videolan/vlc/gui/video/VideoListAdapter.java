@@ -48,6 +48,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
+    private Bitmap mDefaultThumbnail;
 
     public VideoListAdapter(Context context) {
         super(context, 0);
@@ -147,15 +148,17 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Media media = getItem(position);
         holder.title.setText(media.getTitle());
 
-        Bitmap thumbnail;
         if (media.getPicture() != null) {
             //FIXME Warning: the thumbnails are upscaled in the grid view!
-            thumbnail = media.getPicture();
+            final Bitmap thumbnail = media.getPicture();
             holder.thumbnail.setImageBitmap(thumbnail);
         } else {
             // set default thumbnail
-            thumbnail = BitmapFactory.decodeResource(v.getResources(), R.drawable.thumbnail);
-            holder.thumbnail.setImageBitmap(thumbnail);
+            if (mDefaultThumbnail == null) {
+                mDefaultThumbnail = BitmapFactory.decodeResource(
+                        v.getResources(), R.drawable.thumbnail);
+            }
+            holder.thumbnail.setImageBitmap(mDefaultThumbnail);
         }
 
         ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);
