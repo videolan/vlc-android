@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Main VLC Interface  -->
+    <!-- Main VLC Interface -->
     <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Controlla che sia montata correttamente.</string>
     <string name="filebrowser_root">Radice</string>
     <string name="filebrowser_title">Seleziona media da riprodurre</string>
@@ -60,11 +60,13 @@
     <string name="album">Album</string>
     <string name="directory">Cartella</string>
     <string name="directories">Cartelle</string>
-    <string name="loading">Caricamento in corso…</string>
+    <string name="loading">Caricamento</string>
+    <string name="please_wait">Attendi…</string>
     <string name="nomedia">Nessun file multimediale trovato, trasferisci i file al tuo dispositivo o modifica le preferenze.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
     <string name="nosubdirectory">Nessuna sottocartella.</string>
+    <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
     <string name="lock_rotation">Blocca rotazione schermo</string>
     <string name="locked">Bloccato</string>
@@ -105,16 +107,16 @@
     <string name="licence">Licenza</string>
     <string name="revision">Revisione</string>
     <string name="about">Informazioni</string>
-    <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La version per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
+    <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
     <string name="for_android">per Android™</string>
     <string name="compiled_by">Questa versione di VLC è compilata da:</string>
     <string name="vlc_authors">Autori di VLC.</string>
 
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="main_prefs_category">Principale</string>
     <string name="privacy_prefs_category">Riservatezza</string>
-    <string name="clear_history">Cancella la cronologia delle ricerche</string>
+    <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="advanced_prefs_category">Avanzate</string>
     <string name="enable_iomx">Abilita decodifica con accelerazione hardware</string>
     <string name="advanced_debugging">Debug avanzato</string>
@@ -126,14 +128,14 @@
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
-    <string name="enable_wheel_bar">Abilita wheel bar</string>
-    <string name="enable_gesture_brightness">Abilità gesti della luminosità</string>
+    <string name="enable_wheel_bar">Wheel bar</string>
+    <string name="enable_gesture_brightness">Gesti della luminosità</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
     <string name="aout">Uscita audio</string>
     <string name="aout_audiotrack">AudioTrack (nativa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">Abilita l\'allungamento temporale dell\'audio</string>
+    <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_detail">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
 </resources>
