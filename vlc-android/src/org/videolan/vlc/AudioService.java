@@ -130,7 +130,7 @@ public class AudioService extends Service {
         if(Util.isICSOrLater())
             setUpRemoteControlClient();
 
-        AudioUtil.prepareCacheFolder();
+        AudioUtil.prepareCacheFolder(this);
     }
 
     @TargetApi(14)

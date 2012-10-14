@@ -46,6 +46,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -53,9 +54,8 @@ public class AudioUtil {
 
     public final static String TAG = "VLC/AudioUtil";
 
-    @SuppressLint("SdCardPath")
-    public final static String CACHE_DIR = "/sdcard/Android/data/org.videolan.vlc/cache";
-    public final static String COVER_DIR = CACHE_DIR + "/covers/";
+    public static String CACHE_DIR = null;
+    public static String COVER_DIR = null;
 
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
@@ -78,7 +78,14 @@ public class AudioUtil {
                 );
     }
 
-    public static void prepareCacheFolder() {
+    @SuppressLint("NewApi")
+    public static void prepareCacheFolder(Context context) {
+        if (Util.isFroyoOrLater() && Util.hasExternalStorage())
+            CACHE_DIR = context.getExternalCacheDir().getPath();
+        else
+            CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + context.getPackageName() + "/cache";
+        COVER_DIR = CACHE_DIR + "/covers/";
+
         File file = new File(COVER_DIR);
         if (!file.exists())
             file.mkdirs();

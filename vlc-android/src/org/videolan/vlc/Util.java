@@ -36,6 +36,7 @@ import java.util.Properties;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -213,6 +214,11 @@ public class Util {
                          );
     }
 
+    public static boolean isFroyoOrLater()
+    {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO;
+    }
+
     public static boolean isGingerbreadOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
@@ -231,6 +237,12 @@ public class Util {
     public static boolean isJellyBeanOrLater()
     {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
+    }
+
+    public static boolean hasExternalStorage() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ||
+                !Util.isGingerbreadOrLater() ||
+                Environment.isExternalStorageRemovable();
     }
 
     public static boolean hasNavBar()
