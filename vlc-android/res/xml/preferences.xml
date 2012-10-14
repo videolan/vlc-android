@@ -3,13 +3,11 @@
     <PreferenceCategory android:title="@string/mediafiles">
         <EditTextPreference
             android:key="directories_root"
-            android:defaultValue="/sdcard"
             android:title="@string/filebrowser_root">
         </EditTextPreference>
         <PreferenceScreen
             android:key="directories"
             android:title="@string/directories"
-            android:defaultValue="/sdcard"
             android:summary="@string/filebrowser_title">
         </PreferenceScreen>
     </PreferenceCategory>

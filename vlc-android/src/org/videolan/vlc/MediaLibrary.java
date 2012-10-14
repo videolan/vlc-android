@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -201,6 +202,9 @@ public class MediaLibrary {
             // use the external storage as our default root directory (most often /mnt/sdcard)
             if (root == null) {
                 root = Environment.getExternalStorageDirectory().getAbsolutePath();
+                Editor edit = pref.edit();
+                edit.putString("directories_root", root);
+                edit.commit();
             } else {
                 root = new File(root).getAbsolutePath();
             }
