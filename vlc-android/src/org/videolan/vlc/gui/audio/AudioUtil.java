@@ -162,9 +162,14 @@ public class AudioUtil {
         return null;
     }
 
+    @SuppressLint("NewApi")
     public synchronized static Bitmap getCover(Context context, Media media, int width) {
         Bitmap cover = null;
         String cachePath = null;
+
+        // if external storage is not available, skip covers to prevent slow audio browsing
+        if (!Util.hasExternalStorage() && width > 0)
+            return null;
 
         try {
             // try to load from cache
