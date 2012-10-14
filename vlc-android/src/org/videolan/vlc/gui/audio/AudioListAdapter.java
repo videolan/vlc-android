@@ -30,6 +30,7 @@ import org.videolan.vlc.Util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,13 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
+    private Bitmap mDefaultCover;
 
     public AudioListAdapter(Context context) {
         super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
+        mDefaultCover = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
 
     @Override
@@ -89,7 +92,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
         Media media = getItem(position);
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
-        holder.cover.setImageBitmap(cover);
+        holder.cover.setImageBitmap(cover != null ? cover : mDefaultCover);
 
         Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());

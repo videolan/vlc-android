@@ -31,6 +31,7 @@ import org.videolan.vlc.Util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
     private ArrayList<String> mTitles;
     private HashMap<String, ArrayList<String>> mSubTitles;
     private HashMap<String, HashMap<String, ArrayList<Media>>> mGroups;
+    private Bitmap mDefaultCover;
 
     public AudioPlaylistAdapter(Context context, int groupTextId, int childTextId) {
         mContext = context;
@@ -56,6 +58,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         mTitles = new ArrayList<String>();
         mSubTitles = new HashMap<String, ArrayList<String>>();
         mGroups = new HashMap<String, HashMap<String, ArrayList<Media>>>();
+        mDefaultCover = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
 
     public void add(String title, String subtitle, Media media) {
@@ -168,7 +171,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         Resources res = mContext.getResources();
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
-        holder.cover.setImageBitmap(cover);
+        holder.cover.setImageBitmap(cover != null ? cover : mDefaultCover);
 
         Util.setItemBackground(holder.layout, groupPosition);
         holder.title.setText(name);
@@ -209,7 +212,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         Resources res = mContext.getResources();
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
-        holder.cover.setImageBitmap(cover);
+        holder.cover.setImageBitmap(cover != null ? cover : mDefaultCover);
 
         Util.setItemBackground(holder.layout, childPosition);
         if (name != null)
