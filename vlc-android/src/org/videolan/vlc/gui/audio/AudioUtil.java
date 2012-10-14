@@ -175,7 +175,13 @@ public class AudioUtil {
             // try to load from cache
             int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
             cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
-            cover = readBitmap(cachePath);
+            File cacheFile = new File(cachePath);
+            if (cacheFile != null && cacheFile.exists()) {
+                if (cacheFile.length() > 0)
+                    cover = readBitmap(cachePath);
+                else
+                    return null;
+            }
             if (cover != null)
                 return cover;
 
@@ -195,8 +201,7 @@ public class AudioUtil {
                 cover = Util.scaleDownBitmap(context, cover, width);
 
             // store cover into cache
-            if (cover != null)
-                writeBitmap(cover, cachePath);
+            writeBitmap(cover, cachePath);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -209,7 +214,8 @@ public class AudioUtil {
         try {
             File file = new File(path);
             out = new BufferedOutputStream(new FileOutputStream(file), 4096);
-            bitmap.compress(CompressFormat.JPEG, 90, out);
+            if (bitmap != null)
+                bitmap.compress(CompressFormat.JPEG, 90, out);
         } catch (Exception e) {
             Log.e(TAG, "writeBitmap failed : "+ e.getMessage());
         } finally {
@@ -220,8 +226,6 @@ public class AudioUtil {
     }
 
     private static Bitmap readBitmap(String path) {
-        File file = new File(path);
-        if (file == null || !file.exists()) return null;
         return BitmapFactory.decodeFile(path);
     }
 }
