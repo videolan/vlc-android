@@ -48,7 +48,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
-    private Bitmap mDefaultThumbnail;
+    private static Bitmap mDefaultThumbnail;
 
     public VideoListAdapter(Context context) {
         super(context, 0);

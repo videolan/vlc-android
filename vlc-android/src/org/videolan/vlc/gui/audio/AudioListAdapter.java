@@ -42,13 +42,14 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
-    private Bitmap mDefaultCover;
+    private static Bitmap mDefaultCover;
 
     public AudioListAdapter(Context context) {
         super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
-        mDefaultCover = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
+        if (mDefaultCover == null)
+            mDefaultCover = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
 
     @Override
