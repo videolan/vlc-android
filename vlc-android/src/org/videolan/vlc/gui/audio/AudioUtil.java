@@ -91,7 +91,7 @@ public class AudioUtil {
             file.mkdirs();
     }
 
-    private static Bitmap getCoverFromMediaStore(Context context, Media media) {
+    private static String getCoverFromMediaStore(Context context, Media media) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
         Cursor cursor = contentResolver.query(uri, new String[] {
@@ -108,17 +108,15 @@ public class AudioUtil {
             int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM_ART);
             String albumArt = cursor.getString(titleColumn);
             cursor.close();
-            if(albumArt != null) { // could be null (no album art stored)
-                return BitmapFactory.decodeFile(albumArt);
-            }
+            return albumArt;
         }
         return null;
     }
 
-    private static Bitmap getCoverFromVlc(Context context, Media media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private static String getCoverFromVlc(Context context, Media media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String artworkURL = media.getArtworkURL();
         if (artworkURL != null && artworkURL.startsWith("file://")) {
-            return BitmapFactory.decodeFile(Uri.decode(artworkURL).replace("file://", ""));
+            return Uri.decode(artworkURL).replace("file://", "");
         } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
             // Decode if the album art is embedded in the file
             String mArtist = media.getArtist();
@@ -145,23 +143,24 @@ public class AudioUtil {
                 artworkURL = CACHE_DIR + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
             }
 
-            return BitmapFactory.decodeFile(artworkURL);
+            return artworkURL;
         }
         return null;
     }
 
-    private static Bitmap getCoverFromFolder(Context context, Media media) {
+    private static String getCoverFromFolder(Context context, Media media) {
         File f = Util.URItoFile(media.getLocation());
         for (File s : f.getParentFile().listFiles()) {
             if (s.getAbsolutePath().endsWith("png") ||
                     s.getAbsolutePath().endsWith("jpg"))
-                return BitmapFactory.decodeFile(s.getAbsolutePath());
+                return s.getAbsolutePath();
         }
         return null;
     }
 
     @SuppressLint("NewApi")
     public synchronized static Bitmap getCover(Context context, Media media, int width) {
+        String coverPath = null;
         Bitmap cover = null;
         String cachePath = null;
 
@@ -176,23 +175,22 @@ public class AudioUtil {
             File cacheFile = new File(cachePath);
             if (cacheFile != null && cacheFile.exists()) {
                 if (cacheFile.length() > 0)
-                    cover = readBitmap(cachePath);
-                else
-                    return null;
+                    coverPath = cachePath;
             }
-            if (cover != null)
-                return cover;
 
-            // try to get the cover from vlc art cache
-            cover = getCoverFromVlc(context, media);
+            if (coverPath == null)
+                coverPath = getCoverFromVlc(context, media);
 
             // no found yet, looking in folder
-            if (cover == null)
-                cover = getCoverFromFolder(context, media);
+            if (coverPath == null)
+                coverPath = getCoverFromFolder(context, media);
 
             // try to get the cover from android MediaStore
-            if (cover == null)
-                cover = getCoverFromMediaStore(context, media);
+            if (coverPath == null)
+                coverPath = getCoverFromMediaStore(context, media);
+
+            // read the bitmap
+            cover = readBitmap(coverPath);
 
             // scale down if requested
             if (cover != null && width > 0)
