@@ -227,7 +227,7 @@ public class AudioServiceController implements IAudioPlayerControl {
     @SuppressWarnings("unchecked")
     public List<String> getItems() {
         List<String> def = new ArrayList<String>();
-        return (List<String>)remoteProcedureCall(mAudioServiceBinder, List.class, def, "getItems", null, null);
+        return remoteProcedureCall(mAudioServiceBinder, List.class, def, "getItems", null, null);
     }
 
     public String getItem() {
