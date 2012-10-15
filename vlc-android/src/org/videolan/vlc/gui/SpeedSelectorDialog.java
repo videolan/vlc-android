@@ -46,14 +46,21 @@ public class SpeedSelectorDialog extends Dialog {
         final TextView speedLabel = (TextView)findViewById(R.id.current_speed);
         Button resetButton = (Button)findViewById(R.id.reset);
 
-        speedLabel.setText(String.format(java.util.Locale.US, "%.2fx", LibVLC.getExistingInstance().getRate()));
-        seekbar.setProgress( (int)( ((Math.log(LibVLC.getExistingInstance().getRate()) / Math.log(4)) + 1) * 100) );
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        float rate;
+        LibVLC libVLC = LibVLC.getExistingInstance();
+        if (libVLC != null)
+            rate = libVLC.getRate();
+        else
+            rate = (float) 1.0;
 
+        speedLabel.setText(String.format(java.util.Locale.US, "%.2fx", rate));
+        seekbar.setProgress((int) (((Math.log(rate) / Math.log(4)) + 1) * 100));
+
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,
                     boolean fromUser) {
-                float rate = (float) Math.pow((double)4, ((double)progress/(double)100) - (double)1);
+                float rate = (float) Math.pow(4, ((double)progress/(double)100) - 1);
                 speedLabel.setText(String.format(java.util.Locale.US, "%.2fx", rate));
                 LibVLC.getExistingInstance().setRate(rate);
             }
@@ -63,12 +70,12 @@ public class SpeedSelectorDialog extends Dialog {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
-        resetButton.setOnClickListener(new View.OnClickListener() {
 
+        resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 seekbar.setProgress(100);
-                LibVLC.getExistingInstance().setRate((float)1);
+                LibVLC.getExistingInstance().setRate(1);
             }
         });
     }
