@@ -160,7 +160,8 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         String mediaFile = mDirectoryAdapter.getMediaLocation(p);
 
         try {
-            if(!LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
+            if (LibVLC.getExistingInstance() == null
+                    || !LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
                 audioController.load(mDirectoryAdapter.getAllMediaLocations(), p-1); /* p-1 to exclude ".," */
                 AudioPlayerActivity.start(getActivity());
             } else {
