@@ -87,10 +87,10 @@ public class LibVLC {
     }
 
     /**
-     * Singleton constructor
-     * Without surface and vout to create the thumbnail and get information
-     * e.g. on the MediaLibraryAcitvity
-     * @return
+     * Singleton constructor of libVLC Without surface and vout to create the
+     * thumbnail and get information e.g. on the MediaLibraryActivity
+     * 
+     * @return libVLC instance
      * @throws LibVlcException
      */
     public static LibVLC getInstance() throws LibVlcException {
@@ -105,6 +105,12 @@ public class LibVLC {
         return sInstance;
     }
 
+    /**
+     * Return an existing instance of libVLC Call it when it is NOT important
+     * that this fails
+     * 
+     * @return libVLC instance OR null
+     */
     public static LibVLC getExistingInstance() {
         synchronized (LibVLC.class) {
             return sInstance;
