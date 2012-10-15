@@ -454,25 +454,32 @@ public class AudioService extends Service {
     };
 
     private void showNotification() {
-        // add notification to status bar
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        try {
+            // add notification to status bar
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
             .setSmallIcon(R.drawable.icon)
             .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
             .setContentTitle(mCurrentMedia.getTitle())
             .setContentText((Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist()
                     : mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum()))
-            .setContentInfo(mCurrentMedia.getAlbum())
-            .setAutoCancel(false)
-            .setOngoing(true);
+                    .setContentInfo(mCurrentMedia.getAlbum())
+                    .setAutoCancel(false)
+                    .setOngoing(true);
 
-        Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
-        notificationIntent.setAction(Intent.ACTION_MAIN);
-        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
+            notificationIntent.setAction(Intent.ACTION_MAIN);
+            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        builder.setContentIntent(pendingIntent);
-        startForeground(3, builder.build());
+            builder.setContentIntent(pendingIntent);
+            startForeground(3, builder.build());
+        }
+        catch (NoSuchMethodError e){
+            // Compat library is wrong on 3.2
+            // http://code.google.com/p/android/issues/detail?id=36359
+            // http://code.google.com/p/android/issues/detail?id=36502
+        }
     }
 
     private void hideNotification() {
