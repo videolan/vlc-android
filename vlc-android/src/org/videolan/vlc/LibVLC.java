@@ -89,7 +89,7 @@ public class LibVLC {
     /**
      * Singleton constructor of libVLC Without surface and vout to create the
      * thumbnail and get information e.g. on the MediaLibraryActivity
-     * 
+     *
      * @return libVLC instance
      * @throws LibVlcException
      */
@@ -108,7 +108,7 @@ public class LibVLC {
     /**
      * Return an existing instance of libVLC Call it when it is NOT important
      * that this fails
-     * 
+     *
      * @return libVLC instance OR null
      */
     public static LibVLC getExistingInstance() {
@@ -476,11 +476,11 @@ public class LibVLC {
 
     public native int getSpuTracksCount();
 
-    public native String nativeToURI(String path);
+    public static native String nativeToURI(String path);
 
-    public native void nativeReadDirectory(String path, ArrayList<String> res);
+    public static native void nativeReadDirectory(String path, ArrayList<String> res);
 
-    public native boolean nativeIsPathDirectory(String path);
+    public native static boolean nativeIsPathDirectory(String path);
 
     /**
      * Get the list of existing items in the media list (playlist)

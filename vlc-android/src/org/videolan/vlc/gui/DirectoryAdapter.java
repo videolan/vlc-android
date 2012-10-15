@@ -128,7 +128,7 @@ public class DirectoryAdapter extends BaseAdapter {
             return;
 
         ArrayList<String> files = new ArrayList<String>();
-        LibVLC.getExistingInstance().nativeReadDirectory(path, files);
+        LibVLC.nativeReadDirectory(path, files);
         StringBuilder sb = new StringBuilder(100);
         /* If no sub-directories or I/O error don't crash */
         if(files == null || files.size() < 1) {
@@ -147,9 +147,9 @@ public class DirectoryAdapter extends BaseAdapter {
                 String newPath = sb.toString();
                 sb.setLength(0);
 
-                if(LibVLC.getExistingInstance().nativeIsPathDirectory(newPath)) {
+                if (LibVLC.nativeIsPathDirectory(newPath)) {
                     ArrayList<String> files_int = new ArrayList<String>();
-                    LibVLC.getExistingInstance().nativeReadDirectory(newPath, files_int);
+                    LibVLC.nativeReadDirectory(newPath, files_int);
                     if(files_int.size() < 8) { /* Optimisation: If there are more than 8
                                                    sub-folders, don't scan each one, otherwise
                                                    when scaled it is very slow to load */
@@ -293,7 +293,8 @@ public class DirectoryAdapter extends BaseAdapter {
 
     public boolean browse(String directoryName) {
         try {
-            this.mCurrentDir = new URI(LibVLC.getExistingInstance().nativeToURI(this.mCurrentDir + "/" + directoryName)).normalize().getPath();
+            this.mCurrentDir = new URI(LibVLC.nativeToURI(this.mCurrentDir
+                    + "/" + directoryName)).normalize().getPath();
             this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -318,7 +319,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public String getMediaLocation(int position) {
         if (position >= mCurrentNode.children.size())
             return null;
-        return LibVLC.getExistingInstance().nativeToURI(
+        return LibVLC.nativeToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
         );
     }
