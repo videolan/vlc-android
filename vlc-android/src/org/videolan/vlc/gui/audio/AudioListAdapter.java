@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -42,14 +43,11 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
-    private static Bitmap mDefaultCover;
 
     public AudioListAdapter(Context context) {
         super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
-        if (mDefaultCover == null)
-            mDefaultCover = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
 
     @Override
@@ -93,7 +91,17 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
         Media media = getItem(position);
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
-        holder.cover.setImageBitmap(cover != null ? cover : mDefaultCover);
+
+        if (cover == null) {
+            BitmapCache cache = BitmapCache.getInstance();
+            cover = cache.getBitmapFromMemCache(R.drawable.icon);
+            if (cover == null) {
+                cover = BitmapFactory.decodeResource(v.getResources(), R.drawable.icon);
+                cache.addBitmapToMemCache(R.drawable.icon, cover);
+            }
+        }
+
+        holder.cover.setImageBitmap(cover);
 
         Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
