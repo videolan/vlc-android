@@ -176,6 +176,8 @@ public class AudioUtil {
             if (cacheFile != null && cacheFile.exists()) {
                 if (cacheFile.length() > 0)
                     coverPath = cachePath;
+                else
+                    return null;
             }
 
             if (coverPath == null)
