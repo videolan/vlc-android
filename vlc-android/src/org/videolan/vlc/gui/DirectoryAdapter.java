@@ -293,8 +293,9 @@ public class DirectoryAdapter extends BaseAdapter {
 
     public boolean browse(String directoryName) {
         try {
-            this.mCurrentDir = new URI(LibVLC.nativeToURI(this.mCurrentDir
-                    + "/" + directoryName)).normalize().getPath();
+            this.mCurrentDir = new URI(
+                    Util.PathToURI(this.mCurrentDir + "/" + directoryName))
+                    .normalize().getPath();
             this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -319,7 +320,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public String getMediaLocation(int position) {
         if (position >= mCurrentNode.children.size())
             return null;
-        return LibVLC.nativeToURI(
+        return Util.PathToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
         );
     }
