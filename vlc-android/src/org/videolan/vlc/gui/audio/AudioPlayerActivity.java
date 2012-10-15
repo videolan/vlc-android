@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.audio;
 
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
@@ -201,7 +200,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mPrevious.setVisibility(ImageButton.VISIBLE);
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
-        mSpeed.setText(String.format(java.util.Locale.US, "%.2fx", LibVLC.getExistingInstance().getRate()));
+        mSpeed.setText(String.format(java.util.Locale.US, "%.2fx", mAudioController.getRate()));
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
     }
 
