@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -239,6 +240,7 @@ public class Util {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
     }
 
+    @TargetApi(9)
     public static boolean hasExternalStorage() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ||
                 !Util.isGingerbreadOrLater() ||
