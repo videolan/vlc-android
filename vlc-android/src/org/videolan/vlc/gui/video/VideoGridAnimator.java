@@ -28,7 +28,6 @@ import android.view.ViewGroup.OnHierarchyChangeListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.GridView;
@@ -102,7 +101,6 @@ public class VideoGridAnimator {
                     animation.setStartOffset(i * 80);
                     animSet.addAnimation(animation);
                 }
-                animSet.setInterpolator(new OvershootInterpolator());
                 animSet.setAnimationListener(new AnimationListener() {
 
                     @Override
