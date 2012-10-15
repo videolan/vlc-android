@@ -82,7 +82,7 @@ export PLATFORM_SHORT_ARCH
 export PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/`uname|tr A-Z a-z`-x86/bin:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=b389b4f1e
+TESTED_HASH=b3b751cb99
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
