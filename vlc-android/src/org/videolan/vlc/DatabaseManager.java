@@ -473,7 +473,7 @@ public class DatabaseManager {
                 if (object != null) {
                     Bitmap picture = (Bitmap) object;
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    picture.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    picture.compress(Bitmap.CompressFormat.JPEG, 90, out);
                     values.put(MEDIA_PICTURE, out.toByteArray());
                 }
                 else {
