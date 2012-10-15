@@ -67,12 +67,8 @@ public class BitmapCache {
 
     public Bitmap getBitmapFromMemCache(String key) {
         final Bitmap b = mMemCache.get(key);
-        if (LOG_ENABLED) {
-            if (b == null)
-                Log.d(TAG, "Cache miss");
-            else
-                Log.d(TAG, "Cache found");
-        }
+        if (LOG_ENABLED)
+            Log.d(TAG, (b == null) ? "Cache miss" : "Cache found");
         return mMemCache.get(key);
     }
 
