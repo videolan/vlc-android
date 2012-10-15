@@ -89,7 +89,7 @@ public class VideoGridAnimator {
             for (int i = 0; i < mGridView.getChildCount(); i++) {
                 AnimationSet animSet = new AnimationSet(true);
                 Animation animation = new AlphaAnimation(0.0f, 1.0f);
-                animation.setDuration(400);
+                animation.setDuration(300);
                 animation.setStartOffset(i * 80);
                 animSet.addAnimation(animation);
                 if (((VideoListAdapter)mGridView.getAdapter()).isListMode()) {
