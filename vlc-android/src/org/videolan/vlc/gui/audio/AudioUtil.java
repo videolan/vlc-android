@@ -109,9 +109,7 @@ public class AudioUtil {
             String albumArt = cursor.getString(titleColumn);
             cursor.close();
             if(albumArt != null) { // could be null (no album art stored)
-                Bitmap b = BitmapFactory.decodeFile(albumArt);
-                if (b != null)
-                    return b;
+                return BitmapFactory.decodeFile(albumArt);
             }
         }
         return null;
