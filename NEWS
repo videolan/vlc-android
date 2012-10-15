@@ -1,6 +1,11 @@
 Changes between 0.0.5 and 0.0.6-git:
 --------------------------------
 
+Main application:
+ * Add animations in the video list
+ * Reduce the memory and CPU used in the video list
+ * Display the current playing position as a progress bar under every video
+
 
 Changes between 0.0.4 and 0.0.5:
 --------------------------------
