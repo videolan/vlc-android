@@ -191,12 +191,8 @@ public class AudioUtil {
             if (coverPath == null)
                 coverPath = getCoverFromMediaStore(context, media);
 
-            // read the bitmap
-            cover = readBitmap(coverPath);
-
-            // scale down if requested
-            if (cover != null && width > 0)
-                cover = Util.scaleDownBitmap(context, cover, width);
+            // read (and scale?) the bitmap
+            cover = readCoverBitmap(context, coverPath, width);
 
             // store cover into cache
             writeBitmap(cover, cachePath);
@@ -223,7 +219,13 @@ public class AudioUtil {
         }
     }
 
-    private static Bitmap readBitmap(String path) {
-        return BitmapFactory.decodeFile(path);
+    private static Bitmap readCoverBitmap(Context context, String path, int width) {
+        Bitmap cover = BitmapFactory.decodeFile(path);
+
+        // scale down if requested
+        if (cover != null && width > 0)
+            cover = Util.scaleDownBitmap(context, cover, width);
+
+        return cover;
     }
 }
