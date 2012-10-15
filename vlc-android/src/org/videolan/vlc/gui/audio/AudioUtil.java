@@ -29,6 +29,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MurmurHash;
 import org.videolan.vlc.R;
@@ -172,6 +173,14 @@ public class AudioUtil {
             // try to load from cache
             int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
             cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+
+            BitmapCache cache = BitmapCache.getInstance();
+            // try to get the cover from the LRUCache first
+            cover = cache.getBitmapFromMemCache(cachePath);
+            if (cover != null)
+                return cover;
+
+            // try to get the cover from the storage cache
             File cacheFile = new File(cachePath);
             if (cacheFile != null && cacheFile.exists()) {
                 if (cacheFile.length() > 0)
@@ -194,8 +203,9 @@ public class AudioUtil {
             // read (and scale?) the bitmap
             cover = readCoverBitmap(context, coverPath, width);
 
-            // store cover into cache
+            // store cover into both cache
             writeBitmap(cover, cachePath);
+            cache.addBitmapToMemCache(cachePath, cover);
 
         } catch (Exception e) {
             e.printStackTrace();
