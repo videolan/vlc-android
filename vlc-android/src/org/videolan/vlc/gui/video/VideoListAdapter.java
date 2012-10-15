@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -48,7 +49,6 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
-    private static Bitmap mDefaultThumbnail;
 
     public VideoListAdapter(Context context) {
         super(context, 0);
@@ -154,11 +154,13 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(thumbnail);
         } else {
             // set default thumbnail
-            if (mDefaultThumbnail == null) {
-                mDefaultThumbnail = BitmapFactory.decodeResource(
-                        v.getResources(), R.drawable.thumbnail);
+            BitmapCache cache = BitmapCache.getInstance();
+            Bitmap bitmap = cache.getBitmapFromMemCache(R.drawable.thumbnail);
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(v.getResources(), R.drawable.thumbnail);
+                cache.addBitmapToMemCache(R.drawable.thumbnail, bitmap);
             }
-            holder.thumbnail.setImageBitmap(mDefaultThumbnail);
+            holder.thumbnail.setImageBitmap(bitmap);
         }
 
         ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);
