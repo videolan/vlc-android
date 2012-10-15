@@ -50,7 +50,11 @@ public class HistoryAdapter extends BaseAdapter {
     public HistoryAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
         mHistory = new ArrayList<String>();
-        LibVLC.getExistingInstance().getMediaListItems((ArrayList<String>)mHistory);
+
+        LibVLC libVLC = LibVLC.getExistingInstance();
+        if (libVLC != null)
+            libVLC.getMediaListItems((ArrayList<String>) mHistory);
+
         EventManager em = EventManager.getInstance();
         em.addHandler(new HistoryEventHandler(this));
     }
@@ -127,10 +131,13 @@ public class HistoryAdapter extends BaseAdapter {
 
     public void refresh() {
         ArrayList<String> s = new ArrayList<String>();
-        LibVLC.getExistingInstance().getMediaListItems(s);
-        mHistory.clear();
-        mHistory = s;
-        this.notifyDataSetChanged();
+        LibVLC libVLC = LibVLC.getExistingInstance();
+        if (libVLC != null) {
+            libVLC.getMediaListItems(s);
+            mHistory.clear();
+            mHistory = s;
+            this.notifyDataSetChanged();
+        }
     }
 
     /**
