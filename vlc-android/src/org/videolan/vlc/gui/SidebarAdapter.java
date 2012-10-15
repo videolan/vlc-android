@@ -106,7 +106,7 @@ public class SidebarAdapter extends BaseAdapter {
         }
         TextView textView = (TextView)v;
         textView.setText(sidebarEntry.name);
-        Drawable img = VLCApplication.getAppContext().getResources().getDrawable(sidebarEntry.drawableID);
+        Drawable img = VLCApplication.getAppResources().getDrawable(sidebarEntry.drawableID);
         int dp_32 = Util.convertDpToPx(32);
         img.setBounds(0, 0, dp_32, dp_32);
         textView.setCompoundDrawables(img, null, null, null);
