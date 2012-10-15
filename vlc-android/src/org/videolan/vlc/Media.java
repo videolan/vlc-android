@@ -270,10 +270,21 @@ public class Media implements Comparable<Media> {
     }
 
     public Bitmap getPicture() {
+        // mPicture is not null only if passed through
+        // the ctor which is deprecated by now.
         if (mPicture == null) {
-            /* Lazy loading: slower but memory efficient */
-            Context c = VLCApplication.getAppContext();
-            return DatabaseManager.getInstance(c).getPicture(c, mLocation);
+            BitmapCache cache = BitmapCache.getInstance();
+            Bitmap picture = cache.getBitmapFromMemCache(mLocation);
+            if (picture == null) {
+                /* Not in memcache:
+                 * serving the file from the database and
+                 * adding it to the memcache for later use.
+                 */
+                Context c = VLCApplication.getAppContext();
+                picture = DatabaseManager.getInstance(c).getPicture(c, mLocation);
+                cache.addBitmapToMemCache(mLocation, picture);
+            }
+            return picture;
         } else {
             return mPicture;
         }
