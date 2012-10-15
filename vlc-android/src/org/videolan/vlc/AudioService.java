@@ -868,6 +868,12 @@ public class AudioService extends Service {
         public void detectHeadset(boolean enable) throws RemoteException {
             mDetectHeadset = enable;
         }
+
+        @Override
+        public float getRate() throws RemoteException {
+            mLibVLC.getRate();
+            return 0;
+        }
     };
 
     private void updateWidget(Context context)

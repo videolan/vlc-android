@@ -51,4 +51,5 @@ interface IAudioService {
     void removeAudioCallback(IAudioServiceCallback cb);
     void detectHeadset(boolean enable);
     void showWithoutParse(String URI);
+    float getRate();
 }

@@ -62,4 +62,6 @@ public interface IAudioPlayerControl {
     RepeatType getRepeatType();
 
     void detectHeadset(boolean enable);
+
+    float getRate();
 }

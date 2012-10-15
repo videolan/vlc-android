@@ -354,4 +354,9 @@ public class AudioServiceController implements IAudioPlayerControl {
                 new Class<?>[] { boolean.class },
                 new Object[] { enable } );
     }
+
+    @Override
+    public float getRate() {
+        return remoteProcedureCall(mAudioServiceBinder, Float.class, (float) 1.0, "getRate", null, null);
+    }
 }
