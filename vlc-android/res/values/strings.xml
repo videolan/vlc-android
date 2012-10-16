@@ -111,9 +111,9 @@
     <string name="error_problem">Sorry, VLC for Android had a problem loading and had to close.</string>
     <string name="error_message_is">The error message is (please mention this when debugging):\n</string>
     <string name="playback_speed">Playback speed</string>
+    <string name="empty" translatable="false"></string>
     <string name="time_0" translatable="false">0:00</string>
     <string name="speed_placeholder" translatable="false">1.00x</string>
-    <string name="load_empty" translatable="false"></string>
     <string name="load_1_period" translatable="false">.</string>
     <string name="load_2_period" translatable="false">..</string>
     <string name="load_3_period" translatable="false">...</string>

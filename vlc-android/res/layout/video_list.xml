@@ -54,7 +54,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="@string/load_empty"
+                    android:text="@string/empty"
                     android:textSize="20dip" />
 
                 <TextView
