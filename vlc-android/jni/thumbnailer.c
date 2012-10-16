@@ -103,7 +103,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     if (hasThumb)
         return;
 
-    if (++sys->nbReceivedFrames < 10)
+    if (++sys->nbReceivedFrames < 6)
         return;
 
     /* Else we have received our first thumbnail and we can exit. */
