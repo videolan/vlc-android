@@ -20,8 +20,9 @@
  *****************************************************************************/
 
 #include <sys/linux-syscalls.h>
-#include <sys/syscall.h>
-#include <errno.h>
+
+//#include <sys/syscall.h>
+int syscall(int number, ...);
 
 int eventfd(unsigned int initval, int flags)
 {
