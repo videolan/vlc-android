@@ -242,9 +242,7 @@ public class Util {
 
     @TargetApi(9)
     public static boolean hasExternalStorage() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ||
-                !Util.isGingerbreadOrLater() ||
-                Environment.isExternalStorageRemovable();
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
     public static boolean hasNavBar()
