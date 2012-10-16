@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#000001" >
@@ -8,12 +8,14 @@
         android:id="@+id/player_surface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/player_overlay_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:background="@drawable/video_list_length_bg"
         android:padding="5dp"
@@ -25,6 +27,7 @@
         android:id="@+id/player_overlay_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_gravity="top"
         android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
@@ -59,10 +62,53 @@
             android:textSize="15dip" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/option_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/player_overlay"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/player_overlay_header"
+        android:gravity="bottom|right"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:visibility="invisible" >
+
+        <ImageButton
+            android:id="@+id/player_overlay_audio"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/header_icon_audio" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_subtitle"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/header_icon_subtitle" />
+
+        <!-- Disable the speed functionality for now -->
+
+        <TextView
+            android:id="@+id/player_overlay_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:text="@string/speed_placeholder"
+            android:textSize="22dip"
+            android:visibility="gone" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/player_overlay"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
@@ -121,116 +167,14 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_lock"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/player_overlay_time"
+            android:background="@drawable/ic_lock" />
     </RelativeLayout>
 
-    <org.videolan.vlc.widget.SlidingPanel
-        android:id="@+id/player_overlay_slider"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:content="@+id/slider_content"
-        android:handle="@+id/slider_handle"
-        android:visibility="invisible" >
-
-        <LinearLayout
-            android:id="@+id/slider_handle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="7dp"
-                android:src="@drawable/ic_seekbar_thumb" />
-
-            <View
-                android:id="@+id/slider_handle_filler"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/slider_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/transparent_gray"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/header_icon_audio" />
-
-                <Spinner
-                    android:id="@+id/player_overlay_audio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageButton
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/header_icon_subtitle" />
-
-                <Spinner
-                    android:id="@+id/player_overlay_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageButton
-                    android:id="@+id/player_overlay_lock"
-                    android:layout_width="40dip"
-                    android:layout_height="40dip"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/ic_lock" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lock_rotation"
-                    android:textSize="18dip" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/player_overlay_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/speed_placeholder"
-                    android:textSize="22dip"
-                    android:clickable="true" />
-            </LinearLayout>
-        </LinearLayout>
-    </org.videolan.vlc.widget.SlidingPanel>
-
-</FrameLayout>
+</RelativeLayout>
