@@ -221,6 +221,7 @@ public class VideoPlayerActivity extends Activity {
         mSubtitle.setEnabled(false);
 
         mHandler.postDelayed(new Runnable() {
+            @Override
             public void run() {
                 /*FIXME
                  * The setTracksAndSubtitles method probably doesn't work in case of many many Tracks and Subtitles
@@ -359,6 +360,7 @@ public class VideoPlayerActivity extends Activity {
          * To workaround that, pause playback if the lockscreen is displayed
          */
         mHandler.postDelayed(new Runnable() {
+            @Override
             public void run() {
                 if (mLibVLC != null && mLibVLC.isPlaying()) {
                     KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
@@ -432,6 +434,7 @@ public class VideoPlayerActivity extends Activity {
     /**
      * Lock screen rotation
      */
+    @SuppressWarnings("deprecation")
     private void lockScreen() {
         WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -646,8 +649,8 @@ public class VideoPlayerActivity extends Activity {
             ar = (double)mVideoWidth / (double)mVideoHeight;
         } else {
             /* Use the specified aspect ratio */
-            vw = (double)mVideoWidth * density;
-            ar = vw / (double)mVideoHeight;
+            vw = mVideoWidth * density;
+            ar = vw / mVideoHeight;
         }
 
         // compute the display aspect ratio
