@@ -216,9 +216,9 @@ public class VideoPlayerActivity extends Activity {
         mControlContainer.addView((View) mControls);
 
         mAudioTrack = (ImageButton) findViewById(R.id.player_overlay_audio);
-        mAudioTrack.setEnabled(false);
+        mAudioTrack.setVisibility(View.GONE);
         mSubtitle = (ImageButton) findViewById(R.id.player_overlay_subtitle);
-        mSubtitle.setEnabled(false);
+        mSubtitle.setVisibility(View.GONE);
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -1164,10 +1164,10 @@ public class VideoPlayerActivity extends Activity {
             if (mAudioTracksLibVLC != null && mAudioTracksLibVLC.length > 1) {
                 mAudioTracksAdapter = new ArrayAdapter<String>(this, R.layout.list_item_checkable, mAudioTracksLibVLC);
                 mAudioTrack.setOnClickListener(mAudioTrackListener);
-                mAudioTrack.setEnabled(true);
+                mAudioTrack.setVisibility(View.VISIBLE);
             }
             else {
-                mAudioTrack.setEnabled(false);
+                mAudioTrack.setVisibility(View.GONE);
                 mAudioTrack.setOnClickListener(null);
             }
         }
@@ -1176,11 +1176,11 @@ public class VideoPlayerActivity extends Activity {
             if (mSubtitleTracksLibVLC != null && mSubtitleTracksLibVLC.length > 0) {
                 mSubtitleTracksAdapter = new ArrayAdapter<String>(this, R.layout.list_item_checkable, mSubtitleTracksLibVLC);
                 mSubtitle.setOnClickListener(mSubtitlesListener);
-                mSubtitle.setEnabled(true);
+                mSubtitle.setVisibility(View.VISIBLE);
 
             }
             else {
-                mSubtitle.setEnabled(false);
+                mSubtitle.setVisibility(View.GONE);
                 mSubtitle.setOnClickListener(null);
             }
         }
