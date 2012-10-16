@@ -61,7 +61,7 @@
     <string name="album">Album</string>
     <string name="directory">Répertoire</string>
     <string name="directories">Répertoires</string>
-    <string name="loading">Chargement…</string>
+    <string name="loading">Chargement</string>
     <string name="nomedia">Pas de fichiers multimédia</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
