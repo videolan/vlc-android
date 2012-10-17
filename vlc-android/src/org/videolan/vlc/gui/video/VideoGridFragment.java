@@ -76,7 +76,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private static final int GRID_ITEM_WIDTH_DP = 156;
     private static final int GRID_HORIZONTAL_SPACING_DP = 20;
     private static final int GRID_VERTICAL_SPACING_DP = 20;
-    private static final int GRID_STRETCH_MODE = GridView.STRETCH_SPACING;
+    private static final int GRID_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
     private static final int LIST_HORIZONTAL_SPACING_DP = 0;
     private static final int LIST_VERTICAL_SPACING_DP = 10;
     private static final int LIST_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
