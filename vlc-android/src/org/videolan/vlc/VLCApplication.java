@@ -27,8 +27,10 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class VLCApplication extends Application {
+    public final static String TAG = "VLC/VLCApplication";
     private static VLCApplication instance;
 
     @Override
@@ -54,6 +56,17 @@ public class VLCApplication extends Application {
         }
 
         instance = this;
+    }
+
+    /**
+     * Called when the overall system is running low on memory
+     */
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.w(TAG, "System is running low on memory");
+
+        BitmapCache.getInstance().clear();
     }
 
     /**
