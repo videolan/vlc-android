@@ -84,4 +84,8 @@ public class BitmapCache {
     public void addBitmapToMemCache(int resId, Bitmap bitmap) {
         addBitmapToMemCache("res:" + resId, bitmap);
     }
+
+    public void clear() {
+        mMemCache.evictAll();
+    }
 }
