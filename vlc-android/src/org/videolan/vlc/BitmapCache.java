@@ -69,6 +69,11 @@ public class BitmapCache {
         final Bitmap b = mMemCache.get(key);
         if (LOG_ENABLED)
             Log.d(TAG, (b == null) ? "Cache miss" : "Cache found");
+        if (b != null && b.isRecycled()) {
+            /* A recycled bitmap cannot be used again */
+            mMemCache.remove(key);
+            return null;
+        }
         return b;
     }
 
@@ -78,7 +83,7 @@ public class BitmapCache {
     }
 
     public Bitmap getBitmapFromMemCache(int resId) {
-        return mMemCache.get("res:" + resId);
+        return getBitmapFromMemCache("res:" + resId);
     }
 
     public void addBitmapToMemCache(int resId, Bitmap bitmap) {
