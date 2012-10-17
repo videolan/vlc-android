@@ -1,10 +1,19 @@
-Changes between 0.0.5 and 0.0.6-git:
+Changes between 0.0.5 and 0.0.6:
 --------------------------------
 
+Core:
+ * Change threading code for Android
+ * Fix MediaCodec decoding
+ * Fix audio issues in cook and DTS
+
 Main application:
- * Add animations in the video list
  * Reduce the memory and CPU used in the video list
+ * Use bitmap caching to improve smoothness
  * Display the current playing position as a progress bar under every video
+
+Interface:
+ * Add animations in the video list
+ * Simplify the fullscreen interface
 
 
 Changes between 0.0.4 and 0.0.5:
