@@ -113,7 +113,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             if (buttonView.isEnabled() && isChecked) {
                 dbManager.addDir(item.getPath());
                 File tmpFile = item;
-                while (!tmpFile.getPath().equals("/")) {
+                while (tmpFile.getPath() != null && !tmpFile.getPath().equals("/")) {
                     tmpFile = tmpFile.getParentFile();
                     if (tmpFile != null)
                         dbManager.removeDir(tmpFile.getPath());
