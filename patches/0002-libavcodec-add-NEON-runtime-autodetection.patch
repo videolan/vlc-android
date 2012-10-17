@@ -1,4 +1,4 @@
-From e009d1cf851077716e837ba77f2f4b9b1d7a62f4 Mon Sep 17 00:00:00 2001
+From f1a26ad2cc8e64b9bcd1b3f8e71ab91949d288ac Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 10 Oct 2012 18:50:06 +0200
 Subject: [PATCH 2/2] libavcodec: add NEON runtime autodetection
@@ -6,8 +6,8 @@ Subject: [PATCH 2/2] libavcodec: add NEON runtime autodetection
 ---
  ...-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch |  66 +++
  .../0002-arm-call-arm-specific-rv34dsp.patch       | 496 +++++++++++++++++++++
- contrib/src/ffmpeg/rules.mak                       |   9 +-
- 3 files changed, 569 insertions(+), 2 deletions(-)
+ contrib/src/ffmpeg/rules.mak                       |  11 +-
+ 3 files changed, 570 insertions(+), 3 deletions(-)
  create mode 100644 contrib/src/ffmpeg/0001-arm-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch
  create mode 100644 contrib/src/ffmpeg/0002-arm-call-arm-specific-rv34dsp.patch
 
@@ -586,7 +586,7 @@ index 0000000..1976eb1
 +
 +
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 5a16552..6c8543f 100644
+index 5a16552..11e5d6d 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
 @@ -1,7 +1,7 @@
@@ -598,6 +598,15 @@ index 5a16552..6c8543f 100644
  
  FFMPEGCONF = \
  	--cc="$(CC)" \
+@@ -34,7 +34,7 @@ endif
+ 
+ # Small size
+ ifdef ENABLE_SMALL
+-FFMPEGCONF += --enable-small --optflags=-O2
++FFMPEGCONF += --enable-small
+ ifeq ($(ARCH),arm)
+ ifdef HAVE_ARMV7A
+ # XXX: assumes > ARMv7-A, and thus thumb2-able
 @@ -53,11 +53,14 @@ endif
  # ARM stuff
  ifeq ($(ARCH),arm)
