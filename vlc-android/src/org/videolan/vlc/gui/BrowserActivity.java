@@ -86,6 +86,9 @@ public class BrowserActivity extends ListActivity {
     }
 
     private void openDir(File file) {
+        if (!file.exists() || file.getPath() == null)
+            return;
+
         mAdapter.clear();
         mCurrentDir = file;
         File[] files = file.listFiles(new DirFilter());
