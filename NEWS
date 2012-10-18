@@ -1,6 +1,14 @@
 Changes between 0.0.6 and 0.0.7-git:
 --------------------------------
 
+Main application:
+ * reduce the memory used for thumbnails decoding
+ * better behaviour when we are low on memory
+
+Interface:
+ * better multi-column look on low resolution phones
+ * fix audio song sorting
+ * add a popup-menu in the video list
 
 
 Changes between 0.0.5 and 0.0.6:
