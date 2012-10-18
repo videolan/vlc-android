@@ -129,12 +129,15 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         View v = convertView;
+
         if (v == null || (((ViewHolder)v.getTag()).listmode != mListMode)) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
             if (!mListMode)
                 v = inflater.inflate(R.layout.video_grid_item, parent, false);
             else
                 v = inflater.inflate(R.layout.video_list_item, parent, false);
+
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
@@ -143,14 +146,16 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.progress = (ProgressBar) v.findViewById(R.id.ml_item_progress);
             holder.listmode = mListMode;
             v.setTag(holder);
+
             /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
             v.setLayoutParams(new GridView.LayoutParams(v.getLayoutParams().width, v.getLayoutParams().height));
-        } else
+        } else {
             holder = (ViewHolder) v.getTag();
+        }
 
         Media media = getItem(position);
-        holder.title.setText(media.getTitle());
 
+        /* Thumbnail */
         if (media.getPicture() != null) {
             //FIXME Warning: the thumbnails are upscaled in the grid view!
             final Bitmap thumbnail = media.getPicture();
@@ -166,9 +171,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.thumbnail.setImageBitmap(bitmap);
         }
 
+        /* Color state */
         ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);
         holder.title.setTextColor(titleColor);
 
+        /* Time / Duration */
         long lastTime = media.getTime();
         String text;
         if (lastTime > 0) {
@@ -188,9 +195,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             text += String.format(" - %dx%d", media.getWidth(), media.getHeight());
         }
 
+        /* Text */
         holder.subtitle.setText(text);
+        holder.title.setText(media.getTitle());
 
-        /* popup menu */
+        /* Popup menu */
         final ImageView more = (ImageView)v.findViewById(R.id.ml_item_more);
         if (more != null && mFragment != null) {
             more.setOnClickListener(new OnClickListener() {
