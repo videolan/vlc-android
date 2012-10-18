@@ -142,6 +142,11 @@ public class Util {
     }
 
     public static Bitmap scaleDownBitmap(Context context, Bitmap bitmap, int width) {
+        /*
+         * This method can lead to OutOfMemoryError!
+         * If the source size is more than twice the target size use
+         * the optimized version available in AudioUtil::readCoverBitmap
+         */
         if (bitmap != null) {
             final float densityMultiplier = context.getResources().getDisplayMetrics().density;
             int w = (int) (width * densityMultiplier);

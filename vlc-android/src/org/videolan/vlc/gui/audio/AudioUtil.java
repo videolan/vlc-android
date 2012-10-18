@@ -229,12 +229,32 @@ public class AudioUtil {
         }
     }
 
-    private static Bitmap readCoverBitmap(Context context, String path, int width) {
-        Bitmap cover = BitmapFactory.decodeFile(path);
+    private static Bitmap readCoverBitmap(Context context, String path, int dipWidth) {
+        Bitmap cover = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        int width = Util.convertDpToPx(dipWidth);
 
-        // scale down if requested
-        if (cover != null && width > 0)
-            cover = Util.scaleDownBitmap(context, cover, width);
+        /* Get the resolution of the bitmap without allocating the memory */
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+
+        if (options.outWidth > 0 && options.outHeight > 0) {
+            options.inJustDecodeBounds = false;
+            options.inSampleSize = 2;
+
+            // Find the best decoding scale for the bitmap
+            while( options.outWidth / options.inSampleSize > width)
+                options.inSampleSize++;
+            options.inSampleSize--;
+
+            // Decode the file (with memory allocation this time)
+            cover = BitmapFactory.decodeFile(path, options);
+
+            if (cover != null && options.outWidth > width) {
+                int height = (int) (width * options.outHeight / ((double) options.outWidth));
+                cover = Bitmap.createScaledBitmap(cover, width, height, false);
+            }
+        }
 
         return cover;
     }
