@@ -390,10 +390,10 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    private final Comparator<Media> byMRL = new Comparator<Media>() {
+    private final Comparator<Media> byName = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
+            return String.CASE_INSENSITIVE_ORDER.compare(m1.getTitle(), m2.getTitle());
         };
     };
 
@@ -411,7 +411,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
             if (res == 0)
-                res = byMRL.compare(m1, m2);
+                res = byName.compare(m1, m2);
             return res;
         };
     };
@@ -449,7 +449,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             break;
         case SORT_BY_TITLE:
         default:
-            Collections.sort(audioList, byMRL);
+            Collections.sort(audioList, byName);
             break;
         }
         if(mSortReverse) {
