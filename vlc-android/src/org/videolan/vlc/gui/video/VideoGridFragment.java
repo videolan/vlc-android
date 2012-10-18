@@ -38,6 +38,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -61,6 +62,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 public class VideoGridFragment extends SherlockGridFragment implements ISortable {
@@ -97,7 +100,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVideoAdapter = new VideoListAdapter(getActivity());
+        mVideoAdapter = new VideoListAdapter(getActivity(), this);
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
         setListAdapter(mVideoAdapter);
     }
@@ -239,28 +242,20 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         VideoPlayerActivity.start(getActivity(), item.getLocation());
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.video_list, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem menu) {
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
+    private boolean handleContextItemSelected(MenuItem menu, int position) {
         switch (menu.getItemId())
         {
         case R.id.video_list_play:
-            playVideo(info.position);
+            playVideo(position);
             return true;
         case R.id.video_list_info:
             Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
             intent.putExtra("itemLocation",
-                    mVideoAdapter.getItem(info.position).getLocation());
+                    mVideoAdapter.getItem(position).getLocation());
             startActivity(intent);
             return true;
         case R.id.video_list_delete:
-            final int positionDelete = info.position;
+            final int positionDelete = position;
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
                     mVideoAdapter.getItem(positionDelete).getLocation(),
@@ -273,7 +268,40 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             alertDialog.show();
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.video_list, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menu) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
+        if (handleContextItemSelected(menu, info.position))
+            return true;
         return super.onContextItemSelected(menu);
+    }
+
+    @TargetApi(11)
+    public void onContextPopupMenu(View anchor, final int position) {
+        if (!Util.isHoneycombOrLater()) {
+            // Call the "classic" context menu
+            anchor.performLongClick();
+            return;
+        }
+
+        PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.video_list, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return handleContextItemSelected(item, position);
+            }
+        });
+        popupMenu.show();
     }
 
     /**

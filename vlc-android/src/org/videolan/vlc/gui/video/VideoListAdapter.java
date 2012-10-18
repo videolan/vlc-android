@@ -34,6 +34,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -49,9 +50,11 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
+    private VideoGridFragment mFragment;
 
-    public VideoListAdapter(Context context) {
+    public VideoListAdapter(Context context, VideoGridFragment fragment) {
         super(context, 0);
+        mFragment = fragment;
     }
 
     public final static String TAG = "VLC/MediaLibraryAdapter";
@@ -123,7 +126,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
      * Display the view of a file browser item.
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         View v = convertView;
         if (v == null || (((ViewHolder)v.getTag()).listmode != mListMode)) {
@@ -186,6 +189,17 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
 
         holder.subtitle.setText(text);
+
+        /* popup menu */
+        final ImageView more = (ImageView)v.findViewById(R.id.ml_item_more);
+        if (more != null && mFragment != null) {
+            more.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mFragment.onContextPopupMenu(more, position);
+                }
+            });
+        }
 
         return v;
     }
