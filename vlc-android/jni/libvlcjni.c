@@ -42,8 +42,8 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
-#define AOUT_AUDIOTRACK      0
-#define AOUT_AUDIOTRACK_JAVA 1
+#define AOUT_AUDIOTRACK_JAVA 0
+#define AOUT_AUDIOTRACK      1
 #define AOUT_OPENSLES        2
 
 static jint getInt(JNIEnv *env, jobject thiz, const char* field) {
