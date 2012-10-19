@@ -438,7 +438,7 @@ public class DatabaseManager {
                 null, null, null);
         if (cursor.moveToFirst()) {
             blob = cursor.getBlob(0);
-            if (blob != null && blob.length > 1) {
+            if (blob != null && blob.length > 1 && blob.length < 500000) {
                 picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
                 blob = null;
             }
