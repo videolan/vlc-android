@@ -174,8 +174,8 @@ public class AudioUtil {
             int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
             cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
 
-            BitmapCache cache = BitmapCache.getInstance();
             // try to get the cover from the LRUCache first
+            BitmapCache cache = BitmapCache.getInstance();
             cover = cache.getBitmapFromMemCache(cachePath);
             if (cover != null)
                 return cover;
@@ -189,15 +189,18 @@ public class AudioUtil {
                     return null;
             }
 
-            if (coverPath == null)
+            // try to get it from VLC
+            if (coverPath == null || !cacheFile.exists())
                 coverPath = getCoverFromVlc(context, media);
 
             // no found yet, looking in folder
-            if (coverPath == null)
+            cacheFile = new File(coverPath);
+            if (coverPath == null || !cacheFile.exists())
                 coverPath = getCoverFromFolder(context, media);
 
             // try to get the cover from android MediaStore
-            if (coverPath == null)
+            cacheFile = new File(coverPath);
+            if (coverPath == null || !cacheFile.exists())
                 coverPath = getCoverFromMediaStore(context, media);
 
             // read (and scale?) the bitmap
