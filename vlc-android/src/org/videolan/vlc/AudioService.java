@@ -899,7 +899,7 @@ public class AudioService extends Service {
         }
         i.putExtra("isplaying", mLibVLC.isPlaying());
 
-        Bitmap cover = mCurrentMedia != null ? Util.scaleDownBitmap(context, getCover(), 64) : null;
+        Bitmap cover = mCurrentMedia != null ? AudioUtil.getCover(this, mCurrentMedia, 64) : null;
         i.putExtra("cover", cover);
 
         sendBroadcast(i);
