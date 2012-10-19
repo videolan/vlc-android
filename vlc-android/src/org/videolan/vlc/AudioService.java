@@ -599,7 +599,7 @@ public class AudioService extends Service {
     }
 
     private Bitmap getCover() {
-        return AudioUtil.getCover(this, mCurrentMedia, 0);
+        return AudioUtil.getCover(this, mCurrentMedia, 512);
     }
 
     private final IAudioService.Stub mInterface = new IAudioService.Stub() {
