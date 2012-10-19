@@ -194,13 +194,11 @@ public class AudioUtil {
                 coverPath = getCoverFromVlc(context, media);
 
             // no found yet, looking in folder
-            cacheFile = new File(coverPath);
-            if (coverPath == null || !cacheFile.exists())
+            if (coverPath == null || !(new File(coverPath)).exists())
                 coverPath = getCoverFromFolder(context, media);
 
             // try to get the cover from android MediaStore
-            cacheFile = new File(coverPath);
-            if (coverPath == null || !cacheFile.exists())
+            if (coverPath == null || !(new File(coverPath)).exists())
                 coverPath = getCoverFromMediaStore(context, media);
 
             // read (and scale?) the bitmap
