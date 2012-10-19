@@ -165,8 +165,13 @@ public class AudioUtil {
         Bitmap cover = null;
         String cachePath = null;
 
+        if (width <= 0) {
+            Log.e(TAG, "Invalid cover width requested");
+            return null;
+        }
+
         // if external storage is not available, skip covers to prevent slow audio browsing
-        if (!Util.hasExternalStorage() && width > 0)
+        if (!Util.hasExternalStorage())
             return null;
 
         try {
