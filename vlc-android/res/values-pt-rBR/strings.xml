@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="filebrowser_sdfail">Não foi possível acessar o cartão SD. Por favor, verifique se ele está montado.</string>
+    <string name="filebrowser_root">Raiz</string>
+    <string name="filebrowser_title">Selecione a mídia para reproduzir</string>
+    <string name="ml_no_media_dir">Pasta sem mídias</string>
+    <string name="sortby">Ordenar por…</string>
+    <string name="sortby_name">Nome</string>
+    <string name="sortby_length">Tamanho</string>
+    <string name="searchable_hint">Pesquisar…</string>
+    <string name="history">Histórico</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d resultado encontrado</item>
+        <item quantity="other">%d resultados encontrados</item>
+    </plurals>
+
+    <string name="show_player">Exibir o reprodutor</string>
+    <string name="hide_mini_player">Ocultar o mini reprodutor</string>
+    <string name="play">Reproduzir</string>
+    <string name="play_as_audio">Reproduzir como áudio</string>
+    <string name="play_as_video">Reproduzir como vídeo</string>
+    <string name="append">Adicionar</string>
+    <string name="play_all">Reproduzir tudo</string>
+    <string name="append_all">Adicionar todos</string>
+    <string name="delete">Excluir</string>
+    <string name="set_song">Definir como toque</string>
+    <string name="info">Informações</string>
+    <string name="confirm_delete">Excluir o arquivo \'%1$s\' ?</string>
+    <string name="pause">Pausar</string>
+    <string name="close">Fechar</string>
+    <string name="not_show_again">"Não exibir esta mensagem novamente."</string>
+    <string name="beta_warning">Esta é uma versão beta.\n\nEsta versão NÃO É ESTÁVEL!\n\nNÃO use, a menos que saiba o que está fazendo.\n\nEle pode matar o seu gatinho, destruir a sua casa e iniciar o apocalipse maia.\nUse por sua conta e risco.\n\nDivirta-se! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Artista Desconhecido</string>
+    <string name="unknown_album">Álbum Desconhecido</string>
+    <string name="unknown_genre">Gênero Desconhecido</string>
+    <string name="songs">Músicas</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 música</item>
+        <item quantity="other">%d músicas</item>
+    </plurals>
+
+    <string name="artists">Artistas</string>
+    <string name="albums">Álbuns</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 álbum</item>
+        <item quantity="other">%d álbuns</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 sub pasta</item>
+        <item quantity="other">%d sub pastas</item>
+    </plurals>
+
+    <string name="parent_folder">Pasta superior</string>
+    <string name="audio">Áudio</string>
+    <string name="video">Vídeo</string>
+    <string name="bookmarks">Favoritos</string>
+    <string name="all_albums">Todos os álbuns</string>
+    <string name="genres">Gêneros</string>
+    <string name="playlists">Listas de Reprodução</string>
+    <string name="title">Título</string>
+    <string name="artist">Artista</string>
+    <string name="album">Álbum</string>
+    <string name="directory">Pasta</string>
+    <string name="directories">Pastas</string>
+    <string name="loading">Carregando</string>
+    <string name="please_wait">Por favor, aguarde…</string>
+    <string name="nomedia">Nenhum arquivo de mídia encontrado. Por favor, transfira arquivos para o seu dispositivo ou ajuste suas preferências.</string>
+    <string name="mediafiles">Arquivos de mídia</string>
+    <string name="notavailable">Não disponível</string>
+    <string name="nosubdirectory">Nenhuma sub pasta.</string>
+    <string name="nohistory">Você não possui histórico de reprodução.</string>
+    <string name="validation">Tem certeza?</string>
+    <string name="lock_rotation">Bloquear rotação de tela</string>
+    <string name="locked">Bloqueado</string>
+    <string name="unlocked">Desbloqueado</string>
+    <string name="surface_best_fit">Melhor ajuste</string>
+    <string name="surface_fit_horizontal">Ajuste horizontal</string>
+    <string name="surface_fit_vertical">Ajuste vertical</string>
+    <string name="surface_fill">Preencher</string>
+    <string name="surface_original">Centralizar</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="refresh">Atualizar</string>
+    <string name="track_audio">Trilha de áudio</string>
+    <string name="track_video">Trilha de vídeo</string>
+    <string name="track_text">Trilha de Legenda</string>
+    <string name="track_unknown">Trilha desconhecida</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Idioma: %1$s\n</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="other">%1$d canais\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Taxa de amostragem: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolução: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Taxa de quadros: %1$.3f\n</string>
+    <string name="open">Abrir</string>
+    <string name="open_mrl">Abrir MRL</string>
+    <string name="open_mrl_dialog_title">Abrir fluxo de rede</string>
+    <string name="open_mrl_dialog_msg">Digite o MRL: Ex.: http://, mms:// ou rtsp://</string>
+    <string name="media_library">Biblioteca de mídias</string>
+    <string name="error_not_compatible">Desculpe, não há suporte do VLC para Android™ para o seu dispositivo.</string>
+    <string name="error_problem">Desculpe, ocorreu um problema durante a carga e o VLC para Android™ foi fechado.</string>
+    <string name="error_message_is">A mensagem de erro é (por favor, mencione isso quando estiver depurando):\n</string>
+    <string name="playback_speed">Velocidade de reprodução</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC para Android™</string>
+    <string name="version">Versão</string>
+    <string name="licence">Licença</string>
+    <string name="revision">Revisão</string>
+    <string name="about">Sobre</string>
+    <string name="about_text">O VLC para Android™ é uma versão do Reprodutor de Mídias VLC, o popular reprodutor de mídias livre. A versão Android™ lê a maioria dos arquivos e fluxos de rede.</string>
+    <string name="for_android">para Android™</string>
+    <string name="compiled_by">Esta versão do VLC foi compilada por:</string>
+    <string name="vlc_authors">Autores do VLC.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Preferências</string>
+    <string name="main_prefs_category">Principal</string>
+    <string name="privacy_prefs_category">Privacidade</string>
+    <string name="clear_history">Limpar histórico de pesquisas</string>
+    <string name="advanced_prefs_category">Avançado</string>
+    <string name="enable_iomx">Habilitar decodificação acelerada por hardware</string>
+    <string name="advanced_debugging">Depuração avançada</string>
+    <string name="quit">Fechar o aplicativo</string>
+    <string name="clear_media_db">Limpar banco de dados de mídias</string>
+    <string name="media_db_cleared">Banco de dados de mídias limpo!</string>
+    <string name="set_locale">Definir local</string>
+    <string name="set_locale_detail">Deixe em banco para redefinir</string>
+    <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
+    <string name="detect_headset">Detectar fone de ouvido</string>
+    <string name="detect_headset_detail">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
+    <string name="enable_wheel_bar">Habilitar barra de rolagem</string>
+    <string name="enable_gesture_brightness">Habilitar brilho por gestos</string>
+    <string name="enable_verbose_mode">Detalhado</string>
+    <string name="enable_verbose_mode_detail">Aumenta o detalhamento (logcat)</string>
+    <string name="aout">Saída de áudio</string>
+    <string name="aout_audiotrack">AudioTrack (nativo)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Habilitar compressão de tempo de áudio</string>
+    <string name="enable_time_stretching_audio_detail">Acelera e retarda o áudio sem mudar o tom (requer um dispositivo rápido)</string>
+</resources>
