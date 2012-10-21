@@ -55,6 +55,7 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --enable-taglib \
                 --enable-dvbpsi \
                 --disable-vlc --disable-shared \
+                --disable-update-check \
                 --disable-vlm \
                 --disable-dbus \
                 --disable-lua \
