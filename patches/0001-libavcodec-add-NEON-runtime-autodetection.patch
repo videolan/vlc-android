@@ -1,7 +1,7 @@
 From 91bcedc03953339c64f5ad684a3277d12c87cdcc Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 10 Oct 2012 18:50:06 +0200
-Subject: [PATCH 2/2] libavcodec: add NEON runtime autodetection
+Subject: [PATCH 1/2] libavcodec: add NEON runtime autodetection
 
 ---
  ...-use-HAVE_NEON_INLINE-for-NEON-inline-asm.patch |  66 +++
