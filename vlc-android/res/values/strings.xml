@@ -3,6 +3,9 @@
 
     <!-- Main VLC Interface -->
     <string name="app_name" translatable="false">VLC</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="other">Other</string>
     <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_root">Root</string>
     <string name="filebrowser_title">Select media to play</string>
@@ -135,6 +138,8 @@
     <!-- Preferences -->
     <string name="preferences">Preferences</string>
     <string name="main_prefs_category">Main</string>
+    <string name="internal_memory">Internal memory</string>
+    <string name="external_mount">External mount</string>
     <string name="privacy_prefs_category">Privacy</string>
     <string name="clear_history">Clear search history</string>
     <string name="advanced_prefs_category">Advanced</string>

@@ -20,6 +20,9 @@
 
 package org.videolan.vlc.gui;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.LibVLC;
@@ -28,9 +31,12 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -38,7 +44,14 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PreferencesActivity extends PreferenceActivity {
@@ -57,14 +70,115 @@ public class PreferencesActivity extends PreferenceActivity {
 
         // Create onPrefChange
         Preference rootDirectoryPref = findPreference("directories_root");
-        rootDirectoryPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+        rootDirectoryPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+                final String current_path = sharedPrefs.getString("directories_root",Environment.getExternalStorageDirectory().getAbsolutePath());
+
+                final Dialog dialog = new Dialog(PreferencesActivity.this);
+                dialog.setContentView(R.layout.root_selection);
+                dialog.setCancelable(true);
+                dialog.setTitle(R.string.filebrowser_root);
+
+                ArrayList<String> extMounts = new ArrayList<String>();
+                File mntDir = new File("/mnt");
+                String[] mntDirSubdirs = mntDir.list();
+                if(mntDirSubdirs != null) {
+                    for(String s : mntDirSubdirs) {
+                        if(s == null) continue;
+
+                        // skip over irrelevant mounts
+                        if(s.equals("asec") || s.equals("obb") || s.equals("secure") || s.equals("sdcard")) continue;
+
+                        if(new File("/mnt/" + s).isDirectory()) {
+                            extMounts.add("/mnt/" + s);
+                        }
+                    }
+                }
+
+                Boolean selected = false;
+
+                RadioButton internal = (RadioButton)dialog.findViewById(R.id.internal_memory);
+                internal.setTag(Environment.getExternalStorageDirectory().getAbsolutePath());
+                final TextView other_path = (TextView)dialog.findViewById(R.id.other_path);
+                other_path.setEnabled(false); //enable only when "other" is selected
+                RadioButton other = (RadioButton)dialog.findViewById(R.id.other);
+                other.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
                     @Override
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        setResult(RESULT_RESCAN);
-                        return true;
+                    public void onCheckedChanged(CompoundButton arg0, boolean isClicked) {
+                        other_path.setEnabled(isClicked);
+                        if(isClicked)
+                            other_path.requestFocus();
+                        else
+                            other_path.clearFocus();
                     }
                 });
+
+                // fill in the radio buttons
+                if(current_path.equals(Environment.getExternalStorageDirectory().getAbsolutePath())) {
+                    internal.setChecked(true);
+                    selected = true;
+                }
+
+                final RadioGroup radiogroup = (RadioGroup) dialog.findViewById(R.id.radiogroup);
+                for (int i = 0; i < extMounts.size(); i++) {
+                    RadioButton myRadioButton = new RadioButton(PreferencesActivity.this);
+                    myRadioButton.setFocusable(true);
+                    myRadioButton.setText(getString(R.string.external_mount) + " @ " + extMounts.get(i));
+                    if(!selected && current_path.equals(extMounts.get(i))) {
+                        myRadioButton.setChecked(true);
+                        selected = true;
+                    }
+                    myRadioButton.setTag(extMounts.get(i));
+                    radiogroup.addView(myRadioButton,i+1); // i+1 to keep "internal memory" on top
+                }
+                radiogroup.invalidate();
+
+                if(!selected) {
+                    other.setChecked(true);
+                    other_path.setEnabled(true);
+                    other_path.setText(current_path);
+                    selected = true;
+                }
+
+                Button button_ok = (Button) dialog.findViewById(R.id.ok);
+                button_ok.setOnClickListener(new Button.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        String newRoot;
+
+                        int radioButtonID = radiogroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = (RadioButton)radiogroup.findViewById(radioButtonID);
+                        if(radioButton.getTag().equals("other")) {
+                            TextView other_path = (TextView)dialog.findViewById(R.id.other_path);
+                            newRoot = other_path.getText().toString();
+                        } else {
+                            newRoot = (String) radioButton.getTag();
+                        }
+
+                        // did it even change? if not, don't bother with rescan.
+                        if(!newRoot.equals(current_path)) {
+                            SharedPreferences.Editor editor = sharedPrefs.edit();
+                            editor.putString("directories_root", newRoot);
+                            editor.commit();
+
+                            setResult(RESULT_RESCAN);
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                Button button_cancel = (Button) dialog.findViewById(R.id.cancel);
+                button_cancel.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) { dialog.cancel(); }
+                });
+
+                dialog.show();
+                return true;
+            }});
 
         // Create onClickListen
         Preference directoriesPref = findPreference("directories");
