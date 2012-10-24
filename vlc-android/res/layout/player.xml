@@ -100,8 +100,7 @@
             android:layout_marginTop="20dp"
             android:clickable="true"
             android:text="@string/speed_placeholder"
-            android:textSize="22dip"
-            android:visibility="gone" />
+            android:textSize="22dip" />
     </LinearLayout>
 
     <RelativeLayout
