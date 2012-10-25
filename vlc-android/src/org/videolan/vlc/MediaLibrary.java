@@ -315,7 +315,7 @@ public class MediaLibrary {
                 }
 
                 // remove old files & folders from database if storage is mounted
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                if (!isStopping && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                     for (String fileURI : addedLocations) {
                         existingMedias.remove(fileURI);
                     }
