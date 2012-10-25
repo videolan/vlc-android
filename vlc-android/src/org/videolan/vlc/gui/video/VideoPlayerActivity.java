@@ -152,10 +152,10 @@ public class VideoPlayerActivity extends Activity {
     //Volume
     private AudioManager mAudioManager;
     private int mAudioMax;
-    private int mAudioDisplayRange;
 
     //Volume Or Brightness
     private boolean mIsAudioOrBrightnessChanged;
+    private int mSurfaceYDisplayRange;
     private float mTouchY, mTouchX, mVol;
 
     // Brightness
@@ -708,8 +708,8 @@ public class VideoPlayerActivity extends Activity {
         DisplayMetrics screen = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(screen);
 
-        if (mAudioDisplayRange == 0)
-            mAudioDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
+        if (mSurfaceYDisplayRange == 0)
+            mSurfaceYDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
 
         float y_changed = event.getRawY() - mTouchY;
         float x_changed = event.getRawX() - mTouchX;
@@ -717,7 +717,6 @@ public class VideoPlayerActivity extends Activity {
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
         float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
-        float ygesturesize = ((y_changed / screen.ydpi) * 2.54f);
 
         switch (event.getAction()) {
 
@@ -735,22 +734,15 @@ public class VideoPlayerActivity extends Activity {
             if (coef > 2) {
                 // Audio (Up or Down - Right side)
                 if (!mEnableBrightnessGesture || mTouchX > (screen.widthPixels / 2)){
-                    int delta = -(int) ((y_changed / mAudioDisplayRange) * mAudioMax);
-                    int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-                    if (delta != 0) {
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                                vol, AudioManager.FLAG_SHOW_UI);
-                        mIsAudioOrBrightnessChanged = true;
-                    }
+                    doVolumeTouch(y_changed);
                 }
                 // Brightness (Up or Down - Left side)
                 if (mEnableBrightnessGesture && mTouchX < (screen.widthPixels / 2)){
-                    if (mIsFirstBrightnessGesture) initBrightnessTouch();
-                    doBrightnessTouch( - ygesturesize);
+                    doBrightnessTouch(y_changed);
                 }
             }
             // Seek (Right or Left move)
-            evalTouchSeek(coef, xgesturesize, false);
+            doSeekTouch(coef, xgesturesize, false);
             break;
 
         case MotionEvent.ACTION_UP:
@@ -767,13 +759,13 @@ public class VideoPlayerActivity extends Activity {
                 }
             }
             // Seek
-            evalTouchSeek(coef, xgesturesize, true);
+            doSeekTouch(coef, xgesturesize, true);
             break;
         }
         return mIsAudioOrBrightnessChanged;
     }
 
-    private void evalTouchSeek(float coef, float gesturesize, boolean seek) {
+    private void doSeekTouch(float coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
         if (mEnableWheelbar || coef > 0.5 || Math.abs(gesturesize) < 1)
             return;
@@ -804,6 +796,17 @@ public class VideoPlayerActivity extends Activity {
                 Util.millisToString(time + jump)), 1000);
     }
 
+    private void doVolumeTouch(float y_changed) {
+        int delta = -(int) ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
+        int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+        if (delta != 0) {
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                    vol, 0);
+            mIsAudioOrBrightnessChanged = true;
+            showInfo(getString(R.string.volume) + Integer.toString(vol),1000);
+        }
+    }
+
     private void initBrightnessTouch() {
         float brightnesstemp = 0.01f;
         // Initialize the layoutParams screen brightness
@@ -820,19 +823,20 @@ public class VideoPlayerActivity extends Activity {
         mIsFirstBrightnessGesture = false;
     }
 
-    private void doBrightnessTouch(float gesturesize) {
-        // No Brightness action if gesturesize < 0.4 cm
-        if (Math.abs(gesturesize) < 0.4)
-            return;
-
+    private void doBrightnessTouch(float y_changed) {
+        if (mIsFirstBrightnessGesture) initBrightnessTouch();
         mIsAudioOrBrightnessChanged = true;
+
+        // Set delta : 0.07f is arbitrary for now, it possibly will change in the future
+        float delta = - y_changed / mSurfaceYDisplayRange * 0.07f;
+
+        // Estimate and adjust Brightness
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness += Math.signum(gesturesize) * 0.05f;
-        // Adjust Brightness
-        if (lp.screenBrightness > 1) lp.screenBrightness = 1;
-        else if (lp.screenBrightness <= 0) lp.screenBrightness = 0.01f;
+        lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
+
         // Set Brightness
         getWindow().setAttributes(lp);
+        showInfo(getString(R.string.brightness) + Math.round(lp.screenBrightness*15),1000);
     }
 
     /**

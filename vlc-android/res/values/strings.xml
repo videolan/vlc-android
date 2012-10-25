@@ -96,6 +96,8 @@
     <string name="track_unknown">Unknown track</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
+    <string name="volume">Volume&#160;</string>
+    <string name="brightness">Brightness&#160;</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 channel\n</item>
