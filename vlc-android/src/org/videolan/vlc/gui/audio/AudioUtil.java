@@ -223,6 +223,8 @@ public class AudioUtil {
         OutputStream out = null;
         try {
             File file = new File(path);
+            if (file.exists() && file.length() > 0)
+                return;
             out = new BufferedOutputStream(new FileOutputStream(file), 4096);
             if (bitmap != null)
                 bitmap.compress(CompressFormat.JPEG, 90, out);
