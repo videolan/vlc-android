@@ -1124,15 +1124,14 @@ public class VideoPlayerActivity extends Activity {
      */
     @TargetApi(11)
     private void dimStatusBar(boolean dim) {
-        if (Util.isHoneycombOrLater()) {
-            if (dim) {
-                mSurface.setSystemUiVisibility(Util.hasNavBar()
+        if (!Util.isHoneycombOrLater())
+            return;
+
+        mSurface.setSystemUiVisibility(
+                dim ? (Util.hasNavBar()
                         ? View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        : View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            } else {
-                mSurface.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-            }
-        }
+                        : View.SYSTEM_UI_FLAG_LOW_PROFILE)
+                    : View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
     private void updateOverlayPausePlay() {
