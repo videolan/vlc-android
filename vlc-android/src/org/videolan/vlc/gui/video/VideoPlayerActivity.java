@@ -885,6 +885,7 @@ public class VideoPlayerActivity extends Activity {
                 }
             })
             .create();
+            dialog.setCanceledOnTouchOutside(true);
             final ListView lv = dialog.getListView();
             lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             //FIXME We should not force background color
@@ -916,7 +917,7 @@ public class VideoPlayerActivity extends Activity {
                 }
             })
             .create();
-
+            dialog.setCanceledOnTouchOutside(true);
             final ListView lv = dialog.getListView();
             lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             //FIXME We should not force background color
