@@ -1,5 +1,7 @@
 # Sources and objects
 
+export ANDROID_HOME=$(ANDROID_SDK)
+
 ARCH = $(ANDROID_ABI)
 
 SRC=vlc-android

@@ -12,9 +12,6 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
    echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
    exit 1
 fi
-
-export ANDROID_HOME=$ANDROID_SDK
-
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
