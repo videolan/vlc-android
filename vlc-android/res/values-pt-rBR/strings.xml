@@ -4,7 +4,7 @@
     <!-- Main VLC Interface -->
     <string name="filebrowser_sdfail">Não foi possível acessar o cartão SD. Por favor, verifique se ele está montado.</string>
     <string name="filebrowser_root">Raiz</string>
-    <string name="filebrowser_title">Selecione a mídia para reproduzir</string>
+    <string name="filebrowser_title">Selecione uma mídia para reproduzir</string>
     <string name="ml_no_media_dir">Pasta sem mídias</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nome</string>
@@ -126,26 +126,26 @@
     <string name="preferences">Preferências</string>
     <string name="main_prefs_category">Principal</string>
     <string name="privacy_prefs_category">Privacidade</string>
-    <string name="clear_history">Limpar histórico de pesquisas</string>
+    <string name="clear_history">Limpar histórico</string>
     <string name="advanced_prefs_category">Avançado</string>
-    <string name="enable_iomx">Habilitar decodificação acelerada por hardware</string>
+    <string name="enable_iomx">Decodificação acelerada por hardware</string>
     <string name="advanced_debugging">Depuração avançada</string>
     <string name="quit">Fechar o aplicativo</string>
-    <string name="clear_media_db">Limpar banco de dados de mídias</string>
-    <string name="media_db_cleared">Banco de dados de mídias limpo!</string>
+    <string name="clear_media_db">Limpar banco de mídias</string>
+    <string name="media_db_cleared">Banco de mídias limpo!</string>
     <string name="set_locale">Definir local</string>
-    <string name="set_locale_detail">Deixe em banco para redefinir</string>
+    <string name="set_locale_detail">Deixe em branco para redefinir</string>
     <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
     <string name="detect_headset">Detectar fone de ouvido</string>
     <string name="detect_headset_detail">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
-    <string name="enable_wheel_bar">Habilitar barra de rolagem</string>
-    <string name="enable_gesture_brightness">Habilitar brilho por gestos</string>
-    <string name="enable_verbose_mode">Detalhado</string>
+    <string name="enable_wheel_bar">Barra de rolagem</string>
+    <string name="enable_gesture_brightness">Brilho por gestos</string>
+    <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_detail">Aumenta o detalhamento (logcat)</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">Habilitar compressão de tempo de áudio</string>
+    <string name="enable_time_stretching_audio">Compressão de tempo de áudio</string>
     <string name="enable_time_stretching_audio_detail">Acelera e retarda o áudio sem mudar o tom (requer um dispositivo rápido)</string>
 </resources>
