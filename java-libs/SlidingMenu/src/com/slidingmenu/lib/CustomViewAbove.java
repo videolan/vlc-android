@@ -780,7 +780,7 @@ public class CustomViewAbove extends ViewGroup {
 		switch (action) {
 		case MotionEvent.ACTION_MOVE:
 			final int activePointerId = mActivePointerId;
-			if (activePointerId == INVALID_POINTER)
+			if (activePointerId == INVALID_POINTER || activePointerId >= ev.getPointerCount())
 				break;
 
 			final int pointerIndex = MotionEventCompat.findPointerIndex(ev, activePointerId);
