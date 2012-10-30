@@ -10,15 +10,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.os.ParcelableCompat;
-import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -29,13 +29,14 @@ public class SlidingMenu extends RelativeLayout {
 
 	public static final int TOUCHMODE_MARGIN = 0;
 	public static final int TOUCHMODE_FULLSCREEN = 1;
+	public static final int TOUCHMODE_NONE = 2;
 
 	private CustomViewAbove mViewAbove;
 	private CustomViewBehind mViewBehind;
 	private OnOpenListener mOpenListener;
 	private OnCloseListener mCloseListener;
 
-    private boolean mSlidingEnabled;
+    //private boolean mSlidingEnabled;
 
 	public static void attachSlidingMenu(Activity activity, SlidingMenu sm, boolean slidingTitle) {
 
@@ -61,7 +62,7 @@ public class SlidingMenu extends RelativeLayout {
 			View above = content.getChildAt(0);
 			content.removeAllViews();
 			sm.setContent(above);
-			content.addView(sm, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+			content.addView(sm, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		}
 	}
 
@@ -100,6 +101,7 @@ public class SlidingMenu extends RelativeLayout {
 		mViewBehind = new CustomViewBehind(context);
 		addView(mViewBehind, behindParams);
 		LayoutParams aboveParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		aboveParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		mViewAbove = new CustomViewAbove(context);
 		addView(mViewAbove, aboveParams);
 		// register the CustomViewBehind2 with the CustomViewAbove
@@ -130,9 +132,9 @@ public class SlidingMenu extends RelativeLayout {
 		int viewBehind = ta.getResourceId(R.styleable.SlidingMenu_viewBehind, -1);
 		if (viewBehind != -1)
 			setMenu(viewBehind);
-		int touchModeAbove = ta.getInt(R.styleable.SlidingMenu_aboveTouchMode, TOUCHMODE_MARGIN);
+		int touchModeAbove = ta.getInt(R.styleable.SlidingMenu_touchModeAbove, TOUCHMODE_MARGIN);
 		setTouchModeAbove(touchModeAbove);
-		int touchModeBehind = ta.getInt(R.styleable.SlidingMenu_behindTouchMode, TOUCHMODE_MARGIN);
+		int touchModeBehind = ta.getInt(R.styleable.SlidingMenu_touchModeBehind, TOUCHMODE_MARGIN);
 		setTouchModeBehind(touchModeBehind);
 
 		int offsetBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindOffset, -1);
@@ -250,8 +252,31 @@ public class SlidingMenu extends RelativeLayout {
 		int top = params.topMargin;
 		int left = params.leftMargin;
 		params.setMargins(left, top, i, bottom);
+		OnGlobalLayoutListener layoutListener = new OnGlobalLayoutListener() {
+			public void onGlobalLayout() {
+				showAbove();
+				mViewAbove.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}
+		};
+		mViewAbove.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
+		mViewAbove.requestLayout();
+	}
+	
+	
+	public void setAboveOffset(int i) {
+//		RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewAbove.getLayoutParams());
+//		int bottom = params.bottomMargin;
+//		int top = params.topMargin;
+//		int right = params.rightMargin;
+//		params.setMargins(i, top, right, bottom);
+//		this.requestLayout();
+		mViewAbove.setAboveOffset(i);
 	}
 
+	/**
+	 * 
+	 * @param i The width the Sliding Menu will open to in pixels
+	 */
 	@SuppressWarnings("deprecation")
 	public void setBehindWidth(int i) {
 		int width;
@@ -269,6 +294,15 @@ public class SlidingMenu extends RelativeLayout {
 		}
 		setBehindOffset(width-i);
 	}
+	
+	/**
+	 * 
+	 * @param res A resource ID which points to the width the Sliding Menu will open to 
+	 */
+	public void setBehindWidthRes(int res) {
+		int i = (int) getContext().getResources().getDimension(res);
+		setBehindWidth(i);
+	}
 
 	/**
 	 * 
@@ -277,6 +311,11 @@ public class SlidingMenu extends RelativeLayout {
 	public void setBehindOffsetRes(int res) {
 		int i = (int) getContext().getResources().getDimension(res);
 		setBehindOffset(i);
+	}
+	
+	public void setAboveOffsetRes(int res) {
+		int i = (int) getContext().getResources().getDimension(res);
+		setAboveOffset(i);
 	}
 
 	/**
@@ -305,9 +344,10 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	public void setTouchModeAbove(int i) {
-		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN) {
+		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN
+				&& i != TOUCHMODE_NONE) {
 			throw new IllegalStateException("TouchMode must be set to either" +
-					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN.");
+					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN or TOUCHMODE_NONE.");
 		}
 		mViewAbove.setTouchMode(i);
 	}
@@ -317,15 +357,20 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	public void setTouchModeBehind(int i) {
-		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN) {
+		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN
+				&& i != TOUCHMODE_NONE) {
 			throw new IllegalStateException("TouchMode must be set to either" +
-					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN.");
+					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN or TOUCHMODE_NONE.");
 		}
 		mViewBehind.setTouchMode(i);
 	}
 
 	public void setShadowDrawable(int resId) {
 		mViewAbove.setShadowDrawable(resId);
+	}
+	
+	public void setShadowDrawable(Drawable d) {
+		mViewAbove.setShadowDrawable(d);
 	}
 
 	public void setShadowWidthRes(int resId) {
@@ -361,12 +406,12 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	public void setOnOpenListener(OnOpenListener listener) {
-		mViewAbove.setOnOpenListener(listener);
+		//mViewAbove.setOnOpenListener(listener);
 		mOpenListener = listener;
 	}
 
 	public void setOnCloseListener(OnCloseListener listener) {
-		mViewAbove.setOnCloseListener(listener);
+		//mViewAbove.setOnCloseListener(listener);
 		mCloseListener = listener;
 	}
 
@@ -378,43 +423,40 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setOnClosedListener(listener);
 	}
 
-	private static class SavedState extends BaseSavedState {
-		boolean mBehindShowing;
+	public static class SavedState extends BaseSavedState {
+		private final boolean mBehindShowing;
 
-		public SavedState(Parcelable superState) {
+		public SavedState(Parcelable superState, boolean isBehindShowing) {
 			super(superState);
+			mBehindShowing = isBehindShowing;
 		}
 
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
-			out.writeBooleanArray(new boolean[]{mBehindShowing});
+			out.writeByte(mBehindShowing ? (byte)1 : 0);
 		}
 
-		public static final Parcelable.Creator<SavedState> CREATOR
-		= ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
 
-			public SavedState createFromParcel(Parcel in, ClassLoader loader) {
-				return new SavedState(in);
-			}
-
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
-			}
-		});
-
-		SavedState(Parcel in) {
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        
+		private SavedState(Parcel in) {
 			super(in);
-			boolean[] showing = new boolean[1];
-			in.readBooleanArray(showing);
-			mBehindShowing = showing[0];
+			mBehindShowing = in.readByte()!=0;
 		}
 	}
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		Parcelable superState = super.onSaveInstanceState();
-		SavedState ss = new SavedState(superState);
-		ss.mBehindShowing = isBehindShowing();
+		SavedState ss = new SavedState(superState, isBehindShowing());
 		return ss;
 	}
 
