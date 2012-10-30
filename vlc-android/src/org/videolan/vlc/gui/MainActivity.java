@@ -539,8 +539,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
             if (action.equalsIgnoreCase(ACTION_SHOW_PROGRESSBAR)) {
                 setSupportProgressBarIndeterminateVisibility(true);
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } else if (action.equalsIgnoreCase(ACTION_HIDE_PROGRESSBAR)) {
                 setSupportProgressBarIndeterminateVisibility(false);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             } else if (action.equalsIgnoreCase(ACTION_SHOW_TEXTINFO)) {
                 String info = intent.getStringExtra("info");
                 int max = intent.getIntExtra("max", 0);
