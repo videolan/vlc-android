@@ -171,7 +171,7 @@ cd contrib/android
 [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
 # Release or not?
-if [ $# -ne 0 ] && [ "$1" == "release" ]; then
+if [ $# -ne 0 ] && [ "$1" = "release" ]; then
     OPTS=""
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
     RELEASEFLAG="RELEASE=1"
