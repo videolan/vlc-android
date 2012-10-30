@@ -191,7 +191,7 @@ public class AudioService extends Service {
 
     @TargetApi(8)
     private void changeAudioFocus(boolean gain) {
-        if(!Util.isGingerbreadOrLater()) // NOP if not supported
+        if(!Util.isFroyoOrLater()) // NOP if not supported
             return;
 
         audioFocusListener = new OnAudioFocusChangeListener() {
