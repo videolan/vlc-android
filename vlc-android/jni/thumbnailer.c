@@ -103,6 +103,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
     if (hasThumb)
         return;
 
+    /* Wait a few frames, to be sure they come after the seek succeeded */
     if (++sys->nbReceivedFrames < 6)
         return;
 
