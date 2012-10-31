@@ -151,11 +151,12 @@ public class AudioUtil {
 
     private static String getCoverFromFolder(Context context, Media media) {
         File f = Util.URItoFile(media.getLocation());
-        for (File s : f.getParentFile().listFiles()) {
-            if (s.getAbsolutePath().endsWith("png") ||
-                    s.getAbsolutePath().endsWith("jpg"))
-                return s.getAbsolutePath();
-        }
+        if (f != null && f.getParentFile() != null && f.getParentFile().listFiles() != null)
+            for (File s : f.getParentFile().listFiles()) {
+                if (s.getAbsolutePath().endsWith("png")
+                        || s.getAbsolutePath().endsWith("jpg"))
+                    return s.getAbsolutePath();
+            }
         return null;
     }
 
