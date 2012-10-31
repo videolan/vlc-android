@@ -443,6 +443,7 @@ public class DatabaseManager {
                 blob = null;
             }
         }
+        cursor.close();
         return picture;
     }
 
