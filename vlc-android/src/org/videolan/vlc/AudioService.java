@@ -117,7 +117,7 @@ public class AudioService extends Service {
         mEventManager = EventManager.getInstance();
 
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.setPriority(Integer.MAX_VALUE);
         filter.addAction(ACTION_WIDGET_BACKWARD);
         filter.addAction(ACTION_WIDGET_PLAY);
         filter.addAction(ACTION_WIDGET_STOP);
