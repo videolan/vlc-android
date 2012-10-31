@@ -57,11 +57,16 @@
    └————————————————————————————————————————————————————┘
 */
 
+enum {
+    THUMB_SEEKING,
+    THUMB_SEEKED,
+    THUMB_DROP_FIRST_FRAME,
+    THUMB_DONE,
+};
+
 typedef struct
 {
-    libvlc_media_player_t *mp;
-
-    bool hasThumb;
+    int state;
 
     char *thumbData;
     char *frameData;
@@ -70,8 +75,6 @@ typedef struct
     unsigned frameWidth;
     unsigned thumbHeight;
     unsigned thumbPitch;
-
-    unsigned nbReceivedFrames;
 
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;
@@ -96,18 +99,17 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
 {
     thumbnailer_sys_t *sys = opaque;
 
-    /* If we have already received a thumbnail, we skip this frame. */
+    /* If we have already received a thumbnail, or we are still seeking,
+     * we skip this frame. */
     pthread_mutex_lock(&sys->doneMutex);
-    bool hasThumb = sys->hasThumb;
+    int state = sys->state;
+    if (state == THUMB_SEEKED)
+        sys->state = THUMB_DROP_FIRST_FRAME;
     pthread_mutex_unlock(&sys->doneMutex);
-    if (hasThumb)
+    if (state != THUMB_DROP_FIRST_FRAME)
         return;
 
-    /* Wait a few frames, to be sure they come after the seek succeeded */
-    if (++sys->nbReceivedFrames < 6)
-        return;
-
-    /* Else we have received our first thumbnail and we can exit. */
+    /* we have received our first thumbnail and we can exit. */
     const char *dataSrc = sys->thumbData;
     char *dataDest = sys->frameData + sys->blackBorders * PIXEL_SIZE;
 
@@ -121,7 +123,7 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
 
     /* Signal that the thumbnail was created. */
     pthread_mutex_lock(&sys->doneMutex);
-    sys->hasThumb = true;
+    sys->state = THUMB_DONE;
     pthread_cond_signal(&sys->doneCondVar);
     pthread_mutex_unlock(&sys->doneMutex);
 }
@@ -151,7 +153,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     pthread_cond_init(&sys->doneCondVar, NULL);
 
     /* Create a media player playing environment */
-    sys->mp = libvlc_media_player_new(libvlc);
+    libvlc_media_player_t *mp = libvlc_media_player_new(libvlc);
 
     libvlc_media_t *m = new_media(instance, env, thiz, filePath, true, false);
     if (m == NULL)
@@ -165,7 +167,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_add_option( m, ":no-spu" );
     libvlc_media_add_option( m, ":no-osd" );
 
-    libvlc_media_player_set_media(sys->mp, m);
+    libvlc_media_player_set_media(mp, m);
 
     /* Get the size of the video with the tracks information of the media. */
     libvlc_media_track_info_t *tracks;
@@ -243,31 +245,41 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     }
 
     /* Set the video format and the callbacks. */
-    libvlc_video_set_format(sys->mp, "RGBA", thumbWidth, thumbHeight, sys->thumbPitch);
-    libvlc_video_set_callbacks(sys->mp, thumbnailer_lock, thumbnailer_unlock,
+    libvlc_video_set_format(mp, "RGBA", thumbWidth, thumbHeight, sys->thumbPitch);
+    libvlc_video_set_callbacks(mp, thumbnailer_lock, thumbnailer_unlock,
                                NULL, (void*)sys);
+    sys->state = THUMB_SEEKING;
 
     /* Play the media. */
-    libvlc_media_player_play(sys->mp);
-    libvlc_media_player_set_position(sys->mp, THUMBNAIL_POSITION);
+    libvlc_media_player_play(mp);
+    libvlc_media_player_set_position(mp, THUMBNAIL_POSITION);
+
+    int loops = 100;
+    for (;;) {
+        float pos = libvlc_media_player_get_position(mp);
+        if (pos < THUMBNAIL_POSITION || !loops--)
+            break;
+        usleep(50000);
+    }
 
     /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&sys->doneMutex);
+    sys->state = THUMB_SEEKED;
     struct timespec deadline;
     clock_gettime(CLOCK_REALTIME, &deadline);
     deadline.tv_sec += 10; /* amount of seconds before we abort thumbnailer */
-    while (!sys->hasThumb) {
+    do {
         int ret = pthread_cond_timedwait(&sys->doneCondVar, &sys->doneMutex, &deadline);
         if (ret == ETIMEDOUT)
             break;
-    }
+    } while (sys->state != THUMB_DONE);
     pthread_mutex_unlock(&sys->doneMutex);
 
     /* Stop and release the media player. */
-    libvlc_media_player_stop(sys->mp);
-    libvlc_media_player_release(sys->mp);
+    libvlc_media_player_stop(mp);
+    libvlc_media_player_release(mp);
 
-    if (sys->hasThumb) {
+    if (sys->state == THUMB_DONE) {
         /* Create the Java byte array to return the create thumbnail. */
         byteArray = (*env)->NewByteArray(env, frameSize);
         if (byteArray == NULL)
