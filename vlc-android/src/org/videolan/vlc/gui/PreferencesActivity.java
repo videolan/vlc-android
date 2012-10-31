@@ -152,7 +152,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
                         int radioButtonID = radiogroup.getCheckedRadioButtonId();
                         RadioButton radioButton = (RadioButton)radiogroup.findViewById(radioButtonID);
-                        if(radioButton.getTag().equals("other")) {
+                        if(radioButton != null && radioButton.getTag().equals("other")) {
                             TextView other_path = (TextView)dialog.findViewById(R.id.other_path);
                             newRoot = other_path.getText().toString();
                         } else {
