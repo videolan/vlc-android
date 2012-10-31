@@ -1,14 +1,21 @@
-Changes between 0.0.6 and 0.0.7-git:
+Changes between 0.0.6 and 0.0.7:
 --------------------------------
+
+Core:
+ * Fix audio output selection to fix the audio-sync
 
 Main application:
  * reduce the memory used for thumbnails decoding
  * better behaviour when we are low on memory
+ * fix the interaction between thumbnailing and sleeping
+ * fix various crashes
 
 Interface:
  * better multi-column look on low resolution phones
  * fix audio song sorting
  * add a popup-menu in the video list
+ * Show Volume and Brightness values
+ * fix navbar hiding on tablets
 
 
 Changes between 0.0.5 and 0.0.6:
