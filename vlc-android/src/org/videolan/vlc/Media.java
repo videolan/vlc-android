@@ -23,6 +23,7 @@ package org.videolan.vlc;
 import java.util.HashSet;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteFullException;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -292,10 +293,15 @@ public class Media implements Comparable<Media> {
 
     public void setPicture(Context context, Bitmap p) {
         Log.d(TAG, "Set new picture for " + getTitle());
-        DatabaseManager.getInstance(context).updateMedia(
+        try {
+            DatabaseManager.getInstance(context).updateMedia(
                 mLocation,
                 DatabaseManager.mediaColumn.MEDIA_PICTURE,
                 p);
+        } catch (SQLiteFullException e) {
+            // TODO: do something clever
+            e.printStackTrace();
+        }
         mIsPictureParsed = true;
     }
 
