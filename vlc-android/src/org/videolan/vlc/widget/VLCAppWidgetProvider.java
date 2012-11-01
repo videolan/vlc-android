@@ -35,10 +35,10 @@ import android.widget.RemoteViews;
 public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
     public static final String START_FROM_NOTIFICATION = "from_notification";
-    public static final String ACTION_WIDGET_BACKWARD = "org.videolan.vlc.widget.Backward";
-    public static final String ACTION_WIDGET_PLAY = "org.videolan.vlc.widget.Play";
-    public static final String ACTION_WIDGET_STOP = "org.videolan.vlc.widget.Stop";
-    public static final String ACTION_WIDGET_FORWARD = "org.videolan.vlc.widget.Forward";
+    public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
+    public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
+    public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
+    public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
 
     public static final String VLC_PACKAGE = "org.videolan.vlc";
@@ -77,10 +77,10 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
                 views.setImageViewResource(R.id.cover, R.drawable.cone);
 
             /* commands */
-            Intent iBackward = new Intent(ACTION_WIDGET_BACKWARD);
-            Intent iPlay = new Intent(ACTION_WIDGET_PLAY);
-            Intent iStop = new Intent(ACTION_WIDGET_STOP);
-            Intent iForward = new Intent(ACTION_WIDGET_FORWARD);
+            Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
+            Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
+            Intent iStop = new Intent(ACTION_REMOTE_STOP);
+            Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
             Intent iVlc = new Intent();
             iVlc.setClassName(VLC_PACKAGE, isplaying ? VLC_PLAYER : VLC_MAIN);
             iVlc.putExtra(START_FROM_NOTIFICATION, true);
