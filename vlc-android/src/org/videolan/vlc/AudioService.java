@@ -60,6 +60,7 @@ public class AudioService extends Service {
 
     private static final int SHOW_PROGRESS = 0;
     public static final String START_FROM_NOTIFICATION = "from_notification";
+    public static final String ACTION_REMOTE_GENERIC = "org.videolan.vlc.remote.";
     public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
     public static final String ACTION_REMOTE_PLAY = "org.videolan.vlc.remote.Play";
     public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
@@ -263,7 +264,10 @@ public class AudioService extends Service {
             if (telManager != null && telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                 return;
 
-            if (!mLibVLC.isPlaying() && mCurrentMedia == null) {
+            /*
+             * Launch the activity if needed
+             */
+            if (action.startsWith(ACTION_REMOTE_GENERIC) && !mLibVLC.isPlaying() && mCurrentMedia == null) {
                 Intent iVlc = new Intent(context, MainActivity.class);
                 iVlc.putExtra(START_FROM_NOTIFICATION, true);
                 iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
