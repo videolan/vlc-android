@@ -284,6 +284,7 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onResume();
         mAudioController.addAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().bindAudioService(this);
+        AudioService.requestMediaButtons();
 
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
         if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))

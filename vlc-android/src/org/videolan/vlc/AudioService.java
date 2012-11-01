@@ -50,11 +50,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.KeyEvent;
 
 public class AudioService extends Service {
 
@@ -62,10 +60,12 @@ public class AudioService extends Service {
 
     private static final int SHOW_PROGRESS = 0;
     public static final String START_FROM_NOTIFICATION = "from_notification";
-    public static final String ACTION_WIDGET_BACKWARD = "org.videolan.vlc.widget.Backward";
-    public static final String ACTION_WIDGET_PLAY = "org.videolan.vlc.widget.Play";
-    public static final String ACTION_WIDGET_STOP = "org.videolan.vlc.widget.Stop";
-    public static final String ACTION_WIDGET_FORWARD = "org.videolan.vlc.widget.Forward";
+    public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
+    public static final String ACTION_REMOTE_PLAY = "org.videolan.vlc.remote.Play";
+    public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
+    public static final String ACTION_REMOTE_PAUSE = "org.videolan.vlc.remote.Pause";
+    public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
+    public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
 
     public static final String WIDGET_PACKAGE = "org.videolan.vlc";
@@ -80,9 +80,8 @@ public class AudioService extends Service {
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
-    private long mHeadsetDownTime = 0;
-    private long mHeadsetUpTime = 0;
     private OnAudioFocusChangeListener audioFocusListener;
+    private static ComponentName mRemoteControlClientReceiverComponent;
 
     /**
      * RemoteControlClient is for lock screen playback control.
@@ -115,47 +114,57 @@ public class AudioService extends Service {
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
         mEventManager = EventManager.getInstance();
+        mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
+                RemoteControlClientReceiver.class.getName());
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
-        filter.addAction(ACTION_WIDGET_BACKWARD);
-        filter.addAction(ACTION_WIDGET_PLAY);
-        filter.addAction(ACTION_WIDGET_STOP);
-        filter.addAction(ACTION_WIDGET_FORWARD);
+        filter.addAction(ACTION_REMOTE_BACKWARD);
+        filter.addAction(ACTION_REMOTE_PLAYPAUSE);
+        filter.addAction(ACTION_REMOTE_PLAY);
+        filter.addAction(ACTION_REMOTE_PAUSE);
+        filter.addAction(ACTION_REMOTE_STOP);
+        filter.addAction(ACTION_REMOTE_FORWARD);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
-        filter.addAction(Intent.ACTION_MEDIA_BUTTON);
         registerReceiver(serviceReceiver, filter);
 
-        if(Util.isICSOrLater())
+        if(!Util.isFroyoOrLater()) {
+            /* Backward compatibility for API 7 */
+            filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_MEDIA_BUTTON);
+            registerReceiver(new RemoteControlClientReceiver(), filter);
+        } else {
             setUpRemoteControlClient();
+        }
 
         AudioUtil.prepareCacheFolder(this);
     }
 
     @TargetApi(14)
     private void setUpRemoteControlClient() {
-        if(!Util.isICSOrLater()) // sanity check
-            return;
-
         AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
-        ComponentName eventReceiverComponent = new ComponentName(getPackageName(), RemoteControlClientReceiver.class.getName());
 
-        audioManager.registerMediaButtonEventReceiver(eventReceiverComponent);
+        if(Util.isICSOrLater()) {
+            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
 
-        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        mediaButtonIntent.setComponent(eventReceiverComponent);
-        PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, 0);
+            Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+            mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
+            PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, 0);
 
-        // create and register the remote control client
-        mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
-        mRemoteControlClient.setTransportControlFlags(
-                RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
-                RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
-                RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
-                RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
-                RemoteControlClient.FLAG_KEY_MEDIA_STOP);
-        audioManager.registerRemoteControlClient(mRemoteControlClient);
+            // create and register the remote control client
+            mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+            mRemoteControlClient.setTransportControlFlags(
+                    RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
+                    RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
+                    RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
+                    RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
+                    RemoteControlClient.FLAG_KEY_MEDIA_STOP);
+            audioManager.registerRemoteControlClient(mRemoteControlClient);
+
+        } else if (Util.isFroyoOrLater()) {
+            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
+        }
     }
 
     /**
@@ -171,6 +180,20 @@ public class AudioService extends Service {
 
         mRemoteControlClient.setPlaybackState(p);
     }
+
+   /**
+    * Tell the system we want to be the default receiver for the MEDIA buttons.
+    * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
+    */
+    @TargetApi(8)
+    public static void requestMediaButtons() {
+        if(Util.isFroyoOrLater() && mRemoteControlClientReceiverComponent != null) {
+            Context context = VLCApplication.getAppContext();
+            AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
+            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
+        }
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -235,102 +258,38 @@ public class AudioService extends Service {
                 return;
             }
 
-            /*
-             * widget events
-             */
-            if (action.equalsIgnoreCase(ACTION_WIDGET_PLAY)) {
-                if (mLibVLC.isPlaying() && mCurrentMedia != null) {
-                    pause();
-                } else if (!mLibVLC.isPlaying() && mCurrentMedia != null) {
-                    play();
-                } else {
-                    Intent iVlc = new Intent(context, MainActivity.class);
-                    iVlc.putExtra(START_FROM_NOTIFICATION, true);
-                    iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(iVlc);
-                }
-            } else if (action.equalsIgnoreCase(ACTION_WIDGET_BACKWARD)) {
-                previous();
-            }
-            else if (action.equalsIgnoreCase(ACTION_WIDGET_STOP)) {
-                stop();
-            }
-            else if (action.equalsIgnoreCase(ACTION_WIDGET_FORWARD)) {
-                next();
-            }
-
             // skip all headsets events if there is a call
             TelephonyManager telManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             if (telManager != null && telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE)
                 return;
 
+            if (!mLibVLC.isPlaying() && mCurrentMedia == null) {
+                Intent iVlc = new Intent(context, MainActivity.class);
+                iVlc.putExtra(START_FROM_NOTIFICATION, true);
+                iVlc.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(iVlc);
+            }
+
             /*
-             * headset controller events
+             * Remote / headset control events
              */
-            else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
-                KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-                if (event == null)
-                    return;
-
-                if (mCurrentMedia == null) {
-                    abortBroadcast();
-                    return;
-                }
-
-                switch (event.getKeyCode())
-                {
-                /*
-                 * one click => play/pause
-                 * long click => previous
-                 * double click => next
-                 */
-                    case KeyEvent.KEYCODE_HEADSETHOOK:
-                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        long time = SystemClock.uptimeMillis();
-                        switch (event.getAction())
-                        {
-                            case KeyEvent.ACTION_DOWN:
-                                if (event.getRepeatCount() > 0)
-                                    break;
-                                mHeadsetDownTime = time;
-                                break;
-                            case KeyEvent.ACTION_UP:
-                                // long click
-                                if (time - mHeadsetDownTime >= 1000) {
-                                    previous();
-                                    time = 0;
-                                    // double click
-                                } else if (time - mHeadsetUpTime <= 500) {
-                                    next();
-                                }
-                                // one click
-                                else {
-                                    if (mLibVLC.isPlaying())
-                                        pause();
-                                    else
-                                        play();
-                                }
-                                mHeadsetUpTime = time;
-                                break;
-                        }
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        play();
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                        pause();
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_STOP:
-                        stop();
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_NEXT:
-                        next();
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                        previous();
-                        break;
-                }
-                abortBroadcast();
+            if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
+                if (mLibVLC.isPlaying() && mCurrentMedia != null)
+                    pause();
+                else if (!mLibVLC.isPlaying() && mCurrentMedia != null)
+                    play();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_PLAY)) {
+                if (!mLibVLC.isPlaying() && mCurrentMedia != null)
+                    play();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_PAUSE)) {
+                if (mLibVLC.isPlaying() && mCurrentMedia != null)
+                    pause();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
+                previous();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP)) {
+                stop();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
+                next();
             }
 
             /*
