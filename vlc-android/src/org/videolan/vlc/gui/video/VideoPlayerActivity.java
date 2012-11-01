@@ -282,8 +282,13 @@ public class VideoPlayerActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        if(mSwitchingView)
+        if(mSwitchingView) {
+            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
+            AudioServiceController.getInstance().showWithoutParse(mLocation);
+            AudioServiceController.getInstance().unbindAudioService(this);
+            AudioPlayerActivity.start(this, true);
             return;
+        }
 
         long time = mLibVLC.getTime();
         long length = mLibVLC.getLength();
@@ -323,6 +328,8 @@ public class VideoPlayerActivity extends Activity {
                     DatabaseManager.mediaColumn.MEDIA_TIME,
                     time);
         }
+
+        AudioServiceController.getInstance().unbindAudioService(this);
     }
 
     @Override
@@ -337,13 +344,6 @@ public class VideoPlayerActivity extends Activity {
         em.removeHandler(eventHandler);
 
         mAudioManager = null;
-
-        if(mSwitchingView) {
-            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
-            AudioServiceController.getInstance().showWithoutParse(mLocation);
-            AudioPlayerActivity.start(this, true);
-        }
-        //AudioServiceController.getInstance().unbindAudioService(this);
     }
 
     @Override

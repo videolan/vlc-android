@@ -345,6 +345,7 @@ public class MainActivity extends SherlockFragmentActivity {
         editor.commit();
 
         mAudioController.removeAudioPlayer(mAudioPlayer);
+        AudioServiceController.getInstance().unbindAudioService(this);
     }
 
     @Override
