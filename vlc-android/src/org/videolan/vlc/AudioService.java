@@ -423,6 +423,7 @@ public class AudioService extends Service {
             .setSmallIcon(R.drawable.icon)
             .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
             .setContentTitle(mCurrentMedia.getTitle())
+            .setTicker(mCurrentMedia.getTitle() + " - " + mCurrentMedia.getArtist())
             .setContentText((Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist()
                     : mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum()))
                     .setContentInfo(mCurrentMedia.getAlbum())
