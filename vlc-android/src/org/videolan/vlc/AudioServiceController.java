@@ -90,6 +90,7 @@ public class AudioServiceController implements IAudioPlayerControl {
                 public void onServiceDisconnected(ComponentName name) {
                     Log.d(TAG, "Service Disconnected");
                     mAudioServiceBinder = null;
+                    mIsBound = false;
                 }
 
                 @Override
