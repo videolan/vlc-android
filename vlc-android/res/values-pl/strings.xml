@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--Main VLC Interface-->
+  <string name="ok">OK</string>
+  <string name="cancel">Anuluj</string>
+  <string name="other">Inne</string>
   <string name="filebrowser_sdfail">Nie można otworzyć karty SD. Proszę sprawdź czy jest prawidłowo zamontowana.</string>
   <string name="filebrowser_root">Katalog główny</string>
   <string name="filebrowser_title">Wybierz plik do odtwarzania</string>
@@ -71,6 +74,7 @@
   <string name="mediafiles">Pliki multimedialne</string>
   <string name="notavailable">niedostępne</string>
   <string name="nosubdirectory">Brak podkatalogów.</string>
+  <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
   <string name="validation">Czy jesteś pewny?</string>
   <string name="lock_rotation">Zablokuj obracanie ekranu</string>
   <string name="locked">zablokowane</string>
@@ -88,6 +92,8 @@
   <string name="track_unknown">Nieznana ścieżka</string>
   <string name="track_codec_info">Kodek: %1$s\n</string>
   <string name="track_language_info">Język: %1$s\n</string>
+  <string name="volume">Głośność</string>
+  <string name="brightness">Jasność</string>
   <plurals name="track_channels_info_quantity">
     <item quantity="one">%1$d kanał\n</item>
     <item quantity="few">%1$d kanały\n</item>
@@ -120,6 +126,8 @@
   <!--Preferences-->
   <string name="preferences">Ustawienia</string>
   <string name="main_prefs_category">Główne</string>
+  <string name="internal_memory">Pamięć wewnętrzna</string>
+  <string name="external_mount">Zewnętrzny napęd</string>
   <string name="privacy_prefs_category">Prywatność</string>
   <string name="clear_history">Wyczyść historię wyszukiwania</string>
   <string name="advanced_prefs_category">Zaawansowane</string>
