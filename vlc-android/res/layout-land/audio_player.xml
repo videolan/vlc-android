@@ -160,9 +160,10 @@
                 android:id="@+id/current_speed"
                 android:layout_width="60dip"
                 android:layout_height="40dip"
-                android:layout_marginTop="10dip"
                 android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip"
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="onSpeedLabelClick"
                 android:text="@string/speed_placeholder"
                 android:textSize="24dp" />
@@ -175,15 +176,17 @@
         android:layout_height="wrap_content"
         android:layout_margin="0dip"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/previous"
             android:layout_width="60dip"
             android:layout_height="60dip"
-            android:background="@drawable/ic_backward"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/previous"
-            android:onClick="onPreviousClick" />
+            android:onClick="onPreviousClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_backward" />
 
         <ImageButton
             android:id="@+id/play_pause"
@@ -191,9 +194,11 @@
             android:layout_height="60dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/ic_pause"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/pause"
-            android:onClick="onPlayPauseClick" />
+            android:onClick="onPlayPauseClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pause" />
 
         <ImageButton
             android:id="@+id/stop"
@@ -201,17 +206,21 @@
             android:layout_height="60dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/ic_stop"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/stop"
-            android:onClick="onStopClick" />
+            android:onClick="onStopClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_stop" />
 
         <ImageButton
             android:id="@+id/next"
             android:layout_width="60dip"
             android:layout_height="60dip"
-            android:background="@drawable/ic_forward"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/next"
-            android:onClick="onNextClick" />
+            android:onClick="onNextClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_forward" />
 
     </LinearLayout>
 
