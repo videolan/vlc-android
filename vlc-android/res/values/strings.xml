@@ -80,6 +80,14 @@
     <string name="nosubdirectory">No subdirectories.</string>
     <string name="nohistory">You have no playback history yet.</string>
     <string name="validation">Are you sure?</string>
+
+    <string name="cover_art">Cover art</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="repeat">Repeat none/single/all</string>
+    <string name="previous">Previous</string>
+    <string name="stop">Stop</string>
+    <string name="next">Next</string>
+
     <string name="lock_rotation">Lock screen rotation</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>

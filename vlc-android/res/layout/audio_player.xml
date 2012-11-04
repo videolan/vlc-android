@@ -14,13 +14,15 @@
             android:src="@drawable/header_logo"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:contentDescription="@string/app_name" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1">
         <ImageView
+            android:contentDescription="@string/cover_art"
             android:layout_height="fill_parent"
             android:layout_width="0dip"
             android:layout_weight="1"
@@ -41,6 +43,7 @@
                 android:layout_height="60dip"
                 android:layout_width="60dip"
                 android:layout_marginBottom="10dip"
+                android:contentDescription="@string/shuffle"
                 android:id="@+id/shuffle"
                 android:onClick="onShuffleClick" />
             <ImageButton
@@ -51,6 +54,7 @@
                 android:layout_height="60dip"
                 android:layout_width="60dip"
                 android:layout_marginTop="10dip"
+                android:contentDescription="@string/repeat"
                 android:id="@+id/repeat"
                 android:onClick="onRepeatClick" />
 
@@ -155,42 +159,48 @@
         android:gravity="center"
         android:layout_margin="10dip">
         <ImageButton
-            android:src="@drawable/ic_backward"
-            android:scaleType="fitXY"
-            android:background="#00000000"
-            android:layout_height="70dip"
-            android:layout_width="70dip"
             android:id="@+id/previous"
-            android:onClick="onPreviousClick" />
-        <ImageButton
-            android:src="@drawable/ic_pause"
-            android:scaleType="fitXY"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
             android:background="#00000000"
+            android:contentDescription="@string/previous"
+            android:onClick="onPreviousClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_backward" />
+
+        <ImageButton
+            android:id="@+id/play_pause"
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:id="@+id/play_pause"
-            android:onClick="onPlayPauseClick" />
+            android:background="#00000000"
+            android:contentDescription="@string/pause"
+            android:onClick="onPlayPauseClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pause" />
 
         <ImageButton
             android:id="@+id/stop"
-            android:scaleType="fitXY"
-            android:background="#00000000"
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:src="@drawable/ic_stop"
-            android:onClick="onStopClick" />
+            android:background="#00000000"
+            android:contentDescription="@string/stop"
+            android:onClick="onStopClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_stop" />
 
         <ImageButton
-            android:src="@drawable/ic_forward"
-            android:scaleType="fitXY"
-            android:background="#00000000"
-            android:layout_height="70dip"
-            android:layout_width="70dip"
             android:id="@+id/next"
-            android:onClick="onNextClick" />
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:background="#00000000"
+            android:contentDescription="@string/next"
+            android:onClick="onNextClick"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_forward" />
+
     </LinearLayout>
 </LinearLayout>

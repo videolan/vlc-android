@@ -173,8 +173,10 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mTimeline.setProgress(time);
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
+            mPlayPause.setContentDescription(getString(R.string.pause));
         } else {
             mPlayPause.setImageResource(R.drawable.ic_play);
+            mPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {
             mShuffle.setImageResource(R.drawable.ic_shuffle_glow);
