@@ -29,10 +29,13 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
+import com.actionbarsherlock.R.color;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -56,6 +59,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     private TextView mLength;
     private TextView mSpeed;
     private ImageButton mPlayPause;
+    private ImageButton mStop;
     private ImageButton mNext;
     private ImageButton mPrevious;
     private ImageButton mShuffle;
@@ -86,11 +90,29 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mLength = (TextView) findViewById(R.id.length);
         mSpeed = (TextView) findViewById(R.id.current_speed);
         mPlayPause = (ImageButton) findViewById(R.id.play_pause);
+        mStop = (ImageButton) findViewById(R.id.stop);
         mNext = (ImageButton) findViewById(R.id.next);
         mPrevious = (ImageButton) findViewById(R.id.previous);
         mShuffle = (ImageButton) findViewById(R.id.shuffle);
         mRepeat = (ImageButton) findViewById(R.id.repeat);
         mTimeline = (SeekBar) findViewById(R.id.timeline);
+
+        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    v.setBackgroundColor(Color.parseColor("#FFBA6F"));
+                else
+                    v.setBackgroundColor(Color.TRANSPARENT);
+            }
+        };
+        mSpeed.setOnFocusChangeListener(listener);
+        mShuffle.setOnFocusChangeListener(listener);
+        mRepeat.setOnFocusChangeListener(listener);
+        mTimeline.setOnFocusChangeListener(listener);
+        mPrevious.setOnFocusChangeListener(listener);
+        mPlayPause.setOnFocusChangeListener(listener);
+        mStop.setOnFocusChangeListener(listener);
+        mNext.setOnFocusChangeListener(listener);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 

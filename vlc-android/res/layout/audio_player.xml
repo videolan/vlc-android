@@ -29,6 +29,7 @@
             android:background="#00ffffff"
             android:layout_marginLeft="15dip"
             android:layout_marginTop="15dip"
+            android:focusable="false"
             android:id="@+id/cover" />
         <LinearLayout
             android:layout_width="90dip"
@@ -44,6 +45,7 @@
                 android:layout_width="60dip"
                 android:layout_marginBottom="10dip"
                 android:contentDescription="@string/shuffle"
+                android:focusable="true"
                 android:id="@+id/shuffle"
                 android:onClick="onShuffleClick" />
             <ImageButton
@@ -55,6 +57,7 @@
                 android:layout_width="60dip"
                 android:layout_marginTop="10dip"
                 android:contentDescription="@string/repeat"
+                android:focusable="true"
                 android:id="@+id/repeat"
                 android:onClick="onRepeatClick" />
 
@@ -67,6 +70,7 @@
                 android:textSize="24dp"
                 android:gravity="center"
                 android:clickable="true"
+                android:focusable="true"
                 android:onClick="onSpeedLabelClick" />
 
         </LinearLayout>
@@ -103,6 +107,8 @@
         android:maxHeight="4dip"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/ic_seekbar_thumb"
+        android:focusable="true"
+        android:nextFocusUp="@+id/current_speed"
         android:paddingTop="5dip"
         android:paddingBottom="10dip"
         android:paddingLeft="15dip"
@@ -122,6 +128,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/title"
         android:clickable="true"
+        android:focusable="false"
         android:onClick="onTextClick" />
     <TextView
         android:layout_width="fill_parent"
@@ -137,6 +144,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/artist"
         android:clickable="true"
+        android:focusable="false"
         android:onClick="onTextClick" />
     <TextView
         android:layout_width="fill_parent"
@@ -151,6 +159,7 @@
         android:ellipsize="marquee"
         android:id="@+id/album"
         android:clickable="true"
+        android:focusable="false"
         android:onClick="onTextClick" />
     <LinearLayout
         android:layout_width="fill_parent"
@@ -163,6 +172,7 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:background="#00000000"
+            android:focusable="true"
             android:contentDescription="@string/previous"
             android:onClick="onPreviousClick"
             android:scaleType="fitXY"
@@ -175,6 +185,7 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="#00000000"
+            android:focusable="true"
             android:contentDescription="@string/pause"
             android:onClick="onPlayPauseClick"
             android:scaleType="fitXY"
@@ -187,6 +198,7 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="#00000000"
+            android:focusable="true"
             android:contentDescription="@string/stop"
             android:onClick="onStopClick"
             android:scaleType="fitXY"
@@ -197,6 +209,7 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:background="#00000000"
+            android:focusable="true"
             android:contentDescription="@string/next"
             android:onClick="onNextClick"
             android:scaleType="fitXY"
