@@ -87,7 +87,7 @@ public class AudioService extends Service {
     /**
      * RemoteControlClient is for lock screen playback control.
      */
-    private RemoteControlClient mRemoteControlClient = null;
+    private static RemoteControlClient mRemoteControlClient = null;
 
     /**
      * Distinguish between the "fake" (Java-backed) playlist versus the "real"
@@ -135,34 +135,40 @@ public class AudioService extends Service {
             filter = new IntentFilter();
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             registerReceiver(new RemoteControlClientReceiver(), filter);
-        } else {
-            setUpRemoteControlClient();
         }
 
         AudioUtil.prepareCacheFolder(this);
     }
 
+
+    /**
+     * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
+     * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
+     */
     @TargetApi(14)
-    private void setUpRemoteControlClient() {
-        AudioManager audioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
+    public static void setUpRemoteControlClient() {
+        Context context = VLCApplication.getAppContext();
+        AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
 
         if(Util.isICSOrLater()) {
             audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
 
-            Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-            mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
-            PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, mediaButtonIntent, 0);
+            if (mRemoteControlClient == null) {
+                Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+                mediaButtonIntent.setComponent(mRemoteControlClientReceiverComponent);
+                PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context, 0, mediaButtonIntent, 0);
 
-            // create and register the remote control client
-            mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+                // create and register the remote control client
+                mRemoteControlClient = new RemoteControlClient(mediaPendingIntent);
+                audioManager.registerRemoteControlClient(mRemoteControlClient);
+            }
+
             mRemoteControlClient.setTransportControlFlags(
                     RemoteControlClient.FLAG_KEY_MEDIA_PLAY |
                     RemoteControlClient.FLAG_KEY_MEDIA_PAUSE |
                     RemoteControlClient.FLAG_KEY_MEDIA_PREVIOUS |
                     RemoteControlClient.FLAG_KEY_MEDIA_NEXT |
                     RemoteControlClient.FLAG_KEY_MEDIA_STOP);
-            audioManager.registerRemoteControlClient(mRemoteControlClient);
-
         } else if (Util.isFroyoOrLater()) {
             audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
         }
@@ -179,22 +185,9 @@ public class AudioService extends Service {
         if(!Util.isICSOrLater())
             return;
 
-        mRemoteControlClient.setPlaybackState(p);
+        if (mRemoteControlClient != null)
+            mRemoteControlClient.setPlaybackState(p);
     }
-
-   /**
-    * Tell the system we want to be the default receiver for the MEDIA buttons.
-    * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
-    */
-    @TargetApi(8)
-    public static void requestMediaButtons() {
-        if(Util.isFroyoOrLater() && mRemoteControlClientReceiverComponent != null) {
-            Context context = VLCApplication.getAppContext();
-            AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
-            audioManager.registerMediaButtonEventReceiver(mRemoteControlClientReceiverComponent);
-        }
-    }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -451,6 +444,7 @@ public class AudioService extends Service {
     }
 
     private void pause() {
+        setUpRemoteControlClient();
         mHandler.removeMessages(SHOW_PROGRESS);
         // hideNotification(); <-- see event handler
         mLibVLC.pause();
@@ -458,6 +452,7 @@ public class AudioService extends Service {
 
     private void play() {
         if (mCurrentMedia != null) {
+            setUpRemoteControlClient();
             mLibVLC.play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
@@ -508,6 +503,7 @@ public class AudioService extends Service {
             mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
         }
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        setUpRemoteControlClient();
         showNotification();
         updateWidget(this);
         updateRemoteControlClientMetadata();
@@ -518,14 +514,16 @@ public class AudioService extends Service {
         if(!Util.isICSOrLater()) // NOP check
             return;
 
-        MetadataEditor editor = mRemoteControlClient.editMetadata(true);
-        editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, mCurrentMedia.getAlbum());
-        editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, mCurrentMedia.getArtist());
-        editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, mCurrentMedia.getGenre());
-        editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, mCurrentMedia.getTitle());
-        editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, mCurrentMedia.getLength());
-        editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, getCover());
-        editor.apply();
+        if (mRemoteControlClient != null) {
+            MetadataEditor editor = mRemoteControlClient.editMetadata(true);
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, mCurrentMedia.getAlbum());
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, mCurrentMedia.getArtist());
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, mCurrentMedia.getGenre());
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, mCurrentMedia.getTitle());
+            editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, mCurrentMedia.getLength());
+            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, getCover());
+            editor.apply();
+        }
     }
 
     private void previous() {
@@ -547,6 +545,7 @@ public class AudioService extends Service {
             mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
         }
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
+        setUpRemoteControlClient();
         showNotification();
         updateWidget(this);
         updateRemoteControlClientMetadata();
@@ -709,6 +708,7 @@ public class AudioService extends Service {
                 } else {
                     mLibVLC.readMedia(mCurrentMedia.getLocation());
                 }
+                setUpRemoteControlClient();
                 showNotification();
                 updateWidget(AudioService.this);
                 updateRemoteControlClientMetadata();

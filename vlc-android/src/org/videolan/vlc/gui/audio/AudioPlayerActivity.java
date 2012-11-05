@@ -125,7 +125,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         super.onResume();
         AudioServiceController.getInstance().bindAudioService(this);
         mAudioController.addAudioPlayer(this);
-        AudioService.requestMediaButtons();
+        AudioService.setUpRemoteControlClient();
     }
 
     @Override
