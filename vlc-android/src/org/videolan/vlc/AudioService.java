@@ -49,6 +49,7 @@ import android.media.RemoteControlClient.MetadataEditor;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
@@ -83,6 +84,7 @@ public class AudioService extends Service {
     private boolean mDetectHeadset = true;
     private OnAudioFocusChangeListener audioFocusListener;
     private ComponentName mRemoteControlClientReceiverComponent;
+    private PowerManager.WakeLock mWakeLock;
 
     /**
      * RemoteControlClient is for lock screen playback control.
@@ -117,6 +119,11 @@ public class AudioService extends Service {
         mEventManager = EventManager.getInstance();
         mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
                 RemoteControlClientReceiver.class.getName());
+
+        // Make sure the audio player will acquire a wake-lock while playing. If we don't do
+        // that, the CPU might go to sleep while the song is playing, causing playback to stop.
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
@@ -198,6 +205,7 @@ public class AudioService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mWakeLock.release();
         unregisterReceiver(serviceReceiver);
     }
 
@@ -327,6 +335,7 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.changeAudioFocus(true);
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+                    service.mWakeLock.acquire();
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
@@ -334,16 +343,19 @@ public class AudioService extends Service {
                     // also hide notification if phone ringing
                     service.hideNotification();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+                    service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
+                    service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
                     service.next();
+                    service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerVout:
                     if(msg.getData().getInt("data") > 0) {
