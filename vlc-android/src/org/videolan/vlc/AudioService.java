@@ -82,12 +82,12 @@ public class AudioService extends Service {
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
     private OnAudioFocusChangeListener audioFocusListener;
-    private static ComponentName mRemoteControlClientReceiverComponent;
+    private ComponentName mRemoteControlClientReceiverComponent;
 
     /**
      * RemoteControlClient is for lock screen playback control.
      */
-    private static RemoteControlClient mRemoteControlClient = null;
+    private RemoteControlClient mRemoteControlClient = null;
 
     /**
      * Distinguish between the "fake" (Java-backed) playlist versus the "real"
@@ -146,7 +146,7 @@ public class AudioService extends Service {
      * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
      */
     @TargetApi(14)
-    public static void setUpRemoteControlClient() {
+    public void setUpRemoteControlClient() {
         Context context = VLCApplication.getAppContext();
         AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
 
