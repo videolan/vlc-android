@@ -114,8 +114,10 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                     break;
             }
 
-            if(i != null)
+            if(i != null) {
                 context.sendBroadcast(i);
+                abortBroadcast();
+            }
         }
     }
 }
