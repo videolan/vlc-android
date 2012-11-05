@@ -205,7 +205,8 @@ public class AudioService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mWakeLock.release();
+        if (mWakeLock.isHeld())
+            mWakeLock.release();
         unregisterReceiver(serviceReceiver);
     }
 
@@ -335,7 +336,8 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.changeAudioFocus(true);
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-                    service.mWakeLock.acquire();
+                    if (!service.mWakeLock.isHeld())
+                        service.mWakeLock.acquire();
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
@@ -343,19 +345,22 @@ public class AudioService extends Service {
                     // also hide notification if phone ringing
                     service.hideNotification();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-                    service.mWakeLock.release();
+                    if (service.mWakeLock.isHeld())
+                        service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
-                    service.mWakeLock.release();
+                    if (service.mWakeLock.isHeld())
+                        service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
                     service.next();
-                    service.mWakeLock.release();
+                    if (service.mWakeLock.isHeld())
+                        service.mWakeLock.release();
                     break;
                 case EventManager.MediaPlayerVout:
                     if(msg.getData().getInt("data") > 0) {
