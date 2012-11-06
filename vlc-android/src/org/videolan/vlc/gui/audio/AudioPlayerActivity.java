@@ -29,8 +29,6 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
-import com.actionbarsherlock.R.color;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -98,6 +96,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mTimeline = (SeekBar) findViewById(R.id.timeline);
 
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
+            @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus)
                     v.setBackgroundColor(Color.parseColor("#FFBA6F"));
