@@ -47,7 +47,7 @@ import android.widget.Toast;
 
 public class Util {
     public final static String TAG = "VLC/Util";
-    public final static boolean hasNavBar;
+    private final static boolean hasNavBar;
     /** A set of utility functions for the VLC application */
 
     static {
@@ -251,6 +251,13 @@ public class Util {
     public static boolean hasNavBar()
     {
         return hasNavBar;
+    }
+
+    /** hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS */
+    public static boolean hasCombBar() {
+        return (!isPhone()
+                && ((android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) &&
+                    (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.JELLY_BEAN)));
     }
 
     private static String errorMsg = null;
