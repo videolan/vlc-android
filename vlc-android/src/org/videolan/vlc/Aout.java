@@ -68,4 +68,7 @@ public class Aout {
         mAudioTrack.play();
     }
 
+    public void pause() {
+        mAudioTrack.pause();
+    }
 }

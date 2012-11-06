@@ -583,7 +583,7 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     if ( (*env)->CallIntMethod(env, thiz, methodId) == AOUT_AUDIOTRACK_JAVA )
     {
-        libvlc_audio_set_callbacks(mp, aout_play, NULL, NULL, NULL, NULL,
+        libvlc_audio_set_callbacks(mp, aout_play, aout_pause, NULL, NULL, NULL,
                                    (void*) myJavaLibVLC);
         libvlc_audio_set_format_callbacks(mp, aout_open, aout_close);
     }

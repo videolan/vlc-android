@@ -240,6 +240,15 @@ public class LibVLC {
     }
 
     /**
+     * Pause the Java audio output
+     * This function is called by the native code
+     */
+    public void pauseAout() {
+        Log.d(TAG, "Pausing the java audio output");
+        mAout.pause();
+    }
+
+    /**
      * Close the Java audio output
      * This function is called by the native code
      */

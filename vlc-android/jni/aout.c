@@ -162,6 +162,33 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
     (*myVm)->DetachCurrentThread (myVm);
 }
 
+void aout_pause(void *opaque, int64_t pts)
+{
+    LOGI ("Pausing audio output");
+    aout_sys_t *p_sys = opaque;
+    assert(p_sys);
+
+    JNIEnv *p_env;
+    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+
+    // Call the pause function.
+    jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
+    jmethodID methodIdPauseAout = (*p_env)->GetMethodID (p_env, cls, "pauseAout", "()V");
+    if (!methodIdPauseAout)
+        LOGE ("Method pauseAout() could not be found!");
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdPauseAout);
+    if ((*p_env)->ExceptionCheck (p_env))
+    {
+        LOGE ("Unable to pause audio player!");
+#ifndef NDEBUG
+        (*p_env)->ExceptionDescribe (p_env);
+#endif
+        (*p_env)->ExceptionClear (p_env);
+    }
+
+    (*myVm)->DetachCurrentThread (myVm);
+}
+
 void aout_close(void *opaque)
 {
     LOGI ("Closing audio output");
