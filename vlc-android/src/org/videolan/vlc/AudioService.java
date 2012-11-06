@@ -40,6 +40,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
@@ -51,6 +52,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -137,9 +139,14 @@ public class AudioService extends Service {
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         registerReceiver(serviceReceiver, filter);
 
-        if(!Util.isFroyoOrLater()) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean stealRemoteControl = pref.getBoolean("steal_remote_control", false);
+
+        if(!Util.isFroyoOrLater() || stealRemoteControl) {
             /* Backward compatibility for API 7 */
             filter = new IntentFilter();
+            if (stealRemoteControl)
+                filter.setPriority(Integer.MAX_VALUE);
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             registerReceiver(new RemoteControlClientReceiver(), filter);
         }

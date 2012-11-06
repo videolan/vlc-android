@@ -163,6 +163,8 @@
     <string name="set_locale_popup">Quit and reset VLC for changes to take effect.</string>
     <string name="detect_headset">Detect headset</string>
     <string name="detect_headset_detail">Pause on headset removed; resume on headset inserted</string>
+    <string name="steal_remote_control">Steal headset remote control from other apps</string>
+    <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevent dialing on double click on HTC phones</string>
     <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_gesture_brightness">Enable brightness gesture</string>
     <string name="enable_verbose_mode">Verbose</string>

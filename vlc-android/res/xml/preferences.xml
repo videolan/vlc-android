@@ -23,6 +23,12 @@
             android:defaultValue="true">
         </CheckBoxPreference>
         <CheckBoxPreference
+            android:key="steal_remote_control"
+            android:title="@string/steal_remote_control"
+            android:summary="@string/steal_remote_control_detail"
+            android:defaultValue="false">
+        </CheckBoxPreference>
+        <CheckBoxPreference
             android:key="enable_wheel_bar"
             android:title="@string/enable_wheel_bar"
             android:defaultValue="false">
@@ -31,7 +37,6 @@
             android:defaultValue="true"
             android:key="enable_gesture_brightness"
             android:title="@string/enable_gesture_brightness" >
-
         </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/privacy_prefs_category">
