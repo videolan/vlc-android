@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.LibVLC;
@@ -32,6 +33,7 @@ import org.videolan.vlc.Util;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -243,6 +245,17 @@ public class PreferencesActivity extends PreferenceActivity {
                     }
                 });
 
+        // steal remote control
+        Preference checkboxStealRC = findPreference("steal_remote_control");
+        checkboxStealRC.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        restartService(preference.getContext());
+                        return true;
+                    }
+                });
+
         // Change verbosity (logcat)
         CheckBoxPreference checkboxVerbosity = (CheckBoxPreference) findPreference("enable_verbose_mode");
         checkboxVerbosity.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -319,5 +332,15 @@ public class PreferencesActivity extends PreferenceActivity {
     protected void onPause() {
         super.onPause();
         AudioServiceController.getInstance().unbindAudioService(this);
+    }
+
+    private void restartService(Context context) {
+        Intent service = new Intent(context, AudioService.class);
+
+        AudioServiceController.getInstance().unbindAudioService(PreferencesActivity.this);
+        context.stopService(service);
+
+        context.startService(service);
+        AudioServiceController.getInstance().bindAudioService(PreferencesActivity.this);
     }
 }
