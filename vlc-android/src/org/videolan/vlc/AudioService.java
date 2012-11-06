@@ -92,6 +92,7 @@ public class AudioService extends Service {
      * RemoteControlClient is for lock screen playback control.
      */
     private RemoteControlClient mRemoteControlClient = null;
+    private RemoteControlClientReceiver mRemoteControlClientReceiver = null;
 
     /**
      * Distinguish between the "fake" (Java-backed) playlist versus the "real"
@@ -148,7 +149,8 @@ public class AudioService extends Service {
             if (stealRemoteControl)
                 filter.setPriority(Integer.MAX_VALUE);
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
-            registerReceiver(new RemoteControlClientReceiver(), filter);
+            mRemoteControlClientReceiver = new RemoteControlClientReceiver();
+            registerReceiver(mRemoteControlClientReceiver, filter);
         }
 
         AudioUtil.prepareCacheFolder(this);
@@ -212,9 +214,14 @@ public class AudioService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stop();
         if (mWakeLock.isHeld())
             mWakeLock.release();
         unregisterReceiver(serviceReceiver);
+        if (mRemoteControlClientReceiver != null) {
+            unregisterReceiver(mRemoteControlClientReceiver);
+            mRemoteControlClientReceiver = null;
+        }
     }
 
     @Override
