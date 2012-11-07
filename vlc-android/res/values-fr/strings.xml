@@ -123,6 +123,7 @@
     <string name="steal_remote_control_detail">Evite les conflits en volant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="enable_wheel_bar">Activer la wheel bar</string>
     <string name="enable_gesture_brightness">Activer le geste de luminosité</string>
+    <string name="enable_sensor_orientation">Activer l\'orientation automatique</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_detail">Augmenter la verbosité (logcat)</string>
     <string name="aout">Sortie audio</string>

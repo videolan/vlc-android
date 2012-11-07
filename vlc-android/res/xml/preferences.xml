@@ -38,7 +38,12 @@
             android:key="enable_gesture_brightness"
             android:title="@string/enable_gesture_brightness" >
         </CheckBoxPreference>
-    </PreferenceCategory>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_sensor_orientation"
+            android:title="@string/enable_sensor_orientation" >
+        </CheckBoxPreference>
+        </PreferenceCategory>
     <PreferenceCategory android:title="@string/privacy_prefs_category">
         <PreferenceScreen
             android:key="clear_history"

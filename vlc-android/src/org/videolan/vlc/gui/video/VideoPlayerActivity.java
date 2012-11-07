@@ -106,6 +106,7 @@ public class VideoPlayerActivity extends Activity {
 
     /** Overlay */
     private View mOverlayHeader;
+    private View mOverlayLock;
     private View mOverlayOption;
     private View mOverlay;
     private static final int OVERLAY_TIMEOUT = 4000;
@@ -128,11 +129,13 @@ public class VideoPlayerActivity extends Activity {
     private IPlayerControl mControls;
     private boolean mEnableWheelbar;
     private boolean mEnableBrightnessGesture;
+    private boolean mEnableScreenOrientation;
     private ImageButton mAudioTrack;
     private ImageButton mSubtitle;
     private ImageButton mLock;
     private ImageButton mSize;
     private TextView mSpeedLabel;
+    private boolean mIsLocked = false;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -193,6 +196,7 @@ public class VideoPlayerActivity extends Activity {
 
         /** initialize Views an their Events */
         mOverlayHeader = findViewById(R.id.player_overlay_header);
+        mOverlayLock = findViewById(R.id.lock_overlay);
         mOverlayOption = findViewById(R.id.option_overlay);
         mOverlay = findViewById(R.id.player_overlay);
 
@@ -208,6 +212,7 @@ public class VideoPlayerActivity extends Activity {
 
         mEnableWheelbar = pref.getBoolean("enable_wheel_bar", false);
         mEnableBrightnessGesture = pref.getBoolean("enable_gesture_brightness", true);
+        mEnableScreenOrientation= pref.getBoolean("enable_sensor_orientation", true);
         mControls = mEnableWheelbar
                 ? new PlayerControlWheel(this)
                 : new PlayerControlClassic(this);
@@ -231,7 +236,7 @@ public class VideoPlayerActivity extends Activity {
             }}, 1500);
 
 
-        mLock = (ImageButton) findViewById(R.id.player_overlay_lock);
+        mLock = (ImageButton) findViewById(R.id.lock_overlay_button);
         mLock.setOnClickListener(mLockListener);
 
         mSize = (ImageButton) findViewById(R.id.player_overlay_size);
@@ -268,7 +273,11 @@ public class VideoPlayerActivity extends Activity {
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+
+        setRequestedOrientation(mEnableScreenOrientation
+                ? ActivityInfo.SCREEN_ORIENTATION_SENSOR
+                : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
     }
 
     @Override
@@ -464,6 +473,7 @@ public class VideoPlayerActivity extends Activity {
 
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
+        hideOverlay(true);
     }
 
     /**
@@ -473,6 +483,8 @@ public class VideoPlayerActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock);
+        mShowing = false;
+        showOverlay();
     }
 
     /**
@@ -705,6 +717,11 @@ public class VideoPlayerActivity extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (mIsLocked) {
+            showOverlay();
+            return false;
+        }
+
         DisplayMetrics screen = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(screen);
 
@@ -981,18 +998,16 @@ public class VideoPlayerActivity extends Activity {
      *
      */
     private final OnClickListener mLockListener = new OnClickListener() {
-        boolean isLocked = false;
 
         @Override
         public void onClick(View v) {
-            if (isLocked) {
+            if (mIsLocked) {
+                mIsLocked = false;
                 unlockScreen();
-                isLocked = false;
             } else {
+                mIsLocked = true;
                 lockScreen();
-                isLocked = true;
             }
-            showOverlay();
         }
     };
 
@@ -1085,10 +1100,13 @@ public class VideoPlayerActivity extends Activity {
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
-            mOverlayHeader.setVisibility(View.VISIBLE);
-            mOverlayOption.setVisibility(View.VISIBLE);
-            mOverlay.setVisibility(View.VISIBLE);
-            dimStatusBar(false);
+            mOverlayLock.setVisibility(View.VISIBLE);
+            if (!mIsLocked) {
+                mOverlayHeader.setVisibility(View.VISIBLE);
+                mOverlayOption.setVisibility(View.VISIBLE);
+                mOverlay.setVisibility(View.VISIBLE);
+                dimStatusBar(false);
+            }
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
@@ -1106,16 +1124,18 @@ public class VideoPlayerActivity extends Activity {
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
-            if (!fromUser) {
+            if (!fromUser && !mIsLocked) {
+                mOverlayLock.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlay.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
+            mOverlayLock.setVisibility(View.INVISIBLE);
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlay.setVisibility(View.INVISIBLE);
-            mShowing = false;
             dimStatusBar(true);
+            mShowing = false;
         }
     }
 

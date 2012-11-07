@@ -103,6 +103,19 @@
             android:textSize="22dip" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/lock_overlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/player_overlay" >
+
+        <ImageButton
+            android:id="@+id/lock_overlay_button"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:background="@drawable/ic_lock" />
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/player_overlay"
         android:layout_width="fill_parent"
@@ -166,14 +179,6 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
-
-        <ImageButton
-            android:id="@+id/player_overlay_lock"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/player_overlay_time"
-            android:background="@drawable/ic_lock" />
     </RelativeLayout>
 
 </RelativeLayout>

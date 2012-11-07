@@ -167,6 +167,7 @@
     <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_gesture_brightness">Enable brightness gesture</string>
+    <string name="enable_sensor_orientation">Enable sensor orientation</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_detail">Increase the verbosity (logcat)</string>
     <string name="aout">Audio output</string>
