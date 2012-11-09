@@ -201,7 +201,7 @@ public class LibVLC {
         if (!mIsInitialized) {
             if(!Util.hasCompatibleCPU()) {
                 Log.e(TAG, Util.getErrorMsg());
-                return;
+                throw new LibVlcException();
             }
             Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

@@ -266,6 +266,8 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
+            Log.d(TAG, "LibVLC initialisation failed");
+            return;
         }
 
         EventManager em = EventManager.getInstance();
