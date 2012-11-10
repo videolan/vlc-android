@@ -257,7 +257,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     int loops = 100;
     for (;;) {
         float pos = libvlc_media_player_get_position(mp);
-        if (pos < THUMBNAIL_POSITION || !loops--)
+        if (pos > THUMBNAIL_POSITION || !loops--)
             break;
         usleep(50000);
     }
