@@ -76,6 +76,12 @@
   <string name="nosubdirectory">Brak podkatalogów.</string>
   <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
   <string name="validation">Czy jesteś pewny?</string>
+  <string name="cover_art">Okładka</string>
+  <string name="shuffle">Losowo</string>
+  <string name="repeat">Powtórz żaden/pojedynczy/wszystkie</string>
+  <string name="previous">Poprzedni</string>
+  <string name="stop">Zatrzymaj</string>
+  <string name="next">Następny</string>
   <string name="lock_rotation">Zablokuj obracanie ekranu</string>
   <string name="locked">zablokowane</string>
   <string name="unlocked">odblokowane</string>
@@ -141,8 +147,11 @@
   <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
   <string name="detect_headset">Wykrywanie słuchawek</string>
   <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
+  <string name="steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
+  <string name="steal_remote_control_detail">Unikaj konfliktów poprzez kradzież pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach HTC.</string>
   <string name="enable_wheel_bar">Wyłącz okrągły pasek kontroli</string>
   <string name="enable_gesture_brightness">Włącz gesty jasności</string>
+  <string name="enable_sensor_orientation">Włącz czujnik położenia</string>
   <string name="enable_verbose_mode">Szczegółowość</string>
   <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
   <string name="aout">Wyjście dźwiękowe</string>
