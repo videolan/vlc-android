@@ -88,6 +88,7 @@ public class MediaLibrary {
 
     public boolean isWorking() {
         if (mLoadingThread != null &&
+            mLoadingThread.isAlive() &&
             mLoadingThread.getState() != State.TERMINATED &&
             mLoadingThread.getState() != State.NEW)
             return true;
