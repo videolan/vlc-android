@@ -115,7 +115,6 @@ public class VideoPlayerActivity extends Activity {
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_SIZE = 3;
     private static final int FADE_OUT_INFO = 4;
-    private static final int HIDE_NAV = 5;
     private boolean mDragging;
     private boolean mShowing;
     private int mUiVisibility = -1;
@@ -187,7 +186,6 @@ public class VideoPlayerActivity extends Activity {
                             setSurfaceSize(mVideoWidth, mVideoHeight, mSarNum, mSarDen);
                             if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing) {
                                 showOverlay();
-                                mHandler.sendMessageDelayed(mHandler.obtainMessage(HIDE_NAV), OVERLAY_TIMEOUT);
                             }
                             mUiVisibility = visibility;
                         }
@@ -284,7 +282,7 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        dimStatusBar(true);
+        showOverlay();
         mSwitchingView = false;
     }
 
@@ -612,9 +610,6 @@ public class VideoPlayerActivity extends Activity {
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
                     break;
-                case HIDE_NAV:
-                    activity.dimStatusBar(true);
-                    break;
             }
         }
     };
@@ -770,10 +765,6 @@ public class VideoPlayerActivity extends Activity {
                     showOverlay();
                 } else {
                     hideOverlay(true);
-                    if (Util.isICSOrLater())
-                        mHandler.sendMessageDelayed(
-                                mHandler.obtainMessage(HIDE_NAV),
-                                OVERLAY_TIMEOUT);
                 }
             }
             // Seek
@@ -1097,7 +1088,6 @@ public class VideoPlayerActivity extends Activity {
      * show overlay
      */
     private void showOverlay(int timeout) {
-        mHandler.removeMessages(HIDE_NAV);
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
@@ -1135,8 +1125,8 @@ public class VideoPlayerActivity extends Activity {
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlay.setVisibility(View.INVISIBLE);
-            dimStatusBar(true);
             mShowing = false;
+            dimStatusBar(true);
         }
     }
 
