@@ -214,6 +214,10 @@ public class AudioListFragment extends SherlockListFragment {
 
     private Comparator<Media> byMRL = new Comparator<Media>() {
         public int compare(Media m1, Media m2) {
+            if( m1 == null)
+                return -1;
+            else if( m2 == null)
+                return 1;
             return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
         };
     };
