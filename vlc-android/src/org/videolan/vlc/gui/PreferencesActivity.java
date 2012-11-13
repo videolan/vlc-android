@@ -49,6 +49,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -82,6 +83,7 @@ public class PreferencesActivity extends PreferenceActivity {
                 final Dialog dialog = new Dialog(PreferencesActivity.this);
                 dialog.setContentView(R.layout.root_selection);
                 dialog.setCancelable(true);
+                dialog.getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                 dialog.setTitle(R.string.filebrowser_root);
 
                 ArrayList<String> extMounts = new ArrayList<String>();
