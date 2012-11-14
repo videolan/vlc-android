@@ -292,7 +292,8 @@ public class Util {
         String ANDROID_ABI = properties.getProperty("ANDROID_ABI");
         boolean NO_FPU = properties.getProperty("NO_FPU","0").equals("1");
         boolean NO_ARMV6 = properties.getProperty("NO_ARMV6","0").equals("1");
-        boolean hasNeon = false, hasFpu = false, hasArmV6 = false, hasArmV7 = false;
+        boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
+                hasArmV7 = false, hasMips = false;
         boolean hasX86 = false;
 
         if(CPU_ABI.equals("x86")) {
@@ -321,7 +322,10 @@ public class Util {
                 // (see kernel sources arch/x86/kernel/cpu/proc.c)
                 if(line.contains("clflush size"))
                     hasX86 = true;
-                // TODO: MIPS - "microsecond timers"; see arch/mips/kernel/proc.c
+                // "microsecond timers" is specific to MIPS.
+                // see arch/mips/kernel/proc.c
+                if(line.contains("microsecond timers"))
+                    hasMips = true;
                 if(!hasNeon && line.contains("neon"))
                     hasNeon = true;
                 if(!hasFpu && line.contains("vfp"))
@@ -342,6 +346,16 @@ public class Util {
             return false;
         } else if(hasX86 && ANDROID_ABI.contains("armeabi")) {
             errorMsg = "ARM build on x86 device";
+            isCompatible = false;
+            return false;
+        }
+
+        if(ANDROID_ABI.equals("mips") && !hasMips) {
+            errorMsg = "MIPS build on non-MIPS device";
+            isCompatible = false;
+            return false;
+        } else if(hasMips && ANDROID_ABI.contains("armeabi")) {
+            errorMsg = "ARM build on MIPS device";
             isCompatible = false;
             return false;
         }
