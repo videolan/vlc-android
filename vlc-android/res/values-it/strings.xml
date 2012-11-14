@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Annulla</string>
+    <string name="other">Altro</string>
     <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Controlla che sia montata correttamente.</string>
     <string name="filebrowser_root">Radice</string>
     <string name="filebrowser_title">Seleziona media da riprodurre</string>
@@ -68,6 +71,14 @@
     <string name="nosubdirectory">Nessuna sottocartella.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
+
+    <string name="cover_art">Copeertina</string>
+    <string name="shuffle">Mescola</string>
+    <string name="repeat">Ripeti nessuna/singola/tutte</string>
+    <string name="previous">Precedente</string>
+    <string name="stop">Ferma</string>
+    <string name="next">Successiva</string>
+
     <string name="lock_rotation">Blocca rotazione schermo</string>
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
@@ -84,6 +95,8 @@
     <string name="track_unknown">Traccia sconosciuta</string>
     <string name="track_codec_info">Codificatore: %1$s\n</string>
     <string name="track_language_info">Lingua: %1$s\n</string>
+    <string name="volume">Volume&#160;</string>
+    <string name="brightness">Luminosità&#160;</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canale\n</item>
         <item quantity="other">%1$d canali\n</item>
@@ -115,10 +128,12 @@
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="main_prefs_category">Principale</string>
+    <string name="internal_memory">Memoria interna</string>
+    <string name="external_mount">Memoria esterna</string>
     <string name="privacy_prefs_category">Riservatezza</string>
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="advanced_prefs_category">Avanzate</string>
-    <string name="enable_iomx">Abilita decodifica con accelerazione hardware</string>
+    <string name="enable_iomx">Decodifica con accelerazione hardware</string>
     <string name="advanced_debugging">Debug avanzato</string>
     <string name="quit">Esci dall\'applicazione</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
@@ -128,8 +143,11 @@
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
+    <string name="steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
+    <string name="steal_remote_control_detail">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>    
     <string name="enable_wheel_bar">Wheel bar</string>
     <string name="enable_gesture_brightness">Gesti della luminosità</string>
+    <string name="enable_sensor_orientation">Abilita sensore dell\'orientamento</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
     <string name="aout">Uscita audio</string>
