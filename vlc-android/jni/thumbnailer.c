@@ -25,6 +25,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <errno.h>
+#include <unistd.h>
 
 #define LOG_TAG "VLC/JNI/thumbnailer"
 #include "log.h"
