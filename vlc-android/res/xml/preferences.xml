@@ -38,12 +38,13 @@
             android:key="enable_gesture_brightness"
             android:title="@string/enable_gesture_brightness" >
         </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_sensor_orientation"
-            android:title="@string/enable_sensor_orientation" >
-        </CheckBoxPreference>
-        </PreferenceCategory>
+        <ListPreference
+            android:entries="@array/screen_orientation_list"
+            android:entryValues="@array/screen_orientation_values"
+            android:key="screen_orientation"
+            android:title="@string/screen_orientation" />
+
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/privacy_prefs_category">
         <PreferenceScreen
             android:key="clear_history"
@@ -51,13 +52,20 @@
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
-        <ListPreference android:key="aout" android:defaultValue="@string/aout_audiotrack_java" android:title="@string/aout" />
-        
+        <ListPreference
+            android:defaultValue="@string/aout_audiotrack_java"
+            android:key="aout"
+            android:title="@string/aout" />
         <CheckBoxPreference
             android:key="enable_time_stretching_audio"
             android:title="@string/enable_time_stretching_audio"
             android:summary="@string/enable_time_stretching_audio_detail"
-            android:defaultValue="false" /><CheckBoxPreference android:key="enable_verbose_mode" android:title="@string/enable_verbose_mode" android:summary="@string/enable_verbose_mode_detail" android:defaultValue="true">
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_verbose_mode"
+            android:summary="@string/enable_verbose_mode_detail"
+            android:title="@string/enable_verbose_mode" >
         </CheckBoxPreference>
         <PreferenceScreen android:title="@string/advanced_debugging">
             <Preference
@@ -75,4 +83,10 @@
                 android:defaultValue="" />
         </PreferenceScreen>
     </PreferenceCategory>
+
+    <EditTextPreference
+        android:defaultValue="@string/screen_orientation_default"
+        android:key="screen_orientation_value"
+        android:selectable="false" />
+
 </PreferenceScreen>

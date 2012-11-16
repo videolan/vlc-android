@@ -128,7 +128,7 @@ public class VideoPlayerActivity extends Activity {
     private IPlayerControl mControls;
     private boolean mEnableWheelbar;
     private boolean mEnableBrightnessGesture;
-    private boolean mEnableScreenOrientation;
+    private int mScreenOrientation;
     private ImageButton mAudioTrack;
     private ImageButton mSubtitle;
     private ImageButton mLock;
@@ -210,7 +210,10 @@ public class VideoPlayerActivity extends Activity {
 
         mEnableWheelbar = pref.getBoolean("enable_wheel_bar", false);
         mEnableBrightnessGesture = pref.getBoolean("enable_gesture_brightness", true);
-        mEnableScreenOrientation= pref.getBoolean("enable_sensor_orientation", true);
+
+        mScreenOrientation=  Integer.valueOf(
+                pref.getString("screen_orientation_value", getString(R.string.screen_orientation_default)));
+
         mControls = mEnableWheelbar
                 ? new PlayerControlWheel(this)
                 : new PlayerControlClassic(this);
@@ -272,11 +275,10 @@ public class VideoPlayerActivity extends Activity {
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-
-        setRequestedOrientation(mEnableScreenOrientation
-                ? ActivityInfo.SCREEN_ORIENTATION_SENSOR
-                : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
+        // 100 is the value for screen_orientation_start_lock
+        setRequestedOrientation(mScreenOrientation != 100
+                ? mScreenOrientation
+                : getScreenOrientation());
     }
 
     @Override
@@ -442,34 +444,8 @@ public class VideoPlayerActivity extends Activity {
     /**
      * Lock screen rotation
      */
-    @SuppressWarnings("deprecation")
     private void lockScreen() {
-        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        int rotation;
-        if (Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
-            try {
-                Method m = display.getClass().getDeclaredMethod("getRotation");
-                rotation = (Integer) m.invoke(display);
-            } catch (Exception e) {
-                rotation = Surface.ROTATION_0;
-            }
-        } else {
-            rotation = display.getOrientation();
-        }
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                break;
-            case Surface.ROTATION_90:
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                break;
-            case Surface.ROTATION_270:
-                // FIXME: API Level 9+ (not tested on a device with API Level < 9)
-                setRequestedOrientation(8); // SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                break;
-        }
-
+        if (mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) setRequestedOrientation(getScreenOrientation());
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
         hideOverlay(true);
@@ -479,7 +455,7 @@ public class VideoPlayerActivity extends Activity {
      * Remove screen lock
      */
     private void unlockScreen() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if (mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock);
         mShowing = false;
@@ -1268,5 +1244,42 @@ public class VideoPlayerActivity extends Activity {
             title = itemTitle;
         }
         mTitle.setText(title);
+    }
+
+    @SuppressWarnings("deprecation")
+    private int getScreenRotation(){
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        if (Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
+            try {
+                Method m = display.getClass().getDeclaredMethod("getRotation");
+                return (Integer) m.invoke(display);
+            } catch (Exception e) {
+                return Surface.ROTATION_0;
+            }
+        } else {
+            return display.getOrientation();
+        }
+    }
+
+    private int getScreenOrientation (){
+        switch (getScreenRotation()) {
+        case Surface.ROTATION_0:
+            return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        case Surface.ROTATION_90:
+            return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        case Surface.ROTATION_180:
+            // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API Level 9+
+             return (Build.VERSION.SDK_INT >= 8
+                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                    : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        case Surface.ROTATION_270:
+            // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API Level 9+
+            return (Build.VERSION.SDK_INT >= 8
+                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                    : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        default :
+            return 0;
+        }
     }
 }

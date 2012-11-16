@@ -167,7 +167,14 @@
     <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_gesture_brightness">Enable brightness gesture</string>
-    <string name="enable_sensor_orientation">Enable sensor orientation</string>
+    <string name="screen_orientation">Screen orientation</string>
+    <string name="screen_orientation_default" translatable="false">4</string>
+    <string name="screen_orientation_sensor">Sensor orientation</string>
+    <string name="screen_orientation_start_lock">Locked at start</string>
+    <string name="screen_orientation_portrait">Portrait</string>
+    <string name="screen_orientation_landscape">Landscape</string>
+    <string name="screen_orientation_reverse_portrait">Reverse Portrait</string>
+    <string name="screen_orientation_reverse_landscape">Reverse Landscape</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_detail">Increase the verbosity (logcat)</string>
     <string name="aout">Audio output</string>
@@ -176,6 +183,24 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Enable time-stretching audio</string>
     <string name="enable_time_stretching_audio_detail">Speed up and slow down audio without changing the pitch (requires a fast device)</string>
+
+    <string-array name="screen_orientation_list">
+        <item>@string/screen_orientation_sensor</item>
+        <item>@string/
+</item>
+        <item>@string/screen_orientation_landscape</item>
+        <item>@string/screen_orientation_portrait</item>
+        <item>@string/screen_orientation_reverse_landscape</item>
+        <item>@string/screen_orientation_reverse_portrait</item>
+    </string-array>
+    <string-array name="screen_orientation_values" translatable="false">
+        <item>4</item> <!-- 4 ActivityInfo.SCREEN_ORIENTATION_SENSOR -->
+        <item>100</item> <!-- 100 Arbitrary value for locked start -->
+        <item>0</item> <!-- 0 ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -->
+        <item>1</item> <!-- 1 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -->
+        <item>8</item> <!-- 8 ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -->
+        <item>9</item> <!-- 9 ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -->
+    </string-array>
 
     <string-array name="aouts_froyo">
         <item>@string/aout_audiotrack_java</item>

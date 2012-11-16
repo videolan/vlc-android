@@ -57,6 +57,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 public class PreferencesActivity extends PreferenceActivity {
 
     public final static String TAG = "VLC/PreferencesActivity";
@@ -65,7 +66,6 @@ public class PreferencesActivity extends PreferenceActivity {
     public final static String LAST_MEDIA = "LastMedia";
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,6 +273,17 @@ public class PreferencesActivity extends PreferenceActivity {
                 }
                 String newstatus = ((Boolean)newValue) ? "enabled" : "disabled";
                 Log.i(TAG, "Verbosity mode is now " + newstatus);
+                return true;
+            }
+        });
+
+        // Screen Orientation
+        ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
+        screenOrientationPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                EditTextPreference screenOrientationValue =  (EditTextPreference) findPreference("screen_orientation_value");
+                screenOrientationValue.setText((String) newValue);
                 return true;
             }
         });
