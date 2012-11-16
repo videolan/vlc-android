@@ -186,8 +186,7 @@
 
     <string-array name="screen_orientation_list">
         <item>@string/screen_orientation_sensor</item>
-        <item>@string/
-</item>
+        <item>@string/screen_orientation_start_lock</item>
         <item>@string/screen_orientation_landscape</item>
         <item>@string/screen_orientation_portrait</item>
         <item>@string/screen_orientation_reverse_landscape</item>
