@@ -168,12 +168,12 @@
     <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_gesture_brightness">Enable brightness gesture</string>
     <string name="screen_orientation">Screen orientation</string>
-    <string name="screen_orientation_sensor">Sensor orientation</string>
+    <string name="screen_orientation_sensor">Automatic (sensor)</string>
     <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Landscape</string>
-    <string name="screen_orientation_reverse_portrait">Reverse Portrait</string>
-    <string name="screen_orientation_reverse_landscape">Reverse Landscape</string>
+    <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
+    <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_detail">Increase the verbosity (logcat)</string>
     <string name="aout">Audio output</string>
