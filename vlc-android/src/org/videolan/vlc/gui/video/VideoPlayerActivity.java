@@ -444,7 +444,8 @@ public class VideoPlayerActivity extends Activity {
      * Lock screen rotation
      */
     private void lockScreen() {
-        if (mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) setRequestedOrientation(getScreenOrientation());
+        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            setRequestedOrientation(getScreenOrientation());
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
         hideOverlay(true);
@@ -454,7 +455,8 @@ public class VideoPlayerActivity extends Activity {
      * Remove screen lock
      */
     private void unlockScreen() {
-        if (mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock);
         mShowing = false;
