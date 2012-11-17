@@ -84,9 +84,4 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <EditTextPreference
-        android:defaultValue="@string/screen_orientation_default"
-        android:key="screen_orientation_value"
-        android:selectable="false" />
-
 </PreferenceScreen>

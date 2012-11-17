@@ -282,8 +282,10 @@ public class PreferencesActivity extends PreferenceActivity {
         screenOrientationPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                EditTextPreference screenOrientationValue =  (EditTextPreference) findPreference("screen_orientation_value");
-                screenOrientationValue.setText((String) newValue);
+                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString("screen_orientation_value", (String)newValue);
+                editor.commit();
                 return true;
             }
         });
