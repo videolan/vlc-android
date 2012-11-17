@@ -168,7 +168,6 @@
     <string name="enable_wheel_bar">Enable wheel bar</string>
     <string name="enable_gesture_brightness">Enable brightness gesture</string>
     <string name="screen_orientation">Screen orientation</string>
-    <string name="screen_orientation_default" translatable="false">4</string>
     <string name="screen_orientation_sensor">Sensor orientation</string>
     <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>

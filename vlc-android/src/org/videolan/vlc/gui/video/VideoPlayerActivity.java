@@ -210,9 +210,8 @@ public class VideoPlayerActivity extends Activity {
 
         mEnableWheelbar = pref.getBoolean("enable_wheel_bar", false);
         mEnableBrightnessGesture = pref.getBoolean("enable_gesture_brightness", true);
-
-        mScreenOrientation=  Integer.valueOf(
-                pref.getString("screen_orientation_value", getString(R.string.screen_orientation_default)));
+        mScreenOrientation = Integer.valueOf(
+                pref.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
         mControls = mEnableWheelbar
                 ? new PlayerControlWheel(this)
