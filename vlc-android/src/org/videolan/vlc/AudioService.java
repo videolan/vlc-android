@@ -516,7 +516,7 @@ public class AudioService extends Service {
         } else if (!mShuffling && index < mMediaList.size() - 1) {
             mCurrentMedia = mMediaList.get(index + 1);
         } else {
-            if (mRepeating == RepeatType.All)
+            if (mRepeating == RepeatType.All && mMediaList.size() > 0)
                 mCurrentMedia = mMediaList.get(0);
             else {
                 stop();
