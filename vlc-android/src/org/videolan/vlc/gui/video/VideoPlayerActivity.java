@@ -382,14 +382,23 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public static void start(Context context, String location) {
-        start(context, location, null, false);
+        start(context, location, null, false, false);
+    }
+
+    public static void start(Context context, String location, Boolean fromStart) {
+        start(context, location, null, false, fromStart);
     }
 
     public static void start(Context context, String location, String title, Boolean dontParse) {
+        start(context, location, title, dontParse, false);
+    }
+
+    public static void start(Context context, String location, String title, Boolean dontParse, Boolean fromStart) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.putExtra("itemLocation", location);
         intent.putExtra("itemTitle", title);
         intent.putExtra("dontParse", dontParse);
+        intent.putExtra("fromStart", fromStart);
 
         if (dontParse)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -1203,6 +1212,7 @@ public class VideoPlayerActivity extends Activity {
         mLocation = null;
         String title = getResources().getString(R.string.title);
         boolean dontParse = false;
+        boolean fromStart = false;
         String itemTitle = null;
 
         if (getIntent().getAction() != null
@@ -1214,6 +1224,7 @@ public class VideoPlayerActivity extends Activity {
             mLocation = getIntent().getExtras().getString("itemLocation");
             itemTitle = getIntent().getExtras().getString("itemTitle");
             dontParse = getIntent().getExtras().getBoolean("dontParse");
+            fromStart = getIntent().getExtras().getBoolean("fromStart");
         }
 
         mSurface.setKeepScreenOn(true);
@@ -1228,7 +1239,7 @@ public class VideoPlayerActivity extends Activity {
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
-            if (media != null && media.getTime() > 0)
+            if (media != null && media.getTime() > 0 && !fromStart)
                 mLibVLC.setTime(media.getTime());
 
             try {

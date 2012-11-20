@@ -94,6 +94,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private ThumbnailerManager mThumbnailerManager;
     private VideoGridAnimator mAnimator;
 
+    // Play video from start or not
+    public boolean mFromStart = false;
+
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
 
@@ -154,6 +157,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mMediaLibrary.addUpdateHandler(mHandler);
         updateViewMode();
         mAnimator.animate();
+        mFromStart = false;
     }
 
     @Override
@@ -239,13 +243,17 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     protected void playVideo(int position) {
         Media item = (Media) getListAdapter().getItem(position);
-        VideoPlayerActivity.start(getActivity(), item.getLocation());
+        VideoPlayerActivity.start(getActivity(), item.getLocation(), mFromStart);
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
         switch (menu.getItemId())
         {
         case R.id.video_list_play:
+            playVideo(position);
+            return true;
+        case R.id.video_list_play_from_start:
+            mFromStart = true;
             playVideo(position);
             return true;
         case R.id.video_list_info:

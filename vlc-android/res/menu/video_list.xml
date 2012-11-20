@@ -4,6 +4,9 @@
         android:id="@+id/video_list_play"
         android:title="@string/play" />
     <item
+        android:id="@+id/video_list_play_from_start"
+        android:title="@string/play_from_start" />
+    <item
         android:id="@+id/video_list_info"
         android:title="@string/info" />
     <item
