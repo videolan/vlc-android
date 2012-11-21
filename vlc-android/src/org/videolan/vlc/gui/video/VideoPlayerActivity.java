@@ -1169,7 +1169,7 @@ public class VideoPlayerActivity extends Activity {
         mSeekbar.setProgress(time);
         mSysTime.setText(DateFormat.format("kk:mm", System.currentTimeMillis()));
         mTime.setText(Util.millisToString(time));
-        mLength.setText(mDisplayRemainingTime
+        mLength.setText(mDisplayRemainingTime && length > 0
                 ? "- " + Util.millisToString(length - time)
                 : Util.millisToString(length));
         return time;
