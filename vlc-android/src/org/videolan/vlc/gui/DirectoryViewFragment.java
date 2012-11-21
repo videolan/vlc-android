@@ -145,12 +145,8 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     }
 
     public boolean isRootDirectory () {
-        if (mDirectoryAdapter.getmCurrentDir() != null &&
-            mDirectoryAdapter.getmCurrentDir().equals(mDirectoryAdapter.getmRootDir())) {
-            return true;
-        }
-        return false;
-    };
+        return mDirectoryAdapter.isRoot();
+    }
 
     public void showParentDirectory() {
             mDirectoryAdapter.browse("..");

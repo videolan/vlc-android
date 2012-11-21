@@ -122,6 +122,20 @@ public class DirectoryAdapter extends BaseAdapter {
     }
 
     public void populateNode(DirectoryAdapter.Node n, String path) {
+        if (path == null) {
+            // We're on the storage list
+            String storages[] = Util.getStorageDirectories();
+            for (String storage : storages) {
+                File f = new File(storage);
+                DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName());
+                child.isFile = false;
+                this.populateNode(child, storage);
+                n.children.add(child);
+            }
+            return;
+        }
+
+
         File file = new File(path);
         if(!file.exists() || !file.isDirectory())
             return;
@@ -168,36 +182,28 @@ public class DirectoryAdapter extends BaseAdapter {
             }
             Collections.sort(n.children);
         }
-        /* Don't let the user escape into the wild by jumping above the root dir */
-        if(mCurrentDir.contains(mRootDir) && !mCurrentDir.equals(mRootDir)) {
-            DirectoryAdapter.Node up = new DirectoryAdapter.Node("..");
-            n.children.add(0, up);
-        }
+
+        DirectoryAdapter.Node up = new DirectoryAdapter.Node("..");
+        n.children.add(0, up);
     }
 
     private LayoutInflater mInflater;
     private DirectoryAdapter.Node mRootNode;
     private DirectoryAdapter.Node mCurrentNode;
-    private String mRootDir;
     private String mCurrentDir;
+    private String mCurrentRoot;
 
     public DirectoryAdapter() {
-        DirectoryAdapter_Core(
-                android.os.Environment.getExternalStorageDirectory().getPath()
-        );
-    }
-
-    public DirectoryAdapter(Context context, String rootDir) {
-        DirectoryAdapter_Core(rootDir);
+        DirectoryAdapter_Core(null);
     }
 
     private void DirectoryAdapter_Core(String rootDir) {
-        rootDir = Util.stripTrailingSlash(rootDir);
+        if (rootDir != null)
+            rootDir = Util.stripTrailingSlash(rootDir);
         Log.v(TAG, "rootMRL is " + rootDir);
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
         mRootNode = new DirectoryAdapter.Node(rootDir);
         mCurrentDir = rootDir;
-        mRootDir = rootDir;
         this.populateNode(mRootNode, rootDir);
         mCurrentNode = mRootNode;
     }
@@ -290,14 +296,33 @@ public class DirectoryAdapter extends BaseAdapter {
     }
 
     public boolean browse(String directoryName) {
-        try {
-            this.mCurrentDir = new URI(
-                    Util.PathToURI(this.mCurrentDir + "/" + directoryName))
-                    .normalize().getPath();
-            this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return false;
+        if (this.mCurrentDir == null) {
+            // We're on the storage list
+            String storages[] = Util.getStorageDirectories();
+            for (String storage : storages) {
+                storage = Util.stripTrailingSlash(storage);
+                if (storage.endsWith(directoryName)) {
+                    this.mCurrentRoot = storage;
+                    this.mCurrentDir = storage;
+                    this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
+                    break;
+                }
+            }
+        } else {
+            try {
+                this.mCurrentDir = new URI(
+                        Util.PathToURI(this.mCurrentDir + "/" + directoryName))
+                        .normalize().getPath();
+                this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
+                if (this.mCurrentDir.equals(getParentDir(this.mCurrentRoot))) {
+                    // Returning on the storage list
+                    this.mCurrentDir = null;
+                    this.mCurrentRoot = null;
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
 
         Log.d(TAG, "Browsing to " + this.mCurrentDir);
@@ -323,8 +348,8 @@ public class DirectoryAdapter extends BaseAdapter {
         );
     }
 
-    public String getmRootDir() {
-        return mRootDir;
+    public boolean isRoot() {
+        return mCurrentDir == null;
     }
 
     public String getmCurrentDir() {
@@ -348,5 +373,15 @@ public class DirectoryAdapter extends BaseAdapter {
         this.populateNode(mCurrentNode, mCurrentDir);
 
         this.notifyDataSetChanged();
+    }
+
+    private String getParentDir(String path) {
+        try {
+            path = new URI(Util.PathToURI(path + "/.."))
+                    .normalize().getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return Util.stripTrailingSlash(path);
     }
 }
