@@ -128,6 +128,7 @@ public class VideoPlayerActivity extends Activity {
     private IPlayerControl mControls;
     private boolean mEnableWheelbar;
     private boolean mEnableBrightnessGesture;
+    private boolean mDisplayRemainingTime = false;
     private int mScreenOrientation;
     private ImageButton mAudioTrack;
     private ImageButton mSubtitle;
@@ -203,8 +204,12 @@ public class VideoPlayerActivity extends Activity {
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
 
+        // Position and remaining time
         mTime = (TextView) findViewById(R.id.player_overlay_time);
+        mTime.setOnClickListener(mRemainingTimeListener);
         mLength = (TextView) findViewById(R.id.player_overlay_length);
+        mLength.setOnClickListener(mRemainingTimeListener);
+
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
@@ -1044,6 +1049,14 @@ public class VideoPlayerActivity extends Activity {
         }
     };
 
+    private final OnClickListener mRemainingTimeListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mDisplayRemainingTime = !mDisplayRemainingTime;
+            showOverlay();
+        }
+    };
+
     /**
      * attach and disattach surface to the lib
      */
@@ -1156,7 +1169,9 @@ public class VideoPlayerActivity extends Activity {
         mSeekbar.setProgress(time);
         mSysTime.setText(DateFormat.format("kk:mm", System.currentTimeMillis()));
         mTime.setText(Util.millisToString(time));
-        mLength.setText(Util.millisToString(length));
+        mLength.setText(mDisplayRemainingTime
+                ? "- " + Util.millisToString(length - time)
+                : Util.millisToString(length));
         return time;
     }
 
