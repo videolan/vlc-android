@@ -36,7 +36,6 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -198,26 +197,29 @@ public class MediaLibrary {
             final DatabaseManager DBManager = DatabaseManager.getInstance(VLCApplication.getAppContext());
             final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-            String root = pref.getString("directories_root", null);
-
-            // use the external storage as our default root directory (most often /mnt/sdcard)
-            if (root == null) {
-                root = Environment.getExternalStorageDirectory().getAbsolutePath();
-                Editor edit = pref.edit();
-                edit.putString("directories_root", root);
-                edit.commit();
-            } else {
-                root = new File(root).getAbsolutePath();
-            }
-
             // show progressbar in footer
             MainActivity.showProgressBar(mContext);
 
-            // get directories from database
-            DBManager.removeDirNotUnder(root);
-            directories.addAll(DBManager.getMediaDirs());
-            if (directories.isEmpty())
-                directories.add(new File(root));
+            List<File> mediaDirs = DBManager.getMediaDirs();
+
+            // Remove directories currently offline (on removable storage) or deleted
+            //FIXME How do we treat removed directories vs offline directories?
+            for (File f : mediaDirs) {
+                if (!f.exists())
+                    mediaDirs.remove(f);
+            }
+
+            if (mediaDirs.size() == 0) {
+                // Use all available storage directories as our default
+                String storageDirs[] = Util.getStorageDirectories();
+                for (String dir: storageDirs) {
+                    File f = new File(dir);
+                    if (f.exists())
+                        mediaDirs.add(f);
+                }
+            }
+
+            directories.addAll(mediaDirs);
 
             // get all existing media items
             HashMap<String, Media> existingMedias = DBManager.getMedias(mContext);

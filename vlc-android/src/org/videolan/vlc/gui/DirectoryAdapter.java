@@ -34,7 +34,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -184,8 +183,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
     public DirectoryAdapter() {
         DirectoryAdapter_Core(
-                PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
-                .getString("directories_root", android.os.Environment.getExternalStorageDirectory().getPath())
+                android.os.Environment.getExternalStorageDirectory().getPath()
         );
     }
 

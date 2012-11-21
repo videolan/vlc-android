@@ -23,15 +23,18 @@ package org.videolan.vlc;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -393,5 +396,54 @@ public class Util {
         }else{
             return true;
         }
+    }
+
+    public static String[] getStorageDirectories()
+    {
+        String[] dirs = null;
+        BufferedReader bufReader = null;
+        try {
+            bufReader = new BufferedReader(new FileReader("/proc/mounts"));
+            ArrayList<String> list = new ArrayList<String>();
+            list.add(Environment.getExternalStorageDirectory().getPath());
+            String line;
+            while ((line = bufReader.readLine()) != null) {
+                if (line.contains("vfat") || line.contains("/mnt")) {
+                    StringTokenizer tokens = new StringTokenizer(line, " ");
+                    String s = tokens.nextToken();
+                    s = tokens.nextToken(); // Take the second token, i.e. mount point
+
+                    if (list.contains(s))
+                        continue;
+
+                    if (line.contains("/dev/block/vold")) {
+                        if (!line.startsWith("/mnt/secure") &&
+                            !line.startsWith("/mnt/shell") &&
+                            !line.startsWith("/mnt/asec") &&
+                            !line.startsWith("/mnt/obb") &&
+                            !line.startsWith("/dev/mapper") &&
+                            !line.startsWith("tmpfs")) {
+                            list.add(s);
+                        }
+                    }
+                }
+            }
+
+            dirs = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                dirs[i] = list.get(i);
+            }
+        }
+        catch (FileNotFoundException e) {}
+        catch (IOException e) {}
+        finally {
+            if (bufReader != null) {
+                try {
+                    bufReader.close();
+                }
+                catch (IOException e) {}
+            }
+        }
+        return dirs;
     }
 }

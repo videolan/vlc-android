@@ -2,10 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/mediafiles">
         <PreferenceScreen
-            android:key="directories_root"
-            android:title="@string/filebrowser_root">
-        </PreferenceScreen>
-        <PreferenceScreen
             android:key="directories"
             android:title="@string/directories"
             android:summary="@string/filebrowser_title">

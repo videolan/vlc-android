@@ -29,9 +29,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.app.ListActivity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -46,7 +44,7 @@ public class BrowserActivity extends ListActivity {
     private BrowserAdapter mAdapter;
     private File mCurrentDir;
     private final Stack<ScrollState> mScollStates = new Stack<ScrollState>();
-    private String mRoot;
+    private String mRoots[];
 
     private class ScrollState {
         public ScrollState(int index, int top) {
@@ -65,17 +63,8 @@ public class BrowserActivity extends ListActivity {
         mAdapter = new BrowserAdapter(this);
         setListAdapter(mAdapter);
 
-        //get the root from the settings
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        mRoot = pref.getString("directories_root", "/");
-
-        //Make sure the path is valid, use "/" if it is not
-        File file = new File(mRoot);
-        if (!file.exists())
-            file = new File("/");
-        mRoot = file.getPath();
-
-        openDir(file);
+        mRoots = Util.getStorageDirectories();
+        openStorageDevices(mRoots);
     }
 
     @Override
@@ -83,6 +72,20 @@ public class BrowserActivity extends ListActivity {
         super.onDestroy();
         mAdapter.clear();
         mScollStates.clear();
+    }
+
+    private void openStorageDevices(String roots[]) {
+        mCurrentDir = null;
+        mAdapter.clear();
+        for (String s : roots) {
+            File f = new File(s);
+            if (f.exists())
+                mAdapter.add(f);
+        }
+        mAdapter.sort();
+
+        // set scroll position to top
+        getListView().setSelection(0);
     }
 
     private void openDir(File file) {
@@ -124,8 +127,23 @@ public class BrowserActivity extends ListActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mCurrentDir.getPath().equals(mRoot)) {
+            if (mCurrentDir == null) {
+                // We're on the list of storage devices
                 return super.onKeyDown(keyCode, event);
+            }
+
+            // Check if we are on one of the root
+            boolean isRoot = false;
+            for (String root: mRoots) {
+                if (mCurrentDir.getPath().equals(root)) {
+                    isRoot = true;
+                    break;
+                }
+            }
+
+            if (isRoot) {
+                openStorageDevices(mRoots);
+                return true;
             } else {
                 openDir(mCurrentDir.getParentFile());
                 // restore scroll state
