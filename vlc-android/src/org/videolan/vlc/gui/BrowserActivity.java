@@ -29,6 +29,10 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -63,6 +67,14 @@ public class BrowserActivity extends ListActivity {
         mAdapter = new BrowserAdapter(this);
         setListAdapter(mAdapter);
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_REMOVED);
+        filter.addAction(Intent.ACTION_MEDIA_EJECT);
+        filter.addDataScheme("file");
+        registerReceiver(messageReceiver, filter);
+
         mRoots = Util.getStorageDirectories();
         openStorageDevices(mRoots);
     }
@@ -70,6 +82,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(messageReceiver);
         mAdapter.clear();
         mScollStates.clear();
     }
@@ -154,6 +167,30 @@ public class BrowserActivity extends ListActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    public void refresh() {
+        if (mCurrentDir == null) {
+            mRoots = Util.getStorageDirectories();
+            openStorageDevices(mRoots);
+        } else {
+            openDir(mCurrentDir);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT)) {
+                refresh();
+            }
+        }
+    };
 
     /**
      * Filter: accept only directories
