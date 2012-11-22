@@ -99,6 +99,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         getActivity().unregisterReceiver(messageReceiver);
     }
 
