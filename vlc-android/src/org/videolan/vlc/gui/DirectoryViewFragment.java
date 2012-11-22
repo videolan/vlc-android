@@ -33,6 +33,10 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -61,6 +65,14 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         super.onCreate(savedInstanceState);
 
         mDirectoryAdapter = new DirectoryAdapter();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        filter.addAction(Intent.ACTION_MEDIA_REMOVED);
+        filter.addAction(Intent.ACTION_MEDIA_EJECT);
+        filter.addDataScheme("file");
+        getActivity().registerReceiver(messageReceiver, filter);
     }
 
     @Override
@@ -83,6 +95,11 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
         registerForContextMenu(listView);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(messageReceiver);
     }
 
     @Override
@@ -179,4 +196,18 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
         if (mDirectoryAdapter != null)
             mDirectoryAdapter.refresh();
     }
+
+    private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED) ||
+                action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT)) {
+                refresh();
+            }
+        }
+    };
 }
