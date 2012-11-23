@@ -396,7 +396,7 @@ public class LibVLC {
     public native int getVolume();
 
     /**
-     * Gets volume as integer
+     * Sets volume as integer
      * @param volume: Volume level passed as integer
      */
     public native int setVolume(int volume);
