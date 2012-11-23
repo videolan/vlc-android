@@ -235,24 +235,17 @@ public class AudioService extends Service {
             return;
 
         audioFocusListener = new OnAudioFocusChangeListener() {
-            int volume = -1;
             @Override
             public void onAudioFocusChange(int focusChange) {
-                AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
                 if(focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ||
                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                    volume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-                    int maxVol = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
                     /*
-                     * Lower the volume to 19% to "duck" when an alert or something
+                     * Lower the volume to 36% to "duck" when an alert or something
                      * needs to be played.
                      */
-                    am.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(0.19*maxVol), 0);
+                    LibVLC.getExistingInstance().setVolume(36);
                 } else {
-                    if(volume != -1) {
-                        am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
-                        volume = -1;
-                    }
+                    LibVLC.getExistingInstance().setVolume(100);
                 }
             }
         };
