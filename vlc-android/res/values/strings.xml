@@ -6,9 +6,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="other">Other</string>
-    <string name="filebrowser_sdfail">Unable to open SD card. Please check it is mounted correctly.</string>
     <string name="filebrowser_title">Select media to play</string>
-    <string name="ml_no_media_dir">No media directory</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
@@ -20,8 +18,6 @@
         <item quantity="other">%d results found</item>
     </plurals>
 
-    <string name="show_player">Show player</string>
-    <string name="hide_mini_player">Hide mini-player</string>
     <string name="play">Play</string>
     <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">Play as audio</string>
@@ -34,7 +30,6 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\' ?</string>
     <string name="pause">Pause</string>
-    <string name="close">Close</string>
     <string name="not_show_again">"Don't show this message again."</string>
     <string name="beta_warning">This is a beta version.\n\nThis version is NOT STABLE!\n\nDo NOT use, unless you know what you are doing.\n\nIt might kill your kitten, destroy your house and start the mayan apocalypse.\nUse it at your own risk.\n\nHave Fun! :)</string>
     <string name="info_title">VLC Beta</string>
@@ -88,7 +83,6 @@
     <string name="stop">Stop</string>
     <string name="next">Next</string>
 
-    <string name="lock_rotation">Lock screen rotation</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
     <string name="surface_best_fit">Best fit</string>
@@ -119,7 +113,6 @@
     <string name="open_mrl">Open MRL</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
-    <string name="media_library">Media library</string>
     <string name="error_not_compatible">Sorry, your device is currently not supported by this version of VLC for Android™.</string>
     <string name="error_problem">Sorry, VLC for Android had a problem loading and had to close.</string>
     <string name="error_message_is">The error message is (please mention this when debugging):\n</string>
@@ -133,12 +126,10 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
-    <string name="version">Version</string>
     <string name="licence">Licence</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
     <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
-    <string name="for_android">for Android™</string>
     <string name="compiled_by">This version of VLC is compiled by:</string>
     <string name="vlc_authors">VLC Authors.</string>
     <string name="about_link" translatable="false">        &lt;a href=&quot;http://www.videolan.org/vlc/&quot;&gt;http://www.videolan.org/vlc/&lt;/a&gt;</string>
