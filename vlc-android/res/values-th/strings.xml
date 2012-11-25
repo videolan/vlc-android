@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">ไม่สามารถเปิด SD การ์ดได้ กรุณาตรวจสอบว่ามันได้เมาท์อย่างถูกต้องหรือไม่</string>
+    <!-- Main VLC Interface -->
+    <string name="ok">ตกลง</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="other">อย่างอื่น</string>
     <string name="filebrowser_title">เลือกสื่อที่ต้องการเล่น</string>
-    <string name="ml_no_media_dir">ไม่มีแหล่งเก็บแฟ้มสื่อ</string>
     <string name="sortby">จัดเรียงโดย…</string>
     <string name="sortby_name">ชื่อ</string>
     <string name="sortby_length">ความยาว</string>
@@ -12,9 +13,8 @@
     <plurals name="search_found_results_quantity">
         <item quantity="other">พบ %d รายการ</item>
     </plurals>
-    <string name="show_player">แสดงตัวเล่น</string>
-    <string name="hide_mini_player">ซ่อนตัวเล่นย่อส่วน</string>
     <string name="play">เล่น</string>
+    <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">เล่นแต่เสียง</string>
     <string name="play_as_video">เล่นทั้งภาพและเสียง</string>
     <string name="append">เพิ่มเข้า</string>
@@ -23,14 +23,13 @@
     <string name="delete">ลบ</string>
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
     <string name="info">ข้อมูล</string>
-    <string name="confirm_delete">ลบแฟ้ม \'%1$s\' ?</string>
+    <string name="confirm_delete">ลบแฟ้ม \'%1$s\' หรือไม่</string>
     <string name="pause">พัก</string>
-    <string name="close">ปิด</string>
     <string name="not_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
-    <string name="beta_warning">นี่คือรุ่นทดลอง (beta)\n\nมันไม่เสถียร!\n\nอย่าใช้มัน ถ้าคุณไม่ทราบว่ากำลังทำอะไรอยู่\n\nมันอาจฆ่าลูกแมว ทลายบ้านคุณ ทั้งยังร่ายลางวิบัติของชาวมายา\nใช้มันด้วยความรอบครอบ\n\nขอให้สนุก! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="beta_warning">นี่คือรุ่นเบต้า\n\nยังไม่ใช่รุ่นเสถียรหรือสมบูรณ์!\n\nแนะนำ! อย่าเพิ่งใช้งานแอพฯ นี้เป็นตัวหลัก เว้นแต่ว่าคุณจะนำไปทดสอบเท่านั้น\n\nขอให้สนุกกับการใช้งานแอพฯ นี้! :)</string>
+    <string name="info_title">VLC เบต้า</string>
     <string name="unknown_artist">ไม่ทราบศิลปิน</string>
-    <string name="unknown_album">ไม่ทราบอัลบัม</string>
+    <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
     <string name="songs">เพลง</string>
     <plurals name="songs_quantity">
@@ -44,7 +43,8 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d โฟลเดอร์ย่อย</item>
     </plurals>
-    <string name="parent_folder">ออกไปยังโฟลเดอร์ชั้นนอก</string>
+
+    <string name="parent_folder">กลับไปยังโฟลเดอร์ก่อนหน้านี้</string>
     <string name="audio">เสียง</string>
     <string name="video">วีดิทัศน์</string>
     <string name="bookmarks">ที่คั่นหน้า</string>
@@ -57,13 +57,19 @@
     <string name="directory">ที่เก็บแฟ้ม</string>
     <string name="directories">ที่เก็บแฟ้มต่างๆ</string>
     <string name="loading">กําลังโหลด…</string>
-    <string name="please_wait">กรุณารอสักครู่…</string>
-    <string name="nomedia">ไม่พบแฟ้มสื่อ โปรดหาแฟ้มส่งมายังอุปกรณ์ของคุณ หรือปรับเปลี่ยนค่าปรับแต่งของคุณ</string>
+    <string name="please_wait">รอสักครู่…</string>
+    <string name="nomedia">ไม่พบแฟ้มสื่อ กรุณาถ่ายโอนแฟ้มไปยังอุปกรณ์ของคุณ หรือปรับเปลี่ยนการกำหนดลักษณะของคุณ</string>
     <string name="mediafiles">แฟ้มสื่อ</string>
     <string name="notavailable">ไม่สามารถใช้ได้</string>
     <string name="nosubdirectory">ไม่มีที่เก็บแฟ้มย่อย</string>
-    <string name="validation">คุณแน่ใจนะ?</string>
-    <string name="lock_rotation">ล็อคการหมุมหน้าจอ</string>
+    <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
+    <string name="validation">คุณแน่ใจ?</string>
+    <string name="cover_art">ภาพปก</string>
+    <string name="shuffle">สลับ</string>
+    <string name="repeat">เล่นซ้ำ ไม่ต้อง/ตัวเดียว/ทั้งหมด</string>
+    <string name="previous">ก่อนหน้า</string>
+    <string name="stop">หยุด</string>
+    <string name="next">ถัดไป</string>
     <string name="locked">ล็อค</string>
     <string name="unlocked">ปลดล็อค</string>
     <string name="surface_best_fit">ขนาดที่เหมาะสม</string>
@@ -71,41 +77,43 @@
     <string name="surface_fit_vertical">เหมาะสมกับแนวตั้ง</string>
     <string name="surface_fill">เติมเต็ม</string>
     <string name="surface_original">ตรงกลาง</string>
-    <string name="thumbnail">ภาพย่อ</string>
-    <string name="refresh">เรียกใหม่</string>
+    <string name="thumbnail">ภาพตัวอย่าง</string>
+    <string name="refresh">ฟื้นฟู</string>
     <string name="track_audio">ร่องเสียง</string>
     <string name="track_video">ร่องวีดิทัศน์</string>
     <string name="track_text">ร่องบทบรรยาย</string>
     <string name="track_unknown">ไม่ทราบร่องข้อมูล</string>
-    <string name="track_codec_info">ตัวถอด/ลงรหัส : %1$s</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">ภาษา: %1$s</string>
+    <string name="volume">ระดับเสียง</string>
+    <string name="brightness">ความสว่าง</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>
-    <string name="track_samplerate_info">อัตราการวัด: %1$d Hz\n</string>
-    <string name="track_resolution_info">ผลลัพธ์: %1$dx%2$d\n</string>
+
+    <string name="track_samplerate_info">อัตราตัวอย่าง: %1$d Hz\n</string>
+    <string name="track_resolution_info">ความละเอียด: %1$dx%2$d\n</string>
     <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
     <string name="open">เปิด</string>
     <string name="open_mrl">เปิด MRL</string>
     <string name="open_mrl_dialog_title">เปิดกระแสเครือข่าย</string>
     <string name="open_mrl_dialog_msg">เลือกเครือข่าย MRL: ตย. http://, mms:// หรือ rtsp://</string>
-    <string name="media_library">คลังสื่อ</string>
     <string name="error_not_compatible">ขออภัย, อุปกรณ์ของคุณในขณะนี้ไม่รองรับการใช้งานกับ VLC สำหรับ Android™ ในรุ่นนี้.</string>
     <string name="error_problem">ขออภัยด้วย ที่ VLC สำหรับ Andriod ปิดโปรแกรมไป อันเนื่องจากมีปัญหาในการโหลด</string>
     <string name="error_message_is">ข้อความแจ้งข้อผิดพลาดคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):\n</string>
     <string name="playback_speed">ความเร็วการเล่น</string>
-    <!--About-->
+
+    <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
-    <string name="version">รุ่น</string>
     <string name="licence">สัญญาอนุญาต</string>
     <string name="revision">การปรับปรุง</string>
     <string name="about">เกี่ยวกับ</string>
-    <string name="about_text">VLC สำหรับ Android™ เป็นสาขาของโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อแบบโอเพนซอร์สที่ได้รับความนิยม รุ่น Android™ สามารถอ่านแฟ้มและกระแสข้อมูลเครือข่ายต่างๆ ได้มากอย่างมาย</string>
-    <string name="for_android">สำหรับ Android™</string>
+    <string name="about_text">VLC สำหรับ Android™ เป็นแอพฯ หนึ่งในโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อแบบโอเพนซอร์ส ได้รับความนิยมเป็นอย่างมาก รุ่น Android™ นี้ จะสามารถอ่านแฟ้มและกระแสข้อมูลเครือข่ายต่างๆ ได้มากอย่างมาย</string>
     <string name="compiled_by">VLC รุ่นนี้คอมไพล์โดย:</string>
     <string name="vlc_authors">ผู้จัดทำ VLC</string>
-    <!--Preferences-->
-    <string name="preferences">อ้างอิง</string>
+
+    <!-- Preferences -->
+    <string name="preferences">การปรับแต่ง</string>
     <string name="main_prefs_category">หลัก</string>
     <string name="privacy_prefs_category">ข้อกำหนด</string>
     <string name="clear_history">ล้างประวัติการค้นหา</string>
@@ -120,14 +128,23 @@
     <string name="set_locale_popup">ออกและคืนค่าเดิมของ VLC หากต้องการดูความเปลี่ยนแปลง</string>
     <string name="detect_headset">ตรวจหาชุดหูฟัง</string>
     <string name="detect_headset_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
+    <string name="steal_remote_control">Exclusive headset remote control</string>
+    <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">เปิดใช้แถบเลื่อน</string>
     <string name="enable_gesture_brightness">เปิดใช้การเลื่อน ปรับความสว่าง</string>
+    <string name="screen_orientation">Screen orientation</string>
+    <string name="screen_orientation_sensor">Automatic (sensor)</string>
+    <string name="screen_orientation_start_lock">ล็อคตั้งแต่เริ่มงาน</string>
+    <string name="screen_orientation_portrait">แนวตั้ง</string>
+    <string name="screen_orientation_landscape">แนวนอน</string>
+    <string name="screen_orientation_reverse_portrait">แนวตั้งหัวกลับ</string>
+    <string name="screen_orientation_reverse_landscape">แนวนอน สลับหัวท้าย</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_detail">เพิ่มรายละเอียด (ปูม)</string>
-    <string name="aout">ส่วนส่งเสียง</string>
+    <string name="aout">การส่งเสียง</string>
     <string name="aout_audiotrack">AudioTrack (เนทีฟ)</string>
     <string name="aout_audiotrack_java">AudioTrack (จาวา)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">เปิดใช้การยืดยานเสียง</string>
+    <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
     <string name="enable_time_stretching_audio_detail">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่ทำงานเร็ว)</string>
 </resources>
