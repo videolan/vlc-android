@@ -1,21 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">មិន​អាច​បើក​កាត​អេសឌី​បាន​ទេ ។ សូម​ពិនិត្យ​មើល​ថាតើ វា​ត្រូវ​បាន​ម៉ោន​ត្រឹមត្រូវ​ដែរឬទេ ។\n</string>
-    <string name="filebrowser_root">Root</string>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">យល់ព្រម</string>
+    <string name="cancel">បោះបង់</string>
+    <string name="other">ផ្សេង</string>
     <string name="filebrowser_title">ជ្រើស​មេឌៀ​ ដើម្បី​ចាក់</string>
-    <string name="ml_no_media_dir">គ្មាន​ថត​មេឌៀ</string>
     <string name="sortby">តម្រៀប​តាម…</string>
     <string name="sortby_name">ឈ្មោះ</string>
     <string name="sortby_length">រយៈពេល</string>
     <string name="searchable_hint">ស្វែងរក…</string>
     <string name="history">ប្រវត្តិ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">រក​ឃើញ​លទ្ធផល %d</item>
     </plurals>
-    <string name="show_player">បង្ហាញ​កម្មវិធី​ចាក់</string>
-    <string name="hide_mini_player">លាក់​កម្មវិធី​ចាក់​តូច</string>
+
     <string name="play">ចាក់</string>
+    <string name="play_from_start">Play from start</string>
     <string name="play_as_audio">ចាក់​ជា​អូឌីយ៉ូ</string>
     <string name="play_as_video">ចាក់​ជា​វីដេអូ</string>
     <string name="append">បន្ថែម​ទៅ​​​ចុង</string>
@@ -26,7 +28,6 @@
     <string name="info">ព័ត៌មាន</string>
     <string name="confirm_delete">លុប​ឯកសារ​នេះ ?</string>
     <string name="pause">ផ្អាក</string>
-    <string name="close">បិទ</string>
     <string name="not_show_again">កុំ​បង្ហាញ​សារ​នេះ​ម្ដង​ទៀត ។</string>
     <string name="beta_warning">នេះ​ជា​កំណែ​បែតា ។\n\nកំណែ​នេះ​មិន​​​ឋិតថេរ​ទេ !\n\nកុំ​ប្រើ​វា​ លុះត្រា​តែ​អ្នក​ដឹង​នូវ​អ្វី​ដែល​អ្នកកំពុង​ធ្វើ ។\n\nវា​អាច​បំផ្លាញ​អ្វីៗ​ដែល​អ្នក​មាន ។\nប្រើ​វា​ប្រឈម​នឹង​គ្រោះ​ថ្នាក់ ។\n\nសូម​រីករាយ ! :)</string>
     <string name="info_title">VLC បែតា</string>
@@ -34,17 +35,21 @@
     <string name="unknown_album">មិន​ស្គាល់​អាល់ប៊ុម</string>
     <string name="unknown_genre">មិន​ស្គាល់​ចង្វាក់</string>
     <string name="songs">បទ​ចម្រៀង</string>
+
     <plurals name="songs_quantity">
         <item quantity="other">%d បទ</item>
     </plurals>
+
     <string name="artists">សិល្បករ</string>
     <string name="albums">អាល់ប៊ុម</string>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d អាល់ប៊ុម</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="other">ថត​រង %d</item>
     </plurals>
+
     <string name="parent_folder">ទៅ​ថត​មេ</string>
     <string name="audio">អូឌីយ៉ូ</string>
     <string name="video">វីដេអូ</string>
@@ -63,8 +68,16 @@
     <string name="mediafiles">ឯកសារ​មេឌៀ</string>
     <string name="notavailable">មិន​អាច​ប្រើ​បាន</string>
     <string name="nosubdirectory">គ្មាន​ថត​រង ។</string>
+    <string name="nohistory">អ្នក​មិនមាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
     <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ ?</string>
-    <string name="lock_rotation">ចាក់​សោ​ការ​បង្វិល​អេក្រង់</string>
+
+    <string name="cover_art">រូប​គម្រប​មុខ</string>
+    <string name="shuffle">ច្របល់</string>
+    <string name="repeat">មិន​ធ្វើម្ដង​ទៀត/តែ​មួយ/ទាំងអស់</string>
+    <string name="previous">មុន</string>
+    <string name="stop">បញ្ឈប់</string>
+    <string name="next">បន្ទាប់</string>
+
     <string name="locked">បាន​ចាក់សោ</string>
     <string name="unlocked">បាន​ដោះសោ</string>
     <string name="surface_best_fit">សម​បំផុត</string>
@@ -80,9 +93,13 @@
     <string name="track_unknown">មិន​ស្គាល់​បទ</string>
     <string name="track_codec_info">កូឌិក ៖ %1$s\n</string>
     <string name="track_language_info">ភាសា ៖ %1$s\n</string>
+    <string name="volume">កម្រិត​សំឡេង</string>
+    <string name="brightness">ពន្លឺ</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ឆានែល\n</item>
     </plurals>
+
     <string name="track_samplerate_info">អត្រា​គំរូ ៖ %1$d Hz\n</string>
     <string name="track_resolution_info">គុណភាព​បង្ហាញ  ៖ %1$dx%2$d\n</string>
     <string name="track_framerate_info">អត្រា​ស៊ុម ៖ %1$.3f\n</string>
@@ -90,24 +107,21 @@
     <string name="open_mrl">បើក MRL</string>
     <string name="open_mrl_dialog_title">បើក​ស្ទ្រីម​បណ្ដាញ</string>
     <string name="open_mrl_dialog_msg">បញ្ចូល MRL បណ្ដាញ ៖ ឧ. http://, mms:// ឬ rtsp://</string>
-    <string name="media_library">បណ្ណាល័យ​មេឌៀ</string>
     <string name="error_not_compatible">សូម​ទោស ប៉ុន្តែ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បានគាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ ។\n\nសារ​កំហុស​គឺ (សូ​ម​បញ្ជាក់​វា ​នៅ​ពេល​កែ) ៖\n</string>
     <string name="error_problem">សូម​ទោស VLC សម្រាប់ Android មាន​បញ្ហា​ក្នុង​កា​រ​ផ្ទុក និង​ពិបាក​បិទ​ណាស់ ។</string>
     <string name="error_message_is">សារ​កំហុស​គឺ (សូម​រៀបរាប់​បញ្ហា​នេះ​នៅ​ពេល​កែ​កំហុស) ៖⏎</string>
     <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
 
-    <!--About-->
+    <!-- About -->
     <string name="app_name_full">VLC សម្រាប់ Android™</string>
-    <string name="version">កំណែ</string>
     <string name="licence">អាជ្ញាប័ណ្ណ</string>
     <string name="revision">កា​រ​ពិនិត្យ</string>
     <string name="about">អំពី</string>
     <string name="about_text">VLC សម្រាប់ Android™ គឺ​ជា​កម្មវិធី​ចាក់​មេឌៀ VLC ដែល​ជា​កម្មវិធី​មេឌៀ​កូដ​ចំ​ហ​ដ៏​មាន​ប្រជាប្រិយ ។ Android™ អាច​អាន​ឯកសារ និង​​ស្ទ្រីម​បណ្ដាញ​​ភាគ​ច្រើន ។</string>
-    <string name="for_android">សម្រាប់ Android™</string>
     <string name="compiled_by">VLC កំណែ​នេះ​ត្រូវ​បាន​ចងក្រង​ដោយ ៖</string>
     <string name="vlc_authors">អ្នក​និពន្ធ VLC</string>
 
-    <!--Preferences-->
+    <!-- Preferences -->
     <string name="preferences">ចំណូល​ចិត្ត</string>
     <string name="main_prefs_category">ចម្បង</string>
     <string name="privacy_prefs_category">ឯកជន</string>
@@ -123,8 +137,17 @@
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
     <string name="detect_headset">រក​​​កាស</string>
     <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
+    <string name="steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
+    <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>
     <string name="enable_gesture_brightness">បើក​កាយវិកា​ពន្លឺ</string>
+    <string name="screen_orientation">Screen orientation</string>
+    <string name="screen_orientation_sensor">Automatic (sensor)</string>
+    <string name="screen_orientation_start_lock">Locked at start</string>
+    <string name="screen_orientation_portrait">Portrait</string>
+    <string name="screen_orientation_landscape">Landscape</string>
+    <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
+    <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
     <string name="enable_verbose_mode">បរិយាយ</string>
     <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
     <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
