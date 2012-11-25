@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--  Main VLC Interface  -->
-    <string name="filebrowser_sdfail">Impossible de lire la Carte SD. Veuillez vérifier qu\'elle est montée correctement.</string>
-    <string name="filebrowser_root">Racine</string>
-    <string name="filebrowser_parent">..</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Annuler</string>
+    <string name="other">Autre</string>
     <string name="filebrowser_title">Sélection des médias</string>
-    <string name="ml_no_media_dir">Pas de répertoire multimédia</string>
     <string name="sortby">Trier par…</string>
     <string name="sortby_name">Nom</string>
     <string name="sortby_length">Durée</string>
@@ -15,10 +14,10 @@
         <item quantity="one">%d résultat trouvé</item>
         <item quantity="other">%d résultats trouvés</item>
     </plurals>
-    <string name="show_player">Afficher Lecteur</string>
-    <string name="hide_mini_player">Cacher Mini-lecteur</string>
     <string name="play">Lire</string>
     <string name="play_from_start">Lire du début</string>
+    <string name="play_as_audio">Lire comme audio</string>
+    <string name="play_as_video">Lire comme vidéo</string>
     <string name="append">Lire à la suite</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
@@ -27,7 +26,6 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
     <string name="pause">Pause</string>
-    <string name="close">Fermer</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
     <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat, détruire votre maison et déclencher l\'apocalypse Maya !\n\n Amusez-vous bien ;)</string>
     <string name="info_title">VLC Bêta</string>
@@ -62,12 +60,19 @@
     <string name="directory">Répertoire</string>
     <string name="directories">Répertoires</string>
     <string name="loading">Chargement</string>
+    <string name="please_wait">veuillez patienter…</string>
     <string name="nomedia">Pas de fichiers multimédia</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
     <string name="nosubdirectory">Pas de sous-répertoires</string>
+    <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Etes-vous sûr ?</string>
-    <string name="lock_rotation">Verrouiller la rotation de l\'écran</string>
+    <string name="cover_art">Jaquette</string>
+    <string name="shuffle">Aléatoire</string>
+    <string name="repeat">Répétition aucun/un/tout</string>
+    <string name="previous">Précédent</string>
+    <string name="stop">Arrêter</string>
+    <string name="next">Suivant</string>
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
@@ -83,6 +88,8 @@
     <string name="track_unknown">Piste inconnue</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Langue: %1$s\n</string>
+    <string name="volume">Volume&#160;</string>
+    <string name="brightness">Luminosité&#160;</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canal\n</item>
         <item quantity="other">%1$d canaux\n</item>
@@ -94,18 +101,19 @@
     <string name="open_mrl">Ouvrir MRL</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
     <string name="open_mrl_dialog_msg">Enter une addresse réseau: e.g. http://, mms:// ou rtsp://</string>
-    <string name="media_library">Bibliothèque</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.\n\nLe message d\'erreur est (veuillez le mentionner lors du débogage):\n</string>
+    <string name="error_problem">Désolé, VLC pour Android à rencontré un problème et a dû s\'arrêter.</string>
+    <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner):\n</string>
+    <string name="playback_speed">Vitesse de lecture</string>
 
     <!-- About -->
     <string name="app_name_full">Lecteur multimédia VLC</string>
-    <string name="version">Version</string>
     <string name="licence">Licence</string>
     <string name="revision">Révision</string>
     <string name="about">À propos</string>
     <string name="about_text">VLC pour Android™ est un portage de VLC media player, le célèbre lecteur multimedia open source. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
-    <string name="for_android">pour Android™</string>
     <string name="compiled_by">Cette version de VLC est compilé par:</string>
+    <string name="vlc_authors">Auteurs de VLC.</string>
 
     <!--  Preferences -->
     <string name="preferences">Préférences</string>
@@ -118,6 +126,9 @@
     <string name="quit">Quitter l\'application</string>
     <string name="clear_media_db">Vider la base de données multimedia</string>
     <string name="media_db_cleared">Base de données multimedia vidée!</string>
+    <string name="set_locale">Définir la langue</string>
+    <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
+    <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="steal_remote_control">Contrôle exclusif de la télécommande</string>
@@ -137,4 +148,6 @@
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Activer l\'étirement temporel audio</string>
+    <string name="enable_time_stretching_audio_detail">Accélère ou ralenti l\'audio sans changer le pitch (nécessite un appareil rapide)</string>
 </resources>
