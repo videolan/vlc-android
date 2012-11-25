@@ -1,48 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
+
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Annulla</string>
     <string name="other">Altro</string>
-    <string name="filebrowser_sdfail">Impossibile aprire la scheda SD. Controlla che sia montata correttamente.</string>
-    <string name="filebrowser_root">Radice</string>
     <string name="filebrowser_title">Seleziona media da riprodurre</string>
-    <string name="ml_no_media_dir">Nessuna cartella multimediale</string>
     <string name="sortby">Ordina per…</string>
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Durata</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultato trovato</item>
         <item quantity="other">%d risultati trovati</item>
     </plurals>
-    <string name="show_player">Mostra lettore</string>
-    <string name="hide_mini_player">Nascondi lettore minimale</string>
+
     <string name="play">Riproduci</string>
+    <string name="play_from_start">Riproduci all\'avvio</string>
     <string name="play_as_audio">Riproduci come audio</string>
     <string name="play_as_video">Riproduci come video</string>
     <string name="append">Aggiungi</string>
     <string name="play_all">Riproduci tutto</string>
     <string name="append_all">Aggiungi tutto</string>
     <string name="delete">Elimina</string>
+    <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare questo file?</string>
     <string name="pause">Pausa</string>
-    <string name="close">Chiudi</string>
-    <string name="not_show_again">"Non mostrare ancora questo messaggio."</string>
+    <string name="not_show_again">Non mostrare ancora questo messaggio.</string>
     <string name="beta_warning">Questa è una versione beta.\n\nNON è una versione STABILE!\n\nNON utilizzarla se non sai cosa stai facendo.\n\nPotrebbe uccidere il tuo gatto, distruggere la tua casa e dare il via all\'apocalisse maya.\nUsala a tuo rischio e pericolo.\n\nDivertiti! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista sconosciuto</string>
     <string name="unknown_album">Album sconosciuto</string>
     <string name="unknown_genre">Genere sconosciuto</string>
     <string name="songs">Brani</string>
+
     <plurals name="songs_quantity">
         <item quantity="one">Un brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
+
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
         <item quantity="other">%d album</item>
@@ -51,6 +53,7 @@
         <item quantity="one">Una sottocartella</item>
         <item quantity="other">%d sottocartelle</item>
     </plurals>
+
     <string name="parent_folder">Livello superiore</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -79,7 +82,6 @@
     <string name="stop">Ferma</string>
     <string name="next">Successiva</string>
 
-    <string name="lock_rotation">Blocca rotazione schermo</string>
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
@@ -95,12 +97,14 @@
     <string name="track_unknown">Traccia sconosciuta</string>
     <string name="track_codec_info">Codificatore: %1$s\n</string>
     <string name="track_language_info">Lingua: %1$s\n</string>
-    <string name="volume">Volume&#160;</string>
-    <string name="brightness">Luminosità&#160;</string>
+    <string name="volume">Volume </string>
+    <string name="brightness">Luminosità </string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canale\n</item>
         <item quantity="other">%1$d canali\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Campionamento: %1$d Hz\n</string>
     <string name="track_resolution_info">Risoluzione: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
@@ -108,7 +112,6 @@
     <string name="open_mrl">Apri MRL</string>
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
     <string name="open_mrl_dialog_msg">Inserisci MRL di rete: ad es. http://, mms:// o rtsp://</string>
-    <string name="media_library">Raccolta multimediale</string>
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.\n\nIl messaggio di errore è (da citare in caso di debug):\n</string>
     <string name="error_problem">Spiacenti, VLC per Android ha riscontrato un problema in fase di caricamento ed è stato chiuso.</string>
     <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
@@ -116,20 +119,16 @@
 
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
-    <string name="version">Versione</string>
     <string name="licence">Licenza</string>
     <string name="revision">Revisione</string>
     <string name="about">Informazioni</string>
     <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
-    <string name="for_android">per Android™</string>
     <string name="compiled_by">Questa versione di VLC è compilata da:</string>
     <string name="vlc_authors">Autori di VLC.</string>
 
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="main_prefs_category">Principale</string>
-    <string name="internal_memory">Memoria interna</string>
-    <string name="external_mount">Memoria esterna</string>
     <string name="privacy_prefs_category">Riservatezza</string>
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="advanced_prefs_category">Avanzate</string>
@@ -144,10 +143,16 @@
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
-    <string name="steal_remote_control_detail">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>    
+    <string name="steal_remote_control_detail">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
     <string name="enable_wheel_bar">Wheel bar</string>
     <string name="enable_gesture_brightness">Gesti della luminosità</string>
-    <string name="enable_sensor_orientation">Abilita sensore dell\'orientamento</string>
+    <string name="screen_orientation">Orientamento dello schermo</string>
+    <string name="screen_orientation_sensor">Automatico (sensore)</string>
+    <string name="screen_orientation_start_lock">Bloccato all\'avvio</string>
+    <string name="screen_orientation_portrait">Verticale</string>
+    <string name="screen_orientation_landscape">Orizzontale</string>
+    <string name="screen_orientation_reverse_portrait">Vericale inverso</string>
+    <string name="screen_orientation_reverse_landscape">Orizzontale inverso</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
     <string name="aout">Uscita audio</string>
