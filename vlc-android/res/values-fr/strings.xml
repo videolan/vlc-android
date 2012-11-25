@@ -60,7 +60,7 @@
     <string name="directory">Répertoire</string>
     <string name="directories">Répertoires</string>
     <string name="loading">Chargement</string>
-    <string name="please_wait">veuillez patienter…</string>
+    <string name="please_wait">Veuillez patienter…</string>
     <string name="nomedia">Pas de fichiers multimédia</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
@@ -101,7 +101,7 @@
     <string name="open_mrl">Ouvrir MRL</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
     <string name="open_mrl_dialog_msg">Enter une addresse réseau: e.g. http://, mms:// ou rtsp://</string>
-    <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.\n\nLe message d\'erreur est (veuillez le mentionner lors du débogage):\n</string>
+    <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
     <string name="error_problem">Désolé, VLC pour Android à rencontré un problème et a dû s\'arrêter.</string>
     <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner):\n</string>
     <string name="playback_speed">Vitesse de lecture</string>
