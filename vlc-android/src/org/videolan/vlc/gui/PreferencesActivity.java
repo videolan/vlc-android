@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
@@ -32,13 +29,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -48,13 +43,6 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")

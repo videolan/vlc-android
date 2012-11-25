@@ -35,11 +35,9 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class MediaLibrary {
@@ -195,7 +193,6 @@ public class MediaLibrary {
         public void run() {
             // Initialize variables
             final DatabaseManager DBManager = DatabaseManager.getInstance(VLCApplication.getAppContext());
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             // show progressbar in footer
             MainActivity.showProgressBar(mContext);
