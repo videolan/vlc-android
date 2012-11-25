@@ -1,8 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <!--Main VLC Interface-->
+  <string name="ok">OK</string>
+  <string name="cancel">Abbrechen</string>
+  <string name="other">Andere</string>
   <string name="filebrowser_sdfail">Konnte SD-Karte nicht öffnen. Bitte prüfen, ob sie korrekt gemounted wurde.</string>
-  <string name="filebrowser_root">Stammverzeichnis</string>
   <string name="filebrowser_title">Medium zur Wiedergabe auswählen</string>
   <string name="ml_no_media_dir">Kein Medien-Verzeichnis</string>
   <string name="sortby">Sortieren nach…</string>
@@ -17,6 +19,7 @@
   <string name="show_player">Player anzeigen</string>
   <string name="hide_mini_player">Mini-Player ausblenden</string>
   <string name="play">Wiedergabe</string>
+  <string name="play_from_start">Abspielen beim Start</string>
   <string name="play_as_audio">Wiedergabe als Audio</string>
   <string name="play_as_video">Wiedergabe als Video</string>
   <string name="append">Anhängen</string>
@@ -67,7 +70,14 @@
   <string name="mediafiles">Mediendateien</string>
   <string name="notavailable">nicht verfügbar</string>
   <string name="nosubdirectory">Kein Unterverzeichnis</string>
+  <string name="nohistory">Sie haben noch keine Wiedergabe-Historie.</string>
   <string name="validation">Sind Sie sicher?</string>
+  <string name="cover_art">Album-Cover</string>
+  <string name="shuffle">Mischen</string>
+  <string name="repeat">Wiederholen Nichts / Eins / Alle</string>
+  <string name="previous">Vorherige</string>
+  <string name="stop">Stopp</string>
+  <string name="next">Nächste</string>
   <string name="lock_rotation">Sperre Bildschirmrotation</string>
   <string name="locked">Gesperrt</string>
   <string name="unlocked">Entsperrt</string>
@@ -84,6 +94,8 @@
   <string name="track_unknown">Unbekannter Titel</string>
   <string name="track_codec_info">Codec: %1$s\n</string>
   <string name="track_language_info">Sprache: %1$s\n</string>
+  <string name="volume">\t\nLautstärke</string>
+  <string name="brightness">Helligkeit</string>
   <plurals name="track_channels_info_quantity">
     <item quantity="one">1 Kanal\n</item>
     <item quantity="other">%1$d Kanäle\n</item>
@@ -128,8 +140,17 @@
   <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
   <string name="detect_headset">Headset erkennen</string>
   <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
+  <string name="steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
+  <string name="steal_remote_control_detail">Vermeidet Konflikte mit der Fernbedienung durch die Übernahme durch andere Anwendungen. Dies verhindert, Anrufe bei Doppelklick auf HTC-Handys.</string>
   <string name="enable_wheel_bar">Wheel bar aktivieren</string>
   <string name="enable_gesture_brightness">Helligkeit-Gesten aktivieren</string>
+  <string name="screen_orientation">Bildschirmausrichtung</string>
+  <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
+  <string name="screen_orientation_start_lock">Gesperrt beim Start</string>
+  <string name="screen_orientation_portrait">Hochformat</string>
+  <string name="screen_orientation_landscape">Querformat</string>
+  <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
+  <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
   <string name="enable_verbose_mode">Ausführlichkeit</string>
   <string name="enable_verbose_mode_detail">Ausführlichkeit des Logs erhöhen (Logcat)</string>
   <string name="aout">Audioausgabe</string>
