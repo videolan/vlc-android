@@ -400,7 +400,7 @@ public class DirectoryAdapter extends BaseAdapter {
         if (android.os.Build.VERSION.SDK_INT >= 17) {
             // Show "sdcard" for the user's folder when running in multi-user
             if (file.getAbsolutePath().equals(Environment.getExternalStorageDirectory().getPath())) {
-                return VLCApplication.getAppContext().getString(R.string.sdcard);
+                return VLCApplication.getAppContext().getString(R.string.internal_memory);
             }
         }
         return file.getName();
