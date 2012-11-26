@@ -123,6 +123,7 @@
     <string name="load_1_period" translatable="false">.</string>
     <string name="load_2_period" translatable="false">..</string>
     <string name="load_3_period" translatable="false">...</string>
+    <string name="sdcard">sdcard</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>

@@ -27,8 +27,10 @@ import java.util.List;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +78,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
 
         if (item != null && item.getName() != null) {
             Util.setItemBackground(holder.layout, position);
-            holder.text.setText(item.getName());
+            holder.text.setText(getVisibleName(item));
             holder.check.setOnCheckedChangeListener(null);
             holder.check.setTag(item);
             holder.check.setEnabled(true);
@@ -132,6 +134,16 @@ public class BrowserAdapter extends ArrayAdapter<File>
     public int compare(File file1, File file2) {
         return file1.getName().toUpperCase().compareTo(
                 file2.getName().toUpperCase());
+    }
+
+    private String getVisibleName(File file) {
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
+            // Show "sdcard" for the user's folder when running in multi-user
+            if (file.getAbsolutePath().equals(Environment.getExternalStorageDirectory().getPath())) {
+                return VLCApplication.getAppContext().getString(R.string.sdcard);
+            }
+        }
+        return file.getName();
     }
 
     static class ViewHolder {

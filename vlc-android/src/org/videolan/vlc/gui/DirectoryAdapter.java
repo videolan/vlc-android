@@ -34,6 +34,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,10 +56,16 @@ public class DirectoryAdapter extends BaseAdapter {
     public class Node implements Comparable<DirectoryAdapter.Node> {
         public ArrayList<DirectoryAdapter.Node> children;
         String name;
+        String visibleName;
         public Boolean isFile;
 
         public Node(String _name) {
+            this(_name, null);
+        }
+
+        public Node(String _name, String _visibleName) {
             this.name = _name;
+            this.visibleName = _visibleName;
             this.children = new ArrayList<DirectoryAdapter.Node>();
             this.isFile = false;
         }
@@ -103,6 +110,10 @@ public class DirectoryAdapter extends BaseAdapter {
             return c;
         }
 
+        public String getVisibleName() {
+            return (this.visibleName != null) ? this.visibleName : this.name;
+        }
+
         @Override
         public int compareTo(Node arg0) {
             if(this.isFile && !(arg0.isFile))
@@ -127,7 +138,7 @@ public class DirectoryAdapter extends BaseAdapter {
             String storages[] = Util.getStorageDirectories();
             for (String storage : storages) {
                 File f = new File(storage);
-                DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName());
+                DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName(), getVisibleName(f));
                 child.isFile = false;
                 this.populateNode(child, storage);
                 n.children.add(child);
@@ -260,7 +271,7 @@ public class DirectoryAdapter extends BaseAdapter {
             holder.title.setText(m.getTitle());
             holderText = m.getArtist() + " - " + m.getAlbum();
         } else
-            holder.title.setText(selectedNode.name);
+            holder.title.setText(selectedNode.getVisibleName());
 
         if(selectedNode.name == "..")
             holderText = context.getString(R.string.parent_folder);
@@ -383,5 +394,15 @@ public class DirectoryAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return Util.stripTrailingSlash(path);
+    }
+
+    private String getVisibleName(File file) {
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
+            // Show "sdcard" for the user's folder when running in multi-user
+            if (file.getAbsolutePath().equals(Environment.getExternalStorageDirectory().getPath())) {
+                return VLCApplication.getAppContext().getString(R.string.sdcard);
+            }
+        }
+        return file.getName();
     }
 }
