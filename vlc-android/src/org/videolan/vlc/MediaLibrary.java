@@ -198,14 +198,6 @@ public class MediaLibrary {
             MainActivity.showProgressBar(mContext);
 
             List<File> mediaDirs = DBManager.getMediaDirs();
-
-            // Remove directories currently offline (on removable storage) or deleted
-            //FIXME How do we treat removed directories vs offline directories?
-            for (File f : mediaDirs) {
-                if (!f.exists())
-                    mediaDirs.remove(f);
-            }
-
             if (mediaDirs.size() == 0) {
                 // Use all available storage directories as our default
                 String storageDirs[] = Util.getStorageDirectories();
@@ -215,7 +207,6 @@ public class MediaLibrary {
                         mediaDirs.add(f);
                 }
             }
-
             directories.addAll(mediaDirs);
 
             // get all existing media items
