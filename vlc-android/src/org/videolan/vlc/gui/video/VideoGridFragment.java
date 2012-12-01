@@ -288,7 +288,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
-        if (handleContextItemSelected(menu, info.position))
+        if (info != null && handleContextItemSelected(menu, info.position))
             return true;
         return super.onContextItemSelected(menu);
     }
