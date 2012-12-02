@@ -54,6 +54,10 @@
         <item quantity="one">1 subfolder</item>
         <item quantity="other">%d subfolders</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 media file</item>
+        <item quantity="other">%d media files</item>
+    </plurals>
 
     <string name="internal_memory">Internal memory</string>
     <string name="parent_folder">Up to parent folder</string>

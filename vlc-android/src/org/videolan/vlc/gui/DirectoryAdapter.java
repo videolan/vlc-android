@@ -277,19 +277,19 @@ public class DirectoryAdapter extends BaseAdapter {
             holderText = context.getString(R.string.parent_folder);
         else if(!selectedNode.isFile()) {
             int folderCount = selectedNode.subfolderCount();
-            int songCount = selectedNode.subfilesCount();
+            int mediaFileCount = selectedNode.subfilesCount();
             holderText = "";
 
             if(folderCount > 0)
                 holderText += context.getResources().getQuantityString(
                         R.plurals.subfolders_quantity, folderCount, folderCount
                 );
-            if(folderCount > 0 && songCount > 0)
+            if(folderCount > 0 && mediaFileCount > 0)
                 holderText += ", ";
-            if(songCount > 0)
+            if(mediaFileCount > 0)
                 holderText += context.getResources().getQuantityString(
-                        R.plurals.songs_quantity, songCount, songCount
-                );
+                        R.plurals.mediafiles_quantity, mediaFileCount,
+                        mediaFileCount);
         }
         holder.text.setText(holderText);
         if(selectedNode.isFile())
