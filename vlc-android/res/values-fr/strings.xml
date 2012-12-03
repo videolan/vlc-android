@@ -47,6 +47,11 @@
         <item quantity="one">1 sous-répertoire</item>
         <item quantity="other">%d sous-répertoires</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 fichier multimedia</item>
+        <item quantity="other">%d fichiers multimedia</item>
+    </plurals>
+    <string name="internal_memory">Mémoire interne</string>
     <string name="parent_folder">Répertoire parent</string>
     <string name="audio">Audio</string>
     <string name="video">Vidéo</string>
