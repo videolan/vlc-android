@@ -26,6 +26,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -191,6 +192,26 @@ public class LibVLC {
     public boolean timeStretchingEnabled() {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return p.getBoolean("enable_time_stretching_audio", false);
+    }
+
+    public String getSubtitlesEncoding() {
+        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return p.getString("subtitles_text_encoding", "");
+    }
+
+    public static synchronized void setSubtitlesEncoding(Context context, String encoding, boolean reset) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor e = pref.edit();
+        e.putString("subtitles_text_encoding", encoding);
+        e.commit();
+        if (reset && sInstance != null) {
+            try {
+                sInstance.destroy();
+                sInstance.init();
+            } catch (LibVlcException lve) {
+                Log.e(TAG, "Unable to reinit libvlc: " + lve);
+            }
+        }
     }
 
     /**

@@ -412,6 +412,12 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
 
+    methodId = (*env)->GetMethodID(env, cls, "getSubtitlesEncoding", "()Ljava/lang/String;");
+    jstring subsencoding = (*env)->CallObjectMethod(env, thiz, methodId);
+    const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
+
+    LOGD("Subtitles encoding sets to: %s", subsencodingstr);
+
     verbosity = verbose;
     libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
 
@@ -425,12 +431,15 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
         "--no-drop-late-frames",
         "--avcodec-fast",
         "--avcodec-threads=0",
+        "--subsdec-encoding", subsencodingstr,
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
     setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
+
+    (*env)->ReleaseStringUTFChars(env, subsencoding, subsencodingstr);
 
     if (!instance)
     {

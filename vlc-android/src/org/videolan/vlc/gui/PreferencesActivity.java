@@ -133,6 +133,18 @@ public class PreferencesActivity extends PreferenceActivity {
                     }
                 });
 
+        // Subtitles encoding
+        Preference subtitlesEncoding = (ListPreference)findPreference("subtitles_text_encoding");
+        subtitlesEncoding.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String encoding = (String)newValue;
+                LibVLC.setSubtitlesEncoding(preference.getContext(), encoding, true);
+                return true;
+            }
+        });
+
         // Change verbosity (logcat)
         CheckBoxPreference checkboxVerbosity = (CheckBoxPreference) findPreference("enable_verbose_mode");
         checkboxVerbosity.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

@@ -47,6 +47,15 @@
             android:title="@string/clear_history">
         </PreferenceScreen>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/subtitles_prefs_category">
+        <ListPreference
+            android:entries="@array/subtitles_encoding_list"
+            android:entryValues="@array/subtitles_encoding_values"
+            android:key="subtitles_text_encoding"
+            android:title="@string/subtitles_text_encoding"
+            android:defaultValue=""
+            android:persistent="true" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <ListPreference
             android:defaultValue="@string/aout_audiotrack_java"
