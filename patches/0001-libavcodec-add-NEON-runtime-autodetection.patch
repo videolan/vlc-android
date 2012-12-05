@@ -1,4 +1,4 @@
-From 91bcedc03953339c64f5ad684a3277d12c87cdcc Mon Sep 17 00:00:00 2001
+From d932400b9296ce2549274cf2c8b960c358ce05b2 Mon Sep 17 00:00:00 2001
 From: Jean-Baptiste Kempf <jb@videolan.org>
 Date: Wed, 10 Oct 2012 18:50:06 +0200
 Subject: [PATCH 1/2] libavcodec: add NEON runtime autodetection
@@ -586,7 +586,7 @@ index 0000000..1976eb1
 +
 +
 diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
-index 4b99a1b..a327800 100644
+index 2647fcf..39c43b2 100644
 --- a/contrib/src/ffmpeg/rules.mak
 +++ b/contrib/src/ffmpeg/rules.mak
 @@ -1,7 +1,7 @@
@@ -612,9 +612,9 @@ index 4b99a1b..a327800 100644
  endif
 +endif
  
- # x86 stuff
- ifeq ($(ARCH),i386)
-@@ -137,6 +140,8 @@ ffmpeg: ffmpeg-$(FFMPEG_VERSION).tar.gz .sum-ffmpeg
+ # MIPS stuff
+ ifeq ($(ARCH),mipsel)
+@@ -142,6 +145,8 @@ ffmpeg: ffmpeg-$(FFMPEG_VERSION).tar.gz .sum-ffmpeg
  	rm -Rf $@ $@-git
  	mkdir -p $@-git
  	$(ZCAT) "$<" | (cd $@-git && tar xv --strip-components=1)
@@ -624,5 +624,5 @@ index 4b99a1b..a327800 100644
  
  .ffmpeg: ffmpeg
 -- 
-1.7.12.3
+1.8.0.1
 
