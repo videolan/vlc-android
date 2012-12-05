@@ -20,6 +20,13 @@
 
 package org.videolan.vlc;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +77,7 @@ public class AudioService extends Service {
     public static final String ACTION_REMOTE_PAUSE = "org.videolan.vlc.remote.Pause";
     public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
+    public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
 
     public static final String WIDGET_PACKAGE = "org.videolan.vlc";
@@ -136,6 +144,7 @@ public class AudioService extends Service {
         filter.addAction(ACTION_REMOTE_PAUSE);
         filter.addAction(ACTION_REMOTE_STOP);
         filter.addAction(ACTION_REMOTE_FORWARD);
+        filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         registerReceiver(serviceReceiver, filter);
@@ -303,6 +312,8 @@ public class AudioService extends Service {
                 stop();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
                 next();
+            } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
+                loadLastPlaylist();
             }
 
             /*
@@ -531,6 +542,7 @@ public class AudioService extends Service {
         showNotification();
         updateWidget(this);
         updateRemoteControlClientMetadata();
+        saveCurrentMedia();
     }
 
     @TargetApi(14)
@@ -573,12 +585,14 @@ public class AudioService extends Service {
         showNotification();
         updateWidget(this);
         updateRemoteControlClientMetadata();
+        saveCurrentMedia();
     }
 
     private void shuffle() {
         if (mShuffling)
             mPrevious.clear();
         mShuffling = !mShuffling;
+        saveCurrentMedia();
     }
 
     private void setRepeatType(int t) {
@@ -737,6 +751,8 @@ public class AudioService extends Service {
                 updateWidget(AudioService.this);
                 updateRemoteControlClientMetadata();
             }
+            AudioService.this.saveMediaList();
+            AudioService.this.saveCurrentMedia();
         }
 
         @Override
@@ -792,6 +808,7 @@ public class AudioService extends Service {
                 }
                 mMediaList.add(media);
             }
+            AudioService.this.saveMediaList();
         }
 
         @Override
@@ -891,5 +908,91 @@ public class AudioService extends Service {
         i.putExtra("cover", cover);
 
         sendBroadcast(i);
+    }
+
+    private synchronized void loadLastPlaylist() {
+        if (!Util.hasExternalStorage())
+            return;
+
+        String line;
+        FileInputStream input;
+        BufferedReader br;
+        int rowCount = 0;
+
+        int position = 0;
+        String currentMedia;
+        List<String> mediaPathList = new ArrayList<String>();
+
+        try {
+            // read CurrentMedia
+            input = new FileInputStream(AudioUtil.CACHE_DIR + "/" + "CurrentMedia.txt");
+            br = new BufferedReader(new InputStreamReader(input));
+            currentMedia = br.readLine();
+            mShuffling = "1".equals(br.readLine());
+            br.close();
+            input.close();
+
+            // read MediaList
+            input = new FileInputStream(AudioUtil.CACHE_DIR + "/" + "MediaList.txt");
+            br = new BufferedReader(new InputStreamReader(input));
+            while ((line = br.readLine()) != null) {
+                mediaPathList.add(line);
+                if (line.equals(currentMedia))
+                    position = rowCount;
+                rowCount++;
+            }
+            br.close();
+            input.close();
+
+            // load playlist
+            mInterface.load(mediaPathList, position, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized void saveCurrentMedia() {
+        if (!Util.hasExternalStorage())
+            return;
+
+        FileOutputStream output;
+        BufferedWriter bw;
+
+        try {
+            output = new FileOutputStream(AudioUtil.CACHE_DIR + "/" + "CurrentMedia.txt");
+            bw = new BufferedWriter(new OutputStreamWriter(output));
+            bw.write(mCurrentMedia != null ? mCurrentMedia.getLocation() : "");
+            bw.write('\n');
+            bw.write(mShuffling ? "1" : "0");
+            bw.write('\n');
+            bw.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized void saveMediaList() {
+        if (!Util.hasExternalStorage())
+            return;
+
+        FileOutputStream output;
+        BufferedWriter bw;
+
+        try {
+            output = new FileOutputStream(AudioUtil.CACHE_DIR + "/" + "MediaList.txt");
+            bw = new BufferedWriter(new OutputStreamWriter(output));
+            for (int i = 0; i < mMediaList.size(); i++) {
+                Media item = mMediaList.get(i);
+                bw.write(item.getLocation());
+                bw.write('\n');
+            }
+            bw.close();
+            output.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

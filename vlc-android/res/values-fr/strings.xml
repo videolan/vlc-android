@@ -21,6 +21,7 @@
     <string name="append">Lire à la suite</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
+    <string name="last_playlist">Dernière liste de lecture</string>
     <string name="delete">Supprimer</string>
     <string name="set_song">Définir comme sonnerie</string>
     <string name="info">Information</string>

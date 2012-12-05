@@ -469,6 +469,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this, true);
                 break;
+            // Restore last playlist
+            case R.id.ml_menu_last_playlist:
+                Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
+                sendBroadcast(i);
+                break;
             // Open MRL
             case R.id.ml_menu_open_mrl:
                 onOpenMRL();
