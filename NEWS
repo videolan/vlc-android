@@ -1,13 +1,17 @@
 Changes between 0.0.7 and 0.0.8:
 --------------------------------
 
+Core:
+ * Support MIPS compilation
+
 Main application:
  * SD cards mount points are auto-detected
  * Directory view starts from the SD cards and are live-detected
  * Improve the thumbnailing process
  * Improve the headset handling and remote control code, including bluetooth
  * Correctly support the lock screen controls
- * Fixes for 4.2
+ * Fixes for Android 4.2 support
+ * Fix for sound notification loudness
  * Fixes miscellaneous crashes and issues
 
 Interface:
@@ -16,6 +20,8 @@ Interface:
  * Add different options for rotation and screen orientation
  * Fix sorting of album tracks
  * Add a ticker in the status bar, when playing audio
+ * Improve the Directories View
+ * Translations
 
 
 Changes between 0.0.6 and 0.0.7:
