@@ -177,7 +177,7 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_release(m);
 
     /* Parse the results */
-    unsigned videoWidth, videoHeight;
+    unsigned videoWidth = 0, videoHeight = 0;
     bool hasVideoTrack = false;
     for (unsigned i = 0; i < nbTracks; ++i)
         if (tracks[i].i_type == libvlc_track_video)
@@ -197,10 +197,18 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
         goto end;
     }
 
+    LOGD("Video dimensions: %ix%i.\n", videoWidth, videoHeight );
+
     /* VLC could not tell us the size */
     if( videoWidth == 0 || videoHeight == 0 )
     {
         LOGE("Could not find the video dimensions.\n");
+        goto end;
+    }
+
+    if( videoWidth < 32 || videoHeight < 32 || videoWidth > 2048 || videoWidth > 2048 )
+    {
+        LOGE("Wrong video dimensions.\n");
         goto end;
     }
 
