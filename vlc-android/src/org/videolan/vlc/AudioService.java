@@ -452,11 +452,10 @@ public class AudioService extends Service {
             .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
             .setContentTitle(mCurrentMedia.getTitle())
             .setTicker(mCurrentMedia.getTitle() + " - " + mCurrentMedia.getArtist())
-            .setContentText((Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist()
-                    : mCurrentMedia.getArtist() + " - " + mCurrentMedia.getAlbum()))
-                    .setContentInfo(mCurrentMedia.getAlbum())
-                    .setAutoCancel(false)
-                    .setOngoing(true);
+            .setContentText(Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist() : mCurrentMedia.getSubtitle())
+            .setContentInfo(mCurrentMedia.getAlbum())
+            .setAutoCancel(false)
+            .setOngoing(true);
 
             Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
             notificationIntent.setAction(Intent.ACTION_MAIN);

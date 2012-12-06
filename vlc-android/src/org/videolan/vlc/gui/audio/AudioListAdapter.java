@@ -109,7 +109,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
                 ? R.color.list_title_last
                 : R.color.list_title);
         holder.title.setTextColor(titleColor);
-        holder.artist.setText(media.getArtist() + " - " + media.getAlbum());
+        holder.artist.setText(media.getSubtitle());
         return v;
     }
 

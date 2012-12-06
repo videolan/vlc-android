@@ -314,7 +314,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getTitle() {
-        if (mTitle != null)
+        if (mTitle != null && mType != TYPE_VIDEO)
             return mTitle;
         else {
             int end = getFileName().lastIndexOf(".");
@@ -322,6 +322,10 @@ public class Media implements Comparable<Media> {
                 return getFileName();
             return getFileName().substring(0, end);
         }
+    }
+
+    public String getSubtitle() {
+        return mType != TYPE_VIDEO ? mArtist + " - " + mAlbum : "";
     }
 
     public String getArtist() {

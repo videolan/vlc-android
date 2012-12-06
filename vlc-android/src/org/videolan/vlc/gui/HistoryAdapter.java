@@ -99,7 +99,7 @@ public class HistoryAdapter extends BaseAdapter {
         Log.d(TAG, "Loading media position " + position + " - " + selected);
         Media m = new Media(selected, position);
         holder.title.setText(m.getTitle());
-        holderText = m.getArtist() + " - " + m.getAlbum();
+        holderText = m.getSubtitle();
 
         holder.text.setText(holderText);
         holder.icon.setImageResource(R.drawable.icon);

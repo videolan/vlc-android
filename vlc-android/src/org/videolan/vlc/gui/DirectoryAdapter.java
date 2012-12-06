@@ -269,7 +269,7 @@ public class DirectoryAdapter extends BaseAdapter {
             Log.d(TAG, "Loading media " + selectedNode.name);
             Media m = new Media(getMediaLocation(position), false);
             holder.title.setText(m.getTitle());
-            holderText = m.getArtist() + " - " + m.getAlbum();
+            holderText = m.getSubtitle();
         } else
             holder.title.setText(selectedNode.getVisibleName());
 
