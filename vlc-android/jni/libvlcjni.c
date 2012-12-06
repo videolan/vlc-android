@@ -201,6 +201,7 @@ static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
          * we don't free it ourselves. */
         unsetMediaPlayer(env, thiz);
         setLong(env, thiz, "mInternalMediaPlayerInstance", 0);
+        setLong(env, thiz, "mMediaListPlayerInstance", 0);
     }
 }
 
