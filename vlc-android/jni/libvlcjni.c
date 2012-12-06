@@ -185,11 +185,6 @@ static libvlc_media_list_player_t *getMediaListPlayer(JNIEnv *env, jobject thiz)
     return (libvlc_media_list_player_t*)(intptr_t)getLong(env, thiz, "mMediaListPlayerInstance");
 }
 
-static void unsetMediaPlayer(JNIEnv *env, jobject thiz)
-{
-    setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)0);
-}
-
 static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
 {
     libvlc_media_list_player_t* p_mlp = getMediaListPlayer(env, thiz);
@@ -199,7 +194,6 @@ static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
         libvlc_media_list_player_release(p_mlp);
         /* libvlc_media_list_player_release frees the media player, so
          * we don't free it ourselves. */
-        unsetMediaPlayer(env, thiz);
         setLong(env, thiz, "mInternalMediaPlayerInstance", 0);
         setLong(env, thiz, "mMediaListPlayerInstance", 0);
     }
