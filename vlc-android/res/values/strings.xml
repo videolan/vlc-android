@@ -132,7 +132,7 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
-    <string name="licence">Licence</string>
+    <string name="licence">License</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
     <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
