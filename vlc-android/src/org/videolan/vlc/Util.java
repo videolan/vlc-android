@@ -446,4 +446,11 @@ public class Util {
         }
         return dirs;
     }
+
+    /**
+     * Get the formatted current playback speed in the form of 1.00x
+     */
+    public static String formatRateString(float rate) {
+        return String.format(java.util.Locale.US, "%.2fx", rate);
+    }
 }

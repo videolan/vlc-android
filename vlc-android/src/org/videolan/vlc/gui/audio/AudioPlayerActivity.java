@@ -223,7 +223,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mPrevious.setVisibility(ImageButton.VISIBLE);
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
-        mSpeed.setText(String.format(java.util.Locale.US, "%.2fx", mAudioController.getRate()));
+        mSpeed.setText(Util.formatRateString(mAudioController.getRate()));
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
     }
 

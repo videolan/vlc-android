@@ -1053,7 +1053,7 @@ public class VideoPlayerActivity extends Activity {
 
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    mSpeedLabel.setText(String.format(java.util.Locale.US, "%.2fx", mLibVLC.getRate()));
+                    mSpeedLabel.setText(Util.formatRateString(mLibVLC.getRate()));
                 }
             });
             d.show();
