@@ -136,6 +136,8 @@ public class VideoPlayerActivity extends Activity {
     private ImageButton mSize;
     private TextView mSpeedLabel;
     private boolean mIsLocked = false;
+    private int mLastAudioTrack = -1;
+    private int mLastSpuTrack = -1;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -877,9 +879,13 @@ public class VideoPlayerActivity extends Activity {
         public void onClick(View v) {
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_audio)
-            .setAdapter(mAudioTracksAdapter, new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(mAudioTracksAdapter, -1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
+                    DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
+                            mLocation,
+                            DatabaseManager.mediaColumn.MEDIA_AUDIOTRACK,
+                            position + 1);
                     mLibVLC.setAudioTrack(position + 1);
                     dialog.dismiss();
                 }
@@ -909,9 +915,13 @@ public class VideoPlayerActivity extends Activity {
         public void onClick(View v) {
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_text)
-            .setAdapter(mSubtitleTracksAdapter, new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(mSubtitleTracksAdapter, -1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
+                    DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
+                            mLocation,
+                            DatabaseManager.mediaColumn.MEDIA_SPUTRACK,
+                            position);
                     mLibVLC.setSpuTrack(position);
                     dialog.dismiss();
                 }
@@ -1172,6 +1182,18 @@ public class VideoPlayerActivity extends Activity {
         mLength.setText(mDisplayRemainingTime && length > 0
                 ? "- " + Util.millisToString(length - time)
                 : Util.millisToString(length));
+
+        if (mLastAudioTrack >= 0) {
+            mLibVLC.setAudioTrack(mLastAudioTrack);
+            if (mLibVLC.getAudioTrack() == mLastAudioTrack)
+                mLastAudioTrack = -1;
+        }
+        if (mLastSpuTrack >= 0) {
+            mLibVLC.setSpuTrack(mLastSpuTrack);
+            if (mLibVLC.getSpuTrack() == mLastSpuTrack)
+                mLastSpuTrack = -1;
+        }
+
         return time;
     }
 
@@ -1256,6 +1278,14 @@ public class VideoPlayerActivity extends Activity {
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
             if (media != null && media.getTime() > 0 && !fromStart)
                 mLibVLC.setTime(media.getTime());
+
+            mLastAudioTrack = media.getAudioTrack();
+            /* FIXME : bug in vlc
+             * if setSpuTrack(0) is called before the playback has started,
+             * it will disable the video track instead of subtitles.
+             * So don't restore the disable item */
+            if (media.getSpuTrack() != 0)
+                mLastSpuTrack = media.getSpuTrack();
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");

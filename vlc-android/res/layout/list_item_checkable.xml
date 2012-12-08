@@ -4,4 +4,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:textColor="@android:color/black"
+    android:checkMark="?android:attr/listChoiceIndicatorSingle"
     android:textSize="18sp" />
+

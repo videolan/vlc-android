@@ -778,7 +778,9 @@ public class AudioService extends Service {
                     VLCApplication.getAppContext().getString(R.string.unknown_album),
                     0,
                     0,
-                    "");
+                    "",
+                    -1,
+                    -1);
             mMediaList.add(mCurrentMedia);
 
             // Notify everyone

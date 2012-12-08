@@ -113,6 +113,8 @@ public class Media implements Comparable<Media> {
     private final String mLocation;
     private String mFilename;
     private long mTime = 0;
+    private int mAudioTrack = -1;
+    private int mSpuTrack = -1;
     private long mLength = 0;
     private int mType;
     private int mWidth = 0;
@@ -205,10 +207,12 @@ public class Media implements Comparable<Media> {
 
     public Media(Context context, String location, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album,
-            int width, int height, String artworkURL) {
+            int width, int height, String artworkURL, int audio, int spu) {
         mLocation = location;
         mFilename = null;
         mTime = time;
+        mAudioTrack = audio;
+        mSpuTrack = spu;
         mLength = length;
         mType = type;
         mPicture = picture;
@@ -252,6 +256,22 @@ public class Media implements Comparable<Media> {
 
     public void setTime(long time) {
         mTime = time;
+    }
+
+    public int getAudioTrack() {
+        return mAudioTrack;
+    }
+
+    public void setAudioTrack(int track) {
+        mAudioTrack = track;
+    }
+
+    public int getSpuTrack() {
+        return mSpuTrack;
+    }
+
+    public void setSpuTrack(int track) {
+        mSpuTrack = track;
     }
 
     public long getLength() {
