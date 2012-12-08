@@ -199,10 +199,8 @@ make $MAKEFLAGS
 
 cd ../.. && mkdir -p android && cd android
 
-if test ! -s "../configure" ; then
-    echo "Bootstraping"
-    ../bootstrap
-fi
+echo "Bootstraping"
+../bootstrap
 
 echo "Configuring"
 ../../configure.sh $OPTS
