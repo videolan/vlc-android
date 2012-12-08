@@ -35,9 +35,12 @@
 // An audio frame will contain FRAME_SIZE samples
 #define FRAME_SIZE (4096*2)
 
-static jobject j_libVlc;   /// Pointer to the LibVLC Java object
-static jmethodID play;     /// Java method to play audio buffers
-static jbyteArray buffer;  /// Raw audio data to be played
+typedef struct
+{
+    jobject j_libVlc;   /// Pointer to the LibVLC Java object
+    jmethodID play;     /// Java method to play audio buffers
+    jbyteArray buffer;  /// Raw audio data to be played
+} aout_sys_t;
 
 /** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
@@ -46,7 +49,12 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
 {
     LOGI ("Opening the JNI audio output");
 
-    j_libVlc = *opaque; // Keep a reference to our Java object
+    aout_sys_t *p_sys = calloc (1, sizeof (*p_sys));
+    if (!p_sys)
+        return -1;
+
+    p_sys->j_libVlc = *opaque;       // Keep a reference to our Java object
+    *opaque         = (void*) p_sys; // The callback will need aout_sys_t
 
     LOGI ("Parameters: %u channels, FOURCC '%4.4s',  sample rate: %uHz",
           *nb_channels, format, *rate);
@@ -59,7 +67,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     }
 
     // Call the init function.
-    jclass cls = (*p_env)->GetObjectClass (p_env, j_libVlc);
+    jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
     jmethodID methodIdInitAout = (*p_env)->GetMethodID (p_env, cls,
                                                         "initAout", "(III)V");
     if (!methodIdInitAout)
@@ -71,7 +79,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     LOGV ("Number of channels forced to 2, number of samples to %d", FRAME_SIZE);
     *nb_channels = 2;
 
-    (*p_env)->CallVoidMethod (p_env, j_libVlc, methodIdInitAout,
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdInitAout,
                               *rate, *nb_channels, FRAME_SIZE);
     if ((*p_env)->ExceptionCheck (p_env))
     {
@@ -84,11 +92,11 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     }
 
     /* Create a new byte array to store the audio data. */
-    jbyteArray buf = (*p_env)->NewByteArray (p_env,
+    jbyteArray buffer = (*p_env)->NewByteArray (p_env,
                                                    *nb_channels *
                                                    FRAME_SIZE *
                                                    sizeof (uint16_t) /* =2 */);
-    if (buf == NULL)
+    if (buffer == NULL)
     {
         LOGE ("Could not allocate the Java byte array to store the audio data!");
         goto error;
@@ -96,23 +104,25 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
 
     /* Use a global reference to not reallocate memory each time we run
        the play function. */
-    buffer = (*p_env)->NewGlobalRef (p_env, buf);
+    p_sys->buffer = (*p_env)->NewGlobalRef (p_env, buffer);
     /* The local reference is no longer useful. */
-    (*p_env)->DeleteLocalRef (p_env, buf);
-    if (buffer == NULL)
+    (*p_env)->DeleteLocalRef (p_env, buffer);
+    if (p_sys->buffer == NULL)
     {
         LOGE ("Could not create the global reference!");
         goto error;
     }
 
     // Get the play methodId
-    play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
-    assert (play != NULL);
+    p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
+    assert (p_sys->play != NULL);
     (*myVm)->DetachCurrentThread (myVm);
     return 0;
 
 error:
     (*myVm)->DetachCurrentThread (myVm);
+    *opaque = NULL;
+    free (p_sys);
     return -1;
 }
 
@@ -121,7 +131,7 @@ error:
  **/
 void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
 {
-    (void)opaque;
+    aout_sys_t *p_sys = opaque;
     JNIEnv *p_env;
 
     /* How ugly: we constantly attach/detach this thread to/from the JVM
@@ -130,7 +140,7 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
      */
     (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
 
-    (*p_env)->SetByteArrayRegion (p_env, buffer, 0,
+    (*p_env)->SetByteArrayRegion (p_env, p_sys->buffer, 0,
                                   2 /*nb_channels*/ * count * sizeof (uint16_t),
                                   (jbyte*) samples);
     if ((*p_env)->ExceptionCheck (p_env))
@@ -143,7 +153,8 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
         return;
     }
 
-    (*p_env)->CallVoidMethod (p_env, j_libVlc, play, buffer,
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, p_sys->play,
+                              p_sys->buffer,
                               2 /*nb_channels*/ * count * sizeof (uint16_t),
                               FRAME_SIZE);
     // FIXME: check for errors
@@ -153,18 +164,19 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
 
 void aout_pause(void *opaque, int64_t pts)
 {
-    (void)opaque;
     LOGI ("Pausing audio output");
+    aout_sys_t *p_sys = opaque;
+    assert(p_sys);
 
     JNIEnv *p_env;
     (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
 
     // Call the pause function.
-    jclass cls = (*p_env)->GetObjectClass (p_env, j_libVlc);
+    jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
     jmethodID methodIdPauseAout = (*p_env)->GetMethodID (p_env, cls, "pauseAout", "()V");
     if (!methodIdPauseAout)
         LOGE ("Method pauseAout() could not be found!");
-    (*p_env)->CallVoidMethod (p_env, j_libVlc, methodIdPauseAout);
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdPauseAout);
     if ((*p_env)->ExceptionCheck (p_env))
     {
         LOGE ("Unable to pause audio player!");
@@ -179,19 +191,20 @@ void aout_pause(void *opaque, int64_t pts)
 
 void aout_close(void *opaque)
 {
-    (void)opaque;
     LOGI ("Closing audio output");
-    assert(buffer);
+    aout_sys_t *p_sys = opaque;
+    assert(p_sys);
+    assert(p_sys->buffer);
 
     JNIEnv *p_env;
     (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
 
     // Call the close function.
-    jclass cls = (*p_env)->GetObjectClass (p_env, j_libVlc);
+    jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
     jmethodID methodIdCloseAout = (*p_env)->GetMethodID (p_env, cls, "closeAout", "()V");
     if (!methodIdCloseAout)
         LOGE ("Method closeAout() could not be found!");
-    (*p_env)->CallVoidMethod (p_env, j_libVlc, methodIdCloseAout);
+    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdCloseAout);
     if ((*p_env)->ExceptionCheck (p_env))
     {
         LOGE ("Unable to close audio player!");
@@ -201,6 +214,7 @@ void aout_close(void *opaque)
         (*p_env)->ExceptionClear (p_env);
     }
 
-    (*p_env)->DeleteGlobalRef (p_env, buffer);
+    (*p_env)->DeleteGlobalRef (p_env, p_sys->buffer);
     (*myVm)->DetachCurrentThread (myVm);
+    free (p_sys);
 }
