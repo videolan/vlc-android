@@ -239,7 +239,7 @@ public class VideoPlayerActivity extends Activity {
                  * The setTracksAndSubtitles method probably doesn't work in case of many many Tracks and Subtitles
                  * Moreover, in a video stream, if Tracks & Subtitles change, they won't be updated
                  */
-                setTracksAndSubtitles();
+                setESTrackLists();
             }}, 1500);
 
 
@@ -1198,7 +1198,7 @@ public class VideoPlayerActivity extends Activity {
         }
     }
 
-    private void setTracksAndSubtitles () {
+    private void setESTrackLists() {
         if (mAudioTracksLibVLC == null) {
             mAudioTracksLibVLC = mLibVLC.getAudioTrackDescription();
             if (mAudioTracksLibVLC != null && mAudioTracksLibVLC.length > 1) {
