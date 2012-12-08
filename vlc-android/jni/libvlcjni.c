@@ -411,7 +411,7 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     jstring subsencoding = (*env)->CallObjectMethod(env, thiz, methodId);
     const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
 
-    LOGD("Subtitles encoding sets to: %s", subsencodingstr);
+    LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
 
     verbosity = verbose;
     libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
