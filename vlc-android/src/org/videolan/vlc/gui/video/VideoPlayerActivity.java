@@ -548,6 +548,7 @@ public class VideoPlayerActivity extends Activity {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+                    activity.setESTracks();
                     break;
                 case EventManager.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
@@ -1183,18 +1184,18 @@ public class VideoPlayerActivity extends Activity {
                 ? "- " + Util.millisToString(length - time)
                 : Util.millisToString(length));
 
+        return time;
+    }
+
+    private void setESTracks() {
         if (mLastAudioTrack >= 0) {
             mLibVLC.setAudioTrack(mLastAudioTrack);
-            if (mLibVLC.getAudioTrack() == mLastAudioTrack)
-                mLastAudioTrack = -1;
+            mLastAudioTrack = -1;
         }
         if (mLastSpuTrack >= 0) {
             mLibVLC.setSpuTrack(mLastSpuTrack);
-            if (mLibVLC.getSpuTrack() == mLastSpuTrack)
-                mLastSpuTrack = -1;
+            mLastSpuTrack = -1;
         }
-
-        return time;
     }
 
     private void setTracksAndSubtitles () {
@@ -1280,12 +1281,7 @@ public class VideoPlayerActivity extends Activity {
                 mLibVLC.setTime(media.getTime());
 
             mLastAudioTrack = media.getAudioTrack();
-            /* FIXME : bug in vlc
-             * if setSpuTrack(0) is called before the playback has started,
-             * it will disable the video track instead of subtitles.
-             * So don't restore the disable item */
-            if (media.getSpuTrack() != 0)
-                mLastSpuTrack = media.getSpuTrack();
+            mLastSpuTrack = media.getSpuTrack();
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
