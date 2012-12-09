@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
@@ -78,10 +80,8 @@ import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -168,9 +168,9 @@ public class VideoPlayerActivity extends Activity {
 
     // Tracks & Subtitles
     private String[] mAudioTracksLibVLC;
-    private ArrayAdapter<String> mAudioTracksAdapter;
+    private ArrayList<String> mAudioTracksList;
     private String[] mSubtitleTracksLibVLC;
-    private ArrayAdapter<String> mSubtitleTracksAdapter;
+    private ArrayList<String> mSubtitleTracksList;
 
     @Override
     @TargetApi(11)
@@ -878,9 +878,11 @@ public class VideoPlayerActivity extends Activity {
     private final OnClickListener mAudioTrackListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            String[] arrList = new String[mAudioTracksList.size()];
+            arrList = mAudioTracksList.toArray(arrList);
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_audio)
-            .setSingleChoiceItems(mAudioTracksAdapter, -1, new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(arrList, (mLibVLC.getAudioTrack() - 1), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
                     DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
@@ -893,18 +895,8 @@ public class VideoPlayerActivity extends Activity {
             })
             .create();
             dialog.setCanceledOnTouchOutside(true);
-            final ListView lv = dialog.getListView();
-            lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            //FIXME We should not force background color
-            lv.setBackgroundColor(0xffffffff);
+            dialog.setOwnerActivity(VideoPlayerActivity.this);
             dialog.show();
-            lv.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    lv.setItemChecked((mLibVLC.getAudioTrack() - 1), true);
-                }
-            });
         }
     };
 
@@ -914,9 +906,11 @@ public class VideoPlayerActivity extends Activity {
     private final OnClickListener mSubtitlesListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
+            String[] arrList = new String[mSubtitleTracksList.size()];
+            arrList = mSubtitleTracksList.toArray(arrList);
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_text)
-            .setSingleChoiceItems(mSubtitleTracksAdapter, -1, new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(arrList, mLibVLC.getSpuTrack(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
                     DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
@@ -929,18 +923,8 @@ public class VideoPlayerActivity extends Activity {
             })
             .create();
             dialog.setCanceledOnTouchOutside(true);
-            final ListView lv = dialog.getListView();
-            lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            //FIXME We should not force background color
-            lv.setBackgroundColor(0xffffffff);
+            dialog.setOwnerActivity(VideoPlayerActivity.this);
             dialog.show();
-            lv.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    lv.setItemChecked((mLibVLC.getSpuTrack()), true);
-                }
-            });
         }
     };
 
@@ -1202,7 +1186,7 @@ public class VideoPlayerActivity extends Activity {
         if (mAudioTracksLibVLC == null) {
             mAudioTracksLibVLC = mLibVLC.getAudioTrackDescription();
             if (mAudioTracksLibVLC != null && mAudioTracksLibVLC.length > 1) {
-                mAudioTracksAdapter = new ArrayAdapter<String>(this, R.layout.list_item_checkable, mAudioTracksLibVLC);
+                mAudioTracksList = new ArrayList<String>(Arrays.asList(mAudioTracksLibVLC));
                 mAudioTrack.setOnClickListener(mAudioTrackListener);
                 mAudioTrack.setVisibility(View.VISIBLE);
             }
@@ -1214,7 +1198,7 @@ public class VideoPlayerActivity extends Activity {
         if (mSubtitleTracksLibVLC == null) {
             mSubtitleTracksLibVLC = mLibVLC.getSpuTrackDescription();
             if (mSubtitleTracksLibVLC != null && mSubtitleTracksLibVLC.length > 0) {
-                mSubtitleTracksAdapter = new ArrayAdapter<String>(this, R.layout.list_item_checkable, mSubtitleTracksLibVLC);
+                mSubtitleTracksList = new ArrayList<String>(Arrays.asList(mSubtitleTracksLibVLC));
                 mSubtitle.setOnClickListener(mSubtitlesListener);
                 mSubtitle.setVisibility(View.VISIBLE);
 
