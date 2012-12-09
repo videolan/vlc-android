@@ -1261,11 +1261,13 @@ public class VideoPlayerActivity extends Activity {
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
-            if (media != null && media.getTime() > 0 && !fromStart)
-                mLibVLC.setTime(media.getTime());
+            if(media != null) {
+                if(media.getTime() > 0 && !fromStart)
+                    mLibVLC.setTime(media.getTime());
 
-            mLastAudioTrack = media.getAudioTrack();
-            mLastSpuTrack = media.getSpuTrack();
+                mLastAudioTrack = media.getAudioTrack();
+                mLastSpuTrack = media.getSpuTrack();
+            }
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
