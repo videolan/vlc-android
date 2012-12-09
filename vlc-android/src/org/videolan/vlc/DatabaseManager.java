@@ -110,12 +110,12 @@ public class DatabaseManager {
             super(context, DB_NAME, null, DB_VERSION);
         }
 
-        public void dropMediaTabelQuery(SQLiteDatabase db) {
+        public void dropMediaTableQuery(SQLiteDatabase db) {
             String query = "DROP TABLE " + MEDIA_TABLE_NAME + ";";
             db.execSQL(query);
         }
 
-        public void createMediaTabelQuery(SQLiteDatabase db) {
+        public void createMediaTableQuery(SQLiteDatabase db) {
             String query = "CREATE TABLE IF NOT EXISTS "
                     + MEDIA_TABLE_NAME + " ("
                     + MEDIA_LOCATION + " TEXT PRIMARY KEY NOT NULL, "
@@ -148,7 +148,7 @@ public class DatabaseManager {
             db.execSQL(createDirTabelQuery);
 
             // Create the media table
-            createMediaTabelQuery(db);
+            createMediaTableQuery(db);
 
             String createPlaylistTableQuery = "CREATE TABLE IF NOT EXISTS " +
                     PLAYLIST_TABLE_NAME + " (" +
@@ -177,8 +177,8 @@ public class DatabaseManager {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (oldVersion < DB_VERSION && newVersion == DB_VERSION) {
-                dropMediaTabelQuery(db);
-                createMediaTabelQuery(db);
+                dropMediaTableQuery(db);
+                createMediaTableQuery(db);
             }
         }
     }
