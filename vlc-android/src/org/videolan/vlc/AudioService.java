@@ -352,6 +352,26 @@ public class AudioService extends Service {
             switch (msg.getData().getInt("event")) {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+
+                    String location = service.mCurrentMedia.getLocation();
+                    long length = service.mLibVLC.getLength();
+                    DatabaseManager dbManager = DatabaseManager
+                            .getInstance(VLCApplication.getAppContext());
+                    Media m = dbManager.getMedia(VLCApplication.getAppContext(),
+                            location);
+                    /**
+                     * 1) There is a media to update
+                     * 2) It has a length of 0
+                     * (dynamic track loading - most notably the OGG container)
+                     * 3) We were able to get a length even after parsing
+                     * (don't want to replace a 0 with a 0)
+                     */
+                    if(m != null && m.getLength() == 0 && length > 0) {
+                        Log.d(TAG, "Updating audio file length");
+                        dbManager.updateMedia(location,
+                                DatabaseManager.mediaColumn.MEDIA_LENGTH, length);
+                    }
+
                     service.changeAudioFocus(true);
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
                     if (!service.mWakeLock.isHeld())

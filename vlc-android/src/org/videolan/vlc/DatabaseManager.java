@@ -507,6 +507,10 @@ public class DatabaseManager {
                 if (object != null)
                     values.put(MEDIA_SPUTRACK, (Integer)object);
                 break;
+            case MEDIA_LENGTH:
+                if (object != null)
+                    values.put(MEDIA_LENGTH, (Long)object);
+                break;
             default:
                 return;
         }
