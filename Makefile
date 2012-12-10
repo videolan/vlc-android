@@ -98,6 +98,7 @@ apkclean:
 
 clean:
 	cd $(SRC) && rm -rf gen libs obj bin $(VLC_APK)
+	rm -rf java-libs/*/gen java-libs/*/bin
 	rm -f $(PRIVATE_LIBDIR)/*.so $(PRIVATE_LIBDIR)/*.c
 
 distclean: clean
