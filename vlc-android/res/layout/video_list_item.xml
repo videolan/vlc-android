@@ -60,6 +60,5 @@
         android:src="@drawable/dropdown_ic_arrow"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:clickable="true"
-        android:background="@android:drawable/list_selector_background"/>
+        android:clickable="true" />
 </RelativeLayout>
