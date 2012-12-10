@@ -6,3 +6,4 @@ local.properties
 *~
 .*.swp
 .directory
+env.sh
