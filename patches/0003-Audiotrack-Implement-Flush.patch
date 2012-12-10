@@ -27,7 +27,7 @@ index bea55ff..9247aa4 100644
  
      p_sys->at_start(p_sys->AudioTrack);
  
-@@ -321,6 +323,14 @@ static void Pause(audio_output_t *p_aout, bool pause, mtime_t date)
+@@ -321,6 +323,16 @@ static void Pause(audio_output_t *p_aout, bool pause, mtime_t date)
      }
  }
  
@@ -36,7 +36,9 @@ index bea55ff..9247aa4 100644
 +    VLC_UNUSED(wait); /* FIXME implement drain */
 +    aout_sys_t *p_sys = p_aout->sys;
 +
++    p_sys->at_stop(p_sys->AudioTrack);
 +    p_sys->at_flush(p_sys->AudioTrack);
++    p_sys->at_start(p_sys->AudioTrack);
 +}
 +
  static int Open(vlc_object_t *obj)
