@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.EventManager;
@@ -34,10 +33,10 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
+import org.videolan.vlc.AdvFuncDialog;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
 import org.videolan.vlc.interfaces.OnPlayerControlListener;
@@ -135,7 +134,6 @@ public class VideoPlayerActivity extends Activity {
     private ImageButton mSubtitle;
     private ImageButton mLock;
     private ImageButton mSize;
-    private TextView mSpeedLabel;
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -1;
@@ -172,6 +170,9 @@ public class VideoPlayerActivity extends Activity {
     private ArrayList<String> mAudioTracksList;
     private String[] mSubtitleTracksLibVLC;
     private ArrayList<String> mSubtitleTracksList;
+
+    // Advance Function
+    private AdvFuncDialog mAdvFuncDialog;
 
     @Override
     @TargetApi(11)
@@ -243,15 +244,11 @@ public class VideoPlayerActivity extends Activity {
                 setESTrackLists();
             }}, 1500);
 
-
         mLock = (ImageButton) findViewById(R.id.lock_overlay_button);
         mLock.setOnClickListener(mLockListener);
 
         mSize = (ImageButton) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
-
-        mSpeedLabel = (TextView) findViewById(R.id.player_overlay_speed);
-        mSpeedLabel.setOnClickListener(mSpeedLabelListener);
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
@@ -289,6 +286,8 @@ public class VideoPlayerActivity extends Activity {
         setRequestedOrientation(mScreenOrientation != 100
                 ? mScreenOrientation
                 : getScreenOrientation());
+
+        mAdvFuncDialog = new AdvFuncDialog(VideoPlayerActivity.this);
     }
 
     @Override
@@ -350,6 +349,12 @@ public class VideoPlayerActivity extends Activity {
         }
 
         AudioServiceController.getInstance().unbindAudioService(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdvFuncDialog.destroyAdvFuncDialog();
     }
 
     @Override
@@ -1033,21 +1038,6 @@ public class VideoPlayerActivity extends Activity {
         }
     };
 
-    private final OnClickListener mSpeedLabelListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            SpeedSelectorDialog d = new SpeedSelectorDialog(VideoPlayerActivity.this);
-            d.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    mSpeedLabel.setText(Util.formatRateString(mLibVLC.getRate()));
-                }
-            });
-            d.show();
-        }
-    };
-
     private final OnClickListener mRemainingTimeListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -1328,5 +1318,9 @@ public class VideoPlayerActivity extends Activity {
         default :
             return 0;
         }
+    }
+
+    public void showAdvanceFunction(View v) {
+        mAdvFuncDialog.show();
     }
 }
