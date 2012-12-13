@@ -1,162 +1,170 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!--Main VLC Interface-->
-  <string name="ok">OK</string>
-  <string name="cancel">Abbrechen</string>
-  <string name="other">Andere</string>
-  <string name="filebrowser_sdfail">Konnte SD-Karte nicht öffnen. Bitte prüfen, ob sie korrekt gemounted wurde.</string>
-  <string name="filebrowser_title">Medium zur Wiedergabe auswählen</string>
-  <string name="ml_no_media_dir">Kein Medien-Verzeichnis</string>
-  <string name="sortby">Sortieren nach…</string>
-  <string name="sortby_name">Name</string>
-  <string name="sortby_length">Laufzeit</string>
-  <string name="searchable_hint">Suchen…</string>
-  <string name="history">Verlauf</string>
-  <plurals name="search_found_results_quantity">
-    <item quantity="one">%d Ergebnis gefunden</item>
-    <item quantity="other">%d Ergebnisse gefunden</item>
-  </plurals>
-  <string name="show_player">Player anzeigen</string>
-  <string name="hide_mini_player">Mini-Player ausblenden</string>
-  <string name="play">Wiedergabe</string>
-  <string name="play_from_start">Abspielen beim Start</string>
-  <string name="play_as_audio">Wiedergabe als Audio</string>
-  <string name="play_as_video">Wiedergabe als Video</string>
-  <string name="append">Anhängen</string>
-  <string name="play_all">Alle wiedergeben</string>
-  <string name="append_all">Alle anhängen</string>
-  <string name="delete">Löschen</string>
-  <string name="set_song">Als Klingelton festlegen</string>
-  <string name="info">Information</string>
-  <string name="confirm_delete">Diese Datei löschen?</string>
-  <string name="pause">Pause</string>
-  <string name="close">Schließen</string>
-  <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
-  <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten, das eigene Haus zerstören und die Apokalypse der Maya starten.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
-  <string name="info_title">VLC Beta</string>
-  <string name="unknown_artist">Unbekannter Künstler</string>
-  <string name="unknown_album">Unbekanntes Album</string>
-  <string name="unknown_genre">Unbekanntes Genre</string>
-  <string name="songs">Songs</string>
-  <plurals name="songs_quantity">
-    <item quantity="one">1 Song</item>
-    <item quantity="other">%d Songs</item>
-  </plurals>
-  <string name="artists">Künstler</string>
-  <string name="albums">Alben</string>
-  <plurals name="albums_quantity">
-    <item quantity="one">1 Album</item>
-    <item quantity="other">%d Alben</item>
-  </plurals>
-  <plurals name="subfolders_quantity">
-    <item quantity="one">1 Unterverzeichnis</item>
-    <item quantity="other">%d Unterverzeichnisse</item>
-  </plurals>
-  <string name="parent_folder">Zum darüberliegenden Ordner</string>
-  <string name="audio">Audio</string>
-  <string name="video">Video</string>
-  <string name="bookmarks">Lesezeichen</string>
-  <string name="all_albums">Alle Alben</string>
-  <string name="genres">Genres</string>
-  <string name="playlists">Wiedergabelisten</string>
-  <string name="title">Titel</string>
-  <string name="artist">Künstler</string>
-  <string name="album">Album</string>
-  <string name="directory">Verzeichnis</string>
-  <string name="directories">Verzeichnisse</string>
-  <string name="loading">Laden…</string>
-  <string name="please_wait">Bitte warten…</string>
-  <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
-  <string name="mediafiles">Mediendateien</string>
-  <string name="notavailable">nicht verfügbar</string>
-  <string name="nosubdirectory">Kein Unterverzeichnis</string>
-  <string name="nohistory">Sie haben noch keine Wiedergabe-Historie.</string>
-  <string name="validation">Sind Sie sicher?</string>
-  <string name="cover_art">Album-Cover</string>
-  <string name="shuffle">Mischen</string>
-  <string name="repeat">Wiederholen Nichts / Eins / Alle</string>
-  <string name="previous">Vorherige</string>
-  <string name="stop">Stopp</string>
-  <string name="next">Nächste</string>
-  <string name="lock_rotation">Sperre Bildschirmrotation</string>
-  <string name="locked">Gesperrt</string>
-  <string name="unlocked">Entsperrt</string>
-  <string name="surface_best_fit">Beste Größe</string>
-  <string name="surface_fit_horizontal">Horizontal anpassen</string>
-  <string name="surface_fit_vertical">Vertikal anpassen</string>
-  <string name="surface_fill">Ausfüllen</string>
-  <string name="surface_original">Zentrieren</string>
-  <string name="thumbnail">Vorschau</string>
-  <string name="refresh">Aktualisieren</string>
-  <string name="track_audio">Audiospur</string>
-  <string name="track_video">Videospur</string>
-  <string name="track_text">Untertitelspur</string>
-  <string name="track_unknown">Unbekannter Titel</string>
-  <string name="track_codec_info">Codec: %1$s\n</string>
-  <string name="track_language_info">Sprache: %1$s\n</string>
-  <string name="volume">\t\nLautstärke</string>
-  <string name="brightness">Helligkeit</string>
-  <plurals name="track_channels_info_quantity">
-    <item quantity="one">1 Kanal\n</item>
-    <item quantity="other">%1$d Kanäle\n</item>
-  </plurals>
-  <string name="track_samplerate_info">Abtastrate: %1$d Hz\n</string>
-  <string name="track_resolution_info">Auflösung: %1$dx%2$d\n</string>
-  <string name="track_framerate_info">Bildrate: %1$.3f\n</string>
-  <string name="open">Öffnen</string>
-  <string name="open_mrl">MRL öffnen</string>
-  <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
-  <string name="open_mrl_dialog_msg">Netzwerk-MRL eingeben: z.B. http://, mms:// oder rtsp://</string>
-  <string name="media_library">Medienbibliothek</string>
-  <string name="error_not_compatible">VLC für Android™ unterstützt dieses Gerät leider derzeit nicht.\n\nDie Fehlermeldung lautet (bitte für das Debuggen angeben):\n</string>
-  <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
-  <string name="error_message_is">Die Fehlermeldung ist (beachten Sie dies bitte bei der Fehlersuche):\n</string>
-  <string name="playback_speed">Wiedergabegeschwindigkeit</string>
 
-  <!--About-->
-  <string name="app_name_full">VLC für Android™</string>
-  <string name="version">Version</string>
-  <string name="licence">Lizenz</string>
-  <string name="revision">Revision</string>
-  <string name="about">Über</string>
-  <string name="about_text">VLC media player\n\nVLC Autoren und VideoLAN\n\nLizensiert unter der GPLv2\n</string>
-  <string name="for_android">für Android™</string>
-  <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
-  <string name="vlc_authors">VLC-Autoren.</string>
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="other">Andere</string>
+    <string name="filebrowser_title">Medium zur Wiedergabe auswählen</string>
+    <string name="sortby">Sortieren nach…</string>
+    <string name="sortby_name">Name</string>
+    <string name="sortby_length">Laufzeit</string>
+    <string name="searchable_hint">Suchen…</string>
+    <string name="history">Verlauf</string>
 
-  <!--Preferences-->
-  <string name="preferences">Einstellungen</string>
-  <string name="main_prefs_category">Allgemein</string>
-  <string name="privacy_prefs_category">Privatsphäre</string>
-  <string name="clear_history">Verlauf löschen</string>
-  <string name="advanced_prefs_category">Erweitert</string>
-  <string name="enable_iomx">Hardware-beschleunigte Dekodierung aktivieren</string>
-  <string name="advanced_debugging">Erweitertes Debuggen</string>
-  <string name="quit">Applikation beenden</string>
-  <string name="clear_media_db">Medienbibliothek leeren</string>
-  <string name="media_db_cleared">Mediendatenbank geleert!</string>
-  <string name="set_locale">Landessprache einstellen</string>
-  <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
-  <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
-  <string name="detect_headset">Headset erkennen</string>
-  <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
-  <string name="steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
-  <string name="steal_remote_control_detail">Vermeidet Konflikte mit der Fernbedienung durch die Übernahme durch andere Anwendungen. Dies verhindert, Anrufe bei Doppelklick auf HTC-Handys.</string>
-  <string name="enable_wheel_bar">Wheel bar aktivieren</string>
-  <string name="enable_gesture_brightness">Helligkeit-Gesten aktivieren</string>
-  <string name="screen_orientation">Bildschirmausrichtung</string>
-  <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
-  <string name="screen_orientation_start_lock">Gesperrt beim Start</string>
-  <string name="screen_orientation_portrait">Hochformat</string>
-  <string name="screen_orientation_landscape">Querformat</string>
-  <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
-  <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
-  <string name="enable_verbose_mode">Ausführlichkeit</string>
-  <string name="enable_verbose_mode_detail">Ausführlichkeit des Logs erhöhen (Logcat)</string>
-  <string name="aout">Audioausgabe</string>
-  <string name="aout_audiotrack">AudioTrack (nativ)</string>
-  <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-  <string name="aout_opensles">OpenSL ES</string>
-  <string name="enable_time_stretching_audio">Zeitdehnung für Audio aktivieren</string>
-  <string name="enable_time_stretching_audio_detail">Beschleunigt und verlangsamt Audio ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">%d Ergebnis gefunden</item>
+        <item quantity="other">%d Ergebnisse gefunden</item>
+    </plurals>
+
+    <string name="play">Wiedergabe</string>
+    <string name="play_from_start">Abspielen vom Anfang</string>
+    <string name="play_as_audio">Wiedergabe als Audio</string>
+    <string name="play_as_video">Wiedergabe als Video</string>
+    <string name="append">Anhängen</string>
+    <string name="play_all">Alle wiedergeben</string>
+    <string name="append_all">Alle anhängen</string>
+    <string name="last_playlist">Letzte Wiedergabeliste</string>
+    <string name="delete">Löschen</string>
+    <string name="set_song">Als Klingelton festlegen</string>
+    <string name="info">Information</string>
+    <string name="confirm_delete">Diese Datei löschen?</string>
+    <string name="pause">Pause</string>
+    <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
+    <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten, das eigene Haus zerstören und die Apokalypse der Maya starten.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Unbekannter Künstler</string>
+    <string name="unknown_album">Unbekanntes Album</string>
+    <string name="unknown_genre">Unbekanntes Genre</string>
+    <string name="songs">Songs</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 Song</item>
+        <item quantity="other">%d Songs</item>
+    </plurals>
+
+    <string name="artists">Künstler</string>
+    <string name="albums">Alben</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 Album</item>
+        <item quantity="other">%d Alben</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 Unterverzeichnis</item>
+        <item quantity="other">%d Unterverzeichnisse</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 Medien-Datei</item>
+        <item quantity="other">%d Medien-Dateien</item>
+    </plurals>
+
+    <string name="internal_memory">Interner Speicher</string>
+    <string name="parent_folder">Zum darüberliegenden Ordner</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Lesezeichen</string>
+    <string name="all_albums">Alle Alben</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Wiedergabelisten</string>
+    <string name="title">Titel</string>
+    <string name="artist">Künstler</string>
+    <string name="album">Album</string>
+    <string name="directory">Verzeichnis</string>
+    <string name="directories">Verzeichnisse</string>
+    <string name="loading">Laden</string>
+    <string name="please_wait">Bitte warten…</string>
+    <string name="nomedia">Keine Mediendateien gefunden, bitte Dateien auf das Gerät übertragen oder die Einstellungen anpassen.</string>
+    <string name="mediafiles">Mediendateien</string>
+    <string name="notavailable">nicht verfügbar</string>
+    <string name="nosubdirectory">Keine Unterverzeichnisse</string>
+    <string name="nohistory">Sie haben noch keine Wiedergabe-Historie.</string>
+    <string name="validation">Sind Sie sicher?</string>
+    <string name="cover_art">Album-Cover</string>
+    <string name="shuffle">Mischen</string>
+    <string name="repeat">Wiederholen Nichts / Eins / Alle</string>
+    <string name="previous">Vorherige</string>
+    <string name="stop">Stopp</string>
+    <string name="next">Nächste</string>
+    <string name="locked">Gesperrt</string>
+    <string name="unlocked">Entsperrt</string>
+    <string name="surface_best_fit">Beste Größe</string>
+    <string name="surface_fit_horizontal">Horizontal anpassen</string>
+    <string name="surface_fit_vertical">Vertikal anpassen</string>
+    <string name="surface_fill">Ausfüllen</string>
+    <string name="surface_original">Zentrieren</string>
+    <string name="thumbnail">Vorschau</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="track_audio">Audiospur</string>
+    <string name="track_video">Videospur</string>
+    <string name="track_text">Untertitelspur</string>
+    <string name="track_unknown">Unbekannter Titel</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Sprache: %1$s\n</string>
+    <string name="volume">\t\nLautstärke</string>
+    <string name="brightness">Helligkeit</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 Kanal\n</item>
+        <item quantity="other">%1$d Kanäle\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Abtastrate: %1$d Hz\n</string>
+    <string name="track_resolution_info">Auflösung: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Bildrate: %1$.3f\n</string>
+    <string name="open">Öffnen</string>
+    <string name="open_mrl">MRL öffnen</string>
+    <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
+    <string name="open_mrl_dialog_msg">Netzwerk-MRL eingeben: z.B. http://, mms:// oder rtsp://</string>
+    <string name="error_not_compatible">VLC für Android™ unterstützt dieses Gerät leider derzeit nicht.\n\nDie Fehlermeldung lautet (bitte für das Debuggen angeben):\n</string>
+    <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
+    <string name="error_message_is">Die Fehlermeldung ist (beachten Sie dies bitte bei der Fehlersuche):\n</string>
+    <string name="playback_speed">Wiedergabegeschwindigkeit</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC für Android™</string>
+    <string name="licence">Lizenz</string>
+    <string name="revision">Revision</string>
+    <string name="about">Über</string>
+    <string name="about_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann die meisten Dateien und Netzwerk-Stream lesen.</string>
+    <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
+    <string name="vlc_authors">VLC-Autoren.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Einstellungen</string>
+    <string name="main_prefs_category">Allgemein</string>
+    <string name="privacy_prefs_category">Privatsphäre</string>
+    <string name="clear_history">Verlauf löschen</string>
+    <string name="advanced_prefs_category">Erweitert</string>
+    <string name="enable_iomx">Hardware-beschleunigte Dekodierung aktivieren</string>
+    <string name="advanced_debugging">Erweitertes Debuggen</string>
+    <string name="quit">Applikation beenden</string>
+    <string name="clear_media_db">Medienbibliothek leeren</string>
+    <string name="media_db_cleared">Mediendatenbank geleert!</string>
+    <string name="set_locale">Landessprache einstellen</string>
+    <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
+    <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
+    <string name="detect_headset">Headset erkennen</string>
+    <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
+    <string name="steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
+    <string name="steal_remote_control_detail">Vermeidet Konflikte mit der Fernbedienung durch die Übernahme durch andere Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
+    <string name="enable_wheel_bar">Wheel bar aktivieren</string>
+    <string name="enable_gesture_brightness">Helligkeit-Gesten aktivieren</string>
+    <string name="screen_orientation">Bildschirmausrichtung</string>
+    <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
+    <string name="screen_orientation_start_lock">Gesperrt beim Start</string>
+    <string name="screen_orientation_portrait">Hochformat</string>
+    <string name="screen_orientation_landscape">Querformat</string>
+    <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
+    <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
+    <string name="enable_verbose_mode">Ausführlichkeit</string>
+    <string name="enable_verbose_mode_detail">Ausführlichkeit des Logs erhöhen (Logcat)</string>
+    <string name="aout">Audioausgabe</string>
+    <string name="aout_audiotrack">AudioTrack (nativ)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Zeitdehnung für Audio aktivieren</string>
+    <string name="enable_time_stretching_audio_detail">Beschleunigt und verlangsamt Audio ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
+    <string name="subtitles_prefs_category">Untertitel</string>
+    <string name="subtitles_text_encoding">Text-Kodierung</string>
 </resources>
