@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -24,6 +24,7 @@
     <string name="append">Aggiungi</string>
     <string name="play_all">Riproduci tutto</string>
     <string name="append_all">Aggiungi tutto</string>
+    <string name="last_playlist">Ultima scaletta</string>
     <string name="delete">Elimina</string>
     <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
@@ -53,7 +54,12 @@
         <item quantity="one">Una sottocartella</item>
         <item quantity="other">%d sottocartelle</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 file multimediale</item>
+        <item quantity="other">%d file multimediali</item>
+    </plurals>
 
+    <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Livello superiore</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -74,14 +80,12 @@
     <string name="nosubdirectory">Nessuna sottocartella.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
-
     <string name="cover_art">Copeertina</string>
     <string name="shuffle">Mescola</string>
     <string name="repeat">Ripeti nessuna/singola/tutte</string>
     <string name="previous">Precedente</string>
     <string name="stop">Ferma</string>
     <string name="next">Successiva</string>
-
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
@@ -161,4 +165,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_detail">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
+    <string name="subtitles_prefs_category">Sottotitoli</string>
+    <string name="subtitles_text_encoding">Codifica del testo</string>
 </resources>
