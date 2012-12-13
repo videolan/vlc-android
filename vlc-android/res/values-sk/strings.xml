@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Main VLC Interface  -->
+
+    <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Storno</string>
     <string name="other">Iné</string>
-    <string name="filebrowser_sdfail">Nemožno otvoriť kartu SD. Skontrolujte prosím, že je správne pripojená.</string>
-    <string name="filebrowser_root">Hlavný priečinok</string>
     <string name="filebrowser_title">Vyberte médium, ktoré chcete prehrať</string>
-    <string name="ml_no_media_dir">Žiadny priečinok s médiami</string>
     <string name="sortby">Zoradiť podľa…</string>
     <string name="sortby_name">názvu</string>
     <string name="sortby_length">dĺžky</string>
@@ -15,13 +13,13 @@
     <string name="history">História</string>
 
     <plurals name="search_found_results_quantity">
-        <item quantity="one">Našiel sa %d výsledok</item>
-        <item quantity="other">Nájdené výsledky: %d</item>
+        <item quantity="one">Nájdený 1 výsledok</item>
+        <item quantity="few">Nájdené %d výsledky</item>
+        <item quantity="other">Nájdených %d výsledkov</item>
     </plurals>
 
-    <string name="show_player">Zobraziť prehrávač</string>
-    <string name="hide_mini_player">Skryť mini-prehrávač</string>
     <string name="play">Prehrať</string>
+    <string name="play_from_start">Prehrať od začiatku</string>
     <string name="play_as_audio">Prehrať ako audio</string>
     <string name="play_as_video">Prehrať ako video</string>
     <string name="append">Pripojiť</string>
@@ -32,8 +30,7 @@
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
     <string name="pause">Pozastaviť</string>
-    <string name="close">Zatvoriť</string>
-    <string name="not_show_again">"Už nezobrazovať túto správu."</string>
+    <string name="not_show_again">Už nezobrazovať túto správu.</string>
     <string name="beta_warning">Toto je beta-verzia.\n\nTáto verzia NIE JE STABILNÁ!\n\nNEPOUŽÍVAJTE JU, pokiaľ presne neviete čo robíte.\n\nMôže zabiť Vašu mačku, zničiť Váš dom a spustiť Mayskú apokalypsu.\nPoužívate ju na vlastné riziko.\n\nVeľa zábavy! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Neznámy umelec</string>
@@ -43,7 +40,8 @@
 
     <plurals name="songs_quantity">
         <item quantity="one">1 skladba</item>
-        <item quantity="other">Počet skladieb: %d</item>
+        <item quantity="few">%d skladby</item>
+        <item quantity="other">%d skladieb</item>
     </plurals>
 
     <string name="artists">Umelci</string>
@@ -51,13 +49,16 @@
 
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
-        <item quantity="other">Počet albumov: %d</item>
+        <item quantity="few">%d albumy</item>
+        <item quantity="other">%d albumov</item>
     </plurals>
-        <plurals name="subfolders_quantity">
+    <plurals name="subfolders_quantity">
         <item quantity="one">1 podpriečinok</item>
-        <item quantity="other">Počet podpriečinkov: %d</item>
+        <item quantity="few">%d podpriečinky</item>
+        <item quantity="other">%d podpriečinkov</item>
     </plurals>
 
+    <string name="internal_memory">Interná pamäť</string>
     <string name="parent_folder">Do rodičovského priečinka</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -78,7 +79,12 @@
     <string name="nosubdirectory">Žiadne podpriečinky.</string>
     <string name="nohistory">Ešte nie je dostupná žiadna história prehrávania.</string>
     <string name="validation">Naozaj?</string>
-    <string name="lock_rotation">Uzamknúť otočenie obrazovky</string>
+    <string name="cover_art">Obal</string>
+    <string name="shuffle">Náhodne</string>
+    <string name="repeat">Neopakovať/zopakovať jednu/všetko</string>
+    <string name="previous">Dozadu</string>
+    <string name="stop">Stop</string>
+    <string name="next">Ďalej</string>
     <string name="locked">Uzamknuté</string>
     <string name="unlocked">Odomknuté</string>
     <string name="surface_best_fit">Najlepšie prispôsobenie</string>
@@ -99,7 +105,8 @@
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
-        <item quantity="other">Počet kanálov: %1$d\n</item>
+        <item quantity="few">%1$d kanály\n</item>
+        <item quantity="other">%1$d kanálov\n</item>
     </plurals>
 
     <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz\n</string>
@@ -109,7 +116,6 @@
     <string name="open_mrl">Otvoriť MRL</string>
     <string name="open_mrl_dialog_title">Otvoriť sieťový stream</string>
     <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu MRL: napr. http://, mms:// alebo rtsp://</string>
-    <string name="media_library">Knižnica médií</string>
     <string name="error_not_compatible">Ľutujeme, ale toto zariadenie momentálne nie je podporované touto verziou programu VLC for Android™.</string>
     <string name="error_problem">Ľutujeme, VLC for Android má problém s načítaním a je nutné ho ukončiť.</string>
     <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):\n</string>
@@ -117,20 +123,16 @@
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
-    <string name="version">Verzia</string>
     <string name="licence">Licencia</string>
     <string name="revision">Revízia</string>
     <string name="about">O programe</string>
     <string name="about_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať väčšinu súborov a sieťových streamov.</string>
-    <string name="for_android">for Android™</string>
     <string name="compiled_by">Túto verziu VLC skompiloval:</string>
     <string name="vlc_authors">Autori programu VLC.</string>
 
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">Nastavenia</string>
     <string name="main_prefs_category">Hlavné</string>
-    <string name="internal_memory">Interná pamäť</string>
-    <string name="external_mount">Externá pamäť</string>
     <string name="privacy_prefs_category">Súkromie</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="advanced_prefs_category">Pokročilé</string>
@@ -144,8 +146,17 @@
     <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
     <string name="detect_headset">Detegovať headset</string>
     <string name="detect_headset_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
+    <string name="steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
+    <string name="steal_remote_control_detail">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
     <string name="enable_wheel_bar">Zapnúť lištu v elipse</string>
     <string name="enable_gesture_brightness">Zapnúť gesto pre jas</string>
+    <string name="screen_orientation">Orientácia obrazovky</string>
+    <string name="screen_orientation_sensor">Automaticky (podľa senzora)</string>
+    <string name="screen_orientation_start_lock">Uzamknuté pri spustení</string>
+    <string name="screen_orientation_portrait">Na výšku</string>
+    <string name="screen_orientation_landscape">Na šírku</string>
+    <string name="screen_orientation_reverse_portrait">Na výšku, obrátene</string>
+    <string name="screen_orientation_reverse_landscape">Na šírku, obrátene</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
     <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
     <string name="aout">Zvukový výstup</string>
