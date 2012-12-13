@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -24,6 +24,7 @@
     <string name="append">Toevoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
+    <string name="last_playlist">Laatste afspeellijst</string>
     <string name="delete">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
@@ -53,7 +54,12 @@
         <item quantity="one">1 submap</item>
         <item quantity="other">%d submappen</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediabestand</item>
+        <item quantity="other">%d mediabestanden</item>
+    </plurals>
 
+    <string name="internal_memory">Intern geheugen</string>
     <string name="parent_folder">Naar bovenliggende map</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -74,14 +80,12 @@
     <string name="nosubdirectory">Geen submappen.</string>
     <string name="nohistory">U heeft nog geen afspeelgeschiedenis.</string>
     <string name="validation">Bent u zeker?</string>
-
     <string name="cover_art">Albumhoes</string>
     <string name="shuffle">Willekeurige volgorde</string>
     <string name="repeat">Niet/één/alle herhalen</string>
     <string name="previous">Vorige</string>
     <string name="stop">Stop</string>
     <string name="next">Volgende</string>
-
     <string name="locked">Geblokkeerd</string>
     <string name="unlocked">Gedeblokkeerd</string>
     <string name="surface_best_fit">Best passend</string>
@@ -161,4 +165,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
     <string name="enable_time_stretching_audio_detail">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
+    <string name="subtitles_prefs_category">Ondertitels</string>
+    <string name="subtitles_text_encoding">Tekstcodering</string>
 </resources>
