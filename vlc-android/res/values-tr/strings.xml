@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -23,6 +23,7 @@
     <string name="append">Ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
+    <string name="last_playlist">Son oynatma listesi</string>
     <string name="delete">Sil</string>
     <string name="set_song">Zil sesi yap</string>
     <string name="info">Bilgiler</string>
@@ -49,7 +50,11 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d altklasör</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d ortam dosyası</item>
+    </plurals>
 
+    <string name="internal_memory">İç bellek</string>
     <string name="parent_folder">Üst klasör</string>
     <string name="audio">Ses</string>
     <string name="video">Görüntü</string>
@@ -70,14 +75,12 @@
     <string name="nosubdirectory">Alt klasör yok.</string>
     <string name="nohistory">Henüz oynatma geçmişiniz yok.</string>
     <string name="validation">Emin misiniz?</string>
-
     <string name="cover_art">Kapak resmi</string>
     <string name="shuffle">Karışık</string>
     <string name="repeat">Yineleme/tek/tümü</string>
     <string name="previous">Önceki</string>
     <string name="stop">Durdur</string>
     <string name="next">Sonraki</string>
-
     <string name="locked">Kilitli</string>
     <string name="unlocked">Kilitsiz</string>
     <string name="surface_best_fit">En uygun</string>
@@ -142,12 +145,12 @@
     <string name="enable_wheel_bar">Tekerlek çubuğu etkin</string>
     <string name="enable_gesture_brightness">Parlaklık işareti etkin</string>
     <string name="screen_orientation">Ekran doğrultusu</string>
-    <string name="screen_orientation_sensor">Almaç doğrultusu</string>
+    <string name="screen_orientation_sensor">Kendiliğinden (almaç)</string>
     <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
     <string name="screen_orientation_portrait">Dikey</string>
     <string name="screen_orientation_landscape">Yatay</string>
-    <string name="screen_orientation_reverse_portrait">Ters Dikey</string>
-    <string name="screen_orientation_reverse_landscape">Ters Yatay</string>
+    <string name="screen_orientation_reverse_portrait">Ters dikey</string>
+    <string name="screen_orientation_reverse_landscape">Ters yatay</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
     <string name="enable_verbose_mode_detail">Daha çok ayrıntı (logcat)</string>
     <string name="aout">Ses çıkışı</string>
@@ -156,4 +159,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_detail">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
+    <string name="subtitles_prefs_category">Altyazılar</string>
+    <string name="subtitles_text_encoding">Metin kodlaması</string>
 </resources>
