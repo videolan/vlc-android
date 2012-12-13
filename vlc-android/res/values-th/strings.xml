@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Main VLC Interface -->
     <string name="ok">ตกลง</string>
     <string name="cancel">ยกเลิก</string>
@@ -10,16 +11,19 @@
     <string name="sortby_length">ความยาว</string>
     <string name="searchable_hint">ค้นหา…</string>
     <string name="history">ประวัติ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">พบ %d รายการ</item>
     </plurals>
+
     <string name="play">เล่น</string>
-    <string name="play_from_start">Play from start</string>
+    <string name="play_from_start">เล่นจากตำแหน่งเริ่ม</string>
     <string name="play_as_audio">เล่นแต่เสียง</string>
     <string name="play_as_video">เล่นทั้งภาพและเสียง</string>
     <string name="append">เพิ่มเข้า</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">เพิ่มเข้าทั้งหมด</string>
+    <string name="last_playlist">ผังรายการที่พึ่งเล่นไป</string>
     <string name="delete">ลบ</string>
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
     <string name="info">ข้อมูล</string>
@@ -32,18 +36,25 @@
     <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
     <string name="songs">เพลง</string>
+
     <plurals name="songs_quantity">
         <item quantity="other">%d เพลง</item>
     </plurals>
+
     <string name="artists">ศิลปิน</string>
     <string name="albums">อัลบัม</string>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d อัลบัม</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="other">%d โฟลเดอร์ย่อย</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d แฟ้มสื่อ</item>
+    </plurals>
 
+    <string name="internal_memory">ความจำภายใน</string>
     <string name="parent_folder">กลับไปยังโฟลเดอร์ก่อนหน้านี้</string>
     <string name="audio">เสียง</string>
     <string name="video">วีดิทัศน์</string>
@@ -87,6 +98,7 @@
     <string name="track_language_info">ภาษา: %1$s</string>
     <string name="volume">ระดับเสียง</string>
     <string name="brightness">ความสว่าง</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>
@@ -128,12 +140,12 @@
     <string name="set_locale_popup">ออกและคืนค่าเดิมของ VLC หากต้องการดูความเปลี่ยนแปลง</string>
     <string name="detect_headset">ตรวจหาชุดหูฟัง</string>
     <string name="detect_headset_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
-    <string name="steal_remote_control">Exclusive headset remote control</string>
-    <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
+    <string name="steal_remote_control_detail">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
     <string name="enable_wheel_bar">เปิดใช้แถบเลื่อน</string>
     <string name="enable_gesture_brightness">เปิดใช้การเลื่อน ปรับความสว่าง</string>
-    <string name="screen_orientation">Screen orientation</string>
-    <string name="screen_orientation_sensor">Automatic (sensor)</string>
+    <string name="screen_orientation">การจัดวางหน้าจอ</string>
+    <string name="screen_orientation_sensor">อัตโนมัติ (ตัวตรวจจับ)</string>
     <string name="screen_orientation_start_lock">ล็อคตั้งแต่เริ่มงาน</string>
     <string name="screen_orientation_portrait">แนวตั้ง</string>
     <string name="screen_orientation_landscape">แนวนอน</string>
@@ -147,4 +159,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
     <string name="enable_time_stretching_audio_detail">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่ทำงานเร็ว)</string>
+    <string name="subtitles_prefs_category">บทบรรยาย</string>
+    <string name="subtitles_text_encoding">รหัสอักขระ</string>
 </resources>
