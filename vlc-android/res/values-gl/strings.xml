@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -24,6 +24,7 @@
     <string name="append">Anexar</string>
     <string name="play_all">Reproducir todos</string>
     <string name="append_all">Anexar todos</string>
+    <string name="last_playlist">Última lista de reprodución</string>
     <string name="delete">Eliminar</string>
     <string name="set_song">Definir como ton de chamada</string>
     <string name="info">Información</string>
@@ -53,7 +54,12 @@
         <item quantity="one">1 subcartafol</item>
         <item quantity="other">%d subcartafoles</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ficheiro de media</item>
+        <item quantity="other">%d ficheiros de media</item>
+    </plurals>
 
+    <string name="internal_memory">memoria interna</string>
     <string name="parent_folder">Ir arriba ao cartafol pai</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
@@ -74,14 +80,12 @@
     <string name="nosubdirectory">Non hai subdirectorios.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución. </string>
     <string name="validation">Está seguro?</string>
-
     <string name="cover_art">Portada</string>
     <string name="shuffle">Barallar</string>
     <string name="repeat">Repetir ningún/un/todos</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Seguinte</string>
-
     <string name="locked">Bloqueado</string>
     <string name="unlocked">Desbloqueado</string>
     <string name="surface_best_fit">Mellor axuste</string>
@@ -161,4 +165,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
     <string name="enable_time_stretching_audio_detail">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+    <string name="subtitles_prefs_category">Subtítulos</string>
+    <string name="subtitles_text_encoding">Codificación do texto</string>
 </resources>
