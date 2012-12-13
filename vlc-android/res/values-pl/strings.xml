@@ -1,5 +1,6 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
@@ -18,12 +19,13 @@
     </plurals>
 
     <string name="play">Odtwórz</string>
-    <string name="play_from_start">Play from start</string>
+    <string name="play_from_start">Odtwórz od początku</string>
     <string name="play_as_audio">Odtwórz jako audio</string>
     <string name="play_as_video">Odtwórz jako wideo</string>
     <string name="append">Dołącz</string>
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
+    <string name="last_playlist">Ostatnia lista odtwarzania</string>
     <string name="delete">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
     <string name="info">Informacje</string>
@@ -56,7 +58,13 @@
         <item quantity="few">%d podfoldery</item>
         <item quantity="other">%d podfolderów</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 plik multimedialny</item>
+        <item quantity="few">%d pliki multimedialne</item>
+        <item quantity="other">%d plików multimedialnych</item>
+    </plurals>
 
+    <string name="internal_memory">Pamięć wewnętrzna</string>
     <string name="parent_folder">Do folderu nadrzędnego</string>
     <string name="audio">Dźwięk</string>
     <string name="video">Wideo</string>
@@ -77,14 +85,12 @@
     <string name="nosubdirectory">Brak podkatalogów.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
     <string name="validation">Czy jesteś pewny?</string>
-
     <string name="cover_art">Okładka</string>
     <string name="shuffle">Losowo</string>
     <string name="repeat">Powtórz żaden/pojedynczy/wszystkie</string>
     <string name="previous">Poprzedni</string>
     <string name="stop">Zatrzymaj</string>
     <string name="next">Następny</string>
-
     <string name="locked">zablokowane</string>
     <string name="unlocked">odblokowane</string>
     <string name="surface_best_fit">Najlepsze dopasowanie</string>
@@ -165,4 +171,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_detail">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
+    <string name="subtitles_prefs_category">Napisy</string>
+    <string name="subtitles_text_encoding">Kodowanie tekstu</string>
 </resources>
