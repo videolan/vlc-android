@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -25,6 +25,7 @@
     <string name="append">Dodaj</string>
     <string name="play_all">Reproduciraj sve</string>
     <string name="append_all">Dodaj sve</string>
+    <string name="last_playlist">Posljednja lista izvođenja</string>
     <string name="delete">Izbriši</string>
     <string name="set_song">Postavi kao zvono</string>
     <string name="info">Informacije</string>
@@ -57,7 +58,13 @@
         <item quantity="few">%d podmape</item>
         <item quantity="other">%d podmape</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 medijska datoteka</item>
+        <item quantity="few">%d medijskih datoteka</item>
+        <item quantity="other">%d medijske datoteke</item>
+    </plurals>
 
+    <string name="internal_memory">Interna memorija</string>
     <string name="parent_folder">Do nadređene mape</string>
     <string name="audio">Zvuk</string>
     <string name="video">Video</string>
@@ -78,14 +85,12 @@
     <string name="nosubdirectory">Nema podmapa.</string>
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
-
     <string name="cover_art">Omot</string>
     <string name="shuffle">Miješanje</string>
     <string name="repeat">Ponovi ni jedno/jedno/sve</string>
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
     <string name="next">Sljedeće</string>
-
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolje uklapanje</string>
@@ -166,4 +171,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Uključi vremensko-proširavanje zvuka</string>
     <string name="enable_time_stretching_audio_detail">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj)</string>
+    <string name="subtitles_prefs_category">Titlovi</string>
+    <string name="subtitles_text_encoding">Dekodiranje teksta</string>
 </resources>
