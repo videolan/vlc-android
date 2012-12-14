@@ -359,9 +359,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             if (hl == null)
                 return;
             TextView oldView = (TextView) hl.getChildAt(mCurrentPosition);
-            oldView.setTextColor(Color.GRAY);
+            if (oldView != null)
+                oldView.setTextColor(Color.GRAY);
             TextView newView = (TextView) hl.getChildAt(position);
-            newView.setTextColor(Color.WHITE);
+            if (newView != null)
+                newView.setTextColor(Color.WHITE);
             mCurrentPosition = position;
         }
 
