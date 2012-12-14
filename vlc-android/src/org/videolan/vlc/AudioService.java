@@ -353,6 +353,8 @@ public class AudioService extends Service {
                 case EventManager.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
 
+                    if (service.mCurrentMedia == null)
+                        return;
                     String location = service.mCurrentMedia.getLocation();
                     long length = service.mLibVLC.getLength();
                     DatabaseManager dbManager = DatabaseManager
