@@ -269,7 +269,7 @@ public class VideoPlayerActivity extends Activity {
         registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
         try {
-            LibVLC.useIOMX(this);
+            LibVLC.startPrefs(this);
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
             Log.d(TAG, "LibVLC initialisation failed");

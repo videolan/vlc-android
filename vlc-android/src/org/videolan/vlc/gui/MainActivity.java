@@ -141,7 +141,7 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 
         /* Start VLC prefs */
-        LibVLC.useIOMX(this);
+        LibVLC.startPrefs(this);
 
         try {
             // Start LibVLC

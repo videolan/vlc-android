@@ -34,8 +34,8 @@ import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
-    private static final int AOUT_AUDIOTRACK = 1;
     private static final int AOUT_AUDIOTRACK_JAVA = 0;
+    private static final int AOUT_AUDIOTRACK = 1;
     private static final int AOUT_OPENSLES = 2;
 
     private static LibVLC sInstance;
@@ -160,26 +160,21 @@ public class LibVLC {
         return sAout;
     }
 
-    public static synchronized void useIOMX(Context context) {
+    public static synchronized void startPrefs(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         sUseIomx = pref.getBoolean("enable_iomx", false);
+
         try {
             sAout = Integer.parseInt(pref.getString("aout", String.valueOf(AOUT_AUDIOTRACK_JAVA)));
         } catch (NumberFormatException nfe) {
             sAout = AOUT_AUDIOTRACK_JAVA;
         }
-    }
 
-    public static synchronized void setAout(Context context, Integer aoutPref,
-            boolean reset) {
-        if (aoutPref == AOUT_AUDIOTRACK)
-            sAout = AOUT_AUDIOTRACK;
-        else if (aoutPref == AOUT_OPENSLES && Util.isGingerbreadOrLater())
-            sAout = AOUT_OPENSLES;
-        else
+        if (!Util.isGingerbreadOrLater() && sAout == AOUT_OPENSLES) {
             sAout = AOUT_AUDIOTRACK_JAVA;
+        }
 
-        if (reset && sInstance != null) {
+        if (sInstance != null) {
             try {
                 sInstance.destroy();
                 sInstance.init();
@@ -197,21 +192,6 @@ public class LibVLC {
     public String getSubtitlesEncoding() {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return p.getString("subtitles_text_encoding", "");
-    }
-
-    public static synchronized void setSubtitlesEncoding(Context context, String encoding, boolean reset) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Editor e = pref.edit();
-        e.putString("subtitles_text_encoding", encoding);
-        e.commit();
-        if (reset && sInstance != null) {
-            try {
-                sInstance.destroy();
-                sInstance.init();
-            } catch (LibVlcException lve) {
-                Log.e(TAG, "Unable to reinit libvlc: " + lve);
-            }
-        }
     }
 
     /**
