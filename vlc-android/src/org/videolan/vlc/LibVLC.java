@@ -165,9 +165,9 @@ public class LibVLC {
         sUseIomx = pref.getBoolean("enable_iomx", false);
 
         try {
-            sAout = Integer.parseInt(pref.getString("aout", String.valueOf(AOUT_AUDIOTRACK_JAVA)));
+            sAout = Integer.parseInt(pref.getString("aout", String.valueOf(AOUT_OPENSLES)));
         } catch (NumberFormatException nfe) {
-            sAout = AOUT_AUDIOTRACK_JAVA;
+            sAout = AOUT_OPENSLES;
         }
 
         if (!Util.isGingerbreadOrLater() && sAout == AOUT_OPENSLES) {
