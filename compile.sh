@@ -136,7 +136,7 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
 elif [ ${ANDROID_ABI} = "x86" ] ; then
     EXTRA_CFLAGS="-march=pentium -ffunction-sections -funwind-tables -frtti -fno-exceptions"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
-    EXTRA_CFLAGS="-march=mips32 -mhard-float"
+    EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
     # instruction and emulate it, so we select -mhard-float.
     # See http://www.linux-mips.org/wiki/Floating_point#The_Linux_kernel_and_floating_point
