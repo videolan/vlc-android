@@ -160,10 +160,10 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         int aoutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
         aoutPref.setEntries(aoutEntriesId);
         aoutPref.setEntryValues(aoutEntriesIdValues);
-        if(Util.isGingerbreadOrLater())
-            aoutPref.setDefaultValue(2/*AOUT_OPENSLES*/);
-        else
-            aoutPref.setDefaultValue(0/*AOUT_AUDIOTRACK_JAVA*/);
+        if (aoutPref.getValue() == null)
+            aoutPref.setValue(Util.isGingerbreadOrLater()
+                ? "2"/*AOUT_OPENSLES*/
+                : "0"/*AOUT_AUDIOTRACK_JAVA*/);
 
         // Attach debugging items
         Preference quitAppPref = findPreference("quit_app");

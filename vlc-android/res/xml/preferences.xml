@@ -58,7 +58,6 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <ListPreference
-            android:defaultValue="@string/aout_audiotrack_java"
             android:key="aout"
             android:title="@string/aout" />
         <CheckBoxPreference
