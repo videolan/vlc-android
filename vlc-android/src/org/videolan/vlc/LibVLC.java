@@ -38,8 +38,6 @@ public class LibVLC {
     private static final int AOUT_OPENSLES = 2;
 
     private static LibVLC sInstance;
-    private static boolean sUseIomx = false;
-    private static int sAout = AOUT_AUDIOTRACK_JAVA;
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
@@ -56,7 +54,6 @@ public class LibVLC {
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
-
     public native void attachSurface(Surface surface, VideoPlayerActivity player, int width, int height);
 
     public native void detachSurface();
@@ -144,35 +141,7 @@ public class LibVLC {
      */
     public native void setSurface(Surface f);
 
-    /**
-     *
-     */
-    public boolean useIOMX() {
-        return sUseIomx;
-    }
-
-    public static synchronized void setIOMX(boolean enable) {
-        sUseIomx = enable;
-    }
-
-    public int getAout() {
-        return sAout;
-    }
-
     public static synchronized void startPrefs(Context context) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        sUseIomx = pref.getBoolean("enable_iomx", false);
-
-        try {
-            sAout = Integer.parseInt(pref.getString("aout", String.valueOf(AOUT_OPENSLES)));
-        } catch (NumberFormatException nfe) {
-            sAout = AOUT_OPENSLES;
-        }
-
-        if (!Util.isGingerbreadOrLater() && sAout == AOUT_OPENSLES) {
-            sAout = AOUT_AUDIOTRACK_JAVA;
-        }
-
         if (sInstance != null) {
             try {
                 sInstance.destroy();
@@ -183,14 +152,32 @@ public class LibVLC {
         }
     }
 
-    public boolean timeStretchingEnabled() {
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        return p.getBoolean("enable_time_stretching_audio", false);
+    /**
+     * those are called from native code to get settings values
+     */
+    public boolean useIOMX() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return  p.getBoolean("enable_iomx", false);
     }
-
     public String getSubtitlesEncoding() {
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return p.getString("subtitles_text_encoding", "");
+    }
+    public int getAout() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        int defaultAout = Util.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+        int aout = defaultAout;
+        try {
+            aout = Integer.parseInt(p.getString("aout", String.valueOf(defaultAout)));
+        }
+        catch (NumberFormatException nfe) {
+            aout = defaultAout;
+        }
+        return aout;
+    }
+    public boolean timeStretchingEnabled() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return p.getBoolean("enable_time_stretching_audio", false);
     }
 
     /**

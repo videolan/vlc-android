@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -46,7 +47,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
-public class PreferencesActivity extends PreferenceActivity {
+public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
     public final static String TAG = "VLC/PreferencesActivity";
 
@@ -94,18 +95,6 @@ public class PreferencesActivity extends PreferenceActivity {
                                 })
 
                                 .setNegativeButton(android.R.string.cancel, null).show();
-                        return true;
-                    }
-                });
-
-        // HW decoding
-        CheckBoxPreference checkboxHW = (CheckBoxPreference) findPreference("enable_iomx");
-        checkboxHW.setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        CheckBoxPreference checkboxHW = (CheckBoxPreference) preference;
-                        LibVLC.setIOMX(checkboxHW.isChecked());
                         return true;
                     }
                 });
@@ -175,24 +164,6 @@ public class PreferencesActivity extends PreferenceActivity {
             aoutPref.setDefaultValue(2/*AOUT_OPENSLES*/);
         else
             aoutPref.setDefaultValue(0/*AOUT_AUDIOTRACK_JAVA*/);
-        aoutPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                LibVLC.startPrefs(preference.getContext());
-                return true;
-            }
-        });
-
-        // Subtitles encoding
-        Preference subtitlesEncoding = (ListPreference)findPreference("subtitles_text_encoding");
-        subtitlesEncoding.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                LibVLC.startPrefs(preference.getContext());
-                return true;
-            }
-        });
 
         // Attach debugging items
         Preference quitAppPref = findPreference("quit_app");
@@ -225,6 +196,20 @@ public class PreferencesActivity extends PreferenceActivity {
                 return true;
             }
         });
+
+        // SharedPreferences Listener to apply changes
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equalsIgnoreCase("enable_iomx") ||
+            key.equalsIgnoreCase("subtitles_text_encoding") ||
+            key.equalsIgnoreCase("aout") ||
+            key.equalsIgnoreCase("enable_time_stretching_audio")) {
+                LibVLC.startPrefs(this);
+        }
     }
 
     @Override
