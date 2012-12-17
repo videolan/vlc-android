@@ -208,7 +208,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             key.equalsIgnoreCase("subtitles_text_encoding") ||
             key.equalsIgnoreCase("aout") ||
             key.equalsIgnoreCase("enable_time_stretching_audio")) {
-                LibVLC.startPrefs(this);
+                LibVLC.restart();
         }
     }
 

@@ -141,7 +141,7 @@ public class LibVLC {
      */
     public native void setSurface(Surface f);
 
-    public static synchronized void startPrefs(Context context) {
+    public static synchronized void restart() {
         if (sInstance != null) {
             try {
                 sInstance.destroy();

@@ -140,9 +140,6 @@ public class MainActivity extends SherlockFragmentActivity {
             editor.commit();
         }
 
-        /* Start VLC prefs */
-        LibVLC.startPrefs(this);
-
         try {
             // Start LibVLC
             LibVLC.getInstance();

@@ -116,7 +116,6 @@ public class AudioService extends Service {
 
         // Get libVLC instance
         try {
-            LibVLC.startPrefs(this);
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
