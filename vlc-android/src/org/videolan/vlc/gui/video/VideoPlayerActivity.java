@@ -881,14 +881,14 @@ public class VideoPlayerActivity extends Activity {
             arrList = mAudioTracksList.toArray(arrList);
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_audio)
-            .setSingleChoiceItems(arrList, (mLibVLC.getAudioTrack() - 1), new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(arrList, mLibVLC.getAudioTrack(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
                     DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
                             mLocation,
                             DatabaseManager.mediaColumn.MEDIA_AUDIOTRACK,
-                            position + 1);
-                    mLibVLC.setAudioTrack(position + 1);
+                            position);
+                    mLibVLC.setAudioTrack(position);
                     dialog.dismiss();
                 }
             })
