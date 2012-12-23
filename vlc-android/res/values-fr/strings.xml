@@ -28,7 +28,7 @@
     <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
-    <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat, détruire votre maison et déclencher l\'apocalypse Maya !\n\n Amusez-vous bien ;)</string>
+    <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat ou détruire votre maison !\n\n Amusez-vous bien ;)</string>
     <string name="info_title">VLC Bêta</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>

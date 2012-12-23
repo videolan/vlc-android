@@ -30,7 +30,7 @@
     <string name="confirm_delete">是否删除文件“%1$s”?</string>
     <string name="pause">暂停</string>
     <string name="not_show_again">不再显示此提示信息。</string>
-    <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能是汪星来的杀手，可能毁掉您的房子，甚至可能触发玛雅人的末日预言。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
+    <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能毁掉您的房子，也可能是汪星来的杀手。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">未知艺术家</string>
     <string name="unknown_album">未知专辑</string>

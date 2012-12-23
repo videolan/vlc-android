@@ -30,7 +30,7 @@
     <string name="confirm_delete">刪除檔案 \'%1$s\' ?</string>
     <string name="pause">暫停</string>
     <string name="not_show_again">別再顯示該訊息</string>
-    <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的貓、毀了你的房子還有啟動馬雅預言。\n\n請自行承擔風險\n\n玩得愉快！ :)</string>
+    <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的貓或毀了你的房子。\n\n請自行承擔風險\n\n玩得愉快！ :)</string>
     <string name="unknown_artist">未知藝人</string>
     <string name="unknown_album">未知專輯</string>
     <string name="unknown_genre">未知類型</string>

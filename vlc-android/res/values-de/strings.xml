@@ -31,7 +31,7 @@
     <string name="confirm_delete">Diese Datei löschen?</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
-    <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten, das eigene Haus zerstören und die Apokalypse der Maya starten.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
+    <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten oder das eigene Haus zerstören.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unbekannter Künstler</string>
     <string name="unknown_album">Unbekanntes Album</string>
