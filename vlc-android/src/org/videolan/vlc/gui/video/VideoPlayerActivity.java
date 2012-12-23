@@ -1129,14 +1129,12 @@ public class VideoPlayerActivity extends Activity {
      */
     @TargetApi(11)
     private void dimStatusBar(boolean dim) {
-        if (!Util.isHoneycombOrLater())
+        if (!Util.isHoneycombOrLater() || !Util.hasNavBar())
             return;
         mSurface.setSystemUiVisibility(
                 dim ? (Util.hasCombBar()
                         ? View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        : Util.hasNavBar()
-                            ? View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            : View.SYSTEM_UI_FLAG_LOW_PROFILE)
+                        : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
                     : View.SYSTEM_UI_FLAG_VISIBLE);
     }
 
