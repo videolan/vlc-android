@@ -418,12 +418,13 @@ public class Util {
                         continue;
 
                     if (line.contains("/dev/block/vold")) {
-                        if (!line.startsWith("/mnt/secure") &&
-                            !line.startsWith("/mnt/shell") &&
-                            !line.startsWith("/mnt/asec") &&
-                            !line.startsWith("/mnt/obb") &&
+                        if (!line.startsWith("tmpfs") &&
                             !line.startsWith("/dev/mapper") &&
-                            !line.startsWith("tmpfs")) {
+                            !s.startsWith("/mnt/secure") &&
+                            !s.startsWith("/mnt/shell") &&
+                            !s.startsWith("/mnt/asec") &&
+                            !s.startsWith("/mnt/obb")
+                            ) {
                             list.add(s);
                         }
                     }
