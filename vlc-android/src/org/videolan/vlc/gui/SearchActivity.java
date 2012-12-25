@@ -144,14 +144,14 @@ public class SearchActivity extends ListActivity {
     private void showListHeader(String text) {
         ListView lv = getListView();
 
-        // create a new header if not exists
+        // Create a new header if it doesn't already exist
         if (mListHeader == null) {
             LayoutInflater infalter = getLayoutInflater();
             mListHeader = (LinearLayout) infalter.inflate(R.layout.list_header, lv, false);
             lv.addHeaderView(mListHeader, null, false);
         }
 
-        // set header text
+        // Set header text
         TextView headerText = (TextView) mListHeader.findViewById(R.id.text);
         headerText.setText(text);
     }
