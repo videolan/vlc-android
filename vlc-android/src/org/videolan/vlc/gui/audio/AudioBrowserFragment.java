@@ -70,6 +70,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
+    private int mFlingViewPosition = 0;
 
     private HorizontalScrollView mHeader;
     private AudioServiceController mAudioController;
@@ -161,12 +162,16 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     @Override
     public void onPause() {
         super.onPause();
+        mFlingViewPosition = mFlingViewGroup.getPosition();
         mMediaLibrary.removeUpdateHandler(mHandler);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        headerScrollTab(mFlingViewPosition);
+        headerHighlightTab(mFlingViewGroup.getPosition(), mFlingViewPosition);
+        mFlingViewGroup.setPosition(mFlingViewPosition);
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
