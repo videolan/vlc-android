@@ -85,6 +85,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
 
+    public final static int MODE_TOTAL = 4; // Number of audio browser modes
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
@@ -345,29 +346,51 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
         @Override
         public void onSwitching(float progress) {
-            LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
-            if (hl == null)
-                return;
-            int width = hl.getChildAt(0).getWidth();
-            int x = (int) (progress * width);
-            mHeader.smoothScrollTo(x, 0);
+            headerScroll(progress);
         }
 
         @Override
         public void onSwitched(int position) {
-            LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
-            if (hl == null)
-                return;
-            TextView oldView = (TextView) hl.getChildAt(mCurrentPosition);
-            if (oldView != null)
-                oldView.setTextColor(Color.GRAY);
-            TextView newView = (TextView) hl.getChildAt(position);
-            if (newView != null)
-                newView.setTextColor(Color.WHITE);
+            headerHighlightTab(mCurrentPosition, position);
             mCurrentPosition = position;
         }
 
     };
+
+    private void headerHighlightTab(int existingPosition, int newPosition) {
+        LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
+        if (hl == null)
+            return;
+        TextView oldView = (TextView) hl.getChildAt(existingPosition);
+        if (oldView != null)
+            oldView.setTextColor(Color.GRAY);
+        TextView newView = (TextView) hl.getChildAt(newPosition);
+        if (newView != null)
+            newView.setTextColor(Color.WHITE);
+    }
+
+    private void headerScroll(float progress) {
+        /*
+         * How progress works:
+         * |------|------|------|
+         * 0     1/3    2/3     1
+         *
+         * To calculate the "progress" of a particular tab, one can use this
+         * formula:
+         *
+         * <tab beginning with 0> * (1 / (total tabs - 1))
+         */
+        LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
+        if (hl == null)
+            return;
+        int width = hl.getChildAt(0).getWidth();
+        int x = (int) (progress * width);
+        mHeader.smoothScrollTo(x, 0);
+    }
+
+    private void headerScrollTab(int tab) {
+        headerScroll((float)tab * (1/(MODE_TOTAL - 1)));
+    }
 
     /**
      * Handle changes on the list
