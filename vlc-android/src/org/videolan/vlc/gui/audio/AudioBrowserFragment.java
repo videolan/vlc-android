@@ -119,7 +119,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mHeader.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
-                // prevent the user to scroll the header
+                // prevent the user from scrolling the header
                 return true;
             }
         });
