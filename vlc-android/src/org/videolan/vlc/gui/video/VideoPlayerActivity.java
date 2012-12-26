@@ -57,6 +57,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.os.Build;
@@ -254,7 +255,11 @@ public class VideoPlayerActivity extends Activity {
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
-        mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
+        if(Util.isGingerbreadOrLater() && pref.getBoolean("enable_yv12_format", false)) {
+            mSurfaceHolder.setFormat(ImageFormat.YV12);
+        } else {
+            mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
+        }
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
@@ -1057,6 +1062,12 @@ public class VideoPlayerActivity extends Activity {
     private final SurfaceHolder.Callback mSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            if(format == PixelFormat.RGBX_8888)
+                Log.d(TAG, "Pixel format is RGBX_8888");
+            else if(format == ImageFormat.YV12)
+                Log.d(TAG, "Pixel format is YV12");
+            else
+                Log.d(TAG, "Pixel format is other/unknown");
             mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this, width, height);
         }
 

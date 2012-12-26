@@ -1,0 +1,184 @@
+From a9a1af8de8b176cd7afbeae71f9f42a257757f6a Mon Sep 17 00:00:00 2001
+From: Rui Zhang <bbcallen@gmail.com>
+Date: Fri, 21 Dec 2012 23:22:50 +0800
+Subject: [PATCH 3/3] androidsurface: setup format depending on surface format
+
+Signed-off-by: Edward Wang <edward.c.wang@compdigitec.com>
+---
+ modules/video_output/androidsurface.c |  132 +++++++++++++++++++++++++++++++--
+ 1 file changed, 125 insertions(+), 7 deletions(-)
+
+diff --git a/modules/video_output/androidsurface.c b/modules/video_output/androidsurface.c
+index 1b757ee..37c6137 100644
+--- a/modules/video_output/androidsurface.c
++++ b/modules/video_output/androidsurface.c
+@@ -43,6 +43,13 @@
+ # define ANDROID_SYM_S_UNLOCK "_ZN7android7Surface13unlockAndPostEv"
+ #endif
+ 
++// android.graphics.PixelFormat.RGB_565
++#define ANDROID_PIXEL_FORMAT_RGB_565    0x4
++// android.graphics.PixelFormat.RGBX_8888
++#define ANDROID_PIXEL_FORMAT_RGBX_8888  0x2
++// android.graphics.ImageFormat.YV12
++#define ANDROID_IMAGE_FORMAT_YV12 0x32315659
++
+ /*****************************************************************************
+  * Module descriptor
+  *****************************************************************************/
+@@ -118,6 +125,7 @@ struct picture_sys_t
+ 
+ static int  AndroidLockSurface(picture_t *);
+ static void AndroidUnlockSurface(picture_t *);
++static int  AndroidRetrieveSurfaceFormat( vout_display_sys_t* );
+ 
+ static vlc_mutex_t single_instance = VLC_STATIC_MUTEX;
+ 
+@@ -174,10 +182,38 @@ static int Open(vlc_object_t *p_this) {
+ 
+     /* Setup chroma */
+     video_format_t fmt = vd->fmt;
+-    fmt.i_chroma = VLC_CODEC_RGB32;
+-    fmt.i_rmask  = 0x000000ff;
+-    fmt.i_gmask  = 0x0000ff00;
+-    fmt.i_bmask  = 0x00ff0000;
++    int surface_format = AndroidRetrieveSurfaceFormat( sys );
++    switch( surface_format ) {
++        case ANDROID_IMAGE_FORMAT_YV12:
++            msg_Dbg( vd, "ImageFormat.YV12" );
++            fmt.i_chroma = VLC_CODEC_YV12;
++            break;
++
++        case ANDROID_PIXEL_FORMAT_RGB_565:
++            msg_Dbg( vd, "PixelFormat.RGB_565" );
++            fmt.i_chroma = VLC_CODEC_RGB16;
++            fmt.i_bmask = 0x0000001f;
++            fmt.i_gmask = 0x000007e0;
++            fmt.i_rmask = 0x0000f800;
++            break;
++
++        case ANDROID_PIXEL_FORMAT_RGBX_8888:
++            msg_Dbg( vd, "PixelFormat.RGBX_8888" );
++            fmt.i_chroma = VLC_CODEC_RGB32;
++            fmt.i_rmask  = 0x000000ff;
++            fmt.i_gmask  = 0x0000ff00;
++            fmt.i_bmask  = 0x00ff0000;
++            break;
++
++        default:
++            // FIXME: supposed to be rgbx8888 for now
++            msg_Dbg( vd, "ImageFormat.(%d)", surface_format );
++            fmt.i_chroma = VLC_CODEC_RGB32;
++            fmt.i_rmask  = 0x000000ff;
++            fmt.i_gmask  = 0x0000ff00;
++            fmt.i_bmask  = 0x00ff0000;
++            break;
++    }
+     video_format_FixRgb(&fmt);
+ 
+     /* Create the associated picture */
+@@ -251,6 +287,75 @@ static picture_pool_t *Pool(vout_display_t *vd, unsigned count) {
+     return sys->pool;
+ }
+ 
++static int AndroidRetrieveSurfaceFormat( vout_display_sys_t* p_sys )
++{
++    SurfaceInfo surface_info;
++    void* p_surface;
++
++    p_surface = jni_LockAndGetAndroidSurface( );
++    if( unlikely( !p_surface ) )
++    {
++        jni_UnlockAndroidSurface( );
++        return VLC_EGENERIC;
++    }
++
++    if (p_sys->s_lock)
++        p_sys->s_lock(p_surface, &surface_info, 1);
++    else
++        p_sys->s_lock2(p_surface, &surface_info, NULL);
++
++    int surface_format = surface_info.format;
++
++    p_sys->s_unlockAndPost( p_surface );
++    jni_UnlockAndroidSurface( );
++
++    return surface_format;
++}
++
++static void SetupPictureRGB565( SurfaceInfo* p_surfaceInfo, picture_t *p_picture )
++{
++    p_picture->p->p_pixels = (uint8_t*)p_surfaceInfo->bits;
++    p_picture->p->i_pitch = 2 * p_surfaceInfo->s;
++    p_picture->p->i_lines = p_surfaceInfo->h;
++}
++
++static void SetupPictureRGBX8888( SurfaceInfo* p_surfaceInfo, picture_t *p_picture )
++{
++    p_picture->p->p_pixels = (uint8_t*)p_surfaceInfo->bits;
++    p_picture->p->i_pitch = 4 * p_surfaceInfo->s;
++    p_picture->p->i_lines = p_surfaceInfo->h;
++}
++
++#define ALIGN_16_PIXELS( x ) ( ( ( x ) + 15 ) / 16 * 16 )
++static void SetupPictureYV12( SurfaceInfo* p_surfaceInfo, picture_t *p_picture )
++{
++    /* according to document of android.graphics.ImageFormat.YV12 */
++    int i_stride = ALIGN_16_PIXELS( p_surfaceInfo->s );
++    int i_c_stride = ALIGN_16_PIXELS( i_stride / 2 );
++
++    p_picture->p->p_pixels = (uint8_t*)p_surfaceInfo->bits;
++    p_picture->p->i_pitch = i_stride;
++    p_picture->p->i_lines = p_surfaceInfo->h;
++
++    /* Fill chroma planes for planar YUV */
++    for( int n = 1; n < p_picture->i_planes; n++ )
++    {
++        const plane_t *o = &p_picture->p[n-1];
++        plane_t *p = &p_picture->p[n];
++
++        p->p_pixels = o->p_pixels + o->i_lines * o->i_pitch;
++        p->i_pitch  = i_c_stride;
++        p->i_lines  = p_picture->format.i_height / 2;
++    }
++
++    if( vlc_fourcc_AreUVPlanesSwapped( p_picture->format.i_chroma,
++                                       VLC_CODEC_YV12 ) ) {
++        uint8_t *p_tmp = p_picture->p[1].p_pixels;
++        p_picture->p[1].p_pixels = p_picture->p[2].p_pixels;
++        p_picture->p[2].p_pixels = p_tmp;
++    }
++}
++
+ static int  AndroidLockSurface(picture_t *picture) {
+     picture_sys_t *picsys = picture->p_sys;
+     vout_display_sys_t *sys = picsys->sys;
+@@ -283,9 +388,22 @@ static int  AndroidLockSurface(picture_t *picture) {
+         return VLC_EGENERIC;
+     }
+ 
+-    picture->p->p_pixels = (uint8_t*)info->bits;
+-    picture->p->i_pitch = 4 * info->s;
+-    picture->p->i_lines = info->h;
++    switch( info->format )
++    {
++        case ANDROID_IMAGE_FORMAT_YV12:
++            SetupPictureYV12( info, picture );
++            break;
++        case ANDROID_PIXEL_FORMAT_RGB_565:
++            SetupPictureRGB565( info, picture );
++            break;
++        case ANDROID_PIXEL_FORMAT_RGBX_8888:
++            SetupPictureRGBX8888( info, picture );
++            break;
++        default:
++            // FIXME: supposed to be rgbx8888 for now
++            SetupPictureRGBX8888( info, picture );
++            break;
++    }
+ 
+     return VLC_SUCCESS;
+ }
+-- 
+1.7.5.4
+
