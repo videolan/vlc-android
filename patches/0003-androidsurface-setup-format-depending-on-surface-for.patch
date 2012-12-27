@@ -46,7 +46,7 @@ index 1b757ee..37c6137 100644
 +    switch( surface_format ) {
 +        case ANDROID_IMAGE_FORMAT_YV12:
 +            msg_Dbg( vd, "ImageFormat.YV12" );
-+            fmt.i_chroma = VLC_CODEC_YV12;
++            fmt.i_chroma = VLC_CODEC_I420;
 +            break;
 +
 +        case ANDROID_PIXEL_FORMAT_RGB_565:
