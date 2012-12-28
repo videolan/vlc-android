@@ -22,7 +22,7 @@ package org.videolan.vlc.gui.video;
 import java.util.Calendar;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.SleepAlarmReceiver;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.gui.TimeSleepDialog;
 
@@ -69,7 +69,7 @@ public class VideoOverflowDialog extends Dialog {
         mSleep = (ImageButton) mAdvFuncView.findViewById(R.id.adv_func_sleep);
         mSleep.setOnClickListener(mSleepListener);
         IntentFilter filter = new IntentFilter();
-        filter.addAction(SleepAlarmReceiver.SLEEP_INTENT);
+        filter.addAction(VLCApplication.SLEEP_INTENT);
         getOwnerActivity().registerReceiver(mSleepReceiver, filter);
 
         // Init Speed function
@@ -84,7 +84,7 @@ public class VideoOverflowDialog extends Dialog {
         public void onReceive(Context context, Intent intent)
         {
             String action = intent.getAction();
-            if (action.equalsIgnoreCase(SleepAlarmReceiver.SLEEP_INTENT))
+            if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT))
                 getOwnerActivity().finish();
         }
     };

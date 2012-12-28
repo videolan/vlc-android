@@ -412,9 +412,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name="org.videolan.vlc.SleepAlarmReceiver" >
-        </receiver>
     </application>
 
 </manifest>

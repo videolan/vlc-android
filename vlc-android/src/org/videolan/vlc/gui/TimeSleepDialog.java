@@ -22,8 +22,8 @@ package org.videolan.vlc.gui;
 import java.util.Calendar;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.SleepAlarmReceiver;
 import org.videolan.vlc.VLCApplication;
+
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -61,8 +61,8 @@ public class TimeSleepDialog extends TimePickerDialog {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 AlarmManager alarmMgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                Intent intent = new Intent(VLCApplication.getAppContext(), SleepAlarmReceiver.class);
-                mSleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, 0);
+                Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
+                mSleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 Calendar currentTime = Calendar.getInstance();
                 currentTime.setTimeInMillis(System.currentTimeMillis());

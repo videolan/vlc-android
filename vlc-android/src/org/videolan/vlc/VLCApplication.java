@@ -33,6 +33,8 @@ public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
     private static VLCApplication instance;
 
+    public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
+
     @Override
     public void onCreate() {
         super.onCreate();
