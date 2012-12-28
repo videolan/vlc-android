@@ -1,7 +1,29 @@
-package org.videolan.vlc;
+/*****************************************************************************
+ * TimeSleepDialog.java
+ *****************************************************************************
+ * Copyright © 2012 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+package org.videolan.vlc.gui;
 
 import java.util.Calendar;
 
+import org.videolan.vlc.R;
+import org.videolan.vlc.SleepAlarmReceiver;
+import org.videolan.vlc.VLCApplication;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -12,8 +34,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TimePicker;
 
-public class TimeSleepDialog extends TimePickerDialog{
-
+public class TimeSleepDialog extends TimePickerDialog {
     public final static String TAG = "VLC/TimeSleepDialog";
 
     private static PendingIntent mSleepPendingIntent = null;
@@ -27,7 +48,7 @@ public class TimeSleepDialog extends TimePickerDialog{
     }
 
     public TimeSleepDialog (Context context, int hourOfDay, int minute) {
-        this (context, onTimeSetListener (context), hourOfDay, minute, true);
+        this(context, onTimeSetListener (context), hourOfDay, minute, true);
         setCanceledOnTouchOutside(true);
         setTitle(R.string.sleep_title);
         setButton(AlertDialog.BUTTON_NEUTRAL, context.getString(R.string.sleep_cancel), mSleepCancelListener);
@@ -42,6 +63,7 @@ public class TimeSleepDialog extends TimePickerDialog{
                 AlarmManager alarmMgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                 Intent intent = new Intent(VLCApplication.getAppContext(), SleepAlarmReceiver.class);
                 mSleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, 0);
+
                 Calendar currentTime = Calendar.getInstance();
                 currentTime.setTimeInMillis(System.currentTimeMillis());
                 Calendar sleepTime = Calendar.getInstance();
@@ -49,9 +71,10 @@ public class TimeSleepDialog extends TimePickerDialog{
                 sleepTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 sleepTime.set(Calendar.MINUTE, minute);
                 sleepTime.set(Calendar.SECOND, 0);
-                if (sleepTime.before(currentTime))
+                if(sleepTime.before(currentTime))
                     sleepTime.roll(Calendar.DATE, true);
-                Log.i(TAG, "Vlc will sleep at " + sleepTime.getTime().toString());
+
+                Log.i(TAG, "VLC will sleep at " + sleepTime.getTime().toString());
                 alarmMgr.set(AlarmManager.RTC_WAKEUP, sleepTime.getTimeInMillis(), mSleepPendingIntent);
             }
         };
@@ -61,8 +84,8 @@ public class TimeSleepDialog extends TimePickerDialog{
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            if (mSleepPendingIntent!=null) {
-                Log.i(TAG,"Cancel Sleep");
+            if(mSleepPendingIntent != null) {
+                Log.i(TAG, "Sleep cancelled");
                 AlarmManager alarmMgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                 alarmMgr.cancel(mSleepPendingIntent);
             }
