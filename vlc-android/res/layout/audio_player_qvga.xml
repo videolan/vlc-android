@@ -55,16 +55,14 @@
                 android:layout_marginBottom="-5dip"
                 android:id="@+id/repeat"
                 android:onClick="onRepeatClick" />
-
-            <TextView
-                android:id="@+id/current_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:onClick="onSpeedLabelClick"
-                android:text="@string/speed_placeholder"
-                android:textSize="20dp" />
-
+            <ImageButton
+                android:id="@+id/adv_function"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:onClick="showAdvanceFunction"
+                android:background="@drawable/dots" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout

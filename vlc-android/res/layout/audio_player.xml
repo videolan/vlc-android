@@ -60,19 +60,14 @@
                 android:focusable="true"
                 android:id="@+id/repeat"
                 android:onClick="onRepeatClick" />
-
-            <TextView
-                android:id="@+id/current_speed"
-                android:text="@string/speed_placeholder"
-                android:layout_height="60dip"
-                android:layout_width="60dip"
-                android:layout_marginTop="10dip"
-                android:textSize="24dp"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="onSpeedLabelClick" />
-
+            <ImageButton
+                android:id="@+id/adv_function"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:onClick="showAdvanceFunction"
+                android:background="@drawable/dots" />
         </LinearLayout>
     </LinearLayout>
     <FrameLayout
@@ -108,7 +103,6 @@
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/ic_seekbar_thumb"
         android:focusable="true"
-        android:nextFocusUp="@+id/current_speed"
         android:paddingTop="5dip"
         android:paddingBottom="10dip"
         android:paddingLeft="15dip"

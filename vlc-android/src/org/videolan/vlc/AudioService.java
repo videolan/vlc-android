@@ -146,6 +146,7 @@ public class AudioService extends Service {
         filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+        filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(serviceReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -329,6 +330,13 @@ public class AudioService extends Service {
                     if (!mLibVLC.isPlaying() && mCurrentMedia != null)
                         play();
                 }
+            }
+
+            /*
+             * Sleep
+             */
+            if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
+                stop();
             }
         }
     };

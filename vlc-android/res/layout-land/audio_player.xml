@@ -156,17 +156,14 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_repeat" />
 
-            <TextView
-                android:id="@+id/current_speed"
-                android:layout_width="60dip"
-                android:layout_height="40dip"
-                android:layout_marginBottom="10dip"
-                android:layout_marginTop="10dip"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="onSpeedLabelClick"
-                android:text="@string/speed_placeholder"
-                android:textSize="24dp" />
+            <ImageButton
+                android:id="@+id/adv_function"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:onClick="showAdvanceFunction"
+                android:background="@drawable/dots" />
 
         </LinearLayout>
     </LinearLayout>

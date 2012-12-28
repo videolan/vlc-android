@@ -25,8 +25,8 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.gui.AdvFuncDialog;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import android.app.Activity;
@@ -55,19 +55,22 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     private TextView mAlbum;
     private TextView mTime;
     private TextView mLength;
-    private TextView mSpeed;
     private ImageButton mPlayPause;
     private ImageButton mStop;
     private ImageButton mNext;
     private ImageButton mPrevious;
     private ImageButton mShuffle;
     private ImageButton mRepeat;
+    private ImageButton mAdvFunc;
     private SeekBar mTimeline;
 
     private AudioServiceController mAudioController;
     private boolean mIsTracking = false;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
+
+    // Advance Function
+    private AdvFuncDialog mAdvFuncDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +89,13 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mAlbum = (TextView) findViewById(R.id.album);
         mTime = (TextView) findViewById(R.id.time);
         mLength = (TextView) findViewById(R.id.length);
-        mSpeed = (TextView) findViewById(R.id.current_speed);
         mPlayPause = (ImageButton) findViewById(R.id.play_pause);
         mStop = (ImageButton) findViewById(R.id.stop);
         mNext = (ImageButton) findViewById(R.id.next);
         mPrevious = (ImageButton) findViewById(R.id.previous);
         mShuffle = (ImageButton) findViewById(R.id.shuffle);
         mRepeat = (ImageButton) findViewById(R.id.repeat);
+        mAdvFunc = (ImageButton) findViewById(R.id.adv_function);
         mTimeline = (SeekBar) findViewById(R.id.timeline);
 
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
@@ -104,9 +107,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
                     v.setBackgroundColor(Color.TRANSPARENT);
             }
         };
-        mSpeed.setOnFocusChangeListener(listener);
         mShuffle.setOnFocusChangeListener(listener);
         mRepeat.setOnFocusChangeListener(listener);
+        mAdvFunc.setOnFocusChangeListener(listener);
         mTimeline.setOnFocusChangeListener(listener);
         mPrevious.setOnFocusChangeListener(listener);
         mPlayPause.setOnFocusChangeListener(listener);
@@ -131,6 +134,13 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         super.onPause();
         mAudioController.removeAudioPlayer(this);
         AudioServiceController.getInstance().unbindAudioService(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mAdvFuncDialog != null)
+            mAdvFuncDialog.destroyAdvFuncDialog();
     }
 
     public static void start(Context context) {
@@ -223,7 +233,6 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             mPrevious.setVisibility(ImageButton.VISIBLE);
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
-        mSpeed.setText(Util.formatRateString(mAudioController.getRate()));
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
     }
 
@@ -319,8 +328,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     	return super.onKeyDown(keyCode, event);
     }
 
-    public void onSpeedLabelClick(View view) {
-        new SpeedSelectorDialog(this).show();
-        update();
+    public void showAdvanceFunction(View v) {
+        if (mAdvFuncDialog == null)
+            mAdvFuncDialog = new AdvFuncDialog(this);
+        mAdvFuncDialog.show();
     }
 }
