@@ -33,7 +33,6 @@ import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.AdvFuncDialog;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -172,7 +171,7 @@ public class VideoPlayerActivity extends Activity {
     private ArrayList<String> mSubtitleTracksList;
 
     // Advance Function
-    private AdvFuncDialog mAdvFuncDialog;
+    private VideoOverflowDialog mOverflowDialog;
 
     @Override
     @TargetApi(11)
@@ -287,7 +286,7 @@ public class VideoPlayerActivity extends Activity {
                 ? mScreenOrientation
                 : getScreenOrientation());
 
-        mAdvFuncDialog = new AdvFuncDialog(VideoPlayerActivity.this);
+        mOverflowDialog = new VideoOverflowDialog(VideoPlayerActivity.this);
     }
 
     @Override
@@ -354,7 +353,7 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        mAdvFuncDialog.destroyAdvFuncDialog();
+        mOverflowDialog.destroyAdvFuncDialog();
     }
 
     @Override
@@ -1321,6 +1320,6 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public void showAdvanceFunction(View v) {
-        mAdvFuncDialog.show();
+        mOverflowDialog.show();
     }
 }

@@ -1,8 +1,31 @@
-package org.videolan.vlc;
+/*****************************************************************************
+ * VideoOverflowDialog.java
+ *****************************************************************************
+ * Copyright © 2012 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+package org.videolan.vlc.gui.video;
 
 import java.util.Calendar;
 
+import org.videolan.vlc.R;
+import org.videolan.vlc.SleepAlarmReceiver;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
+import org.videolan.vlc.gui.TimeSleepDialog;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -16,11 +39,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class AdvFuncDialog extends Dialog{
-
+public class VideoOverflowDialog extends Dialog {
     public final static String TAG = "VLC/AdvFuncPopupWindow";
 
-    private static View mAdvFuncView ;
+    private static View mAdvFuncView;
 
     private ImageButton mSleep;
     private TimeSleepDialog mTimeSleepDialog;
@@ -31,17 +53,14 @@ public class AdvFuncDialog extends Dialog{
     /**
      * Put all advance functionality here
      */
-    public AdvFuncDialog(Activity activity) {
-        super (activity);
+    public VideoOverflowDialog(Activity activity) {
+        super(activity);
         setOwnerActivity(activity);
 
-        try {
-            LayoutInflater inflater = LayoutInflater.from(getOwnerActivity());
-            mAdvFuncView = inflater.inflate(R.layout.advance_function,
-                    (ViewGroup) findViewById(R.id.adv_func));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LayoutInflater inflater = LayoutInflater.from(getOwnerActivity());
+        mAdvFuncView = inflater.inflate(R.layout.advance_function,
+                (ViewGroup) findViewById(R.id.adv_func));
+
         setContentView(mAdvFuncView);
         setTitle(getOwnerActivity().getString(R.string.advfunc_title));
         setCanceledOnTouchOutside(true);
@@ -99,19 +118,22 @@ public class AdvFuncDialog extends Dialog{
     public void destroyAdvFuncDialog() {
 
         // Dismiss secondary window
-        if (mTimeSleepDialog!=null)
-            if (mTimeSleepDialog.isShowing()) {
+        if(mTimeSleepDialog != null) {
+            if(mTimeSleepDialog.isShowing()) {
                 mTimeSleepDialog.dismiss();
             }
-        if (mSpeedSelectorDialog!=null)
+        }
+        if(mSpeedSelectorDialog != null) {
             if (mSpeedSelectorDialog.isShowing()) {
                 mSpeedSelectorDialog.dismiss();
             }
+        }
 
-        // Unregister Receiver
+        // Unregister receiver
         getOwnerActivity().unregisterReceiver(mSleepReceiver);
 
         // Dismiss main window
-        if (isShowing()) dismiss();
+        if(isShowing())
+            dismiss();
     }
 }
