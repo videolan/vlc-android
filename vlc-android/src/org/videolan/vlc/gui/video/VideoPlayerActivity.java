@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.EventManager;
@@ -34,6 +35,7 @@ import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
@@ -267,7 +269,10 @@ public class VideoPlayerActivity extends Activity {
         mSwitchingView = false;
         mEndReached = false;
 
-        registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        filter.addAction(VLCApplication.SLEEP_INTENT);
+        registerReceiver(mReceiver, filter);
 
         try {
             mLibVLC = LibVLC.getInstance();
@@ -285,8 +290,6 @@ public class VideoPlayerActivity extends Activity {
         setRequestedOrientation(mScreenOrientation != 100
                 ? mScreenOrientation
                 : getScreenOrientation());
-
-        mOverflowDialog = new VideoOverflowDialog(VideoPlayerActivity.this);
     }
 
     @Override
@@ -359,7 +362,7 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mBatteryReceiver);
+        unregisterReceiver(mReceiver);
         if (mLibVLC != null && !mSwitchingView) {
             mLibVLC.stop();
         }
@@ -426,19 +429,25 @@ public class VideoPlayerActivity extends Activity {
         context.startActivity(intent);
     }
 
-    private final BroadcastReceiver mBatteryReceiver = new BroadcastReceiver()
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            int batteryLevel = intent.getIntExtra("level", 0);
-            if (batteryLevel >= 50)
-                mBattery.setTextColor(Color.GREEN);
-            else if  (batteryLevel >= 30)
-                mBattery.setTextColor(Color.YELLOW);
-            else
-                mBattery.setTextColor(Color.RED);
-            mBattery.setText(String.format("%d%%", batteryLevel));
+            String action = intent.getAction();
+            if (action.equalsIgnoreCase(Intent.ACTION_BATTERY_CHANGED)) {
+                int batteryLevel = intent.getIntExtra("level", 0);
+                if (batteryLevel >= 50)
+                    mBattery.setTextColor(Color.GREEN);
+                else if (batteryLevel >= 30)
+                    mBattery.setTextColor(Color.YELLOW);
+                else
+                    mBattery.setTextColor(Color.RED);
+                mBattery.setText(String.format("%d%%", batteryLevel));
+            }
+            else if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
+                finish();
+            }
         }
     };
 
@@ -1320,6 +1329,8 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public void showAdvanceFunction(View v) {
+        if (mOverflowDialog == null)
+            mOverflowDialog = new VideoOverflowDialog(this);
         mOverflowDialog.show();
     }
 }
