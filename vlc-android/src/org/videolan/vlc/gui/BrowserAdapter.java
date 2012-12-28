@@ -132,8 +132,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
 
     @Override
     public int compare(File file1, File file2) {
-        return file1.getName().toUpperCase().compareTo(
-                file2.getName().toUpperCase());
+        return String.CASE_INSENSITIVE_ORDER.compare(file1.getName(), file2.getName());
     }
 
     private String getVisibleName(File file) {
