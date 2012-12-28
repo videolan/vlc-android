@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VideoOverflowDialog.java
+ * AdvFuncDialog.java
  *****************************************************************************
  * Copyright © 2012 VLC authors and VideoLAN
  *
@@ -17,7 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.vlc.gui.video;
+package org.videolan.vlc.gui;
 
 import java.util.Calendar;
 
@@ -34,7 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class VideoOverflowDialog extends Dialog {
+public class AdvFuncDialog extends Dialog {
     public final static String TAG = "VLC/AdvFuncPopupWindow";
 
     private static View mAdvFuncView;
@@ -48,7 +48,7 @@ public class VideoOverflowDialog extends Dialog {
     /**
      * Put all advance functionality here
      */
-    public VideoOverflowDialog(Activity activity) {
+    public AdvFuncDialog(Activity activity) {
         super(activity);
         setOwnerActivity(activity);
 
