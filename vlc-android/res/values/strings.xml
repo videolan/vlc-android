@@ -150,6 +150,9 @@
     <!-- Preferences -->
     <string name="preferences">Preferences</string>
     <string name="main_prefs_category">Main</string>
+    <string name="add_custom_path">Add a custom path</string>
+    <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
+    <string name="remove_custom_path">Remove custom path</string>
     <string name="privacy_prefs_category">Privacy</string>
     <string name="clear_history">Clear search history</string>
     <string name="advanced_prefs_category">Advanced</string>

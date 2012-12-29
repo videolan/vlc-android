@@ -22,21 +22,33 @@ package org.videolan.vlc.gui;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
+import android.view.MenuItem;
+
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class BrowserActivity extends ListActivity {
     public final static String TAG = "VLC/BrowserActivity";
@@ -75,8 +87,17 @@ public class BrowserActivity extends ListActivity {
         filter.addDataScheme("file");
         registerReceiver(messageReceiver, filter);
 
-        mRoots = Util.getStorageDirectories();
+        refreshRoots();
         openStorageDevices(mRoots);
+
+        registerForContextMenu(getListView());
+    }
+
+    private void refreshRoots() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.addAll(Arrays.asList(Util.getStorageDirectories()));
+        list.addAll(Arrays.asList(Util.getCustomDirectories()));
+        mRoots = list.toArray(new String[list.size()]);
     }
 
     @Override
@@ -87,6 +108,28 @@ public class BrowserActivity extends ListActivity {
         mScollStates.clear();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        int position = ((AdapterContextMenuInfo)menuInfo).position;
+        final File item = mAdapter.getItem(position);
+        if (mCurrentDir != null
+                || item.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)
+                || Arrays.asList(Util.getStorageDirectories()).contains(
+                        item.getPath())) {
+            return;
+        }
+
+        MenuItem delete = menu.add(R.string.remove_custom_path);
+        delete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem arg0) {
+                Util.removeCustomDirectory(item.getPath());
+                refresh();
+                return true;
+            }
+        });
+    }
+
     private void openStorageDevices(String roots[]) {
         mCurrentDir = null;
         mAdapter.clear();
@@ -95,6 +138,7 @@ public class BrowserActivity extends ListActivity {
             if (f.exists())
                 mAdapter.add(f);
         }
+        mAdapter.add(new File(BrowserAdapter.ADD_ITEM_PATH));
         mAdapter.sort();
 
         // set scroll position to top
@@ -102,7 +146,8 @@ public class BrowserActivity extends ListActivity {
     }
 
     private void openDir(File file) {
-        if (!file.exists() || file.getPath() == null)
+        if(file == null || !file.exists() || file.getPath() == null
+                || file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH))
             return;
 
         mAdapter.clear();
@@ -125,6 +170,28 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         File file = mAdapter.getItem(position);
+        if(file.getPath() == BrowserAdapter.ADD_ITEM_PATH) {
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            b.setTitle(R.string.add_custom_path);
+            b.setMessage(R.string.add_custom_path_description);
+            b.setView(input);
+            b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface x, int y) {return;}
+            });
+            b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Util.addCustomDirectory(input.getText().toString());
+                    refresh();
+                }
+            });
+            b.show();
+            return;
+        }
+
         File[] files = file.listFiles(new DirFilter());
         if (files != null && files.length > 0) {
             // store scroll state
@@ -170,7 +237,7 @@ public class BrowserActivity extends ListActivity {
 
     public void refresh() {
         if (mCurrentDir == null) {
-            mRoots = Util.getStorageDirectories();
+            refreshRoots();
             openStorageDevices(mRoots);
         } else {
             openDir(mCurrentDir);

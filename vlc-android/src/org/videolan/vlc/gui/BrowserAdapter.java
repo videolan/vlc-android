@@ -45,6 +45,8 @@ public class BrowserAdapter extends ArrayAdapter<File>
                             implements Comparator<File> {
     public final static String TAG = "VLC/BrowserAdapter";
 
+    public final static String ADD_ITEM_PATH = "/add/a/path";
+
     public BrowserAdapter(Context context) {
         super(context, 0);
     }
@@ -76,9 +78,13 @@ public class BrowserAdapter extends ArrayAdapter<File>
         final File item = getItem(position);
         final DatabaseManager dbManager = DatabaseManager.getInstance(view.getContext());
 
-        if (item != null && item.getName() != null) {
+        if(item != null && item.getPath().equals(ADD_ITEM_PATH)) {
+            holder.text.setText(R.string.add_custom_path);
+            holder.check.setVisibility(View.GONE);
+        } else if(item != null && item.getName() != null) {
             Util.setItemBackground(holder.layout, position);
             holder.text.setText(getVisibleName(item));
+            holder.check.setVisibility(View.VISIBLE);
             holder.check.setOnCheckedChangeListener(null);
             holder.check.setTag(item);
             holder.check.setEnabled(true);
@@ -132,6 +138,12 @@ public class BrowserAdapter extends ArrayAdapter<File>
 
     @Override
     public int compare(File file1, File file2) {
+        // float the add item to the bottom
+        if(file1.getPath().equals(ADD_ITEM_PATH))
+            return 1;
+        else if(file2.getPath().equals(ADD_ITEM_PATH))
+            return -1;
+
         return String.CASE_INSENSITIVE_ORDER.compare(file1.getName(), file2.getName());
     }
 
