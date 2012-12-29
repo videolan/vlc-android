@@ -135,7 +135,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public void populateNode(DirectoryAdapter.Node n, String path) {
         if (path == null) {
             // We're on the storage list
-            String storages[] = Util.getStorageDirectories();
+            String storages[] = Util.getMediaDirectories();
             for (String storage : storages) {
                 File f = new File(storage);
                 DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName(), getVisibleName(f));
@@ -309,7 +309,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public boolean browse(String directoryName) {
         if (this.mCurrentDir == null) {
             // We're on the storage list
-            String storages[] = Util.getStorageDirectories();
+            String storages[] = Util.getMediaDirectories();
             for (String storage : storages) {
                 storage = Util.stripTrailingSlash(storage);
                 if (storage.endsWith(directoryName)) {

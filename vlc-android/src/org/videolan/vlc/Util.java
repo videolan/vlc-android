@@ -461,6 +461,13 @@ public class Util {
             return custom_paths.split(":");
     }
 
+    public static String[] getMediaDirectories() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.addAll(Arrays.asList(Util.getStorageDirectories()));
+        list.addAll(Arrays.asList(Util.getCustomDirectories()));
+        return list.toArray(new String[list.size()]);
+    }
+
     public static void addCustomDirectory(String path) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
 

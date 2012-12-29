@@ -200,7 +200,7 @@ public class MediaLibrary {
             List<File> mediaDirs = DBManager.getMediaDirs();
             if (mediaDirs.size() == 0) {
                 // Use all available storage directories as our default
-                String storageDirs[] = Util.getStorageDirectories();
+                String storageDirs[] = Util.getMediaDirectories();
                 for (String dir: storageDirs) {
                     File f = new File(dir);
                     if (f.exists())
