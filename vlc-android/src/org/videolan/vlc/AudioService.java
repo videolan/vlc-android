@@ -516,8 +516,8 @@ public class AudioService extends Service {
     }
 
     private void stop() {
-        mEventManager.removeHandler(mEventHandler);
         mLibVLC.stop();
+        mEventManager.removeHandler(mEventHandler);
         setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
         mCurrentMedia = null;
         mMediaList.clear();
