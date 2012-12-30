@@ -115,6 +115,12 @@
     <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolution: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
+
+    <string name="tools">Tools</string>
+    <string name="playback_speed">Playback speed</string>
+    <string name="sleep_title">Sleep timer</string>
+    <string name="sleep_cancel">Cancel sleep timer</string>
+
     <string name="open">Open</string>
     <string name="open_mrl">Open MRL</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
@@ -128,12 +134,6 @@
     <string name="load_1_period" translatable="false">.</string>
     <string name="load_2_period" translatable="false">..</string>
     <string name="load_3_period" translatable="false">...</string>
-
-    <!-- Advance function -->
-    <string name="advfunc_title">Tools</string>
-    <string name="playback_speed">Playback speed</string>
-    <string name="sleep_title">Sleep</string>
-    <string name="sleep_cancel">Cancel Sleep</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>

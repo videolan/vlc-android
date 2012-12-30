@@ -59,7 +59,7 @@ public class AdvFuncDialog extends Dialog {
                 (ViewGroup) findViewById(R.id.adv_func));
 
         setContentView(mAdvFuncView);
-        setTitle(getOwnerActivity().getString(R.string.advfunc_title));
+        setTitle(getOwnerActivity().getString(R.string.tools));
         setCanceledOnTouchOutside(true);
 
         // Init Sleep function
