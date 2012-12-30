@@ -21,7 +21,9 @@ package org.videolan.vlc.gui;
 
 import java.util.Calendar;
 
+import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.gui.TimeSleepDialog;
 
@@ -68,10 +70,10 @@ public class AdvFuncDialog extends Dialog {
         mSpeed = (ImageButton) mAdvFuncView.findViewById(R.id.adv_func_speed);
         mSpeed.setOnClickListener(mSpeedLabelListener);
         mSpeedInfo = (TextView) mAdvFuncView.findViewById(R.id.adv_func_speed_info);
+        mSpeedInfo.setText(getSpeedInfo());
     }
 
     private final View.OnClickListener mSleepListener = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
             final Calendar c = Calendar.getInstance();
@@ -86,15 +88,25 @@ public class AdvFuncDialog extends Dialog {
         public void onClick(View v) {
             mSpeedSelectorDialog = new SpeedSelectorDialog(getOwnerActivity());
             mSpeedSelectorDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    mSpeedInfo.setText(mSpeedSelectorDialog.getSpeedInfo());
+                    mSpeedInfo.setText(getSpeedInfo());
                 }
             });
             mSpeedSelectorDialog.show();
         }
     };
+
+    /**
+     * Return play speed
+     */
+    private String getSpeedInfo() {
+        LibVLC libVLC = LibVLC.getExistingInstance();
+        if (libVLC != null)
+            return Util.formatRateString(libVLC.getRate());
+        else
+            return "";
+    }
 
     public void destroyAdvFuncDialog() {
 

@@ -22,7 +22,6 @@ package org.videolan.vlc.gui;
 
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.app.Dialog;
@@ -79,16 +78,5 @@ public class SpeedSelectorDialog extends Dialog {
                 LibVLC.getExistingInstance().setRate(1);
             }
         });
-    }
-
-    /**
-     * Return play speed
-     */
-    public String getSpeedInfo () {
-        LibVLC libVLC = LibVLC.getExistingInstance();
-        if (libVLC != null)
-            return Util.formatRateString(libVLC.getRate());
-        else
-            return "";
     }
 }
