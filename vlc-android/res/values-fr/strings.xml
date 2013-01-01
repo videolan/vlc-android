@@ -103,6 +103,10 @@
     <string name="track_samplerate_info">Fréquence d\'échantillonage: %1$d Hz\n</string>
     <string name="track_resolution_info">Résolution: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Débit d\'images: %1$.3f\n</string>
+    <string name="tools">Outils</string>
+    <string name="playback_speed">Vitesse de lecture</string>
+    <string name="sleep_title">Veille</string>
+    <string name="sleep_cancel">Annuler Veille</string>
     <string name="open">Ouvrir</string>
     <string name="open_mrl">Ouvrir MRL</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
@@ -110,9 +114,6 @@
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
     <string name="error_problem">Désolé, VLC pour Android à rencontré un problème et a dû s\'arrêter.</string>
     <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner):\n</string>
-    <string name="playback_speed">Vitesse de lecture</string>
-    <string name="sleep_title">Sleep</string>
-    <string name="sleep_cancel">Annuler Sleep</string>
 
 
     <!-- About -->
@@ -127,6 +128,9 @@
     <!--  Preferences -->
     <string name="preferences">Préférences</string>
     <string name="main_prefs_category">Général</string>
+    <string name="add_custom_path">Ajouter un répertoire</string>
+    <string name="add_custom_path_description">Entrer un répertoire additionnel à scanner:</string>
+    <string name="remove_custom_path">Retirer le répertoire</string>
     <string name="privacy_prefs_category">Vie privée</string>
     <string name="clear_history">Vider l\'historique des recherches</string>
     <string name="advanced_prefs_category">Avancé</string>
@@ -138,6 +142,8 @@
     <string name="set_locale">Définir la langue</string>
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
+    <string name="enable_yv12_format">Forcer le format YV12</string>
+    <string name="enable_yv12_format_detail">NE PAS ACTIVER!!! Ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="steal_remote_control">Contrôle exclusif de la télécommande</string>
@@ -151,12 +157,14 @@
     <string name="screen_orientation_landscape">Paysage</string>
     <string name="screen_orientation_reverse_portrait">Portrait inversé</string>
     <string name="screen_orientation_reverse_landscape">Paysage inversé</string>
-    <string name="enable_verbose_mode">Verbosité</string>
-    <string name="enable_verbose_mode_detail">Augmenter la verbosité (logcat)</string>
+    <string name="subtitles_prefs_category">Sous-titres</string>
+    <string name="subtitles_text_encoding">Codage des caractères</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Activer l\'étirement temporel audio</string>
     <string name="enable_time_stretching_audio_detail">Accélère ou ralenti l\'audio sans changer le pitch (nécessite un appareil rapide)</string>
+    <string name="enable_verbose_mode">Verbosité</string>
+    <string name="enable_verbose_mode_detail">Augmenter la verbosité (logcat)</string>
 </resources>
