@@ -179,6 +179,10 @@ public class LibVLC {
         final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return p.getBoolean("enable_time_stretching_audio", false);
     }
+    public boolean yv12Enabled() {
+        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return (p.getBoolean("enable_yv12_format", false) && Util.isGingerbreadOrLater());
+    }
 
     /**
      * Initialize the libVLC class
