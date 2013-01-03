@@ -712,6 +712,9 @@ public class VideoPlayerActivity extends Activity {
                 break;
         }
 
+        // FIXME: align properly for YV12 and RGB16
+        // FIXME: crop rightmost pixels to not display garbage (or black them?)
+        mVideoWidth += 3; mVideoWidth &= ~3;
         mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
         LayoutParams lp = mSurface.getLayoutParams();
         lp.width = dw;
