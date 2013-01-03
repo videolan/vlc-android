@@ -94,6 +94,8 @@ public class VideoPlayerActivity extends Activity {
 
     private SurfaceView mSurface;
     private SurfaceHolder mSurfaceHolder;
+    private FrameLayout mSurfaceFrame;
+    private int mSurfaceAlign;
     private LibVLC mLibVLC;
     private String mLocation;
 
@@ -254,11 +256,18 @@ public class VideoPlayerActivity extends Activity {
 
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
+        mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
+        int pitch;
         if(Util.isGingerbreadOrLater() && pref.getBoolean("enable_yv12_format", false)) {
             mSurfaceHolder.setFormat(ImageFormat.YV12);
+            pitch = ImageFormat.getBitsPerPixel(ImageFormat.YV12) / 8;
         } else {
             mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
+            PixelFormat info = new PixelFormat();
+            PixelFormat.getPixelFormatInfo(PixelFormat.RGBX_8888, info);
+            pitch = info.bytesPerPixel;
         }
+        mSurfaceAlign = 16 / pitch - 1;
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
@@ -712,14 +721,24 @@ public class VideoPlayerActivity extends Activity {
                 break;
         }
 
-        // FIXME: align properly for YV12 and RGB16
-        // FIXME: crop rightmost pixels to not display garbage (or black them?)
-        mVideoWidth += 3; mVideoWidth &= ~3;
-        mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+        // align width on 16bytes
+        int alignedWidth = (mVideoWidth + mSurfaceAlign) & ~mSurfaceAlign;
+
+        // force surface buffer size
+        mSurfaceHolder.setFixedSize(alignedWidth, mVideoHeight);
+
+        // set display size
         LayoutParams lp = mSurface.getLayoutParams();
-        lp.width = dw;
+        lp.width = dw * alignedWidth / mVideoWidth;
         lp.height = dh;
         mSurface.setLayoutParams(lp);
+
+        // set frame size (crop if necessary)
+        lp = mSurfaceFrame.getLayoutParams();
+        lp.width = dw;
+        lp.height = dh;
+        mSurfaceFrame.setLayoutParams(lp);
+
         mSurface.invalidate();
     }
 

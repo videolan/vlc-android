@@ -4,12 +4,18 @@
     android:layout_height="fill_parent"
     android:background="#000001" >
 
-    <SurfaceView
-        android:id="@+id/player_surface"
+    <FrameLayout
+        android:id="@+id/player_surface_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_gravity="center" />
+        android:foregroundGravity="clip_horizontal" >
+        <SurfaceView
+            android:id="@+id/player_surface"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/player_overlay_info"
