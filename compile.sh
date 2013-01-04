@@ -159,6 +159,7 @@ echo "Building the contribs"
 mkdir -p contrib/android
 cd contrib/android
 ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout --enable-small \
+    --disable-dca \
     --disable-sdl \
     --disable-SDL_image \
     --disable-fontconfig \
