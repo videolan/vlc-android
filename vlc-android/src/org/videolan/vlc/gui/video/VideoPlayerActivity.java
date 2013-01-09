@@ -475,6 +475,9 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public void setSurfaceSize(int width, int height, int sar_num, int sar_den) {
+        if (width * height == 0)
+            return;
+
         // store video size
         mVideoHeight = height;
         mVideoWidth = width;
