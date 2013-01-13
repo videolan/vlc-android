@@ -49,7 +49,7 @@ EOF
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
-    TARGET_TUPLE="i686-android-linux"
+    TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
     HAVE_X86=1
     PLATFORM_SHORT_ARCH="x86"
@@ -63,18 +63,6 @@ else
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
-fi
-
-if [ ${ANDROID_ABI} = "x86" ] ; then
-    # x86 toolchain location changes in NDK r8b
-    case "$REL" in
-        8?)
-            TARGET_TUPLE="i686-linux-android"
-        ;;
-        *)
-            TARGET_TUPLE="i686-android-linux"
-        ;;
-    esac
 fi
 
 export TARGET_TUPLE
