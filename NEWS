@@ -1,6 +1,24 @@
 Changes between 0.0.8 and 0.0.9-git:
 --------------------------------
+Core:
+ * Various crash/stability fixes
+ * Improved video-audio synchronization
+ * Improved automatic SD card detection
+ * Experimental YV12-based androidsurface
+ * Wakelock issue with stopping was fixed
 
+Main application:
+ * Change of subtitle encoding is now possible
+ * Subtitles and audio track selection is now preserved across calls
+ * Many bugfixes in the interface
+ * A sleep timer was added
+ * Added an option to add custom paths to the media library scanner
+
+Translations:
+ * Initial Traditional Chinese and Urdu translations
+ * Updates to the Simplified Chinese, Turkish, Thai, Polish, Dutch,
+   Japanese, Italian, French, Galician, German, Czech, Slovak
+   and Bosnian translations
 
 
 Changes between 0.0.7 and 0.0.8:
