@@ -171,7 +171,6 @@ public class VideoPlayerActivity extends Activity {
     private boolean mIsFirstBrightnessGesture = true;
 
     // Tracks & Subtitles
-    private String[] mAudioTracksLibVLC;
     private Map<Integer,String> mAudioTracksList;
     private String[] mSubtitleTracksLibVLC;
     private ArrayList<String> mSubtitleTracksList;
@@ -923,18 +922,32 @@ public class VideoPlayerActivity extends Activity {
     private final OnClickListener mAudioTrackListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            String[] arrList = new String[mAudioTracksList.size()];
-            arrList = mAudioTracksList.toArray(arrList);
+            final String[] arrList = new String[mAudioTracksList.size()];
+            int i = 0;
+            for(Map.Entry<Integer,String> entry : mAudioTracksList.entrySet()) {
+                arrList[i] = entry.getValue();
+                i++;
+            }
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_audio)
             .setSingleChoiceItems(arrList, mLibVLC.getAudioTrack(), new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int position) {
+                public void onClick(DialogInterface dialog, int listPosition) {
+                    int trackID = -1;
+                    // Reverse map search...
+                    for(Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
+                        if(arrList[listPosition].equals(entry.getValue())) {
+                            trackID = entry.getKey();
+                            break;
+                        }
+                    }
+                    if(trackID < 0) return;
+
                     DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
                             mLocation,
                             DatabaseManager.mediaColumn.MEDIA_AUDIOTRACK,
-                            position);
-                    mLibVLC.setAudioTrack(position);
+                            trackID);
+                    mLibVLC.setAudioTrack(trackID);
                     dialog.dismiss();
                 }
             })
@@ -1217,10 +1230,10 @@ public class VideoPlayerActivity extends Activity {
     }
 
     private void setESTrackLists() {
-        if (mAudioTracksLibVLC == null) {
-            mAudioTracksLibVLC = mLibVLC.getAudioTrackDescription();
-            if (mAudioTracksLibVLC != null && mAudioTracksLibVLC.length > 1) {
-                mAudioTracksList = new ArrayList<String>(Arrays.asList(mAudioTracksLibVLC));
+        if(mAudioTracksList == null) {
+            Map<Integer, String> audioTracks = mLibVLC.getAudioTrackDescription();
+            if (audioTracks != null && audioTracks.size() > 1) {
+                mAudioTracksList = mLibVLC.getAudioTrackDescription();
                 mAudioTrack.setOnClickListener(mAudioTrackListener);
                 mAudioTrack.setVisibility(View.VISIBLE);
             }
