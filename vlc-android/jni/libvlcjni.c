@@ -1034,7 +1034,7 @@ jint Java_org_videolan_vlc_LibVLC_getAudioTracksCount(JNIEnv *env, jobject thiz)
     return -1;
 }
 
-jobjectArray Java_org_videolan_vlc_LibVLC_getAudioTrackDescription(JNIEnv *env, jobject thiz)
+jobject Java_org_videolan_vlc_LibVLC_getAudioTrackDescription(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
     if (!mp)
@@ -1043,21 +1043,38 @@ jobjectArray Java_org_videolan_vlc_LibVLC_getAudioTrackDescription(JNIEnv *env, 
     int i_nbTracks = libvlc_audio_get_track_count(mp) - 1;
     if (i_nbTracks < 0)
         i_nbTracks = 0;
-    jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks,
-            (*env)->FindClass(env, "java/lang/String"),
-            NULL);
+    jclass mapClass = (*env)->FindClass(env, "java/util/Map");
+    jclass hashMapClass = (*env)->FindClass(env, "java/util/HashMap");
+    jmethodID mapPut = (*env)->GetMethodID(env, mapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    /*
+     * "What are you building? Lay your hand on it. Where is it?"
+     * We need a concrete map to start
+     */
+    jmethodID mapInit = (*env)->GetMethodID(env, hashMapClass, "<init>", "()V");
+    jclass integerCls = (*env)->FindClass(env, "java/lang/Integer");
+    jmethodID integerConstructor = (*env)->GetMethodID(env, integerCls, "<init>", "(I)V");
+
+    jobject audioTrackMap = (*env)->NewObject(env, hashMapClass, mapInit);
 
     libvlc_track_description_t *first = libvlc_audio_get_track_description(mp);
     libvlc_track_description_t *desc = first != NULL ? first->p_next : NULL;
     unsigned i;
     for (i = 0; i < i_nbTracks; ++i)
     {
+        // store audio track ID and name in a map as <ID, Track Name>
+        jobject track_id = (*env)->NewObject(env, integerCls, integerConstructor, desc->i_id);
         jstring name = (*env)->NewStringUTF(env, desc->psz_name);
-        (*env)->SetObjectArrayElement(env, array, i, name);
+        (*env)->CallObjectMethod(env, audioTrackMap, mapPut, track_id, name);
         desc = desc->p_next;
     }
     libvlc_track_description_list_release(first);
-    return array;
+
+    // Clean up local references
+    (*env)->DeleteLocalRef(env, mapClass);
+    (*env)->DeleteLocalRef(env, hashMapClass);
+    (*env)->DeleteLocalRef(env, integerCls);
+
+    return audioTrackMap;
 }
 
 jint Java_org_videolan_vlc_LibVLC_getAudioTrack(JNIEnv *env, jobject thiz)

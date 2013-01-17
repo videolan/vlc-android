@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
@@ -171,7 +172,7 @@ public class VideoPlayerActivity extends Activity {
 
     // Tracks & Subtitles
     private String[] mAudioTracksLibVLC;
-    private ArrayList<String> mAudioTracksList;
+    private Map<Integer,String> mAudioTracksList;
     private String[] mSubtitleTracksLibVLC;
     private ArrayList<String> mSubtitleTracksList;
 

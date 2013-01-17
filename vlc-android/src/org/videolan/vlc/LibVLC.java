@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
@@ -460,7 +461,7 @@ public class LibVLC {
 
     public native int getAudioTracksCount();
 
-    public native String[] getAudioTrackDescription();
+    public native Map<Integer,String> getAudioTrackDescription();
 
     public native int getAudioTrack();
 
