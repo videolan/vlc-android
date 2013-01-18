@@ -924,13 +924,17 @@ public class VideoPlayerActivity extends Activity {
         public void onClick(View v) {
             final String[] arrList = new String[mAudioTracksList.size()];
             int i = 0;
+            int listPosition = 0;
             for(Map.Entry<Integer,String> entry : mAudioTracksList.entrySet()) {
                 arrList[i] = entry.getValue();
+                // map the track position to the list position
+                if(entry.getKey() == mLibVLC.getAudioTrack())
+                    listPosition = i;
                 i++;
             }
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_audio)
-            .setSingleChoiceItems(arrList, mLibVLC.getAudioTrack(), new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int listPosition) {
                     int trackID = -1;
