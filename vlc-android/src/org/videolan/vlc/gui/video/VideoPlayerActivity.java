@@ -1235,7 +1235,7 @@ public class VideoPlayerActivity extends Activity {
 
     private void setESTrackLists() {
         if(mAudioTracksList == null) {
-            if (mLibVLC.getAudioTracksCount() > 1) {
+            if (mLibVLC.getAudioTracksCount() > 2) {
                 mAudioTracksList = mLibVLC.getAudioTrackDescription();
                 mAudioTrack.setOnClickListener(mAudioTrackListener);
                 mAudioTrack.setVisibility(View.VISIBLE);
