@@ -27,6 +27,7 @@
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
     <string name="ringtone_set"> \'%1$s\' est maintenant votre sonnerie.</string>
+    <string name="ringtone_error">Pendant que la sonnerie s\'est mis, une erreur est survenue.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
     <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat ou détruire votre maison !\n\n Amusez-vous bien ;)</string>
@@ -35,9 +36,6 @@
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
     <string name="songs">Chansons</string>
-
-    <string name="error_generic">Désolé, une erreur est survenue…</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 chanson</item>
         <item quantity="other">%d chansons</item>

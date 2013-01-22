@@ -30,7 +30,8 @@
     <string name="set_song">Set as ringtone</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\' ?</string>
-    <string name="ringtone_set"> \'%1$s\' is correctly set as your ringtone.</string>
+    <string name="ringtone_set">\'%1$s\' was set as the ringtone.</string>
+    <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">"Don't show this message again."</string>
     <string name="beta_warning">This is a beta version.\n\nThis version is NOT STABLE!\n\nDo NOT use, unless you know what you are doing.\n\nIt might kill your kitten and destroy your house.\nUse it at your own risk.\n\nHave Fun! :)</string>
@@ -39,9 +40,6 @@
     <string name="unknown_album">Unknown Album</string>
     <string name="unknown_genre">Unknown Genre</string>
     <string name="songs">Songs</string>
-
-    <string name="error_generic">Sorry, a error has occurred…</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 song</item>
         <item quantity="other">%d songs</item>

@@ -53,7 +53,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class AudioUtil {
-
     public final static String TAG = "VLC/AudioUtil";
 
     public static String CACHE_DIR = null;
@@ -61,8 +60,8 @@ public class AudioUtil {
 
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
-        if (!newringtone.exists()) {
-            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.error_generic), Toast.LENGTH_SHORT).show();
+        if(!newringtone.exists()) {
+            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -81,17 +80,18 @@ public class AudioUtil {
         try {
             activity.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newringtone.getAbsolutePath() + "\"", null);
             newUri = activity.getContentResolver().insert(uri, values);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.error_generic), Toast.LENGTH_SHORT).show();
+            RingtoneManager.setActualDefaultRingtoneUri(
+                    activity.getApplicationContext(),
+                    RingtoneManager.TYPE_RINGTONE,
+                    newUri
+                    );
+        } catch(Exception e) {
+            Toast.makeText(activity.getApplicationContext(),
+                    activity.getString(R.string.ringtone_error),
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        RingtoneManager.setActualDefaultRingtoneUri(
-                activity.getApplicationContext(),
-                RingtoneManager.TYPE_RINGTONE,
-                newUri
-                );
         Toast.makeText(
                 activity.getApplicationContext(),
                 activity.getString(R.string.ringtone_set, song.getTitle()),
