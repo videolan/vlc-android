@@ -50,6 +50,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.Toast;
 
 public class AudioUtil {
 
@@ -60,6 +61,11 @@ public class AudioUtil {
 
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
+        if (!newringtone.exists()) {
+            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.error_generic), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, newringtone.getAbsolutePath());
         values.put(MediaStore.MediaColumns.TITLE, song.getTitle());
@@ -69,14 +75,29 @@ public class AudioUtil {
         values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
         values.put(MediaStore.Audio.Media.IS_ALARM, false);
         values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+
         Uri uri = MediaStore.Audio.Media.getContentUriForPath(newringtone.getAbsolutePath());
-        activity.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newringtone.getAbsolutePath() + "\"", null);
-        Uri newUri = activity.getContentResolver().insert(uri, values);
+        Uri newUri;
+        try {
+            activity.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newringtone.getAbsolutePath() + "\"", null);
+            newUri = activity.getContentResolver().insert(uri, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.error_generic), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RingtoneManager.setActualDefaultRingtoneUri(
                 activity.getApplicationContext(),
                 RingtoneManager.TYPE_RINGTONE,
                 newUri
                 );
+        Toast.makeText(
+                activity.getApplicationContext(),
+                activity.getString(R.string.ringtone_set, song.getTitle()),
+                Toast.LENGTH_SHORT)
+                .show();
+
     }
 
     @SuppressLint("NewApi")
