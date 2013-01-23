@@ -1,4 +1,4 @@
-Changes between 0.0.8 and 0.0.9-git:
+Changes between 0.0.8 and 0.0.9:
 --------------------------------
 Core:
  * Various crash/stability fixes
@@ -6,12 +6,16 @@ Core:
  * Improved automatic SD card detection
  * Experimental YV12-based androidsurface
  * Wakelock issue with stopping was fixed
+ * Use of a faster DTS decoding library
+ * Codec updates
 
 Main application:
+ * SD cards mount point fixes
  * Change of subtitle encoding is now possible
  * Subtitles and audio track selection is now preserved across calls
  * Many bugfixes in the interface
- * A sleep timer was added
+ * Fix selection of some audio tracks
+ * A sleep timer was added for audio and video
  * Added an option to add custom paths to the media library scanner
 
 Translations:
