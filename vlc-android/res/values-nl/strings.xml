@@ -29,9 +29,11 @@
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="ringtone_set">\'%1$s\' werd als beltoon ingesteld.</string>
+    <string name="ringtone_error">Er trad een fout op bij het instellen van de beltoon.</string>
     <string name="pause">Pauzeren</string>
     <string name="not_show_again">Niet meer weergeven.</string>
-    <string name="beta_warning">Dit is een bèta-versie.\n\nDit is geen stabiele versie!\n\nGebruik ze NIET, tenzij u weet wat u doet.\n\nZe kan uw kat vermoorden, uw huis vernietigen en de apocalyps van de Maya\'s starten.\nGebruik ze op eigen risico.\n\nVeel plezier! :)</string>
+    <string name="beta_warning">Dit is een bèta-versie.\n\nDit is geen stabiele versie!\n\nGebruik ze NIET, tenzij u weet wat u doet.\n\nZe kan uw kat vermoorden en uw huis vernietigen\nGebruik ze op eigen risico.\n\nVeel plezier! :)</string>
     <string name="info_title">VLC bèta</string>
     <string name="unknown_artist">Onbekende artiest</string>
     <string name="unknown_album">Onbekend album</string>
@@ -112,6 +114,10 @@
     <string name="track_samplerate_info">Samplerate: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolutie: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Beeldsnelheid: %1$.3f\n</string>
+    <string name="tools">Extra</string>
+    <string name="playback_speed">Afspeelsnelheid</string>
+    <string name="sleep_title">Slaapstand</string>
+    <string name="sleep_cancel">Slaapstand annuleren</string>
     <string name="open">Openen</string>
     <string name="open_mrl">MRL openen</string>
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
@@ -119,7 +125,6 @@
     <string name="error_not_compatible">Sorry, uw toestel wordt op dit moment niet ondersteund door deze versie van VLC voor Android™.</string>
     <string name="error_problem">Sorry, VLC voor Android had een probleem bij het laden en moest afgesloten worden.</string>
     <string name="error_message_is">De foutmelding is (vermeld dit bij het debuggen):\n</string>
-    <string name="playback_speed">Afspeelsnelheid</string>
 
     <!-- About -->
     <string name="app_name_full">VLC voor Android™</string>
@@ -133,6 +138,9 @@
     <!-- Preferences -->
     <string name="preferences">Voorkeuren</string>
     <string name="main_prefs_category">Basis</string>
+    <string name="add_custom_path">Aangepast pad toevoegen</string>
+    <string name="add_custom_path_description">Aangepaste map toevoegen om te controleren:</string>
+    <string name="remove_custom_path">Aangepast pad verwijderen</string>
     <string name="privacy_prefs_category">Privacy</string>
     <string name="clear_history">Zoekgeschiedenis wissen</string>
     <string name="advanced_prefs_category">Geavanceerd</string>
@@ -144,6 +152,8 @@
     <string name="set_locale">Taal instellen</string>
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
     <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
+    <string name="enable_yv12_format">YV12-formaat forceren</string>
+    <string name="enable_yv12_format_detail">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
     <string name="detect_headset">Hoofdtelefoon detecteren</string>
     <string name="detect_headset_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
     <string name="steal_remote_control">Exclusieve headset-afstandsbediening</string>
@@ -157,14 +167,14 @@
     <string name="screen_orientation_landscape">Liggend</string>
     <string name="screen_orientation_reverse_portrait">Omgekeerd staand</string>
     <string name="screen_orientation_reverse_landscape">Omgekeerd liggend</string>
-    <string name="enable_verbose_mode">Uitgebreid</string>
-    <string name="enable_verbose_mode_detail">Verbosity verhogen (logcat)</string>
+    <string name="subtitles_prefs_category">Ondertitels</string>
+    <string name="subtitles_text_encoding">Tekstcodering</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
     <string name="enable_time_stretching_audio_detail">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
-    <string name="subtitles_prefs_category">Ondertitels</string>
-    <string name="subtitles_text_encoding">Tekstcodering</string>
+    <string name="enable_verbose_mode">Uitgebreid</string>
+    <string name="enable_verbose_mode_detail">Verbosity verhogen (logcat)</string>
 </resources>
