@@ -25,13 +25,14 @@
     <string name="append">Pripojiť</string>
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
+    <string name="last_playlist">Posledný playlist</string>
     <string name="delete">Vymazať</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
     <string name="pause">Pozastaviť</string>
     <string name="not_show_again">Už nezobrazovať túto správu.</string>
-    <string name="beta_warning">Toto je beta-verzia.\n\nTáto verzia NIE JE STABILNÁ!\n\nNEPOUŽÍVAJTE JU, pokiaľ presne neviete čo robíte.\n\nMôže zabiť Vašu mačku, zničiť Váš dom a spustiť Mayskú apokalypsu.\nPoužívate ju na vlastné riziko.\n\nVeľa zábavy! :)</string>
+    <string name="beta_warning">Toto je beta-verzia.\n\nTáto verzia NIE JE STABILNÁ!\n\nNEPOUŽÍVAJTE JU, pokiaľ presne neviete čo robíte.\n\nMôže zabiť Vašu mačku, zničiť Váš dom.\nPoužívate ju na vlastné riziko.\n\nVeľa zábavy! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Neznámy umelec</string>
     <string name="unknown_album">Neznámy album</string>
@@ -56,6 +57,11 @@
         <item quantity="one">1 podpriečinok</item>
         <item quantity="few">%d podpriečinky</item>
         <item quantity="other">%d podpriečinkov</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 súbor s médiom</item>
+        <item quantity="few">%d súbory s médiami</item>
+        <item quantity="other">%d súborov s médiami</item>
     </plurals>
 
     <string name="internal_memory">Interná pamäť</string>
@@ -112,6 +118,10 @@
     <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozlíšenie: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Rýchlosť snímkovania: %1$.3f\n</string>
+    <string name="tools">Nástroje</string>
+    <string name="playback_speed">Rýchlosť prehrávania</string>
+    <string name="sleep_title">Časovač uspania</string>
+    <string name="sleep_cancel">Vypnúť časovač uspania</string>
     <string name="open">Otvoriť</string>
     <string name="open_mrl">Otvoriť MRL</string>
     <string name="open_mrl_dialog_title">Otvoriť sieťový stream</string>
@@ -119,7 +129,6 @@
     <string name="error_not_compatible">Ľutujeme, ale toto zariadenie momentálne nie je podporované touto verziou programu VLC for Android™.</string>
     <string name="error_problem">Ľutujeme, VLC for Android má problém s načítaním a je nutné ho ukončiť.</string>
     <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):\n</string>
-    <string name="playback_speed">Rýchlosť prehrávania</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -133,6 +142,9 @@
     <!-- Preferences -->
     <string name="preferences">Nastavenia</string>
     <string name="main_prefs_category">Hlavné</string>
+    <string name="add_custom_path">Pridať cestu nastavenú používateľom</string>
+    <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavenú cestu</string>
+    <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
     <string name="privacy_prefs_category">Súkromie</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="advanced_prefs_category">Pokročilé</string>
@@ -144,6 +156,8 @@
     <string name="set_locale">Nastaviť lokálne</string>
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
     <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
+    <string name="enable_yv12_format">Vynútiť formát YV12</string>
+    <string name="enable_yv12_format_detail">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
     <string name="detect_headset">Detegovať headset</string>
     <string name="detect_headset_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
     <string name="steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
@@ -157,12 +171,14 @@
     <string name="screen_orientation_landscape">Na šírku</string>
     <string name="screen_orientation_reverse_portrait">Na výšku, obrátene</string>
     <string name="screen_orientation_reverse_landscape">Na šírku, obrátene</string>
-    <string name="enable_verbose_mode">Komunikatívnosť</string>
-    <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
+    <string name="subtitles_prefs_category">Titulky</string>
+    <string name="subtitles_text_encoding">Kódovanie textu</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_audiotrack">AudioTrack (natívne)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zapnúť časové úpravy zvuku</string>
     <string name="enable_time_stretching_audio_detail">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie)</string>
+    <string name="enable_verbose_mode">Komunikatívnosť</string>
+    <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
 </resources>
