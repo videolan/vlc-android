@@ -19,11 +19,11 @@ Main application:
  * Added an option to add custom paths to the media library scanner
 
 Translations:
- * Initial Traditional Chinese and Urdu translations
- * Updates to the Simplified Chinese, Turkish, Thai, Polish, Dutch,
-   Japanese, Italian, French, Galician, German, Czech, Slovak, Russian,
+ * Initial Traditional Chinese, Catalan, and Urdu translations
+ * Updates to the Bosnian, Japanese, Russian, French, Korean,
+   Simplified Chinese, Turkish, Thai, Slovak, Polish, Dutch, Khmer,
+   Italian, Hebrew, Galician, Spanish, German, Czech,
    and Bosnian translations
-
 
 Changes between 0.0.7 and 0.0.8:
 --------------------------------
