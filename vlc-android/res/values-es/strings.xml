@@ -4,10 +4,7 @@
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Otro</string>
-    <string name="filebrowser_sdfail">Imposible abrir la tarjeta SD. Compruebe que esté montada correctamente.</string>
-    <string name="filebrowser_root">Raíz</string>
     <string name="filebrowser_title">Seleccionar medio a reproducir</string>
-    <string name="ml_no_media_dir">No hay directorio de medios</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nombre</string>
     <string name="sortby_length">Longitud</string>
@@ -19,22 +16,21 @@
         <item quantity="other">%d resultados encontrados</item>
     </plurals>
 
-    <string name="show_player">Mostrar reproductor</string>
-    <string name="hide_mini_player">Ocultar minireproductor</string>
     <string name="play">Reproducir</string>
+    <string name="play_from_start">Reproducir desde el inicio</string>
     <string name="play_as_audio">Reproducir como audio</string>
     <string name="play_as_video">Reproducir como vídeo</string>
     <string name="append">Añadir</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
+    <string name="last_playlist">Última lista de reproducción</string>
     <string name="delete">Eliminar</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar este archivo «%1$s»?</string>
     <string name="pause">Pausar</string>
-    <string name="close">Cerrar</string>
-    <string name="not_show_again">"No mostrar este mensaje de nuevo."</string>
-    <string name="beta_warning">Esta es una versión de prueba.\n\n¡NO es estable!\n\nNo la use, a menos que conozca que está haciendo.\n\nPodría matar a su gato, destruir su casa y empezar el apocalipsis maya.\nÚsela bajo su propio riesgo.\n\n¡Divértase! :)</string>
+    <string name="not_show_again">No mostrar este mensaje de nuevo.</string>
+    <string name="beta_warning">Esta es una versión de prueba.\n\n¡NO es estable!\n\nNo la use, a menos que conozca que está haciendo.\n\nPodría matar a su gatoy destruir su casa\nÚsela bajo su propio riesgo.\n\n¡Diviértase! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista desconocido</string>
     <string name="unknown_album">Álbum desconocido</string>
@@ -57,7 +53,12 @@
         <item quantity="one">1 subcarpeta</item>
         <item quantity="other">%d subcarpetas</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 archivo de medio</item>
+        <item quantity="other">%d archivos de medio</item>
+    </plurals>
 
+    <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Hasta la carpeta padre</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
@@ -78,15 +79,12 @@
     <string name="nosubdirectory">No hay subcarpetas.</string>
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
-
     <string name="cover_art">Portada</string>
     <string name="shuffle">Aleatorio</string>
     <string name="repeat">Repetir ninguna/una/todo</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
-
-    <string name="lock_rotation">Bloquear rotación de pantalla</string>
     <string name="locked">Bloqueda</string>
     <string name="unlocked">Desbloqueada</string>
     <string name="surface_best_fit">Mejor ajuste</string>
@@ -102,8 +100,8 @@
     <string name="track_unknown">Pista desconocida</string>
     <string name="track_codec_info">Códec: %1$s\n</string>
     <string name="track_language_info">Idioma: %1$s\n</string>
-    <string name="volume">Volumen&#160;</string>
-    <string name="brightness">Brillo&#160;</string>
+    <string name="volume">Volumen</string>
+    <string name="brightness">Brillo</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -113,32 +111,33 @@
     <string name="track_samplerate_info">Tasa de muestreo: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n</string>
+    <string name="tools">Herramientas</string>
+    <string name="playback_speed">Velocidad de reproducción</string>
+    <string name="sleep_title">Temporizador de apagado</string>
+    <string name="sleep_cancel">Cancelar temporizador de apagado</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
     <string name="open_mrl_dialog_msg">Introducir MRL de red: p.e. http://, mms:// o rtsp://</string>
-    <string name="media_library">Librería multimedia</string>
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
     <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n</string>
-    <string name="playback_speed">Velocidad de reproducción</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
-    <string name="version">Versión</string>
     <string name="licence">Licencia</string>
     <string name="revision">Revisión</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código aberto. La versión de Android™ puede leer la mayoría de archivos y volcados de red.</string>
-    <string name="for_android">para Android™</string>
-    <string name="compiled_by">Esta versión de VLC la compiló:</string>
+    <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y flujos de red.</string>
+    <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="vlc_authors">Autores de VLC.</string>
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
     <string name="main_prefs_category">Principal</string>
-    <string name="internal_memory">Memoria interna</string>
-    <string name="external_mount">Montaje externo</string>
+    <string name="add_custom_path">Añadir una ruta personalizada</string>
+    <string name="add_custom_path_description">Introducir carpetas personales adicionales a examinar:</string>
+    <string name="remove_custom_path">Eliminar ruta personalizada</string>
     <string name="privacy_prefs_category">Privacidad</string>
     <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="advanced_prefs_category">Avanzado</string>
@@ -150,6 +149,8 @@
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
     <string name="set_locale_popup">Cierre y reinicialice VLC para que los cambios tengan efecto.</string>
+    <string name="enable_yv12_format">Forzar formato YV12</string>
+    <string name="enable_yv12_format_detail">NO ACTIVAR!!! Podría no funcionar con todos los dispositivos. Solo 2.3 y posteriores.</string>
     <string name="detect_headset">Detectar auriculares</string>
     <string name="detect_headset_detail">Pausar al quitar auriculares; continuar al insertar auriculares</string>
     <string name="steal_remote_control">Control remoto de auriculares exclusivo</string>
@@ -158,17 +159,19 @@
     <string name="enable_gesture_brightness">Habilitar gesto de brillo</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
-    <string name="screen_orientation_start_lock">Bloquedao al inicio</string>
+    <string name="screen_orientation_start_lock">Bloqueado al inicio</string>
     <string name="screen_orientation_portrait">Vertical</string>
     <string name="screen_orientation_landscape">Apaisado</string>
     <string name="screen_orientation_reverse_portrait">Invertir vertical</string>
     <string name="screen_orientation_reverse_landscape">Invertir apaisado</string>
-    <string name="enable_verbose_mode">Nivel de detalle</string>
-    <string name="enable_verbose_mode_detail">Incrementar el nivel de detalle (logcat)</string>
+    <string name="subtitles_prefs_category">Subtítulos</string>
+    <string name="subtitles_text_encoding">Codificación de texto</string>
     <string name="aout">Salida de audio</string>
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Habilitar audio «time-stretching»</string>
     <string name="enable_time_stretching_audio_detail">Aumentar y reducir la velocidad del audio sin cambiar el tono (requiere un dispositivo rápido)</string>
+    <string name="enable_verbose_mode">Nivel de detalle</string>
+    <string name="enable_verbose_mode_detail">Incrementar el nivel de detalle (logcat)</string>
 </resources>
