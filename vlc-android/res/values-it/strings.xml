@@ -29,6 +29,8 @@
     <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare questo file?</string>
+    <string name="ringtone_set">\'%1$s\' è stato impostato come suoneria.</string>
+    <string name="ringtone_error">Si è verificato un errore durante l\'impostazione della suoneria.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrare ancora questo messaggio.</string>
     <string name="beta_warning">Questa è una versione beta.\n\nNON è una versione STABILE!\n\nNON utilizzarla se non sai cosa stai facendo.\n\nPotrebbe uccidere il tuo gatto, distruggere la tua casa e dare il via all\'apocalisse maya.\nUsala a tuo rischio e pericolo.\n\nDivertiti! :)</string>
@@ -112,6 +114,10 @@
     <string name="track_samplerate_info">Campionamento: %1$d Hz\n</string>
     <string name="track_resolution_info">Risoluzione: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
+    <string name="tools">Strumenti</string>
+    <string name="playback_speed">Velocità di riproduzione</string>
+    <string name="sleep_title">Sospendi</string>
+    <string name="sleep_cancel">Annulla sospensione</string>
     <string name="open">Apri</string>
     <string name="open_mrl">Apri MRL</string>
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
@@ -119,7 +125,6 @@
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.\n\nIl messaggio di errore è (da citare in caso di debug):\n</string>
     <string name="error_problem">Spiacenti, VLC per Android ha riscontrato un problema in fase di caricamento ed è stato chiuso.</string>
     <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
-    <string name="playback_speed">Velocità di riproduzione</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
@@ -133,6 +138,9 @@
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="main_prefs_category">Principale</string>
+    <string name="add_custom_path">Aggiungi percorso personalizzato</string>
+    <string name="add_custom_path_description">Inserisci cartella personalizzata da analizzare:</string>
+    <string name="remove_custom_path">Rimuovi percorso personalizzato</string>
     <string name="privacy_prefs_category">Riservatezza</string>
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="advanced_prefs_category">Avanzate</string>
@@ -144,6 +152,8 @@
     <string name="set_locale">Imposta locale</string>
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
+    <string name="enable_yv12_format">Forza formato YV12</string>
+    <string name="enable_yv12_format_detail">NON ATTIVARE!!! Potrebbe non funzionare su tutti i dispositivi. Solo 2.3 e successivi.</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
@@ -157,14 +167,14 @@
     <string name="screen_orientation_landscape">Orizzontale</string>
     <string name="screen_orientation_reverse_portrait">Vericale inverso</string>
     <string name="screen_orientation_reverse_landscape">Orizzontale inverso</string>
-    <string name="enable_verbose_mode">Verboso</string>
-    <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
+    <string name="subtitles_prefs_category">Sottotitoli</string>
+    <string name="subtitles_text_encoding">Codifica del testo</string>
     <string name="aout">Uscita audio</string>
     <string name="aout_audiotrack">AudioTrack (nativa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_detail">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
-    <string name="subtitles_prefs_category">Sottotitoli</string>
-    <string name="subtitles_text_encoding">Codifica del testo</string>
+    <string name="enable_verbose_mode">Verboso</string>
+    <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
 </resources>
