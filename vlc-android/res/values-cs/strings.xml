@@ -32,7 +32,7 @@
     <string name="confirm_delete">Odstranit soubor \'%1$s\'?</string>
     <string name="pause">Pozastavit</string>
     <string name="not_show_again">Tuto zprávu již nezobrazovat.</string>
-    <string name="beta_warning">Toto vydání je beta verze.\n\nNení v ŽÁDNÉM PŘÍPADĚ STABILNÍ!\n\nNepoužívejte jej pokud si nejste jisti co děláte.\n\nMůže zabít Vaše koťátka, zapálit dům a zahájit Mayskou apokalypsu.\n\nHezky se bavte! :-)</string>
+    <string name="beta_warning">Toto vydání je beta verze.\n\nNení v ŽÁDNÉM PŘÍPADĚ STABILNÍ!\n\nNepoužívejte jej pokud si nejste jisti co děláte.\n\nMůže zabít vaše koťátka a zničit váš dům.\n\nHezky se bavte! :-)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Neznámý umělec</string>
     <string name="unknown_album">Neznámé album</string>
@@ -118,6 +118,10 @@
     <string name="track_samplerate_info">Vzorkovací frekvence: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozlišení: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Vzorkovací frekvence: %1$.3f\n</string>
+    <string name="tools">Nástroje</string>
+    <string name="playback_speed">Rychlost přehrávání</string>
+    <string name="sleep_title">Uspání</string>
+    <string name="sleep_cancel">Zrušit uspání</string>
     <string name="open">Otevřít</string>
     <string name="open_mrl">Otevřít MRL</string>
     <string name="open_mrl_dialog_title">Otevřít síťový proud</string>
@@ -125,7 +129,6 @@
     <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.</string>
     <string name="error_problem">Lituji, ale VLC pro Android mělo problém s načtením a muselo se ukončit.</string>
     <string name="error_message_is">Chybová zpráva je (prosím oznamte při ladění):\n</string>
-    <string name="playback_speed">Rychlost přehrávání</string>
 
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
@@ -139,6 +142,9 @@
     <!-- Preferences -->
     <string name="preferences">Nastavení</string>
     <string name="main_prefs_category">Obecné</string>
+    <string name="add_custom_path">Přidat vlastní cestu</string>
+    <string name="add_custom_path_description">Zadejte dodatečnou cestu k adresáři na prohledání:</string>
+    <string name="remove_custom_path">Odstranit vlastní cestu</string>
     <string name="privacy_prefs_category">Soukromí</string>
     <string name="clear_history">Vymazat historii hledání</string>
     <string name="advanced_prefs_category">Pokročilé</string>
@@ -150,6 +156,8 @@
     <string name="set_locale">Nastavit jazyk</string>
     <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
+    <string name="enable_yv12_format">Vynutit formát YV12</string>
+    <string name="enable_yv12_format_detail">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
     <string name="detect_headset">Detekovat sluchátka</string>
     <string name="detect_headset_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
     <string name="steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
@@ -163,14 +171,14 @@
     <string name="screen_orientation_landscape">Na šířku</string>
     <string name="screen_orientation_reverse_portrait">Obráceně na výšku</string>
     <string name="screen_orientation_reverse_landscape">Obráceně na šířku</string>
-    <string name="enable_verbose_mode">Podrobné</string>
-    <string name="enable_verbose_mode_detail">Zvýší podrobnosti v záznamu (logcat)</string>
+    <string name="subtitles_prefs_category">Titulky</string>
+    <string name="subtitles_text_encoding">Kódování textu</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_audiotrack">AudioTrack (původní)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Povolit časové roztažení zvuku</string>
     <string name="enable_time_stretching_audio_detail">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení)</string>
-    <string name="subtitles_prefs_category">Titulky</string>
-    <string name="subtitles_text_encoding">Kódování textu</string>
+    <string name="enable_verbose_mode">Podrobné</string>
+    <string name="enable_verbose_mode_detail">Zvýší podrobnosti v záznamu (logcat)</string>
 </resources>
