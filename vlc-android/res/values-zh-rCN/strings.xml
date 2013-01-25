@@ -28,6 +28,8 @@
     <string name="set_song">设为铃声</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否删除文件“%1$s”?</string>
+    <string name="ringtone_set">“%1$s”已设为新铃声。</string>
+    <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
     <string name="not_show_again">不再显示此提示信息。</string>
     <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能毁掉您的房子，也可能是汪星来的杀手。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
@@ -106,6 +108,10 @@
     <string name="track_samplerate_info">采样率: %1$d Hz\n</string>
     <string name="track_resolution_info">分辨率: %1$dx%2$d\n</string>
     <string name="track_framerate_info">帧率: %1$.3f\n</string>
+    <string name="tools">工具</string>
+    <string name="playback_speed">回放速度</string>
+    <string name="sleep_title">睡眠计时器</string>
+    <string name="sleep_cancel">取消睡眠计时器</string>
     <string name="open">打开</string>
     <string name="open_mrl">打开 MRL</string>
     <string name="open_mrl_dialog_title">打开网络流</string>
@@ -113,7 +119,6 @@
     <string name="error_not_compatible">抱歉，该版本的 VLC for Android™ 尚不支持您的设备。</string>
     <string name="error_problem">抱歉，VLC for Android 加载失败，需要关闭。</string>
     <string name="error_message_is">错误消息为 (协助排查问题时请提供该内容):\n</string>
-    <string name="playback_speed">回放速度</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -127,6 +132,9 @@
     <!-- Preferences -->
     <string name="preferences">偏好设置</string>
     <string name="main_prefs_category">常规</string>
+    <string name="add_custom_path">添加自定义路径</string>
+    <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
+    <string name="remove_custom_path">移除自定义路径</string>
     <string name="privacy_prefs_category">隐私</string>
     <string name="clear_history">清除搜索历史记录</string>
     <string name="advanced_prefs_category">高级</string>
@@ -138,6 +146,8 @@
     <string name="set_locale">设置区域变量</string>
     <string name="set_locale_detail">留空可重置</string>
     <string name="set_locale_popup">请退出并重置 VLC 使更改生效。</string>
+    <string name="enable_yv12_format">强制使用 YV12 格式</string>
+    <string name="enable_yv12_format_detail">*请不要勾选*!!! 可能并不兼容所有设备。仅 2.3 及更高版本可用。</string>
     <string name="detect_headset">启用耳机侦测</string>
     <string name="detect_headset_detail">耳机移除时暂停；插入时继续播放</string>
     <string name="steal_remote_control">独占耳机远程控制</string>
@@ -151,14 +161,14 @@
     <string name="screen_orientation_landscape">横向</string>
     <string name="screen_orientation_reverse_portrait">纵向翻转</string>
     <string name="screen_orientation_reverse_landscape">横向翻转</string>
-    <string name="enable_verbose_mode">详尽模式</string>
-    <string name="enable_verbose_mode_detail">增加详尽程度 (logcat)</string>
+    <string name="subtitles_prefs_category">字幕</string>
+    <string name="subtitles_text_encoding">文字编码</string>
     <string name="aout">音频输出</string>
     <string name="aout_audiotrack">AudioTrack 类 (原生)</string>
     <string name="aout_audiotrack_java">AudioTrack 类 (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
     <string name="enable_time_stretching_audio_detail">可加速或减慢音频播放而不改变音调 (需要较快设备支持)</string>
-    <string name="subtitles_prefs_category">字幕</string>
-    <string name="subtitles_text_encoding">文字编码</string>
+    <string name="enable_verbose_mode">详尽模式</string>
+    <string name="enable_verbose_mode_detail">增加详尽程度 (logcat)</string>
 </resources>
