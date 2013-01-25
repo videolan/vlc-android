@@ -32,7 +32,7 @@
     <string name="confirm_delete">Usunąć ten plik?</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Nie pokazuj tego komunikatu ponownie.</string>
-    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota, zniszczyć twój dom i rozpocząć apokalipsę Majów.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
+    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota, zniszczyć twój dom.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Nieznany wykonawca</string>
     <string name="unknown_album">Nieznany album</string>
@@ -118,6 +118,10 @@
     <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Liczba klatek: %1$.3f\n</string>
+    <string name="tools">Narzędzia</string>
+    <string name="playback_speed">Prędkość odtwarzania</string>
+    <string name="sleep_title">Wyłącznik czasowy</string>
+    <string name="sleep_cancel">Anuluj wyłącznik czasowy</string>
     <string name="open">Otwórz</string>
     <string name="open_mrl">Otwórz adres MRL</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
@@ -125,7 +129,6 @@
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
     <string name="error_problem">Niestety, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
     <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
-    <string name="playback_speed">Prędkość odtwarzania</string>
 
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
@@ -139,6 +142,9 @@
     <!-- Preferences -->
     <string name="preferences">Ustawienia</string>
     <string name="main_prefs_category">Główne</string>
+    <string name="add_custom_path">Dodaj własną ścieżkę</string>
+    <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
+    <string name="remove_custom_path">Usuń własną ścieżkę</string>
     <string name="privacy_prefs_category">Prywatność</string>
     <string name="clear_history">Wyczyść historię wyszukiwania</string>
     <string name="advanced_prefs_category">Zaawansowane</string>
@@ -150,6 +156,8 @@
     <string name="set_locale">Ustaw język</string>
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
     <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
+    <string name="enable_yv12_format">Wymuś format YV12</string>
+    <string name="enable_yv12_format_detail">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
     <string name="detect_headset">Wykrywanie słuchawek</string>
     <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
     <string name="steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
@@ -163,14 +171,14 @@
     <string name="screen_orientation_landscape">Pejzaż</string>
     <string name="screen_orientation_reverse_portrait">Odwrócony portret</string>
     <string name="screen_orientation_reverse_landscape">Odwrócony pejzaż</string>
-    <string name="enable_verbose_mode">Szczegółowość</string>
-    <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
+    <string name="subtitles_prefs_category">Napisy</string>
+    <string name="subtitles_text_encoding">Kodowanie tekstu</string>
     <string name="aout">Wyjście dźwiękowe</string>
     <string name="aout_audiotrack">AudioTrack (natywny)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_detail">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
-    <string name="subtitles_prefs_category">Napisy</string>
-    <string name="subtitles_text_encoding">Kodowanie tekstu</string>
+    <string name="enable_verbose_mode">Szczegółowość</string>
+    <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
 </resources>
