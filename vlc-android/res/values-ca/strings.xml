@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">D\'acord</string>
+    <string name="cancel">Cancel·la</string>
+    <string name="other">Altre</string>
+    <string name="filebrowser_title">Selecciona el mitjà que es reproduirà</string>
+    <string name="sortby">Orderna per…</string>
+    <string name="sortby_name">Nom</string>
+    <string name="sortby_length">Durada</string>
+    <string name="searchable_hint">Cerca…</string>
+    <string name="history">Historial</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">s\'ha trobat %d resultat</item>
+        <item quantity="other">s\'ha trobat %d resultats</item>
+    </plurals>
+
+    <string name="play">Reprodueix</string>
+    <string name="play_from_start">Reprodueix des de l\'inici</string>
+    <string name="play_as_audio">Reprodueix com a àudio</string>
+    <string name="play_as_video">Reprodueix com a vídeo</string>
+    <string name="append">Afegeix</string>
+    <string name="play_all">Reprodueix-ho tot</string>
+    <string name="append_all">Afegeix-ho tot</string>
+    <string name="last_playlist">Darrera llista de reproducció</string>
+    <string name="delete">Suprimeix</string>
+    <string name="set_song">Estableix com a so del telèfon</string>
+    <string name="info">Informació</string>
+    <string name="confirm_delete">Voleu suprimir el fitxer \'%1$s\'?</string>
+    <string name="pause">Pausa</string>
+    <string name="not_show_again">No mostris més aquest missatge.</string>
+    <string name="beta_warning">Aquesta és una versió beta.\n\nAquesta versió NO ÉS ESTABLE!\n\nSi no sabeu que esteu fent, NO la useu.\n\nMot matar el vostre gatet i destruir-vos la casa.\nUseu-la sota la vostra responsabilitat.\n\nDivertiu-vos! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Artista desconegut</string>
+    <string name="unknown_album">Àlbum desconegut</string>
+    <string name="unknown_genre">Gènere desconegut</string>
+    <string name="songs">Cançons</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 cançó</item>
+        <item quantity="other">%d cançons</item>
+    </plurals>
+
+    <string name="artists">Artistes</string>
+    <string name="albums">Àlbums</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 àlbum</item>
+        <item quantity="other">%d àlbums</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 subcarpeta</item>
+        <item quantity="other">%d subcarpetes</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 fitxer multimèdia</item>
+        <item quantity="other">%d fitxers multimèdia</item>
+    </plurals>
+
+    <string name="internal_memory">Memòria interna</string>
+    <string name="parent_folder">Amunt a la carpeta pare</string>
+    <string name="audio">Àudio</string>
+    <string name="video">Vídeo</string>
+    <string name="bookmarks">Preferits</string>
+    <string name="all_albums">Tots els àlbums</string>
+    <string name="genres">Gèneres</string>
+    <string name="playlists">Llistes de reproducció</string>
+    <string name="title">Títol</string>
+    <string name="artist">Artista</string>
+    <string name="album">Àlbum</string>
+    <string name="directory">Directori</string>
+    <string name="directories">Directoris</string>
+    <string name="loading">S\'està carregant</string>
+    <string name="please_wait">Espereu…</string>
+    <string name="nomedia">No s\'ha trobat cap fitxer multimèdia. Transferiu fitxers al vostre dispositiu o ajusteu les preferències.</string>
+    <string name="mediafiles">Fitxers multimèdia</string>
+    <string name="notavailable">no disponible</string>
+    <string name="nosubdirectory">No hi ha cap subdirectori.</string>
+    <string name="nohistory">Encara no teniu historial de reproducció</string>
+    <string name="validation">Esteu segur?</string>
+    <string name="cover_art">Art de la portada</string>
+    <string name="shuffle">Aleatori</string>
+    <string name="repeat">Repeteix cap/una/totes</string>
+    <string name="previous">Previ</string>
+    <string name="stop">Atura</string>
+    <string name="next">Endavant</string>
+    <string name="locked">Blocat</string>
+    <string name="unlocked">Desblocat</string>
+    <string name="surface_best_fit">Millor ajust</string>
+    <string name="surface_fit_horizontal">Ajusta horitzontalment</string>
+    <string name="surface_fit_vertical">Ajusta verticalment</string>
+    <string name="surface_fill">Emplena</string>
+    <string name="surface_original">Centre</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="refresh">Actualitza</string>
+    <string name="track_audio">Pista d\'àudio</string>
+    <string name="track_video">Pista de vídeo</string>
+    <string name="track_text">Pista de subtítols</string>
+    <string name="track_unknown">Pista desconeguda</string>
+    <string name="track_codec_info">Còdec: %1$s\n</string>
+    <string name="track_language_info">Llengua: %1$s\n</string>
+    <string name="volume">Volum</string>
+    <string name="brightness">Brillantor</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="other">%1$d canals\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Freqüència de mostreig: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolució: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Velocitat dels quadres: %1$.3f\n</string>
+    <string name="tools">Eines</string>
+    <string name="playback_speed">Velocitat de reproducció</string>
+    <string name="sleep_title">Temporitzador</string>
+    <string name="sleep_cancel">Cancel·la el temporitzador</string>
+    <string name="open">Obre</string>
+    <string name="open_mrl">Obre MRL</string>
+    <string name="open_mrl_dialog_title">Obre un flux de xarxa</string>
+    <string name="open_mrl_dialog_msg">Introduïu la xarxa MRL: p.e. http://, mms://, rtsp://</string>
+    <string name="error_not_compatible">El vostre dispositiu no és compatible amb aquesta versió del VLC per l\'Android™.</string>
+    <string name="error_problem">S\'ha produït un error en carregar el VLC i s\'ha tancat.</string>
+    <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):\n</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC per l\'Android™</string>
+    <string name="licence">Llicència</string>
+    <string name="revision">Revisió</string>
+    <string name="about">Quant a</string>
+    <string name="about_text">VLC per l\'Android™ és una versió portada del reproductor multimèdia VLC. La versió per l\'Android™ permet llegir la gran majoria de fitxers i fluxos de xarxa.</string>
+    <string name="compiled_by">Aquesta versió del VLC s\'ha compilat per:</string>
+    <string name="vlc_authors">Autors del VLC.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Preferències</string>
+    <string name="main_prefs_category">Principal</string>
+    <string name="add_custom_path">Afegeix un camí personalitzat</string>
+    <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
+    <string name="remove_custom_path">Elimina el camí personalitzat</string>
+    <string name="privacy_prefs_category">Privacitat</string>
+    <string name="clear_history">Neteja l\'historial de cerca</string>
+    <string name="advanced_prefs_category">Avançat</string>
+    <string name="enable_iomx">Habilita decodificació accelerada per maquinari</string>
+    <string name="advanced_debugging">Depuració avançada</string>
+    <string name="quit">Tanca l\'aplicació</string>
+    <string name="clear_media_db">Neteja la base de dades multimèdia</string>
+    <string name="media_db_cleared">S\'ha netejat la base de dades multimèdia</string>
+    <string name="set_locale">Estableix la configuració local</string>
+    <string name="set_locale_detail">Deixeu-ho en blanc per reiniciar-ho</string>
+    <string name="set_locale_popup">Tanqueu i reinicieu el VLC per a que els canvis tinguin efecte.</string>
+    <string name="enable_yv12_format">Força el format YV12</string>
+    <string name="enable_yv12_format_detail">NO HO ACTIVEU! No funcionarà amb tots els dispositius. Només amb versions d\'Android 2.3 o superiors.</string>
+    <string name="detect_headset">Detecta els auriculars</string>
+    <string name="detect_headset_detail">Pausa quan es treguin els auriculars; torna a reproduir quan es tornin a connectar.</string>
+    <string name="steal_remote_control">Control remot exclusiu dels auriculars</string>
+    <string name="steal_remote_control_detail">Evita els conflictes prenent el control remot d\'altres aplicacions. Això impedeix marcar quan es fa doble clic als telèfons HTC.</string>
+    <string name="enable_wheel_bar">Habilita la barra de roda</string>
+    <string name="enable_gesture_brightness">Habilita els gestos de brillantor</string>
+    <string name="screen_orientation">Orientació de la pantalla</string>
+    <string name="screen_orientation_sensor">Automàtic (sensor)</string>
+    <string name="screen_orientation_start_lock">Blocat a l\'inici</string>
+    <string name="screen_orientation_portrait">Vertical</string>
+    <string name="screen_orientation_landscape">Horitzontal</string>
+    <string name="screen_orientation_reverse_portrait">Vertical invers</string>
+    <string name="screen_orientation_reverse_landscape">Horitzontal invers</string>
+    <string name="subtitles_prefs_category">Subtítols</string>
+    <string name="subtitles_text_encoding">Codificació del text</string>
+    <string name="aout">Sortida d\'àudio</string>
+    <string name="aout_audiotrack">AudioTrack (natiu)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Habilita l\'àudio de temps d\'estirament</string>
+    <string name="enable_time_stretching_audio_detail">Incrementa o redueix la velocitat de l\'àudio sense canviar el to (requereix un dispositiu més ràpid)</string>
+    <string name="enable_verbose_mode">Detallat</string>
+    <string name="enable_verbose_mode_detail">Incrementa la verbositat (logcat)</string>
+</resources>
