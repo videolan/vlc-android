@@ -49,6 +49,9 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">%d 子目錄</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d 個媒體檔案</item>
+    </plurals>
 
     <string name="internal_memory">內部記憶體</string>
     <string name="parent_folder">回到上一層目錄</string>
@@ -101,6 +104,10 @@
     <string name="track_samplerate_info">採樣率: %1$d Hz\n</string>
     <string name="track_resolution_info">解析度: %1$dx%2$d\n</string>
     <string name="track_framerate_info">框率: %1$.3f\n</string>
+    <string name="tools">工具</string>
+    <string name="playback_speed">播放速度</string>
+    <string name="sleep_title">睡眠計時器</string>
+    <string name="sleep_cancel">取消睡眠計時器</string>
     <string name="open">開啟</string>
     <string name="open_mrl">開啟MRL</string>
     <string name="open_mrl_dialog_title">開啟網路串流</string>
@@ -108,7 +115,6 @@
     <string name="error_not_compatible">抱歉，您的裝置目前尚未被此版本的VLC for Android™支援。</string>
     <string name="error_problem">抱歉，VLC for Android載入時發生問題，必須關閉。</string>
     <string name="error_message_is">錯誤訊息為(請在除錯時陳述):\n</string>
-    <string name="playback_speed">播放速度</string>
 
     <!-- About -->
     <string name="licence">授權</string>
@@ -119,6 +125,9 @@
     <!-- Preferences -->
     <string name="preferences">偏好設定</string>
     <string name="main_prefs_category">主要</string>
+    <string name="add_custom_path">增加自訂路徑</string>
+    <string name="add_custom_path_description">輸入額外的自訂路徑以掃瞄:</string>
+    <string name="remove_custom_path">移除自訂路徑</string>
     <string name="privacy_prefs_category">隱私</string>
     <string name="clear_history">清除搜尋歷史</string>
     <string name="advanced_prefs_category">進階</string>
@@ -130,22 +139,26 @@
     <string name="set_locale">設定地區</string>
     <string name="set_locale_detail">保持空白以重置</string>
     <string name="set_locale_popup">離開並重置VLC以套用變更</string>
+    <string name="enable_yv12_format">強制使用 YV12 格式</string>
+    <string name="enable_yv12_format_detail">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
     <string name="detect_headset">偵測耳機</string>
     <string name="detect_headset_detail">耳機拔除時暫停、插入時繼續播放</string>
     <string name="steal_remote_control">專耳機遙控</string>
     <string name="enable_wheel_bar">啟用飛輪列</string>
     <string name="enable_gesture_brightness">啟用亮度手勢</string>
     <string name="screen_orientation">畫面方向</string>
+    <string name="screen_orientation_sensor">自動化(感應)</string>
+    <string name="screen_orientation_start_lock">開始時鎖定</string>
     <string name="screen_orientation_portrait">直式</string>
     <string name="screen_orientation_landscape">橫式</string>
     <string name="screen_orientation_reverse_portrait">縱向反轉</string>
     <string name="screen_orientation_reverse_landscape">橫向反轉</string>
+    <string name="subtitles_prefs_category">字幕</string>
+    <string name="subtitles_text_encoding">文字編碼</string>
     <string name="aout">音訊輸出</string>
     <string name="aout_audiotrack">AudioTrack (原生)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">啟用時間伸展音訊</string>
     <string name="enable_time_stretching_audio_detail">加速或減速音訊而不改變高音(需要較快的硬體)</string>
-    <string name="subtitles_prefs_category">字幕</string>
-    <string name="subtitles_text_encoding">文字編碼</string>
 </resources>
