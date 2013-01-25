@@ -30,7 +30,7 @@
     <string name="confirm_delete">Bu dosya silinsin mi?</string>
     <string name="pause">Duraklat</string>
     <string name="not_show_again">Bu iletiyi bir daha gösterme</string>
-    <string name="beta_warning">Kullandığınız bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi öldürebilir, evinizi yıkabilir ve Maya kıyametini başlatabilir.\nDoğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
+    <string name="beta_warning">Kullandığınız bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi evinizin öldürebilir ve yok edebilir.\nDoğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Bilinmeyen Sanatçı</string>
     <string name="unknown_album">Bilinmeyen Albüm</string>
@@ -106,6 +106,10 @@
     <string name="track_samplerate_info">Örnekleme hızı: %1$d Hz\n</string>
     <string name="track_resolution_info">Çözünürlük: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kare hızı: %1$.3f\n</string>
+    <string name="tools">Araçlar</string>
+    <string name="playback_speed">Oynatma hızı</string>
+    <string name="sleep_title">Uyku zamanlayıcı</string>
+    <string name="sleep_cancel">Uyku zamanlayıcıyı iptal et</string>
     <string name="open">Aç</string>
     <string name="open_mrl">MRL Aç</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
@@ -113,7 +117,6 @@
     <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
     <string name="error_problem">Android için VLC yüklenirken bir sorun çıktı ve kapatılması gerekti.</string>
     <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):</string>
-    <string name="playback_speed">Oynatma hızı</string>
 
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
@@ -127,6 +130,9 @@
     <!-- Preferences -->
     <string name="preferences">Ayarlar</string>
     <string name="main_prefs_category">Ana</string>
+    <string name="add_custom_path">Özel klasör ekle</string>
+    <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
+    <string name="remove_custom_path">Özel klasörü sil</string>
     <string name="privacy_prefs_category">Gizlilik</string>
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="advanced_prefs_category">Gelişmiş</string>
@@ -138,6 +144,8 @@
     <string name="set_locale">Yerel ayar</string>
     <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
     <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
+    <string name="enable_yv12_format">YV12 biçimini dayat</string>
+    <string name="enable_yv12_format_detail">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
     <string name="detect_headset">Kulaklığı algıla</string>
     <string name="detect_headset_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
     <string name="steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
@@ -151,14 +159,14 @@
     <string name="screen_orientation_landscape">Yatay</string>
     <string name="screen_orientation_reverse_portrait">Ters dikey</string>
     <string name="screen_orientation_reverse_landscape">Ters yatay</string>
-    <string name="enable_verbose_mode">Ayrıntıları göster</string>
-    <string name="enable_verbose_mode_detail">Daha çok ayrıntı (logcat)</string>
+    <string name="subtitles_prefs_category">Altyazılar</string>
+    <string name="subtitles_text_encoding">Metin kodlaması</string>
     <string name="aout">Ses çıkışı</string>
     <string name="aout_audiotrack">AudioTrack (doğal)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_detail">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
-    <string name="subtitles_prefs_category">Altyazılar</string>
-    <string name="subtitles_text_encoding">Metin kodlaması</string>
+    <string name="enable_verbose_mode">Ayrıntıları göster</string>
+    <string name="enable_verbose_mode_detail">Daha çok ayrıntı (logcat)</string>
 </resources>
