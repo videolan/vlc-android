@@ -31,8 +31,8 @@
     <string name="confirm_delete">\'%1$s\' کو حذف کرديں؟</string>
     <string name="pause">روکيں</string>
     <string name="not_show_again">اس پیغام کو دوبارہ نہ دکھائیں ـ</string>
-    <string name="beta_warning">یہ ایک بیٹا ورژن ہے ⏎ ⏎ يہ ورژن مستحکم نہیں ہے ⏎ ⏎ جب تک آپ جانتے نہيں کہ آپ کيا کرنا چاہتے ہيں، آپ اسے استعمال نہ کريں ـ ⏎ ⏎ یہ شايد آپ کی بلی کے بچے کو قتل، آپ کے گھر کو تباہ يا ماين قوم والى قيامت لا سکتا ہے. ⏎ اس کے استعمال کى ذمہ داری آپ کى اپنی ہے ⏎ ⏎ مزہ لیں :) ـ</string>
-    <string name="info_title">بيٹا VLC</string>
+    <string name="beta_warning">یہ ایک \'بیٹا\' ورژن ہے ⏎ ⏎ يہ ورژن مستحکم نہیں ہے ⏎ ⏎ جب تک آپ جانتے نہيں کہ آپ کيا کرنا چاہتے ہيں، آپ اسے استعمال نہ کريں ـ ⏎ ⏎ یہ شايد آپ کی بلی کے بچے کو قتل، آپ کے گھر کو تباہ يا \'ماين\' قوم والى قيامت لا سکتا ہے. ⏎ اس کے استعمال کى ذمہ داری آپ کى اپنی ہے ⏎ ⏎ مزہ لیں :) ـ</string>
+    <string name="info_title">\'بيٹا\' وى ـ ايل ـ سى ـ</string>
     <string name="unknown_artist">نامعلوم فنکار</string>
     <string name="unknown_album">نامعلوم اابم</string>
     <string name="unknown_genre">نامعلوم نوع</string>
@@ -55,7 +55,7 @@
         <item quantity="other">%d ذیلی فولڈرز</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 ميذيا فائيل</item>
+        <item quantity="one">1 ميڈيا فائيل</item>
         <item quantity="other">%d ميڈيا فائيليں</item>
     </plurals>
 
@@ -112,44 +112,52 @@
     <string name="track_samplerate_info">سامپل ريٹ: %1$d Hz⏎\n\n</string>
     <string name="track_resolution_info">ريزولوشن: %1$dx%2$d⏎\n</string>
     <string name="track_framerate_info">فريم ريٹ: %1$.3f⏎\n</string>
+    <string name="tools">اوزار</string>
+    <string name="playback_speed">پلے بیک کى رفتار</string>
+    <string name="sleep_title">سليپ</string>
+    <string name="sleep_cancel">سليپ منسوخ کر ديں</string>
     <string name="open">کھوليے</string>
     <string name="open_mrl">MRL کھوليے</string>
     <string name="open_mrl_dialog_title">نيٹ ورک سٹريم کھوليے</string>
-    <string name="open_mrl_dialog_msg">نیٹ ورک MRL درج کریں: مثال کے طور پر http://، MMS :/ / یا rtsp :/ /</string>
-    <string name="error_not_compatible">معاف کیجئے گا، VLC for Android کا يہ ورژن فى الحال آپ کے آلہ کو سپورٹ نہيں کرتا ـ</string>
-    <string name="error_problem">معاف کیجئے گا، اينڈرائيڈ کيليے VLC کو لوڈ کرتے ہوئے ايک مسئلہ پيش آگيا تھا جس کى وجہ سے اسے بند کرنا پڑا ہے ـ</string>
+    <string name="open_mrl_dialog_msg">نیٹ ورک ايم ـ آر ـ آيل ـ درج کریں: مثال کے طور پر http://, mms://, rtsp://, و‍غيرہ</string>
+    <string name="error_not_compatible">معاف کیجئے گا، اينذرائڈ کے ليے وى ـ ايل ـ سى ـ کا يہ ورژن فى الحال آپ کے آلہ پر کام نہيں کرتا ـ</string>
+    <string name="error_problem">معاف کیجئے گا، اينڈرائيڈ کيليے وى ـ ايل ـ سى ـ کو لوڈ کرتے ہوئے ايک مسئلہ پيش آگيا تھا جس کى وجہ سے اسے بند کرنا پڑا ہے ـ</string>
     <string name="error_message_is">خرابی کا پیغام ہے (برائے مہربانى ڈى بگنگ کرتے ہوئے اس کا حوالہ ديں):⏎\n</string>
-    <string name="playback_speed">پلے بیک کى رفتار</string>
 
     <!-- About -->
-    <string name="app_name_full">™Android کے ليے VLC</string>
+    <string name="app_name_full">اينذرائڈ کے ليے وى ـ ايل ـ سى ـ</string>
     <string name="licence">لائيسنس</string>
     <string name="revision">نظرثانی</string>
     <string name="about">کے بارے میں</string>
-    <string name="about_text">™VLC for Android میڈیا پلیئر VLC میڈیا پلیئر پر مبنى ہے، جو کہ ايک مقبول اوپن سورس میڈیا پلیئر ہے. ™Android والا ورژن بہت سى فائلوں اور نیٹ ورک اسٹریمز کو پڑھ سکتا ہے.</string>
-    <string name="compiled_by">VLC کا يہ ورژن بنانے والے کا نام: </string>
-    <string name="vlc_authors">VLC کے مصنفین</string>
+    <string name="about_text">اينذرائڈ کے ليے وى ـ ايل ـ سى ـ میڈیا پلیئر وى ـ ايل ـ سى ـ میڈیا پلیئر پر مبنى ہے، جو کہ ايک مقبول اوپن سورس میڈیا پلیئر ہے. اينذرائڈ والا ورژن بہت سى فائلوں اور نیٹ ورک اسٹریمز کو پڑھ سکتا ہے.</string>
+    <string name="compiled_by">وى ـ ايل ـ سى ـ کا يہ ورژن بنانے والے کا نام: </string>
+    <string name="vlc_authors">وى ـ ايل ـ سى ـ کے مصنفین</string>
 
     <!-- Preferences -->
     <string name="preferences">ترجيحات</string>
     <string name="main_prefs_category">اہم</string>
+    <string name="add_custom_path">اپنی مرضی کے مطابق (کسٹم) جگہ (پاتھ) ڈاليں</string>
+    <string name="add_custom_path_description">اپنی مرضی کے مطابق (کسٹم) مذيد ڈائرکٹرى سکين کرنے کيليے ڈاليں:</string>
+    <string name="remove_custom_path">کسٹم جگہ (پاتھ) نکال ديں</string>
     <string name="privacy_prefs_category">نجى معلومات</string>
     <string name="clear_history">تلاش کی تاريخ کو خارج کريں</string>
     <string name="advanced_prefs_category">اعلى درجے کى</string>
-    <string name="enable_iomx">ہارڈوئير کے ذريعے تيز ضابطہ ربائی کو فعال کريں</string>
-    <string name="advanced_debugging">اعلى درجے کى ڈي بگنگ</string>
+    <string name="enable_iomx">ہارڈوئير ايکسيلريشن کو فعال کريں</string>
+    <string name="advanced_debugging">اعلى درجے کى ڈى بگنگ</string>
     <string name="quit">پروگرام کو بند کريں</string>
     <string name="clear_media_db">میڈیا ڈاٹا بیس کو خالى کريں</string>
     <string name="media_db_cleared">ميڈيا ڈاٹابيس خالى کر ديا گيا ہے!</string>
-    <string name="set_locale">مقامى ماحول مقرر کريں</string>
+    <string name="set_locale">مقامى ماحول (لوکيل) مقرر کريں</string>
     <string name="set_locale_detail">ری سیٹ کرنے کيليے خالى چھوڑ ديں</string>
-    <string name="set_locale_popup">تبدیلی کو اثر لینے کے ليے VLC کو رى سيٹ اور بند کر ديں ـ </string>
+    <string name="set_locale_popup">تبدیلی کو اثر لینے کے ليے وى ـ ايل ـ سى ـ کو رى سيٹ اور بند کر ديں ـ </string>
+    <string name="enable_yv12_format">وا‎ۓ ـ وى ـ ١٢ فارميٹ استعمال کريں</string>
+    <string name="enable_yv12_format_detail">ايکٹيويٹ نہ کريں!!! تمام آلات پر شايد نہ چلےـ صرف ٢.٣ اور نۓ ورژن کيليے ہےـ</string>
     <string name="detect_headset">ہيڈ سيٹ تلاش کريں</string>
-    <string name="detect_headset_detail">ہيڈ سيٹ ہٹانے پر رکا جائے؛ ہيڈ سيٹ لگانے پر چلا جائے</string>
+    <string name="detect_headset_detail">ہيڈ سيٹ نکالنے پر رکا جائے؛ ہيڈ سيٹ لگانے پر چلا جائے</string>
     <string name="steal_remote_control">خصوصی ہيڈ سيٹ ریموٹ کنٹرول</string>
-    <string name="steal_remote_control_detail">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ HTC فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
+    <string name="steal_remote_control_detail">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ ايچ ـ ٹى - سى - فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
     <string name="enable_wheel_bar">پہيے والى بار کو فعال بنايا جائے</string>
-    <string name="enable_gesture_brightness">چمک کے اشارہے کو فعال کريں</string>
+    <string name="enable_gesture_brightness">چمک کے اشارے کو فعال کريں</string>
     <string name="screen_orientation">سکرين کا رجحان</string>
     <string name="screen_orientation_sensor">خود کار طریقے سے (سینسر)</string>
     <string name="screen_orientation_start_lock">آ‏غاذ سے لاک</string>
@@ -157,14 +165,14 @@
     <string name="screen_orientation_landscape">لينڈ سکيپ</string>
     <string name="screen_orientation_reverse_portrait">الٹى پورٹريٹ</string>
     <string name="screen_orientation_reverse_landscape">الٹا لينڈ سکيپ</string>
-    <string name="enable_verbose_mode">وافر مقدار ميں معلومات</string>
-    <string name="enable_verbose_mode_detail">(logcat) کى معلومات کى مقدار ميں اضافہ کريں</string>
+    <string name="subtitles_prefs_category">ترجمے والى ذیلی سرخیاں</string>
+    <string name="subtitles_text_encoding">متن کى ضابطہ کاری (اينکوڈنگ)</string>
     <string name="aout">آڈیو آؤٹ پٹ</string>
     <string name="aout_audiotrack">AudioTrack (مقامى)</string>
     <string name="aout_audiotrack_java">AudioTrack (جاوا)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">وقت کھىنچنے والى آڈيو کو فعال بنايے</string>
+    <string name="enable_time_stretching_audio">\'ٹائم سٹرچنگ\' آڈيو کو فعال بنايے</string>
     <string name="enable_time_stretching_audio_detail">آڈيو کى رفتار کو پچ تبدیل کيے بغیر تيز اور آہستہ کريں ( اس کيليے ایک تيز آلہ چاہيے)</string>
-    <string name="subtitles_prefs_category">ترجمے والى ذیلی سرخیاں</string>
-    <string name="subtitles_text_encoding">متن کى ضابطہ کاری</string>
+    <string name="enable_verbose_mode">وافر مقدار ميں معلومات</string>
+    <string name="enable_verbose_mode_detail">(logcat) کى معلومات کى مقدار ميں اضافہ کريں</string>
 </resources>
