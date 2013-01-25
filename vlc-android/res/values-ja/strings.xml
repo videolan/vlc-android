@@ -106,6 +106,10 @@
     <string name="track_samplerate_info">サンプリングレート: %1$d Hz\n</string>
     <string name="track_resolution_info">解像度: %1$dx%2$d\n</string>
     <string name="track_framerate_info">フレームレート: %1$.3f\n</string>
+    <string name="tools">ツール</string>
+    <string name="playback_speed">再生速度</string>
+    <string name="sleep_title">スリープタイマー</string>
+    <string name="sleep_cancel">スリープタイマーの取消</string>
     <string name="open">開く</string>
     <string name="open_mrl">MRLを開く</string>
     <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
@@ -113,7 +117,6 @@
     <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。\n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
     <string name="error_problem">VLC for Androidはローディングで問題が発生したため、クローズします。</string>
     <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):\n</string>
-    <string name="playback_speed">再生速度</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -127,6 +130,9 @@
     <!-- Preferences -->
     <string name="preferences">設定</string>
     <string name="main_prefs_category">メイン</string>
+    <string name="add_custom_path">カスタムパスの追加</string>
+    <string name="add_custom_path_description">スキャンするカスタムディレクトリの追加:</string>
+    <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="privacy_prefs_category">プライバシー</string>
     <string name="clear_history">検索履歴をクリア</string>
     <string name="advanced_prefs_category">拡張設定</string>
@@ -138,6 +144,8 @@
     <string name="set_locale">ロケールの設定</string>
     <string name="set_locale_detail">ブランクでリセット</string>
     <string name="set_locale_popup">変更を反映するためにVLCを終了・リセットします。</string>
+    <string name="enable_yv12_format">YV12フォーマットを強制</string>
+    <string name="enable_yv12_format_detail">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
     <string name="detect_headset">ヘッドセットの検出</string>
     <string name="detect_headset_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
     <string name="steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
@@ -151,14 +159,14 @@
     <string name="screen_orientation_landscape">ランドスケープ</string>
     <string name="screen_orientation_reverse_portrait">反転ポートレート</string>
     <string name="screen_orientation_reverse_landscape">反転ランドスケープ</string>
-    <string name="enable_verbose_mode">出力レベル</string>
-    <string name="enable_verbose_mode_detail">出力レベルを増加 (logcat)</string>
+    <string name="subtitles_prefs_category">タイトル</string>
+    <string name="subtitles_text_encoding">テキストエンコーディング</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_audiotrack">オーディオトラック (ネイティブ)</string>
     <string name="aout_audiotrack_java">オーディオトラック (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
     <string name="enable_time_stretching_audio_detail">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
-    <string name="subtitles_prefs_category">タイトル</string>
-    <string name="subtitles_text_encoding">テキストエンコーディング</string>
+    <string name="enable_verbose_mode">出力レベル</string>
+    <string name="enable_verbose_mode_detail">出力レベルを増加 (logcat)</string>
 </resources>
