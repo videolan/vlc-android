@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!-- Main VLC Interface -->
@@ -17,16 +17,19 @@
     </plurals>
 
     <string name="play">ចាក់</string>
-    <string name="play_from_start">Play from start</string>
+    <string name="play_from_start">ចាក់​ពី​ដើម</string>
     <string name="play_as_audio">ចាក់​ជា​អូឌីយ៉ូ</string>
     <string name="play_as_video">ចាក់​ជា​វីដេអូ</string>
     <string name="append">បន្ថែម​ទៅ​​​ចុង</string>
     <string name="play_all">ចាក់​ទាំងអស់</string>
     <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
+    <string name="last_playlist">បញ្ជី​ចាក់​ចុង​ក្រោយ</string>
     <string name="delete">លុប</string>
     <string name="set_song">កំណត់​ជា​សំឡេង​រោទិ៍</string>
     <string name="info">ព័ត៌មាន</string>
     <string name="confirm_delete">លុប​ឯកសារ​នេះ ?</string>
+    <string name="ringtone_set">\'%1$s\' ត្រូវ​បាន​កំណត់​ជា​សំឡេង​រោទ៍។</string>
+    <string name="ringtone_error">កំហុស​មួយ​បានកើត​ឡើង ខណៈ​ដែល​កំណត់​សំឡេង​រោទ៍។</string>
     <string name="pause">ផ្អាក</string>
     <string name="not_show_again">កុំ​បង្ហាញ​សារ​នេះ​ម្ដង​ទៀត ។</string>
     <string name="beta_warning">នេះ​ជា​កំណែ​បែតា ។\n\nកំណែ​នេះ​មិន​​​ឋិតថេរ​ទេ !\n\nកុំ​ប្រើ​វា​ លុះត្រា​តែ​អ្នក​ដឹង​នូវ​អ្វី​ដែល​អ្នកកំពុង​ធ្វើ ។\n\nវា​អាច​បំផ្លាញ​អ្វីៗ​ដែល​អ្នក​មាន ។\nប្រើ​វា​ប្រឈម​នឹង​គ្រោះ​ថ្នាក់ ។\n\nសូម​រីករាយ ! :)</string>
@@ -49,7 +52,11 @@
     <plurals name="subfolders_quantity">
         <item quantity="other">ថត​រង %d</item>
     </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">ឯកសារ​មេឌៀ %d</item>
+    </plurals>
 
+    <string name="internal_memory">អង្គ​ចងចាំ​ខាង​ក្នុង</string>
     <string name="parent_folder">ទៅ​ថត​មេ</string>
     <string name="audio">អូឌីយ៉ូ</string>
     <string name="video">វីដេអូ</string>
@@ -70,14 +77,12 @@
     <string name="nosubdirectory">គ្មាន​ថត​រង ។</string>
     <string name="nohistory">អ្នក​មិនមាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
     <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ ?</string>
-
     <string name="cover_art">រូប​គម្រប​មុខ</string>
     <string name="shuffle">ច្របល់</string>
     <string name="repeat">មិន​ធ្វើម្ដង​ទៀត/តែ​មួយ/ទាំងអស់</string>
     <string name="previous">មុន</string>
     <string name="stop">បញ្ឈប់</string>
     <string name="next">បន្ទាប់</string>
-
     <string name="locked">បាន​ចាក់សោ</string>
     <string name="unlocked">បាន​ដោះសោ</string>
     <string name="surface_best_fit">សម​បំផុត</string>
@@ -103,6 +108,10 @@
     <string name="track_samplerate_info">អត្រា​គំរូ ៖ %1$d Hz\n</string>
     <string name="track_resolution_info">គុណភាព​បង្ហាញ  ៖ %1$dx%2$d\n</string>
     <string name="track_framerate_info">អត្រា​ស៊ុម ៖ %1$.3f\n</string>
+    <string name="tools">ឧបករណ៍</string>
+    <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
+    <string name="sleep_title">ដេក</string>
+    <string name="sleep_cancel">បោះបង់​ការ​ដេក</string>
     <string name="open">បើក</string>
     <string name="open_mrl">បើក MRL</string>
     <string name="open_mrl_dialog_title">បើក​ស្ទ្រីម​បណ្ដាញ</string>
@@ -110,7 +119,6 @@
     <string name="error_not_compatible">សូម​ទោស ប៉ុន្តែ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បានគាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ ។\n\nសារ​កំហុស​គឺ (សូ​ម​បញ្ជាក់​វា ​នៅ​ពេល​កែ) ៖\n</string>
     <string name="error_problem">សូម​ទោស VLC សម្រាប់ Android មាន​បញ្ហា​ក្នុង​កា​រ​ផ្ទុក និង​ពិបាក​បិទ​ណាស់ ។</string>
     <string name="error_message_is">សារ​កំហុស​គឺ (សូម​រៀបរាប់​បញ្ហា​នេះ​នៅ​ពេល​កែ​កំហុស) ៖⏎</string>
-    <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
 
     <!-- About -->
     <string name="app_name_full">VLC សម្រាប់ Android™</string>
@@ -124,6 +132,9 @@
     <!-- Preferences -->
     <string name="preferences">ចំណូល​ចិត្ត</string>
     <string name="main_prefs_category">ចម្បង</string>
+    <string name="add_custom_path">បន្ថែម​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>
+    <string name="add_custom_path_description">បញ្ចូល​ថត​ផ្ទាល់​ខ្លួន​​បន្ថែម​ដើម្បី​វិភាគ​រក៖</string>
+    <string name="remove_custom_path">លុប​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>
     <string name="privacy_prefs_category">ឯកជន</string>
     <string name="clear_history">សម្អាត​ប្រវត្តិ​ស្វែងរក</string>
     <string name="advanced_prefs_category">កម្រិត​ខ្ពស់</string>
@@ -135,25 +146,29 @@
     <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
+    <string name="enable_yv12_format">បង្ខំ​ទ្រង់ទ្រាយ YV12</string>
+    <string name="enable_yv12_format_detail">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
     <string name="detect_headset">រក​​​កាស</string>
     <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
     <string name="steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
     <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>
     <string name="enable_gesture_brightness">បើក​កាយវិកា​ពន្លឺ</string>
-    <string name="screen_orientation">Screen orientation</string>
-    <string name="screen_orientation_sensor">Automatic (sensor)</string>
-    <string name="screen_orientation_start_lock">Locked at start</string>
-    <string name="screen_orientation_portrait">Portrait</string>
-    <string name="screen_orientation_landscape">Landscape</string>
-    <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
-    <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
-    <string name="enable_verbose_mode">បរិយាយ</string>
-    <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
+    <string name="screen_orientation">ទិស​អេក្រង់</string>
+    <string name="screen_orientation_sensor">​ស្វ័យប្រវត្តិ (ឧបករណ៍​ចាប់​សញ្ញា)</string>
+    <string name="screen_orientation_start_lock">ជាប់​សោ​នៅ​ពេល​ចាប់ផ្ដើម</string>
+    <string name="screen_orientation_portrait">បញ្ឈរ</string>
+    <string name="screen_orientation_landscape">ផ្ដេក</string>
+    <string name="screen_orientation_reverse_portrait">ដាក់​បញ្ច្រាស​បញ្ឈរ</string>
+    <string name="screen_orientation_reverse_landscape">ដាក់​បញ្ច្រាស​ផ្ដេក</string>
+    <string name="subtitles_prefs_category">ចំណងជើង​រង</string>
+    <string name="subtitles_text_encoding">ការ​អ៊ិនកូដ​អត្ថបទ</string>
     <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
     <string name="aout_audiotrack">បទ​អូឌីយ៉ូ (ដើម)</string>
     <string name="aout_audiotrack_java">បទ​អូឌីយ៉ូ (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
     <string name="enable_time_stretching_audio_detail">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
+    <string name="enable_verbose_mode">បរិយាយ</string>
+    <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
 </resources>
