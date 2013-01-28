@@ -83,13 +83,7 @@ public class Util {
     }
 
     public static String PathToURI(String path) {
-        String URI;
-        try {
-            URI = LibVLC.getInstance().nativeToURI(path);
-        } catch (LibVlcException e) {
-            URI = "";
-        }
-        return URI;
+        return LibVLC.nativeToURI(path);
     }
 
     public static String stripTrailingSlash(String s) {

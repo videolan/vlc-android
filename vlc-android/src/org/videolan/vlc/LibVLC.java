@@ -477,7 +477,7 @@ public class LibVLC {
 
     public native int getSpuTracksCount();
 
-    public native String nativeToURI(String path);
+    public static native String nativeToURI(String path);
 
     public static native void nativeReadDirectory(String path, ArrayList<String> res);
 
