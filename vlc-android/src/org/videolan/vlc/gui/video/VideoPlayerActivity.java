@@ -1308,7 +1308,6 @@ public class VideoPlayerActivity extends Activity {
                 // Plain URI
                 mLocation = getIntent().getDataString();
             }
-            Log.d(TAG, mLocation);
         } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             mLocation = getIntent().getExtras().getString("itemLocation");
