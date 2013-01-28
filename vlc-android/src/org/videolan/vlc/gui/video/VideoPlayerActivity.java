@@ -58,6 +58,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
@@ -67,6 +68,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -1280,6 +1282,7 @@ public class VideoPlayerActivity extends Activity {
     /**
      *
      */
+    @SuppressWarnings("deprecation")
     private void load() {
         mLocation = null;
         String title = getResources().getString(R.string.title);
@@ -1290,7 +1293,22 @@ public class VideoPlayerActivity extends Activity {
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
-            mLocation = getIntent().getDataString();
+            if(getIntent().getData().getScheme().equals("content")) {
+                if(getIntent().getData().getHost().equals("media")) {
+                    // Media URI
+                    Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                    cursor.moveToFirst();
+                    mLocation = Util.PathToURI(cursor.getString(column_index));
+                } else {
+                    // other content-based URI (probably file pickers)
+                    mLocation = getIntent().getData().getPath();
+                }
+            } else {
+                // Plain URI
+                mLocation = getIntent().getDataString();
+            }
+            Log.d(TAG, mLocation);
         } else if(getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             mLocation = getIntent().getExtras().getString("itemLocation");
