@@ -17,6 +17,7 @@ Main application:
  * Fix selection of some audio tracks
  * A sleep timer was added for audio and video
  * Added an option to add custom paths to the media library scanner
+ * content:// based URIs from Camera and file pickers now supported
 
 Translations:
  * Initial Traditional Chinese, Catalan, and Urdu translations
