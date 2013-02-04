@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/playback_speed"
+        android:title="Playback speed" />
+    <item
+        android:id="@+id/sleep_timer"
+        android:title="Sleep timer" />
+</menu>
