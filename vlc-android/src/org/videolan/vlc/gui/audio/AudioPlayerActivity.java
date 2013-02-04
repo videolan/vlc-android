@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.gui.audio;
 
+import java.util.Calendar;
+
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
@@ -27,21 +29,30 @@ import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.AdvFuncDialog;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SpeedSelectorDialog;
+import org.videolan.vlc.gui.TimeSleepDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -328,9 +339,50 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     	return super.onKeyDown(keyCode, event);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void showAdvanceFunction(View v) {
-        if (mAdvFuncDialog == null)
-            mAdvFuncDialog = new AdvFuncDialog(this);
-        mAdvFuncDialog.show();
+        if(!Util.isHoneycombOrLater()) { // show the 2.3-style menu
+            registerForContextMenu(v);
+            openContextMenu(v);
+            return;
+        }
+
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        popupMenu.getMenuInflater().inflate(R.menu.player_overflow, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return handleContextItemSelected(item);
+            }
+        });
+        popupMenu.show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.player_overflow, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        return handleContextItemSelected(item);
+    }
+
+    private boolean handleContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+        case R.id.playback_speed:
+            new SpeedSelectorDialog(this).show();
+            return true;
+        case R.id.sleep_timer:
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+            new TimeSleepDialog(this, hour, minute);
+            return true;
+        }
+        return false;
     }
 }
