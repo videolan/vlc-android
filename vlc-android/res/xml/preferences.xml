@@ -85,11 +85,13 @@
                 android:summary="@string/set_locale_detail"
                 android:key="set_locale"
                 android:defaultValue="" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="enable_yv12_format"
-                android:summary="@string/enable_yv12_format_detail"
-                android:title="@string/enable_yv12_format" />
+            <ListPreference
+                android:defaultValue=""
+                android:key="chroma_format"
+                android:title="@string/chroma_format"
+                android:summary="@string/chroma_format_detail"
+                android:entries="@array/chroma_formats"
+                android:entryValues="@array/chroma_formats" />
         </PreferenceScreen>
     </PreferenceCategory>
 

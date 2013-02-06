@@ -260,9 +260,15 @@ public class VideoPlayerActivity extends Activity {
         mSurfaceHolder = mSurface.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
         int pitch;
-        if(Util.isGingerbreadOrLater() && pref.getBoolean("enable_yv12_format", false)) {
+        String chroma = pref.getString("chroma_format", "");
+        if(Util.isGingerbreadOrLater() && chroma.equals("YV12")) {
             mSurfaceHolder.setFormat(ImageFormat.YV12);
             pitch = ImageFormat.getBitsPerPixel(ImageFormat.YV12) / 8;
+        } else if (chroma.equals("RV16")) {
+            mSurfaceHolder.setFormat(PixelFormat.RGB_565);
+            PixelFormat info = new PixelFormat();
+            PixelFormat.getPixelFormatInfo(PixelFormat.RGB_565, info);
+            pitch = info.bytesPerPixel;
         } else {
             mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
             PixelFormat info = new PixelFormat();
@@ -1109,6 +1115,8 @@ public class VideoPlayerActivity extends Activity {
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             if(format == PixelFormat.RGBX_8888)
                 Log.d(TAG, "Pixel format is RGBX_8888");
+            else if(format == PixelFormat.RGB_565)
+                Log.d(TAG, "Pixel format is RGB_565");
             else if(format == ImageFormat.YV12)
                 Log.d(TAG, "Pixel format is YV12");
             else

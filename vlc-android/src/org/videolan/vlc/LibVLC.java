@@ -180,9 +180,10 @@ public class LibVLC {
         final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         return p.getBoolean("enable_time_stretching_audio", false);
     }
-    public boolean yv12Enabled() {
+    public String getChroma() {
         final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        return (p.getBoolean("enable_yv12_format", false) && Util.isGingerbreadOrLater());
+        String chroma = p.getString("chroma_format", "");
+        return chroma.equals("YV12") && !Util.isGingerbreadOrLater() ? "" : chroma;
     }
 
     /**

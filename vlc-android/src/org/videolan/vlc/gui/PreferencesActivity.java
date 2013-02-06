@@ -208,7 +208,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             key.equalsIgnoreCase("subtitles_text_encoding") ||
             key.equalsIgnoreCase("aout") ||
             key.equalsIgnoreCase("enable_time_stretching_audio") ||
-            key.equalsIgnoreCase("enable_yv12_format")) {
+            key.equalsIgnoreCase("chroma_format")) {
                 LibVLC.restart();
         }
     }

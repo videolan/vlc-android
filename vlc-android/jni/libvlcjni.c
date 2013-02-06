@@ -407,13 +407,14 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
 
-    methodId = (*env)->GetMethodID(env, cls, "yv12Enabled", "()Z");
-    bool yv12enabled = (*env)->CallBooleanMethod(env, thiz, methodId);
+    methodId = (*env)->GetMethodID(env, cls, "getChroma", "()Ljava/lang/String;");
+    jstring chroma = (*env)->CallObjectMethod(env, thiz, methodId);
+    const char *chromastr = (*env)->GetStringUTFChars(env, chroma, 0);
+    LOGD("Chroma set to \"%s\"", chromastr);
 
     methodId = (*env)->GetMethodID(env, cls, "getSubtitlesEncoding", "()Ljava/lang/String;");
     jstring subsencoding = (*env)->CallObjectMethod(env, thiz, methodId);
     const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
-
     LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
 
     verbosity = verbose;
@@ -432,12 +433,13 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
         "--subsdec-encoding", subsencodingstr,
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
-        yv12enabled ? "--androidsurface-chroma=YV12" : "--androidsurface-chroma=RV32",
+        "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
     setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
 
+    (*env)->ReleaseStringUTFChars(env, chroma, chromastr);
     (*env)->ReleaseStringUTFChars(env, subsencoding, subsencodingstr);
 
     if (!instance)

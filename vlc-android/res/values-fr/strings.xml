@@ -144,8 +144,8 @@
     <string name="set_locale">Définir la langue</string>
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
-    <string name="enable_yv12_format">Forcer le format YV12</string>
-    <string name="enable_yv12_format_detail">NE PAS ACTIVER!!! Ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
+    <string name="chroma_format">Forcer le chroma</string>
+    <string name="chroma_format_detail">NE PAS ACTIVER!!! Ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
     <string name="detect_headset">Détecter le casque</string>
     <string name="detect_headset_detail">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
     <string name="steal_remote_control">Contrôle exclusif de la télécommande</string>
