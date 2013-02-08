@@ -18,6 +18,8 @@ Main application:
  * A sleep timer was added for audio and video
  * Added an option to add custom paths to the media library scanner
  * content:// based URIs from Camera and file pickers now supported
+ * Fix video player resume of media outside the media library
+ * Jump to Time feature
 
 Translations:
  * Initial Traditional Chinese, Catalan, and Urdu translations
