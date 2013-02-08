@@ -821,7 +821,7 @@ public class AudioService extends Service {
         @Override
         public void append(List<String> mediaPathList) throws RemoteException {
             if (mMediaList.size() == 0) {
-                load(mediaPathList, 0, false);
+                load(mediaPathList, 0, false, false);
                 return;
             }
 
@@ -975,7 +975,7 @@ public class AudioService extends Service {
             input.close();
 
             // load playlist
-            mInterface.load(mediaPathList, position, false);
+            mInterface.load(mediaPathList, position, false, false);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
