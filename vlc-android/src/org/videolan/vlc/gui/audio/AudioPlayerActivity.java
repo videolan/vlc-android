@@ -1,7 +1,7 @@
 /*****************************************************************************
  * AudioPlayerActivity.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AdvFuncDialog;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
@@ -347,7 +348,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             return;
         }
 
-        PopupMenu popupMenu = new PopupMenu(this, v);
+        // Inherit native app context to get the new style
+        // If we use this (Activity) context we get the ugly white style
+        PopupMenu popupMenu = new PopupMenu(VLCApplication.getAppContext(), v);
         popupMenu.getMenuInflater().inflate(R.menu.player_overflow, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
