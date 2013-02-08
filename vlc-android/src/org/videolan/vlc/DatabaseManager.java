@@ -260,21 +260,21 @@ public class DatabaseManager {
 
     }
 
-    //    /**
-    //     * Check if the item already in the database
-    //     * @param path of the item (primary key)
-    //     * @return
-    //     */
-    //    public synchronized boolean mediaItemExists(String path) {
-    //        Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
-    //                    new String[] { DIR_ROW_PATH },
-    //                    MEDIA_PATH + "=?",
-    //                    new String[] { path },
-    //                    null, null, null);
-    //        boolean exists = cursor.moveToFirst();
-    //        cursor.close();
-    //        return exists;
-    //    }
+    /**
+     * Check if the item is already in the database
+     * @param location of the item (primary key)
+     * @return True if the item exists, false if it does not
+     */
+    public synchronized boolean mediaItemExists(String location) {
+        Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
+                    new String[] { MEDIA_LOCATION },
+                    MEDIA_LOCATION + "=?",
+                    new String[] { location },
+                    null, null, null);
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
 
     /**
      * Get all paths from the items in the database
