@@ -6,4 +6,7 @@
     <item
         android:id="@+id/sleep_timer"
         android:title="Sleep timer" />
+    <item
+        android:id="@+id/go_to_time"
+        android:title="@string/jump_to_time" />
 </menu>
