@@ -287,6 +287,13 @@ public class VideoPlayerActivity extends Activity {
         mSwitchingView = false;
         mEndReached = false;
 
+        // Clear the resume time, since it is only used for resumes in external
+        // videos.
+        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+        editor.commit();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
@@ -360,12 +367,17 @@ public class VideoPlayerActivity extends Activity {
         if (time >= 0) {
             SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
+            if(DatabaseManager.getInstance(this).mediaItemExists(mLocation)) {
+                editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
+                DatabaseManager.getInstance(this).updateMedia(
+                        mLocation,
+                        DatabaseManager.mediaColumn.MEDIA_TIME,
+                        time);
+            } else {
+                // Video file not in media library, store time just for onResume()
+                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
+            }
             editor.commit();
-            DatabaseManager.getInstance(this).updateMedia(
-                    mLocation,
-                    DatabaseManager.mediaColumn.MEDIA_TIME,
-                    time);
         }
 
         AudioServiceController.getInstance().unbindAudioService(this);
@@ -1337,11 +1349,21 @@ public class VideoPlayerActivity extends Activity {
             // restore last position
             Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
             if(media != null) {
+                // in media library
                 if(media.getTime() > 0 && !fromStart)
                     mLibVLC.setTime(media.getTime());
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
+            } else {
+                // not in media library
+                SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
+                long rTime = preferences.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                editor.commit();
+                if(rTime > 0)
+                    mLibVLC.setTime(rTime);
             }
 
             try {
