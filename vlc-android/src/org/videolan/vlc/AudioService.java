@@ -738,7 +738,7 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void load(List<String> mediaPathList, int position, boolean libvlcBacked)
+        public void load(List<String> mediaPathList, int position, boolean libvlcBacked, boolean noVideo)
                 throws RemoteException {
             mLibVLCPlaylistActive = libvlcBacked;
 
@@ -772,7 +772,7 @@ public class AudioService extends Service {
                 if(mLibVLCPlaylistActive) {
                     mLibVLC.playIndex(position);
                 } else {
-                    mLibVLC.readMedia(mCurrentMedia.getLocation());
+                    mLibVLC.readMedia(mCurrentMedia.getLocation(), noVideo);
                 }
                 setUpRemoteControlClient();
                 showNotification();

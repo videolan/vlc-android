@@ -61,7 +61,7 @@ public class HistoryFragment extends SherlockListFragment {
     public void onListItemClick(ListView l, View v, int p, long id) {
         AudioServiceController audioController = AudioServiceController.getInstance();
 
-        audioController.load(mHistoryAdapter.getAllURIs(), p, true);
+        audioController.load(mHistoryAdapter.getAllURIs(), p, true, true);
         Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

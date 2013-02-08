@@ -334,6 +334,7 @@ public class LibVLC {
      * Read a media
      * @param instance: the instance of libVLC
      * @param mrl: the media mrl
+     * @param novideo: don't enable video decoding for this media
      * @return the position in the playlist
      */
     private native int readMedia(long instance, String mrl, boolean novideo);

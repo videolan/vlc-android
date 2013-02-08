@@ -146,7 +146,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
             AudioServiceController audioController = AudioServiceController.getInstance();
             ArrayList<String> arrayList = new ArrayList<String>();
             arrayList.add(mediaLocation);
-            audioController.load(arrayList, 0);
+            audioController.load(arrayList, 0, false, true);
             AudioPlayerActivity.start(getActivity());
         } else if(id == R.id.directory_view_play_video) {
             VideoPlayerActivity.start(getActivity(), mediaLocation);
