@@ -29,6 +29,7 @@ import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AdvFuncDialog;
+import org.videolan.vlc.gui.JumpToTimeDialog;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SpeedSelectorDialog;
 import org.videolan.vlc.gui.TimeSleepDialog;
@@ -384,6 +385,9 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
             new TimeSleepDialog(this, hour, minute);
+            return true;
+        case R.id.go_to_time:
+            new JumpToTimeDialog(this, AudioServiceController.getInstance().getTime()).show();
             return true;
         }
         return false;
