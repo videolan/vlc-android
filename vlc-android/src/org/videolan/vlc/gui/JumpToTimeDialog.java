@@ -78,6 +78,33 @@ public class JumpToTimeDialog extends Dialog {
         mMinute.setText(minutes.toString());
         mSeconds.setText(seconds.toString());
 
+        Button plus = (Button)findViewById(R.id.plus);
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mHour.isFocused()) {
+                    incrementHour();
+                } else if(mMinute.isFocused()) {
+                    incrementMinute();
+                } else if(mSeconds.isFocused()) {
+                    incrementSecond();
+                }
+            }
+        });
+        Button minus = (Button)findViewById(R.id.minus);
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mHour.isFocused()) {
+                    decrementHour();
+                } else if(mMinute.isFocused()) {
+                    decrementMinute();
+                } else if(mSeconds.isFocused()) {
+                    decrementSecond();
+                }
+            }
+        });
+
         Button ok = (Button)findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,5 +161,83 @@ public class JumpToTimeDialog extends Dialog {
                 s.append(value.toString());
             }
         }
+    }
+
+    private void incrementHour() {
+        Integer hour;
+        try {
+            hour = Integer.valueOf(mHour.getText().toString()) + 1;
+        } catch(NumberFormatException e) {
+            hour = 1;
+        }
+        mHour.setText(hour.toString());
     };
+
+    private void incrementMinute() {
+        Integer newMinute;
+        try {
+            newMinute = Integer.valueOf((mMinute.getText().toString())) + 1;
+        } catch(NumberFormatException e) {
+            newMinute = 1;
+        }
+        if(newMinute >= 60) {
+            newMinute = 0;
+        }
+        mMinute.setText(newMinute.toString());
+        if(mHour.getVisibility() != View.GONE && newMinute >= 60) {
+            incrementHour();
+        }
+    }
+
+    private void incrementSecond() {
+        Integer newSecond;
+        try {
+            newSecond = Integer.valueOf((mSeconds.getText().toString())) + 1;
+        } catch(NumberFormatException e) {
+            newSecond = 1;
+        }
+        if(newSecond >= 60) {
+            newSecond = 0;
+            incrementMinute();
+        }
+        mSeconds.setText(newSecond.toString());
+    }
+
+    private void decrementHour() {
+        Integer hour;
+        try {
+            hour = Integer.valueOf(mHour.getText().toString()) - 1;
+        } catch(NumberFormatException e) {
+            hour = 0;
+        }
+        if(hour < 0)
+            hour = 0;
+        mHour.setText(hour.toString());
+    }
+
+    private void decrementMinute() {
+        Integer newMinute;
+        try {
+            newMinute = Integer.valueOf((mMinute.getText().toString())) - 1;
+        } catch(NumberFormatException e) {
+            newMinute = 0;
+        }
+        if(newMinute < 0) {
+            newMinute = 0;
+        }
+        mMinute.setText(newMinute.toString());
+    }
+
+    private void decrementSecond() {
+        Integer newSecond;
+        try {
+            newSecond = Integer.valueOf((mSeconds.getText().toString())) - 1;
+        } catch(NumberFormatException e) {
+            newSecond = 0;
+        }
+        if(newSecond < 0) {
+            newSecond = 0;
+        }
+        mSeconds.setText(newSecond.toString());
+    }
 }
