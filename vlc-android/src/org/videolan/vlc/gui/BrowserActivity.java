@@ -49,7 +49,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class BrowserActivity extends ListActivity {
     public final static String TAG = "VLC/BrowserActivity";
