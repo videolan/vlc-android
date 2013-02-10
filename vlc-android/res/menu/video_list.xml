@@ -7,6 +7,9 @@
         android:id="@+id/video_list_play_from_start"
         android:title="@string/play_from_start" />
     <item
+        android:id="@+id/video_list_play_audio"
+        android:title="@string/play_as_audio" />
+    <item
         android:id="@+id/video_list_info"
         android:title="@string/info" />
     <item
