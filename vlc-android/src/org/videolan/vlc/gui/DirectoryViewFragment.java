@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
@@ -128,10 +127,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
             openMediaFile(info.position);
             return true;
         } else if(id == R.id.directory_view_append) {
-            AudioServiceController audioController = AudioServiceController.getInstance();
-            ArrayList<String> tmp = new ArrayList<String>();
-            tmp.add(mediaLocation);
-            audioController.append(tmp);
+            AudioServiceController.getInstance().append(mediaLocation);
             return true;
         } else if(id == R.id.directory_view_delete) {
             AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mediaLocation,
@@ -143,10 +139,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
                     });
             alertDialog.show();
         } else if(id == R.id.directory_view_play_audio) {
-            AudioServiceController audioController = AudioServiceController.getInstance();
-            ArrayList<String> arrayList = new ArrayList<String>();
-            arrayList.add(mediaLocation);
-            audioController.load(arrayList, 0, false, true);
+            AudioServiceController.getInstance().load(mediaLocation, 0, false, true);
             AudioPlayerActivity.start(getActivity());
         } else if(id == R.id.directory_view_play_video) {
             VideoPlayerActivity.start(getActivity(), mediaLocation);

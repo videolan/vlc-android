@@ -20,8 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.util.ArrayList;
-
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.LibVLC;
@@ -613,9 +611,7 @@ public class MainActivity extends SherlockFragmentActivity {
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                      ArrayList<String> media = new ArrayList<String>();
-                      media.add(s);
-                      c.append(media);
+                      c.append(s);
                     }
                 };
                 task.execute();
