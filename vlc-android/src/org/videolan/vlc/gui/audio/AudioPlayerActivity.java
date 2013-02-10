@@ -78,7 +78,6 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     private SeekBar mTimeline;
 
     private AudioServiceController mAudioController;
-    private boolean mIsTracking = false;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
 
@@ -212,8 +211,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
-        if (!mIsTracking)
-            mTimeline.setProgress(time);
+        mTimeline.setProgress(time);
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
             mPlayPause.setContentDescription(getString(R.string.pause));
