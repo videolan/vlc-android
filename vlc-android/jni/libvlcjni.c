@@ -700,7 +700,6 @@ jboolean Java_org_videolan_vlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz,
     }
 
     /* Get the tracks information of the media. */
-    libvlc_media_track_info_t *p_tracks;
     libvlc_media_parse(p_m);
 
     libvlc_media_player_t* p_mp = libvlc_media_player_new_from_media(p_m);
