@@ -772,9 +772,9 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
     }
 
     /* Get the tracks information of the media. */
-    libvlc_media_track_info_t *p_tracks;
+    libvlc_media_track_t **p_tracks;
 
-    int i_nbTracks = libvlc_media_get_tracks_info(p_m, &p_tracks);
+    int i_nbTracks = libvlc_media_tracks_get(p_m, &p_tracks);
     jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks + 1, cls, NULL);
 
     unsigned i;
@@ -800,26 +800,26 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
                 continue;
             }
 
-            setInt(env, item, "Id", p_tracks[i].i_id);
-            setInt(env, item, "Type", p_tracks[i].i_type);
-            setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i].i_codec));
-            setString(env, item, "Language", p_tracks[i].psz_language);
+            setInt(env, item, "Id", p_tracks[i]->i_id);
+            setInt(env, item, "Type", p_tracks[i]->i_type);
+            setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i]->i_codec));
+            setString(env, item, "Language", p_tracks[i]->psz_language);
 
-            if (p_tracks[i].i_type == libvlc_track_video)
+            if (p_tracks[i]->i_type == libvlc_track_video)
             {
-                setInt(env, item, "Height", p_tracks[i].u.video.i_height);
-                setInt(env, item, "Width", p_tracks[i].u.video.i_width);
-                setFloat(env, item, "Framerate", p_tracks[i].u.video.f_frame_rate);
+                setInt(env, item, "Height", p_tracks[i]->video->i_height);
+                setInt(env, item, "Width", p_tracks[i]->video->i_width);
+                setFloat(env, item, "Framerate", (float)p_tracks[i]->video->i_frame_rate_num / p_tracks[i]->video->i_frame_rate_den);
             }
-            if (p_tracks[i].i_type == libvlc_track_audio)
+            if (p_tracks[i]->i_type == libvlc_track_audio)
             {
-                setInt(env, item, "Channels", p_tracks[i].u.audio.i_channels);
-                setInt(env, item, "Samplerate", p_tracks[i].u.audio.i_rate);
+                setInt(env, item, "Channels", p_tracks[i]->audio->i_channels);
+                setInt(env, item, "Samplerate", p_tracks[i]->audio->i_rate);
             }
         }
     }
 
-    libvlc_media_tracks_info_release(p_tracks, i_nbTracks);
+    libvlc_media_tracks_release(p_tracks, i_nbTracks);
     return array;
 }
 
