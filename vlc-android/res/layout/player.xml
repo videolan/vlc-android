@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:foregroundGravity="clip_horizontal" >
+
         <SurfaceView
             android:id="@+id/player_surface"
             android:layout_width="wrap_content"
@@ -86,8 +87,8 @@
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="20dp"
-            android:onClick="showAdvanceFunction"
-            android:background="@drawable/dots" />
+            android:background="@drawable/dots"
+            android:onClick="showAdvanceFunction" />
 
         <ImageButton
             android:id="@+id/player_overlay_audio"
@@ -104,7 +105,6 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/header_icon_subtitle" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -133,42 +133,44 @@
 
         <TextView
             android:id="@+id/player_overlay_time"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_overlay_seekbar"
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/player_overlay_seekbar"
             android:clickable="true"
             android:gravity="left|center_vertical"
+            android:paddingRight="10dp"
             android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:textSize="15dip" />
+            android:textSize="15sp" />
 
         <SeekBar
             android:id="@+id/player_overlay_seekbar"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/player_overlay_length"
             android:layout_toRightOf="@+id/player_overlay_time"
             android:maxHeight="4dip"
             android:minHeight="4dip"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:progressDrawable="@drawable/po_seekbar"
             android:thumb="@drawable/ic_seekbar_thumb" />
 
         <TextView
             android:id="@+id/player_overlay_length"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/player_overlay_seekbar"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/player_overlay_seekbar"
             android:clickable="true"
             android:gravity="right|center_vertical"
+            android:paddingLeft="10dp"
             android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:textSize="15dip" />
+            android:textSize="15sp" />
 
         <FrameLayout
             android:id="@+id/player_control"
@@ -186,7 +188,6 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
-
     </RelativeLayout>
 
 </RelativeLayout>
