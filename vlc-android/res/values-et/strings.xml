@@ -148,8 +148,7 @@
     <string name="set_locale">Määra lokaat</string>
     <string name="set_locale_detail">Lähtestamiseks jäta tühjaks</string>
     <string name="set_locale_popup">Sulge ja lähtesta VLC muutuste kinnitamiseks.</string>
-    <string name="enable_yv12_format">YV12 vormingu pealesundimine</string>
-    <string name="enable_yv12_format_detail">ÄRA AKTIVEERI!!! See ei pruugi kõigil seadmetel toimida. Ainult 2.3 ja hilisem.</string>
+    <string name="chroma_format_detail">ÄRA AKTIVEERI!!! See ei pruugi kõigil seadmetel toimida. Ainult 2.3 ja hilisem.</string>
     <string name="detect_headset">Tuvasta kõrvaklapid</string>
     <string name="detect_headset_detail">Kõrvaklapide eemaldamisel pausi ja jätka klappide ühendamisel</string>
     <string name="enable_wheel_bar">Võimalda juhtnupud</string>
