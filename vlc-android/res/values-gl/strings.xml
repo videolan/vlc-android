@@ -29,6 +29,8 @@
     <string name="set_song">Definir como ton de chamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">Quere eliminar o ficheiro \'%1$s\'?</string>
+    <string name="ringtone_set">Definiuse \'%1$s\' como o ton de chamada.</string>
+    <string name="ringtone_error">Produciuse un erro ao definir o ton de chamada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrar esta mensaxe de novo.</string>
     <string name="beta_warning">Esta é unha versión beta.\n\nEsta versión NON é estábel!\n\nNON a use a menos que saiba o que está a facer.\n\nPode matar o seu gato, destruír a súa casa e iniciar a apocalipse dos maias.\nÚsea baixo a súa responsabilidade.\n\nDivírtase! :) </string>
@@ -150,8 +152,7 @@
     <string name="set_locale">Definir a configuración rexional</string>
     <string name="set_locale_detail">Déixeo en branco para restauralo</string>
     <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
-    <string name="enable_yv12_format">Forzar o formato YV12</string>
-    <string name="enable_yv12_format_detail">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
+    <string name="chroma_format_detail">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
     <string name="detect_headset">Detectar os auriculares</string>
     <string name="detect_headset_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
     <string name="steal_remote_control">Control remoto de auriculares exclusivo</string>
