@@ -118,6 +118,7 @@
     <string name="playback_speed">Wiedergabegeschwindigkeit</string>
     <string name="sleep_title">Ruhemodus</string>
     <string name="sleep_cancel">Ruhemodus abbrechen</string>
+    <string name="jump_to_time">Springe zu Zeitpunkt</string>
     <string name="open">Öffnen</string>
     <string name="open_mrl">MRL öffnen</string>
     <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
@@ -152,8 +153,8 @@
     <string name="set_locale">Landessprache einstellen</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
-    <string name="enable_yv12_format">Erzwinge YV12-Format</string>
-    <string name="enable_yv12_format_detail">BITTE NICHT AKTIVIEREN!!! Funktioniert möglicherweise nicht mit allen Geräten. Nur für Android 2.3 oder später.</string>
+    <string name="chroma_format">Farbsättigung erzwingen</string>
+    <string name="chroma_format_detail">BITTE NICHT AKTIVIEREN!!! Funktioniert möglicherweise nicht mit allen Geräten. Nur für Android 2.3 oder später.</string>
     <string name="detect_headset">Headset erkennen</string>
     <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
     <string name="steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
