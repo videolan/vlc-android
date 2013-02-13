@@ -28,6 +28,8 @@
     <string name="set_song">呼び出し音に設定</string>
     <string name="info">情報</string>
     <string name="confirm_delete">このファイルを削除しますか?</string>
+    <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
+    <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
     <string name="not_show_again">このメッセージを今後表示しない。</string>
     <string name="beta_warning">これはベータ版です。\n\nこのバージョンは安定していません!\n\nあなたが何をしているか知らないまま使用しないでください。\n\nあなたに破壊的な結果をもたらし、マヤの黙示録を開始させるかもしれません。\nご自身のリスクでご利用ください。\n\nそれではお楽しみください! :)</string>
@@ -110,6 +112,7 @@
     <string name="playback_speed">再生速度</string>
     <string name="sleep_title">スリープタイマー</string>
     <string name="sleep_cancel">スリープタイマーの取消</string>
+    <string name="jump_to_time">指定時間へジャンプ</string>
     <string name="open">開く</string>
     <string name="open_mrl">MRLを開く</string>
     <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
@@ -144,8 +147,8 @@
     <string name="set_locale">ロケールの設定</string>
     <string name="set_locale_detail">ブランクでリセット</string>
     <string name="set_locale_popup">変更を反映するためにVLCを終了・リセットします。</string>
-    <string name="enable_yv12_format">YV12フォーマットを強制</string>
-    <string name="enable_yv12_format_detail">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
+    <string name="chroma_format">強制クロマ</string>
+    <string name="chroma_format_detail">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
     <string name="detect_headset">ヘッドセットの検出</string>
     <string name="detect_headset_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
     <string name="steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
