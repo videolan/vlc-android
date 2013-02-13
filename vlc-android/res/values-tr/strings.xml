@@ -28,6 +28,8 @@
     <string name="set_song">Zil sesi yap</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">Bu dosya silinsin mi?</string>
+    <string name="ringtone_set">\'%1$s\' zil sesi olarak ayarlanmış.</string>
+    <string name="ringtone_error">Zil sesi ayarlanırken bir hata oluştu.</string>
     <string name="pause">Duraklat</string>
     <string name="not_show_again">Bu iletiyi bir daha gösterme</string>
     <string name="beta_warning">Kullandığınız bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi evinizin öldürebilir ve yok edebilir.\nDoğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
@@ -144,8 +146,7 @@
     <string name="set_locale">Yerel ayar</string>
     <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
     <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
-    <string name="enable_yv12_format">YV12 biçimini dayat</string>
-    <string name="enable_yv12_format_detail">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
+    <string name="chroma_format_detail">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
     <string name="detect_headset">Kulaklığı algıla</string>
     <string name="detect_headset_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
     <string name="steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
