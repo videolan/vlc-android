@@ -21,6 +21,9 @@ Main application:
  * Fix video player resume of media outside the media library
  * Jump to Time feature
 
+Widget:
+ * Display the timeline
+
 Translations:
  * Initial Traditional Chinese, Catalan, and Urdu translations
  * Updates to the Bosnian, Japanese, Russian, French, Korean,

@@ -8,89 +8,111 @@
     android:clickable="true"
     android:clipChildren="true"
     android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
-    <ImageView
-        android:id="@+id/cover"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/cone" />
-
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical" >
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/artist"
-            android:textColor="#888888"
-            android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/songName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="@string/title"
-            android:textColor="#ffffff"
-            android:textSize="16dp" />
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/cone" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            <ImageButton
-                android:id="@+id/backward"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="13dp"
-                android:background="#00ffffff"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_backward" />
+            <TextView
+                android:id="@+id/artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/artist"
+                android:textColor="#888888"
+                android:textSize="14sp" />
 
-            <ImageButton
-                android:id="@+id/play_pause"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="5dp"
-                android:background="#00ffffff"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_play" />
+            <TextView
+                android:id="@+id/songName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/title"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
 
-            <ImageButton
-                android:id="@+id/stop"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="13dp"
-                android:background="#00ffffff"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_stop" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
 
-            <ImageButton
-                android:id="@+id/forward"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="#00ffffff"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_forward" />
+                <ImageButton
+                    android:id="@+id/backward"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="13dp"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_backward" />
+
+                <ImageButton
+                    android:id="@+id/play_pause"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_play" />
+
+                <ImageButton
+                    android:id="@+id/stop"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="13dp"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_stop" />
+
+                <ImageButton
+                    android:id="@+id/forward"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_forward" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/timeline"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dip"
+        android:focusable="false"
+        android:indeterminate="false"
+        android:maxHeight="2dip"
+        android:minHeight="2dip"
+        android:paddingLeft="0px"
+        android:paddingRight="0px"
+        android:progressDrawable="@drawable/po_seekbar" />
 
 </LinearLayout>

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
@@ -79,6 +80,7 @@ public class AudioService extends Service {
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
+    public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public static final String WIDGET_PACKAGE = "org.videolan.vlc";
     public static final String WIDGET_CLASS = "org.videolan.vlc.widget.VLCAppWidgetProvider";
@@ -109,6 +111,11 @@ public class AudioService extends Service {
      * True if being backed by LibVLC, false if "virtually" backed by Java.
      */
     private boolean mLibVLCPlaylistActive = false;
+
+    /**
+     * Last widget position update timestamp
+     */
+    private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
 
     @Override
     public void onCreate() {
@@ -413,6 +420,10 @@ public class AudioService extends Service {
                     if(msg.getData().getInt("data") > 0) {
                         service.handleVout();
                     }
+                    break;
+                case EventManager.MediaPlayerPositionChanged:
+                    float pos = msg.getData().getFloat("data");
+                    service.updateWidgetPosition(service, pos);
                     break;
                 default:
                     Log.e(TAG, "Event not handled");
@@ -937,6 +948,22 @@ public class AudioService extends Service {
         Bitmap cover = mCurrentMedia != null ? AudioUtil.getCover(this, mCurrentMedia, 64) : null;
         i.putExtra("cover", cover);
 
+        sendBroadcast(i);
+    }
+
+    private void updateWidgetPosition(Context context, float pos)
+    {
+        // no more than one widget update for each 1/50 of the song
+        long timestamp = Calendar.getInstance().getTimeInMillis();
+        if (mCurrentMedia == null ||
+            timestamp - mWidgetPositionTimestamp < mCurrentMedia.getLength() / 50)
+            return;
+
+        mWidgetPositionTimestamp = timestamp;
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE_POSITION);
+        i.putExtra("position", pos);
         sendBroadcast(i);
     }
 

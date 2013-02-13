@@ -249,8 +249,6 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 
     int status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
     if (status < 0) {
-        LOGD("vlc_event_callback: failed to get JNI environment, "
-             "assuming native thread");
         status = (*myVm)->AttachCurrentThread(myVm, &env, NULL);
         if (status < 0)
             return;
@@ -267,9 +265,14 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     jobject bundle = (*env)->NewObject(env, clsBundle, clsCtor);
 
     jmethodID putInt = (*env)->GetMethodID(env, clsBundle, "putInt", "(Ljava/lang/String;I)V" );
+    jmethodID putFloat = (*env)->GetMethodID(env, clsBundle, "putFloat", "(Ljava/lang/String;F)V" );
     jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
 
-    if(ev->type == libvlc_MediaPlayerVout) {
+    if (ev->type == libvlc_MediaPlayerPositionChanged) {
+            jstring sData = (*env)->NewStringUTF(env, "data");
+            (*env)->CallVoidMethod(env, bundle, putFloat, sData, ev->u.media_player_position_changed.new_position);
+            (*env)->DeleteLocalRef(env, sData);
+    } else if(ev->type == libvlc_MediaPlayerVout) {
         /* For determining the vout/ES track change */
         jstring sData = (*env)->NewStringUTF(env, "data");
         (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_vout.new_count);
@@ -606,6 +609,7 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
         libvlc_MediaPlayerEndReached,
         libvlc_MediaPlayerStopped,
         libvlc_MediaPlayerVout,
+        libvlc_MediaPlayerPositionChanged
     };
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
