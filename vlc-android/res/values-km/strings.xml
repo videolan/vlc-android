@@ -146,8 +146,7 @@
     <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
-    <string name="enable_yv12_format">បង្ខំ​ទ្រង់ទ្រាយ YV12</string>
-    <string name="enable_yv12_format_detail">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
+    <string name="chroma_format_detail">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
     <string name="detect_headset">រក​​​កាស</string>
     <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
     <string name="steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
