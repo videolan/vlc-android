@@ -614,6 +614,9 @@ public class VideoPlayerActivity extends Activity {
                 case EventManager.MediaPlayerVout:
                     activity.handleVout(msg);
                     break;
+                case EventManager.MediaPlayerPositionChanged:
+                    //don't spam the logs
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
