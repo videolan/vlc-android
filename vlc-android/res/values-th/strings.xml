@@ -28,6 +28,8 @@
     <string name="set_song">ใช้เป็นเสียงเรียกเข้า</string>
     <string name="info">ข้อมูล</string>
     <string name="confirm_delete">ลบแฟ้ม \'%1$s\' หรือไม่</string>
+    <string name="ringtone_set">\'%1$s\' ถูกตั้งเป็นเสียงเรียกเข้าแล้ว</string>
+    <string name="ringtone_error">เกิดข้อขัดข้องขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
     <string name="not_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
     <string name="beta_warning">นี่คือรุ่นเบต้า\n\nยังไม่ใช่รุ่นเสถียรหรือสมบูรณ์!\n\nแนะนำ! อย่าเพิ่งใช้งานแอพฯ นี้เป็นตัวหลัก เว้นแต่ว่าคุณจะนำไปทดสอบเท่านั้น\n\nขอให้สนุกกับการใช้งานแอพฯ นี้! :)</string>
@@ -110,6 +112,7 @@
     <string name="playback_speed">ความเร็วการเล่น</string>
     <string name="sleep_title">พักเครื่อง</string>
     <string name="sleep_cancel">ยกเลิกการพักเครื่อง</string>
+    <string name="jump_to_time">ไปยังเวลาที่</string>
     <string name="open">เปิด</string>
     <string name="open_mrl">เปิด MRL</string>
     <string name="open_mrl_dialog_title">เปิดกระแสเครือข่าย</string>
@@ -144,8 +147,8 @@
     <string name="set_locale">ตั้งโลเคล</string>
     <string name="set_locale_detail">ปล่อยว่างไว้เพื่อคืนค่าเดิม </string>
     <string name="set_locale_popup">ออกและคืนค่าเดิมของ VLC หากต้องการดูความเปลี่ยนแปลง</string>
-    <string name="enable_yv12_format">บังคับใช้รูปแบบ YV12</string>
-    <string name="enable_yv12_format_detail">ไม่ต้องเรียกใช้!!! (เฉพาะรุ่น 2.3 ขึ้นไป โดยอาจจะใช้งานกับรุ่นอื่นไม่ได้)</string>
+    <string name="chroma_format">บังคับค่าความสดสี</string>
+    <string name="chroma_format_detail">ไม่ต้องเรียกใช้!!! (เฉพาะรุ่น 2.3 ขึ้นไป โดยอาจจะใช้งานกับรุ่นอื่นไม่ได้)</string>
     <string name="detect_headset">ตรวจหาชุดหูฟัง</string>
     <string name="detect_headset_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
     <string name="steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
