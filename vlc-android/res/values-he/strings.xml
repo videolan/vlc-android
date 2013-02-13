@@ -150,8 +150,7 @@
     <string name="set_locale">הגדרת המיקום והשפה</string>
     <string name="set_locale_detail">להשאיר ריק כדי לאפס</string>
     <string name="set_locale_popup">יש לצאת ולאפס את VLC כדי שהשינויים ייכנסו לתוקף.</string>
-    <string name="enable_yv12_format">אילוץ תבנית YV12</string>
-    <string name="enable_yv12_format_detail">לא להפעיל!!! יתכן שתכונה זו לא תעבוד על כל המכשירים. גרסה 2.3 ומעלה בלבד.</string>
+    <string name="chroma_format_detail">לא להפעיל!!! יתכן שתכונה זו לא תעבוד על כל המכשירים. גרסה 2.3 ומעלה בלבד.</string>
     <string name="detect_headset">זיהוי ערכת שמע</string>
     <string name="detect_headset_detail">השהייה עם הסרת אביזר שמע; המשך בעת חיבור אביזר שמע</string>
     <string name="steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
