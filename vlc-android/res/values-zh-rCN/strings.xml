@@ -32,7 +32,7 @@
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
     <string name="not_show_again">不再显示此提示信息。</string>
-    <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能毁掉您的房子，也可能是汪星来的杀手。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
+    <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能是汪星来的杀手，也可能毁掉您的房子。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">未知艺术家</string>
     <string name="unknown_album">未知专辑</string>
@@ -112,6 +112,7 @@
     <string name="playback_speed">回放速度</string>
     <string name="sleep_title">睡眠计时器</string>
     <string name="sleep_cancel">取消睡眠计时器</string>
+    <string name="jump_to_time">转到时间</string>
     <string name="open">打开</string>
     <string name="open_mrl">打开 MRL</string>
     <string name="open_mrl_dialog_title">打开网络流</string>
@@ -146,8 +147,8 @@
     <string name="set_locale">设置区域变量</string>
     <string name="set_locale_detail">留空可重置</string>
     <string name="set_locale_popup">请退出并重置 VLC 使更改生效。</string>
-    <string name="enable_yv12_format">强制使用 YV12 格式</string>
-    <string name="enable_yv12_format_detail">*请不要勾选*!!! 可能并不兼容所有设备。仅 2.3 及更高版本可用。</string>
+    <string name="chroma_format">强制色度</string>
+    <string name="chroma_format_detail">*请不要勾选*!!! 可能并不兼容所有设备。仅 2.3 及更高版本可用。</string>
     <string name="detect_headset">启用耳机侦测</string>
     <string name="detect_headset_detail">耳机移除时暂停；插入时继续播放</string>
     <string name="steal_remote_control">独占耳机远程控制</string>
