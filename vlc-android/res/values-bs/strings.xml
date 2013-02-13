@@ -5,7 +5,7 @@
     <string name="ok">Uredu</string>
     <string name="cancel">Odustani</string>
     <string name="other">Drugi</string>
-    <string name="filebrowser_title">Izaberi medije za reproduciranje</string>
+    <string name="filebrowser_title">Izaberi medije za produciranje</string>
     <string name="sortby">Poredaj po…</string>
     <string name="sortby_name">Nazivu</string>
     <string name="sortby_length">Dužini</string>
@@ -18,12 +18,12 @@
         <item quantity="other">%d rezultati pronađeni</item>
     </plurals>
 
-    <string name="play">Reproduciraj</string>
-    <string name="play_from_start">Reproduciraj od početka</string>
-    <string name="play_as_audio">Reproduciraj kao zvuk</string>
-    <string name="play_as_video">Reproduciraj kao video</string>
+    <string name="play">Produciraj</string>
+    <string name="play_from_start">Produciraj od početka</string>
+    <string name="play_as_audio">Produciraj kao zvuk</string>
+    <string name="play_as_video">Produciraj kao video</string>
     <string name="append">Dodaj</string>
-    <string name="play_all">Reproduciraj sve</string>
+    <string name="play_all">Produciraj sve</string>
     <string name="append_all">Dodaj sve</string>
     <string name="last_playlist">Posljednja lista izvođenja</string>
     <string name="delete">Izbriši</string>
@@ -124,6 +124,7 @@
     <string name="playback_speed">Brzina reproduciranja</string>
     <string name="sleep_title">Brojač za spavanje</string>
     <string name="sleep_cancel">Otkaži brojač za spavanje</string>
+    <string name="jump_to_time">Skoči na vrijeme</string>
     <string name="open">Otvori</string>
     <string name="open_mrl">Otvori MRL</string>
     <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
@@ -158,8 +159,8 @@
     <string name="set_locale">Podesi lokaciju</string>
     <string name="set_locale_detail">Ostavi prazno za resetovanje</string>
     <string name="set_locale_popup">Zatvori i resetuj VLC kako bi promjene djelovale.</string>
-    <string name="enable_yv12_format">Forsiraj YV12 format</string>
-    <string name="enable_yv12_format_detail">NE AKTIVIRAJ!!! Možda ne radi na svi uređajima. 2.3 i novije samo.</string>
+    <string name="chroma_format">Forsiraj kromu</string>
+    <string name="chroma_format_detail">NE AKTIVIRAJ!!! Možda ne radi na svi uređajima. 2.3 i novije samo.</string>
     <string name="detect_headset">Pronađi slušalice</string>
     <string name="detect_headset_detail">Pauziraj kada se odspoje slušalice; nastavi kada se slušalice spoje</string>
     <string name="steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
