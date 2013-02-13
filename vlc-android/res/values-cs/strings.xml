@@ -30,6 +30,8 @@
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
     <string name="info">Informace</string>
     <string name="confirm_delete">Odstranit soubor \'%1$s\'?</string>
+    <string name="ringtone_set">\'%1$s\' bylo nastaveno jako vyzváněcí melodie.</string>
+    <string name="ringtone_error">Nastala chyba při nastavování vyzváněcí melodie.</string>
     <string name="pause">Pozastavit</string>
     <string name="not_show_again">Tuto zprávu již nezobrazovat.</string>
     <string name="beta_warning">Toto vydání je beta verze.\n\nNení v ŽÁDNÉM PŘÍPADĚ STABILNÍ!\n\nNepoužívejte jej pokud si nejste jisti co děláte.\n\nMůže zabít vaše koťátka a zničit váš dům.\n\nHezky se bavte! :-)</string>
@@ -122,6 +124,7 @@
     <string name="playback_speed">Rychlost přehrávání</string>
     <string name="sleep_title">Uspání</string>
     <string name="sleep_cancel">Zrušit uspání</string>
+    <string name="jump_to_time">Skočit na čas</string>
     <string name="open">Otevřít</string>
     <string name="open_mrl">Otevřít MRL</string>
     <string name="open_mrl_dialog_title">Otevřít síťový proud</string>
@@ -156,8 +159,8 @@
     <string name="set_locale">Nastavit jazyk</string>
     <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
-    <string name="enable_yv12_format">Vynutit formát YV12</string>
-    <string name="enable_yv12_format_detail">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
+    <string name="chroma_format">Vynutit chroma</string>
+    <string name="chroma_format_detail">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
     <string name="detect_headset">Detekovat sluchátka</string>
     <string name="detect_headset_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
     <string name="steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
