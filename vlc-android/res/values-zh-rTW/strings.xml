@@ -139,8 +139,8 @@
     <string name="set_locale">設定地區</string>
     <string name="set_locale_detail">保持空白以重置</string>
     <string name="set_locale_popup">離開並重置VLC以套用變更</string>
-    <string name="enable_yv12_format">強制使用 YV12 格式</string>
-    <string name="enable_yv12_format_detail">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
+    <string name="chroma_format">強制使用視訊格式</string>
+    <string name="chroma_format_detail">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
     <string name="detect_headset">偵測耳機</string>
     <string name="detect_headset_detail">耳機拔除時暫停、插入時繼續播放</string>
     <string name="steal_remote_control">專耳機遙控</string>
