@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
@@ -28,6 +29,8 @@
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar este archivo «%1$s»?</string>
+    <string name="ringtone_set">«%1$s» ha sido establecido como tono de llamada.</string>
+    <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">No mostrar este mensaje de nuevo.</string>
     <string name="beta_warning">Esta es una versión de prueba.\n\n¡NO es estable!\n\nNo la use, a menos que conozca que está haciendo.\n\nPodría matar a su gatoy destruir su casa\nÚsela bajo su propio riesgo.\n\n¡Diviértase! :)</string>
@@ -149,8 +152,7 @@
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
     <string name="set_locale_popup">Cierre y reinicialice VLC para que los cambios tengan efecto.</string>
-    <string name="enable_yv12_format">Forzar formato YV12</string>
-    <string name="enable_yv12_format_detail">NO ACTIVAR!!! Podría no funcionar con todos los dispositivos. Solo 2.3 y posteriores.</string>
+    <string name="chroma_format_detail">NO ACTIVAR!!! Podría no funcionar con todos los dispositivos. Solo 2.3 y posteriores.</string>
     <string name="detect_headset">Detectar auriculares</string>
     <string name="detect_headset_detail">Pausar al quitar auriculares; continuar al insertar auriculares</string>
     <string name="steal_remote_control">Control remoto de auriculares exclusivo</string>
