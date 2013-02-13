@@ -118,6 +118,7 @@
     <string name="playback_speed">Afspeelsnelheid</string>
     <string name="sleep_title">Slaapstand</string>
     <string name="sleep_cancel">Slaapstand annuleren</string>
+    <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="open">Openen</string>
     <string name="open_mrl">MRL openen</string>
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
@@ -152,8 +153,8 @@
     <string name="set_locale">Taal instellen</string>
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
     <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
-    <string name="enable_yv12_format">YV12-formaat forceren</string>
-    <string name="enable_yv12_format_detail">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
+    <string name="chroma_format">Chroma forceren</string>
+    <string name="chroma_format_detail">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
     <string name="detect_headset">Hoofdtelefoon detecteren</string>
     <string name="detect_headset_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
     <string name="steal_remote_control">Exclusieve headset-afstandsbediening</string>
