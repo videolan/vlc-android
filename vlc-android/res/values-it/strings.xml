@@ -118,6 +118,7 @@
     <string name="playback_speed">Velocità di riproduzione</string>
     <string name="sleep_title">Sospendi</string>
     <string name="sleep_cancel">Annulla sospensione</string>
+    <string name="jump_to_time">Salto temporale</string>
     <string name="open">Apri</string>
     <string name="open_mrl">Apri MRL</string>
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
@@ -152,8 +153,8 @@
     <string name="set_locale">Imposta locale</string>
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
-    <string name="enable_yv12_format">Forza formato YV12</string>
-    <string name="enable_yv12_format_detail">NON ATTIVARE!!! Potrebbe non funzionare su tutti i dispositivi. Solo 2.3 e successivi.</string>
+    <string name="chroma_format">Forza croma</string>
+    <string name="chroma_format_detail">NON ATTIVARE!!! Potrebbe non funzionare con tutti i dispositivi. Solo 2.3 e successivi.</string>
     <string name="detect_headset">Rileva cuffie</string>
     <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
