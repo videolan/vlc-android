@@ -320,10 +320,16 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="chroma_formats" translatable="false">
+    <string-array name="chroma_formats_values" translatable="false">
         <item>RV32</item>
         <item>RV16</item>
         <item>YV12</item>
+    </string-array>
+
+    <string-array name="chroma_formats" translatable="false">
+        <item>RGB 32bits</item>
+        <item>RGB 16bits</item>
+        <item>YUV 24bits</item>
     </string-array>
 
 </resources>

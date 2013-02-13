@@ -91,7 +91,7 @@
                 android:title="@string/chroma_format"
                 android:summary="@string/chroma_format_detail"
                 android:entries="@array/chroma_formats"
-                android:entryValues="@array/chroma_formats" />
+                android:entryValues="@array/chroma_formats_values" />
         </PreferenceScreen>
     </PreferenceCategory>
 
