@@ -29,6 +29,8 @@
     <string name="set_song">رنگ ٹون کے طور پر مقرر کريں</string>
     <string name="info">معلومات</string>
     <string name="confirm_delete">\'%1$s\' کو حذف کرديں؟</string>
+    <string name="ringtone_set">\'%1$s\' کو رنگ ٹون کے طور پر مقرر کیا گیا تھا.</string>
+    <string name="ringtone_error">رنگ ٹون مقرر کرتے ہوئے ایک خرابی واقع ہوئی ہے۔</string>
     <string name="pause">روکيں</string>
     <string name="not_show_again">اس پیغام کو دوبارہ نہ دکھائیں ـ</string>
     <string name="beta_warning">یہ ایک \'بیٹا\' ورژن ہے ⏎ ⏎ يہ ورژن مستحکم نہیں ہے ⏎ ⏎ جب تک آپ جانتے نہيں کہ آپ کيا کرنا چاہتے ہيں، آپ اسے استعمال نہ کريں ـ ⏎ ⏎ یہ شايد آپ کی بلی کے بچے کو قتل، آپ کے گھر کو تباہ يا \'ماين\' قوم والى قيامت لا سکتا ہے. ⏎ اس کے استعمال کى ذمہ داری آپ کى اپنی ہے ⏎ ⏎ مزہ لیں :) ـ</string>
@@ -150,8 +152,7 @@
     <string name="set_locale">مقامى ماحول (لوکيل) مقرر کريں</string>
     <string name="set_locale_detail">ری سیٹ کرنے کيليے خالى چھوڑ ديں</string>
     <string name="set_locale_popup">تبدیلی کو اثر لینے کے ليے وى ـ ايل ـ سى ـ کو رى سيٹ اور بند کر ديں ـ </string>
-    <string name="enable_yv12_format">وا‎ۓ ـ وى ـ ١٢ فارميٹ استعمال کريں</string>
-    <string name="enable_yv12_format_detail">ايکٹيويٹ نہ کريں!!! تمام آلات پر شايد نہ چلےـ صرف ٢.٣ اور نۓ ورژن کيليے ہےـ</string>
+    <string name="chroma_format_detail">ايکٹيويٹ نہ کريں!!! تمام آلات پر شايد نہ چلےـ صرف ٢.٣ اور نۓ ورژن کيليے ہےـ</string>
     <string name="detect_headset">ہيڈ سيٹ تلاش کريں</string>
     <string name="detect_headset_detail">ہيڈ سيٹ نکالنے پر رکا جائے؛ ہيڈ سيٹ لگانے پر چلا جائے</string>
     <string name="steal_remote_control">خصوصی ہيڈ سيٹ ریموٹ کنٹرول</string>
