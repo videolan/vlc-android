@@ -30,6 +30,8 @@
     <string name="set_song">Ustaw jako dzwonek</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć ten plik?</string>
+    <string name="ringtone_set">\'%1$s\' został ustawiony jako dzwonek.</string>
+    <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Nie pokazuj tego komunikatu ponownie.</string>
     <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota, zniszczyć twój dom.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
@@ -122,6 +124,7 @@
     <string name="playback_speed">Prędkość odtwarzania</string>
     <string name="sleep_title">Wyłącznik czasowy</string>
     <string name="sleep_cancel">Anuluj wyłącznik czasowy</string>
+    <string name="jump_to_time">Skocz do czasu</string>
     <string name="open">Otwórz</string>
     <string name="open_mrl">Otwórz adres MRL</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
@@ -156,8 +159,8 @@
     <string name="set_locale">Ustaw język</string>
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
     <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
-    <string name="enable_yv12_format">Wymuś format YV12</string>
-    <string name="enable_yv12_format_detail">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
+    <string name="chroma_format">Wymuś chromę</string>
+    <string name="chroma_format_detail">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
     <string name="detect_headset">Wykrywanie słuchawek</string>
     <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
     <string name="steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
