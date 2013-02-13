@@ -30,6 +30,8 @@
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
+    <string name="ringtone_set">\'%1$s\' bol nastavený ako tón zvonenia.</string>
+    <string name="ringtone_error">Počas nastavovania tónu zvonenia nastala chyba.</string>
     <string name="pause">Pozastaviť</string>
     <string name="not_show_again">Už nezobrazovať túto správu.</string>
     <string name="beta_warning">Toto je beta-verzia.\n\nTáto verzia NIE JE STABILNÁ!\n\nNEPOUŽÍVAJTE JU, pokiaľ presne neviete čo robíte.\n\nMôže zabiť Vašu mačku, zničiť Váš dom.\nPoužívate ju na vlastné riziko.\n\nVeľa zábavy! :)</string>
@@ -143,7 +145,7 @@
     <string name="preferences">Nastavenia</string>
     <string name="main_prefs_category">Hlavné</string>
     <string name="add_custom_path">Pridať cestu nastavenú používateľom</string>
-    <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavenú cestu</string>
+    <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
     <string name="privacy_prefs_category">Súkromie</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
@@ -156,8 +158,8 @@
     <string name="set_locale">Nastaviť lokálne</string>
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
     <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
-    <string name="enable_yv12_format">Vynútiť formát YV12</string>
-    <string name="enable_yv12_format_detail">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
+    <string name="chroma_format">Vynútiť chroma</string>
+    <string name="chroma_format_detail">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
     <string name="detect_headset">Detegovať headset</string>
     <string name="detect_headset_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
     <string name="steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
