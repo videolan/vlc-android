@@ -20,6 +20,7 @@ Main application:
  * content:// based URIs from Camera and file pickers now supported
  * Fix video player resume of media outside the media library
  * Jump to Time feature
+ * Allow to open a video as audio-only
 
 Widget:
  * Display the timeline
@@ -30,6 +31,7 @@ Translations:
    Simplified Chinese, Turkish, Thai, Slovak, Polish, Dutch, Khmer,
    Italian, Hebrew, Galician, Spanish, German, Czech,
    and Bosnian translations
+
 
 Changes between 0.0.7 and 0.0.8:
 --------------------------------
