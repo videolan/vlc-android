@@ -203,10 +203,16 @@ static jobject debugBufferInstance = NULL;
 static pthread_mutex_t vout_android_lock;
 static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
+static jobject vout_android_java_surf = NULL;
 
 void *jni_LockAndGetAndroidSurface() {
     pthread_mutex_lock(&vout_android_lock);
     return vout_android_surf;
+}
+
+jobject jni_LockAndGetAndroidJavaSurface() {
+    pthread_mutex_lock(&vout_android_lock);
+    return vout_android_java_surf;
 }
 
 void jni_UnlockAndroidSurface() {
@@ -346,6 +352,7 @@ void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jo
     (*env)->DeleteLocalRef(env, clz);
 
     vout_android_gui = (*env)->NewGlobalRef(env, gui);
+    vout_android_java_surf = (*env)->NewGlobalRef(env, surf);
     pthread_mutex_unlock(&vout_android_lock);
 }
 
@@ -354,7 +361,10 @@ void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     vout_android_surf = NULL;
     if (vout_android_gui != NULL)
         (*env)->DeleteGlobalRef(env, vout_android_gui);
+    if (vout_android_java_surf != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_java_surf);
     vout_android_gui = NULL;
+    vout_android_java_surf = NULL;
     pthread_mutex_unlock(&vout_android_lock);
 }
 
