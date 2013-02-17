@@ -13,10 +13,10 @@
     <string name="history">Eachdraidh</string>
 
     <plurals name="search_found_results_quantity">
-        <item quantity="one">Lorg sinn %d toradh</item>
-        <item quantity="two">Lorg sinn %d thoradh</item>
+        <item quantity="one">Chaidh %d toradh a lorg</item>
+        <item quantity="two">Chaidh %d thoradh a lorg</item>
         <item quantity="few">Lorg sinn %d toraidhean</item>
-        <item quantity="other">Lorg sinn %d toradh</item>
+        <item quantity="other">Chaidh %d toradh a lorg</item>
     </plurals>
 
     <string name="play">Cluich</string>
@@ -26,10 +26,13 @@
     <string name="append">Cuir ris</string>
     <string name="play_all">Cluich na h-uile</string>
     <string name="append_all">Cuir na h-uile ris</string>
+    <string name="last_playlist">An liosta-chluich mu dheireadh</string>
     <string name="delete">Sguab às</string>
     <string name="set_song">Cleachd mar sheirm an fhòn</string>
     <string name="info">Fiosrachadh</string>
     <string name="confirm_delete">A bheil thu airson am faidhle a sguabadh às?</string>
+    <string name="ringtone_set">Chaidh \"%1$s\" a shuidheachadh mar sheirm.</string>
+    <string name="ringtone_error">Thachair mearachd nuair a dh/\'fheuch sinn ris an t-seirm a shuidheachadh.</string>
     <string name="pause">Cuir na stad</string>
     <string name="not_show_again">Na seall an teachdaireachd seo a-rithist.</string>
     <string name="beta_warning">Seo tionndadh beta.\n\nCHAN E tionndadh seasmhach a tha seo!\n\nNA CLEACHD e ach ma tha eòlach air a leithid a rud.\n\nDh\'fhaoidte gum marbh e do phiseagan, gun cuir e do thaigh \'na theine \'s gun ith Kali an saoghal mar thoradh air.\nCleachd e air do chunnart fhèin.\n\nAn dòchas gun còrd e riut! :)</string>
@@ -40,7 +43,7 @@
     <string name="songs">Òrain</string>
 
     <plurals name="songs_quantity">
-        <item quantity="one">%d òran</item>
+        <item quantity="one">1 òran</item>
         <item quantity="two">%d òran</item>
         <item quantity="few">%d òrain</item>
         <item quantity="other">%d òran</item>
@@ -50,16 +53,22 @@
     <string name="albums">Albaman</string>
 
     <plurals name="albums_quantity">
-        <item quantity="one">%d albam</item>
+        <item quantity="one">1 albam</item>
         <item quantity="two">%d albam</item>
         <item quantity="few">%d albaman</item>
         <item quantity="other">%d albam</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">%d fho-phasgan</item>
-        <item quantity="two">%d fho-phasgan</item>
+        <item quantity="one">fho-phasgan</item>
+        <item quantity="two">fho-phasgan</item>
         <item quantity="few">%d fo-phasgain</item>
-        <item quantity="other">%d fo-phasgan</item>
+        <item quantity="other">fo-phasgan</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">fhaidhle meadhain</item>
+        <item quantity="two">fhaidhle meadhain</item>
+        <item quantity="few">%d faidhlichean meadhain</item>
+        <item quantity="other">faidhle meadhain</item>
     </plurals>
 
     <string name="internal_memory">Cuimhne inntearnail</string>
@@ -108,15 +117,20 @@
     <string name="brightness">Soilleireachd</string>
 
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%d seanail</item>
-        <item quantity="two">%d sheanail</item>
+        <item quantity="one">1 seanail\n</item>
+        <item quantity="two">%1d sheanail\n</item>
         <item quantity="few">%d seanailean\n</item>
-        <item quantity="other">%d seanail\n</item>
+        <item quantity="other">%1d seanail\n</item>
     </plurals>
 
     <string name="track_samplerate_info">Reat samplachaidh: %1$d Hz\n</string>
     <string name="track_resolution_info">Dùmhlachd-bhreacaidh: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Reat fhrèamaichean: %1$.3f\n</string>
+    <string name="tools">Innealan</string>
+    <string name="playback_speed">Astar na cluich</string>
+    <string name="sleep_title">Cuir /\'na chadal</string>
+    <string name="sleep_cancel">Dùisg às a/\' chadal</string>
+    <string name="jump_to_time">Gearr leum gu àm</string>
     <string name="open">Fosgail</string>
     <string name="open_mrl">Fosgail MRL</string>
     <string name="open_mrl_dialog_title">Fosgail sruth lìonraidh</string>
@@ -124,7 +138,6 @@
     <string name="error_not_compatible">Duilich, chan eil an tionndadh seo de VLC airson Android™ a\' cur taic ris an uidheam agad aig an àm seo.\n\nSeo teachdaireachd na mearachd (thoir luaidh air seo ma bhios tu ri dì-bhugadh):\n</string>
     <string name="error_problem">Duilich, bha duilgheadas againn a\' tòiseachadh \'s b\' fheudar dhuinn VLC dùnadh</string>
     <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):\n</string>
-    <string name="playback_speed">Astar na cluich</string>
 
     <!-- About -->
     <string name="app_name_full">VLC airson Android™</string>
@@ -138,6 +151,9 @@
     <!-- Preferences -->
     <string name="preferences">Roghainnean</string>
     <string name="main_prefs_category">Prìomh chlàr-taice</string>
+    <string name="add_custom_path">Cuir slighe ghnàthaichte ris</string>
+    <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
+    <string name="remove_custom_path">Thoir an t-slighe ghnàthaichte air falbh</string>
     <string name="privacy_prefs_category">Prìobhaideachd</string>
     <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
     <string name="advanced_prefs_category">Adhartach</string>
@@ -149,6 +165,8 @@
     <string name="set_locale">Suidhich an sgeama ionadail</string>
     <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
     <string name="set_locale_popup">Fàg VLC is ath-thòisich gus na dh\'atharraich thu a chur an sàs</string>
+    <string name="chroma_format">Èignich sàthachd nan dath</string>
+    <string name="chroma_format_detail">NA CUIR AN GNÌOMH!!! Dh/\'fhaoidte nach obair seo air gach uidheam. 2.3 is feadhainn nas ùire.</string>
     <string name="detect_headset">Mothaich dha headset</string>
     <string name="detect_headset_detail">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
     <string name="steal_remote_control">Smachd aig an headset a-mhàin</string>
@@ -162,12 +180,14 @@
     <string name="screen_orientation_landscape">Dreach-tìre</string>
     <string name="screen_orientation_reverse_portrait">Portraid bun os cionn</string>
     <string name="screen_orientation_reverse_landscape">Dreach-tìre bun os cionn</string>
-    <string name="enable_verbose_mode">Briathrachas</string>
-    <string name="enable_verbose_mode_detail">Cuir am briathrachas an àirde (logcat)</string>
+    <string name="subtitles_prefs_category">Fo-thiotalan</string>
+    <string name="subtitles_text_encoding">Còdachadh an teacsa</string>
     <string name="aout">Às-chur fuaime</string>
     <string name="aout_audiotrack">AudioTrack (tùsail)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
     <string name="enable_time_stretching_audio_detail">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath)</string>
+    <string name="enable_verbose_mode">Briathrachas</string>
+    <string name="enable_verbose_mode_detail">Cuir am briathrachas an àirde (logcat)</string>
 </resources>
