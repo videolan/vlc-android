@@ -101,18 +101,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/timeline"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+    <LinearLayout
+        android:id="@+id/timeline_parent"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dip"
-        android:focusable="false"
-        android:indeterminate="false"
-        android:maxHeight="2dip"
-        android:minHeight="2dip"
-        android:paddingLeft="0px"
-        android:paddingRight="0px"
-        android:progressDrawable="@drawable/po_seekbar" />
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:id="@+id/timeline"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+            android:focusable="false"
+            android:indeterminate="false"
+            android:maxHeight="2dip"
+            android:minHeight="2dip"
+            android:paddingLeft="0px"
+            android:paddingRight="0px"
+            android:progressDrawable="@drawable/po_seekbar" />
+    </LinearLayout>
 
 </LinearLayout>

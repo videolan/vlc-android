@@ -76,7 +76,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             else
                 views.setImageViewResource(R.id.cover, R.drawable.cone);
 
-            views.setViewVisibility(R.id.timeline, artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
+            views.setViewVisibility(R.id.timeline_parent, artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
 
             /* commands */
             Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
