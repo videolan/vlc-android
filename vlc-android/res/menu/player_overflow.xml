@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/playback_speed"
-        android:title="Playback speed" />
+        android:title="@string/playback_speed" />
     <item
         android:id="@+id/sleep_timer"
-        android:title="Sleep timer" />
+        android:title="@string/sleep_title" />
     <item
         android:id="@+id/go_to_time"
         android:title="@string/jump_to_time" />
