@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VideoPlayerActivity.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1028,6 +1028,9 @@ public class VideoPlayerActivity extends Activity {
 
         @Override
         public void onSeek(int delta) {
+            // unseekable stream
+            if(mLibVLC.getLength() <= 0) return;
+
             long position = mLibVLC.getTime() + delta;
             if (position < 0) position = 0;
             mLibVLC.setTime(position);
@@ -1036,6 +1039,8 @@ public class VideoPlayerActivity extends Activity {
 
         @Override
         public void onSeekTo(long position) {
+            // unseekable stream
+            if(mLibVLC.getLength() <= 0) return;
             mLibVLC.setTime(position);
             mTime.setText(Util.millisToString(position));
         }
@@ -1236,6 +1241,7 @@ public class VideoPlayerActivity extends Activity {
         int length = (int) mLibVLC.getLength();
         // Update all view elements
 
+        mControls.setSeekable(length > 0);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
         mSysTime.setText(DateFormat.format("kk:mm", System.currentTimeMillis()));

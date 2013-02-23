@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PlayerControlWheel.java
  *****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
+ * Copyright © 2012-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.IPlayerControl;
 import org.videolan.vlc.interfaces.OnPlayerControlListener;
 
@@ -36,6 +37,7 @@ public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
     private final SeekBar mWheel;
     private OnPlayerControlListener listener = null;
 
+    private boolean mSeekable = true;
     private static final int WHEEL_DEAD_ZONE = 7;
     private static final int WHEEL_RANGE = 60;
     private int mMiddle = 0;
@@ -67,7 +69,7 @@ public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
                 // if in dead zone, pause/unpause
                 if (mSeekTo < 0)
                     listener.onPlayPause();
-                else
+                else if(mSeekable)
                     listener.onSeekTo(mSeekTo);
                 listener.onShowInfo(null);
             }
@@ -85,8 +87,16 @@ public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
             }
             else
                 delta = 0;
-            if (mSeekTo >= 0 && listener != null)
-                listener.onShowInfo(String.format("%s%ds (%s)", delta >= 0 ? "+" : "", delta, Util.millisToString(mSeekTo)));
+            if(mSeekTo >= 0 && listener != null)
+                if(mSeekable)
+                    listener.onShowInfo(String.format("%s%ds (%s)", delta >= 0 ? "+" : "", delta, Util.millisToString(mSeekTo)));
+                else
+                    listener.onShowInfo(VLCApplication.getAppContext().getString(R.string.unseekable_stream));
+
+            if(!mSeekable) {
+                // if the stream is unseekable do not show the user a seeking bar
+                seekBar.setProgress(mMiddle);
+            }
         }
     };
 
@@ -107,5 +117,10 @@ public class PlayerControlWheel extends LinearLayout implements IPlayerControl {
     @Override
     public void setOnPlayerControlListener(OnPlayerControlListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void setSeekable(boolean isSeekable) {
+        mSeekable = isSeekable;
     }
 }
