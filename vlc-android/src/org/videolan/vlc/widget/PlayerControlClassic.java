@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PlayerControlClassic.java
  *****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
+ * Copyright © 2012-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class PlayerControlClassic extends LinearLayout implements IPlayerControl {
+    public final static String TAG = "VLC/PlayerControlClassic";
 
     private ImageButton mBackward;
     private ImageButton mPlayPause;
@@ -84,5 +85,11 @@ public class PlayerControlClassic extends LinearLayout implements IPlayerControl
     @Override
     public void setOnPlayerControlListener(OnPlayerControlListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void setSeekable(boolean isSeekable) {
+        mBackward.setVisibility(isSeekable ? View.VISIBLE : View.INVISIBLE);
+        mForward.setVisibility(isSeekable ? View.VISIBLE : View.INVISIBLE);
     }
 }
