@@ -112,6 +112,7 @@
     <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
     <string name="sleep_title">ដេក</string>
     <string name="sleep_cancel">បោះបង់​ការ​ដេក</string>
+    <string name="jump_to_time">លោត​ទៅ​ពេល</string>
     <string name="open">បើក</string>
     <string name="open_mrl">បើក MRL</string>
     <string name="open_mrl_dialog_title">បើក​ស្ទ្រីម​បណ្ដាញ</string>
@@ -146,6 +147,7 @@
     <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
+    <string name="chroma_format">បង្ខុំ​ក្រូម</string>
     <string name="chroma_format_detail">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
     <string name="detect_headset">រក​​​កាស</string>
     <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
