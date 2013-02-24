@@ -118,6 +118,7 @@
     <string name="playback_speed">Velocidad de reproducción</string>
     <string name="sleep_title">Temporizador de apagado</string>
     <string name="sleep_cancel">Cancelar temporizador de apagado</string>
+    <string name="jump_to_time">Saltar a tiempo</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
@@ -152,6 +153,7 @@
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
     <string name="set_locale_popup">Cierre y reinicialice VLC para que los cambios tengan efecto.</string>
+    <string name="chroma_format">Forzar croma</string>
     <string name="chroma_format_detail">NO ACTIVAR!!! Podría no funcionar con todos los dispositivos. Solo 2.3 y posteriores.</string>
     <string name="detect_headset">Detectar auriculares</string>
     <string name="detect_headset_detail">Pausar al quitar auriculares; continuar al insertar auriculares</string>
