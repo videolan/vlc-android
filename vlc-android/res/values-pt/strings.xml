@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="other">Outro</string>
+    <string name="filebrowser_title">Selecionar media para reproduzir</string>
+    <string name="sortby">Odenar por &#8230;</string>
+    <string name="sortby_name">Nome</string>
+    <string name="sortby_length">Duração</string>
+    <string name="searchable_hint">Procurar &#8230;</string>
+    <string name="history">Histórico</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Encontrado %d resultado</item>
+        <item quantity="other">Encontrados %d resultados</item>
+    </plurals>
+
+    <string name="play">Reproduzir</string>
+    <string name="play_from_start">Reproduzir desde o início</string>
+    <string name="play_as_audio">Reproduzir como Áudio</string>
+    <string name="play_as_video">Reproduzir como Vídeo</string>
+    <string name="append">Acrescentar</string>
+    <string name="play_all">Reproduzir Tudo</string>
+    <string name="append_all">Acrescentar Tudo</string>
+    <string name="last_playlist">Última lista de reprodução</string>
+    <string name="delete">Apagar</string>
+    <string name="set_song">Definir como Toque de Chamada</string>
+    <string name="info">Informação</string>
+    <string name="confirm_delete">Apagar o ficheiro \'%1$s\' ?</string>
+    <string name="ringtone_set">\'%1$s\' foi configurado como rintone.</string>
+    <string name="ringtone_error">Ocorreu um erro ao configurar o ringtone.</string>
+    <string name="pause">Pausar</string>
+    <string name="not_show_again">Não voltar a mostrar esta mensagem.</string>
+    <string name="beta_warning">Esta é uma versão beta.\n\nEsta versão NÃO É ESTÁVEL!\n\nNÃO a utilizar, a não ser que saiba o que está a fazer.\n\nÉ capaz de matar o seu gato e destruir a sua casa.\nUtilize-a a seu próprio risco.\n\nDivirta-se! :)</string>
+    <string name="unknown_artist">Artista Desconhecido</string>
+    <string name="unknown_album">Álbum Desconhecido</string>
+    <string name="unknown_genre">Género Desconhecido</string>
+    <string name="songs">Músicas</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 música</item>
+        <item quantity="other">%d músicas</item>
+    </plurals>
+
+    <string name="artists">Artistas</string>
+    <string name="albums">Álbuns</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 álbum</item>
+        <item quantity="other">%d álbuns</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 sub pasta</item>
+        <item quantity="other">%d sub pastas</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 ficheiro mídia</item>
+        <item quantity="other">%d ficheiros mídia</item>
+    </plurals>
+
+    <string name="internal_memory">Memória interna</string>
+    <string name="parent_folder">Subir para a pasta superior</string>
+    <string name="audio">Áudio</string>
+    <string name="video">Vídeo</string>
+    <string name="bookmarks">Marcadores</string>
+    <string name="all_albums">Todos os Álbuns</string>
+    <string name="genres">Géneros</string>
+    <string name="playlists">Listas de Reprodução</string>
+    <string name="title">Título</string>
+    <string name="artist">Artista</string>
+    <string name="album">Álbum</string>
+    <string name="directory">Diretoria</string>
+    <string name="directories">Diretorias</string>
+    <string name="loading">A carregar &#8230;</string>
+    <string name="please_wait">Aguarde, por favor &#8230;</string>
+    <string name="nomedia">Não foram encontrados ficheiros de mídia, por favor transfira os ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
+    <string name="mediafiles">Ficheiros de Media</string>
+    <string name="notavailable">não disponível</string>
+    <string name="nosubdirectory">Sem Sub Diretorias.</string>
+    <string name="nohistory">Você ainda não tem um histórico de lista de reprodução.</string>
+    <string name="validation">Tem a certeza?</string>
+    <string name="cover_art">Imagem da capa</string>
+    <string name="shuffle">Aleatório</string>
+    <string name="repeat">Repetir nenhum/único/todos</string>
+    <string name="previous">Anterior</string>
+    <string name="stop">Stop</string>
+    <string name="next">Seguinte</string>
+    <string name="locked">Bloqueado</string>
+    <string name="unlocked">Desbloqueado</string>
+    <string name="surface_best_fit">Melhor Enquadramento</string>
+    <string name="surface_fit_horizontal">Encaixar horizontalmente</string>
+    <string name="surface_fit_vertical">Encaixar verticalmente</string>
+    <string name="surface_fill">Preencher</string>
+    <string name="surface_original">Centro</string>
+    <string name="thumbnail">Miniatura</string>
+    <string name="refresh">Atualizar</string>
+    <string name="track_audio">Faixa de Áudio</string>
+    <string name="track_video">Faixa de Vídeo</string>
+    <string name="track_text">Faixa de Legendas</string>
+    <string name="track_unknown">Faixa desconhecida</string>
+    <string name="track_language_info">Idioma: %1$s\n</string>
+    <string name="volume">Volume</string>
+    <string name="brightness">Brilho</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="other">%1$d canais\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Frequência: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolução: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Frequência: %1$.3f\n</string>
+    <string name="tools">Ferramentas</string>
+    <string name="playback_speed">Velocidade da Reprodução</string>
+    <string name="sleep_title">Temporizador de sono</string>
+    <string name="sleep_cancel">Cancelar temporizador de sono</string>
+    <string name="jump_to_time">Saltar para o tempo</string>
+    <string name="open">Abrir</string>
+    <string name="open_mrl">Abrir MRL</string>
+    <string name="open_mrl_dialog_title">Abrir Emissão de Rede</string>
+    <string name="open_mrl_dialog_msg">Inserir MRL da Rede: e.g. http://, mms:// or rtsp://</string>
+    <string name="error_not_compatible">Desculpe, o seu dispositivo atualmente não é suportado por esta versão do VLC para Android™.</string>
+    <string name="error_problem">Desculpe, o VLC para Android encontrou um problema durante o carregamento e teve de ser fechado.</string>
+    <string name="error_message_is">A mensagem de erro é (por favor mencione isto ao fazer debugging):\n</string>
+
+    <!-- About -->
+    <string name="licence">Licença</string>
+    <string name="revision">Revisão</string>
+    <string name="about">Sobre o &#8230;</string>
+    <string name="about_text">VLC para Android™ é um port do VLC media player, o popular media player open source. A versão Android™ pode reproduzir a maioria dos ficheiros e emissões de rede.</string>
+    <string name="compiled_by">Esta versão do VLC é compilada por:</string>
+    <string name="vlc_authors">Autores do VLC.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Preferências</string>
+    <string name="main_prefs_category">Principal</string>
+    <string name="add_custom_path">Adicionar um caminho personalizado</string>
+    <string name="add_custom_path_description">Introduza o caminho personalizado adicional para pesquisar:</string>
+    <string name="remove_custom_path">Remover caminho personalizado</string>
+    <string name="privacy_prefs_category">Privacidade</string>
+    <string name="clear_history">Limpar Histórico de Procura</string>
+    <string name="advanced_prefs_category">Avançado</string>
+    <string name="enable_iomx">Ativar a Decodificação da Aceleração de Hardware</string>
+    <string name="advanced_debugging">Depuração Avançada</string>
+    <string name="quit">Sair da Aplicação</string>
+    <string name="clear_media_db">Limpar a Base de Dados de Media</string>
+    <string name="media_db_cleared">Base de dados mídia limpa!</string>
+    <string name="set_locale">Definir Local</string>
+    <string name="set_locale_detail">Deixar em branco para fazer reset</string>
+    <string name="set_locale_popup">Saia e faça um reset ao VLC para as alterações fazerem efeito.</string>
+    <string name="chroma_format">Forçar chroma</string>
+    <string name="chroma_format_detail">NÃO ACTIVAR! Pode não funcionar como todos os dispositivos 2.3 ou superiores.</string>
+    <string name="detect_headset">Detectar headset</string>
+    <string name="detect_headset_detail">Pausa ao remover o headset; retoma ao inserir o headset</string>
+    <string name="steal_remote_control">Controlo remoto exclusivo do headset</string>
+    <string name="steal_remote_control_detail">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique em telefones HTC.</string>
+    <string name="enable_wheel_bar">Activar barra de scroll</string>
+    <string name="enable_gesture_brightness">Activar gesto do brilho</string>
+    <string name="screen_orientation">Orientação do ecrã</string>
+    <string name="screen_orientation_sensor">Automático (sensor)</string>
+    <string name="screen_orientation_start_lock">Trancado no arranque</string>
+    <string name="screen_orientation_portrait">Retrato</string>
+    <string name="screen_orientation_landscape">Paisagem</string>
+    <string name="screen_orientation_reverse_portrait">Retrato ao contrário</string>
+    <string name="screen_orientation_reverse_landscape">Paisagem ao contrário</string>
+    <string name="subtitles_prefs_category">Legendas</string>
+    <string name="subtitles_text_encoding">Codificação do texto</string>
+    <string name="aout">Saída de Áudio</string>
+    <string name="aout_audiotrack">AudioTrack (original)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Activar aumento-tempo para audio</string>
+    <string name="enable_time_stretching_audio_detail">Aumentar e diminuir áudio sem alterar o pitch (requer um dispositivo rápido)</string>
+    <string name="enable_verbose_mode">Verboso</string>
+    <string name="enable_verbose_mode_detail">Aumentar a verbosidade (logcat)</string>
+</resources>
