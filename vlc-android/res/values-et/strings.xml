@@ -29,6 +29,8 @@
     <string name="set_song">Määra helinaks</string>
     <string name="info">Informatsioon</string>
     <string name="confirm_delete">Kas kustutada fail \'%1$s\'?</string>
+    <string name="ringtone_set">\'%1$s\' määrati helinaks.</string>
+    <string name="ringtone_error">Tekkis tõrge helina määramisel.</string>
     <string name="pause">Paus</string>
     <string name="not_show_again">Ära seda teadet enam kuva.</string>
     <string name="beta_warning">See on beetaversioon.\n\nSee versioon ei ole STABIILNE!\n\nÄra kasuta, kui sa ei tea, mida teed.\n\nSee võib surmata kassipoja ja hävitada su maja.\nKasuta ainult omal vastutusel.\n\nHoia kõva! :)</string>
@@ -114,6 +116,9 @@
     <string name="track_framerate_info">Kaadrisagedus: %1$.3f\n</string>
     <string name="tools">Tööriistad</string>
     <string name="playback_speed">Taasesitamise kiirus</string>
+    <string name="sleep_title">Unetaimer</string>
+    <string name="sleep_cancel">Tühista unetaimer</string>
+    <string name="jump_to_time">Hüppa ajale</string>
     <string name="open">Ava</string>
     <string name="open_mrl">Ava MRL</string>
     <string name="open_mrl_dialog_title">Ava võrguvoog</string>
@@ -155,6 +160,7 @@
     <string name="enable_gesture_brightness">Võimalda heleduse žestid</string>
     <string name="screen_orientation">Ekraani asend</string>
     <string name="screen_orientation_sensor">Automaatne (sensor)</string>
+    <string name="screen_orientation_start_lock">Alustamisel lukustatud</string>
     <string name="screen_orientation_portrait">Püstasetus</string>
     <string name="screen_orientation_landscape">Rõhtasetus</string>
     <string name="screen_orientation_reverse_portrait">Tagurpidi püstasetus</string>
