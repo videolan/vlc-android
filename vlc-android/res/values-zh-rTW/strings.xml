@@ -28,8 +28,10 @@
     <string name="set_song">設為鈴聲</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">刪除檔案 \'%1$s\' ?</string>
+    <string name="ringtone_set">\'%1$s\' 已經設為鈴聲</string>
+    <string name="ringtone_error">設為鈴聲時發生錯誤</string>
     <string name="pause">暫停</string>
-    <string name="not_show_again">別再顯示該訊息</string>
+    <string name="not_show_again">別再顯示此訊息</string>
     <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的貓或毀了你的房子。\n\n請自行承擔風險\n\n玩得愉快！ :)</string>
     <string name="unknown_artist">未知藝人</string>
     <string name="unknown_album">未知專輯</string>
@@ -71,7 +73,7 @@
     <string name="nomedia">找不到媒體檔案，請將檔案傳輸至您的裝置中或是調整偏好設定。</string>
     <string name="mediafiles">媒體檔案</string>
     <string name="notavailable">無法使用</string>
-    <string name="nosubdirectory">無子目錄</string>
+    <string name="nosubdirectory">沒有子目錄</string>
     <string name="nohistory">目前並無播放記錄</string>
     <string name="validation">你確定？</string>
     <string name="cover_art">專輯封面</string>
@@ -88,6 +90,7 @@
     <string name="surface_fill">填滿</string>
     <string name="surface_original">中央</string>
     <string name="thumbnail">縮圖</string>
+    <string name="unseekable_stream">非跳轉串流</string>
     <string name="refresh">重新整理</string>
     <string name="track_audio">音訊軌</string>
     <string name="track_video">視訊軌</string>
@@ -108,6 +111,7 @@
     <string name="playback_speed">播放速度</string>
     <string name="sleep_title">睡眠計時器</string>
     <string name="sleep_cancel">取消睡眠計時器</string>
+    <string name="jump_to_time">跳至時間</string>
     <string name="open">開啟</string>
     <string name="open_mrl">開啟MRL</string>
     <string name="open_mrl_dialog_title">開啟網路串流</string>
@@ -126,7 +130,7 @@
     <string name="preferences">偏好設定</string>
     <string name="main_prefs_category">主要</string>
     <string name="add_custom_path">增加自訂路徑</string>
-    <string name="add_custom_path_description">輸入額外的自訂路徑以掃瞄:</string>
+    <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
     <string name="privacy_prefs_category">隱私</string>
     <string name="clear_history">清除搜尋歷史</string>
