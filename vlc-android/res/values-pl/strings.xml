@@ -34,7 +34,7 @@
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Nie pokazuj tego komunikatu ponownie.</string>
-    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota, zniszczyć twój dom.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
+    <string name="beta_warning">To jest wersja beta.\n\nTa wersja JEST NIE STABILNA!\n\nNIE używaj jej, dopóki wiesz co robisz.\n\nW przeciwnym razie, może ona zabić twojego kota i zniszczyć twój dom.\nUżywaj jej na własne ryzyko.\n\nŻyczymy miłej zabawy! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Nieznany wykonawca</string>
     <string name="unknown_album">Nieznany album</string>
