@@ -26,11 +26,12 @@ Widget:
  * Display the timeline
 
 Translations:
- * Initial Traditional Chinese, Catalan, and Urdu translations
+ * Initial Traditional Chinese, Catalan, and Urdu, Odia,
+   Norwegian Bokmål and Portuguese (Portugal) translations
  * Updates to the Bosnian, Japanese, Russian, French, Korean,
    Simplified Chinese, Turkish, Thai, Slovak, Polish, Dutch, Khmer,
-   Italian, Hebrew, Galician, Spanish, German, Czech,
-   and Bosnian translations
+   Italian, Hebrew, Galician, Spanish, German, Czech, Estonian,
+   Hindi, and Bosnian translations
 
 
 Changes between 0.0.7 and 0.0.8:
