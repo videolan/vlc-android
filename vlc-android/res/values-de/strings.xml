@@ -33,7 +33,7 @@
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
-    <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nKönnte niedliche Kätzchen töten oder das eigene Haus zerstören.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
+    <string name="beta_warning">Dies ist eine Betaversion.\n\nDiese Version ist NICHT STABIL!\n\nNICHT verwenden, ohne sich über die Konsequenzen im Klaren zu sein.\n\nEs könnte Ihr Kätzchen töten und das eigene Haus zerstören.\nVerwendung auf eigene Gefahr.\n\nViel Spaß! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unbekannter Künstler</string>
     <string name="unknown_album">Unbekanntes Album</string>
@@ -96,6 +96,7 @@
     <string name="surface_fill">Ausfüllen</string>
     <string name="surface_original">Zentrieren</string>
     <string name="thumbnail">Vorschau</string>
+    <string name="unseekable_stream">Nicht durchsuchbarer Stream</string>
     <string name="refresh">Aktualisieren</string>
     <string name="track_audio">Audiospur</string>
     <string name="track_video">Videospur</string>
