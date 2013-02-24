@@ -118,6 +118,7 @@
     <string name="playback_speed">Velocidade de reprodución</string>
     <string name="sleep_title">Temporizador para durmir</string>
     <string name="sleep_cancel">Cancelar o temporizador para durmir</string>
+    <string name="jump_to_time">Saltar ao tempo</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir un MRL</string>
     <string name="open_mrl_dialog_title">Abrir un fluxo de rede</string>
@@ -152,6 +153,7 @@
     <string name="set_locale">Definir a configuración rexional</string>
     <string name="set_locale_detail">Déixeo en branco para restauralo</string>
     <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
+    <string name="chroma_format">Forzar a crominancia</string>
     <string name="chroma_format_detail">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
     <string name="detect_headset">Detectar os auriculares</string>
     <string name="detect_headset_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
