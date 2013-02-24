@@ -91,6 +91,7 @@
     <string name="surface_fill">画面一杯に合わせる</string>
     <string name="surface_original">センター表示</string>
     <string name="thumbnail">サムネイル</string>
+    <string name="unseekable_stream">シークできないストリーム</string>
     <string name="refresh">再表示</string>
     <string name="track_audio">オーディオトラック</string>
     <string name="track_video">ビデオトラック</string>
