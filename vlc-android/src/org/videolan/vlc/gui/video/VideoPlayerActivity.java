@@ -693,8 +693,12 @@ public class VideoPlayerActivity extends Activity {
             dw = dh;
             dh = d;
         }
-        if (dw * dh == 0)
+
+        // sanity check
+        if (dw * dh == 0 || mVideoWidth * mVideoHeight == 0) {
+            Log.e(TAG, "Invalid surface size");
             return;
+        }
 
         // compute the aspect ratio
         double ar, vw;
