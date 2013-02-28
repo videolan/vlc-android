@@ -171,24 +171,24 @@ jbyteArray Java_org_videolan_vlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
     libvlc_media_player_set_media(mp, m);
 
     /* Get the size of the video with the tracks information of the media. */
-    libvlc_media_track_info_t *tracks;
+    libvlc_media_track_t **tracks;
     libvlc_media_parse(m);
-    int nbTracks = libvlc_media_get_tracks_info(m, &tracks);
+    int nbTracks = libvlc_media_tracks_get(m, &tracks);
     libvlc_media_release(m);
 
     /* Parse the results */
     unsigned videoWidth = 0, videoHeight = 0;
     bool hasVideoTrack = false;
     for (unsigned i = 0; i < nbTracks; ++i)
-        if (tracks[i].i_type == libvlc_track_video)
+        if (tracks[i]->i_type == libvlc_track_video)
         {
-            videoWidth = tracks[i].u.video.i_width;
-            videoHeight = tracks[i].u.video.i_height;
+            videoWidth = tracks[i]->video->i_width;
+            videoHeight = tracks[i]->video->i_height;
             hasVideoTrack = true;
             break;
         }
 
-    free(tracks);
+    libvlc_media_tracks_release(tracks, nbTracks);
 
     /* Abort if we have not found a video track. */
     if (!hasVideoTrack)
