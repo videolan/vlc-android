@@ -471,7 +471,7 @@ public class LibVLC {
 
     public native int getVideoTracksCount();
 
-    public native String[] getSpuTrackDescription();
+    public native Map<Integer,String> getSpuTrackDescription();
 
     public native int getSpuTrack();
 

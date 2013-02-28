@@ -24,8 +24,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 import org.videolan.vlc.AudioServiceController;
@@ -143,7 +141,7 @@ public class VideoPlayerActivity extends Activity {
     private ImageButton mSize;
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
-    private int mLastSpuTrack = -1;
+    private int mLastSpuTrack = -2;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -174,8 +172,7 @@ public class VideoPlayerActivity extends Activity {
 
     // Tracks & Subtitles
     private Map<Integer,String> mAudioTracksList;
-    private String[] mSubtitleTracksLibVLC;
-    private ArrayList<String> mSubtitleTracksList;
+    private Map<Integer,String> mSubtitleTracksList;
 
     // Advance Function
     private AdvFuncDialog mAdvFuncDialog;
@@ -995,18 +992,37 @@ public class VideoPlayerActivity extends Activity {
     private final OnClickListener mSubtitlesListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            String[] arrList = new String[mSubtitleTracksList.size()];
-            arrList = mSubtitleTracksList.toArray(arrList);
+            final String[] arrList = new String[mSubtitleTracksList.size()];
+            int i = 0;
+            int listPosition = 0;
+            for(Map.Entry<Integer,String> entry : mSubtitleTracksList.entrySet()) {
+                arrList[i] = entry.getValue();
+                // map the track position to the list position
+                if(entry.getKey() == mLibVLC.getSpuTrack())
+                    listPosition = i;
+                i++;
+            }
+
             AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
             .setTitle(R.string.track_text)
-            .setSingleChoiceItems(arrList, mLibVLC.getSpuTrack(), new DialogInterface.OnClickListener() {
+            .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int position) {
+                public void onClick(DialogInterface dialog, int listPosition) {
+                    int trackID = -2;
+                    // Reverse map search...
+                    for(Map.Entry<Integer, String> entry : mSubtitleTracksList.entrySet()) {
+                        if(arrList[listPosition].equals(entry.getValue())) {
+                            trackID = entry.getKey();
+                            break;
+                        }
+                    }
+                    if(trackID < -1) return;
+
                     DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
                             mLocation,
                             DatabaseManager.mediaColumn.MEDIA_SPUTRACK,
-                            position);
-                    mLibVLC.setSpuTrack(position);
+                            trackID);
+                    mLibVLC.setSpuTrack(trackID);
                     dialog.dismiss();
                 }
             })
@@ -1262,9 +1278,9 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC.setAudioTrack(mLastAudioTrack);
             mLastAudioTrack = -1;
         }
-        if (mLastSpuTrack >= 0) {
+        if (mLastSpuTrack >= -1) {
             mLibVLC.setSpuTrack(mLastSpuTrack);
-            mLastSpuTrack = -1;
+            mLastSpuTrack = -2;
         }
     }
 
@@ -1280,13 +1296,11 @@ public class VideoPlayerActivity extends Activity {
                 mAudioTrack.setOnClickListener(null);
             }
         }
-        if (mSubtitleTracksLibVLC == null) {
-            mSubtitleTracksLibVLC = mLibVLC.getSpuTrackDescription();
-            if (mSubtitleTracksLibVLC != null && mSubtitleTracksLibVLC.length > 0) {
-                mSubtitleTracksList = new ArrayList<String>(Arrays.asList(mSubtitleTracksLibVLC));
+        if (mSubtitleTracksList == null) {
+            if (mLibVLC.getSpuTracksCount() > 0) {
+                mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
                 mSubtitle.setOnClickListener(mSubtitlesListener);
                 mSubtitle.setVisibility(View.VISIBLE);
-
             }
             else {
                 mSubtitle.setVisibility(View.GONE);
