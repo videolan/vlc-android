@@ -201,7 +201,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
                 if(current == null || current.getTag() == entry.id) { /* Already selected */
-                    mMenu.showAbove();
+                    mMenu.showContent();
                     return;
                 }
 
@@ -219,7 +219,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 ft.attach(getFragment(entry.id));
                 ft.commit();
                 mCurrentFragment = entry.id;
-                mMenu.showAbove();
+                mMenu.showContent();
             }
         });
 
@@ -246,7 +246,7 @@ public class MainActivity extends SherlockFragmentActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mMenu.showBehind();
+                    mMenu.showMenu();
                 }
             }, 500);
         }
@@ -362,9 +362,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     public void onBackPressed() {
-        if(mMenu.isBehindShowing()) {
+        if(mMenu.isMenuShowing()) {
             /* Close the menu first */
-            mMenu.showAbove();
+            mMenu.showContent();
             return;
         }
         // If it's the directory view, a "backpressed" action shows a parent.
@@ -478,10 +478,10 @@ public class MainActivity extends SherlockFragmentActivity {
             	break;
             case android.R.id.home:
                 /* Toggle the sidebar */
-                if(mMenu.isBehindShowing())
-                    mMenu.showAbove();
+                if(mMenu.isMenuShowing())
+                    mMenu.showContent();
                 else
-                    mMenu.showBehind();
+                    mMenu.showMenu();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -519,7 +519,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 infoDialog.dismiss();
                 /* and finally open the sliding menu if first run */
                 if (mFirstRun)
-                    mMenu.showBehind();
+                    mMenu.showMenu();
             }
         });
         infoDialog.show();
