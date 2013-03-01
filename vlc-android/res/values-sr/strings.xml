@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">У реду</string>
+    <string name="cancel">Откажи</string>
+    <string name="other">Друго</string>
+    <string name="filebrowser_title">Изаберите медиј за пуштање</string>
+    <string name="sortby">Поређај по…</string>
+    <string name="sortby_name">Име</string>
+    <string name="sortby_length">Дужина</string>
+    <string name="searchable_hint">Претражи…</string>
+    <string name="history">Историја</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Пронађен је %d резултат</item>
+        <item quantity="few">Пронађена су %d резултата</item>
+        <item quantity="other">Пронађено је %d резултата</item>
+    </plurals>
+
+    <string name="play">Пусти</string>
+    <string name="play_from_start">Пусти од почетка</string>
+    <string name="play_as_audio">Пусти као звук</string>
+    <string name="play_as_video">Пусти као видео</string>
+    <string name="append">Додај</string>
+    <string name="play_all">Пусти све</string>
+    <string name="append_all">Додај све</string>
+    <string name="last_playlist">Последњи списак нумера</string>
+    <string name="delete">Обриши</string>
+    <string name="set_song">Постави као мелодију звона</string>
+    <string name="info">Подаци</string>
+    <string name="confirm_delete">Обрисати датотеку „%1$s“?</string>
+    <string name="ringtone_set">Мелодија „%1$s“ је постављена као звоно.</string>
+    <string name="ringtone_error">Дошло је до грешке при постављању мелодије звона.</string>
+    <string name="pause">Паузирај</string>
+    <string name="not_show_again">Не приказуј поново</string>
+    <string name="beta_warning">Ово је бета верзија, што значи да није стабилна!\n\nКористите апликацију на сопствени ризик.\n\nМоже да се деси да вам убије маче или уништи кућу.\n\nУживајте! :)</string>
+    <string name="info_title">VLC бета</string>
+    <string name="unknown_artist">Непознат извођач</string>
+    <string name="unknown_album">Непознат албум</string>
+    <string name="unknown_genre">Непознат жанр</string>
+    <string name="songs">Песме</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 песма</item>
+        <item quantity="few">%d песме</item>
+        <item quantity="other">%d песама</item>
+    </plurals>
+
+    <string name="artists">Извођачи</string>
+    <string name="albums">Албуми</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 албум</item>
+        <item quantity="few">%d албума</item>
+        <item quantity="other">%d албума</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 потфасцикла</item>
+        <item quantity="few">%d потфасцикле</item>
+        <item quantity="other">%d потфасцикли</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 медијска датотека</item>
+        <item quantity="few">%d медијске датотеке</item>
+        <item quantity="other">%d медијских датотека</item>
+    </plurals>
+
+    <string name="internal_memory">Унутрашња меморија</string>
+    <string name="parent_folder">Назад на надређену фасциклу</string>
+    <string name="audio">Звук</string>
+    <string name="video">Видео</string>
+    <string name="bookmarks">Обележивачи</string>
+    <string name="all_albums">Сви албуми</string>
+    <string name="genres">Жанрови</string>
+    <string name="playlists">Спискови нумера</string>
+    <string name="title">Наслов</string>
+    <string name="artist">Извођач</string>
+    <string name="album">Албум</string>
+    <string name="directory">Фасцикла</string>
+    <string name="directories">Фасцикле</string>
+    <string name="loading">Учитавам</string>
+    <string name="please_wait">Сачекајте…</string>
+    <string name="nomedia">Нема медијских датотека. Пребаците их на уређај или прилагодите поставке.</string>
+    <string name="mediafiles">Медијске датотеке</string>
+    <string name="notavailable">недоступно</string>
+    <string name="nosubdirectory">Нема потфасцикли.</string>
+    <string name="nohistory">Још немате историју спискова нумера.</string>
+    <string name="validation">Јесте ли сигурни?</string>
+    <string name="cover_art">Омот</string>
+    <string name="shuffle">Случајни редослед</string>
+    <string name="repeat">Понављај једну/све/ништа</string>
+    <string name="previous">Претходно</string>
+    <string name="stop">Заустави</string>
+    <string name="next">Следеће</string>
+    <string name="locked">Закључано</string>
+    <string name="unlocked">Откључано</string>
+    <string name="surface_best_fit">Најбоље уклапање</string>
+    <string name="surface_fit_horizontal">Уклопи водоравно</string>
+    <string name="surface_fit_vertical">Уклопи усправно</string>
+    <string name="surface_fill">Попуни</string>
+    <string name="surface_original">Центар</string>
+    <string name="thumbnail">Умањени приказ</string>
+    <string name="refresh">Освежи</string>
+    <string name="track_audio">Звучни запис</string>
+    <string name="track_video">Видео-запис</string>
+    <string name="track_text">Запис титла</string>
+    <string name="track_unknown">Непознати запис</string>
+    <string name="track_codec_info">Кодек: %1$s\n</string>
+    <string name="track_language_info">Језик: %1$s\n</string>
+    <string name="volume">Јачина звука</string>
+    <string name="brightness">Осветљење</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 канал\n</item>
+        <item quantity="few">%1$d канала\n</item>
+        <item quantity="other">%1$d канала\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Брзина узорковања: %1$d Hz\n</string>
+    <string name="track_resolution_info">Резолуција: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Брзина кадрова: %1$.3f\n</string>
+    <string name="tools">Алатке</string>
+    <string name="playback_speed">Брзина извођења</string>
+    <string name="sleep_title">Бројач спавања</string>
+    <string name="sleep_cancel">Откажи бројач спавања</string>
+    <string name="jump_to_time">Пређи на време</string>
+    <string name="open">Отвори</string>
+    <string name="open_mrl">Отвори MRL</string>
+    <string name="open_mrl_dialog_title">Отвори мрежни ток</string>
+    <string name="open_mrl_dialog_msg">Отвори мрежни MRL (нпр. http://, mms:// или rtsp://)</string>
+    <string name="error_not_compatible">Нажалост, ова верзија VLC-а за Андроид не подржава ваш уређај.</string>
+    <string name="error_problem">Нажалост, VLC за Андроид наишао је на проблем и затворио се.</string>
+    <string name="error_message_is">Порука о грешци гласи (помените ово при отклањању грешака):</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC за Андроид</string>
+    <string name="licence">Лиценца</string>
+    <string name="revision">Ревизија</string>
+    <string name="about">О апликацији</string>
+    <string name="about_text">VLC за Андроид је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Андроид може да пушта многе датотеке и мрежне токове.</string>
+    <string name="compiled_by">Ову верзију VLC-а компилирао је:</string>
+    <string name="vlc_authors">Аутори VLC-а.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Поставке</string>
+    <string name="main_prefs_category">Главно</string>
+    <string name="add_custom_path">Додај прилагођену путању</string>
+    <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
+    <string name="remove_custom_path">Уклони прилагођену путању</string>
+    <string name="privacy_prefs_category">Приватност</string>
+    <string name="clear_history">Очисти историју претраге</string>
+    <string name="advanced_prefs_category">Напредно</string>
+    <string name="enable_iomx">Хардверски убрзано декодирање</string>
+    <string name="advanced_debugging">Напредно отклањање грешака</string>
+    <string name="quit">Изађи из апликације</string>
+    <string name="clear_media_db">Очисти базу медија</string>
+    <string name="media_db_cleared">База медија је очишћена.</string>
+    <string name="set_locale">Локализација</string>
+    <string name="set_locale_detail">Оставите празно ради поништавања</string>
+    <string name="set_locale_popup">Поништите VLC и изађите из њега како би измене ступиле на снагу.</string>
+    <string name="chroma_format">Наметни боју</string>
+    <string name="chroma_format_detail">Не активирајте! Можда неће радити са свим уређајима. Намењено је само за верзију 2.3 и новију.</string>
+    <string name="detect_headset">Откриј слушалице</string>
+    <string name="detect_headset_detail">Паузирај када слушалице буду искључене, а настави када буду прикључене</string>
+    <string name="steal_remote_control">Искључива даљинска контрола над слушалицама</string>
+    <string name="steal_remote_control_detail">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Ово спречава позивање двоструким додиром на HTC телефонима.</string>
+    <string name="enable_wheel_bar">Трака за премотавање</string>
+    <string name="enable_gesture_brightness">Покрет за осветљење</string>
+    <string name="screen_orientation">Усмерење екрана</string>
+    <string name="screen_orientation_sensor">Аутоматски (сензор)</string>
+    <string name="screen_orientation_start_lock">Закључано при покретању</string>
+    <string name="screen_orientation_portrait">Усправно</string>
+    <string name="screen_orientation_landscape">Положено</string>
+    <string name="screen_orientation_reverse_portrait">Обрнуто усправно</string>
+    <string name="screen_orientation_reverse_landscape">Обрнуто положено</string>
+    <string name="subtitles_prefs_category">Титлови</string>
+    <string name="subtitles_text_encoding">Кодирање текста</string>
+    <string name="aout">Звучни излаз</string>
+    <string name="aout_audiotrack">AudioTrack (основно)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Растезање времена звука</string>
+    <string name="enable_time_stretching_audio_detail">Убрзајте или успорите звук без промене висине тона (захтева брз уређај)</string>
+    <string name="enable_verbose_mode">Детаљно</string>
+    <string name="enable_verbose_mode_detail">Повећај детаљност (logcat)</string>
+</resources>
