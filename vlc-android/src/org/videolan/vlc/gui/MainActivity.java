@@ -618,7 +618,7 @@ public class MainActivity extends SherlockFragmentActivity {
             }
         }
         );
-        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
                 return;
