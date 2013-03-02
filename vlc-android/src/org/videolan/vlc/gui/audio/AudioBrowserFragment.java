@@ -254,6 +254,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if(!getUserVisibleHint()) return super.onContextItemSelected(item);
+
         ContextMenuInfo menuInfo = item.getMenuInfo();
         if(menuInfo == null) return super.onContextItemSelected(item);
 

@@ -114,6 +114,8 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if(!getUserVisibleHint()) return super.onContextItemSelected(item);
+
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         if(info == null) // info can be null
             return super.onContextItemSelected(item);

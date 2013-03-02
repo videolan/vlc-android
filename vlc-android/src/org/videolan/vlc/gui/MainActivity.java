@@ -51,6 +51,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Display;
@@ -200,7 +201,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 SidebarAdapter.SidebarEntry entry = (SidebarEntry) listView.getItemAtPosition(position);
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
-                if(current == null || current.getTag() == entry.id) { /* Already selected */
+                if(current == null || current.getTag().equals(entry.id)) { /* Already selected */
                     mMenu.showContent();
                     return;
                 }
@@ -214,11 +215,32 @@ public class MainActivity extends SherlockFragmentActivity {
                     getSupportFragmentManager().popBackStack();
                 }
 
+                /**
+                 * Do not move this getFragment("audio")!
+                 * This is to ensure that if audio is not already loaded, it
+                 * will be loaded ahead of the detach/attach below.
+                 * Otherwise if you add() a fragment after an attach/detach,
+                 * it will take over the placeholder and you will end up with
+                 * the audio fragment when some other fragment should be there.
+                 */
+                Fragment audioFragment = getFragment("audio");
+
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.detach(current);
                 ft.attach(getFragment(entry.id));
                 ft.commit();
                 mCurrentFragment = entry.id;
+
+                /*
+                 * Set user visibility hints to work around weird Android
+                 * behaviour of duplicate context menu events.
+                 */
+                current.setUserVisibleHint(false);
+                getFragment(mCurrentFragment).setUserVisibleHint(true);
+                // HACK ALERT: Set underlying audio browser to be invisible too.
+                if(current.getTag().equals("tracks"))
+                    audioFragment.setUserVisibleHint(false);
+
                 mMenu.showContent();
             }
         });

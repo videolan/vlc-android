@@ -138,6 +138,8 @@ public class AudioListFragment extends SherlockListFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        if(!getUserVisibleHint()) return super.onContextItemSelected(item);
+
         AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         if(menuInfo == null) // getMenuInfo can be NULL
             return super.onContextItemSelected(item);
