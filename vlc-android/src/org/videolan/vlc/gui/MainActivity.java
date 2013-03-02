@@ -382,11 +382,17 @@ public class MainActivity extends SherlockFragmentActivity {
     {
         Fragment fragment = mSidebarAdapter.fetchFragment(id);
 
-        if (!fragment.isAdded())
+        // Prevent fragment from being added twice. (IllegalStateException)
+        // See http://stackoverflow.com/questions/13745787/fragment-already-added-support-lib
+        mSidebarAdapter.lockSemaphore();
+        if(!mSidebarAdapter.isFragmentAdded(id)) {
             getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_placeholder, fragment, id)
                 .commitAllowingStateLoss();
+            mSidebarAdapter.setFragmentAdded(id);
+        }
+        mSidebarAdapter.unlockSemaphore();
 
         /* Start the thumbnailer */
         if (id.equals("video"))
