@@ -51,7 +51,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Display;
@@ -311,13 +310,11 @@ public class MainActivity extends SherlockFragmentActivity {
             MediaLibrary.getInstance(this).loadMediaItems(this);
     }
 
-
-
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
 
-        /* Restore last view */
+        // Figure out if currently-loaded fragment is a top-level fragment.
         Fragment current = getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_placeholder);
         boolean found = false;
@@ -331,13 +328,42 @@ public class MainActivity extends SherlockFragmentActivity {
         } else {
             found = true;
         }
-        /* Don't call replace() on a non-sidebar fragment, since replace() will
-         * remove() the currently displayed fragment and replace it with a
-         * blank screen.
+
+        mSidebarAdapter.lockSemaphore();
+        /**
+         * Let's see if Android recreated anything for us in the bundle.
+         * Prevent duplicate creation of fragments, since mSidebarAdapter might
+         * have been purged (losing state) when this activity was killed.
          */
-        if(found) {
+        for(int i = 0; i < SidebarAdapter.entries.size(); i++) {
+            String fragmentTag = SidebarAdapter.entries.get(i).id;
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+            if(fragment != null) {
+                Log.d(TAG, "Restoring automatically recreated fragment \"" + fragmentTag + "\"");
+                mSidebarAdapter.restoreFragment(fragmentTag, fragment);
+            }
+        }
+        mSidebarAdapter.unlockSemaphore();
+
+        /**
+         * Restore the last view.
+         *
+         * Replace:
+         * - null fragments (freshly opened Activity)
+         * - Wrong fragment open AND currently displayed fragment is a top-level fragment
+         *
+         * Do not replace:
+         * - Non-sidebar fragments.
+         * It will try to remove() the currently displayed fragment
+         * (i.e. tracks) and replace it with a blank screen. (stuck menu bug)
+         */
+        if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
+            Log.d(TAG, "Reloading displayed fragment");
+            Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_placeholder, getFragment(mCurrentFragment));
+            if(current != null)
+                ft.detach(current);
+            ft.attach(ff);
             ft.commit();
         }
     }

@@ -33,6 +33,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,5 +176,23 @@ public class SidebarAdapter extends BaseAdapter {
      */
     public void unlockSemaphore() {
         mSemaphore.release();
+    }
+
+    /**
+     * When Android has automatically recreated a fragment from the bundle state,
+     * use this function to 'restore' the recreated fragment into this sidebar
+     * adapter to prevent it from trying to create the same fragment again.
+     *
+     * @param id ID of the fragment
+     * @param f The fragment itself
+     */
+    public void restoreFragment(String id, Fragment f) {
+        if(f == null) {
+            Log.e(TAG, "Can't set null fragment for " + id + "!");
+            return;
+        }
+        mFragments.put(id, f);
+        mFragmentAdded.put(id, true);
+        // if Android added it, it's been implicitly added already...
     }
 }
