@@ -78,12 +78,19 @@ NDK_TOOLCHAIN_PATH=${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/`un
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=7018018
+TESTED_HASH=e1b0fcc
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
     cd vlc
     git checkout -B android ${TESTED_HASH}
+    echo "Applying the patches"
+    git am -3 ../patches/*.patch
+    if [ $? -ne 0 ]; then
+        git am --abort
+        echo "Applying the patches failed, aborting git-am"
+        exit 1
+    fi
 else
     echo "VLC source found"
     cd vlc
@@ -99,6 +106,7 @@ cd vlc
 git reset --hard origin
 git pull origin master
 git checkout -B android ${TESTED_HASH}
+git am -3 ../patches/*
 
 *** : This will delete any changes you made to the current branch ***
 
