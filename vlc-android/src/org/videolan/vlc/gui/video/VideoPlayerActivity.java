@@ -1345,8 +1345,8 @@ public class VideoPlayerActivity extends Activity {
                     // Media URI
                     Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
                     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                    cursor.moveToFirst();
-                    mLocation = Util.PathToURI(cursor.getString(column_index));
+                    if (cursor.moveToFirst())
+                        mLocation = Util.PathToURI(cursor.getString(column_index));
                 } else {
                     // other content-based URI (probably file pickers)
                     mLocation = getIntent().getData().getPath();
