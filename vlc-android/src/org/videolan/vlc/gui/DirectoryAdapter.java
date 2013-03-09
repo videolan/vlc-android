@@ -54,7 +54,11 @@ public class DirectoryAdapter extends BaseAdapter {
      * Private helper class to implement the directory tree
      */
     public class Node implements Comparable<DirectoryAdapter.Node> {
+        public DirectoryAdapter.Node parent;
         public ArrayList<DirectoryAdapter.Node> children;
+        /**
+         * Name of the file/folder (not full path).
+         */
         String name;
         String visibleName;
         public Boolean isFile;
@@ -68,6 +72,22 @@ public class DirectoryAdapter extends BaseAdapter {
             this.visibleName = _visibleName;
             this.children = new ArrayList<DirectoryAdapter.Node>();
             this.isFile = false;
+            this.parent = null;
+        }
+
+        public void addChildNode(DirectoryAdapter.Node n) {
+            n.parent = this;
+            this.children.add(n);
+        }
+
+        public DirectoryAdapter.Node getChildNode(String directoryName) {
+            for(DirectoryAdapter.Node n : this.children) {
+                if(n.name.equals(directoryName))
+                    return n;
+            }
+            DirectoryAdapter.Node n = new DirectoryAdapter.Node(directoryName);
+            this.addChildNode(n);
+            return n;
         }
 
         public Boolean isFile() {
@@ -150,7 +170,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName(), getVisibleName(f));
                 child.isFile = false;
                 this.populateNode(child, storage, 0);
-                n.children.add(child);
+                n.addChildNode(child);
             }
             return;
         }
@@ -199,7 +219,7 @@ public class DirectoryAdapter extends BaseAdapter {
                         continue;
                 }
 
-                n.children.add(nss);
+                n.addChildNode(nss);
             }
             Collections.sort(n.children);
         }
@@ -335,6 +355,7 @@ public class DirectoryAdapter extends BaseAdapter {
                         Util.PathToURI(this.mCurrentDir + "/" + directoryName))
                         .normalize().getPath();
                 this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
+
                 if (this.mCurrentDir.equals(getParentDir(this.mCurrentRoot))) {
                     // Returning on the storage list
                     this.mCurrentDir = null;
@@ -348,9 +369,16 @@ public class DirectoryAdapter extends BaseAdapter {
 
         Log.d(TAG, "Browsing to " + this.mCurrentDir);
 
-        this.mCurrentNode.children.clear();
-        this.mCurrentNode = new DirectoryAdapter.Node(mCurrentDir);
-        this.populateNode(mCurrentNode, mCurrentDir);
+        if(directoryName.equals(".."))
+            this.mCurrentNode = this.mCurrentNode.parent;
+        else {
+            this.mCurrentNode = this.mCurrentNode.getChildNode(directoryName);
+            if(mCurrentNode.subfolderCount() < 1) {
+                // Clear the ".." entry
+                this.mCurrentNode.children.clear();
+                this.populateNode(mCurrentNode, mCurrentDir);
+            }
+        }
 
         this.notifyDataSetChanged();
         return true;
