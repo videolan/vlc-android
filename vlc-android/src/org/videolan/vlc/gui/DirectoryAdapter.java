@@ -132,7 +132,16 @@ public class DirectoryAdapter extends BaseAdapter {
         ImageView icon;
     }
 
-    public void populateNode(DirectoryAdapter.Node n, String path) {
+    private void populateNode(DirectoryAdapter.Node n, String path) {
+        populateNode(n, path, 0);
+    }
+
+    /**
+     * @param n Node to populate
+     * @param path Path to populate
+     * @param depth Depth of iteration (0 = 1st level of nesting, 1 = 2 level of nesting, etc)
+     */
+    private void populateNode(DirectoryAdapter.Node n, String path, int depth) {
         if (path == null) {
             // We're on the storage list
             String storages[] = Util.getMediaDirectories();
@@ -140,7 +149,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 File f = new File(storage);
                 DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName(), getVisibleName(f));
                 child.isFile = false;
-                this.populateNode(child, storage);
+                this.populateNode(child, storage, 0);
                 n.children.add(child);
             }
             return;
@@ -171,7 +180,8 @@ public class DirectoryAdapter extends BaseAdapter {
                 String newPath = sb.toString();
                 sb.setLength(0);
 
-                if (LibVLC.nativeIsPathDirectory(newPath)) {
+                // Don't try to go beyond depth 10 as a safety measure.
+                if (LibVLC.nativeIsPathDirectory(newPath) && depth < 10) {
                     ArrayList<String> files_int = new ArrayList<String>();
                     LibVLC.nativeReadDirectory(newPath, files_int);
                     if(files_int.size() < 8) { /* Optimisation: If there are more than 8
@@ -179,7 +189,7 @@ public class DirectoryAdapter extends BaseAdapter {
                                                    when scaled it is very slow to load */
                         String mCurrentDir_old = mCurrentDir;
                         mCurrentDir = path;
-                        this.populateNode(nss, newPath);
+                        this.populateNode(nss, newPath, depth+1);
                         mCurrentDir = mCurrentDir_old;
                     }
                 } else {
