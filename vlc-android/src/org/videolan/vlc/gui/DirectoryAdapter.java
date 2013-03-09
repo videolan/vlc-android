@@ -361,8 +361,11 @@ public class DirectoryAdapter extends BaseAdapter {
                     this.mCurrentDir = null;
                     this.mCurrentRoot = null;
                 }
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
+            } catch(URISyntaxException e) {
+                Log.e(TAG, "URISyntaxException in browse()", e);
+                return false;
+            } catch(NullPointerException e) {
+                Log.e(TAG, "NullPointerException in browse()", e);
                 return false;
             }
         }

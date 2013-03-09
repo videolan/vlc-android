@@ -83,6 +83,9 @@ public class Util {
     }
 
     public static String PathToURI(String path) {
+        if(path == null) {
+            throw new NullPointerException("Cannot convert null path!");
+        }
         return LibVLC.nativeToURI(path);
     }
 
