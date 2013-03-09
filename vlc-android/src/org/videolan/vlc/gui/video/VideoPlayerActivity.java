@@ -1340,7 +1340,9 @@ public class VideoPlayerActivity extends Activity {
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application */
-            if(getIntent().getData().getScheme().equals("content")) {
+            if (getIntent().getData() != null
+                    && getIntent().getData().getScheme() != null
+                    && getIntent().getData().getScheme().equals("content")) {
                 if(getIntent().getData().getHost().equals("media")) {
                     // Media URI
                     Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
