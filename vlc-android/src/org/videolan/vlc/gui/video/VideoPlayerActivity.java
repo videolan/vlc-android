@@ -816,8 +816,11 @@ public class VideoPlayerActivity extends Activity {
                     doBrightnessTouch(y_changed);
                 }
                 // Extend the overlay for a little while, so that it doesn't
-                // disappear on the user if more adjustment is needed.
-                showOverlay();
+                // disappear on the user if more adjustment is needed. This
+                // is because on devices with soft navigation (e.g. Galaxy
+                // Nexus), gestures can't be made without activating the UI.
+                if(Util.hasNavBar())
+                    showOverlay();
             }
             // Seek (Right or Left move)
             doSeekTouch(coef, xgesturesize, false);
