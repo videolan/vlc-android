@@ -805,9 +805,9 @@ public class VideoPlayerActivity extends Activity {
             break;
 
         case MotionEvent.ACTION_MOVE:
-            // No audio/brightness action if coef < 2
+            // No volume/brightness action if coef < 2
             if (coef > 2) {
-                // Audio (Up or Down - Right side)
+                // Volume (Up or Down - Right side)
                 if (!mEnableBrightnessGesture || mTouchX > (screen.widthPixels / 2)){
                     doVolumeTouch(y_changed);
                 }
@@ -815,6 +815,9 @@ public class VideoPlayerActivity extends Activity {
                 if (mEnableBrightnessGesture && mTouchX < (screen.widthPixels / 2)){
                     doBrightnessTouch(y_changed);
                 }
+                // Extend the overlay for a little while, so that it doesn't
+                // disappear on the user if more adjustment is needed.
+                showOverlay();
             }
             // Seek (Right or Left move)
             doSeekTouch(coef, xgesturesize, false);
