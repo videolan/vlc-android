@@ -9,7 +9,7 @@
     <string name="sortby">Sortér etter</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_length">Lengde</string>
-    <string name="searchable_hint">Søk&#8230;</string>
+    <string name="searchable_hint">Søk…</string>
     <string name="history">Historie</string>
 
     <plurals name="search_found_results_quantity">
@@ -74,7 +74,7 @@
     <string name="directory">Mappe</string>
     <string name="directories">Mapper</string>
     <string name="loading">Laster</string>
-    <string name="please_wait">Vent litt&#8230;</string>
+    <string name="please_wait">Vent litt…</string>
     <string name="nomedia">Ingen mediefiler funnet, vennligst overfør filer til din enhet eller endre på innstillingene.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
@@ -95,6 +95,7 @@
     <string name="surface_fill">Fyll ut</string>
     <string name="surface_original">Midtstilt</string>
     <string name="thumbnail">Miniatyrbilde</string>
+    <string name="unseekable_stream">Ugjenkjennelig strøm</string>
     <string name="refresh">Oppdater</string>
     <string name="track_audio">Lydspor</string>
     <string name="track_video">Videospor</string>
@@ -175,4 +176,6 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
     <string name="enable_time_stretching_audio_detail">Øk og senk hastigheten på lyd uten å endre tonehøyde (krever en rask enhet)</string>
+    <string name="enable_verbose_mode">Detaljer</string>
+    <string name="enable_verbose_mode_detail">Flere detaljer (logcat)</string>
 </resources>
