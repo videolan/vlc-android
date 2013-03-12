@@ -91,6 +91,7 @@
     <string name="surface_fill">បំពេញ</string>
     <string name="surface_original">កណ្ដាល</string>
     <string name="thumbnail">រូបភាព​តូចៗ</string>
+    <string name="unseekable_stream">ចរន្ត​ដែល​មិន​អាច​រក​បាន</string>
     <string name="refresh">ផ្ទុក​ឡើងវិញ</string>
     <string name="track_audio">បទ​អូឌីយ៉ូ</string>
     <string name="track_video">បទ​វីដេអូ</string>
