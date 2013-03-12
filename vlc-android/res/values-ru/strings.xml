@@ -79,8 +79,8 @@
     <string name="album">Альбом</string>
     <string name="directory">Каталог</string>
     <string name="directories">Каталоги</string>
-    <string name="loading">Загрузка&#8230;</string>
-    <string name="please_wait">Пожалуйста, подождите&#8230;</string>
+    <string name="loading">Загрузка…</string>
+    <string name="please_wait">Пожалуйста, подождите…</string>
     <string name="nomedia">Медиафайлы не найдены. Пожалуйста, перенесите файлы на ваше устройство или измените настройки.</string>
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
@@ -101,6 +101,7 @@
     <string name="surface_fill">Заполнение</string>
     <string name="surface_original">По центру</string>
     <string name="thumbnail">Эскиз</string>
+    <string name="unseekable_stream">Перемотка потока невозможна</string>
     <string name="refresh">Обновить</string>
     <string name="track_audio">Аудиодорожка</string>
     <string name="track_video">Видеодорожка</string>
@@ -126,7 +127,7 @@
     <string name="sleep_cancel">Отменить таймер сна</string>
     <string name="jump_to_time">Перейти ко времени</string>
     <string name="open">Открыть</string>
-    <string name="open_mrl">Открыть MRL&#8230;</string>
+    <string name="open_mrl">Открыть MRL…</string>
     <string name="open_mrl_dialog_title">Воспроизведение сетевого потока</string>
     <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
     <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
