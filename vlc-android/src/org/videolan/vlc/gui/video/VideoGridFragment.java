@@ -52,6 +52,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -105,6 +106,11 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mVideoAdapter = new VideoListAdapter(getActivity(), this);
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
         setListAdapter(mVideoAdapter);
+
+        /* Load the thumbnailer */
+        FragmentActivity activity = getActivity();
+        if (activity != null)
+            mThumbnailerManager = new ThumbnailerManager(activity, activity.getWindowManager().getDefaultDisplay());
     }
 
     @Override
@@ -142,6 +148,10 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     public void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
+
+        /* Stop the thumbnailer */
+        if (mThumbnailerManager != null)
+            mThumbnailerManager.stop();
     }
 
     @Override
@@ -156,6 +166,10 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mMediaLibrary.addUpdateHandler(mHandler);
         updateViewMode();
         mAnimator.animate();
+
+        /* Start the thumbnailer */
+        if (mThumbnailerManager != null)
+            mThumbnailerManager.start(this);
     }
 
     @Override
@@ -167,6 +181,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mThumbnailerManager != null)
+            mThumbnailerManager.clearJobs();
         mBarrier.reset();
         mVideoAdapter.clear();
     }
@@ -426,9 +442,5 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
         context.getApplicationContext().sendBroadcast(intent);
-    }
-
-    public void setThumbnailerManager(ThumbnailerManager thumbnailerManager) {
-        mThumbnailerManager = thumbnailerManager;
     }
 }

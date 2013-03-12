@@ -79,7 +79,6 @@ public class ThumbnailerManager implements Runnable {
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {
             mVideoGridFragment = videoGridFragment;
-            mVideoGridFragment.setThumbnailerManager(this);
             mThread = new Thread(this);
             mThread.start();
         }
@@ -191,7 +190,6 @@ public class ThumbnailerManager implements Runnable {
         /* cleanup */
         MainActivity.hideProgressBar(mContext);
         MainActivity.clearTextInfo(mContext);
-        mVideoGridFragment.setThumbnailerManager(null);
         mVideoGridFragment = null;
         Log.d(TAG, "Thumbnailer stopped");
     }
