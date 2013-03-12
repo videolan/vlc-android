@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">O.k.</string>
+    <string name="cancel">Annullér</string>
+    <string name="other">Andet</string>
+    <string name="filebrowser_title">Vælg medie til afspilning</string>
+    <string name="sortby">Sortér efter …</string>
+    <string name="sortby_name">Navn</string>
+    <string name="sortby_length">Længde</string>
+    <string name="searchable_hint">Søg …</string>
+    <string name="history">Historik</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Fandt %d forekomst</item>
+        <item quantity="other">Fandt %d forekomster </item>
+    </plurals>
+
+    <string name="play">Afspil</string>
+    <string name="play_from_start">Afspil fra start</string>
+    <string name="play_as_audio">Afspil som lyd</string>
+    <string name="play_as_video">Afspil som video</string>
+    <string name="append">Tilføj</string>
+    <string name="play_all">Afspil alle</string>
+    <string name="append_all">Tilføj alle</string>
+    <string name="last_playlist">Seneste afspilningsliste</string>
+    <string name="delete">Slet</string>
+    <string name="set_song">Anvend som ringetone</string>
+    <string name="info">Information</string>
+    <string name="confirm_delete">Slet filen \\"%1$s\\"?</string>
+    <string name="ringtone_set">\\"%1$s\\" blev sat som ringetone.</string>
+    <string name="ringtone_error">Der opstod en fejl under angivelse af ringetone.</string>
+    <string name="pause">Pause</string>
+    <string name="not_show_again">Vis ikke denne besked igen.</string>
+    <string name="beta_warning">Dette er en beta-version.\n\nDenne version er IKKE STABIL!\n\nAnvend IKKE medmindre du véd hvad du foretager dig.\n\nDen kan slå din kattekilling ihjel eller ødelægge dit hus.\nAnvendes på eget ansvar.\n\nSørg for at more dig! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Ukendt kunstner</string>
+    <string name="unknown_album">Ukendt album</string>
+    <string name="unknown_genre">Ukendt genre</string>
+    <string name="songs">Sange</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 sang</item>
+        <item quantity="other">%d sange</item>
+    </plurals>
+
+    <string name="artists">Artister</string>
+    <string name="albums">Album</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="other">%d album</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 undermappe</item>
+        <item quantity="other">%d undermapper</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 mediefil</item>
+        <item quantity="other">%d mediefiler</item>
+    </plurals>
+
+    <string name="internal_memory">Intern hukommelse</string>
+    <string name="parent_folder">Op til overordnet mappe</string>
+    <string name="audio">Lyd</string>
+    <string name="video">Video</string>
+    <string name="bookmarks">Bogmærker</string>
+    <string name="all_albums">Alle album</string>
+    <string name="genres">Genrer</string>
+    <string name="playlists">Afspilningslister</string>
+    <string name="title">Titel</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="directory">Mappe</string>
+    <string name="directories">Mapper</string>
+    <string name="loading">Indlæser</string>
+    <string name="please_wait">Vent venligst …</string>
+    <string name="nomedia">Der blev ikke fundet mediefiler, overfør venligst filer til din enhed eller tilpas dine præferencer.</string>
+    <string name="mediafiles">Medie-filer</string>
+    <string name="notavailable">ikke tilgængelig</string>
+    <string name="nosubdirectory">Ingen undermapper.</string>
+    <string name="nohistory">Du har endnu ikke en afspilnings-historik.</string>
+    <string name="validation">Er du sikker?</string>
+    <string name="cover_art">Omslag</string>
+    <string name="shuffle">Bland</string>
+    <string name="repeat">Gentag ingen/enkelt/alle</string>
+    <string name="previous">Forrige</string>
+    <string name="stop">Stop</string>
+    <string name="next">Næste</string>
+    <string name="locked">Låst</string>
+    <string name="unlocked">Ulåst</string>
+    <string name="surface_best_fit">Bedste tilpasning</string>
+    <string name="surface_fit_horizontal">Tilpas vandret</string>
+    <string name="surface_fit_vertical">Tilpas lodret</string>
+    <string name="surface_fill">Udfyld</string>
+    <string name="surface_original">Center</string>
+    <string name="thumbnail">Miniature</string>
+    <string name="unseekable_stream">Kan ikke søge i strøm</string>
+    <string name="refresh">Genopfrisk</string>
+    <string name="track_audio">Lydspor</string>
+    <string name="track_video">Videospor</string>
+    <string name="track_text">Undertekstspor</string>
+    <string name="track_unknown">Ukendt spor</string>
+    <string name="track_codec_info">Kodning: %1$s\n</string>
+    <string name="track_language_info">Sprog: %1$s\n</string>
+    <string name="volume">Lydstyrke</string>
+    <string name="brightness">Lysstyrke</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="other">%1$d kanaler\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Samplingfrekvens: %1$d Hz\n</string>
+    <string name="track_resolution_info">Opløsning: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Billedhastighed: %1$.3f\n</string>
+    <string name="tools">Værktøjer</string>
+    <string name="playback_speed">Afspilningshastighed</string>
+    <string name="sleep_title">Sleep-timer</string>
+    <string name="sleep_cancel">Annullér sleep-timer</string>
+    <string name="jump_to_time">Spring til tidspunkt</string>
+    <string name="open">Åbn</string>
+    <string name="open_mrl">Åbn MRL</string>
+    <string name="open_mrl_dialog_title">Åbn netværksstrøm</string>
+    <string name="open_mrl_dialog_msg">Angiv netværks-MRL: f.eks. http://, mms:// eller rtsp://</string>
+    <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC for Android™.</string>
+    <string name="error_problem">Beklager, VLC for Android havde problemer med indlæsningen og måtte lukke.</string>
+    <string name="error_message_is">Fejlbeskeden er (oplys venligst denne når der fejlsøges):\n</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC til Android™</string>
+    <string name="licence">Licens</string>
+    <string name="revision">Revision</string>
+    <string name="about">Om</string>
+    <string name="about_text">VLC til Android™ er en portering af VLC-medieafspilleren, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme. </string>
+    <string name="compiled_by">Denne version af VLC er kompileret af:</string>
+    <string name="vlc_authors">VLC-forfattere</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Præferencer</string>
+    <string name="main_prefs_category">Hovedside</string>
+    <string name="add_custom_path">Tilføj en brugerdefineret sti</string>
+    <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
+    <string name="remove_custom_path">Fjern brugerdefineret sti</string>
+    <string name="privacy_prefs_category">Privatliv</string>
+    <string name="clear_history">Ryd søgehistorik</string>
+    <string name="advanced_prefs_category">Avanceret</string>
+    <string name="enable_iomx">Tænd for fysisk accelereret afkodning</string>
+    <string name="advanced_debugging">Avanceret fejlsøgning</string>
+    <string name="quit">Afslut program</string>
+    <string name="clear_media_db">Ryd medie-database</string>
+    <string name="media_db_cleared">Medie-database er ryddet!</string>
+    <string name="set_locale">Angiv lokalitet</string>
+    <string name="set_locale_detail">Lad stå tom for at nulstille</string>
+    <string name="set_locale_popup">Afslut og nulstil VLC, så ændringer kan træde i kraft.</string>
+    <string name="chroma_format">Gennemtving kroma</string>
+    <string name="chroma_format_detail">UNDLAD AT AKTIVERE!!! Virker muligvis ikke på alle enheder. Kun 2.3 eller senere.</string>
+    <string name="detect_headset">Detektér hovedtelefoner</string>
+    <string name="detect_headset_detail">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner isættes</string>
+    <string name="steal_remote_control">Fjernbetjen kun med headset</string>
+    <string name="steal_remote_control_detail">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
+    <string name="enable_wheel_bar">Tænd for rullebjælke</string>
+    <string name="enable_gesture_brightness">Slå lysstyrke-gestus til</string>
+    <string name="screen_orientation">Skærmretning</string>
+    <string name="screen_orientation_sensor">Automatisk (sensor)</string>
+    <string name="screen_orientation_start_lock">Låst ved start</string>
+    <string name="screen_orientation_portrait">Portræt</string>
+    <string name="screen_orientation_landscape">Liggende</string>
+    <string name="screen_orientation_reverse_portrait">Vend portræt om</string>
+    <string name="screen_orientation_reverse_landscape">Drej liggende rundt</string>
+    <string name="subtitles_prefs_category">Undertekster</string>
+    <string name="subtitles_text_encoding">Tekst-indkodning</string>
+    <string name="aout">Lydoutput</string>
+    <string name="aout_audiotrack">AudioTrack (original)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
+    <string name="enable_time_stretching_audio_detail">Øger eller sænker hastigheden på lyden, uden at ændre tonelejet (kræver en hurtig enhed)</string>
+    <string name="enable_verbose_mode">Uddybende</string>
+    <string name="enable_verbose_mode_detail">forøg graden af uddybning (logcat)</string>
+</resources>
