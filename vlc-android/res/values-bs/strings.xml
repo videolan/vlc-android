@@ -101,6 +101,7 @@
     <string name="surface_fill">Popuni</string>
     <string name="surface_original">Centar</string>
     <string name="thumbnail">Slikica</string>
+    <string name="unseekable_stream">Nepotraživo stujanje</string>
     <string name="refresh">Osvježi</string>
     <string name="track_audio">Zvučni trag</string>
     <string name="track_video">Video trag</string>
