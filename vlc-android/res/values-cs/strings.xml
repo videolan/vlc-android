@@ -101,6 +101,7 @@
     <string name="surface_fill">Vyplnit</string>
     <string name="surface_original">Vystředit</string>
     <string name="thumbnail">Náhled</string>
+    <string name="unseekable_stream">Proud bez možnosti přesunu</string>
     <string name="refresh">Obnovit</string>
     <string name="track_audio">Stopa zvuku</string>
     <string name="track_video">Stopa videa</string>
