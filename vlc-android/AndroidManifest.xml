@@ -63,9 +63,6 @@
             android:label="@string/mediafiles"
             android:theme="@android:style/Theme" />
         <activity
-            android:name=".gui.video.VideoActivityGroup"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
             android:name=".gui.video.VideoGridFragment"
             android:theme="@style/Theme.VLC"/>
         <activity
@@ -379,9 +376,6 @@
         <activity
             android:name=".gui.audio.AudioListFragment"
             android:theme="@style/Theme.VLC"  />
-        <activity
-            android:name=".gui.audio.AudioActivityGroup"
-            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.audio.AudioPlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar"

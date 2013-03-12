@@ -4,8 +4,7 @@
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:background="@android:color/black">
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/list"
+<ListView android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="@color/item_common"
