@@ -126,6 +126,7 @@
     <string name="error_message_is">A mensagem de erro é (por favor mencione isto ao fazer debugging):\n</string>
 
     <!-- About -->
+    <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
     <string name="revision">Revisão</string>
     <string name="about">Sobre o &#8230;</string>
