@@ -25,7 +25,7 @@
     <string name="delete">মুছে ফেলা</string>
     <string name="set_song">রিংটোন হিসাবে সেট করুন</string>
     <string name="info">তথ্য</string>
-    <string name="confirm_delete">ফাইল \'%১$s\' মুছে ফেলুন?</string>
+    <string name="confirm_delete">ফাইল \'%1$s\' মুছে ফেলুন?</string>
     <string name="pause">বিরতি</string>
     <string name="close">বন্ধ করা</string>
     <string name="not_show_again">এই বার্তাটি কি পুনরায় দেখায় না।</string>
