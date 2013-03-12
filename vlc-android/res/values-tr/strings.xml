@@ -32,7 +32,7 @@
     <string name="ringtone_error">Zil sesi ayarlanırken bir hata oluştu.</string>
     <string name="pause">Duraklat</string>
     <string name="not_show_again">Bu iletiyi bir daha gösterme</string>
-    <string name="beta_warning">Kullandığınız bir Beta sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi evinizin öldürebilir ve yok edebilir.\nDoğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
+    <string name="beta_warning">Kullandığınız bir deneme (Beta) sürümüdür.\n\nBu sürüm kararlı DEĞİLDİR!\n\nNe yaptığınızı bildiğinizden emin değilseniz kullanmayın.\n\nKedinizi öldürebilir ve evinizi yıkabilir.\nKullanımdan doğacak riskler size aittir.\n\nİyi Eğlenceler! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Bilinmeyen Sanatçı</string>
     <string name="unknown_album">Bilinmeyen Albüm</string>
@@ -91,6 +91,7 @@
     <string name="surface_fill">Doldur</string>
     <string name="surface_original">Ortala</string>
     <string name="thumbnail">Küçük resim</string>
+    <string name="unseekable_stream">Arama yapılamayan akış</string>
     <string name="refresh">Yenile</string>
     <string name="track_audio">Ses izi</string>
     <string name="track_video">Görüntü izi</string>
@@ -112,6 +113,7 @@
     <string name="playback_speed">Oynatma hızı</string>
     <string name="sleep_title">Uyku zamanlayıcı</string>
     <string name="sleep_cancel">Uyku zamanlayıcıyı iptal et</string>
+    <string name="jump_to_time">Sıçranacak Zaman</string>
     <string name="open">Aç</string>
     <string name="open_mrl">MRL Aç</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
@@ -146,6 +148,7 @@
     <string name="set_locale">Yerel ayar</string>
     <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
     <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
+    <string name="chroma_format">Dayatılacak renk doygunluğu</string>
     <string name="chroma_format_detail">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
     <string name="detect_headset">Kulaklığı algıla</string>
     <string name="detect_headset_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
