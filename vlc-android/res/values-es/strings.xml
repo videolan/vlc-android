@@ -33,7 +33,7 @@
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">No mostrar este mensaje de nuevo.</string>
-    <string name="beta_warning">Esta es una versión de prueba.\n\n¡NO es estable!\n\nNo la use, a menos que conozca que está haciendo.\n\nPodría matar a su gato y destruir su casa\nÚsela bajo su propio riesgo.\n\n¡Diviértase! :)</string>
+    <string name="beta_warning">Esta es una versión de prueba.\n\n¡NO es estable!\n\nNo la use, a menos que conozca que está haciendo.\n\nPodría matar a su gato y destruir su casa.\nÚsela bajo su propio riesgo.\n\n¡Diviértase! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista desconocido</string>
     <string name="unknown_album">Álbum desconocido</string>
@@ -96,6 +96,7 @@
     <string name="surface_fill">Rellenar</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Vista previa</string>
+    <string name="unseekable_stream">Flujo no buscable</string>
     <string name="refresh">Actualizar</string>
     <string name="track_audio">Pista de audio</string>
     <string name="track_video">Pista de vídeo</string>
