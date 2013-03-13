@@ -149,13 +149,13 @@
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
     <string name="chroma_format">បង្ខុំ​ក្រូម</string>
-    <string name="chroma_format_detail">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
-    <string name="detect_headset">រក​​​កាស</string>
-    <string name="detect_headset_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
-    <string name="steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
-    <string name="steal_remote_control_detail">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="chroma_format_summary">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
+    <string name="enable_headset_detection">រក​​​កាស</string>
+    <string name="enable_headset_detection_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
+    <string name="enable_steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
+    <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>
-    <string name="enable_gesture_brightness">បើក​កាយវិកា​ពន្លឺ</string>
+    <string name="enable_brightness_gesture">បើក​កាយវិកា​ពន្លឺ</string>
     <string name="screen_orientation">ទិស​អេក្រង់</string>
     <string name="screen_orientation_sensor">​ស្វ័យប្រវត្តិ (ឧបករណ៍​ចាប់​សញ្ញា)</string>
     <string name="screen_orientation_start_lock">ជាប់​សោ​នៅ​ពេល​ចាប់ផ្ដើម</string>
@@ -170,7 +170,7 @@
     <string name="aout_audiotrack_java">បទ​អូឌីយ៉ូ (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
-    <string name="enable_time_stretching_audio_detail">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
+    <string name="enable_time_stretching_audio_summary">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
     <string name="enable_verbose_mode">បរិយាយ</string>
     <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
 </resources>

@@ -155,13 +155,13 @@
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
     <string name="chroma_format">Forza croma</string>
-    <string name="chroma_format_detail">NON ATTIVARE!!! Potrebbe non funzionare con tutti i dispositivi. Solo 2.3 e successivi.</string>
-    <string name="detect_headset">Rileva cuffie</string>
-    <string name="detect_headset_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
-    <string name="steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
-    <string name="steal_remote_control_detail">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
+    <string name="chroma_format_summary">NON ATTIVARE!!! Potrebbe non funzionare con tutti i dispositivi. Solo 2.3 e successivi.</string>
+    <string name="enable_headset_detection">Rileva cuffie</string>
+    <string name="enable_headset_detection_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
+    <string name="enable_steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
+    <string name="enable_steal_remote_control_summary">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
     <string name="enable_wheel_bar">Wheel bar</string>
-    <string name="enable_gesture_brightness">Gesti della luminosità</string>
+    <string name="enable_brightness_gesture">Gesti della luminosità</string>
     <string name="screen_orientation">Orientamento dello schermo</string>
     <string name="screen_orientation_sensor">Automatico (sensore)</string>
     <string name="screen_orientation_start_lock">Bloccato all\'avvio</string>
@@ -176,7 +176,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
-    <string name="enable_time_stretching_audio_detail">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
+    <string name="enable_time_stretching_audio_summary">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
 </resources>

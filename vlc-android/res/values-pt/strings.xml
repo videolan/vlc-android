@@ -152,13 +152,13 @@
     <string name="set_locale_detail">Deixar em branco para fazer reset</string>
     <string name="set_locale_popup">Saia e faça um reset ao VLC para as alterações fazerem efeito.</string>
     <string name="chroma_format">Forçar chroma</string>
-    <string name="chroma_format_detail">NÃO ACTIVAR! Pode não funcionar como todos os dispositivos 2.3 ou superiores.</string>
-    <string name="detect_headset">Detectar headset</string>
-    <string name="detect_headset_detail">Pausa ao remover o headset; retoma ao inserir o headset</string>
-    <string name="steal_remote_control">Controlo remoto exclusivo do headset</string>
-    <string name="steal_remote_control_detail">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique em telefones HTC.</string>
+    <string name="chroma_format_summary">NÃO ACTIVAR! Pode não funcionar como todos os dispositivos 2.3 ou superiores.</string>
+    <string name="enable_headset_detection">Detectar headset</string>
+    <string name="enable_headset_detection_detail">Pausa ao remover o headset; retoma ao inserir o headset</string>
+    <string name="enable_steal_remote_control">Controlo remoto exclusivo do headset</string>
+    <string name="enable_steal_remote_control_summary">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique em telefones HTC.</string>
     <string name="enable_wheel_bar">Activar barra de scroll</string>
-    <string name="enable_gesture_brightness">Activar gesto do brilho</string>
+    <string name="enable_brightness_gesture">Activar gesto do brilho</string>
     <string name="screen_orientation">Orientação do ecrã</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
     <string name="screen_orientation_start_lock">Trancado no arranque</string>
@@ -173,7 +173,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Activar aumento-tempo para audio</string>
-    <string name="enable_time_stretching_audio_detail">Aumentar e diminuir áudio sem alterar o pitch (requer um dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio_summary">Aumentar e diminuir áudio sem alterar o pitch (requer um dispositivo rápido)</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_detail">Aumentar a verbosidade (logcat)</string>
 </resources>

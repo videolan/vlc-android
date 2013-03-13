@@ -148,10 +148,10 @@
     <string name="set_locale_detail">पुनर्स्थापित करने के लिए खाली छोड़ दें</string>
     <string name="set_locale_popup">परिवर्तनों को प्रभावी करने के लिए VLC रीसेट करें और बाहर निकले. </string>
     <string name="chroma_format">बल वर्णकी</string>
-    <string name="detect_headset">हेडसेट का पता लगायें</string>
-    <string name="detect_headset_detail">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
+    <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
+    <string name="enable_headset_detection_detail">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
     <string name="enable_wheel_bar">पहिया पट्टी सक्रिय करें</string>
-    <string name="enable_gesture_brightness">चमक जेश्चर सक्रिय करें</string>
+    <string name="enable_brightness_gesture">चमक जेश्चर सक्रिय करें</string>
     <string name="screen_orientation">पर्दा अनुकूलन</string>
     <string name="screen_orientation_sensor">स्वचालित (संवेदक)</string>
     <string name="screen_orientation_portrait">विस्तृत आलेख्य</string>
@@ -165,7 +165,7 @@
     <string name="aout_audiotrack_java">AudioTrack (जावा)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">समय-टूटती ऑडियो सक्षम करें</string>
-    <string name="enable_time_stretching_audio_detail">पिच (तेज उपकरण की आवश्यकता है) को परिवर्तित किये बिना ऑडियो धीमी गति से और तेजी से बढ़ाएं</string>
+    <string name="enable_time_stretching_audio_summary">पिच (तेज उपकरण की आवश्यकता है) को परिवर्तित किये बिना ऑडियो धीमी गति से और तेजी से बढ़ाएं</string>
     <string name="enable_verbose_mode">शब्दबहुल</string>
     <string name="enable_verbose_mode_detail">शब्दाडंबर (logcat) में वृद्धि करें</string>
 </resources>

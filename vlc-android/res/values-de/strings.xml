@@ -155,13 +155,13 @@
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">Beenden und VLC zurücksetzen damit die Änderungen wirksam werden.</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
-    <string name="chroma_format_detail">BITTE NICHT AKTIVIEREN!!! Funktioniert möglicherweise nicht mit allen Geräten. Nur für Android 2.3 oder später.</string>
-    <string name="detect_headset">Headset erkennen</string>
-    <string name="detect_headset_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
-    <string name="steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
-    <string name="steal_remote_control_detail">Vermeidet Konflikte mit der Fernbedienung durch die Übernahme durch andere Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
+    <string name="chroma_format_summary">BITTE NICHT AKTIVIEREN!!! Funktioniert möglicherweise nicht mit allen Geräten. Nur für Android 2.3 oder später.</string>
+    <string name="enable_headset_detection">Headset erkennen</string>
+    <string name="enable_headset_detection_detail">Pause beim Entfernen des Headsets, beim Einstecken fortsetzen</string>
+    <string name="enable_steal_remote_control">Exklusive Kopfhörer-Fernbedienung</string>
+    <string name="enable_steal_remote_control_summary">Vermeidet Konflikte mit der Fernbedienung durch die Übernahme durch andere Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
     <string name="enable_wheel_bar">Wheel bar aktivieren</string>
-    <string name="enable_gesture_brightness">Helligkeit-Gesten aktivieren</string>
+    <string name="enable_brightness_gesture">Helligkeit-Gesten aktivieren</string>
     <string name="screen_orientation">Bildschirmausrichtung</string>
     <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
     <string name="screen_orientation_start_lock">Gesperrt beim Start</string>
@@ -176,7 +176,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zeitdehnung für Audio aktivieren</string>
-    <string name="enable_time_stretching_audio_detail">Beschleunigt und verlangsamt Audio ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
+    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt Audio ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät)</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
     <string name="enable_verbose_mode_detail">Ausführlichkeit des Logs erhöhen (Logcat)</string>
 </resources>

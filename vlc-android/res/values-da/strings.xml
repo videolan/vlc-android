@@ -155,13 +155,13 @@
     <string name="set_locale_detail">Lad stå tom for at nulstille</string>
     <string name="set_locale_popup">Afslut og nulstil VLC, så ændringer kan træde i kraft.</string>
     <string name="chroma_format">Gennemtving kroma</string>
-    <string name="chroma_format_detail">UNDLAD AT AKTIVERE!!! Virker muligvis ikke på alle enheder. Kun 2.3 eller senere.</string>
-    <string name="detect_headset">Detektér hovedtelefoner</string>
-    <string name="detect_headset_detail">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner isættes</string>
-    <string name="steal_remote_control">Fjernbetjen kun med headset</string>
-    <string name="steal_remote_control_detail">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
+    <string name="chroma_format_summary">UNDLAD AT AKTIVERE!!! Virker muligvis ikke på alle enheder. Kun 2.3 eller senere.</string>
+    <string name="enable_headset_detection">Detektér hovedtelefoner</string>
+    <string name="enable_headset_detection_detail">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner isættes</string>
+    <string name="enable_steal_remote_control">Fjernbetjen kun med headset</string>
+    <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="enable_wheel_bar">Tænd for rullebjælke</string>
-    <string name="enable_gesture_brightness">Slå lysstyrke-gestus til</string>
+    <string name="enable_brightness_gesture">Slå lysstyrke-gestus til</string>
     <string name="screen_orientation">Skærmretning</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Låst ved start</string>
@@ -176,7 +176,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
-    <string name="enable_time_stretching_audio_detail">Øger eller sænker hastigheden på lyden, uden at ændre tonelejet (kræver en hurtig enhed)</string>
+    <string name="enable_time_stretching_audio_summary">Øger eller sænker hastigheden på lyden, uden at ændre tonelejet (kræver en hurtig enhed)</string>
     <string name="enable_verbose_mode">Uddybende</string>
     <string name="enable_verbose_mode_detail">forøg graden af uddybning (logcat)</string>
 </resources>

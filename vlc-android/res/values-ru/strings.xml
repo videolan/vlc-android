@@ -161,13 +161,13 @@
     <string name="set_locale_detail">Пустая строка подразумевает значение по умолчанию</string>
     <string name="set_locale_popup">Закройте и перезапустите VLC, чтобы изменения вступили в силу.</string>
     <string name="chroma_format">Принудительный формат цветности</string>
-    <string name="chroma_format_detail">НЕ ВКЛЮЧАТЬ!!! Может работать не везде. Предназначено только для версий 2.3 и новее.</string>
-    <string name="detect_headset">Отслеживание гарнитуры</string>
-    <string name="detect_headset_detail">Пауза при отключении гарнитуры; продолжение при подключении</string>
-    <string name="steal_remote_control">Захват управления с гарнитуры</string>
-    <string name="steal_remote_control_detail">Предотвращает конфликты, перехватывая удалённое управление у других приложений. Помогает избежать набора номера при двойном щелчке на аппаратах HTC.</string>
+    <string name="chroma_format_summary">НЕ ВКЛЮЧАТЬ!!! Может работать не везде. Предназначено только для версий 2.3 и новее.</string>
+    <string name="enable_headset_detection">Отслеживание гарнитуры</string>
+    <string name="enable_headset_detection_detail">Пауза при отключении гарнитуры; продолжение при подключении</string>
+    <string name="enable_steal_remote_control">Захват управления с гарнитуры</string>
+    <string name="enable_steal_remote_control_summary">Предотвращает конфликты, перехватывая удалённое управление у других приложений. Помогает избежать набора номера при двойном щелчке на аппаратах HTC.</string>
     <string name="enable_wheel_bar">Ползунок прокрутки</string>
-    <string name="enable_gesture_brightness">Изменение яркости жестом</string>
+    <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="screen_orientation">Ориентация экрана</string>
     <string name="screen_orientation_sensor">Автоматическая (от сенсора)</string>
     <string name="screen_orientation_start_lock">Блокируется при запуске</string>
@@ -182,7 +182,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Изменение скорости звука</string>
-    <string name="enable_time_stretching_audio_detail">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство)</string>
+    <string name="enable_time_stretching_audio_summary">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство)</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_detail">Степень детализации сообщений (logcat)</string>
 </resources>

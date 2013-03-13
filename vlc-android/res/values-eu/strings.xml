@@ -112,8 +112,8 @@
     <string name="advanced_debugging">Arazte aurreratua</string>
     <string name="quit">Irten aplikaziotik</string>
     <string name="clear_media_db">Garbitu multimedia datu-basea</string>
-    <string name="detect_headset">Detektatu aurikular+mikroa</string>
-    <string name="detect_headset_detail">Pausatu aurikular+mikroa kentzean; berrekin aurikular+mikroa sartzean</string>
+    <string name="enable_headset_detection">Detektatu aurikular+mikroa</string>
+    <string name="enable_headset_detection_detail">Pausatu aurikular+mikroa kentzean; berrekin aurikular+mikroa sartzean</string>
     <string name="enable_wheel_bar">Gaitu gurpil-barra</string>
     <string name="enable_verbose_mode">Xehetua</string>
     <string name="enable_verbose_mode_detail">Handitu xehetasun-maila (logcat)</string>

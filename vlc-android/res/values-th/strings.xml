@@ -149,13 +149,13 @@
     <string name="set_locale_detail">ปล่อยว่างไว้เพื่อคืนค่าเดิม </string>
     <string name="set_locale_popup">ออกและคืนค่าเดิมของ VLC หากต้องการดูความเปลี่ยนแปลง</string>
     <string name="chroma_format">บังคับค่าความสดสี</string>
-    <string name="chroma_format_detail">ไม่ต้องเรียกใช้!!! (เฉพาะรุ่น 2.3 ขึ้นไป โดยอาจจะใช้งานกับรุ่นอื่นไม่ได้)</string>
-    <string name="detect_headset">ตรวจหาชุดหูฟัง</string>
-    <string name="detect_headset_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
-    <string name="steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
-    <string name="steal_remote_control_detail">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
+    <string name="chroma_format_summary">ไม่ต้องเรียกใช้!!! (เฉพาะรุ่น 2.3 ขึ้นไป โดยอาจจะใช้งานกับรุ่นอื่นไม่ได้)</string>
+    <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
+    <string name="enable_headset_detection_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
+    <string name="enable_steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
+    <string name="enable_steal_remote_control_summary">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
     <string name="enable_wheel_bar">เปิดใช้แถบเลื่อน</string>
-    <string name="enable_gesture_brightness">เปิดใช้การเลื่อน ปรับความสว่าง</string>
+    <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="screen_orientation">การจัดวางหน้าจอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
     <string name="screen_orientation_start_lock">ล็อคตั้งแต่เริ่มงาน</string>
@@ -170,7 +170,7 @@
     <string name="aout_audiotrack_java">AudioTrack (จาวา)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
-    <string name="enable_time_stretching_audio_detail">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้เครื่องที่ประมวลผลเร็ว)</string>
+    <string name="enable_time_stretching_audio_summary">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้เครื่องที่ประมวลผลเร็ว)</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_detail">เพิ่มรายละเอียด (ปูม)</string>
 </resources>

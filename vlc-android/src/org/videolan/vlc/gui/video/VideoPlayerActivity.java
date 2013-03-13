@@ -221,7 +221,7 @@ public class VideoPlayerActivity extends Activity {
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
         mEnableWheelbar = pref.getBoolean("enable_wheel_bar", false);
-        mEnableBrightnessGesture = pref.getBoolean("enable_gesture_brightness", true);
+        mEnableBrightnessGesture = pref.getBoolean("enable_brightness_gesture", true);
         mScreenOrientation = Integer.valueOf(
                 pref.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 

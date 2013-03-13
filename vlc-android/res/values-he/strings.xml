@@ -150,13 +150,13 @@
     <string name="set_locale">הגדרת המיקום והשפה</string>
     <string name="set_locale_detail">להשאיר ריק כדי לאפס</string>
     <string name="set_locale_popup">יש לצאת ולאפס את VLC כדי שהשינויים ייכנסו לתוקף.</string>
-    <string name="chroma_format_detail">לא להפעיל!!! יתכן שתכונה זו לא תעבוד על כל המכשירים. גרסה 2.3 ומעלה בלבד.</string>
-    <string name="detect_headset">זיהוי ערכת שמע</string>
-    <string name="detect_headset_detail">השהייה עם הסרת אביזר שמע; המשך בעת חיבור אביזר שמע</string>
-    <string name="steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
-    <string name="steal_remote_control_detail">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
+    <string name="chroma_format_summary">לא להפעיל!!! יתכן שתכונה זו לא תעבוד על כל המכשירים. גרסה 2.3 ומעלה בלבד.</string>
+    <string name="enable_headset_detection">זיהוי ערכת שמע</string>
+    <string name="enable_headset_detection_detail">השהייה עם הסרת אביזר שמע; המשך בעת חיבור אביזר שמע</string>
+    <string name="enable_steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
+    <string name="enable_steal_remote_control_summary">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
     <string name="enable_wheel_bar">הפעלת סרגל גלגלת</string>
-    <string name="enable_gesture_brightness">הפעלת מחוות בהירות</string>
+    <string name="enable_brightness_gesture">הפעלת מחוות בהירות</string>
     <string name="screen_orientation">כיוון המסך</string>
     <string name="screen_orientation_sensor">אוטומטית (חיישן)</string>
     <string name="screen_orientation_start_lock">ננעל בהתחלה</string>
@@ -171,7 +171,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
-    <string name="enable_time_stretching_audio_detail">הגברה והנמכת המהירות מבלי לשנות את גובה הצליל (דורש התקן מהיר)</string>
+    <string name="enable_time_stretching_audio_summary">הגברה והנמכת המהירות מבלי לשנות את גובה הצליל (דורש התקן מהיר)</string>
     <string name="enable_verbose_mode">פירוט</string>
     <string name="enable_verbose_mode_detail">הגברת הפירוט (logcat)</string>
 </resources>

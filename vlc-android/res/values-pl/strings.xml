@@ -161,13 +161,13 @@
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
     <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
     <string name="chroma_format">Wymuś chromę</string>
-    <string name="chroma_format_detail">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
-    <string name="detect_headset">Wykrywanie słuchawek</string>
-    <string name="detect_headset_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
-    <string name="steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
-    <string name="steal_remote_control_detail">Unikaj konfliktów poprzez kradzież pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach HTC.</string>
+    <string name="chroma_format_summary">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
+    <string name="enable_headset_detection">Wykrywanie słuchawek</string>
+    <string name="enable_headset_detection_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
+    <string name="enable_steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
+    <string name="enable_steal_remote_control_summary">Unikaj konfliktów poprzez kradzież pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach HTC.</string>
     <string name="enable_wheel_bar">Wyłącz okrągły pasek kontroli</string>
-    <string name="enable_gesture_brightness">Włącz gesty jasności</string>
+    <string name="enable_brightness_gesture">Włącz gesty jasności</string>
     <string name="screen_orientation">Orientacja ekranu</string>
     <string name="screen_orientation_sensor">Automatycznie (czujnik)</string>
     <string name="screen_orientation_start_lock">Zablokowany przy starcie</string>
@@ -182,7 +182,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
-    <string name="enable_time_stretching_audio_detail">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
+    <string name="enable_time_stretching_audio_summary">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
 </resources>

@@ -166,13 +166,13 @@
     <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
     <string name="set_locale_popup">Fàg VLC is ath-thòisich gus na dh\'atharraich thu a chur an sàs</string>
     <string name="chroma_format">Èignich sàthachd nan dath</string>
-    <string name="chroma_format_detail">NA CUIR AN GNÌOMH!!! Dh/\'fhaoidte nach obair seo air gach uidheam. 2.3 is feadhainn nas ùire.</string>
-    <string name="detect_headset">Mothaich dha headset</string>
-    <string name="detect_headset_detail">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
-    <string name="steal_remote_control">Smachd aig an headset a-mhàin</string>
-    <string name="steal_remote_control_detail">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
+    <string name="chroma_format_summary">NA CUIR AN GNÌOMH!!! Dh/\'fhaoidte nach obair seo air gach uidheam. 2.3 is feadhainn nas ùire.</string>
+    <string name="enable_headset_detection">Mothaich dha headset</string>
+    <string name="enable_headset_detection_detail">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
+    <string name="enable_steal_remote_control">Smachd aig an headset a-mhàin</string>
+    <string name="enable_steal_remote_control_summary">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
     <string name="enable_wheel_bar">Cuir am bàr cuibhle an comas</string>
-    <string name="enable_gesture_brightness">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
+    <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
     <string name="screen_orientation">Comhair na sgrìn</string>
     <string name="screen_orientation_sensor">Fèin-obrachail (mothaichear)</string>
     <string name="screen_orientation_start_lock">Glaiste aig an toiseach</string>
@@ -187,7 +187,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
-    <string name="enable_time_stretching_audio_detail">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath)</string>
+    <string name="enable_time_stretching_audio_summary">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath)</string>
     <string name="enable_verbose_mode">Briathrachas</string>
     <string name="enable_verbose_mode_detail">Cuir am briathrachas an àirde (logcat)</string>
 </resources>

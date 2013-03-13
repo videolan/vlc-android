@@ -126,10 +126,10 @@
     <string name="set_locale">স্থানীয় সেট করুন</string>
     <string name="set_locale_detail">রিসেট করতে ফাঁকা ছেড়ে চলে যান</string>
     <string name="set_locale_popup">প্রস্থান করুন এবং প্রভাব গ্রহণ করতে পরিবর্তনের জন্য VLC রিসেট করুন।</string>
-    <string name="detect_headset">হেডসেট সনাক্ত করুন</string>
-    <string name="detect_headset_detail">হেডসেট উপর বিরাম মুছে ফেলা হয়েছে; হেডসেট ঢোকানো উপর সারসংকলন</string>
+    <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
+    <string name="enable_headset_detection_detail">হেডসেট উপর বিরাম মুছে ফেলা হয়েছে; হেডসেট ঢোকানো উপর সারসংকলন</string>
     <string name="enable_wheel_bar">চাকা বার সক্ষম করুন</string>
-    <string name="enable_gesture_brightness">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
+    <string name="enable_brightness_gesture">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
     <string name="enable_verbose_mode">বাগ্বহুল</string>
     <string name="enable_verbose_mode_detail">ভার্বোসিটি (logcat) বাড়ান</string>
     <string name="aout">অডিও আউটপুট</string>
@@ -137,5 +137,5 @@
     <string name="aout_audiotrack_java">AudioTrack (জাভা)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">সময় প্রসারিত করছে অডিও সক্ষম করুন</string>
-    <string name="enable_time_stretching_audio_detail">শব্দের গ্রাম পরিবর্তন কর ব্যতীত গতি উপর এবং ধীর নিচে অডিও (একটি দ্রুত ডিভাইস প্রয়োজন বোধ করে)</string>
+    <string name="enable_time_stretching_audio_summary">শব্দের গ্রাম পরিবর্তন কর ব্যতীত গতি উপর এবং ধীর নিচে অডিও (একটি দ্রুত ডিভাইস প্রয়োজন বোধ করে)</string>
 </resources>

@@ -108,8 +108,8 @@
     <string name="advanced_debugging">అధునాతన దోషశోధన</string>
     <string name="quit">అనువర్తనమును నిష్క్రమించు</string>
     <string name="clear_media_db">మాధ్యమ డేటాబేసును శుభ్రపరుచు</string>
-    <string name="detect_headset">హెడ్‌సెట్‌ను కనిపెట్టు</string>
-    <string name="detect_headset_detail">హెడ్‌సెట్‌ను తీసివేసినపుడు నిలిపివేయి; హెడ్‌సెట్‌ను చొప్పించినపుడు తిరిగి ప్రారంభించు</string>
+    <string name="enable_headset_detection">హెడ్‌సెట్‌ను కనిపెట్టు</string>
+    <string name="enable_headset_detection_detail">హెడ్‌సెట్‌ను తీసివేసినపుడు నిలిపివేయి; హెడ్‌సెట్‌ను చొప్పించినపుడు తిరిగి ప్రారంభించు</string>
     <string name="enable_wheel_bar">వీల్ పట్టీని చేతనించు</string>
     <string name="enable_verbose_mode">వెర్బోస్</string>
     <string name="enable_verbose_mode_detail">వెర్బోసిటీని పెంచు (logcat)</string>

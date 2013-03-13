@@ -154,13 +154,13 @@
     <string name="set_locale_detail">Déixeo en branco para restauralo</string>
     <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
     <string name="chroma_format">Forzar a crominancia</string>
-    <string name="chroma_format_detail">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
-    <string name="detect_headset">Detectar os auriculares</string>
-    <string name="detect_headset_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
-    <string name="steal_remote_control">Control remoto de auriculares exclusivo</string>
-    <string name="steal_remote_control_detail">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
+    <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
+    <string name="enable_headset_detection">Detectar os auriculares</string>
+    <string name="enable_headset_detection_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
+    <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
+    <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
     <string name="enable_wheel_bar">Activar a barra de roda</string>
-    <string name="enable_gesture_brightness">Activar o xesto para o brillo</string>
+    <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="screen_orientation">Orientación da pantalla</string>
     <string name="screen_orientation_sensor">Automática (sensor)</string>
     <string name="screen_orientation_start_lock">Bloqueada no inicio</string>
@@ -175,7 +175,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
-    <string name="enable_time_stretching_audio_detail">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
     <string name="enable_verbose_mode">Detallado</string>
     <string name="enable_verbose_mode_detail">Incrementar o nivel de detalle (logcat)</string>
 </resources>

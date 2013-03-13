@@ -146,12 +146,12 @@
     <string name="set_locale_popup">변경을 적용하기 위해 VLC 종료하고 재설정하세요.</string>
     <string name="enable_yv12_format">YV12 형식 강제</string>
     <string name="enable_yv12_format_detail">활성화하지 마세요!!! 모든 장치에서 동작하지는 않음. 2.3 및 이후 만 동작.</string>
-    <string name="detect_headset">헤드셋 감지</string>
-    <string name="detect_headset_detail">헤드셋 제거되면 일시중지; 헤드셋 삽입되면 되시작</string>
-    <string name="steal_remote_control">헤드셋 원격 제어 독점</string>
-    <string name="steal_remote_control_detail">다른 앱의 원격 제어 가로챔에 의한 충돌 방지. HTC 폰의 더블 클릭 전화걸기를 방지합니다.</string>
+    <string name="enable_headset_detection">헤드셋 감지</string>
+    <string name="enable_headset_detection_detail">헤드셋 제거되면 일시중지; 헤드셋 삽입되면 되시작</string>
+    <string name="enable_steal_remote_control">헤드셋 원격 제어 독점</string>
+    <string name="enable_steal_remote_control_summary">다른 앱의 원격 제어 가로챔에 의한 충돌 방지. HTC 폰의 더블 클릭 전화걸기를 방지합니다.</string>
     <string name="enable_wheel_bar">휠바 사용</string>
-    <string name="enable_gesture_brightness">밝기 제스처 사용</string>
+    <string name="enable_brightness_gesture">밝기 제스처 사용</string>
     <string name="screen_orientation">화면 방향</string>
     <string name="screen_orientation_sensor">자동 (센서)</string>
     <string name="screen_orientation_start_lock">시작시 잠금</string>
@@ -166,7 +166,7 @@
     <string name="aout_audiotrack_java">AudioTrack (자바)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">시간-연장 오디오 사용</string>
-    <string name="enable_time_stretching_audio_detail">음조 변경 없이 오디오의 속도 높임 및 늦춤 (빠른 장치 필요)</string>
+    <string name="enable_time_stretching_audio_summary">음조 변경 없이 오디오의 속도 높임 및 늦춤 (빠른 장치 필요)</string>
     <string name="enable_verbose_mode">상세설명</string>
     <string name="enable_verbose_mode_detail">상세설명 늘림 (logcat)</string>
 </resources>

@@ -148,11 +148,11 @@
     <string name="set_locale">ଆଂଚଳିକ ସେଟ କରନ୍ତୁ</string>
     <string name="set_locale_detail">ପୁନଃସ୍ଥାପନ କରିବା ପାଇଁ ଖାଲି ଛାଡି ଦିଅନ୍ତୁ</string>
     <string name="set_locale_popup">ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ କାର୍ଯ୍ୟକାରୀ କରିବା ପାଇଁ VLC କୁ ତ୍ୟାଗ କରନ୍ତୁ ଏବଂ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ|</string>
-    <string name="chroma_format_detail">ସକ୍ରିୟ କରନ୍ତୁ ନାହିଁ!!! ସବୁ ଯନ୍ତ୍ରରେ କାମ ନ କରିପାରେ|କେବଳ ୨.୩ ଏବଂ ଆଗକୁ|</string>
-    <string name="detect_headset">ହେଡ୍‌ସେଟ୍ କୁ ଆବିଷ୍କାର କରନ୍ତୁ</string>
-    <string name="detect_headset_detail">ହେଡ୍‌ସେଟ୍ କାଢ଼ିଦେଲେ ବିରାମ ଦିଅନ୍ତୁ; ହେଡ୍‌ସେଟ୍ ଲଗାଇଲେ ଚଳାନ୍ତୁ</string>
+    <string name="chroma_format_summary">ସକ୍ରିୟ କରନ୍ତୁ ନାହିଁ!!! ସବୁ ଯନ୍ତ୍ରରେ କାମ ନ କରିପାରେ|କେବଳ ୨.୩ ଏବଂ ଆଗକୁ|</string>
+    <string name="enable_headset_detection">ହେଡ୍‌ସେଟ୍ କୁ ଆବିଷ୍କାର କରନ୍ତୁ</string>
+    <string name="enable_headset_detection_detail">ହେଡ୍‌ସେଟ୍ କାଢ଼ିଦେଲେ ବିରାମ ଦିଅନ୍ତୁ; ହେଡ୍‌ସେଟ୍ ଲଗାଇଲେ ଚଳାନ୍ତୁ</string>
     <string name="enable_wheel_bar">ଚକ ଦଣ୍ଡିକାକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
-    <string name="enable_gesture_brightness">ଔଜଲ୍ୟତା ଅଙ୍ଗଭଙ୍ଗୀକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
+    <string name="enable_brightness_gesture">ଔଜଲ୍ୟତା ଅଙ୍ଗଭଙ୍ଗୀକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="screen_orientation">ପରଦା ଅନୁସ୍ଥାପନ</string>
     <string name="screen_orientation_sensor">ସ୍ବୟଂଚାଳିତ (ସମ୍ବେଦକ)</string>
     <string name="screen_orientation_start_lock">ଆରମ୍ଭରେ ଅବରୋଧିତ କରନ୍ତୁ</string>
@@ -164,6 +164,6 @@
     <string name="aout_audiotrack_java">AudioTrack (ଜାଭା)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">ଅଡ଼ିଓର ସମୟ ପ୍ରସାରଣ ସକ୍ଷମ କରନ୍ତୁ</string>
-    <string name="enable_time_stretching_audio_detail">ପିଚ୍ କୁ ନ ବଦଳାଇ ଅଡ଼ିଓର ବେଗକୁ ଅଧିକ ବା କମ୍ କରନ୍ତୁ (ବେଗବାନ ଯନ୍ତ୍ର ଆବଶ୍ୟକ)</string>
+    <string name="enable_time_stretching_audio_summary">ପିଚ୍ କୁ ନ ବଦଳାଇ ଅଡ଼ିଓର ବେଗକୁ ଅଧିକ ବା କମ୍ କରନ୍ତୁ (ବେଗବାନ ଯନ୍ତ୍ର ଆବଶ୍ୟକ)</string>
     <string name="enable_verbose_mode">ବହୁଶବ୍ଦକ</string>
 </resources>

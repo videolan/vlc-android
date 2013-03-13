@@ -136,10 +136,10 @@
     <string name="set_locale">Definir local</string>
     <string name="set_locale_detail">Deixe em branco para redefinir</string>
     <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
-    <string name="detect_headset">Detectar fone de ouvido</string>
-    <string name="detect_headset_detail">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
+    <string name="enable_headset_detection">Detectar fone de ouvido</string>
+    <string name="enable_headset_detection_detail">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
     <string name="enable_wheel_bar">Barra de rolagem</string>
-    <string name="enable_gesture_brightness">Brilho por gestos</string>
+    <string name="enable_brightness_gesture">Brilho por gestos</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_detail">Aumenta o detalhamento (logcat)</string>
     <string name="aout">Saída de áudio</string>
@@ -147,5 +147,5 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Compressão de tempo de áudio</string>
-    <string name="enable_time_stretching_audio_detail">Acelera e retarda o áudio sem mudar o tom (requer um dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio_summary">Acelera e retarda o áudio sem mudar o tom (requer um dispositivo rápido)</string>
 </resources>

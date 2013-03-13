@@ -160,13 +160,13 @@
     <string name="set_locale_detail">Оставите празно ради поништавања</string>
     <string name="set_locale_popup">Поништите VLC и изађите из њега како би измене ступиле на снагу.</string>
     <string name="chroma_format">Наметни боју</string>
-    <string name="chroma_format_detail">Не активирајте! Можда неће радити са свим уређајима. Намењено је само за верзију 2.3 и новију.</string>
-    <string name="detect_headset">Откриј слушалице</string>
-    <string name="detect_headset_detail">Паузирај када слушалице буду искључене, а настави када буду прикључене</string>
-    <string name="steal_remote_control">Искључива даљинска контрола над слушалицама</string>
-    <string name="steal_remote_control_detail">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Ово спречава позивање двоструким додиром на HTC телефонима.</string>
+    <string name="chroma_format_summary">Не активирајте! Можда неће радити са свим уређајима. Намењено је само за верзију 2.3 и новију.</string>
+    <string name="enable_headset_detection">Откриј слушалице</string>
+    <string name="enable_headset_detection_detail">Паузирај када слушалице буду искључене, а настави када буду прикључене</string>
+    <string name="enable_steal_remote_control">Искључива даљинска контрола над слушалицама</string>
+    <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Ово спречава позивање двоструким додиром на HTC телефонима.</string>
     <string name="enable_wheel_bar">Трака за премотавање</string>
-    <string name="enable_gesture_brightness">Покрет за осветљење</string>
+    <string name="enable_brightness_gesture">Покрет за осветљење</string>
     <string name="screen_orientation">Усмерење екрана</string>
     <string name="screen_orientation_sensor">Аутоматски (сензор)</string>
     <string name="screen_orientation_start_lock">Закључано при покретању</string>
@@ -181,7 +181,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Растезање времена звука</string>
-    <string name="enable_time_stretching_audio_detail">Убрзајте или успорите звук без промене висине тона (захтева брз уређај)</string>
+    <string name="enable_time_stretching_audio_summary">Убрзајте или успорите звук без промене висине тона (захтева брз уређај)</string>
     <string name="enable_verbose_mode">Детаљно</string>
     <string name="enable_verbose_mode_detail">Повећај детаљност (logcat)</string>
 </resources>

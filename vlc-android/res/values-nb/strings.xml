@@ -154,13 +154,13 @@
     <string name="set_locale_detail">La være tom for å tilbakestille</string>
     <string name="set_locale_popup">Avslutt og tilbakestill VLC for at endringene skal innføres.</string>
     <string name="chroma_format">Tving chroma</string>
-    <string name="chroma_format_detail">IKKE AKTIVER!!! Virker kanskje ikke med alle enheter. Bare 2.3 og senere.</string>
-    <string name="detect_headset">Oppdag hodetelefon</string>
-    <string name="detect_headset_detail">Pause når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
-    <string name="steal_remote_control">Eksklusiv hodetelefon fjernkontroll</string>
-    <string name="steal_remote_control_detail">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
+    <string name="chroma_format_summary">IKKE AKTIVER!!! Virker kanskje ikke med alle enheter. Bare 2.3 og senere.</string>
+    <string name="enable_headset_detection">Oppdag hodetelefon</string>
+    <string name="enable_headset_detection_detail">Pause når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
+    <string name="enable_steal_remote_control">Eksklusiv hodetelefon fjernkontroll</string>
+    <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="enable_wheel_bar">Aktiver hjulkontroll</string>
-    <string name="enable_gesture_brightness">Aktiver bevegelse for lysstyrke.</string>
+    <string name="enable_brightness_gesture">Aktiver bevegelse for lysstyrke.</string>
     <string name="screen_orientation">Skjermorientering</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Lås ved start</string>
@@ -175,7 +175,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
-    <string name="enable_time_stretching_audio_detail">Øk og senk hastigheten på lyd uten å endre tonehøyde (krever en rask enhet)</string>
+    <string name="enable_time_stretching_audio_summary">Øk og senk hastigheten på lyd uten å endre tonehøyde (krever en rask enhet)</string>
     <string name="enable_verbose_mode">Detaljer</string>
     <string name="enable_verbose_mode_detail">Flere detaljer (logcat)</string>
 </resources>

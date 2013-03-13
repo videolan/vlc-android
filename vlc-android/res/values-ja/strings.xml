@@ -149,13 +149,13 @@
     <string name="set_locale_detail">ブランクでリセット</string>
     <string name="set_locale_popup">変更を反映するためにVLCを終了・リセットします。</string>
     <string name="chroma_format">強制クロマ</string>
-    <string name="chroma_format_detail">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
-    <string name="detect_headset">ヘッドセットの検出</string>
-    <string name="detect_headset_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
-    <string name="steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
-    <string name="steal_remote_control_detail">他のアプリケーションがリモートコントロールを占有する場合の競合を避けます。HTC製の電話でダブルクリックによる発信を防止します。</string>
+    <string name="chroma_format_summary">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
+    <string name="enable_headset_detection">ヘッドセットの検出</string>
+    <string name="enable_headset_detection_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
+    <string name="enable_steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
+    <string name="enable_steal_remote_control_summary">他のアプリケーションがリモートコントロールを占有する場合の競合を避けます。HTC製の電話でダブルクリックによる発信を防止します。</string>
     <string name="enable_wheel_bar">ホイールバーを有効化</string>
-    <string name="enable_gesture_brightness">ジェスチャーで輝度を調整</string>
+    <string name="enable_brightness_gesture">ジェスチャーで輝度を調整</string>
     <string name="screen_orientation">スクリーンの方向</string>
     <string name="screen_orientation_sensor">自動 (センサー)</string>
     <string name="screen_orientation_start_lock">開始時にロック</string>
@@ -170,7 +170,7 @@
     <string name="aout_audiotrack_java">オーディオトラック (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
-    <string name="enable_time_stretching_audio_detail">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
+    <string name="enable_time_stretching_audio_summary">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
     <string name="enable_verbose_mode">出力レベル</string>
     <string name="enable_verbose_mode_detail">出力レベルを増加 (logcat)</string>
 </resources>

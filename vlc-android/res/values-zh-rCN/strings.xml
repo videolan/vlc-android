@@ -149,13 +149,13 @@
     <string name="set_locale_detail">留空可重置</string>
     <string name="set_locale_popup">请退出并重置 VLC 使更改生效。</string>
     <string name="chroma_format">强制色度</string>
-    <string name="chroma_format_detail">*请不要勾选*!!! 可能并不兼容所有设备。仅 2.3 及更高版本可用。</string>
-    <string name="detect_headset">启用耳机侦测</string>
-    <string name="detect_headset_detail">耳机移除时暂停；插入时继续播放</string>
-    <string name="steal_remote_control">独占耳机远程控制</string>
-    <string name="steal_remote_control_detail">通过窃取其他应用的远程控制避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
+    <string name="chroma_format_summary">*请不要勾选*!!! 可能并不兼容所有设备。仅 2.3 及更高版本可用。</string>
+    <string name="enable_headset_detection">启用耳机侦测</string>
+    <string name="enable_headset_detection_detail">耳机移除时暂停；插入时继续播放</string>
+    <string name="enable_steal_remote_control">独占耳机远程控制</string>
+    <string name="enable_steal_remote_control_summary">通过窃取其他应用的远程控制避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
     <string name="enable_wheel_bar">启用滚动条</string>
-    <string name="enable_gesture_brightness">启用亮度手势</string>
+    <string name="enable_brightness_gesture">启用亮度手势</string>
     <string name="screen_orientation">屏幕方向</string>
     <string name="screen_orientation_sensor">自动 (传感器感应)</string>
     <string name="screen_orientation_start_lock">开始播放时锁定</string>
@@ -170,7 +170,7 @@
     <string name="aout_audiotrack_java">AudioTrack 类 (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
-    <string name="enable_time_stretching_audio_detail">可加速或减慢音频播放而不改变音调 (需要较快设备支持)</string>
+    <string name="enable_time_stretching_audio_summary">可加速或减慢音频播放而不改变音调 (需要较快设备支持)</string>
     <string name="enable_verbose_mode">详尽模式</string>
     <string name="enable_verbose_mode_detail">增加详尽程度 (logcat)</string>
 </resources>

@@ -149,13 +149,13 @@
     <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
     <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
     <string name="chroma_format">Dayatılacak renk doygunluğu</string>
-    <string name="chroma_format_detail">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
-    <string name="detect_headset">Kulaklığı algıla</string>
-    <string name="detect_headset_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
-    <string name="steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
-    <string name="steal_remote_control_detail">Uzaktan kumandanın diğer uygulamalar tarafından kullanılmasını engeller. Bu özellik bazı telefonlarda kumandadan çift tıklama ile arama yapılmasını engeller.</string>
+    <string name="chroma_format_summary">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
+    <string name="enable_headset_detection">Kulaklığı algıla</string>
+    <string name="enable_headset_detection_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
+    <string name="enable_steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
+    <string name="enable_steal_remote_control_summary">Uzaktan kumandanın diğer uygulamalar tarafından kullanılmasını engeller. Bu özellik bazı telefonlarda kumandadan çift tıklama ile arama yapılmasını engeller.</string>
     <string name="enable_wheel_bar">Tekerlek çubuğu etkin</string>
-    <string name="enable_gesture_brightness">Parlaklık işareti etkin</string>
+    <string name="enable_brightness_gesture">Parlaklık işareti etkin</string>
     <string name="screen_orientation">Ekran doğrultusu</string>
     <string name="screen_orientation_sensor">Kendiliğinden (almaç)</string>
     <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
@@ -170,7 +170,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
-    <string name="enable_time_stretching_audio_detail">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
+    <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
     <string name="enable_verbose_mode_detail">Daha çok ayrıntı (logcat)</string>
 </resources>

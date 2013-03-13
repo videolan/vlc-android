@@ -155,13 +155,13 @@
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
     <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
     <string name="chroma_format">Chroma forceren</string>
-    <string name="chroma_format_detail">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
-    <string name="detect_headset">Hoofdtelefoon detecteren</string>
-    <string name="detect_headset_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
-    <string name="steal_remote_control">Exclusieve headset-afstandsbediening</string>
-    <string name="steal_remote_control_detail">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
+    <string name="chroma_format_summary">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
+    <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
+    <string name="enable_headset_detection_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
+    <string name="enable_steal_remote_control">Exclusieve headset-afstandsbediening</string>
+    <string name="enable_steal_remote_control_summary">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
     <string name="enable_wheel_bar">Wheel bar inschakelen</string>
-    <string name="enable_gesture_brightness">Helderheidsgebaren inschakelen</string>
+    <string name="enable_brightness_gesture">Helderheidsgebaren inschakelen</string>
     <string name="screen_orientation">Scherm-oriëntatie</string>
     <string name="screen_orientation_sensor">Sensor-oriëntatie</string>
     <string name="screen_orientation_start_lock">Vastzetten bij opstarten</string>
@@ -176,7 +176,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
-    <string name="enable_time_stretching_audio_detail">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
+    <string name="enable_time_stretching_audio_summary">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
     <string name="enable_verbose_mode_detail">Verbosity verhogen (logcat)</string>
 </resources>

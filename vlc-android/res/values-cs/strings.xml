@@ -161,13 +161,13 @@
     <string name="set_locale_detail">Ponechte prázdné pro výchozí</string>
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
     <string name="chroma_format">Vynutit chroma</string>
-    <string name="chroma_format_detail">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
-    <string name="detect_headset">Detekovat sluchátka</string>
-    <string name="detect_headset_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
-    <string name="steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
-    <string name="steal_remote_control_detail">Obchází konflikt ukradením vzdálené kontroly od ostatních aplikací. Zabraňuje vytáčení při dvojitém stisku na telefonech HTC.</string>
+    <string name="chroma_format_summary">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
+    <string name="enable_headset_detection">Detekovat sluchátka</string>
+    <string name="enable_headset_detection_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
+    <string name="enable_steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
+    <string name="enable_steal_remote_control_summary">Obchází konflikt ukradením vzdálené kontroly od ostatních aplikací. Zabraňuje vytáčení při dvojitém stisku na telefonech HTC.</string>
     <string name="enable_wheel_bar">Povolit kolečkovou lištu</string>
-    <string name="enable_gesture_brightness">Povolit gesto jasu</string>
+    <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="screen_orientation">Orientace obrazovky</string>
     <string name="screen_orientation_sensor">Orientace dle senzorů</string>
     <string name="screen_orientation_start_lock">Uzamčeno při spuštění</string>
@@ -182,7 +182,7 @@
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Povolit časové roztažení zvuku</string>
-    <string name="enable_time_stretching_audio_detail">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení)</string>
+    <string name="enable_time_stretching_audio_summary">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení)</string>
     <string name="enable_verbose_mode">Podrobné</string>
     <string name="enable_verbose_mode_detail">Zvýší podrobnosti v záznamu (logcat)</string>
 </resources>

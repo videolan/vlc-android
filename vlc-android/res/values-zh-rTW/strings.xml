@@ -144,12 +144,12 @@
     <string name="set_locale_detail">保持空白以重置</string>
     <string name="set_locale_popup">離開並重置VLC以套用變更</string>
     <string name="chroma_format">強制使用視訊格式</string>
-    <string name="chroma_format_detail">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
-    <string name="detect_headset">偵測耳機</string>
-    <string name="detect_headset_detail">耳機拔除時暫停、插入時繼續播放</string>
-    <string name="steal_remote_control">專耳機遙控</string>
+    <string name="chroma_format_summary">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
+    <string name="enable_headset_detection">偵測耳機</string>
+    <string name="enable_headset_detection_detail">耳機拔除時暫停、插入時繼續播放</string>
+    <string name="enable_steal_remote_control">專耳機遙控</string>
     <string name="enable_wheel_bar">啟用飛輪列</string>
-    <string name="enable_gesture_brightness">啟用亮度手勢</string>
+    <string name="enable_brightness_gesture">啟用亮度手勢</string>
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動化(感應)</string>
     <string name="screen_orientation_start_lock">開始時鎖定</string>
@@ -164,5 +164,5 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">啟用時間伸展音訊</string>
-    <string name="enable_time_stretching_audio_detail">加速或減速音訊而不改變高音(需要較快的硬體)</string>
+    <string name="enable_time_stretching_audio_summary">加速或減速音訊而不改變高音(需要較快的硬體)</string>
 </resources>

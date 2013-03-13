@@ -159,13 +159,13 @@
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
     <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
     <string name="chroma_format">Vynútiť chroma</string>
-    <string name="chroma_format_detail">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
-    <string name="detect_headset">Detegovať headset</string>
-    <string name="detect_headset_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
-    <string name="steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
-    <string name="steal_remote_control_detail">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
+    <string name="chroma_format_summary">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
+    <string name="enable_headset_detection">Detegovať headset</string>
+    <string name="enable_headset_detection_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
+    <string name="enable_steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
+    <string name="enable_steal_remote_control_summary">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
     <string name="enable_wheel_bar">Zapnúť lištu v elipse</string>
-    <string name="enable_gesture_brightness">Zapnúť gesto pre jas</string>
+    <string name="enable_brightness_gesture">Zapnúť gesto pre jas</string>
     <string name="screen_orientation">Orientácia obrazovky</string>
     <string name="screen_orientation_sensor">Automaticky (podľa senzora)</string>
     <string name="screen_orientation_start_lock">Uzamknuté pri spustení</string>
@@ -180,7 +180,7 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">Zapnúť časové úpravy zvuku</string>
-    <string name="enable_time_stretching_audio_detail">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie)</string>
+    <string name="enable_time_stretching_audio_summary">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie)</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
     <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
 </resources>

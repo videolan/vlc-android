@@ -1,97 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/mediafiles">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/library_prefs_category" >
         <PreferenceScreen
             android:key="directories"
-            android:title="@string/directories"
-            android:summary="@string/filebrowser_title">
-        </PreferenceScreen>
+            android:summary="@string/directories_summary"
+            android:title="@string/directories" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/main_prefs_category">
-        <CheckBoxPreference
-            android:key="enable_iomx"
-            android:title="@string/enable_iomx">
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:key="enable_headset_detection"
-            android:title="@string/detect_headset"
-            android:summary="@string/detect_headset_detail"
-            android:defaultValue="true">
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:key="steal_remote_control"
-            android:title="@string/steal_remote_control"
-            android:summary="@string/steal_remote_control_detail"
-            android:defaultValue="false">
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:key="enable_wheel_bar"
-            android:title="@string/enable_wheel_bar"
-            android:defaultValue="false">
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_gesture_brightness"
-            android:title="@string/enable_gesture_brightness" >
-        </CheckBoxPreference>
+
+    <PreferenceCategory android:title="@string/main_prefs_category" >
         <ListPreference
+            android:defaultValue="0"
             android:entries="@array/screen_orientation_list"
             android:entryValues="@array/screen_orientation_values"
             android:key="screen_orientation"
+            android:summary="@string/screen_orientation_summary"
             android:title="@string/screen_orientation" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_brightness_gesture"
+            android:summary="@string/enable_brightness_gesture_summary"
+            android:title="@string/enable_brightness_gesture" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_headset_detection"
+            android:summary="@string/enable_headset_detection_summary"
+            android:title="@string/enable_headset_detection" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_wheel_bar"
+            android:summary="@string/enable_wheel_bar_summary"
+            android:title="@string/enable_wheel_bar" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_steal_remote_control"
+            android:summary="@string/enable_steal_remote_control_summary"
+            android:title="@string/enable_steal_remote_control" />
+    </PreferenceCategory>
 
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/privacy_prefs_category">
-        <PreferenceScreen
-            android:key="clear_history"
-            android:title="@string/clear_history">
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/subtitles_prefs_category">
+    <PreferenceCategory android:title="@string/performance_prefs_category" >
         <ListPreference
+            android:defaultValue=""
+            android:entries="@array/chroma_formats"
+            android:entryValues="@array/chroma_formats_values"
+            android:key="chroma_format"
+            android:summary="@string/chroma_format_summary"
+            android:title="@string/chroma_format" />
+        <CheckBoxPreference
+            android:key="enable_iomx"
+            android:summary="@string/enable_iomx_summary"
+            android:title="@string/enable_iomx" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_time_stretching_audio"
+            android:summary="@string/enable_time_stretching_audio_summary"
+            android:title="@string/enable_time_stretching_audio" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/other_prefs_category" >
+        <ListPreference
+            android:defaultValue=""
             android:entries="@array/subtitles_encoding_list"
             android:entryValues="@array/subtitles_encoding_values"
             android:key="subtitles_text_encoding"
-            android:title="@string/subtitles_text_encoding"
-            android:defaultValue=""
-            android:persistent="true" />
+            android:persistent="true"
+            android:title="@string/subtitles_text_encoding" />
+        <PreferenceScreen
+            android:key="clear_history"
+            android:title="@string/clear_history" >
+        </PreferenceScreen>
+        <Preference
+            android:enabled="true"
+            android:key="clear_media_db"
+            android:title="@string/clear_media_db" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/advanced_prefs_category">
-        <ListPreference
-            android:key="aout"
-            android:title="@string/aout" />
-        <CheckBoxPreference
-            android:key="enable_time_stretching_audio"
-            android:title="@string/enable_time_stretching_audio"
-            android:summary="@string/enable_time_stretching_audio_detail"
-            android:defaultValue="false" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_verbose_mode"
-            android:summary="@string/enable_verbose_mode_detail"
-            android:title="@string/enable_verbose_mode" >
-        </CheckBoxPreference>
-        <PreferenceScreen android:title="@string/advanced_debugging">
-            <Preference
-                android:title="@string/quit"
-                android:key="quit_app"
-                android:enabled="true" />
-            <Preference
-                android:title="@string/clear_media_db"
-                android:key="clear_media_db"
-                android:enabled="true" />
-            <EditTextPreference
-                android:title="@string/set_locale"
-                android:summary="@string/set_locale_detail"
-                android:key="set_locale"
-                android:defaultValue="" />
+
+    <PreferenceCategory android:title="@string/advanced_prefs_category" >
+        <PreferenceScreen android:title="@string/advanced_debugging" >
             <ListPreference
+                android:key="aout"
+                android:summary="@string/aout_summary"
+                android:title="@string/aout" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_verbose_mode"
+                android:summary="@string/enable_verbose_mode_summary"
+                android:title="@string/enable_verbose_mode" />
+            <EditTextPreference
                 android:defaultValue=""
-                android:key="chroma_format"
-                android:title="@string/chroma_format"
-                android:summary="@string/chroma_format_detail"
-                android:entries="@array/chroma_formats"
-                android:entryValues="@array/chroma_formats_values" />
+                android:key="set_locale"
+                android:summary="@string/set_locale_detail"
+                android:title="@string/set_locale" />
+            <Preference
+                android:enabled="true"
+                android:key="quit_app"
+                android:title="@string/quit" />
         </PreferenceScreen>
     </PreferenceCategory>
 

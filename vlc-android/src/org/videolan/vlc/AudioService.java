@@ -157,7 +157,7 @@ public class AudioService extends Service {
         registerReceiver(serviceReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean stealRemoteControl = pref.getBoolean("steal_remote_control", false);
+        boolean stealRemoteControl = pref.getBoolean("enable_steal_remote_control", false);
 
         if(!Util.isFroyoOrLater() || stealRemoteControl) {
             /* Backward compatibility for API 7 */

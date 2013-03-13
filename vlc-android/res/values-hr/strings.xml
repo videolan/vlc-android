@@ -107,8 +107,8 @@
     <string name="advanced_debugging">Napredno traženje pogrešaka</string>
     <string name="quit">Završi rad aplikacije</string>
     <string name="clear_media_db">Očisti bazu medijskih podataka</string>
-    <string name="detect_headset">Opažaj naglavne slušalice</string>
-    <string name="detect_headset_detail">Stanka pri odstranjivanju naglavnih slušalica; nastavak po njihovom priključivanju</string>
+    <string name="enable_headset_detection">Opažaj naglavne slušalice</string>
+    <string name="enable_headset_detection_detail">Stanka pri odstranjivanju naglavnih slušalica; nastavak po njihovom priključivanju</string>
     <string name="enable_wheel_bar">Uključi traku kotačića</string>
     <string name="enable_verbose_mode">Rječitost</string>
     <string name="enable_verbose_mode_detail">Povisi razinu rječitosti (LogCat)</string>

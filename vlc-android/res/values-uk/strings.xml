@@ -111,8 +111,8 @@
     <string name="advanced_debugging">Експертне відлагоджування</string>
     <string name="quit">Вийти із програми</string>
     <string name="clear_media_db">Очистити медіабазу</string>
-    <string name="detect_headset">Визначити гарнітуру</string>
-    <string name="detect_headset_detail">Зупиняти після від’єднання гарнітури; продовжувати після під’єднання гарнітури</string>
+    <string name="enable_headset_detection">Визначити гарнітуру</string>
+    <string name="enable_headset_detection_detail">Зупиняти після від’єднання гарнітури; продовжувати після під’єднання гарнітури</string>
     <string name="enable_wheel_bar">Увімкнути коліщатко</string>
     <string name="enable_verbose_mode">Інформативність</string>
     <string name="enable_verbose_mode_detail">Збільшити рівень інформативності (logcat)</string>

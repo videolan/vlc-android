@@ -152,13 +152,13 @@
     <string name="set_locale">مقامى ماحول (لوکيل) مقرر کريں</string>
     <string name="set_locale_detail">ری سیٹ کرنے کيليے خالى چھوڑ ديں</string>
     <string name="set_locale_popup">تبدیلی کو اثر لینے کے ليے وى ـ ايل ـ سى ـ کو رى سيٹ اور بند کر ديں ـ </string>
-    <string name="chroma_format_detail">ايکٹيويٹ نہ کريں!!! تمام آلات پر شايد نہ چلےـ صرف ٢.٣ اور نۓ ورژن کيليے ہےـ</string>
-    <string name="detect_headset">ہيڈ سيٹ تلاش کريں</string>
-    <string name="detect_headset_detail">ہيڈ سيٹ نکالنے پر رکا جائے؛ ہيڈ سيٹ لگانے پر چلا جائے</string>
-    <string name="steal_remote_control">خصوصی ہيڈ سيٹ ریموٹ کنٹرول</string>
-    <string name="steal_remote_control_detail">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ ايچ ـ ٹى - سى - فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
+    <string name="chroma_format_summary">ايکٹيويٹ نہ کريں!!! تمام آلات پر شايد نہ چلےـ صرف ٢.٣ اور نۓ ورژن کيليے ہےـ</string>
+    <string name="enable_headset_detection">ہيڈ سيٹ تلاش کريں</string>
+    <string name="enable_headset_detection_detail">ہيڈ سيٹ نکالنے پر رکا جائے؛ ہيڈ سيٹ لگانے پر چلا جائے</string>
+    <string name="enable_steal_remote_control">خصوصی ہيڈ سيٹ ریموٹ کنٹرول</string>
+    <string name="enable_steal_remote_control_summary">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ ايچ ـ ٹى - سى - فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
     <string name="enable_wheel_bar">پہيے والى بار کو فعال بنايا جائے</string>
-    <string name="enable_gesture_brightness">چمک کے اشارے کو فعال کريں</string>
+    <string name="enable_brightness_gesture">چمک کے اشارے کو فعال کريں</string>
     <string name="screen_orientation">سکرين کا رجحان</string>
     <string name="screen_orientation_sensor">خود کار طریقے سے (سینسر)</string>
     <string name="screen_orientation_start_lock">آ‏غاذ سے لاک</string>
@@ -173,7 +173,7 @@
     <string name="aout_audiotrack_java">AudioTrack (جاوا)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_time_stretching_audio">\'ٹائم سٹرچنگ\' آڈيو کو فعال بنايے</string>
-    <string name="enable_time_stretching_audio_detail">آڈيو کى رفتار کو پچ تبدیل کيے بغیر تيز اور آہستہ کريں ( اس کيليے ایک تيز آلہ چاہيے)</string>
+    <string name="enable_time_stretching_audio_summary">آڈيو کى رفتار کو پچ تبدیل کيے بغیر تيز اور آہستہ کريں ( اس کيليے ایک تيز آلہ چاہيے)</string>
     <string name="enable_verbose_mode">وافر مقدار ميں معلومات</string>
     <string name="enable_verbose_mode_detail">(logcat) کى معلومات کى مقدار ميں اضافہ کريں</string>
 </resources>
