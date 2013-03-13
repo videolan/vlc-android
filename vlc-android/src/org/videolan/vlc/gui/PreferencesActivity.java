@@ -75,7 +75,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     }
                 });
 
-        // Screen Orientation
+        // Screen orientation
         ListPreference screenOrientationPref = (ListPreference) findPreference("screen_orientation");
         screenOrientationPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
@@ -138,9 +138,8 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         // Clear media library
         Preference clearMediaPref = findPreference("clear_media_db");
-        clearMediaPref.setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
-
+        clearMediaPref
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         DatabaseManager.getInstance(getBaseContext()).emptyDatabase();
@@ -148,17 +147,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         return true;
                     }
                 });
-
-        // Audio output
-        ListPreference aoutPref = (ListPreference) findPreference("aout");
-        int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
-        int aoutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
-        aoutPref.setEntries(aoutEntriesId);
-        aoutPref.setEntryValues(aoutEntriesIdValues);
-        if (aoutPref.getValue() == null)
-            aoutPref.setValue(Util.isGingerbreadOrLater()
-                    ? "2"/*AOUT_OPENSLES*/
-                            : "0"/*AOUT_AUDIOTRACK_JAVA*/);
 
         // Change verbosity (logcat)
         CheckBoxPreference checkboxVerbosity = (CheckBoxPreference) findPreference("enable_verbose_mode");
@@ -179,18 +167,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             }
         });
 
-        //Set locale
-        EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
-        setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Toast.makeText(getBaseContext(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-
-        // Attach debugging items
+        /*** Attach debugging items **/
         Preference quitAppPref = findPreference("quit_app");
         quitAppPref.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
@@ -201,19 +178,39 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         return true;
                     }
                 });
+        // Audio output
+        ListPreference aoutPref = (ListPreference) findPreference("aout");
+        int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
+        int aoutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
+        aoutPref.setEntries(aoutEntriesId);
+        aoutPref.setEntryValues(aoutEntriesIdValues);
+        if (aoutPref.getValue() == null)
+            aoutPref.setValue(Util.isGingerbreadOrLater()
+                    ? "2"/*AOUT_OPENSLES*/
+                            : "0"/*AOUT_AUDIOTRACK_JAVA*/);
+        // Set locale
+        EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
+        setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 
-        // SharedPreferences Listener to apply changes
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Toast.makeText(getBaseContext(), R.string.set_locale_popup, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        /*** SharedPreferences Listener to apply changes ***/
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equalsIgnoreCase("enable_iomx") ||
-                key.equalsIgnoreCase("subtitles_text_encoding") ||
-                key.equalsIgnoreCase("aout") ||
-                key.equalsIgnoreCase("enable_time_stretching_audio") ||
-                key.equalsIgnoreCase("chroma_format")) {
+        if(key.equalsIgnoreCase("enable_iomx")
+                || key.equalsIgnoreCase("subtitles_text_encoding")
+                || key.equalsIgnoreCase("aout")
+                || key.equalsIgnoreCase("enable_time_stretching_audio")
+                || key.equalsIgnoreCase("chroma_format")) {
             LibVLC.restart();
         }
     }
