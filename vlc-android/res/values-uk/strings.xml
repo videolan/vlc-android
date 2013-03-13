@@ -1,53 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--  Main VLC Interface  -->
-    <string name="filebrowser_sdfail">Не вдалося відкрити картку SD. Перевірте, чи правильно її підключено.</string>
-    <string name="filebrowser_root">Корінь</string>
-    <string name="filebrowser_parent">..</string>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">Гаразд</string>
+    <string name="cancel">Скасувати</string>
+    <string name="other">Інше</string>
     <string name="filebrowser_title">Виберіть медіафайл</string>
-    <string name="ml_no_media_dir">Медіакаталог не вибрано</string>
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
     <string name="sortby_length">довжиною</string>
     <string name="searchable_hint">Триває пошук…</string>
-    <string name="history">Історія</string>
-    <string name="search_found_results">Знайдено результатів: %1$d</string>
-    <string name="show_player">Показати плеєр</string>
-    <string name="hide_mini_player">Приховати мініплеєр</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">знайдено %d результат</item>
+        <item quantity="few">знайдено %d результати</item>
+        <item quantity="other">знайдено %d результатів</item>
+    </plurals>
+
     <string name="play">Відтворити</string>
+    <string name="play_from_start">Відтворити з початку</string>
+    <string name="play_as_audio">Відтворити як аудіо</string>
+    <string name="play_as_video">Відтворити як відео</string>
     <string name="append">Додати</string>
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
+    <string name="last_playlist">Останній список</string>
     <string name="delete">Видалити</string>
+    <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
-    <string name="confirm_delete">Видалити цей файл?</string>
+    <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="ringtone_set">\'%1$s\' встановлено як мелодія.</string>
+    <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
-    <string name="close">Закрити</string>
-    <string name="not_show_again">«Не показувати це повідомлення знову».</string>
+    <string name="not_show_again">„Не показувати це повідомлення знову“.</string>
     <string name="beta_warning">Це бета-версія.\n\nЦя версія НЕ Є СТАБІЛЬНОЮ!\n\nНЕ використовуйте її, якщо не розумієте того, що робите.\n\nІнакше ваше кошеня може вмерти, будинок буде знищено, і почнеться апокаліпсис, передбачений майя.\nВикористовуйте на свій ризик.\n\nНасолоджуйтеся! :)</string>
     <string name="info_title">VLC бета</string>
     <string name="unknown_artist">Невідомий виконавець</string>
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
     <string name="songs">Пісні</string>
-    <plurals name="songs_quantity">
-        <item quantity="one">1 пісня</item>
-        <item quantity="few">%d пісні</item>
-        <item quantity="other">%d пісень</item>
-    </plurals>
     <string name="artists">Виконавці</string>
     <string name="albums">Альбоми</string>
-    <plurals name="albums_quantity">
-        <item quantity="one">1 альбом</item>
-        <item quantity="few">%d альбоми</item>
-        <item quantity="other">%d альбомів</item>
-    </plurals>
-    <plurals name="subfolders_quantity">
-        <item quantity="one">1 підкаталог</item>
-        <item quantity="few">%d підкаталога</item>
-        <item quantity="other">%d підкаталогів</item>
-    </plurals>
+    <string name="internal_memory">Внутрішня пам\'ять</string>
     <string name="parent_folder">До батьківського каталогу</string>
+    <string name="audio">Аудіо</string>
+    <string name="video">Відео</string>
+    <string name="bookmarks">Закладки</string>
     <string name="all_albums">Усі альбоми</string>
     <string name="genres">Жанри</string>
     <string name="playlists">Списки відтворення</string>
@@ -56,20 +54,29 @@
     <string name="album">Альбом</string>
     <string name="directory">Каталог</string>
     <string name="directories">Каталоги</string>
-    <string name="loading">Триває завантаження…</string>
-    <string name="nomedia">Медіафайлів не знайдено. Перемістіть файли на пристрій або змініть параметри.</string>
+    <string name="loading">Завантажується…</string>
+    <string name="please_wait">Будь ласка, зачекайте…</string>
+    <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть файли на пристрій або змініть параметри.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Немає підкаталогів.</string>
+    <string name="nohistory">У вас ще немає історії відтворення.</string>
     <string name="validation">Ви впевнені?</string>
+    <string name="cover_art">Обкладинка</string>
+    <string name="shuffle">Перемішати</string>
+    <string name="repeat">Повторити жодну/одну/усе</string>
+    <string name="previous">Попередній</string>
+    <string name="stop">Зупинити</string>
+    <string name="next">Наступний</string>
     <string name="locked">Заблоковано</string>
     <string name="unlocked">Розблоковано</string>
     <string name="surface_best_fit">Найкраще</string>
-    <string name="surface_fit_horizontal">Допасовувати горизонтально</string>
-    <string name="surface_fit_vertical">Допасовувати вертикально</string>
-    <string name="surface_fill">Заповнювати</string>
+    <string name="surface_fit_horizontal">Припасувати горизонтально</string>
+    <string name="surface_fit_vertical">Припасувати вертикально</string>
+    <string name="surface_fill">Заповнити</string>
     <string name="surface_original">Центрувати</string>
     <string name="thumbnail">Мініатюра</string>
+    <string name="unseekable_stream">Недосяжний потік</string>
     <string name="refresh">Оновити</string>
     <string name="track_audio">Звукова доріжка</string>
     <string name="track_video">Відеодоріжка</string>
@@ -77,47 +84,71 @@
     <string name="track_unknown">Невідома доріжка</string>
     <string name="track_codec_info">Кодек: %1$s\n</string>
     <string name="track_language_info">Мова: %1$s\n</string>
+    <string name="volume">Гучність</string>
+    <string name="brightness">Яскравість</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d канал\n</item>
         <item quantity="few">%1$d канали\n</item>
         <item quantity="other">%1$d каналів\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Частота дискретизації: %1$d Гц\n</string>
     <string name="track_resolution_info">Роздільна здатність: %1$d×%2$d\n</string>
     <string name="track_framerate_info">Частота кадрів: %1$.3f\n</string>
+    <string name="tools">Інструменти</string>
+    <string name="playback_speed">Швидкість відтворення</string>
+    <string name="sleep_title">Таймер сну</string>
+    <string name="sleep_cancel">Відмінити таймер сну</string>
+    <string name="jump_to_time">Перейти до часу</string>
     <string name="open">Відкрити</string>
     <string name="open_mrl">Відкрити MRL</string>
     <string name="open_mrl_dialog_title">Відкрити мережевий потік</string>
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
-    <string name="media_library">Медіатека</string>
+    <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
+    <string name="error_problem">На жаль, VLC для Android мав проблему при завантаженні і він закрився.</string>
+    <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n</string>
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
-    <string name="version">Версія</string>
     <string name="licence">Ліцензія</string>
     <string name="revision">Збірка</string>
     <string name="about">Про програму</string>
     <string name="about_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може відтворювати більшість файлів і мережевих потоків.</string>
-    <string name="for_android">для Android™</string>
     <string name="compiled_by">Цю версію VLC скомпільовано:</string>
+    <string name="vlc_authors">VLC Автори.</string>
 
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">Параметри</string>
+    <string name="add_custom_path">Додати свій шлях</string>
+    <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
+    <string name="remove_custom_path">Видалити свій шлях</string>
     <string name="main_prefs_category">Головні</string>
-    <string name="privacy_prefs_category">Приватність</string>
-    <string name="clear_history">Очистити історію пошуку</string>
-    <string name="advanced_prefs_category">Експертні</string>
-    <string name="enable_iomx">Увімкнути декодування з апаратним прискоренням</string>
-    <string name="advanced_debugging">Експертне відлагоджування</string>
-    <string name="quit">Вийти із програми</string>
-    <string name="clear_media_db">Очистити медіабазу</string>
-    <string name="enable_headset_detection">Визначити гарнітуру</string>
-    <string name="enable_headset_detection_detail">Зупиняти після від’єднання гарнітури; продовжувати після під’єднання гарнітури</string>
+    <string name="screen_orientation">Орієнтація екрану</string>
+    <string name="screen_orientation_sensor">Автоматична (датчик)</string>
+    <string name="screen_orientation_start_lock">Заблоковано при запуску</string>
+    <string name="screen_orientation_portrait">Альбомна</string>
+    <string name="screen_orientation_landscape">Книжкова</string>
+    <string name="screen_orientation_reverse_portrait">Перевернута альбомна</string>
+    <string name="screen_orientation_reverse_landscape">Перевернута ландшафтна</string>
     <string name="enable_wheel_bar">Увімкнути коліщатко</string>
-    <string name="enable_verbose_mode">Інформативність</string>
-    <string name="enable_verbose_mode_detail">Збільшити рівень інформативності (logcat)</string>
-    <string name="aout">Виведення звуку</string>
-    <string name="aout_audiotrack">AudioTrack (рідне)</string>
+    <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
+    <string name="enable_iomx">Увімкнути декодування з апаратним прискоренням</string>
+    <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
+    <string name="other_prefs_category">Інший</string>
+    <string name="clear_history">Очистити історію пошуку</string>
+    <string name="clear_media_db">Очистити медіабазу</string>
+    <string name="media_db_cleared">Медіабазу очищено!</string>
+    <string name="subtitles_text_encoding">Кодування тексту</string>
+    <string name="advanced_prefs_category">Додатково</string>
+    <string name="advanced_debugging">Розширене налагодження</string>
+    <string name="aout">Вивід звуку</string>
+    <string name="aout_audiotrack">AudioTrack (вбудовано)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_verbose_mode">Інформативність</string>
+    <string name="set_locale">Установка локалі</string>
+    <string name="set_locale_detail">Залишіть порожній рядок для типового значення</string>
+    <string name="set_locale_popup">Вийдіть і перезапустіть VLC для набуття чинності змін.</string>
+    <string name="quit">Вийти із програми</string>
 </resources>
