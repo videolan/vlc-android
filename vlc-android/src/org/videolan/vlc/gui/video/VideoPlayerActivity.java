@@ -113,7 +113,8 @@ public class VideoPlayerActivity extends Activity {
     private View mOverlayHeader;
     private View mOverlayLock;
     private View mOverlayOption;
-    private View mOverlay;
+    private View mOverlayProgress;
+    private View mOverlayInterface;
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int OVERLAY_INFINITE = 3600000;
     private static final int FADE_OUT = 1;
@@ -204,7 +205,8 @@ public class VideoPlayerActivity extends Activity {
         mOverlayHeader = findViewById(R.id.player_overlay_header);
         mOverlayLock = findViewById(R.id.lock_overlay);
         mOverlayOption = findViewById(R.id.option_overlay);
-        mOverlay = findViewById(R.id.player_overlay);
+        mOverlayProgress = findViewById(R.id.progress_overlay);
+        mOverlayInterface = findViewById(R.id.interface_overlay);
 
         /* header */
         mTitle = (TextView) findViewById(R.id.player_overlay_title);
@@ -512,6 +514,9 @@ public class VideoPlayerActivity extends Activity {
             setRequestedOrientation(getScreenOrientation());
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
+        mTime.setEnabled(false);
+        mSeekbar.setEnabled(false);
+        mLength.setEnabled(false);
         hideOverlay(true);
     }
 
@@ -523,6 +528,9 @@ public class VideoPlayerActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock);
+        mTime.setEnabled(true);
+        mSeekbar.setEnabled(true);
+        mLength.setEnabled(true);
         mShowing = false;
         showOverlay();
     }
@@ -1198,9 +1206,10 @@ public class VideoPlayerActivity extends Activity {
             if (!mIsLocked) {
                 mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
-                mOverlay.setVisibility(View.VISIBLE);
+                mOverlayInterface.setVisibility(View.VISIBLE);
                 dimStatusBar(false);
             }
+            mOverlayProgress.setVisibility(View.VISIBLE);
         }
         Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
@@ -1222,12 +1231,14 @@ public class VideoPlayerActivity extends Activity {
                 mOverlayLock.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                mOverlay.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mOverlayInterface.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             mOverlayLock.setVisibility(View.INVISIBLE);
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
-            mOverlay.setVisibility(View.INVISIBLE);
+            mOverlayProgress.setVisibility(View.INVISIBLE);
+            mOverlayInterface.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         }
