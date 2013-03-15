@@ -172,5 +172,5 @@
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
-    <string name="enable_verbose_mode_detail">Daha çok ayrıntı (logcat)</string>
+    <string name="enable_verbose_mode_summary">Daha çok ayrıntı (logcat)</string>
 </resources>

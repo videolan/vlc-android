@@ -116,7 +116,7 @@
     <string name="enable_headset_detection_detail">Pausatu aurikular+mikroa kentzean; berrekin aurikular+mikroa sartzean</string>
     <string name="enable_wheel_bar">Gaitu gurpil-barra</string>
     <string name="enable_verbose_mode">Xehetua</string>
-    <string name="enable_verbose_mode_detail">Handitu xehetasun-maila (logcat)</string>
+    <string name="enable_verbose_mode_summary">Handitu xehetasun-maila (logcat)</string>
     <string name="aout">Audio-irteera</string>
     <string name="aout_audiotrack">AudioTrack (natiboa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>

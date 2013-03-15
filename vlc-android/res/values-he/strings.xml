@@ -173,5 +173,5 @@
     <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
     <string name="enable_time_stretching_audio_summary">הגברה והנמכת המהירות מבלי לשנות את גובה הצליל (דורש התקן מהיר)</string>
     <string name="enable_verbose_mode">פירוט</string>
-    <string name="enable_verbose_mode_detail">הגברת הפירוט (logcat)</string>
+    <string name="enable_verbose_mode_summary">הגברת הפירוט (logcat)</string>
 </resources>

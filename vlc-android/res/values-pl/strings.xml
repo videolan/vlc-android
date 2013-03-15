@@ -184,5 +184,5 @@
     <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_summary">Przyspieszenie i zwolnienie dźwięku bez zmiany wysokości tonacji (wymaga szybki sprzęt)</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
-    <string name="enable_verbose_mode_detail">Zwiększ szczegółowość informowania (logcat)</string>
+    <string name="enable_verbose_mode_summary">Zwiększ szczegółowość informowania (logcat)</string>
 </resources>

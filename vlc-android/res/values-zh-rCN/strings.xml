@@ -172,5 +172,5 @@
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
     <string name="enable_time_stretching_audio_summary">可加速或减慢音频播放而不改变音调 (需要较快设备支持)</string>
     <string name="enable_verbose_mode">详尽模式</string>
-    <string name="enable_verbose_mode_detail">增加详尽程度 (logcat)</string>
+    <string name="enable_verbose_mode_summary">增加详尽程度 (logcat)</string>
 </resources>

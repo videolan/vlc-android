@@ -184,5 +184,5 @@
     <string name="enable_time_stretching_audio">Uključi vremensko-proširavanje zvuka</string>
     <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj)</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
-    <string name="enable_verbose_mode_detail">Povećaj pojačavanje (logcat)</string>
+    <string name="enable_verbose_mode_summary">Povećaj pojačavanje (logcat)</string>
 </resources>

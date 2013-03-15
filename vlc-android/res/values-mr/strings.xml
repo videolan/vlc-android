@@ -115,7 +115,7 @@
     <string name="enable_headset_detection_detail">हेडसेट काढल्यावर पौझ करा,घातल्यावर पुन्हा सुरु करा</string>
     <string name="enable_wheel_bar">व्हील बार सुरु करा</string>
     <string name="enable_verbose_mode">वर्बोस</string>
-    <string name="enable_verbose_mode_detail">वर्बोस वाढवा(लोगकॅट)</string>
+    <string name="enable_verbose_mode_summary">वर्बोस वाढवा(लोगकॅट)</string>
     <string name="aout">संगीत प्रदान</string>
     <string name="aout_audiotrack">AudioTrack (नेटीव)</string>
     <string name="aout_audiotrack_java">AudioTrack (जावा)</string>

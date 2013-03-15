@@ -178,5 +178,5 @@
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
     <string name="enable_time_stretching_audio_summary">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
-    <string name="enable_verbose_mode_detail">Verbosity verhogen (logcat)</string>
+    <string name="enable_verbose_mode_summary">Verbosity verhogen (logcat)</string>
 </resources>

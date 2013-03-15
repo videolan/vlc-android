@@ -184,5 +184,5 @@
     <string name="enable_time_stretching_audio">Povolit časové roztažení zvuku</string>
     <string name="enable_time_stretching_audio_summary">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení)</string>
     <string name="enable_verbose_mode">Podrobné</string>
-    <string name="enable_verbose_mode_detail">Zvýší podrobnosti v záznamu (logcat)</string>
+    <string name="enable_verbose_mode_summary">Zvýší podrobnosti v záznamu (logcat)</string>
 </resources>

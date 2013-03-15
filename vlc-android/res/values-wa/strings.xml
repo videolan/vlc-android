@@ -113,7 +113,7 @@
     <string name="enable_headset_detection">Trover l\' casse odio</string>
     <string name="enable_headset_detection_detail">Djoker å bodjaedje do casse odio; riprinde å rmetaedje do casse odio</string>
     <string name="enable_verbose_mode">Badjawe</string>
-    <string name="enable_verbose_mode_detail">Håssî l\' tchafiaedje (logcat)</string>
+    <string name="enable_verbose_mode_summary">Håssî l\' tchafiaedje (logcat)</string>
     <string name="aout">Rexhowe odio</string>
     <string name="aout_audiotrack">AudioTrack (askepyî po)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>

@@ -172,5 +172,5 @@
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
     <string name="enable_time_stretching_audio_summary">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
     <string name="enable_verbose_mode">出力レベル</string>
-    <string name="enable_verbose_mode_detail">出力レベルを増加 (logcat)</string>
+    <string name="enable_verbose_mode_summary">出力レベルを増加 (logcat)</string>
 </resources>

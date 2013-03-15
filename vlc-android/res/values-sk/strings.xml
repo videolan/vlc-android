@@ -182,5 +182,5 @@
     <string name="enable_time_stretching_audio">Zapnúť časové úpravy zvuku</string>
     <string name="enable_time_stretching_audio_summary">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie)</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
-    <string name="enable_verbose_mode_detail">Zvýšiť komunikatívnosť (logcat)</string>
+    <string name="enable_verbose_mode_summary">Zvýšiť komunikatívnosť (logcat)</string>
 </resources>

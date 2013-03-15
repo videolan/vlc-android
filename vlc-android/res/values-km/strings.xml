@@ -172,5 +172,5 @@
     <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
     <string name="enable_time_stretching_audio_summary">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
     <string name="enable_verbose_mode">បរិយាយ</string>
-    <string name="enable_verbose_mode_detail">បង្កើន​ការ​បរិយាយ (logcat)</string>
+    <string name="enable_verbose_mode_summary">បង្កើន​ការ​បរិយាយ (logcat)</string>
 </resources>

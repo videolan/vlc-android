@@ -168,5 +168,5 @@
     <string name="enable_time_stretching_audio">시간-연장 오디오 사용</string>
     <string name="enable_time_stretching_audio_summary">음조 변경 없이 오디오의 속도 높임 및 늦춤 (빠른 장치 필요)</string>
     <string name="enable_verbose_mode">상세설명</string>
-    <string name="enable_verbose_mode_detail">상세설명 늘림 (logcat)</string>
+    <string name="enable_verbose_mode_summary">상세설명 늘림 (logcat)</string>
 </resources>

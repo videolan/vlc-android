@@ -178,5 +178,5 @@
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
     <string name="enable_time_stretching_audio_summary">Øger eller sænker hastigheden på lyden, uden at ændre tonelejet (kræver en hurtig enhed)</string>
     <string name="enable_verbose_mode">Uddybende</string>
-    <string name="enable_verbose_mode_detail">forøg graden af uddybning (logcat)</string>
+    <string name="enable_verbose_mode_summary">forøg graden af uddybning (logcat)</string>
 </resources>

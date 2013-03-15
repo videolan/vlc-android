@@ -183,5 +183,5 @@
     <string name="enable_time_stretching_audio">Растезање времена звука</string>
     <string name="enable_time_stretching_audio_summary">Убрзајте или успорите звук без промене висине тона (захтева брз уређај)</string>
     <string name="enable_verbose_mode">Детаљно</string>
-    <string name="enable_verbose_mode_detail">Повећај детаљност (logcat)</string>
+    <string name="enable_verbose_mode_summary">Повећај детаљност (logcat)</string>
 </resources>

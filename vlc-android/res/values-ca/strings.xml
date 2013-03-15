@@ -175,5 +175,5 @@
     <string name="enable_time_stretching_audio">Habilita l\'àudio de temps d\'estirament</string>
     <string name="enable_time_stretching_audio_summary">Incrementa o redueix la velocitat de l\'àudio sense canviar el to (requereix un dispositiu més ràpid)</string>
     <string name="enable_verbose_mode">Detallat</string>
-    <string name="enable_verbose_mode_detail">Incrementa la verbositat (logcat)</string>
+    <string name="enable_verbose_mode_summary">Incrementa la verbositat (logcat)</string>
 </resources>

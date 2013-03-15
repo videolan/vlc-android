@@ -172,5 +172,5 @@
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
     <string name="enable_time_stretching_audio_summary">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้เครื่องที่ประมวลผลเร็ว)</string>
     <string name="enable_verbose_mode">รายละเอียด</string>
-    <string name="enable_verbose_mode_detail">เพิ่มรายละเอียด (ปูม)</string>
+    <string name="enable_verbose_mode_summary">เพิ่มรายละเอียด (ปูม)</string>
 </resources>

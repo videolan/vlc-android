@@ -174,5 +174,5 @@
     <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
     <string name="enable_time_stretching_audio_summary">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
     <string name="enable_verbose_mode">Jutukas</string>
-    <string name="enable_verbose_mode_detail">Suurenda jutukust (logcat)</string>
+    <string name="enable_verbose_mode_summary">Suurenda jutukust (logcat)</string>
 </resources>

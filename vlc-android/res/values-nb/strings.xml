@@ -177,5 +177,5 @@
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
     <string name="enable_time_stretching_audio_summary">Øk og senk hastigheten på lyd uten å endre tonehøyde (krever en rask enhet)</string>
     <string name="enable_verbose_mode">Detaljer</string>
-    <string name="enable_verbose_mode_detail">Flere detaljer (logcat)</string>
+    <string name="enable_verbose_mode_summary">Flere detaljer (logcat)</string>
 </resources>

@@ -115,7 +115,7 @@
     <string name="enable_headset_detection_detail">إيقاف على سماعة الرأس المحذوفه;إستئناف سماعة الرأس المدرجه</string>
     <string name="enable_wheel_bar">تمكين شريط العجله</string>
     <string name="enable_verbose_mode">الإسهاب</string>
-    <string name="enable_verbose_mode_detail">زيادة الإسهاب(logcat)</string>
+    <string name="enable_verbose_mode_summary">زيادة الإسهاب(logcat)</string>
     <string name="aout">الصوت الخارجي</string>
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>

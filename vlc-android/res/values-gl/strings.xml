@@ -177,5 +177,5 @@
     <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
     <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
     <string name="enable_verbose_mode">Detallado</string>
-    <string name="enable_verbose_mode_detail">Incrementar o nivel de detalle (logcat)</string>
+    <string name="enable_verbose_mode_summary">Incrementar o nivel de detalle (logcat)</string>
 </resources>

@@ -141,7 +141,7 @@
     <string name="enable_wheel_bar">Barra de rolagem</string>
     <string name="enable_brightness_gesture">Brilho por gestos</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
-    <string name="enable_verbose_mode_detail">Aumenta o detalhamento (logcat)</string>
+    <string name="enable_verbose_mode_summary">Aumenta o detalhamento (logcat)</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>

@@ -189,5 +189,5 @@
     <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
     <string name="enable_time_stretching_audio_summary">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath)</string>
     <string name="enable_verbose_mode">Briathrachas</string>
-    <string name="enable_verbose_mode_detail">Cuir am briathrachas an àirde (logcat)</string>
+    <string name="enable_verbose_mode_summary">Cuir am briathrachas an àirde (logcat)</string>
 </resources>

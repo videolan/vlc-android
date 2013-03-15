@@ -184,5 +184,5 @@
     <string name="enable_time_stretching_audio">Изменение скорости звука</string>
     <string name="enable_time_stretching_audio_summary">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство)</string>
     <string name="enable_verbose_mode">Детализация</string>
-    <string name="enable_verbose_mode_detail">Степень детализации сообщений (logcat)</string>
+    <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>
 </resources>

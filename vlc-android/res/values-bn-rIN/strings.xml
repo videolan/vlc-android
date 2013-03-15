@@ -131,7 +131,7 @@
     <string name="enable_wheel_bar">চাকা বার সক্ষম করুন</string>
     <string name="enable_brightness_gesture">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
     <string name="enable_verbose_mode">বাগ্বহুল</string>
-    <string name="enable_verbose_mode_detail">ভার্বোসিটি (logcat) বাড়ান</string>
+    <string name="enable_verbose_mode_summary">ভার্বোসিটি (logcat) বাড়ান</string>
     <string name="aout">অডিও আউটপুট</string>
     <string name="aout_audiotrack">AudioTrack (নেটিভ)</string>
     <string name="aout_audiotrack_java">AudioTrack (জাভা)</string>

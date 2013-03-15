@@ -178,5 +178,5 @@
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_summary">Incrementa e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce)</string>
     <string name="enable_verbose_mode">Verboso</string>
-    <string name="enable_verbose_mode_detail">Aumenta la verbosità (logcat)</string>
+    <string name="enable_verbose_mode_summary">Aumenta la verbosità (logcat)</string>
 </resources>

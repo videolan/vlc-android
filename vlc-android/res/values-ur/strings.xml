@@ -175,5 +175,5 @@
     <string name="enable_time_stretching_audio">\'ٹائم سٹرچنگ\' آڈيو کو فعال بنايے</string>
     <string name="enable_time_stretching_audio_summary">آڈيو کى رفتار کو پچ تبدیل کيے بغیر تيز اور آہستہ کريں ( اس کيليے ایک تيز آلہ چاہيے)</string>
     <string name="enable_verbose_mode">وافر مقدار ميں معلومات</string>
-    <string name="enable_verbose_mode_detail">(logcat) کى معلومات کى مقدار ميں اضافہ کريں</string>
+    <string name="enable_verbose_mode_summary">(logcat) کى معلومات کى مقدار ميں اضافہ کريں</string>
 </resources>
