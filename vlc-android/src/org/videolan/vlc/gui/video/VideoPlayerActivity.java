@@ -888,7 +888,7 @@ public class VideoPlayerActivity extends Activity {
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                     vol, 0);
             mIsAudioOrBrightnessChanged = true;
-            showInfo(getString(R.string.volume) + Integer.toString(vol),1000);
+            showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
         }
     }
 

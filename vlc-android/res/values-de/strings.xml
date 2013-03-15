@@ -104,7 +104,7 @@
     <string name="track_unknown">Unbekannter Titel</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Sprache: %1$s\n</string>
-    <string name="volume">\t\nLautstärke</string>
+    <string name="volume">Lautstärke</string>
     <string name="brightness">Helligkeit</string>
 
     <plurals name="track_channels_info_quantity">

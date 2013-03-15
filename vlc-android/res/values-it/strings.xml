@@ -104,8 +104,8 @@
     <string name="track_unknown">Traccia sconosciuta</string>
     <string name="track_codec_info">Codificatore: %1$s\n</string>
     <string name="track_language_info">Lingua: %1$s\n</string>
-    <string name="volume">Volume </string>
-    <string name="brightness">Luminosità </string>
+    <string name="volume">Volume</string>
+    <string name="brightness">Luminosità</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canale\n</item>
