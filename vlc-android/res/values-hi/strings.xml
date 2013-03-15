@@ -149,7 +149,7 @@
     <string name="set_locale_popup">परिवर्तनों को प्रभावी करने के लिए VLC रीसेट करें और बाहर निकले. </string>
     <string name="chroma_format">बल वर्णकी</string>
     <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
-    <string name="enable_headset_detection_detail">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
+    <string name="enable_headset_detection_summary">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
     <string name="enable_wheel_bar">पहिया पट्टी सक्रिय करें</string>
     <string name="enable_brightness_gesture">चमक जेश्चर सक्रिय करें</string>
     <string name="screen_orientation">पर्दा अनुकूलन</string>

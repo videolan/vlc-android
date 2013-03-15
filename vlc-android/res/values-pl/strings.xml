@@ -163,7 +163,7 @@
     <string name="chroma_format">Wymuś chromę</string>
     <string name="chroma_format_summary">NIE NALEŻY URUCHAMIAĆ!!! Może nie działać ze wszystkimi urządzeniami. Tylko dla Androida 2.3 lub nowszych.</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
-    <string name="enable_headset_detection_detail">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
+    <string name="enable_headset_detection_summary">Pauzuj przy usunięciu słuchawek, wznów po włożeniu słuchawek</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot zestawu słuchawkowego</string>
     <string name="enable_steal_remote_control_summary">Unikaj konfliktów poprzez kradzież pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach HTC.</string>
     <string name="enable_wheel_bar">Wyłącz okrągły pasek kontroli</string>

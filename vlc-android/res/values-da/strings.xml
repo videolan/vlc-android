@@ -157,7 +157,7 @@
     <string name="chroma_format">Gennemtving kroma</string>
     <string name="chroma_format_summary">UNDLAD AT AKTIVERE!!! Virker muligvis ikke på alle enheder. Kun 2.3 eller senere.</string>
     <string name="enable_headset_detection">Detektér hovedtelefoner</string>
-    <string name="enable_headset_detection_detail">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner isættes</string>
+    <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner isættes</string>
     <string name="enable_steal_remote_control">Fjernbetjen kun med headset</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="enable_wheel_bar">Tænd for rullebjælke</string>

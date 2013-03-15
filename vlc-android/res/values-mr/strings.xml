@@ -112,7 +112,7 @@
     <string name="clear_media_db">मेडिया माहिती स्वच्छ करा</string>
     <string name="media_db_cleared">मेडिया माहिती स्वच्छ केली</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
-    <string name="enable_headset_detection_detail">हेडसेट काढल्यावर पौझ करा,घातल्यावर पुन्हा सुरु करा</string>
+    <string name="enable_headset_detection_summary">हेडसेट काढल्यावर पौझ करा,घातल्यावर पुन्हा सुरु करा</string>
     <string name="enable_wheel_bar">व्हील बार सुरु करा</string>
     <string name="enable_verbose_mode">वर्बोस</string>
     <string name="enable_verbose_mode_summary">वर्बोस वाढवा(लोगकॅट)</string>

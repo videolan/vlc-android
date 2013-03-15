@@ -156,7 +156,7 @@
     <string name="chroma_format">Tving chroma</string>
     <string name="chroma_format_summary">IKKE AKTIVER!!! Virker kanskje ikke med alle enheter. Bare 2.3 og senere.</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
-    <string name="enable_headset_detection_detail">Pause når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
+    <string name="enable_headset_detection_summary">Pause når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
     <string name="enable_steal_remote_control">Eksklusiv hodetelefon fjernkontroll</string>
     <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="enable_wheel_bar">Aktiver hjulkontroll</string>

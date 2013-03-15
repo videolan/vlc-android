@@ -154,7 +154,7 @@
     <string name="set_locale_popup">Tanqueu i reinicieu el VLC per a que els canvis tinguin efecte.</string>
     <string name="chroma_format_summary">NO HO ACTIVEU! No funcionarà amb tots els dispositius. Només amb versions d\'Android 2.3 o superiors.</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
-    <string name="enable_headset_detection_detail">Pausa quan es treguin els auriculars; torna a reproduir quan es tornin a connectar.</string>
+    <string name="enable_headset_detection_summary">Pausa quan es treguin els auriculars; torna a reproduir quan es tornin a connectar.</string>
     <string name="enable_steal_remote_control">Control remot exclusiu dels auriculars</string>
     <string name="enable_steal_remote_control_summary">Evita els conflictes prenent el control remot d\'altres aplicacions. Això impedeix marcar quan es fa doble clic als telèfons HTC.</string>
     <string name="enable_wheel_bar">Habilita la barra de roda</string>

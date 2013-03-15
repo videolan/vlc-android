@@ -151,7 +151,7 @@
     <string name="chroma_format">強制クロマ</string>
     <string name="chroma_format_summary">有効化しないでください！すべてのデバイスで動作しないかもしれません。2.3以降のデバイスのみ動作します。</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
-    <string name="enable_headset_detection_detail">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
+    <string name="enable_headset_detection_summary">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
     <string name="enable_steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
     <string name="enable_steal_remote_control_summary">他のアプリケーションがリモートコントロールを占有する場合の競合を避けます。HTC製の電話でダブルクリックによる発信を防止します。</string>
     <string name="enable_wheel_bar">ホイールバーを有効化</string>

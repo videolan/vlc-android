@@ -151,7 +151,7 @@
     <string name="chroma_format">បង្ខុំ​ក្រូម</string>
     <string name="chroma_format_summary">កុំ​ធ្វើ​ឲ្យ​សកម្ម!!! អាច​មិន​ដំណើរការ​គ្រប់​ឧបករណ៍។ ដំណើរការ​តែ​កំណែ ២.៣ និង​ខ្ពស់​ជាង​នេះ។</string>
     <string name="enable_headset_detection">រក​​​កាស</string>
-    <string name="enable_headset_detection_detail">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
+    <string name="enable_headset_detection_summary">ផ្អាក​នៅ​ពេល​ដក​កាស បន្ត​នៅ​ពេល​ដោត​កាស</string>
     <string name="enable_steal_remote_control">វត្ថុ​បញ្ជា​ពី​ចម្ងាយ​កាស</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>

@@ -157,7 +157,7 @@
     <string name="chroma_format">Chroma forceren</string>
     <string name="chroma_format_summary">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
-    <string name="enable_headset_detection_detail">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
+    <string name="enable_headset_detection_summary">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
     <string name="enable_steal_remote_control">Exclusieve headset-afstandsbediening</string>
     <string name="enable_steal_remote_control_summary">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
     <string name="enable_wheel_bar">Wheel bar inschakelen</string>

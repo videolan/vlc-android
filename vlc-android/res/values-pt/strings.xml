@@ -154,7 +154,7 @@
     <string name="chroma_format">Forçar chroma</string>
     <string name="chroma_format_summary">NÃO ACTIVAR! Pode não funcionar como todos os dispositivos 2.3 ou superiores.</string>
     <string name="enable_headset_detection">Detectar headset</string>
-    <string name="enable_headset_detection_detail">Pausa ao remover o headset; retoma ao inserir o headset</string>
+    <string name="enable_headset_detection_summary">Pausa ao remover o headset; retoma ao inserir o headset</string>
     <string name="enable_steal_remote_control">Controlo remoto exclusivo do headset</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique em telefones HTC.</string>
     <string name="enable_wheel_bar">Activar barra de scroll</string>

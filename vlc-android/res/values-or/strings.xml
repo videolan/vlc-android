@@ -150,7 +150,7 @@
     <string name="set_locale_popup">ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ କାର୍ଯ୍ୟକାରୀ କରିବା ପାଇଁ VLC କୁ ତ୍ୟାଗ କରନ୍ତୁ ଏବଂ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ|</string>
     <string name="chroma_format_summary">ସକ୍ରିୟ କରନ୍ତୁ ନାହିଁ!!! ସବୁ ଯନ୍ତ୍ରରେ କାମ ନ କରିପାରେ|କେବଳ ୨.୩ ଏବଂ ଆଗକୁ|</string>
     <string name="enable_headset_detection">ହେଡ୍‌ସେଟ୍ କୁ ଆବିଷ୍କାର କରନ୍ତୁ</string>
-    <string name="enable_headset_detection_detail">ହେଡ୍‌ସେଟ୍ କାଢ଼ିଦେଲେ ବିରାମ ଦିଅନ୍ତୁ; ହେଡ୍‌ସେଟ୍ ଲଗାଇଲେ ଚଳାନ୍ତୁ</string>
+    <string name="enable_headset_detection_summary">ହେଡ୍‌ସେଟ୍ କାଢ଼ିଦେଲେ ବିରାମ ଦିଅନ୍ତୁ; ହେଡ୍‌ସେଟ୍ ଲଗାଇଲେ ଚଳାନ୍ତୁ</string>
     <string name="enable_wheel_bar">ଚକ ଦଣ୍ଡିକାକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="enable_brightness_gesture">ଔଜଲ୍ୟତା ଅଙ୍ଗଭଙ୍ଗୀକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="screen_orientation">ପରଦା ଅନୁସ୍ଥାପନ</string>

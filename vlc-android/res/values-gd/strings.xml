@@ -168,7 +168,7 @@
     <string name="chroma_format">Èignich sàthachd nan dath</string>
     <string name="chroma_format_summary">NA CUIR AN GNÌOMH!!! Dh/\'fhaoidte nach obair seo air gach uidheam. 2.3 is feadhainn nas ùire.</string>
     <string name="enable_headset_detection">Mothaich dha headset</string>
-    <string name="enable_headset_detection_detail">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
+    <string name="enable_headset_detection_summary">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
     <string name="enable_steal_remote_control">Smachd aig an headset a-mhàin</string>
     <string name="enable_steal_remote_control_summary">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
     <string name="enable_wheel_bar">Cuir am bàr cuibhle an comas</string>

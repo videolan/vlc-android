@@ -111,7 +111,7 @@
     <string name="clear_media_db">Netyî l\' båze di dnêyes media</string>
     <string name="media_db_cleared">L\' båze di dnêyes media a stu netieye!</string>
     <string name="enable_headset_detection">Trover l\' casse odio</string>
-    <string name="enable_headset_detection_detail">Djoker å bodjaedje do casse odio; riprinde å rmetaedje do casse odio</string>
+    <string name="enable_headset_detection_summary">Djoker å bodjaedje do casse odio; riprinde å rmetaedje do casse odio</string>
     <string name="enable_verbose_mode">Badjawe</string>
     <string name="enable_verbose_mode_summary">Håssî l\' tchafiaedje (logcat)</string>
     <string name="aout">Rexhowe odio</string>

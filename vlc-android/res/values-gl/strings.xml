@@ -156,7 +156,7 @@
     <string name="chroma_format">Forzar a crominancia</string>
     <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
-    <string name="enable_headset_detection_detail">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
+    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
     <string name="enable_wheel_bar">Activar a barra de roda</string>

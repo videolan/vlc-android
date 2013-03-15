@@ -151,7 +151,7 @@
     <string name="chroma_format">บังคับค่าความสดสี</string>
     <string name="chroma_format_summary">ไม่ต้องเรียกใช้!!! (เฉพาะรุ่น 2.3 ขึ้นไป โดยอาจจะใช้งานกับรุ่นอื่นไม่ได้)</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
-    <string name="enable_headset_detection_detail">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
+    <string name="enable_headset_detection_summary">พักการเล่นเมื่อถอดชุดหูฟังออก; ทำการเล่นต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
     <string name="enable_steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
     <string name="enable_steal_remote_control_summary">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
     <string name="enable_wheel_bar">เปิดใช้แถบเลื่อน</string>

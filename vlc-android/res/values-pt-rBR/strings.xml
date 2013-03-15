@@ -137,7 +137,7 @@
     <string name="set_locale_detail">Deixe em branco para redefinir</string>
     <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
-    <string name="enable_headset_detection_detail">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
+    <string name="enable_headset_detection_summary">Pausa quando o fone é removido; prossegue quando o fone é inserido</string>
     <string name="enable_wheel_bar">Barra de rolagem</string>
     <string name="enable_brightness_gesture">Brilho por gestos</string>
     <string name="enable_verbose_mode">Modo detalhado</string>

@@ -157,7 +157,7 @@
     <string name="chroma_format">Forza croma</string>
     <string name="chroma_format_summary">NON ATTIVARE!!! Potrebbe non funzionare con tutti i dispositivi. Solo 2.3 e successivi.</string>
     <string name="enable_headset_detection">Rileva cuffie</string>
-    <string name="enable_headset_detection_detail">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
+    <string name="enable_headset_detection_summary">Sospendi alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="enable_steal_remote_control">Controllo remoto esclusivo delle cuffie</string>
     <string name="enable_steal_remote_control_summary">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
     <string name="enable_wheel_bar">Wheel bar</string>

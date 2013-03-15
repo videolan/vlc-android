@@ -112,7 +112,7 @@
     <string name="clear_media_db">مسح قاعدة بيانات الوسائط</string>
     <string name="media_db_cleared">قاعدة بيانات الوسائط ممسوحه!</string>
     <string name="enable_headset_detection">كشف سماعة الرأس</string>
-    <string name="enable_headset_detection_detail">إيقاف على سماعة الرأس المحذوفه;إستئناف سماعة الرأس المدرجه</string>
+    <string name="enable_headset_detection_summary">إيقاف على سماعة الرأس المحذوفه;إستئناف سماعة الرأس المدرجه</string>
     <string name="enable_wheel_bar">تمكين شريط العجله</string>
     <string name="enable_verbose_mode">الإسهاب</string>
     <string name="enable_verbose_mode_summary">زيادة الإسهاب(logcat)</string>

@@ -163,7 +163,7 @@
     <string name="chroma_format">Vynutit chroma</string>
     <string name="chroma_format_summary">NEZAPÍNEJTE! Nemusí fungovat se všemi zařízeními. Pouze pro 2.3 a novější.</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
-    <string name="enable_headset_detection_detail">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
+    <string name="enable_headset_detection_summary">Pozastavit při odebrání sluchátek, obnovit při zapojení</string>
     <string name="enable_steal_remote_control">Výhradní ovládání hlasitosti sluchátek</string>
     <string name="enable_steal_remote_control_summary">Obchází konflikt ukradením vzdálené kontroly od ostatních aplikací. Zabraňuje vytáčení při dvojitém stisku na telefonech HTC.</string>
     <string name="enable_wheel_bar">Povolit kolečkovou lištu</string>

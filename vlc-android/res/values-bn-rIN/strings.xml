@@ -127,7 +127,7 @@
     <string name="set_locale_detail">রিসেট করতে ফাঁকা ছেড়ে চলে যান</string>
     <string name="set_locale_popup">প্রস্থান করুন এবং প্রভাব গ্রহণ করতে পরিবর্তনের জন্য VLC রিসেট করুন।</string>
     <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
-    <string name="enable_headset_detection_detail">হেডসেট উপর বিরাম মুছে ফেলা হয়েছে; হেডসেট ঢোকানো উপর সারসংকলন</string>
+    <string name="enable_headset_detection_summary">হেডসেট উপর বিরাম মুছে ফেলা হয়েছে; হেডসেট ঢোকানো উপর সারসংকলন</string>
     <string name="enable_wheel_bar">চাকা বার সক্ষম করুন</string>
     <string name="enable_brightness_gesture">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
     <string name="enable_verbose_mode">বাগ্বহুল</string>

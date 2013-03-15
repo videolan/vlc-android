@@ -146,7 +146,7 @@
     <string name="chroma_format">強制使用視訊格式</string>
     <string name="chroma_format_summary">請勿啟用!!! 可能無法適用於所有裝置，除了2.3或更新版本。</string>
     <string name="enable_headset_detection">偵測耳機</string>
-    <string name="enable_headset_detection_detail">耳機拔除時暫停、插入時繼續播放</string>
+    <string name="enable_headset_detection_summary">耳機拔除時暫停、插入時繼續播放</string>
     <string name="enable_steal_remote_control">專耳機遙控</string>
     <string name="enable_wheel_bar">啟用飛輪列</string>
     <string name="enable_brightness_gesture">啟用亮度手勢</string>

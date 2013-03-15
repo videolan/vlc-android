@@ -163,7 +163,7 @@
     <string name="chroma_format">Forsiraj kromu</string>
     <string name="chroma_format_summary">NE AKTIVIRAJ!!! Možda ne radi na svi uređajima. 2.3 i novije samo.</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
-    <string name="enable_headset_detection_detail">Pauziraj kada se odspoje slušalice; nastavi kada se slušalice spoje</string>
+    <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se slušalice spoje</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
     <string name="enable_steal_remote_control_summary">Izbjegavajte konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik na HTC telefonima.</string>
     <string name="enable_wheel_bar">Uključi kotačnu traku</string>

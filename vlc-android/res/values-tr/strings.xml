@@ -151,7 +151,7 @@
     <string name="chroma_format">Dayatılacak renk doygunluğu</string>
     <string name="chroma_format_summary">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
     <string name="enable_headset_detection">Kulaklığı algıla</string>
-    <string name="enable_headset_detection_detail">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
+    <string name="enable_headset_detection_summary">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
     <string name="enable_steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
     <string name="enable_steal_remote_control_summary">Uzaktan kumandanın diğer uygulamalar tarafından kullanılmasını engeller. Bu özellik bazı telefonlarda kumandadan çift tıklama ile arama yapılmasını engeller.</string>
     <string name="enable_wheel_bar">Tekerlek çubuğu etkin</string>

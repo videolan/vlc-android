@@ -147,7 +147,7 @@
     <string name="enable_yv12_format">YV12 형식 강제</string>
     <string name="enable_yv12_format_detail">활성화하지 마세요!!! 모든 장치에서 동작하지는 않음. 2.3 및 이후 만 동작.</string>
     <string name="enable_headset_detection">헤드셋 감지</string>
-    <string name="enable_headset_detection_detail">헤드셋 제거되면 일시중지; 헤드셋 삽입되면 되시작</string>
+    <string name="enable_headset_detection_summary">헤드셋 제거되면 일시중지; 헤드셋 삽입되면 되시작</string>
     <string name="enable_steal_remote_control">헤드셋 원격 제어 독점</string>
     <string name="enable_steal_remote_control_summary">다른 앱의 원격 제어 가로챔에 의한 충돌 방지. HTC 폰의 더블 클릭 전화걸기를 방지합니다.</string>
     <string name="enable_wheel_bar">휠바 사용</string>

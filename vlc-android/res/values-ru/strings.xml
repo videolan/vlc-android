@@ -163,7 +163,7 @@
     <string name="chroma_format">Принудительный формат цветности</string>
     <string name="chroma_format_summary">НЕ ВКЛЮЧАТЬ!!! Может работать не везде. Предназначено только для версий 2.3 и новее.</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
-    <string name="enable_headset_detection_detail">Пауза при отключении гарнитуры; продолжение при подключении</string>
+    <string name="enable_headset_detection_summary">Пауза при отключении гарнитуры; продолжение при подключении</string>
     <string name="enable_steal_remote_control">Захват управления с гарнитуры</string>
     <string name="enable_steal_remote_control_summary">Предотвращает конфликты, перехватывая удалённое управление у других приложений. Помогает избежать набора номера при двойном щелчке на аппаратах HTC.</string>
     <string name="enable_wheel_bar">Ползунок прокрутки</string>

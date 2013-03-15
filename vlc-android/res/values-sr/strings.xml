@@ -162,7 +162,7 @@
     <string name="chroma_format">Наметни боју</string>
     <string name="chroma_format_summary">Не активирајте! Можда неће радити са свим уређајима. Намењено је само за верзију 2.3 и новију.</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
-    <string name="enable_headset_detection_detail">Паузирај када слушалице буду искључене, а настави када буду прикључене</string>
+    <string name="enable_headset_detection_summary">Паузирај када слушалице буду искључене, а настави када буду прикључене</string>
     <string name="enable_steal_remote_control">Искључива даљинска контрола над слушалицама</string>
     <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Ово спречава позивање двоструким додиром на HTC телефонима.</string>
     <string name="enable_wheel_bar">Трака за премотавање</string>

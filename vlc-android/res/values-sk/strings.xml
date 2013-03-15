@@ -161,7 +161,7 @@
     <string name="chroma_format">Vynútiť chroma</string>
     <string name="chroma_format_summary">NEAKTIVOVAŤ!!! Nemusí fungovať so všetkými zariadeniami. Iba s verziou 2.3 a novšou.</string>
     <string name="enable_headset_detection">Detegovať headset</string>
-    <string name="enable_headset_detection_detail">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
+    <string name="enable_headset_detection_summary">Pozastaviť pri odobratí headset-u; pokračovať pri jeho pripojení</string>
     <string name="enable_steal_remote_control">Výhradné vzdialené ovládanie headset-u</string>
     <string name="enable_steal_remote_control_summary">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
     <string name="enable_wheel_bar">Zapnúť lištu v elipse</string>
