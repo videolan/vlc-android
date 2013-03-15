@@ -133,9 +133,11 @@
     <string name="preferences">Préférences</string>
     <string name="library_prefs_category">Bibliothèque multimédia</string>
     <string name="directories_summary">Sélectionnez les repertoires de votre bilbiothèque multimédia</string>
+    <string name="add_custom_path">Ajouter un répertoire</string>
+    <string name="add_custom_path_description">Entrer un répertoire additionnel à scanner:</string>
+    <string name="remove_custom_path">Retirer le répertoire</string>
     <string name="main_prefs_category">Général</string>
     <string name="screen_orientation">Orientation vidéo</string>
-    <string name="screen_orientation_summary">Orientation des vidéos pendant la lecture</string>
     <string name="screen_orientation_sensor">Automatique</string>
     <string name="screen_orientation_start_lock">Figé au démarrage</string>
     <string name="screen_orientation_portrait">Portrait</string>
@@ -157,7 +159,7 @@
     <string name="enable_iomx_summary">Activer l\'accélération matérielle pour améliorer les performances. Ne fonctionne pas sur tous les appareils.</string>
     <string name="enable_time_stretching_audio">Correction audio</string>
     <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie. Nécessite un appareil puissant</string>
-    <string name="ohter_prefs_category">Autre</string>
+    <string name="other_prefs_category">Autre</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
@@ -175,7 +177,4 @@
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
     <string name="quit">Quitter l\'application</string>
-    <string name="add_custom_path">Ajouter un répertoire</string>
-    <string name="add_custom_path_description">Entrer un répertoire additionnel à scanner:</string>
-    <string name="remove_custom_path">Retirer le répertoire</string>
 </resources>
