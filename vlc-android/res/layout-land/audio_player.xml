@@ -163,7 +163,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:onClick="showAdvanceFunction"
-                android:background="@drawable/dots" />
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                android:src="@drawable/dots" />
 
         </LinearLayout>
     </LinearLayout>

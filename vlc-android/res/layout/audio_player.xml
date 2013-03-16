@@ -64,10 +64,12 @@
                 android:id="@+id/adv_function"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="#00000000"
                 android:onClick="showAdvanceFunction"
-                android:background="@drawable/dots" />
+                android:scaleType="fitXY"
+                android:src="@drawable/dots" />
         </LinearLayout>
     </LinearLayout>
     <FrameLayout

@@ -34,10 +34,12 @@
             android:focusable="false" />
 
         <ImageButton
+            android:src="@drawable/dots"
+            android:background="#00000000"
             android:id="@+id/adv_function"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/dots"
+            android:scaleType="fitXY"
             android:onClick="showAdvanceFunction" />
 
         <LinearLayout
