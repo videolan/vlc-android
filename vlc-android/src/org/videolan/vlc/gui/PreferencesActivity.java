@@ -167,6 +167,18 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             }
         });
 
+        // Debug log activity
+        Preference debugLogsPref = findPreference("debug_logs");
+        debugLogsPref
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent intent = new Intent(getApplicationContext(), DebugLogActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
+
         /*** Attach debugging items **/
         Preference quitAppPref = findPreference("quit_app");
         quitAppPref.setOnPreferenceClickListener(

@@ -71,6 +71,9 @@
             android:enabled="true"
             android:key="clear_media_db"
             android:title="@string/clear_media_db" />
+        <PreferenceScreen
+            android:key="debug_logs"
+            android:title="Debug logs" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/advanced_prefs_category">
         <CheckBoxPreference

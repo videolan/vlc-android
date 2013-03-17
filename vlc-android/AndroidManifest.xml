@@ -63,6 +63,9 @@
             android:label="@string/mediafiles"
             android:theme="@android:style/Theme" />
         <activity
+            android:name=".gui.DebugLogActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
             android:name=".gui.video.VideoGridFragment"
             android:theme="@style/Theme.VLC"/>
         <activity

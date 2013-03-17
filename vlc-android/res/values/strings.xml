@@ -188,6 +188,13 @@
     <string name="clear_media_db">Clear media database</string>
     <string name="media_db_cleared">Media database cleared!</string>
     <string name="subtitles_text_encoding">Subtitle text encoding</string>
+
+    <string name="start_logging">Start logging</string>
+    <string name="stop_logging">Stop logging</string>
+    <string name="clear_log">Clear log</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_to_clipboard">Copied log to clipboard.</string>
+
     <string name="advanced_prefs_category">Advanced</string>
     <string name="advanced_debugging">Advanced debugging</string>
     <string name="aout">Audio output</string>
