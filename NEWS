@@ -4,10 +4,11 @@ Main Application:
  * Numerous small fixes for reccurent crashes
 
 Translations:
- * Initial Danish and Serbian translations
- * Updates to the Bosnian, Croatian, Czech, Dutch, Khmer,
-   Norwegian Bokmål, Polish, Portuguese, Russian, Spanish, Thai,
-   Turkish, and Ukrainian translations
+ * Initial Burmese, Danish, and Serbian translations
+ * Updates to the Bosnian, Catalan, Croatian, Czech, Danish, Dutch,
+   Estonian, German, Italian, Japanese, Khmer, Norwegian Bokmål, Polish,
+   Portuguese, Russian, Slovak, Spanish, Thai, Turkish, Ukrainian, Urdu,
+   Simplified Chinese, and Traditional Chinese translations
 
 
 Changes between 0.0.9 and 0.0.10:
