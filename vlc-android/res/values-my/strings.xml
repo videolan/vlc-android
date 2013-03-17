@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">အိုကေ</string>
+    <string name="cancel">ပယ်ဖျက်</string>
+    <string name="other">အခြား</string>
+    <string name="filebrowser_title">ဖွင့်ရန်မီဒီယာကိုရွေးပါ</string>
+    <string name="sortby">အားဖြင့်မျိုးတူစု…</string>
+    <string name="sortby_name">နာမည်</string>
+    <string name="sortby_length">အလျား</string>
+    <string name="searchable_hint">ရှာဖွေနေ…</string>
+    <string name="history">သမိုင်း</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="other">%d ရလဒ်များတွေ့</item>
+    </plurals>
+
+    <string name="play">ဖွင့်</string>
+    <string name="play_from_start">အစမှဖွင့်</string>
+    <string name="play_as_audio">အသံသာဖွင့်</string>
+    <string name="play_as_video">ဗီဒီယိုသာဖွင့်</string>
+    <string name="append">ဖြည့်စွက်</string>
+    <string name="play_all">အားလံုးဖွင့်</string>
+    <string name="append_all">အားလံုးကိုဖြည့်စွက်</string>
+    <string name="last_playlist">နောက်ဆံုးဖွင့်စာရင်း</string>
+    <string name="delete">ပယ်ဖျက်</string>
+    <string name="set_song">ဖုန်းမြည်သံသတ်မှတ်</string>
+    <string name="info">အချက်အလက်</string>
+    <string name="confirm_delete">\'%1$s\' ယခုဖိုင်ကိုပယ်ဖျက်?</string>
+    <string name="ringtone_set">\'%1$s\' ကိုဖုန်းမြည်သံသတ်မှတ်။</string>
+    <string name="ringtone_error">ဖုန်းမြည်သံသတ်မှတ်နေစဉ်အမှားပြ။</string>
+    <string name="pause">ရပ်တန့်</string>
+    <string name="not_show_again">ယခုမှာကြားချက်ကိုနောက်တစ်ကြိမ်ထပ်မပြနှင့်။</string>
+    <string name="beta_warning">ယခုမှာဘီဒါပံုစံဖြစ်။\n\nယခုပံုစံမှာမတည်ငြိမ်သေး!\n \n မသံုးစွဲနှင့်၊ ကိုယ်ဘာလုပ်နေသလဲသိမှသာလျှင်သံုးစွဲ။\n \n သင့်ကြောင်ကလေးနှင့်အိမ်ကိုဖျက်ဆီးနိုင်။\n ကိုယ့်ဟာကိုအရဲစွန့်သံုး။\n \n ပျော်ရွှင်ပါစေ! :)</string>
+    <string name="info_title">ဗီအယ်လ်စီဘီတာ</string>
+    <string name="unknown_artist">အမည်မသိအနုပညာရှင်</string>
+    <string name="unknown_album">အမည်မသိအယ်လဘမ်</string>
+    <string name="unknown_genre">အမည်မသိအမျိုးအစား</string>
+    <string name="songs">သီချင်းများ</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="other">%d သီချင်းများ</item>
+    </plurals>
+
+    <string name="artists">အနုပညာရှင်များ</string>
+    <string name="albums">အယ်လ်ဘမ်များ</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="other">%d အယ်လ်ဘမ်များ</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="other">%d ဖိုင်တွဲခွဲများ</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="other">%d မီဒီယာဖိုင်များ</item>
+    </plurals>
+
+    <string name="internal_memory">အတွင်းမှတ်ဉာဏ်</string>
+    <string name="parent_folder">မူရင်းဖိုင်တွဲသို့</string>
+    <string name="audio">အသံ</string>
+    <string name="video">ဗွီဒီယို</string>
+    <string name="bookmarks">မှတ်သားချက်များ</string>
+    <string name="all_albums">အယ်လ်ဘမ်များအားလံုး</string>
+    <string name="genres">အမျိုးအစားများ</string>
+    <string name="playlists">ဖွင့်စာရင်းများ</string>
+    <string name="title">ခေါင်းစဉ်</string>
+    <string name="artist">အနုပညာရှင်</string>
+    <string name="album">အယ်လ်ဘမ်</string>
+    <string name="directory">ဖိုင်လမ်းညွှန်</string>
+    <string name="directories">ဖိုင်လမ်းညွှန်များ</string>
+    <string name="loading">ထည့်သွင်းနေ</string>
+    <string name="please_wait">ခဏစောင့်ပါ…</string>
+    <string name="nomedia">မီဒီယာဖိုင်များမတွေ့၊ ပစ္စည်းသို့ဖိုင်များရွေ့(သို့)လိုလားမှုများကိုကိုက်ညှိ။</string>
+    <string name="mediafiles">မီဒီယာဖိုင်များ</string>
+    <string name="notavailable">မရရှိနိုင်</string>
+    <string name="nosubdirectory">ဖိုင်လမ်းညွှန်ခွဲများမရှိ။</string>
+    <string name="nohistory">ပြန်ဖွင့်သမိုင်းကြောင်းမရှိသေးပါ။</string>
+    <string name="validation">သေချာသလား?</string>
+    <string name="cover_art">အဖံုးအနုပညာ</string>
+    <string name="shuffle">ကုလားဖန်ထိုး</string>
+    <string name="repeat">တစ်ခုမျှ/တစ်ခု/အားလံုး ပြန်လုပ်</string>
+    <string name="previous">ယခင်</string>
+    <string name="stop">ရပ်</string>
+    <string name="next">နောက်</string>
+    <string name="locked">သော့ခတ်ပြီး</string>
+    <string name="unlocked">သော့မခတ်ပြီး</string>
+    <string name="surface_best_fit">အကောင်းဆုံးအံကိုက်</string>
+    <string name="surface_fit_horizontal">အလျားလိုက်အံကိုက်</string>
+    <string name="surface_fit_vertical">ဒေါင်လိုက်အံကိုက်</string>
+    <string name="surface_fill">ဖြည့်</string>
+    <string name="surface_original">အလယ်</string>
+    <string name="thumbnail">ပံုရိပ်ပြင်သေး</string>
+    <string name="unseekable_stream">မရှာဖွေနိုင်သောသီချင်းစီးကြောင်း</string>
+    <string name="refresh">ပြန်လည်</string>
+    <string name="track_audio">အသံလမ်းကြော</string>
+    <string name="track_video">ဗွီဒီယိုလမ်းကြော</string>
+    <string name="track_text">စာတန်းထိုးများလမ်းကြော</string>
+    <string name="track_unknown">အမည်မသိလမ်းကြော</string>
+    <string name="track_codec_info">အသံချုံချဲ့ : %1$s\n</string>
+    <string name="track_language_info">ဘာသာစကား: %1$s\n</string>
+    <string name="volume">အသံပမာဏ</string>
+    <string name="brightness">အရောင်တောက်ပခြင်း</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">%1$d လှိုင်းများ\n\n</item>
+    </plurals>
+
+    <string name="track_samplerate_info">နမူနာနှုန်း: %1$d Hz\n</string>
+    <string name="track_resolution_info">ပုံရိပ်ပြ: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">ဘောင်နှုန်း: %1$.3f\n</string>
+    <string name="tools">ကိရိယာများ</string>
+    <string name="playback_speed">ပြန်ဖွင့်အမြန်နှုန်း</string>
+    <string name="sleep_title">အိပ်ရန်အချိန်</string>
+    <string name="sleep_cancel">အိပ်ရန်အချိန်ပယ်ဖျက်</string>
+    <string name="jump_to_time">အချိန်သို့သွား</string>
+    <string name="open">ဖွင့်</string>
+    <string name="open_mrl">အမ်အာရ်အယ်ဖွင့်</string>
+    <string name="open_mrl_dialog_title">ကွန်ယက်စီးကြောင်းဖွင့်</string>
+    <string name="open_mrl_dialog_msg">ကွန်ယက်အမ်အာအယ်ထည့်: ဥပမာ http://, mms:// or rtsp://</string>
+    <string name="error_not_compatible">စက်ရုပ်အတွက်ဗီအယ်စီယခုပံုစံမှာသင့်ပစ္စည်းကိုမထောက်ပံ့။</string>
+    <string name="error_problem">စက်ရုပ်အတွက်ဗီအယ်စီတွင်ပြသနာတွေ့ပြီးပိတ်ရန်လိုအပ်။</string>
+    <string name="error_message_is">အမှားပြမှာကြားချက်မှာ (အမှားရှာပြင်နေစဉ်ဖော်ပြပါ):\n\n</string>
+
+    <!-- About -->
+    <string name="app_name_full">ဗီအယ်လ်စီအတွက်စက်ရုပ်TM</string>
+    <string name="licence">လိုင်စင်</string>
+    <string name="revision">ပြင်ဆင်ခြင်း</string>
+    <string name="about">အကြောင်း</string>
+    <string name="about_text">စက်ရုပ်အတွက်ဗီအယ်စီမှာဗီအယ်စီမီဒီယာဖွင့်စက်၏ထွက်ပေါက်ဖြစ်၊ စက်ရုပ်ပံုစံမှာဖိုင်အများစနှင့်ကွန်ယက်စီးကြောင်းများကိုဖတ်ရှုနိုင်။</string>
+    <string name="compiled_by">ယခုဗီအယ်စီပံုစံမှာအားဖြင့်စည်း:</string>
+    <string name="vlc_authors">ဗီအယ်လ်စီရေးသားသူများ။</string>
+
+    <!-- Preferences -->
+    <string name="preferences">လိုလားချက်များ</string>
+    <string name="library_prefs_category">မီဒီယာတိုက်</string>
+    <string name="directories_summary">မီဒီယာတိုက်တွင်ထည့်သွင်းရန်ဖိုင်လမ်းညွန်များရွေးချယ်</string>
+    <string name="add_custom_path">စိတ်ကြိက်လမ်းကြောင်းထည့်</string>
+    <string name="add_custom_path_description">ဖတ်ရှုရန်နောက်ထပ်စိတ်ကြိုက်ဖိုင်လမ်းညွှန်ထည့်:</string>
+    <string name="remove_custom_path">စိတ်ကြိက်လမ်းကြောင်းဖယ်ရှား</string>
+    <string name="main_prefs_category">ပင်မ</string>
+    <string name="screen_orientation">ဗီဒီယိုမျက်နှာပြင်နှင့်အသားကျအောင်လုပ်</string>
+    <string name="screen_orientation_sensor">အလိုအလျောက် (အာရုံခံ)</string>
+    <string name="screen_orientation_start_lock">စဖွင့်ခြင်းသော့ခတ်</string>
+    <string name="screen_orientation_portrait">ဒေါင်လိုက်ကြည့်</string>
+    <string name="screen_orientation_landscape">အလျားလိုက်ကြည့်</string>
+    <string name="screen_orientation_reverse_portrait">ဒေါင်လိုက်ပြောင်းပြန်ကြည့်</string>
+    <string name="screen_orientation_reverse_landscape">အလျားလိုက်ပြောင်းပြန်ကြည့်</string>
+    <string name="enable_brightness_gesture">အရောင်တောက်ပခြင်းအမူအရာလုပ်ဆောင်စေ</string>
+    <string name="enable_brightness_gesture_summary">ဗီဒီယိုပြန်ဖွင့်ချိန်အတွင်းအမှုအရာဖြင့်အရောင်တောက်ပခြင်းထိန်းချုပ်</string>
+    <string name="enable_headset_detection">နားကြပ်ရှာဖွေ</string>
+    <string name="enable_headset_detection_summary">နားကြပ်ဖြုတ်စဉ်ရပ်တန့်၊ နားကြပ်တပ်စဉ်ပြန်ဖွင့်</string>
+    <string name="enable_wheel_bar">ဘီးအတန်းလုပ်ဆောင်စေ</string>
+    <string name="enable_wheel_bar_summary">ဗီဒီယိုမျက်နှာပြင်အတွက်စတိုင်ဘား</string>
+    <string name="enable_steal_remote_control">နားကြပ်အဝေးထိန်းသီးသန့်</string>
+    <string name="enable_steal_remote_control_summary">အခြားအပ်ပရိုဂရမ်များမှအဝေးထိန်းခိုးသံုးနေခြင်းကြောင့်ကွဲလွဲမှုရှောင်ကြဉ်။ ဟိတ်စ်တီစီဖုန်းများတွင်ကလစ်နှစ်ချက်နိုပ်ဖုန်းခေါ်ခြင်းကိုကာကွယ်။</string>
+    <string name="performance_prefs_category">ဆောင်ရွက်ချက်</string>
+    <string name="chroma_format">ဗီဒီယိုအရာင်အတင်းလုပ်</string>
+    <string name="chroma_format_summary">အာဂျီပီ၃၂-ဘစ်: မူလအရာင်\n အာဂျီပီ၁၆-ဘစ်: ပိုကောင်းသောဆောင်ရွက်ချက်သို့သော်နိမ့်သောအရည်အသွေး\n ဝိုင်ယူဗီ: အကောင်းဆံုးဆောင်ရွက်ချက်သို့သော်ပစ္စည်းအားလံုးတွင်အလုပ်မလုပ်။ စက်ရုပ်၂.၃နှင့်အမြင့်တွင်သာအလုပ်လုပ်။</string>
+    <string name="enable_iomx">ဟတ်ဝဲအရှိန်မြှင့်ပြီးကုဒ်ဖြည်</string>
+    <string name="enable_iomx_summary">ပိုမိုကောင်းမွန်သောဆောင်ရွက်ချက်သို့သော်ပစ္စည်းအားလံုးတွင်အလုပ်မလုပ်။</string>
+    <string name="enable_time_stretching_audio">အချိန်ဆွဲဆန့်ပြီးအသံ</string>
+    <string name="enable_time_stretching_audio_summary">အသံအနိမ့်အမြင့်မပြောင်းလဲဘဲအသံကိုနှုန်းမြင့်ပြီးလျော့ (မြန်သောပစ္စည်းလိုအပ်)။</string>
+    <string name="other_prefs_category">အခြား</string>
+    <string name="clear_history">ရှာဖွေသမိုင်းဖယ်ရှား</string>
+    <string name="clear_media_db">မီဒီယာအချက်အလက်အစုရှင်းလင်း</string>
+    <string name="media_db_cleared">မီဒီယာအချက်အလက်အစုရှင်းလင်းပြီး!</string>
+    <string name="subtitles_text_encoding">ဘာသာပြန်စာသားကုဒ်ပြောင်း</string>
+    <string name="advanced_prefs_category">အဆင့်မြင့်</string>
+    <string name="advanced_debugging">အဆင့်မြင့်အမှားရှာပြင်</string>
+    <string name="aout">အသံပေးပို့</string>
+    <string name="aout_summary">ဗီအလ်စီသံုး၍အသံထုတ်ရန်အခြားနည်းလမ်းသို့ပြောင်းလဲ။</string>
+    <string name="aout_audiotrack">AudioTrack (စက်တွင်းရှိ)</string>
+    <string name="aout_audiotrack_java">AudioTrack (ဂျားဗား)</string>
+    <string name="aout_opensles">အိုးပန်းအက်စ်အယ် အီးအက်စ်</string>
+    <string name="enable_verbose_mode">စကားလံုးရှည်</string>
+    <string name="enable_verbose_mode_summary">စကားတံရှည်ခြင်းတိုးမြှင့် (လော့ကတ်)</string>
+    <string name="set_locale">ပင်ရင်းသတ်မှတ်</string>
+    <string name="set_locale_detail">ပြန်လည်သတ်မှတ်ရန်ကွက်လပ်ထား</string>
+    <string name="set_locale_popup">ပြောင်းလဲမှုများအသက်ဝင်ရန်အတွက်ဗီအယ်စီကိုပိတ်ပြီးပြန်လည်သတ်မှတ်</string>
+    <string name="quit">အသုံးချလုပ်ငန်းသုံးပရိုဂရမ်များပိတ်</string>
+</resources>
