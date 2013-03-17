@@ -10,6 +10,7 @@
     <string name="sortby_name">назвою</string>
     <string name="sortby_length">довжиною</string>
     <string name="searchable_hint">Триває пошук…</string>
+    <string name="history">Історія</string>
 
     <plurals name="search_found_results_quantity">
         <item quantity="one">знайдено %d результат</item>
@@ -39,8 +40,32 @@
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
     <string name="songs">Пісні</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">%d пісня</item>
+        <item quantity="few">%d пісні</item>
+        <item quantity="other">%d пісень</item>
+    </plurals>
+
     <string name="artists">Виконавці</string>
     <string name="albums">Альбоми</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">%d альбом</item>
+        <item quantity="few">%d альбоми</item>
+        <item quantity="other">%d альбомів</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">%d підтека</item>
+        <item quantity="few">%d підтеки</item>
+        <item quantity="other">%d підтек</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">%d медіа файл</item>
+        <item quantity="few">%d медіа файли</item>
+        <item quantity="other">%d медіа файлів</item>
+    </plurals>
+
     <string name="internal_memory">Внутрішня пам\'ять</string>
     <string name="parent_folder">До батьківського каталогу</string>
     <string name="audio">Аудіо</string>
@@ -120,6 +145,8 @@
 
     <!-- Preferences -->
     <string name="preferences">Параметри</string>
+    <string name="library_prefs_category">Медіа бібліотека</string>
+    <string name="directories_summary">Виберіть каталоги для включення у медіа бібліотеку</string>
     <string name="add_custom_path">Додати свій шлях</string>
     <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
     <string name="remove_custom_path">Видалити свій шлях</string>
@@ -131,11 +158,22 @@
     <string name="screen_orientation_landscape">Книжкова</string>
     <string name="screen_orientation_reverse_portrait">Перевернута альбомна</string>
     <string name="screen_orientation_reverse_landscape">Перевернута ландшафтна</string>
+    <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
+    <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
+    <string name="enable_headset_detection">Виявляти гарнітуру</string>
+    <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
     <string name="enable_wheel_bar">Увімкнути коліщатко</string>
+    <string name="enable_wheel_bar_summary">Альтернативний стиль панелі пошуку для відео інтерфейсу</string>
+    <string name="enable_steal_remote_control">Виняткове віддалене управління гарнітурою</string>
+    <string name="enable_steal_remote_control_summary">Уникає конфліктів через перехоплення віддаленого управління іншими програмами. Це запобігає дзвінкам при подвійному натисканні на HTC телефонах.</string>
+    <string name="performance_prefs_category">Швидкодія</string>
     <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
+    <string name="chroma_format_summary">RGB 32-бітна: типова насиченість кольору\nRGB 16-бітна: краща швидкодія, але гірша якість\nYUV: найкраща швидкодія, але не працює на всіх пристроях. Android 2.3 та новіші лише.</string>
     <string name="enable_iomx">Увімкнути декодування з апаратним прискоренням</string>
+    <string name="enable_iomx_summary">Покращує швидкодію, але може не працювати на всіх пристроях.</string>
     <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
-    <string name="other_prefs_category">Інший</string>
+    <string name="enable_time_stretching_audio_summary">Прискорює та уповільнює звук без зміни висоти тону (вимагає швидкого пристрою).</string>
+    <string name="other_prefs_category">Інше</string>
     <string name="clear_history">Очистити історію пошуку</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
@@ -143,10 +181,12 @@
     <string name="advanced_prefs_category">Додатково</string>
     <string name="advanced_debugging">Розширене налагодження</string>
     <string name="aout">Вивід звуку</string>
+    <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
     <string name="aout_audiotrack">AudioTrack (вбудовано)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">Інформативність</string>
+    <string name="enable_verbose_mode_summary">Збільшити деталізацію (logcat)</string>
     <string name="set_locale">Установка локалі</string>
     <string name="set_locale_detail">Залишіть порожній рядок для типового значення</string>
     <string name="set_locale_popup">Вийдіть і перезапустіть VLC для набуття чинності змін.</string>
