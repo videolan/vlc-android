@@ -119,6 +119,8 @@
     <string name="error_problem">Désolé, VLC pour Android à rencontré un problème et a dû s\'arrêter.</string>
     <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner):\n</string>
 
+    <string name="encountered_error_title">Erreur de lecture</string>
+    <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
 
     <!-- About -->
     <string name="app_name_full">Lecteur multimédia VLC</string>

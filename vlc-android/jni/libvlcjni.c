@@ -687,7 +687,8 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
         libvlc_MediaPlayerEndReached,
         libvlc_MediaPlayerStopped,
         libvlc_MediaPlayerVout,
-        libvlc_MediaPlayerPositionChanged
+        libvlc_MediaPlayerPositionChanged,
+        libvlc_MediaPlayerEncounteredError
     };
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);

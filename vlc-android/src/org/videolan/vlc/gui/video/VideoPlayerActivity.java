@@ -86,6 +86,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -622,6 +623,10 @@ public class VideoPlayerActivity extends Activity {
                 case EventManager.MediaPlayerPositionChanged:
                     //don't spam the logs
                     break;
+                case EventManager.MediaPlayerEncounteredError:
+                    Log.i(TAG, "MediaPlayerEncounteredError");
+                    activity.encounteredError();
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
@@ -675,6 +680,21 @@ public class VideoPlayerActivity extends Activity {
         /* Exit player when reach the end */
         mEndReached = true;
         finish();
+    }
+
+    private void encounteredError() {
+        /* Encountered Error, exit player with a message */
+        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        })
+        .setTitle(R.string.encountered_error_title)
+        .setMessage(R.string.encountered_error_message)
+        .create();
+        dialog.show();
     }
 
     private void handleVout(Message msg) {

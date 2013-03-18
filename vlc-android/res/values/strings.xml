@@ -141,6 +141,9 @@
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">&#8722;</string>
 
+    <string name="encountered_error_title">Playback error</string>
+    <string name="encountered_error_message">VLC has encountered a error with this media.\nYou should maybe refresh your media library</string>
+
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">License</string>
