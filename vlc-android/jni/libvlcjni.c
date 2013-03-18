@@ -241,17 +241,14 @@ void jni_SetAndroidSurfaceSize(int width, int height, int sar_num, int sar_den)
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 {
     JNIEnv *env;
-    JavaVM *myVm = data;
 
     bool isAttached = false;
 
     if (eventManagerInstance == NULL)
         return;
 
-    int status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
-    if (status < 0) {
-        status = (*myVm)->AttachCurrentThread(myVm, &env, NULL);
-        if (status < 0)
+    if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
+        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
             return;
         isAttached = true;
     }
@@ -378,10 +375,8 @@ static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
     bool isAttached = false;
     JNIEnv *env = NULL;
 
-    int status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
-    if (status < 0) {
-        status = (*myVm)->AttachCurrentThread(myVm, &env, NULL);
-        if (status < 0)
+    if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
+        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
             return;
         isAttached = true;
     }
