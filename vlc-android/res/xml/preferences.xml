@@ -82,7 +82,7 @@
         <PreferenceScreen android:title="@string/advanced_debugging" >
             <PreferenceScreen
                 android:key="debug_logs"
-                android:title="Debug logs" />
+                android:title="@string/debug_logs" />
 
             <ListPreference
                 android:key="aout"
