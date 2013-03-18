@@ -1,7 +1,11 @@
-Changes between 0.0.10 and 0.0.11-git:
+Changes between 0.0.10 and 0.0.11:
 ----------------------------------
 Main Application:
  * Numerous small fixes for reccurent crashes
+ * Better debugging log facility
+ * Show seek position when locked
+ * Avoid running thumbnailer when just playing audio
+ * Improve the overlay fading after a gesture
 
 Translations:
  * Initial Burmese, Danish, and Serbian translations
