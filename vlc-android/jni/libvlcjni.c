@@ -369,33 +369,14 @@ void Java_org_videolan_vlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_unlock(&vout_android_lock);
 }
 
-static void debug_log(void *data, int level, const char *fmt, va_list ap)
-{
-    bool *verbose = data;
-
-    static const uint8_t priority[5] = {
-        [LIBVLC_DEBUG]   = ANDROID_LOG_DEBUG,
-        [1 /* ??? */]    = ANDROID_LOG_DEBUG,
-        [LIBVLC_NOTICE]  = ANDROID_LOG_INFO,
-        [LIBVLC_WARNING] = ANDROID_LOG_WARN,
-        [LIBVLC_ERROR]   = ANDROID_LOG_ERROR,
-    };
-
-    int prio = ANDROID_LOG_DEBUG;
-    if (level >= LIBVLC_DEBUG && level <= LIBVLC_ERROR)
-        prio = priority[level];
-
-    if (!*verbose && prio < ANDROID_LOG_ERROR)
-        return;
-
-    __android_log_vprint(prio, "VLC", fmt, ap);
-}
+// FIXME: use atomics
+static bool verbosity;
+static bool buffer_logging;
 
 static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
 {
     bool isAttached = false;
     JNIEnv *env = NULL;
-    JavaVM *myVm = (JavaVM*)data;
 
     int status = (*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2);
     if (status < 0) {
@@ -430,15 +411,38 @@ static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
         (*myVm)->DetachCurrentThread(myVm);
 }
 
-static libvlc_log_subscriber_t debug_subscriber;
-static bool verbosity;
-static libvlc_log_subscriber_t debug_buffer_subscriber;
+static void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap)
+{
+    bool *verbose = data;
+
+    static const uint8_t priority[5] = {
+        [LIBVLC_DEBUG]   = ANDROID_LOG_DEBUG,
+        [1 /* ??? */]    = ANDROID_LOG_DEBUG,
+        [LIBVLC_NOTICE]  = ANDROID_LOG_INFO,
+        [LIBVLC_WARNING] = ANDROID_LOG_WARN,
+        [LIBVLC_ERROR]   = ANDROID_LOG_ERROR,
+    };
+
+    int prio = ANDROID_LOG_DEBUG;
+    if (level >= LIBVLC_DEBUG && level <= LIBVLC_ERROR)
+        prio = priority[level];
+
+    if (buffer_logging) {
+        va_list aq;
+        va_copy(aq, ap);
+        debug_buffer_log(data, level, fmt, aq);
+        va_end(aq);
+    }
+
+    if (!*verbose && prio < ANDROID_LOG_ERROR)
+        return;
+
+    __android_log_vprint(prio, "VLC", fmt, ap);
+}
 
 void Java_org_videolan_vlc_LibVLC_changeVerbosity(JNIEnv *env, jobject thiz, jboolean verbose)
 {
     verbosity = verbose;
-    libvlc_log_unsubscribe(&debug_subscriber);
-    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
 }
 
 void Java_org_videolan_vlc_LibVLC_startDebugBuffer(JNIEnv *env, jobject thiz)
@@ -458,13 +462,12 @@ void Java_org_videolan_vlc_LibVLC_startDebugBuffer(JNIEnv *env, jobject thiz)
 
     (*env)->DeleteLocalRef(env, libVLC_class);
     (*env)->DeleteLocalRef(env, libvlcj);
-    libvlc_log_subscribe(&debug_buffer_subscriber, debug_buffer_log, myVm);
+    buffer_logging = true;
 }
 
 void Java_org_videolan_vlc_LibVLC_stopDebugBuffer(JNIEnv *env, jobject thiz)
 {
-    libvlc_log_unsubscribe(&debug_buffer_subscriber);
-
+    buffer_logging = false;
     jclass libVLC_class = (*env)->FindClass(env, "org/videolan/vlc/LibVLC");
     jmethodID getInstance = (*env)->GetStaticMethodID(env, libVLC_class, "getInstance", "()Lorg/videolan/vlc/LibVLC;");
     jobject libvlcj = (*env)->CallStaticObjectMethod(env, libVLC_class, getInstance);
@@ -498,9 +501,6 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
     LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
 
-    verbosity = verbose;
-    libvlc_log_subscribe(&debug_subscriber, debug_log, &verbosity);
-
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
         "-I", "dummy",
@@ -530,6 +530,9 @@ void Java_org_videolan_vlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean
     }
 
     LOGI("LibVLC initialized: %p", instance);
+
+    verbosity = verbose;
+    libvlc_log_set(instance, debug_log, &verbosity);
 
     /* Initialize media list (a.k.a. playlist/history) */
     libvlc_media_list_t* pointer = libvlc_media_list_new( instance );
@@ -578,8 +581,8 @@ void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
         return; // Already destroyed
 
     libvlc_instance_t *instance = (libvlc_instance_t*)(intptr_t) libVlcInstance;
+    libvlc_log_unset(instance);
     libvlc_release(instance);
-    libvlc_log_unsubscribe(&debug_subscriber);
 
     setLong(env, thiz, "mLibVlcInstance", 0);
 }
