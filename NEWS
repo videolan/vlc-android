@@ -1,10 +1,10 @@
 Changes between 0.0.10 and 0.0.11:
 ----------------------------------
 Main Application:
- * Numerous small fixes for reccurent crashes
+ * Numerous fixes for recurrent crashes
  * Better debugging log facility
- * Show seek position when locked
- * Avoid running thumbnailer when just playing audio
+ * Show seek position when locked in fullscreen mode
+ * Avoid running thumbnailer when playing audio only
  * Improve the overlay fading after a gesture
 
 Translations:
