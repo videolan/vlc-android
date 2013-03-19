@@ -420,8 +420,6 @@ public class DirectoryAdapter extends BaseAdapter {
         for(DirectoryAdapter.Node n : this.mCurrentNode.children)
             n.children.clear();
         this.mCurrentNode.children.clear();
-
-        this.mCurrentNode = new DirectoryAdapter.Node(mCurrentDir);
         this.populateNode(mCurrentNode, mCurrentDir);
 
         this.notifyDataSetChanged();
