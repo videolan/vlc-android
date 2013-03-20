@@ -114,7 +114,7 @@ public class Media implements Comparable<Media> {
     private String mFilename;
     private long mTime = 0;
     private int mAudioTrack = -1;
-    private int mSpuTrack = -1;
+    private int mSpuTrack = -2;
     private long mLength = 0;
     private int mType;
     private int mWidth = 0;
