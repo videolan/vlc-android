@@ -192,11 +192,16 @@ make $MAKEFLAGS
 
 cd ../.. && mkdir -p android && cd android
 
-echo "Bootstraping"
-../bootstrap
-
-echo "Configuring"
-../../configure.sh $OPTS
+if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
+    CLEAN="jniclean"
+    RELEASEFLAG="vlc-android/obj/local/armeabi-v7a/libvlcjni.so"
+else
+    CLEAN="distclean"
+    echo "Bootstraping"
+    ../bootstrap
+    echo "Configuring"
+    ../../configure.sh $OPTS
+fi
 
 echo "Building"
 make $MAKEFLAGS
@@ -214,7 +219,7 @@ export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
-make distclean
+make $CLEAN
 make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL $RELEASEFLAG
 
 # 3/ Environment script

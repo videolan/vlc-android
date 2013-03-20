@@ -96,13 +96,17 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 apkclean:
 	rm -f $(VLC_APK)
 
-clean:
-	cd $(SRC) && rm -rf gen libs obj bin $(VLC_APK)
-	rm -rf java-libs/*/gen java-libs/*/bin
+lightclean:
+	cd $(SRC) && rm -rf libs obj bin $(VLC_APK)
 	rm -f $(PRIVATE_LIBDIR)/*.so $(PRIVATE_LIBDIR)/*.c
 
-distclean: clean
+clean: lightclean
+	rm -rf $(SRC)/gen java-libs/*/gen java-libs/*/bin
+
+jniclean: lightclean
 	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H)
+
+distclean: clean jniclean
 
 install: $(VLC_APK)
 	@echo "=== Installing VLC on device ==="
@@ -126,4 +130,4 @@ apkclean-run: apkclean build-and-run
 distclean-run: distclean build-and-run
 	adb logcat -c
 
-.PHONY: clean distclean distclean-run apkclean apkclean-run install run build-and-run
+.PHONY: lightclean clean jniclean distclean distclean-run apkclean apkclean-run install run build-and-run
