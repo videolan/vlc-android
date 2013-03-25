@@ -201,8 +201,7 @@ public class LibVLC {
                 Log.e(TAG, Util.getErrorMsg());
                 throw new LibVlcException();
             }
-            Context context = VLCApplication.getAppContext();
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             nativeInit(pref.getBoolean("enable_verbose_mode", true));
             setEventManager(EventManager.getInstance());
             mIsInitialized = true;
