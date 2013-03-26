@@ -273,6 +273,12 @@ public class Util {
         // If already checked return cached result
         if(errorMsg != null) return isCompatible;
 
+        if(VLCApplication.getAppResources() == null) {
+            Log.e("WARNING: Unable to get app resources; cannot check device ABI!");
+            Log.e("WARNING: Cannot guarantee correct ABI for this build (may crash)!");
+            return true;
+        }
+
         Properties properties = new Properties();
         try {
             properties.load(new ByteArrayInputStream(Util.readAsset("env.txt", "").getBytes("UTF-8")));

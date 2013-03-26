@@ -86,6 +86,7 @@ public class VLCApplication extends Application {
      */
     public static Resources getAppResources()
     {
+        if(instance == null) return null;
         return instance.getResources();
     }
 }
