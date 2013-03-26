@@ -15,7 +15,7 @@ fi
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
-    8?)
+    8?*)
         # we don't use 4.4.3 because it doesn't handle threads correctly.
         # TODO : clang?
         if test -d ${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.7
