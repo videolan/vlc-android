@@ -45,6 +45,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -274,8 +275,8 @@ public class Util {
         if(errorMsg != null) return isCompatible;
 
         if(VLCApplication.getAppResources() == null) {
-            Log.e("WARNING: Unable to get app resources; cannot check device ABI!");
-            Log.e("WARNING: Cannot guarantee correct ABI for this build (may crash)!");
+            Log.e(TAG, "WARNING: Unable to get app resources; cannot check device ABI!");
+            Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
             return true;
         }
 
