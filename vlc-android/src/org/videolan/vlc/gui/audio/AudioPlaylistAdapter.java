@@ -32,7 +32,6 @@ import org.videolan.vlc.Util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,15 +169,8 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         Resources res = mContext.getResources();
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
-
-        if (cover == null) {
-            BitmapCache cache = BitmapCache.getInstance();
-            cover = cache.getBitmapFromMemCache(R.drawable.icon);
-            if (cover == null) {
-                cover = BitmapFactory.decodeResource(v.getResources(), R.drawable.icon);
-                cache.addBitmapToMemCache(R.drawable.icon, cover);
-            }
-        }
+        if (cover == null)
+            cover = BitmapCache.GetFromResource(v, R.drawable.icon);
 
         holder.cover.setImageBitmap(cover);
 
@@ -221,15 +213,8 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         Resources res = mContext.getResources();
 
         Bitmap cover = AudioUtil.getCover(v.getContext(), list.get(0), 64);
-
-        if (cover == null) {
-            BitmapCache cache = BitmapCache.getInstance();
-            cover = cache.getBitmapFromMemCache(R.drawable.icon);
-            if (cover == null) {
-                cover = BitmapFactory.decodeResource(v.getResources(), R.drawable.icon);
-                cache.addBitmapToMemCache(R.drawable.icon, cover);
-            }
-        }
+        if (cover == null)
+            cover = BitmapCache.GetFromResource(v, R.drawable.icon);
 
         holder.cover.setImageBitmap(cover);
 

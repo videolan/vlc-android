@@ -31,7 +31,6 @@ import org.videolan.vlc.Util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -156,20 +155,17 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Media media = getItem(position);
 
         /* Thumbnail */
-        if (media.getPicture() != null) {
-            //FIXME Warning: the thumbnails are upscaled in the grid view!
-            final Bitmap thumbnail = media.getPicture();
-            holder.thumbnail.setImageBitmap(thumbnail);
-        } else {
-            // set default thumbnail
-            BitmapCache cache = BitmapCache.getInstance();
-            Bitmap bitmap = cache.getBitmapFromMemCache(R.drawable.thumbnail);
-            if (bitmap == null) {
-                bitmap = BitmapFactory.decodeResource(v.getResources(), R.drawable.thumbnail);
-                cache.addBitmapToMemCache(R.drawable.thumbnail, bitmap);
-            }
-            holder.thumbnail.setImageBitmap(bitmap);
+        Bitmap thumbnail = media.getPicture();
+        if (thumbnail == null) {
+            // missing thumbnail
+            thumbnail = BitmapCache.GetFromResource(v, R.drawable.thumbnail);
         }
+        else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
+            // dummy thumbnail
+            thumbnail = BitmapCache.GetFromResource(v, R.drawable.icon);
+        }
+        //FIXME Warning: the thumbnails are upscaled in the grid view!
+        holder.thumbnail.setImageBitmap(thumbnail);
 
         /* Color state */
         ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);

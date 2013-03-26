@@ -161,8 +161,8 @@ public class ThumbnailerManager implements Runnable {
             //Log.i(TAG, "create new bitmap for: " + item.getName());
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
-            if (b == null) {// We were not able to create a thumbnail for this item.
-                item.setPicture(mContext, null);
+            if (b == null) {// We were not able to create a thumbnail for this item, store a dummy
+                item.setPicture(mContext, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
                 continue;
             }
 

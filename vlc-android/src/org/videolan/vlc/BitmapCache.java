@@ -23,8 +23,10 @@ package org.videolan.vlc;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 import android.util.Log;
+import android.view.View;
 
 public class BitmapCache {
 
@@ -92,5 +94,15 @@ public class BitmapCache {
 
     public void clear() {
         mMemCache.evictAll();
+    }
+
+    public static Bitmap GetFromResource(View v, int resId) {
+        BitmapCache cache = BitmapCache.getInstance();
+        Bitmap bitmap = cache.getBitmapFromMemCache(resId);
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(v.getResources(), resId);
+            cache.addBitmapToMemCache(resId, bitmap);
+        }
+        return bitmap;
     }
 }
