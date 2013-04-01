@@ -137,6 +137,22 @@ EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
 
+MAKEFLAGS=
+if which nproc >/dev/null
+then
+MAKEFLAGS=-j`nproc`
+elif which sysctl >/dev/null
+then
+MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
+fi
+
+export PATH=`pwd`/extras/tools/build/bin:$PATH
+echo "Building tools"
+cd extras/tools
+./bootstrap
+make $MAKEFLAGS
+cd ../..
+
 echo "Building the contribs"
 mkdir -p contrib/android
 cd contrib/android
@@ -176,15 +192,6 @@ if [ $# -ne 0 ] && [ "$1" = "release" ]; then
     RELEASEFLAG="RELEASE=1"
 else
     OPTS="--enable-debug"
-fi
-
-MAKEFLAGS=
-if which nproc >/dev/null
-then
-MAKEFLAGS=-j`nproc`
-elif which sysctl >/dev/null
-then
-MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
