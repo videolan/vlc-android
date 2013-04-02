@@ -77,6 +77,8 @@ export PLATFORM_SHORT_ARCH
 NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
+ANDROID_PATH="`pwd`"
+
 # 1/ libvlc, libvlccore and its plugins
 TESTED_HASH=e8dc8779b
 if [ ! -d "vlc" ]; then
@@ -210,7 +212,7 @@ else
     echo "Bootstraping"
     ../bootstrap
     echo "Configuring"
-    ../../configure.sh $OPTS
+    ${ANDROID_PATH}/configure.sh $OPTS
 fi
 
 echo "Building"
