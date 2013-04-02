@@ -31,8 +31,6 @@ import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 
-import android.view.MenuItem;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.BroadcastReceiver;
@@ -44,9 +42,10 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -233,9 +232,11 @@ public class BrowserActivity extends ListActivity {
             } else {
                 openDir(mCurrentDir.getParentFile());
                 // restore scroll state
-                ScrollState ss = mScollStates.pop();
-                getListView().setSelectionFromTop(ss.index, ss.top);
-                return true;
+                if (mScollStates.size() > 0) {
+                    ScrollState ss = mScollStates.pop();
+                    getListView().setSelectionFromTop(ss.index, ss.top);
+                    return true;
+                }
             }
         }
         return super.onKeyDown(keyCode, event);
