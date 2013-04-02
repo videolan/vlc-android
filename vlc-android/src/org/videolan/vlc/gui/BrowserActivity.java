@@ -58,7 +58,7 @@ public class BrowserActivity extends ListActivity {
 
     private BrowserAdapter mAdapter;
     private File mCurrentDir;
-    private final Stack<ScrollState> mScollStates = new Stack<ScrollState>();
+    private final Stack<ScrollState> mScrollStates = new Stack<ScrollState>();
     private String mRoots[];
 
     private class ScrollState {
@@ -104,7 +104,7 @@ public class BrowserActivity extends ListActivity {
         super.onDestroy();
         unregisterReceiver(messageReceiver);
         mAdapter.clear();
-        mScollStates.clear();
+        mScrollStates.clear();
     }
 
     @Override
@@ -202,7 +202,7 @@ public class BrowserActivity extends ListActivity {
             // store scroll state
             int index = l.getFirstVisiblePosition();
             int top = l.getChildAt(0).getTop();
-            mScollStates.push(new ScrollState(index, top));
+            mScrollStates.push(new ScrollState(index, top));
             openDir(file);
         } else {
             Util.toaster(this, R.string.nosubdirectory);
@@ -232,8 +232,8 @@ public class BrowserActivity extends ListActivity {
             } else {
                 openDir(mCurrentDir.getParentFile());
                 // restore scroll state
-                if (mScollStates.size() > 0) {
-                    ScrollState ss = mScollStates.pop();
+                if (mScrollStates.size() > 0) {
+                    ScrollState ss = mScrollStates.pop();
                     getListView().setSelectionFromTop(ss.index, ss.top);
                     return true;
                 }
