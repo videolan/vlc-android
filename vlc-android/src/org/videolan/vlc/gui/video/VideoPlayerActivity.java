@@ -36,7 +36,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
-import org.videolan.vlc.gui.AdvFuncDialog;
+import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
@@ -174,9 +174,6 @@ public class VideoPlayerActivity extends Activity {
     // Tracks & Subtitles
     private Map<Integer,String> mAudioTracksList;
     private Map<Integer,String> mSubtitleTracksList;
-
-    // Advance Function
-    private AdvFuncDialog mAdvFuncDialog;
 
     @Override
     @TargetApi(11)
@@ -385,8 +382,6 @@ public class VideoPlayerActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mAdvFuncDialog != null)
-            mAdvFuncDialog.destroyAdvFuncDialog();
     }
 
     @Override
@@ -1485,8 +1480,6 @@ public class VideoPlayerActivity extends Activity {
     }
 
     public void showAdvanceFunction(View v) {
-        if (mAdvFuncDialog == null)
-            mAdvFuncDialog = new AdvFuncDialog(this);
-        mAdvFuncDialog.show();
+        CommonDialogs.advancedOptions(this, v);
     }
 }

@@ -25,11 +25,18 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcRunnable;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager.LayoutParams;
 
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
@@ -60,5 +67,32 @@ public class CommonDialogs {
         .setNegativeButton(android.R.string.cancel, null).create();
 
         return alertDialog;
+    }
+
+    public static void advancedOptions(final Context context, View v) {
+        LayoutInflater inflater = LayoutInflater.from(VLCApplication.getAppContext());
+        View view = inflater.inflate(R.layout.advanced_options, null);
+
+        Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_VLC_AlertMenu))
+                .setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        // force size
+        float density = context.getResources().getDisplayMetrics().density;
+        LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (int) (density * 300 + 0.5f); // 300dp
+
+        // force location
+        if (v != null) {
+            lp.gravity = Gravity.TOP | Gravity.LEFT;
+            int[] location = new int[2];
+            v.getLocationInWindow(location);
+            lp.x = location[0] - lp.width;
+            lp.y = location[1] - (int) (density * 50 + 0.5f); // -50dp to compensate alertdialog margins
+        }
+
+        dialog.getWindow().setAttributes(lp);
     }
 }
