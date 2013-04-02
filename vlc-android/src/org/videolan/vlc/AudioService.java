@@ -488,7 +488,7 @@ public class AudioService extends Service {
         try {
             // add notification to status bar
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-            .setSmallIcon(R.drawable.icon)
+            .setSmallIcon(R.drawable.ic_stat_vlc)
             .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
             .setContentTitle(mCurrentMedia.getTitle())
             .setTicker(mCurrentMedia.getTitle() + " - " + mCurrentMedia.getArtist())
