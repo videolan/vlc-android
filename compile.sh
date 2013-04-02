@@ -182,6 +182,9 @@ MAKEFLAGS=
 if which nproc >/dev/null
 then
 MAKEFLAGS=-j`nproc`
+elif which sysctl >/dev/null
+then
+MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
