@@ -11,50 +11,83 @@
     <string name="sortby_length">duljini</string>
     <string name="searchable_hint">Traži…</string>
     <string name="history">Povijest</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Pronađen je %d rezultat</item>
+        <item quantity="few">Pronađena su %d rezultata</item>
+        <item quantity="other">Pronađeno je %d rezultata</item>
+    </plurals>
+
     <string name="play">Izvedi</string>
     <string name="play_from_start">Izvedi od početka</string>
     <string name="play_as_audio">Izvedi kao audio</string>
     <string name="play_as_video">Izvedi kao video</string>
-    <string name="append">Nadodaj</string>
+    <string name="append">Dodaj</string>
     <string name="play_all">Izvedi sve</string>
-    <string name="append_all">Nadodaj sve</string>
-    <string name="last_playlist">Poslijednji popis za izvođenje</string>
+    <string name="append_all">Dodaj sve</string>
+    <string name="last_playlist">Posljednji popis za izvođenje</string>
     <string name="delete">Izbriši</string>
-    <string name="set_song">Postavi za melodiju zvona</string>
+    <string name="set_song">Postavi kao melodiju zvona</string>
     <string name="info">Informacija</string>
-    <string name="confirm_delete">Izbriši datoteku \'%1$s\' ?</string>
+    <string name="confirm_delete">Izbrisati datoteku \'%1$s\' ?</string>
+    <string name="ringtone_set">\'%1$s\' je postavljen kao melodija zvona.</string>
+    <string name="ringtone_error">Pri postavljanju melodije zvona je nastala neka pogreška.</string>
     <string name="pause">Stanka</string>
     <string name="not_show_again">Više ne prikazuj ovu poruku.</string>
-    <string name="beta_warning">Ovo je tzv. Beta izdanje.\n\nOva inačica NIJE STABILNA!\n\nNEMOJTE je koristiti, ukoliko ne znate točno što radite.\n\nMože ubiti Vašu macu i razoriti Vašu kuću.\nKoristite je na vlastitu odgovornost.\n\nŽelimo Vam dobru zabavu! :)</string>
+    <string name="beta_warning">Ovo je tzv. beta-inačica.\n\nOva inačica NIJE STABILNA!\n\nNEMOJTE je koristiti, ukoliko ne znate što radite.\n\nMože ubiti Vašu macu ili raznijeti Vašu kuću.\nKoristite je na vlastitu odgovornost.\n\nŽelimo Vam dobru zabavu! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Nepoznati izvođač</string>
     <string name="unknown_album">Nepoznati album</string>
-    <string name="unknown_genre">Nepoznati žanr</string>
+    <string name="unknown_genre">Nepoznati smjer</string>
     <string name="songs">Skladbe</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 skladba</item>
+        <item quantity="few">%d skladbe</item>
+        <item quantity="other">%d skladbi</item>
+    </plurals>
+
     <string name="artists">Izvođači</string>
     <string name="albums">Albumi</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
+        <item quantity="few">%d albuma</item>
+        <item quantity="other">%d albuma</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">1 podmapa</item>
+        <item quantity="few">%d podmape</item>
+        <item quantity="other">%d podmapa</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">1 medijska datoteka</item>
+        <item quantity="few">%d medijske datoteke</item>
+        <item quantity="other">%d medijskih datoteka</item>
+    </plurals>
+
     <string name="internal_memory">Unutarnja memorija</string>
     <string name="parent_folder">Gore u nadređenu mapu</string>
-    <string name="audio">Zvuk</string>
+    <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Straničnici</string>
     <string name="all_albums">Svi albumi</string>
-    <string name="genres">Žanrovi</string>
+    <string name="genres">Smjerovi</string>
     <string name="playlists">Popisi za izvođenje</string>
     <string name="title">Naslov</string>
     <string name="artist">Izvođač</string>
     <string name="album">Album</string>
-    <string name="directory">Imenik</string>
-    <string name="directories">Imenici</string>
+    <string name="directory">Mapa</string>
+    <string name="directories">Mape</string>
     <string name="loading">Učitavanje</string>
-    <string name="please_wait">Molimo da pričekate…</string>
+    <string name="please_wait">Molimo pričekajte…</string>
     <string name="nomedia">Medijske datoteke nisu pronađene. Molimo da ih prenesete na Vaš uređaj ili pak prilagodite Vaše postavke.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nisu dostupne</string>
-    <string name="nosubdirectory">Nema podimenika.</string>
+    <string name="nosubdirectory">Nema podmapa.</string>
     <string name="nohistory">Vi još nemate povijest izvođenja.</string>
     <string name="validation">Jeste li sigurni?</string>
-    <string name="cover_art">Slike omotnih naslovnica</string>
+    <string name="cover_art">Omotne slike</string>
     <string name="shuffle">Nasumično</string>
     <string name="repeat">Ponovi nijednu/pojedine/sve</string>
     <string name="previous">Prethodno</string>
@@ -67,7 +100,8 @@
     <string name="surface_fit_vertical">Prilagodi okomito</string>
     <string name="surface_fill">Popuni</string>
     <string name="surface_original">Po sredini</string>
-    <string name="thumbnail">Minijature</string>
+    <string name="thumbnail">Sličica</string>
+    <string name="unseekable_stream">Nepotraživo strujanje</string>
     <string name="refresh">Osvježi</string>
     <string name="track_audio">Audio zapis</string>
     <string name="track_video">Video zapis</string>
@@ -77,54 +111,92 @@
     <string name="track_language_info">Jezik: %1$s\n</string>
     <string name="volume">Glasnoća</string>
     <string name="brightness">Svjetlina</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="few">%1$d kanala\n</item>
+        <item quantity="other">%1$d kanala\n</item>
+    </plurals>
+
     <string name="track_samplerate_info">Stopa uzorkovanja: %1$d Hz\n</string>
     <string name="track_resolution_info">Razlučivost: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Stopa protoka slika: %1$.3f\n</string>
+    <string name="track_framerate_info">Stopa prikazanih slika: %1$.3f\n</string>
+    <string name="tools">Alati</string>
     <string name="playback_speed">Brzina izvođenja</string>
+    <string name="sleep_title">Mjerač vremena spavanja</string>
+    <string name="sleep_cancel">Poništi mjerač vremena spavanja</string>
+    <string name="jump_to_time">Prijeđi na vrijeme</string>
     <string name="open">Otvori</string>
-    <string name="open_mrl">Otvori adresu medija</string>
+    <string name="open_mrl">Otvori MRL</string>
     <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
-    <string name="open_mrl_dialog_msg">Unesite mrežnu adresu medija: primjerice http://, mms:// ili rtsp://</string>
-    <string name="error_not_compatible">Žao nam je, ali Vaš uređaj trenutno nije podržavan ovom inačicom VLC-a za Android™.</string>
+    <string name="open_mrl_dialog_msg">Unesite mrežni MRL: na pr. http://, mms:// ili rtsp://</string>
+    <string name="error_not_compatible">Žao nam je, ali ova inačica VLC-a za Android™ trenutno ne podržava Vaš uređaj.</string>
     <string name="error_problem">Žao nam je, VLC za Android je imao poteškoća pri učitavanju i morao se zatvoriti.</string>
-    <string name="error_message_is">Poruka o pogrešci glasi (molimo da to navedete pri otkrivanju pogrešaka):\n</string>
+    <string name="error_message_is">Poruka o pogrešci glasi (molimo da to navedete pri dojavi pogrešaka):\n</string>
+    <string name="encountered_error_title">Pogeška pri izvođenju</string>
+    <string name="encountered_error_message">VLC je s tim medijem naišao na pogrešku.\nPokušajte osvježiti medijsku knjižnicu.</string>
 
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
-    <string name="revision">Revizija</string>
-    <string name="about">O programu&#8230;</string>
-    <string name="about_text">VLC za Android™ je izdanak medijskog izvođača VLC, popularnog izvođača medija otvorenog kôda. Inačica za Android™ može čitati većinu datoteka i mrežnih strujanja.</string>
+    <string name="revision">Dorađeno izdanje</string>
+    <string name="about">O aplikaciji</string>
+    <string name="about_text">VLC za Android™ je prilagodba Izvođača medija VLC, popularnog izvođača medija otvorenog kôda. Inačica za Android™ može izvoditi većinu datoteka i mrežnih strujanja.</string>
     <string name="compiled_by">Ovu inačicu VLC-a su sastavili:</string>
     <string name="vlc_authors">Autori VLC-a.</string>
 
     <!-- Preferences -->
-    <string name="preferences">Prilagodbe</string>
+    <string name="preferences">Postavke</string>
+    <string name="library_prefs_category">Medijska knjižnica</string>
+    <string name="directories_summary">Odaberite mape koje treba uključiti u medijsku knjižnicu</string>
+    <string name="add_custom_path">Dodaj prilagođenu stazu</string>
+    <string name="add_custom_path_description">Unesite dodatni imenik za pregledavanje:</string>
+    <string name="remove_custom_path">Ukloni prilagođenu stazu</string>
     <string name="main_prefs_category">Glavno</string>
-    <string name="screen_orientation">Zaslonsko usmjerenje</string>
-    <string name="screen_orientation_sensor">Automatski (senzor)</string>
+    <string name="screen_orientation">Usmjerenje zaslona</string>
+    <string name="screen_orientation_sensor">Automatsko (senzor)</string>
     <string name="screen_orientation_start_lock">Zaključano pri pokretanju</string>
     <string name="screen_orientation_portrait">Uspravno</string>
     <string name="screen_orientation_landscape">Položeno</string>
-    <string name="screen_orientation_reverse_portrait">Suprotno od uspravnog</string>
-    <string name="screen_orientation_reverse_landscape">Suprotno od položenog</string>
-    <string name="enable_wheel_bar">Omogući traku pomicanja kotačićem</string>
-    <string name="enable_iomx">Omogući sklopovsko ubrzanje dekodiranja</string>
-    <string name="enable_time_stretching_audio">Omogući vremensko rastezanje zvuka</string>
+    <string name="screen_orientation_reverse_portrait">Obrnuto uspravno</string>
+    <string name="screen_orientation_reverse_landscape">Obnuto položeno</string>
+    <string name="enable_brightness_gesture">Omogući pokret za svjetlinu</string>
+    <string name="enable_brightness_gesture_summary">Upravljanje svjetlinom pokretom tijekom izvođenja video-snimki</string>
+    <string name="enable_headset_detection">Prepoznaj naglavne slušalice</string>
+    <string name="enable_headset_detection_summary">Zastaje čim su slušalice isključene a nastavlja kada se opet priključe</string>
+    <string name="enable_wheel_bar">Omogući traku kotačića</string>
+    <string name="enable_wheel_bar_summary">Zamjenski stil trake traženja za video-sučelje</string>
+    <string name="enable_steal_remote_control">Isključivo daljinsko upravljanje naglavnim slušalicama</string>
+    <string name="enable_steal_remote_control_summary">Izbjegavanje sukoba oduzimanjem funkcija daljinskog upravljanja drugim aplikacijama. Tim se spriječava pozivanje dvostrukim dodirom na mobitelima znamke HTC.</string>
+    <string name="performance_prefs_category">Pefomansa</string>
+    <string name="chroma_format">Nametni boju</string>
+    <string name="chroma_format_summary">NEMOJTE AKTIVIRATI!!! Možda neće raditi sa svim uređajima. Samo za inačicu 2.3 i novije.</string>
+    <string name="enable_iomx">Omogući sklopovljem ubrzano dekodiranje</string>
+    <string name="enable_iomx_summary">Poboljšava performansu, ali možda neće raditi na svim uređajima</string>
+    <string name="enable_time_stretching_audio">Vremensko rastezanje zvuka</string>
+    <string name="enable_time_stretching_audio_summary">Ubrzavanje i usporavanje zvuka bez promjene tona (iziskuje brzi uređaj)</string>
     <string name="other_prefs_category">Ostalo</string>
-    <string name="clear_history">Očisti povijest pretraživanja</string>
-    <string name="clear_media_db">Očisti bazu medijskih podataka</string>
-    <string name="media_db_cleared">Baza medijskih podataka je očišćena!</string>
-    <string name="subtitles_text_encoding">Kodiranje teksta</string>
-    <string name="advanced_prefs_category">Dodatno</string>
-    <string name="advanced_debugging">Napredno ispravljanje pogrešaka</string>
+    <string name="clear_history">Izbriši povijest pretraživanja</string>
+    <string name="clear_media_db">Izbriši medijsku bazu podataka</string>
+    <string name="media_db_cleared">Baza medijskih podataka je izbrisana!</string>
+    <string name="subtitles_text_encoding">Kodiranje teksta podnaslova</string>
+    <string name="debug_logs">Zapisnici pogreški</string>
+    <string name="start_logging">Počni zapisivanje</string>
+    <string name="stop_logging">Obustavi zapisivanje</string>
+    <string name="clear_log">Izbriši zapisnik</string>
+    <string name="copy_to_clipboard">Preslikaj u međuspremnik</string>
+    <string name="copied_to_clipboard">Preslikano u međuspremnik</string>
+    <string name="advanced_prefs_category">Napredno</string>
+    <string name="advanced_debugging">Napredno otklanjanje pogrešaka</string>
     <string name="aout">Izlaz zvuka</string>
-    <string name="aout_audiotrack">AudioTrack (izvorno)</string>
+    <string name="aout_summary">Promijeni metodu koju VLC koristi za izlaz zvuka.</string>
+    <string name="aout_audiotrack">AudioTrack (izvorni)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">Opširno</string>
-    <string name="set_locale">Regionalne postavke</string>
-    <string name="set_locale_detail">Ostavite prazno za povrat izvornih postavki</string>
-    <string name="set_locale_popup">Izlazi i ponovno postavlja VLC kako bi izmjene dobile na učinku.</string>
+    <string name="enable_verbose_mode_summary">Povećaj opširnost (LogCat)</string>
+    <string name="set_locale">Lokalizacija</string>
+    <string name="set_locale_detail">Ostavite prazno za poništavanje</string>
+    <string name="set_locale_popup">Zatvori i iznova postavi VLC kako bi izmjene postale učinkovite.</string>
     <string name="quit">Zatvori aplikaciju</string>
 </resources>
