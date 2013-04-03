@@ -38,6 +38,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class DatabaseManager {
     public final static String TAG = "VLC/DatabaseManager";
@@ -266,14 +267,19 @@ public class DatabaseManager {
      * @return True if the item exists, false if it does not
      */
     public synchronized boolean mediaItemExists(String location) {
-        Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
+        try {
+            Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
                     new String[] { MEDIA_LOCATION },
                     MEDIA_LOCATION + "=?",
                     new String[] { location },
                     null, null, null);
-        boolean exists = cursor.moveToFirst();
-        cursor.close();
-        return exists;
+            boolean exists = cursor.moveToFirst();
+            cursor.close();
+            return exists;
+        } catch (Exception e) {
+            Log.e(TAG, "Query failed");
+            return false;
+        }
     }
 
     /**
@@ -545,6 +551,7 @@ public class DatabaseManager {
      * @param path
      * @deprecated Since we have now multiple root directories, this method is now deprecated.
      */
+    @Deprecated
     public synchronized void removeDirNotUnder(String root) {
         mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + " NOT LIKE ?", new String[] { root+"%" });
     }
