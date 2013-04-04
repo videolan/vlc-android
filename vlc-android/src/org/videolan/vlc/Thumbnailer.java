@@ -39,7 +39,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 
-public class ThumbnailerManager implements Runnable {
+public class Thumbnailer implements Runnable {
     public final static String TAG = "VLC/ThumbnailerManager";
 
     private VideoGridFragment mVideoGridFragment;
@@ -57,7 +57,7 @@ public class ThumbnailerManager implements Runnable {
     private final float mDensity;
     private final String mPrefix;
 
-    public ThumbnailerManager(Context context, Display display) {
+    public Thumbnailer(Context context, Display display) {
         mContext = context;
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);

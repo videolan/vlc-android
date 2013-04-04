@@ -31,7 +31,7 @@ import org.videolan.vlc.DatabaseManager;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.ThumbnailerManager;
+import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
@@ -94,7 +94,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
-    private ThumbnailerManager mThumbnailerManager;
+    private Thumbnailer mThumbnailerManager;
     private VideoGridAnimator mAnimator;
 
     /* All subclasses of Fragment must include a public empty constructor. */
@@ -110,7 +110,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         /* Load the thumbnailer */
         FragmentActivity activity = getActivity();
         if (activity != null)
-            mThumbnailerManager = new ThumbnailerManager(activity, activity.getWindowManager().getDefaultDisplay());
+            mThumbnailerManager = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
     }
 
     @Override
