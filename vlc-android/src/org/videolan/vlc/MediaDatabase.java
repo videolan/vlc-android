@@ -286,7 +286,7 @@ public class MediaDatabase {
      * Get all paths from the items in the database
      * @return list of File
      */
-    public synchronized HashSet<File> getMediaFiles() {
+    private synchronized HashSet<File> getMediaFiles() {
 
         HashSet<File> files = new HashSet<File>();
         Cursor cursor;
@@ -546,17 +546,6 @@ public class MediaDatabase {
     }
 
     /**
-     * Delete directory from directories table if not under root folder
-     *
-     * @param path
-     * @deprecated Since we have now multiple root directories, this method is now deprecated.
-     */
-    @Deprecated
-    public synchronized void removeDirNotUnder(String root) {
-        mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + " NOT LIKE ?", new String[] { root+"%" });
-    }
-
-    /**
      *
      * @return
      */
@@ -581,7 +570,7 @@ public class MediaDatabase {
         return paths;
     }
 
-    public synchronized boolean mediaDirExists(String path) {
+    private synchronized boolean mediaDirExists(String path) {
         Cursor cursor = mDb.query(DIR_TABLE_NAME,
                 new String[] { DIR_ROW_PATH },
                 DIR_ROW_PATH + "=?",
