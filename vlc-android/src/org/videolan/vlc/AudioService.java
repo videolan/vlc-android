@@ -90,7 +90,7 @@ public class AudioService extends Service {
     private Stack<Media> mPrevious;
     private Media mCurrentMedia;
     private HashMap<IAudioServiceCallback, Integer> mCallback;
-    private EventManager mEventManager;
+    private EventHandler mEventManager;
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
@@ -133,7 +133,7 @@ public class AudioService extends Service {
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
-        mEventManager = EventManager.getInstance();
+        mEventManager = EventHandler.getInstance();
         mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
                 RemoteControlClientReceiver.class.getName());
 
@@ -364,7 +364,7 @@ public class AudioService extends Service {
             if(service == null) return;
 
             switch (msg.getData().getInt("event")) {
-                case EventManager.MediaPlayerPlaying:
+                case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
 
                     if (service.mCurrentMedia == null)
@@ -393,7 +393,7 @@ public class AudioService extends Service {
                     if (!service.mWakeLock.isHeld())
                         service.mWakeLock.acquire();
                     break;
-                case EventManager.MediaPlayerPaused:
+                case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
                     // also hide notification if phone ringing
@@ -402,26 +402,26 @@ public class AudioService extends Service {
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
-                case EventManager.MediaPlayerStopped:
+                case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
-                case EventManager.MediaPlayerEndReached:
+                case EventHandler.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
                     service.next();
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
-                case EventManager.MediaPlayerVout:
+                case EventHandler.MediaPlayerVout:
                     if(msg.getData().getInt("data") > 0) {
                         service.handleVout();
                     }
                     break;
-                case EventManager.MediaPlayerPositionChanged:
+                case EventHandler.MediaPlayerPositionChanged:
                     float pos = msg.getData().getFloat("data");
                     service.updateWidgetPosition(service, pos);
                     break;

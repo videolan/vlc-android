@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.videolan.vlc.EventManager;
+import org.videolan.vlc.EventHandler;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
@@ -55,7 +55,7 @@ public class HistoryAdapter extends BaseAdapter {
         if (libVLC != null)
             libVLC.getMediaListItems((ArrayList<String>) mHistory);
 
-        EventManager em = EventManager.getInstance();
+        EventHandler em = EventHandler.getInstance();
         em.addHandler(new HistoryEventHandler(this));
     }
 
@@ -156,10 +156,10 @@ public class HistoryAdapter extends BaseAdapter {
             String item_uri = msg.getData().getString("item_uri");
             int item_index = msg.getData().getInt("item_index");
             switch (msg.getData().getInt("event")) {
-                case EventManager.MediaListItemAdded:
+                case EventHandler.MediaListItemAdded:
                     adapater.updateEvent(true, item_uri, item_index);
                     break;
-                case EventManager.MediaListItemDeleted:
+                case EventHandler.MediaListItemDeleted:
                     adapater.updateEvent(false, item_uri, item_index);
                     break;
             }

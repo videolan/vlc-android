@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-public class EventManager {
+public class EventHandler {
 
     /*
      * Be sure to subscribe to events you need in the JNI too.
@@ -89,15 +89,15 @@ public class EventManager {
     //public static final int VlmMediaInstanceStatusError     = 0x60a;
 
     private ArrayList<Handler> mEventHandler;
-    private static EventManager mInstance;
+    private static EventHandler mInstance;
 
-    private EventManager() {
+    private EventHandler() {
         mEventHandler = new ArrayList<Handler>();
     }
 
-    public static EventManager getInstance() {
+    public static EventHandler getInstance() {
         if (mInstance == null) {
-            mInstance = new EventManager();
+            mInstance = new EventHandler();
         }
         return mInstance;
     }

@@ -28,7 +28,7 @@ import java.util.Map;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.DatabaseManager;
-import org.videolan.vlc.EventManager;
+import org.videolan.vlc.EventHandler;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
@@ -302,7 +302,7 @@ public class VideoPlayerActivity extends Activity {
             return;
         }
 
-        EventManager em = EventManager.getInstance();
+        EventHandler em = EventHandler.getInstance();
         em.addHandler(eventHandler);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -392,7 +392,7 @@ public class VideoPlayerActivity extends Activity {
             mLibVLC.stop();
         }
 
-        EventManager em = EventManager.getInstance();
+        EventHandler em = EventHandler.getInstance();
         em.removeHandler(eventHandler);
 
         mAudioManager = null;
@@ -597,27 +597,27 @@ public class VideoPlayerActivity extends Activity {
             if(activity == null) return;
 
             switch (msg.getData().getInt("event")) {
-                case EventManager.MediaPlayerPlaying:
+                case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     activity.setESTracks();
                     break;
-                case EventManager.MediaPlayerPaused:
+                case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     break;
-                case EventManager.MediaPlayerStopped:
+                case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     break;
-                case EventManager.MediaPlayerEndReached:
+                case EventHandler.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     activity.endReached();
                     break;
-                case EventManager.MediaPlayerVout:
+                case EventHandler.MediaPlayerVout:
                     activity.handleVout(msg);
                     break;
-                case EventManager.MediaPlayerPositionChanged:
+                case EventHandler.MediaPlayerPositionChanged:
                     //don't spam the logs
                     break;
-                case EventManager.MediaPlayerEncounteredError:
+                case EventHandler.MediaPlayerEncounteredError:
                     Log.i(TAG, "MediaPlayerEncounteredError");
                     activity.encounteredError();
                     break;
