@@ -286,6 +286,7 @@ public class MediaDatabase {
      * Get all paths from the items in the database
      * @return list of File
      */
+    @SuppressWarnings("unused")
     private synchronized HashSet<File> getMediaFiles() {
 
         HashSet<File> files = new HashSet<File>();
@@ -587,7 +588,7 @@ public class MediaDatabase {
      */
     public synchronized void addSearchhistoryItem(String key) {
         // set the format to sql date time
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         Date date = new Date();
         ContentValues values = new ContentValues();
         values.put(SEARCHHISTORY_KEY, key);
