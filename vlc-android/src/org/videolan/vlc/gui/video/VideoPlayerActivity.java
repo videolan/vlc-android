@@ -27,7 +27,7 @@ import java.net.URLDecoder;
 import java.util.Map;
 
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.DatabaseManager;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.EventHandler;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
@@ -363,11 +363,11 @@ public class VideoPlayerActivity extends Activity {
         if (time >= 0) {
             SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            if(DatabaseManager.getInstance(this).mediaItemExists(mLocation)) {
+            if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
                 editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
-                DatabaseManager.getInstance(this).updateMedia(
+                MediaDatabase.getInstance(this).updateMedia(
                         mLocation,
-                        DatabaseManager.mediaColumn.MEDIA_TIME,
+                        MediaDatabase.mediaColumn.MEDIA_TIME,
                         time);
             } else {
                 // Video file not in media library, store time just for onResume()
@@ -999,9 +999,9 @@ public class VideoPlayerActivity extends Activity {
                     }
                     if(trackID < 0) return;
 
-                    DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
+                    MediaDatabase.getInstance(VideoPlayerActivity.this).updateMedia(
                             mLocation,
-                            DatabaseManager.mediaColumn.MEDIA_AUDIOTRACK,
+                            MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
                             trackID);
                     mLibVLC.setAudioTrack(trackID);
                     dialog.dismiss();
@@ -1046,9 +1046,9 @@ public class VideoPlayerActivity extends Activity {
                     }
                     if(trackID < -1) return;
 
-                    DatabaseManager.getInstance(VideoPlayerActivity.this).updateMedia(
+                    MediaDatabase.getInstance(VideoPlayerActivity.this).updateMedia(
                             mLocation,
-                            DatabaseManager.mediaColumn.MEDIA_SPUTRACK,
+                            MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
                             trackID);
                     mLibVLC.setSpuTrack(trackID);
                     dialog.dismiss();
@@ -1407,7 +1407,7 @@ public class VideoPlayerActivity extends Activity {
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
-            Media media = DatabaseManager.getInstance(this).getMedia(this, mLocation);
+            Media media = MediaDatabase.getInstance(this).getMedia(this, mLocation);
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)

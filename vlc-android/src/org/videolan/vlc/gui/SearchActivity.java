@@ -23,7 +23,7 @@ package org.videolan.vlc.gui;
 import java.util.ArrayList;
 
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.DatabaseManager;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -162,7 +162,7 @@ public class SearchActivity extends ListActivity {
         String headerText = getString(R.string.history);
         showListHeader(headerText);
 
-        DatabaseManager db = DatabaseManager.getInstance(this);
+        MediaDatabase db = MediaDatabase.getInstance(this);
         mHistoryAdapter.clear();
         ArrayList<String> history = db.getSearchhistory(20);
         for (String s : history)
@@ -213,7 +213,7 @@ public class SearchActivity extends ListActivity {
         switch (item.getItemId()) {
             // Sort by name
             case R.id.search_clear_history:
-                DatabaseManager db = DatabaseManager.getInstance(this);
+                MediaDatabase db = MediaDatabase.getInstance(this);
                 db.clearSearchhistory();
                 if (mHistoryAdapter == getListAdapter())
                     showSearchHistory();
@@ -239,7 +239,7 @@ public class SearchActivity extends ListActivity {
             mSearchText.requestFocus();
         } else if (getListAdapter() == mResultAdapter) {
             // add search text to the database (history)
-            DatabaseManager db = DatabaseManager.getInstance(this);
+            MediaDatabase db = MediaDatabase.getInstance(this);
             db.addSearchhistoryItem(mSearchText.getText().toString());
 
             // open media in the player

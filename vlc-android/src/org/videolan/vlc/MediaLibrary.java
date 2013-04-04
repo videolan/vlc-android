@@ -192,7 +192,7 @@ public class MediaLibrary {
         @Override
         public void run() {
             // Initialize variables
-            final DatabaseManager DBManager = DatabaseManager.getInstance(VLCApplication.getAppContext());
+            final MediaDatabase DBManager = MediaDatabase.getInstance(VLCApplication.getAppContext());
 
             // show progressbar in footer
             MainActivity.showProgressBar(mContext);

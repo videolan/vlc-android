@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
-import org.videolan.vlc.DatabaseManager;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -123,7 +123,7 @@ public class BrowserActivity extends ListActivity {
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
                 // remove any checkmarks of the custom item
-                final DatabaseManager dbManager = DatabaseManager.getInstance(BrowserActivity.this);
+                final MediaDatabase dbManager = MediaDatabase.getInstance(BrowserActivity.this);
                 for(File f : dbManager.getMediaDirs()) {
                     if(f.getPath().startsWith(item.getPath()))
                         dbManager.removeDir(f.getPath());

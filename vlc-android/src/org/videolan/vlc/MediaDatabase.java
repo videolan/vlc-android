@@ -40,10 +40,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-public class DatabaseManager {
+public class MediaDatabase {
     public final static String TAG = "VLC/DatabaseManager";
 
-    private static DatabaseManager instance;
+    private static MediaDatabase instance;
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
@@ -92,15 +92,15 @@ public class DatabaseManager {
      *
      * @param context
      */
-    private DatabaseManager(Context context) {
+    private MediaDatabase(Context context) {
         // create or open database
         DatabaseHelper helper = new DatabaseHelper(context);
         this.mDb = helper.getWritableDatabase();
     }
 
-    public synchronized static DatabaseManager getInstance(Context context) {
+    public synchronized static MediaDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = new DatabaseManager(context.getApplicationContext());
+            instance = new MediaDatabase(context.getApplicationContext());
         }
         return instance;
     }

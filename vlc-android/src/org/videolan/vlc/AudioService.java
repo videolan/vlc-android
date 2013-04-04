@@ -371,7 +371,7 @@ public class AudioService extends Service {
                         return;
                     String location = service.mCurrentMedia.getLocation();
                     long length = service.mLibVLC.getLength();
-                    DatabaseManager dbManager = DatabaseManager
+                    MediaDatabase dbManager = MediaDatabase
                             .getInstance(VLCApplication.getAppContext());
                     Media m = dbManager.getMedia(VLCApplication.getAppContext(),
                             location);
@@ -385,7 +385,7 @@ public class AudioService extends Service {
                     if(m != null && m.getLength() == 0 && length > 0) {
                         Log.d(TAG, "Updating audio file length");
                         dbManager.updateMedia(location,
-                                DatabaseManager.mediaColumn.MEDIA_LENGTH, length);
+                                MediaDatabase.mediaColumn.MEDIA_LENGTH, length);
                     }
 
                     service.changeAudioFocus(true);
@@ -763,7 +763,7 @@ public class AudioService extends Service {
                 for(int i = 0; i < mediaPathList.size(); i++)
                     mMediaList.add(new Media(mediaPathList.get(i), i));
             } else {
-                DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
+                MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
                 for (int i = 0; i < mediaPathList.size(); i++) {
                     String path = mediaPathList.get(i);
                     Media media = db.getMedia(AudioService.this, path);
@@ -839,7 +839,7 @@ public class AudioService extends Service {
             if(mLibVLCPlaylistActive) {
                 return;
             }
-            DatabaseManager db = DatabaseManager.getInstance(AudioService.this);
+            MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String path = mediaPathList.get(i);
                 Media media = db.getMedia(AudioService.this, path);

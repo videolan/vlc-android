@@ -22,7 +22,7 @@ package org.videolan.vlc.gui;
 
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.DatabaseManager;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
@@ -126,7 +126,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+                                MediaDatabase db = MediaDatabase.getInstance(getApplicationContext());
                                 db.clearSearchhistory();
                             }
                         })
@@ -142,7 +142,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        DatabaseManager.getInstance(getBaseContext()).emptyDatabase();
+                        MediaDatabase.getInstance(getBaseContext()).emptyDatabase();
                         Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                         return true;
                     }

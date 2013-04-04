@@ -24,7 +24,7 @@ import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 
-import org.videolan.vlc.DatabaseManager;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
@@ -76,7 +76,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             holder = (ViewHolder) view.getTag();
 
         final File item = getItem(position);
-        final DatabaseManager dbManager = DatabaseManager.getInstance(view.getContext());
+        final MediaDatabase dbManager = MediaDatabase.getInstance(view.getContext());
 
         if(item != null && item.getPath().equals(ADD_ITEM_PATH)) {
             holder.text.setText(R.string.add_custom_path);
@@ -113,7 +113,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
     private final OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            final DatabaseManager dbManager = DatabaseManager.getInstance(buttonView.getContext());
+            final MediaDatabase dbManager = MediaDatabase.getInstance(buttonView.getContext());
             File item = (File) buttonView.getTag();
             if (item == null)
                 return;

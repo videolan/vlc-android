@@ -145,7 +145,7 @@ public class Media implements Comparable<Media> {
 
         if (addToDb) {
             // Add this item to database
-            DatabaseManager db = DatabaseManager.getInstance(VLCApplication.getAppContext());
+            MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
             db.addMedia(this);
         }
     }
@@ -302,7 +302,7 @@ public class Media implements Comparable<Media> {
                  * adding it to the memcache for later use.
                  */
                 Context c = VLCApplication.getAppContext();
-                picture = DatabaseManager.getInstance(c).getPicture(c, mLocation);
+                picture = MediaDatabase.getInstance(c).getPicture(c, mLocation);
                 cache.addBitmapToMemCache(mLocation, picture);
             }
             return picture;
@@ -314,9 +314,9 @@ public class Media implements Comparable<Media> {
     public void setPicture(Context context, Bitmap p) {
         Log.d(TAG, "Set new picture for " + getTitle());
         try {
-            DatabaseManager.getInstance(context).updateMedia(
+            MediaDatabase.getInstance(context).updateMedia(
                 mLocation,
-                DatabaseManager.mediaColumn.MEDIA_PICTURE,
+                MediaDatabase.mediaColumn.MEDIA_PICTURE,
                 p);
         } catch (SQLiteFullException e) {
             // TODO: do something clever
