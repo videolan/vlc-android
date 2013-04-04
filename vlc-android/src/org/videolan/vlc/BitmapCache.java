@@ -84,11 +84,11 @@ public class BitmapCache {
             mMemCache.put(key, bitmap);
     }
 
-    public Bitmap getBitmapFromMemCache(int resId) {
+    private Bitmap getBitmapFromMemCache(int resId) {
         return getBitmapFromMemCache("res:" + resId);
     }
 
-    public void addBitmapToMemCache(int resId, Bitmap bitmap) {
+    private void addBitmapToMemCache(int resId, Bitmap bitmap) {
         addBitmapToMemCache("res:" + resId, bitmap);
     }
 
