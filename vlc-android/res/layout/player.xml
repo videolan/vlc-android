@@ -82,15 +82,6 @@
         android:visibility="invisible" >
 
         <ImageButton
-            android:id="@+id/player_overlay_adv_function"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/dots"
-            android:onClick="showAdvanceFunction" />
-
-        <ImageButton
             android:id="@+id/player_overlay_audio"
             android:layout_width="35dp"
             android:layout_height="35dp"
@@ -105,6 +96,15 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/header_icon_subtitle" />
+
+        <ImageButton
+            android:id="@+id/player_overlay_adv_function"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/dots"
+            android:onClick="showAdvanceFunction" />
     </LinearLayout>
 
     <RelativeLayout
