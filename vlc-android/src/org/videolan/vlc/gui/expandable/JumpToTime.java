@@ -54,29 +54,34 @@ public class JumpToTime extends ExpandableLayout {
         mSecWheel = (WheelView) findViewById(R.id.sec);
         final View colon = findViewById(R.id.colon);
         final Button okButton = (Button) findViewById(R.id.ok);
-
-        mHourWheel.setViewAdapter(new NumericWheelAdapter(context, 0, 23, "%02d"));
-        mHourWheel.setCyclic(true);
-        mMinWheel.setViewAdapter(new NumericWheelAdapter(context, 0, 59, "%02d"));
-        mMinWheel.setCyclic(true);
-        mSecWheel.setViewAdapter(new NumericWheelAdapter(context, 0, 59, "%02d"));
-        mSecWheel.setCyclic(true);
         okButton.setOnClickListener(mOnOkListener);
 
         long currentTime = !isInEditMode() ? AudioServiceController.getInstance().getTime() : 0;
         int length = !isInEditMode() ? AudioServiceController.getInstance().getLength() : 0;
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+
+        // Limit wheel values
+        c.setTimeInMillis(length);
+        int hours = c.get(Calendar.HOUR_OF_DAY);
+        int minutes = c.get(Calendar.MINUTE);
+        int seconds = c.get(Calendar.SECOND);
+        boolean isCyclic = false;
+        mHourWheel.setCyclic(isCyclic);
+        mHourWheel.setViewAdapter(new NumericWheelAdapter(context, 0, isCyclic ? 23 : hours, "%02d"));
+        mMinWheel.setCyclic(isCyclic = isCyclic || hours > 0);
+        mMinWheel.setViewAdapter(new NumericWheelAdapter(context, 0, isCyclic ? 59 : minutes, "%02d"));
+        mSecWheel.setCyclic(isCyclic = isCyclic || minutes > 0);
+        mSecWheel.setViewAdapter(new NumericWheelAdapter(context, 0, isCyclic ? 59 : seconds, "%02d"));
+        if (hours == 0) {
+            mHourWheel.setVisibility(View.GONE);
+            colon.setVisibility(View.GONE);
+        }
 
         // Set current time
-        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         c.setTimeInMillis(currentTime);
         mHourWheel.setCurrentItem(c.get(Calendar.HOUR_OF_DAY));
         mMinWheel.setCurrentItem(c.get(Calendar.MINUTE));
         mSecWheel.setCurrentItem(c.get(Calendar.SECOND));
-
-        if (length < 60 * 60 * 1000) {
-            mHourWheel.setVisibility(View.GONE);
-            colon.setVisibility(View.GONE);
-        }
     }
 
     private OnClickListener mOnOkListener = new OnClickListener() {
