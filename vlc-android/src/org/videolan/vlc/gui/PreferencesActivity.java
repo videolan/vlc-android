@@ -22,6 +22,7 @@ package org.videolan.vlc.gui;
 
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
@@ -143,6 +144,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         MediaDatabase.getInstance(getBaseContext()).emptyDatabase();
+                        BitmapCache.getInstance().clear();
                         Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                         return true;
                     }
