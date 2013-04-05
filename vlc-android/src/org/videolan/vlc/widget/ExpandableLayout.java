@@ -21,6 +21,7 @@
 package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.interfaces.OnExpandableListener;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -39,6 +40,7 @@ public class ExpandableLayout extends LinearLayout {
     private final ImageView mMore;
     private final LinearLayout mContent;
     private Boolean mExpanded;
+    private OnExpandableListener listener = null;
 
     public ExpandableLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,14 +57,14 @@ public class ExpandableLayout extends LinearLayout {
         mHeaderLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                SetState(!mExpanded);
+                setState(!mExpanded);
             }
         });
 
-        SetState(isInEditMode());
+        setState(isInEditMode());
     }
 
-    private void SetState(Boolean expanded) {
+    private void setState(Boolean expanded) {
         mExpanded = expanded;
         mMore.setImageResource(expanded ? R.drawable.ic_up : R.drawable.ic_down);
         mContent.setVisibility(expanded ? View.VISIBLE : View.GONE);
@@ -87,13 +89,20 @@ public class ExpandableLayout extends LinearLayout {
         mContent.addView(view);
     }
 
-    public void Expand()
-    {
-        SetState(true);
+    public void expand() {
+        setState(true);
     }
 
-    public void Collapse()
-    {
-        SetState(false);
+    public void collapse() {
+        setState(false);
+    }
+
+    public void dismiss() {
+        if (this.listener != null)
+            this.listener.onDismiss();
+    }
+
+    public void setOnExpandableListener(OnExpandableListener listener) {
+        this.listener = listener;
     }
 }

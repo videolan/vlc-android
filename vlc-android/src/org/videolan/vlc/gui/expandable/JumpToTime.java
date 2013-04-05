@@ -91,6 +91,7 @@ public class JumpToTime extends ExpandableLayout {
                     1000 * (mHourWheel.getCurrentItem() * 60 * 60 +
                             mMinWheel.getCurrentItem() * 60 +
                             mSecWheel.getCurrentItem()));
+            dismiss();
         }
     };
 }

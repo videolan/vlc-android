@@ -27,6 +27,8 @@ import java.net.URISyntaxException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcRunnable;
+import org.videolan.vlc.interfaces.OnExpandableListener;
+import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -37,6 +39,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
+import android.widget.LinearLayout;
 
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
@@ -73,10 +76,29 @@ public class CommonDialogs {
         LayoutInflater inflater = LayoutInflater.from(VLCApplication.getAppContext());
         View view = inflater.inflate(R.layout.advanced_options, null);
 
+        // build dialog
         Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_VLC_AlertMenu))
                 .setView(view);
-        AlertDialog dialog = builder.create();
+        final AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(true);
+
+        // register listener on each ExpandableLayout in advanced_layout
+        LinearLayout advanced_layout = (LinearLayout) view.findViewById(R.id.advanced_layout);
+        OnExpandableListener mExpandableListener = new OnExpandableListener() {
+            @Override
+            public void onDismiss() {
+                dialog.dismiss();
+            }
+        };
+        for (int i = 0; i < advanced_layout.getChildCount(); ++i)
+        {
+            View child = advanced_layout.getChildAt(i);
+            if (child instanceof ExpandableLayout) {
+                ((ExpandableLayout) child).setOnExpandableListener(mExpandableListener);
+            }
+        }
+
+        // show dialog
         dialog.show();
 
         // force size
