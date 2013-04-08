@@ -94,7 +94,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
-    private Thumbnailer mThumbnailerManager;
+    private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
 
     /* All subclasses of Fragment must include a public empty constructor. */
@@ -110,7 +110,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         /* Load the thumbnailer */
         FragmentActivity activity = getActivity();
         if (activity != null)
-            mThumbnailerManager = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
+            mThumbnailer = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
     }
 
     @Override
@@ -150,8 +150,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mMediaLibrary.removeUpdateHandler(mHandler);
 
         /* Stop the thumbnailer */
-        if (mThumbnailerManager != null)
-            mThumbnailerManager.stop();
+        if (mThumbnailer != null)
+            mThumbnailer.stop();
     }
 
     @Override
@@ -168,8 +168,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mAnimator.animate();
 
         /* Start the thumbnailer */
-        if (mThumbnailerManager != null)
-            mThumbnailerManager.start(this);
+        if (mThumbnailer != null)
+            mThumbnailer.start(this);
     }
 
     @Override
@@ -181,8 +181,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mThumbnailerManager != null)
-            mThumbnailerManager.clearJobs();
+        if (mThumbnailer != null)
+            mThumbnailer.clearJobs();
         mBarrier.reset();
         mVideoAdapter.clear();
     }
@@ -376,8 +376,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private void updateList() {
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
-        if (mThumbnailerManager != null)
-            mThumbnailerManager.clearJobs();
+        if (mThumbnailer != null)
+            mThumbnailer.clearJobs();
         else
             Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
 
@@ -387,8 +387,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             for (Media item : itemList) {
                 if (item.getType() == Media.TYPE_VIDEO) {
                     mVideoAdapter.add(item);
-                    if (mThumbnailerManager != null && item.getPicture() == null && !item.isPictureParsed())
-                        mThumbnailerManager.addJob(item);
+                    if (mThumbnailer != null && item.getPicture() == null && !item.isPictureParsed())
+                        mThumbnailer.addJob(item);
                 }
             }
             mVideoAdapter.sort();

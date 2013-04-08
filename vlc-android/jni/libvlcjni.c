@@ -205,7 +205,7 @@ static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
  */
 JavaVM *myVm;
 
-static jobject eventManagerInstance = NULL;
+static jobject eventHandlerInstance = NULL;
 static jobject debugBufferInstance = NULL;
 
 static pthread_mutex_t vout_android_lock;
@@ -244,7 +244,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 
     bool isAttached = false;
 
-    if (eventManagerInstance == NULL)
+    if (eventHandlerInstance == NULL)
         return;
 
     if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
@@ -301,18 +301,18 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     }
 
     /* Get the object class */
-    jclass cls = (*env)->GetObjectClass(env, eventManagerInstance);
+    jclass cls = (*env)->GetObjectClass(env, eventHandlerInstance);
     if (!cls) {
-        LOGE("EventManager: failed to get class reference");
+        LOGE("EventHandler: failed to get class reference");
         goto end;
     }
 
     /* Find the callback ID */
     jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
     if (methodID) {
-        (*env)->CallVoidMethod(env, eventManagerInstance, methodID, ev->type, bundle);
+        (*env)->CallVoidMethod(env, eventHandlerInstance, methodID, ev->type, bundle);
     } else {
-        LOGE("EventManager: failed to get the callback method");
+        LOGE("EventHandler: failed to get the callback method");
     }
 
 end:
@@ -582,34 +582,34 @@ void Java_org_videolan_vlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
     setLong(env, thiz, "mLibVlcInstance", 0);
 }
 
-void Java_org_videolan_vlc_LibVLC_detachEventManager(JNIEnv *env, jobject thiz)
+void Java_org_videolan_vlc_LibVLC_detachEventHandler(JNIEnv *env, jobject thiz)
 {
-    if (eventManagerInstance != NULL) {
-        (*env)->DeleteGlobalRef(env, eventManagerInstance);
-        eventManagerInstance = NULL;
+    if (eventHandlerInstance != NULL) {
+        (*env)->DeleteGlobalRef(env, eventHandlerInstance);
+        eventHandlerInstance = NULL;
     }
 }
 
-void Java_org_videolan_vlc_LibVLC_setEventManager(JNIEnv *env, jobject thiz, jobject eventManager)
+void Java_org_videolan_vlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, jobject eventHandler)
 {
-    if (eventManagerInstance != NULL) {
-        (*env)->DeleteGlobalRef(env, eventManagerInstance);
-        eventManagerInstance = NULL;
+    if (eventHandlerInstance != NULL) {
+        (*env)->DeleteGlobalRef(env, eventHandlerInstance);
+        eventHandlerInstance = NULL;
     }
 
-    jclass cls = (*env)->GetObjectClass(env, eventManager);
+    jclass cls = (*env)->GetObjectClass(env, eventHandler);
     if (!cls) {
-        LOGE("setEventManager: failed to get class reference");
+        LOGE("setEventHandler: failed to get class reference");
         return;
     }
 
     jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
     if (!methodID) {
-        LOGE("setEventManager: failed to get the callback method");
+        LOGE("setEventHandler: failed to get the callback method");
         return;
     }
 
-    eventManagerInstance = (*env)->NewGlobalRef(env, eventManager);
+    eventHandlerInstance = (*env)->NewGlobalRef(env, eventHandler);
 }
 
 jobjectArray Java_org_videolan_vlc_LibVLC_readMediaMeta(JNIEnv *env,

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * DatabaseManager.java
+ * MediaDatabase.java
  *****************************************************************************
  * Copyright © 2011-2012 VLC authors and VideoLAN
  *
@@ -41,7 +41,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class MediaDatabase {
-    public final static String TAG = "VLC/DatabaseManager";
+    public final static String TAG = "VLC/MediaDatabase";
 
     private static MediaDatabase instance;
 

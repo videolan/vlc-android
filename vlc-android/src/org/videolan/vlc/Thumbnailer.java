@@ -1,5 +1,5 @@
 /*****************************************************************************
- * ThumbnailerManager.java
+ * Thumbnailer.java
  *****************************************************************************
  * Copyright © 2011-2012 VLC authors and VideoLAN
  *
@@ -40,7 +40,7 @@ import android.util.Log;
 import android.view.Display;
 
 public class Thumbnailer implements Runnable {
-    public final static String TAG = "VLC/ThumbnailerManager";
+    public final static String TAG = "VLC/Thumbnailer";
 
     private VideoGridFragment mVideoGridFragment;
 

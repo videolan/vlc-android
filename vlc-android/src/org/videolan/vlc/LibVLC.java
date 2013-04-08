@@ -202,7 +202,7 @@ public class LibVLC {
             }
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             nativeInit(pref.getBoolean("enable_verbose_mode", true));
-            setEventManager(EventHandler.getInstance());
+            setEventHandler(EventHandler.getInstance());
             mIsInitialized = true;
         }
     }
@@ -214,7 +214,7 @@ public class LibVLC {
     public void destroy() {
         Log.v(TAG, "Destroying LibVLC instance");
         nativeDestroy();
-        detachEventManager();
+        detachEventHandler();
         mIsInitialized = false;
     }
 
@@ -515,7 +515,7 @@ public class LibVLC {
      */
     private native long getLengthFromLocation(long instance, String mrl);
 
-    private native void setEventManager(EventHandler eventManager);
+    private native void setEventHandler(EventHandler eventHandler);
 
-    private native void detachEventManager();
+    private native void detachEventHandler();
 }

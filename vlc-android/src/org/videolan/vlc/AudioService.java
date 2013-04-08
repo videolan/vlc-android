@@ -90,7 +90,7 @@ public class AudioService extends Service {
     private Stack<Media> mPrevious;
     private Media mCurrentMedia;
     private HashMap<IAudioServiceCallback, Integer> mCallback;
-    private EventHandler mEventManager;
+    private EventHandler mEventHandler;
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
     private boolean mDetectHeadset = true;
@@ -133,7 +133,7 @@ public class AudioService extends Service {
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mMediaList = new ArrayList<Media>();
         mPrevious = new Stack<Media>();
-        mEventManager = EventHandler.getInstance();
+        mEventHandler = EventHandler.getInstance();
         mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
                 RemoteControlClientReceiver.class.getName());
 
@@ -351,7 +351,7 @@ public class AudioService extends Service {
     /**
      * Handle libvlc asynchronous events
      */
-    private final Handler mEventHandler = new AudioServiceEventHandler(this);
+    private final Handler mVlcEventHandler = new AudioServiceEventHandler(this);
 
     private static class AudioServiceEventHandler extends WeakHandler<AudioService> {
         public AudioServiceEventHandler(AudioService fragment) {
@@ -536,7 +536,7 @@ public class AudioService extends Service {
 
     private void stop() {
         mLibVLC.stop();
-        mEventManager.removeHandler(mEventHandler);
+        mEventHandler.removeHandler(mVlcEventHandler);
         setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
         mCurrentMedia = null;
         mMediaList.clear();
@@ -754,7 +754,7 @@ public class AudioService extends Service {
             mLibVLCPlaylistActive = libvlcBacked;
 
             Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
-            mEventManager.addHandler(mEventHandler);
+            mEventHandler.addHandler(mVlcEventHandler);
 
             mMediaList.clear();
             mPrevious.clear();
@@ -801,7 +801,7 @@ public class AudioService extends Service {
 
             if(!mLibVLC.isPlaying())
                 return;
-            mEventManager.addHandler(mEventHandler);
+            mEventHandler.addHandler(mVlcEventHandler);
             mMediaList.clear();
             mPrevious.clear();
             // Prevent re-parsing the media, which would mean losing the connection
