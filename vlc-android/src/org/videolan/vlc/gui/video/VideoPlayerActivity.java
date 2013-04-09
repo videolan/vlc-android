@@ -27,11 +27,11 @@ import java.net.URLDecoder;
 import java.util.Map;
 
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.EventHandler;
 import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
@@ -417,7 +417,7 @@ public class VideoPlayerActivity extends Activity {
                 if (mLibVLC != null && mLibVLC.isPlaying()) {
                     KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
                     if (km.inKeyguardRestrictedInputMode())
-            mLibVLC.pause();
+                        mLibVLC.pause();
                 }
             }}, 500);
 
