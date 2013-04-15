@@ -139,11 +139,12 @@ EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
 
+UNAMES=$(uname -s)
 MAKEFLAGS=
 if which nproc >/dev/null
 then
 MAKEFLAGS=-j`nproc`
-elif which sysctl >/dev/null
+elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null
 then
 MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
 fi
