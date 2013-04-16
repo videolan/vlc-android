@@ -1266,12 +1266,14 @@ public class VideoPlayerActivity extends Activity {
     private void dimStatusBar(boolean dim) {
         if (!Util.isHoneycombOrLater() || !Util.hasNavBar())
             return;
+        int layout = 0;
+        if (!Util.hasCombBar() && Util.isJellyBeanOrLater())
+            layout = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         mSurface.setSystemUiVisibility(
                 (dim ? (Util.hasCombBar()
                         ? View.SYSTEM_UI_FLAG_LOW_PROFILE
                         : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                    : View.SYSTEM_UI_FLAG_VISIBLE) |
-                (Util.hasCombBar() ? 0 : View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION));
+                    : View.SYSTEM_UI_FLAG_VISIBLE) | layout);
     }
 
     private void updateOverlayPausePlay() {
