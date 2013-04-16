@@ -175,7 +175,7 @@ public class BrowserActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         File file = mAdapter.getItem(position);
-        if(file.getPath() == BrowserAdapter.ADD_ITEM_PATH) {
+        if(file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)) {
             AlertDialog.Builder b = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
