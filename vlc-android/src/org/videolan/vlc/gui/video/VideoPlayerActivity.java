@@ -1267,10 +1267,11 @@ public class VideoPlayerActivity extends Activity {
         if (!Util.isHoneycombOrLater() || !Util.hasNavBar())
             return;
         mSurface.setSystemUiVisibility(
-                dim ? (Util.hasCombBar()
+                (dim ? (Util.hasCombBar()
                         ? View.SYSTEM_UI_FLAG_LOW_PROFILE
                         : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                    : View.SYSTEM_UI_FLAG_VISIBLE);
+                    : View.SYSTEM_UI_FLAG_VISIBLE) |
+                (Util.hasCombBar() ? 0 : View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION));
     }
 
     private void updateOverlayPausePlay() {
