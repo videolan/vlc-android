@@ -41,6 +41,7 @@ import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -55,6 +56,7 @@ import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -64,6 +66,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 public class AudioService extends Service {
 
@@ -396,8 +399,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
-                    // also hide notification if phone ringing
-                    service.hideNotification();
+                    service.showNotification();
                     service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
@@ -484,27 +486,74 @@ public class AudioService extends Service {
         }
     };
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void showNotification() {
         try {
+            Bitmap cover = AudioUtil.getCover(this, mCurrentMedia, 64);
+            String title = mCurrentMedia.getTitle();
+            String artist = mCurrentMedia.getArtist();
+            String album = mCurrentMedia.getAlbum();
+            Notification notification;
+
             // add notification to status bar
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-            .setSmallIcon(R.drawable.ic_stat_vlc)
-            .setLargeIcon(AudioUtil.getCover(this, mCurrentMedia, 64))
-            .setContentTitle(mCurrentMedia.getTitle())
-            .setTicker(mCurrentMedia.getTitle() + " - " + mCurrentMedia.getArtist())
-            .setContentText(Util.isJellyBeanOrLater() ? mCurrentMedia.getArtist() : mCurrentMedia.getSubtitle())
-            .setContentInfo(mCurrentMedia.getAlbum())
-            .setAutoCancel(false)
-            .setOngoing(true);
+                .setSmallIcon(R.drawable.ic_stat_vlc)
+                .setTicker(title + " - " + artist)
+                .setAutoCancel(false)
+                .setOngoing(true);
 
             Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
             notificationIntent.setAction(Intent.ACTION_MAIN);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            builder.setContentIntent(pendingIntent);
-            startForeground(3, builder.build());
+            if (Util.isJellyBeanOrLater()) {
+                Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
+                Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
+                Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
+                Intent iStop = new Intent(ACTION_REMOTE_STOP);
+                PendingIntent piBackward = PendingIntent.getBroadcast(this, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent piForward = PendingIntent.getBroadcast(this, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent piStop = PendingIntent.getBroadcast(this, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification);
+                view.setImageViewBitmap(R.id.cover, cover);
+                view.setTextViewText(R.id.songName, title);
+                view.setTextViewText(R.id.artist, artist);
+                view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+                view.setOnClickPendingIntent(R.id.play_pause, piPlay);
+                view.setOnClickPendingIntent(R.id.forward, piForward);
+                view.setOnClickPendingIntent(R.id.stop, piStop);
+                view.setOnClickPendingIntent(R.id.content, pendingIntent);
+
+                RemoteViews view_expanded = new RemoteViews(getPackageName(), R.layout.notification_expanded);
+                view_expanded.setImageViewBitmap(R.id.cover, cover);
+                view_expanded.setTextViewText(R.id.songName, title);
+                view_expanded.setTextViewText(R.id.artist, artist);
+                view_expanded.setTextViewText(R.id.album, album);
+                view_expanded.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+                view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
+                view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
+                view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
+                view_expanded.setOnClickPendingIntent(R.id.stop, piStop);
+                view_expanded.setOnClickPendingIntent(R.id.content, pendingIntent);
+
+                notification = builder.build();
+                notification.contentView = view;
+                notification.bigContentView = view_expanded;
+            }
+            else {
+                builder.setLargeIcon(cover)
+                       .setContentTitle(title)
+                       .setContentText(Util.isJellyBeanOrLater() ? artist : mCurrentMedia.getSubtitle())
+                       .setContentInfo(album)
+                       .setContentIntent(pendingIntent);
+                notification = builder.build();
+            }
+
+            startForeground(3, notification);
         }
         catch (NoSuchMethodError e){
             // Compat library is wrong on 3.2
