@@ -519,7 +519,8 @@ public class AudioService extends Service {
                 PendingIntent piStop = PendingIntent.getBroadcast(this, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification);
-                view.setImageViewBitmap(R.id.cover, cover);
+                if (cover != null)
+                    view.setImageViewBitmap(R.id.cover, cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
                 view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
@@ -529,7 +530,8 @@ public class AudioService extends Service {
                 view.setOnClickPendingIntent(R.id.content, pendingIntent);
 
                 RemoteViews view_expanded = new RemoteViews(getPackageName(), R.layout.notification_expanded);
-                view_expanded.setImageViewBitmap(R.id.cover, cover);
+                if (cover != null)
+                    view_expanded.setImageViewBitmap(R.id.cover, cover);
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);
                 view_expanded.setTextViewText(R.id.album, album);
