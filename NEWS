@@ -1,5 +1,23 @@
-Changes between 0.0.11 and 0.1.0-git:
-----------------------------------
+Changes between 0.0.11 and 0.1.0:
+---------------------------------
+
+Core:
+ * Update to libVLC 2.1.0 new log API
+ * Update libVLC
+ * Allow to build with x86_64 and OSX SDKs
+ * Reduce memory usage
+
+Main Application:
+ * Warn user if playback of a deleted item starts
+ * New dialog for speed/sleep/jump
+ * New control from Notifications
+ * Fix multiple important crashes
+ * Fix some subtitles selections
+ * Fix some infinite thumbnail retries
+ * Fix issues where a media would not start
+
+Translations:
+ * Update of Basque, Croatian
 
 
 Changes between 0.0.10 and 0.0.11:
