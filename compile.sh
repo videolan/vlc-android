@@ -123,7 +123,7 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
         fi
     fi
 elif [ ${ANDROID_ABI} = "x86" ] ; then
-    EXTRA_CFLAGS="-march=pentium -ffunction-sections -funwind-tables -frtti -fno-exceptions"
+    EXTRA_CFLAGS="-march=pentium -ffunction-sections -funwind-tables -frtti -fexceptions"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
