@@ -91,7 +91,6 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --disable-notify \
                 --enable-libass \
                 --disable-svg \
-                --disable-sqlite \
                 --disable-udev \
                 --enable-libxml2 \
                 --disable-caca \
