@@ -27,6 +27,7 @@ import java.net.URLDecoder;
 import java.util.Map;
 
 import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.AudioServiceController;
@@ -89,7 +90,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class VideoPlayerActivity extends Activity {
+public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -488,6 +489,7 @@ public class VideoPlayerActivity extends Activity {
         super.onConfigurationChanged(newConfig);
     }
 
+    @Override
     public void setSurfaceSize(int width, int height, int sar_num, int sar_den) {
         if (width * height == 0)
             return;

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -59,7 +58,7 @@ public class LibVLC {
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
-    public native void attachSurface(Surface surface, VideoPlayerActivity player, int width, int height);
+    public native void attachSurface(Surface surface, IVideoPlayer player, int width, int height);
 
     public native void detachSurface();
 
