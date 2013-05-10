@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
@@ -138,7 +137,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         try {
             // Start LibVLC
-            LibVLC.getInstance();
+            Util.getLibVlcInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
             Intent i = new Intent(this, CompatErrorActivity.class);

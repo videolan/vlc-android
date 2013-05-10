@@ -35,6 +35,9 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -61,6 +64,38 @@ public class Util {
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
         hasNavBar = isICSOrLater() && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+    }
+
+    public static LibVLC getLibVlcInstance() throws LibVlcException {
+        LibVLC instance = LibVLC.getExistingInstance();
+        if (instance == null) {
+            instance = LibVLC.getInstance();
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+            updateLibVlcSettings(pref);
+            instance.init();
+        }
+        return instance;
+    }
+
+    public static void updateLibVlcSettings(SharedPreferences pref) {
+        LibVLC instance = LibVLC.getExistingInstance();
+        if (instance == null)
+            return;
+
+        instance.setIomx(pref.getBoolean("enable_iomx", false));
+        instance.setSubtitlesEncoding(pref.getString("subtitles_text_encoding", ""));
+        instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
+        instance.setChroma(pref.getString("chroma_format", ""));
+        instance.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
+
+        int aout;
+        try {
+            aout = Integer.parseInt(pref.getString("aout", "-1"));
+        }
+        catch (NumberFormatException nfe) {
+            aout = -1;
+        }
+        instance.setAout(aout);
     }
 
     /** Print an on-screen message to alert the user */

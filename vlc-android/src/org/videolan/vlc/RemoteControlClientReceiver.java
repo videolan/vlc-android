@@ -44,7 +44,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         LibVLC mLibVLC;
         try {
-            mLibVLC = LibVLC.getInstance();
+            mLibVLC = Util.getLibVlcInstance();
         } catch (LibVlcException e) {
             return;
         }

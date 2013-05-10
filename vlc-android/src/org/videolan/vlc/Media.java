@@ -137,7 +137,7 @@ public class Media implements Comparable<Media> {
 
         LibVLC mLibVlc = null;
         try {
-            mLibVlc = LibVLC.getInstance();
+            mLibVlc = Util.getLibVlcInstance();
             mType = TYPE_ALL;
 
             TrackInfo[] tracks = mLibVlc.readTracksInfo(mLocation);
@@ -159,7 +159,7 @@ public class Media implements Comparable<Media> {
 
         LibVLC mLibVlc = null;
         try {
-            mLibVlc = LibVLC.getInstance();
+            mLibVlc = Util.getLibVlcInstance();
             mType = TYPE_ALL;
 
             TrackInfo[] tracks = mLibVlc.readTracksInfoPosition(position);

@@ -70,7 +70,7 @@ public class Thumbnailer implements Runnable {
     public void start(VideoGridFragment videoGridFragment) {
         if (mLibVlc == null) {
             try {
-                mLibVlc = LibVLC.getInstance();
+                mLibVlc = Util.getLibVlcInstance();
             } catch (LibVlcException e) {
                 Log.e(TAG, "Can't obtain libvlc instance");
                 e.printStackTrace();

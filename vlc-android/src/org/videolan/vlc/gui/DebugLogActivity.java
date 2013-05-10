@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class DebugLogActivity extends Activity {
 
         final LibVLC instance;
         try {
-            instance = LibVLC.getInstance();
+            instance = Util.getLibVlcInstance();
         } catch (LibVlcException e) { return; }
 
         final Button startLog = (Button)findViewById(R.id.start_log);

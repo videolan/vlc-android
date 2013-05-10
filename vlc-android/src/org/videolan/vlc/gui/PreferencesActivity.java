@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.BitmapCache;
@@ -44,7 +43,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -150,25 +148,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     }
                 });
 
-        // Change verbosity (logcat)
-        CheckBoxPreference checkboxVerbosity = (CheckBoxPreference) findPreference("enable_verbose_mode");
-        checkboxVerbosity.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                try {
-                    LibVLC.getInstance().changeVerbosity((Boolean) newValue);
-                } catch (LibVlcException e) {
-                    Log.e(TAG, "Failed to change logs verbosity");
-                    e.printStackTrace();
-                    return true;
-                }
-                String newstatus = ((Boolean)newValue) ? "enabled" : "disabled";
-                Log.i(TAG, "Verbosity mode is now " + newstatus);
-                return true;
-            }
-        });
-
         // Debug log activity
         Preference debugLogsPref = findPreference("debug_logs");
         debugLogsPref
@@ -224,7 +203,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("subtitles_text_encoding")
                 || key.equalsIgnoreCase("aout")
                 || key.equalsIgnoreCase("enable_time_stretching_audio")
-                || key.equalsIgnoreCase("chroma_format")) {
+                || key.equalsIgnoreCase("chroma_format")
+                || key.equalsIgnoreCase("enable_verbose_mode")) {
+            Util.updateLibVlcSettings(sharedPreferences);
             LibVLC.restart();
         }
     }

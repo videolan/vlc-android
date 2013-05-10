@@ -435,11 +435,6 @@ static void debug_log(void *data, int level, const libvlc_log_t *ctx, const char
     __android_log_vprint(prio, "VLC", fmt, ap);
 }
 
-void Java_org_videolan_libvlc_LibVLC_changeVerbosity(JNIEnv *env, jobject thiz, jboolean verbose)
-{
-    verbosity = verbose;
-}
-
 void Java_org_videolan_libvlc_LibVLC_startDebugBuffer(JNIEnv *env, jobject thiz)
 {
     jclass libVLC_class = (*env)->FindClass(env, "org/videolan/libvlc/LibVLC");
@@ -476,7 +471,7 @@ void Java_org_videolan_libvlc_LibVLC_stopDebugBuffer(JNIEnv *env, jobject thiz)
     (*env)->DeleteLocalRef(env, libvlcj);
 }
 
-void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jboolean verbose)
+void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     //only use OpenSLES if java side says we can
     jclass cls = (*env)->GetObjectClass(env, thiz);
@@ -495,6 +490,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jbool
     jstring subsencoding = (*env)->CallObjectMethod(env, thiz, methodId);
     const char *subsencodingstr = (*env)->GetStringUTFChars(env, subsencoding, 0);
     LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
+
+    methodId = (*env)->GetMethodID(env, cls, "isVerboseMode", "()Z");
+    verbosity = (*env)->CallBooleanMethod(env, thiz, methodId);
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
@@ -526,7 +524,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz, jbool
 
     LOGI("LibVLC initialized: %p", instance);
 
-    verbosity = verbose;
     libvlc_log_set(instance, debug_log, &verbosity);
 
     /* Initialize media list (a.k.a. playlist/history) */

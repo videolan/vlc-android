@@ -297,7 +297,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         registerReceiver(mReceiver, filter);
 
         try {
-            mLibVLC = LibVLC.getInstance();
+            mLibVLC = Util.getLibVlcInstance();
         } catch (LibVlcException e) {
             Log.d(TAG, "LibVLC initialisation failed");
             return;

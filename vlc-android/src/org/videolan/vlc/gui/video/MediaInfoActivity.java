@@ -102,7 +102,7 @@ public class MediaInfoActivity extends ListActivity {
         public void run() {
             LibVLC mLibVlc = null;
             try {
-                mLibVlc = LibVLC.getInstance();
+                mLibVlc = Util.getLibVlcInstance();
             } catch (LibVlcException e) {
                 return;
             }

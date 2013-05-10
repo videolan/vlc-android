@@ -23,19 +23,15 @@ package org.videolan.libvlc;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.videolan.vlc.VLCApplication;
-
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
-    private static final int AOUT_AUDIOTRACK_JAVA = 0;
-    private static final int AOUT_AUDIOTRACK = 1;
-    private static final int AOUT_OPENSLES = 2;
+    public static final int AOUT_AUDIOTRACK_JAVA = 0;
+    public static final int AOUT_AUDIOTRACK = 1;
+    public static final int AOUT_OPENSLES = 2;
 
     private static LibVLC sInstance;
 
@@ -55,6 +51,14 @@ public class LibVLC {
 
     /** Keep screen bright */
     //private WakeLock mWakeLock;
+
+    /** Settings */
+    private boolean iomx = false;
+    private String subtitlesEncoding = "";
+    private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+    private boolean timeStretching = false;
+    private String chroma = "";
+    private boolean verboseMode = true;
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
@@ -99,7 +103,6 @@ public class LibVLC {
             if (sInstance == null) {
                 /* First call */
                 sInstance = new LibVLC();
-                sInstance.init();
             }
         }
 
@@ -157,42 +160,64 @@ public class LibVLC {
     }
 
     /**
-     * those are called from native code to get settings values
+     * those get/is* are called from native code to get settings values.
      */
+
     public boolean useIOMX() {
-        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        return  p.getBoolean("enable_iomx", false);
+        return iomx;
     }
+
+    public void setIomx(boolean iomx) {
+        this.iomx = iomx;
+    }
+
     public String getSubtitlesEncoding() {
-        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        return p.getString("subtitles_text_encoding", "");
+        return subtitlesEncoding;
     }
+
+    public void setSubtitlesEncoding(String subtitlesEncoding) {
+        this.subtitlesEncoding = subtitlesEncoding;
+    }
+
     public int getAout() {
-        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        int defaultAout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
-        int aout = defaultAout;
-        try {
-            aout = Integer.parseInt(p.getString("aout", String.valueOf(defaultAout)));
-        }
-        catch (NumberFormatException nfe) {
-            aout = defaultAout;
-        }
         return aout;
     }
-    public boolean timeStretchingEnabled() {
-        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        return p.getBoolean("enable_time_stretching_audio", false);
+
+    public void setAout(int aout) {
+        if (aout < 0)
+            this.aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+        else
+            this.aout = aout;
     }
+
+    public boolean timeStretchingEnabled() {
+        return timeStretching;
+    }
+
+    public void setTimeStretching(boolean timeStretching) {
+        this.timeStretching = timeStretching;
+    }
+
     public String getChroma() {
-        final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        String chroma = p.getString("chroma_format", "");
-        return chroma.equals("YV12") && !LibVlcUtil.isGingerbreadOrLater() ? "" : chroma;
+        return chroma;
+    }
+
+    public void setChroma(String chroma) {
+        this.chroma = chroma.equals("YV12") && !LibVlcUtil.isGingerbreadOrLater() ? "" : chroma;
+    }
+
+    public boolean isVerboseMode() {
+        return verboseMode;
+    }
+
+    public void setVerboseMode(boolean verboseMode) {
+        this.verboseMode = verboseMode;
     }
 
     /**
      * Initialize the libVLC class
      */
-    private void init() throws LibVlcException {
+    public void init() throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         mDebugLogBuffer = new StringBuffer();
         if (!mIsInitialized) {
@@ -200,8 +225,7 @@ public class LibVLC {
                 Log.e(TAG, LibVlcUtil.getErrorMsg());
                 throw new LibVlcException();
             }
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-            nativeInit(pref.getBoolean("enable_verbose_mode", true));
+            nativeInit();
             setEventHandler(EventHandler.getInstance());
             mIsInitialized = true;
         }
@@ -316,16 +340,10 @@ public class LibVLC {
     public native float getRate();
 
     /**
-     * Change the verbosity of libvlc
-     * @param verbose: true for increased verbosity
-     */
-    public native void changeVerbosity(boolean verbose);
-
-    /**
      * Initialize the libvlc C library
      * @return a pointer to the libvlc instance
      */
-    private native void nativeInit(boolean verbose) throws LibVlcException;
+    private native void nativeInit() throws LibVlcException;
 
     /**
      * Close the libvlc C library
