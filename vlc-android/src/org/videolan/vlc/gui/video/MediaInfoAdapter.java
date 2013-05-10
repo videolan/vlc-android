@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.gui.video;
 
+import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.R;
-import org.videolan.vlc.TrackInfo;
 
 import android.content.Context;
 import android.content.res.Resources;

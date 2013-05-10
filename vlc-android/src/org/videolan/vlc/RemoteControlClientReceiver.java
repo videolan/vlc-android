@@ -19,6 +19,9 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

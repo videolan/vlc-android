@@ -27,8 +27,8 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.android.ui.SherlockGridFragment;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.Media;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;

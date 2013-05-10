@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.videolan.vlc.EventHandler;
-import org.videolan.vlc.LibVLC;
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;

@@ -22,8 +22,8 @@ package org.videolan.vlc.gui;
 
 import java.io.IOException;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;

@@ -26,10 +26,10 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.Map;
 
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.EventHandler;
-import org.videolan.vlc.LibVLC;
-import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
@@ -1379,7 +1379,7 @@ public class VideoPlayerActivity extends Activity {
                     Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
                     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
                     if (cursor.moveToFirst())
-                        mLocation = Util.PathToURI(cursor.getString(column_index));
+                        mLocation = LibVLC.PathToURI(cursor.getString(column_index));
                 } else {
                     // other content-based URI (probably file pickers)
                     mLocation = getIntent().getData().getPath();

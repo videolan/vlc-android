@@ -18,11 +18,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.libvlc;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.content.SharedPreferences;
@@ -169,7 +170,7 @@ public class LibVLC {
     }
     public int getAout() {
         final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        int defaultAout = Util.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+        int defaultAout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
         int aout = defaultAout;
         try {
             aout = Integer.parseInt(p.getString("aout", String.valueOf(defaultAout)));
@@ -186,7 +187,7 @@ public class LibVLC {
     public String getChroma() {
         final SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         String chroma = p.getString("chroma_format", "");
-        return chroma.equals("YV12") && !Util.isGingerbreadOrLater() ? "" : chroma;
+        return chroma.equals("YV12") && !LibVlcUtil.isGingerbreadOrLater() ? "" : chroma;
     }
 
     /**
@@ -196,8 +197,8 @@ public class LibVLC {
         Log.v(TAG, "Initializing LibVLC");
         mDebugLogBuffer = new StringBuffer();
         if (!mIsInitialized) {
-            if(!Util.hasCompatibleCPU()) {
-                Log.e(TAG, Util.getErrorMsg());
+            if(!LibVlcUtil.hasCompatibleCPU()) {
+                Log.e(TAG, LibVlcUtil.getErrorMsg());
                 throw new LibVlcException();
             }
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
@@ -500,6 +501,13 @@ public class LibVLC {
     public native int getSpuTracksCount();
 
     public static native String nativeToURI(String path);
+
+    public static String PathToURI(String path) {
+        if(path == null) {
+            throw new NullPointerException("Cannot convert null path!");
+        }
+        return LibVLC.nativeToURI(path);
+    }
 
     public static native void nativeReadDirectory(String path, ArrayList<String> res);
 

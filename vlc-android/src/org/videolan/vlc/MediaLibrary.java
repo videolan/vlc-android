@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -275,7 +276,7 @@ public class MediaLibrary {
 
                 // Process the stacked items
                 for (File file : mediaToScan) {
-                    String fileURI = Util.PathToURI(file.getPath());
+                    String fileURI = LibVLC.PathToURI(file.getPath());
                     MainActivity.sendTextInfo(mContext, file.getName(), count,
                             mediaToScan.size());
                     count++;

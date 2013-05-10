@@ -20,10 +20,11 @@
 
 package org.videolan.vlc.gui;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.LibVLC;
-import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -105,8 +106,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!Util.hasCompatibleCPU()) {
-            Log.e(TAG, Util.getErrorMsg());
+        if (!LibVlcUtil.hasCompatibleCPU()) {
+            Log.e(TAG, LibVlcUtil.getErrorMsg());
             Intent i = new Intent(this, CompatErrorActivity.class);
             startActivity(i);
             finish();

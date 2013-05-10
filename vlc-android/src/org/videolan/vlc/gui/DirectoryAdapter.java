@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-import org.videolan.vlc.LibVLC;
+import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -352,7 +352,7 @@ public class DirectoryAdapter extends BaseAdapter {
         } else {
             try {
                 this.mCurrentDir = new URI(
-                        Util.PathToURI(this.mCurrentDir + "/" + directoryName))
+                        LibVLC.PathToURI(this.mCurrentDir + "/" + directoryName))
                         .normalize().getPath();
                 this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
 
@@ -395,7 +395,7 @@ public class DirectoryAdapter extends BaseAdapter {
     public String getMediaLocation(int position) {
         if (position >= mCurrentNode.children.size())
             return null;
-        return Util.PathToURI(
+        return LibVLC.PathToURI(
                 this.mCurrentDir + "/" + mCurrentNode.children.get(position).name
         );
     }
@@ -427,7 +427,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
     private String getParentDir(String path) {
         try {
-            path = new URI(Util.PathToURI(path + "/.."))
+            path = new URI(LibVLC.PathToURI(path + "/.."))
                     .normalize().getPath();
         } catch (URISyntaxException e) {
             e.printStackTrace();

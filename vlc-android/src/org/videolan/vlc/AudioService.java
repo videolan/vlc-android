@@ -33,6 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;

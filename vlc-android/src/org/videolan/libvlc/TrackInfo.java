@@ -1,7 +1,7 @@
 /*****************************************************************************
- * PhoneStateReceiver.java
+ * TrackInfo.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2010-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +18,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.libvlc;
 
-import org.videolan.libvlc.LibVLC;
+public class TrackInfo {
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.telephony.TelephonyManager;
+    public static final int TYPE_UNKNOWN = -1;
+    public static final int TYPE_AUDIO = 0;
+    public static final int TYPE_VIDEO = 1;
+    public static final int TYPE_TEXT = 2;
+    public static final int TYPE_META = 3;
 
-public class PhoneStateReceiver extends BroadcastReceiver {
+    public int Type;
+    public int Id;
+    public String Codec;
+    public String Language;
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+    /* Video */
+    public int Height;
+    public int Width;
+    public float Framerate;
 
-        if (state.equals(TelephonyManager.EXTRA_STATE_RINGING) ||
-                state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+    /* Audio */
+    public int Channels;
+    public int Samplerate;
 
-            LibVLC libVLC = LibVLC.getExistingInstance();
-            if (libVLC != null && libVLC.isPlaying())
-                libVLC.pause();
-        }
-    }
-
+    /* MetaData */
+    public long Length;
+    public String Title;
+    public String Artist;
+    public String Album;
+    public String Genre;
+    public String ArtworkURL;
 }

@@ -21,7 +21,7 @@
 /**
  * LibVlcException: exceptions thrown by the native LibVLC interface
  */
-package org.videolan.vlc;
+package org.videolan.libvlc;
 
 /**
  * @author jpeg

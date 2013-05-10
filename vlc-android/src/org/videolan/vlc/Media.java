@@ -22,6 +22,10 @@ package org.videolan.vlc;
 
 import java.util.HashSet;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.TrackInfo;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteFullException;
 import android.graphics.Bitmap;

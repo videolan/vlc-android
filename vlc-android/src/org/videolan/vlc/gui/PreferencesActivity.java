@@ -20,12 +20,12 @@
 
 package org.videolan.vlc.gui;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.LibVLC;
-import org.videolan.vlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 

@@ -26,8 +26,8 @@ import java.util.TimeZone;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.widget.ExpandableLayout;
 
