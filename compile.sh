@@ -37,16 +37,6 @@ esac
 export GCCVER
 export CXXSTL
 
-# XXX : important!
-cat << EOF
-For an ARMv6 device without FPU, you need a build without FPU:
-$ export NO_FPU=1
-For an ARMv5 device or the Android emulator, you need an ARMv5 build:
-$ export NO_ARMV6=1
-
-If you plan to use a release build, run 'compile.sh release'
-EOF
-
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
@@ -64,6 +54,16 @@ else
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 fi
+
+# XXX : important!
+[ "$HAVE_ARM" = 1 ] && cat << EOF
+For an ARMv6 device without FPU:
+$ export NO_FPU=1
+For an ARMv5 device:
+$ export NO_ARMV6=1
+
+If you plan to use a release build, run 'compile.sh release'
+EOF
 
 export TARGET_TUPLE
 export PATH_HOST
