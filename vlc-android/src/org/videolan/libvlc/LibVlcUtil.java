@@ -21,13 +21,13 @@
 package org.videolan.libvlc;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Properties;
-
-import org.videolan.vlc.Util;
-import org.videolan.vlc.VLCApplication;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import android.util.Log;
 
@@ -68,23 +68,13 @@ public class LibVlcUtil {
     public static boolean hasCompatibleCPU()
     {
         // If already checked return cached result
-        if(errorMsg != null) return isCompatible;
+        if(errorMsg != null || isCompatible) return isCompatible;
 
-        if(VLCApplication.getAppResources() == null) {
-            Log.e(TAG, "WARNING: Unable to get app resources; cannot check device ABI!");
+        ElfData elf = readLib("/data/data/org.videolan.vlc/lib/libvlcjni.so");
+        if(elf == null) {
+            Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
             Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
             return true;
-        }
-
-        Properties properties = new Properties();
-        try {
-            properties.load(new ByteArrayInputStream(Util.readAsset("env.txt", "").getBytes("UTF-8")));
-        } catch (IOException e) {
-            // Shouldn't happen if done correctly
-            e.printStackTrace();
-            errorMsg = "IOException whilst reading compile flags";
-            isCompatible = false;
-            return false;
         }
 
         String CPU_ABI = android.os.Build.CPU_ABI;
@@ -95,12 +85,11 @@ public class LibVlcUtil {
             } catch (Exception e) { }
         }
 
-        String ANDROID_ABI = properties.getProperty("ANDROID_ABI");
-        boolean NO_FPU = properties.getProperty("NO_FPU","0").equals("1");
-        boolean NO_ARMV6 = properties.getProperty("NO_ARMV6","0").equals("1");
+        Log.i(TAG, "machine = " + (elf.e_machine == EM_ARM ? "arm" : elf.e_machine == EM_386 ? "x86" : "mips"));
+        Log.i(TAG, "arch = " + elf.att_arch);
+        Log.i(TAG, "fpu = " + elf.att_fpu);
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
-                hasArmV7 = false, hasMips = false;
-        boolean hasX86 = false;
+                hasArmV7 = false, hasMips = false, hasX86 = false;
 
         if(CPU_ABI.equals("x86")) {
             hasX86 = true;
@@ -146,49 +135,245 @@ public class LibVlcUtil {
         }
 
         // Enforce proper architecture to prevent problems
-        if(ANDROID_ABI.equals("x86") && !hasX86) {
+        if(elf.e_machine == EM_386 && !hasX86) {
             errorMsg = "x86 build on non-x86 device";
             isCompatible = false;
             return false;
-        } else if(hasX86 && ANDROID_ABI.contains("armeabi")) {
+        } else if(elf.e_machine == EM_ARM && hasX86) {
             errorMsg = "ARM build on x86 device";
             isCompatible = false;
             return false;
         }
 
-        if(ANDROID_ABI.equals("mips") && !hasMips) {
+        if(elf.e_machine == EM_MIPS && !hasMips) {
             errorMsg = "MIPS build on non-MIPS device";
             isCompatible = false;
             return false;
-        } else if(hasMips && ANDROID_ABI.contains("armeabi")) {
+        } else if(elf.e_machine == EM_ARM && hasMips) {
             errorMsg = "ARM build on MIPS device";
             isCompatible = false;
             return false;
         }
 
-        if(ANDROID_ABI.equals("armeabi-v7a") && !hasArmV7) {
+        if(elf.e_machine == EM_ARM && elf.att_arch.startsWith("v7") && !hasArmV7) {
             errorMsg = "ARMv7 build on non-ARMv7 device";
             isCompatible = false;
             return false;
         }
-        if(ANDROID_ABI.equals("armeabi")) {
-            if(!NO_ARMV6 && !hasArmV6) {
+        if(elf.e_machine == EM_ARM) {
+            if(elf.att_arch.startsWith("v6") && !hasArmV6) {
                 errorMsg = "ARMv6 build on non-ARMv6 device";
                 isCompatible = false;
                 return false;
-            } else if(!NO_FPU && !hasFpu) {
+            } else if(elf.att_fpu && !hasFpu) {
                 errorMsg = "FPU-enabled build on non-FPU device";
                 isCompatible = false;
                 return false;
             }
         }
-        if(ANDROID_ABI.equals("armeabi") || ANDROID_ABI.equals("armeabi-v7a")) {
-            if(!hasNeon) {
-                errorMsg = "NEON build on non-NEON device";
-            }
-        }
         errorMsg = null;
         isCompatible = true;
         return true;
+    }
+
+
+    private static final int EM_386 = 3;
+    private static final int EM_MIPS = 8;
+    private static final int EM_ARM = 40;
+    private static final int ELF_HEADER_SIZE = 52;
+    private static final int SECTION_HEADER_SIZE = 40;
+    private static final int SHT_ARM_ATTRIBUTES = 0x70000003;
+    private static class ElfData {
+        ByteOrder order;
+        int e_machine;
+        int e_shoff;
+        int e_shnum;
+        int sh_offset;
+        int sh_size;
+        String att_arch;
+        boolean att_fpu;
+    }
+
+    /** '*' prefix means it's unsupported */
+    private static String[] CPU_archs = {"*Pre-v4", "*v4", "*v4T",
+                                         "v5T", "v5TE", "v5TEJ",
+                                         "v6", "v6KZ", "v6T2", "v6K", "v7",
+                                         "*v6-M", "*v6S-M", "*v7E-M", "*v8"};
+
+    private static ElfData readLib(String path) {
+        File file = new File(path);
+        if (!file.exists() || !file.canRead())
+            return null;
+
+        RandomAccessFile in = null;
+        try {
+            in = new RandomAccessFile(file, "r");
+
+            ElfData elf = new ElfData();
+            if (!readHeader(in, elf))
+                return null;
+
+            switch (elf.e_machine) {
+                case EM_386:
+                case EM_MIPS:
+                    return elf;
+                case EM_ARM:
+                    in.close();
+                    in = new RandomAccessFile(file, "r");
+                    if (!readSection(in, elf))
+                        return null;
+                    in.close();
+                    in = new RandomAccessFile(file, "r");
+                    if (!readArmAttributes(in, elf))
+                        return null;
+                    break;
+                default:
+                    return null;
+            }
+            return elf;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null)
+                    in.close();
+            } catch (IOException e) {
+            }
+        }
+        return null;
+    }
+
+    private static boolean readHeader(RandomAccessFile in, ElfData elf) throws IOException {
+        // http://www.sco.com/developers/gabi/1998-04-29/ch4.eheader.html
+        byte[] bytes = new byte[ELF_HEADER_SIZE];
+        in.readFully(bytes);
+        if (bytes[0] != 127 ||
+                bytes[1] != 'E' ||
+                bytes[2] != 'L' ||
+                bytes[3] != 'F' ||
+                bytes[4] != 1) { // ELFCLASS32, Only 32bit header is supported
+            return false;
+        }
+
+        elf.order = bytes[5] == 1
+                ? ByteOrder.LITTLE_ENDIAN // ELFDATA2LSB
+                : ByteOrder.BIG_ENDIAN;   // ELFDATA2MSB
+
+        // wrap bytes in a ByteBuffer to force endianess
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        buffer.order(elf.order);
+
+        elf.e_machine = buffer.getShort(18);    /* Architecture */
+        elf.e_shoff = buffer.getInt(32);        /* Section header table file offset */
+        elf.e_shnum = buffer.getShort(48);      /* Section header table entry count */
+        return true;
+    }
+
+    private static boolean readSection(RandomAccessFile in, ElfData elf) throws IOException {
+        byte[] bytes = new byte[SECTION_HEADER_SIZE];
+        in.seek(elf.e_shoff);
+
+        for (int i = 0; i < elf.e_shnum; ++i) {
+            in.readFully(bytes);
+
+            // wrap bytes in a ByteBuffer to force endianess
+            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            buffer.order(elf.order);
+
+            int sh_type = buffer.getInt(4); /* Section type */
+            if (sh_type != SHT_ARM_ATTRIBUTES)
+                continue;
+
+            elf.sh_offset = buffer.getInt(16);  /* Section file offset */
+            elf.sh_size = buffer.getInt(20);    /* Section size in bytes */
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean readArmAttributes(RandomAccessFile in, ElfData elf) throws IOException {
+        byte[] bytes = new byte[elf.sh_size];
+        in.seek(elf.sh_offset);
+        in.readFully(bytes);
+
+        // wrap bytes in a ByteBuffer to force endianess
+        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        buffer.order(elf.order);
+
+        //http://infocenter.arm.com/help/topic/com.arm.doc.ihi0044e/IHI0044E_aaelf.pdf
+        //http://infocenter.arm.com/help/topic/com.arm.doc.ihi0045d/IHI0045D_ABI_addenda.pdf
+        if (buffer.get() != 'A') // format-version
+            return false;
+
+        // sub-sections loop
+        while (buffer.remaining() > 0) {
+            int start_section = buffer.position();
+            int length = buffer.getInt();
+            String vendor = getString(buffer);
+            if (vendor.equals("aeabi")) {
+                // tags loop
+                while (buffer.position() < start_section + length) {
+                    int start = buffer.position();
+                    int tag = buffer.get();
+                    int size = buffer.getInt();
+                    // skip if not Tag_File, we don't care about others
+                    if (tag != 1) {
+                        buffer.position(start + size);
+                        continue;
+                    }
+
+                    // attributes loop
+                    while (buffer.position() < start + size) {
+                        tag = getUleb128(buffer);
+                        if (tag == 6) { // CPU_arch
+                            int arch = getUleb128(buffer);
+                            elf.att_arch = CPU_archs[arch];
+                        }
+                        else if (tag == 27) { // ABI_HardFP_use
+                            getUleb128(buffer);
+                            elf.att_fpu = true;
+                        }
+                        else {
+                            // string for 4=CPU_raw_name / 5=CPU_name / 32=compatibility
+                            // string for >32 && odd tags
+                            // uleb128 for other
+                            tag %= 128;
+                            if (tag == 4 || tag == 5 || tag == 32 || (tag > 32 && (tag & 1) != 0))
+                                getString(buffer);
+                            else
+                                getUleb128(buffer);
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        return true;
+    }
+
+    private static String getString(ByteBuffer buffer) {
+        StringBuilder sb = new StringBuilder(buffer.limit());
+        while (buffer.remaining() > 0) {
+            char c = (char) buffer.get();
+            if (c == 0)
+                break;
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    private static int getUleb128(ByteBuffer buffer) {
+        int ret = 0;
+        int c;
+        do {
+            ret <<= 7;
+            c = buffer.get();
+            ret |= c & 0x7f;
+        } while((c & 0x80) > 0);
+
+        return ret;
     }
 }
