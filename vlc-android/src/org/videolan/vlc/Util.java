@@ -70,9 +70,10 @@ public class Util {
         LibVLC instance = LibVLC.getExistingInstance();
         if (instance == null) {
             instance = LibVLC.getInstance();
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+            Context context = VLCApplication.getAppContext();
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             updateLibVlcSettings(pref);
-            instance.init();
+            instance.init(context);
         }
         return instance;
     }

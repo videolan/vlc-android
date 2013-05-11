@@ -105,7 +105,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (!LibVlcUtil.hasCompatibleCPU()) {
+        if (!LibVlcUtil.hasCompatibleCPU(this)) {
             Log.e(TAG, LibVlcUtil.getErrorMsg());
             Intent i = new Intent(this, CompatErrorActivity.class);
             startActivity(i);

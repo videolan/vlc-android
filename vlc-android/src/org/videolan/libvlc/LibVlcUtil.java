@@ -29,6 +29,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import android.content.Context;
 import android.util.Log;
 
 public class LibVlcUtil {
@@ -65,12 +66,12 @@ public class LibVlcUtil {
         return errorMsg;
     }
 
-    public static boolean hasCompatibleCPU()
+    public static boolean hasCompatibleCPU(Context context)
     {
         // If already checked return cached result
         if(errorMsg != null || isCompatible) return isCompatible;
 
-        ElfData elf = readLib("/data/data/org.videolan.vlc/lib/libvlcjni.so");
+        ElfData elf = readLib(context.getFilesDir().getParent() +"/lib/libvlcjni.so");
         if(elf == null) {
             Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
             Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");

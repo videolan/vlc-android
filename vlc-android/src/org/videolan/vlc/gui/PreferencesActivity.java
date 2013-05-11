@@ -206,7 +206,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("chroma_format")
                 || key.equalsIgnoreCase("enable_verbose_mode")) {
             Util.updateLibVlcSettings(sharedPreferences);
-            LibVLC.restart();
+            LibVLC.restart(this);
         }
     }
 

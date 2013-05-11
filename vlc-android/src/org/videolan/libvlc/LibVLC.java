@@ -23,6 +23,7 @@ package org.videolan.libvlc;
 import java.util.ArrayList;
 import java.util.Map;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 import android.view.Surface;
@@ -148,11 +149,11 @@ public class LibVLC {
      */
     public native void setSurface(Surface f);
 
-    public static synchronized void restart() {
+    public static synchronized void restart(Context context) {
         if (sInstance != null) {
             try {
                 sInstance.destroy();
-                sInstance.init();
+                sInstance.init(context);
             } catch (LibVlcException lve) {
                 Log.e(TAG, "Unable to reinit libvlc: " + lve);
             }
@@ -217,11 +218,11 @@ public class LibVLC {
     /**
      * Initialize the libVLC class
      */
-    public void init() throws LibVlcException {
+    public void init(Context context) throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
         mDebugLogBuffer = new StringBuffer();
         if (!mIsInitialized) {
-            if(!LibVlcUtil.hasCompatibleCPU()) {
+            if(!LibVlcUtil.hasCompatibleCPU(context)) {
                 Log.e(TAG, LibVlcUtil.getErrorMsg());
                 throw new LibVlcException();
             }
