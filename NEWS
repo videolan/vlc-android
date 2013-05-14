@@ -16,6 +16,9 @@ Main Application:
  * Fix some infinite thumbnail retries
  * Fix issues where a media would not start
 
+libVLC:
+ * split libVLC classes to their own package: org.videolan.libvlc
+
 Translations:
  * Update of Basque, Croatian
 
