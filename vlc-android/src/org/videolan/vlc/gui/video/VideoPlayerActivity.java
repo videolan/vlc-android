@@ -1431,6 +1431,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
             } catch (UnsupportedEncodingException e) {
+            } catch (IllegalArgumentException e) {
             }
             if (title.startsWith("file:")) {
                 title = new File(title).getName();
