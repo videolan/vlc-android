@@ -604,7 +604,7 @@ public class AudioService extends Service {
     private void next() {
         int index = mMediaList.indexOf(mCurrentMedia);
         mPrevious.push(mCurrentMedia);
-        if (mRepeating == RepeatType.Once)
+        if (mRepeating == RepeatType.Once && index < mMediaList.size())
             mCurrentMedia = mMediaList.get(index);
         else if (mShuffling && mPrevious.size() < mMediaList.size()) {
             while (mPrevious.contains(mCurrentMedia = mMediaList
