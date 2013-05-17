@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.gui.MainActivity;
@@ -49,6 +51,7 @@ public class MediaLibrary {
     private static MediaLibrary mInstance;
     private final ArrayList<Media> mItemList;
     private final ArrayList<Handler> mUpdateHandler;
+    private final ReadWriteLock mItemListLock;
     private boolean isStopping = false;
     private boolean mRestart = false;
     private Context mRestartContext;
@@ -58,6 +61,7 @@ public class MediaLibrary {
         mInstance = this;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
+        mItemListLock = new ReentrantReadWriteLock();
     }
 
     public void loadMediaItems(Context context, boolean restart) {
@@ -109,28 +113,33 @@ public class MediaLibrary {
 
     public ArrayList<Media> getVideoItems() {
         ArrayList<Media> videoItems = new ArrayList<Media>();
+        mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
             if (item != null && item.getType() == Media.TYPE_VIDEO) {
                 videoItems.add(item);
             }
         }
+        mItemListLock.readLock().unlock();
         return videoItems;
     }
 
     public ArrayList<Media> getAudioItems() {
         ArrayList<Media> audioItems = new ArrayList<Media>();
+        mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
             if (item.getType() == Media.TYPE_AUDIO) {
                 audioItems.add(item);
             }
         }
+        mItemListLock.readLock().unlock();
         return audioItems;
     }
 
     public ArrayList<Media> getAudioItems(String name, String name2, int mode) {
         ArrayList<Media> audioItems = new ArrayList<Media>();
+        mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
             if (item.getType() == Media.TYPE_AUDIO) {
@@ -154,6 +163,7 @@ public class MediaLibrary {
 
             }
         }
+        mItemListLock.readLock().unlock();
         return audioItems;
     }
 
@@ -162,12 +172,15 @@ public class MediaLibrary {
     }
 
     public Media getMediaItem(String location) {
+        mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
             Media item = mItemList.get(i);
             if (item.getLocation().equals(location)) {
+                mItemListLock.readLock().unlock();
                 return item;
             }
         }
+        mItemListLock.readLock().unlock();
         return null;
     }
 
@@ -217,7 +230,9 @@ public class MediaLibrary {
             HashSet<String> addedLocations = new HashSet<String>();
 
             // clear all old items
+            mItemListLock.writeLock().lock();
             mItemList.clear();
+            mItemListLock.writeLock().unlock();
 
             MediaItemFilter mediaFileFilter = new MediaItemFilter();
 
@@ -286,13 +301,17 @@ public class MediaLibrary {
                          * user select an subfolder as well
                          */
                         if (!addedLocations.contains(fileURI)) {
+                            mItemListLock.writeLock().lock();
                             // get existing media item from database
                             mItemList.add(existingMedias.get(fileURI));
+                            mItemListLock.writeLock().unlock();
                             addedLocations.add(fileURI);
                         }
                     } else {
+                        mItemListLock.writeLock().lock();
                         // create new media item
                         mItemList.add(new Media(fileURI, true));
+                        mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {
                         Log.d(TAG, "Stopping scan");
