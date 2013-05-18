@@ -9,7 +9,6 @@
     </style>
 
     <style name="Theme.VLC" parent="Theme.Sherlock">
-        <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowContentOverlay">@drawable/actionbar_shadow</item>
     </style>
