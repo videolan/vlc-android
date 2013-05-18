@@ -122,7 +122,6 @@
             android:id="@+id/player_control"
             android:layout_width="fill_parent"
             android:layout_height="40dip"
-            android:layout_below="@+id/player_overlay_seekbar"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp" />
@@ -132,7 +131,6 @@
             android:layout_width="40dip"
             android:layout_height="40dip"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/player_overlay_seekbar"
             android:background="@drawable/ic_size" />
     </RelativeLayout>
 
