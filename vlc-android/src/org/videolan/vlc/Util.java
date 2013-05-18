@@ -69,6 +69,8 @@ public class Util {
     public static LibVLC getLibVlcInstance() throws LibVlcException {
         LibVLC instance = LibVLC.getExistingInstance();
         if (instance == null) {
+            Thread.setDefaultUncaughtExceptionHandler(new VlcCrashHandler());
+
             instance = LibVLC.getInstance();
             Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
