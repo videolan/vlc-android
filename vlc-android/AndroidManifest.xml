@@ -388,7 +388,7 @@
         <service android:name=".AudioService" />
 
         <receiver
-            android:name="PhoneStateReceiver">
+            android:name=".PhoneStateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -405,7 +405,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/vlcwidget" />
         </receiver>
-        <receiver android:name="RemoteControlClientReceiver">
+        <receiver android:name=".RemoteControlClientReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
