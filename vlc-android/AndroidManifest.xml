@@ -354,6 +354,7 @@
                 <data android:pathPattern=".*\\.MP2" />
                 <data android:pathPattern=".*\\.MP3" />
                 <data android:pathPattern=".*\\.MPC" />
+                <data android:pathPattern=".*\\.MPGA" />
                 <data android:pathPattern=".*\\.OGA" />
                 <data android:pathPattern=".*\\.OGG" />
                 <data android:pathPattern=".*\\.OMA" />
