@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Util.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -415,5 +415,12 @@ public class Util {
      */
     public static String formatRateString(float rate) {
         return String.format(java.util.Locale.US, "%.2fx", rate);
+    }
+
+    /**
+     * equals() with two strings where either could be null
+     */
+    public static boolean nullEquals(String s1, String s2) {
+        return (s1 == null ? s2 == null : s1.equals(s2));
     }
 }

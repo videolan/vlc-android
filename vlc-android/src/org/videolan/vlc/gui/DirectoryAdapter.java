@@ -58,6 +58,8 @@ public class DirectoryAdapter extends BaseAdapter {
         public ArrayList<DirectoryAdapter.Node> children;
         /**
          * Name of the file/folder (not full path).
+         *
+         * null on the root node (root selection folder).
          */
         String name;
         String visibleName;
@@ -100,14 +102,14 @@ public class DirectoryAdapter extends BaseAdapter {
 
         public Boolean existsChild(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(n.name.equals(_n)) return true;
+                if(Util.nullEquals(n.name, _n)) return true;
             }
             return false;
         }
 
         public DirectoryAdapter.Node ensureExists(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(n.name.equals(_n)) return n;
+                if(Util.nullEquals(n.name, _n)) return n;
             }
             DirectoryAdapter.Node nn = new Node(_n);
             this.children.add(nn);
