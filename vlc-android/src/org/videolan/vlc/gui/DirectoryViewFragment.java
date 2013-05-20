@@ -162,7 +162,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     }
 
     public void showParentDirectory() {
-            mDirectoryAdapter.browse("..");
+        mDirectoryAdapter.browse("..");
     };
 
     private void openMediaFile(int p) {

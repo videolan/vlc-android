@@ -100,14 +100,14 @@ public class DirectoryAdapter extends BaseAdapter {
 
         public Boolean existsChild(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(n.name == _n) return true;
+                if(n.name.equals(_n)) return true;
             }
             return false;
         }
 
         public DirectoryAdapter.Node ensureExists(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(n.name == _n) return n;
+                if(n.name.equals(_n)) return n;
             }
             DirectoryAdapter.Node nn = new Node(_n);
             this.children.add(nn);
@@ -117,7 +117,7 @@ public class DirectoryAdapter extends BaseAdapter {
         public int subfolderCount() {
             int c = 0;
             for(DirectoryAdapter.Node n : this.children) {
-                if(n.isFile() == false && n.name != "..") c++;
+                if(n.isFile() == false && !n.name.equals("..")) c++;
             }
             return c;
         }
@@ -303,7 +303,7 @@ public class DirectoryAdapter extends BaseAdapter {
         } else
             holder.title.setText(selectedNode.getVisibleName());
 
-        if(selectedNode.name == "..")
+        if(selectedNode.name.equals(".."))
             holderText = context.getString(R.string.parent_folder);
         else if(!selectedNode.isFile()) {
             int folderCount = selectedNode.subfolderCount();
@@ -344,8 +344,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 storage = Util.stripTrailingSlash(storage);
                 if (storage.endsWith(directoryName)) {
                     this.mCurrentRoot = storage;
-                    this.mCurrentDir = storage;
-                    this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
+                    this.mCurrentDir = Util.stripTrailingSlash(storage);
                     break;
                 }
             }
@@ -357,7 +356,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
 
                 if (this.mCurrentDir.equals(getParentDir(this.mCurrentRoot))) {
-                    // Returning on the storage list
+                    // Returning to the storage list
                     this.mCurrentDir = null;
                     this.mCurrentRoot = null;
                 }
