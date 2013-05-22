@@ -22,6 +22,7 @@ package org.videolan.vlc;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Stack;
 
 import org.videolan.libvlc.EventHandler;
@@ -60,6 +62,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -70,6 +73,7 @@ import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class AudioService extends Service {
 
@@ -820,6 +824,10 @@ public class AudioService extends Service {
                     String path = mediaPathList.get(i);
                     Media media = db.getMedia(AudioService.this, path);
                     if(media == null) {
+                        if (!validatePath(path)) {
+                            showToast(getResources().getString(R.string.invalid_location, path), Toast.LENGTH_SHORT);
+                            continue;
+                        }
                         Log.v(TAG, "Creating on-the-fly Media object for " + path);
                         media = new Media(path, false);
                     }
@@ -896,6 +904,10 @@ public class AudioService extends Service {
                 String path = mediaPathList.get(i);
                 Media media = db.getMedia(AudioService.this, path);
                 if(media == null) {
+                    if (!validatePath(path)) {
+                        showToast(getResources().getString(R.string.invalid_location, path), Toast.LENGTH_SHORT);
+                        continue;
+                    }
                     Log.v(TAG, "Creating on-the-fly Media object for " + path);
                     media = new Media(path, false);
                 }
@@ -1104,4 +1116,37 @@ public class AudioService extends Service {
             e.printStackTrace();
         }
     }
+
+    private boolean validatePath(String path)
+    {
+        /* Check if the MRL contains a scheme */
+        if (!path.matches("\\w+://.+"))
+            path = "file://".concat(path);
+        if (path.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
+            /* Ensure the file exists */
+            File f = new File(path);
+            if (!f.isFile())
+                return false;
+        }
+        return true;
+    }
+
+    private void showToast(String text, int duration) {
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putString("text", text);
+        bundle.putInt("duration", duration);
+        msg.setData(bundle);
+        toastHandler.sendMessage(msg);
+    }
+
+    private static Handler toastHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            final Bundle bundle = msg.getData();
+            final String text = bundle.getString("text");
+            final int duration = bundle.getInt("duration");
+            Toast.makeText(VLCApplication.getAppContext(), text, duration).show();
+        }
+    };
 }
