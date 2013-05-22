@@ -433,7 +433,7 @@ public class AudioService extends Service {
                     service.updateWidgetPosition(service, pos);
                     break;
                 case EventHandler.MediaPlayerEncounteredError:
-                    showToast(VLCApplication.getAppContext().getString(R.string.invalid_location,
+                    service.showToast(VLCApplication.getAppContext().getString(R.string.invalid_location,
                             service.mCurrentMedia.getLocation()), Toast.LENGTH_SHORT);
                     service.executeUpdate();
                     service.next();
@@ -1139,7 +1139,7 @@ public class AudioService extends Service {
         return true;
     }
 
-    private static void showToast(String text, int duration) {
+    private void showToast(String text, int duration) {
         Message msg = new Message();
         Bundle bundle = new Bundle();
         bundle.putString("text", text);
@@ -1148,7 +1148,7 @@ public class AudioService extends Service {
         toastHandler.sendMessage(msg);
     }
 
-    private static Handler toastHandler = new Handler() {
+    private WeakHandler<AudioService> toastHandler = new WeakHandler<AudioService>(this) {
         @Override
         public void handleMessage(Message msg) {
             final Bundle bundle = msg.getData();
