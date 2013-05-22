@@ -422,17 +422,24 @@ static void debug_log(void *data, int level, const libvlc_log_t *ctx, const char
     if (level >= LIBVLC_DEBUG && level <= LIBVLC_ERROR)
         prio = priority[level];
 
+    /* Quit if we are not doing anything */
+    if(!buffer_logging && (!(*verbose) && prio < ANDROID_LOG_ERROR))
+        return;
+
+    /* Add emitting module & type */
+    char* fmt2 = NULL;
+    if(asprintf(&fmt2, "%s %s: %s", ctx->psz_module, ctx->psz_object_type, fmt) < 0)
+        return;
+
     if (buffer_logging) {
         va_list aq;
         va_copy(aq, ap);
-        debug_buffer_log(data, level, fmt, aq);
+        debug_buffer_log(data, level, fmt2, aq);
         va_end(aq);
     }
 
-    if (!*verbose && prio < ANDROID_LOG_ERROR)
-        return;
-
-    __android_log_vprint(prio, "VLC", fmt, ap);
+    __android_log_vprint(prio, "VLC", fmt2, ap);
+    free(fmt2);
 }
 
 void Java_org_videolan_libvlc_LibVLC_startDebugBuffer(JNIEnv *env, jobject thiz)
