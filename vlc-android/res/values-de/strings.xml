@@ -127,6 +127,9 @@
     <string name="error_not_compatible">VLC für Android™ unterstützt dieses Gerät leider derzeit nicht.\n\nDie Fehlermeldung lautet (bitte für das Debuggen angeben):\n</string>
     <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
     <string name="error_message_is">Die Fehlermeldung ist (beachten Sie dies bitte bei der Fehlersuche):\n</string>
+    <string name="encountered_error_title">Wiedergabe-Fehler</string>
+    <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\n\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
+    <string name="invalid_location">Pfad %1$s kann nicht abgespielt werden</string>
 
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
@@ -172,6 +175,12 @@
     <string name="clear_media_db">Medienbibliothek leeren</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
     <string name="subtitles_text_encoding">Text-Kodierung</string>
+    <string name="debug_logs">Fehlerprotokolle</string>
+    <string name="start_logging">Starte Protokollierung</string>
+    <string name="stop_logging">Stoppe Protokollierung</string>
+    <string name="clear_log">Protokollierung löschen</string>
+    <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
+    <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="advanced_debugging">Erweitertes Debuggen</string>
     <string name="aout">Audioausgabe</string>
