@@ -80,6 +80,7 @@ public class AudioService extends Service {
     private static final String TAG = "VLC/AudioService";
 
     private static final int SHOW_PROGRESS = 0;
+    private static final int SHOW_TOAST = 1;
     public static final String START_FROM_NOTIFICATION = "from_notification";
     public static final String ACTION_REMOTE_GENERIC = "org.videolan.vlc.remote.";
     public static final String ACTION_REMOTE_BACKWARD = "org.videolan.vlc.remote.Backward";
@@ -494,6 +495,12 @@ public class AudioService extends Service {
                         service.executeUpdate(false);
                         sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
                     }
+                    break;
+                case SHOW_TOAST:
+                    final Bundle bundle = msg.getData();
+                    final String text = bundle.getString("text");
+                    final int duration = bundle.getInt("duration");
+                    Toast.makeText(VLCApplication.getAppContext(), text, duration).show();
                     break;
             }
         }
@@ -1145,16 +1152,7 @@ public class AudioService extends Service {
         bundle.putString("text", text);
         bundle.putInt("duration", duration);
         msg.setData(bundle);
-        toastHandler.sendMessage(msg);
+        msg.what = SHOW_TOAST;
+        mHandler.sendMessage(msg);
     }
-
-    private WeakHandler<AudioService> toastHandler = new WeakHandler<AudioService>(this) {
-        @Override
-        public void handleMessage(Message msg) {
-            final Bundle bundle = msg.getData();
-            final String text = bundle.getString("text");
-            final int duration = bundle.getInt("duration");
-            Toast.makeText(VLCApplication.getAppContext(), text, duration).show();
-        }
-    };
 }
