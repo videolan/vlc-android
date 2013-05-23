@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/artist"
+                android:text=""
                 android:textColor="#888888"
                 android:textSize="14sp" />
 
@@ -49,7 +49,7 @@
                 android:layout_gravity="center"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/title"
+                android:text="@string/widget_name"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
@@ -104,7 +104,8 @@
     <LinearLayout
         android:id="@+id/timeline_parent"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:visibility="invisible" >
 
         <ProgressBar
             android:id="@+id/timeline"

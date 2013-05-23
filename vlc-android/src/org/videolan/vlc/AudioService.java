@@ -90,6 +90,7 @@ public class AudioService extends Service {
     public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
     public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
+    public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
@@ -160,6 +161,7 @@ public class AudioService extends Service {
         filter.addAction(ACTION_REMOTE_STOP);
         filter.addAction(ACTION_REMOTE_FORWARD);
         filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
+        filter.addAction(ACTION_WIDGET_INIT);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
@@ -330,6 +332,8 @@ public class AudioService extends Service {
                 next();
             } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
                 loadLastPlaylist();
+            } else if (action.equalsIgnoreCase(ACTION_WIDGET_INIT)) {
+                updateWidget(context);
             }
 
             /*
@@ -577,6 +581,7 @@ public class AudioService extends Service {
                 notification = builder.build();
             }
 
+            startService(new Intent(this, AudioService.class));
             startForeground(3, notification);
         }
         catch (NoSuchMethodError e){
@@ -588,6 +593,7 @@ public class AudioService extends Service {
 
     private void hideNotification() {
         stopForeground(true);
+        stopSelf();
     }
 
     private void pause() {
@@ -1021,7 +1027,7 @@ public class AudioService extends Service {
             i.putExtra("artist", mCurrentMedia.getArtist());
         }
         else {
-            i.putExtra("title", "VLC mini player");
+            i.putExtra("title", context.getString(R.string.widget_name));
             i.putExtra("artist", "");
         }
         i.putExtra("isplaying", mLibVLC.isPlaying());

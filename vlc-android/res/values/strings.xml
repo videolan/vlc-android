@@ -3,6 +3,7 @@
 
     <!-- Main VLC Interface -->
     <string name="app_name" translatable="false">VLC</string>
+    <string name="widget_name" translatable="false">VLC mini player</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="other">Other</string>

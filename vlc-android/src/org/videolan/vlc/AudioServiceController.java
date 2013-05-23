@@ -79,7 +79,6 @@ public class AudioServiceController implements IAudioPlayerControl {
 
         if (!mIsBound) {
             Intent service = new Intent(context, AudioService.class);
-            context.startService(service);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             final boolean enableHS = prefs.getBoolean("enable_headset_detection", true);
