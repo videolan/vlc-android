@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main VLC Interface -->
+    <string name="ok">Iawn</string>
+    <string name="cancel">Diddymu</string>
+    <string name="other">Arall</string>
+    <string name="filebrowser_title">Dewis cyfrwng i\'w chwarae</string>
+    <string name="sortby">Trefnu yn ôl…</string>
+    <string name="sortby_name">Enw</string>
+    <string name="sortby_length">Hyd</string>
+    <string name="searchable_hint">Chwilio…</string>
+    <string name="history">Hanes</string>
+
+    <plurals name="search_found_results_quantity">
+        <item quantity="one">Canfuwyd %d canlyniad</item>
+        <item quantity="two">Canfuwyd %d canlyniad</item>
+        <item quantity="many">Canfuwyd %d canlyniad</item>
+        <item quantity="other">Canfuwyd %d canlyniad</item>
+    </plurals>
+
+    <string name="play">Chwarae</string>
+    <string name="play_from_start">Chwarae o\'r dechrau</string>
+    <string name="play_as_audio">Chwarae fel sain</string>
+    <string name="play_as_video">Chwarae fel fideo</string>
+    <string name="append">Atodi</string>
+    <string name="play_all">Chwarae\'r cyfan</string>
+    <string name="append_all">Atodi\'r cyfan</string>
+    <string name="last_playlist">Rhestr chwarae diwethaf</string>
+    <string name="delete">Dileu</string>
+    <string name="set_song">Gosod fel sain canu</string>
+    <string name="info">Gwybodaeth</string>
+    <string name="confirm_delete">Dileu\'r ffeil \'%1$s\' ?</string>
+    <string name="ringtone_set">Gosodwyd \'%1$s\' fel y sain canu.</string>
+    <string name="ringtone_error">Bu gwall wrth gosod y sain canu.</string>
+    <string name="pause">Oedi</string>
+    <string name="not_show_again">Peidio dangos y neges hon eto.</string>
+    <string name="beta_warning">Fersiwn beta yw hon.\n\nDyw\'r fersiwn hon DDIM YN SEFYDLOG!\n\nPaid â\'i ddefnyddio ond dy fod yn gwybod beth wyt ti\'n gwneud.\n\nGall lladd dy gath fach a dinistrio dy dŷ, felly dy ddewis di yw mentro i\'w ddefnyddio.\n\nPob hwyl! :)</string>
+    <string name="info_title">VLC Beta</string>
+    <string name="unknown_artist">Artist Anhysbys</string>
+    <string name="unknown_album">lbwm Anhysbys</string>
+    <string name="unknown_genre">Genre diarth</string>
+    <string name="songs">Caneuon</string>
+
+    <plurals name="songs_quantity">
+        <item quantity="one">1 cân</item>
+        <item quantity="two">%d cân</item>
+        <item quantity="many">%d cân</item>
+        <item quantity="other">%d cân</item>
+    </plurals>
+
+    <string name="artists">Artistiaid</string>
+    <string name="albums">Albymau</string>
+
+    <plurals name="albums_quantity">
+        <item quantity="one">1 albwm</item>
+        <item quantity="two">%d albwm</item>
+        <item quantity="many">%d albwm</item>
+        <item quantity="other">%d albwm</item>
+    </plurals>
+    <plurals name="subfolders_quantity">
+        <item quantity="one">%d is-ffolder</item>
+        <item quantity="two">%d is-ffolder</item>
+        <item quantity="many">%d is-ffolder</item>
+        <item quantity="other">%d is-ffolder</item>
+    </plurals>
+    <plurals name="mediafiles_quantity">
+        <item quantity="one">%d ffeil cyfryngau</item>
+        <item quantity="two">%d ffeil cyfryngau</item>
+        <item quantity="many">%d ffeil cyfryngau</item>
+        <item quantity="other">%d ffeil cyfryngau</item>
+    </plurals>
+
+    <string name="internal_memory">Cof mewnol</string>
+    <string name="parent_folder">I fyny i\'r ffolder rhiant</string>
+    <string name="audio">Sain</string>
+    <string name="video">Fideo</string>
+    <string name="bookmarks">Nod lleoliad</string>
+    <string name="all_albums">Pob albwm</string>
+    <string name="genres">Genres</string>
+    <string name="playlists">Rhestrau chwarae</string>
+    <string name="title">Teitl</string>
+    <string name="artist">Artist</string>
+    <string name="album">Albwm</string>
+    <string name="directory">Cyfeiriadur</string>
+    <string name="directories">Cyfeiriaduron</string>
+    <string name="loading">Yn llwytho</string>
+    <string name="please_wait">Arhoswch…</string>
+    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwydda ffeiliau i dy ddyfais neu addasa dy ddewisiadau.</string>
+    <string name="mediafiles">Ffeiliau cyfryngau</string>
+    <string name="notavailable">ddim ar gael</string>
+    <string name="nosubdirectory">Dim is-ffolderi.</string>
+    <string name="nohistory">Nid oes gennyt hanes chwarae eto.</string>
+    <string name="validation">Wyt yn sicr?</string>
+    <string name="cover_art">Dyluniad clawr</string>
+    <string name="shuffle">Cymysgu</string>
+    <string name="repeat">Ail-chwarae dim/sengl/cyfan</string>
+    <string name="previous">Blaenorol</string>
+    <string name="stop">Stopio</string>
+    <string name="next">Nesaf</string>
+    <string name="locked">Ar glo</string>
+    <string name="unlocked">Ddim ar glo</string>
+    <string name="surface_best_fit">Ffit orau</string>
+    <string name="surface_fit_horizontal">Ffit llorweddol</string>
+    <string name="surface_fit_vertical">Ffit fertigol</string>
+    <string name="surface_fill">Llenwi</string>
+    <string name="surface_original">Canol</string>
+    <string name="thumbnail">Braslun bawd</string>
+    <string name="unseekable_stream">Ffrwd heb bosib dewis man chwarae</string>
+    <string name="refresh">Ail-lwytho</string>
+    <string name="track_audio">Trac sain</string>
+    <string name="track_video">Trac fideo</string>
+    <string name="track_text">Trac isdeitlau</string>
+    <string name="track_unknown">Trac anhysbys</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Iaith: %1$s\n</string>
+    <string name="volume">Uchder sain</string>
+    <string name="brightness">Disgleirdeb</string>
+
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">%1$d sianel</item>
+        <item quantity="two">%1$d sianel\n</item>
+        <item quantity="many">%1$d sianel</item>
+        <item quantity="other">%1$d sianel</item>
+    </plurals>
+
+    <string name="track_samplerate_info">Cyfradd sampl: %1$d Hz\n</string>
+    <string name="track_resolution_info">Cydraniad: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Cyfradd fframiau: %1$.3f\n</string>
+    <string name="tools">Offer</string>
+    <string name="playback_speed">Cyflymder chwarae</string>
+    <string name="sleep_title">Amserydd cwsg</string>
+    <string name="sleep_cancel">Diddymu\'r amserydd cwsg</string>
+    <string name="jump_to_time">Neidio i Amser</string>
+    <string name="open">Agor</string>
+    <string name="open_mrl">Agor MRL</string>
+    <string name="open_mrl_dialog_title">Ffrwd rhwydwaith agored</string>
+    <string name="open_mrl_dialog_msg">Rhowch MRL y cyfrwng: e.e. http://, mms:// neu rtsp://</string>
+    <string name="error_not_compatible">Nid yw\'r fersiwn hon o VLC ar gyfer Android™ yn gweithio ar eich dyfais chi ar hyn o\'r bryd.</string>
+    <string name="error_problem">Cafodd VLC ar gyfer Android broblem wrth lwytho a bu\'n rhaid iddo gau.</string>
+    <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):\n</string>
+    <string name="encountered_error_title">Gwall chwarae</string>
+    <string name="encountered_error_message">Bu gwall gan VLC gyda\'r cyfrwng hwn.\nRho gynnig ar ail-lwythwo\'r llyfrgell cyfryngau.</string>
+    <string name="invalid_location">Ni ellir chwarae\'r lleoliad %1$s</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC i Android™</string>
+    <string name="licence">Trwydded</string>
+    <string name="revision">Adolygiad</string>
+    <string name="about">Ynghylch</string>
+    <string name="about_text">Porth o chwaraewr VLC, y chwaraewr cyfryngau cod agored poblogaidd, yw VLC ar gyfer Android™. Gall y fersiwn Android™ ddarllen y rhan fwyaf o ffeiliau a ffrydiau rhwydwaith.</string>
+    <string name="compiled_by">Cafodd y fersiwn hon o VLC ei grynhoi gan:</string>
+    <string name="vlc_authors">Awduron VLC.</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Dewisiadau</string>
+    <string name="library_prefs_category">Llyfrgell cyfryngau</string>
+    <string name="directories_summary">Dewisa lleoliadau i\'w gynnwys yn y llyfrgell cyfryngau</string>
+    <string name="add_custom_path">Ychwanegu llwybr addasedig</string>
+    <string name="add_custom_path_description">Rho lleoliad addasedig ychwanegol i\'w sganio:</string>
+    <string name="remove_custom_path">Tynnu llwybr addasedig</string>
+    <string name="main_prefs_category">Prif</string>
+    <string name="screen_orientation">Gorweddiad sgrin fideo</string>
+    <string name="screen_orientation_sensor">Awtomatig (synhwyrydd)</string>
+    <string name="screen_orientation_start_lock">Ar glo wrth ddechrau</string>
+    <string name="screen_orientation_portrait">Darlun</string>
+    <string name="screen_orientation_landscape">Tirlun</string>
+    <string name="screen_orientation_reverse_portrait">Darlun gwrthwyneb</string>
+    <string name="screen_orientation_reverse_landscape">Tirlun gwrthwyneb</string>
+    <string name="enable_brightness_gesture">Galluogi disgleirdeb ystum (gesture)</string>
+    <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan ystum (gesture) wrth chwarae fideo</string>
+    <string name="enable_headset_detection">Canfod clustffonau</string>
+    <string name="enable_headset_detection_summary">Oedi wrth tynnu clustffonau; chwarae wrth gysylltu clustffonau</string>
+    <string name="enable_wheel_bar">Galluogi\'r bar olwyn</string>
+    <string name="enable_wheel_bar_summary">Bar man chwarae amgen ar gyfer y rhyngwyneb fideo </string>
+    <string name="enable_steal_remote_control">Rheolaeth clustffonau diwifr unigryw</string>
+    <string name="enable_steal_remote_control_summary">Osgo gwrthdrawiadau gan dwyn y rheolaeth ddiwifr oddi wrth aps eraill. Mae hyn yn rhwystro deialu ar ffonau clic-dwbl HTC.</string>
+    <string name="performance_prefs_category">Perfformiad</string>
+    <string name="chroma_format">Gorfodi lliw fideo</string>
+    <string name="chroma_format_summary">RGB 32-did: lliw rhagosedig\nRGB 16-did: gwell perfformiad ond ansawdd salach\nYUV: perfformiad gorau ond ddim yn gweithio ar bob dyfais. Android 2.3 a\'n uwch yn unig.\n</string>
+    <string name="enable_iomx">Dad-godiad cyflymu gan y caledwedd</string>
+    <string name="enable_iomx_summary">Mae\'n gwella\'r perfformiad, ond mae\'n bosib nad yw\'n gweithio gyda phob dyfais.</string>
+    <string name="enable_time_stretching_audio">Ymestyn amser sain</string>
+    <string name="enable_time_stretching_audio_summary">Cyflymu ac arafu sain heb newid y traw (pitch) (mae angen dyfais cyflym).</string>
+    <string name="other_prefs_category">Arall</string>
+    <string name="clear_history">Clirio\'r hanes chwilio</string>
+    <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
+    <string name="media_db_cleared">Cliriwyd y gronfa ddata cyrfryngau!</string>
+    <string name="subtitles_text_encoding">Amgodiad testun isdeitlau</string>
+    <string name="debug_logs">Logiau dadfygio</string>
+    <string name="start_logging">Dechrau logio</string>
+    <string name="stop_logging">Stopio logio</string>
+    <string name="clear_log">Clirio\'r log</string>
+    <string name="copy_to_clipboard">Copïo i\'r clipfwrdd</string>
+    <string name="copied_to_clipboard">Wedi\'i gopïo i\'r clipfwrdd.</string>
+    <string name="advanced_prefs_category">Uwch</string>
+    <string name="advanced_debugging">Dadfygio uwch</string>
+    <string name="aout">Allbwn sain</string>
+    <string name="aout_summary">Newid y dull mae VLC yn defnyddio i allbynnu sain.</string>
+    <string name="aout_audiotrack">TracSain (brodorol)</string>
+    <string name="aout_audiotrack_java">TracSain (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_verbose_mode">Amleiriog</string>
+    <string name="enable_verbose_mode_summary">Cynyddu\'r geiriogrwydd (logcat)</string>
+    <string name="set_locale">Gosod rhanbarth</string>
+    <string name="set_locale_detail">Gadael yn wag i\'w ailosod</string>
+    <string name="set_locale_popup">Ailddechreua VLC i\'r newidiadau dod yn effeithiol.</string>
+    <string name="quit">Gadael y rhaglen</string>
+</resources>
