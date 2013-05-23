@@ -3,7 +3,7 @@
     package="org.videolan.vlc"
     android:installLocation="auto"
     android:versionCode="1100"
-    android:versionName="0.1.1-git" >
+    android:versionName="0.1.1" >
 
     <uses-sdk
         android:minSdkVersion="7"

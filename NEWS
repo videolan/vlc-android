@@ -1,6 +1,12 @@
-Changes between 0.1.0 and 0.1.1-git:
----------------------------------
+Changes between 0.1.0 and 0.1.1:
+--------------------------------
 
+* Fix numerous crashes and error paths
+
+
+Translations:
+ * Updates to German, Italian and Galician Translations
+ * New Welsh translation
 
 
 Changes between 0.0.11 and 0.1.0:
