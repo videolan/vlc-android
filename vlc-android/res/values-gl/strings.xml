@@ -96,6 +96,7 @@
     <string name="surface_fill">Encher</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Miniatura</string>
+    <string name="unseekable_stream">O fluxo non é compatíbel coa busca</string>
     <string name="refresh">Actualizar</string>
     <string name="track_audio">Pista de audio</string>
     <string name="track_video">Pista de vídeo</string>
@@ -126,6 +127,9 @@
     <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.</string>
     <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
     <string name="error_message_is">A mensaxe de erro é (por favor, menciónea para a depuración):\n</string>
+    <string name="encountered_error_title">Erro de reprodución</string>
+    <string name="encountered_error_message">O VLC encontrou un erro con este medio.\nProbe a actualizar a biblioteca multimedia.</string>
+    <string name="invalid_location">Non é posíbel reproducir a localización </string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
@@ -138,29 +142,12 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
-    <string name="main_prefs_category">Principal</string>
+    <string name="library_prefs_category">Biblioteca multimedia</string>
+    <string name="directories_summary">Seleccione os directorios para incluír na biblioteca multimedia</string>
     <string name="add_custom_path">Engadir un camiño persoal</string>
     <string name="add_custom_path_description">Introduza un directorio persoal adicional para escanear:</string>
     <string name="remove_custom_path">Eliminar o camiño persoal</string>
-    <string name="privacy_prefs_category">Privacidade</string>
-    <string name="clear_history">Limpar o historial de busca</string>
-    <string name="advanced_prefs_category">Avanzadas</string>
-    <string name="enable_iomx">Activar a descodificación acelerada por hardware</string>
-    <string name="advanced_debugging">Depuración avanzada</string>
-    <string name="quit">Saír do aplicativo</string>
-    <string name="clear_media_db">Limpar a base de datos de medios</string>
-    <string name="media_db_cleared">Limpouse a base de datos de medios!</string>
-    <string name="set_locale">Definir a configuración rexional</string>
-    <string name="set_locale_detail">Déixeo en branco para restauralo</string>
-    <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
-    <string name="chroma_format">Forzar a crominancia</string>
-    <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
-    <string name="enable_headset_detection">Detectar os auriculares</string>
-    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
-    <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
-    <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
-    <string name="enable_wheel_bar">Activar a barra de roda</string>
-    <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
+    <string name="main_prefs_category">Principal</string>
     <string name="screen_orientation">Orientación da pantalla</string>
     <string name="screen_orientation_sensor">Automática (sensor)</string>
     <string name="screen_orientation_start_lock">Bloqueada no inicio</string>
@@ -168,14 +155,43 @@
     <string name="screen_orientation_landscape">Horizontal</string>
     <string name="screen_orientation_reverse_portrait">Vertical invertida</string>
     <string name="screen_orientation_reverse_landscape">Horizontal invertida</string>
-    <string name="subtitles_prefs_category">Subtítulos</string>
+    <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
+    <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
+    <string name="enable_headset_detection">Detectar os auriculares</string>
+    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
+    <string name="enable_wheel_bar">Activar a barra de roda</string>
+    <string name="enable_wheel_bar_summary">Estilo alternativo para a barra de busca da interface de vídeo</string>
+    <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
+    <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
+    <string name="performance_prefs_category">Rendemento</string>
+    <string name="chroma_format">Forzar a crominancia</string>
+    <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
+    <string name="enable_iomx">Activar a descodificación acelerada por hardware</string>
+    <string name="enable_iomx_summary">Mellora o rendemento, mais pode non funcionar con todos os dispositivos.</string>
+    <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
+    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+    <string name="other_prefs_category">Outros</string>
+    <string name="clear_history">Limpar o historial de busca</string>
+    <string name="clear_media_db">Limpar a base de datos de medios</string>
+    <string name="media_db_cleared">Limpouse a base de datos de medios!</string>
     <string name="subtitles_text_encoding">Codificación do texto</string>
+    <string name="debug_logs">Rexistros de depuración</string>
+    <string name="start_logging">Comezar o rexistro</string>
+    <string name="stop_logging">Deter o rexistro</string>
+    <string name="clear_log">Limpar o ficheiro de rexistro</string>
+    <string name="copy_to_clipboard">Copiar para o portapapeis</string>
+    <string name="copied_to_clipboard">O rexistro foi copiado no portapapeis.</string>
+    <string name="advanced_prefs_category">Avanzadas</string>
+    <string name="advanced_debugging">Depuración avanzada</string>
     <string name="aout">Saída de audio</string>
+    <string name="aout_summary">Mudar o método que usa o VLC para a saída de audio.</string>
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
-    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
     <string name="enable_verbose_mode">Detallado</string>
     <string name="enable_verbose_mode_summary">Incrementar o nivel de detalle (logcat)</string>
+    <string name="set_locale">Definir a configuración rexional</string>
+    <string name="set_locale_detail">Déixeo en branco para restauralo</string>
+    <string name="set_locale_popup">Saia e reinicie o VCL para que os cambios sexan efectivos.</string>
+    <string name="quit">Saír do aplicativo</string>
 </resources>
