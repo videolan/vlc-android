@@ -127,6 +127,9 @@
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.\n\nIl messaggio di errore è (da citare in caso di debug):\n</string>
     <string name="error_problem">Spiacenti, VLC per Android ha riscontrato un problema in fase di caricamento ed è stato chiuso.</string>
     <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
+    <string name="encountered_error_title">Errore di riproduzione</string>
+    <string name="encountered_error_message">VLC ha riscontrato un errore con questo media. Prova ad aggiornare la raccolta mulltimediale</string>
+    <string name="invalid_location">La posizione %1$s non può essere riprodotta</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
@@ -157,6 +160,7 @@
     <string name="enable_headset_detection">Rileva le cuffie</string>
     <string name="enable_headset_detection_summary">Pausa alla rimozione delle cuffie; riprendi all\'inserimento</string>
     <string name="enable_wheel_bar">Wheel bar</string>
+    <string name="enable_wheel_bar_summary">Stile alternativo della barra di posizionamento dell\'interfaccia video</string>
     <string name="enable_steal_remote_control">Controllo esclusivo delle cuffie</string>
     <string name="enable_steal_remote_control_summary">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
     <string name="performance_prefs_category">Prestazioni</string>
@@ -171,6 +175,12 @@
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="subtitles_text_encoding">Codifica del testo</string>
+    <string name="debug_logs">Log di debug</string>
+    <string name="start_logging">Avvia la scrittura del log</string>
+    <string name="stop_logging">Ferma la scrittura del log</string>
+    <string name="clear_log">Cancella il log</string>
+    <string name="copy_to_clipboard">Copia negli appunti</string>
+    <string name="copied_to_clipboard">Log copiato negli appunti.</string>
     <string name="advanced_prefs_category">Avanzate</string>
     <string name="advanced_debugging">Debug avanzato</string>
     <string name="aout">Uscita audio</string>
