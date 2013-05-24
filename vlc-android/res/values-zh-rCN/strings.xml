@@ -121,6 +121,9 @@
     <string name="error_not_compatible">抱歉，该版本的 VLC for Android™ 尚不支持您的设备。</string>
     <string name="error_problem">抱歉，VLC for Android 加载失败，需要关闭。</string>
     <string name="error_message_is">错误消息为 (协助排查问题时请提供该内容):\n</string>
+    <string name="encountered_error_title">回放错误</string>
+    <string name="encountered_error_message">VLC 播放该媒体时遇到问题。\n请尝试刷新媒体库。</string>
+    <string name="invalid_location">指定位置 %1$s 无法播放</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -166,6 +169,12 @@
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="subtitles_text_encoding">字幕文本编码</string>
+    <string name="debug_logs">调试日志</string>
+    <string name="start_logging">开始记录日志</string>
+    <string name="stop_logging">停止记录日志</string>
+    <string name="clear_log">清除日志</string>
+    <string name="copy_to_clipboard">复制到剪贴板</string>
+    <string name="copied_to_clipboard">日志内容已复制到剪贴板。</string>
     <string name="advanced_prefs_category">高级</string>
     <string name="advanced_debugging">高级调试</string>
     <string name="aout">音频输出</string>
