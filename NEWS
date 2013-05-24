@@ -1,6 +1,13 @@
+Changes between 0.1.1 and 0.1.2-git:
+--------------------------------
+
+
+
+
 Changes between 0.1.0 and 0.1.1:
 --------------------------------
 
+Core:
 * Fix numerous crashes and error paths
 
 
