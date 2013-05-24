@@ -133,6 +133,9 @@
     <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
     <string name="error_problem">К сожалению, VLC для Android не смог загрузиться и его пришлось закрыть.</string>
     <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n</string>
+    <string name="encountered_error_title">Ошибка воспроизведения</string>
+    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопытайтесь обновить медиатеку.</string>
+    <string name="invalid_location">Воспроизвести %1$s нельзя</string>
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
@@ -178,6 +181,12 @@
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
     <string name="subtitles_text_encoding">Кодировка текста</string>
+    <string name="debug_logs">Отладочные сообщения</string>
+    <string name="start_logging">Начать протоколирование</string>
+    <string name="stop_logging">Закончить протоколирование</string>
+    <string name="clear_log">Очистить протокол</string>
+    <string name="copy_to_clipboard">Скопировать в буфер обмена</string>
+    <string name="copied_to_clipboard">Протокол скопирован в буфер обмена.</string>
     <string name="advanced_prefs_category">Расширенные</string>
     <string name="advanced_debugging">Расширенная отладка</string>
     <string name="aout">Вывод звука</string>
