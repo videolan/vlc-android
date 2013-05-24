@@ -937,7 +937,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         // Set Brightness
         getWindow().setAttributes(lp);
-        showInfo(getString(R.string.brightness) + Math.round(lp.screenBrightness*15),1000);
+        showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness*15),1000);
     }
 
     /**
