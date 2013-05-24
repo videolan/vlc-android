@@ -434,8 +434,10 @@ public class AudioService extends Service {
                     service.updateWidgetPosition(service, pos);
                     break;
                 case EventHandler.MediaPlayerEncounteredError:
-                    service.showToast(VLCApplication.getAppContext().getString(R.string.invalid_location,
-                            service.mCurrentMedia.getLocation()), Toast.LENGTH_SHORT);
+                    if (service.mCurrentMedia != null) {
+                        service.showToast(service.getString(R.string.invalid_location,
+                                service.mCurrentMedia.getLocation()), Toast.LENGTH_SHORT);
+                    }
                     service.executeUpdate();
                     service.next();
                     if (service.mWakeLock.isHeld())
