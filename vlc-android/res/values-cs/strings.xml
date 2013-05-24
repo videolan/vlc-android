@@ -133,6 +133,9 @@
     <string name="error_not_compatible">Bohužel Vaše zařízení není v současné době podporované touto verzí VLC pro Android™.</string>
     <string name="error_problem">Lituji, ale VLC pro Android mělo problém s načtením a muselo se ukončit.</string>
     <string name="error_message_is">Chybová zpráva je (prosím oznamte při ladění):\n</string>
+    <string name="encountered_error_title">Chyba přehrávání</string>
+    <string name="encountered_error_message">VLC s tímto médiem narazilo na chybu.\nZkuste prosím obnovit knihovnu médií.</string>
+    <string name="invalid_location">Nelze přehrát umístění %1$s</string>
 
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
@@ -178,6 +181,12 @@
     <string name="clear_media_db">Vyčistit databázi médií</string>
     <string name="media_db_cleared">Databáze médií vyčištěna</string>
     <string name="subtitles_text_encoding">Kódování textu titulků</string>
+    <string name="debug_logs">Ladící záznamy</string>
+    <string name="start_logging">Zahájit záznam</string>
+    <string name="stop_logging">Zastavit záznam</string>
+    <string name="clear_log">Vyčistit záznam</string>
+    <string name="copy_to_clipboard">Kopírovat do schránky</string>
+    <string name="copied_to_clipboard">Záznam zkopírován do schránky.</string>
     <string name="advanced_prefs_category">Pokročilé</string>
     <string name="advanced_debugging">Pokročilé ladění</string>
     <string name="aout">Zvukový výstup</string>
