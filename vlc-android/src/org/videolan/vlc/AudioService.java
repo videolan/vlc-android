@@ -859,6 +859,7 @@ public class AudioService extends Service {
                     Media media = db.getMedia(AudioService.this, location);
                     if(media == null) {
                         if(!validateLocation(location)) {
+                            Log.w(TAG, "Invalid location " + location);
                             showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                             continue;
                         }
