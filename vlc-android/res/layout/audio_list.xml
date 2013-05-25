@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:text="@string/songs"
         android:textColor="#ffffff"
-        android:textSize="16dip" />
+        android:textSize="16sp" />
 
     <View
         android:layout_width="fill_parent"
@@ -33,6 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nomedia"
-        android:textSize="20dip" />
+        android:textSize="20sp" />
 
 </LinearLayout>

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/nomedia"
-            android:textSize="20dip"
+            android:textSize="20sp"
             android:visibility="visible" />
 
         <LinearLayout
@@ -40,7 +40,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="@string/loading"
-                android:textSize="20dip" />
+                android:textSize="20sp" />
 
             <ViewFlipper
                 android:layout_width="wrap_content"
@@ -55,28 +55,28 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/empty"
-                    android:textSize="20dip" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_1_period"
-                    android:textSize="20dip" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_2_period"
-                    android:textSize="20dip" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/load_3_period"
-                    android:textSize="20dip" />
+                    android:textSize="20sp" />
             </ViewFlipper>
         </LinearLayout>
     </LinearLayout>

@@ -25,7 +25,7 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/error_not_compatible"
             android:textColor="#FF0000"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/errormsg"
@@ -35,7 +35,7 @@
             android:layout_marginTop="26dp"
             android:text="@string/error_message_is"
             android:textColor="#FF0000"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </ScrollView>

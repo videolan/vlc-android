@@ -36,7 +36,7 @@
             android:onClick="onTimeLabelClick"
             android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:textSize="18dip" />
+            android:textSize="18sp" />
 
         <SeekBar
             android:id="@+id/timeline"
@@ -56,7 +56,7 @@
             android:layout_gravity="right|center_vertical"
             android:text="@string/time_0"
             android:textColor="#ffffff"
-            android:textSize="18dip" />
+            android:textSize="18sp" />
     </FrameLayout>
 
     <LinearLayout
@@ -93,7 +93,7 @@
                 android:singleLine="true"
                 android:text="@string/title"
                 android:textColor="#ffffff"
-                android:textSize="20dip" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/artist"
@@ -109,7 +109,7 @@
                 android:singleLine="true"
                 android:text="@string/artist"
                 android:textColor="#888888"
-                android:textSize="18dip" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/album"
@@ -124,7 +124,7 @@
                 android:singleLine="true"
                 android:text="@string/album"
                 android:textColor="#888888"
-                android:textSize="18dip" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout

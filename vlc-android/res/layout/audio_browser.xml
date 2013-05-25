@@ -19,34 +19,34 @@
             android:orientation="horizontal">
             <TextView
                 android:text="@string/artists"
-                android:textSize="16dip"
+                android:textSize="16sp"
                 android:textColor="#ffffff"
                 android:id="@+id/artists"
-                android:layout_width="80dip"
+                android:layout_width="80sp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
             <TextView
                 android:text="@string/albums"
-                android:textSize="16dip"
+                android:textSize="16sp"
                 android:textColor="#888888"
                 android:id="@+id/albums"
-                android:layout_width="80dip"
+                android:layout_width="80sp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
             <TextView
                 android:text="@string/songs"
-                android:textSize="16dip"
+                android:textSize="16sp"
                 android:textColor="#888888"
                 android:id="@+id/songs"
-                android:layout_width="80dip"
+                android:layout_width="80sp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
             <TextView
                 android:text="@string/genres"
-                android:textSize="16dip"
+                android:textSize="16sp"
                 android:textColor="#888888"
                 android:id="@+id/genres"
-                android:layout_width="80dip"
+                android:layout_width="80sp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal" />
         </LinearLayout>
