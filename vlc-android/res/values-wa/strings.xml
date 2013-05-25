@@ -1,19 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">Dji n\' sai drovi l\' cwåte SD. Si vs plait clitchîz si elle est montêye comifåt.</string>
-    <string name="filebrowser_root">Raecene</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">Tchoezi l\' media a djouwer</string>
-    <string name="ml_no_media_dir">Nou ridant d\' media</string>
     <string name="sortby">Relére sol</string>
     <string name="sortby_name">No</string>
     <string name="sortby_length">Longueu</string>
     <string name="searchable_hint">Cweri...</string>
     <string name="history">Istwere</string>
-    <string name="search_found_results">%1$d rizultats trovés</string>
-    <string name="show_player">Mostrer l\' djouweu</string>
-    <string name="hide_mini_player">Catchî l\' mini djouweu</string>
     <string name="play">Djouwer</string>
     <string name="play_as_audio">Djouwer come odio</string>
     <string name="play_as_video">Djouwer come videyo</string>
@@ -24,7 +17,6 @@
     <string name="info">Informåcion</string>
     <string name="confirm_delete">Disfacer ci fitchî?</string>
     <string name="pause">Djoker</string>
-    <string name="close">Clôre</string>
     <string name="not_show_again">Ni pus måy mostrer ci messaedje ci.</string>
     <string name="beta_warning">Çouci est ene modêye beta.\n\nCisse modêye n\' est NÉN STOCAESSE!\n\nÈn nén eployî, såf si vs savoz bén çou k\' vos fIjhoz.\n\nI  pôrè moudri vosse marcou, distrûre vosse måjhon et cmincî l\' apocalipe mayin.\nA eployî a vosse risse.\n\nÅyoz bråmint do plaijhi! :)</string>
     <string name="info_title">VLC Beta</string>
@@ -87,23 +79,19 @@
     <string name="open_mrl">Drovi MRL</string>
     <string name="open_mrl_dialog_title">Drovi l\' floû rantoele</string>
     <string name="open_mrl_dialog_msg">Dinez l\' no del rantoele MRL: e.g. http://, mms:// or rtsp://</string>
-    <string name="media_library">Livreye media</string>
     <string name="error_not_compatible">Mande escuze, mins  voste éndjole n\' est nén sopoirté pol moumint pa cisse modêye di VLC po Android™.\n\nLi messaedje d\' aroke est (si vs plait dijhoz çoula cwand vos disbuguez):\n</string>
 
     <!--About-->
     <string name="app_name_full">VLC po Android™</string>
-    <string name="version">Modêye</string>
     <string name="licence">Licince</string>
     <string name="revision">Rivizion</string>
     <string name="about">Åd fwait</string>
     <string name="about_text">VLC po Android™ est on pôrt do djouweu d\' media VLC, li djouweu d\' media libe et spårdou. Li modêye Android™ pout lére li plupårt des fitchîs et des floûs rantoele.</string>
-    <string name="for_android">po Android™</string>
     <string name="compiled_by">Ci modêye di VLC est copilêye pa:</string>
 
     <!--Preferences-->
     <string name="preferences">Preferinces</string>
     <string name="main_prefs_category">Mwaisse</string>
-    <string name="privacy_prefs_category">Privaceye</string>
     <string name="clear_history">Netyî l\' istorike di cweraedje</string>
     <string name="advanced_prefs_category">Sipepieus</string>
     <string name="advanced_debugging">Sipepieus disbugaedje</string>

@@ -139,7 +139,6 @@
     <string name="add_custom_path">הוספת נתיב מותאם אישית</string>
     <string name="add_custom_path_description">נא להזין תיקיית מותאמת אישית נוספת לסריקה:</string>
     <string name="remove_custom_path">הסרת נתיב מותאם אישית</string>
-    <string name="privacy_prefs_category">פרטיות</string>
     <string name="clear_history">מחיקת היסטוריית החיפוש</string>
     <string name="advanced_prefs_category">מתקדם</string>
     <string name="enable_iomx">הפעלת קידוד בהאצת חומרה</string>
@@ -164,7 +163,6 @@
     <string name="screen_orientation_landscape">לאורך</string>
     <string name="screen_orientation_reverse_portrait">לרוחב הפוך</string>
     <string name="screen_orientation_reverse_landscape">לאורך הפוך</string>
-    <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_text_encoding">קידוד טקסט</string>
     <string name="aout">פלט שמע</string>
     <string name="aout_audiotrack">AudioTrack (ילידי)</string>

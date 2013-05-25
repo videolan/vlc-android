@@ -2,17 +2,12 @@
 <resources>
 
     <!-- Main VLC Interface -->
-    <string name="filebrowser_sdfail">غير قادر على فتح بطاقة الذاكره الخارجيه.يرجى فحصه انه ملصوق بشكل صحيح</string>
-    <string name="filebrowser_root">الجذر</string>
     <string name="filebrowser_title">إختر الوسائط للتشغيل</string>
-    <string name="ml_no_media_dir">لايوجود دليل للوسائط</string>
     <string name="sortby">الترتيب بواسطة…</string>
     <string name="sortby_name">الإسم</string>
     <string name="sortby_length">الطول</string>
     <string name="searchable_hint">البحث…</string>
     <string name="history">المحفوظات</string>
-    <string name="show_player">إظهار المشغل</string>
-    <string name="hide_mini_player">إخفاء مصغر للمشغل</string>
     <string name="play">تشغيل</string>
     <string name="play_as_audio">تشغيل كأصوت</string>
     <string name="play_as_video">تشغيل كأفيديو</string>
@@ -23,7 +18,6 @@
     <string name="info">المعلومات</string>
     <string name="confirm_delete">حذف هذا الملف؟</string>
     <string name="pause">إيقاف</string>
-    <string name="close">إغلاق</string>
     <string name="not_show_again">"لاتظهر هذه الرساله مرة اخرى"</string>
     <string name="beta_warning">هذه نسخة بيتا\n\nهذه النسخه غير مستقره\n\nلاتستخدم,الا اذا كنت تعرف ماتقوم به\n\nفقد تقتل قطتك,تدمر منزلك وبداية نهاية العالم \nتستخدمها على مسؤليتك الخاصه\n\nممتع :)</string>
     <string name="info_title">VLC التجريبي</string>
@@ -87,23 +81,19 @@
     <string name="open_mrl">MRL فتح</string>
     <string name="open_mrl_dialog_title">فتح تدفق الشبكه</string>
     <string name="open_mrl_dialog_msg">MRL ادخل شبكة: e.g. http://, mms:// or rtsp://</string>
-    <string name="media_library">مكتبة الوسائط</string>
     <string name="error_not_compatible">اندرويد VLC المعذره,هذا الجهاز الحالي غير مدعوم بواسطة نسخة\n\nرسالة خطأ يرجى ذكر ذلك عند التصحيح:\n</string>
 
     <!-- About -->
     <string name="app_name_full">اندرويدVLC</string>
-    <string name="version">النسخه</string>
     <string name="licence">الرخصه</string>
     <string name="revision">مراجعه</string>
     <string name="about">حول</string>
     <string name="about_text">شعبيته كبيره ومشغل وسائط مفتوح المصدر,نسخة اندرويد تستطيع قراءة معظم الملفات وتدفقات الشبكه,VLC من اندرويد هو مدخل من مشغل الوسائط VLC</string>
-    <string name="for_android">من اندرويد</string>
     <string name="compiled_by">مجمعه بواسطة VLC هذه النسخه من:</string>
 
     <!-- Preferences -->
     <string name="preferences">التفضيلات</string>
     <string name="main_prefs_category">الرئيسيه</string>
-    <string name="privacy_prefs_category">الخصوصيه</string>
     <string name="clear_history">مسح محفوظات البحث</string>
     <string name="advanced_prefs_category">متقدم</string>
     <string name="enable_iomx">تمكين فك ترميز الاجهزه المتسارعه</string>

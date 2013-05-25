@@ -137,7 +137,6 @@
     <!-- Preferences -->
     <string name="preferences">ଅଗ୍ରାଧିକାରସମୂହ</string>
     <string name="main_prefs_category">ମୁଖ୍ୟ</string>
-    <string name="privacy_prefs_category">ଗୋପନୀୟତା</string>
     <string name="clear_history">ଖୋଜିବା ଇତିହାସକୁ ଖାଲି କରନ୍ତୁ</string>
     <string name="advanced_prefs_category">ଉନ୍ନତ</string>
     <string name="enable_iomx">ହାର୍ଡଓ୍ୱେୟାର ତ୍ବରିତ ଡିକୋଡିଂ ସକ୍ଷମ କରନ୍ତୁ</string>
@@ -157,7 +156,6 @@
     <string name="screen_orientation_sensor">ସ୍ବୟଂଚାଳିତ (ସମ୍ବେଦକ)</string>
     <string name="screen_orientation_start_lock">ଆରମ୍ଭରେ ଅବରୋଧିତ କରନ୍ତୁ</string>
     <string name="screen_orientation_portrait">ପ୍ରତିକୃତି</string>
-    <string name="subtitles_prefs_category">ଉପଟାଇଟେଲ୍‌ ଗୁଡିକ</string>
     <string name="subtitles_text_encoding">ପାଠ ଏନକୋଡିଂ</string>
     <string name="aout">ଅଡ଼ିଓ ଆଉଟପୁଟ୍</string>
     <string name="aout_audiotrack">AudioTrack (ମୂଳ)</string>

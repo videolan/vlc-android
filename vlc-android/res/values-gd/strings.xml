@@ -154,7 +154,6 @@
     <string name="add_custom_path">Cuir slighe ghnàthaichte ris</string>
     <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
     <string name="remove_custom_path">Thoir an t-slighe ghnàthaichte air falbh</string>
-    <string name="privacy_prefs_category">Prìobhaideachd</string>
     <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
     <string name="advanced_prefs_category">Adhartach</string>
     <string name="enable_iomx">Cuir an comas dì-chòdachadh \"hardware accelerated\"</string>
@@ -180,7 +179,6 @@
     <string name="screen_orientation_landscape">Dreach-tìre</string>
     <string name="screen_orientation_reverse_portrait">Portraid bun os cionn</string>
     <string name="screen_orientation_reverse_landscape">Dreach-tìre bun os cionn</string>
-    <string name="subtitles_prefs_category">Fo-thiotalan</string>
     <string name="subtitles_text_encoding">Còdachadh an teacsa</string>
     <string name="aout">Às-chur fuaime</string>
     <string name="aout_audiotrack">AudioTrack (tùsail)</string>

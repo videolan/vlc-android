@@ -1,10 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">SD কার্ড খুলতে অক্ষম। দয়া করে পরীক্ষা এইটি সঠিকভাবে মাউন্ট করা হয়।</string>
-    <string name="filebrowser_root">মূল</string>
     <string name="filebrowser_title"> মিডিয়া চালাতে নির্বাচন করুন</string>
-    <string name="ml_no_media_dir">কোনও মিডিয়া ডিরেক্টরী না</string>
     <string name="sortby">সাজান…</string>
     <string name="sortby_name">নাম</string>
     <string name="sortby_length">দৈর্ঘ্য</string>
@@ -14,8 +11,6 @@
         <item quantity="one">%d ফলাফল খুঁজে পেয়েছিল</item>
         <item quantity="other">%d ফলাফলগলি খুঁজে পেয়েছিল</item>
     </plurals>
-    <string name="show_player">প্লেয়ার দেখান</string>
-    <string name="hide_mini_player">মিনি প্লেয়ার লুকান</string>
     <string name="play">চালান</string>
     <string name="play_as_audio">অডিও হিসাবে খেলুন</string>
     <string name="play_as_video">ভিডিও হিসাবে খেলুন</string>
@@ -27,7 +22,6 @@
     <string name="info">তথ্য</string>
     <string name="confirm_delete">ফাইল \'%1$s\' মুছে ফেলুন?</string>
     <string name="pause">বিরতি</string>
-    <string name="close">বন্ধ করা</string>
     <string name="not_show_again">এই বার্তাটি কি পুনরায় দেখায় না।</string>
     <string name="beta_warning">এইটি একটি বেটা সংস্করণ। এই সংস্করণটি না স্থির! না কি ব্যবহার করে, যদি না আপনি জানে যার আপনি করছে। এইটি আপনার kitten হত্যা করতে পারে, আপনার বাড়ি ধ্বংস করুন এবং mayan apocalypse শুরু করুন। আপনার নিজের ঝুঁকিতে এইটি ব্যবহার করুন। আনন্দ করুন!:)</string>
     <string name="info_title">VLC বেটা</string>
@@ -68,7 +62,6 @@
     <string name="notavailable">উপলব্ধ নয়</string>
     <string name="nosubdirectory">কোনও সাবডিরেক্টরি না।</string>
     <string name="validation">আপনি কি নিশ্চিত?</string>
-    <string name="lock_rotation">আবর্তন পর্দা লক করুন</string>
     <string name="locked">লক</string>
     <string name="unlocked">উদ্ঘাটিত</string>
     <string name="surface_best_fit">সর্বোত্তম খাপ খায়</string>
@@ -95,7 +88,6 @@
     <string name="open_mrl">MRL খুলুন</string>
     <string name="open_mrl_dialog_title">ওপেন সোর্স নেটওয়ার্ক প্রবাহ</string>
     <string name="open_mrl_dialog_msg">নেটওযারক MRL লিখন: যেমন এখানে http://, mms:// বা  rtsp://</string>
-    <string name="media_library">মিডিয়া লাইব্রেরি</string>
     <string name="error_not_compatible">দুঃখিত, আপনার ডিভাইস Android™এর জন্য VLCএর এই সংস্করণটির দ্বারা বর্তমানে সমর্থন করা হয় না।</string>
     <string name="error_problem">দুঃখিত, Android এর জন্য VLC একটি সমস্যা লোড হয় এবং বন্ধ ছিল.</string>
     <string name="error_message_is">ত্রুটি বার্তাটি (দয়া করে এই যখন ডিবাগিং উল্লেখ):</string>
@@ -103,19 +95,16 @@
 
     <!--About-->
     <string name="app_name_full">Android এর জন্য VLC ™</string>
-    <string name="version">সংস্করণ</string>
     <string name="licence">লাইসেন্স</string>
     <string name="revision">সংস্করণ</string>
     <string name="about">সম্পর্কে</string>
     <string name="about_text">অ্যানড্রইড ™ জন্য VLC হয় VLC মিডিয়া প্লেয়ার, জনপ্রিয় ওপেন সোর্স মিডিয়া প্লেয়ার একটি বন্দর. অ্যানড্রইড ™ সংস্করণে সর্বাধিক ফাইল এবং নেটওয়ার্ক স্ট্রিম পড়তে পারেন.</string>
-    <string name="for_android">Android এর জন্য ™</string>
     <string name="compiled_by">VLC \'র এই সংস্করণ দ্বারা কম্পাইল করা হয়:</string>
     <string name="vlc_authors">VLC লেখক।</string>
 
     <!--Preferences-->
     <string name="preferences">পছন্দ</string>
     <string name="main_prefs_category">প্রধান</string>
-    <string name="privacy_prefs_category">গোপনীয়তা</string>
     <string name="clear_history">অনুসন্ধানের ইতিহাস সাফ করুন</string>
     <string name="advanced_prefs_category">নিশুতি</string>
     <string name="enable_iomx">হার্ডওয়্যার দ্বারা চালিত ডিকোডিং সক্ষম করুন</string>

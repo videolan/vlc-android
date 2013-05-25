@@ -1,19 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">SD कार्ड उघडू शकत नाही. ते योग्यरीत्या बसले आहे याची खात्री करा.</string>
-    <string name="filebrowser_root">रूट</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">प्ले करण्यासाठी मेडिया निवडा</string>
-    <string name="ml_no_media_dir">मेडिया डिरेक्टरी नाही</string>
     <string name="sortby">क्रमित करा...</string>
     <string name="sortby_name">नाव</string>
     <string name="sortby_length">लांबी</string>
     <string name="searchable_hint">शोध</string>
     <string name="history">इतिहास</string>
-    <string name="search_found_results">%1$d निकाल मिळाले</string>
-    <string name="show_player">प्लेयर दाखवा</string>
-    <string name="hide_mini_player">मिनी-प्लेयर लपवा</string>
     <string name="play">प्ले करा</string>
     <string name="play_as_audio">संगीत स्वरुपात प्ले करा\n</string>
     <string name="play_as_video">चित्रफित स्वरुपात प्ले करा\n\n</string>
@@ -24,7 +17,6 @@
     <string name="info">माहिती</string>
     <string name="confirm_delete">हि फाईल काढून टाकू?</string>
     <string name="pause">पौझ</string>
-    <string name="close">बंद करा</string>
     <string name="not_show_again">हा संदेश पुन्हा दाखवू नका.</string>
     <string name="beta_warning">हि बीटा आवृत्ती आहे.\n\nहि आवृत्ती स्थिर नाही!\n\nतुम्हाला माहित असेपर्यंत वापर करू नका.\nतुमचे किटेन नष्ट होऊ शकते, destroy your house and start the mayan apocalypse.\nतुमच्या जबाबदारीवर वापर करा.\n\nमजा करा! :)</string>
     <string name="info_title">VLC बीटा</string>
@@ -87,23 +79,19 @@
     <string name="open_mrl">MRL उघडा</string>
     <string name="open_mrl_dialog_title">नेटवर्क स्ट्रीम उघडा</string>
     <string name="open_mrl_dialog_msg">नेटवर्क MRL: उदा. http://, mms:// किंवा rtsp://</string>
-    <string name="media_library">मेडिया ग्रंथालय</string>
     <string name="error_not_compatible">माफ करा , तुमचे साधन VLC च्या Android™ च्या या आवृत्तीसोबत कार्यरत होवू शकत नाही.\n\nत्रुटी संदेश  (please mention this when debugging):\n</string>
 
     <!--About-->
     <string name="app_name_full">Android™ साठी VLC</string>
-    <string name="version">आवृत्ती</string>
     <string name="licence">परवाना</string>
     <string name="revision">पुनरावृत्ती</string>
     <string name="about">VLC विषयी</string>
     <string name="about_text">Android™ साठी VLC हि VLC मेडिया प्लेयर या लोकप्रिय आणि उघड स्त्रोत मेडिया प्लेयर ची आवृत्ती आहे. हि Android™ आवृत्ती जवळपास सर्व फाईल्स आणि नेटवर्क स्ट्रीम वाचू शकते .</string>
-    <string name="for_android">Android™ साठी</string>
     <string name="compiled_by">हि VLC आवृत्ती यांनी संकलित केली:</string>
 
     <!--Preferences-->
     <string name="preferences">पसंती</string>
     <string name="main_prefs_category">मुख्य</string>
-    <string name="privacy_prefs_category">गोपनीयता</string>
     <string name="clear_history">शोध इतिहास नष्ट करा</string>
     <string name="advanced_prefs_category">प्रगत</string>
     <string name="enable_iomx">हार्डवेअर अक्सलरेटेड डिकोडिंग सुरु करा</string>

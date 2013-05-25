@@ -137,7 +137,6 @@
     <string name="add_custom_path">Özel klasör ekle</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
-    <string name="privacy_prefs_category">Gizlilik</string>
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="advanced_prefs_category">Gelişmiş</string>
     <string name="enable_iomx">Donanımsal kod çözme</string>
@@ -163,7 +162,6 @@
     <string name="screen_orientation_landscape">Yatay</string>
     <string name="screen_orientation_reverse_portrait">Ters dikey</string>
     <string name="screen_orientation_reverse_landscape">Ters yatay</string>
-    <string name="subtitles_prefs_category">Altyazılar</string>
     <string name="subtitles_text_encoding">Metin kodlaması</string>
     <string name="aout">Ses çıkışı</string>
     <string name="aout_audiotrack">AudioTrack (doğal)</string>

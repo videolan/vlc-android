@@ -133,7 +133,6 @@
     <string name="add_custom_path">사용자 지정 경로 추가</string>
     <string name="add_custom_path_description">검색할 추가 사용자 지정 디렉토리 추가:</string>
     <string name="remove_custom_path">사용자 지정 경로 제거</string>
-    <string name="privacy_prefs_category">사생활</string>
     <string name="clear_history">검색 기록 지우기</string>
     <string name="advanced_prefs_category">고급</string>
     <string name="enable_iomx">하드웨어 가속 디코딩 사용</string>
@@ -144,8 +143,6 @@
     <string name="set_locale">언어 설정</string>
     <string name="set_locale_detail">재설정 하려면 비워두세요</string>
     <string name="set_locale_popup">변경을 적용하기 위해 VLC 종료하고 재설정하세요.</string>
-    <string name="enable_yv12_format">YV12 형식 강제</string>
-    <string name="enable_yv12_format_detail">활성화하지 마세요!!! 모든 장치에서 동작하지는 않음. 2.3 및 이후 만 동작.</string>
     <string name="enable_headset_detection">헤드셋 감지</string>
     <string name="enable_headset_detection_summary">헤드셋 제거되면 일시중지; 헤드셋 삽입되면 되시작</string>
     <string name="enable_steal_remote_control">헤드셋 원격 제어 독점</string>
@@ -159,7 +156,6 @@
     <string name="screen_orientation_landscape">가로방향</string>
     <string name="screen_orientation_reverse_portrait">역 세로방향</string>
     <string name="screen_orientation_reverse_landscape">역 가로방향</string>
-    <string name="subtitles_prefs_category">자막</string>
     <string name="subtitles_text_encoding">텍스트 인코딩</string>
     <string name="aout">오디오 출력</string>
     <string name="aout_audiotrack">AudioTrack (기본)</string>

@@ -1,19 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <!--Main VLC Interface-->
-    <string name="filebrowser_sdfail">SD కార్డును తెరవలేకపోతుంది. దయచేసి అది సరిగా అనుసంధానించబడిందో లేదో సరిచూడండి.</string>
-    <string name="filebrowser_root">మూలం</string>
-    <string name="filebrowser_parent">..</string>
     <string name="filebrowser_title">ప్రదర్శించుటకు మాధ్యమాన్ని ఎంచుకోండి</string>
-    <string name="ml_no_media_dir">ఎటువంటి మాధ్యమ సంచయము లేదు</string>
     <string name="sortby">క్రమబద్ధీకరణ...</string>
     <string name="sortby_name">పేరు</string>
     <string name="sortby_length">పొడవు</string>
     <string name="searchable_hint">శోధించు...</string>
     <string name="history">చరిత్ర</string>
-    <string name="search_found_results">%1$d ఫలితాలు కనబడ్డాయి</string>
-    <string name="show_player">ప్రదర్శకాన్ని చూపించు</string>
-    <string name="hide_mini_player">చిన్ని-ప్రదర్శకాన్ని దాయి</string>
     <string name="play">ప్రదర్శించు</string>
     <string name="append">జోడించు</string>
     <string name="play_all">అన్నీ ప్రదర్శించు</string>
@@ -22,7 +15,6 @@
     <string name="info">సమాచారం</string>
     <string name="confirm_delete">ఈ దస్త్రాన్ని తొలగించాలా?</string>
     <string name="pause">నిలిపివేయి</string>
-    <string name="close">మూసివేయి</string>
     <string name="not_show_again">ఈ సందేశాన్ని మరలా చూపించవద్దు.</string>
     <string name="beta_warning">ఇది బీటా సంస్కరణ.\n\nఈ సంస్కరణ స్థిరమైనది కాదు.\n\nదీని గురించి మీకు సరిగా తెలియకపోతే, దయచేసి వాడవద్దు.\n\nఇది మీ వ్యవస్థను నాశనం చెయ్యవచ్చు.\nదీనిని మీ స్వంత రిస్కుతో వాడండి.\n\nపండగ చేసుకోండి! :)</string>
     <string name="info_title">వియల్సీ బీటా</string>
@@ -85,23 +77,19 @@
     <string name="open_mrl">ఎంఆర్ఎల్ తెరువు</string>
     <string name="open_mrl_dialog_title">నెట్‌వర్కు ప్రవాహాన్ని తెరువు</string>
     <string name="open_mrl_dialog_msg">నెట్‌వర్క్ MRL ప్రవేశపెట్టండి: ఉదా. http://, mms:// or rtsp://</string>
-    <string name="media_library">మాధ్యమ గ్రంథాలయం</string>
     <string name="error_not_compatible">క్షమించండి, ఈ వియల్సీ సంస్కరణ ప్రస్తుతం మీ ఆండ్రాయిడ్™ పరికరానికి మద్ధతు అందించుటలేదు.</string>
 
     <!--About-->
     <string name="app_name_full">ఆండ్రాయిడ్™ కోసం వియల్సీ</string>
-    <string name="version">సంస్కరణ</string>
     <string name="licence">లైసెన్స్</string>
     <string name="revision">పరిష్కరణ</string>
     <string name="about">గురించి</string>
     <string name="about_text">ఆండ్రాయిడ్™ కోసం వియల్సీ అనేది అత్యంత ప్రజాదరణ పొందిన ఒపెన్ సోర్సు మాధ్యమ ప్రదర్శకం అయిన వియల్సీ మాధ్యమ ప్రదర్శకం నుండి రూపొందించబడింది. ఆండ్రాయిడ్™ సంస్కరణ చాలా దస్త్రాలను మరియు నెట్వర్క్ ప్రవాహాలను చదవగలదు.</string>
-    <string name="for_android">ఆండ్రాయిడ్™ కోసం</string>
     <string name="compiled_by">ఈ వీయల్సీ యొక్క సంస్కరణను సంకలనం చేసినవారు:</string>
 
     <!--Preferences-->
     <string name="preferences">ప్రాధాన్యతలు</string>
     <string name="main_prefs_category">ప్రధానం</string>
-    <string name="privacy_prefs_category">గోప్యత</string>
     <string name="clear_history">శోధన చరిత్రను చెరిపివేయి</string>
     <string name="advanced_prefs_category">అధునాతనం</string>
     <string name="enable_iomx">హార్డ్‍వేర్ త్వరణ డీకోడింగును చేతనపరుచు</string>
