@@ -33,6 +33,7 @@ import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -45,6 +46,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -177,16 +179,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mInfoText = (TextView) v_main.findViewById(R.id.info_text);
 
         /* Set up the action bar */
-        mActionBar = getSupportActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-
-        /* Add padding between the home button and the arrow */
-        ImageView home = (ImageView)findViewById(Util.isHoneycombOrLater()
-                ? android.R.id.home : R.id.abs__home);
-        if (home != null)
-            home.setPadding(20, 0, 0, 0);
+        prepareActionBar();
 
         /* Set up the sidebar click listener */
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -286,6 +279,20 @@ public class MainActivity extends SherlockFragmentActivity {
         @SuppressWarnings("deprecation")
         int behindOffset_dp = Util.convertPxToDp(display.getWidth()) - 208;
         mMenu.setBehindOffset(Util.convertDpToPx(behindOffset_dp));
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void prepareActionBar() {
+        mActionBar = getSupportActionBar();
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+
+        /* Add padding between the home button and the arrow */
+        ImageView home = (ImageView)findViewById(Util.isHoneycombOrLater()
+                ? android.R.id.home : R.id.abs__home);
+        if (home != null)
+            home.setPadding(20, 0, 0, 0);
     }
 
     @Override

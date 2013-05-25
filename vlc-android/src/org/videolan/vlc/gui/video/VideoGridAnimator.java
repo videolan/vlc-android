@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,10 +132,10 @@ public class VideoGridAnimator {
     }
 
     /* Support pre-11 device */
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void setAlpha(float alpha, View view)
     {
-        if (android.os.Build.VERSION.SDK_INT >= 11)
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             view.setAlpha(alpha);
         else if (view instanceof ViewGroup)
         {

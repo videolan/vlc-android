@@ -30,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 public class LibVlcUtil {
@@ -80,7 +81,7 @@ public class LibVlcUtil {
 
         String CPU_ABI = android.os.Build.CPU_ABI;
         String CPU_ABI2 = "none";
-        if(android.os.Build.VERSION.SDK_INT >= 8) { // CPU_ABI2 since 2.2
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) { // CPU_ABI2 since 2.2
             try {
                 CPU_ABI2 = (String)android.os.Build.class.getDeclaredField("CPU_ABI2").get(null);
             } catch (Exception e) { }

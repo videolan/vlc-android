@@ -30,6 +30,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -147,7 +148,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
     }
 
     private String getVisibleName(File file) {
-        if (android.os.Build.VERSION.SDK_INT >= 17) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             // Show "sdcard" for the user's folder when running in multi-user
             if (file.getAbsolutePath().equals(Environment.getExternalStorageDirectory().getPath())) {
                 return VLCApplication.getAppContext().getString(R.string.internal_memory);

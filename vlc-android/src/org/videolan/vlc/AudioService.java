@@ -190,7 +190,7 @@ public class AudioService extends Service {
      * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
      * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
      */
-    @TargetApi(14)
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void setUpRemoteControlClient() {
         Context context = VLCApplication.getAppContext();
         AudioManager audioManager = (AudioManager)context.getSystemService(AUDIO_SERVICE);
@@ -225,13 +225,22 @@ public class AudioService extends Service {
      *
      * @param p Playback state
      */
-    @TargetApi(14)
-    private void setRemoteControlClientPlaybackState(int p) {
-        if(!Util.isICSOrLater())
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setRemoteControlClientPlaybackState(int state) {
+        if(!Util.isICSOrLater() || mRemoteControlClient == null)
             return;
 
-        if (mRemoteControlClient != null)
-            mRemoteControlClient.setPlaybackState(p);
+        switch (state) {
+            case EventHandler.MediaPlayerPlaying:
+                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+                break;
+            case EventHandler.MediaPlayerPaused:
+                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+                break;
+            case EventHandler.MediaPlayerStopped:
+                mRemoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
+                break;
+        }
     }
 
     @Override
@@ -258,7 +267,7 @@ public class AudioService extends Service {
         return mInterface;
     }
 
-    @TargetApi(8)
+    @TargetApi(Build.VERSION_CODES.FROYO)
     private void changeAudioFocus(boolean gain) {
         if(!Util.isFroyoOrLater()) // NOP if not supported
             return;
@@ -404,7 +413,7 @@ public class AudioService extends Service {
                     }
 
                     service.changeAudioFocus(true);
-                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPlaying);
                     if (!service.mWakeLock.isHeld())
                         service.mWakeLock.acquire();
                     break;
@@ -412,14 +421,14 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
                     service.showNotification();
-                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPaused);
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
                 case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
-                    service.setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
+                    service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
@@ -618,7 +627,7 @@ public class AudioService extends Service {
     private void stop() {
         mLibVLC.stop();
         mEventHandler.removeHandler(mVlcEventHandler);
-        setRemoteControlClientPlaybackState(RemoteControlClient.PLAYSTATE_STOPPED);
+        setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
         mCurrentMedia = null;
         mMediaList.clear();
         mPrevious.clear();
@@ -665,7 +674,7 @@ public class AudioService extends Service {
         saveCurrentMedia();
     }
 
-    @TargetApi(14)
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void updateRemoteControlClientMetadata() {
         if(!Util.isICSOrLater()) // NOP check
             return;

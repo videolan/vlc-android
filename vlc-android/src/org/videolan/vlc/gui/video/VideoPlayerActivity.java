@@ -177,7 +177,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private Map<Integer,String> mSubtitleTracksList;
 
     @Override
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player);
@@ -1264,7 +1264,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * Dim the status bar and/or navigation icons when needed on Android 3.x.
      * Hide it on Android 4.0 and later
      */
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void dimStatusBar(boolean dim) {
         if (!Util.isHoneycombOrLater() || !Util.hasNavBar())
             return;
@@ -1449,7 +1449,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private int getScreenRotation(){
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
-        if (Build.VERSION.SDK_INT >= 8 /* Android 2.2 has getRotation */) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO /* Android 2.2 has getRotation */) {
             try {
                 Method m = display.getClass().getDeclaredMethod("getRotation");
                 return (Integer) m.invoke(display);
@@ -1461,6 +1461,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private int getScreenOrientation (){
         switch (getScreenRotation()) {
         case Surface.ROTATION_0:
@@ -1469,12 +1470,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
         case Surface.ROTATION_180:
             // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API Level 9+
-             return (Build.VERSION.SDK_INT >= 8
+             return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO
                     ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
                     : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         case Surface.ROTATION_270:
             // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API Level 9+
-            return (Build.VERSION.SDK_INT >= 8
+            return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO
                     ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                     : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         default :

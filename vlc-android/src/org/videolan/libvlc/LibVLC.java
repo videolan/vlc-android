@@ -70,9 +70,9 @@ public class LibVLC {
     /* Load library before object instantiation */
     static {
         try {
-            if (Build.VERSION.SDK_INT <= 10)
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
                 System.loadLibrary("iomx-gingerbread");
-            else if (Build.VERSION.SDK_INT <= 13)
+            else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
                 System.loadLibrary("iomx-hc");
             else
                 System.loadLibrary("iomx-ics");

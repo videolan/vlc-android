@@ -49,6 +49,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -315,7 +316,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         return super.onContextItemSelected(menu);
     }
 
-    @TargetApi(11)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onContextPopupMenu(View anchor, final int position) {
         if (!Util.isHoneycombOrLater()) {
             // Call the "classic" context menu
