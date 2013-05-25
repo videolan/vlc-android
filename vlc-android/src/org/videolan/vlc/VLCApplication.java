@@ -49,6 +49,10 @@ public class VLCApplication extends Application {
                 locale = Locale.TRADITIONAL_CHINESE;
             } else if(p.startsWith("zh")) {
                 locale = Locale.CHINA;
+            } else if(p.equals("pt-BR")) {
+                locale = new Locale("pt", "BR");
+            } else if(p.equals("bn-IN") || p.startsWith("bn")) {
+                locale = new Locale("bn", "IN");
             } else {
                 /**
                  * Avoid a crash of
