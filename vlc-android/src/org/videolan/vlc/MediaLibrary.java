@@ -347,7 +347,7 @@ public class MediaLibrary {
                 if (mRestart) {
                     Log.d(TAG, "Restarting scan");
                     mRestart = false;
-                    restartHandler.sendEmptyMessage(1);
+                    restartHandler.sendEmptyMessageDelayed(1, 200);
                 } else {
                     mRestartContext = null;
                     mContext = null;
@@ -356,20 +356,23 @@ public class MediaLibrary {
         }
     };
 
-    private Handler restartHandler = new Handler() {
-        @Override
-        public void handleMessage(final Message msgs) {
-            restartHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (mRestartContext != null)
-                        loadMediaItems(mRestartContext);
-                    else
-                        Log.e(TAG, "Context lost in a black hole");
-                }
-            }, 200);
+    private Handler restartHandler = new RestartHandler(this);
+
+    private static class RestartHandler extends WeakHandler<MediaLibrary> {
+        public RestartHandler(MediaLibrary owner) {
+            super(owner);
         }
-    };
+
+        @Override
+        public void handleMessage(Message msg) {
+            MediaLibrary owner = getOwner();
+            if(owner == null) return;
+            if (owner.mRestartContext != null)
+                owner.loadMediaItems(owner.mRestartContext);
+            else
+                Log.e(TAG, "Context lost in a black hole");
+        }
+    }
 
     /**
      * Filters all irrelevant files
