@@ -414,7 +414,8 @@ public class DirectoryAdapter extends BaseAdapter {
         ArrayList<String> a = new ArrayList<String>();
         // i = 1 to exclude ".." folder
         for(int i = 1; i < mCurrentNode.children.size(); i++)
-            a.add(getMediaLocation(i));
+            if(mCurrentNode.children.get(i).isFile)
+                a.add(getMediaLocation(i));
         return a;
     }
 
