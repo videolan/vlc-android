@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -844,15 +846,15 @@ public class AudioService extends Service {
             } else {
                 MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
                 for (int i = 0; i < mediaPathList.size(); i++) {
-                    String path = mediaPathList.get(i);
-                    Media media = db.getMedia(AudioService.this, path);
+                    String location = mediaPathList.get(i);
+                    Media media = db.getMedia(AudioService.this, location);
                     if(media == null) {
-                        if (!validatePath(path)) {
-                            showToast(getResources().getString(R.string.invalid_location, path), Toast.LENGTH_SHORT);
+                        if(!validateLocation(location)) {
+                            showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                             continue;
                         }
-                        Log.v(TAG, "Creating on-the-fly Media object for " + path);
-                        media = new Media(path, false);
+                        Log.v(TAG, "Creating on-the-fly Media object for " + location);
+                        media = new Media(location, false);
                     }
                     mMediaList.add(media);
                 }
@@ -913,9 +915,9 @@ public class AudioService extends Service {
         }
 
         @Override
-        public void append(List<String> mediaPathList) throws RemoteException {
+        public void append(List<String> mediaLocationList) throws RemoteException {
             if (mMediaList.size() == 0) {
-                load(mediaPathList, 0, false, false);
+                load(mediaLocationList, 0, false, false);
                 return;
             }
 
@@ -923,16 +925,16 @@ public class AudioService extends Service {
                 return;
             }
             MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
-            for (int i = 0; i < mediaPathList.size(); i++) {
-                String path = mediaPathList.get(i);
-                Media media = db.getMedia(AudioService.this, path);
+            for (int i = 0; i < mediaLocationList.size(); i++) {
+                String location = mediaLocationList.get(i);
+                Media media = db.getMedia(AudioService.this, location);
                 if(media == null) {
-                    if (!validatePath(path)) {
-                        showToast(getResources().getString(R.string.invalid_location, path), Toast.LENGTH_SHORT);
+                    if (!validateLocation(location)) {
+                        showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                         continue;
                     }
-                    Log.v(TAG, "Creating on-the-fly Media object for " + path);
-                    media = new Media(path, false);
+                    Log.v(TAG, "Creating on-the-fly Media object for " + location);
+                    media = new Media(location, false);
                 }
                 mMediaList.add(media);
             }
@@ -1140,14 +1142,19 @@ public class AudioService extends Service {
         }
     }
 
-    private boolean validatePath(String path)
+    private boolean validateLocation(String location)
     {
         /* Check if the MRL contains a scheme */
-        if (!path.matches("\\w+://.+"))
-            path = "file://".concat(path);
-        if (path.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
+        if (!location.matches("\\w+://.+"))
+            location = "file://".concat(location);
+        if (location.toLowerCase(Locale.ENGLISH).startsWith("file://")) {
             /* Ensure the file exists */
-            File f = new File(path);
+            File f;
+            try {
+                f = new File(new URI(location));
+            } catch (URISyntaxException e) {
+                return false;
+            }
             if (!f.isFile())
                 return false;
         }
