@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Stack;
 
 import org.videolan.vlc.MediaDatabase;
@@ -273,7 +274,7 @@ public class BrowserActivity extends ListActivity {
 
         @Override
         public boolean accept(File f) {
-            return f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase());
+            return f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH));
         }
     }
 

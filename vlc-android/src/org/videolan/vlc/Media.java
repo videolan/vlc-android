@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import java.util.HashSet;
+import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
@@ -235,8 +236,8 @@ public class Media implements Comparable<Media> {
      */
     @Override
     public int compareTo(Media another) {
-        return mTitle.toUpperCase().compareTo(
-                another.getTitle().toUpperCase());
+        return mTitle.toUpperCase(Locale.getDefault()).compareTo(
+                another.getTitle().toUpperCase(Locale.getDefault()));
     }
 
     public String getLocation() {
@@ -360,7 +361,7 @@ public class Media implements Comparable<Media> {
         if(mGenre == VLCApplication.getAppContext().getString(R.string.unknown_genre))
             return mGenre;
         else if( mGenre.length() > 1)/* Make genres case insensitive via normalisation */
-            return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase();
+            return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase(Locale.getDefault());
         else
             return mGenre;
     }

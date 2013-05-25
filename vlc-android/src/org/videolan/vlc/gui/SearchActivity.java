@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaDatabase;
@@ -118,10 +119,11 @@ public class SearchActivity extends ListActivity {
             if (type != Media.TYPE_ALL && type != item.getType())
                 continue;
             boolean add = true;
-            String name = item.getTitle().toLowerCase();
-            String MRL = item.getLocation().toLowerCase();
+            String name = item.getTitle().toLowerCase(Locale.getDefault());
+            String MRL = item.getLocation().toLowerCase(Locale.getDefault());
             for (int k = 0; k < keys.length; k++) {
-                if (!(name.contains(keys[k].toLowerCase()) || MRL.contains(keys[k].toLowerCase()))) {
+                String s = keys[k].toLowerCase(Locale.getDefault());
+                if (!(name.contains(s) || MRL.contains(s))) {
                     add = false;
                     break;
                 }

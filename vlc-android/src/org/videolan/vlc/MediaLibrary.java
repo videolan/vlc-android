@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Stack;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -379,10 +380,10 @@ public class MediaLibrary {
         public boolean accept(File f) {
             boolean accepted = false;
             if (!f.isHidden()) {
-                if (f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase())) {
+                if (f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH))) {
                     accepted = true;
                 } else {
-                    String fileName = f.getName().toLowerCase();
+                    String fileName = f.getName().toLowerCase(Locale.ENGLISH);
                     int dotIndex = fileName.lastIndexOf(".");
                     if (dotIndex != -1) {
                         String fileExt = fileName.substring(dotIndex);

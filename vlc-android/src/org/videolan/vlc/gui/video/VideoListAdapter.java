@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
@@ -111,8 +112,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         int compare = 0;
         switch (mSortBy) {
             case SORT_BY_TITLE:
-                compare = item1.getTitle().toUpperCase().compareTo(
-                        item2.getTitle().toUpperCase());
+                compare = item1.getTitle().toUpperCase(Locale.ENGLISH).compareTo(
+                        item2.getTitle().toUpperCase(Locale.ENGLISH));
                 break;
             case SORT_BY_LENGTH:
                 compare = ((Long) item1.getLength()).compareTo(item2.getLength());
