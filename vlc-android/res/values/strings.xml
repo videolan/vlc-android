@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="app_name" translatable="false">VLC</string>
@@ -232,7 +232,7 @@
         <item>9</item> <!-- 9 ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -->
     </string-array>
 
-    <string-array name="subtitles_encoding_list">
+    <string-array name="subtitles_encoding_list" tools:ignore="TypographyDashes">
         <item>Default (Windows-1252)</item>
         <item>Universal (UTF-8)</item>
         <item>Universal (UTF-16)</item>
@@ -276,7 +276,7 @@
         <item>Vietnamese (VISCII)</item>
         <item>Vietnamese (Windows-1258)</item>
     </string-array>
-    <string-array name="subtitles_encoding_values" translatable="false">
+    <string-array name="subtitles_encoding_values" translatable="false" tools:ignore="TypographyDashes">
         <item></item>
         <item>UTF-8</item>
         <item>UTF-16</item>
