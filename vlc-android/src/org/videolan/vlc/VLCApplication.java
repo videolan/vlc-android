@@ -50,6 +50,13 @@ public class VLCApplication extends Application {
             } else if(p.startsWith("zh")) {
                 locale = Locale.CHINA;
             } else {
+                /**
+                 * Avoid a crash of
+                 * java.lang.AssertionError: couldn't initialize LocaleData for locale
+                 * if the user enters nonsensical region codes.
+                 */
+                if(p.contains("-"))
+                    p = p.substring(0, p.indexOf('-'));
                 locale = new Locale(p);
             }
             Locale.setDefault(locale);
