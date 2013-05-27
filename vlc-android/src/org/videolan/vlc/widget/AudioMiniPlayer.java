@@ -215,6 +215,10 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public void hide() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager()
                 .beginTransaction();
+        /*
+            The exit animation won't run because of a bug in the compatibility library.
+            See: https://code.google.com/p/android/issues/detail?id=32405
+        */
         ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
         ft.hide(this);
         ft.commit();
