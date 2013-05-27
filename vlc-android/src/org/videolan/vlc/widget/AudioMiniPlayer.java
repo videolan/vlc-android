@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.widget;
 
+import android.app.Activity;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
@@ -112,6 +113,14 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
 
         registerForContextMenu(v);
         return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // The player should not be visible in the first place
+        hide();
     }
 
     @Override
