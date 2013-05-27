@@ -170,8 +170,11 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
 
     @Override
     public void update() {
-        // Exit the player when there is no media
+        // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
             finish();
             return;
         }
