@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.Map;
 
 import org.videolan.libvlc.EventHandler;
@@ -1297,7 +1298,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mControls.setSeekable(length > 0);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
-        mSysTime.setText(DateFormat.format("kk:mm", System.currentTimeMillis()));
+        mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
         mTime.setText(Util.millisToString(time));
         mLength.setText(mDisplayRemainingTime && length > 0
                 ? "- " + Util.millisToString(length - time)
