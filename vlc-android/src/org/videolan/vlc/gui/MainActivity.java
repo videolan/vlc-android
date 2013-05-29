@@ -109,6 +109,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private boolean mFirstRun = false;
     private boolean mScanNeeded = true;
 
+    private Handler mHandler = new MainActivityHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (!LibVlcUtil.hasCompatibleCPU(this)) {
@@ -616,12 +618,19 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     };
 
-    private final WeakHandler<MainActivity> mHandler = new WeakHandler<MainActivity>(this) {
+    private static class MainActivityHandler extends WeakHandler<MainActivity> {
+        public MainActivityHandler(MainActivity owner) {
+            super(owner);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            MainActivity ma = getOwner();
+            if(ma == null) return;
+
             switch (msg.what) {
                 case ACTIVITY_SHOW_INFOLAYOUT:
-                    mInfoLayout.setVisibility(View.VISIBLE);
+                    ma.mInfoLayout.setVisibility(View.VISIBLE);
                     break;
             }
         }
