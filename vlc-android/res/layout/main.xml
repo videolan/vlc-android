@@ -12,7 +12,7 @@
         android:id="@+id/info_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:visibility="gone">
         <ProgressBar
             android:id="@+id/info_progress"
             style="?android:attr/progressBarStyleHorizontal"

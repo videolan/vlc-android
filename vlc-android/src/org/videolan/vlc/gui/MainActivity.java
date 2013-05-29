@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui;
 
+import android.os.Message;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
@@ -87,6 +88,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private static final String PREF_FIRST_RUN = "first_run";
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
+    private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
 
     private ActionBar mActionBar;
     private SlidingMenu mMenu;
@@ -597,7 +599,31 @@ public class MainActivity extends SherlockFragmentActivity {
                 mInfoText.setText(info);
                 mInfoProgress.setMax(max);
                 mInfoProgress.setProgress(progress);
-                mInfoLayout.setVisibility(info != null ? View.VISIBLE : View.GONE);
+
+                if (info == null) {
+                    /* Cancel any upcoming visibility change */
+                    mHandler.removeMessages(ACTIVITY_SHOW_INFOLAYOUT);
+                    mInfoLayout.setVisibility(View.GONE);
+                }
+                else {
+                    /* Slightly delay the appearance of the progress bar to avoid unnecessary flickering */
+                    if (!mHandler.hasMessages(ACTIVITY_SHOW_INFOLAYOUT)) {
+                        Message m = new Message();
+                        m.what = ACTIVITY_SHOW_INFOLAYOUT;
+                        mHandler.sendMessageDelayed(m, 300);
+                    }
+                }
+            }
+        }
+    };
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case ACTIVITY_SHOW_INFOLAYOUT:
+                    mInfoLayout.setVisibility(View.VISIBLE);
+                    break;
             }
         }
     };
