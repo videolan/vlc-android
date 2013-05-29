@@ -53,6 +53,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Display;
@@ -203,9 +204,7 @@ public class MainActivity extends SherlockFragmentActivity {
                  * activating an old backstack, when a user hits the back button
                  * to quit
                  */
-                for(int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-                    getSupportFragmentManager().popBackStack();
-                }
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 /**
                  * Do not move this getFragment("audio")!
