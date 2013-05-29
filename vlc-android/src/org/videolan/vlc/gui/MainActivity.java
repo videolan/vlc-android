@@ -208,19 +208,9 @@ public class MainActivity extends SherlockFragmentActivity {
                  */
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                /**
-                 * Do not move this getFragment("audio")!
-                 * This is to ensure that if audio is not already loaded, it
-                 * will be loaded ahead of the detach/attach below.
-                 * Otherwise if you add() a fragment after an attach/detach,
-                 * it will take over the placeholder and you will end up with
-                 * the audio fragment when some other fragment should be there.
-                 */
-                Fragment audioFragment = getFragment("audio");
-
+                /* Switch the fragment */
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.detach(current);
-                ft.attach(getFragment(entry.id));
+                ft.replace(R.id.fragment_placeholder, getFragment(entry.id), entry.id);
                 ft.commit();
                 mCurrentFragment = entry.id;
 
@@ -232,7 +222,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 getFragment(mCurrentFragment).setUserVisibleHint(true);
                 // HACK ALERT: Set underlying audio browser to be invisible too.
                 if(current.getTag().equals("tracks"))
-                    audioFragment.setUserVisibleHint(false);
+                    getFragment("audio").setUserVisibleHint(false);
 
                 mMenu.showContent();
             }
@@ -332,7 +322,6 @@ public class MainActivity extends SherlockFragmentActivity {
             found = true;
         }
 
-        mSidebarAdapter.lockSemaphore();
         /**
          * Let's see if Android recreated anything for us in the bundle.
          * Prevent duplicate creation of fragments, since mSidebarAdapter might
@@ -346,7 +335,6 @@ public class MainActivity extends SherlockFragmentActivity {
                 mSidebarAdapter.restoreFragment(fragmentTag, fragment);
             }
         }
-        mSidebarAdapter.unlockSemaphore();
 
         /**
          * Restore the last view.
@@ -364,9 +352,7 @@ public class MainActivity extends SherlockFragmentActivity {
             Log.d(TAG, "Reloading displayed fragment");
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            if(current != null)
-                ft.detach(current);
-            ft.attach(ff);
+            ft.replace(R.id.fragment_placeholder, ff, mCurrentFragment);
             ft.commit();
         }
     }
@@ -427,21 +413,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private Fragment getFragment(String id)
     {
-        Fragment fragment = mSidebarAdapter.fetchFragment(id);
-
-        // Prevent fragment from being added twice. (IllegalStateException)
-        // See http://stackoverflow.com/questions/13745787/fragment-already-added-support-lib
-        mSidebarAdapter.lockSemaphore();
-        if(!mSidebarAdapter.isFragmentAdded(id)) {
-            getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_placeholder, fragment, id)
-                .commitAllowingStateLoss();
-            mSidebarAdapter.setFragmentAdded(id);
-        }
-        mSidebarAdapter.unlockSemaphore();
-
-        return fragment;
+        return mSidebarAdapter.fetchFragment(id);
     }
 
     /** Create menu from XML
