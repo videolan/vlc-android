@@ -255,8 +255,7 @@ public class MainActivity extends SherlockFragmentActivity {
              * the info dialog. If (for any reason) the dialog is not shown,
              * open the menu after a short delay.
              */
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     mMenu.showMenu();
