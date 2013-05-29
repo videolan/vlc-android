@@ -29,6 +29,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
@@ -616,7 +617,7 @@ public class MainActivity extends SherlockFragmentActivity {
         }
     };
 
-    private final Handler mHandler = new Handler() {
+    private final WeakHandler<MainActivity> mHandler = new WeakHandler<MainActivity>(this) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
