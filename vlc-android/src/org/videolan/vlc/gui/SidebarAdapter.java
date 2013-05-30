@@ -64,7 +64,6 @@ public class SidebarAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     static final List<SidebarEntry> entries;
     private HashMap<String, Fragment> mFragments;
-    private HashMap<String, Boolean> mFragmentAdded;
     private Semaphore mSemaphore;
 
     static {
@@ -82,7 +81,6 @@ public class SidebarAdapter extends BaseAdapter {
     public SidebarAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
         mFragments = new HashMap<String, Fragment>(entries.size());
-        mFragmentAdded = new HashMap<String, Boolean>(entries.size());
         mSemaphore = new Semaphore(1, true);
     }
 
@@ -140,44 +138,7 @@ public class SidebarAdapter extends BaseAdapter {
         }
         f.setRetainInstance(true);
         mFragments.put(id, f);
-        mFragmentAdded.put(id, false);
         return f;
-    }
-
-    /**
-     * Has the fragment already been added?
-     * Note: lock must be held prior to entering this function!
-     *
-     * @return true if already added
-     */
-    public boolean isFragmentAdded(String id) {
-        return mFragmentAdded.get(id);
-    }
-
-    /**
-     * Flags the fragment as added.
-     *
-     * @param id　ID of the fragment
-     */
-    public void setFragmentAdded(String id) {
-        mFragmentAdded.put(id, true);
-    }
-
-    /**
-     * Locks the semaphore before manipulating the added flag, since only one
-     * add operation is permitted.
-     *
-     * Remember to unlockSemaphore() when done.
-     */
-    public void lockSemaphore() {
-        mSemaphore.acquireUninterruptibly();
-    }
-
-    /**
-     * Release the semaphore when done.
-     */
-    public void unlockSemaphore() {
-        mSemaphore.release();
     }
 
     /**
@@ -194,7 +155,6 @@ public class SidebarAdapter extends BaseAdapter {
             return;
         }
         mFragments.put(id, f);
-        mFragmentAdded.put(id, true);
         // if Android added it, it's been implicitly added already...
     }
 }
