@@ -231,7 +231,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             gv.setColumnWidth(Util.convertDpToPx(GRID_ITEM_WIDTH_DP));
             mVideoAdapter.setListMode(false);
         } else {
-            Log.e(TAG, "Switching to list mode");
+            Log.d(TAG, "Switching to list mode");
             gv.setNumColumns(1);
             gv.setStretchMode(LIST_STRETCH_MODE);
             gv.setHorizontalSpacing(LIST_HORIZONTAL_SPACING_DP);
