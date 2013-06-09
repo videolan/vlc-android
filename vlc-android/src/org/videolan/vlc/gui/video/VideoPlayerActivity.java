@@ -95,6 +95,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
+    // Internal intent identifier to distinguish between internal launch and
+    // external intent.
+    private final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
+
     private SurfaceView mSurface;
     private SurfaceHolder mSurfaceHolder;
     private FrameLayout mSurfaceFrame;
@@ -440,6 +444,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     public static void start(Context context, String location, String title, Boolean dontParse, Boolean fromStart) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
+        intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra("itemLocation", location);
         intent.putExtra("itemTitle", title);
         intent.putExtra("dontParse", dontParse);
@@ -1361,7 +1366,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     /**
-     *
+     * External extras:
+     * - position (long) - position of the video to start with (in ms)
      */
     @SuppressWarnings("deprecation")
     private void load() {
@@ -1370,6 +1376,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         boolean dontParse = false;
         boolean fromStart = false;
         String itemTitle = null;
+        long intentPosition = -1; // position passed in by intent (ms)
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
@@ -1391,7 +1398,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 // Plain URI
                 mLocation = getIntent().getDataString();
             }
-        } else if(getIntent().getExtras() != null) {
+            if(getIntent().getExtras() != null)
+                intentPosition = getIntent().getExtras().getLong("position", -1);
+        } else if(getIntent().getAction() != null
+                && getIntent().getAction().equals(PLAY_FROM_VIDEOGRID) && getIntent().getExtras() != null) {
             /* Started from VideoListActivity */
             mLocation = getIntent().getExtras().getString("itemLocation");
             itemTitle = getIntent().getExtras().getString("itemTitle");
@@ -1427,6 +1437,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 editor.commit();
                 if(rTime > 0)
                     mLibVLC.setTime(rTime);
+
+                if(intentPosition > 0)
+                    mLibVLC.setTime(intentPosition);
             }
 
             try {
