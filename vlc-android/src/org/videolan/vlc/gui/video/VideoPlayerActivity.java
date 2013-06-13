@@ -92,7 +92,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class VideoPlayerActivity extends Activity implements IVideoPlayer {
-
     public final static String TAG = "VLC/VideoPlayerActivity";
 
     // Internal intent identifier to distinguish between internal launch and
@@ -1497,7 +1496,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     }
 
-    public void showAdvanceFunction(View v) {
+    public void showAdvancedOptions(View v) {
         CommonDialogs.advancedOptions(this, v);
     }
 }

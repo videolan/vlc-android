@@ -111,7 +111,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/dots"
-            android:onClick="showAdvanceFunction" />
+            android:onClick="showAdvancedOptions" />
     </LinearLayout>
 
     <RelativeLayout

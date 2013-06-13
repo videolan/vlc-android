@@ -67,7 +67,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="#00000000"
-                android:onClick="showAdvanceFunction"
+                android:onClick="showAdvancedOptions"
                 android:scaleType="fitXY"
                 android:src="@drawable/dots" />
         </LinearLayout>

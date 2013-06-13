@@ -324,7 +324,7 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     	return super.onKeyDown(keyCode, event);
     }
 
-    public void showAdvanceFunction(View v) {
+    public void showAdvancedOptions(View v) {
         CommonDialogs.advancedOptions(this, v);
     }
 }

@@ -162,7 +162,7 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:onClick="showAdvanceFunction"
+                android:onClick="showAdvancedOptions"
                 android:background="#00000000"
                 android:scaleType="fitXY"
                 android:src="@drawable/dots" />
