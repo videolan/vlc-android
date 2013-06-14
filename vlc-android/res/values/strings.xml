@@ -124,6 +124,9 @@
     <string name="sleep_title">Sleep timer</string>
     <string name="sleep_cancel">Cancel sleep timer</string>
     <string name="jump_to_time">Jump to Time</string>
+    <string name="subtitle_label">Add subtitle file</string>
+    <string name="subtitle_select">Select subtitle file</string>
+    <string name="no_file_picker_found">No file picker was found on the system.</string>
 
     <string name="open">Open</string>
     <string name="open_mrl">Open MRL</string>

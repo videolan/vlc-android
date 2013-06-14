@@ -180,6 +180,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     // Tracks & Subtitles
     private Map<Integer,String> mAudioTracksList;
     private Map<Integer,String> mSubtitleTracksList;
+    private String mSelectedSubtitleFile = null; // used to store a selected subtitle; see onActivityResult
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -428,6 +429,31 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }}, 500);
 
         showOverlay();
+
+        // Add any selected subtitle file from the file picker
+        if(mSelectedSubtitleFile != null) {
+            Log.i(TAG, "Adding user-selected subtitle " + mSelectedSubtitleFile);
+            mLibVLC.addSubtitleTrack(mSelectedSubtitleFile);
+            mSelectedSubtitleFile = null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null) return;
+
+        if(data.getDataString() == null) {
+            Log.d(TAG, "Subtitle selection dialog was cancelled");
+        }
+        if(data.getData() == null) return;
+
+        String uri = data.getData().getPath();
+        if(requestCode == CommonDialogs.INTENT_SPECIFIC) {
+            Log.d(TAG, "Specific subtitle file: " + uri);
+        } else if(requestCode == CommonDialogs.INTENT_GENERIC) {
+            Log.d(TAG, "Generic subtitle file: " + uri);
+        }
+        mSelectedSubtitleFile = data.getData().getPath();
     }
 
     public static void start(Context context, String location) {

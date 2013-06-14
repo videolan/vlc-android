@@ -30,16 +30,24 @@ import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.interfaces.OnExpandableListener;
 import org.videolan.vlc.widget.ExpandableLayout;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
@@ -47,6 +55,8 @@ public class CommonDialogs {
     public static enum MenuType {
         Video, Audio
     };
+    public static final int INTENT_SPECIFIC = 10; // PICK_FILE intent
+    public static final int INTENT_GENERIC = 20; // generic CATEGORY_OPENABLE
 
     public static AlertDialog deleteMedia(final Context context,
                                           final String addressMedia,
@@ -100,6 +110,49 @@ public class CommonDialogs {
             if (child instanceof ExpandableLayout) {
                 ((ExpandableLayout) child).setOnExpandableListener(mExpandableListener);
             }
+        }
+
+        View add_subtitle_divider = view.findViewById(R.id.add_subtitle_divider);
+        TextView add_subtitle = (TextView)view.findViewById(R.id.add_subtitle);
+        if(t == MenuType.Video) {
+            add_subtitle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent("org.openintents.action.PICK_FILE");
+
+                    File file = new File(android.os.Environment.getExternalStorageDirectory().getPath());
+                    intent.setData(Uri.fromFile(file));
+
+                    // Set fancy title and button (optional)
+                    intent.putExtra("org.openintents.extra.TITLE", context.getString(R.string.subtitle_select));
+                    intent.putExtra("org.openintents.extra.BUTTON_TEXT", context.getString(R.string.open));
+
+                    if (context
+                            .getPackageManager()
+                            .queryIntentActivities(intent,
+                                    PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+                        ((Activity)context).startActivityForResult(intent, INTENT_SPECIFIC);
+                    } else {
+                        // OI intent not found, trying anything
+                        Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent2.setType("*/*");
+                        intent2.addCategory(Intent.CATEGORY_OPENABLE);
+                        try {
+                            ((Activity)context).startActivityForResult(intent2, INTENT_GENERIC);
+                        } catch(ActivityNotFoundException e) {
+                            Log.i(TAG, "No file picker found on system");
+                            Toast.makeText(context,
+                                    R.string.no_file_picker_found,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    dialog.dismiss();
+                }
+            });
+        } else {
+            add_subtitle.setVisibility(View.GONE);
+            add_subtitle_divider.setVisibility(View.GONE);
         }
 
         // show dialog
