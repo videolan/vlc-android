@@ -39,6 +39,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlayerControl;
@@ -1497,6 +1498,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     public void showAdvancedOptions(View v) {
-        CommonDialogs.advancedOptions(this, v);
+        CommonDialogs.advancedOptions(this, v, MenuType.Video);
     }
 }

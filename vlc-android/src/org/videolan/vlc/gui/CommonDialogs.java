@@ -44,6 +44,10 @@ import android.widget.LinearLayout;
 public class CommonDialogs {
     public final static String TAG = "VLC/CommonDialogs";
 
+    public static enum MenuType {
+        Video, Audio
+    };
+
     public static AlertDialog deleteMedia(final Context context,
                                           final String addressMedia,
                                           final VlcRunnable runnable) {
@@ -72,7 +76,7 @@ public class CommonDialogs {
         return alertDialog;
     }
 
-    public static void advancedOptions(final Context context, View v) {
+    public static void advancedOptions(final Context context, View v, MenuType t) {
         LayoutInflater inflater = LayoutInflater.from(VLCApplication.getAppContext());
         View view = inflater.inflate(R.layout.advanced_options, null);
 

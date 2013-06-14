@@ -26,6 +26,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
@@ -325,6 +326,6 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public void showAdvancedOptions(View v) {
-        CommonDialogs.advancedOptions(this, v);
+        CommonDialogs.advancedOptions(this, v, MenuType.Audio);
     }
 }
