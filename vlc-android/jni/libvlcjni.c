@@ -1252,6 +1252,20 @@ jint Java_org_videolan_libvlc_LibVLC_setSpuTrack(JNIEnv *env, jobject thiz, jint
     return -1;
 }
 
+jint Java_org_videolan_libvlc_LibVLC_addSubtitleTrack(JNIEnv *env, jobject thiz, jstring path)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp) {
+        jboolean isCopy;
+        const char* psz_path = (*env)->GetStringUTFChars(env, path, &isCopy);
+        jint res = libvlc_video_set_subtitle_file(mp, psz_path);
+        (*env)->ReleaseStringUTFChars(env, path, psz_path);
+        return res;
+    } else {
+        return -1;
+    }
+}
+
 void Java_org_videolan_libvlc_LibVLC_nativeReadDirectory(JNIEnv *env, jobject thiz, jstring path, jobject arrayList)
 {
     jboolean isCopy;
