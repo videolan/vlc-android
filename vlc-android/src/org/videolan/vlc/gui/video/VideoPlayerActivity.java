@@ -20,10 +20,17 @@
 
 package org.videolan.vlc.gui.video;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -180,7 +187,18 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     // Tracks & Subtitles
     private Map<Integer,String> mAudioTracksList;
     private Map<Integer,String> mSubtitleTracksList;
-    private String mSelectedSubtitleFile = null; // used to store a selected subtitle; see onActivityResult
+    /**
+     * Used to store a selected subtitle; see onActivityResult.
+     * It is possible to have multiple custom subs in one session
+     * (just like desktop VLC allows you as well.)
+     */
+    private ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
+    /**
+     * Flag will be set to true by onActivityResult() to not overwrite it with
+     * the saved version in the preferences. Otherwise, a subtitle could never
+     * be added because it will get overwritten in onResume().
+     */
+    private boolean mSubtitleFromResultFlag = false;
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -295,6 +313,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+        // Also clear the subs list, because it is supposed to be per session
+        // only (like desktop VLC). We don't want the customs subtitle file
+        // to persist forever with this video.
+        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         editor.commit();
 
         IntentFilter filter = new IntentFilter();
@@ -366,10 +388,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mSurface.setKeepScreenOn(false);
 
+        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
         // Save position
         if (time >= 0) {
-            SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
             if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
                 editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
                 MediaDatabase.getInstance(this).updateMedia(
@@ -380,9 +402,21 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 // Video file not in media library, store time just for onResume()
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
             }
-            editor.commit();
         }
+        // Save selected subtitles
+        String subtitleList_serialized = null;
+        if(mSubtitleSelectedFiles.size() > 0) {
+            Log.d(TAG, "Saving selected subtitle files");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(bos);
+                oos.writeObject(mSubtitleSelectedFiles);
+                subtitleList_serialized = bos.toString();
+            } catch(IOException e) {}
+        }
+        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
+        editor.commit();
         AudioServiceController.getInstance().unbindAudioService(this);
     }
 
@@ -431,10 +465,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         showOverlay();
 
         // Add any selected subtitle file from the file picker
-        if(mSelectedSubtitleFile != null) {
-            Log.i(TAG, "Adding user-selected subtitle " + mSelectedSubtitleFile);
-            mLibVLC.addSubtitleTrack(mSelectedSubtitleFile);
-            mSelectedSubtitleFile = null;
+        if(mSubtitleSelectedFiles.size() > 0) {
+            for(String file : mSubtitleSelectedFiles) {
+                Log.i(TAG, "Adding user-selected subtitle " + file);
+                mLibVLC.addSubtitleTrack(file);
+            }
         }
     }
 
@@ -453,7 +488,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         } else if(requestCode == CommonDialogs.INTENT_GENERIC) {
             Log.d(TAG, "Generic subtitle file: " + uri);
         }
-        mSelectedSubtitleFile = data.getData().getPath();
+        mSubtitleSelectedFiles.add(data.getData().getPath());
+        mSubtitleFromResultFlag = true;
     }
 
     public static void start(Context context, String location) {
@@ -1395,7 +1431,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * External extras:
      * - position (long) - position of the video to start with (in ms)
      */
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     private void load() {
         mLocation = null;
         String title = getResources().getString(R.string.title);
@@ -1446,6 +1482,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
+            SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
             Media media = MediaDatabase.getInstance(this).getMedia(this, mLocation);
             if(media != null) {
                 // in media library
@@ -1456,7 +1493,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mLastSpuTrack = media.getSpuTrack();
             } else {
                 // not in media library
-                SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
                 long rTime = preferences.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
@@ -1467,6 +1503,19 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 if(intentPosition > 0)
                     mLibVLC.setTime(intentPosition);
             }
+
+            String subtitleList_serialized = preferences.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+            Log.d(TAG, "subtitleList_serialized = " + subtitleList_serialized);
+            if(!mSubtitleFromResultFlag && subtitleList_serialized != null) {
+                ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+                try {
+                    ObjectInputStream ois = new ObjectInputStream(bis);
+                    mSubtitleSelectedFiles = (ArrayList<String>)ois.readObject();
+                } catch(ClassNotFoundException e) {}
+                  catch (StreamCorruptedException e) {}
+                  catch (IOException e) {}
+            }
+            mSubtitleFromResultFlag = false; // reset flag for future use
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
