@@ -1516,7 +1516,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }
 
             String subtitleList_serialized = preferences.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
-            Log.d(TAG, "subtitleList_serialized = " + subtitleList_serialized);
             ArrayList<String> prefsList = new ArrayList<String>();
             if(subtitleList_serialized != null) {
                 ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
