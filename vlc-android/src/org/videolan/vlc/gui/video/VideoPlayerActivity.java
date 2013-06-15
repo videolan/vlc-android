@@ -193,12 +193,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * (just like desktop VLC allows you as well.)
      */
     private ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
-    /**
-     * Flag will be set to true by onActivityResult() to not overwrite it with
-     * the saved version in the preferences. Otherwise, a subtitle could never
-     * be added because it will get overwritten in onResume().
-     */
-    private boolean mSubtitleFromResultFlag = false;
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -489,7 +483,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "Generic subtitle file: " + uri);
         }
         mSubtitleSelectedFiles.add(data.getData().getPath());
-        mSubtitleFromResultFlag = true;
     }
 
     public static void start(Context context, String location) {
@@ -1386,7 +1379,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void setESTrackLists() {
-        if(mAudioTracksList == null) {
+        setESTrackLists(false);
+    }
+
+    private void setESTrackLists(boolean force) {
+        if(mAudioTracksList == null || force) {
             if (mLibVLC.getAudioTracksCount() > 2) {
                 mAudioTracksList = mLibVLC.getAudioTrackDescription();
                 mAudioTrack.setOnClickListener(mAudioTrackListener);
@@ -1397,7 +1394,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mAudioTrack.setOnClickListener(null);
             }
         }
-        if (mSubtitleTracksList == null) {
+        if (mSubtitleTracksList == null || force) {
             if (mLibVLC.getSpuTracksCount() > 0) {
                 mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
                 mSubtitle.setOnClickListener(mSubtitlesListener);
@@ -1506,16 +1503,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
             String subtitleList_serialized = preferences.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
             Log.d(TAG, "subtitleList_serialized = " + subtitleList_serialized);
-            if(!mSubtitleFromResultFlag && subtitleList_serialized != null) {
+            ArrayList<String> prefsList = new ArrayList<String>();
+            if(subtitleList_serialized != null) {
                 ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
                 try {
                     ObjectInputStream ois = new ObjectInputStream(bis);
-                    mSubtitleSelectedFiles = (ArrayList<String>)ois.readObject();
+                    prefsList = (ArrayList<String>)ois.readObject();
                 } catch(ClassNotFoundException e) {}
                   catch (StreamCorruptedException e) {}
                   catch (IOException e) {}
             }
-            mSubtitleFromResultFlag = false; // reset flag for future use
+            for(String x : prefsList){
+                if(!mSubtitleSelectedFiles.contains(x))
+                    mSubtitleSelectedFiles.add(x);
+             }
 
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
