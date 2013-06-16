@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
@@ -127,6 +127,9 @@
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
     <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n</string>
+    <string name="encountered_error_title">Error de reproducción</string>
+    <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
+    <string name="invalid_location">La localización %1$s no puede ser reproducida</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
@@ -172,6 +175,12 @@
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>
     <string name="subtitles_text_encoding">Codificación de texto</string>
+    <string name="debug_logs">Registros de depuración</string>
+    <string name="start_logging">Iniciar registro</string>
+    <string name="stop_logging">Detener registro</string>
+    <string name="clear_log">Limpiar registro</string>
+    <string name="copy_to_clipboard">Copiar al portapapeles</string>
+    <string name="copied_to_clipboard">Registro copiado al portapapeles.</string>
     <string name="advanced_prefs_category">Avanzado</string>
     <string name="advanced_debugging">Depurado avanzado</string>
     <string name="aout">Salida de audio</string>
