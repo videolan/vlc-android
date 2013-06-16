@@ -1,12 +1,13 @@
 Changes between 0.1.1 and 0.1.2-git:
 --------------------------------
 
-AudioService:
+Audio Service:
  * Keep the service alive only when playing.
  * fix crash
 
-MainApplication:
- * fix crashes and warnings
+Main Application:
+ * Fix crashes and warnings
+ * Manual selection of subtitles
 
 Translations:
  * Updates to the Czech, Dutch, Russian, and Chinese translations
