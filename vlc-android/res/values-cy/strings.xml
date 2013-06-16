@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Iawn</string>
@@ -16,7 +16,7 @@
         <item quantity="one">Canfuwyd %d canlyniad</item>
         <item quantity="two">Canfuwyd %d canlyniad</item>
         <item quantity="many">Canfuwyd %d canlyniad</item>
-        <item quantity="other">Canfuwyd %d canlyniad</item>
+        <item quantity="other">Daethwyd o hyd i %d canlyniad</item>
     </plurals>
 
     <string name="play">Chwarae</string>
@@ -32,14 +32,14 @@
     <string name="info">Gwybodaeth</string>
     <string name="confirm_delete">Dileu\'r ffeil \'%1$s\' ?</string>
     <string name="ringtone_set">Gosodwyd \'%1$s\' fel y sain canu.</string>
-    <string name="ringtone_error">Bu gwall wrth gosod y sain canu.</string>
+    <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
     <string name="not_show_again">Peidio dangos y neges hon eto.</string>
-    <string name="beta_warning">Fersiwn beta yw hon.\n\nDyw\'r fersiwn hon DDIM YN SEFYDLOG!\n\nPaid â\'i ddefnyddio ond dy fod yn gwybod beth wyt ti\'n gwneud.\n\nGall lladd dy gath fach a dinistrio dy dŷ, felly dy ddewis di yw mentro i\'w ddefnyddio.\n\nPob hwyl! :)</string>
+    <string name="beta_warning">Fersiwn beta yw hwn. Dyw\'r fersiwn hwn DDIM YN SEFYDLOG!\n\nGall niweidio\'ch cath a dinistrio\'ch tŷ, felly defnyddiwch dim ond os ydych yn gwybod beth rydych yn gwneud. \n\nMwynhewch! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artist Anhysbys</string>
-    <string name="unknown_album">lbwm Anhysbys</string>
-    <string name="unknown_genre">Genre diarth</string>
+    <string name="unknown_album">Albwm Anhysbys</string>
+    <string name="unknown_genre">Genre Anhysbys</string>
     <string name="songs">Caneuon</string>
 
     <plurals name="songs_quantity">
@@ -72,10 +72,10 @@
     </plurals>
 
     <string name="internal_memory">Cof mewnol</string>
-    <string name="parent_folder">I fyny i\'r ffolder rhiant</string>
+    <string name="parent_folder">Fyny i\'r ffolder rhiant</string>
     <string name="audio">Sain</string>
     <string name="video">Fideo</string>
-    <string name="bookmarks">Nod lleoliad</string>
+    <string name="bookmarks">Nodau lleoliad</string>
     <string name="all_albums">Pob albwm</string>
     <string name="genres">Genres</string>
     <string name="playlists">Rhestrau chwarae</string>
@@ -84,13 +84,13 @@
     <string name="album">Albwm</string>
     <string name="directory">Cyfeiriadur</string>
     <string name="directories">Cyfeiriaduron</string>
-    <string name="loading">Yn llwytho</string>
+    <string name="loading">Yn llwytho&#8230;</string>
     <string name="please_wait">Arhoswch…</string>
-    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwydda ffeiliau i dy ddyfais neu addasa dy ddewisiadau.</string>
+    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwydda ffeiliau i dy ddyfais neu addasa\'r cyfeiriadau\'r llyfrgell.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">ddim ar gael</string>
-    <string name="nosubdirectory">Dim is-ffolderi.</string>
-    <string name="nohistory">Nid oes gennyt hanes chwarae eto.</string>
+    <string name="nosubdirectory">Dim is-gyfeiriaduron.</string>
+    <string name="nohistory">Does dim hanes chwarae eto.</string>
     <string name="validation">Wyt yn sicr?</string>
     <string name="cover_art">Dyluniad clawr</string>
     <string name="shuffle">Cymysgu</string>
@@ -101,10 +101,10 @@
     <string name="locked">Ar glo</string>
     <string name="unlocked">Ddim ar glo</string>
     <string name="surface_best_fit">Ffit orau</string>
-    <string name="surface_fit_horizontal">Ffit llorweddol</string>
-    <string name="surface_fit_vertical">Ffit fertigol</string>
-    <string name="surface_fill">Llenwi</string>
-    <string name="surface_original">Canol</string>
+    <string name="surface_fit_horizontal">Ffitio i\'r lled</string>
+    <string name="surface_fit_vertical">Ffitio i\'r uchder</string>
+    <string name="surface_fill">Llenwi\'r sgrin</string>
+    <string name="surface_original">Canoli</string>
     <string name="thumbnail">Braslun bawd</string>
     <string name="unseekable_stream">Ffrwd heb bosib dewis man chwarae</string>
     <string name="refresh">Ail-lwytho</string>
@@ -114,14 +114,14 @@
     <string name="track_unknown">Trac anhysbys</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Iaith: %1$s\n</string>
-    <string name="volume">Uchder sain</string>
+    <string name="volume">Sain</string>
     <string name="brightness">Disgleirdeb</string>
 
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d sianel</item>
+        <item quantity="one">%1$d sianel\n</item>
         <item quantity="two">%1$d sianel\n</item>
-        <item quantity="many">%1$d sianel</item>
-        <item quantity="other">%1$d sianel</item>
+        <item quantity="many">%1$d sianel\n</item>
+        <item quantity="other">%1$d sianel\n</item>
     </plurals>
 
     <string name="track_samplerate_info">Cyfradd sampl: %1$d Hz\n</string>
@@ -130,62 +130,65 @@
     <string name="tools">Offer</string>
     <string name="playback_speed">Cyflymder chwarae</string>
     <string name="sleep_title">Amserydd cwsg</string>
-    <string name="sleep_cancel">Diddymu\'r amserydd cwsg</string>
-    <string name="jump_to_time">Neidio i Amser</string>
+    <string name="sleep_cancel">Diffodd yr amserydd cwsg</string>
+    <string name="jump_to_time">Neidio i amser</string>
+    <string name="subtitle_label">Ychwanegu ffeil isdeitlau</string>
+    <string name="subtitle_select">Dewis ffeil isdeitlau</string>
+    <string name="no_file_picker_found">Ni chanfuwyd dewiswr ffeiliau ar y system.</string>
     <string name="open">Agor</string>
     <string name="open_mrl">Agor MRL</string>
-    <string name="open_mrl_dialog_title">Ffrwd rhwydwaith agored</string>
+    <string name="open_mrl_dialog_title">Agor ffrwd rhwydwaith</string>
     <string name="open_mrl_dialog_msg">Rhowch MRL y cyfrwng: e.e. http://, mms:// neu rtsp://</string>
     <string name="error_not_compatible">Nid yw\'r fersiwn hon o VLC ar gyfer Android™ yn gweithio ar eich dyfais chi ar hyn o\'r bryd.</string>
-    <string name="error_problem">Cafodd VLC ar gyfer Android broblem wrth lwytho a bu\'n rhaid iddo gau.</string>
+    <string name="error_problem">Roedd problem wrth llwytho VLC ar gyfer Android™ a buodd rhaid ei gau.</string>
     <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):\n</string>
     <string name="encountered_error_title">Gwall chwarae</string>
-    <string name="encountered_error_message">Bu gwall gan VLC gyda\'r cyfrwng hwn.\nRho gynnig ar ail-lwythwo\'r llyfrgell cyfryngau.</string>
+    <string name="encountered_error_message">Roedd gwall wrth geisio chwarae\'r cyfrwng hwn.\nCeisia ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="invalid_location">Ni ellir chwarae\'r lleoliad %1$s</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC i Android™</string>
+    <string name="app_name_full">VLC ar gyfer Android™</string>
     <string name="licence">Trwydded</string>
     <string name="revision">Adolygiad</string>
     <string name="about">Ynghylch</string>
-    <string name="about_text">Porth o chwaraewr VLC, y chwaraewr cyfryngau cod agored poblogaidd, yw VLC ar gyfer Android™. Gall y fersiwn Android™ ddarllen y rhan fwyaf o ffeiliau a ffrydiau rhwydwaith.</string>
+    <string name="about_text">Porth o chwaraewr VLC, y chwaraewr cyfryngau cod agored poblogaidd, yw VLC ar gyfer Android™. Gall y fersiwn Android™ chwarae\'r rhan fwyaf o ffeiliau cyfryngau a ffrydiau rhwydwaith.</string>
     <string name="compiled_by">Cafodd y fersiwn hon o VLC ei grynhoi gan:</string>
     <string name="vlc_authors">Awduron VLC.</string>
 
     <!-- Preferences -->
     <string name="preferences">Dewisiadau</string>
     <string name="library_prefs_category">Llyfrgell cyfryngau</string>
-    <string name="directories_summary">Dewisa lleoliadau i\'w gynnwys yn y llyfrgell cyfryngau</string>
-    <string name="add_custom_path">Ychwanegu llwybr addasedig</string>
-    <string name="add_custom_path_description">Rho lleoliad addasedig ychwanegol i\'w sganio:</string>
-    <string name="remove_custom_path">Tynnu llwybr addasedig</string>
+    <string name="directories_summary">Dewis cyfeiriaduron i\'w gynnwys yn y llyfrgell cyfryngau</string>
+    <string name="add_custom_path">Ychwanegu lleoliad penodol</string>
+    <string name="add_custom_path_description">Rhowch gyfeiriadur ychwanegol i\'w sganio:</string>
+    <string name="remove_custom_path">Tynnu llwybr penodol</string>
     <string name="main_prefs_category">Prif</string>
     <string name="screen_orientation">Gorweddiad sgrin fideo</string>
-    <string name="screen_orientation_sensor">Awtomatig (synhwyrydd)</string>
+    <string name="screen_orientation_sensor">Awtomatig (synhwyro)</string>
     <string name="screen_orientation_start_lock">Ar glo wrth ddechrau</string>
     <string name="screen_orientation_portrait">Darlun</string>
     <string name="screen_orientation_landscape">Tirlun</string>
     <string name="screen_orientation_reverse_portrait">Darlun gwrthwyneb</string>
     <string name="screen_orientation_reverse_landscape">Tirlun gwrthwyneb</string>
-    <string name="enable_brightness_gesture">Galluogi disgleirdeb ystum (gesture)</string>
-    <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan ystum (gesture) wrth chwarae fideo</string>
+    <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
+    <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
     <string name="enable_headset_detection">Canfod clustffonau</string>
-    <string name="enable_headset_detection_summary">Oedi wrth tynnu clustffonau; chwarae wrth gysylltu clustffonau</string>
-    <string name="enable_wheel_bar">Galluogi\'r bar olwyn</string>
-    <string name="enable_wheel_bar_summary">Bar man chwarae amgen ar gyfer y rhyngwyneb fideo </string>
-    <string name="enable_steal_remote_control">Rheolaeth clustffonau diwifr unigryw</string>
-    <string name="enable_steal_remote_control_summary">Osgo gwrthdrawiadau gan dwyn y rheolaeth ddiwifr oddi wrth aps eraill. Mae hyn yn rhwystro deialu ar ffonau clic-dwbl HTC.</string>
+    <string name="enable_headset_detection_summary">Oedi pan ddatgysylltir clustffonau; chwarae pan gysylltir clustffonau</string>
+    <string name="enable_wheel_bar">Defnyddio\'r bar olwyn</string>
+    <string name="enable_wheel_bar_summary">Bar amgen yn y rhyngwyneb fideo i ddewis y pwynt chwarae</string>
+    <string name="enable_steal_remote_control">Rheolaeth diwifr i\'r clustffonau yn unig</string>
+    <string name="enable_steal_remote_control_summary">Osgoi gwrthdaro gan atal aplenni eraill rhag cael rheolaeth ddiwifr (Ar ffonau clic-dwbl HTC, mae hyn yn rhwystro deialu.)</string>
     <string name="performance_prefs_category">Perfformiad</string>
     <string name="chroma_format">Gorfodi lliw fideo</string>
-    <string name="chroma_format_summary">RGB 32-did: lliw rhagosedig\nRGB 16-did: gwell perfformiad ond ansawdd salach\nYUV: perfformiad gorau ond ddim yn gweithio ar bob dyfais. Android 2.3 a\'n uwch yn unig.\n</string>
-    <string name="enable_iomx">Dad-godiad cyflymu gan y caledwedd</string>
-    <string name="enable_iomx_summary">Mae\'n gwella\'r perfformiad, ond mae\'n bosib nad yw\'n gweithio gyda phob dyfais.</string>
-    <string name="enable_time_stretching_audio">Ymestyn amser sain</string>
-    <string name="enable_time_stretching_audio_summary">Cyflymu ac arafu sain heb newid y traw (pitch) (mae angen dyfais cyflym).</string>
+    <string name="chroma_format_summary">RGB 32-did: Lliwiau rhagosodedig\nRGB 16-did: Gwell perfformiad; ansawdd salach\nYUV: Perfformiad gorau; dim yn gweithio ar bob dyfais; Android 2.3 a\'n uwch yn unig</string>
+    <string name="enable_iomx">Cyflymu datgodiad gan y caledwedd</string>
+    <string name="enable_iomx_summary">Mae\'r perfformiad yn gwell os yw\'r dyfais ei hun yn datgodio\'r cyfryngau, ond mae\'n bosib nad yw\'n gweithio gyda phob dyfais.</string>
+    <string name="enable_time_stretching_audio">Gallu ymestyn sain dros amser</string>
+    <string name="enable_time_stretching_audio_summary">Mae\'n gwneud yn bosib cyflymu ac arafu sain heb newid y traw (pitch). Mae angen dyfais gyflym.</string>
     <string name="other_prefs_category">Arall</string>
     <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
-    <string name="media_db_cleared">Cliriwyd y gronfa ddata cyrfryngau!</string>
+    <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>
     <string name="subtitles_text_encoding">Amgodiad testun isdeitlau</string>
     <string name="debug_logs">Logiau dadfygio</string>
     <string name="start_logging">Dechrau logio</string>
@@ -196,14 +199,14 @@
     <string name="advanced_prefs_category">Uwch</string>
     <string name="advanced_debugging">Dadfygio uwch</string>
     <string name="aout">Allbwn sain</string>
-    <string name="aout_summary">Newid y dull mae VLC yn defnyddio i allbynnu sain.</string>
-    <string name="aout_audiotrack">TracSain (brodorol)</string>
-    <string name="aout_audiotrack_java">TracSain (Java)</string>
+    <string name="aout_summary">Newid y dull mae VLC yn ei ddefnyddio i allbynnu sain</string>
+    <string name="aout_audiotrack">AudioTrack (brodorol)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">Amleiriog</string>
-    <string name="enable_verbose_mode_summary">Cynyddu\'r geiriogrwydd (logcat)</string>
+    <string name="enable_verbose_mode_summary">Cynyddu\'r geiriogrwydd yn logcat Android.</string>
     <string name="set_locale">Gosod rhanbarth</string>
     <string name="set_locale_detail">Gadael yn wag i\'w ailosod</string>
     <string name="set_locale_popup">Ailddechreua VLC i\'r newidiadau dod yn effeithiol.</string>
-    <string name="quit">Gadael y rhaglen</string>
+    <string name="quit">Cau\'r aplen</string>
 </resources>
