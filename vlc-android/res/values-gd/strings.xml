@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Ceart ma-thà</string>
@@ -15,7 +15,7 @@
     <plurals name="search_found_results_quantity">
         <item quantity="one">Chaidh %d toradh a lorg</item>
         <item quantity="two">Chaidh %d thoradh a lorg</item>
-        <item quantity="few">Lorg sinn %d toraidhean</item>
+        <item quantity="few">Chaidh %d toraidhean a lorg</item>
         <item quantity="other">Chaidh %d toradh a lorg</item>
     </plurals>
 
@@ -43,7 +43,7 @@
     <string name="songs">Òrain</string>
 
     <plurals name="songs_quantity">
-        <item quantity="one">1 òran</item>
+        <item quantity="one">%d òran</item>
         <item quantity="two">%d òran</item>
         <item quantity="few">%d òrain</item>
         <item quantity="other">%d òran</item>
@@ -53,22 +53,22 @@
     <string name="albums">Albaman</string>
 
     <plurals name="albums_quantity">
-        <item quantity="one">1 albam</item>
+        <item quantity="one">%d albam</item>
         <item quantity="two">%d albam</item>
         <item quantity="few">%d albaman</item>
         <item quantity="other">%d albam</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">fho-phasgan</item>
-        <item quantity="two">fho-phasgan</item>
-        <item quantity="few">%d fo-phasgain</item>
-        <item quantity="other">fo-phasgan</item>
+        <item quantity="one">%d fho-phasgan</item>
+        <item quantity="two">%d fho-phasgan</item>
+        <item quantity="few">%d fo-phasganan</item>
+        <item quantity="other">%d fo-phasgan</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">fhaidhle meadhain</item>
-        <item quantity="two">fhaidhle meadhain</item>
+        <item quantity="one">%d fhaidhle meadhain</item>
+        <item quantity="two">%d fhaidhle meadhain</item>
         <item quantity="few">%d faidhlichean meadhain</item>
-        <item quantity="other">faidhle meadhain</item>
+        <item quantity="other">%d faidhle meadhain</item>
     </plurals>
 
     <string name="internal_memory">Cuimhne inntearnail</string>
@@ -106,6 +106,7 @@
     <string name="surface_fill">Lìon</string>
     <string name="surface_original">Meadhan</string>
     <string name="thumbnail">Dealbhag</string>
+    <string name="unseekable_stream">Sruth nach gabh a shireadh</string>
     <string name="refresh">Ath-nuadhaich</string>
     <string name="track_audio">Traca fuaime</string>
     <string name="track_video">Traca video</string>
@@ -117,10 +118,10 @@
     <string name="brightness">Soilleireachd</string>
 
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 seanail\n</item>
-        <item quantity="two">%1d sheanail\n</item>
-        <item quantity="few">%d seanailean\n</item>
-        <item quantity="other">%1d seanail\n</item>
+        <item quantity="one">%1$d seanail\n</item>
+        <item quantity="two">%1$d sheanail\n</item>
+        <item quantity="few">%1$d seanailean\n</item>
+        <item quantity="other">%1$d seanail\n</item>
     </plurals>
 
     <string name="track_samplerate_info">Reat samplachaidh: %1$d Hz\n</string>
@@ -138,6 +139,9 @@
     <string name="error_not_compatible">Duilich, chan eil an tionndadh seo de VLC airson Android™ a\' cur taic ris an uidheam agad aig an àm seo.\n\nSeo teachdaireachd na mearachd (thoir luaidh air seo ma bhios tu ri dì-bhugadh):\n</string>
     <string name="error_problem">Duilich, bha duilgheadas againn a\' tòiseachadh \'s b\' fheudar dhuinn VLC dùnadh</string>
     <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):\n</string>
+    <string name="encountered_error_title">Mearachd \'ga chluich</string>
+    <string name="encountered_error_message">Thachair VLC ri mearachd sa mheadhan seo.\nFeuch is ath-nuadhaich leabharlann nam meadhan.</string>
+    <string name="invalid_location">Chan urrainn dhuinn %1$s a chluich</string>
 
     <!-- About -->
     <string name="app_name_full">VLC airson Android™</string>
@@ -150,28 +154,12 @@
 
     <!-- Preferences -->
     <string name="preferences">Roghainnean</string>
-    <string name="main_prefs_category">Prìomh chlàr-taice</string>
+    <string name="library_prefs_category">Leabharlann nam meadhan</string>
+    <string name="directories_summary">Tagh pasgan a thèid a ghabhail a-steach ann an leabharlann nam meadhan</string>
     <string name="add_custom_path">Cuir slighe ghnàthaichte ris</string>
     <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
     <string name="remove_custom_path">Thoir an t-slighe ghnàthaichte air falbh</string>
-    <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
-    <string name="advanced_prefs_category">Adhartach</string>
-    <string name="enable_iomx">Cuir an comas dì-chòdachadh \"hardware accelerated\"</string>
-    <string name="advanced_debugging">Dì-bhugachadh adhartach</string>
-    <string name="quit">Fàg an aplacaid</string>
-    <string name="clear_media_db">Falamhaich stòr-dàta nam meadhanan</string>
-    <string name="media_db_cleared">Chaidh stòr-dàta nam meadhanan fhalamhadh</string>
-    <string name="set_locale">Suidhich an sgeama ionadail</string>
-    <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
-    <string name="set_locale_popup">Fàg VLC is ath-thòisich gus na dh\'atharraich thu a chur an sàs</string>
-    <string name="chroma_format">Èignich sàthachd nan dath</string>
-    <string name="chroma_format_summary">NA CUIR AN GNÌOMH!!! Dh/\'fhaoidte nach obair seo air gach uidheam. 2.3 is feadhainn nas ùire.</string>
-    <string name="enable_headset_detection">Mothaich dha headset</string>
-    <string name="enable_headset_detection_summary">Chan eil an headset \'na stad tuilleadh; a\' leantainn air adhart air an headset</string>
-    <string name="enable_steal_remote_control">Smachd aig an headset a-mhàin</string>
-    <string name="enable_steal_remote_control_summary">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
-    <string name="enable_wheel_bar">Cuir am bàr cuibhle an comas</string>
-    <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
+    <string name="main_prefs_category">Prìomh chlàr-taice</string>
     <string name="screen_orientation">Comhair na sgrìn</string>
     <string name="screen_orientation_sensor">Fèin-obrachail (mothaichear)</string>
     <string name="screen_orientation_start_lock">Glaiste aig an toiseach</string>
@@ -179,13 +167,43 @@
     <string name="screen_orientation_landscape">Dreach-tìre</string>
     <string name="screen_orientation_reverse_portrait">Portraid bun os cionn</string>
     <string name="screen_orientation_reverse_landscape">Dreach-tìre bun os cionn</string>
+    <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
+    <string name="enable_brightness_gesture_summary">Atharraich an t-soilleireachd tro ghluasad rè a chluich</string>
+    <string name="enable_headset_detection">Mothaich dha headset</string>
+    <string name="enable_headset_detection_summary">Cuir \'na stad ma bheirear air falbh an headset; lean air nuair a thèid a chur a-steach a-rithist</string>
+    <string name="enable_wheel_bar">Cuir am bàr cuibhle an comas</string>
+    <string name="enable_wheel_bar_summary">Stoidhle eile air a\' bhàr siridh san eadar-aghaidh video</string>
+    <string name="enable_steal_remote_control">Smachd aig an headset a-mhàin</string>
+    <string name="enable_steal_remote_control_summary">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
+    <string name="performance_prefs_category">Dèanadas</string>
+    <string name="chroma_format">Èignich sàthachd nan dath</string>
+    <string name="chroma_format_summary">RGB 32-bit: chroma bunaiteach\nRGB 16-bit: dèanadas nas fhearr ach càileachd nas miosa\nYUV: dèanadas as fhearr ach chan obraich seo aig gach uidheam. Android 2.3 agus nas ùire.</string>
+    <string name="enable_iomx">Cuir an comas dì-chòdachadh \"hardware accelerated\"</string>
+    <string name="enable_iomx_summary">Dèanadas nas fhearr ach chan obraich e air gach uidheam.</string>
+    <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
+    <string name="enable_time_stretching_audio_summary">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath).</string>
+    <string name="other_prefs_category">Eile</string>
+    <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
+    <string name="clear_media_db">Falamhaich stòr-dàta nam meadhanan</string>
+    <string name="media_db_cleared">Chaidh stòr-dàta nam meadhanan fhalamhadh</string>
     <string name="subtitles_text_encoding">Còdachadh an teacsa</string>
+    <string name="debug_logs">Logaichean dì-bhugachaidh</string>
+    <string name="start_logging">Tòisich air logadh</string>
+    <string name="stop_logging">Sguir dhen logadh</string>
+    <string name="clear_log">Falamhaich an loga</string>
+    <string name="copy_to_clipboard">Cuir lethbhreac air an stòr-bhòrd</string>
+    <string name="copied_to_clipboard">Chaidh lethbhreac dhen loga a chur air an stòr-bhòrd.</string>
+    <string name="advanced_prefs_category">Adhartach</string>
+    <string name="advanced_debugging">Dì-bhugachadh adhartach</string>
     <string name="aout">Às-chur fuaime</string>
+    <string name="aout_summary">Atharraich mar a chuireas VLC a-mach fuaime.</string>
     <string name="aout_audiotrack">AudioTrack (tùsail)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
-    <string name="enable_time_stretching_audio_summary">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath)</string>
-    <string name="enable_verbose_mode">Briathrachas</string>
+    <string name="enable_verbose_mode">Briathrach</string>
     <string name="enable_verbose_mode_summary">Cuir am briathrachas an àirde (logcat)</string>
+    <string name="set_locale">Suidhich an sgeama ionadail</string>
+    <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
+    <string name="set_locale_popup">Fàg VLC is ath-thòisich gus na dh\'atharraich thu a chur an sàs</string>
+    <string name="quit">Fàg an aplacaid</string>
 </resources>
