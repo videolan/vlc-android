@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">D\'acord</string>
@@ -33,7 +33,7 @@
     <string name="ringtone_error">S\'ha produït un error en establir el to de trucada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">No mostris més aquest missatge.</string>
-    <string name="beta_warning">Aquesta és una versió beta.\n\nAquesta versió NO ÉS ESTABLE!\n\nSi no sabeu que esteu fent, NO la useu.\n\nMot matar el vostre gatet i destruir-vos la casa.\nUseu-la sota la vostra responsabilitat.\n\nDivertiu-vos! :)</string>
+    <string name="beta_warning">Aquesta és una versió beta.\n\nAquesta versió NO ÉS ESTABLE!\n\nSi no sabeu que esteu fent, NO la useu.\n\nPot matar el vostre gatet i destruir-vos la casa.\nUseu-la sota la vostra responsabilitat.\n\nDivertiu-vos! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista desconegut</string>
     <string name="unknown_album">Àlbum desconegut</string>
@@ -96,6 +96,7 @@
     <string name="surface_fill">Emplena</string>
     <string name="surface_original">Centre</string>
     <string name="thumbnail">Miniatura</string>
+    <string name="unseekable_stream">Flux no trobat</string>
     <string name="refresh">Actualitza</string>
     <string name="track_audio">Pista d\'àudio</string>
     <string name="track_video">Pista de vídeo</string>
@@ -118,13 +119,17 @@
     <string name="playback_speed">Velocitat de reproducció</string>
     <string name="sleep_title">Temporitzador</string>
     <string name="sleep_cancel">Cancel·la el temporitzador</string>
+    <string name="jump_to_time">Saltar al minut</string>
     <string name="open">Obre</string>
     <string name="open_mrl">Obre MRL</string>
     <string name="open_mrl_dialog_title">Obre un flux de xarxa</string>
-    <string name="open_mrl_dialog_msg">Introduïu la xarxa MRL: p.e. http://, mms:// o rtsp://</string>
+    <string name="open_mrl_dialog_msg">Introduïu la xarxa MRL: p.e. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">El vostre dispositiu no és compatible amb aquesta versió del VLC per l\'Android™.</string>
     <string name="error_problem">S\'ha produït un error en carregar el VLC i s\'ha tancat.</string>
     <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):\n</string>
+    <string name="encountered_error_title">Error de reproducció</string>
+    <string name="encountered_error_message">VLC ha trobat un error en aquest suport. Si us plau, refresca la biblioteca multimèdia</string>
+    <string name="invalid_location">La ruta %1$s no pot ser reproduïda</string>
 
     <!-- About -->
     <string name="app_name_full">VLC per l\'Android™</string>
@@ -137,6 +142,8 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferències</string>
+    <string name="library_prefs_category">Biblioteca multimèdia</string>
+    <string name="directories_summary">Selecciona els directoris a incloure a la biblioteca multimèdia</string>
     <string name="add_custom_path">Afegeix un camí personalitzat</string>
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
@@ -149,20 +156,35 @@
     <string name="screen_orientation_reverse_portrait">Vertical invers</string>
     <string name="screen_orientation_reverse_landscape">Horitzontal invers</string>
     <string name="enable_brightness_gesture">Habilita els gestos de brillantor</string>
+    <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
+    <string name="enable_headset_detection_summary">Pausa quan es treguin els auriculars; torna a reproduir quan es tornin a connectar.</string>
     <string name="enable_wheel_bar">Habilita la barra de roda</string>
+    <string name="enable_wheel_bar_summary">Alterna l\'estil de la barra de cerca per l\'interfície de vídeo</string>
     <string name="enable_steal_remote_control">Control remot exclusiu dels auriculars</string>
     <string name="enable_steal_remote_control_summary">Evita els conflictes prenent el control remot d\'altres aplicacions. Això impedeix marcar quan es fa doble clic als telèfons HTC.</string>
+    <string name="performance_prefs_category">Rendiment</string>
+    <string name="chroma_format">Força el croma del vídeo</string>
+    <string name="chroma_format_summary">RGB 32-bits: Croma per defecte RGB 16-bits: millor rendiment però menor qualitat YUV: perfecte rendiment però no funciona en tots els dispositius. Únicament per Android 2.3 o posterior</string>
     <string name="enable_iomx">Habilita decodificació accelerada per maquinari</string>
+    <string name="enable_iomx_summary">Millora el rendiment, però pot no funcionar en tots els dispositius.</string>
     <string name="enable_time_stretching_audio">Habilita l\'àudio de temps d\'estirament</string>
+    <string name="enable_time_stretching_audio_summary">Incrementa o redueix la velocitat de l\'àudio sense canviar el to (requereix un dispositiu més ràpid)</string>
     <string name="other_prefs_category">Altre</string>
     <string name="clear_history">Neteja l\'historial de cerca</string>
     <string name="clear_media_db">Neteja la base de dades multimèdia</string>
     <string name="media_db_cleared">S\'ha netejat la base de dades multimèdia</string>
     <string name="subtitles_text_encoding">Codificació del text</string>
+    <string name="debug_logs">Depura els registres</string>
+    <string name="start_logging">S\'esta registrant</string>
+    <string name="stop_logging">Finalitza el registre</string>
+    <string name="clear_log">Neteja el fitxer de registre</string>
+    <string name="copy_to_clipboard">Còpia cap al porta-retalls</string>
+    <string name="copied_to_clipboard">Copiat el fitxer de registre al porta-retalls</string>
     <string name="advanced_prefs_category">Avançat</string>
     <string name="advanced_debugging">Depuració avançada</string>
     <string name="aout">Sortida d\'àudio</string>
+    <string name="aout_summary">Canvia el mètode que VLC utilitza per a la sortida d\'àudio</string>
     <string name="aout_audiotrack">AudioTrack (natiu)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
