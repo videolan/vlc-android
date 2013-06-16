@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Uredu</string>
@@ -126,6 +126,9 @@
     <string name="sleep_title">Brojač za spavanje</string>
     <string name="sleep_cancel">Otkaži brojač za spavanje</string>
     <string name="jump_to_time">Skoči na vrijeme</string>
+    <string name="subtitle_label">Dodaj datoteku titla</string>
+    <string name="subtitle_select">Izaberi datoteku titla</string>
+    <string name="no_file_picker_found">Ni jedan uvozač datoteka nije pronađen na sistemu.</string>
     <string name="open">Otvori</string>
     <string name="open_mrl">Otvori MRL</string>
     <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
@@ -133,6 +136,9 @@
     <string name="error_not_compatible">Izvinite, vaš uređaj trenutno nije podržan od ove verzije VLC-a za Android™.</string>
     <string name="error_problem">Izvinite, VLC za Android je imao problem s učitavanjem i morao se zatvoriti.</string>
     <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):\n</string>
+    <string name="encountered_error_title">Greška pri reproduciranju</string>
+    <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
+    <string name="invalid_location">Lokacija %1$s se ne može reproducirati</string>
 
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
@@ -161,27 +167,33 @@
     <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
-    <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se slušalice spoje</string>
+    <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
     <string name="enable_wheel_bar">Uključi kotačnu traku</string>
-    <string name="enable_wheel_bar_summary">Alternativna-stilska traka za traženje za video okruženje</string>
+    <string name="enable_wheel_bar_summary">Alternativni stil trake za traženje na video okruženju</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
-    <string name="enable_steal_remote_control_summary">Izbjegavajte konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik na HTC telefonima.</string>
+    <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj kromu</string>
     <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="enable_iomx">Uključi hardverski ubrzano dekodiranje</string>
     <string name="enable_iomx_summary">Poboljšava performanse, ali možda neće raditi sa svim uređajima.</string>
     <string name="enable_time_stretching_audio">Uključi vremensko-proširavanje zvuka</string>
-    <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj)</string>
+    <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj).</string>
     <string name="other_prefs_category">Drugi</string>
     <string name="clear_history">Očisti historiju pretraživanja</string>
     <string name="clear_media_db">Očisti medijsku bazu podataka</string>
     <string name="media_db_cleared">Medijska baza podataka očišćena!</string>
-    <string name="subtitles_text_encoding">Dekodiranje teksta</string>
+    <string name="subtitles_text_encoding">Kodiranje teksta titlova</string>
+    <string name="debug_logs">Zapisnik otkrivanja grešaka</string>
+    <string name="start_logging">Pokreni zapisivanje</string>
+    <string name="stop_logging">Zaustavi zapisivanje</string>
+    <string name="clear_log">Očisti zapisnik</string>
+    <string name="copy_to_clipboard">Kopiraj u međuspremnik</string>
+    <string name="copied_to_clipboard">Zapisnik kopiran u međuspremnik.</string>
     <string name="advanced_prefs_category">Dodatno</string>
     <string name="advanced_debugging">Dodatno otkrivanje grešaka</string>
     <string name="aout">Zvučni izlaz</string>
-    <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk</string>
+    <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
     <string name="aout_audiotrack">AudioTrack (izvorno)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
