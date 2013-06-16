@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -133,6 +133,9 @@
     <string name="error_not_compatible">Ľutujeme, ale toto zariadenie momentálne nie je podporované touto verziou programu VLC for Android™.</string>
     <string name="error_problem">Ľutujeme, VLC for Android má problém s načítaním a je nutné ho ukončiť.</string>
     <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):\n</string>
+    <string name="encountered_error_title">Chyba počas prehrávania</string>
+    <string name="encountered_error_message">Program VLC zaznamenal chybu pri tomto médiu.\nProsím skúste obnoviť knižnicu médií.</string>
+    <string name="invalid_location">Z umiestnenia %1$s nemožno prehrávať</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -178,6 +181,12 @@
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
     <string name="media_db_cleared">Databáza médií bola vyprázdnená!</string>
     <string name="subtitles_text_encoding">Kódovanie textu titulkov</string>
+    <string name="debug_logs">Záznamy pre ladenie</string>
+    <string name="start_logging">Spustiť zaznamenávanie</string>
+    <string name="stop_logging">Zastaviť zaznamenávanie</string>
+    <string name="clear_log">Vyčistiť záznam</string>
+    <string name="copy_to_clipboard">Kopírovať do schránky</string>
+    <string name="copied_to_clipboard">Záznam bol skopírovaný do schránky.</string>
     <string name="advanced_prefs_category">Pokročilé</string>
     <string name="advanced_debugging">Pokročilé ladenie</string>
     <string name="aout">Zvukový výstup</string>
