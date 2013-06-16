@@ -120,6 +120,7 @@
     <string name="error_not_compatible">抱歉，您的裝置目前尚未被此版本的VLC for Android™支援。</string>
     <string name="error_problem">抱歉，VLC for Android載入時發生問題，必須關閉。</string>
     <string name="error_message_is">錯誤訊息為(請在除錯時陳述):\n</string>
+    <string name="encountered_error_title">播放錯誤</string>
 
     <!-- About -->
     <string name="licence">授權</string>
@@ -130,6 +131,7 @@
     <!-- Preferences -->
     <string name="preferences">偏好設定</string>
     <string name="library_prefs_category">媒體庫</string>
+    <string name="directories_summary">選擇目錄以增加到媒體庫</string>
     <string name="add_custom_path">增加自訂路徑</string>
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
@@ -142,6 +144,7 @@
     <string name="screen_orientation_reverse_portrait">縱向反轉</string>
     <string name="screen_orientation_reverse_landscape">橫向反轉</string>
     <string name="enable_brightness_gesture">啟用亮度手勢</string>
+    <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_headset_detection">偵測耳機</string>
     <string name="enable_headset_detection_summary">耳機拔除時暫停、插入時繼續播放</string>
     <string name="enable_wheel_bar">啟用飛輪列</string>
@@ -149,16 +152,24 @@
     <string name="performance_prefs_category">效能</string>
     <string name="chroma_format">強制套用色彩格式</string>
     <string name="enable_iomx">啟用硬體加速解碼</string>
+    <string name="enable_iomx_summary">增進效能，但非所有裝置皆適用。</string>
     <string name="enable_time_stretching_audio">啟用時間伸展音訊</string>
     <string name="other_prefs_category">其他</string>
     <string name="clear_history">清除搜尋歷史</string>
     <string name="clear_media_db">清除媒體資料庫</string>
     <string name="media_db_cleared">媒體資料庫已清除!</string>
     <string name="subtitles_text_encoding">文字編碼</string>
+    <string name="debug_logs">除錯記錄</string>
+    <string name="start_logging">開始記錄</string>
+    <string name="stop_logging">停止記錄</string>
+    <string name="clear_log">清除記錄</string>
+    <string name="copy_to_clipboard">複製到剪貼簿</string>
+    <string name="copied_to_clipboard">已複製記錄到剪貼簿</string>
     <string name="advanced_prefs_category">進階</string>
     <string name="advanced_debugging">進階除錯</string>
     <string name="aout">音訊輸出</string>
-    <string name="aout_audiotrack">AudioTrack(原生)</string>
+    <string name="aout_summary">改變VLC音訊輸出方式</string>
+    <string name="aout_audiotrack">AudioTrack (原生)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="set_locale">設定地區</string>
