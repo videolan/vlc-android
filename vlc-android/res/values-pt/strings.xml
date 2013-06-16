@@ -34,6 +34,7 @@
     <string name="pause">Pausar</string>
     <string name="not_show_again">Não voltar a mostrar esta mensagem.</string>
     <string name="beta_warning">Esta é uma versão beta.\n\nEsta versão NÃO É ESTÁVEL!\n\nNÃO a utilizar, a não ser que saiba o que está a fazer.\n\nÉ capaz de matar o seu gato e destruir a sua casa.\nUtilize-a a seu próprio risco.\n\nDivirta-se! :)</string>
+    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista Desconhecido</string>
     <string name="unknown_album">Álbum Desconhecido</string>
     <string name="unknown_genre">Género Desconhecido</string>
@@ -95,6 +96,7 @@
     <string name="surface_fill">Preencher</string>
     <string name="surface_original">Centro</string>
     <string name="thumbnail">Miniatura</string>
+    <string name="unseekable_stream">Emissão que não é possível procurar</string>
     <string name="refresh">Atualizar</string>
     <string name="track_audio">Faixa de Áudio</string>
     <string name="track_video">Faixa de Vídeo</string>
@@ -124,6 +126,8 @@
     <string name="error_not_compatible">Desculpe, o seu dispositivo atualmente não é suportado por esta versão do VLC para Android™.</string>
     <string name="error_problem">Desculpe, o VLC para Android encontrou um problema durante o carregamento e teve de ser fechado.</string>
     <string name="error_message_is">A mensagem de erro é (por favor mencione isto ao fazer debugging):\n</string>
+    <string name="encountered_error_title">Erro de reprodução</string>
+    <string name="encountered_error_message">O VLC encontrou um erro neste media.\nPor favor, tente atualizar a Biblioteca de Media.</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
@@ -136,6 +140,8 @@
 
     <!-- Preferences -->
     <string name="preferences">Preferências</string>
+    <string name="library_prefs_category">Biblioteca de Media</string>
+    <string name="directories_summary">Selecionar as diretorias a incluir na Biblioteca de Media</string>
     <string name="add_custom_path">Adicionar um caminho personalizado</string>
     <string name="add_custom_path_description">Introduza o caminho personalizado adicional para pesquisar:</string>
     <string name="remove_custom_path">Remover caminho personalizado</string>
@@ -148,10 +154,12 @@
     <string name="screen_orientation_reverse_portrait">Retrato ao contrário</string>
     <string name="screen_orientation_reverse_landscape">Paisagem ao contrário</string>
     <string name="enable_brightness_gesture">Activar gesto do brilho</string>
+    <string name="enable_brightness_gesture_summary">Controlar o brilho com um gesto durante a reprodução do vídeo</string>
     <string name="enable_headset_detection">Detectar headset</string>
     <string name="enable_wheel_bar">Activar barra de scroll</string>
     <string name="enable_steal_remote_control">Controlo remoto exclusivo do headset</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique em telefones HTC.</string>
+    <string name="performance_prefs_category">Desempenho</string>
     <string name="chroma_format">Forçar chroma</string>
     <string name="enable_iomx">Ativar a Decodificação da Aceleração de Hardware</string>
     <string name="enable_time_stretching_audio">Activar aumento-tempo para audio</string>
@@ -160,9 +168,16 @@
     <string name="clear_media_db">Limpar a Base de Dados de Media</string>
     <string name="media_db_cleared">Base de dados mídia limpa!</string>
     <string name="subtitles_text_encoding">Codificação do texto</string>
+    <string name="debug_logs">Registos de depuração</string>
+    <string name="start_logging">Iniciar a gravação do registo</string>
+    <string name="stop_logging">Parar a gravação do registo</string>
+    <string name="clear_log">Limpar registo</string>
+    <string name="copy_to_clipboard">Copiar para a Área de Transferência</string>
+    <string name="copied_to_clipboard">Registo copiado para a Área de Transferência.</string>
     <string name="advanced_prefs_category">Avançado</string>
     <string name="advanced_debugging">Depuração Avançada</string>
     <string name="aout">Saída de Áudio</string>
+    <string name="aout_summary">Alterar o método que o VLC usa para o áudio de saída.</string>
     <string name="aout_audiotrack">AudioTrack (original)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
