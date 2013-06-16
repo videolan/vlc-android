@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
@@ -33,7 +33,7 @@
     <string name="ringtone_error">Produciuse un erro ao definir o ton de chamada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrar esta mensaxe de novo.</string>
-    <string name="beta_warning">Esta é unha versión beta.\n\nEsta versión NON é estábel!\n\nNON a use a menos que saiba o que está a facer.\n\nPode matar o seu gato, destruír a súa casa e iniciar a apocalipse dos maias.\nÚsea baixo a súa responsabilidade.\n\nDivírtase! :) </string>
+    <string name="beta_warning">Esta é unha versión beta.\n\nEsta versión NON é estábel!\n\nNON a use a menos que saiba o que está a facer.\n\nPode matar o seu gato e destruír a súa casa.\nÚsea baixo a súa responsabilidade.\n\nDivírtase! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista descoñecido</string>
     <string name="unknown_album">Álbum descoñecido</string>
@@ -80,7 +80,7 @@
     <string name="mediafiles">Ficheiros multimedia</string>
     <string name="notavailable">non está dispoñíbel</string>
     <string name="nosubdirectory">Non hai subdirectorios.</string>
-    <string name="nohistory">Aínda non existe un historial de reprodución. </string>
+    <string name="nohistory">Aínda non existe un historial de reprodución.</string>
     <string name="validation">Está seguro?</string>
     <string name="cover_art">Portada</string>
     <string name="shuffle">Barallar</string>
@@ -120,6 +120,9 @@
     <string name="sleep_title">Temporizador para durmir</string>
     <string name="sleep_cancel">Cancelar o temporizador para durmir</string>
     <string name="jump_to_time">Saltar ao tempo</string>
+    <string name="subtitle_label">Engadir un ficheiro de subtítulos</string>
+    <string name="subtitle_select">Seleccione o ficheiro de subtítulos</string>
+    <string name="no_file_picker_found">Non se encontrou un selector de ficheiros no sistema.</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir un MRL</string>
     <string name="open_mrl_dialog_title">Abrir un fluxo de rede</string>
@@ -129,7 +132,7 @@
     <string name="error_message_is">A mensaxe de erro é (por favor, menciónea para a depuración):\n</string>
     <string name="encountered_error_title">Erro de reprodución</string>
     <string name="encountered_error_message">O VLC encontrou un erro con este medio.\nProbe a actualizar a biblioteca multimedia.</string>
-    <string name="invalid_location">Non é posíbel reproducir a localización </string>
+    <string name="invalid_location">Non é posíbel reproducir a localización %1$s</string>
 
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
@@ -158,11 +161,11 @@
     <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
-    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares </string>
+    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares</string>
     <string name="enable_wheel_bar">Activar a barra de roda</string>
     <string name="enable_wheel_bar_summary">Estilo alternativo para a barra de busca da interface de vídeo</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
-    <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC. </string>
+    <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC.</string>
     <string name="performance_prefs_category">Rendemento</string>
     <string name="chroma_format">Forzar a crominancia</string>
     <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
