@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -121,6 +121,9 @@
     <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。\n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
     <string name="error_problem">VLC for Androidはローディングで問題が発生したため、クローズします。</string>
     <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):\n</string>
+    <string name="encountered_error_title">再生エラー</string>
+    <string name="encountered_error_message">このメディアでエラーを検出しました。メディアライブラリをリフレッシュしてみてください。</string>
+    <string name="invalid_location">その場所 %1$s は再生できません</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -166,6 +169,12 @@
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
     <string name="subtitles_text_encoding">テキストエンコーディング</string>
+    <string name="debug_logs">デバッグログ</string>
+    <string name="start_logging">ログを開始</string>
+    <string name="stop_logging">ログを停止</string>
+    <string name="clear_log">ログを消去</string>
+    <string name="copy_to_clipboard">クリップボードにコピー</string>
+    <string name="copied_to_clipboard">クリップボードにコピーされたログ</string>
     <string name="advanced_prefs_category">拡張設定</string>
     <string name="advanced_debugging">高度なデバッグ</string>
     <string name="aout">オーディオ出力</string>
