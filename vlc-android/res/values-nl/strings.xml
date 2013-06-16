@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Ok</string>
@@ -120,6 +120,9 @@
     <string name="sleep_title">Slaapstand</string>
     <string name="sleep_cancel">Slaapstand annuleren</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
+    <string name="subtitle_label">Ondertitelbestand toevoegen</string>
+    <string name="subtitle_select">Ondertitelbestand selecteren</string>
+    <string name="no_file_picker_found">Er werd geen bestandsbeheerder op het systeem gevonden.</string>
     <string name="open">Openen</string>
     <string name="open_mrl">MRL openen</string>
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
