@@ -10,7 +10,11 @@ Main Application:
  * Manual selection of subtitles
 
 Translations:
- * Updates to the Czech, Dutch, Russian, and Chinese translations
+ * Initial Icelandic translation
+ * Updates to the Bosnian, Catalan, Chinese, Czech, Danish, Dutch,
+   Galician, Hebrew, Hindi, Italian, Japanese, Norwegian Bokmål, Polish,
+   Portuguese, Russian, Scottish Gaelic, Serbian, Slovak, Spanish,
+   Turkish, Ukrainian, and Welsh translations
 
 
 Changes between 0.1.0 and 0.1.1:
