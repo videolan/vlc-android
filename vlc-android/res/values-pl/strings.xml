@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -132,7 +132,10 @@
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
     <string name="error_problem">Niestety, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
-    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
+    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):\n</string>
+    <string name="encountered_error_title">Błąd odtwarzania</string>
+    <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
+    <string name="invalid_location">Pozycja %1$s nie może być odtwarzana</string>
 
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
@@ -178,6 +181,12 @@
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
     <string name="subtitles_text_encoding">Kodowanie tekstu</string>
+    <string name="debug_logs">Dzienniki debugowania</string>
+    <string name="start_logging">Rozpocznij rejestrowanie</string>
+    <string name="stop_logging">Zatrzymaj rejestrowanie</string>
+    <string name="clear_log">Usuń dziennik</string>
+    <string name="copy_to_clipboard">Kopiuj do schowka</string>
+    <string name="copied_to_clipboard">Dziennik został skopiowany do schowka.</string>
     <string name="advanced_prefs_category">Zaawansowane</string>
     <string name="advanced_debugging">Zaawansowane debugowanie</string>
     <string name="aout">Wyjście dźwiękowe</string>
