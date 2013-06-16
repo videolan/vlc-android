@@ -464,6 +464,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.i(TAG, "Adding user-selected subtitle " + file);
                 mLibVLC.addSubtitleTrack(file);
             }
+            /** FIXME remove when #7540 ES are not updated mid-stream
+             *  a.k.a. subtitle events is fixed
+             */
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setESTrackLists(true);
+
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            setESTrackLists(true);
+                        }}, 1200);
+                }}, 1000);
         }
     }
 
