@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">У реду</string>
     <string name="cancel">Откажи</string>
     <string name="other">Друго</string>
-    <string name="filebrowser_title">Изаберите медиј за пуштање</string>
+    <string name="filebrowser_title">Изаберите медиј за репродуковање</string>
     <string name="sortby">Поређај по…</string>
     <string name="sortby_name">Име</string>
     <string name="sortby_length">Дужина</string>
@@ -122,7 +122,7 @@
     <string name="track_resolution_info">Резолуција: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Брзина кадрова: %1$.3f\n</string>
     <string name="tools">Алатке</string>
-    <string name="playback_speed">Брзина извођења</string>
+    <string name="playback_speed">Брзина репродукције</string>
     <string name="sleep_title">Бројач спавања</string>
     <string name="sleep_cancel">Откажи бројач спавања</string>
     <string name="jump_to_time">Пређи на време</string>
@@ -130,21 +130,26 @@
     <string name="open_mrl">Отвори MRL</string>
     <string name="open_mrl_dialog_title">Отвори мрежни ток</string>
     <string name="open_mrl_dialog_msg">Отвори мрежни MRL (нпр. http://, mms:// или rtsp://)</string>
-    <string name="error_not_compatible">Нажалост, ова верзија VLC-а за Андроид не подржава ваш уређај.</string>
-    <string name="error_problem">Нажалост, VLC за Андроид наишао је на проблем и затворио се.</string>
+    <string name="error_not_compatible">Нажалост, ова верзија VLC-а за Android не подржава ваш уређај.</string>
+    <string name="error_problem">Нажалост, VLC за Android је наишао на проблем и затворио се.</string>
     <string name="error_message_is">Порука о грешци гласи (помените ово при отклањању грешака):</string>
+    <string name="encountered_error_title">Грешка при репродукцији</string>
+    <string name="encountered_error_message">VLC је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
+    <string name="invalid_location">Не могу да репродукујем локацију %1$s</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC за Андроид</string>
+    <string name="app_name_full">VLC за Android</string>
     <string name="licence">Лиценца</string>
     <string name="revision">Ревизија</string>
     <string name="about">О апликацији</string>
-    <string name="about_text">VLC за Андроид је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Андроид може да пушта многе датотеке и мрежне токове.</string>
-    <string name="compiled_by">Ову верзију VLC-а компилирао је:</string>
+    <string name="about_text">VLC за Android је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Android може да репродукује многе датотеке и мрежне токове.</string>
+    <string name="compiled_by">Ову верзију VLC-а је компилирао:</string>
     <string name="vlc_authors">Аутори VLC-а.</string>
 
     <!-- Preferences -->
-    <string name="preferences">Поставке</string>
+    <string name="preferences">Жељене поставке</string>
+    <string name="library_prefs_category">Медијска библиотека</string>
+    <string name="directories_summary">Изаберите фасцикле за медијску библиотеку</string>
     <string name="add_custom_path">Додај прилагођену путању</string>
     <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
     <string name="remove_custom_path">Уклони прилагођену путању</string>
@@ -157,21 +162,35 @@
     <string name="screen_orientation_reverse_portrait">Обрнуто усправно</string>
     <string name="screen_orientation_reverse_landscape">Обрнуто положено</string>
     <string name="enable_brightness_gesture">Покрет за осветљење</string>
+    <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
+    <string name="enable_headset_detection_summary">Паузирај по уклањању слушалица; настави по убацивању</string>
     <string name="enable_wheel_bar">Трака за премотавање</string>
-    <string name="enable_steal_remote_control">Искључива даљинска контрола над слушалицама</string>
-    <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Ово спречава позивање двоструким додиром на HTC телефонима.</string>
-    <string name="chroma_format">Наметни боју</string>
+    <string name="enable_wheel_bar_summary">Резервна маска траке за премотавање</string>
+    <string name="enable_steal_remote_control">Искључиво даљинско управљање слушалицама</string>
+    <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Овим ћете спречити позивање двоструким додиром на HTC телефонима.</string>
+    <string name="performance_prefs_category">Перформансе</string>
+    <string name="chroma_format">Наметни сјајност боје</string>
+    <string name="chroma_format_summary">RGB 32 бита: подразумевана сјајност боје\nRGB 16 бита: боље перформансе, али лошији квалитет\nYUV: најбоље перформансе, али не ради на свим уређајима. Само за Android 2.3 и новији.</string>
     <string name="enable_iomx">Хардверски убрзано декодирање</string>
+    <string name="enable_iomx_summary">Побољшава перформане, али не ради на свим уређајима.</string>
     <string name="enable_time_stretching_audio">Растезање времена звука</string>
+    <string name="enable_time_stretching_audio_summary">Убрзајте и успорите звук без промене висине тона (захтева брз уређај).</string>
     <string name="other_prefs_category">Друго</string>
     <string name="clear_history">Очисти историју претраге</string>
-    <string name="clear_media_db">Очисти базу медија</string>
-    <string name="media_db_cleared">База медија је очишћена.</string>
+    <string name="clear_media_db">Очисти медијску базу</string>
+    <string name="media_db_cleared">Медијска база је очишћена.</string>
     <string name="subtitles_text_encoding">Кодирање текста</string>
+    <string name="debug_logs">Евиденције за отклањање грешака</string>
+    <string name="start_logging">Започни евидентирање</string>
+    <string name="stop_logging">Заустави евидентирање</string>
+    <string name="clear_log">Очисти евиденцију</string>
+    <string name="copy_to_clipboard">Копирај</string>
+    <string name="copied_to_clipboard">Евиденција је копирана.</string>
     <string name="advanced_prefs_category">Напредно</string>
     <string name="advanced_debugging">Напредно отклањање грешака</string>
     <string name="aout">Звучни излаз</string>
+    <string name="aout_summary">Промените метод који користи VLC да произведе звук.</string>
     <string name="aout_audiotrack">AudioTrack (основно)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
