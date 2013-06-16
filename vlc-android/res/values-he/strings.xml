@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">אישור</string>
@@ -29,6 +29,8 @@
     <string name="set_song">הגדרה כצלצול</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">מחיקת קובץ זה?</string>
+    <string name="ringtone_set">\'%1$s\' הוגדר כצליל שיחה.</string>
+    <string name="ringtone_error">אירעה שגיאה בעת הגדרת הצלצול.</string>
     <string name="pause">השהיה</string>
     <string name="not_show_again">אין להציג הודעה זו שוב.</string>
     <string name="beta_warning">זו גרסת בטא.\n\nגרסה זו אינה יציבה!\n\nאין להשתמש בה, אלא אם כן הסיכונים ברורים לך לחלוטין.\n\nגרסה זו עלולה לרצוח את החתלתול שלך, להשמיד את הבית שלך ולטפטף לך מים על ניר הטואלט בשירותים.\nהשימוש הוא על אחריותך.\n\nיאללה בלגן! :)</string>
@@ -94,6 +96,7 @@
     <string name="surface_fill">מילוי</string>
     <string name="surface_original">מרכוז</string>
     <string name="thumbnail">תמונה מוקטנת</string>
+    <string name="unseekable_stream">תזרים ללא אפשרות קפיצה</string>
     <string name="refresh">רענון</string>
     <string name="track_audio">רצועת שמע</string>
     <string name="track_video">רצועת וידאו</string>
@@ -116,6 +119,10 @@
     <string name="playback_speed">מהירות הנגינה</string>
     <string name="sleep_title">לישון</string>
     <string name="sleep_cancel">להתעורר</string>
+    <string name="jump_to_time">קפיצה לזמן</string>
+    <string name="subtitle_label">הוספת קובץ כתוביות</string>
+    <string name="subtitle_select">בחירת קובץ כתוביות</string>
+    <string name="no_file_picker_found">לא נמצא בוחר קבצים במערכת.</string>
     <string name="open">פתיחה</string>
     <string name="open_mrl">פתיחת כתובת מדיה</string>
     <string name="open_mrl_dialog_title">פתיחת תזרים רשת</string>
@@ -123,6 +130,9 @@
     <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC ל־Android™, עמך הסליחה.</string>
     <string name="error_problem">VLC לאנדרויד נתקבל בשגיאה והיה עליו להיסגר, עמך הסליחה.</string>
     <string name="error_message_is">הודעת השגיאה היא (נא לציין אותה לצורך ניפוי שגיאות):\n</string>
+    <string name="encountered_error_title">שגיאת נגינה</string>
+    <string name="encountered_error_message">אירעה תקלה ב־VLC בעת ניגון המדיה.\nנא לנסות לרענן את ספריית המדיה.</string>
+    <string name="invalid_location">לא ניתן לנגן את המיקום %1$s</string>
 
     <!-- About -->
     <string name="app_name_full">VLC ל־Android™</string>
@@ -135,27 +145,12 @@
 
     <!-- Preferences -->
     <string name="preferences">העדפות</string>
-    <string name="main_prefs_category">ראשי</string>
+    <string name="library_prefs_category">ספריית מדיה</string>
+    <string name="directories_summary">נא לבחור את התיקיות שיכללו בספריית המדיה</string>
     <string name="add_custom_path">הוספת נתיב מותאם אישית</string>
     <string name="add_custom_path_description">נא להזין תיקיית מותאמת אישית נוספת לסריקה:</string>
     <string name="remove_custom_path">הסרת נתיב מותאם אישית</string>
-    <string name="clear_history">מחיקת היסטוריית החיפוש</string>
-    <string name="advanced_prefs_category">מתקדם</string>
-    <string name="enable_iomx">הפעלת קידוד בהאצת חומרה</string>
-    <string name="advanced_debugging">ניפוי שגיאות מתקדם</string>
-    <string name="quit">יציאה מהיישום</string>
-    <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
-    <string name="media_db_cleared">מסד נתוני המדיה פונה!</string>
-    <string name="set_locale">הגדרת המיקום והשפה</string>
-    <string name="set_locale_detail">להשאיר ריק כדי לאפס</string>
-    <string name="set_locale_popup">יש לצאת ולאפס את VLC כדי שהשינויים ייכנסו לתוקף.</string>
-    <string name="chroma_format_summary">לא להפעיל!!! יתכן שתכונה זו לא תעבוד על כל המכשירים. גרסה 2.3 ומעלה בלבד.</string>
-    <string name="enable_headset_detection">זיהוי ערכת שמע</string>
-    <string name="enable_headset_detection_summary">השהייה עם הסרת אביזר שמע; המשך בעת חיבור אביזר שמע</string>
-    <string name="enable_steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
-    <string name="enable_steal_remote_control_summary">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
-    <string name="enable_wheel_bar">הפעלת סרגל גלגלת</string>
-    <string name="enable_brightness_gesture">הפעלת מחוות בהירות</string>
+    <string name="main_prefs_category">ראשי</string>
     <string name="screen_orientation">כיוון המסך</string>
     <string name="screen_orientation_sensor">אוטומטית (חיישן)</string>
     <string name="screen_orientation_start_lock">ננעל בהתחלה</string>
@@ -163,13 +158,43 @@
     <string name="screen_orientation_landscape">לאורך</string>
     <string name="screen_orientation_reverse_portrait">לרוחב הפוך</string>
     <string name="screen_orientation_reverse_landscape">לאורך הפוך</string>
+    <string name="enable_brightness_gesture">הפעלת מחוות בהירות</string>
+    <string name="enable_brightness_gesture_summary">ניתן לשלוט בבהירות באמצעות מחוות במהלך נגינת הווידאו</string>
+    <string name="enable_headset_detection">זיהוי ערכת שמע</string>
+    <string name="enable_headset_detection_summary">יש להשהות עם הסרת האוזניות, להמשיך עם חיבורן מחדש</string>
+    <string name="enable_wheel_bar">הפעלת סרגל גלגלת</string>
+    <string name="enable_wheel_bar_summary">סרגל קפיצה בסגנון חלופי עבור מנשק הווידאו</string>
+    <string name="enable_steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
+    <string name="enable_steal_remote_control_summary">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
+    <string name="performance_prefs_category">ביצועים</string>
+    <string name="chroma_format">אילוץ כרומה בווידאו</string>
+    <string name="chroma_format_summary">RGB 32-bit: הכרומה כבררת המחדל\nRGB 16-bit: ביצועים משופרים אך איכות מעט ירודה\nYUV: הביצועים הטובים ביותר אך לא יעבוד על חלק מההתקנים. אנדרויד 2.3 ומעלה בלבד.</string>
+    <string name="enable_iomx">הפעלת קידוד בהאצת חומרה</string>
+    <string name="enable_iomx_summary">משפר את הביצועים אך עשוי לא לעבוד על חלק מההתקנים.</string>
+    <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
+    <string name="enable_time_stretching_audio_summary">האצה והאטה של השמע מבלי לשנות את גובה הצליל (נדרש התקן מהיר).</string>
+    <string name="other_prefs_category">אחר</string>
+    <string name="clear_history">מחיקת היסטוריית החיפוש</string>
+    <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
+    <string name="media_db_cleared">מסד נתוני המדיה פונה!</string>
     <string name="subtitles_text_encoding">קידוד טקסט</string>
+    <string name="debug_logs">יומני ניפוי שגיאות</string>
+    <string name="start_logging">הפעלת הרישום ליומן</string>
+    <string name="stop_logging">הפסקת הרישום ליומן</string>
+    <string name="clear_log">מחיקת היומן</string>
+    <string name="copy_to_clipboard">העתקה ללוח הגזירים</string>
+    <string name="copied_to_clipboard">היומן הועתק ללוח הגזירים.</string>
+    <string name="advanced_prefs_category">מתקדם</string>
+    <string name="advanced_debugging">ניפוי שגיאות מתקדם</string>
     <string name="aout">פלט שמע</string>
+    <string name="aout_summary">שינוי השיטה בה נעשה שימוש ב־VLC לפלט שמע.</string>
     <string name="aout_audiotrack">AudioTrack (ילידי)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
-    <string name="enable_time_stretching_audio_summary">הגברה והנמכת המהירות מבלי לשנות את גובה הצליל (דורש התקן מהיר)</string>
     <string name="enable_verbose_mode">פירוט</string>
     <string name="enable_verbose_mode_summary">הגברת הפירוט (logcat)</string>
+    <string name="set_locale">הגדרת המיקום והשפה</string>
+    <string name="set_locale_detail">להשאיר ריק כדי לאפס</string>
+    <string name="set_locale_popup">יש לצאת ולאפס את VLC כדי שהשינויים ייכנסו לתוקף.</string>
+    <string name="quit">יציאה מהיישום</string>
 </resources>
