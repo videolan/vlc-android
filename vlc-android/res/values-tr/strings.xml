@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Tamam</string>
@@ -13,6 +13,7 @@
     <string name="history">Geçmiş</string>
 
     <plurals name="search_found_results_quantity">
+        <item quantity="one">%d sonuç bulundu</item>
         <item quantity="other">%d sonuç bulundu</item>
     </plurals>
 
@@ -40,6 +41,7 @@
     <string name="songs">Parçalar</string>
 
     <plurals name="songs_quantity">
+        <item quantity="one">%d şarkı</item>
         <item quantity="other">%d şarkı</item>
     </plurals>
 
@@ -47,12 +49,15 @@
     <string name="albums">Albümler</string>
 
     <plurals name="albums_quantity">
+        <item quantity="one">%d albüm</item>
         <item quantity="other">%d albüm</item>
     </plurals>
     <plurals name="subfolders_quantity">
+        <item quantity="one">%d altklasör</item>
         <item quantity="other">%d altklasör</item>
     </plurals>
     <plurals name="mediafiles_quantity">
+        <item quantity="one">%d ortam dosyası</item>
         <item quantity="other">%d ortam dosyası</item>
     </plurals>
 
@@ -103,6 +108,7 @@
     <string name="brightness">Parlaklık</string>
 
     <plurals name="track_channels_info_quantity">
+        <item quantity="one">%1$d kanal\n</item>
         <item quantity="other">%1$d kanal\n</item>
     </plurals>
 
@@ -121,6 +127,9 @@
     <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
     <string name="error_problem">Android için VLC yüklenirken bir sorun çıktı ve kapatılması gerekti.</string>
     <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):</string>
+    <string name="encountered_error_title">Oynatım hatası</string>
+    <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.\nLütfen ortam kitaplığını yenilemeyi deneyin.</string>
+    <string name="invalid_location">%1$s konumu oynatılamıyor</string>
 
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
@@ -133,42 +142,56 @@
 
     <!-- Preferences -->
     <string name="preferences">Ayarlar</string>
-    <string name="main_prefs_category">Ana</string>
+    <string name="library_prefs_category">Ortam kitaplığı</string>
+    <string name="directories_summary">Ortam kitaplığına katılacak klasörleri seçin</string>
     <string name="add_custom_path">Özel klasör ekle</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
-    <string name="clear_history">Arama geçmişini temizle</string>
-    <string name="advanced_prefs_category">Gelişmiş</string>
-    <string name="enable_iomx">Donanımsal kod çözme</string>
-    <string name="advanced_debugging">Gelişmiş hata ayıklama</string>
-    <string name="quit">Uygulamadan çık</string>
-    <string name="clear_media_db">Ortam veritabanını temizle</string>
-    <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
-    <string name="set_locale">Yerel ayar</string>
-    <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
-    <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
-    <string name="chroma_format">Dayatılacak renk doygunluğu</string>
-    <string name="chroma_format_summary">ETKİNLEŞTİRMEYİN!!! Tüm aygıtlarda çalışmayabilir. Yalnız 2.3 ve üzerindeki sürümler için.</string>
-    <string name="enable_headset_detection">Kulaklığı algıla</string>
-    <string name="enable_headset_detection_summary">Kulaklık çıkartıldığında duraklat, takıldığında oynat</string>
-    <string name="enable_steal_remote_control">Kulaklık kumandasını dışarıya kapat</string>
-    <string name="enable_steal_remote_control_summary">Uzaktan kumandanın diğer uygulamalar tarafından kullanılmasını engeller. Bu özellik bazı telefonlarda kumandadan çift tıklama ile arama yapılmasını engeller.</string>
-    <string name="enable_wheel_bar">Tekerlek çubuğu etkin</string>
-    <string name="enable_brightness_gesture">Parlaklık işareti etkin</string>
-    <string name="screen_orientation">Ekran doğrultusu</string>
+    <string name="main_prefs_category">Ana</string>
+    <string name="screen_orientation">Görüntü ekranı doğrultusu</string>
     <string name="screen_orientation_sensor">Kendiliğinden (almaç)</string>
     <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
     <string name="screen_orientation_portrait">Dikey</string>
     <string name="screen_orientation_landscape">Yatay</string>
     <string name="screen_orientation_reverse_portrait">Ters dikey</string>
     <string name="screen_orientation_reverse_landscape">Ters yatay</string>
-    <string name="subtitles_text_encoding">Metin kodlaması</string>
+    <string name="enable_brightness_gesture">Parlaklık el hareketi kullanılsın</string>
+    <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
+    <string name="enable_headset_detection">Kulaklık algılansın</string>
+    <string name="enable_headset_detection_summary">Kulaklık çıkarıldığında duraklasın; takıldığında sürdürülsün</string>
+    <string name="enable_wheel_bar">Tekerlek çubuğu etkin</string>
+    <string name="enable_wheel_bar_summary">Görüntü arayüzü alternatif stil arama çubuğu</string>
+    <string name="enable_steal_remote_control">Özel kulaklık kumandası</string>
+    <string name="enable_steal_remote_control_summary">Uzaktan kumandanın başka uygulamalar tarafından kullanılması önlenir. Böylece HTC telefonlardaki çift tıklandığında arama özelliği engellenir.</string>
+    <string name="performance_prefs_category">Başarım</string>
+    <string name="chroma_format">Dayatılacak renk doygunluğu</string>
+    <string name="chroma_format_summary">RGB 32-bit: varsayılan renk doygunluğu\nRGB 16-bit: daha iyi başarım, daha düşük kalite\nYUV: en iyi başarım, tüm aygıtlarda çalışmaz. Yalnız Android 2.3 ve sonrası.</string>
+    <string name="enable_iomx">Donanımsal kod çözme</string>
+    <string name="enable_iomx_summary">başarımı arttırır, ancak tüm aygıtlarda çalışmayabilir.</string>
+    <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
+    <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
+    <string name="other_prefs_category">Diğer</string>
+    <string name="clear_history">Arama geçmişini temizle</string>
+    <string name="clear_media_db">Ortam veritabanını temizle</string>
+    <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
+    <string name="subtitles_text_encoding">Altyazı metin kodlaması</string>
+    <string name="debug_logs">Hata ayıklama günlükleri</string>
+    <string name="start_logging">Günlüğe kaydedilsin</string>
+    <string name="stop_logging">Günlüğe kaydedilmesin</string>
+    <string name="clear_log">Günlük temizlensin</string>
+    <string name="copy_to_clipboard">Panoya kopyalayın</string>
+    <string name="copied_to_clipboard">Günlük panoya kopyalandı.</string>
+    <string name="advanced_prefs_category">Gelişmiş</string>
+    <string name="advanced_debugging">Gelişmiş hata ayıklama</string>
     <string name="aout">Ses çıkışı</string>
+    <string name="aout_summary">VLC tarafından kullanılan ses üretme yöntemini değiştirir.</string>
     <string name="aout_audiotrack">AudioTrack (doğal)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
-    <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
-    <string name="enable_verbose_mode_summary">Daha çok ayrıntı (logcat)</string>
+    <string name="enable_verbose_mode_summary">Ayrıntıyı arttırın (günlük)</string>
+    <string name="set_locale">Yerel ayar</string>
+    <string name="set_locale_detail">Sıfırlamak için boş bırakın</string>
+    <string name="set_locale_popup">Değişikliklerin geçerli olması için VLC yazılımını kapatıp sıfırlayın.</string>
+    <string name="quit">Uygulamadan çık</string>
 </resources>
