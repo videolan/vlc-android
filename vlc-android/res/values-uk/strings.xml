@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">Гаразд</string>
@@ -133,6 +133,9 @@
     <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
     <string name="error_problem">На жаль, VLC для Android мав проблему при завантаженні і він закрився.</string>
     <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n</string>
+    <string name="encountered_error_title">Помилка відтворення</string>
+    <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
+    <string name="invalid_location">Розташування %1$s не можливо відтворити</string>
 
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
@@ -154,10 +157,10 @@
     <string name="screen_orientation">Орієнтація екрану</string>
     <string name="screen_orientation_sensor">Автоматична (датчик)</string>
     <string name="screen_orientation_start_lock">Заблоковано при запуску</string>
-    <string name="screen_orientation_portrait">Альбомна</string>
-    <string name="screen_orientation_landscape">Книжкова</string>
-    <string name="screen_orientation_reverse_portrait">Перевернута альбомна</string>
-    <string name="screen_orientation_reverse_landscape">Перевернута ландшафтна</string>
+    <string name="screen_orientation_portrait">Книжкова</string>
+    <string name="screen_orientation_landscape">Альбомна</string>
+    <string name="screen_orientation_reverse_portrait">Перевернута книжкова</string>
+    <string name="screen_orientation_reverse_landscape">Перевернута альбомна</string>
     <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
@@ -178,11 +181,17 @@
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
     <string name="subtitles_text_encoding">Кодування тексту</string>
+    <string name="debug_logs">Журнали налагодження</string>
+    <string name="start_logging">Почати запис у журнал</string>
+    <string name="stop_logging">Зупинити запис у журнал</string>
+    <string name="clear_log">Очистити журнал</string>
+    <string name="copy_to_clipboard">Копіювати у буфер обміну</string>
+    <string name="copied_to_clipboard">Скопійовано журнал у буфер обміну.</string>
     <string name="advanced_prefs_category">Додатково</string>
     <string name="advanced_debugging">Розширене налагодження</string>
     <string name="aout">Вивід звуку</string>
     <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
-    <string name="aout_audiotrack">AudioTrack (вбудовано)</string>
+    <string name="aout_audiotrack">AudioTrack (вбудована)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">Інформативність</string>
