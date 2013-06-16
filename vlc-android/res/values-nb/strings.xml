@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -34,6 +34,7 @@
     <string name="pause">Pause</string>
     <string name="not_show_again">Ikke vis denne meldingen igjen.</string>
     <string name="beta_warning">Dette er en betaversjon\n\nDenne versjonen er IKKE STABIL!\n\nIKKE bruke den med mindre du har peiling.\n\nKanskje dreper den katten din og ødelegger huset ditt.\nBruk den på egen risiko.\n\nHa det gøy! :)</string>
+    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Ukjent artist</string>
     <string name="unknown_album">Ukjent album</string>
     <string name="unknown_genre">Ukjent sjanger</string>
@@ -103,7 +104,7 @@
     <string name="track_unknown">Ukjent spor</string>
     <string name="track_codec_info">Kodek: %1$s\n</string>
     <string name="track_language_info">Språk %1$s\n</string>
-    <string name="volume">Volum</string>
+    <string name="volume">Lydstyrke</string>
     <string name="brightness">Lysstyrke</string>
 
     <plurals name="track_channels_info_quantity">
@@ -126,6 +127,8 @@
     <string name="error_not_compatible">Beklager. Din enhet er for øyeblikket ikke støttet av denne versjonen VLC for Android™.</string>
     <string name="error_problem">Beklager. VLC for Android hadde et problem med lasting og måtte lukkes.</string>
     <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n</string>
+    <string name="encountered_error_title">Avspillingsfeil</string>
+    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nVennligst prøv å oppdatere mediebiblioteket.</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -157,7 +160,7 @@
     <string name="enable_headset_detection_summary">Pauser når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
     <string name="enable_wheel_bar">Aktiver hjulkontroll</string>
     <string name="enable_wheel_bar_summary">Alternativ søkelinje for videoavspilling</string>
-    <string name="enable_steal_remote_control">Eksklusiv hodetelefon fjernkontroll</string>
+    <string name="enable_steal_remote_control">Eksklusiv fjernkontroll fra hodetelefon</string>
     <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="performance_prefs_category">Ytelse</string>
     <string name="chroma_format">Tving chroma</string>
@@ -171,6 +174,12 @@
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="media_db_cleared">Mediedatabase tømt!</string>
     <string name="subtitles_text_encoding">Tekstkoding</string>
+    <string name="debug_logs">Feilsøk loggene</string>
+    <string name="start_logging">Start logging</string>
+    <string name="stop_logging">Stop logging</string>
+    <string name="clear_log">Tøm logg</string>
+    <string name="copy_to_clipboard">Kopier til utklippstavla</string>
+    <string name="copied_to_clipboard">Kopier logg til utklippstavla</string>
     <string name="advanced_prefs_category">Avansert</string>
     <string name="advanced_debugging">Avansert feilsøking</string>
     <string name="aout">Lyd ut</string>
