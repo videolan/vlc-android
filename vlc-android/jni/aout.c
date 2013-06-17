@@ -51,7 +51,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
 
     aout_sys_t *p_sys = calloc (1, sizeof (*p_sys));
     if (!p_sys)
-        return -1;
+        return; // OOM
 
     p_sys->j_libVlc = *opaque;       // Keep a reference to our Java object
     *opaque         = (void*) p_sys; // The callback will need aout_sys_t
@@ -63,7 +63,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     if ((*myVm)->AttachCurrentThread (myVm, &p_env, NULL) != 0)
     {
         LOGE("Could not attach the display thread to the JVM !");
-        return -1;
+        return;
     }
 
     // Call the init function.

@@ -146,7 +146,7 @@ jbyteArray Java_org_videolan_libvlc_LibVLC_getThumbnail(JNIEnv *env, jobject thi
     if (sys == NULL)
     {
         LOGE("Could not create the thumbnailer data structure!");
-        return NULL;
+        return;
     }
 
     /* Initialize the barrier. */
