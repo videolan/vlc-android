@@ -2,19 +2,20 @@ Changes between 0.1.1 and 0.1.2-git:
 --------------------------------
 
 Audio Service:
- * Keep the service alive only when playing.
- * fix crash
+ * Keep the service alive only when playing
+ * Fix crashes
 
 Main Application:
  * Fix crashes and warnings
  * Manual selection of subtitles
 
 Translations:
- * Initial Icelandic translation
+ * Initial Icelandic and Vietnamese translations
  * Updates to the Bosnian, Catalan, Chinese, Czech, Danish, Dutch,
-   Galician, Hebrew, Hindi, Italian, Japanese, Norwegian Bokmål, Polish,
-   Portuguese, Russian, Scottish Gaelic, Serbian, Slovak, Spanish,
-   Turkish, Ukrainian, and Welsh translations
+   Galician, German, Hebrew, Hindi, Italian, Japanese, Marathi,
+   Norwegian Bokmål, Polish, Portuguese, Russian, Scottish Gaelic,
+   Serbian, Slovak, Spanish, Thai, Turkish, Ukrainian,
+   and Welsh translations
 
 
 Changes between 0.1.0 and 0.1.1:
