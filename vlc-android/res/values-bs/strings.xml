@@ -77,14 +77,14 @@
     <string name="title">Naslov</string>
     <string name="artist">Izvođač</string>
     <string name="album">Album</string>
-    <string name="directory">Mapa</string>
-    <string name="directories">Mape</string>
+    <string name="directory">Direktorij</string>
+    <string name="directories">Direktoriji</string>
     <string name="loading">Učitava</string>
     <string name="please_wait">Molim sačekajte…</string>
     <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite datoteke na Vaš uređaj ili podesite svoja podešavanja.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nije dostupno</string>
-    <string name="nosubdirectory">Nema podmapa.</string>
+    <string name="nosubdirectory">Nema poddirektorija.</string>
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
     <string name="cover_art">Omot</string>
@@ -152,7 +152,7 @@
     <!-- Preferences -->
     <string name="preferences">Podešavanja</string>
     <string name="library_prefs_category">Medijska biblioteka</string>
-    <string name="directories_summary">Izaberi mape za uključivanje u medijskoj biblioteci</string>
+    <string name="directories_summary">Izaberi direktorije za uključivanje u medijskoj biblioteci</string>
     <string name="add_custom_path">Dodaj prilagođen put</string>
     <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
     <string name="remove_custom_path">Izbriši prilagođen put</string>
