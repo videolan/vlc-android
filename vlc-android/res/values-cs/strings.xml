@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
@@ -126,6 +126,9 @@
     <string name="sleep_title">Uspání</string>
     <string name="sleep_cancel">Zrušit uspání</string>
     <string name="jump_to_time">Skočit na čas</string>
+    <string name="subtitle_label">Přidat soubor s titulky</string>
+    <string name="subtitle_select">Vybrat soubor s titulky</string>
+    <string name="no_file_picker_found">V systému nenalezen žádný program pro výběr souborů.</string>
     <string name="open">Otevřít</string>
     <string name="open_mrl">Otevřít MRL</string>
     <string name="open_mrl_dialog_title">Otevřít síťový proud</string>
@@ -143,7 +146,7 @@
     <string name="revision">Revize</string>
     <string name="about">O programu</string>
     <string name="about_text">VLC pro Android™ je port populárního přehrávače VLC s otevřeným kódem. Android™ verze umí přehrát většinu souborů a síťových proudů.</string>
-    <string name="compiled_by">Tato verze přehrávače VLC byla zkompilována:\n </string>
+    <string name="compiled_by">Tato verze přehrávače VLC byla zkompilována:\n</string>
     <string name="vlc_authors">Autoři VLC.</string>
 
     <!-- Preferences -->
