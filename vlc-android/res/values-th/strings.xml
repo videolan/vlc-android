@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">ตกลง</string>
@@ -114,6 +114,9 @@
     <string name="sleep_title">พักเครื่อง</string>
     <string name="sleep_cancel">ยกเลิกการพักเครื่อง</string>
     <string name="jump_to_time">ไปยังเวลาที่</string>
+    <string name="subtitle_label">เพิ่มแฟ้มบทบรรยาย</string>
+    <string name="subtitle_select">เลือกแฟ้มบทบรรยาย</string>
+    <string name="no_file_picker_found">ไม่พบตัวจัดเก็บแฟ้มในระบบเลย</string>
     <string name="open">เปิด</string>
     <string name="open_mrl">เปิด MRL</string>
     <string name="open_mrl_dialog_title">เปิดกระแสเครือข่าย</string>
@@ -121,6 +124,9 @@
     <string name="error_not_compatible">ขออภัย เครื่องของคุณยังไม่รองรับ การใช้งานของ VLC สำหรับ Android™ รุ่นนี้</string>
     <string name="error_problem">ขออภัยด้วย ที่ VLC สำหรับ Andriod ปิดโปรแกรมไป อันเนื่องจากมีปัญหาในการโหลด</string>
     <string name="error_message_is">ข้อขัดข้องคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):\n</string>
+    <string name="encountered_error_title">การเล่นขัดข้อง</string>
+    <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง\nโปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
+    <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %s ได้</string>
 
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
@@ -166,6 +172,12 @@
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
     <string name="media_db_cleared">ล้างฐานข้อมูลสื่อเรียบร้อยแล้ว</string>
     <string name="subtitles_text_encoding">รหัสอักขระ</string>
+    <string name="debug_logs">ปูมดีบั๊ก</string>
+    <string name="start_logging">เริ่มเก็บปูม</string>
+    <string name="stop_logging">หยุดเก็บปูม</string>
+    <string name="clear_log">ล้างปูม</string>
+    <string name="copy_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
+    <string name="copied_to_clipboard">คัดลอกปูมไปยังคลิปบอร์ด</string>
     <string name="advanced_prefs_category">ขั้นสูง</string>
     <string name="advanced_debugging">การดีบั๊กขั้นสูง</string>
     <string name="aout">การส่งเสียง</string>
@@ -176,7 +188,7 @@
     <string name="enable_verbose_mode">รายละเอียด</string>
     <string name="enable_verbose_mode_summary">เพิ่มรายละเอียด (ปูม)</string>
     <string name="set_locale">ตั้งโลเคล</string>
-    <string name="set_locale_detail">ปล่อยว่างไว้เพื่อคืนค่าเดิม </string>
+    <string name="set_locale_detail">ปล่อยว่างไว้เพื่อคืนค่าเดิม</string>
     <string name="set_locale_popup">ออกและคืนค่าเดิมของ VLC หากต้องการดูความเปลี่ยนแปลง</string>
     <string name="quit">ออกจากโปรแกรม</string>
 </resources>
