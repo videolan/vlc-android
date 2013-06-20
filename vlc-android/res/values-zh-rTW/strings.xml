@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
     <string name="ok">確認</string>
@@ -32,7 +32,7 @@
     <string name="ringtone_error">設為鈴聲時發生錯誤</string>
     <string name="pause">暫停</string>
     <string name="not_show_again">別再顯示此訊息</string>
-    <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的貓或毀了你的房子。\n\n請自行承擔風險\n\n玩得愉快！ :)</string>
+    <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的小貓或毀了你的房子。\n\n請自行承擔風險\n\n祝你玩得愉快！ :)</string>
     <string name="unknown_artist">未知藝人</string>
     <string name="unknown_album">未知專輯</string>
     <string name="unknown_genre">未知類型</string>
@@ -78,7 +78,7 @@
     <string name="validation">你確定？</string>
     <string name="cover_art">專輯封面</string>
     <string name="shuffle">隨機</string>
-    <string name="repeat">重複播放 無/單首/全部</string>
+    <string name="repeat">重複播放 無/單一/全部</string>
     <string name="previous">上一個</string>
     <string name="stop">停止</string>
     <string name="next">下一個</string>
@@ -102,7 +102,7 @@
     <string name="brightness">亮度</string>
 
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d 頻道\n</item>
+        <item quantity="other">%1$d 個頻道\n</item>
     </plurals>
 
     <string name="track_samplerate_info">採樣率: %1$d Hz\n</string>
@@ -113,14 +113,19 @@
     <string name="sleep_title">睡眠計時器</string>
     <string name="sleep_cancel">取消睡眠計時器</string>
     <string name="jump_to_time">跳至時間</string>
+    <string name="subtitle_label">加入字幕檔</string>
+    <string name="subtitle_select">選擇字幕檔</string>
+    <string name="no_file_picker_found">在系統中找不到檔案選擇器</string>
     <string name="open">開啟</string>
     <string name="open_mrl">開啟MRL</string>
     <string name="open_mrl_dialog_title">開啟網路串流</string>
     <string name="open_mrl_dialog_msg">輸入網路MRL: 例如 http://, mms:// 或 rtsp://</string>
-    <string name="error_not_compatible">抱歉，您的裝置目前尚未被此版本的VLC for Android™支援。</string>
-    <string name="error_problem">抱歉，VLC for Android載入時發生問題，必須關閉。</string>
-    <string name="error_message_is">錯誤訊息為(請在除錯時陳述):\n</string>
+    <string name="error_not_compatible">抱歉，您的裝置目前尚未被此版本的 VLC for Android™ 支援。</string>
+    <string name="error_problem">抱歉，VLC for Android載入時發生問題必須關閉。</string>
+    <string name="error_message_is">錯誤訊息為 (請在除錯時陳述):\n</string>
     <string name="encountered_error_title">播放錯誤</string>
+    <string name="encountered_error_message">VLC 在處理該媒體的時候遇到了錯誤。\n請試著重新整理媒體資料庫。</string>
+    <string name="invalid_location">位置 %1$s 無法被播放</string>
 
     <!-- About -->
     <string name="licence">授權</string>
@@ -137,23 +142,27 @@
     <string name="remove_custom_path">移除自訂路徑</string>
     <string name="main_prefs_category">主要</string>
     <string name="screen_orientation">畫面方向</string>
-    <string name="screen_orientation_sensor">自動化(感應)</string>
+    <string name="screen_orientation_sensor">自動化 (感應)</string>
     <string name="screen_orientation_start_lock">開始時鎖定</string>
     <string name="screen_orientation_portrait">直式</string>
     <string name="screen_orientation_landscape">橫式</string>
-    <string name="screen_orientation_reverse_portrait">縱向反轉</string>
+    <string name="screen_orientation_reverse_portrait">直向反轉</string>
     <string name="screen_orientation_reverse_landscape">橫向反轉</string>
     <string name="enable_brightness_gesture">啟用亮度手勢</string>
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_headset_detection">偵測耳機</string>
     <string name="enable_headset_detection_summary">耳機拔除時暫停、插入時繼續播放</string>
     <string name="enable_wheel_bar">啟用飛輪列</string>
+    <string name="enable_wheel_bar_summary">在視頻介面使用原生風格的搜尋列</string>
     <string name="enable_steal_remote_control">專用耳機遙控</string>
+    <string name="enable_steal_remote_control_summary">在使用其他 app 的遙控功能時避免衝突，這可以防止在 HTC 的手機上雙擊時撥號。</string>
     <string name="performance_prefs_category">效能</string>
-    <string name="chroma_format">強制套用色彩格式</string>
+    <string name="chroma_format">強制套用視頻色彩格式</string>
+    <string name="chroma_format_summary">RGB 32-bit: 預設的色彩濃度\nRGB 16-bit: 較好的效能，但是品質較低\nYUV: 最佳效能，但僅能在Android 2.3版之後的裝置上運作</string>
     <string name="enable_iomx">啟用硬體加速解碼</string>
     <string name="enable_iomx_summary">增進效能，但非所有裝置皆適用。</string>
     <string name="enable_time_stretching_audio">啟用時間伸展音訊</string>
+    <string name="enable_time_stretching_audio_summary">加速或減速音訊但不會改變音調 (需要較快的裝置)</string>
     <string name="other_prefs_category">其他</string>
     <string name="clear_history">清除搜尋歷史</string>
     <string name="clear_media_db">清除媒體資料庫</string>
@@ -172,6 +181,7 @@
     <string name="aout_audiotrack">AudioTrack (原生)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="enable_verbose_mode_summary">增加詳盡程度 (logcat)</string>
     <string name="set_locale">設定地區</string>
     <string name="set_locale_detail">保持空白以重置</string>
     <string name="set_locale_popup">離開並重置VLC以套用變更</string>
