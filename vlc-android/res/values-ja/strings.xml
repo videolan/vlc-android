@@ -114,6 +114,9 @@
     <string name="sleep_title">スリープタイマー</string>
     <string name="sleep_cancel">スリープタイマーの取消</string>
     <string name="jump_to_time">指定時間へジャンプ</string>
+    <string name="subtitle_label">字幕ファイルの追加</string>
+    <string name="subtitle_select">字幕ファイルの選択</string>
+    <string name="no_file_picker_found">システムにファイルピッカーが見つかりません。</string>
     <string name="open">開く</string>
     <string name="open_mrl">MRLを開く</string>
     <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
