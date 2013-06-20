@@ -120,6 +120,9 @@
     <string name="sleep_title">Temporizador de apagado</string>
     <string name="sleep_cancel">Cancelar temporizador de apagado</string>
     <string name="jump_to_time">Saltar a tiempo</string>
+    <string name="subtitle_label">Añadir subtítulo</string>
+    <string name="subtitle_select">Seleccionar subtítulo</string>
+    <string name="no_file_picker_found">No se ha encontrado seleccionador de archivos en el sistema.</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
