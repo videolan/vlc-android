@@ -120,6 +120,9 @@
     <string name="sleep_title">Sleep-timer</string>
     <string name="sleep_cancel">Annullér sleep-timer</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
+    <string name="subtitle_label">Tilføj fil med undertekster</string>
+    <string name="subtitle_select">Vælg fil med undertekster</string>
+    <string name="no_file_picker_found">Der blev ikke fundet en filvælger i systemet.</string>
     <string name="open">Åbn</string>
     <string name="open_mrl">Åbn MRL</string>
     <string name="open_mrl_dialog_title">Åbn netværksstrøm</string>
