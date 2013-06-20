@@ -126,6 +126,9 @@
     <string name="sleep_title">Таймер сну</string>
     <string name="sleep_cancel">Відмінити таймер сну</string>
     <string name="jump_to_time">Перейти до часу</string>
+    <string name="subtitle_label">Додати файл субтитрів</string>
+    <string name="subtitle_select">Обрати файл субтитрів</string>
+    <string name="no_file_picker_found">Жодного менеджера файлів не знайдено у вашій системі.</string>
     <string name="open">Відкрити</string>
     <string name="open_mrl">Відкрити MRL</string>
     <string name="open_mrl_dialog_title">Відкрити мережевий потік</string>
