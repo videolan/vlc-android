@@ -111,6 +111,9 @@
     <string name="sleep_title">Veille</string>
     <string name="sleep_cancel">Annuler Veille</string>
     <string name="jump_to_time">Aller au temps</string>
+    <string name="subtitle_label">Ajouter un sous-titres</string>
+    <string name="subtitle_select">Selectionner un sous-titres</string>
+    <string name="no_file_picker_found">Aucun explorateur de fichier n\'a été trouvé sur le système.</string>
     <string name="open">Ouvrir</string>
     <string name="open_mrl">Ouvrir MRL</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
@@ -121,6 +124,7 @@
 
     <string name="encountered_error_title">Erreur de lecture</string>
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
+    <string name="invalid_location">Le media %1$s ne peux pas être lu.</string>
 
     <!-- About -->
     <string name="app_name_full">Lecteur multimédia VLC</string>
@@ -166,6 +170,14 @@
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="subtitles_text_encoding">Codage des caractères pour certains sous-titres</string>
+
+    <string name="debug_logs">Journal de débogage</string>
+    <string name="start_logging">Démarrer l\'enregistrement</string>
+    <string name="stop_logging">Arrêter l\'enregistrement</string>
+    <string name="clear_log">Vider le journal</string>
+    <string name="copy_to_clipboard">Copier vers le presse papier</string>
+    <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
+
     <string name="advanced_prefs_category">Avancé</string>
     <string name="advanced_debugging">Débogage avancé</string>
     <string name="aout">Sortie audio</string>
