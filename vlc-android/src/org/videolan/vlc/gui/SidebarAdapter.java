@@ -23,7 +23,6 @@ package org.videolan.vlc.gui;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -64,7 +63,6 @@ public class SidebarAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     static final List<SidebarEntry> entries;
     private HashMap<String, Fragment> mFragments;
-    private Semaphore mSemaphore;
 
     static {
         SidebarEntry entries2[] = {
@@ -81,7 +79,6 @@ public class SidebarAdapter extends BaseAdapter {
     public SidebarAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
         mFragments = new HashMap<String, Fragment>(entries.size());
-        mSemaphore = new Semaphore(1, true);
     }
 
     @Override
