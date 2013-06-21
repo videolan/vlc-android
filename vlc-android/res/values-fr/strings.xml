@@ -111,8 +111,8 @@
     <string name="sleep_title">Veille</string>
     <string name="sleep_cancel">Annuler Veille</string>
     <string name="jump_to_time">Aller au temps</string>
-    <string name="subtitle_label">Ajouter un sous-titres</string>
-    <string name="subtitle_select">Selectionner un sous-titres</string>
+    <string name="subtitle_label">Ajouter des sous-titres</string>
+    <string name="subtitle_select">Selectionner des sous-titres</string>
     <string name="no_file_picker_found">Aucun explorateur de fichier n\'a été trouvé sur le système.</string>
     <string name="open">Ouvrir</string>
     <string name="open_mrl">Ouvrir MRL</string>
