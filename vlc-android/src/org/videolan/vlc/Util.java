@@ -88,6 +88,7 @@ public class Util {
         instance.setIomx(pref.getBoolean("enable_iomx", false));
         instance.setSubtitlesEncoding(pref.getString("subtitles_text_encoding", ""));
         instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
+        instance.setDeblocking(pref.getBoolean("enable_deblocking", false));
         instance.setChroma(pref.getString("chroma_format", ""));
         instance.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
 

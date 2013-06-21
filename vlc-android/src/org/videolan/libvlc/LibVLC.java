@@ -58,6 +58,7 @@ public class LibVLC {
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private boolean timeStretching = false;
+    private boolean deblocking = false;
     private String chroma = "";
     private boolean verboseMode = true;
 
@@ -197,6 +198,14 @@ public class LibVLC {
 
     public void setTimeStretching(boolean timeStretching) {
         this.timeStretching = timeStretching;
+    }
+
+    public boolean deblockingEnabled() {
+        return deblocking;
+    }
+
+    public void setDeblocking(boolean deblocking) {
+        this.deblocking = deblocking;
     }
 
     public String getChroma() {
