@@ -1,7 +1,7 @@
 /*****************************************************************************
  * LibVlcUtil.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -34,7 +34,7 @@ import android.os.Build;
 import android.util.Log;
 
 public class LibVlcUtil {
-    public final static String TAG = "LibVlc/Util";
+    public final static String TAG = "VLC/LibVLC/Util";
 
     public static boolean isFroyoOrLater()
     {
@@ -173,11 +173,32 @@ public class LibVlcUtil {
                 return false;
             }
         }
+
         errorMsg = null;
         isCompatible = true;
+        // Store into MachineSpecs
+        machineSpecs = new MachineSpecs();
+        machineSpecs.hasArmV6 = hasArmV6;
+        machineSpecs.hasArmV7 = hasArmV7;
+        machineSpecs.hasFpu = hasFpu;
+        machineSpecs.hasMips = hasMips;
+        machineSpecs.hasNeon = hasNeon;
+        machineSpecs.hasX86 = hasX86;
         return true;
     }
 
+    public static MachineSpecs getMachineSpecs() {
+        return machineSpecs;
+    }
+    private static MachineSpecs machineSpecs = null;
+    public static class MachineSpecs {
+        public boolean hasNeon;
+        public boolean hasFpu;
+        public boolean hasArmV6;
+        public boolean hasArmV7;
+        public boolean hasMips;
+        public boolean hasX86;
+    }
 
     private static final int EM_386 = 3;
     private static final int EM_MIPS = 8;
