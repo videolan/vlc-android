@@ -45,14 +45,17 @@
             android:key="chroma_format"
             android:summary="@string/chroma_format_summary"
             android:title="@string/chroma_format" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/deblocking_list"
+            android:entryValues="@array/deblocking_values"
+            android:key="deblocking"
+            android:title="@string/enable_deblocking"
+            android:summary="@string/enable_deblocking_summary" />
         <CheckBoxPreference
             android:key="enable_iomx"
             android:summary="@string/enable_iomx_summary"
             android:title="@string/enable_iomx" />
-        <CheckBoxPreference
-            android:key="enable_deblocking"
-            android:summary="@string/enable_deblocking_summary"
-            android:title="@string/enable_deblocking" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_time_stretching_audio"
