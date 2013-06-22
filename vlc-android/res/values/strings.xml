@@ -169,6 +169,7 @@
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="main_prefs_category">Main</string>
+    <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
     <string name="screen_orientation_start_lock">Locked at start</string>
@@ -191,8 +192,12 @@
     <string name="enable_iomx_summary">Improves performance, but may not work with all devices.</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
-    <string name="enable_deblocking">Deblocking filter settings</string>
-    <string name="enable_deblocking_summary">Improves video quality but requires a fast device</string>
+    <string name="deblocking">Deblocking filter settings</string>
+    <string name="deblocking_summary">Change the deblocking filter settings. Could improve video quality. Advanced users only.</string>
+    <string name="deblocking_always">Always deblock (0)</string>
+    <string name="deblocking_nonref">Skip for non-ref (1)</string>
+    <string name="deblocking_nonkey">Skip for non-key (3)</string>
+    <string name="deblocking_all">Skip for all (4)</string>
     <string name="other_prefs_category">Other</string>
     <string name="clear_history">Clear search history</string>
     <string name="clear_media_db">Clear media database</string>
@@ -221,11 +226,11 @@
     <string name="quit">Quit application</string>
 
     <string-array name="deblocking_list">
-        <item>Automatic</item>
-        <item>Always deblock (0)</item>
-        <item>Skip for non-ref (1)</item>
-        <item>Skip for non-key (3)</item>
-        <item>Skip for all (4)</item>
+        <item>@string/automatic</item>
+        <item>@string/deblocking_always</item>
+        <item>@string/deblocking_nonref</item>
+        <item>@string/deblocking_nonkey</item>
+        <item>@string/deblocking_all</item>
     </string-array>
     <string-array name="deblocking_values" translatable="false">
         <item>-1</item>
