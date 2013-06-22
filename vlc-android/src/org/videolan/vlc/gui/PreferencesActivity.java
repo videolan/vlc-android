@@ -59,8 +59,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean deblocking_exists = sharedPrefs.contains("enable_deblocking");
         addPreferencesFromResource(R.xml.preferences);
 
         // Directories
@@ -184,11 +182,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             aoutPref.setValue(Util.isGingerbreadOrLater()
                     ? "2"/*AOUT_OPENSLES*/
                             : "0"/*AOUT_AUDIOTRACK_JAVA*/);
-        // Deblocking
-        CheckBoxPreference deblockingPref = (CheckBoxPreference) findPreference("enable_deblocking");
-        if(!deblocking_exists) {
-            deblockingPref.setChecked(Util.deblockingDefault());
-        }
         // Set locale
         EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
         setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -201,6 +194,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         });
 
         /*** SharedPreferences Listener to apply changes ***/
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -210,7 +204,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("subtitles_text_encoding")
                 || key.equalsIgnoreCase("aout")
                 || key.equalsIgnoreCase("enable_time_stretching_audio")
-                || key.equalsIgnoreCase("enable_deblocking")
+                || key.equalsIgnoreCase("deblocking")
                 || key.equalsIgnoreCase("chroma_format")
                 || key.equalsIgnoreCase("enable_verbose_mode")) {
             Util.updateLibVlcSettings(sharedPreferences);
