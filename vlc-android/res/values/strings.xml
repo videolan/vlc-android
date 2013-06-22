@@ -191,8 +191,8 @@
     <string name="enable_iomx_summary">Improves performance, but may not work with all devices.</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
-    <string name="enable_deblocking">Deblocking filter</string>
-    <string name="enable_deblocking_summary">Improves quality but requires a fast device</string>
+    <string name="enable_deblocking">Deblocking (loop) filter</string>
+    <string name="enable_deblocking_summary">Improves video quality but requires a fast device</string>
     <string name="other_prefs_category">Other</string>
     <string name="clear_history">Clear search history</string>
     <string name="clear_media_db">Clear media database</string>

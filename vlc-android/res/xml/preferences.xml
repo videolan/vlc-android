@@ -50,15 +50,14 @@
             android:summary="@string/enable_iomx_summary"
             android:title="@string/enable_iomx" />
         <CheckBoxPreference
+            android:key="enable_deblocking"
+            android:summary="@string/enable_deblocking_summary"
+            android:title="@string/enable_deblocking" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_time_stretching_audio"
             android:summary="@string/enable_time_stretching_audio_summary"
             android:title="@string/enable_time_stretching_audio" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_deblocking"
-            android:summary="@string/enable_deblocking_summary"
-            android:title="@string/enable_deblocking" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other_prefs_category" >

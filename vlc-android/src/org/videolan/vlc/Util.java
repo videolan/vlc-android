@@ -37,6 +37,7 @@ import java.util.StringTokenizer;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -88,7 +89,7 @@ public class Util {
         instance.setIomx(pref.getBoolean("enable_iomx", false));
         instance.setSubtitlesEncoding(pref.getString("subtitles_text_encoding", ""));
         instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
-        instance.setDeblocking(pref.getBoolean("enable_deblocking", false));
+        instance.setDeblocking(pref.getBoolean("enable_deblocking", deblockingDefault()));
         instance.setChroma(pref.getString("chroma_format", ""));
         instance.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
 
@@ -100,6 +101,19 @@ public class Util {
             aout = -1;
         }
         instance.setAout(aout);
+    }
+
+    public static boolean deblockingDefault() {
+        // Set some reasonable deblocking defaults
+        // For now, we will enable it on all ARMv7+NEON devices
+        // and disable it on others.
+        boolean deblocking_default;
+        LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
+        if(m.hasArmV7 && m.hasNeon)
+            deblocking_default = true;
+        else
+            deblocking_default = false;
+        return deblocking_default;
     }
 
     /** Print an on-screen message to alert the user */
