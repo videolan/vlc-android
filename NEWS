@@ -8,6 +8,8 @@ Audio Service:
 Main Application:
  * Fix crashes and warnings
  * Manual selection of subtitles
+ * Added on option to disable the deblocking/loop filter on slower
+   devices, resulting in noticeable performance improvements.
 
 Translations:
  * Initial Icelandic and Vietnamese translations
