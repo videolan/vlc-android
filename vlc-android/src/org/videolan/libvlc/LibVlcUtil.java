@@ -92,6 +92,8 @@ public class LibVlcUtil {
         Log.i(TAG, "fpu = " + elf.att_fpu);
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
                 hasArmV7 = false, hasMips = false, hasX86 = false;
+        float bogoMIPS = -1;
+        int processors = 0;
 
         if(CPU_ABI.equals("x86")) {
             hasX86 = true;
@@ -127,6 +129,16 @@ public class LibVlcUtil {
                     hasNeon = true;
                 if(!hasFpu && line.contains("vfp"))
                     hasFpu = true;
+                if(line.startsWith("processor"))
+                    processors++;
+                if(bogoMIPS < 0 && line.toLowerCase().contains("bogomips")) {
+                    String[] bogo_parts = line.split(":");
+                    try {
+                        bogoMIPS = Float.parseFloat(bogo_parts[1].trim());
+                    } catch(NumberFormatException e) {
+                        bogoMIPS = -1; // invalid bogomips
+                    }
+                }
             }
             fileReader.close();
         } catch(IOException ex){
@@ -135,6 +147,8 @@ public class LibVlcUtil {
             isCompatible = false;
             return false;
         }
+        if(processors == 0)
+            processors = 1; // possibly borked cpuinfo?
 
         // Enforce proper architecture to prevent problems
         if(elf.e_machine == EM_386 && !hasX86) {
@@ -184,6 +198,8 @@ public class LibVlcUtil {
         machineSpecs.hasMips = hasMips;
         machineSpecs.hasNeon = hasNeon;
         machineSpecs.hasX86 = hasX86;
+        machineSpecs.bogoMIPS = bogoMIPS;
+        machineSpecs.processors = processors;
         return true;
     }
 
@@ -198,6 +214,8 @@ public class LibVlcUtil {
         public boolean hasArmV7;
         public boolean hasMips;
         public boolean hasX86;
+        public float bogoMIPS;
+        public int processors;
     }
 
     private static final int EM_386 = 3;
