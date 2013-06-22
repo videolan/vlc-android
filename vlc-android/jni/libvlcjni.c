@@ -488,8 +488,11 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
 
-    methodId = (*env)->GetMethodID(env, cls, "deblockingEnabled", "()Z");
-    bool enable_deblocking = (*env)->CallBooleanMethod(env, thiz, methodId);
+    methodId = (*env)->GetMethodID(env, cls, "getDeblocking", "()I");
+    int deblocking = (*env)->CallIntMethod(env, thiz, methodId);
+    char deblockstr[2] = "3";
+    snprintf(deblockstr, 2, "%d", deblocking);
+    LOGD("Using deblocking level %d", deblocking);
 
     methodId = (*env)->GetMethodID(env, cls, "getChroma", "()Ljava/lang/String;");
     jstring chroma = (*env)->CallObjectMethod(env, thiz, methodId);
@@ -516,7 +519,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--avcodec-threads=0",
         "--subsdec-encoding", subsencodingstr,
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
-        enable_deblocking ? "" : "--avcodec-skiploopfilter=3",
+        "--avcodec-skiploopfilter", deblockstr,
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
     };

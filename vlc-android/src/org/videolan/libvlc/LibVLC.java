@@ -58,7 +58,7 @@ public class LibVLC {
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private boolean timeStretching = false;
-    private boolean deblocking = false;
+    private int deblocking = -1;
     private String chroma = "";
     private boolean verboseMode = true;
 
@@ -200,11 +200,30 @@ public class LibVLC {
         this.timeStretching = timeStretching;
     }
 
-    public boolean deblockingEnabled() {
-        return deblocking;
+    public int getDeblocking() {
+        int ret = deblocking;
+        if(deblocking < 0) {
+            /**
+             * Set some reasonable deblocking defaults:
+             *
+             * Skip all (4) for armv6 and MIPS by default
+             * Skip non-ref (1) for all armv7 more than 1.2 Ghz and more than 2 cores
+             * Skip non-key (3) for all devices that don't meet anything above
+             */
+            LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
+            if( (m.hasArmV6 && !(m.hasArmV7)) || m.hasMips )
+                ret = 4;
+            else if(m.bogoMIPS > 1200 && m.processors > 2)
+                ret = 1;
+            else
+                ret = 3;
+        } else if(deblocking > 4) { // sanity check
+            ret = 3;
+        }
+        return ret;
     }
 
-    public void setDeblocking(boolean deblocking) {
+    public void setDeblocking(int deblocking) {
         this.deblocking = deblocking;
     }
 
