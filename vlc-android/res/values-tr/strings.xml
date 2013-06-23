@@ -120,6 +120,9 @@
     <string name="sleep_title">Uyku zamanlayıcı</string>
     <string name="sleep_cancel">Uyku zamanlayıcıyı iptal et</string>
     <string name="jump_to_time">Sıçranacak Zaman</string>
+    <string name="subtitle_label">Altyazı dosyası ekleyin</string>
+    <string name="subtitle_select">Altyazı dosyasını seçin</string>
+    <string name="no_file_picker_found">Sisteminizde bir dosya seçicisi yok.</string>
     <string name="open">Aç</string>
     <string name="open_mrl">MRL Aç</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
@@ -148,6 +151,7 @@
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
     <string name="main_prefs_category">Ana</string>
+    <string name="automatic">Kendiliğinden</string>
     <string name="screen_orientation">Görüntü ekranı doğrultusu</string>
     <string name="screen_orientation_sensor">Kendiliğinden (almaç)</string>
     <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
@@ -170,6 +174,12 @@
     <string name="enable_iomx_summary">başarımı arttırır, ancak tüm aygıtlarda çalışmayabilir.</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
+    <string name="deblocking">Engel kaldırma süzgeci ayarları</string>
+    <string name="deblocking_summary">Engel kaldırma süzgeci ayarları görüntü kalitesini iyileştirebilir. Deneyimli kullanıcıların değiştirmesi önerilir.</string>
+    <string name="deblocking_always">Tam engel kaldırma (en yavaş)</string>
+    <string name="deblocking_nonref">Orta engel kaldırma</string>
+    <string name="deblocking_nonkey">Düşük engel kaldırma</string>
+    <string name="deblocking_all">Engel kaldırma yok (en hızlı)</string>
     <string name="other_prefs_category">Diğer</string>
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="clear_media_db">Ortam veritabanını temizle</string>
