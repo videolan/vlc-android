@@ -132,6 +132,9 @@
     <string name="sleep_title">Cuir /\'na chadal</string>
     <string name="sleep_cancel">Dùisg às a/\' chadal</string>
     <string name="jump_to_time">Gearr leum gu àm</string>
+    <string name="subtitle_label">Cuir faidhle le fo-thiotalan ris</string>
+    <string name="subtitle_select">Tagh faidhle le fo-thiotalan</string>
+    <string name="no_file_picker_found">Cha deach roghnaichear fhaidhlichean a lorg air an t-siostam.</string>
     <string name="open">Fosgail</string>
     <string name="open_mrl">Fosgail MRL</string>
     <string name="open_mrl_dialog_title">Fosgail sruth lìonraidh</string>
@@ -160,6 +163,7 @@
     <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
     <string name="remove_custom_path">Thoir an t-slighe ghnàthaichte air falbh</string>
     <string name="main_prefs_category">Prìomh chlàr-taice</string>
+    <string name="automatic">Fèin-obrachail</string>
     <string name="screen_orientation">Comhair na sgrìn</string>
     <string name="screen_orientation_sensor">Fèin-obrachail (mothaichear)</string>
     <string name="screen_orientation_start_lock">Glaiste aig an toiseach</string>
@@ -182,6 +186,12 @@
     <string name="enable_iomx_summary">Dèanadas nas fhearr ach chan obraich e air gach uidheam.</string>
     <string name="enable_time_stretching_audio">Cuir an comas fuaim time-stretching</string>
     <string name="enable_time_stretching_audio_summary">Dèan an fhuaim nas luaithe no nas slaodaiche gun a\' phids atharrachadh (feumaidh seo uidheam luath).</string>
+    <string name="deblocking">A\' toirt a\' bhacaidh far roghainnean na criathraige</string>
+    <string name="deblocking_summary">Atharraich roghainnean dì-bhacadh na criathraige. Dh\'fhaoidte gum fàs video nas fhearr ri linn sin ach na dèan seo ach ma tha thu eòlach air a leithid a rud.</string>
+    <string name="deblocking_always">Dì-bhacadh iomlan (as slaodaiche)</string>
+    <string name="deblocking_nonref">Dì-bhacadh meadhanach</string>
+    <string name="deblocking_nonkey">Dì-bhacadh ìseal</string>
+    <string name="deblocking_all">Gun dì-bhacadh (as luaithe)</string>
     <string name="other_prefs_category">Eile</string>
     <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
     <string name="clear_media_db">Falamhaich stòr-dàta nam meadhanan</string>
