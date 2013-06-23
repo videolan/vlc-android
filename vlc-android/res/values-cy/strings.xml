@@ -84,7 +84,7 @@
     <string name="album">Albwm</string>
     <string name="directory">Cyfeiriadur</string>
     <string name="directories">Cyfeiriaduron</string>
-    <string name="loading">Yn llwytho&#8230;</string>
+    <string name="loading">Yn llwytho…</string>
     <string name="please_wait">Arhoswch…</string>
     <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwydda ffeiliau i dy ddyfais neu addasa\'r cyfeiriadau\'r llyfrgell.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
@@ -163,6 +163,7 @@
     <string name="add_custom_path_description">Rhowch gyfeiriadur ychwanegol i\'w sganio:</string>
     <string name="remove_custom_path">Tynnu llwybr penodol</string>
     <string name="main_prefs_category">Prif</string>
+    <string name="automatic">Awtomatig</string>
     <string name="screen_orientation">Gorweddiad sgrin fideo</string>
     <string name="screen_orientation_sensor">Awtomatig (synhwyro)</string>
     <string name="screen_orientation_start_lock">Ar glo wrth ddechrau</string>
@@ -185,6 +186,12 @@
     <string name="enable_iomx_summary">Mae\'r perfformiad yn gwell os yw\'r dyfais ei hun yn datgodio\'r cyfryngau, ond mae\'n bosib nad yw\'n gweithio gyda phob dyfais.</string>
     <string name="enable_time_stretching_audio">Gallu ymestyn sain dros amser</string>
     <string name="enable_time_stretching_audio_summary">Mae\'n gwneud yn bosib cyflymu ac arafu sain heb newid y traw (pitch). Mae angen dyfais gyflym.</string>
+    <string name="deblocking">Gosodiadau\'r hidlydd dadflocio</string>
+    <string name="deblocking_summary">Newid gosodiadau\'r hidlydd dadflocio. Gall wella ansawdd fideo. Defnyddwyr profiadol yn unig.</string>
+    <string name="deblocking_always">Datflocio llawn (arafaf)</string>
+    <string name="deblocking_nonref">Datflocio cymedrol</string>
+    <string name="deblocking_nonkey">Datflocio isel</string>
+    <string name="deblocking_all">Dim datflocio (cyflymaf)</string>
     <string name="other_prefs_category">Arall</string>
     <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
