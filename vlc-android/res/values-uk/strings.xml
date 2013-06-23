@@ -157,6 +157,7 @@
     <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
     <string name="remove_custom_path">Видалити свій шлях</string>
     <string name="main_prefs_category">Головні</string>
+    <string name="automatic">Автоматично</string>
     <string name="screen_orientation">Орієнтація екрану</string>
     <string name="screen_orientation_sensor">Автоматична (датчик)</string>
     <string name="screen_orientation_start_lock">Заблоковано при запуску</string>
@@ -179,6 +180,12 @@
     <string name="enable_iomx_summary">Покращує швидкодію, але може не працювати на всіх пристроях.</string>
     <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
     <string name="enable_time_stretching_audio_summary">Прискорює та уповільнює звук без зміни висоти тону (вимагає швидкого пристрою).</string>
+    <string name="deblocking">Налаштування фільтру деблокування</string>
+    <string name="deblocking_summary">Змінює налаштування фільтру деблокування. Може покращити якість відео. Лише для досвідчених користувачів.</string>
+    <string name="deblocking_always">Повне деблокування (найповільніше)</string>
+    <string name="deblocking_nonref">Середнє деблокування</string>
+    <string name="deblocking_nonkey">Низьке деблокування</string>
+    <string name="deblocking_all">Без деблокування (найшвидше)</string>
     <string name="other_prefs_category">Інше</string>
     <string name="clear_history">Очистити історію пошуку</string>
     <string name="clear_media_db">Очистити медіабазу</string>
