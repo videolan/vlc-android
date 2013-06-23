@@ -145,6 +145,7 @@
     <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>
     <string name="remove_custom_path">Loại bỏ đường dẫn tự chọn</string>
     <string name="main_prefs_category">Phần Chính</string>
+    <string name="automatic">Tự động</string>
     <string name="screen_orientation">Hướng xoay của màn hình</string>
     <string name="screen_orientation_sensor">Tự động (dựa vào cảm biến)</string>
     <string name="screen_orientation_start_lock">Khóa khi khởi động</string>
@@ -167,6 +168,12 @@
     <string name="enable_iomx_summary">Tăng khả năng trình diễn, nhưng có thể không hoạt động trên một số thiết bị.</string>
     <string name="enable_time_stretching_audio">Thời gian giãn của audio</string>
     <string name="enable_time_stretching_audio_summary">Tăng tốc độ và làm chậm lại audio mà không cần phải chỉnh sửa thông số (yêu cầu thiết bị có phần cứng mới).</string>
+    <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
+    <string name="deblocking_summary">Thay đổi thiết lập mở khóa với bộ lọc. Có thể cải thiện chất lượng video. Chỉ dành cho người dùng nâng cao.</string>
+    <string name="deblocking_always">Mở khóa đầy đủ (chậm nhất)</string>
+    <string name="deblocking_nonref">Mở khóa trung bình</string>
+    <string name="deblocking_nonkey">Mở khóa thấp</string>
+    <string name="deblocking_all">Không mở khóa (nhanh nhất)</string>
     <string name="other_prefs_category">Khác</string>
     <string name="clear_history">Xóa Nhật Ký xem</string>
     <string name="clear_media_db">Xóa thông tin đã lưu về các tập tin/file</string>
