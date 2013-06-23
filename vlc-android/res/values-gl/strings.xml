@@ -151,6 +151,7 @@
     <string name="add_custom_path_description">Introduza un directorio persoal adicional para escanear:</string>
     <string name="remove_custom_path">Eliminar o camiño persoal</string>
     <string name="main_prefs_category">Principal</string>
+    <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientación da pantalla</string>
     <string name="screen_orientation_sensor">Automática (sensor)</string>
     <string name="screen_orientation_start_lock">Bloqueada no inicio</string>
@@ -173,6 +174,12 @@
     <string name="enable_iomx_summary">Mellora o rendemento, mais pode non funcionar con todos os dispositivos.</string>
     <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
     <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+    <string name="deblocking">Configuración do filtro antibloques</string>
+    <string name="deblocking_summary">Modifique a configuración do filtro antibloques. Pode mellorar a calidade do vídeo. Só para usuarios avanzados.</string>
+    <string name="deblocking_always">Filtro antibloques completo (o máis lento)</string>
+    <string name="deblocking_nonref">Filtro antibloques medio</string>
+    <string name="deblocking_nonkey">Filtro antibloques baixo</string>
+    <string name="deblocking_all">Sen filtro antibloques (o máis rápido)</string>
     <string name="other_prefs_category">Outros</string>
     <string name="clear_history">Limpar o historial de busca</string>
     <string name="clear_media_db">Limpar a base de datos de medios</string>
