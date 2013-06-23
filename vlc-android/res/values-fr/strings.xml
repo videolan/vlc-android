@@ -168,10 +168,10 @@
     <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie. Nécessite un appareil puissant</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Améliore la qualité mais nécessite un appareil puissant</string>
-    <string name="deblocking_always">Toujours debloquer (0)</string>
-    <string name="deblocking_nonref">Pas de filtre de boucle pour non-ref (1)</string>
-    <string name="deblocking_nonkey">Pas de filtre de boucle pour non-key (3)</string>
-    <string name="deblocking_all">Pas de filtre de boucle pour tous (4)</string>
+    <string name="deblocking_always">Déblocage max (plus lente)</string>
+    <string name="deblocking_nonref">Déblocage intermédiaire</string>
+    <string name="deblocking_nonkey">Déblocage faible</string>
+    <string name="deblocking_all">Sans déblocage (plus rapide)</string>
     <string name="other_prefs_category">Autre</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>

@@ -194,10 +194,10 @@
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_summary">Change the deblocking filter settings. Could improve video quality. Advanced users only.</string>
-    <string name="deblocking_always">Always deblock (0)</string>
-    <string name="deblocking_nonref">Skip for non-ref (1)</string>
-    <string name="deblocking_nonkey">Skip for non-key (3)</string>
-    <string name="deblocking_all">Skip for all (4)</string>
+    <string name="deblocking_always">Full deblocking (slowest)</string>
+    <string name="deblocking_nonref">Medium deblocking</string>
+    <string name="deblocking_nonkey">Low deblocking</string>
+    <string name="deblocking_all">No deblocking (fastest)</string>
     <string name="other_prefs_category">Other</string>
     <string name="clear_history">Clear search history</string>
     <string name="clear_media_db">Clear media database</string>
