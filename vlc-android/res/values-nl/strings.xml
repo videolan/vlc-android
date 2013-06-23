@@ -151,6 +151,7 @@
     <string name="add_custom_path_description">Aangepaste map toevoegen om te controleren:</string>
     <string name="remove_custom_path">Aangepast pad verwijderen</string>
     <string name="main_prefs_category">Basis</string>
+    <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Scherm-oriëntatie</string>
     <string name="screen_orientation_sensor">Sensor-oriëntatie</string>
     <string name="screen_orientation_start_lock">Vastzetten bij opstarten</string>
@@ -173,6 +174,12 @@
     <string name="enable_iomx_summary">Verbetert prestaties, maar werkt mogelijk niet op alle apparaten.</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
     <string name="enable_time_stretching_audio_summary">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
+    <string name="deblocking">Deblocking-filter instellingen</string>
+    <string name="deblocking_summary">Instellingen van deblocking-filter aanpassen. Kan de videokwaliteit verbeteren. Alleen geavanceerde gebruikers.</string>
+    <string name="deblocking_always">Volledige deblocking (traagste)</string>
+    <string name="deblocking_nonref">Medium deblocking</string>
+    <string name="deblocking_nonkey">Lage deblocking</string>
+    <string name="deblocking_all">Geen deblocking (snelste)</string>
     <string name="other_prefs_category">Ander</string>
     <string name="clear_history">Zoekgeschiedenis wissen</string>
     <string name="clear_media_db">Media-database wissen</string>
