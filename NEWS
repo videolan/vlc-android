@@ -1,18 +1,20 @@
-Changes between 0.1.1 and 0.1.2-git:
+Changes between 0.1.1 and 0.1.2:
 --------------------------------
+
+* Relicensed libVLC jni wrapper and Java counterpart to LGPL
 
 Audio Service:
  * Keep the service alive only when playing
  * Fix crashes
 
 Main Application:
- * Fix crashes and warnings
  * Manual selection of subtitles
- * Added on option to disable the deblocking/loop filter on slower
-   devices, resulting in noticeable performance improvements.
+ * Fix crashes and warnings
+ * Add an option to adjust the deblocking filter level, resulting in
+   noticeable performance improvements.
 
 Translations:
- * Initial Icelandic and Vietnamese translations
+ * Initial Icelandic, Lithuanian and Vietnamese translations
  * Updates to the Bosnian, Catalan, Chinese, Czech, Danish, Dutch,
    Galician, German, Hebrew, Hindi, Italian, Japanese, Marathi,
    Norwegian Bokmål, Polish, Portuguese, Russian, Scottish Gaelic,
