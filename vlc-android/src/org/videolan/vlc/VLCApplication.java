@@ -70,6 +70,9 @@ public class VLCApplication extends Application {
                     getBaseContext().getResources().getDisplayMetrics());
         }
 
+        // Initialize the database soon enough to avoid any race condition and crash
+        MediaDatabase.getInstance(this);
+
         instance = this;
     }
 
