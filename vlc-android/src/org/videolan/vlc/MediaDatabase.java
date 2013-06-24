@@ -237,7 +237,7 @@ public class MediaDatabase {
 
     /**
      * Add a new media to the database. The picture can only added by update.
-     * @param meida which you like to add to the database
+     * @param media which you like to add to the database
      */
     public synchronized void addMedia(Media media) {
 
