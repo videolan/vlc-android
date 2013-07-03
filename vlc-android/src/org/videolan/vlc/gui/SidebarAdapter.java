@@ -1,8 +1,8 @@
 /*****************************************************************************
  * SidebarAdapter.java
  *****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
- * Copyright © 2012 Edward Wang
+ * Copyright © 2012-2013 VLC authors and VideoLAN
+ * Copyright © 2012-2013 Edward Wang
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -92,9 +92,8 @@ public class SidebarAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
-        return 0;
+    public long getItemId(int position) {
+        return (long)position; // The SidebarEntry list is unique
     }
 
     @Override
