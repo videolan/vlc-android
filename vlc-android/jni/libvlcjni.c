@@ -1,7 +1,7 @@
 /*****************************************************************************
  * libvlcjni.c
  *****************************************************************************
- * Copyright © 2010-2012 VLC authors and VideoLAN
+ * Copyright © 2010-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -768,6 +768,10 @@ void Java_org_videolan_libvlc_LibVLC_getMediaListItems(
         free(mrl);
     }
     libvlc_media_list_unlock( p_mlist );
+}
+
+void Java_org_videolan_libvlc_LibVLC_removeIndex(JNIEnv *env, jobject thiz, jlong instance, jint position) {
+    libvlc_media_list_remove_index((libvlc_media_list_t*)(intptr_t)instance, position);
 }
 
 jfloat Java_org_videolan_libvlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {

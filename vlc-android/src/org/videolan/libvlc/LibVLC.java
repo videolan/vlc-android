@@ -397,6 +397,12 @@ public class LibVLC {
         return mIsBufferingLog;
     }
 
+    /** Media list functions **/
+    public void removeIndex(int position) {
+        removeIndex(mMediaListInstance, position);
+    }
+    private native void removeIndex(long media_list_instance, int position);
+
     /**
      * Read a media
      * @param instance: the instance of libVLC
