@@ -43,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_gravity="top"
-        android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:visibility="invisible" >
@@ -120,7 +119,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:visibility="invisible" >
@@ -147,7 +145,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/interface_overlay"
         android:layout_alignParentLeft="true"
-        android:background="@color/transparent_gray"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:visibility="invisible" >

@@ -48,7 +48,6 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -233,12 +232,6 @@ public class Util {
     {
         return (string != null && string.length() > 0) ?
                 string : VLCApplication.getAppContext().getString(defaultId);
-    }
-
-    public static void setItemBackground(View v, int position) {
-        v.setBackgroundResource(position % 2 == 0
-                ? R.drawable.background_item1
-                : R.drawable.background_item2);
     }
 
     public static int convertPxToDp(int px) {

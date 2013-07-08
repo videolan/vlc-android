@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-         android:orientation="vertical"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:background="@android:color/black">
-<ListView android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@color/item_common"
-    android:dividerHeight="1dp" />
-<TextView android:id="@android:id/empty"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:paddingTop="30dip"
-    android:textSize="20sp"
-    android:text="@string/nohistory"/>
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="?attr/item_divider"
+        android:dividerHeight="1dp" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="30dip"
+        android:text="@string/nohistory"
+        android:textSize="20sp" />
+
 </LinearLayout>

@@ -295,8 +295,6 @@ public class DirectoryAdapter extends BaseAdapter {
         } else
             holder = (DirectoryViewHolder) v.getTag();
 
-        Util.setItemBackground(holder.layout, position);
-
         String holderText = "";
         if(selectedNode.isFile()) {
             Log.d(TAG, "Loading media " + selectedNode.name);

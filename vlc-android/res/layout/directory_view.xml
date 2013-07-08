@@ -3,8 +3,7 @@
     android:id="@android:id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@color/item_common"
-    android:dividerHeight="1dp"
-    android:background="@android:color/black">
+    android:divider="?attr/item_divider"
+    android:dividerHeight="1dp" >
 
 </ListView>

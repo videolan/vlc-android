@@ -28,7 +28,6 @@ import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 
@@ -92,8 +91,6 @@ public class HistoryAdapter extends BaseAdapter {
             v.setTag(holder);
         } else
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
-
-        Util.setItemBackground(holder.layout, position);
 
         String holderText = "";
         Log.d(TAG, "Loading media position " + position + " - " + selected);

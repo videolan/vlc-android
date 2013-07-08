@@ -26,7 +26,6 @@ import java.util.List;
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -79,7 +78,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
-            holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.layout = v.findViewById(R.id.layout_item);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.artist = (TextView) v.findViewById(R.id.artist);
@@ -95,7 +94,6 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
 
         holder.cover.setImageBitmap(cover);
 
-        Util.setItemBackground(holder.layout, position);
         holder.title.setText(media.getTitle());
         ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
                 ? R.color.list_title_last

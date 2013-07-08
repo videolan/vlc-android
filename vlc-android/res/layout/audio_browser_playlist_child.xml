@@ -9,7 +9,7 @@
         android:layout_width="5dip"
         android:layout_height="fill_parent"
         android:layout_marginLeft="5dip"
-        android:background="@color/orange" />
+        android:background="?attr/orange" />
 
     <ImageView
         android:id="@+id/cover"

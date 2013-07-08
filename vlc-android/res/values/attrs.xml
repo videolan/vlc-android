@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="item_divider" format="reference|color" />
+    <attr name="item_common_pressed" format="reference|color" />
+    <attr name="item_common_selected" format="reference|color" />
+    <attr name="background_menu_divider" format="reference|color" />
+    <attr name="background_menu" format="reference|color" />
+    <attr name="font_default" format="reference|color" />
+    <attr name="font_light" format="reference|color" />
+    <attr name="orange" format="reference|color" />
+    <attr name="darkorange" format="reference|color" />
+
+</resources>

@@ -37,7 +37,7 @@ import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 
 import android.app.AlertDialog;
-import android.graphics.Color;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -366,14 +366,15 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     private void headerHighlightTab(int existingPosition, int newPosition) {
         LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
+        TypedArray attrs = getActivity().obtainStyledAttributes(new int[] { R.attr.font_light, R.attr.font_default});
         if (hl == null)
             return;
         TextView oldView = (TextView) hl.getChildAt(existingPosition);
         if (oldView != null)
-            oldView.setTextColor(Color.GRAY);
+            oldView.setTextColor(attrs.getColor(0, 0));
         TextView newView = (TextView) hl.getChildAt(newPosition);
         if (newView != null)
-            newView.setTextColor(Color.WHITE);
+            newView.setTextColor(attrs.getColor(1, 0));
     }
 
     private void headerScroll(float progress) {

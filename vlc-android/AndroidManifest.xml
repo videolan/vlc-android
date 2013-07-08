@@ -23,7 +23,7 @@
         android:icon="@drawable/icon"
         android:logo="@drawable/header_logo"
         android:label="@string/app_name"
-        android:theme="@style/Theme.VLC"
+        android:theme="@style/Theme.VLC.NoTitleBar"
         android:hardwareAccelerated="true" >
         <activity
             android:name=".gui.MainActivity"
@@ -37,12 +37,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gui.CompatErrorActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.CompatErrorActivity" />
         <activity
             android:name=".gui.SearchActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@android:style/Theme.NoTitleBar"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -53,24 +51,19 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".gui.AboutActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.AboutActivity" />
         <activity
-            android:name=".gui.PreferencesActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.PreferencesActivity" />
         <activity
             android:name=".gui.BrowserActivity"
             android:label="@string/mediafiles"
-            android:theme="@android:style/Theme" />
+            android:theme="@style/Theme.VLC.Basic" />
         <activity
-            android:name=".gui.DebugLogActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.DebugLogActivity" />
         <activity
-            android:name=".gui.video.VideoGridFragment"
-            android:theme="@style/Theme.VLC"/>
+            android:name=".gui.video.VideoGridFragment" />
         <activity
-            android:name=".gui.video.MediaInfoActivity"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.video.MediaInfoActivity" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
@@ -376,11 +369,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".gui.audio.AudioBrowserFragment"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:name=".gui.audio.AudioBrowserFragment" />
         <activity
-            android:name=".gui.audio.AudioListFragment"
-            android:theme="@style/Theme.VLC"  />
+            android:name=".gui.audio.AudioListFragment" />
         <activity
             android:name=".gui.audio.AudioPlayerActivity"
             android:theme="@android:style/Theme.NoTitleBar"

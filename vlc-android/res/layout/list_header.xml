@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_with_shadow">
+    android:orientation="vertical" >
+
     <TextView
         android:id="@+id/text"
-        android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:layout_marginLeft="18dip"
-        android:textSize="16sp"
-        android:textColor="#ffffff" />
+        android:layout_height="wrap_content"
+        android:background="?attr/background_menu"
+        android:gravity="center_horizontal"
+        android:textColor="?attr/font_default"
+        android:textSize="16sp" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="#f0f0f0" />
+        android:background="?attr/background_menu_divider" />
+
 </LinearLayout>

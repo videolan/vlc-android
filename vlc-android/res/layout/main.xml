@@ -11,13 +11,13 @@
     <RelativeLayout
         android:id="@+id/info_layout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:visibility="gone">
         <ProgressBar
             android:id="@+id/info_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:progressDrawable="@drawable/progress"/>
         <TextView
             android:id="@+id/info_text"

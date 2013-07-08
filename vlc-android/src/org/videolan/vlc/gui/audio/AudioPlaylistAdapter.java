@@ -27,7 +27,6 @@ import java.util.List;
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -153,7 +152,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         if (v == null) {
             v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
             holder = new GroupViewHolder();
-            holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.layout = v.findViewById(R.id.layout_item);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
@@ -174,7 +173,6 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
         holder.cover.setImageBitmap(cover);
 
-        Util.setItemBackground(holder.layout, groupPosition);
         holder.title.setText(name);
         if (count > 2)
             holder.text.setText(res.getQuantityString(mGroupTextId, count - 1, count - 1));
@@ -198,7 +196,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         if (v == null) {
             v = mInflater.inflate(R.layout.audio_browser_playlist_child, parent, false);
             holder = new ChildViewHolder();
-            holder.layout = (View) v.findViewById(R.id.layout_item);
+            holder.layout = v.findViewById(R.id.layout_item);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
@@ -218,7 +216,6 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
         holder.cover.setImageBitmap(cover);
 
-        Util.setItemBackground(holder.layout, childPosition);
         if (name != null)
             holder.title.setText(name);
         else

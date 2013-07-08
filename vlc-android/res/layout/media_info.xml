@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background_item1" >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -22,7 +21,8 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?attr/font_default" />
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -58,7 +58,8 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="10dip"
             android:background="@drawable/video_list_length_bg"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#AFFF" />
     </FrameLayout>
 
     <ListView
@@ -67,7 +68,7 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
         android:divider="#00000000"
-        android:listSelector="@android:color/transparent"
-        android:fastScrollEnabled="true" />
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/transparent" />
 
 </LinearLayout>

@@ -20,8 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import org.videolan.vlc.Util;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +47,6 @@ public class SearchHistoryAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) view.getTag();
 
         String item = getItem(position);
-        Util.setItemBackground(holder.text, position);
         holder.text.setText(item);
 
         return view;

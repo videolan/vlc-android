@@ -23,8 +23,6 @@ package org.videolan.vlc.gui;
 import java.util.Comparator;
 
 import org.videolan.vlc.Media;
-import org.videolan.vlc.Util;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +51,6 @@ public class SearchResultAdapter extends ArrayAdapter<Media>
             holder = (ViewHolder) view.getTag();
 
         Media item = getItem(position);
-        Util.setItemBackground(holder.text, position);
         holder.text.setText(item.getTitle());
 
         return view;

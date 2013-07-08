@@ -3,15 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/item_common">
+    android:orientation="vertical">
     <HorizontalScrollView
         android:id="@+id/header"
         android:scrollbars="none"
         android:fadingEdge="none"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_with_shadow">
+        android:background="?attr/background_menu">
         <LinearLayout
             android:id="@+id/header_layout"
             android:layout_width="wrap_content"
@@ -20,7 +19,7 @@
             <TextView
                 android:text="@string/artists"
                 android:textSize="16sp"
-                android:textColor="#ffffff"
+                android:textColor="?attr/font_light"
                 android:id="@+id/artists"
                 android:layout_width="80sp"
                 android:layout_height="wrap_content"
@@ -28,7 +27,7 @@
             <TextView
                 android:text="@string/albums"
                 android:textSize="16sp"
-                android:textColor="#888888"
+                android:textColor="?attr/font_light"
                 android:id="@+id/albums"
                 android:layout_width="80sp"
                 android:layout_height="wrap_content"
@@ -36,7 +35,7 @@
             <TextView
                 android:text="@string/songs"
                 android:textSize="16sp"
-                android:textColor="#888888"
+                android:textColor="?attr/font_light"
                 android:id="@+id/songs"
                 android:layout_width="80sp"
                 android:layout_height="wrap_content"
@@ -44,7 +43,7 @@
             <TextView
                 android:text="@string/genres"
                 android:textSize="16sp"
-                android:textColor="#888888"
+                android:textColor="?attr/font_light"
                 android:id="@+id/genres"
                 android:layout_width="80sp"
                 android:layout_height="wrap_content"
@@ -54,17 +53,17 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="#f0f0f0" />
+        android:background="?attr/background_menu_divider" />
     <org.videolan.vlc.widget.FlingViewGroup
         android:id="@+id/content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent" >
         <ExpandableListView
             android:id="@+id/artists_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@color/item_common"
-            android:childDivider="@color/item_common"
+            android:divider="?attr/item_divider"
+            android:childDivider="?attr/item_divider"
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
@@ -72,8 +71,8 @@
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@color/item_common"
-            android:childDivider="@color/item_common"
+            android:divider="?attr/item_divider"
+            android:childDivider="?attr/item_divider"
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
@@ -81,15 +80,15 @@
             android:id="@+id/songs_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@color/item_common"
+            android:divider="?attr/item_divider"
             android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/genres_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:divider="@color/item_common"
-            android:childDivider="@color/item_common"
+            android:divider="?attr/item_divider"
+            android:childDivider="?attr/item_divider"
             android:dividerHeight="1dp"
             android:groupIndicator="@null"
             android:fastScrollEnabled="true" />

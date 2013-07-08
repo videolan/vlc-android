@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_with_shadow">
+    android:background="?attr/background_menu">
     <ProgressBar
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:id="@+id/timeline"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title"
                 android:textSize="16sp"
-                android:textColor="#ffffff"
+                android:textColor="?attr/font_default"
                 android:singleLine="true" />
             <TextView
                 android:id="@+id/artist"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/artist"
                 android:textSize="14sp"
-                android:textColor="#888888"
+                android:textColor="?attr/font_light"
                 android:singleLine="true" />
         </LinearLayout>
         <ImageButton

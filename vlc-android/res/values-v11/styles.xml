@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Theme.VLC" parent="Theme.Sherlock">
+    <style name="Theme.VLC" parent="Theme.Sherlock.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:listViewStyle">@style/Theme.VLC.List</item>
+        <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
+        <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
+        <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
+
+        <item name="item_divider">@color/item_divider</item>
+        <item name="item_common_pressed">@color/item_common_pressed</item>
+        <item name="item_common_selected">@color/item_common_selected</item>
+        <item name="background_menu_divider">@color/background_menu_divider</item>
+        <item name="background_menu">@color/background_menu</item>
+        <item name="font_default">@color/font_default</item>
+        <item name="font_light">@color/font_light</item>
+        <item name="orange">@color/orange</item>
+        <item name="darkorange">@color/darkorange</item>
+        <item name="android:windowBackground">@color/background_common</item>
     </style>
 </resources>

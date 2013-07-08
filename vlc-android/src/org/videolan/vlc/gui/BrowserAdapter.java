@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
@@ -83,7 +82,6 @@ public class BrowserAdapter extends ArrayAdapter<File>
             holder.text.setText(R.string.add_custom_path);
             holder.check.setVisibility(View.GONE);
         } else if(item != null && item.getName() != null) {
-            Util.setItemBackground(holder.layout, position);
             holder.text.setText(getVisibleName(item));
             holder.check.setVisibility(View.VISIBLE);
             holder.check.setOnCheckedChangeListener(null);
