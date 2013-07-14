@@ -1367,14 +1367,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
         int time = (int) mLibVLC.getTime();
         int length = (int) mLibVLC.getLength();
-        // Update all view elements
 
+        // Update all view elements
         mControls.setSeekable(length > 0);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
         mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
-        mTime.setText(Util.millisToString(time));
-        mLength.setText(mDisplayRemainingTime && length > 0
+        if (time >= 0) mTime.setText(Util.millisToString(time));
+        if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
                 ? "- " + Util.millisToString(length - time)
                 : Util.millisToString(length));
 
