@@ -390,6 +390,7 @@ public class AudioService extends Service {
             switch (msg.getData().getInt("event")) {
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+                    service.executeUpdate();
 
                     if (service.mCurrentMedia == null)
                         return;
