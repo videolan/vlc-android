@@ -1,7 +1,7 @@
 /*****************************************************************************
  * LibVLC.java
  *****************************************************************************
- * Copyright © 2010-2012 VLC authors and VideoLAN
+ * Copyright © 2010-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -571,6 +571,15 @@ public class LibVLC {
      * Get the list of existing items in the media list (playlist)
      */
     public native void getMediaListItems(ArrayList<String> arl);
+
+     /**
+      * A function to flatten the playlist. This function checks the
+      * currently playing media. If there are any subitems, it will
+      * expand them and replace the current media.
+      *
+      * @return true if a media was expanded, false otherwise
+      */
+    public native boolean expandMedia();
 
     /**
      * Return the length of the stream, in milliseconds

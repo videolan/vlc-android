@@ -709,6 +709,39 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     libvlc_media_player_play(mp);
 }
 
+jboolean Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz)
+{
+    int current_position = getInt(env, thiz, "mInternalMediaPlayerIndex");
+    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+    libvlc_media_list_lock(p_mlist);
+    libvlc_media_t* p_md = libvlc_media_list_item_at_index(p_mlist, current_position);
+    libvlc_media_list_unlock(p_mlist);
+    libvlc_media_list_t* p_subitems = libvlc_media_subitems(p_md);
+    libvlc_media_release(p_md);
+    if(p_subitems) {
+        // Expand any subitems if needed
+        int subitem_count = libvlc_media_list_count(p_subitems);
+        if(subitem_count > 0) {
+            LOGD("Found %d subitems, expanding", subitem_count);
+            libvlc_media_list_lock(p_mlist);
+            for(int i = subitem_count - 1; i >= 0; i--) {
+                libvlc_media_list_insert_media(p_mlist, libvlc_media_list_item_at_index(p_subitems, i), current_position+1);
+            }
+            libvlc_media_list_remove_index(p_mlist, current_position);
+            libvlc_media_list_unlock(p_mlist);
+        }
+        libvlc_media_list_release(p_subitems);
+        if(subitem_count > 0) {
+            create_player_and_play(env, thiz,
+                getLong(env, thiz, "mLibVlcInstance"), current_position);
+            return JNI_TRUE;
+        } else
+            return JNI_FALSE;
+    } else {
+        return JNI_FALSE;
+    }
+}
+
 jint Java_org_videolan_libvlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
                                             jlong instance, jstring mrl, jboolean novideo)
 {

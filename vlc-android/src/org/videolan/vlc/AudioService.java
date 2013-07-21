@@ -1,7 +1,7 @@
 /*****************************************************************************
  * AudioService.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -415,6 +415,7 @@ public class AudioService extends Service {
 
                     service.changeAudioFocus(true);
                     service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPlaying);
+                    service.showNotification();
                     if (!service.mWakeLock.isHeld())
                         service.mWakeLock.acquire();
                     break;
@@ -639,34 +640,58 @@ public class AudioService extends Service {
     }
 
     private void next() {
-        int index = mMediaList.indexOf(mCurrentMedia);
-        mPrevious.push(mCurrentMedia);
-        if (mRepeating == RepeatType.Once && index < mMediaList.size())
-            mCurrentMedia = mMediaList.get(index);
-        else if (mShuffling && mPrevious.size() < mMediaList.size()) {
-            while (mPrevious.contains(mCurrentMedia = mMediaList
-                           .get((int) (Math.random() * mMediaList.size()))))
-                ;
-        } else if (!mShuffling && index < mMediaList.size() - 1) {
-            mCurrentMedia = mMediaList.get(index + 1);
+        // Try to expand any items present
+        if(mLibVLC.expandMedia()) {
+            Log.d(TAG, "Found subitems, updating media display");
+            ArrayList<String> mediaPathList = new ArrayList<String>();
+            mLibVLC.getMediaListItems(mediaPathList);
+            int pos = mMediaList.indexOf(mCurrentMedia);
+            mMediaList.clear();
+            mPrevious.clear();
+
+            for(int i = 0; i < mediaPathList.size(); i++)
+                mMediaList.add(new Media(mediaPathList.get(i), i));
+            mCurrentMedia = mMediaList.get(pos);
+            mLibVLCPlaylistActive = true;
+            final AudioService service = this;
+            mVlcEventHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    service.executeUpdate();
+                }
+            }, 1000);
         } else {
-            if (mRepeating == RepeatType.All && mMediaList.size() > 0)
-                mCurrentMedia = mMediaList.get(0);
-            else {
-                stop();
-                return;
+            // No subitems; play the next item.
+            int index = mMediaList.indexOf(mCurrentMedia);
+            mPrevious.push(mCurrentMedia);
+            if (mRepeating == RepeatType.Once && index < mMediaList.size())
+                mCurrentMedia = mMediaList.get(index);
+            else if (mShuffling && mPrevious.size() < mMediaList.size()) {
+                while (mPrevious.contains(mCurrentMedia = mMediaList
+                               .get((int) (Math.random() * mMediaList.size()))))
+                    ;
+            } else if (!mShuffling && index < mMediaList.size() - 1) {
+                mCurrentMedia = mMediaList.get(index + 1);
+            } else {
+                if (mRepeating == RepeatType.All && mMediaList.size() > 0)
+                    mCurrentMedia = mMediaList.get(0);
+                else {
+                    stop();
+                    return;
+                }
+            }
+            if(mLibVLCPlaylistActive) {
+                if(mRepeating == RepeatType.None)
+                    mLibVLC.next();
+                else if(mRepeating == RepeatType.Once)
+                    mLibVLC.playIndex(index);
+                else
+                    mLibVLC.playIndex(mMediaList.indexOf(mCurrentMedia));
+            } else {
+                mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
             }
         }
-        if(mLibVLCPlaylistActive) {
-            if(mRepeating == RepeatType.None)
-                mLibVLC.next();
-            else if(mRepeating == RepeatType.Once)
-                mLibVLC.playIndex(index);
-            else
-                mLibVLC.playIndex(mMediaList.indexOf(mCurrentMedia));
-        } else {
-            mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
-        }
+
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
