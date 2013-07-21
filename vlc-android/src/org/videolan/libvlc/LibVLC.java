@@ -38,8 +38,8 @@ public class LibVLC {
 
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
-    /** libvlc_media_list_player pointer */
-    private long mMediaListPlayerInstance = 0; // Read-only, reserved for JNI
+    /** libvlc_media_player pointer and index */
+    private int mInternalMediaPlayerIndex = 0; // Read-only, reserved for JNI
     private long mInternalMediaPlayerInstance = 0; // Read-only, reserved for JNI
     /** libvlc_media_list_t pointer */
     private long mMediaListInstance = 0; // Read-only, reserved for JNI
