@@ -1,6 +1,12 @@
-Changes between 0.1.2 and 0.1.3-git:
+Changes between 0.1.2 and 0.1.3:
 --------------------------------
 
+Core:
+ * Fix the video output for Android 4.3
+
+Main Application:
+ * Fix crashes in SQLite management
+ * Expand playlist subitems
 
 
 Changes between 0.1.1 and 0.1.2:
