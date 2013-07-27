@@ -641,18 +641,18 @@ public class AudioService extends Service {
 
     private void next() {
         // Try to expand any items present
-        if(mLibVLC.expandMedia()) {
+        int pos = mLibVLC.expandMedia();
+        if(pos >= 0) {
             Log.d(TAG, "Found subitems, updating media display");
             ArrayList<String> mediaPathList = new ArrayList<String>();
             mLibVLC.getMediaListItems(mediaPathList);
-            int pos = mMediaList.indexOf(mCurrentMedia);
             mMediaList.clear();
             mPrevious.clear();
 
             for(int i = 0; i < mediaPathList.size(); i++)
                 mMediaList.add(new Media(mediaPathList.get(i), i));
-            mCurrentMedia = mMediaList.get(pos);
             mLibVLCPlaylistActive = true;
+            mCurrentMedia = mMediaList.get(pos);
             final AudioService service = this;
             mVlcEventHandler.postDelayed(new Runnable() {
                 @Override

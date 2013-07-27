@@ -577,9 +577,9 @@ public class LibVLC {
       * currently playing media. If there are any subitems, it will
       * expand them and replace the current media.
       *
-      * @return true if a media was expanded, false otherwise
+      * @return the index of the media was expanded, and -1 if no media was expanded
       */
-    public native boolean expandMedia();
+    public native int expandMedia();
 
     /**
      * Return the length of the stream, in milliseconds
