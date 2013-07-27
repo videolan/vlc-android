@@ -719,7 +719,7 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     libvlc_media_player_play(mp);
 }
 
-jboolean Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz)
+jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz)
 {
     int current_position = getInt(env, thiz, "mInternalMediaPlayerIndex");
     libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
@@ -744,11 +744,11 @@ jboolean Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz)
         if(subitem_count > 0) {
             create_player_and_play(env, thiz,
                 getLong(env, thiz, "mLibVlcInstance"), current_position);
-            return JNI_TRUE;
+            return (jint)current_position;
         } else
-            return JNI_FALSE;
+            return -1;
     } else {
-        return JNI_FALSE;
+        return -1;
     }
 }
 
