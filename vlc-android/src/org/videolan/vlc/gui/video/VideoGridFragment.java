@@ -141,7 +141,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             actionScanStart(getActivity().getApplicationContext());
         }
 
-        updateList();
         mAnimator = new VideoGridAnimator(getGridView());
     }
 
@@ -164,6 +163,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         HashMap<String, Long> times = MediaDatabase.getInstance(getActivity()).getVideoTimes(getActivity());
         mVideoAdapter.setLastMedia(lastPath, times);
         mVideoAdapter.notifyDataSetChanged();
+        updateList();
         mMediaLibrary.addUpdateHandler(mHandler);
         updateViewMode();
         mAnimator.animate();
