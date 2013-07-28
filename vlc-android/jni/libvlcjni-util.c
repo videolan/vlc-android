@@ -39,6 +39,82 @@ static bool buffer_logging;
 /** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
 
+jint getInt(JNIEnv *env, jobject thiz, const char* field) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          field, "I");
+    return (*env)->GetIntField(env, thiz, fieldMP);
+}
+void setInt(JNIEnv *env, jobject item, const char* field, jint value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "I");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetIntField(env, item, fieldId, value);
+}
+
+jlong getLong(JNIEnv *env, jobject thiz, const char* field) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          field, "J");
+    return (*env)->GetLongField(env, thiz, fieldMP);
+}
+void setLong(JNIEnv *env, jobject item, const char* field, jlong value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "J");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetLongField(env, item, fieldId, value);
+}
+
+void setFloat(JNIEnv *env, jobject item, const char* field, jfloat value) {
+    jclass cls;
+    jfieldID fieldId;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "F");
+    if (fieldId == NULL)
+        return;
+
+    (*env)->SetFloatField(env, item, fieldId, value);
+}
+void setString(JNIEnv *env, jobject item, const char* field, const char* text) {
+    jclass cls;
+    jfieldID fieldId;
+    jstring jstr;
+
+    /* Get a reference to item's class */
+    cls = (*env)->GetObjectClass(env, item);
+
+    /* Look for the instance field s in cls */
+    fieldId = (*env)->GetFieldID(env, cls, field, "Ljava/lang/String;");
+    if (fieldId == NULL)
+        return;
+
+    /* Create a new string and overwrite the instance field */
+    jstr = (*env)->NewStringUTF(env, text);
+    if (jstr == NULL)
+        return;
+    (*env)->SetObjectField(env, item, fieldId, jstr);
+}
+
 static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
 {
     bool isAttached = false;
