@@ -103,41 +103,8 @@ JavaVM *myVm;
 
 static jobject eventHandlerInstance = NULL;
 
-static pthread_mutex_t vout_android_lock;
-static void *vout_android_surf = NULL;
-static void *vout_android_gui = NULL;
-static jobject vout_android_java_surf = NULL;
-
-void *jni_LockAndGetAndroidSurface() {
-    pthread_mutex_lock(&vout_android_lock);
-    return vout_android_surf;
-}
-
-jobject jni_LockAndGetAndroidJavaSurface() {
-    pthread_mutex_lock(&vout_android_lock);
-    return vout_android_java_surf;
-}
-
-void jni_UnlockAndroidSurface() {
-    pthread_mutex_unlock(&vout_android_lock);
-}
-
-void jni_SetAndroidSurfaceSize(int width, int height, int sar_num, int sar_den)
-{
-    if (vout_android_gui == NULL)
-        return;
-
-    JNIEnv *p_env;
-
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
-    jclass cls = (*p_env)->GetObjectClass (p_env, vout_android_gui);
-    jmethodID methodId = (*p_env)->GetMethodID (p_env, cls, "setSurfaceSize", "(IIII)V");
-
-    (*p_env)->CallVoidMethod (p_env, vout_android_gui, methodId, width, height, sar_num, sar_den);
-
-    (*p_env)->DeleteLocalRef(p_env, cls);
-    (*myVm)->DetachCurrentThread (myVm);
-}
+/** vout lock declared in vout.c */
+extern pthread_mutex_t vout_android_lock;
 
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 {
@@ -234,41 +201,6 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pthread_mutex_destroy(&vout_android_lock);
-}
-
-void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui, jint width, jint height) {
-    jclass clz;
-    jfieldID fid;
-
-    pthread_mutex_lock(&vout_android_lock);
-    clz = (*env)->GetObjectClass(env, surf);
-    fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
-    if (fid == NULL) {
-        jthrowable exp = (*env)->ExceptionOccurred(env);
-        if (exp) {
-            (*env)->DeleteLocalRef(env, exp);
-            (*env)->ExceptionClear(env);
-        }
-        fid = (*env)->GetFieldID(env, clz, "mNativeSurface", "I");
-    }
-    vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
-    (*env)->DeleteLocalRef(env, clz);
-
-    vout_android_gui = (*env)->NewGlobalRef(env, gui);
-    vout_android_java_surf = (*env)->NewGlobalRef(env, surf);
-    pthread_mutex_unlock(&vout_android_lock);
-}
-
-void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
-    pthread_mutex_lock(&vout_android_lock);
-    vout_android_surf = NULL;
-    if (vout_android_gui != NULL)
-        (*env)->DeleteGlobalRef(env, vout_android_gui);
-    if (vout_android_java_surf != NULL)
-        (*env)->DeleteGlobalRef(env, vout_android_java_surf);
-    vout_android_gui = NULL;
-    vout_android_java_surf = NULL;
-    pthread_mutex_unlock(&vout_android_lock);
 }
 
 // FIXME: use atomics
