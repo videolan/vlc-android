@@ -327,10 +327,6 @@ public class LibVLC {
         playIndex(mLibVlcInstance, position);
     }
 
-    public String[] readMediaMeta(String mrl) {
-        return readMediaMeta(mLibVlcInstance, mrl);
-    }
-
     public TrackInfo[] readTracksInfo(String mrl) {
         return readTracksInfo(mLibVlcInstance, mrl);
     }
@@ -347,13 +343,6 @@ public class LibVLC {
      */
     public boolean hasVideoTrack(String mrl) throws java.io.IOException {
         return hasVideoTrack(mLibVlcInstance, mrl);
-    }
-
-    /**
-     * Return the length of the stream, in milliseconds
-     */
-    public long getLengthFromLocation(String mrl) {
-        return getLengthFromLocation(mLibVlcInstance, mrl);
     }
 
     /**
@@ -416,11 +405,6 @@ public class LibVLC {
      * Play an index in the native media list (playlist)
      */
     private native void playIndex(long instance, int position);
-
-    /**
-     * Return true if there is currently a running media player.
-     */
-    public native boolean hasMediaPlayer();
 
     /**
      * Returns true if any media is playing
@@ -528,8 +512,6 @@ public class LibVLC {
      */
     private native boolean hasVideoTrack(long instance, String mrl);
 
-    private native String[] readMediaMeta(long instance, String mrl);
-
     private native TrackInfo[] readTracksInfo(long instance, String mrl);
 
     public native TrackInfo[] readTracksInfoPosition(int position);
@@ -580,11 +562,6 @@ public class LibVLC {
       * @return the index of the media was expanded, and -1 if no media was expanded
       */
     public native int expandMedia();
-
-    /**
-     * Return the length of the stream, in milliseconds
-     */
-    private native long getLengthFromLocation(long instance, String mrl);
 
     private native void setEventHandler(EventHandler eventHandler);
 

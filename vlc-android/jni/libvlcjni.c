@@ -629,48 +629,6 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
     eventHandlerInstance = (*env)->NewGlobalRef(env, eventHandler);
 }
 
-jobjectArray Java_org_videolan_libvlc_LibVLC_readMediaMeta(JNIEnv *env,
-                                                        jobject thiz, jlong instance, jstring mrl)
-{
-    jobjectArray array = (*env)->NewObjectArray(env, 8,
-            (*env)->FindClass(env, "java/lang/String"),
-            (*env)->NewStringUTF(env, ""));
-
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, false);
-    if (!m)
-    {
-        LOGE("readMediaMeta: Could not create the media!");
-        return array;
-    }
-
-    libvlc_media_parse(m);
-
-    static const char str[][7] = {
-        "artist", "album", "title", "genre",
-    };
-    static const libvlc_meta_t meta_id[] = {
-        libvlc_meta_Artist,
-        libvlc_meta_Album,
-        libvlc_meta_Title,
-        libvlc_meta_Genre,
-    };
-    for (int i=0; i < sizeof(str) / sizeof(*str); i++) {
-        char *meta = libvlc_media_get_meta(m, meta_id[i]);
-        if (!meta)
-            meta = strdup("");
-
-        jstring k = (*env)->NewStringUTF(env, str[i]);
-        (*env)->SetObjectArrayElement(env, array, 2*i, k);
-        jstring v = (*env)->NewStringUTF(env, meta);
-        (*env)->SetObjectArrayElement(env, array, 2*i+1, v);
-
-        free(meta);
-   }
-
-   libvlc_media_release(m);
-   return array;
-}
-
 static void create_player_and_play(JNIEnv* env, jobject thiz,
                                    jlong instance, int position) {
     /* Release previous media player, if any */
@@ -988,57 +946,6 @@ jobjectArray Java_org_videolan_libvlc_LibVLC_readTracksInfoPosition(JNIEnv *env,
         return NULL;
     } else
         return read_track_info_internal(env, thiz, p_m);
-}
-
-jlong Java_org_videolan_libvlc_LibVLC_getLengthFromLocation(JNIEnv *env, jobject thiz,
-                                                     jlong i_instance, jstring fileLocation)
-{
-    jlong length = 0;
-    struct length_change_monitor *monitor;
-    monitor = malloc(sizeof(*monitor));
-    if (!monitor)
-        return 0;
-
-    /* Initialize pthread variables. */
-    pthread_mutex_init(&monitor->doneMutex, NULL);
-    pthread_cond_init(&monitor->doneCondVar, NULL);
-    monitor->length_changed = false;
-
-    /* Create a new item and assign it to the media player. */
-    libvlc_media_t *m = new_media(i_instance, env, thiz, fileLocation, false, false);
-    if (m == NULL)
-    {
-        LOGE("Could not create the media to play!");
-        goto end;
-    }
-
-    /* Create a media player playing environment */
-    libvlc_media_player_t *mp = libvlc_media_player_new_from_media (m);
-    libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
-    libvlc_event_attach(ev, libvlc_MediaPlayerLengthChanged, length_changed_callback, monitor);
-    libvlc_media_release (m);
-    libvlc_media_player_play( mp );
-
-    pthread_mutex_lock(&monitor->doneMutex);
-    while (!monitor->length_changed)
-        pthread_cond_wait(&monitor->doneCondVar, &monitor->doneMutex);
-    pthread_mutex_unlock(&monitor->doneMutex);
-
-    length = libvlc_media_player_get_length( mp );
-    libvlc_media_player_stop( mp );
-    libvlc_media_player_release( mp );
-
-end:
-    pthread_mutex_destroy(&monitor->doneMutex);
-    pthread_cond_destroy(&monitor->doneCondVar);
-    free(monitor);
-
-    return length;
-}
-
-jboolean Java_org_videolan_libvlc_LibVLC_hasMediaPlayer(JNIEnv *env, jobject thiz)
-{
-    return !!getMediaPlayer(env, thiz);
 }
 
 jboolean Java_org_videolan_libvlc_LibVLC_isPlaying(JNIEnv *env, jobject thiz)
