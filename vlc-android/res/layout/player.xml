@@ -7,6 +7,7 @@
     <!-- the double FrameLayout is necessary here to do cropping on the right
      (which requires the surface not be centered), while keeping the result centered -->
     <FrameLayout
+        android:fitsSystemWindows="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -24,6 +25,11 @@
                 android:layout_gravity="center_vertical" />
         </FrameLayout>
     </FrameLayout>
+
+    <RelativeLayout
+        android:fitsSystemWindows="true"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/player_overlay_info"
@@ -205,4 +211,5 @@
             android:background="@drawable/ic_lock" />
     </LinearLayout>
 
+    </RelativeLayout>
 </RelativeLayout>
