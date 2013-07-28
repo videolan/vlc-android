@@ -3,7 +3,8 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := libvlcjni
 
-LOCAL_SRC_FILES := libvlcjni.c aout.c thumbnailer.c pthread-condattr.c pthread-rwlocks.c pthread-once.c eventfd.c sem.c
+LOCAL_SRC_FILES := libvlcjni.c libvlcjni-util.c aout.c
+LOCAL_SRC_FILES += thumbnailer.c pthread-condattr.c pthread-rwlocks.c pthread-once.c eventfd.c sem.c
 LOCAL_SRC_FILES += pipe2.c
 LOCAL_SRC_FILES += wchar/wcpcpy.c
 LOCAL_SRC_FILES += wchar/wcpncpy.c

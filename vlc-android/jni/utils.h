@@ -23,5 +23,6 @@
 
 libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo);
 
+void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap);
 
 #endif // LIBVLCJNI_UTILS_H
