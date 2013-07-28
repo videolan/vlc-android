@@ -23,6 +23,10 @@
 
 #include <stdint.h>
 
+#define AOUT_AUDIOTRACK_JAVA 0
+#define AOUT_AUDIOTRACK      1
+#define AOUT_OPENSLES        2
+
 int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels);
 void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts);
 void aout_pause(void *opaque, int64_t pts);
