@@ -55,6 +55,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -642,6 +643,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private void onOpenMRL() {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         b.setTitle(R.string.open_mrl_dialog_title);
         b.setMessage(R.string.open_mrl_dialog_msg);
         b.setView(input);
