@@ -109,7 +109,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private SurfaceView mSurface;
     private SurfaceHolder mSurfaceHolder;
     private FrameLayout mSurfaceFrame;
-    private int mSurfaceAlign;
     private LibVLC mLibVLC;
     private String mLocation;
 
@@ -169,6 +168,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     // size of the video
     private int mVideoHeight;
     private int mVideoWidth;
+    private int mVideoVisibleHeight;
+    private int mVideoVisibleWidth;
     private int mSarNum;
     private int mSarDen;
 
@@ -208,7 +209,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         public void onSystemUiVisibilityChange(int visibility) {
                             if (visibility == mUiVisibility)
                                 return;
-                            setSurfaceSize(mVideoWidth, mVideoHeight, mSarNum, mSarDen);
+                            setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
                             if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing) {
                                 showOverlay();
                             }
@@ -290,7 +291,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             PixelFormat.getPixelFormatInfo(PixelFormat.RGBX_8888, info);
             pitch = info.bytesPerPixel;
         }
-        mSurfaceAlign = 16 / pitch - 1;
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
@@ -560,18 +560,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        setSurfaceSize(mVideoWidth, mVideoHeight, mSarNum, mSarDen);
+        setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public void setSurfaceSize(int width, int height, int sar_num, int sar_den) {
+    public void setSurfaceSize(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den) {
         if (width * height == 0)
             return;
 
         // store video size
         mVideoHeight = height;
         mVideoWidth = width;
+        mVideoVisibleHeight = visible_height;
+        mVideoVisibleWidth  = visible_width;
         mSarNum = sar_num;
         mSarDen = sar_den;
         Message msg = mHandler.obtainMessage(SURFACE_SIZE);
@@ -801,12 +803,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         double density = (double)mSarNum / (double)mSarDen;
         if (density == 1.0) {
             /* No indication about the density, assuming 1:1 */
-            vw = mVideoWidth;
-            ar = (double)mVideoWidth / (double)mVideoHeight;
+            vw = mVideoVisibleWidth;
+            ar = (double)mVideoVisibleWidth / (double)mVideoVisibleHeight;
         } else {
             /* Use the specified aspect ratio */
-            vw = mVideoWidth * density;
-            ar = vw / mVideoHeight;
+            vw = mVideoVisibleWidth * density;
+            ar = vw / mVideoVisibleHeight;
         }
 
         // compute the display aspect ratio
@@ -842,21 +844,18 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     dw = (int) (dh * ar);
                 break;
             case SURFACE_ORIGINAL:
-                dh = mVideoHeight;
+                dh = mVideoVisibleHeight;
                 dw = (int) vw;
                 break;
         }
 
-        // align width on 16bytes
-        int alignedWidth = (mVideoWidth + mSurfaceAlign) & ~mSurfaceAlign;
-
         // force surface buffer size
-        mSurfaceHolder.setFixedSize(alignedWidth, mVideoHeight);
+        mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 
         // set display size
         LayoutParams lp = mSurface.getLayoutParams();
-        lp.width = dw * alignedWidth / mVideoWidth;
-        lp.height = dh;
+        lp.width  = dw * mVideoWidth / mVideoVisibleWidth;
+        lp.height = dh * mVideoHeight / mVideoVisibleHeight;
         mSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
