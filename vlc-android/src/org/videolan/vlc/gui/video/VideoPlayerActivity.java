@@ -275,21 +275,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
-        int pitch;
         String chroma = pref.getString("chroma_format", "");
         if(Util.isGingerbreadOrLater() && chroma.equals("YV12")) {
             mSurfaceHolder.setFormat(ImageFormat.YV12);
-            pitch = ImageFormat.getBitsPerPixel(ImageFormat.YV12) / 8;
         } else if (chroma.equals("RV16")) {
             mSurfaceHolder.setFormat(PixelFormat.RGB_565);
-            PixelFormat info = new PixelFormat();
-            PixelFormat.getPixelFormatInfo(PixelFormat.RGB_565, info);
-            pitch = info.bytesPerPixel;
         } else {
             mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
-            PixelFormat info = new PixelFormat();
-            PixelFormat.getPixelFormatInfo(PixelFormat.RGBX_8888, info);
-            pitch = info.bytesPerPixel;
         }
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
@@ -1338,7 +1330,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * Dim the status bar and/or navigation icons when needed on Android 3.x.
      * Hide it on Android 4.0 and later
      */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void dimStatusBar(boolean dim) {
         if (!Util.isHoneycombOrLater() || !Util.hasNavBar())
             return;
