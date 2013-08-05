@@ -692,6 +692,7 @@ public class AudioService extends Service {
             }
         }
 
+        mLibVLC.applyEqualizer();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
@@ -735,6 +736,7 @@ public class AudioService extends Service {
         } else {
             mLibVLC.readMedia(mCurrentMedia.getLocation(), true);
         }
+        mLibVLC.applyEqualizer();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
@@ -906,6 +908,7 @@ public class AudioService extends Service {
                 } else {
                     mLibVLC.readMedia(mCurrentMedia.getLocation(), noVideo);
                 }
+                mLibVLC.applyEqualizer();
                 setUpRemoteControlClient();
                 showNotification();
                 updateWidget(AudioService.this);

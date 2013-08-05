@@ -61,6 +61,7 @@ public class LibVLC {
     private int deblocking = -1;
     private String chroma = "";
     private boolean verboseMode = true;
+    private float[] equalizer = null;
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
@@ -241,6 +242,22 @@ public class LibVLC {
 
     public void setVerboseMode(boolean verboseMode) {
         this.verboseMode = verboseMode;
+    }
+
+    public float[] getEqualizer()
+    {
+        return equalizer;
+    }
+
+    public void setEqualizer(float[] equalizer)
+    {
+        this.equalizer = equalizer;
+        applyEqualizer();
+    }
+
+    public void applyEqualizer()
+    {
+        setNativeEqualizer(this.equalizer);
     }
 
     /**
@@ -566,4 +583,12 @@ public class LibVLC {
     private native void setEventHandler(EventHandler eventHandler);
 
     private native void detachEventHandler();
+
+    private native float[] getBands();
+
+    private native String[] getPresets();
+
+    private native float[] getPreset(int index);
+
+    private native int setNativeEqualizer(float[] bands);
 }
