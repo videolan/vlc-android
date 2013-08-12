@@ -470,7 +470,8 @@ public class AudioService extends Service {
     private void handleVout() {
         Log.i(TAG, "Obtained video track");
         mMediaList.clear();
-        hideNotification();
+        // Preserve playback when switching to video
+        hideNotification(false);
 
         // Don't crash if user stopped the media
         if(mCurrentMedia == null) return;
@@ -605,8 +606,18 @@ public class AudioService extends Service {
     }
 
     private void hideNotification() {
+        hideNotification(true);
+    }
+
+    /**
+     * Hides the VLC notification and stops the service.
+     *
+     * @param stopPlayback True to also stop playback at the same time. Set to false to preserve playback (e.g. for vout events)
+     */
+    private void hideNotification(boolean stopPlayback) {
         stopForeground(true);
-        stopSelf();
+        if(stopPlayback)
+            stopSelf();
     }
 
     private void pause() {
