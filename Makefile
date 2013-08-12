@@ -134,7 +134,6 @@ vlc-sdk.7z: .sdk
 	7z a $@ vlc-sdk/
 
 .sdk:
-	@command -v 7z >/dev/null 2>&1 || { echo >&2 "Please install 7z to create SDK packages. Aborting."; exit 1; }
 	mkdir -p vlc-sdk/libs
 	cd vlc-android; cp -r libs/* ../vlc-sdk/libs
 	mkdir -p vlc-sdk/src/org/videolan
