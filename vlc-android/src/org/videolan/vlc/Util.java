@@ -35,11 +35,14 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -79,6 +82,33 @@ public class Util {
         return instance;
     }
 
+    public static float[] getFloatArray(SharedPreferences pref, String key) {
+        float[] array = null;
+        String s = pref.getString(key, null);
+        if (s != null) {
+            try {
+                JSONArray json = new JSONArray(s);
+                array = new float[json.length()];
+                for (int i = 0; i < array.length; i++)
+                    array[i] = (float) json.getDouble(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return array;
+    }
+
+    public static void putFloatArray(Editor editor, String key, float[] array) {
+        try {
+            JSONArray json = new JSONArray();
+            for (float f : array)
+                json.put(f);
+            editor.putString("equalizer_values", json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void updateLibVlcSettings(SharedPreferences pref) {
         LibVLC instance = LibVLC.getExistingInstance();
         if (instance == null)
@@ -89,6 +119,9 @@ public class Util {
         instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
         instance.setChroma(pref.getString("chroma_format", ""));
         instance.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
+
+        if (pref.getBoolean("equalizer_enabled", false))
+            instance.setEqualizer(getFloatArray(pref, "equalizer_values"));
 
         int aout;
         try {

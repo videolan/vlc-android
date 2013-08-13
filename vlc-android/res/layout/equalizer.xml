@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ToggleButton
+            android:id="@+id/equalizer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/equalizer_presets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/equalizer_preamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="4dip"
+        android:minHeight="4dip"
+        android:progressDrawable="@drawable/po_seekbar"
+        android:thumb="@drawable/ic_seekbar_thumb" />
+
+    <HorizontalScrollView
+        android:id="@+id/equalizer_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/equalizer_bands"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+</LinearLayout>

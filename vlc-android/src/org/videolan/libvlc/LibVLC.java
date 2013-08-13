@@ -584,11 +584,11 @@ public class LibVLC {
 
     private native void detachEventHandler();
 
-    private native float[] getBands();
+    public native float[] getBands();
 
-    private native String[] getPresets();
+    public native String[] getPresets();
 
-    private native float[] getPreset(int index);
+    public native float[] getPreset(int index);
 
     private native int setNativeEqualizer(float[] bands);
 }
