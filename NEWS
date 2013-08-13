@@ -1,6 +1,14 @@
 Changes between 0.1.2 and 0.2.0-git:
 --------------------------------
 
+Core
+ * Support video cropping
+ * Support for SDK package creation
+
+Main Application:
+ * Fix opening MRLs and video streaming
+ * Fix many crashes and warnings
+ * New equalizer
 
 
 Changes between 0.1.1 and 0.1.2:
