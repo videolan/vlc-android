@@ -21,7 +21,9 @@
 package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 
+import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -29,6 +31,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -39,8 +42,10 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String ACTION_REMOTE_PLAYPAUSE = "org.videolan.vlc.remote.PlayPause";
     public static final String ACTION_REMOTE_STOP = "org.videolan.vlc.remote.Stop";
     public static final String ACTION_REMOTE_FORWARD = "org.videolan.vlc.remote.Forward";
+    public static final String ACTION_WIDGET_PREFIX = "org.videolan.vlc.widget.";
     public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
+    public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public static final String VLC_PACKAGE = "org.videolan.vlc";
@@ -62,13 +67,19 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
         context.sendBroadcast(i);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        if (!action.startsWith(ACTION_WIDGET_PREFIX)) {
+            super.onReceive(context, intent);
+            return;
+        }
 
-        if (ACTION_WIDGET_INIT.equals(action)) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
+        boolean partial = Util.isHoneycombOrLater();
 
+        if (ACTION_WIDGET_INIT.equals(action) || !partial) {
             /* commands */
             Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
             Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
@@ -89,44 +100,37 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.stop, piStop);
             views.setOnClickPendingIntent(R.id.forward, piForward);
             views.setOnClickPendingIntent(R.id.cover, piVlc);
-
-            ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.updateAppWidget(widget, views);
+            partial = false;
         }
-        else if (ACTION_WIDGET_UPDATE.equals(action)) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
 
+        if (ACTION_WIDGET_UPDATE.equals(action)) {
             String title = intent.getStringExtra("title");
             String artist = intent.getStringExtra("artist");
             boolean isplaying = intent.getBooleanExtra("isplaying", false);
-            Bitmap cover = intent.getParcelableExtra("cover");
 
             views.setTextViewText(R.id.songName, title);
             views.setTextViewText(R.id.artist, artist);
             views.setImageViewResource(R.id.play_pause, isplaying ? R.drawable.ic_pause : R.drawable.ic_play);
+            views.setViewVisibility(R.id.timeline_parent, artist != null && artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
+        }
+        else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
+            Bitmap cover = intent.getParcelableExtra("cover");
             if (cover != null)
                 views.setImageViewBitmap(R.id.cover, cover);
             else
                 views.setImageViewResource(R.id.cover, R.drawable.cone);
-
-            views.setViewVisibility(R.id.timeline_parent, artist != null && artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
-
-            ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.updateAppWidget(widget, views);
+            views.setProgressBar(R.id.timeline, 100, 0, false);
         }
         else if (ACTION_WIDGET_UPDATE_POSITION.equals(action)) {
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
-
             float pos = intent.getFloatExtra("position", 0f);
             views.setProgressBar(R.id.timeline, 100, (int) (100 * pos), false);
-
-            ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
-            AppWidgetManager manager = AppWidgetManager.getInstance(context);
-            manager.updateAppWidget(widget, views);
         }
+
+        ComponentName widget = new ComponentName(context, VLCAppWidgetProvider.class);
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        if (partial)
+            manager.partiallyUpdateAppWidget(manager.getAppWidgetIds(widget), views);
         else
-            super.onReceive(context, intent);
+            manager.updateAppWidget(widget, views);
     }
 }
