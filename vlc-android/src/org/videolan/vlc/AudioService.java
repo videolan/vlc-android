@@ -94,6 +94,7 @@ public class AudioService extends Service {
     public static final String ACTION_REMOTE_LAST_PLAYLIST = "org.videolan.vlc.remote.LastPlaylist";
     public static final String ACTION_WIDGET_INIT = "org.videolan.vlc.widget.INIT";
     public static final String ACTION_WIDGET_UPDATE = "org.videolan.vlc.widget.UPDATE";
+    public static final String ACTION_WIDGET_UPDATE_COVER = "org.videolan.vlc.widget.UPDATE_COVER";
     public static final String ACTION_WIDGET_UPDATE_POSITION = "org.videolan.vlc.widget.UPDATE_POSITION";
 
     public static final String WIDGET_PACKAGE = "org.videolan.vlc";
@@ -1067,9 +1068,13 @@ public class AudioService extends Service {
         }
     };
 
-    private void updateWidget(Context context)
-    {
+    private void updateWidget(Context context) {
         Log.d(TAG, "Updating widget");
+        updateWidgetState(context);
+        updateWidgetCover(context);
+    }
+
+    private void updateWidgetState(Context context) {
         Intent i = new Intent();
         i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
         i.setAction(ACTION_WIDGET_UPDATE);
@@ -1084,6 +1089,15 @@ public class AudioService extends Service {
         }
         i.putExtra("isplaying", mLibVLC.isPlaying());
 
+        sendBroadcast(i);
+    }
+
+    private void updateWidgetCover(Context context)
+    {
+        Intent i = new Intent();
+        i.setClassName(WIDGET_PACKAGE, WIDGET_CLASS);
+        i.setAction(ACTION_WIDGET_UPDATE_COVER);
+
         Bitmap cover = mCurrentMedia != null ? AudioUtil.getCover(this, mCurrentMedia, 64) : null;
         i.putExtra("cover", cover);
 
@@ -1097,6 +1111,8 @@ public class AudioService extends Service {
         if (mCurrentMedia == null ||
             timestamp - mWidgetPositionTimestamp < mCurrentMedia.getLength() / 50)
             return;
+
+        updateWidgetState(context);
 
         mWidgetPositionTimestamp = timestamp;
         Intent i = new Intent();
