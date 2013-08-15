@@ -286,14 +286,16 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             startActivity(intent);
             return true;
         case R.id.video_list_delete:
-            final int positionDelete = position;
+            Media media = mVideoAdapter.getItem(position);
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
-                    mVideoAdapter.getItem(positionDelete).getLocation(),
-                    new VlcRunnable() {
+                    media.getLocation(),
+                    new VlcRunnable(media) {
                         @Override
                         public void run(Object o) {
-                            mVideoAdapter.remove(mVideoAdapter.getItem(positionDelete));
+                            Media media = (Media) o;
+                            mMediaLibrary.getMediaItems().remove(media);
+                            mVideoAdapter.remove(media);
                         }
                     });
             alertDialog.show();
