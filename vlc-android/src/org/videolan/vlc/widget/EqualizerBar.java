@@ -59,9 +59,9 @@ public class EqualizerBar extends LinearLayout {
         mSeek.setProgress(RANGE);
         mSeek.setOnSeekBarChangeListener(mSeekListener);
         mBand = (TextView) findViewById(R.id.equalizer_band);
-        mBand.setText(band < 1000
-                ? (int) band + " Hz"
-                : (int) (band / 1000) + " kHz");
+        mBand.setText(band < 999.5f
+                ? (int) (band + 0.5f) + " Hz"
+                : (int) (band / 1000.0f + 0.5f) + " kHz");
         mValue = (TextView) findViewById(R.id.equalizer_value);
     }
 
