@@ -203,6 +203,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         if(key.equalsIgnoreCase("enable_iomx")
                 || key.equalsIgnoreCase("subtitles_text_encoding")
                 || key.equalsIgnoreCase("aout")
+                || key.equalsIgnoreCase("enable_frame_skip")
                 || key.equalsIgnoreCase("enable_time_stretching_audio")
                 || key.equalsIgnoreCase("deblocking")
                 || key.equalsIgnoreCase("chroma_format")

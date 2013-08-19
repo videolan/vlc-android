@@ -216,6 +216,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
 
+    methodId = (*env)->GetMethodID(env, cls, "frameSkipEnabled", "()Z");
+    bool enable_frame_skip = (*env)->CallBooleanMethod(env, thiz, methodId);
+
     methodId = (*env)->GetMethodID(env, cls, "getDeblocking", "()I");
     int deblocking = (*env)->CallIntMethod(env, thiz, methodId);
     char deblockstr[2] = "3";
@@ -252,6 +255,8 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--subsdec-encoding", subsencodingstr,
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
         "--avcodec-skiploopfilter", deblockstr,
+        "--avcodec-skip-frame", enable_frame_skip ? "4" : "0",
+        "--avcodec-skip-idct", enable_frame_skip ? "4" : "0",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
     };

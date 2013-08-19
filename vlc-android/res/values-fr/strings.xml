@@ -166,6 +166,8 @@
     <string name="enable_iomx_summary">Active l\'accélération matérielle pour améliorer les performances. Ne fonctionne pas sur tous les appareils.</string>
     <string name="enable_time_stretching_audio">Correction audio</string>
     <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie. Nécessite un appareil puissant</string>
+    <string name="enable_frame_skip">Activer le sautage des trames</string>
+    <string name="enable_frame_skip_summary">Accélérer le décodage pour améliore les performances, mais diminue la qualité</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Améliore la qualité mais nécessite un appareil puissant</string>
     <string name="deblocking_always">Déblocage max (plus lente)</string>

@@ -9,6 +9,7 @@ Main Application:
  * Fix opening MRLs and video streaming
  * Fix many crashes and warnings
  * New equalizer
+ * Option for frame skip to improve performance
 
 
 Changes between 0.1.1 and 0.1.2:

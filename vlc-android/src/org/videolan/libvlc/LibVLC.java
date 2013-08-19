@@ -62,6 +62,7 @@ public class LibVLC {
     private String chroma = "";
     private boolean verboseMode = true;
     private float[] equalizer = null;
+    private boolean frameSkip = false;
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
@@ -258,6 +259,14 @@ public class LibVLC {
     public void applyEqualizer()
     {
         setNativeEqualizer(this.equalizer);
+    }
+
+    public boolean frameSkipEnabled() {
+        return frameSkip;
+    }
+
+    public void setFrameSkip(boolean frameskip) {
+        this.frameSkip = frameskip;
     }
 
     /**
