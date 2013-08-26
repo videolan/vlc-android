@@ -35,6 +35,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -109,6 +110,37 @@ public class MediaDatabase {
 
         public DatabaseHelper(Context context) {
             super(context, DB_NAME, null, DB_VERSION);
+        }
+
+        @Override
+        public SQLiteDatabase getWritableDatabase() {
+            SQLiteDatabase db;
+            try {
+                return super.getWritableDatabase();
+            } catch(SQLiteException e) {
+                try {
+                    db = SQLiteDatabase.openOrCreateDatabase(VLCApplication.getAppContext().getDatabasePath(DB_NAME), null);
+                } catch(SQLiteException e2) {
+                    Log.w(TAG, "SQLite database could not be created! Media library cannot be saved.");
+                    db = SQLiteDatabase.create(null);
+                }
+            }
+            int version = db.getVersion();
+            if (version != DB_VERSION) {
+                db.beginTransaction();
+                try {
+                    if (version == 0) {
+                        onCreate(db);
+                    } else {
+                        onUpgrade(db, version, DB_VERSION);
+                    }
+                    db.setVersion(DB_VERSION);
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+            }
+            return db;
         }
 
         public void dropMediaTableQuery(SQLiteDatabase db) {
