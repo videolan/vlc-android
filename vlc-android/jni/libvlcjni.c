@@ -276,15 +276,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     LOGI("LibVLC initialized: %p", instance);
 
     libvlc_log_set(instance, debug_log, &verbosity);
-
-    /* Connect the event manager */
-    libvlc_event_manager_t *ev = libvlc_media_list_event_manager(pointer);
-    static const libvlc_event_type_t mp_events[] = {
-        libvlc_MediaListItemAdded,
-        libvlc_MediaListItemDeleted,
-    };
-    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
-        libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)

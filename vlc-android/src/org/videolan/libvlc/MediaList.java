@@ -27,10 +27,13 @@ public class MediaList {
     private static final String TAG = "VLC/LibVLC/MediaList";
 
     private long mMediaListInstance = 0; // Read-only, reserved for JNI
+    private long mEventHanderGlobalRef = 0; // Read-only, reserved for JNI
     private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
     private boolean destroyed = false;
+    private EventHandler mEventHandler;
 
     public MediaList(LibVLC libVLC) {
+        mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
         mMediaListInstance = init(libVLC);
         mLibVLC = libVLC;
     }
@@ -49,6 +52,7 @@ public class MediaList {
     public void destroy() {
         nativeDestroy();
         mMediaListInstance = 0;
+        mEventHanderGlobalRef = 0;
         mLibVLC = null;
         destroyed = true;
     }
@@ -73,6 +77,10 @@ public class MediaList {
      * @return null if not found
      */
     public native String getMRL(int position);
+
+    public EventHandler getEventHandler() {
+        return mEventHandler;
+    }
 
     @Override
     public String toString() {

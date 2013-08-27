@@ -21,13 +21,89 @@
 #include <jni.h>
 #include <vlc/vlc.h>
 #include <vlc/libvlc_media_list.h>
+#include <stdlib.h>
 
 #include "utils.h"
 #define LOG_TAG "VLC/JNI/MediaList"
 #include "log.h"
 
+/** Unique Java VM instance, as defined in libvlcjni.c */
+extern JavaVM *myVm;
+
 libvlc_media_list_t* getMediaList(JNIEnv *env, jobject thiz) {
     return (libvlc_media_list_t*)(intptr_t)getLong(env, thiz, "mMediaListInstance");
+}
+
+// data is the MediaList Java object of the media list
+static void vlc_media_list_event_callback(const libvlc_event_t *ev, void *data)
+{
+    jobject eventHandlerInstance = (jobject)(intptr_t)data;
+    JNIEnv *env;
+
+    bool isAttached = false;
+
+    if (eventHandlerInstance == NULL)
+        return;
+
+    if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
+        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
+            return;
+        isAttached = true;
+    }
+
+    /* Creating the bundle in C allows us to subscribe to more events
+     * and get better flexibility for each event. For example, we can
+     * have totally different types of data for each event, instead of,
+     * for example, only an integer and/or string.
+     */
+    jclass clsBundle = (*env)->FindClass(env, "android/os/Bundle");
+    jmethodID clsCtor = (*env)->GetMethodID(env, clsBundle, "<init>", "()V" );
+    jobject bundle = (*env)->NewObject(env, clsBundle, clsCtor);
+
+    jmethodID putInt = (*env)->GetMethodID(env, clsBundle, "putInt", "(Ljava/lang/String;I)V" );
+    jmethodID putFloat = (*env)->GetMethodID(env, clsBundle, "putFloat", "(Ljava/lang/String;F)V" );
+    jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
+
+    jstring item_uri = (*env)->NewStringUTF(env, "item_uri");
+    jstring item_index = (*env)->NewStringUTF(env, "item_index");
+    char* mrl = libvlc_media_get_mrl(
+        ev->type == libvlc_MediaListItemAdded ?
+        ev->u.media_list_item_added.item :
+        ev->u.media_list_item_deleted.item
+        );
+    jstring item_uri_value = (*env)->NewStringUTF(env, mrl);
+    jint item_index_value;
+    if(ev->type == libvlc_MediaListItemAdded)
+        item_index_value = ev->u.media_list_item_added.index;
+    else
+        item_index_value = ev->u.media_list_item_deleted.index;
+
+    (*env)->CallVoidMethod(env, bundle, putString, item_uri, item_uri_value);
+    (*env)->CallVoidMethod(env, bundle, putInt, item_index, item_index_value);
+
+    (*env)->DeleteLocalRef(env, item_uri);
+    (*env)->DeleteLocalRef(env, item_uri_value);
+    (*env)->DeleteLocalRef(env, item_index);
+    free(mrl);
+
+    /* Get the object class */
+    jclass cls = (*env)->GetObjectClass(env, eventHandlerInstance);
+    if (!cls) {
+        LOGE("EventHandler: failed to get class reference");
+        goto end;
+    }
+
+    /* Find the callback ID */
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
+    if (methodID) {
+        (*env)->CallVoidMethod(env, eventHandlerInstance, methodID, ev->type, bundle);
+    } else {
+        LOGE("EventHandler: failed to get the callback method");
+    }
+
+end:
+    if (isAttached)
+        (*myVm)->DetachCurrentThread(myVm);
 }
 
 jlong Java_org_videolan_libvlc_MediaList_init(JNIEnv *env, jobject thiz, jobject libvlcJava) {
@@ -37,12 +113,30 @@ jlong Java_org_videolan_libvlc_MediaList_init(JNIEnv *env, jobject thiz, jobject
         (*env)->ThrowNew(env, exc, "Unable to create LibVLC media list");
         return (jlong)(intptr_t)NULL;
     }
+
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldID = (*env)->GetFieldID(env, cls, "mEventHandler", "Lorg/videolan/libvlc/EventHandler;");
+    jobject eventHandler = (*env)->GetObjectField(env, thiz, fieldID);
+    jobject globalRef = getEventHandlerReference(env, thiz, eventHandler);
+
+    setLong(env, thiz, "mEventHanderGlobalRef", (jlong)(intptr_t)globalRef);
+
+    /* Connect the event manager */
+    libvlc_event_manager_t *ev = libvlc_media_list_event_manager(p_ml);
+    static const libvlc_event_type_t mp_events[] = {
+        libvlc_MediaListItemAdded,
+        libvlc_MediaListItemDeleted,
+    };
+    for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
+        libvlc_event_attach(ev, mp_events[i], vlc_media_list_event_callback, globalRef);
+
     return (jlong)(intptr_t)p_ml;
 }
 
 void Java_org_videolan_libvlc_MediaList_nativeDestroy(JNIEnv *env, jobject thiz) {
     libvlc_media_list_t* p_ml = getMediaList(env, thiz);
     libvlc_media_list_release(p_ml);
+    (*env)->DeleteGlobalRef(env, (jobject)(intptr_t)getLong(env, thiz, "mEventHanderGlobalRef"));
 }
 
 void Java_org_videolan_libvlc_MediaList_remove(JNIEnv *env, jobject thiz, jint position) {
