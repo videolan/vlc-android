@@ -23,7 +23,7 @@
 
 libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo);
 
-libvlc_media_list_t *getMediaList(JNIEnv *env, jobject thiz);
+libvlc_media_list_t* getMediaListFromJava(JNIEnv *env, jobject obj);
 
 libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz);
 

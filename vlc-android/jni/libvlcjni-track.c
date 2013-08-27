@@ -198,9 +198,9 @@ jobjectArray Java_org_videolan_libvlc_LibVLC_readTracksInfo(JNIEnv *env, jobject
 
 
 jobjectArray Java_org_videolan_libvlc_LibVLC_readTracksInfoPosition(JNIEnv *env, jobject thiz,
-                                                                    jint position)
+                                                                    jobject mlJ, jint position)
 {
-    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
+    libvlc_media_list_t* p_mlist = getMediaListFromJava(env, mlJ);
     libvlc_media_t *p_m = libvlc_media_list_item_at_index( p_mlist, position );
     if (p_m == NULL) {
         LOGE("Could not load get media @ position %d!", position);

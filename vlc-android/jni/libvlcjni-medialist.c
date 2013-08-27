@@ -30,10 +30,6 @@
 /** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
 
-libvlc_media_list_t* getMediaList(JNIEnv *env, jobject thiz) {
-    return (libvlc_media_list_t*)(intptr_t)getLong(env, thiz, "mMediaListInstance");
-}
-
 // data is the MediaList Java object of the media list
 static void vlc_media_list_event_callback(const libvlc_event_t *ev, void *data)
 {
@@ -134,20 +130,20 @@ jlong Java_org_videolan_libvlc_MediaList_init(JNIEnv *env, jobject thiz, jobject
 }
 
 void Java_org_videolan_libvlc_MediaList_nativeDestroy(JNIEnv *env, jobject thiz) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_release(p_ml);
     (*env)->DeleteGlobalRef(env, (jobject)(intptr_t)getLong(env, thiz, "mEventHanderGlobalRef"));
 }
 
 void Java_org_videolan_libvlc_MediaList_remove(JNIEnv *env, jobject thiz, jint position) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_lock(p_ml);
     libvlc_media_list_remove_index(p_ml, position);
     libvlc_media_list_unlock(p_ml);
 }
 
 void Java_org_videolan_libvlc_MediaList_add(JNIEnv *env, jobject thiz, jobject libvlcInstance, jstring mrl) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
     libvlc_media_t *p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)getLong(env, libvlcInstance, "mLibVlcInstance"), p_mrl);
     libvlc_media_list_lock(p_ml);
@@ -158,7 +154,7 @@ void Java_org_videolan_libvlc_MediaList_add(JNIEnv *env, jobject thiz, jobject l
 }
 
 void Java_org_videolan_libvlc_MediaList_insert(JNIEnv *env, jobject thiz, jobject libvlcInstance, jint position, jstring mrl) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
     libvlc_media_t *p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)getLong(env, libvlcInstance, "mLibVlcInstance"), p_mrl);
     libvlc_media_list_lock(p_ml);
@@ -169,7 +165,7 @@ void Java_org_videolan_libvlc_MediaList_insert(JNIEnv *env, jobject thiz, jobjec
 }
 
 jint Java_org_videolan_libvlc_MediaList_size(JNIEnv *env, jobject thiz) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_lock(p_ml);
     int count = libvlc_media_list_count(p_ml);
     libvlc_media_list_unlock(p_ml);
@@ -177,7 +173,7 @@ jint Java_org_videolan_libvlc_MediaList_size(JNIEnv *env, jobject thiz) {
 }
 
 jstring Java_org_videolan_libvlc_MediaList_getMRL(JNIEnv *env, jobject thiz, jint position) {
-    libvlc_media_list_t* p_ml = getMediaList(env, thiz);
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_lock(p_ml);
     libvlc_media_t* p_md = libvlc_media_list_item_at_index(p_ml, position);
     libvlc_media_list_unlock(p_ml);

@@ -74,9 +74,13 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
     return p_md;
 }
 
-libvlc_media_list_t *getMediaList(JNIEnv *env, jobject thiz)
-{
-    return (libvlc_media_list_t*)(intptr_t)getLong(env, thiz, "mMediaListInstance");
+// Get the current media list being followed
+libvlc_media_list_t* getMediaList(JNIEnv *env, jobject thiz) {
+    jclass clazz = (*env)->GetObjectClass(env, thiz);
+    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
+                                          "mMediaList", "Lorg/videolan/libvlc/MediaList;");
+    jobject javaML = (*env)->GetObjectField(env, thiz, fieldMP);
+    return getMediaListFromJava(env, javaML);
 }
 
 libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)

@@ -115,6 +115,11 @@ void setString(JNIEnv *env, jobject item, const char* field, const char* text) {
     (*env)->SetObjectField(env, item, fieldId, jstr);
 }
 
+// Returns the libvlc_media_list_t of a MediaList object
+libvlc_media_list_t* getMediaListFromJava(JNIEnv *env, jobject obj) {
+    return (libvlc_media_list_t*)(intptr_t)getLong(env, obj, "mMediaListInstance");
+}
+
 jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler)
 {
     jclass cls = (*env)->GetObjectClass(env, eventHandler);
