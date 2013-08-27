@@ -39,6 +39,8 @@ void setFloat(JNIEnv *env, jobject item, const char* field, jfloat value);
 
 void setString(JNIEnv *env, jobject item, const char* field, const char* text);
 
+jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler);
+
 void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap);
 
 #endif // LIBVLCJNI_UTILS_H

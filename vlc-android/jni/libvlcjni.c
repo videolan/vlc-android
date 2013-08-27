@@ -326,19 +326,7 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
         eventHandlerInstance = NULL;
     }
 
-    jclass cls = (*env)->GetObjectClass(env, eventHandler);
-    if (!cls) {
-        LOGE("setEventHandler: failed to get class reference");
-        return;
-    }
-
-    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
-    if (!methodID) {
-        LOGE("setEventHandler: failed to get the callback method");
-        return;
-    }
-
-    eventHandlerInstance = (*env)->NewGlobalRef(env, eventHandler);
+    eventHandlerInstance = getEventHandlerReference(env, thiz, eventHandler);
 }
 
 static void create_player_and_play(JNIEnv* env, jobject thiz,

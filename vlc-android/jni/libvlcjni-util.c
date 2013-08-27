@@ -115,6 +115,23 @@ void setString(JNIEnv *env, jobject item, const char* field, const char* text) {
     (*env)->SetObjectField(env, item, fieldId, jstr);
 }
 
+jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler)
+{
+    jclass cls = (*env)->GetObjectClass(env, eventHandler);
+    if (!cls) {
+        LOGE("setEventHandler: failed to get class reference");
+        return NULL;
+    }
+
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "callback", "(ILandroid/os/Bundle;)V");
+    if (!methodID) {
+        LOGE("setEventHandler: failed to get the callback method");
+        return NULL;
+    }
+
+    return (*env)->NewGlobalRef(env, eventHandler);
+}
+
 static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
 {
     bool isAttached = false;
