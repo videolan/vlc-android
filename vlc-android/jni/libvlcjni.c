@@ -277,14 +277,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     libvlc_log_set(instance, debug_log, &verbosity);
 
-    /* Initialize media list (a.k.a. playlist/history) */
-    libvlc_media_list_t* pointer = libvlc_media_list_new( instance );
-    if(!pointer) {
-        jclass exc = (*env)->FindClass(env, "org/videolan/libvlc/LibVlcException");
-        (*env)->ThrowNew(env, exc, "Unable to create LibVLC media list");
-        return;
-    }
-
     /* Connect the event manager */
     libvlc_event_manager_t *ev = libvlc_media_list_event_manager(pointer);
     static const libvlc_event_type_t mp_events[] = {
@@ -293,8 +285,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     };
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
-
-    setLong(env, thiz, "mMediaListInstance", (jlong)(intptr_t)pointer);
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
@@ -462,10 +452,6 @@ void Java_org_videolan_libvlc_LibVLC_getMediaListItems(
         free(mrl);
     }
     libvlc_media_list_unlock( p_mlist );
-}
-
-void Java_org_videolan_libvlc_LibVLC_removeIndex(JNIEnv *env, jobject thiz, jlong instance, jint position) {
-    libvlc_media_list_remove_index((libvlc_media_list_t*)(intptr_t)instance, position);
 }
 
 jfloat Java_org_videolan_libvlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {

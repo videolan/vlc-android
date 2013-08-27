@@ -41,8 +41,8 @@ public class LibVLC {
     /** libvlc_media_player pointer and index */
     private int mInternalMediaPlayerIndex = 0; // Read-only, reserved for JNI
     private long mInternalMediaPlayerInstance = 0; // Read-only, reserved for JNI
-    /** libvlc_media_list_t pointer */
-    private long mMediaListInstance = 0; // Read-only, reserved for JNI
+
+    private MediaList mMediaList;
 
     /** Buffer for VLC messages */
     private StringBuffer mDebugLogBuffer;
@@ -281,6 +281,7 @@ public class LibVLC {
                 throw new LibVlcException();
             }
             nativeInit();
+            mMediaList = new MediaList(this);
             setEventHandler(EventHandler.getInstance());
             mIsInitialized = true;
         }
@@ -411,12 +412,6 @@ public class LibVLC {
     public boolean isDebugBuffering() {
         return mIsBufferingLog;
     }
-
-    /** Media list functions **/
-    public void removeIndex(int position) {
-        removeIndex(mMediaListInstance, position);
-    }
-    private native void removeIndex(long media_list_instance, int position);
 
     /**
      * Read a media
