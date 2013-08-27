@@ -98,7 +98,7 @@ public class HistoryFragment extends SherlockListFragment {
             playListIndex(info.position);
             return true;
         } else if(id == R.id.history_view_delete) {
-            LibVLC.getExistingInstance().removeIndex(info.position);
+            LibVLC.getExistingInstance().getPrimaryMediaList().remove(info.position);
             mHistoryAdapter.notifyDataSetChanged();
             return true;
         }
