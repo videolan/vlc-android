@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
@@ -57,6 +58,7 @@ public class AudioUtil {
 
     public static String CACHE_DIR = null;
     public static String COVER_DIR = null;
+    public static String PLAYLIST_DIR = null;
 
     public static void setRingtone( Media song, Activity activity){
         File newringtone = Util.URItoFile(song.getLocation());
@@ -107,10 +109,13 @@ public class AudioUtil {
         else
             CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + context.getPackageName() + "/cache";
         COVER_DIR = CACHE_DIR + "/covers/";
+        PLAYLIST_DIR = CACHE_DIR + "/playlists/";
 
-        File file = new File(COVER_DIR);
-        if (!file.exists())
-            file.mkdirs();
+        for(String path : Arrays.asList(COVER_DIR, PLAYLIST_DIR)) {
+            File file = new File(path);
+            if (!file.exists())
+                file.mkdirs();
+        }
     }
 
     private static String getCoverFromMediaStore(Context context, Media media) {
