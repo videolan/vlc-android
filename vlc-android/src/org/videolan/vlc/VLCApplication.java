@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VLCApplication.java
  *****************************************************************************
- * Copyright © 2010-2012 VLC authors and VideoLAN
+ * Copyright © 2010-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
 package org.videolan.vlc;
 
 import java.util.Locale;
+
+import org.videolan.vlc.gui.audio.AudioUtil;
 
 import android.app.Application;
 import android.content.Context;
@@ -74,6 +76,8 @@ public class VLCApplication extends Application {
 
         // Initialize the database soon enough to avoid any race condition and crash
         MediaDatabase.getInstance(this);
+        // Prepare cache folder constants
+        AudioUtil.prepareCacheFolder(this);
     }
 
     /**

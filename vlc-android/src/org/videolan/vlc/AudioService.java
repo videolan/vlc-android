@@ -182,8 +182,6 @@ public class AudioService extends Service {
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
         }
-
-        AudioUtil.prepareCacheFolder(this);
     }
 
 
