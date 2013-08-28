@@ -653,8 +653,8 @@ public class AudioService extends Service {
 
     private void next() {
         // Try to expand any items present
-        int pos = mLibVLC.expandMedia();
-        if(pos >= 0) {
+        int pos = mLibVLC.expandAndPlay();
+        if(pos == 0) {
             Log.d(TAG, "Found subitems, updating media display");
             ArrayList<String> mediaPathList = new ArrayList<String>();
             mLibVLC.getMediaListItems(mediaPathList);

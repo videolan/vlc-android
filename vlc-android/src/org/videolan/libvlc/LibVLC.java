@@ -611,13 +611,16 @@ public class LibVLC {
     public native void getMediaListItems(ArrayList<String> arl);
 
      /**
-      * A function to flatten the playlist. This function checks the
-      * currently playing media. If there are any subitems, it will
-      * expand them and replace the current media.
+      * Expand and continue playing the current media.
       *
       * @return the index of the media was expanded, and -1 if no media was expanded
       */
-    public native int expandMedia();
+    public int expandAndPlay() {
+        int r = mMediaList.expandMedia(mInternalMediaPlayerIndex);
+        if(r == 0)
+            this.playIndex(mInternalMediaPlayerIndex);
+        return r;
+    }
 
     private native void setEventHandler(EventHandler eventHandler);
 

@@ -102,6 +102,36 @@ end:
         (*myVm)->DetachCurrentThread(myVm);
 }
 
+static int expand_media_internal(libvlc_media_list_t* p_mlist, int position) {
+    libvlc_media_t* p_md = libvlc_media_list_item_at_index(p_mlist, position);
+    if(!p_md) {
+        return -1;
+    }
+    libvlc_media_list_t* p_subitems = libvlc_media_subitems(p_md);
+    libvlc_media_release(p_md);
+    if(p_subitems) {
+        // Expand any subitems if needed
+        int subitem_count = libvlc_media_list_count(p_subitems);
+        if(subitem_count > 0) {
+            LOGD("Found %d subitems, expanding", subitem_count);
+            for(int i = subitem_count - 1; i >= 0; i--) {
+                libvlc_media_t* p_subitem = libvlc_media_list_item_at_index(p_subitems, i);
+                libvlc_media_list_insert_media(p_mlist, p_subitem, position+1);
+                libvlc_media_release(p_subitem);
+            }
+            libvlc_media_list_remove_index(p_mlist, position);
+        }
+        libvlc_media_list_release(p_subitems);
+        if(subitem_count > 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+}
+
 jlong Java_org_videolan_libvlc_MediaList_init(JNIEnv *env, jobject thiz, jobject libvlcJava) {
     libvlc_media_list_t* p_ml = libvlc_media_list_new((libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"));
     if(!p_ml) {
@@ -133,6 +163,14 @@ void Java_org_videolan_libvlc_MediaList_nativeDestroy(JNIEnv *env, jobject thiz)
     libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_release(p_ml);
     (*env)->DeleteGlobalRef(env, (jobject)(intptr_t)getLong(env, thiz, "mEventHanderGlobalRef"));
+}
+
+jint Java_org_videolan_libvlc_MediaList_expandMedia(JNIEnv *env, jobject thiz, jint position) {
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
+    libvlc_media_list_lock(p_ml);
+    jint ret = (jint)expand_media_internal(p_ml, position);
+    libvlc_media_list_unlock(p_ml);
+    return ret;
 }
 
 void Java_org_videolan_libvlc_MediaList_remove(JNIEnv *env, jobject thiz, jint position) {

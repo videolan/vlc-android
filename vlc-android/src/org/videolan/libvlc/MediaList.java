@@ -63,6 +63,16 @@ public class MediaList {
     }
     private native void add(LibVLC libvlc_instance, String mrl);
 
+    /**
+     * This function checks the currently playing media for subitems at the given
+     * position, and if any exist, it will expand them at the same position
+     * and replace the current media.
+     *
+     * @param position The position to expand
+     * @return -1 if no subitems were found, 0 if subitems were expanded
+     */
+    public native int expandMedia(int position);
+
     public void insert(int position, String mrl) {
         insert(mLibVLC, position, mrl);
     }
