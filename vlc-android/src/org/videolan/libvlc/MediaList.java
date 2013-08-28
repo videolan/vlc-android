@@ -64,6 +64,11 @@ public class MediaList {
     private native void add(LibVLC libvlc_instance, String mrl);
 
     /**
+     * Clear the media list. (remove all media)
+     */
+    public native void clear();
+
+    /**
      * This function checks the currently playing media for subitems at the given
      * position, and if any exist, it will expand them at the same position
      * and replace the current media.

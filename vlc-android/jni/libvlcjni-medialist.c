@@ -181,6 +181,15 @@ void Java_org_videolan_libvlc_MediaList_nativeDestroy(JNIEnv *env, jobject thiz)
     (*env)->DeleteGlobalRef(env, (jobject)(intptr_t)getLong(env, thiz, "mEventHanderGlobalRef"));
 }
 
+void Java_org_videolan_libvlc_MediaList_clear(JNIEnv *env, jobject thiz) {
+    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
+    libvlc_media_list_lock(p_ml);
+    for(int i = 0; i < libvlc_media_list_count(p_ml); i++) {
+        libvlc_media_list_remove_index(p_ml, 0);
+    }
+    libvlc_media_list_unlock(p_ml);
+}
+
 jint Java_org_videolan_libvlc_MediaList_expandMedia(JNIEnv *env, jobject thiz, jint position) {
     libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_lock(p_ml);
