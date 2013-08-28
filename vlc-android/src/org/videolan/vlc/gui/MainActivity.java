@@ -496,8 +496,8 @@ public class MainActivity extends SherlockFragmentActivity {
                 onOpenMRL();
                 break;
             case R.id.ml_menu_search:
-            	onSearchRequested();
-            	break;
+                onSearchRequested();
+                break;
             case android.R.id.home:
                 /* Toggle the sidebar */
                 if(mMenu.isMenuShowing())
