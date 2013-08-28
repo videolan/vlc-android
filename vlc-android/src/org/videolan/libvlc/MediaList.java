@@ -59,9 +59,12 @@ public class MediaList {
     private native void nativeDestroy();
 
     public void add(String mrl) {
-        add(mLibVLC, mrl);
+        add(mLibVLC, mrl, false, false);
     }
-    private native void add(LibVLC libvlc_instance, String mrl);
+    public void add(String mrl, boolean noVideo) {
+        add(mLibVLC, mrl, noVideo, false);
+    }
+    private native void add(LibVLC libvlc_instance, String mrl, boolean noVideo, boolean noOmx);
 
     /**
      * Clear the media list. (remove all media)
