@@ -148,6 +148,15 @@ public class LibVLC {
     }
 
     /**
+     * Get the media list that LibVLC is following right now.
+     *
+     * @return The media list object being followed
+     */
+    public MediaList getMediaList() {
+        return mMediaList;
+    }
+
+    /**
      * Set the media list for LibVLC to follow.
      *
      * @param mediaList The media list object to follow
