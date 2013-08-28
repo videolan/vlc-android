@@ -73,6 +73,11 @@ public class MediaList {
      */
     public native int expandMedia(int position);
 
+    public void loadPlaylist(String mrl) {
+        loadPlaylist(mLibVLC, mrl);
+    }
+    private native void loadPlaylist(LibVLC libvlc_instance, String mrl);
+
     public void insert(int position, String mrl) {
         insert(mLibVLC, position, mrl);
     }
