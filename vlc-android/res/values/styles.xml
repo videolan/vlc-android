@@ -58,6 +58,10 @@
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
+    <style name="Theme.VLC.Fullscreen" parent="android:Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/black</item>
+    </style>
+
     <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="background">@drawable/actionbar_background</item>

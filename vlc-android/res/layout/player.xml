@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#000001" >
+    android:layout_height="fill_parent" >
 
     <!-- the double FrameLayout is necessary here to do cropping on the right
      (which requires the surface not be centered), while keeping the result centered -->
