@@ -118,7 +118,7 @@ end:
         (*myVm)->DetachCurrentThread(myVm);
 }
 
-static int expand_media_internal(libvlc_media_list_t* p_mlist, int position) {
+static int expand_media_internal(libvlc_instance_t* p_instance, libvlc_media_list_t* p_mlist, int position) {
     libvlc_media_t* p_md = libvlc_media_list_item_at_index(p_mlist, position);
     if(!p_md) {
         return -1;
@@ -131,9 +131,11 @@ static int expand_media_internal(libvlc_media_list_t* p_mlist, int position) {
         if(subitem_count > 0) {
             LOGD("Found %d subitems, expanding", subitem_count);
             for(int i = subitem_count - 1; i >= 0; i--) {
-                libvlc_media_t* p_subitem = libvlc_media_list_item_at_index(p_subitems, i);
+                libvlc_media_t* p_subitem_old = libvlc_media_list_item_at_index(p_subitems, i);
+                libvlc_media_t* p_subitem = libvlc_media_new_location(p_instance, libvlc_media_get_mrl(p_subitem_old));
                 libvlc_media_list_insert_media(p_mlist, p_subitem, position+1);
                 libvlc_media_release(p_subitem);
+                libvlc_media_release(p_subitem_old);
             }
             libvlc_media_list_remove_index(p_mlist, position);
         }
@@ -190,10 +192,10 @@ void Java_org_videolan_libvlc_MediaList_clear(JNIEnv *env, jobject thiz) {
     libvlc_media_list_unlock(p_ml);
 }
 
-jint Java_org_videolan_libvlc_MediaList_expandMedia(JNIEnv *env, jobject thiz, jint position) {
+jint Java_org_videolan_libvlc_MediaList_expandMedia(JNIEnv *env, jobject thiz, jobject libvlcJava, jint position) {
     libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
     libvlc_media_list_lock(p_ml);
-    jint ret = (jint)expand_media_internal(p_ml, position);
+    jint ret = (jint)expand_media_internal((libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"), p_ml, position);
     libvlc_media_list_unlock(p_ml);
     return ret;
 }
@@ -236,7 +238,7 @@ void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, 
     libvlc_media_list_lock(p_ml);
     int pos = libvlc_media_list_count(p_ml);
     libvlc_media_list_add_media(p_ml, p_md);
-    expand_media_internal(p_ml, pos);
+    expand_media_internal((libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"), p_ml, pos);
     libvlc_media_list_unlock(p_ml);
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
