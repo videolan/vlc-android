@@ -76,7 +76,10 @@ public class MediaList {
      * @param position The position to expand
      * @return -1 if no subitems were found, 0 if subitems were expanded
      */
-    public native int expandMedia(int position);
+    public int expandMedia(int position) {
+        return expandMedia(mLibVLC, position);
+    }
+    private native int expandMedia(LibVLC libvlc_instance, int position);
 
     public void loadPlaylist(String mrl) {
         loadPlaylist(mLibVLC, mrl);
