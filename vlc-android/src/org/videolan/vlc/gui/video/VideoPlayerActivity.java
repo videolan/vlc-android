@@ -362,15 +362,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
          * To workaround that, we keep the last known position in the playlist
          * in savedIndexPosition to be able to restore it during onResume().
          */
-        if (savedIndexPosition >= 0)
-            mLibVLC.stop();
-        else {
-            /* FIXME when the playback is started externally from AudioService
-             * we don't have a savedIndexPosition. Use pause as a fallback until
-             * we find a solution.
-             */
-            mLibVLC.pause();
-        }
+        mLibVLC.stop();
 
         mSurface.setKeepScreenOn(false);
 
@@ -492,24 +484,29 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     public static void start(Context context, String location) {
-        start(context, location, null, false, false);
+        start(context, location, null, -1, false, false);
     }
 
     public static void start(Context context, String location, Boolean fromStart) {
-        start(context, location, null, false, fromStart);
+        start(context, location, null, -1, false, fromStart);
     }
 
     public static void start(Context context, String location, String title, Boolean dontParse) {
-        start(context, location, title, dontParse, false);
+        start(context, location, title, -1, dontParse, false);
     }
 
-    public static void start(Context context, String location, String title, Boolean dontParse, Boolean fromStart) {
+    public static void start(Context context, String location, String title, int position, Boolean dontParse) {
+        start(context, location, title, position, dontParse, false);
+    }
+
+    public static void start(Context context, String location, String title, int position, Boolean dontParse, Boolean fromStart) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra("itemLocation", location);
         intent.putExtra("itemTitle", title);
         intent.putExtra("dontParse", dontParse);
         intent.putExtra("fromStart", fromStart);
+        intent.putExtra("itemPosition", position);
 
         if (dontParse)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -1453,6 +1450,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         boolean dontParse = false;
         boolean fromStart = false;
         String itemTitle = null;
+        int itemPosition = -1; // Index in the media list as passed by AudioServer (used only for vout transition internally)
         long intentPosition = -1; // position passed in by intent (ms)
 
         if (getIntent().getAction() != null
@@ -1484,12 +1482,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             itemTitle = getIntent().getExtras().getString("itemTitle");
             dontParse = getIntent().getExtras().getBoolean("dontParse");
             fromStart = getIntent().getExtras().getBoolean("fromStart");
+            itemPosition = getIntent().getExtras().getInt("itemPosition", -1);
         }
 
         mSurface.setKeepScreenOn(true);
 
         /* Start / resume playback */
-        if (savedIndexPosition > -1) {
+        if(dontParse && itemPosition >= 0) {
+            // Provided externally from AudioService
+            Log.d(TAG, "Continuing playback from AudioService at index " + itemPosition);
+            savedIndexPosition = itemPosition;
+        } else if (savedIndexPosition > -1) {
             mLibVLC.setMediaList();
             mLibVLC.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
