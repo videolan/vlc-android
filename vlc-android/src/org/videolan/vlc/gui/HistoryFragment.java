@@ -99,7 +99,7 @@ public class HistoryFragment extends SherlockListFragment {
             return true;
         } else if(id == R.id.history_view_delete) {
             LibVLC.getExistingInstance().removeIndex(info.position);
-            mHistoryAdapter.notifyDataSetChanged();
+            mHistoryAdapter.refresh();
             return true;
         }
         return super.onContextItemSelected(item);
