@@ -438,7 +438,8 @@ public class MediaDatabase {
         Cursor cursor;
         Media media = null;
 
-        cursor = mDb.query(
+        try {
+            cursor = mDb.query(
                 MEDIA_TABLE_NAME,
                 new String[] {
                         MEDIA_TIME, //0 long
@@ -457,6 +458,10 @@ public class MediaDatabase {
                 MEDIA_LOCATION + "=?",
                 new String[] { location },
                 null, null, null);
+        } catch(IllegalArgumentException e) {
+            // java.lang.IllegalArgumentException: the bind value at index 1 is null
+            return null;
+        }
         if (cursor.moveToFirst()) {
             media = new Media(context, location,
                     cursor.getLong(0),

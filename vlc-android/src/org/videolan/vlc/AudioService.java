@@ -465,6 +465,7 @@ public class AudioService extends Service {
         int index = mCurrentIndex;
         mMetadataCache.clear();
         mCurrentIndex = -1;
+        mEventHandler.removeHandler(mVlcEventHandler);
         // Preserve playback when switching to video
         hideNotification(false);
 

@@ -1492,6 +1492,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from AudioService at index " + itemPosition);
             savedIndexPosition = itemPosition;
+            if(!mLibVLC.isPlaying()) {
+                // AudioService-transitioned playback for item after sleep and resme
+                mLibVLC.playIndex(savedIndexPosition);
+                dontParse = false;
+            }
         } else if (savedIndexPosition > -1) {
             mLibVLC.setMediaList();
             mLibVLC.playIndex(savedIndexPosition);
