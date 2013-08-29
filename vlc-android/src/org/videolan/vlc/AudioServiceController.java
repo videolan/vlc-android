@@ -212,10 +212,10 @@ public class AudioServiceController implements IAudioPlayerControl {
         load(mediaPathList, position, false);
     }
 
-    public void load(String mediaPath, int position, boolean noVideo) {
+    public void load(String mediaPath, boolean noVideo) {
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add(mediaPath);
-        load(arrayList, position, noVideo);
+        load(arrayList, 0, noVideo);
     }
 
     public void load(List<String> mediaPathList, int position, boolean noVideo) {
