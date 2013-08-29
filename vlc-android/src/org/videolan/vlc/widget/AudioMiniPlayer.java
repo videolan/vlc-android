@@ -30,11 +30,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -43,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
@@ -57,6 +60,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private ImageButton mBackward;
     private ImageView mCover;
     private ProgressBar mProgressBar;
+
+    private float mTouchX, mTouchY;
 
     // Listener for the play and pause buttons
     private final OnClickListener onMediaControlClickListener = new OnClickListener() {
@@ -102,12 +107,28 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mBackward.setOnClickListener(onMediaControlClickListener);
         mProgressBar = (ProgressBar) v.findViewById(R.id.timeline);
 
-        LinearLayout root = (LinearLayout) v.findViewById(R.id.root_node);
+        final LinearLayout root = (LinearLayout) v.findViewById(R.id.root_node);
 
-        root.setOnClickListener(new OnClickListener() {
+        root.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                AudioPlayerActivity.start(getActivity());
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mTouchX = event.getRawX();
+                    mTouchY = event.getRawY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if(mTouchY - event.getRawY() > root.getHeight()) {
+                        Toast.makeText(AudioMiniPlayer.this.getActivity(), "AudioMiniPlayer swipe up", Toast.LENGTH_SHORT).show();
+                        return true;
+                    } else if(Math.abs( mTouchY - event.getRawY() ) < 5 && Math.abs( mTouchX - event.getRawX() ) < 5) {
+                        // effectively a click
+                        AudioPlayerActivity.start(getActivity());
+                        return true;
+                    } else
+                        return false;
+                }
+                return true;
             }
         });
 
