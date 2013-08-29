@@ -79,7 +79,8 @@ public class HistoryFragment extends SherlockListFragment {
     private void playListIndex(int position) {
         AudioServiceController audioController = AudioServiceController.getInstance();
 
-        audioController.load(mHistoryAdapter.getAllURIs(), position, true);
+        LibVLC.getExistingInstance().setMediaList();
+        audioController.playIndex(position);
         Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
