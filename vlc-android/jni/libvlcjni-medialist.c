@@ -256,9 +256,9 @@ void Java_org_videolan_libvlc_MediaList_add(JNIEnv *env, jobject thiz, jobject l
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
     libvlc_media_t *p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)getLong(env, libvlcInstance, "mLibVlcInstance"), p_mrl);
     if (!noOmx) {
-        jclass cls = (*env)->GetObjectClass(env, thiz);
+        jclass cls = (*env)->GetObjectClass(env, libvlcInstance);
         jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
-        if ((*env)->CallBooleanMethod(env, thiz, methodId)) {
+        if ((*env)->CallBooleanMethod(env, libvlcInstance, methodId)) {
             /*
              * Set higher caching values if using iomx decoding, since some omx
              * decoders have a very high latency, and if the preroll data isn't
