@@ -212,7 +212,7 @@ public class AudioServiceController implements IAudioPlayerControl {
         load(mediaPathList, position, false);
     }
 
-    public void load(String mediaPath, int position, boolean libvlcBacked, boolean noVideo) {
+    public void load(String mediaPath, int position, boolean noVideo) {
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add(mediaPath);
         load(arrayList, position, noVideo);
@@ -251,9 +251,9 @@ public class AudioServiceController implements IAudioPlayerControl {
         updateAudioPlayer();
     }
 
-    public void showWithoutParse(String u) {
+    public void showWithoutParse(int u) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "showWithoutParse",
-                new Class<?>[] { String.class },
+                new Class<?>[] { int.class },
                 new Object[] { u } );
         updateAudioPlayer();
     }

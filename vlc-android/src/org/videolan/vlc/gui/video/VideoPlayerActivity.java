@@ -341,7 +341,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
-            AudioServiceController.getInstance().showWithoutParse(mLocation);
+            AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
             AudioServiceController.getInstance().unbindAudioService(this);
             AudioPlayerActivity.start(this, true);
             return;
@@ -1480,9 +1480,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         /* Start / resume playback */
         if (savedIndexPosition > -1) {
+            mLibVLC.setMediaList();
             mLibVLC.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
-            savedIndexPosition = mLibVLC.readMedia(mLocation, false);
+            mLibVLC.setMediaList();
+            mLibVLC.getMediaList().add(mLocation, false);
+            savedIndexPosition = mLibVLC.getMediaList().size() - 1;
+            mLibVLC.playIndex(savedIndexPosition);
         }
         mLibVLC.applyEqualizer();
 

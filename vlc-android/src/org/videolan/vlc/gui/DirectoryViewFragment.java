@@ -142,7 +142,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
                     });
             alertDialog.show();
         } else if(id == R.id.directory_view_play_audio) {
-            AudioServiceController.getInstance().load(mediaLocation, 0, false, true);
+            AudioServiceController.getInstance().load(mediaLocation, 0, true);
             AudioPlayerActivity.start(getActivity());
         } else if(id == R.id.directory_view_play_video) {
             VideoPlayerActivity.start(getActivity(), mediaLocation);
