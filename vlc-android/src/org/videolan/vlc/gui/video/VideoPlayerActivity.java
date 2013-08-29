@@ -742,9 +742,19 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void endReached() {
-        /* Exit player when reach the end */
-        mEndReached = true;
-        finish();
+        if(mLibVLC.getMediaList().expandMedia(savedIndexPosition) == 0) {
+            Log.d(TAG, "Found a video playlist, expanding it");
+            eventHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    load();
+                }
+            }, 1000);
+        } else {
+            /* Exit player when reaching the end */
+            mEndReached = true;
+            finish();
+        }
     }
 
     private void encounteredError() {
