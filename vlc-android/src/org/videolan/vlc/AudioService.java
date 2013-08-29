@@ -137,7 +137,6 @@ public class AudioService extends Service {
         }
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
-        mMediaList = new ArrayList<Media>();
         mMetadataCache = new ArrayList<Media>();
         mCurrentIndex = -1;
         mPrevious = new Stack<Integer>();
