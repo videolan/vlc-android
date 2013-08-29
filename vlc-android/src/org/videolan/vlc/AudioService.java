@@ -1216,4 +1216,47 @@ public class AudioService extends Service {
         msg.what = SHOW_TOAST;
         mHandler.sendMessage(msg);
     }
+
+    private void reloadMetadataCache() {
+        reloadMetadataCache(-1, "");
+    }
+    private void reloadMetadataCache(int skip, String URI) {
+        mMetadataCache.clear();
+        mPrevious.clear();
+        MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
+        for(int i = 0; i < mLibVLC.getMediaList().size(); i++) {
+            String location = mLibVLC.getMediaList().getMRL(i);
+            Media media;
+            if(i != skip) {
+                media = db.getMedia(AudioService.this, location);
+                if(media == null) {
+                    if (!validateLocation(location)) {
+                        showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
+                        continue;
+                    }
+                    Log.v(TAG, "Creating on-the-fly Media object for " + location);
+                    media = new Media(location, false);
+                }
+            } else {
+                // Prevent re-parsing the media, which would mean losing the connection
+                media = new Media(
+                        getApplicationContext(),
+                        URI,
+                        0,
+                        0,
+                        Media.TYPE_AUDIO,
+                        null,
+                        URI,
+                        VLCApplication.getAppContext().getString(R.string.unknown_artist),
+                        VLCApplication.getAppContext().getString(R.string.unknown_genre),
+                        VLCApplication.getAppContext().getString(R.string.unknown_album),
+                        0,
+                        0,
+                        "",
+                        -1,
+                        -1);
+            }
+            mMetadataCache.add(media);
+        }
+    }
 }
