@@ -935,6 +935,36 @@ public class AudioService extends Service {
             AudioService.this.saveCurrentMedia();
         }
 
+        /**
+         * Use this function to play a media inside whatever MediaList LibVLC is following.
+         *
+         * Unlike load(), it does not import anything into the primary list.
+         */
+        @Override
+        public void playIndex(int index) {
+            if (index < mLibVLC.getMediaList().size()) {
+                mCurrentIndex = index;
+            } else {
+                Log.w(TAG, "Warning: index " + index + " out of bounds");
+                mCurrentIndex = 0;
+            }
+            reloadMetadataCache();
+
+            mEventHandler.addHandler(mVlcEventHandler);
+            mLibVLC.playIndex(mCurrentIndex);
+            mLibVLC.applyEqualizer();
+            setUpRemoteControlClient();
+            showNotification();
+            updateWidget(AudioService.this);
+            updateRemoteControlClientMetadata();
+        }
+
+        /**
+         * Use this function to show an URI in the audio interface WITHOUT
+         * interrupting the stream.
+         *
+         * Mainly used by VideoPlayerActivity in response to loss of video track.
+         */
         @Override
         public void showWithoutParse(int index) throws RemoteException {
             String URI = mLibVLC.getMediaList().getMRL(index);

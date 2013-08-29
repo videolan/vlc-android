@@ -258,6 +258,13 @@ public class AudioServiceController implements IAudioPlayerControl {
         updateAudioPlayer();
     }
 
+    public void playIndex(int i) {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "playIndex",
+                new Class<?>[] { int.class },
+                new Object[] { i } );
+        updateAudioPlayer();
+    }
+
     @Override
     public String getAlbum() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getAlbum", null, null);
