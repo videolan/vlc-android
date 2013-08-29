@@ -665,7 +665,7 @@ public class MainActivity extends SherlockFragmentActivity {
                        * (for example, RTSP and TS streaming) where ES can be
                        * dynamically adapted rather than a simple scan.
                        */
-                      c.append(s);
+                      c.load(s, false);
                     }
                 };
                 task.execute();
