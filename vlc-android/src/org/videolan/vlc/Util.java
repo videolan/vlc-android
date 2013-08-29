@@ -138,8 +138,14 @@ public class Util {
         catch(NumberFormatException nfe) {
             deblocking = -1;
         }
+        int networkCaching = pref.getInt("network_caching_value", 0);
+        if(networkCaching > 60000)
+            networkCaching = 60000;
+        else if(networkCaching < 0)
+            networkCaching = 0;
         instance.setAout(aout);
         instance.setDeblocking(deblocking);
+        instance.setNetworkCaching(networkCaching);
     }
 
     /** Print an on-screen message to alert the user */

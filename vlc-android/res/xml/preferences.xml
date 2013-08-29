@@ -102,6 +102,13 @@
                 android:title="@string/aout" />
 
             <EditTextPreference
+                android:key="network_caching"
+                android:summary="@string/network_caching_summary"
+                android:title="@string/network_caching"
+                android:defaultValue=""
+                android:maxLength="5" />
+
+            <EditTextPreference
                 android:defaultValue=""
                 android:key="set_locale"
                 android:summary="@string/set_locale_detail"

@@ -229,6 +229,14 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     snprintf(deblockstr, 2, "%d", deblocking);
     LOGD("Using deblocking level %d", deblocking);
 
+    methodId = (*env)->GetMethodID(env, cls, "getNetworkCaching", "()I");
+    int networkCaching = (*env)->CallIntMethod(env, thiz, methodId);
+    char networkCachingstr[25] = "0";
+    if(networkCaching > 0) {
+        snprintf(networkCachingstr, 25, "--network-caching=%d", networkCaching);
+        LOGD("Using network caching of %d ms", networkCaching);
+    }
+
     methodId = (*env)->GetMethodID(env, cls, "getChroma", "()Ljava/lang/String;");
     jstring chroma = (*env)->CallObjectMethod(env, thiz, methodId);
     const char *chromastr = (*env)->GetStringUTFChars(env, chroma, 0);
@@ -261,6 +269,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--avcodec-skiploopfilter", deblockstr,
         "--avcodec-skip-frame", enable_frame_skip ? "4" : "0",
         "--avcodec-skip-idct", enable_frame_skip ? "4" : "0",
+        (networkCaching > 0) ? networkCachingstr : "",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
     };

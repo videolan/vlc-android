@@ -220,6 +220,8 @@
     <string name="aout_audiotrack">AudioTrack (native)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Network caching value</string>
+    <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
     <string name="enable_verbose_mode">Verbose</string>
     <string name="enable_verbose_mode_summary">Increase the verbosity (logcat)</string>
     <string name="set_locale">Set locale</string>

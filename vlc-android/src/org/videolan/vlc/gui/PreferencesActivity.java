@@ -192,6 +192,24 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 return true;
             }
         });
+        // Network caching
+        EditTextPreference networkCachingPref = (EditTextPreference) findPreference("network_caching");
+        networkCachingPref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                try {
+                    editor.putInt("network_caching_value", Integer.parseInt((String)newValue));
+                } catch(NumberFormatException e) {
+                    editor.putInt("network_caching_value", 0);
+                    editor.putString("network_caching", "0");
+                }
+                editor.commit();
+                return true;
+            }
+        });
 
         /*** SharedPreferences Listener to apply changes ***/
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -203,11 +221,12 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         if(key.equalsIgnoreCase("enable_iomx")
                 || key.equalsIgnoreCase("subtitles_text_encoding")
                 || key.equalsIgnoreCase("aout")
+                || key.equalsIgnoreCase("chroma_format")
+                || key.equalsIgnoreCase("deblocking")
                 || key.equalsIgnoreCase("enable_frame_skip")
                 || key.equalsIgnoreCase("enable_time_stretching_audio")
-                || key.equalsIgnoreCase("deblocking")
-                || key.equalsIgnoreCase("chroma_format")
-                || key.equalsIgnoreCase("enable_verbose_mode")) {
+                || key.equalsIgnoreCase("enable_verbose_mode")
+                || key.equalsIgnoreCase("network_caching")) {
             Util.updateLibVlcSettings(sharedPreferences);
             LibVLC.restart(this);
         }

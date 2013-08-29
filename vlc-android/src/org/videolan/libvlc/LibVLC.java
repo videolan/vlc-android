@@ -64,6 +64,7 @@ public class LibVLC {
     private boolean verboseMode = true;
     private float[] equalizer = null;
     private boolean frameSkip = false;
+    private int networkCaching = 0;
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
@@ -311,6 +312,14 @@ public class LibVLC {
 
     public void setFrameSkip(boolean frameskip) {
         this.frameSkip = frameskip;
+    }
+
+    public int getNetworkCaching() {
+        return this.networkCaching;
+    }
+
+    public void setNetworkCaching(int networkcaching) {
+        this.networkCaching = networkcaching;
     }
 
     /**
