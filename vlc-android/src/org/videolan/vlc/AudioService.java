@@ -460,7 +460,10 @@ public class AudioService extends Service {
 
     private void handleVout() {
         Log.i(TAG, "Obtained video track");
+        String title = getCurrentMedia().getTitle();
+        String MRL = mLibVLC.getMediaList().getMRL(mCurrentIndex);
         mMetadataCache.clear();
+        mCurrentIndex = -1;
         // Preserve playback when switching to video
         hideNotification(false);
 
@@ -468,7 +471,7 @@ public class AudioService extends Service {
         if(!mLibVLC.isPlaying()) return;
 
         // Switch to the video player & don't lose the currently playing stream
-        VideoPlayerActivity.start(VLCApplication.getAppContext(), mLibVLC.getMediaList().getMRL(mCurrentIndex), getCurrentMedia().getTitle(), true);
+        VideoPlayerActivity.start(VLCApplication.getAppContext(), MRL, title, true);
     }
 
     private void executeUpdate() {
