@@ -42,7 +42,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.MediaList;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioPlayerActivity;
+import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
@@ -556,7 +556,7 @@ public class AudioService extends Service {
                 .setAutoCancel(false)
                 .setOngoing(true);
 
-            Intent notificationIntent = new Intent(this, AudioPlayerActivity.class);
+            Intent notificationIntent = new Intent(this, AudioPlayerFragment.class);
             notificationIntent.setAction(Intent.ACTION_MAIN);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             notificationIntent.putExtra(START_FROM_NOTIFICATION, true);

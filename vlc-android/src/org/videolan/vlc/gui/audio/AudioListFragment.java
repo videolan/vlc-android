@@ -101,12 +101,14 @@ public class AudioListFragment extends SherlockListFragment {
     public void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
+        mAudioController.unbindAudioService(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
+        mAudioController.bindAudioService(getActivity());
     }
 
     @Override
@@ -124,7 +126,7 @@ public class AudioListFragment extends SherlockListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         mAudioController.load(mSongsAdapter.getLocations(), position);
-        AudioPlayerActivity.start(getActivity());
+        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
         super.onListItemClick(l, v, position, id);
     }
 
@@ -187,7 +189,7 @@ public class AudioListFragment extends SherlockListFragment {
         else
             mAudioController.load(medias, startPosition);
 
-        AudioPlayerActivity.start(getActivity());
+        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
         return super.onContextItemSelected(item);
     }
 
@@ -248,8 +250,8 @@ public class AudioListFragment extends SherlockListFragment {
 
         if (name == null || mode == AudioBrowserFragment.MODE_SONG) {
             mTitle.setText(R.string.songs);
-            itemList = AudioServiceController.getInstance().getItems();
-            currentItem = AudioServiceController.getInstance().getItem();
+            itemList = mAudioController.getItems();
+            currentItem = mAudioController.getItem();
             audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
         }
         else {

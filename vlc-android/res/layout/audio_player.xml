@@ -5,6 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_with_shadow">
+<!--
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="48dip"
@@ -17,6 +18,7 @@
             android:scaleType="centerInside"
             android:contentDescription="@string/app_name" />
     </LinearLayout>
+-->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
@@ -46,8 +48,7 @@
                 android:layout_marginBottom="10dip"
                 android:contentDescription="@string/shuffle"
                 android:focusable="true"
-                android:id="@+id/shuffle"
-                android:onClick="onShuffleClick" />
+                android:id="@+id/shuffle" />
             <ImageButton
                 android:src="@drawable/ic_repeat"
                 android:background="#00000000"
@@ -58,8 +59,7 @@
                 android:layout_marginTop="10dip"
                 android:contentDescription="@string/repeat"
                 android:focusable="true"
-                android:id="@+id/repeat"
-                android:onClick="onRepeatClick" />
+                android:id="@+id/repeat" />
             <ImageButton
                 android:id="@+id/adv_function"
                 android:layout_width="35dp"
@@ -67,7 +67,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:background="#00000000"
-                android:onClick="showAdvancedOptions"
                 android:scaleType="fitXY"
                 android:src="@drawable/dots" />
         </LinearLayout>
@@ -86,8 +85,7 @@
             android:text="@string/time_0"
             android:textColor="#ffffff"
             android:id="@+id/time"
-            android:clickable="true"
-            android:onClick="onTimeLabelClick" />
+            android:clickable="true" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -170,7 +168,6 @@
             android:background="#00000000"
             android:focusable="true"
             android:contentDescription="@string/previous"
-            android:onClick="onPreviousClick"
             android:scaleType="fitXY"
             android:src="@drawable/ic_backward" />
 
@@ -183,7 +180,6 @@
             android:background="#00000000"
             android:focusable="true"
             android:contentDescription="@string/pause"
-            android:onClick="onPlayPauseClick"
             android:scaleType="fitXY"
             android:src="@drawable/ic_pause" />
 
@@ -196,7 +192,6 @@
             android:background="#00000000"
             android:focusable="true"
             android:contentDescription="@string/stop"
-            android:onClick="onStopClick"
             android:scaleType="fitXY"
             android:src="@drawable/ic_stop" />
 
@@ -207,7 +202,6 @@
             android:background="#00000000"
             android:focusable="true"
             android:contentDescription="@string/next"
-            android:onClick="onNextClick"
             android:scaleType="fitXY"
             android:src="@drawable/ic_forward" />
 

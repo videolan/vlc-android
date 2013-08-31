@@ -22,7 +22,7 @@ package org.videolan.vlc.widget;
 
 import android.app.Activity;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.audio.AudioPlayerActivity;
+import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 
@@ -123,7 +123,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                         return true;
                     } else if(Math.abs( mTouchY - event.getRawY() ) < 5 && Math.abs( mTouchX - event.getRawX() ) < 5) {
                         // effectively a click
-                        AudioPlayerActivity.start(getActivity());
+                        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
                         return true;
                     } else
                         return false;

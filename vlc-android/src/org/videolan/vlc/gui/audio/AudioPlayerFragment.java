@@ -1,5 +1,5 @@
 /*****************************************************************************
- * AudioPlayerActivity.java
+ * AudioPlayerFragment.java
  *****************************************************************************
  * Copyright © 2011-2013 VLC authors and VideoLAN
  *
@@ -17,38 +17,38 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-
 package org.videolan.vlc.gui.audio;
 
-import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
-import android.app.Activity;
-import android.content.Context;
+import com.actionbarsherlock.app.SherlockFragment;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements IAudioPlayer {
-    public final static String TAG = "VLC/AudioPlayerActivity";
+public class AudioPlayerFragment extends SherlockFragment implements IAudioPlayer {
+    public final static String TAG = "VLC/AudioPlayerFragment";
 
     private ImageView mCover;
     private TextView mTitle;
@@ -69,39 +69,105 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     private boolean mShowRemainingTime = false;
     private String lastTitle;
 
+    private static AudioPlayerFragment mAudioPlayerFragment = null;
+
+    public static AudioPlayerFragment getInstance() {
+        if(mAudioPlayerFragment == null)
+            mAudioPlayerFragment = new AudioPlayerFragment();
+        return mAudioPlayerFragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAudioController = AudioServiceController.getInstance();
+        lastTitle = "";
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v;
+
         DisplayMetrics screen = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(screen);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
         Log.v(TAG, "width = " + screen.widthPixels + " : height = " + screen.heightPixels);
         if(screen.widthPixels == 240 && screen.heightPixels == 320) /* QVGA 2.7in */
-        	setContentView(R.layout.audio_player_qvga);
+            v = inflater.inflate(R.layout.audio_player_qvga, container, false);
         else
-        	setContentView(R.layout.audio_player);
+            v = inflater.inflate(R.layout.audio_player, container, false);
 
-        mCover = (ImageView) findViewById(R.id.cover);
-        mTitle = (TextView) findViewById(R.id.title);
-        mArtist = (TextView) findViewById(R.id.artist);
-        mAlbum = (TextView) findViewById(R.id.album);
-        mTime = (TextView) findViewById(R.id.time);
-        mLength = (TextView) findViewById(R.id.length);
-        mPlayPause = (ImageButton) findViewById(R.id.play_pause);
-        mStop = (ImageButton) findViewById(R.id.stop);
-        mNext = (ImageButton) findViewById(R.id.next);
-        mPrevious = (ImageButton) findViewById(R.id.previous);
-        mShuffle = (ImageButton) findViewById(R.id.shuffle);
-        mRepeat = (ImageButton) findViewById(R.id.repeat);
-        mAdvFunc = (ImageButton) findViewById(R.id.adv_function);
-        mTimeline = (SeekBar) findViewById(R.id.timeline);
+        mCover = (ImageView) v.findViewById(R.id.cover);
+        mTitle = (TextView) v.findViewById(R.id.title);
+        mArtist = (TextView) v.findViewById(R.id.artist);
+        mAlbum = (TextView) v.findViewById(R.id.album);
+        mTime = (TextView) v.findViewById(R.id.time);
+        mLength = (TextView) v.findViewById(R.id.length);
+        mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
+        mStop = (ImageButton) v.findViewById(R.id.stop);
+        mNext = (ImageButton) v.findViewById(R.id.next);
+        mPrevious = (ImageButton) v.findViewById(R.id.previous);
+        mShuffle = (ImageButton) v.findViewById(R.id.shuffle);
+        mRepeat = (ImageButton) v.findViewById(R.id.repeat);
+        mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
+        mTimeline = (SeekBar) v.findViewById(R.id.timeline);
+
+        mTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTimeLabelClick(v);
+            }
+        });
+        mPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPlayPauseClick(v);
+            }
+        });
+        mStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStopClick(v);
+            }
+        });
+        mNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNextClick(v);
+            }
+        });
+        mPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPreviousClick(v);
+            }
+        });
+        mShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onShuffleClick(v);
+            }
+        });
+        mRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRepeatClick(v);
+            }
+        });
+        mAdvFunc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAdvancedOptions(v);
+            }
+        });
 
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus)
-                    v.setBackgroundColor(Color.parseColor("#FFBA6F"));
+                    view.setBackgroundColor(Color.parseColor("#FFBA6F"));
                 else
-                    v.setBackgroundColor(Color.TRANSPARENT);
+                    view.setBackgroundColor(Color.TRANSPARENT);
             }
         };
         mShuffle.setOnFocusChangeListener(listener);
@@ -113,47 +179,53 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         mStop.setOnFocusChangeListener(listener);
         mNext.setOnFocusChangeListener(listener);
 
-        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        mAudioController = AudioServiceController.getInstance();
-        lastTitle = "";
+        return v;
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        AudioServiceController.getInstance().bindAudioService(this);
+        AudioServiceController.getInstance().bindAudioService(getActivity());
         mAudioController.addAudioPlayer(this);
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         mAudioController.removeAudioPlayer(this);
-        AudioServiceController.getInstance().unbindAudioService(this);
+        AudioServiceController.getInstance().unbindAudioService(getActivity());
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
     }
 
-    public static void start(Context context) {
-        start(context, false);
+    public static void start(FragmentManager fragmentManager) {
+        start(fragmentManager, false);
     }
 
-    public static void start(Context context, Boolean dontParse) {
-        if (context == null) {
-            Log.e(TAG, "No context when starting AudioPlayerActivity");
+    public static void start(FragmentManager fm, Boolean dontParse) {
+        if (fm == null) {
+            Log.e(TAG, "fragmentManager is null, cannot show AudioPlayerFragment");
             return;
         }
-        Intent intent = new Intent(context, AudioPlayerActivity.class);
+        AudioPlayerFragment audioPlayer = getInstance();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
+        ft.replace(R.id.fragment_placeholder, audioPlayer, "player");
+        ft.addToBackStack(null);
+        ft.commit();
+        /* Intent intent = new Intent(context, AudioPlayerFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         if (dontParse)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        context.startActivity(intent);
+        context.startActivity(intent); */
     }
 
+/* TODO TODO TODO!!!!!
     @Override
     public void onBackPressed() {
         Bundle extras = getIntent().getExtras();
@@ -168,15 +240,13 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
             super.onBackPressed();
         }
     }
+*/
 
     @Override
     public void update() {
         // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
-            finish();
+            getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
             return;
         }
 
@@ -263,12 +333,10 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public void onTextClick(View view) {
-        //FIXME disabled until AudioPlayerActivity is converted to a fragment
-        // it's not possible to call startActivity on a Fragment.
-
-        //Intent intent = new Intent(this, AudioListFragment.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //startActivity(intent);
+        // TODO: verify this
+        Intent intent = new Intent(getActivity(), AudioListFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public void onPlayPauseClick(View view) {
@@ -280,11 +348,8 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
     }
 
     public void onStopClick(View view) {
-    	mAudioController.stop();
-    	Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    	finish();
+        mAudioController.stop();
+        getActivity().getSupportFragmentManager().popBackStack(); // remove this fragment from view
     }
 
     public void onNextClick(View view) {
@@ -316,16 +381,18 @@ public class AudioPlayerActivity extends Activity implements IAudioPlayer {
         update();
     }
 
+/* TODO
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	/* Stop the controller if we are going home */
-    	if(keyCode == KeyEvent.KEYCODE_HOME) {
-    		mAudioController.stop();
-    	}
-    	return super.onKeyDown(keyCode, event);
+        /* Stop the controller if we are going home /
+        if(keyCode == KeyEvent.KEYCODE_HOME) {
+            mAudioController.stop();
+        }
+        return super.onKeyDown(keyCode, event);
     }
+*/
 
     public void showAdvancedOptions(View v) {
-        CommonDialogs.advancedOptions(this, v, MenuType.Audio);
+        CommonDialogs.advancedOptions(getActivity(), v, MenuType.Audio);
     }
 }

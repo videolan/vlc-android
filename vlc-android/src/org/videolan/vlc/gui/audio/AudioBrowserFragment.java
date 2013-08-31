@@ -164,6 +164,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         super.onPause();
         mFlingViewPosition = mFlingViewGroup.getPosition();
         mMediaLibrary.removeUpdateHandler(mHandler);
+        mAudioController.unbindAudioService(getActivity());
     }
 
     @Override
@@ -173,13 +174,14 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         headerHighlightTab(mFlingViewGroup.getPosition(), mFlingViewPosition);
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mMediaLibrary.addUpdateHandler(mHandler);
+        mAudioController.bindAudioService(getActivity());
     }
 
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             mAudioController.load(mSongsAdapter.getLocations(), p);
-            AudioPlayerActivity.start(getActivity());
+            AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
         }
     };
 
@@ -334,7 +336,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         else
             mAudioController.load(medias, startPosition);
 
-        AudioPlayerActivity.start(getActivity());
+        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
         return super.onContextItemSelected(item);
     }
 
