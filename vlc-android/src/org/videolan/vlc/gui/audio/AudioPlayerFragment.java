@@ -46,6 +46,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AudioPlayerFragment extends SherlockFragment implements IAudioPlayer {
     public final static String TAG = "VLC/AudioPlayerFragment";
@@ -112,6 +113,24 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
 
+        mTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTextClick(v);
+            }
+        });
+        mArtist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTextClick(v);
+            }
+        });
+        mAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTextClick(v);
+            }
+        });
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,29 +237,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         ft.replace(R.id.fragment_placeholder, audioPlayer, "player");
         ft.addToBackStack(null);
         ft.commit();
-        /* Intent intent = new Intent(context, AudioPlayerFragment.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        if (dontParse)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        context.startActivity(intent); */
     }
-
-/* TODO TODO TODO!!!!!
-    @Override
-    public void onBackPressed() {
-        Bundle extras = getIntent().getExtras();
-
-        if (extras != null && extras.containsKey(AudioService.START_FROM_NOTIFICATION)) {
-            // Launched from notification (adding the MainActivity to the backstack)
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(intent);
-            finish();
-        } else {
-            super.onBackPressed();
-        }
-    }
-*/
 
     @Override
     public void update() {
@@ -333,10 +330,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     public void onTextClick(View view) {
-        // TODO: verify this
-        Intent intent = new Intent(getActivity(), AudioListFragment.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+       Toast.makeText(getActivity(), "Open playlist view", Toast.LENGTH_SHORT).show();
     }
 
     public void onPlayPauseClick(View view) {

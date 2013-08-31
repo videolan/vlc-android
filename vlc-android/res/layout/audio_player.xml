@@ -122,8 +122,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/title"
         android:clickable="true"
-        android:focusable="false"
-        android:onClick="onTextClick" />
+        android:focusable="false" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -138,8 +137,7 @@
         android:layout_marginBottom="4dip"
         android:id="@+id/artist"
         android:clickable="true"
-        android:focusable="false"
-        android:onClick="onTextClick" />
+        android:focusable="false" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -153,8 +151,7 @@
         android:ellipsize="marquee"
         android:id="@+id/album"
         android:clickable="true"
-        android:focusable="false"
-        android:onClick="onTextClick" />
+        android:focusable="false" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
