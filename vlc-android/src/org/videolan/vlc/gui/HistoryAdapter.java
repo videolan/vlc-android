@@ -30,7 +30,9 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.gui.audio.AudioUtil;
 
+import android.graphics.Bitmap;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -111,7 +113,11 @@ public class HistoryAdapter extends BaseAdapter {
         holderText = m.getSubtitle();
 
         holder.text.setText(holderText);
-        holder.icon.setImageResource(R.drawable.icon);
+        Bitmap b = AudioUtil.getCover(VLCApplication.getAppContext(), m, 64);
+        if(b != null)
+            holder.icon.setImageBitmap(b);
+        else
+            holder.icon.setImageResource(R.drawable.icon);
 
         return v;
     }
