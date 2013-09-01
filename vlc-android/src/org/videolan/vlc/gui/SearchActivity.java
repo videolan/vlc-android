@@ -257,6 +257,8 @@ public class SearchActivity extends ListActivity {
                 }
                 AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
                 AudioPlayerFragment.start(this);
+                finish();
+                return;
             }
             super.onListItemClick(l, v, position, id);
 

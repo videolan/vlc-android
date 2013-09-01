@@ -24,11 +24,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -220,6 +222,17 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    /**
+     * Show the audio player from an intent
+     *
+     * @param context The context of the activity
+     */
+    public static void start(Context context) {
+        Intent intent = new Intent();
+        intent.setAction(MainActivity.ACTION_SHOW_PLAYER);
+        context.getApplicationContext().sendBroadcast(intent);
     }
 
     public static void start(FragmentManager fragmentManager) {

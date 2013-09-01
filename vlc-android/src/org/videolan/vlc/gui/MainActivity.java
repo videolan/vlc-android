@@ -31,6 +31,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
+import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
@@ -86,6 +87,7 @@ public class MainActivity extends SherlockFragmentActivity {
     protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.gui.ShowProgressBar";
     protected static final String ACTION_HIDE_PROGRESSBAR = "org.videolan.vlc.gui.HideProgressBar";
     protected static final String ACTION_SHOW_TEXTINFO = "org.videolan.vlc.gui.ShowTextInfo";
+    public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
 
     private static final String PREF_SHOW_INFO = "show_info";
     private static final String PREF_FIRST_RUN = "first_run";
@@ -587,6 +589,8 @@ public class MainActivity extends SherlockFragmentActivity {
                         mHandler.sendMessageDelayed(m, 300);
                     }
                 }
+            } else if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER)) {
+                AudioPlayerFragment.start(getSupportFragmentManager());
             }
         }
     };
