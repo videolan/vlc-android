@@ -674,9 +674,9 @@ public class AudioService extends Service {
     }
 
     private void play() {
-        if(mCurrentIndex >= 0 && mCurrentIndex < mLibVLC.getMediaList().size()) {
+        if(hasCurrentMedia()) {
             setUpRemoteControlClient();
-            mLibVLC.playIndex(mCurrentIndex);
+            mLibVLC.play();
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
             updateWidget(this);
