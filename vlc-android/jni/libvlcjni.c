@@ -338,23 +338,26 @@ void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jo
     jclass clz;
     jfieldID fid;
 
-    pthread_mutex_lock(&vout_android_lock);
-    clz = (*env)->GetObjectClass(env, surf);
-    fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
-    if (fid == NULL) {
-        jthrowable exp = (*env)->ExceptionOccurred(env);
-        if (exp) {
-            (*env)->DeleteLocalRef(env, exp);
-            (*env)->ExceptionClear(env);
+    clz = (*env)->FindClass(env, "org/videolan/libvlc/LibVlcUtil");
+    jmethodID methodId = (*env)->GetStaticMethodID(env, clz, "isGingerbreadOrLater", "()Z");
+    jboolean gingerbreadOrLater = (*env)->CallStaticBooleanMethod(env, clz, methodId);
+    // Android 2.2 and under don't have ANativeWindow_fromSurface
+    if(unlikely(!gingerbreadOrLater)) {
+        clz = (*env)->GetObjectClass(env, surf);
+        fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
+        if (fid == NULL) {
+            jthrowable exp = (*env)->ExceptionOccurred(env);
+            if (exp) {
+                (*env)->DeleteLocalRef(env, exp);
+                (*env)->ExceptionClear(env);
+            }
+            fid = (*env)->GetFieldID(env, clz, "mNativeSurface", "I");
         }
-        fid = (*env)->GetFieldID(env, clz, "mNativeSurface", "I");
+        vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
+        (*env)->DeleteLocalRef(env, clz);
     }
-    vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
-    (*env)->DeleteLocalRef(env, clz);
-
     vout_android_gui = (*env)->NewGlobalRef(env, gui);
     vout_android_java_surf = (*env)->NewGlobalRef(env, surf);
-    pthread_mutex_unlock(&vout_android_lock);
 }
 
 void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
