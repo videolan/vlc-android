@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.TrackInfo;
 
 import android.content.Context;
@@ -155,7 +156,7 @@ public class Media implements Comparable<Media> {
         }
     }
 
-    public Media(String URI, int position) {
+    public Media(String URI, MediaList list, int position) {
         mLocation = URI;
 
         LibVLC mLibVlc = null;
@@ -163,7 +164,7 @@ public class Media implements Comparable<Media> {
             mLibVlc = Util.getLibVlcInstance();
             mType = TYPE_ALL;
 
-            TrackInfo[] tracks = mLibVlc.readTracksInfoPosition(mLibVlc.getPrimaryMediaList(), position);
+            TrackInfo[] tracks = mLibVlc.readTracksInfoPosition(list, position);
 
             extractTrackInfo(tracks);
         } catch (LibVlcException e) {
