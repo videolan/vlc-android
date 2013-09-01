@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
         android:layout_marginRight="5dip"
+        android:contentDescription="@string/cover_art"
         android:src="@drawable/icon" />
 
     <LinearLayout
