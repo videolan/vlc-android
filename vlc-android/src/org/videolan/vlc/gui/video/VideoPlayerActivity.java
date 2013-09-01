@@ -573,8 +573,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * Lock screen rotation
      */
     private void lockScreen() {
-        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
-            setRequestedOrientation(getScreenOrientation());
+        if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+                setRequestedOrientation(14 /* SCREEN_ORIENTATION_LOCKED */);
+            else
+                setRequestedOrientation(getScreenOrientation());
+        }
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_lock_glow);
         mTime.setEnabled(false);
