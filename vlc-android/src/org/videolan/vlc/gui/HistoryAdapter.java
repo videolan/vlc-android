@@ -26,6 +26,7 @@ import java.util.List;
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.Media;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
@@ -54,12 +55,20 @@ public class HistoryAdapter extends BaseAdapter {
         if (libVLC != null)
             libVLC.getMediaListItems(items);
 
-       for(int i = 0; i < items.size(); i++) {
-           mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
-       }
+       addToHistory(items, libVLC);
 
         EventHandler em = libVLC.getPrimaryMediaList().getEventHandler();
         em.addHandler(new HistoryEventHandler(this));
+    }
+
+    private void addToHistory(ArrayList<String> items, LibVLC libVLC) {
+        MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
+        for(int i = 0; i < items.size(); i++) {
+            if(db.mediaItemExists(items.get(i)))
+                mHistory.add(db.getMedia(VLCApplication.getAppContext(), items.get(i)));
+            else
+                mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
+        }
     }
 
     @Override
@@ -131,9 +140,7 @@ public class HistoryAdapter extends BaseAdapter {
         if (libVLC != null) {
             libVLC.getMediaListItems(items);
             mHistory.clear();
-            for(int i = 0; i < items.size(); i++) {
-                mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
-            };
+            addToHistory(items, libVLC);
             this.notifyDataSetChanged();
         }
     }
