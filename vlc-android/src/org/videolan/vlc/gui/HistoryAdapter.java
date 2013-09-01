@@ -1,8 +1,8 @@
 /*****************************************************************************
  * HistoryAdapter.java
  *****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
- * Copyright © 2012 Edward Wang
+ * Copyright © 2012-2013 VLC authors and VideoLAN
+ * Copyright © 2012-2013 Edward Wang
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.videolan.libvlc.EventHandler;
@@ -44,17 +43,22 @@ public class HistoryAdapter extends BaseAdapter {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
-    private List<String> mHistory;
+    private List<Media> mHistory;
 
     public HistoryAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
-        mHistory = new ArrayList<String>();
+        mHistory = new ArrayList<Media>();
 
+        ArrayList<String> items = new ArrayList<String>();
         LibVLC libVLC = LibVLC.getExistingInstance();
         if (libVLC != null)
-            libVLC.getMediaListItems((ArrayList<String>) mHistory);
+            libVLC.getMediaListItems(items);
 
-        EventHandler em = EventHandler.getInstance();
+       for(int i = 0; i < items.size(); i++) {
+           mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
+       }
+
+        EventHandler em = libVLC.getPrimaryMediaList().getEventHandler();
         em.addHandler(new HistoryEventHandler(this));
     }
 
@@ -65,7 +69,7 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int arg0) {
-        return mHistory.get(arg0);
+        return mHistory.get(arg0).getLocation();
     }
 
     @Override
@@ -76,7 +80,6 @@ public class HistoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String selected = mHistory.get(position);
         DirectoryAdapter.DirectoryViewHolder holder;
         View v = convertView;
 
@@ -93,8 +96,8 @@ public class HistoryAdapter extends BaseAdapter {
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
 
         String holderText = "";
-        Log.d(TAG, "Loading media position " + position + " - " + selected);
-        Media m = new Media(selected, LibVLC.getExistingInstance().getPrimaryMediaList(), position);
+        Media m = mHistory.get(position);
+        Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
         holder.title.setText(m.getTitle());
         holderText = m.getSubtitle();
 
@@ -114,7 +117,7 @@ public class HistoryAdapter extends BaseAdapter {
     public void updateEvent(Boolean added, String uri, int index) {
         if(added) {
             Log.v(TAG, "Added index " + index + ": " + uri);
-            mHistory.add(index, uri);
+            mHistory.add(index, new Media(uri, LibVLC.getExistingInstance().getPrimaryMediaList(), index));
         } else {
             Log.v(TAG, "Removed index " + index + ": " + uri);
             mHistory.remove(index);
@@ -122,17 +125,15 @@ public class HistoryAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public List<String> getAllURIs() {
-        return Collections.unmodifiableList(mHistory);
-    }
-
     public void refresh() {
-        ArrayList<String> s = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<String>();
         LibVLC libVLC = LibVLC.getExistingInstance();
         if (libVLC != null) {
-            libVLC.getMediaListItems(s);
+            libVLC.getMediaListItems(items);
             mHistory.clear();
-            mHistory = s;
+            for(int i = 0; i < items.size(); i++) {
+                mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
+            };
             this.notifyDataSetChanged();
         }
     }

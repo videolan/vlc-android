@@ -1,8 +1,8 @@
 /*****************************************************************************
  * HistoryFragment.java
  *****************************************************************************
- * Copyright © 2012 VLC authors and VideoLAN
- * Copyright © 2012 Edward Wang
+ * Copyright © 2012-2013 VLC authors and VideoLAN
+ * Copyright © 2012-2013 Edward Wang
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,6 +62,18 @@ public class HistoryFragment extends SherlockListFragment {
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
         registerForContextMenu(listView);
         return v;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AudioServiceController.getInstance().unbindAudioService(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AudioServiceController.getInstance().bindAudioService(getActivity());
     }
 
     @Override
