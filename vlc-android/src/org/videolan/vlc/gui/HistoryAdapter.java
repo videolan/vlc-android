@@ -96,12 +96,12 @@ public class HistoryAdapter extends BaseAdapter {
 
         /* If view not created */
         if (v == null) {
-            v = mInflater.inflate(R.layout.directory_view_item, parent, false);
+            v = mInflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new DirectoryAdapter.DirectoryViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
-            holder.text = (TextView) v.findViewById(R.id.text);
-            holder.icon = (ImageView) v.findViewById(R.id.dvi_icon);
+            holder.text = (TextView) v.findViewById(R.id.artist);
+            holder.icon = (ImageView) v.findViewById(R.id.cover);
             v.setTag(holder);
         } else
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
