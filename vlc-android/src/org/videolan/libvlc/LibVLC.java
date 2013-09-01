@@ -301,10 +301,11 @@ public class LibVLC {
         applyEqualizer();
     }
 
-    public void applyEqualizer()
+    private void applyEqualizer()
     {
-        setNativeEqualizer(this.equalizer);
+        setNativeEqualizer(mInternalMediaPlayerInstance, this.equalizer);
     }
+    private native int setNativeEqualizer(long mediaPlayer, float[] bands);
 
     public boolean frameSkipEnabled() {
         return frameSkip;
@@ -649,6 +650,4 @@ public class LibVLC {
     public native String[] getPresets();
 
     public native float[] getPreset(int index);
-
-    private native int setNativeEqualizer(float[] bands);
 }

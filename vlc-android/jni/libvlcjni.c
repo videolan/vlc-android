@@ -332,7 +332,6 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)(intptr_t)instance);
-
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     //if AOUT_AUDIOTRACK_JAVA, we use amem
@@ -362,6 +361,10 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
 
     /* Keep a pointer to this media player */
     setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)(intptr_t)mp);
+
+    cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodID = (*env)->GetMethodID(env, cls, "applyEqualizer", "()V");
+    (*env)->CallVoidMethod(env, thiz, methodID);
 
     setInt(env, thiz, "mInternalMediaPlayerIndex", (jint)position);
     libvlc_media_list_lock(p_mlist);

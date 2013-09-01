@@ -89,10 +89,10 @@ jfloatArray Java_org_videolan_libvlc_LibVLC_getPreset(JNIEnv *env, jobject thiz,
  * apply equalizer settings (param bands is float[] (first element is preamp, then bands))
  */
 //"--audio-filter=equalizer", "--equalizer-bands=-3.5 -4.5 -1 0 0 5 8 8 8 8",
-jint Java_org_videolan_libvlc_LibVLC_setNativeEqualizer(JNIEnv *env, jobject thiz, jfloatArray bands)
+jint Java_org_videolan_libvlc_LibVLC_setNativeEqualizer(JNIEnv *env, jobject thiz, jlong media_player, jfloatArray bands)
 {
     jint res = -1;
-    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    libvlc_media_player_t *mp = (libvlc_media_player_t*)(intptr_t)media_player;
     if (!mp)
         return res;
 

@@ -752,7 +752,6 @@ public class AudioService extends Service {
             mLibVLC.playIndex(mCurrentIndex);
         }
 
-        mLibVLC.applyEqualizer();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
@@ -786,7 +785,6 @@ public class AudioService extends Service {
         }
 
         mLibVLC.playIndex(mCurrentIndex);
-        mLibVLC.applyEqualizer();
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
         showNotification();
@@ -968,7 +966,6 @@ public class AudioService extends Service {
             mLibVLC.getMediaList().getEventHandler().addHandler(mListEventHandler);
 
             mLibVLC.playIndex(mCurrentIndex);
-            mLibVLC.applyEqualizer();
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);
@@ -994,7 +991,6 @@ public class AudioService extends Service {
 
             mEventHandler.addHandler(mVlcEventHandler);
             mLibVLC.playIndex(mCurrentIndex);
-            mLibVLC.applyEqualizer();
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);

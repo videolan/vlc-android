@@ -1510,7 +1510,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             savedIndexPosition = mLibVLC.getMediaList().size() - 1;
             mLibVLC.playIndex(savedIndexPosition);
         }
-        mLibVLC.applyEqualizer();
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
