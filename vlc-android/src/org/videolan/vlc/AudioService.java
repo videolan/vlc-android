@@ -458,6 +458,38 @@ public class AudioService extends Service {
         }
     };
 
+    private final Handler mListEventHandler = new MediaListEventHandler(this);
+
+    private static class MediaListEventHandler extends WeakHandler<AudioService> {
+        public MediaListEventHandler(AudioService audioService) {
+            super(audioService);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AudioService service = getOwner();
+            if(service == null) return;
+
+            int index;
+            switch (msg.getData().getInt("event")) {
+            case EventHandler.MediaListItemAdded:
+                Log.i(TAG, "MediaListItemAdded");
+                index = msg.getData().getInt("item_index");
+                service.mMetadataCache.add(index, new Media(msg.getData().getString("item_uri"), false));
+                if(service.mCurrentIndex >= index)
+                    service.mCurrentIndex++;
+                break;
+            case EventHandler.MediaListItemDeleted:
+                Log.i(TAG, "MediaListItemDeleted");
+                index = msg.getData().getInt("item_index");
+                service.mMetadataCache.remove(index);
+                if(service.mCurrentIndex >= index)
+                    service.mCurrentIndex--;
+                break;
+            }
+        }
+    };
+
     private void handleVout() {
         Log.i(TAG, "Obtained video track");
         String title = getCurrentMedia().getTitle();
@@ -654,6 +686,7 @@ public class AudioService extends Service {
     private void stop() {
         mLibVLC.stop();
         mEventHandler.removeHandler(mVlcEventHandler);
+        mLibVLC.getMediaList().getEventHandler().removeHandler(mListEventHandler);
         setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
         mMetadataCache.clear();
         mCurrentIndex = -1;
@@ -666,7 +699,10 @@ public class AudioService extends Service {
 
     private void next() {
         // Try to expand any items present
+        mLibVLC.getMediaList().getEventHandler().removeHandler(mListEventHandler);
+        // Cache will be refreshed below
         int pos = mLibVLC.expandAndPlay();
+        mLibVLC.getMediaList().getEventHandler().addHandler(mListEventHandler);
         if(pos == 0) {
             Log.d(TAG, "Found subitems, updating media display");
             reloadMetadataCache();
@@ -896,6 +932,7 @@ public class AudioService extends Service {
             Log.v(TAG, "Loading position " + ((Integer)position).toString() + " in " + mediaPathList.toString());
             mEventHandler.addHandler(mVlcEventHandler);
 
+            mLibVLC.getMediaList().getEventHandler().removeHandler(mListEventHandler);
             mLibVLC.setMediaList();
             mLibVLC.getPrimaryMediaList().clear();
             MediaList mediaList = mLibVLC.getMediaList();
@@ -926,6 +963,9 @@ public class AudioService extends Service {
                 Log.w(TAG, "Warning: positon " + position + " out of bounds");
                 mCurrentIndex = 0;
             }
+
+            // Add handler after loading the list
+            mLibVLC.getMediaList().getEventHandler().addHandler(mListEventHandler);
 
             mLibVLC.playIndex(mCurrentIndex);
             mLibVLC.applyEqualizer();
