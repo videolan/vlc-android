@@ -61,8 +61,6 @@
         <activity
             android:name=".gui.DebugLogActivity" />
         <activity
-            android:name=".gui.video.VideoGridFragment" />
-        <activity
             android:name=".gui.video.MediaInfoActivity" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
@@ -368,15 +366,6 @@
                 <data android:pathPattern=".*\\.XM" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".gui.audio.AudioBrowserFragment" />
-        <activity
-            android:name=".gui.audio.AudioListFragment" />
-        <activity
-            android:name=".gui.audio.AudioPlayerActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:launchMode="singleTop" />
-
         <service android:name=".AudioService" />
 
         <receiver
