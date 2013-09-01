@@ -46,7 +46,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerFragment;
@@ -1583,24 +1582,58 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    private int getScreenOrientation (){
-        switch (getScreenRotation()) {
-        case Surface.ROTATION_0:
-            return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        case Surface.ROTATION_90:
-            return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-        case Surface.ROTATION_180:
-            // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API Level 9+
-             return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO
-                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-                    : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        case Surface.ROTATION_270:
-            // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API Level 9+
-            return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO
-                    ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-                    : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        default :
-            return 0;
+    private int getScreenOrientation(){
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int rot = getScreenRotation();
+        /*
+         * Since getRotation() returns the screen's "natural" orientation,
+         * which is not guaranteed to be SCREEN_ORIENTATION_PORTRAIT,
+         * we have to invert the SCREEN_ORIENTATION value if it is "naturally"
+         * landscape.
+         */
+        @SuppressWarnings("deprecation")
+        boolean defaultWide = display.getWidth() > display.getHeight();
+        if(rot == Surface.ROTATION_90 || rot == Surface.ROTATION_270)
+            defaultWide = !defaultWide;
+        if(defaultWide) {
+            switch (rot) {
+            case Surface.ROTATION_0:
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            case Surface.ROTATION_90:
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            case Surface.ROTATION_180:
+                // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
+                // Level 9+
+                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                        : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            case Surface.ROTATION_270:
+                // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
+                // Level 9+
+                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                        : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            default:
+                return 0;
+            }
+        } else {
+            switch (rot) {
+            case Surface.ROTATION_0:
+                return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            case Surface.ROTATION_90:
+                return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            case Surface.ROTATION_180:
+                // SCREEN_ORIENTATION_REVERSE_PORTRAIT only available since API
+                // Level 9+
+                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                        : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            case Surface.ROTATION_270:
+                // SCREEN_ORIENTATION_REVERSE_LANDSCAPE only available since API
+                // Level 9+
+                return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ? ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                        : ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            default:
+                return 0;
+            }
         }
     }
 
