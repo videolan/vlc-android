@@ -104,6 +104,18 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        AudioServiceController.getInstance().bindAudioService(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AudioServiceController.getInstance().unbindAudioService(getActivity());
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         int position = ((AdapterContextMenuInfo)menuInfo).position;
 
