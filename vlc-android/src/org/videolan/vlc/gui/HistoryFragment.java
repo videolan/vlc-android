@@ -65,18 +65,6 @@ public class HistoryFragment extends SherlockListFragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        AudioServiceController.getInstance().unbindAudioService(getActivity());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        AudioServiceController.getInstance().bindAudioService(getActivity());
-    }
-
-    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.history_view, menu);

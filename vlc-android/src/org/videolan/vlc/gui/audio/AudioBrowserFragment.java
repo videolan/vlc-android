@@ -164,7 +164,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         super.onPause();
         mFlingViewPosition = mFlingViewGroup.getPosition();
         mMediaLibrary.removeUpdateHandler(mHandler);
-        mAudioController.unbindAudioService(getActivity());
     }
 
     @Override
@@ -174,7 +173,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         headerHighlightTab(mFlingViewGroup.getPosition(), mFlingViewPosition);
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mMediaLibrary.addUpdateHandler(mHandler);
-        mAudioController.bindAudioService(getActivity());
     }
 
     OnItemClickListener songListener = new OnItemClickListener() {

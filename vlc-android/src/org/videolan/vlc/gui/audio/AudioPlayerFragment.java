@@ -208,7 +208,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     @Override
     public void onResume() {
         super.onResume();
-        AudioServiceController.getInstance().bindAudioService(getActivity());
         mAudioController.addAudioPlayer(this);
     }
 
@@ -216,7 +215,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     public void onPause() {
         super.onPause();
         mAudioController.removeAudioPlayer(this);
-        AudioServiceController.getInstance().unbindAudioService(getActivity());
     }
 
     @Override
