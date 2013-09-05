@@ -156,7 +156,7 @@ public class Thumbnailer implements Runnable {
             count++;
 
             int width = (int) (120 * mDensity);
-            int height = (int) (80 * mDensity);
+            int height = (int) (75 * mDensity);
 
             // Get the thumbnail.
             Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
@@ -169,7 +169,6 @@ public class Thumbnailer implements Runnable {
             }
 
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            thumbnail = Util.cropBorders(thumbnail, width, height);
 
             Log.i(TAG, "Thumbnail created for " + item.getFileName());
 

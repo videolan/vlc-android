@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:orientation="vertical"
-        android:background="@drawable/dropshadow">
+        android:orientation="vertical">
         <ImageView
             android:id="@+id/ml_item_thumbnail"
             android:layout_width="120dip"
@@ -23,8 +22,8 @@
             android:id="@+id/ml_item_progress"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:minHeight="1dip"
-            android:maxHeight="1dip"
+            android:minHeight="2dip"
+            android:maxHeight="2dip"
             android:progressDrawable="@drawable/gridview_progressbar"
             android:focusable="false"
             android:indeterminate="false" />
@@ -56,9 +55,13 @@
         android:id="@+id/ml_item_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dip"
         android:src="@drawable/dropdown_ic_arrow"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ml_item_layout_thumbnail"
+        android:background="?attr/background_menu_divider" />
 </RelativeLayout>
