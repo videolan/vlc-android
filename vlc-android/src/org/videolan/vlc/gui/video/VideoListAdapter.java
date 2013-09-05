@@ -177,14 +177,13 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         String text;
         if (lastTime > 0) {
             text = String.format("%s / %s",
-                    Util.millisToString(lastTime),
-                    Util.millisToString(media.getLength()));
+                    Util.millisToText(lastTime),
+                    Util.millisToText(media.getLength()));
             holder.progress.setVisibility(View.VISIBLE);
             holder.progress.setMax((int) (media.getLength() / 1000));
             holder.progress.setProgress((int) (lastTime / 1000));
         } else {
-            text = String.format("%s",
-                    Util.millisToString(media.getLength()));
+            text = Util.millisToText(media.getLength());
             holder.progress.setVisibility(View.GONE);
         }
 
