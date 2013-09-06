@@ -1383,6 +1383,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
         int time = (int) mLibVLC.getTime();
         int length = (int) mLibVLC.getLength();
+        if (length == 0) {
+            Media media = MediaDatabase.getInstance(this).getMedia(this, mLocation);
+            if (media != null)
+                length = (int) media.getLength();
+        }
 
         // Update all view elements
         mControls.setSeekable(length > 0);
