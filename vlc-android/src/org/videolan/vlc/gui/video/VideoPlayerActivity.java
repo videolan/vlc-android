@@ -177,8 +177,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private AudioManager mAudioManager;
     private int mAudioMax;
 
-    //Volume Or Brightness
-    private boolean mIsAudioOrBrightnessChanged;
+    //Touch Events
+    private static final int TOUCH_NONE = 0;
+    private static final int TOUCH_VOLUME = 1;
+    private static final int TOUCH_BRIGHTNESS = 2;
+    private static final int TOUCH_SEEK = 3;
+    private int mTouchAction;
     private int mSurfaceYDisplayRange;
     private float mTouchY, mTouchX, mVol;
 
@@ -900,7 +904,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             // Audio
             mTouchY = event.getRawY();
             mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            mIsAudioOrBrightnessChanged = false;
+            mTouchAction = TOUCH_NONE;
             // Seek
             mTouchX = event.getRawX();
             break;
@@ -929,7 +933,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         case MotionEvent.ACTION_UP:
             // Audio or Brightness
-            if (!mIsAudioOrBrightnessChanged) {
+            if ( mTouchAction == TOUCH_NONE) {
                 if (!mShowing) {
                     showOverlay();
                 } else {
@@ -940,13 +944,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             doSeekTouch(coef, xgesturesize, true);
             break;
         }
-        return mIsAudioOrBrightnessChanged;
+        return mTouchAction != TOUCH_NONE;
     }
 
     private void doSeekTouch(float coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
         if (mEnableWheelbar || coef > 0.5 || Math.abs(gesturesize) < 1)
             return;
+
+        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK)
+            return;
+        mTouchAction = TOUCH_SEEK;
 
         // Always show seekbar when searching
         if (!mShowing) showOverlay();
@@ -975,12 +983,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void doVolumeTouch(float y_changed) {
+        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME)
+            return;
         int delta = -(int) ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
         int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
         if (delta != 0) {
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                    vol, 0);
-            mIsAudioOrBrightnessChanged = true;
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+            mTouchAction = TOUCH_VOLUME;
             showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
         }
     }
@@ -1002,8 +1011,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void doBrightnessTouch(float y_changed) {
+        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_BRIGHTNESS)
+            return;
         if (mIsFirstBrightnessGesture) initBrightnessTouch();
-        mIsAudioOrBrightnessChanged = true;
+        mTouchAction = TOUCH_BRIGHTNESS;
 
         // Set delta : 0.07f is arbitrary for now, it possibly will change in the future
         float delta = - y_changed / mSurfaceYDisplayRange * 0.07f;
