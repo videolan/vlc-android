@@ -114,6 +114,7 @@ static void vlc_media_list_event_callback(const libvlc_event_t *ev, void *data)
     }
 
 end:
+    (*env)->DeleteLocalRef(env, bundle);
     if (isAttached)
         (*myVm)->DetachCurrentThread(myVm);
 }
