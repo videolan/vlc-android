@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Locale;
 
 import android.content.Context;
 import android.os.Build;
@@ -132,7 +131,7 @@ public class LibVlcUtil {
                     hasFpu = true;
                 if(line.startsWith("processor"))
                     processors++;
-                if(bogoMIPS < 0 && line.toLowerCase(Locale.ENGLISH).contains("bogomips")) {
+                if(bogoMIPS < 0 && line.toLowerCase().contains("bogomips")) {
                     String[] bogo_parts = line.split(":");
                     try {
                         bogoMIPS = Float.parseFloat(bogo_parts[1].trim());
