@@ -263,6 +263,7 @@ public class MainActivity extends SherlockFragmentActivity {
         filter.addAction(ACTION_SHOW_PROGRESSBAR);
         filter.addAction(ACTION_HIDE_PROGRESSBAR);
         filter.addAction(ACTION_SHOW_TEXTINFO);
+        filter.addAction(ACTION_SHOW_PLAYER);
         registerReceiver(messageReceiver, filter);
 
         /* Reload the latest preferences */

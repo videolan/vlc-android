@@ -588,8 +588,8 @@ public class AudioService extends Service {
                 .setAutoCancel(false)
                 .setOngoing(true);
 
-            Intent notificationIntent = new Intent(this, AudioPlayerFragment.class);
-            notificationIntent.setAction(Intent.ACTION_MAIN);
+            Intent notificationIntent = new Intent(this, MainActivity.class);
+            notificationIntent.setAction(MainActivity.ACTION_SHOW_PLAYER);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             notificationIntent.putExtra(START_FROM_NOTIFICATION, true);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
