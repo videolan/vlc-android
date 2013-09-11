@@ -42,7 +42,6 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.MediaList;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
