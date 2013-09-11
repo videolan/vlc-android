@@ -244,7 +244,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         }
         AudioPlayerFragment audioPlayer = getInstance();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
+        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
         ft.replace(R.id.fragment_placeholder, audioPlayer, "player");
         ft.addToBackStack(null);
         ft.commit();
