@@ -28,7 +28,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.graphics.drawable.Drawable;
@@ -71,7 +70,6 @@ public class SidebarAdapter extends BaseAdapter {
             new SidebarEntry( "audio", R.string.audio, R.drawable.header_icon_audio ),
             new SidebarEntry( "directories", R.string.directories, R.drawable.ic_folder ),
             new SidebarEntry( "history", R.string.history, android.R.drawable.ic_menu_recent_history ),
-            new SidebarEntry( "equalizer", "Equalizer", R.drawable.ic_bookmarks ),
             //new SidebarEntry( "bookmarks", R.string.bookmarks, R.drawable.ic_bookmarks ),
             //new SidebarEntry( "playlists", R.string.playlists, R.drawable.icon ),
         };
@@ -131,8 +129,6 @@ public class SidebarAdapter extends BaseAdapter {
             f = new DirectoryViewFragment();
         } else if(id.equals("history")) {
             f = new HistoryFragment();
-        } else if(id.equals("equalizer")) {
-            f = new EqualizerFragment();
         } else { /* TODO */
             f = new AboutLicenceFragment();
         }

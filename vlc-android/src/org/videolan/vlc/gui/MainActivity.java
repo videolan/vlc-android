@@ -32,6 +32,7 @@ import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioPlayerFragment;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
@@ -476,6 +477,13 @@ public class MainActivity extends SherlockFragmentActivity {
             case R.id.ml_menu_preferences:
                 intent = new Intent(this, PreferencesActivity.class);
                 startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
+                break;
+            case R.id.ml_menu_equalizer:
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
+                ft.replace(R.id.fragment_placeholder, new EqualizerFragment(), "equalizer");
+                ft.addToBackStack(null);
+                ft.commit();
                 break;
             // Refresh
             case R.id.ml_menu_refresh:

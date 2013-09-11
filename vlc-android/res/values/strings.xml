@@ -67,6 +67,7 @@
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bookmarks</string>
+    <string name="equalizer">Equalizer</string>
     <string name="all_albums">All albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Playlists</string>
