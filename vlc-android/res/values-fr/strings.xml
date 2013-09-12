@@ -59,6 +59,7 @@
     <string name="audio">Audio</string>
     <string name="video">Vidéo</string>
     <string name="bookmarks">Signets</string>
+    <string name="equalizer">Égaliseur</string>
     <string name="all_albums">Tous les albums</string>
     <string name="genres">Genres</string>
     <string name="playlists">Listes</string>
@@ -194,6 +195,8 @@
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Cache réseau (ms)</string>
+    <string name="network_caching_summary">Durée du cache pour les ressources réseau (en millisecondes). Ne fonctionne pas avec le décodage matériel. Laisser vide pour la valeur par défaut.</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_summary">Augmenter la verbosité (logcat)</string>
     <string name="set_locale">Définir la langue</string>
