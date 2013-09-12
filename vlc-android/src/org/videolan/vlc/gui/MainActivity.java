@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import android.os.Message;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
@@ -53,8 +52,10 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
@@ -421,6 +422,43 @@ public class MainActivity extends SherlockFragmentActivity {
         return mSidebarAdapter.fetchFragment(id);
     }
 
+    private void ShowFragment(String tag, Class<? extends Fragment> fragmentClass) {
+        Fragment fragment = null;
+        try {
+            fragment = fragmentClass.newInstance();
+        } catch (InstantiationException e) {
+            Log.e(TAG, "Failed to instantiate "+fragmentClass.getName()+", ShowFragment("+tag+") aborted.");
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "Failed to instantiate "+fragmentClass.getName()+", ShowFragment("+tag+") aborted.");
+        }
+        ShowFragment(this, tag, fragment);
+    }
+
+    public static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment) {
+        if (fragment == null) {
+            Log.e(TAG, "Cannot show a null fragment, ShowFragment("+tag+") aborted.");
+            return;
+        }
+
+        FragmentManager fm = activity.getSupportFragmentManager();
+
+        //abort if fragment is already the current one
+        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
+        if(current != null && current.getTag().equals(tag))
+            return;
+
+        //try to pop back if the fragment is already on the backstack
+        if (fm.popBackStackImmediate(tag, 0))
+            return;
+
+        //fragment is not there yet, spawn a new one
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
+        ft.replace(R.id.fragment_placeholder, fragment, tag);
+        ft.addToBackStack(tag);
+        ft.commit();
+    }
+
     /** Create menu from XML
      */
     @Override
@@ -479,11 +517,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
                 break;
             case R.id.ml_menu_equalizer:
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
-                ft.replace(R.id.fragment_placeholder, new EqualizerFragment(), "equalizer");
-                ft.addToBackStack(null);
-                ft.commit();
+                ShowFragment("equalizer", EqualizerFragment.class);
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
@@ -599,7 +633,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     }
                 }
             } else if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER)) {
-                AudioPlayerFragment.start(getSupportFragmentManager());
+                ShowFragment("player", AudioPlayerFragment.class);
             }
         }
     };

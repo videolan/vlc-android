@@ -80,7 +80,7 @@ public class HistoryFragment extends SherlockListFragment {
 
         LibVLC.getExistingInstance().setMediaList();
         audioController.playIndex(position);
-        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
+        AudioPlayerFragment.start(getActivity());
     }
 
     @Override

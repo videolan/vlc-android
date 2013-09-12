@@ -32,6 +32,7 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
@@ -41,8 +42,6 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -179,7 +178,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             mAudioController.load(mSongsAdapter.getLocations(), p);
-            AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
+            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -199,15 +198,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
             audioList.setArguments(b);
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left, R.anim.anim_enter_left, 0);
-            ft.detach(fm.findFragmentByTag("audio"));
-            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
-            ft.replace(R.id.fragment_placeholder, audioList, "tracks");
-            ft.addToBackStack(null);
-            ft.commit();
-
+            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
             return true;
         }
     };
@@ -226,15 +217,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
             audioList.setArguments(b);
 
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_leave_left, R.anim.anim_enter_left, 0);
-            ft.detach(fm.findFragmentByTag("audio"));
-            ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_right, 0, R.anim.anim_leave_right);
-            ft.replace(R.id.fragment_placeholder, audioList, "tracks");
-            ft.addToBackStack(null);
-            ft.commit();
-
+            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
             return false;
         }
     };
@@ -334,7 +317,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         else
             mAudioController.load(medias, startPosition);
 
-        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
+        AudioPlayerFragment.start(getActivity());
         return super.onContextItemSelected(item);
     }
 

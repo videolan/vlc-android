@@ -122,7 +122,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                         return true;
                     } else if(Math.abs( mTouchY - event.getRawY() ) < 5 && Math.abs( mTouchX - event.getRawX() ) < 5) {
                         // effectively a click
-                        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
+                        AudioPlayerFragment.start(getActivity());
                         return true;
                     } else
                         return false;

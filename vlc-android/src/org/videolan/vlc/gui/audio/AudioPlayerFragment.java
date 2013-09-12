@@ -36,8 +36,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,14 +69,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private AudioServiceController mAudioController;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
-
-    private static AudioPlayerFragment mAudioPlayerFragment = null;
-
-    public static AudioPlayerFragment getInstance() {
-        if(mAudioPlayerFragment == null)
-            mAudioPlayerFragment = new AudioPlayerFragment();
-        return mAudioPlayerFragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -231,23 +221,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         Intent intent = new Intent();
         intent.setAction(MainActivity.ACTION_SHOW_PLAYER);
         context.getApplicationContext().sendBroadcast(intent);
-    }
-
-    public static void start(FragmentManager fragmentManager) {
-        start(fragmentManager, false);
-    }
-
-    public static void start(FragmentManager fm, Boolean dontParse) {
-        if (fm == null) {
-            Log.e(TAG, "fragmentManager is null, cannot show AudioPlayerFragment");
-            return;
-        }
-        AudioPlayerFragment audioPlayer = getInstance();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
-        ft.replace(R.id.fragment_placeholder, audioPlayer, "player");
-        ft.addToBackStack(null);
-        ft.commit();
     }
 
     @Override

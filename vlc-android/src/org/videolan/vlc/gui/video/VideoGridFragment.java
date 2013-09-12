@@ -264,7 +264,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     protected void playAudio(int position) {
         Media item = (Media) getListAdapter().getItem(position);
         AudioServiceController.getInstance().load(item.getLocation(), true);
-        AudioPlayerFragment.start(getActivity().getSupportFragmentManager());
+        AudioPlayerFragment.start(getActivity());
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
