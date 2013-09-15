@@ -139,7 +139,7 @@
     <!--  Preferences -->
     <string name="preferences">Préférences</string>
     <string name="library_prefs_category">Bibliothèque multimédia</string>
-    <string name="directories_summary">Sélectionnez les repertoires de votre bilbiothèque multimédia</string>
+    <string name="directories_summary">Sélectionnez les repertoires de votre bibliothèque multimédia</string>
     <string name="add_custom_path">Ajouter un répertoire</string>
     <string name="add_custom_path_description">Entrer un répertoire additionnel à scanner:</string>
     <string name="remove_custom_path">Retirer le répertoire</string>
