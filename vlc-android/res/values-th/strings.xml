@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">ตกลง</string>
     <string name="cancel">ยกเลิก</string>
@@ -11,11 +10,9 @@
     <string name="sortby_length">ความยาว</string>
     <string name="searchable_hint">ค้นหา…</string>
     <string name="history">ประวัติ</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="other">พบ %d รายการ</item>
     </plurals>
-
     <string name="play">เล่น</string>
     <string name="play_from_start">เล่นจากตำแหน่งเริ่ม</string>
     <string name="play_as_audio">เล่นแต่เสียง</string>
@@ -38,14 +35,11 @@
     <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
     <string name="songs">เพลง</string>
-
     <plurals name="songs_quantity">
         <item quantity="other">%d เพลง</item>
     </plurals>
-
     <string name="artists">ศิลปิน</string>
     <string name="albums">อัลบัม</string>
-
     <plurals name="albums_quantity">
         <item quantity="other">%d อัลบัม</item>
     </plurals>
@@ -55,12 +49,12 @@
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d แฟ้มสื่อ</item>
     </plurals>
-
     <string name="internal_memory">ความจำภายใน</string>
     <string name="parent_folder">กลับไปยังโฟลเดอร์ก่อนหน้านี้</string>
     <string name="audio">เสียง</string>
     <string name="video">วีดิทัศน์</string>
     <string name="bookmarks">ที่คั่นหน้า</string>
+    <string name="equalizer">ตัวปรับสมดุล</string>
     <string name="all_albums">อัลบัมทั้งหมด</string>
     <string name="genres">ประเภท</string>
     <string name="playlists">ผังเล่น</string>
@@ -97,16 +91,14 @@
     <string name="track_video">ร่องวีดิทัศน์</string>
     <string name="track_text">ร่องบทบรรยาย</string>
     <string name="track_unknown">ไม่ทราบร่องข้อมูล</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_codec_info">ตัวอ่าน-ลงรหัส: %1$s\n</string>
     <string name="track_language_info">ภาษา: %1$s</string>
     <string name="volume">ระดับเสียง</string>
     <string name="brightness">ความสว่าง</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>
-
-    <string name="track_samplerate_info">อัตราตัวอย่าง: %1$d Hz\n</string>
+    <string name="track_samplerate_info">อัตราตัวอย่างสุ่ม: %1$d Hz\n</string>
     <string name="track_resolution_info">ความละเอียด: %1$dx%2$d\n</string>
     <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
     <string name="tools">เครื่องมือ</string>
@@ -127,7 +119,6 @@
     <string name="encountered_error_title">การเล่นขัดข้อง</string>
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง\nโปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %s ได้</string>
-
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
     <string name="licence">สัญญาอนุญาต</string>
@@ -136,7 +127,6 @@
     <string name="about_text">VLC สำหรับ Android™ เป็นแขนงหนึ่งของโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อยอดนิยมแบบโอเพนซอร์ส โดยรุ่น Android™ สามารถอ่านแฟ้มและกระแสข้อมูลเครือข่ายได้แทบทุกรูปแบบ</string>
     <string name="compiled_by">VLC รุ่นนี้คอมไพล์โดย:</string>
     <string name="vlc_authors">ผู้จัดทำ VLC</string>
-
     <!-- Preferences -->
     <string name="preferences">การปรับแต่ง</string>
     <string name="library_prefs_category">คลังสื่อ</string>
@@ -145,6 +135,7 @@
     <string name="add_custom_path_description">ใส่ที่เก็บแฟ้มที่จะสแกนเพิ่ม:</string>
     <string name="remove_custom_path">ลบพาธที่ใส่เอง</string>
     <string name="main_prefs_category">หลัก</string>
+    <string name="automatic">อัตโนมัติ</string>
     <string name="screen_orientation">การจัดวางหน้าจอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
     <string name="screen_orientation_start_lock">ล็อคตั้งแต่เริ่มงาน</string>
@@ -167,6 +158,14 @@
     <string name="enable_iomx_summary">เพิ่มประสิทธิภาพการทำงาน ซึ่งรองรับการใช้งานไม่ได้ทั่วทุกอุปกรณ์</string>
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
     <string name="enable_time_stretching_audio_summary">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่มีทำงานได้เร็ว)</string>
+    <string name="enable_frame_skip">เปิดใช้การข้ามเฟรม</string>
+    <string name="enable_frame_skip_summary">เพิ่มความเร็วการอ่านรหัส แต่อาจลดคุณภาพวีดิทัศน์ได้</string>
+    <string name="deblocking">ค่าตั้งตัวผันค่าการดีบล็อค</string>
+    <string name="deblocking_summary">เปลี่ยนค่าตั้งตัวผันค่าการดีบล็อค สามารถช่วยเพิ่มคุณภาพวีดิทัศน์ (เฉพาะผู้ใช้ชำนาญการ)</string>
+    <string name="deblocking_always">การดีบล็อคเต็มที่ (ช้าสุด)</string>
+    <string name="deblocking_nonref">การดีบล็อคปานกลาง</string>
+    <string name="deblocking_nonkey">การดีบล็อคต่ำ</string>
+    <string name="deblocking_all">ไม่มีการดีบล็อค (เร็วสุด)</string>
     <string name="other_prefs_category">อื่นๆ</string>
     <string name="clear_history">ล้างประวัติการค้นหา</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
