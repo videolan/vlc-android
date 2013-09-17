@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">ठीक है</string>
     <string name="cancel">रद्द करें</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">अवधि</string>
     <string name="searchable_hint">खोजे…</string>
     <string name="history">इतिहास</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d परिणाम मिल गया</item>
         <item quantity="other">%d परिणाम मिल गया</item>
     </plurals>
-
     <string name="play">चलायें</string>
     <string name="play_from_start">खेल से शुरूआत</string>
     <string name="play_as_audio">ऑडियो के रूप में चलाएँ</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">अज्ञात एल्बम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
     <string name="songs">गाने</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 गाना</item>
         <item quantity="other">%d गाने</item>
     </plurals>
-
     <string name="artists">कलाकार</string>
     <string name="albums">एल्बम</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 एल्बम</item>
         <item quantity="other">%d एल्बम</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 मीडिया दस्तावेज</item>
         <item quantity="other">%d मीडिया दस्तावेजे</item>
     </plurals>
-
     <string name="internal_memory">आन्तरिक याददाश्त</string>
     <string name="parent_folder">मूल फ़ोल्डर तक</string>
     <string name="audio">ऑडियो</string>
     <string name="video">वीडियो</string>
     <string name="bookmarks">बुकमार्क्स</string>
+    <string name="equalizer">इक्वेलाइज़र</string>
     <string name="all_albums">सभी एल्बम</string>
     <string name="genres">शैलियाँ</string>
     <string name="playlists">गीतसूचियाँ</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">भाषा: %1$s\n</string>
     <string name="volume">आवाज़ निर्धारक</string>
     <string name="brightness">चमक</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 चैनल\n</item>
         <item quantity="other">%1$d चैनलों\n</item>
     </plurals>
-
     <string name="track_samplerate_info">नमूना दर: %1$d Hz\n</string>
     <string name="track_resolution_info">स्थिरता: %1$dx%2$d\n</string>
     <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
@@ -133,16 +125,14 @@
     <string name="encountered_error_title">पार्शव त्रुटि</string>
     <string name="encountered_error_message">VLC को इस मीडिया के साथ एक त्रुटि का सामना करना पड़ा.\nमीडिया लाइब्रेरी को रिफ्रेश करें.</string>
     <string name="invalid_location">स्थान %1$s को चलाया नहीं जा सकता</string>
-
     <!-- About -->
     <string name="app_name_full">Android™ के लिए VLC</string>
     <string name="licence">अनुज्ञाप‍त्र</string>
     <string name="revision">संशोधन</string>
     <string name="about">के संबंध में</string>
-    <string name="about_text">VLCAndroid ™ के लिए VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
+    <string name="about_text">VLC Android™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
     <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
     <string name="vlc_authors">VLC लेखक.</string>
-
     <!-- Preferences -->
     <string name="preferences">प्राथमिकताएं</string>
     <string name="library_prefs_category">मीडिया लाइब्रेरी</string>
@@ -151,6 +141,7 @@
     <string name="add_custom_path_description">स्कैन करने के लिए अतिरिक्त कस्टम निर्देशिका दर्ज करें:</string>
     <string name="remove_custom_path">कस्टम पथ हटाएँ</string>
     <string name="main_prefs_category">मुख्य</string>
+    <string name="automatic">स्वचालित</string>
     <string name="screen_orientation">पर्दा अनुकूलन</string>
     <string name="screen_orientation_sensor">स्वचालित (संवेदक)</string>
     <string name="screen_orientation_start_lock">शुरू में बंद कर दिया</string>
@@ -173,6 +164,12 @@
     <string name="enable_iomx_summary">प्रदर्शन को बेहतर बनाता है, लेकिन सभी उपकरणों के साथ काम नहीं करता.</string>
     <string name="enable_time_stretching_audio">समय-टूटती ऑडियो सक्षम करें</string>
     <string name="enable_time_stretching_audio_summary">पिच (तेज उपकरण की आवश्यकता है) को परिवर्तित किये बिना ऑडियो धीमी गति से और तेजी से बढ़ाएं.</string>
+    <string name="deblocking">डेब्लोक्किंग फिल्टर सेटिंग</string>
+    <string name="deblocking_summary">डेब्लोक्किंग फिल्टर सेटिंग बदलें. वीडियो की गुणवत्ता में सुधार हो सकता है. केवल उन्नत उपयोगकर्ताओं के लिए.</string>
+    <string name="deblocking_always">पूर्ण डेब्लोक्किंग (धीरे)</string>
+    <string name="deblocking_nonref">मध्यम डेब्लोक्किंग</string>
+    <string name="deblocking_nonkey">कम डेब्लोक्किंग</string>
+    <string name="deblocking_all">कोई डेब्लोक्किंग नही (सबसे तेज)</string>
     <string name="other_prefs_category">अन्य</string>
     <string name="clear_history">खोज के इतिहास को हटायें</string>
     <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
@@ -188,7 +185,7 @@
     <string name="advanced_debugging">उन्नत दोषमार्जन</string>
     <string name="aout">ऑडियो आउटपुट</string>
     <string name="aout_summary">VLC आउटपुट ऑडियो कि विधि बदलें.</string>
-    <string name="aout_audiotrack">AudioTrack (मूल)</string>
+    <string name="aout_audiotrack">AudioTrack(मूल)</string>
     <string name="aout_audiotrack_java">AudioTrack (जावा)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">शब्दबहुल</string>
