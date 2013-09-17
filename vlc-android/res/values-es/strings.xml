@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Longitud</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultado encontrado</item>
         <item quantity="other">%d resultados encontrados</item>
     </plurals>
-
     <string name="play">Reproducir</string>
     <string name="play_from_start">Reproducir desde el inicio</string>
     <string name="play_as_audio">Reproducir como audio</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Álbum desconocido</string>
     <string name="unknown_genre">Género desconocido</string>
     <string name="songs">Canciones</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 canción</item>
         <item quantity="other">%d canciones</item>
     </plurals>
-
     <string name="artists">Artistas</string>
     <string name="albums">Álbumes</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
         <item quantity="other">%d álbumes</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 archivo de medio</item>
         <item quantity="other">%d archivos de medio</item>
     </plurals>
-
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Hasta la carpeta padre</string>
     <string name="audio">Audio</string>
     <string name="video">Vídeo</string>
     <string name="bookmarks">Marcadores</string>
+    <string name="equalizer">Ecualizador</string>
     <string name="all_albums">Todos los álbumes</string>
     <string name="genres">Géneros</string>
     <string name="playlists">Listas de reproducción</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Idioma: %1$s\n</string>
     <string name="volume">Volumen</string>
     <string name="brightness">Brillo</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canales\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Tasa de muestreo: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n</string>
@@ -122,7 +114,7 @@
     <string name="jump_to_time">Saltar a tiempo</string>
     <string name="subtitle_label">Añadir subtítulo</string>
     <string name="subtitle_select">Seleccionar subtítulo</string>
-    <string name="no_file_picker_found">No se ha encontrado seleccionador de archivos en el sistema.</string>
+    <string name="no_file_picker_found">No se ha encontrado seleccionador de archivo en el sistema.</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
@@ -133,7 +125,6 @@
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
     <string name="invalid_location">La localización %1$s no puede ser reproducida</string>
-
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licencia</string>
@@ -142,7 +133,6 @@
     <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y flujos de red.</string>
     <string name="compiled_by">Esta versión de VLC está compilada por:</string>
     <string name="vlc_authors">Autores de VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
     <string name="library_prefs_category">Librería de medios</string>
@@ -151,6 +141,7 @@
     <string name="add_custom_path_description">Introducir carpetas personales adicionales a examinar:</string>
     <string name="remove_custom_path">Eliminar ruta personalizada</string>
     <string name="main_prefs_category">Principal</string>
+    <string name="automatic">Automática</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
     <string name="screen_orientation_start_lock">Bloqueado al inicio</string>
@@ -173,6 +164,14 @@
     <string name="enable_iomx_summary">Mejora el rendimiento, pero puede no funcionar en todos los dispositivos.</string>
     <string name="enable_time_stretching_audio">Habilitar audio «time-stretching»</string>
     <string name="enable_time_stretching_audio_summary">Aumentar y reducir la velocidad del audio sin cambiar el tono (requiere un dispositivo rápido)</string>
+    <string name="enable_frame_skip">Habilitar salto de fotogramas</string>
+    <string name="enable_frame_skip_summary">Aumenta la decodificación pero puede disminuir la calidad del vídeo.</string>
+    <string name="deblocking">Preferencias del filtro de desbloqueo</string>
+    <string name="deblocking_summary">Cambiar las preferencias del filtro de desbloqueo. Puede mejorar la calidad del vídeo. Solo usuarios avanzados.</string>
+    <string name="deblocking_always">Desbloqueo completo (el más lento)</string>
+    <string name="deblocking_nonref">Desbloqueo medio</string>
+    <string name="deblocking_nonkey">Desbloqueo bajo</string>
+    <string name="deblocking_all">Sin desbloqueo (el más rápido)</string>
     <string name="other_prefs_category">Otro</string>
     <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
@@ -191,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (nativo)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Valor de cache de red</string>
+    <string name="network_caching_summary">La cantidad de tiempo que almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
     <string name="set_locale">Establecer idioma</string>
