@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
@@ -11,11 +10,9 @@
     <string name="sortby_length">長さ</string>
     <string name="searchable_hint">検索…</string>
     <string name="history">履歴</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d 件見つかりました</item>
     </plurals>
-
     <string name="play">再生</string>
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
@@ -38,14 +35,11 @@
     <string name="unknown_album">未知のアルバム</string>
     <string name="unknown_genre">未知のジャンル</string>
     <string name="songs">曲</string>
-
     <plurals name="songs_quantity">
         <item quantity="other">%d 曲</item>
     </plurals>
-
     <string name="artists">アーティスト</string>
     <string name="albums">アルバム</string>
-
     <plurals name="albums_quantity">
         <item quantity="other">%d アルバム</item>
     </plurals>
@@ -55,12 +49,12 @@
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d メディアファイル</item>
     </plurals>
-
     <string name="internal_memory">内部メモリ</string>
     <string name="parent_folder">一階層上に</string>
     <string name="audio">オーディオ</string>
     <string name="video">ビデオ</string>
     <string name="bookmarks">ブックマーク</string>
+    <string name="equalizer">イコライザー</string>
     <string name="all_albums">すべてのアルバム</string>
     <string name="genres">ジャンル</string>
     <string name="playlists">プレイリスト</string>
@@ -101,11 +95,9 @@
     <string name="track_language_info">言語: %1$s\n</string>
     <string name="volume">ボリューム</string>
     <string name="brightness">明るさ</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d チャンネル\n</item>
     </plurals>
-
     <string name="track_samplerate_info">サンプリングレート: %1$d Hz\n</string>
     <string name="track_resolution_info">解像度: %1$dx%2$d\n</string>
     <string name="track_framerate_info">フレームレート: %1$.3f\n</string>
@@ -127,7 +119,6 @@
     <string name="encountered_error_title">再生エラー</string>
     <string name="encountered_error_message">このメディアでエラーを検出しました。メディアライブラリをリフレッシュしてみてください。</string>
     <string name="invalid_location">その場所 %1$s は再生できません</string>
-
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">ライセンス</string>
@@ -136,7 +127,6 @@
     <string name="about_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
     <string name="compiled_by">このバージョンのVLCのコンパイラ:</string>
     <string name="vlc_authors">VLCの著作者</string>
-
     <!-- Preferences -->
     <string name="preferences">設定</string>
     <string name="library_prefs_category">メディアライブラリ</string>
@@ -145,6 +135,7 @@
     <string name="add_custom_path_description">スキャンするカスタムディレクトリの追加:</string>
     <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="main_prefs_category">メイン</string>
+    <string name="automatic">自動</string>
     <string name="screen_orientation">スクリーンの方向</string>
     <string name="screen_orientation_sensor">自動 (センサー)</string>
     <string name="screen_orientation_start_lock">開始時にロック</string>
@@ -167,6 +158,14 @@
     <string name="enable_iomx_summary">パフォーマンスを改善しますが、すべてのデバイスで動作しない可能性があります。</string>
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
     <string name="enable_time_stretching_audio_summary">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
+    <string name="enable_frame_skip">フレームスキップの有効化</string>
+    <string name="enable_frame_skip_summary">デコーディング速度を向上しますが、ビデオ品質は低くなります。</string>
+    <string name="deblocking">ブロック化抑止フィルター設定</string>
+    <string name="deblocking_summary">ブロック化抑止フィルターの設定を変更します。ビデオ品質の向上が可能です。アドバンスドユーザー向けの設定です。</string>
+    <string name="deblocking_always">ブロック化抑止最大 (低速)</string>
+    <string name="deblocking_nonref">ブロック化抑止中間</string>
+    <string name="deblocking_nonkey">ブロック化抑止最小</string>
+    <string name="deblocking_all">ブロック化抑止なし (高速)</string>
     <string name="other_prefs_category">その他</string>
     <string name="clear_history">検索履歴をクリア</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
@@ -185,6 +184,8 @@
     <string name="aout_audiotrack">AudioTrack (ネイティブ)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">ネットワークキャッシュ値</string>
+    <string name="network_caching_summary">ネットワークメディアのバッファーサイズをミリ秒単位で指定します。ハードウェアデコーディングとは同時に動作できません。空白入力でリセットします。</string>
     <string name="enable_verbose_mode">出力レベル</string>
     <string name="enable_verbose_mode_summary">出力レベルを増加 (logcat)</string>
     <string name="set_locale">ロケールの設定</string>
