@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">D\'acord</string>
     <string name="cancel">Cancel·la</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Durada</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Historial</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">s\'ha trobat %d resultat</item>
         <item quantity="other">s\'ha trobat %d resultats</item>
     </plurals>
-
     <string name="play">Reprodueix</string>
     <string name="play_from_start">Reprodueix des de l\'inici</string>
     <string name="play_as_audio">Reprodueix com a àudio</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Àlbum desconegut</string>
     <string name="unknown_genre">Gènere desconegut</string>
     <string name="songs">Cançons</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 cançó</item>
         <item quantity="other">%d cançons</item>
     </plurals>
-
     <string name="artists">Artistes</string>
     <string name="albums">Àlbums</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 àlbum</item>
         <item quantity="other">%d àlbums</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 fitxer multimèdia</item>
         <item quantity="other">%d fitxers multimèdia</item>
     </plurals>
-
     <string name="internal_memory">Memòria interna</string>
     <string name="parent_folder">Amunt a la carpeta pare</string>
     <string name="audio">Àudio</string>
     <string name="video">Vídeo</string>
     <string name="bookmarks">Preferits</string>
+    <string name="equalizer">Equalitzador</string>
     <string name="all_albums">Tots els àlbums</string>
     <string name="genres">Gèneres</string>
     <string name="playlists">Llistes de reproducció</string>
@@ -120,6 +114,9 @@
     <string name="sleep_title">Temporitzador</string>
     <string name="sleep_cancel">Cancel·la el temporitzador</string>
     <string name="jump_to_time">Saltar al minut</string>
+    <string name="subtitle_label">Afegeix un fitxer de subtítols</string>
+    <string name="subtitle_select">Selecciona un fitxer de subtítols</string>
+    <string name="no_file_picker_found">No s\'ha trobat el sistema de fitxers en el sistema.</string>
     <string name="open">Obre</string>
     <string name="open_mrl">Obre MRL</string>
     <string name="open_mrl_dialog_title">Obre un flux de xarxa</string>
@@ -130,7 +127,6 @@
     <string name="encountered_error_title">Error de reproducció</string>
     <string name="encountered_error_message">VLC ha trobat un error en aquest suport. Si us plau, refresca la biblioteca multimèdia</string>
     <string name="invalid_location">La ruta %1$s no pot ser reproduïda</string>
-
     <!-- About -->
     <string name="app_name_full">VLC per l\'Android™</string>
     <string name="licence">Llicència</string>
@@ -139,7 +135,6 @@
     <string name="about_text">VLC per l\'Android™ és una versió portada del reproductor multimèdia VLC. La versió per l\'Android™ permet llegir la gran majoria de fitxers i fluxos de xarxa.</string>
     <string name="compiled_by">Aquesta versió del VLC s\'ha compilat per:</string>
     <string name="vlc_authors">Autors del VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Preferències</string>
     <string name="library_prefs_category">Biblioteca multimèdia</string>
@@ -148,6 +143,7 @@
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
     <string name="main_prefs_category">Principal</string>
+    <string name="automatic">Automàtic</string>
     <string name="screen_orientation">Orientació de la pantalla</string>
     <string name="screen_orientation_sensor">Automàtic (sensor)</string>
     <string name="screen_orientation_start_lock">Blocat a l\'inici</string>
@@ -170,6 +166,14 @@
     <string name="enable_iomx_summary">Millora el rendiment, però pot no funcionar en tots els dispositius.</string>
     <string name="enable_time_stretching_audio">Habilita l\'àudio de temps d\'estirament</string>
     <string name="enable_time_stretching_audio_summary">Incrementa o redueix la velocitat de l\'àudio sense canviar el to (requereix un dispositiu més ràpid)</string>
+    <string name="enable_frame_skip">Habilita l\'omissió de quadres</string>
+    <string name="enable_frame_skip_summary">Accelera la velocitat de codificació, però pot reduir la qualitat del vídeo.</string>
+    <string name="deblocking">Configuració del filtre de desbloqueig</string>
+    <string name="deblocking_summary">Canvia la configuració del filtre de desbloqueig. Podria millorar la qualitat del vídeo. Únicament per a usuaris avançats.</string>
+    <string name="deblocking_always">Desbloqueig complet (el més lent)</string>
+    <string name="deblocking_nonref">Desbloqueig mitjà</string>
+    <string name="deblocking_nonkey">Desbloqueig baix</string>
+    <string name="deblocking_all">Sense desbloqueig (el més ràpid)</string>
     <string name="other_prefs_category">Altre</string>
     <string name="clear_history">Neteja l\'historial de cerca</string>
     <string name="clear_media_db">Neteja la base de dades multimèdia</string>
