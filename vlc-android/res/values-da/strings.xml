@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">O.k.</string>
     <string name="cancel">Annullér</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Længde</string>
     <string name="searchable_hint">Søg …</string>
     <string name="history">Historik</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Fandt %d forekomst</item>
         <item quantity="other">Fandt %d forekomster</item>
     </plurals>
-
     <string name="play">Afspil</string>
     <string name="play_from_start">Afspil fra start</string>
     <string name="play_as_audio">Afspil som lyd</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Ukendt album</string>
     <string name="unknown_genre">Ukendt genre</string>
     <string name="songs">Sange</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 sang</item>
         <item quantity="other">%d sange</item>
     </plurals>
-
     <string name="artists">Artister</string>
     <string name="albums">Album</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 mediefil</item>
         <item quantity="other">%d mediefiler</item>
     </plurals>
-
     <string name="internal_memory">Intern hukommelse</string>
     <string name="parent_folder">Op til overordnet mappe</string>
     <string name="audio">Lyd</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bogmærker</string>
+    <string name="equalizer">Equalizer</string>
     <string name="all_albums">Alle album</string>
     <string name="genres">Genrer</string>
     <string name="playlists">Afspilningslister</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Sprog: %1$s\n</string>
     <string name="volume">Lydstyrke</string>
     <string name="brightness">Lysstyrke</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Samplingfrekvens: %1$d Hz\n</string>
     <string name="track_resolution_info">Opløsning: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Billedhastighed: %1$.3f\n</string>
@@ -133,7 +125,6 @@
     <string name="encountered_error_title">Afspilningsfejl</string>
     <string name="encountered_error_message">VLC stødte på en fejl i dette medie.\nPrøv venligst at genopfriske mediebiblioteket.</string>
     <string name="invalid_location">Stedet %1$s kan ikke afspilles</string>
-
     <!-- About -->
     <string name="app_name_full">VLC til Android™</string>
     <string name="licence">Licens</string>
@@ -142,7 +133,6 @@
     <string name="about_text">VLC til Android™ er en portering af VLC-medieafspilleren, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
     <string name="vlc_authors">VLC-forfattere</string>
-
     <!-- Preferences -->
     <string name="preferences">Præferencer</string>
     <string name="library_prefs_category">Mediebibliotek</string>
@@ -151,6 +141,7 @@
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="main_prefs_category">Hovedside</string>
+    <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skærmretning</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Låst ved start</string>
@@ -173,6 +164,14 @@
     <string name="enable_iomx_summary">Forbedrer ydelsen, men virker muligvis ikke på alle enheder.</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
     <string name="enable_time_stretching_audio_summary">Øger og sænker lydhastigheden uden at ændre tonelejet (kræver en hurtig enhed).</string>
+    <string name="enable_frame_skip">Aktivér billedoverspring</string>
+    <string name="enable_frame_skip_summary">Øger hastigheden for afkodning, men kan forringe videokvaliteten.</string>
+    <string name="deblocking">Indstillinger for filter til blokdeling</string>
+    <string name="deblocking_summary">Tilpas indstillinger for filter til blokdeling. Dette kan forbedre videokvaliteten. Kun for avancerede brugere.</string>
+    <string name="deblocking_always">Fuld blokdeling (langsomst)</string>
+    <string name="deblocking_nonref">Medium blokdeling</string>
+    <string name="deblocking_nonkey">Lav blokdeling</string>
+    <string name="deblocking_all">Ingen blokdeling (hurtigst)</string>
     <string name="other_prefs_category">Andet</string>
     <string name="clear_history">Ryd søgehistorik</string>
     <string name="clear_media_db">Ryd medie-database</string>
@@ -191,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (original)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Mellemlagringsværdi for netværk</string>
+    <string name="network_caching_summary">Den tidsmængde for netværksmediet som mellemlagres (i ms). Fungerer ikke sammen med afkodning via hardware. Lad den stå tom for at nulstille.</string>
     <string name="enable_verbose_mode">Uddybende</string>
     <string name="enable_verbose_mode_summary">Forøg graden af uddybning (logcat)</string>
     <string name="set_locale">Angiv lokalitet</string>
