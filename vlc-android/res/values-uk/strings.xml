@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">Гаразд</string>
     <string name="cancel">Скасувати</string>
@@ -11,13 +10,11 @@
     <string name="sortby_length">довжиною</string>
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">знайдено %d результат</item>
         <item quantity="few">знайдено %d результати</item>
         <item quantity="other">знайдено %d результатів</item>
     </plurals>
-
     <string name="play">Відтворити</string>
     <string name="play_from_start">Відтворити з початку</string>
     <string name="play_as_audio">Відтворити як аудіо</string>
@@ -39,17 +36,14 @@
     <string name="unknown_artist">Невідомий виконавець</string>
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
-    <string name="songs">Пісні</string>
-
+    <string name="songs">пісні</string>
     <plurals name="songs_quantity">
         <item quantity="one">%d пісня</item>
         <item quantity="few">%d пісні</item>
         <item quantity="other">%d пісень</item>
     </plurals>
-
     <string name="artists">Виконавці</string>
     <string name="albums">Альбоми</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">%d альбом</item>
         <item quantity="few">%d альбоми</item>
@@ -65,12 +59,12 @@
         <item quantity="few">%d медіа файли</item>
         <item quantity="other">%d медіа файлів</item>
     </plurals>
-
     <string name="internal_memory">Внутрішня пам\'ять</string>
     <string name="parent_folder">До батьківського каталогу</string>
     <string name="audio">Аудіо</string>
     <string name="video">Відео</string>
     <string name="bookmarks">Закладки</string>
+    <string name="equalizer">Еквалайзер</string>
     <string name="all_albums">Усі альбоми</string>
     <string name="genres">Жанри</string>
     <string name="playlists">Списки відтворення</string>
@@ -111,13 +105,11 @@
     <string name="track_language_info">Мова: %1$s\n</string>
     <string name="volume">Гучність</string>
     <string name="brightness">Яскравість</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d канал\n</item>
         <item quantity="few">%1$d канали\n</item>
         <item quantity="other">%1$d каналів\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Частота дискретизації: %1$d Гц\n</string>
     <string name="track_resolution_info">Роздільна здатність: %1$d×%2$d\n</string>
     <string name="track_framerate_info">Частота кадрів: %1$.3f\n</string>
@@ -139,7 +131,6 @@
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити</string>
-
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Ліцензія</string>
@@ -148,7 +139,6 @@
     <string name="about_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може відтворювати більшість файлів і мережевих потоків.</string>
     <string name="compiled_by">Цю версію VLC скомпільовано:</string>
     <string name="vlc_authors">VLC Автори.</string>
-
     <!-- Preferences -->
     <string name="preferences">Параметри</string>
     <string name="library_prefs_category">Медіа бібліотека</string>
@@ -180,6 +170,8 @@
     <string name="enable_iomx_summary">Покращує швидкодію, але може не працювати на всіх пристроях.</string>
     <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
     <string name="enable_time_stretching_audio_summary">Прискорює та уповільнює звук без зміни висоти тону (вимагає швидкого пристрою).</string>
+    <string name="enable_frame_skip">Увімкнути пропуск кадрів</string>
+    <string name="enable_frame_skip_summary">Прискорює декодування, але зменшує якість відео.</string>
     <string name="deblocking">Налаштування фільтру деблокування</string>
     <string name="deblocking_summary">Змінює налаштування фільтру деблокування. Може покращити якість відео. Лише для досвідчених користувачів.</string>
     <string name="deblocking_always">Повне деблокування (найповільніше)</string>
@@ -204,6 +196,8 @@
     <string name="aout_audiotrack">AudioTrack (вбудована)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Розмір мережевого кешування</string>
+    <string name="network_caching_summary">Кількість часу для буферизації мережного медіа (у мс). Не працює з апаратним декодуванням. Залиште порожнім, аби очистити.</string>
     <string name="enable_verbose_mode">Інформативність</string>
     <string name="enable_verbose_mode_summary">Збільшити деталізацію (logcat)</string>
     <string name="set_locale">Установка локалі</string>
