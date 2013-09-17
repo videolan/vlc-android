@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Lengde</string>
     <string name="searchable_hint">Søk…</string>
     <string name="history">Historie</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d resultat funnet</item>
         <item quantity="other">%d resultater funnet</item>
     </plurals>
-
     <string name="play">Spill</string>
     <string name="play_from_start">Spill fra start</string>
     <string name="play_as_audio">Spill som lyd</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Ukjent album</string>
     <string name="unknown_genre">Ukjent sjanger</string>
     <string name="songs">Sanger</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 sang</item>
         <item quantity="other">%d sanger</item>
     </plurals>
-
     <string name="artists">Artister</string>
     <string name="albums">Album</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 mediefil</item>
         <item quantity="other">%d mediefiler</item>
     </plurals>
-
     <string name="internal_memory">Internt minne</string>
     <string name="parent_folder">Til øverste katalog</string>
     <string name="audio">Lyd</string>
     <string name="video">Video</string>
     <string name="bookmarks">Bokmerker</string>
+    <string name="equalizer">Tonekontroll</string>
     <string name="all_albums">Alle album</string>
     <string name="genres">Sjangre</string>
     <string name="playlists">Spillelister</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Språk %1$s\n</string>
     <string name="volume">Lydstyrke</string>
     <string name="brightness">Lysstyrke</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Samplingsfrekvens: %1$d Hz\n</string>
     <string name="track_resolution_info">Oppløsing: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Bildefrekvens: %1$.3f\n</string>
@@ -120,6 +112,9 @@
     <string name="sleep_title">Sovetimer</string>
     <string name="sleep_cancel">Avbryt sovetimer</string>
     <string name="jump_to_time">Hopp til:</string>
+    <string name="subtitle_label">Legg til en undertekstfil</string>
+    <string name="subtitle_select">Velg undertekstfil</string>
+    <string name="no_file_picker_found">Ingen filutforsker ble funnet i systemet.</string>
     <string name="open">Åpne</string>
     <string name="open_mrl">Åpne MRL</string>
     <string name="open_mrl_dialog_title">Åpne nettverkskrinkasting</string>
@@ -129,7 +124,7 @@
     <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n</string>
     <string name="encountered_error_title">Avspillingsfeil</string>
     <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nVennligst prøv å oppdatere mediebiblioteket.</string>
-
+    <string name="invalid_location">Kan ikke spille fra %1$s.</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Lisens</string>
@@ -138,7 +133,6 @@
     <string name="about_text">VLC for Android™ er en port av VLC mediespiller, den populære åpen kildekode multimediaspilleren. Android™-versjonen kan lese de fleste filer og nettverkstrømmer.</string>
     <string name="compiled_by">Denne versjonen av VLC ble kompilert av:</string>
     <string name="vlc_authors">VLC forfattere.</string>
-
     <!-- Preferences -->
     <string name="preferences">Innstillinger</string>
     <string name="library_prefs_category">Mediabibliotek</string>
@@ -147,6 +141,7 @@
     <string name="add_custom_path_description">Legg til en ekstra mappe å sjekke:</string>
     <string name="remove_custom_path">Fjern egendefinert bane</string>
     <string name="main_prefs_category">Hovedside</string>
+    <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skjermorientering</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Lås ved start</string>
@@ -169,6 +164,14 @@
     <string name="enable_iomx_summary">Forbedrer ytelsen, men fungerer kanskje ikke med alle enheter.</string>
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
     <string name="enable_time_stretching_audio_summary">Øk og senk lydhastigheten uten å endre tonehøyde (krever en rask enhet)</string>
+    <string name="enable_frame_skip">Tillat å hoppe over rammer</string>
+    <string name="enable_frame_skip_summary">Øker dekoding men kan senke videokvaliteten.</string>
+    <string name="deblocking">Deblocking filterinnstillinger</string>
+    <string name="deblocking_summary">Endre på deblocking filterinnstillingene. Kan forbedre videokvaliteten. Bare for avanserte brukere.</string>
+    <string name="deblocking_always">Full deblocking (tregest)</string>
+    <string name="deblocking_nonref">Middels deblocking</string>
+    <string name="deblocking_nonkey">Lite deblocking</string>
+    <string name="deblocking_all">Ingen deblocking (raskest)</string>
     <string name="other_prefs_category">Annet</string>
     <string name="clear_history">Tøm søkehistorie</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
@@ -187,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (opprinnelig)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Nettverksbufferverdi</string>
+    <string name="network_caching_summary">Tiden det tar å bufre nettverksmedier (i ms). Fungerer ikke med maskinvarekoding. Forlat tomt for å tilbakestille.</string>
     <string name="enable_verbose_mode">Detaljer</string>
     <string name="enable_verbose_mode_summary">Flere detaljer (logcat)</string>
     <string name="set_locale">Velg lokalitet</string>
