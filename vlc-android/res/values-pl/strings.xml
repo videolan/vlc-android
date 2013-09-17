@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
@@ -11,13 +10,11 @@
     <string name="sortby_length">Długości</string>
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Znaleziono %1$d pozycję</item>
         <item quantity="few">Znaleziono %1$d pozycje</item>
         <item quantity="other">Znaleziono %1$d pozycji</item>
     </plurals>
-
     <string name="play">Odtwórz</string>
     <string name="play_from_start">Odtwórz od początku</string>
     <string name="play_as_audio">Odtwórz jako audio</string>
@@ -40,16 +37,13 @@
     <string name="unknown_album">Nieznany album</string>
     <string name="unknown_genre">Nieznany gatunek</string>
     <string name="songs">Piosenki</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 piosenka</item>
         <item quantity="few">%d piosenki</item>
         <item quantity="other">%d piosenek</item>
     </plurals>
-
     <string name="artists">Wykonawcy</string>
     <string name="albums">Albumy</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d albumy</item>
@@ -65,12 +59,12 @@
         <item quantity="few">%d pliki multimedialne</item>
         <item quantity="other">%d plików multimedialnych</item>
     </plurals>
-
     <string name="internal_memory">Pamięć wewnętrzna</string>
     <string name="parent_folder">Do folderu nadrzędnego</string>
     <string name="audio">Dźwięk</string>
     <string name="video">Wideo</string>
     <string name="bookmarks">Zakładki</string>
+    <string name="equalizer">Korektor graficzny</string>
     <string name="all_albums">Wszystkie albumy</string>
     <string name="genres">Gatunki</string>
     <string name="playlists">Listy odtwarzania</string>
@@ -111,13 +105,11 @@
     <string name="track_language_info">Język: %1$s\n</string>
     <string name="volume">Głośność</string>
     <string name="brightness">Jasność</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanał\n</item>
         <item quantity="few">%1$d kanały\n</item>
         <item quantity="other">%1$d kanałów\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Liczba klatek: %1$.3f\n</string>
@@ -126,17 +118,19 @@
     <string name="sleep_title">Wyłącznik czasowy</string>
     <string name="sleep_cancel">Anuluj wyłącznik czasowy</string>
     <string name="jump_to_time">Skocz do czasu</string>
+    <string name="subtitle_label">Dodaj plik z napisami</string>
+    <string name="subtitle_select">Wybierz plik z napisami</string>
+    <string name="no_file_picker_found">System nie posiada usługi menedżera plików.</string>
     <string name="open">Otwórz</string>
     <string name="open_mrl">Otwórz adres MRL</string>
     <string name="open_mrl_dialog_title">Otwórz strumień sieciowy</string>
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™\n\nKomunikat błędu (proszę o tym wspomnieć podczas debugowania):\n</string>
     <string name="error_problem">Niestety, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
-    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):\n</string>
+    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
     <string name="encountered_error_title">Błąd odtwarzania</string>
     <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
     <string name="invalid_location">Pozycja %1$s nie może być odtwarzana</string>
-
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
     <string name="licence">Licencja</string>
@@ -145,7 +139,6 @@
     <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego wolnego oprogramowania. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
     <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
     <string name="vlc_authors">Autorzy VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Ustawienia</string>
     <string name="library_prefs_category">Biblioteka mediów</string>
@@ -154,6 +147,7 @@
     <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
     <string name="remove_custom_path">Usuń własną ścieżkę</string>
     <string name="main_prefs_category">Główne</string>
+    <string name="automatic">Automatycznie</string>
     <string name="screen_orientation">Orientacja ekranu</string>
     <string name="screen_orientation_sensor">Automatycznie (czujnik)</string>
     <string name="screen_orientation_start_lock">Zablokowany przy starcie</string>
@@ -176,6 +170,14 @@
     <string name="enable_iomx_summary">Zwiększa wydajność, ale może nie współpracować ze wszystkimi urządzeniami.</string>
     <string name="enable_time_stretching_audio">Włącz rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_summary">Przyspieszenie i spowolnienie dźwięku bez zmiany tonacji (wymaga szybkiego urządzenia).</string>
+    <string name="enable_frame_skip">Włącz pominięcie ramek</string>
+    <string name="enable_frame_skip_summary">Przyspiesza dekodowanie, ale może zmniejszyć jakość obrazu.</string>
+    <string name="deblocking">Ustawienia filtru usuwania bloków</string>
+    <string name="deblocking_summary">Zmienia ustawienia filtru usuwania bloków . Może poprawić jakość obrazu. Tylko dla zaawansowanych użytkowników.</string>
+    <string name="deblocking_always">Pełny filtr usuwania bloków (najwolniej)</string>
+    <string name="deblocking_nonref">Średni filtr usuwania bloków</string>
+    <string name="deblocking_nonkey">Niski filtr usuwania bloków</string>
+    <string name="deblocking_all">Usuwanie bloków wyłączone (najszybciej)</string>
     <string name="other_prefs_category">Inne</string>
     <string name="clear_history">Wyczyść historię wyszukiwania</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
@@ -194,6 +196,8 @@
     <string name="aout_audiotrack">AudioTrack (natywny)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Wartość buforowania sieci</string>
+    <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w ms). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="enable_verbose_mode">Szczegółowość</string>
     <string name="enable_verbose_mode_summary">Zwiększenie liczby komunikatów (logcat)</string>
     <string name="set_locale">Ustaw język</string>
