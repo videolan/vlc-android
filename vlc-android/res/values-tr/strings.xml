@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">Tamam</string>
     <string name="cancel">İptal</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Uzunluk</string>
     <string name="searchable_hint">Arama…</string>
     <string name="history">Geçmiş</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d sonuç bulundu</item>
         <item quantity="other">%d sonuç bulundu</item>
     </plurals>
-
     <string name="play">Oynat</string>
     <string name="play_from_start">En baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Bilinmeyen Albüm</string>
     <string name="unknown_genre">Bilinmeyen Tür</string>
     <string name="songs">Parçalar</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">%d şarkı</item>
         <item quantity="other">%d şarkı</item>
     </plurals>
-
     <string name="artists">Sanatçılar</string>
     <string name="albums">Albümler</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">%d albüm</item>
         <item quantity="other">%d albüm</item>
@@ -60,12 +54,12 @@
         <item quantity="one">%d ortam dosyası</item>
         <item quantity="other">%d ortam dosyası</item>
     </plurals>
-
     <string name="internal_memory">İç bellek</string>
     <string name="parent_folder">Üst klasör</string>
     <string name="audio">Ses</string>
     <string name="video">Görüntü</string>
     <string name="bookmarks">Yer İmleri</string>
+    <string name="equalizer">Dengeleyici</string>
     <string name="all_albums">Tüm albümler</string>
     <string name="genres">Türler</string>
     <string name="playlists">Oynatma listeleri</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Dil: %1$s\n</string>
     <string name="volume">Ses Düzeyi</string>
     <string name="brightness">Parlaklık</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanal\n</item>
         <item quantity="other">%1$d kanal\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Örnekleme hızı: %1$d Hz\n</string>
     <string name="track_resolution_info">Çözünürlük: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kare hızı: %1$.3f\n</string>
@@ -133,7 +125,6 @@
     <string name="encountered_error_title">Oynatım hatası</string>
     <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.\nLütfen ortam kitaplığını yenilemeyi deneyin.</string>
     <string name="invalid_location">%1$s konumu oynatılamıyor</string>
-
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
     <string name="licence">Lisans</string>
@@ -142,7 +133,6 @@
     <string name="about_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir sürümüdür. Android™ sürümü çoğu dosya ve ağ akışlarını okuyabilir.</string>
     <string name="compiled_by">Bu VLC sürümü şu kişiler tarafından oluşturulmuştur:</string>
     <string name="vlc_authors">VLC Yazarları.</string>
-
     <!-- Preferences -->
     <string name="preferences">Ayarlar</string>
     <string name="library_prefs_category">Ortam kitaplığı</string>
@@ -174,6 +164,8 @@
     <string name="enable_iomx_summary">başarımı arttırır, ancak tüm aygıtlarda çalışmayabilir.</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
+    <string name="enable_frame_skip">Kare atlama kullanılsın</string>
+    <string name="enable_frame_skip_summary">Kod çözmeyi hızlandırır ancak görüntü kalitesini düşürür.</string>
     <string name="deblocking">Engel kaldırma süzgeci ayarları</string>
     <string name="deblocking_summary">Engel kaldırma süzgeci ayarları görüntü kalitesini iyileştirebilir. Deneyimli kullanıcıların değiştirmesi önerilir.</string>
     <string name="deblocking_always">Tam engel kaldırma (en yavaş)</string>
@@ -198,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (doğal)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Ağ ön bellekleme değeri</string>
+    <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı zaman. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
     <string name="enable_verbose_mode">Ayrıntıları göster</string>
     <string name="enable_verbose_mode_summary">Ayrıntıyı arttırın (günlük)</string>
     <string name="set_locale">Yerel ayar</string>
