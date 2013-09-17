@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
@@ -11,13 +10,11 @@
     <string name="sortby_length">по размеру</string>
     <string name="searchable_hint">Поиск</string>
     <string name="history">История</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Результатов поиска: %d</item>
         <item quantity="few">Результатов поиска: %d</item>
         <item quantity="other">Результатов поиска: %d</item>
     </plurals>
-
     <string name="play">Воспроизвести</string>
     <string name="play_from_start">Воспроизвести с начала</string>
     <string name="play_as_audio">Воспроизвести как аудио</string>
@@ -40,16 +37,13 @@
     <string name="unknown_album">Неизвестный альбом</string>
     <string name="unknown_genre">Неизвестный жанр</string>
     <string name="songs">Композиции</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">Композиций: 1</item>
         <item quantity="few">Композиций: %d</item>
         <item quantity="other">Композиций: %d</item>
     </plurals>
-
     <string name="artists">Исполнители</string>
     <string name="albums">Альбомы</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">Альбомов: 1</item>
         <item quantity="few">Альбомов: %d</item>
@@ -65,12 +59,12 @@
         <item quantity="few">Медиафайлов: %d</item>
         <item quantity="other">Медиафайлов: %d</item>
     </plurals>
-
     <string name="internal_memory">Внутренняя память</string>
     <string name="parent_folder">Предыдущий уровень</string>
     <string name="audio">Аудио</string>
     <string name="video">Видео</string>
     <string name="bookmarks">Избранное</string>
+    <string name="equalizer">Эквалайзер</string>
     <string name="all_albums">Все альбомы</string>
     <string name="genres">Жанры</string>
     <string name="playlists">Плейлисты</string>
@@ -111,13 +105,11 @@
     <string name="track_language_info">Язык: %1$s\n</string>
     <string name="volume">Громкость</string>
     <string name="brightness">Яркость</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>
         <item quantity="few">Каналов: %1$d\n</item>
         <item quantity="other">Каналов: %1$d\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Частота дискр.: %1$d Гц\n</string>
     <string name="track_resolution_info">Разрешение: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Частота кадров: %1$.3f\n</string>
@@ -139,7 +131,6 @@
     <string name="encountered_error_title">Ошибка воспроизведения</string>
     <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопытайтесь обновить медиатеку.</string>
     <string name="invalid_location">Воспроизвести %1$s нельзя</string>
-
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
@@ -148,7 +139,6 @@
     <string name="about_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
     <string name="compiled_by">Эту версию VLC скомпилировал:</string>
     <string name="vlc_authors">Разработчики VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
     <string name="library_prefs_category">Медиатека</string>
@@ -157,6 +147,7 @@
     <string name="add_custom_path_description">Включить в сканирование дополнительный каталог:</string>
     <string name="remove_custom_path">Удалить дополнительный путь</string>
     <string name="main_prefs_category">Основные</string>
+    <string name="automatic">автоматически</string>
     <string name="screen_orientation">Ориентация экрана</string>
     <string name="screen_orientation_sensor">Автоматическая (от сенсора)</string>
     <string name="screen_orientation_start_lock">Блокируется при запуске</string>
@@ -179,6 +170,14 @@
     <string name="enable_iomx_summary">Увеличивает быстродействие, но может работать не везде.</string>
     <string name="enable_time_stretching_audio">Изменение скорости звука</string>
     <string name="enable_time_stretching_audio_summary">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство).</string>
+    <string name="enable_frame_skip">Допускать пропуски кадров</string>
+    <string name="enable_frame_skip_summary">Ускоряет декодирование, но может повлиять на качество видео.</string>
+    <string name="deblocking">Параметры устранения блочности</string>
+    <string name="deblocking_summary">Устранение блочности может улучшить качество видео. Предназначено только для опытных пользователей.</string>
+    <string name="deblocking_always">Полное устранение (самое медленное)</string>
+    <string name="deblocking_nonref">Среднее устранение</string>
+    <string name="deblocking_nonkey">Минимальное устранение</string>
+    <string name="deblocking_all">Без устранения (быстрее всего)</string>
     <string name="other_prefs_category">Другое</string>
     <string name="clear_history">Очистить историю поиска</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
@@ -197,6 +196,8 @@
     <string name="aout_audiotrack">AudioTrack (нативный код)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Размер кэша сетевых данных</string>
+    <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>
     <string name="set_locale">Языковая среда</string>
