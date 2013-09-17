@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Zrušit</string>
@@ -11,13 +10,11 @@
     <string name="sortby_length">Délka</string>
     <string name="searchable_hint">Hledat…</string>
     <string name="history">Historie</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d nalezený výsledek</item>
         <item quantity="few">%d nalezené výsledky</item>
         <item quantity="other">%d nalezených výsledků</item>
     </plurals>
-
     <string name="play">Přehrát</string>
     <string name="play_from_start">Přehrát od začátku</string>
     <string name="play_as_audio">Přehrát jako zvuk</string>
@@ -40,16 +37,13 @@
     <string name="unknown_album">Neznámé album</string>
     <string name="unknown_genre">Neznámý žánr</string>
     <string name="songs">Skladby</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 skladba</item>
         <item quantity="few">%d skladby</item>
         <item quantity="other">%d skladeb</item>
     </plurals>
-
     <string name="artists">Umělci</string>
     <string name="albums">Alba</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d alba</item>
@@ -65,12 +59,12 @@
         <item quantity="few">%d mediální soubory</item>
         <item quantity="other">%d mediálních souborů</item>
     </plurals>
-
     <string name="internal_memory">Vnitřní paměť</string>
     <string name="parent_folder">Vzhůru do nadřazené složky</string>
     <string name="audio">Zvuk</string>
     <string name="video">Video</string>
     <string name="bookmarks">Záložky</string>
+    <string name="equalizer">Ekvalizér</string>
     <string name="all_albums">Všechna alba</string>
     <string name="genres">Žánry</string>
     <string name="playlists">Seznamy skladeb</string>
@@ -111,13 +105,11 @@
     <string name="track_language_info">Jazyk: %1$s\n</string>
     <string name="volume">Hlasitost</string>
     <string name="brightness">Jas</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
         <item quantity="few">%1$d kanály\n</item>
         <item quantity="other">%1$d kanálů\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Vzorkovací frekvence: %1$d Hz\n</string>
     <string name="track_resolution_info">Rozlišení: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Vzorkovací frekvence: %1$.3f\n</string>
@@ -139,7 +131,6 @@
     <string name="encountered_error_title">Chyba přehrávání</string>
     <string name="encountered_error_message">VLC s tímto médiem narazilo na chybu.\nZkuste prosím obnovit knihovnu médií.</string>
     <string name="invalid_location">Nelze přehrát umístění %1$s</string>
-
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
     <string name="licence">Licence</string>
@@ -148,7 +139,6 @@
     <string name="about_text">VLC pro Android™ je port populárního přehrávače VLC s otevřeným kódem. Android™ verze umí přehrát většinu souborů a síťových proudů.</string>
     <string name="compiled_by">Tato verze přehrávače VLC byla zkompilována:\n</string>
     <string name="vlc_authors">Autoři VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Nastavení</string>
     <string name="library_prefs_category">Knihovna médií</string>
@@ -157,6 +147,7 @@
     <string name="add_custom_path_description">Zadejte dodatečnou cestu k adresáři na prohledání:</string>
     <string name="remove_custom_path">Odstranit vlastní cestu</string>
     <string name="main_prefs_category">Obecné</string>
+    <string name="automatic">Automaticky</string>
     <string name="screen_orientation">Orientace obrazovky videa</string>
     <string name="screen_orientation_sensor">Orientace dle senzorů</string>
     <string name="screen_orientation_start_lock">Uzamčeno při spuštění</string>
@@ -179,6 +170,14 @@
     <string name="enable_iomx_summary">Zlepšuje výkon, ale nemusí fungovat na všech zařízeních.</string>
     <string name="enable_time_stretching_audio">Časové roztažení zvuku</string>
     <string name="enable_time_stretching_audio_summary">Zrychlení a zpomalení zvuku bez změny výšky (vyžaduje rychlé zařízení).</string>
+    <string name="enable_frame_skip">Povolit přeskakování snímků</string>
+    <string name="enable_frame_skip_summary">Zrychlí dekódování, ale může snížit kvalitu videa.</string>
+    <string name="deblocking">Nastavení filtru odstranění kostek z videa</string>
+    <string name="deblocking_summary">Změňte nastavení filtru odstranění kostek ve videu. Zvýší kvalitu obrazu. Pouze pro pokročilé uživatele.</string>
+    <string name="deblocking_always">Úplné odstranění kostek (nejpomalejší)</string>
+    <string name="deblocking_nonref">Střední odstraňování kostek</string>
+    <string name="deblocking_nonkey">Nízké odstraňování kostek</string>
+    <string name="deblocking_all">Žádné odstraňování kostek (nejrychlejší)</string>
     <string name="other_prefs_category">Jiné</string>
     <string name="clear_history">Vymazat historii hledání</string>
     <string name="clear_media_db">Vyčistit databázi médií</string>
@@ -197,6 +196,8 @@
     <string name="aout_audiotrack">AudioTrack (původní)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
+    <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
     <string name="enable_verbose_mode">Podrobné</string>
     <string name="enable_verbose_mode_summary">Zvýšit podrobnosti v záznamu (logcat)</string>
     <string name="set_locale">Nastavit jazyk</string>
