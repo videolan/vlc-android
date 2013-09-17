@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">Gerai</string>
     <string name="cancel">Atšaukti</string>
@@ -11,13 +10,11 @@
     <string name="sortby_length">Trukmė</string>
     <string name="searchable_hint">Ieškoti…</string>
     <string name="history">Žurnalas</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">Rastas %d kūrinys</item>
         <item quantity="few">Rasti %d kūriniai</item>
         <item quantity="other">Rasta %d kūrinių</item>
     </plurals>
-
     <string name="play">Groti</string>
     <string name="play_from_start">Groti nuo pradžių</string>
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
@@ -29,7 +26,7 @@
     <string name="delete">Šalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="info">Informacija</string>
-    <string name="confirm_delete">Pašalinti rinkmeną \'%1$s\' ?</string>
+    <string name="confirm_delete">Pašalinti failą \'%1$s\' ?</string>
     <string name="ringtone_set">„%1$s“ naudojamas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
@@ -40,16 +37,13 @@
     <string name="unknown_album">Nežinomas albumas</string>
     <string name="unknown_genre">Nežinomas stilius</string>
     <string name="songs">Dainos</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">%d daina</item>
         <item quantity="few">%d dainos</item>
         <item quantity="other">%d dainų</item>
     </plurals>
-
     <string name="artists">Atlikėjai</string>
     <string name="albums">Albumai</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">%d albumas</item>
         <item quantity="few">%d albumai</item>
@@ -65,12 +59,12 @@
         <item quantity="few">%d kūriniai</item>
         <item quantity="other">%d kūrinių</item>
     </plurals>
-
     <string name="internal_memory">Vidinė atmintis</string>
     <string name="parent_folder">Į aukštesnį aplanką</string>
-    <string name="audio">Garsas</string>
-    <string name="video">Vaizdas</string>
+    <string name="audio">Muzika</string>
+    <string name="video">Vaizdai</string>
     <string name="bookmarks">Žymelės</string>
+    <string name="equalizer">Glodintuvas</string>
     <string name="all_albums">Visi albumai</string>
     <string name="genres">Stiliai</string>
     <string name="playlists">Grojaraščiai</string>
@@ -81,7 +75,7 @@
     <string name="directories">Katalogai</string>
     <string name="loading">Įkeliama</string>
     <string name="please_wait">Palaukite…</string>
-    <string name="nomedia">Kūrinių neradome. Į savo įrenginį įkelkite kūrinių arba pakeiskite nuostatas.</string>
+    <string name="nomedia">Kūrinių neradome. Įkelkite į savo įrenginį vaizdo ar garso kūrinių arba pakeiskite nustatymus.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
     <string name="nosubdirectory">Pakatalogių nėra.</string>
@@ -111,13 +105,11 @@
     <string name="track_language_info">Kalba: %1$s\n</string>
     <string name="volume">Garsumas</string>
     <string name="brightness">Ryškumas</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d kanalas\n</item>
         <item quantity="few">%1$d kanalai\n</item>
         <item quantity="other">%1$d kanalų\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Elementų dažnis: %1$d Hz\n</string>
     <string name="track_resolution_info">Skiriamoji geba: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Kadrų dažnis: %1$.3f\n</string>
@@ -126,12 +118,12 @@
     <string name="sleep_title">Išsijungimo laikmatis</string>
     <string name="sleep_cancel">Atšaukti išsijungimo laikmatį</string>
     <string name="jump_to_time">Šokti į laiką</string>
-    <string name="subtitle_label">Pridėti subtitrų rinkmeną</string>
-    <string name="subtitle_select">Pasirinkite subtitrų rinkmeną</string>
-    <string name="no_file_picker_found">Sistemoje neradome rinkmenų parinkiklio.</string>
+    <string name="subtitle_label">Pridėti subtitrų failą</string>
+    <string name="subtitle_select">Pasirinkite subtitrų failą</string>
+    <string name="no_file_picker_found">Sistemoje neradome failų parinkiklio.</string>
     <string name="open">Atverti</string>
     <string name="open_mrl">Atverti MRL</string>
-    <string name="open_mrl_dialog_title">Atverti tinklo srautą</string>
+    <string name="open_mrl_dialog_title">Tinklo srauto atvėrimas</string>
     <string name="open_mrl_dialog_msg">Įveskite adresą: pvz. http://, mms:// ar rtsp://</string>
     <string name="error_not_compatible">Atleiskite, tačiau ši Android™ sistemai skirta VLC versija nepalaiko jūsų įrenginio.</string>
     <string name="error_problem">Atleiskite, Android sistemai skirta VLC versijoje įvyko klaida.</string>
@@ -139,16 +131,14 @@
     <string name="encountered_error_title">Grojimo klaida</string>
     <string name="encountered_error_message">Atlikdama šį kūrinį, VLC susidūrė su klaida.\nPabandykite atnaujinti fonoteką.</string>
     <string name="invalid_location">Negalime pagroti %1$s</string>
-
     <!-- About -->
     <string name="app_name_full">VLC versija, skirta Android™</string>
     <string name="licence">Licencija</string>
     <string name="revision">Poversijis</string>
     <string name="about">Apie</string>
-    <string name="about_text">Ši VLC versija skirta Android™. Tai VLC yra atviro kodo populiari kūrinių leistuvė. Ši Android™ versija gali atpažinti daugumą rinkmenų ir tinklo srautų.</string>
+    <string name="about_text">Ši VLC versija skirta Android™ Linux operacinei sistemai. VLC - tai populiari laisva (atvirojo kodo) vaizdo ir garso kūrinių leistuvė. VLC Android™ versija gali rodyti ir groti daugumą failų ir tinklo srautų.</string>
     <string name="compiled_by">Šią VLC versiją kompiliavo:</string>
     <string name="vlc_authors">VLC autoriai</string>
-
     <!-- Preferences -->
     <string name="preferences">Nuostatos</string>
     <string name="library_prefs_category">Fonoteka</string>
@@ -182,6 +172,10 @@
     <string name="enable_time_stretching_audio_summary">Pagreitinti arba sulėtinti grojimą, tačiau nekeičiant garso tono aukščio (veikia greituose įrenginiuose).</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
     <string name="deblocking_summary">Pakeisti išblokavimo filtrui taikomas nuostatas. Gali pagerinti vaizdo kokybę. Tik patyrusiems naudotojams.</string>
+    <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>
+    <string name="deblocking_nonref">Vidutinis išblokavimas</string>
+    <string name="deblocking_nonkey">Truputį išbloblokuoti</string>
+    <string name="deblocking_all">Neišblokuoti (greičiausias)</string>
     <string name="other_prefs_category">Kita</string>
     <string name="clear_history">Išvalyti paieškos istoriją</string>
     <string name="clear_media_db">Išvalyti kūrinių duomenų bazę</string>
