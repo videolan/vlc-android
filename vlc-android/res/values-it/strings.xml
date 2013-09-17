@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Annulla</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Durata</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultato trovato</item>
         <item quantity="other">%d risultati trovati</item>
     </plurals>
-
     <string name="play">Riproduci</string>
     <string name="play_from_start">Riproduci all\'avvio</string>
     <string name="play_as_audio">Riproduci come audio</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Album sconosciuto</string>
     <string name="unknown_genre">Genere sconosciuto</string>
     <string name="songs">Brani</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">Un brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
-
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
         <item quantity="other">%d album</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 file multimediale</item>
         <item quantity="other">%d file multimediali</item>
     </plurals>
-
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Livello superiore</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Segnalibri</string>
+    <string name="equalizer">Equalizzatore</string>
     <string name="all_albums">Tutti gli album</string>
     <string name="genres">Generi</string>
     <string name="playlists">Scalette</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Lingua: %1$s\n</string>
     <string name="volume">Volume</string>
     <string name="brightness">Luminosità</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canale\n</item>
         <item quantity="other">%1$d canali\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Campionamento: %1$d Hz\n</string>
     <string name="track_resolution_info">Risoluzione: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
@@ -133,7 +125,6 @@
     <string name="encountered_error_title">Errore di riproduzione</string>
     <string name="encountered_error_message">VLC ha riscontrato un errore con questo media. Prova ad aggiornare la raccolta mulltimediale</string>
     <string name="invalid_location">La posizione %1$s non può essere riprodotta</string>
-
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
     <string name="licence">Licenza</string>
@@ -142,7 +133,6 @@
     <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
     <string name="compiled_by">Questa versione di VLC è compilata da:</string>
     <string name="vlc_authors">Autori di VLC.</string>
-
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="library_prefs_category">Raccolta multimediale</string>
@@ -174,6 +164,8 @@
     <string name="enable_iomx_summary">Migliora le prestazioni, ma potrebbe non funzionare con tutti i dispositivi.</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_summary">Aumenta e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce).</string>
+    <string name="enable_frame_skip">Abilita il salto di fotogrammi</string>
+    <string name="enable_frame_skip_summary">Velocizza la decodifica, ma potrebbe ridurre la qualità del video.</string>
     <string name="deblocking">Impostazioni filtro di deblock</string>
     <string name="deblocking_summary">Cambia le impostazioni del filtro di deblock. Potrebbe migliorare la qualità video. Solo per utenti avanzati.</string>
     <string name="deblocking_always">Deblock completo (più lento)</string>
@@ -198,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (nativa)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Valore della cache di rete</string>
+    <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_summary">Aumenta la verbosità (logcat)</string>
     <string name="set_locale">Imposta locale</string>
