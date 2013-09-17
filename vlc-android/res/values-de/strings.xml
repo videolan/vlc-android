@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
@@ -11,12 +10,10 @@
     <string name="sortby_length">Laufzeit</string>
     <string name="searchable_hint">Suchen…</string>
     <string name="history">Verlauf</string>
-
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d Ergebnis gefunden</item>
         <item quantity="other">%d Ergebnisse gefunden</item>
     </plurals>
-
     <string name="play">Wiedergabe</string>
     <string name="play_from_start">Abspielen vom Anfang</string>
     <string name="play_as_audio">Wiedergabe als Audio</string>
@@ -39,15 +36,12 @@
     <string name="unknown_album">Unbekanntes Album</string>
     <string name="unknown_genre">Unbekanntes Genre</string>
     <string name="songs">Songs</string>
-
     <plurals name="songs_quantity">
         <item quantity="one">1 Song</item>
         <item quantity="other">%d Songs</item>
     </plurals>
-
     <string name="artists">Künstler</string>
     <string name="albums">Alben</string>
-
     <plurals name="albums_quantity">
         <item quantity="one">1 Album</item>
         <item quantity="other">%d Alben</item>
@@ -60,12 +54,12 @@
         <item quantity="one">1 Medien-Datei</item>
         <item quantity="other">%d Medien-Dateien</item>
     </plurals>
-
     <string name="internal_memory">Interner Speicher</string>
     <string name="parent_folder">Zum darüberliegenden Ordner</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Lesezeichen</string>
+    <string name="equalizer">Equalizer</string>
     <string name="all_albums">Alle Alben</string>
     <string name="genres">Genres</string>
     <string name="playlists">Wiedergabelisten</string>
@@ -106,12 +100,10 @@
     <string name="track_language_info">Sprache: %1$s\n</string>
     <string name="volume">Lautstärke</string>
     <string name="brightness">Helligkeit</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 Kanal\n</item>
         <item quantity="other">%1$d Kanäle\n</item>
     </plurals>
-
     <string name="track_samplerate_info">Abtastrate: %1$d Hz\n</string>
     <string name="track_resolution_info">Auflösung: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Bildrate: %1$.3f\n</string>
@@ -133,7 +125,6 @@
     <string name="encountered_error_title">Wiedergabe-Fehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\n\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
     <string name="invalid_location">Pfad %1$s kann nicht abgespielt werden</string>
-
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
     <string name="licence">Lizenz</string>
@@ -142,7 +133,6 @@
     <string name="about_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann die meisten Dateien und Netzwerk-Stream lesen.</string>
     <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
     <string name="vlc_authors">VLC-Autoren.</string>
-
     <!-- Preferences -->
     <string name="preferences">Einstellungen</string>
     <string name="library_prefs_category">Medienbibliothek</string>
@@ -169,11 +159,13 @@
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte durch die Übernahme der Fernbedienung anderer Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
     <string name="performance_prefs_category">Leistung</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
-    <string name="chroma_format_summary">RGB 32-Bit: Standard Farbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
+    <string name="chroma_format_summary">RGB 32-Bit: Standard Farbsättigung\nRGB 16-bit:  Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
     <string name="enable_iomx">Hardware-beschleunigte Dekodierung aktivieren</string>
     <string name="enable_iomx_summary">Verbessert die Leistung, funktioniert aber vielleicht nicht bei allen Geräten.</string>
     <string name="enable_time_stretching_audio">Zeitdehnung für Audio aktivieren</string>
-    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern (erfordert ein schnelles Gerät).</string>
+    <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern  (erfordert ein schnelles Gerät).</string>
+    <string name="enable_frame_skip">Frame überspringen aktivieren</string>
+    <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="deblocking">Anti-Klötzchen Filter Einstellungen</string>
     <string name="deblocking_summary">Ändert die Einstellungen des Anti-Klötzchen Filters. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
     <string name="deblocking_always">Anti-Klötzchen Filter maximal</string>
@@ -198,6 +190,8 @@
     <string name="aout_audiotrack">AudioTrack (nativ)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Netzwerk Cachewert</string>
+    <string name="network_caching_summary">Der Zeitwert, um das Netzwerk-Medium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung.  Zum Zurückzusetzen leer lassen.</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Logs erhöhen (Logcat)</string>
     <string name="set_locale">Landessprache einstellen</string>
