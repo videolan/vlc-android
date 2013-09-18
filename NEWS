@@ -12,6 +12,15 @@ Main Application:
  * Add an option for frame skip to improve performance
  * Add an option to set network caching
 
+Translations:
+ * Initial Greek, Kannada, and Slovenian translations
+ * Updates to the Arabic, Bosnian, Brazilian Portuguese, Catalan, Czech,
+   Danish, Dutch, Galician, German, Hebrew, Hindi, Icelandic, Italian,
+   Japanese, Khmer, Korean, Lithuanian, Marathi, Norwegian Bokmal, Polish,
+   Portuguese, Russian, Scottish Gaelic, Serbian, Simplified Chinese,
+   Slovak, Spanish, Thai, Traditional Chinese, Turkish, Ukrainian, Urdu,
+   Vietnamese and Welsh translations
+
 
 Changes between 0.1.1 and 0.1.2:
 --------------------------------
