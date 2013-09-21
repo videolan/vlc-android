@@ -27,9 +27,9 @@
             android:title="@string/enable_headset_detection" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="enable_wheel_bar"
-            android:summary="@string/enable_wheel_bar_summary"
-            android:title="@string/enable_wheel_bar" />
+            android:key="enable_jump_buttons"
+            android:summary="@string/enable_jump_buttons_summary"
+            android:title="@string/enable_jump_buttons" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_steal_remote_control"

@@ -156,8 +156,8 @@
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôlez la luminosité au toucher</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
-    <string name="enable_wheel_bar">Activer la Wheel Bar</string>
-    <string name="enable_wheel_bar_summary">Barre de recherche alternative pour l’interface video</string>
+    <string name="enable_jump_buttons">Activer les boutons de saut</string>
+    <string name="enable_jump_buttons_summary">Afficher les boutons avancer/reculer sur l\'interface vidéo</string>
     <string name="enable_steal_remote_control">Contrôle exclusif de la télécommande</string>
     <string name="enable_steal_remote_control_summary">Evite les conflits en volant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="performance_prefs_category">Performance</string>

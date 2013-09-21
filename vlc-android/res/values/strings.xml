@@ -182,8 +182,8 @@
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
-    <string name="enable_wheel_bar">Enable wheel bar</string>
-    <string name="enable_wheel_bar_summary">Alternate-style seek bar for the video interface</string>
+    <string name="enable_jump_buttons">Enable jump buttons</string>
+    <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="performance_prefs_category">Performance</string>

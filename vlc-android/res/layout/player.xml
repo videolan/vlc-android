@@ -3,12 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <!-- the double FrameLayout is necessary here to do cropping on the right
-     (which requires the surface not be centered), while keeping the result centered -->
+    <!--
+     the double FrameLayout is necessary here to do cropping on the bottom right
+     (which requires the surface not be centered), while keeping the result centered
+    -->
+
     <FrameLayout
-        android:fitsSystemWindows="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false" >
 
         <FrameLayout
             android:id="@+id/player_surface_frame"
@@ -25,15 +28,23 @@
     </FrameLayout>
 
     <RelativeLayout
-        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:fitsSystemWindows="true" >
+
+        <ImageButton
+            android:id="@+id/player_overlay_play"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_pause" />
 
         <TextView
             android:id="@+id/player_overlay_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/player_overlay_play"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:background="@drawable/video_list_length_bg"
             android:padding="5dp"
@@ -47,16 +58,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
+            android:background="@color/transparent_gray"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:visibility="invisible" >
+            android:paddingRight="5dp" >
 
             <TextView
                 android:id="@+id/player_overlay_title"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="left|center_vertical"
                 android:text="@string/title"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
@@ -65,7 +75,6 @@
                 android:id="@+id/player_overlay_battery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="5dp"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
@@ -74,7 +83,6 @@
                 android:id="@+id/player_overlay_systime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -86,83 +94,66 @@
             android:layout_above="@+id/progress_overlay"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_header"
-            android:gravity="bottom|right"
+            android:gravity="bottom|center_horizontal"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:visibility="invisible" >
-
-            <ImageButton
-                android:id="@+id/player_overlay_audio"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/header_icon_audio" />
+            android:padding="10dp" >
 
             <ImageButton
                 android:id="@+id/player_overlay_subtitle"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/header_icon_subtitle" />
 
             <ImageButton
-                android:id="@+id/player_overlay_adv_function"
+                android:id="@+id/player_overlay_audio"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/dots"
-                android:onClick="showAdvancedOptions" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/interface_overlay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:visibility="invisible" >
-
-            <FrameLayout
-                android:id="@+id/player_control"
-                android:layout_width="fill_parent"
-                android:layout_height="40dip"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp" />
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/header_icon_audio" />
 
             <ImageButton
                 android:id="@+id/player_overlay_size"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:layout_alignParentRight="true"
                 android:background="@drawable/ic_size" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/progress_overlay"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/interface_overlay"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/transparent_gray"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:visibility="invisible" >
+            android:paddingRight="5dp" >
+
+            <ImageButton
+                android:id="@+id/lock_overlay_button"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_lock" />
+
+            <ImageButton
+                android:id="@+id/player_overlay_backward"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/lock_overlay_button"
+                android:background="@drawable/ic_backward" />
 
             <TextView
                 android:id="@+id/player_overlay_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/player_overlay_seekbar"
-                android:layout_alignParentLeft="true"
-                android:layout_alignTop="@+id/player_overlay_seekbar"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/player_overlay_backward"
                 android:clickable="true"
-                android:gravity="left|center_vertical"
-                android:paddingRight="10dp"
                 android:text="@string/time_0"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
@@ -171,12 +162,13 @@
                 android:id="@+id/player_overlay_seekbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/player_overlay_length"
                 android:layout_toRightOf="@+id/player_overlay_time"
-                android:maxHeight="4dip"
-                android:minHeight="4dip"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:maxHeight="2dip"
+                android:minHeight="2dip"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:progressDrawable="@drawable/po_seekbar"
                 android:thumb="@drawable/ic_seekbar_thumb" />
 
@@ -184,30 +176,33 @@
                 android:id="@+id/player_overlay_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/player_overlay_seekbar"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/player_overlay_seekbar"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toLeftOf="@+id/player_overlay_forward"
                 android:clickable="true"
-                android:gravity="right|center_vertical"
-                android:paddingLeft="10dp"
                 android:text="@string/time_0"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/lock_overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/progress_overlay"
-            android:layout_alignParentLeft="true" >
 
             <ImageButton
-                android:id="@+id/lock_overlay_button"
+                android:id="@+id/player_overlay_forward"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
-                android:background="@drawable/ic_lock" />
-        </LinearLayout>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toLeftOf="@+id/player_overlay_adv_function"
+                android:background="@drawable/ic_forward" />
 
+            <ImageButton
+                android:id="@+id/player_overlay_adv_function"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/dots"
+                android:onClick="showAdvancedOptions" />
+        </RelativeLayout>
     </RelativeLayout>
+
 </RelativeLayout>
