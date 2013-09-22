@@ -5,20 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bg_with_shadow">
-<!--
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="48dip"
-        android:orientation="horizontal"
-        android:background="@drawable/header">
-        <ImageView
-            android:src="@drawable/header_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/app_name" />
-    </LinearLayout>
--->
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
