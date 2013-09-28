@@ -148,7 +148,8 @@ public class AudioServiceController implements IAudioPlayerControl {
      * @param ap
      */
     public void addAudioPlayer(IAudioPlayer ap) {
-        mAudioPlayer.add(ap);
+        if (!mAudioPlayer.contains(ap))
+            mAudioPlayer.add(ap);
     }
 
     /**
@@ -156,9 +157,8 @@ public class AudioServiceController implements IAudioPlayerControl {
      * @param ap
      */
     public void removeAudioPlayer(IAudioPlayer ap) {
-        if (mAudioPlayer.contains(ap)) {
+        if (mAudioPlayer.contains(ap))
             mAudioPlayer.remove(ap);
-        }
     }
 
     /**

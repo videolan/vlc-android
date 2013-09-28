@@ -888,7 +888,8 @@ public class AudioService extends Service {
             if (count == null)
                 count = 0;
             mCallback.put(cb, count + 1);
-            mHandler.sendEmptyMessage(SHOW_PROGRESS);
+            if (hasCurrentMedia())
+                mHandler.sendEmptyMessage(SHOW_PROGRESS);
         }
 
         @Override
@@ -965,6 +966,7 @@ public class AudioService extends Service {
             mLibVLC.getMediaList().getEventHandler().addHandler(mListEventHandler);
 
             mLibVLC.playIndex(mCurrentIndex);
+            mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);
@@ -990,6 +992,7 @@ public class AudioService extends Service {
 
             mEventHandler.addHandler(mVlcEventHandler);
             mLibVLC.playIndex(mCurrentIndex);
+            mHandler.sendEmptyMessage(SHOW_PROGRESS);
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);
