@@ -177,7 +177,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     }
 
     @Override
-    public void update() {
+    public synchronized void update() {
         if (mAudioPlayerControl != null && getActivity() != null) {
 
             if (mAudioPlayerControl.hasMedia()) {

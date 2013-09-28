@@ -32,6 +32,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -67,6 +68,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private SeekBar mTimeline;
 
     private AudioServiceController mAudioController;
+    private boolean mOrientationChanged = false;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
 
@@ -196,6 +198,13 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mOrientationChanged = true;
+        update();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         mAudioController.addAudioPlayer(this);
@@ -224,11 +233,23 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     @Override
-    public void update() {
+    public synchronized void update() {
         // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
             getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
             return;
+        }
+
+        // because the activity is not recreated when orientation changes (configChanges in manifest),
+        // the fragment's layout is not refreshed between layout & layout-land.
+        // we have to do it manually
+        if (mOrientationChanged) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            ViewGroup rootView = (ViewGroup) getView();
+            rootView.removeAllViews();
+            rootView.addView(onCreateView(inflater, rootView, null));
+            lastTitle = "";
+            mOrientationChanged = false;
         }
 
         String title = mAudioController.getTitle();
