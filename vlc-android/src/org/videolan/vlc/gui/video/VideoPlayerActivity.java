@@ -372,7 +372,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         // Save position
         if (time >= 0) {
             if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
-                editor.putString(PreferencesActivity.LAST_MEDIA, mLocation);
                 MediaDatabase.getInstance(this).updateMedia(
                         mLocation,
                         MediaDatabase.mediaColumn.MEDIA_TIME,

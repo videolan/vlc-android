@@ -67,7 +67,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         }
     }
 
-    public void setLastMedia(String lastMRL, HashMap<String, Long> times) {
+    public void setTimes(HashMap<String, Long> times) {
         // update times
         for (int i = 0; i < getCount(); ++i) {
             Media media = getItem(i);

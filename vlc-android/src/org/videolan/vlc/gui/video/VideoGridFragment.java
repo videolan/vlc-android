@@ -36,7 +36,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.interfaces.ISortable;
 
@@ -47,7 +46,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -157,11 +155,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onResume() {
         super.onResume();
-        //Get & highlight the last media
-        SharedPreferences preferences = getActivity().getSharedPreferences(PreferencesActivity.NAME, Context.MODE_PRIVATE);
-        String lastPath = preferences.getString(PreferencesActivity.LAST_MEDIA, null);
+        //Get & set times
         HashMap<String, Long> times = MediaDatabase.getInstance(getActivity()).getVideoTimes(getActivity());
-        mVideoAdapter.setLastMedia(lastPath, times);
+        mVideoAdapter.setTimes(times);
         mVideoAdapter.notifyDataSetChanged();
         updateList();
         mMediaLibrary.addUpdateHandler(mHandler);

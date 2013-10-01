@@ -51,7 +51,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     public final static String TAG = "VLC/PreferencesActivity";
 
     public final static String NAME = "VlcSharedPreferences";
-    public final static String LAST_MEDIA = "LastMedia";
     public final static String VIDEO_RESUME_TIME = "VideoResumeTime";
     public final static String VIDEO_SUBTITLE_FILES = "VideoSubtitleFiles";
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
