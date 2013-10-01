@@ -67,7 +67,7 @@ public class HistoryAdapter extends BaseAdapter {
         MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
         for(int i = 0; i < items.size(); i++) {
             if(db.mediaItemExists(items.get(i)))
-                mHistory.add(db.getMedia(VLCApplication.getAppContext(), items.get(i)));
+                mHistory.add(db.getMedia(items.get(i)));
             else
                 mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
         }

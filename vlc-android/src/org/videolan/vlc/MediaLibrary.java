@@ -225,7 +225,7 @@ public class MediaLibrary {
             directories.addAll(mediaDirs);
 
             // get all existing media items
-            HashMap<String, Media> existingMedias = DBManager.getMedias(mContext);
+            HashMap<String, Media> existingMedias = DBManager.getMedias();
 
             // list of all added files
             HashSet<String> addedLocations = new HashSet<String>();

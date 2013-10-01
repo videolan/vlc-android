@@ -211,7 +211,7 @@ public class Media implements Comparable<Media> {
         }
     }
 
-    public Media(Context context, String location, long time, long length, int type,
+    public Media(String location, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album,
             int width, int height, String artworkURL, int audio, int spu) {
         mLocation = location;

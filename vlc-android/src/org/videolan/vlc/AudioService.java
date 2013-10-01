@@ -388,8 +388,7 @@ public class AudioService extends Service {
                     long length = service.mLibVLC.getLength();
                     MediaDatabase dbManager = MediaDatabase
                             .getInstance(VLCApplication.getAppContext());
-                    Media m = dbManager.getMedia(VLCApplication.getAppContext(),
-                            location);
+                    Media m = dbManager.getMedia(location);
                     /**
                      * 1) There is a media to update
                      * 2) It has a length of 0
@@ -941,7 +940,7 @@ public class AudioService extends Service {
             MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
-                Media media = db.getMedia(AudioService.this, location);
+                Media media = db.getMedia(location);
                 if(media == null) {
                     if(!validateLocation(location)) {
                         Log.w(TAG, "Invalid location " + location);
@@ -1031,7 +1030,7 @@ public class AudioService extends Service {
             MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
             for (int i = 0; i < mediaLocationList.size(); i++) {
                 String location = mediaLocationList.get(i);
-                Media media = db.getMedia(AudioService.this, location);
+                Media media = db.getMedia(location);
                 if(media == null) {
                     if (!validateLocation(location)) {
                         showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
@@ -1302,7 +1301,7 @@ public class AudioService extends Service {
             String location = mLibVLC.getMediaList().getMRL(i);
             Media media;
             if(i != skip) {
-                media = db.getMedia(AudioService.this, location);
+                media = db.getMedia(location);
                 if(media == null) {
                     if (!validateLocation(location)) {
                         showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
@@ -1314,7 +1313,6 @@ public class AudioService extends Service {
             } else {
                 // Prevent re-parsing the media, which would mean losing the connection
                 media = new Media(
-                        getApplicationContext(),
                         URI,
                         0,
                         0,

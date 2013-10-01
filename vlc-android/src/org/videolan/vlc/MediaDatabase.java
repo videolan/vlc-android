@@ -340,7 +340,7 @@ public class MediaDatabase {
         return files;
     }
 
-    public synchronized HashMap<String, Media> getMedias(Context context) {
+    public synchronized HashMap<String, Media> getMedias() {
 
         Cursor cursor;
         HashMap<String, Media> medias = new HashMap<String, Media>();
@@ -371,7 +371,7 @@ public class MediaDatabase {
             if (cursor.moveToFirst()) {
                 do {
                     String location = cursor.getString(12);
-                    Media media = new Media(context, location,
+                    Media media = new Media(location,
                             cursor.getLong(0),      // MEDIA_TIME
                             cursor.getLong(1),      // MEDIA_LENGTH
                             cursor.getInt(2),       // MEDIA_TYPE
@@ -433,7 +433,7 @@ public class MediaDatabase {
         return times;
     }
 
-    public synchronized Media getMedia(Context context, String location) {
+    public synchronized Media getMedia(String location) {
 
         Cursor cursor;
         Media media = null;
@@ -463,7 +463,7 @@ public class MediaDatabase {
             return null;
         }
         if (cursor.moveToFirst()) {
-            media = new Media(context, location,
+            media = new Media(location,
                     cursor.getLong(0),
                     cursor.getLong(1),
                     cursor.getInt(2),
