@@ -98,9 +98,10 @@ public class Media implements Comparable<Media> {
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
     public final static int TYPE_AUDIO = 1;
+    public final static int TYPE_GROUP = 2;
 
     /** Metadata from libvlc_media */
-    private String mTitle;
+    protected String mTitle;
     private String mArtist;
     private String mGenre;
     private String mCopyright;
@@ -239,6 +240,13 @@ public class Media implements Comparable<Media> {
     public int compareTo(Media another) {
         return mTitle.toUpperCase(Locale.getDefault()).compareTo(
                 another.getTitle().toUpperCase(Locale.getDefault()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MediaGroup || this instanceof MediaGroup)
+            return getTitle().equals(((Media)o).getTitle());
+        return super.equals(o);
     }
 
     public String getLocation() {

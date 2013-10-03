@@ -54,6 +54,10 @@
         <item quantity="one">1 fichier multimedia</item>
         <item quantity="other">%d fichiers multimedia</item>
     </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vidéo</item>
+        <item quantity="other">%d vidéos</item>
+    </plurals>
     <string name="internal_memory">Mémoire interne</string>
     <string name="parent_folder">Répertoire parent</string>
     <string name="audio">Audio</string>

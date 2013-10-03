@@ -107,6 +107,8 @@ public class Thumbnailer implements Runnable {
      * @param id the if of the file browser item.
      */
     public void addJob(Media item) {
+        if (item.getPicture() != null || item.isPictureParsed())
+            return;
         lock.lock();
         mItems.add(item);
         totalCount++;

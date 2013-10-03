@@ -61,6 +61,10 @@
         <item quantity="one">1 media file</item>
         <item quantity="other">%d media files</item>
     </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d videos</item>
+    </plurals>
 
     <string name="internal_memory">Internal memory</string>
     <string name="parent_folder">Up to parent folder</string>
