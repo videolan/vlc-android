@@ -196,7 +196,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
 
         holder.subtitle.setText(text);
-        holder.title.setText(media.getTitle() + "…");
+        holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
         holder.more.setVisibility(View.INVISIBLE);
     }
 
