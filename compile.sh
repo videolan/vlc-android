@@ -6,12 +6,17 @@
 
 set -e
 
-if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" -o -z "$ANDROID_ABI" ]; then
+if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
    echo "They must point to your NDK and SDK directories.\n"
-   echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
    exit 1
 fi
+
+if [ -z "$ANDROID_ABI" ]; then
+   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86 or mips."
+   exit 1
+fi
+
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in

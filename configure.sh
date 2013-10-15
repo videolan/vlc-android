@@ -1,8 +1,12 @@
 #!/bin/sh
 
-if [ -z "$ANDROID_NDK" -o -z "$ANDROID_ABI" ]; then
-    echo "Please set the ANDROID_NDK environment variable with its path.\n"
-    echo "ANDROID_ABI should match your ABI: armeabi-v7a, armeabi or ..."
+if [ -z "$ANDROID_NDK" ]; then
+    echo "Please set the ANDROID_NDK environment variable with its path."
+    exit 1
+fi
+
+if [ -z "$ANDROID_ABI" ]; then
+    echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86 or mips."
     exit 1
 fi
 
