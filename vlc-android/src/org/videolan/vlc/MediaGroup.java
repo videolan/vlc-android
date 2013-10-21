@@ -98,10 +98,10 @@ public class MediaGroup extends Media {
                 ++commonLength;
 
             // same prefix name, just add
-            if (commonLength == group.length())
+            if (commonLength == group.length() && mediaGroup.size() > 0)
                 mediaGroup.add(media);
             // not the same prefix, but close : merge
-            else if (commonLength > 0 && commonLength < group.length() && commonLength > MIN_GROUP_LENGTH)
+            else if (commonLength > 0 && (commonLength < group.length() || mediaGroup.size() == 0) && commonLength > MIN_GROUP_LENGTH)
                 mediaGroup.merge(media, group.subSequence(0, commonLength).toString());
             else
                 continue;
