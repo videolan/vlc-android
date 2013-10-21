@@ -168,7 +168,7 @@ cd ../..
 echo "Building the contribs"
 mkdir -p contrib/android
 cd contrib/android
-../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout --enable-small \
+../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
     --disable-dca \
     --disable-goom \
     --disable-chromaprint \
