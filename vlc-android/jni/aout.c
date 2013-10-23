@@ -79,10 +79,35 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     LOGV ("Number of channels forced to 2, number of samples to %d", FRAME_SIZE);
     *nb_channels = 2;
 
-    (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdInitAout,
-                              *rate, *nb_channels, FRAME_SIZE);
-    if ((*p_env)->ExceptionCheck (p_env))
-    {
+    int aout_rate = *rate;
+    while (1) {
+        (*p_env)->CallVoidMethod (p_env, p_sys->j_libVlc, methodIdInitAout,
+                                  aout_rate, *nb_channels, FRAME_SIZE);
+        if ((*p_env)->ExceptionCheck (p_env) == 0) {
+            *rate = aout_rate;
+            break;
+        }
+
+        if (aout_rate <= 0) {
+            LOGE ("initAout failed, invalid sample rate %dHz", aout_rate);
+        } else if (aout_rate != 44100) {
+            if (aout_rate < 4000) {
+                do {
+                    aout_rate *= 2;
+                } while (aout_rate < 4000);
+            } else if (aout_rate > 48000) {
+                do {
+                    aout_rate /= 2;
+                } while (aout_rate > 48000);
+            } else {
+                aout_rate = 44100;
+            }
+
+            LOGE ("initAout failed, try next sample rate %dHz", aout_rate);
+            (*p_env)->ExceptionClear (p_env);
+            continue;
+        }
+
         LOGE ("Unable to create audio player!");
 #ifndef NDEBUG
         (*p_env)->ExceptionDescribe (p_env);
