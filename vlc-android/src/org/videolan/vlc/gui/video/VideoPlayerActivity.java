@@ -1525,7 +1525,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mLibVLC.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             mLibVLC.setMediaList();
-            mLibVLC.getMediaList().add(mLocation, false);
+            mLibVLC.getMediaList().add(new Media(mLocation, false));
             savedIndexPosition = mLibVLC.getMediaList().size() - 1;
             mLibVLC.playIndex(savedIndexPosition);
         }
