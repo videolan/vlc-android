@@ -387,18 +387,6 @@ public class LibVLC {
         mAout.release();
     }
 
-    public void readMedia(String mrl) {
-        readMedia(mLibVlcInstance, mrl, false);
-    }
-
-    /**
-     * Read a media.
-     */
-    public int readMedia(String mrl, boolean novideo) {
-        Log.v(TAG, "Reading " + mrl);
-        return readMedia(mLibVlcInstance, mrl, novideo);
-    }
-
     /**
      * Play a media from the media list (playlist)
      *
@@ -466,15 +454,6 @@ public class LibVLC {
     public boolean isDebugBuffering() {
         return mIsBufferingLog;
     }
-
-    /**
-     * Read a media
-     * @param instance: the instance of libVLC
-     * @param mrl: the media mrl
-     * @param novideo: don't enable video decoding for this media
-     * @return the position in the playlist
-     */
-    private native int readMedia(long instance, String mrl, boolean novideo);
 
     /**
      * Play an index in the native media list (playlist)

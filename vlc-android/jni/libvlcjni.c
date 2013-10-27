@@ -375,37 +375,6 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     libvlc_media_player_play(mp);
 }
 
-jint Java_org_videolan_libvlc_LibVLC_readMedia(JNIEnv *env, jobject thiz,
-                                            jlong instance, jstring mrl, jboolean novideo)
-{
-    /* Create a new item */
-    libvlc_media_t *m = new_media(instance, env, thiz, mrl, false, novideo);
-    if (!m)
-    {
-        LOGE("readMedia: Could not create the media!");
-        return -1;
-    }
-
-    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
-
-    libvlc_media_list_lock(p_mlist);
-    if(libvlc_media_list_add_media(p_mlist, m) != 0) {
-        LOGE("readMedia: Could not add to the media list!");
-        libvlc_media_list_unlock(p_mlist);
-        libvlc_media_release(m);
-        return -1;
-    }
-    int position = libvlc_media_list_index_of_item(p_mlist, m);
-    libvlc_media_list_unlock(p_mlist);
-
-    /* No need to keep the media now */
-    libvlc_media_release(m);
-
-    create_player_and_play(env, thiz, instance, position);
-
-    return position;
-}
-
 void Java_org_videolan_libvlc_LibVLC_playIndex(JNIEnv *env, jobject thiz,
                                             jlong instance, int position) {
     create_player_and_play(env, thiz, instance, position);
