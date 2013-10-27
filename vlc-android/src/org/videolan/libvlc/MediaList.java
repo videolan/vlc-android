@@ -20,56 +20,68 @@
  *****************************************************************************/
 package org.videolan.libvlc;
 
+import java.util.ArrayList;
+
+import org.videolan.vlc.Media;
+
+import android.os.Bundle;
+
 /**
  * Java/JNI wrapper for the libvlc_media_list_t structure.
  */
 public class MediaList {
     private static final String TAG = "VLC/LibVLC/MediaList";
 
-    private long mMediaListInstance = 0; // Read-only, reserved for JNI
-    private long mEventHanderGlobalRef = 0; // Read-only, reserved for JNI
+    /* Since the libvlc_media_t is not created until the media plays, we have
+     * to cache them here. */
+    private class MediaHolder {
+        Media m;
+        boolean noVideo; // default false
+        boolean noOmx; // default false
+
+        public MediaHolder(Media media) {
+            m = media; noVideo = false; noOmx = false;
+        }
+        public MediaHolder(Media m_, boolean noVideo_, boolean noOmx_) {
+            m = m_; noVideo = noVideo_; noOmx = noOmx_;
+        }
+    }
+
+    /* TODO: add locking */
+    private ArrayList<MediaHolder> mInternalList;
     private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
-    private boolean destroyed = false;
     private EventHandler mEventHandler;
 
     public MediaList(LibVLC libVLC) {
         mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
-        mMediaListInstance = init(libVLC);
+        mInternalList = new ArrayList<MediaHolder>();
         mLibVLC = libVLC;
     }
-    private native long init(LibVLC libvlc_instance);
-
-    @Override
-    public void finalize() {
-        if(!destroyed) destroy();
-    }
-
-    /**
-     * Releases the media list.
-     *
-     * The object should be considered released after this and must not be used.
-     */
-    public void destroy() {
-        nativeDestroy();
-        mMediaListInstance = 0;
-        mEventHanderGlobalRef = 0;
-        mLibVLC = null;
-        destroyed = true;
-    }
-    private native void nativeDestroy();
 
     public void add(String mrl) {
-        add(mLibVLC, mrl, false, false);
+        add(new Media(mrl, false));
     }
-    public void add(String mrl, boolean noVideo) {
-        add(mLibVLC, mrl, noVideo, false);
+    public void add(Media media) {
+        add(media, false, false);
     }
-    private native void add(LibVLC libvlc_instance, String mrl, boolean noVideo, boolean noOmx);
+    public void add(Media media, boolean noVideo) {
+        add(media, noVideo, false);
+    }
+    public void add(Media media, boolean noVideo, boolean noOmx) {
+        mInternalList.add(new MediaHolder(media, noVideo, noOmx));
+        signal_list_event(EventHandler.MediaListItemAdded, mInternalList.size() - 1, media.getLocation());
+    }
 
     /**
      * Clear the media list. (remove all media)
      */
-    public native void clear();
+    public void clear() {
+        // Signal to observers of media being deleted.
+        for(int i = 0; i < mInternalList.size(); i++) {
+            signal_list_event(EventHandler.MediaListItemDeleted, i, mInternalList.get(i).m.getLocation());
+        }
+        mInternalList.clear();
+    }
 
     /**
      * This function checks the currently playing media for subitems at the given
@@ -80,29 +92,57 @@ public class MediaList {
      * @return -1 if no subitems were found, 0 if subitems were expanded
      */
     public int expandMedia(int position) {
-        return expandMedia(mLibVLC, position);
+        ArrayList<String> children = new ArrayList<String>();
+        int ret = expandMedia(mLibVLC, position, children);
+        if(ret == 0) {
+            this.remove(position);
+            for(String mrl : children) {
+                this.insert(position, mrl);
+            }
+        }
+        return ret;
     }
-    private native int expandMedia(LibVLC libvlc_instance, int position);
+    private native int expandMedia(LibVLC libvlc_instance, int position, ArrayList<String> children);
 
     public void loadPlaylist(String mrl) {
-        loadPlaylist(mLibVLC, mrl);
+        ArrayList<String> items = new ArrayList<String>();
+        loadPlaylist(mLibVLC, mrl, items);
+        this.clear();
+        for(String item : items) {
+            this.add(item);
+        }
     }
-    private native void loadPlaylist(LibVLC libvlc_instance, String mrl);
+    private native void loadPlaylist(LibVLC libvlc_instance, String mrl, ArrayList<String> items);
 
     public void insert(int position, String mrl) {
-        insert(mLibVLC, position, mrl);
+        insert(position, new Media(mrl, false));
     }
-    private native void insert(LibVLC libvlc_instance, int position, String mrl);
+    public void insert(int position, Media media) {
+        mInternalList.add(position, new MediaHolder(media));
+        signal_list_event(EventHandler.MediaListItemAdded, position, media.getLocation());
+    }
 
-    public native void remove(int position);
+    public void remove(int position) {
+        String uri = mInternalList.get(position).m.getLocation();
+        mInternalList.remove(position);
+        signal_list_event(EventHandler.MediaListItemDeleted, position, uri);
+    }
 
-    public native int size();
+    public int size() {
+        return mInternalList.size();
+    }
+
+    public Media getMedia(int position) {
+        return mInternalList.get(position).m;
+    }
 
     /**
      * @param position The index of the media in the list
      * @return null if not found
      */
-    public native String getMRL(int position);
+    public String getMRL(int position) {
+        return mInternalList.get(position).m.getLocation();
+    }
 
     public EventHandler getEventHandler() {
         return mEventHandler;
@@ -120,5 +160,12 @@ public class MediaList {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    private void signal_list_event(int event, int position, String uri) {
+        Bundle b = new Bundle();
+        b.putString("item_uri", uri);
+        b.putInt("item_index", position);
+        mEventHandler.callback(event, b);
     }
 }
