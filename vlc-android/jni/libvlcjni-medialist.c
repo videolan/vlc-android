@@ -86,8 +86,7 @@ jint Java_org_videolan_libvlc_MediaList_expandMedia(JNIEnv *env, jobject thiz, j
         );
 }
 
-void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, jobject libvlcJava, jstring mrl) {
-    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
+void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, jobject libvlcJava, jstring mrl, jobject items) {
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
 
     libvlc_media_t *p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"), p_mrl);
@@ -121,9 +120,7 @@ void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, 
 
     libvlc_media_player_release(p_mp);
 
-    libvlc_media_list_lock(p_ml);
     expand_media_internal(env, (libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"), items, p_md);
-    libvlc_media_list_unlock(p_ml);
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
 }
