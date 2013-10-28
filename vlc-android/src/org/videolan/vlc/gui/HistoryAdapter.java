@@ -20,13 +20,10 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.Media;
-import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
@@ -46,41 +43,29 @@ public class HistoryAdapter extends BaseAdapter {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
-    private List<Media> mHistory;
+    private LibVLC mLibVLC;
 
     public HistoryAdapter() {
         mInflater = LayoutInflater.from(VLCApplication.getAppContext());
-        mHistory = new ArrayList<Media>();
-
-        ArrayList<String> items = new ArrayList<String>();
-        LibVLC libVLC = LibVLC.getExistingInstance();
-        if (libVLC != null)
-            libVLC.getMediaListItems(items);
-
-       addToHistory(items, libVLC);
-
-        EventHandler em = libVLC.getPrimaryMediaList().getEventHandler();
-        em.addHandler(new HistoryEventHandler(this));
-    }
-
-    private void addToHistory(ArrayList<String> items, LibVLC libVLC) {
-        MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
-        for(int i = 0; i < items.size(); i++) {
-            if(db.mediaItemExists(items.get(i)))
-                mHistory.add(db.getMedia(items.get(i)));
-            else
-                mHistory.add(new Media(items.get(i), libVLC.getPrimaryMediaList(), i));
+        try {
+            mLibVLC = LibVLC.getInstance();
+        } catch (LibVlcException e) {
+            Log.d(TAG, "LibVlcException encountered in HistoryAdapter", e);
+            return;
         }
+
+        EventHandler em = mLibVLC.getPrimaryMediaList().getEventHandler();
+        em.addHandler(new HistoryEventHandler(this));
     }
 
     @Override
     public int getCount() {
-        return mHistory.size();
+        return mLibVLC.getPrimaryMediaList().size();
     }
 
     @Override
     public Object getItem(int arg0) {
-        return mHistory.get(arg0).getLocation();
+        return mLibVLC.getPrimaryMediaList().getMRL(arg0);
     }
 
     @Override
@@ -107,7 +92,7 @@ public class HistoryAdapter extends BaseAdapter {
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
 
         String holderText = "";
-        Media m = mHistory.get(position);
+        Media m = mLibVLC.getPrimaryMediaList().getMedia(position);
         Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
         holder.title.setText(m.getTitle());
         holderText = m.getSubtitle();
@@ -132,23 +117,14 @@ public class HistoryAdapter extends BaseAdapter {
     public void updateEvent(Boolean added, String uri, int index) {
         if(added) {
             Log.v(TAG, "Added index " + index + ": " + uri);
-            mHistory.add(index, new Media(uri, LibVLC.getExistingInstance().getPrimaryMediaList(), index));
         } else {
             Log.v(TAG, "Removed index " + index + ": " + uri);
-            mHistory.remove(index);
         }
         notifyDataSetChanged();
     }
 
     public void refresh() {
-        ArrayList<String> items = new ArrayList<String>();
-        LibVLC libVLC = LibVLC.getExistingInstance();
-        if (libVLC != null) {
-            libVLC.getMediaListItems(items);
-            mHistory.clear();
-            addToHistory(items, libVLC);
-            this.notifyDataSetChanged();
-        }
+        this.notifyDataSetChanged();
     }
 
     /**
