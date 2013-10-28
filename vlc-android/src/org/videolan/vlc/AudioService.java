@@ -457,6 +457,9 @@ public class AudioService extends Service {
     private final Handler mListEventHandler = new MediaListEventHandler(this);
 
     private static class MediaListEventHandler extends WeakHandler<AudioService> {
+        // Don't clobber mCurrentIndex when MediaList is expanding itself.
+        boolean expanding = false;
+
         public MediaListEventHandler(AudioService audioService) {
             super(audioService);
         }
@@ -471,14 +474,20 @@ public class AudioService extends Service {
             case EventHandler.MediaListItemAdded:
                 Log.i(TAG, "MediaListItemAdded");
                 index = msg.getData().getInt("item_index");
-                if(service.mCurrentIndex >= index)
+                if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex++;
                 break;
             case EventHandler.MediaListItemDeleted:
                 Log.i(TAG, "MediaListItemDeleted");
                 index = msg.getData().getInt("item_index");
-                if(service.mCurrentIndex >= index)
+                if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex--;
+                break;
+            case EventHandler.CustomMediaListExpanding:
+                expanding = true;
+                break;
+            case EventHandler.CustomMediaListExpandingEnd:
+                expanding = false;
                 break;
             }
         }
