@@ -329,8 +329,6 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
-    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
-
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)(intptr_t)instance);
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
@@ -368,9 +366,33 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     (*env)->CallVoidMethod(env, thiz, methodID);
 
     setInt(env, thiz, "mInternalMediaPlayerIndex", (jint)position);
-    libvlc_media_list_lock(p_mlist);
-    libvlc_media_t* p_md = libvlc_media_list_item_at_index(p_mlist, position);
-    libvlc_media_list_unlock(p_mlist);
+
+    jfieldID fid = (*env)->GetFieldID(env, cls, "mMediaList", "Lorg/videolan/libvlc/MediaList;");
+    jobject list = (*env)->GetObjectField(env, thiz, fid);
+    jclass clsList = (*env)->FindClass(env, "org/videolan/libvlc/MediaList");
+
+    methodID = (*env)->GetMethodID(env, clsList, "getMRL", "(I)Ljava/lang/String;");
+    jstring mrl = (jstring)(*env)->CallObjectMethod(env, list, methodID, (jint)position);
+    const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, 0);
+
+    libvlc_media_t* p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)instance, p_mrl);
+    /* media options */
+    methodID = (*env)->GetMethodID(env, clsList, "getMediaOptions", "(I)[Ljava/lang/String;");
+    jobjectArray mediaOptions = (jobject)(*env)->CallObjectMethod(env, list, methodID, (jint)position);
+    int stringCount = (*env)->GetArrayLength(env, mediaOptions);
+    for(int i = 0; i < stringCount; i++) {
+        jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
+        const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
+        libvlc_media_add_option(p_md, p_st); // option
+        (*env)->ReleaseStringUTFChars(env, option, p_st);
+    }
+
+    (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
+    (*env)->DeleteLocalRef(env, mrl);
+    (*env)->DeleteLocalRef(env, mediaOptions);
+    (*env)->DeleteLocalRef(env, list);
+    list = NULL;
+
     libvlc_media_player_set_media(mp, p_md);
     libvlc_media_player_play(mp);
 }
