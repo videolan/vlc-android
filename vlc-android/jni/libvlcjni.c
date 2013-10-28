@@ -74,15 +74,6 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
     return p_md;
 }
 
-// Get the current media list being followed
-libvlc_media_list_t* getMediaList(JNIEnv *env, jobject thiz) {
-    jclass clazz = (*env)->GetObjectClass(env, thiz);
-    jfieldID fieldMP = (*env)->GetFieldID(env, clazz,
-                                          "mMediaList", "Lorg/videolan/libvlc/MediaList;");
-    jobject javaML = (*env)->GetObjectField(env, thiz, fieldMP);
-    return getMediaListFromJava(env, javaML);
-}
-
 libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
     return (libvlc_media_player_t*)(intptr_t)getLong(env, thiz, "mInternalMediaPlayerInstance");
@@ -400,24 +391,6 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
 void Java_org_videolan_libvlc_LibVLC_playIndex(JNIEnv *env, jobject thiz,
                                             jlong instance, int position) {
     create_player_and_play(env, thiz, instance, position);
-}
-
-void Java_org_videolan_libvlc_LibVLC_getMediaListItems(
-                JNIEnv *env, jobject thiz, jobject arrayList) {
-    jclass arrayClass = (*env)->FindClass(env, "java/util/ArrayList");
-    jmethodID methodID = (*env)->GetMethodID(env, arrayClass, "add", "(Ljava/lang/Object;)Z");
-    jstring str;
-
-    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
-    libvlc_media_list_lock( p_mlist );
-    for(int i = 0; i < libvlc_media_list_count( p_mlist ); i++) {
-        char* mrl = libvlc_media_get_mrl( libvlc_media_list_item_at_index( p_mlist, i ) );
-        str = (*env)->NewStringUTF(env, mrl);
-        (*env)->CallBooleanMethod(env, arrayList, methodID, str);
-        (*env)->DeleteLocalRef(env, str);
-        free(mrl);
-    }
-    libvlc_media_list_unlock( p_mlist );
 }
 
 jfloat Java_org_videolan_libvlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {

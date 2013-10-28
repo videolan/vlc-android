@@ -593,11 +593,6 @@ public class LibVLC {
 
     public native static boolean nativeIsPathDirectory(String path);
 
-    /**
-     * Get the list of existing items in the media list (playlist)
-     */
-    public native void getMediaListItems(ArrayList<String> arl);
-
      /**
       * Expand and continue playing the current media.
       *
