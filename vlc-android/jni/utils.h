@@ -39,6 +39,10 @@ void setFloat(JNIEnv *env, jobject item, const char* field, jfloat value);
 
 void setString(JNIEnv *env, jobject item, const char* field, const char* text);
 
+void arrayListGetIDs(JNIEnv *env, jclass* p_class, jmethodID* p_add, jmethodID* p_remove);
+
+void arrayListStringAdd(JNIEnv *env, jclass class, jmethodID methodID, jobject arrayList, const char* str);
+
 jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler);
 
 void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap);
