@@ -95,10 +95,12 @@ public class MediaList {
         ArrayList<String> children = new ArrayList<String>();
         int ret = expandMedia(mLibVLC, position, children);
         if(ret == 0) {
+            mEventHandler.callback(EventHandler.CustomMediaListExpanding, new Bundle());
             this.remove(position);
             for(String mrl : children) {
                 this.insert(position, mrl);
             }
+            mEventHandler.callback(EventHandler.CustomMediaListExpandingEnd, new Bundle());
         }
         return ret;
     }
