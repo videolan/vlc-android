@@ -124,34 +124,3 @@ void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, 
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
 }
-
-void Java_org_videolan_libvlc_MediaList_add(JNIEnv *env, jobject thiz, jobject libvlcInstance, jstring mrl, bool noVideo, bool noOmx) {
-    libvlc_media_list_t* p_ml = getMediaListFromJava(env, thiz);
-    const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
-    libvlc_media_t *p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)getLong(env, libvlcInstance, "mLibVlcInstance"), p_mrl);
-    if (!noOmx) {
-        jclass cls = (*env)->GetObjectClass(env, libvlcInstance);
-        jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
-        if ((*env)->CallBooleanMethod(env, libvlcInstance, methodId)) {
-            /*
-             * Set higher caching values if using iomx decoding, since some omx
-             * decoders have a very high latency, and if the preroll data isn't
-             * enough to make the decoder output a frame, the playback timing gets
-             * started too soon, and every decoded frame appears to be too late.
-             * On Nexus One, the decoder latency seems to be 25 input packets
-             * for 320x170 H.264, a few packets less on higher resolutions.
-             * On Nexus S, the decoder latency seems to be about 7 packets.
-             */
-            libvlc_media_add_option(p_md, ":file-caching=1500");
-            libvlc_media_add_option(p_md, ":network-caching=1500");
-            libvlc_media_add_option(p_md, ":codec=mediacodec,iomx,all");
-        }
-        if (noVideo)
-            libvlc_media_add_option(p_md, ":no-video");
-    }
-    libvlc_media_list_lock(p_ml);
-    libvlc_media_list_add_media(p_ml, p_md);
-    libvlc_media_list_unlock(p_ml);
-    libvlc_media_release(p_md);
-    (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
-}
