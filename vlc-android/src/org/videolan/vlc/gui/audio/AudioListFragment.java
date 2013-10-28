@@ -184,10 +184,11 @@ public class AudioListFragment extends SherlockListFragment {
         }
         if (append)
             mAudioController.append(medias);
-        else
+        else {
             mAudioController.load(medias, startPosition);
+            AudioPlayerFragment.start(getActivity());
+        }
 
-        AudioPlayerFragment.start(getActivity());
         return super.onContextItemSelected(item);
     }
 
