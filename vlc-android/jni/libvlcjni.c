@@ -472,29 +472,6 @@ void Java_org_videolan_libvlc_LibVLC_stop(JNIEnv *env, jobject thiz)
         libvlc_media_player_stop(mp);
 }
 
-void Java_org_videolan_libvlc_LibVLC_previous(JNIEnv *env, jobject thiz)
-{
-    int current_position = getInt(env, thiz, "mInternalMediaPlayerIndex");
-
-    if(current_position-1 >= 0) {
-        setInt(env, thiz, "mInternalMediaPlayerIndex", (jint)(current_position-1));
-        create_player_and_play(env, thiz,
-             getLong(env, thiz, "mLibVlcInstance"), current_position-1);
-    }
-}
-
-void Java_org_videolan_libvlc_LibVLC_next(JNIEnv *env, jobject thiz)
-{
-    libvlc_media_list_t* p_mlist = getMediaList(env, thiz);
-    int current_position = getInt(env, thiz, "mInternalMediaPlayerIndex");
-
-    if(current_position+1 < libvlc_media_list_count(p_mlist)) {
-        setInt(env, thiz, "mInternalMediaPlayerIndex", (jint)(current_position+1));
-        create_player_and_play(env, thiz,
-             getLong(env, thiz, "mLibVlcInstance"), current_position+1);
-    }
-}
-
 jint Java_org_videolan_libvlc_LibVLC_getVolume(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
