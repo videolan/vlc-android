@@ -255,16 +255,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSubtitle = (ImageButton) findViewById(R.id.player_overlay_subtitle);
         mSubtitle.setVisibility(View.GONE);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /*FIXME
-                 * The setTracksAndSubtitles method probably doesn't work in case of many many Tracks and Subtitles
-                 * Moreover, in a video stream, if Tracks & Subtitles change, they won't be updated
-                 */
-                setESTrackLists();
-            }}, 1500);
-
         mLock = (ImageButton) findViewById(R.id.lock_overlay_button);
         mLock.setOnClickListener(mLockListener);
 
