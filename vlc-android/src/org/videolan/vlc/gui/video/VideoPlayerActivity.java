@@ -434,8 +434,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 }
             }}, 500);
 
-        showOverlay();
-
         // Add any selected subtitle file from the file picker
         if(mSubtitleSelectedFiles.size() > 0) {
             for(String file : mSubtitleSelectedFiles) {
@@ -667,6 +665,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             switch (msg.getData().getInt("event")) {
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+                    activity.showOverlay();
                     activity.setESTracks();
                     break;
                 case EventHandler.MediaPlayerPaused:
