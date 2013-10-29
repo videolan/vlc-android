@@ -330,13 +330,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        showOverlay();
-        mSwitchingView = false;
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
 
@@ -420,6 +413,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     @Override
     protected void onResume() {
         super.onResume();
+        mSwitchingView = false;
         AudioServiceController.getInstance().bindAudioService(this);
 
         load();
