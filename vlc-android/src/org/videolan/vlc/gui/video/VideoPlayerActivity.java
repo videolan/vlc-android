@@ -440,20 +440,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.i(TAG, "Adding user-selected subtitle " + file);
                 mLibVLC.addSubtitleTrack(file);
             }
-            /** FIXME remove when #7540 ES are not updated mid-stream
-             *  a.k.a. subtitle events is fixed
-             */
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setESTrackLists(true);
-
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setESTrackLists(true);
-                        }}, 1200);
-                }}, 1000);
         }
     }
 
@@ -666,6 +652,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     activity.showOverlay();
+                    /** FIXME: update the track list when it changes during the playback. */
+                    activity.setESTrackLists(true);
                     activity.setESTracks();
                     break;
                 case EventHandler.MediaPlayerPaused:
