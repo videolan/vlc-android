@@ -642,7 +642,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     activity.showOverlay();
-                    /** FIXME: update the track list when it changes during the playback. */
+                    /** FIXME: update the track list when it changes during the
+                     *  playback. (#7540) */
                     activity.setESTrackLists(true);
                     activity.setESTracks();
                     break;
