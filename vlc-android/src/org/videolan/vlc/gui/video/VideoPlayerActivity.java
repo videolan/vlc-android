@@ -211,7 +211,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                             if (visibility == mUiVisibility)
                                 return;
                             setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing) {
+                            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && !isFinishing()) {
                                 showOverlay();
                             }
                             mUiVisibility = visibility;
