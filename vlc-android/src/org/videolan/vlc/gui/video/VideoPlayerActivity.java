@@ -23,9 +23,12 @@ package org.videolan.vlc.gui.video;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.StreamCorruptedException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
@@ -69,6 +72,7 @@ import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -1460,6 +1464,28 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
                     if (cursor.moveToFirst())
                         mLocation = LibVLC.PathToURI(cursor.getString(column_index));
+                } else if(getIntent().getData().getHost().equals("com.fsck.k9.attachmentprovider")
+                       || getIntent().getData().getHost().equals("gmail-ls")) {
+                    // Mail-based apps - download the stream to a temporary file and play it
+                    try {
+                        Cursor cursor = getContentResolver().query(getIntent().getData(), new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
+                        cursor.moveToFirst();
+                        String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
+                        Log.i(TAG, "Getting file " + filename + " from content:// URI");
+                        InputStream is = getContentResolver().openInputStream(getIntent().getData());
+                        OutputStream os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = 0;
+                        while((bytesRead = is.read(buffer)) >= 0) {
+                            os.write(buffer, 0, bytesRead);
+                        }
+                        os.close();
+                        is.close();
+                        mLocation = LibVLC.PathToURI(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Couldn't download file from mail URI");
+                        encounteredError();
+                    }
                 } else {
                     // other content-based URI (probably file pickers)
                     mLocation = getIntent().getData().getPath();
