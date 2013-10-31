@@ -1392,10 +1392,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     }
 
-    private void setESTrackLists() {
-        setESTrackLists(false);
-    }
-
     private void setESTrackLists(boolean force) {
         if(mAudioTracksList == null || force) {
             if (mLibVLC.getAudioTracksCount() > 2) {
