@@ -30,6 +30,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.Media;
 import org.videolan.vlc.MurmurHash;
@@ -61,7 +62,7 @@ public class AudioUtil {
     public static String PLAYLIST_DIR = null;
 
     public static void setRingtone( Media song, Activity activity){
-        File newringtone = Util.URItoFile(song.getLocation());
+        File newringtone = LibVlcUtil.URItoFile(song.getLocation());
         if(!newringtone.exists()) {
             Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
@@ -176,7 +177,7 @@ public class AudioUtil {
     }
 
     private static String getCoverFromFolder(Context context, Media media) {
-        File f = Util.URItoFile(media.getLocation());
+        File f = LibVlcUtil.URItoFile(media.getLocation());
         if (f != null && f.getParentFile() != null && f.getParentFile().listFiles() != null)
             for (File s : f.getParentFile().listFiles()) {
                 if (s.getAbsolutePath().endsWith("png")

@@ -31,6 +31,7 @@ import java.nio.ByteOrder;
 import java.util.Locale;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
@@ -66,6 +67,14 @@ public class LibVlcUtil {
     private static boolean isCompatible = false;
     public static String getErrorMsg() {
         return errorMsg;
+    }
+
+    public static File URItoFile(String URI) {
+        return new File(Uri.decode(URI).replace("file://",""));
+    }
+
+    public static String URItoFileName(String URI) {
+        return URItoFile(URI).getName();
     }
 
     public static boolean hasCompatibleCPU(Context context)

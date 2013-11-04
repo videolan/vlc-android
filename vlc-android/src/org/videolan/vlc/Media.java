@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.TrackInfo;
 
 import android.content.Context;
@@ -237,7 +238,7 @@ public class Media implements Comparable<Media> {
 
     public String getFileName() {
         if (mFilename == null) {
-            mFilename = Util.URItoFileName(mLocation);
+            mFilename = LibVlcUtil.URItoFileName(mLocation);
         }
         return mFilename;
     }

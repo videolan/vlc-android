@@ -21,7 +21,6 @@
 package org.videolan.vlc;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,7 +43,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
@@ -155,14 +153,6 @@ public class Util {
 
     public static void toaster(Context context, int stringId) {
         toaster(context, stringId, Toast.LENGTH_SHORT);
-    }
-
-    public static File URItoFile(String URI) {
-        return new File(Uri.decode(URI).replace("file://",""));
-    }
-
-    public static String URItoFileName(String URI) {
-        return URItoFile(URI).getName();
     }
 
     public static String stripTrailingSlash(String s) {
