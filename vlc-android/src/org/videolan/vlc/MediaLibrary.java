@@ -34,6 +34,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -206,6 +207,14 @@ public class MediaLibrary {
 
         @Override
         public void run() {
+            LibVLC libVlcInstance;
+            try {
+                libVlcInstance = Util.getLibVlcInstance();
+            } catch (LibVlcException e1) {
+                Log.e(TAG, "ERROR: LibVLCException while trying to get instance");
+                return;
+            }
+
             // Initialize variables
             final MediaDatabase DBManager = MediaDatabase.getInstance(VLCApplication.getAppContext());
 
@@ -311,7 +320,7 @@ public class MediaLibrary {
                     } else {
                         mItemListLock.writeLock().lock();
                         // create new media item
-                        mItemList.add(new Media(fileURI, true));
+                        mItemList.add(new Media(libVlcInstance, fileURI, true));
                         mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {

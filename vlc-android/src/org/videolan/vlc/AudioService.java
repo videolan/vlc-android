@@ -947,7 +947,7 @@ public class AudioService extends Service {
                         continue;
                     }
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    media = new Media(location, false);
+                    media = new Media(mLibVLC, location, false);
                 }
                 mediaList.add(media, noVideo);
             }
@@ -1033,7 +1033,7 @@ public class AudioService extends Service {
                         continue;
                     }
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    media = new Media(location, false);
+                    media = new Media(mLibVLC, location, false);
                 }
                 mLibVLC.getMediaList().add(media);
             }

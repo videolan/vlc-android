@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.TrackInfo;
 
 import android.content.Context;
@@ -130,24 +129,20 @@ public class Media implements Comparable<Media> {
 
     /**
      * Create a new Media
-     * @param context Application context of the caller
-     * @param media URI
+     * @param libVLC A pointer to the libVLC instance. Should not be NULL
+     * @param URI The URI of the media.
      * @param addToDb Should it be added to the file database?
      */
-    public Media(String URI, Boolean addToDb) {
+    public Media(LibVLC libVLC, String URI, Boolean addToDb) {
+        if(libVLC == null)
+            throw new NullPointerException("libVLC was null");
+
         mLocation = URI;
 
-        LibVLC mLibVlc = null;
-        try {
-            mLibVlc = Util.getLibVlcInstance();
-            mType = TYPE_ALL;
+        mType = TYPE_ALL;
+        TrackInfo[] tracks = libVLC.readTracksInfo(mLocation);
 
-            TrackInfo[] tracks = mLibVlc.readTracksInfo(mLocation);
-
-            extractTrackInfo(tracks);
-        } catch (LibVlcException e) {
-            e.printStackTrace();
-        }
+        extractTrackInfo(tracks);
 
         if (addToDb) {
             // Add this item to database
