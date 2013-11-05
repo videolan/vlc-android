@@ -99,7 +99,8 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --enable-libxml2 \
                 --disable-caca \
                 --disable-glx \
-                --disable-egl \
+                --enable-egl \
+                --enable-gles2 \
                 --disable-goom \
                 --disable-projectm \
                 --disable-sout \
