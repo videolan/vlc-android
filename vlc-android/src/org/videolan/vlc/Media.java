@@ -20,6 +20,8 @@
 
 package org.videolan.vlc;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -159,9 +161,9 @@ public class Media implements Comparable<Media> {
             } else if (track.Type == TrackInfo.TYPE_META) {
                 mLength = track.Length;
                 mTitle = track.Title;
-                mArtist = Util.getValue(track.Artist, R.string.unknown_artist);
-                mAlbum = Util.getValue(track.Album, R.string.unknown_album);
-                mGenre = Util.getValue(track.Genre, R.string.unknown_genre);
+                mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist);
+                mAlbum = getValueWrapper(track.Album, UnknownStringType.Album);
+                mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre);
                 mArtworkURL = track.ArtworkURL;
                 Log.d(TAG, "Title " + mTitle);
                 Log.d(TAG, "Artist " + mArtist);
@@ -199,10 +201,67 @@ public class Media implements Comparable<Media> {
         mHeight = height;
 
         mTitle = title;
-        mArtist = Util.getValue(artist, R.string.unknown_artist);
-        mGenre = Util.getValue(genre, R.string.unknown_genre);
-        mAlbum = Util.getValue(album, R.string.unknown_album);
+        mArtist = getValueWrapper(artist, UnknownStringType.Artist);
+        mGenre = getValueWrapper(genre, UnknownStringType.Genre);
+        mAlbum = getValueWrapper(album, UnknownStringType.Album);
         mArtworkURL = artworkURL;
+    }
+
+    private enum UnknownStringType { Artist , Genre, Album };
+    /**
+     * Uses introspection to read VLC l10n databases, so that we can sever the
+     * hard-coded dependency gracefully for 3rd party libvlc apps while still
+     * maintaining good l10n in VLC for Android.
+     *
+     * @see org.videolan.vlc.Util#getValue(String, int)
+     *
+     * @param string The default string
+     * @param type Alias for R.string.xxx
+     * @return The default string if not empty or string from introspection
+     */
+    private static String getValueWrapper(String string, UnknownStringType type) {
+        if(string != null && string.length() > 0) return string;
+
+        try {
+            Class<?> stringClass = Class.forName("org.videolan.vlc.R$string");
+            Class<?> utilClass = Class.forName("org.videolan.vlc.Util");
+
+            Integer value;
+            switch(type) {
+            case Album:
+                value = (Integer)stringClass.getField("unknown_album").get(null);
+                break;
+            case Genre:
+                value = (Integer)stringClass.getField("unknown_genre").get(null);
+                break;
+            case Artist:
+            default:
+                value = (Integer)stringClass.getField("unknown_artist").get(null);
+                break;
+            }
+
+            Method getValueMethod = utilClass.getDeclaredMethod("getValue", String.class, Integer.TYPE);
+            // Util.getValue(string, R.string.xxx);
+            return (String) getValueMethod.invoke(null, string, value);
+        } catch (ClassNotFoundException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException e) {
+        } catch (NoSuchMethodException e) {
+        } catch (InvocationTargetException e) {
+        }
+
+        // VLC for Android translations not available (custom app perhaps)
+        // Use hardcoded English phrases.
+        switch(type) {
+        case Album:
+            return "Unknown Album";
+        case Genre:
+            return "Unknown Genre";
+        case Artist:
+        default:
+            return "Unknown Artist";
+        }
     }
 
     /**
@@ -332,7 +391,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getGenre() {
-        if(mGenre == VLCApplication.getAppContext().getString(R.string.unknown_genre))
+        if(mGenre == getValueWrapper(null, UnknownStringType.Genre))
             return mGenre;
         else if( mGenre.length() > 1)/* Make genres case insensitive via normalisation */
             return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase(Locale.getDefault());
