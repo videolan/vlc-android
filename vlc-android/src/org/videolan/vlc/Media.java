@@ -214,13 +214,6 @@ public class Media implements Comparable<Media> {
                 another.getTitle().toUpperCase(Locale.getDefault()));
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof MediaGroup || this instanceof MediaGroup)
-            return getTitle().equals(((Media)o).getTitle());
-        return super.equals(o);
-    }
-
     public String getLocation() {
         return mLocation;
     }
