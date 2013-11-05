@@ -320,7 +320,11 @@ public class MediaLibrary {
                     } else {
                         mItemListLock.writeLock().lock();
                         // create new media item
-                        mItemList.add(new Media(libVlcInstance, fileURI, true));
+                        Media m = new Media(libVlcInstance, fileURI);
+                        mItemList.add(m);
+                        // Add this item to database
+                        MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
+                        db.addMedia(m);
                         mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {

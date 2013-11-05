@@ -59,7 +59,7 @@ public class MediaList {
     }
 
     public void add(String mrl) {
-        add(new Media(mLibVLC, mrl, false));
+        add(new Media(mLibVLC, mrl));
     }
     public void add(Media media) {
         add(media, false, false);
@@ -117,7 +117,7 @@ public class MediaList {
     private native void loadPlaylist(LibVLC libvlc_instance, String mrl, ArrayList<String> items);
 
     public void insert(int position, String mrl) {
-        insert(position, new Media(mLibVLC, mrl, false));
+        insert(position, new Media(mLibVLC, mrl));
     }
     public void insert(int position, Media media) {
         mInternalList.add(position, new MediaHolder(media));

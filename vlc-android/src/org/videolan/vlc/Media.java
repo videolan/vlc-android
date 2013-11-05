@@ -132,9 +132,8 @@ public class Media implements Comparable<Media> {
      * Create a new Media
      * @param libVLC A pointer to the libVLC instance. Should not be NULL
      * @param URI The URI of the media.
-     * @param addToDb Should it be added to the file database?
      */
-    public Media(LibVLC libVLC, String URI, Boolean addToDb) {
+    public Media(LibVLC libVLC, String URI) {
         if(libVLC == null)
             throw new NullPointerException("libVLC was null");
 
@@ -144,12 +143,6 @@ public class Media implements Comparable<Media> {
         TrackInfo[] tracks = libVLC.readTracksInfo(mLocation);
 
         extractTrackInfo(tracks);
-
-        if (addToDb) {
-            // Add this item to database
-            MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
-            db.addMedia(this);
-        }
     }
 
     private void extractTrackInfo(TrackInfo[] tracks) {
