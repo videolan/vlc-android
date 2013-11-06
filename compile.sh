@@ -167,6 +167,20 @@ cd ../..
 
 echo "Building the contribs"
 mkdir -p contrib/android
+
+gen_pc_file() {
+    echo "Generating $1 pkg-config file"
+    echo "Name: $1
+Description: $1
+Version: $2
+Libs: -l$1
+Cflags:" > contrib/${TARGET_TUPLE}/lib/pkgconfig/`echo $1|tr 'A-Z' 'a-z'`.pc
+}
+
+mkdir -p contrib/${TARGET_TUPLE}/lib/pkgconfig
+gen_pc_file EGL 1.1
+gen_pc_file GLESv2 2
+
 cd contrib/android
 ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
     --disable-dca \
