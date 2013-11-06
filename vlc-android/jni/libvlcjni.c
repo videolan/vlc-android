@@ -103,6 +103,7 @@ static jobject eventHandlerInstance = NULL;
 
 /** vout lock declared in vout.c */
 extern pthread_mutex_t vout_android_lock;
+extern pthread_cond_t vout_android_surf_attached;
 
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 {
@@ -193,6 +194,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     myVm = vm;
 
     pthread_mutex_init(&vout_android_lock, NULL);
+    pthread_cond_init(&vout_android_surf_attached, NULL);
 
     LOGD("JNI interface loaded.");
     return JNI_VERSION_1_2;
@@ -200,6 +202,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pthread_mutex_destroy(&vout_android_lock);
+    pthread_cond_destroy(&vout_android_surf_attached);
 }
 
 // FIXME: use atomics

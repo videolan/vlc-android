@@ -27,17 +27,22 @@
 extern JavaVM *myVm;
 
 pthread_mutex_t vout_android_lock;
+pthread_cond_t vout_android_surf_attached;
 static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
 static jobject vout_android_java_surf = NULL;
 
 void *jni_LockAndGetAndroidSurface() {
     pthread_mutex_lock(&vout_android_lock);
+    while (vout_android_surf == NULL)
+        pthread_cond_wait(&vout_android_surf_attached, &vout_android_lock);
     return vout_android_surf;
 }
 
 jobject jni_LockAndGetAndroidJavaSurface() {
     pthread_mutex_lock(&vout_android_lock);
+    while (vout_android_java_surf == NULL)
+        pthread_cond_wait(&vout_android_surf_attached, &vout_android_lock);
     return vout_android_java_surf;
 }
 
@@ -63,6 +68,7 @@ void jni_SetAndroidSurfaceSize(int width, int height, int visible_width, int vis
 }
 
 void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui, jint width, jint height) {
+    pthread_mutex_lock(&vout_android_lock);
     jclass clz;
     jfieldID fid;
 
@@ -86,6 +92,8 @@ void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jo
     }
     vout_android_gui = (*env)->NewGlobalRef(env, gui);
     vout_android_java_surf = (*env)->NewGlobalRef(env, surf);
+    pthread_cond_signal(&vout_android_surf_attached);
+    pthread_mutex_unlock(&vout_android_lock);
 }
 
 void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
