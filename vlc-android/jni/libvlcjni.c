@@ -38,6 +38,9 @@
 #include "aout.h"
 #include "utils.h"
 
+#define VOUT_ANDROID_SURFACE 0
+#define VOUT_OPENGLES2       1
+
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
@@ -209,6 +212,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
 
+    methodId = (*env)->GetMethodID(env, cls, "getVout", "()I");
+    bool use_opengles2 = (*env)->CallIntMethod(env, thiz, methodId) == VOUT_OPENGLES2;
+
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
 
@@ -263,6 +269,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--avcodec-skip-idct", enable_frame_skip ? "2" : "0",
         (networkCaching > 0) ? networkCachingstr : "",
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
+        use_opengles2 ? "--vout=gles2" : "--vout=androidsurface",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);

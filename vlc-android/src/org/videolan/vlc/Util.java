@@ -129,6 +129,13 @@ public class Util {
         catch (NumberFormatException nfe) {
             aout = -1;
         }
+        int vout;
+        try {
+        	vout = Integer.parseInt(pref.getString("vout", "-1"));
+        }
+        catch (NumberFormatException nfe) {
+        	vout = -1;
+        }
         int deblocking;
         try {
             deblocking = Integer.parseInt(pref.getString("deblocking", "-1"));
@@ -142,6 +149,7 @@ public class Util {
         else if(networkCaching < 0)
             networkCaching = 0;
         instance.setAout(aout);
+        instance.setVout(vout);
         instance.setDeblocking(deblocking);
         instance.setNetworkCaching(networkCaching);
     }

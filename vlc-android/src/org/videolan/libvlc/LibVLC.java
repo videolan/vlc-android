@@ -34,6 +34,9 @@ public class LibVLC {
     public static final int AOUT_AUDIOTRACK = 1;
     public static final int AOUT_OPENSLES = 2;
 
+    public static final int VOUT_ANDROID_SURFACE = 0;
+    public static final int VOUT_OPEGLES2 = 1;
+
     private static LibVLC sInstance;
 
     /** libVLC instance C pointer */
@@ -58,6 +61,7 @@ public class LibVLC {
     private boolean iomx = false;
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+    private int vout = VOUT_ANDROID_SURFACE;
     private boolean timeStretching = false;
     private int deblocking = -1;
     private String chroma = "";
@@ -237,6 +241,17 @@ public class LibVLC {
             this.aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
         else
             this.aout = aout;
+    }
+
+    public int getVout() {
+        return vout;
+    }
+
+    public void setVout(int vout) {
+        if (vout < 0)
+            this.vout = VOUT_ANDROID_SURFACE;
+        else
+            this.vout = vout;
     }
 
     public boolean timeStretchingEnabled() {

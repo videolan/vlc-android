@@ -101,6 +101,11 @@
                 android:summary="@string/aout_summary"
                 android:title="@string/aout" />
 
+            <ListPreference
+                android:key="vout"
+                android:summary="@string/vout_summary"
+                android:title="@string/vout" />
+
             <EditTextPreference
                 android:key="network_caching"
                 android:summary="@string/network_caching_summary"

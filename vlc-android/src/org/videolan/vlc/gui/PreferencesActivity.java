@@ -181,6 +181,14 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             aoutPref.setValue(Util.isGingerbreadOrLater()
                     ? "2"/*AOUT_OPENSLES*/
                             : "0"/*AOUT_AUDIOTRACK_JAVA*/);
+        // Video output
+        ListPreference voutPref = (ListPreference) findPreference("vout");
+        int voutEntriesId = Util.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
+        int voutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
+        voutPref.setEntries(voutEntriesId);
+        voutPref.setEntryValues(voutEntriesIdValues);
+        if (voutPref.getValue() == null)
+            voutPref.setValue("0" /* VOUT_ANDROID_SURFACE */);
         // Set locale
         EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
         setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -220,6 +228,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         if(key.equalsIgnoreCase("enable_iomx")
                 || key.equalsIgnoreCase("subtitles_text_encoding")
                 || key.equalsIgnoreCase("aout")
+                || key.equalsIgnoreCase("vout")
                 || key.equalsIgnoreCase("chroma_format")
                 || key.equalsIgnoreCase("deblocking")
                 || key.equalsIgnoreCase("enable_frame_skip")
