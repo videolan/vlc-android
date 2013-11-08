@@ -32,4 +32,4 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts);
 void aout_pause(void *opaque, int64_t pts);
 void aout_close(void *opaque);
 
-#endif // LIBVLCJNI_VOUT_H
+#endif // LIBVLCJNI_AOUT_H
