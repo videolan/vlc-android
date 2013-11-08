@@ -67,7 +67,7 @@ void jni_SetAndroidSurfaceSize(int width, int height, int visible_width, int vis
     (*myVm)->DetachCurrentThread (myVm);
 }
 
-void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui, jint width, jint height) {
+void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui) {
     pthread_mutex_lock(&vout_android_lock);
     jclass clz;
     jfieldID fid;

@@ -72,7 +72,7 @@ public class LibVLC {
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
-    public native void attachSurface(Surface surface, IVideoPlayer player, int width, int height);
+    public native void attachSurface(Surface surface, IVideoPlayer player);
 
     public native void detachSurface();
 
