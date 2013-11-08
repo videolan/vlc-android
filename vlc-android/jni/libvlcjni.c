@@ -36,6 +36,7 @@
 
 #include "libvlcjni.h"
 #include "aout.h"
+#include "vout.h"
 #include "utils.h"
 
 #define VOUT_ANDROID_SURFACE 0
@@ -100,10 +101,6 @@ static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
 JavaVM *myVm;
 
 static jobject eventHandlerInstance = NULL;
-
-/** vout lock declared in vout.c */
-extern pthread_mutex_t vout_android_lock;
-extern pthread_cond_t vout_android_surf_attached;
 
 static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 {
