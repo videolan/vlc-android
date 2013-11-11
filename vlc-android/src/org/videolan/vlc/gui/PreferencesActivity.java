@@ -27,6 +27,7 @@ import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.gui.audio.AudioUtil;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -143,6 +144,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     public boolean onPreferenceClick(Preference preference) {
                         MediaDatabase.getInstance(getBaseContext()).emptyDatabase();
                         BitmapCache.getInstance().clear();
+                        AudioUtil.clearCacheFolder();
                         Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                         return true;
                     }
