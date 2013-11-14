@@ -47,6 +47,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
     private ArrayList<String> mTitles;
     private HashMap<String, ArrayList<String>> mSubTitles;
     private HashMap<String, HashMap<String, ArrayList<Media>>> mGroups;
+    private ArrayList<Boolean> mGroupSeparator;
 
     public AudioPlaylistAdapter(Context context, int groupTextId, int childTextId) {
         mContext = context;
@@ -54,8 +55,14 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         mGroupTextId = groupTextId;
         mChildTextId = childTextId;
         mTitles = new ArrayList<String>();
+        mGroupSeparator = new ArrayList<Boolean>();
         mSubTitles = new HashMap<String, ArrayList<String>>();
         mGroups = new HashMap<String, HashMap<String, ArrayList<Media>>>();
+    }
+
+    public void addSeparator(String title) {
+        mTitles.add(title);
+        mGroupSeparator.add(true);
     }
 
     public void add(String title, String subtitle, Media media) {
@@ -69,6 +76,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
             mTitles.add(title);
             mSubTitles.put(title, subtitles);
             mGroups.put(title, group);
+            mGroupSeparator.add(false);
         }
         else {
             subtitles = mSubTitles.get(title);
@@ -90,21 +98,24 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
     public void clear() {
         for (String item : mTitles) {
             ArrayList<String> subtitles = mSubTitles.get(item);
-            HashMap<String, ArrayList<Media>> subgroups = mGroups.get(item);
-            for (String subitem : subtitles) {
-                subgroups.get(subitem).clear();
-                subgroups.remove(subitem);
+            if (subtitles != null) {
+                HashMap<String, ArrayList<Media>> subgroups = mGroups.get(item);
+                for (String subitem : subtitles) {
+                    subgroups.get(subitem).clear();
+                    subgroups.remove(subitem);
+                }
+                subtitles.clear();
+                mSubTitles.remove(item);
+                mGroups.remove(item);
             }
-            subtitles.clear();
-            mSubTitles.remove(item);
-            mGroups.remove(item);
         }
         mTitles.clear();
+        mGroupSeparator.clear();
     }
 
     @Override
     public int getGroupCount() {
-        return mGroups.size();
+        return mTitles.size();
     }
 
     @Override
@@ -119,9 +130,12 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        String key = mTitles.get(groupPosition);
-        int count = mSubTitles.get(key).size();
-        return count > 2 ? count : 0;
+        if (!mGroupSeparator.get(groupPosition)) {
+            String key = mTitles.get(groupPosition);
+            int count = mSubTitles.get(key).size();
+            return count > 2 ? count : 0;
+        } else
+            return 0;
     }
 
     @Override
@@ -147,9 +161,20 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupViewHolder holder;
+        return mGroupSeparator.get(groupPosition) ?
+                getSeparatorGroupView(groupPosition, isExpanded, convertView, parent)
+                : getMediaGroupView(groupPosition, isExpanded, convertView, parent);
+    }
+
+    public View getMediaGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View v = convertView;
-        if (v == null) {
+
+        /* convertView may be a recycled view but we must recreate it
+         * if it does not correspond to a media group view. */
+        boolean b_createView = v == null ? true : ((GroupViewHolder) v.getTag()).isSeparatorView;
+
+        GroupViewHolder holder;
+        if (b_createView) {
             v = mInflater.inflate(R.layout.audio_browser_playlist, parent, false);
             holder = new GroupViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
@@ -157,6 +182,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.more = (ImageView) v.findViewById(R.id.more);
+            holder.isSeparatorView = false;
             v.setTag(holder);
         } else
             holder = (GroupViewHolder) v.getTag();
@@ -185,6 +211,31 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
 
         holder.more.setVisibility(count > 2 ? View.VISIBLE : View.GONE);
         holder.more.setImageResource(isExpanded ? R.drawable.ic_up : R.drawable.ic_down);
+
+        return v;
+    }
+
+    public View getSeparatorGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View v = convertView;
+
+        /* convertView may be a recycled view but we must recreate it
+         * if it does not correspond to a separator group view. */
+        boolean b_createView = v == null ? true : !((GroupViewHolder) v.getTag()).isSeparatorView;
+
+        GroupViewHolder holder;
+        if (b_createView) {
+            v = mInflater.inflate(R.layout.audio_browser_separator, parent, false);
+            holder = new GroupViewHolder();
+            holder.layout = v.findViewById(R.id.layout_item);
+            holder.title = (TextView) v.findViewById(R.id.title);
+            holder.isSeparatorView = true;
+            v.setTag(holder);
+        }
+        else
+            holder = (GroupViewHolder) v.getTag();
+
+        String title = mTitles.get(groupPosition);
+        holder.title.setText(title);
 
         return v;
     }
@@ -231,6 +282,7 @@ public class AudioPlaylistAdapter extends BaseExpandableListAdapter {
         TextView title;
         TextView text;
         ImageView more;
+        boolean isSeparatorView;
     }
 
     static class ChildViewHolder {

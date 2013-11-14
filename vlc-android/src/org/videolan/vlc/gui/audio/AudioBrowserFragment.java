@@ -481,9 +481,12 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         for (int i = 0; i < audioList.size(); i++)
             mSongsAdapter.add(audioList.get(i));
 
+        char prevFirstLetter = 'A';
+
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
+            prevFirstLetter = addFirstLetterSeparator(mArtistsAdapter, i, media.getArtist(), prevFirstLetter);
             mArtistsAdapter.add(media.getArtist(), null, media);
             mArtistsAdapter.add(media.getArtist(), media.getAlbum(), media);
         }
@@ -491,12 +494,14 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         Collections.sort(audioList, byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
+            prevFirstLetter = addFirstLetterSeparator(mAlbumsAdapter, i, media.getAlbum(), prevFirstLetter);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
 
         Collections.sort(audioList, byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
+            prevFirstLetter = addFirstLetterSeparator(mGenresAdapter, i, media.getGenre(), prevFirstLetter);
             mGenresAdapter.add(media.getGenre(), null, media);
             mGenresAdapter.add(media.getGenre(), media.getAlbum(), media);
         }
@@ -505,6 +510,16 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
+    }
+
+    private final char addFirstLetterSeparator(AudioPlaylistAdapter list, int i, String tittle, char prevFirstLetter) {
+        char firstLetter = tittle.toUpperCase().charAt(0);
+        if (Character.isLetter(firstLetter)
+            && (i == 0 || firstLetter != prevFirstLetter)) {
+            list.addSeparator(String.valueOf(firstLetter));
+            prevFirstLetter = firstLetter;
+        }
+        return prevFirstLetter;
     }
 
     @Override
