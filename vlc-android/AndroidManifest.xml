@@ -82,6 +82,7 @@
                 <data android:scheme="icyx" />
                 <data android:scheme="httplive" />
                 <data android:scheme="udp" />
+                <data android:scheme="vlc" />
             </intent-filter>
             <!-- This filter captures protocols with type info -->
             <intent-filter>

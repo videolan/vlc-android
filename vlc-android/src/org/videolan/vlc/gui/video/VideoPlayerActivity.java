@@ -1489,6 +1489,18 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             } else {
                 // Plain URI
                 mLocation = getIntent().getDataString();
+                // Remove VLC prefix if needed
+                if (mLocation.startsWith("vlc://")) {
+                    mLocation = mLocation.substring(6);
+                }
+                // Decode URI
+                if (!mLocation.contains("/")){
+                    try {
+                        mLocation = URLDecoder.decode(mLocation,"UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             if(getIntent().getExtras() != null)
                 intentPosition = getIntent().getExtras().getLong("position", -1);
