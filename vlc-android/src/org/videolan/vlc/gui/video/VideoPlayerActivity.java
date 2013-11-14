@@ -1522,7 +1522,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "Continuing playback from AudioService at index " + itemPosition);
             savedIndexPosition = itemPosition;
             if(!mLibVLC.isPlaying()) {
-                // AudioService-transitioned playback for item after sleep and resme
+                // AudioService-transitioned playback for item after sleep and resume
                 mLibVLC.playIndex(savedIndexPosition);
                 dontParse = false;
             }
