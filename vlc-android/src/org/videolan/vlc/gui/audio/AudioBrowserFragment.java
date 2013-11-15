@@ -380,7 +380,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     }
 
     private void headerScrollTab(int tab) {
-        headerScroll((float)tab * (1/(MODE_TOTAL - 1)));
+        headerScroll((float)tab / (MODE_TOTAL - 1));
     }
 
     /**
