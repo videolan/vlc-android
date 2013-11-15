@@ -13,6 +13,7 @@
         android:layout_marginRight="5dip"
         android:layout_marginTop="5dip"
         android:text="@string/title"
+        android:textAllCaps="true"
         android:textColor="?attr/orange"
         android:textSize="20sp" />
     
