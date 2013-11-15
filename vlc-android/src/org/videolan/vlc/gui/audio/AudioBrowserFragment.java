@@ -154,7 +154,10 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         v.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     public void onGlobalLayout() {
-                        LinearLayout hl = (LinearLayout)getView().findViewById(R.id.header_layout);
+                        View v = getView();
+                        if (v == null)
+                            return;
+                        LinearLayout hl = (LinearLayout)v.findViewById(R.id.header_layout);
                         for (int i = 0; i < hl.getChildCount(); ++i) {
                             View t = (View)hl.getChildAt(i);
                             int width = getView().getWidth() / 2;
