@@ -51,6 +51,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -148,6 +150,23 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         registerForContextMenu(artistList);
         registerForContextMenu(albumList);
         registerForContextMenu(genreList);
+
+        v.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        LinearLayout hl = (LinearLayout)getView().findViewById(R.id.header_layout);
+                        for (int i = 0; i < hl.getChildCount(); ++i) {
+                            View t = (View)hl.getChildAt(i);
+                            int width = getView().getWidth() / 2;
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LayoutParams.WRAP_CONTENT, 1);
+                            if (i == 0)
+                                lp.setMargins(width / 2, 0, 0, 0);
+                            else if (i == hl.getChildCount() - 1)
+                                lp.setMargins(0, 0, width / 2, 0);
+                            t.setLayoutParams(lp);
+                        }
+                    }
+                });
 
         return v;
     }
@@ -375,7 +394,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         if (hl == null)
             return;
         int width = hl.getChildAt(0).getWidth();
-        int x = (int) (progress * width);
+        int x = (int) (progress * (MODE_TOTAL - 1) * width);
         mHeader.smoothScrollTo(x, 0);
     }
 

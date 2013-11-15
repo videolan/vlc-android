@@ -4,56 +4,71 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-    <HorizontalScrollView
-        android:id="@+id/header"
-        android:scrollbars="none"
-        android:fadingEdge="none"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/background_menu">
-        <LinearLayout
-            android:id="@+id/header_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:text="@string/artists"
-                android:textSize="16sp"
-                android:textColor="?attr/font_light"
-                android:id="@+id/artists"
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:text="@string/albums"
-                android:textSize="16sp"
-                android:textColor="?attr/font_light"
-                android:id="@+id/albums"
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:text="@string/songs"
-                android:textSize="16sp"
-                android:textColor="?attr/font_light"
-                android:id="@+id/songs"
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:text="@string/genres"
-                android:textSize="16sp"
-                android:textColor="?attr/font_light"
-                android:id="@+id/genres"
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal" />
-        </LinearLayout>
-    </HorizontalScrollView>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="?attr/background_menu_divider" />
+        android:layout_height="wrap_content" >
+	    <HorizontalScrollView
+	        android:id="@+id/header"
+	        android:scrollbars="none"
+	        android:fadingEdge="none"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="?attr/background_menu">
+	        <LinearLayout
+	            android:id="@+id/header_layout"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal">
+	            <TextView
+	                android:text="@string/artists"
+	                android:textSize="16sp"
+	                android:textColor="?attr/font_light"
+	                android:id="@+id/artists"
+	                android:layout_width="80sp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal" />
+	            <TextView
+	                android:text="@string/albums"
+	                android:textSize="16sp"
+	                android:textColor="?attr/font_light"
+	                android:id="@+id/albums"
+	                android:layout_width="80sp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal" />
+	            <TextView
+	                android:text="@string/songs"
+	                android:textSize="16sp"
+	                android:textColor="?attr/font_light"
+	                android:id="@+id/songs"
+	                android:layout_width="80sp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal" />
+	            <TextView
+	                android:text="@string/genres"
+	                android:textSize="16sp"
+	                android:textColor="?attr/font_light"
+	                android:id="@+id/genres"
+	                android:layout_width="80sp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal" />
+	        </LinearLayout>
+	    </HorizontalScrollView>
+	    <View
+	        android:layout_width="20dip"
+	        android:layout_height="10dip"
+	        android:layout_alignBottom="@+id/header"
+	        android:layout_alignLeft="@+id/header"
+	        android:layout_alignTop="@+id/header"
+	        android:background="@drawable/header_fadein_overlay" />
+	    <View
+	        android:layout_width="20dip"
+	        android:layout_height="10dip"
+	        android:layout_alignBottom="@+id/header"
+	        android:layout_alignRight="@+id/header"
+	        android:layout_alignTop="@+id/header"
+	        android:background="@drawable/header_fadeout_overlay" />
+    </RelativeLayout>
     <org.videolan.vlc.widget.FlingViewGroup
         android:id="@+id/content"
         android:layout_width="fill_parent"
