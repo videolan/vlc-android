@@ -23,6 +23,8 @@ package org.videolan.vlc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.videolan.libvlc.Media;
+
 public class MediaGroup extends Media {
 
     public final static String TAG = "VLC/MediaGroup";

@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.videolan.libvlc.Media;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

@@ -22,7 +22,8 @@ package org.videolan.vlc.gui;
 
 import java.util.Comparator;
 
-import org.videolan.vlc.Media;
+import org.videolan.libvlc.Media;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

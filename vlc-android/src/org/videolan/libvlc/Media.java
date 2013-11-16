@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Media.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2013 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,25 +18,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.libvlc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Locale;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.TrackInfo;
-
 import android.content.Context;
-import android.database.sqlite.SQLiteFullException;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Media implements Comparable<Media> {
-
-    public final static String TAG = "VLC/MediaItem";
+    public final static String TAG = "VLC/LibVLC/Media";
 
     public final static HashSet<String> VIDEO_EXTENSIONS;
     public final static HashSet<String> AUDIO_EXTENSIONS;

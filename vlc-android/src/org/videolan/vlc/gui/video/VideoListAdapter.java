@@ -24,8 +24,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.BitmapCache;
-import org.videolan.vlc.Media;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;

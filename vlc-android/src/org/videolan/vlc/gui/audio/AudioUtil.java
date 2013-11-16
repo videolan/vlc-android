@@ -31,8 +31,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.BitmapCache;
-import org.videolan.vlc.Media;
 import org.videolan.vlc.MurmurHash;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
