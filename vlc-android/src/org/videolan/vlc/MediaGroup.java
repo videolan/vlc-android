@@ -38,7 +38,7 @@ public class MediaGroup extends Media {
                 media.getTime(),
                 media.getLength(),
                 Media.TYPE_GROUP,
-                media.getPicture(),
+                Util.getPictureFromCache(media),
                 media.getTitle(),
                 media.getArtist(),
                 media.getGenre(),

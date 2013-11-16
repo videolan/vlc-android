@@ -328,39 +328,27 @@ public class Media implements Comparable<Media> {
         return mHeight;
     }
 
+    /**
+     * Returns the raw picture object. Likely to be NULL in VLC for Android
+     * due to lazy-loading.
+     *
+     * Use {@link org.videolan.vlc.Util#getPictureFromCache(Media)} instead.
+     *
+     * @return The raw picture or NULL
+     */
     public Bitmap getPicture() {
-        // mPicture is not null only if passed through
-        // the ctor which is deprecated by now.
-        if (mPicture == null) {
-            BitmapCache cache = BitmapCache.getInstance();
-            Bitmap picture = cache.getBitmapFromMemCache(mLocation);
-            if (picture == null) {
-                /* Not in memcache:
-                 * serving the file from the database and
-                 * adding it to the memcache for later use.
-                 */
-                Context c = VLCApplication.getAppContext();
-                picture = MediaDatabase.getInstance(c).getPicture(c, mLocation);
-                cache.addBitmapToMemCache(mLocation, picture);
-            }
-            return picture;
-        } else {
-            return mPicture;
-        }
+        return mPicture;
     }
 
-    public void setPicture(Context context, Bitmap p) {
-        Log.d(TAG, "Set new picture for " + getTitle());
-        try {
-            MediaDatabase.getInstance(context).updateMedia(
-                mLocation,
-                MediaDatabase.mediaColumn.MEDIA_PICTURE,
-                p);
-        } catch (SQLiteFullException e) {
-            // TODO: do something clever
-            e.printStackTrace();
-        }
-        mIsPictureParsed = true;
+    /**
+     * Sets the raw picture object.
+     *
+     * In VLC for Android, use {@link org.videolan.vlc.Util#setPicture(Context, Media, Bitmap)} instead.
+     *
+     * @param p
+     */
+    public void setPicture(Bitmap p) {
+        mPicture = p;
     }
 
     public boolean isPictureParsed() {

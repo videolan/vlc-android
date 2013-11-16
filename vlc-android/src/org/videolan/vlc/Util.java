@@ -42,11 +42,13 @@ import org.videolan.libvlc.LibVlcException;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteFullException;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.WindowManager;
@@ -288,6 +290,42 @@ public class Util {
         // Cut off the transparency on the borders
         return Bitmap.createBitmap(bitmap, left, top,
                 (width - (2 * left)), (height - (2 * top)));
+    }
+
+    public static Bitmap getPictureFromCache(Media media)
+    {
+        // mPicture is not null only if passed through
+        // the ctor which is deprecated by now.
+        Bitmap b = media.getPicture();
+        if(b == null) {
+            BitmapCache cache = BitmapCache.getInstance();
+            Bitmap picture = cache.getBitmapFromMemCache(media.getLocation());
+            if(picture == null) {
+                /* Not in memcache:
+                 * serving the file from the database and
+                 * adding it to the memcache for later use.
+                 */
+                Context c = VLCApplication.getAppContext();
+                picture = MediaDatabase.getInstance(c).getPicture(c, media.getLocation());
+                cache.addBitmapToMemCache(media.getLocation(), picture);
+            }
+            return picture;
+        } else {
+            return b;
+        }
+    }
+
+    public static void setPicture(Context context, Media m, Bitmap p) {
+        Log.d(TAG, "Setting new picture for " + m.getTitle());
+        try {
+            MediaDatabase.getInstance(context).updateMedia(
+                m.getLocation(),
+                MediaDatabase.mediaColumn.MEDIA_PICTURE,
+                p);
+        } catch (SQLiteFullException e) {
+            Log.d(TAG, "SQLiteFullException while setting picture");
+        }
+        m.setPictureParsed(true);
     }
 
     public static String getValue(String string, int defaultId)
