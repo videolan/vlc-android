@@ -57,6 +57,14 @@ public class MediaList {
         mLibVLC = libVLC;
     }
 
+    /**
+     * Adds a media URI to the media list.
+     *
+     * @param mrl
+     *            The MRL to add. Must be a location and not a path.
+     *            {@link LibVLC#PathToURI(String)} can be used to convert a path
+     *            to a MRL.
+     */
     public void add(String mrl) {
         add(new Media(mLibVLC, mrl));
     }

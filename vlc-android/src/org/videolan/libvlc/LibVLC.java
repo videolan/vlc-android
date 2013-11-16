@@ -339,7 +339,11 @@ public class LibVLC {
     }
 
     /**
-     * Initialize the libVLC class
+     * Initialize the libVLC class.
+     *
+     * This function must be called before using any libVLC functions.
+     *
+     * @throws LibVlcException
      */
     public void init(Context context) throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
@@ -597,6 +601,13 @@ public class LibVLC {
 
     public static native String nativeToURI(String path);
 
+    /**
+     * Quickly converts path to URIs, which are mandatory in libVLC.
+     *
+     * @param path
+     *            The path to be converted.
+     * @return A URI representation of path
+     */
     public static String PathToURI(String path) {
         if(path == null) {
             throw new NullPointerException("Cannot convert null path!");
