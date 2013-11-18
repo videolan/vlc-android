@@ -4,6 +4,7 @@
     <color name="item_divider">#fafafa</color>
     <color name="item_common_pressed">#e0e0e0</color>
     <color name="item_common_selected">#5e5e5e</color>
+    <color name="item_footer">#e0e0e0</color>
     <color name="background_common">#fafafa</color>
     <color name="background_menu_divider">#d0d0d0</color>
     <color name="background_menu">#e0e0e0</color>
