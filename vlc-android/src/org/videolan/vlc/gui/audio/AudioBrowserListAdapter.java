@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.videolan.vlc.BitmapCache;
-import org.videolan.vlc.Media;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 
 import android.content.Context;
