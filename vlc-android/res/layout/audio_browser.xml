@@ -20,7 +20,15 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:orientation="horizontal">
-	            <TextView
+                <TextView
+                    android:text="@string/artists"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/font_light"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <TextView
 	                android:text="@string/artists"
 	                android:textAllCaps="true"
 	                android:textSize="16sp"
@@ -77,6 +85,16 @@
         android:id="@+id/content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
+
+        <ListView
+            android:id="@+id/artists2_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:divider="?attr/item_divider"
+            android:dividerHeight="1dp"
+            android:fastScrollEnabled="true" />
         <ExpandableListView
             android:id="@+id/artists_list"
             android:layout_width="fill_parent"

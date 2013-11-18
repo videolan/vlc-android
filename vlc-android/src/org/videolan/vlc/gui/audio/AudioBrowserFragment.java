@@ -81,17 +81,19 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioPlaylistAdapter mArtistsAdapter;
     private AudioPlaylistAdapter mAlbumsAdapter;
     private AudioPlaylistAdapter mGenresAdapter;
+    private AudioBrowserListAdapter mArtistsAdapter2;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
 
-    public final static int MODE_TOTAL = 4; // Number of audio browser modes
-    public final static int MODE_ARTIST = 0;
-    public final static int MODE_ALBUM = 1;
-    public final static int MODE_SONG = 2;
-    public final static int MODE_GENRE = 3;
+    public final static int MODE_TOTAL = 5; // Number of audio browser modes
+    public final static int MODE_ARTIST2 = 0;
+    public final static int MODE_ARTIST = 1;
+    public final static int MODE_ALBUM = 2;
+    public final static int MODE_SONG = 3;
+    public final static int MODE_GENRE = 4;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -108,6 +110,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
         mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs_quantity, R.plurals.songs_quantity);
         mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
+        mArtistsAdapter2 = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_SIMPLE);
     }
 
     @Override
@@ -131,11 +134,13 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
         ExpandableListView albumList = (ExpandableListView)v.findViewById(R.id.albums_list);
         ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
+        ListView artistList2 = (ListView)v.findViewById(R.id.artists2_list);
 
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
+        artistList2.setAdapter(mArtistsAdapter2);
 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnGroupClickListener(playlistListener);
@@ -504,6 +509,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             mSongsAdapter.add(audioList.get(i));
 
         char prevFirstLetter = 'A';
+        char prevFirstLetter2 = 'A';
 
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
@@ -511,6 +517,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             prevFirstLetter = addFirstLetterSeparator(mArtistsAdapter, i, media.getArtist(), prevFirstLetter);
             mArtistsAdapter.add(media.getArtist(), null, media);
             mArtistsAdapter.add(media.getArtist(), media.getAlbum(), media);
+            prevFirstLetter2 = addFirstLetterSeparator2(mArtistsAdapter2, i, media.getArtist(), prevFirstLetter2);
+            mArtistsAdapter2.add(media.getArtist(), "blabla", media);
         }
 
         Collections.sort(audioList, byAlbum);
@@ -535,6 +543,16 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     }
 
     private final char addFirstLetterSeparator(AudioPlaylistAdapter list, int i, String tittle, char prevFirstLetter) {
+        char firstLetter = tittle.toUpperCase().charAt(0);
+        if (Character.isLetter(firstLetter)
+            && (i == 0 || firstLetter != prevFirstLetter)) {
+            list.addSeparator(String.valueOf(firstLetter));
+            prevFirstLetter = firstLetter;
+        }
+        return prevFirstLetter;
+    }
+
+    private final char addFirstLetterSeparator2(AudioBrowserListAdapter list, int i, String tittle, char prevFirstLetter) {
         char firstLetter = tittle.toUpperCase().charAt(0);
         if (Character.isLetter(firstLetter)
             && (i == 0 || firstLetter != prevFirstLetter)) {
