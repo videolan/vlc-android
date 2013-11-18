@@ -9,8 +9,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="5dip"
+        android:layout_marginLeft="10dip"
         android:layout_marginTop="5dip"
         android:text="@string/title"
         android:textAllCaps="true"
@@ -20,8 +19,6 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="10dip"
         android:background="?attr/orange" />
 
 </LinearLayout>
