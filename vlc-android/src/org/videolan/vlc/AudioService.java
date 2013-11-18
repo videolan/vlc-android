@@ -417,6 +417,7 @@ public class AudioService extends Service {
                     break;
                 case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
+                    service.mCurrentIndex = -1;
                     service.executeUpdate();
                     service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
                     if (service.mWakeLock.isHeld())
