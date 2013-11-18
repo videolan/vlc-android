@@ -236,7 +236,8 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     public synchronized void update() {
         // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
+            if (!mOrientationChanged)
+                getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
             return;
         }
 
