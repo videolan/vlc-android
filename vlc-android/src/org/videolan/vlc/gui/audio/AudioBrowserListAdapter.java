@@ -34,13 +34,14 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AudioBrowserListAdapter implements ListAdapter {
+public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter {
 
     // Key: the item title, value: ListItem of only media item (no separator).
     private Map<String, ListItem> mMediaItemMap;
