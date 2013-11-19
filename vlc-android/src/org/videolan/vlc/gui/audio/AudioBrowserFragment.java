@@ -355,6 +355,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
+        mArtistsAdapter2.clear();
     }
 
     private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
@@ -492,6 +493,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
+        mArtistsAdapter2.clear();
 
         switch(mSortBy) {
         case SORT_BY_LENGTH:
