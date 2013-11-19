@@ -1,37 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/layout_item"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" >
+        android:layout_height="@dimen/audio_browser_item_size" >
 
-	    <TextView
-	        android:id="@+id/title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:layout_marginLeft="10dp"
-	        android:layout_gravity="center_vertical"
-	        android:text="@string/title"
-	        android:textColor="@color/list_title"
-	        android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/audio_browser_item_size"
+            android:layout_height="@dimen/audio_browser_item_size"
+            android:layout_gravity="center" />
 
-         <View
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/cover"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/title"
+                android:textColor="@color/list_title"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/artist"
+                android:textColor="@color/list_subtitle"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:layout_gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:background="@drawable/item_more_triangle" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dip"
         android:background="@color/item_footer" />
 

@@ -34,8 +34,10 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AudioBrowserListAdapter implements ListAdapter {
@@ -128,15 +130,12 @@ public class AudioBrowserListAdapter implements ListAdapter {
 
         if (b_createView) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            int res = mItemType == ITEM_SIMPLE ? R.layout.audio_browser_item_simple : R.layout.audio_browser_item;
-            v = inflater.inflate(res, parent, false);
+            v = inflater.inflate(R.layout.audio_browser_item_simple, parent, false);
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
-            if (mItemType == ITEM_NORMAL) {
-                holder.cover = (ImageView) v.findViewById(R.id.cover);
-                holder.artist = (TextView) v.findViewById(R.id.artist);
-            }
+            holder.cover = (ImageView) v.findViewById(R.id.cover);
+            holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
@@ -144,13 +143,28 @@ public class AudioBrowserListAdapter implements ListAdapter {
         ListItem item = getItem(position);
         holder.title.setText(item.mTitle);
 
+        RelativeLayout.LayoutParams paramsCover;
         if (mItemType == ITEM_NORMAL) {
             /*Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
             if (cover == null)*/
             Bitmap cover = BitmapCache.GetFromResource(v, R.drawable.icon);
             holder.cover.setImageBitmap(cover);
-            holder.artist.setText(item.mSubTitle);
+            int size = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_size);
+            paramsCover = new RelativeLayout.LayoutParams(size, size);
         }
+        else
+            paramsCover = new RelativeLayout.LayoutParams(0, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        holder.cover.setLayoutParams(paramsCover);
+
+        LinearLayout.LayoutParams paramsSubTitle;
+        if (item.mSubTitle == null)
+            paramsSubTitle = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 0);
+        else {
+            paramsSubTitle = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            holder.subtitle.setText(item.mSubTitle);
+        }
+        holder.subtitle.setLayoutParams(paramsSubTitle);
 
         return v;
     }
@@ -188,7 +202,7 @@ public class AudioBrowserListAdapter implements ListAdapter {
         View layout;
         ImageView cover;
         TextView title;
-        TextView artist;
+        TextView subtitle;
         int viewType;
     }
 
