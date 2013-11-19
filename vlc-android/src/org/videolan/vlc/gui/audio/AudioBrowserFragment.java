@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.audio;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -146,6 +147,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         artistList.setOnGroupClickListener(playlistListener);
         albumList.setOnGroupClickListener(playlistListener);
         genreList.setOnGroupClickListener(playlistListener);
+        artistList2.setOnItemClickListener(browserListListener);
 
         artistList.setOnChildClickListener(playlistChildListener);
         albumList.setOnChildClickListener(playlistChildListener);
@@ -246,6 +248,15 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
             MainActivity.ShowFragment(getActivity(), "tracks", audioList);
             return false;
+        }
+    };
+
+    OnItemClickListener browserListListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> av, View v, int p, long id) {
+            ArrayList<Media> mediaList = mArtistsAdapter2.getMedia(p);
+            AudioAlbumsSongsFragment frag = new AudioAlbumsSongsFragment(mediaList);
+            MainActivity.ShowFragment(getActivity(), "albumsSongsFromArtist", frag);
         }
     };
 

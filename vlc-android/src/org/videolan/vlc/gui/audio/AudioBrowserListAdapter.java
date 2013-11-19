@@ -245,4 +245,12 @@ public class AudioBrowserListAdapter implements ListAdapter {
     public boolean isEnabled(int position) {
         return true;
     }
+
+    public ArrayList<Media> getMedia(int position) {
+        // Return all the media of a list item list.
+        ArrayList<Media> mediaList = new ArrayList<Media>();
+        if (!mItems.get(position).mIsSeparator)
+            mediaList.addAll(mItems.get(position).mMediaList);
+        return mediaList;
+    }
 }
