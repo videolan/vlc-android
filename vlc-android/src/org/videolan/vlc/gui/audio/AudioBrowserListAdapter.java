@@ -266,12 +266,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
 
     @Override
     public boolean areAllItemsEnabled() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled(int position) {
-        return true;
+        return !mItems.get(position).mIsSeparator;
     }
 
     public ArrayList<Media> getMedia(int position) {
