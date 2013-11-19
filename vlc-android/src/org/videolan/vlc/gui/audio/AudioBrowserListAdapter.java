@@ -145,9 +145,10 @@ public class AudioBrowserListAdapter implements ListAdapter {
 
         RelativeLayout.LayoutParams paramsCover;
         if (mItemType == ITEM_WITH_COVER) {
-            /*Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
-            if (cover == null)*/
-            Bitmap cover = BitmapCache.GetFromResource(v, R.drawable.icon);
+            Media media = mItems.get(position).mMediaList.get(0);
+            Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
+            if (cover == null)
+                cover = BitmapCache.GetFromResource(v, R.drawable.icon);
             holder.cover.setImageBitmap(cover);
             int size = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_size);
             paramsCover = new RelativeLayout.LayoutParams(size, size);
