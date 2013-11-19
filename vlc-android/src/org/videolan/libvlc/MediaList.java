@@ -90,6 +90,10 @@ public class MediaList {
         mInternalList.clear();
     }
 
+    private boolean isValid(int position) {
+        return position >= 0 && position < mInternalList.size();
+    }
+
     /**
      * This function checks the currently playing media for subitems at the given
      * position, and if any exist, it will expand them at the same position
@@ -132,6 +136,8 @@ public class MediaList {
     }
 
     public void remove(int position) {
+        if (!isValid(position))
+            return;
         String uri = mInternalList.get(position).m.getLocation();
         mInternalList.remove(position);
         signal_list_event(EventHandler.MediaListItemDeleted, position, uri);
@@ -142,6 +148,8 @@ public class MediaList {
     }
 
     public Media getMedia(int position) {
+        if (!isValid(position))
+            return null;
         return mInternalList.get(position).m;
     }
 
@@ -150,10 +158,14 @@ public class MediaList {
      * @return null if not found
      */
     public String getMRL(int position) {
+        if (!isValid(position))
+            return null;
         return mInternalList.get(position).m.getLocation();
     }
 
     private String[] getMediaOptions(int position) {
+        if (!isValid(position))
+            return null;
         boolean noOmx = mInternalList.get(position).noOmx;
         boolean noVideo = mInternalList.get(position).noVideo;
         ArrayList<String> options = new ArrayList<String>();

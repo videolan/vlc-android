@@ -237,13 +237,13 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     @SuppressWarnings("unchecked")
-    public List<String> getItems() {
+    public List<String> getMediaLocations() {
         List<String> def = new ArrayList<String>();
-        return remoteProcedureCall(mAudioServiceBinder, List.class, def, "getItems", null, null);
+        return remoteProcedureCall(mAudioServiceBinder, List.class, def, "getMediaLocations", null, null);
     }
 
-    public String getItem() {
-        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getItem", null, null);
+    public String getCurrentMediaLocation() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getCurrentMediaLocation", null, null);
     }
 
     public void stop() {

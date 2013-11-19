@@ -249,8 +249,8 @@ public class AudioListFragment extends SherlockListFragment {
 
         if (name == null || mode == AudioBrowserFragment.MODE_SONG) {
             mTitle.setText(R.string.songs);
-            itemList = mAudioController.getItems();
-            currentItem = mAudioController.getItem();
+            itemList = mAudioController.getMediaLocations();
+            currentItem = mAudioController.getCurrentMediaLocation();
             audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
         }
         else {

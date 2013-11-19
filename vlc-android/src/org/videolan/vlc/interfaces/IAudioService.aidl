@@ -29,11 +29,10 @@ interface IAudioService {
     void previous();
     void shuffle();
     void setTime(long time);
-    String getCurrentMediaLocation();
     void load(in List<String> mediaPathList, int position, boolean noVideo);
     void append(in List<String> mediaPathList);
-    List<String> getItems();
-    String getItem();
+    List<String> getMediaLocations();
+    String getCurrentMediaLocation();
     boolean isPlaying();
     boolean isShuffling();
     int getRepeatType();
