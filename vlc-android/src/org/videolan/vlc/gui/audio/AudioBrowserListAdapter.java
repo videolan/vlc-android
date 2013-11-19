@@ -54,8 +54,8 @@ public class AudioBrowserListAdapter implements ListAdapter {
     private static final int VIEW_SEPARATOR = 1;
 
     // The types of the media views.
-    public static final int ITEM_SIMPLE = 0;
-    public static final int ITEM_NORMAL = 1;
+    public static final int ITEM_WITHOUT_COVER = 0;
+    public static final int ITEM_WITH_COVER = 1;
     private int mItemType;
 
     // An item of the list: a media or a separator.
@@ -81,7 +81,7 @@ public class AudioBrowserListAdapter implements ListAdapter {
         mMediaItemMap = new HashMap<String, ListItem>();
         mItems = new ArrayList<ListItem>();
         mContext = context;
-        if (itemType != ITEM_SIMPLE && itemType != ITEM_NORMAL)
+        if (itemType != ITEM_WITHOUT_COVER && itemType != ITEM_WITH_COVER)
             throw new IllegalArgumentException();
         mItemType = itemType;
     }
@@ -144,7 +144,7 @@ public class AudioBrowserListAdapter implements ListAdapter {
         holder.title.setText(item.mTitle);
 
         RelativeLayout.LayoutParams paramsCover;
-        if (mItemType == ITEM_NORMAL) {
+        if (mItemType == ITEM_WITH_COVER) {
             /*Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
             if (cover == null)*/
             Bitmap cover = BitmapCache.GetFromResource(v, R.drawable.icon);
