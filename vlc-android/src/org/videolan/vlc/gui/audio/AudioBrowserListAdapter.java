@@ -137,6 +137,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
+            holder.footer = (View) v.findViewById(R.id.footer);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
@@ -167,6 +168,16 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
             holder.subtitle.setText(item.mSubTitle);
         }
         holder.subtitle.setLayoutParams(paramsSubTitle);
+
+        // Remove the footer if the item is just above a separator.
+        LinearLayout.LayoutParams paramsFooter;
+        if (isMediaItemAboveASeparator(position))
+            paramsFooter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
+        else {
+            int height = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_footer_height);
+            paramsFooter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
+        }
+        holder.footer.setLayoutParams(paramsFooter);
 
         return v;
     }
@@ -205,6 +216,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
         ImageView cover;
         TextView title;
         TextView subtitle;
+        View footer;
         int viewType;
     }
 
@@ -268,5 +280,18 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
         if (!mItems.get(position).mIsSeparator)
             mediaList.addAll(mItems.get(position).mMediaList);
         return mediaList;
+    }
+
+    private boolean isMediaItemAboveASeparator(int position) {
+        // Test if a media item if above or not a separator.
+        if (mItems.get(position).mIsSeparator)
+            throw new IllegalArgumentException("Tested item must be a media item and not a separator.");
+
+        if (position == mItems.size() - 1)
+            return false;
+        else if (mItems.get(position + 1).mIsSeparator )
+            return true;
+        else
+            return false;
     }
 }
