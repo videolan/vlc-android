@@ -28,6 +28,7 @@
         <activity
             android:name=".gui.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleInstance"
             android:icon="@drawable/icon"
             android:label="@string/app_name"
             android:theme="@style/Theme.VLC" >
