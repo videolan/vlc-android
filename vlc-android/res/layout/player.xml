@@ -34,10 +34,10 @@
 
         <ImageButton
             android:id="@+id/player_overlay_play"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_pause" />
+            android:background="@drawable/pause_circle" />
 
         <TextView
             android:id="@+id/player_overlay_info"
@@ -95,28 +95,25 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_header"
             android:gravity="bottom|center_horizontal"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:orientation="vertical" >
 
             <ImageButton
                 android:id="@+id/player_overlay_subtitle"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/header_icon_subtitle" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_circle" />
 
             <ImageButton
                 android:id="@+id/player_overlay_audio"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/header_icon_audio" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/audio_circle" />
 
             <ImageButton
                 android:id="@+id/player_overlay_size"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:background="@drawable/ic_size" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/crop_circle" />
         </LinearLayout>
 
         <RelativeLayout
