@@ -1,0 +1,11 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Non focused states -->
+    <item android:drawable="@drawable/tab_unselected" android:state_focused="false" android:state_pressed="false" android:state_selected="false"/>
+    <item android:drawable="@drawable/tab_selected" android:state_focused="false" android:state_pressed="false" android:state_selected="true"/>
+
+    <!-- Pressed -->
+    <item android:drawable="@drawable/tab_pressed" android:state_pressed="true" android:state_selected="true"/>
+    <item android:drawable="@drawable/tab_pressed" android:state_pressed="true"/>
+
+</selector>

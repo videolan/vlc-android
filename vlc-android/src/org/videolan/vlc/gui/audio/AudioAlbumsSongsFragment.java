@@ -28,6 +28,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.MainActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -40,6 +41,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class AudioAlbumsSongsFragment extends SherlockFragment {
@@ -96,9 +100,23 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
         tabHost.setup();
 
-        tabHost.addTab(tabHost.newTabSpec("albums").setIndicator("Albums").setContent(R.id.albums));
-        tabHost.addTab(tabHost.newTabSpec("songs").setIndicator("Songs").setContent(R.id.songs));
+        addNewTab(tabHost, "albums", "Albums", R.id.albums);
+        addNewTab(tabHost, "songs", "Songs", R.id.songs);
 
+        return v;
+    }
+
+    private void addNewTab(TabHost tabHost, String tag, String title, int contentID) {
+        TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setIndicator(getNewTabIndicator(tabHost.getContext(), title));
+        tabSpec.setContent(contentID);
+        tabHost.addTab(tabSpec);
+    }
+
+    private View getNewTabIndicator(Context context, String title) {
+        View v = LayoutInflater.from(context).inflate(R.layout.audio_browser_tab_layout, null);
+        TextView tv = (TextView) v.findViewById(R.id.textView);
+        tv.setText(title);
         return v;
     }
 
