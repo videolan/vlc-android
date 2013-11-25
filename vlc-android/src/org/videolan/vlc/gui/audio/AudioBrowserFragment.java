@@ -59,8 +59,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -81,7 +79,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
-    private AudioPlaylistAdapter mGenresAdapter;
+    private AudioBrowserListAdapter mGenresAdapter;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
@@ -108,7 +106,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mSongsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mAlbumsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
-        mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
+        mGenresAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
     }
 
     @Override
@@ -131,7 +129,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
         ListView artistList = (ListView)v.findViewById(R.id.artists_list);
         ListView albumList = (ListView)v.findViewById(R.id.albums_list);
-        ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
+        ListView genreList = (ListView)v.findViewById(R.id.genres_list);
 
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
@@ -141,9 +139,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
         albumList.setOnItemClickListener(albumListListener);
-        genreList.setOnGroupClickListener(playlistListener);
-
-        genreList.setOnChildClickListener(playlistChildListener);
+        genreList.setOnItemClickListener(genreListListener);
 
         registerForContextMenu(songsList);
         registerForContextMenu(artistList);
@@ -205,46 +201,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    OnGroupClickListener playlistListener = new OnGroupClickListener() {
-        @Override
-        public boolean onGroupClick(ExpandableListView elv, View v, int groupPosition, long id) {
-            AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
-            if (adapter.getChildrenCount(groupPosition) > 2)
-                return false;
-
-            String name = adapter.getGroup(groupPosition);
-
-            AudioListFragment audioList = new AudioListFragment();
-            Bundle b = new Bundle();
-            b.putString(AudioListFragment.EXTRA_NAME, name);
-            b.putString(AudioListFragment.EXTRA_NAME2, null);
-            b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
-            audioList.setArguments(b);
-
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
-            return true;
-        }
-    };
-
-    OnChildClickListener playlistChildListener = new OnChildClickListener() {
-        @Override
-        public boolean onChildClick(ExpandableListView elv, View v, int groupPosition, int childPosition, long id) {
-            AudioPlaylistAdapter adapter = (AudioPlaylistAdapter) elv.getExpandableListAdapter();
-            String name = adapter.getGroup(groupPosition);
-            String child = adapter.getChild(groupPosition, childPosition);
-
-            AudioListFragment audioList = new AudioListFragment();
-            Bundle b = new Bundle();
-            b.putString(AudioListFragment.EXTRA_NAME, name);
-            b.putString(AudioListFragment.EXTRA_NAME2, child);
-            b.putInt(AudioListFragment.EXTRA_MODE, mFlingViewGroup.getPosition());
-            audioList.setArguments(b);
-
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
-            return false;
-        }
-    };
-
     OnItemClickListener artistListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
@@ -267,6 +223,15 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             audioList.setArguments(b);
 
             MainActivity.ShowFragment(getActivity(), "tracks", audioList);
+        }
+    };
+
+    OnItemClickListener genreListListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> av, View v, int p, long id) {
+            ArrayList<Media> mediaList = mGenresAdapter.getMedia(p);
+            AudioAlbumsSongsFragment frag = new AudioAlbumsSongsFragment(mediaList);
+            MainActivity.ShowFragment(getActivity(), "albumsSongsFromArtist", frag);
         }
     };
 
@@ -357,7 +322,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                     medias = new ArrayList<String>();
                     break;
                 case MODE_GENRE:
-                    medias = mGenresAdapter.getPlaylist(groupPosition, childPosition);
+                    //medias = mGenresAdapter.getMedia(groupPosition);
+                    medias = new ArrayList<String>();
                     break;
                 default:
                     return true;
@@ -537,8 +503,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         if (mSortBy != SORT_BY_LENGTH)
             mSongsAdapter.addSeparators();
 
-        char prevFirstLetter = 'A';
-
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
@@ -556,25 +520,14 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         Collections.sort(audioList, byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            prevFirstLetter = addFirstLetterSeparator(mGenresAdapter, i, media.getGenre(), prevFirstLetter);
             mGenresAdapter.add(media.getGenre(), null, media);
-            mGenresAdapter.add(media.getGenre(), media.getAlbum(), media);
         }
+        mGenresAdapter.addSeparators();
 
         mSongsAdapter.notifyDataSetChanged();
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
-    }
-
-    private final char addFirstLetterSeparator(AudioPlaylistAdapter list, int i, String tittle, char prevFirstLetter) {
-        char firstLetter = tittle.toUpperCase().charAt(0);
-        if (Character.isLetter(firstLetter)
-            && (i == 0 || firstLetter != prevFirstLetter)) {
-            list.addSeparator(String.valueOf(firstLetter));
-            prevFirstLetter = firstLetter;
-        }
-        return prevFirstLetter;
     }
 
     @Override
