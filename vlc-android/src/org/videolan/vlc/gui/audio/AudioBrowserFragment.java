@@ -78,7 +78,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
-    private AudioListAdapter mSongsAdapter;
+    private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioPlaylistAdapter mGenresAdapter;
@@ -105,7 +105,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
 
-        mSongsAdapter = new AudioListAdapter(getActivity());
+        mSongsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mAlbumsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
@@ -198,7 +198,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            mAudioController.load(mSongsAdapter.getLocations(), p);
+            ArrayList<String> mediaLocation = new ArrayList<String>();
+            mediaLocation.add(mSongsAdapter.getMedia(p).get(0).getLocation());
+            mAudioController.load(mediaLocation, p);
             AudioPlayerFragment.start(getActivity());
         }
     };
@@ -313,7 +315,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
 
         if (id == R.id.audio_list_browser_delete) {
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(
+            /*AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
                     mSongsAdapter.getLocation(groupPosition).get(0),
                     new VlcRunnable(mSongsAdapter.getItem(groupPosition)) {
@@ -324,25 +326,27 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                             updateLists();
                         }
                     });
-            alertDialog.show();
+            alertDialog.show();*/
             return true;
         }
 
         if (id == R.id.audio_list_browser_set_song) {
-            AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition),getActivity());
+            //AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition),getActivity());
             return true;
         }
 
         if (useAllItems) {
             startPosition = groupPosition;
-            medias = mSongsAdapter.getLocations();
+            //medias = mSongsAdapter.getMedia(groupPosition);
+            medias = new ArrayList<String>();
         }
         else {
             startPosition = 0;
             switch (mFlingViewGroup.getPosition())
             {
                 case MODE_SONG:
-                    medias = mSongsAdapter.getLocation(groupPosition);
+                    //medias = mSongsAdapter.getMedia(groupPosition);
+                    medias = new ArrayList<String>();
                     break;
                 case MODE_ARTIST:
                     //medias = mArtistsAdapter.getMedia(groupPosition);
@@ -526,8 +530,12 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         if(mSortReverse) {
             Collections.reverse(audioList);
         }
-        for (int i = 0; i < audioList.size(); i++)
-            mSongsAdapter.add(audioList.get(i));
+        for (int i = 0; i < audioList.size(); i++) {
+            Media media = audioList.get(i);
+            mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
+        }
+        if (mSortBy != SORT_BY_LENGTH)
+            mSongsAdapter.addSeparators();
 
         char prevFirstLetter = 'A';
 
