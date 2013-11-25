@@ -29,6 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:ellipsize="marquee"
+                android:maxLines="1"
                 android:text="@string/title"
                 android:textColor="@color/list_title"
                 android:textSize="20sp" />
@@ -37,6 +39,8 @@
                 android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:maxLines="1"
                 android:text="@string/artist"
                 android:textColor="@color/list_subtitle"
                 android:textSize="14sp" />
