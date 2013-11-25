@@ -87,16 +87,14 @@
             android:divider="?attr/item_divider"
             android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
-        <ExpandableListView
+        <ListView
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:divider="?attr/item_divider"
-            android:childDivider="?attr/item_divider"
             android:dividerHeight="1dp"
-            android:groupIndicator="@null"
             android:fastScrollEnabled="true" />
        <ListView
             android:id="@+id/songs_list"
