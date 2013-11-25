@@ -20,6 +20,8 @@
             <stroke
                 android:width="2dp"
                 android:color="@color/orange" />
+
+            <solid android:color="#00000000" />
         </shape>
     </item>
 
