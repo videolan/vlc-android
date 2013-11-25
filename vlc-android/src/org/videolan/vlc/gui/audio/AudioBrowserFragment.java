@@ -522,7 +522,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             mSongsAdapter.add(audioList.get(i));
 
         char prevFirstLetter = 'A';
-        char prevFirstLetter2 = 'A';
 
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
@@ -530,9 +529,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             prevFirstLetter = addFirstLetterSeparator(mArtistsAdapter, i, media.getArtist(), prevFirstLetter);
             mArtistsAdapter.add(media.getArtist(), null, media);
             mArtistsAdapter.add(media.getArtist(), media.getAlbum(), media);
-            prevFirstLetter2 = addFirstLetterSeparator2(mArtistsAdapter2, i, media.getArtist(), prevFirstLetter2);
             mArtistsAdapter2.add(media.getArtist(), null, media);
         }
+        mArtistsAdapter2.addSeparators();
 
         Collections.sort(audioList, byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
@@ -556,16 +555,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     }
 
     private final char addFirstLetterSeparator(AudioPlaylistAdapter list, int i, String tittle, char prevFirstLetter) {
-        char firstLetter = tittle.toUpperCase().charAt(0);
-        if (Character.isLetter(firstLetter)
-            && (i == 0 || firstLetter != prevFirstLetter)) {
-            list.addSeparator(String.valueOf(firstLetter));
-            prevFirstLetter = firstLetter;
-        }
-        return prevFirstLetter;
-    }
-
-    private final char addFirstLetterSeparator2(AudioBrowserListAdapter list, int i, String tittle, char prevFirstLetter) {
         char firstLetter = tittle.toUpperCase().charAt(0);
         if (Character.isLetter(firstLetter)
             && (i == 0 || firstLetter != prevFirstLetter)) {

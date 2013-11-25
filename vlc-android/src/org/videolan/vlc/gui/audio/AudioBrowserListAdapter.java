@@ -97,10 +97,22 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
         }
     }
 
-    public void addSeparator(String title) {
-        ListItem item = new ListItem(title, null, null, true);
-        mMediaItemMap.put(title, item);
-        mItems.add(item);
+    public void addSeparators() {
+        char prevFirstLetter = 'a';
+        boolean firstSeparator = true;
+
+        for (int i = 0; i < mItems.size(); ++i) {
+            String title = mItems.get(i).mTitle;
+            char firstLetter = title.toUpperCase().charAt(0);
+            if (Character.isLetter(firstLetter)
+                && (firstSeparator || firstLetter != prevFirstLetter)) {
+                ListItem item = new ListItem(String.valueOf(firstLetter), null, null, true);
+                mItems.add(i, item);
+                i++;
+                prevFirstLetter = firstLetter;
+                firstSeparator = false;
+            }
+        }
     }
 
     public void clear() {
