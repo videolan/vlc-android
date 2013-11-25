@@ -139,7 +139,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         genreList.setAdapter(mGenresAdapter);
 
         songsList.setOnItemClickListener(songListener);
-        artistList.setOnItemClickListener(browserListListener);
+        artistList.setOnItemClickListener(artistListListener);
         albumList.setOnItemClickListener(albumListListener);
         genreList.setOnGroupClickListener(playlistListener);
 
@@ -243,7 +243,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    OnItemClickListener browserListListener = new OnItemClickListener() {
+    OnItemClickListener artistListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<Media> mediaList = mArtistsAdapter.getMedia(p);
