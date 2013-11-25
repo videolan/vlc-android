@@ -424,58 +424,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    private final Comparator<Media> byName = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getTitle(), m2.getTitle());
-        };
-    };
-
-    private final Comparator<Media> byMRL = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
-        };
-    };
-
-    private final Comparator<Media> byLength = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            if(m1.getLength() > m2.getLength()) return -1;
-            if(m1.getLength() < m2.getLength()) return 1;
-            else return 0;
-        };
-    };
-
-    private final Comparator<Media> byAlbum = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
-            if (res == 0)
-                res = byMRL.compare(m1, m2);
-            return res;
-        };
-    };
-
-    private final Comparator<Media> byArtist = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getArtist(), m2.getArtist());
-            if (res == 0)
-                res = byAlbum.compare(m1, m2);
-            return res;
-        };
-    };
-
-    private final Comparator<Media> byGenre = new Comparator<Media>() {
-        @Override
-        public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getGenre(), m2.getGenre());
-            if (res == 0)
-                res = byArtist.compare(m1, m2);
-            return res;
-        };
-    };
+    private static final MediaComparators mComparators = new MediaComparators();
 
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance(getActivity()).getAudioItems();
@@ -486,11 +435,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
         switch(mSortBy) {
         case SORT_BY_LENGTH:
-            Collections.sort(audioList, byLength);
+            Collections.sort(audioList, mComparators.byLength);
             break;
         case SORT_BY_TITLE:
         default:
-            Collections.sort(audioList, byName);
+            Collections.sort(audioList, mComparators.byName);
             break;
         }
         if(mSortReverse) {
@@ -503,21 +452,21 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         if (mSortBy != SORT_BY_LENGTH)
             mSongsAdapter.addSeparators();
 
-        Collections.sort(audioList, byArtist);
+        Collections.sort(audioList, mComparators.byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mArtistsAdapter.add(media.getArtist(), null, media);
         }
         mArtistsAdapter.addSeparators();
 
-        Collections.sort(audioList, byAlbum);
+        Collections.sort(audioList, mComparators.byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
         mAlbumsAdapter.addSeparators();
 
-        Collections.sort(audioList, byGenre);
+        Collections.sort(audioList, mComparators.byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mGenresAdapter.add(media.getGenre(), null, media);
