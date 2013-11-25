@@ -79,22 +79,20 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private MediaLibrary mMediaLibrary;
 
     private AudioListAdapter mSongsAdapter;
-    private AudioPlaylistAdapter mArtistsAdapter;
+    private AudioBrowserListAdapter mArtistsAdapter;
     private AudioPlaylistAdapter mAlbumsAdapter;
     private AudioPlaylistAdapter mGenresAdapter;
-    private AudioBrowserListAdapter mArtistsAdapter2;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
     private boolean mSortReverse = false;
     private int mSortBy = SORT_BY_TITLE;
 
-    public final static int MODE_TOTAL = 5; // Number of audio browser modes
-    public final static int MODE_ARTIST2 = 0;
-    public final static int MODE_ARTIST = 1;
-    public final static int MODE_ALBUM = 2;
-    public final static int MODE_SONG = 3;
-    public final static int MODE_GENRE = 4;
+    public final static int MODE_TOTAL = 4; // Number of audio browser modes
+    public final static int MODE_ARTIST = 0;
+    public final static int MODE_ALBUM = 1;
+    public final static int MODE_SONG = 2;
+    public final static int MODE_GENRE = 3;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -108,10 +106,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
 
         mSongsAdapter = new AudioListAdapter(getActivity());
-        mArtistsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
+        mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
         mAlbumsAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.songs_quantity, R.plurals.songs_quantity);
         mGenresAdapter = new AudioPlaylistAdapter(getActivity(), R.plurals.albums_quantity, R.plurals.songs_quantity);
-        mArtistsAdapter2 = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
     }
 
     @Override
@@ -132,24 +129,20 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         });
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
-        ExpandableListView artistList = (ExpandableListView)v.findViewById(R.id.artists_list);
+        ListView artistList = (ListView)v.findViewById(R.id.artists_list);
         ExpandableListView albumList = (ExpandableListView)v.findViewById(R.id.albums_list);
         ExpandableListView genreList = (ExpandableListView)v.findViewById(R.id.genres_list);
-        ListView artistList2 = (ListView)v.findViewById(R.id.artists2_list);
 
         songsList.setAdapter(mSongsAdapter);
         artistList.setAdapter(mArtistsAdapter);
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
-        artistList2.setAdapter(mArtistsAdapter2);
 
         songsList.setOnItemClickListener(songListener);
-        artistList.setOnGroupClickListener(playlistListener);
+        artistList.setOnItemClickListener(browserListListener);
         albumList.setOnGroupClickListener(playlistListener);
         genreList.setOnGroupClickListener(playlistListener);
-        artistList2.setOnItemClickListener(browserListListener);
 
-        artistList.setOnChildClickListener(playlistChildListener);
         albumList.setOnChildClickListener(playlistChildListener);
         genreList.setOnChildClickListener(playlistChildListener);
 
@@ -254,7 +247,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     OnItemClickListener browserListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<Media> mediaList = mArtistsAdapter2.getMedia(p);
+            ArrayList<Media> mediaList = mArtistsAdapter.getMedia(p);
             AudioAlbumsSongsFragment frag = new AudioAlbumsSongsFragment(mediaList);
             MainActivity.ShowFragment(getActivity(), "albumsSongsFromArtist", frag);
         }
@@ -337,7 +330,8 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
                     medias = mSongsAdapter.getLocation(groupPosition);
                     break;
                 case MODE_ARTIST:
-                    medias = mArtistsAdapter.getPlaylist(groupPosition, childPosition);
+                    //medias = mArtistsAdapter.getMedia(groupPosition);
+                    medias = new ArrayList<String>();
                     break;
                 case MODE_ALBUM:
                     medias = mAlbumsAdapter.getPlaylist(groupPosition, childPosition);
@@ -366,7 +360,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
-        mArtistsAdapter2.clear();
     }
 
     private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
@@ -504,7 +497,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
-        mArtistsAdapter2.clear();
 
         switch(mSortBy) {
         case SORT_BY_LENGTH:
@@ -526,12 +518,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         Collections.sort(audioList, byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            prevFirstLetter = addFirstLetterSeparator(mArtistsAdapter, i, media.getArtist(), prevFirstLetter);
             mArtistsAdapter.add(media.getArtist(), null, media);
-            mArtistsAdapter.add(media.getArtist(), media.getAlbum(), media);
-            mArtistsAdapter2.add(media.getArtist(), null, media);
         }
-        mArtistsAdapter2.addSeparators();
+        mArtistsAdapter.addSeparators();
 
         Collections.sort(audioList, byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
