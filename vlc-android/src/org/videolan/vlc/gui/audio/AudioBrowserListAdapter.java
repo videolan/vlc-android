@@ -294,6 +294,17 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
         return mediaList;
     }
 
+    public ArrayList<String> getLocations(int position) {
+        // Return all the media locations of a list item list.
+        ArrayList<String> locations = new ArrayList<String>();
+        if (!mItems.get(position).mIsSeparator) {
+            ArrayList<Media> media = mItems.get(position).mMediaList;
+            for (int i = 0; i < media.size(); ++i)
+                locations.add(media.get(i).getLocation());
+        }
+        return locations;
+    }
+
     private boolean isMediaItemAboveASeparator(int position) {
         // Test if a media item if above or not a separator.
         if (mItems.get(position).mIsSeparator)
