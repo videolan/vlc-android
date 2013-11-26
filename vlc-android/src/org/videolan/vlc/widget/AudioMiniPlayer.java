@@ -180,7 +180,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public synchronized void update() {
         if (mAudioPlayerControl != null && getActivity() != null) {
 
-            if (mAudioPlayerControl.hasMedia()) {
+            if (mAudioPlayerControl.hasMedia() && !mKeepHidden) {
                 show();
             } else {
                 hide();
@@ -244,4 +244,14 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         ft.commit();
     }
 
+    private boolean mKeepHidden = false;
+
+    /**
+     * Tell the mini player to keep hidden or not.
+     * @param k true if the player must keep hidden, else false.
+     */
+    public void setKeepHidden(boolean k) {
+        mKeepHidden = k;
+        update();
+    }
 }
