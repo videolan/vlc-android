@@ -8,7 +8,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-	    <HorizontalScrollView
+	    <org.videolan.vlc.widget.HeaderScrollView
 	        android:id="@+id/header"
 	        android:scrollbars="none"
 	        android:fadingEdge="none"
@@ -57,7 +57,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal" />
 	        </LinearLayout>
-	    </HorizontalScrollView>
+	    </org.videolan.vlc.widget.HeaderScrollView>
 	    <View
 	        android:layout_width="20dip"
 	        android:layout_height="10dip"

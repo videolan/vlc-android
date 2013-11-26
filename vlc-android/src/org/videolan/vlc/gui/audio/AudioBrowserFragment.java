@@ -37,9 +37,9 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
+import org.videolan.vlc.widget.HeaderScrollView;
 
 import android.app.AlertDialog;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -52,17 +52,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -72,7 +67,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private FlingViewGroup mFlingViewGroup;
     private int mFlingViewPosition = 0;
 
-    private HorizontalScrollView mHeader;
+    private HeaderScrollView mHeader;
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
@@ -117,7 +112,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mFlingViewGroup = (FlingViewGroup)v.findViewById(R.id.content);
         mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
 
-        mHeader = (HorizontalScrollView)v.findViewById(R.id.header);
+        mHeader = (HeaderScrollView)v.findViewById(R.id.header);
         mHeader.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent e) {
@@ -146,48 +141,21 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         registerForContextMenu(albumList);
         registerForContextMenu(genreList);
 
-        v.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    public void onGlobalLayout() {
-                        View v = getView();
-                        if (v == null)
-                            return;
-                        LinearLayout hl = (LinearLayout)v.findViewById(R.id.header_layout);
-                        for (int i = 0; i < hl.getChildCount(); ++i) {
-                            View t = (View)hl.getChildAt(i);
-                            int width = getView().getWidth() / 2;
-                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, LayoutParams.WRAP_CONTENT, 1);
-                            if (i == 0)
-                                lp.setMargins(width / 2, 0, 0, 0);
-                            else if (i == hl.getChildCount() - 1)
-                                lp.setMargins(0, 0, width / 2, 0);
-                            t.setLayoutParams(lp);
-                        }
-                    }
-                });
-
         return v;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        updateLists();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mFlingViewPosition = mFlingViewGroup.getPosition();
         mMediaLibrary.removeUpdateHandler(mHandler);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        headerScrollTab(mFlingViewPosition);
-        headerHighlightTab(mFlingViewGroup.getPosition(), mFlingViewPosition);
         mFlingViewGroup.setPosition(mFlingViewPosition);
+        mHeader.highlightTab(-1, mFlingViewPosition);
+        updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
@@ -350,56 +318,18 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
     private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
 
-        int mCurrentPosition = 0;
-
         @Override
         public void onSwitching(float progress) {
-            headerScroll(progress);
+            mHeader.scroll(progress);
         }
 
         @Override
         public void onSwitched(int position) {
-            headerHighlightTab(mCurrentPosition, position);
-            mCurrentPosition = position;
+            mHeader.highlightTab(mFlingViewPosition, position);
+            mFlingViewPosition = position;
         }
 
     };
-
-    private void headerHighlightTab(int existingPosition, int newPosition) {
-        LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
-        TypedArray attrs = getActivity().obtainStyledAttributes(new int[] { R.attr.font_light, R.attr.font_default});
-        if (hl == null)
-            return;
-        TextView oldView = (TextView) hl.getChildAt(existingPosition);
-        if (oldView != null)
-            oldView.setTextColor(attrs.getColor(0, 0));
-        TextView newView = (TextView) hl.getChildAt(newPosition);
-        if (newView != null)
-            newView.setTextColor(attrs.getColor(1, 0));
-    }
-
-    private void headerScroll(float progress) {
-        /*
-         * How progress works:
-         * |------|------|------|
-         * 0     1/3    2/3     1
-         *
-         * To calculate the "progress" of a particular tab, one can use this
-         * formula:
-         *
-         * <tab beginning with 0> * (1 / (total tabs - 1))
-         */
-        LinearLayout hl = (LinearLayout)getActivity().findViewById(R.id.header_layout);
-        if (hl == null)
-            return;
-        int width = hl.getChildAt(0).getWidth();
-        int x = (int) (progress * (MODE_TOTAL - 1) * width);
-        mHeader.smoothScrollTo(x, 0);
-    }
-
-    private void headerScrollTab(int tab) {
-        headerScroll((float)tab / (MODE_TOTAL - 1));
-    }
 
     /**
      * Handle changes on the list
