@@ -298,9 +298,9 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
         // Return all the media locations of a list item list.
         ArrayList<String> locations = new ArrayList<String>();
         if (!mItems.get(position).mIsSeparator) {
-            ArrayList<Media> media = mItems.get(position).mMediaList;
-            for (int i = 0; i < media.size(); ++i)
-                locations.add(media.get(i).getLocation());
+            ArrayList<Media> mediaList = mItems.get(position).mMediaList;
+            for (int i = 0; i < mediaList.size(); ++i)
+                locations.add(mediaList.get(i).getLocation());
         }
         return locations;
     }

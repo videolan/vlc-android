@@ -162,9 +162,10 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> mediaLocations = mSongsAdapter.getLocations(p);
-            mAudioController.load(mediaLocations, p);
-            AudioPlayerFragment.start(getActivity());
+            ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
+            mAudioController.load(mediaLocation, 0);
+            AudioListFragment audioList = new AudioListFragment();
+            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
         }
     };
 
@@ -180,15 +181,9 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     OnItemClickListener albumListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            String name = mAlbumsAdapter.getMedia(p).get(0).getAlbum();
-
+            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
+            mAudioController.load(mediaLocation, 0);
             AudioListFragment audioList = new AudioListFragment();
-            Bundle b = new Bundle();
-            b.putString(AudioListFragment.EXTRA_NAME, name);
-            b.putString(AudioListFragment.EXTRA_NAME2, null);
-            b.putInt(AudioListFragment.EXTRA_MODE, AudioBrowserFragment.MODE_ALBUM);
-            audioList.setArguments(b);
-
             MainActivity.ShowFragment(getActivity(), "tracks", audioList);
         }
     };

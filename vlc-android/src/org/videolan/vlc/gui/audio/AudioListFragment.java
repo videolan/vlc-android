@@ -235,26 +235,15 @@ public class AudioListFragment extends SherlockListFragment {
     };
 
     private void updateList() {
-        final Bundle b = getArguments();
-        String name = b.getString(EXTRA_NAME);
-        String name2 = b.getString(EXTRA_NAME2);
-        int mode = b.getInt(EXTRA_MODE, 0);
-
         List<Media> audioList;
         List<String> itemList;
         String currentItem = null;
         int currentIndex = -1;
 
-        if (name == null || mode == AudioBrowserFragment.MODE_SONG) {
-            mTitle.setText(R.string.songs);
-            itemList = mAudioController.getMediaLocations();
-            currentItem = mAudioController.getCurrentMediaLocation();
-            audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
-        }
-        else {
-            mTitle.setText(name2 != null ? name2 : name);
-            audioList = MediaLibrary.getInstance(getActivity()).getAudioItems(name, name2, mode);
-        }
+        mTitle.setText(R.string.songs);
+        itemList = mAudioController.getMediaLocations();
+        currentItem = mAudioController.getCurrentMediaLocation();
+        audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
 
         mSongsAdapter.clear();
         switch (mSortBy) {
