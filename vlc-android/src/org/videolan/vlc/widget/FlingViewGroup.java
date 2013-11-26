@@ -79,8 +79,6 @@ public class FlingViewGroup extends ViewGroup {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        final int width = MeasureSpec.getSize(widthMeasureSpec);
-
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 
         if (widthMode != MeasureSpec.EXACTLY ) {
@@ -91,8 +89,13 @@ public class FlingViewGroup extends ViewGroup {
         for (int i = 0; i < count; i++) {
             getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
         }
+    }
 
-        scrollTo(mCurrentView * width, 0);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        scrollTo(mCurrentView * w, 0);
+        requestLayout();
     }
 
     @Override
