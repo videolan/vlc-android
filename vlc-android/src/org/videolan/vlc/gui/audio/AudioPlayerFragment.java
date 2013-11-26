@@ -87,12 +87,8 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         DisplayMetrics screen = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
         Log.v(TAG, "width = " + screen.widthPixels + " : height = " + screen.heightPixels);
-        if(screen.widthPixels == 240 && screen.heightPixels == 320) /* QVGA 2.7in */
-            v = inflater.inflate(R.layout.audio_player_qvga, container, false);
-        else
-            v = inflater.inflate(R.layout.audio_player, container, false);
+        v = inflater.inflate(R.layout.audio_player, container, false);
 
-        mCover = (ImageView) v.findViewById(R.id.cover);
         mTitle = (TextView) v.findViewById(R.id.title);
         mArtist = (TextView) v.findViewById(R.id.artist);
         mAlbum = (TextView) v.findViewById(R.id.album);
