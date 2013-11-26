@@ -84,7 +84,7 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 ANDROID_PATH="`pwd`"
 
 # 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=7c52aacbe
+TESTED_HASH=9f5c45fa0
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
