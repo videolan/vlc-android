@@ -77,7 +77,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private boolean mShowRemainingTime = false;
     private String lastTitle;
 
-    private AudioListAdapter mSongsAdapter;
+    private AudioListAdapter mSongsListAdapter;
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
@@ -91,7 +91,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mAudioController = AudioServiceController.getInstance();
         lastTitle = "";
 
-        mSongsAdapter = new AudioListAdapter(getActivity());
+        mSongsListAdapter = new AudioListAdapter(getActivity());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
 
         mSongsList = (ListView) v.findViewById(R.id.songs_list);
-        mSongsList.setAdapter(mSongsAdapter);
+        mSongsList.setAdapter(mSongsListAdapter);
 
         mTitle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,7 +336,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         currentItem = mAudioController.getCurrentMediaLocation();
         audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
 
-        mSongsAdapter.clear();
+        mSongsListAdapter.clear();
         switch (mSortBy) {
             case SORT_BY_LENGTH:
                 Collections.sort(audioList, mComparators.byLength);
@@ -354,12 +354,12 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
             Media media = audioList.get(i);
             if (currentItem != null && currentItem.equals(media.getLocation()))
                 currentIndex = i;
-            mSongsAdapter.add(media);
+            mSongsListAdapter.add(media);
         }
-        mSongsAdapter.setCurrentIndex(currentIndex);
+        mSongsListAdapter.setCurrentIndex(currentIndex);
         mSongsList.setSelection(currentIndex);
 
-        mSongsAdapter.notifyDataSetChanged();
+        mSongsListAdapter.notifyDataSetChanged();
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
