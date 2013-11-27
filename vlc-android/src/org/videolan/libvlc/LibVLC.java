@@ -83,7 +83,7 @@ public class LibVLC {
                 System.loadLibrary("iomx-gingerbread");
             else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
                 System.loadLibrary("iomx-hc");
-            else
+            else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2)
                 System.loadLibrary("iomx-ics");
         } catch (Throwable t) {
             Log.w(TAG, "Unable to load the iomx library: " + t);
