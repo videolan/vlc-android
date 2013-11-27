@@ -19,7 +19,12 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.audio;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
@@ -44,6 +49,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -52,10 +58,8 @@ import android.widget.Toast;
 public class AudioPlayerFragment extends SherlockFragment implements IAudioPlayer {
     public final static String TAG = "VLC/AudioPlayerFragment";
 
-    private ImageView mCover;
     private TextView mTitle;
     private TextView mArtist;
-    private TextView mAlbum;
     private TextView mTime;
     private TextView mLength;
     private ImageButton mPlayPause;
@@ -66,11 +70,19 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private ImageButton mRepeat;
     private ImageButton mAdvFunc;
     private SeekBar mTimeline;
+    private ListView mSongsList;
 
     private AudioServiceController mAudioController;
     private boolean mOrientationChanged = false;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
+
+    private AudioListAdapter mSongsAdapter;
+
+    public final static int SORT_BY_TITLE = 0;
+    public final static int SORT_BY_LENGTH = 1;
+    private boolean mSortReverse = false;
+    private int mSortBy = SORT_BY_TITLE;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,20 +90,16 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
 
         mAudioController = AudioServiceController.getInstance();
         lastTitle = "";
+
+        mSongsAdapter = new AudioListAdapter(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v;
-
-        DisplayMetrics screen = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
-        Log.v(TAG, "width = " + screen.widthPixels + " : height = " + screen.heightPixels);
-        v = inflater.inflate(R.layout.audio_player, container, false);
+        View v = inflater.inflate(R.layout.audio_player, container, false);
 
         mTitle = (TextView) v.findViewById(R.id.title);
         mArtist = (TextView) v.findViewById(R.id.artist);
-        mAlbum = (TextView) v.findViewById(R.id.album);
         mTime = (TextView) v.findViewById(R.id.time);
         mLength = (TextView) v.findViewById(R.id.length);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
@@ -103,6 +111,9 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
 
+        mSongsList = (ListView) v.findViewById(R.id.songs_list);
+        mSongsList.setAdapter(mSongsAdapter);
+
         mTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,12 +121,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
             }
         });
         mArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTextClick(v);
-            }
-        });
-        mAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onTextClick(v);
@@ -188,9 +193,17 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mStop.setOnFocusChangeListener(listener);
         mNext.setOnFocusChangeListener(listener);
 
+
+
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //update();
     }
 
     @Override
@@ -203,12 +216,18 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     @Override
     public void onResume() {
         super.onResume();
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setMiniPlayerKeepHidden(true);
+        activity.getActionBar().hide();
         mAudioController.addAudioPlayer(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setMiniPlayerKeepHidden(false);
+        activity.getActionBar().show();
         mAudioController.removeAudioPlayer(this);
     }
 
@@ -230,6 +249,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
 
     @Override
     public synchronized void update() {
+
         // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
             if (!mOrientationChanged)
@@ -252,15 +272,14 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         String title = mAudioController.getTitle();
         if (title != null && !title.equals(lastTitle)) {
             Bitmap cover = mAudioController.getCover();
-            if (cover != null)
+            /*if (cover != null)
                 mCover.setImageBitmap(cover);
             else
-                mCover.setImageResource(R.drawable.cone);
+                mCover.setImageResource(R.drawable.cone);*/
         }
         lastTitle = title;
         mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());
-        mAlbum.setText(mAudioController.getAlbum());
         int time = mAudioController.getTime();
         int length = mAudioController.getLength();
         mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
@@ -300,6 +319,47 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         else
             mPrevious.setVisibility(ImageButton.INVISIBLE);
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
+
+        updateList();
+    }
+
+    private static final MediaComparators mComparators = new MediaComparators();
+
+    private void updateList() {
+        List<Media> audioList;
+        List<String> itemList;
+        String currentItem = null;
+        int currentIndex = -1;
+
+        mTitle.setText(R.string.songs);
+        itemList = mAudioController.getMediaLocations();
+        currentItem = mAudioController.getCurrentMediaLocation();
+        audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
+
+        mSongsAdapter.clear();
+        switch (mSortBy) {
+            case SORT_BY_LENGTH:
+                Collections.sort(audioList, mComparators.byLength);
+                break;
+            case SORT_BY_TITLE:
+            default:
+                Collections.sort(audioList, mComparators.byMRL);
+                break;
+        }
+        if (mSortReverse) {
+            Collections.reverse(audioList);
+        }
+
+        for (int i = 0; i < audioList.size(); i++) {
+            Media media = audioList.get(i);
+            if (currentItem != null && currentItem.equals(media.getLocation()))
+                currentIndex = i;
+            mSongsAdapter.add(media);
+        }
+        mSongsAdapter.setCurrentIndex(currentIndex);
+        mSongsList.setSelection(currentIndex);
+
+        mSongsAdapter.notifyDataSetChanged();
     }
 
     OnSeekBarChangeListener mTimelineListner = new OnSeekBarChangeListener() {
