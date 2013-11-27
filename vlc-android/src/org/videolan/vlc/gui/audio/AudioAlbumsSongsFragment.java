@@ -26,7 +26,6 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
-import org.videolan.vlc.gui.MainActivity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -170,8 +169,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioListFragment audioList = new AudioListFragment();
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
+            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -180,8 +178,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioListFragment audioList = new AudioListFragment();
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
+            AudioPlayerFragment.start(getActivity());
         }
     };
 }

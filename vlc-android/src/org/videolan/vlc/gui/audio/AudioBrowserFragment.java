@@ -164,8 +164,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioListFragment audioList = new AudioListFragment();
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
+            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -183,8 +182,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioListFragment audioList = new AudioListFragment();
-            MainActivity.ShowFragment(getActivity(), "tracks", audioList);
+            AudioPlayerFragment.start(getActivity());
         }
     };
 
