@@ -38,14 +38,6 @@ public class HeaderScrollView extends HorizontalScrollView {
 
     public HeaderScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                restoreScroll();
-            }
-        });
     }
 
     @Override
@@ -67,9 +59,14 @@ public class HeaderScrollView extends HorizontalScrollView {
                         lp.setMargins(0, 0, mTabWidth / 2, 0);
                     t.setLayoutParams(lp);
                 }
-                requestLayout();
             }
         });
+    }
+
+    @Override
+    protected void onLayout (boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        restoreScroll();
     }
 
     public void scroll(float progress) {
