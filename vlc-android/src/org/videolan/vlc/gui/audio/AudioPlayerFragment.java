@@ -47,10 +47,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -172,6 +174,12 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
             @Override
             public void onClick(View v) {
                 showAdvancedOptions(v);
+            }
+        });
+        mSongsList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> av, View v, int p, long id) {
+                mAudioController.load(mSongsListAdapter.getLocations(), p);
             }
         });
 
