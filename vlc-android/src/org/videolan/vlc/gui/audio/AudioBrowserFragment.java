@@ -155,7 +155,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         super.onResume();
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mHeader.highlightTab(-1, mFlingViewPosition);
-        updateLists();
+        //updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
