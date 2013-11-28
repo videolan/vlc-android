@@ -58,6 +58,7 @@ import android.widget.Toast;
 public class AudioPlayerFragment extends SherlockFragment implements IAudioPlayer {
     public final static String TAG = "VLC/AudioPlayerFragment";
 
+    private ImageView mCover;
     private TextView mTitle;
     private TextView mArtist;
     private TextView mTime;
@@ -98,6 +99,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.audio_player, container, false);
 
+        mCover = (ImageView) v.findViewById(R.id.cover);
         mTitle = (TextView) v.findViewById(R.id.title);
         mArtist = (TextView) v.findViewById(R.id.artist);
         mTime = (TextView) v.findViewById(R.id.time);
@@ -278,10 +280,12 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         String title = mAudioController.getTitle();
         if (title != null && !title.equals(lastTitle)) {
             Bitmap cover = mAudioController.getCover();
-            /*if (cover != null)
+            if (cover != null) {
+                mCover.setVisibility(ImageView.VISIBLE);
                 mCover.setImageBitmap(cover);
-            else
-                mCover.setImageResource(R.drawable.cone);*/
+            } else {
+                mCover.setVisibility(ImageView.GONE);
+            }
         }
         lastTitle = title;
         mTitle.setText(lastTitle);
