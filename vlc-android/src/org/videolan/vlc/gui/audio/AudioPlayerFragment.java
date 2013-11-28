@@ -213,7 +213,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         super.onResume();
         MainActivity activity = (MainActivity) getActivity();
         activity.setMiniPlayerKeepHidden(true);
-        activity.getActionBar().hide();
+        getSherlockActivity().getSupportActionBar().hide();
         mAudioController.addAudioPlayer(this);
     }
 
@@ -222,7 +222,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         super.onPause();
         MainActivity activity = (MainActivity) getActivity();
         activity.setMiniPlayerKeepHidden(false);
-        activity.getActionBar().show();
+        getSherlockActivity().getSupportActionBar().show();
         mAudioController.removeAudioPlayer(this);
     }
 
