@@ -339,7 +339,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         String currentItem = null;
         int currentIndex = -1;
 
-        mTitle.setText(R.string.songs);
         itemList = mAudioController.getMediaLocations();
         currentItem = mAudioController.getCurrentMediaLocation();
         audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
