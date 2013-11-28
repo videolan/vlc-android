@@ -151,6 +151,9 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         if (mediaList == null)
             return;
 
+        mAlbumsAdapter.clear();
+        mSongsAdapter.clear();
+
         Collections.sort(mediaList, mComparators.byAlbum);
         for (int i = 0; i < mediaList.size(); ++i) {
             Media media = mediaList.get(i);
