@@ -71,6 +71,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
+    ListView mSongsList;
+    ListView mArtistList;
+    ListView mAlbumList;
+    ListView mGenreList;
+
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
@@ -121,25 +126,25 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             }
         });
 
-        ListView songsList = (ListView)v.findViewById(R.id.songs_list);
-        ListView artistList = (ListView)v.findViewById(R.id.artists_list);
-        ListView albumList = (ListView)v.findViewById(R.id.albums_list);
-        ListView genreList = (ListView)v.findViewById(R.id.genres_list);
+        mSongsList = (ListView)v.findViewById(R.id.songs_list);
+        mArtistList = (ListView)v.findViewById(R.id.artists_list);
+        mAlbumList = (ListView)v.findViewById(R.id.albums_list);
+        mGenreList = (ListView)v.findViewById(R.id.genres_list);
 
-        songsList.setAdapter(mSongsAdapter);
-        artistList.setAdapter(mArtistsAdapter);
-        albumList.setAdapter(mAlbumsAdapter);
-        genreList.setAdapter(mGenresAdapter);
+        mSongsList.setAdapter(mSongsAdapter);
+        mArtistList.setAdapter(mArtistsAdapter);
+        mAlbumList.setAdapter(mAlbumsAdapter);
+        mGenreList.setAdapter(mGenresAdapter);
 
-        songsList.setOnItemClickListener(songListener);
-        artistList.setOnItemClickListener(artistListListener);
-        albumList.setOnItemClickListener(albumListListener);
-        genreList.setOnItemClickListener(genreListListener);
+        mSongsList.setOnItemClickListener(songListener);
+        mArtistList.setOnItemClickListener(artistListListener);
+        mAlbumList.setOnItemClickListener(albumListListener);
+        mGenreList.setOnItemClickListener(genreListListener);
 
-        registerForContextMenu(songsList);
-        registerForContextMenu(artistList);
-        registerForContextMenu(albumList);
-        registerForContextMenu(genreList);
+        registerForContextMenu(mSongsList);
+        registerForContextMenu(mArtistList);
+        registerForContextMenu(mAlbumList);
+        registerForContextMenu(mGenreList);
 
         return v;
     }
@@ -399,6 +404,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
+
+        mSongsList.requestLayout();
+        mArtistList.requestLayout();
+        mAlbumList.requestLayout();
+        mGenreList.requestLayout();
     }
 
     @Override
