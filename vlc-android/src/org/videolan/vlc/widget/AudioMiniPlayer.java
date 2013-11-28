@@ -118,10 +118,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                     break;
                 case MotionEvent.ACTION_UP:
                     if(mTouchY - event.getRawY() > root.getHeight()) {
+                        // should show playlist view of AudioPlayerFragment
                         Toast.makeText(AudioMiniPlayer.this.getActivity(), "AudioMiniPlayer swipe up", Toast.LENGTH_SHORT).show();
                         return true;
                     } else if(Math.abs( mTouchY - event.getRawY() ) < 5 && Math.abs( mTouchX - event.getRawX() ) < 5) {
                         // effectively a click
+                        // should show cover view of AudioPlayerFragment
                         AudioPlayerFragment.start(getActivity());
                         return true;
                     } else
