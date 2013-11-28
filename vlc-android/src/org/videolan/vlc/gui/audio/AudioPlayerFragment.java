@@ -116,18 +116,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mSongsList = (ListView) v.findViewById(R.id.songs_list);
         mSongsList.setAdapter(mSongsListAdapter);
 
-        mTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTextClick(v);
-            }
-        });
-        mArtist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTextClick(v);
-            }
-        });
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -398,10 +386,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     public void onTimeLabelClick(View view) {
         mShowRemainingTime = !mShowRemainingTime;
         update();
-    }
-
-    public void onTextClick(View view) {
-       Toast.makeText(getActivity(), "Open playlist view", Toast.LENGTH_SHORT).show();
     }
 
     public void onPlayPauseClick(View view) {
