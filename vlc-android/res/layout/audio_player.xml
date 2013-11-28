@@ -46,28 +46,6 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/shuffle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="#00000000"
-            android:contentDescription="@string/shuffle"
-            android:focusable="true"
-            android:padding="10dip"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_shuffle" />
-
-        <ImageButton
-            android:id="@+id/repeat"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="#00000000"
-            android:contentDescription="@string/repeat"
-            android:focusable="true"
-            android:padding="10dip"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_repeat" />
-
-        <ImageButton
             android:id="@+id/adv_function"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -139,6 +117,16 @@
         android:orientation="horizontal" >
 
         <ImageButton
+            android:id="@+id/shuffle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00000000"
+            android:contentDescription="@string/shuffle"
+            android:focusable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_shuffle" />
+
+        <ImageButton
             android:id="@+id/previous"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -181,6 +169,16 @@
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_forward" />
+
+        <ImageButton
+            android:id="@+id/repeat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00000000"
+            android:contentDescription="@string/repeat"
+            android:focusable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_repeat" />
     </LinearLayout>
 
 </LinearLayout>
