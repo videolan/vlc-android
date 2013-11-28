@@ -29,19 +29,17 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter {
+public class AudioBrowserListAdapter extends BaseAdapter {
 
     // Key: the item title, value: ListItem of only media item (no separator).
     private Map<String, ListItem> mMediaItemMap;
@@ -269,12 +267,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements ListAdapter 
     public boolean isEmpty() {
         return getCount() == 0;
     }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) { }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) { }
 
     @Override
     public boolean areAllItemsEnabled() {
