@@ -297,6 +297,30 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         return locations;
     }
 
+    /**
+     * Returns a single list containing all media, along with the position of
+     * the first media in 'position' in the _new_ single list.
+     *
+     * @param outputList The list to be written to.
+     * @param position Position to retrieve in to _this_ adapter.
+     * @return The position of 'position' in the new single list, or 0 if not found.
+     */
+    public int getListWithPosition(ArrayList<String> outputList, int position) {
+        int outputPosition = 0;
+        outputList.clear();
+        for(int i = 0; i < mItems.size(); i++) {
+            if(!mItems.get(i).mIsSeparator) {
+                if(position == i && !mItems.get(i).mMediaList.isEmpty())
+                    outputPosition = outputList.size();
+
+                for(Media k : mItems.get(i).mMediaList) {
+                    outputList.add(k.getLocation());
+                }
+            }
+        }
+        return outputPosition;
+    }
+
     private boolean isMediaItemAboveASeparator(int position) {
         // Test if a media item if above or not a separator.
         if (mItems.get(position).mIsSeparator)
