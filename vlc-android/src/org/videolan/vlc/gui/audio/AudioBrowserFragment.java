@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.videolan.libvlc.Media;
@@ -30,16 +29,13 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
-import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
-import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 import org.videolan.vlc.widget.HeaderScrollView;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -346,8 +342,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         }
     };
 
-    private static final MediaComparators mComparators = new MediaComparators();
-
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance(getActivity()).getAudioItems();
         mSongsAdapter.clear();
@@ -357,11 +351,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
 
         switch(mSortBy) {
         case SORT_BY_LENGTH:
-            Collections.sort(audioList, mComparators.byLength);
+            Collections.sort(audioList, MediaComparators.byLength);
             break;
         case SORT_BY_TITLE:
         default:
-            Collections.sort(audioList, mComparators.byName);
+            Collections.sort(audioList, MediaComparators.byName);
             break;
         }
         if(mSortReverse) {
@@ -374,21 +368,21 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         if (mSortBy != SORT_BY_LENGTH)
             mSongsAdapter.addSeparators();
 
-        Collections.sort(audioList, mComparators.byArtist);
+        Collections.sort(audioList, MediaComparators.byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mArtistsAdapter.add(media.getArtist(), null, media);
         }
         mArtistsAdapter.addSeparators();
 
-        Collections.sort(audioList, mComparators.byAlbum);
+        Collections.sort(audioList, MediaComparators.byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
         mAlbumsAdapter.addSeparators();
 
-        Collections.sort(audioList, mComparators.byGenre);
+        Collections.sort(audioList, MediaComparators.byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mGenresAdapter.add(media.getGenre(), null, media);

@@ -25,21 +25,21 @@ import org.videolan.libvlc.Media;
 
 public class MediaComparators {
 
-    public final Comparator<Media> byName = new Comparator<Media>() {
+    public static final Comparator<Media> byName = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             return String.CASE_INSENSITIVE_ORDER.compare(m1.getTitle(), m2.getTitle());
         };
     };
 
-    public final Comparator<Media> byMRL = new Comparator<Media>() {
+    public static final Comparator<Media> byMRL = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
         };
     };
 
-    public final Comparator<Media> byLength = new Comparator<Media>() {
+    public static final Comparator<Media> byLength = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             if(m1.getLength() > m2.getLength()) return -1;
@@ -48,7 +48,7 @@ public class MediaComparators {
         };
     };
 
-    public final Comparator<Media> byAlbum = new Comparator<Media>() {
+    public static final Comparator<Media> byAlbum = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
@@ -58,7 +58,7 @@ public class MediaComparators {
         };
     };
 
-    public final Comparator<Media> byArtist = new Comparator<Media>() {
+    public static final Comparator<Media> byArtist = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getArtist(), m2.getArtist());
@@ -68,7 +68,7 @@ public class MediaComparators {
         };
     };
 
-    public final Comparator<Media> byGenre = new Comparator<Media>() {
+    public static final Comparator<Media> byGenre = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
             int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getGenre(), m2.getGenre());

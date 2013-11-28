@@ -320,8 +320,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         updateList();
     }
 
-    private static final MediaComparators mComparators = new MediaComparators();
-
     private void updateList() {
         List<Media> audioList;
         List<String> itemList;
@@ -335,11 +333,11 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mSongsListAdapter.clear();
         switch (mSortBy) {
             case SORT_BY_LENGTH:
-                Collections.sort(audioList, mComparators.byLength);
+                Collections.sort(audioList, MediaComparators.byLength);
                 break;
             case SORT_BY_TITLE:
             default:
-                Collections.sort(audioList, mComparators.byMRL);
+                Collections.sort(audioList, MediaComparators.byMRL);
                 break;
         }
         if (mSortReverse) {

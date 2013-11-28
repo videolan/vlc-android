@@ -60,8 +60,6 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
     private ArrayList<Media> mediaList;
 
-    private static final MediaComparators mComparators = new MediaComparators();
-
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
@@ -154,13 +152,13 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
 
-        Collections.sort(mediaList, mComparators.byAlbum);
+        Collections.sort(mediaList, MediaComparators.byAlbum);
         for (int i = 0; i < mediaList.size(); ++i) {
             Media media = mediaList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
 
-        Collections.sort(mediaList, mComparators.byName);
+        Collections.sort(mediaList, MediaComparators.byName);
         for (int i = 0; i < mediaList.size(); ++i) {
             Media media = mediaList.get(i);
             mSongsAdapter.add(media.getTitle(), null, media);
