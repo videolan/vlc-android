@@ -472,14 +472,14 @@ public class AudioService extends Service {
 
             int index;
             switch (msg.getData().getInt("event")) {
-            case EventHandler.MediaListItemAdded:
-                Log.i(TAG, "MediaListItemAdded");
+            case EventHandler.CustomMediaListItemAdded:
+                Log.i(TAG, "CustomMediaListItemAdded");
                 index = msg.getData().getInt("item_index");
                 if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex++;
                 break;
-            case EventHandler.MediaListItemDeleted:
-                Log.i(TAG, "MediaListItemDeleted");
+            case EventHandler.CustomMediaListItemDeleted:
+                Log.i(TAG, "CustomMediaListItemDeleted");
                 index = msg.getData().getInt("item_index");
                 if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex--;

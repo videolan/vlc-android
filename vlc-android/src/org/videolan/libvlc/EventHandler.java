@@ -59,9 +59,9 @@ public class EventHandler {
     //public static final int MediaPlayerLengthChanged        = 0x111;
     public static final int MediaPlayerVout                   = 0x112;
 
-    public static final int MediaListItemAdded                = 0x200;
+    //public static final int MediaListItemAdded              = 0x200;
     //public static final int MediaListWillAddItem            = 0x201;
-    public static final int MediaListItemDeleted              = 0x202;
+    //public static final int MediaListItemDeleted            = 0x202;
     //public static final int MediaListWillDeleteItem         = 0x203;
 
     //public static final int MediaListViewItemAdded          = 0x300;
@@ -90,6 +90,8 @@ public class EventHandler {
 
     public static final int CustomMediaListExpanding          = 0x2000;
     public static final int CustomMediaListExpandingEnd       = 0x2001;
+    public static final int CustomMediaListItemAdded          = 0x2002;
+    public static final int CustomMediaListItemDeleted        = 0x2003;
 
     private ArrayList<Handler> mEventHandler;
     private static EventHandler mInstance;

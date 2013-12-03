@@ -143,10 +143,10 @@ public class HistoryAdapter extends BaseAdapter {
             String item_uri = msg.getData().getString("item_uri");
             int item_index = msg.getData().getInt("item_index");
             switch (msg.getData().getInt("event")) {
-                case EventHandler.MediaListItemAdded:
+                case EventHandler.CustomMediaListItemAdded:
                     adapater.updateEvent(true, item_uri, item_index);
                     break;
-                case EventHandler.MediaListItemDeleted:
+                case EventHandler.CustomMediaListItemDeleted:
                     adapater.updateEvent(false, item_uri, item_index);
                     break;
             }

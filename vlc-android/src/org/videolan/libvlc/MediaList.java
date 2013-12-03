@@ -76,7 +76,7 @@ public class MediaList {
     }
     public void add(Media media, boolean noVideo, boolean noOmx) {
         mInternalList.add(new MediaHolder(media, noVideo, noOmx));
-        signal_list_event(EventHandler.MediaListItemAdded, mInternalList.size() - 1, media.getLocation());
+        signal_list_event(EventHandler.CustomMediaListItemAdded, mInternalList.size() - 1, media.getLocation());
     }
 
     /**
@@ -85,7 +85,7 @@ public class MediaList {
     public void clear() {
         // Signal to observers of media being deleted.
         for(int i = 0; i < mInternalList.size(); i++) {
-            signal_list_event(EventHandler.MediaListItemDeleted, i, mInternalList.get(i).m.getLocation());
+            signal_list_event(EventHandler.CustomMediaListItemDeleted, i, mInternalList.get(i).m.getLocation());
         }
         mInternalList.clear();
     }
@@ -132,7 +132,7 @@ public class MediaList {
     }
     public void insert(int position, Media media) {
         mInternalList.add(position, new MediaHolder(media));
-        signal_list_event(EventHandler.MediaListItemAdded, position, media.getLocation());
+        signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
     }
 
     public void remove(int position) {
@@ -140,7 +140,7 @@ public class MediaList {
             return;
         String uri = mInternalList.get(position).m.getLocation();
         mInternalList.remove(position);
-        signal_list_event(EventHandler.MediaListItemDeleted, position, uri);
+        signal_list_event(EventHandler.CustomMediaListItemDeleted, position, uri);
     }
 
     public int size() {
