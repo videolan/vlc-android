@@ -8,6 +8,7 @@
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb</item>
 
         <item name="item_divider">@color/item_divider</item>
         <item name="item_common_pressed">@color/item_common_pressed</item>
