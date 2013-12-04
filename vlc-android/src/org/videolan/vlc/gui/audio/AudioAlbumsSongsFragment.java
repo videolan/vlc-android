@@ -111,7 +111,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     }
 
     private View getNewTabIndicator(Context context, String title) {
-        View v = LayoutInflater.from(context).inflate(R.layout.audio_browser_tab_layout, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
         TextView tv = (TextView) v.findViewById(R.id.textView);
         tv.setText(title);
         return v;
