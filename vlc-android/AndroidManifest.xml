@@ -52,8 +52,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".gui.AboutActivity"
-            android:theme="@style/Theme.VLC.NoTitleBar" />
+            android:name=".gui.AboutActivity" />
         <activity
             android:name=".gui.PreferencesActivity" />
         <activity
