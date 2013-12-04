@@ -19,12 +19,11 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.audio;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
+import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
@@ -321,14 +320,15 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     private void updateList() {
-        List<Media> audioList;
-        List<String> itemList;
+        ArrayList<Media> audioList = new ArrayList<Media>();
         String currentItem = null;
         int currentIndex = -1;
 
-        itemList = mAudioController.getMediaLocations();
+        LibVLC libVLC = LibVLC.getExistingInstance();
+        for (int i = 0; i < libVLC.getMediaList().size(); i++) {
+            audioList.add(libVLC.getMediaList().getMedia(i));
+        }
         currentItem = mAudioController.getCurrentMediaLocation();
-        audioList = MediaLibrary.getInstance(getActivity()).getMediaItems(itemList);
 
         mSongsListAdapter.clear();
         switch (mSortBy) {
