@@ -57,12 +57,25 @@
             android:src="@drawable/dots" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/songs_list"
+    <org.videolan.vlc.widget.FlingViewGroup
+        android:id="@+id/content"
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_weight="1"
-        android:background="?attr/background_menu" />
+        android:layout_height="fill_parent"
+        android:layout_weight="1" >
+
+        <ListView
+            android:id="@+id/songs_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="?attr/background_menu" />
+
+        <ImageView
+            android:id="@+id/big_cover"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop" />
+
+    </org.videolan.vlc.widget.FlingViewGroup>
 
     <LinearLayout
         android:layout_width="fill_parent"
