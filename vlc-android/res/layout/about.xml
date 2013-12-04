@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="70dip"
         android:layout_gravity="top"
-        android:background="@drawable/header"
+        android:background="@drawable/actionbar_background"
         android:orientation="horizontal" >
 
         <ImageView
