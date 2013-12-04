@@ -47,7 +47,7 @@
         <item name="android:listSelector">@drawable/background_item</item>
     </style>
 
-    <style name="Theme.VLC.NoTitleBar" parent="android:Theme.Light.NoTitleBar">
+    <style name="Theme.VLC.NoTitleBar" parent="Theme.Sherlock.Light.NoActionBar">
         <item name="item_divider">@color/item_divider</item>
         <item name="item_common_pressed">@color/item_common_pressed</item>
         <item name="item_common_selected">@color/item_common_selected</item>
