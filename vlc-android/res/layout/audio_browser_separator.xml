@@ -13,12 +13,12 @@
         android:layout_marginTop="5dip"
         android:text="@string/title"
         android:textAllCaps="true"
-        android:textColor="?attr/orange"
+        android:textColor="?attr/darkorange"
         android:textSize="20sp" />
     
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:background="?attr/orange" />
+        android:background="?attr/darkorange" />
 
 </LinearLayout>
