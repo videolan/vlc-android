@@ -29,7 +29,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -78,20 +78,14 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
         mTabHost.setup();
         TabHost.TabSpec tab_main = mTabHost.newTabSpec("main");
         tab_main.setContent(dcf);
-        tab_main.setIndicator(getResources().getText(R.string.about));
+        tab_main.setIndicator(getNewTabIndicator(mTabHost.getContext(),
+                getResources().getText(R.string.about).toString()));
         mTabHost.addTab(tab_main);
         TabHost.TabSpec tab_licence = mTabHost.newTabSpec("licence");
         tab_licence.setContent(dcf);
-        tab_licence.setIndicator(getResources().getText(R.string.licence));
+        tab_licence.setIndicator(getNewTabIndicator(mTabHost.getContext(),
+                getResources().getText(R.string.licence).toString()));
         mTabHost.addTab(tab_licence);
-
-        for(int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-            TextView tv = (TextView)mTabHost.getTabWidget().getChildTabViewAt(i).findViewById(android.R.id.title);
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            //android.util.Log.d(TAG, "TextSize = " + ((Float)tv.getTextSize()).toString());
-            // Scale the tab height to the text size on the device and leave enough space
-            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = (int)(tv.getTextSize() * 2.21);
-        }
 
         mTabHost.setOnTabChangedListener(this);
         this.onTabChanged("main");
@@ -99,6 +93,13 @@ public class AboutActivity extends FragmentActivity implements OnTabChangeListen
             mTabHost.setCurrentTab(savedInstanceState.getInt(CURRENT_TAB_ID));
             this.onTabChanged(savedInstanceState.getString(CURRENT_TAB_TAG));
         }
+    }
+
+    private View getNewTabIndicator(Context context, String title) {
+        View v = LayoutInflater.from(context).inflate(R.layout.audio_browser_tab_layout, null);
+        TextView tv = (TextView) v.findViewById(R.id.textView);
+        tv.setText(title);
+        return v;
     }
 
     protected void onSaveInstanceState(Bundle outState) {
