@@ -14,7 +14,7 @@
 
             <stroke
                 android:width="6dp"
-                android:color="@color/orange" />
+                android:color="@color/darkorange" />
 
             <solid android:color="#00000000" />
         </shape>
