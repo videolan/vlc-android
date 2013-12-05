@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.interfaces.IAudioPlayer;
+import org.videolan.vlc.widget.AnimatedCoverView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -38,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -57,7 +59,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     public final static String TAG = "VLC/AudioPlayerFragment";
 
     private ImageView mCover;
-    private ImageView mBigCover;
+    private AnimatedCoverView mBigCover;
     private TextView mTitle;
     private TextView mArtist;
     private TextView mTime;
@@ -99,7 +101,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         View v = inflater.inflate(R.layout.audio_player, container, false);
 
         mCover = (ImageView) v.findViewById(R.id.cover);
-        mBigCover = (ImageView) v.findViewById(R.id.big_cover);
+        mBigCover = (AnimatedCoverView) v.findViewById(R.id.big_cover);
         mTitle = (TextView) v.findViewById(R.id.title);
         mArtist = (TextView) v.findViewById(R.id.artist);
         mTime = (TextView) v.findViewById(R.id.time);
@@ -274,9 +276,10 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
                 mBigCover.setImageBitmap(cover);
             } else {
                 mCover.setVisibility(ImageView.GONE);
-                mBigCover.setImageResource(R.drawable.cone);
+                mBigCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cone));
             }
         }
+
         lastTitle = title;
         mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());

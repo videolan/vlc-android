@@ -69,7 +69,7 @@
             android:layout_height="fill_parent"
             android:background="?attr/background_menu" />
 
-        <ImageView
+        <org.videolan.vlc.widget.AnimatedCoverView
             android:id="@+id/big_cover"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
