@@ -122,6 +122,11 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         }
     }
 
+    public void addSeparator(String title) {
+        ListItem item = new ListItem(title, null, null, true);
+        mItems.add(item);
+    }
+
     public void clear() {
         mMediaItemMap.clear();
         mItems.clear();
