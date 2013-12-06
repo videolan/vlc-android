@@ -22,6 +22,7 @@ package org.videolan.vlc.widget;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -108,7 +109,9 @@ public class AnimatedCoverView extends View {
 
             Rect src = new Rect(0, 0, mImage.getWidth(), mImage.getHeight());
             Rect dst = new Rect((int)pt[0], (int)pt[1], (int)pt[0] + scaledImageWidth, (int)pt[1] + scaledImageHeight);
-            canvas.drawBitmap(mImage, src, dst, null);
+            Paint paint = new Paint();
+            paint.setFilterBitmap(true);
+            canvas.drawBitmap(mImage, src, dst, paint);
             super.onDraw(canvas);
 
             // Request another draw operation until time is up.
