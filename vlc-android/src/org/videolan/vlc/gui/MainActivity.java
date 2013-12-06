@@ -70,7 +70,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -286,12 +285,6 @@ public class MainActivity extends SherlockFragmentActivity {
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setDisplayHomeAsUpEnabled(true);
-
-        /* Add padding between the home button and the arrow */
-        ImageView home = (ImageView)findViewById(Util.isHoneycombOrLater()
-                ? android.R.id.home : R.id.abs__home);
-        if (home != null)
-            home.setPadding(20, 0, 0, 0);
     }
 
     @Override
