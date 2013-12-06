@@ -367,28 +367,28 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
             mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
         }
         if (mSortBy != SORT_BY_LENGTH)
-            mSongsAdapter.addSeparators();
+            mSongsAdapter.addLeterSeparators();
 
         Collections.sort(audioList, MediaComparators.byArtist);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mArtistsAdapter.add(media.getArtist(), null, media);
         }
-        mArtistsAdapter.addSeparators();
+        mArtistsAdapter.addLeterSeparators();
 
         Collections.sort(audioList, MediaComparators.byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
         }
-        mAlbumsAdapter.addSeparators();
+        mAlbumsAdapter.addLeterSeparators();
 
         Collections.sort(audioList, MediaComparators.byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mGenresAdapter.add(media.getGenre(), null, media);
         }
-        mGenresAdapter.addSeparators();
+        mGenresAdapter.addLeterSeparators();
 
         mSongsAdapter.notifyDataSetChanged();
         mArtistsAdapter.notifyDataSetChanged();
