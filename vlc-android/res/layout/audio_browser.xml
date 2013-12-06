@@ -84,8 +84,6 @@
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:divider="?attr/item_divider"
-            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
         <ListView
             android:id="@+id/albums_list"
@@ -93,8 +91,6 @@
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:divider="?attr/item_divider"
-            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
        <ListView
             android:id="@+id/songs_list"
@@ -102,8 +98,6 @@
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:divider="?attr/item_divider"
-            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
         <ListView
             android:id="@+id/genres_list"
@@ -111,8 +105,6 @@
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:divider="?attr/item_divider"
-            android:dividerHeight="1dp"
             android:fastScrollEnabled="true" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>
