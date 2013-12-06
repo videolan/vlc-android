@@ -59,12 +59,14 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     public final static String EXTRA_MODE = "mode";
 
     private ArrayList<Media> mediaList;
+    private String mTitle;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
-    public AudioAlbumsSongsFragment(ArrayList<Media> mediaList) {
+    public AudioAlbumsSongsFragment(ArrayList<Media> mediaList, String title) {
         this.mediaList = mediaList;
+        mTitle = title;
     }
 
     @Override
@@ -83,6 +85,8 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        getSherlockActivity().getSupportActionBar().setTitle(mTitle);
+
         View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 
         TabHost tabHost = (TabHost) v.findViewById(android.R.id.tabhost);
