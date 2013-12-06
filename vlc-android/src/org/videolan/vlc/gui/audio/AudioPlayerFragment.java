@@ -172,26 +172,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
             }
         });
 
-        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus)
-                    view.setBackgroundColor(Color.parseColor("#FFBA6F"));
-                else
-                    view.setBackgroundColor(Color.TRANSPARENT);
-            }
-        };
-        mShuffle.setOnFocusChangeListener(listener);
-        mRepeat.setOnFocusChangeListener(listener);
-        mAdvFunc.setOnFocusChangeListener(listener);
-        mTimeline.setOnFocusChangeListener(listener);
-        mPrevious.setOnFocusChangeListener(listener);
-        mPlayPause.setOnFocusChangeListener(listener);
-        mStop.setOnFocusChangeListener(listener);
-        mNext.setOnFocusChangeListener(listener);
-
-
-
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         return v;
