@@ -31,7 +31,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 import org.videolan.vlc.widget.HeaderScrollView;
@@ -57,7 +56,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class AudioBrowserFragment extends SherlockFragment implements ISortable {
+public class AudioBrowserFragment extends SherlockFragment {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
@@ -71,11 +70,6 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
-
-    public final static int SORT_BY_TITLE = 0;
-    public final static int SORT_BY_LENGTH = 1;
-    private boolean mSortReverse = false;
-    private int mSortBy = SORT_BY_TITLE;
 
     public final static int MODE_TOTAL = 4; // Number of audio browser modes
     public final static int MODE_ARTIST = 0;
@@ -350,24 +344,11 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
 
-        switch(mSortBy) {
-        case SORT_BY_LENGTH:
-            Collections.sort(audioList, MediaComparators.byLength);
-            break;
-        case SORT_BY_TITLE:
-        default:
-            Collections.sort(audioList, MediaComparators.byName);
-            break;
-        }
-        if(mSortReverse) {
-            Collections.reverse(audioList);
-        }
+        Collections.sort(audioList, MediaComparators.byName);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
         }
-        if (mSortBy != SORT_BY_LENGTH)
-            mSongsAdapter.addLeterSeparators();
 
         Collections.sort(audioList, MediaComparators.byArtist);
         for (int i = 0; i < audioList.size(); i++) {
@@ -394,16 +375,5 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void sortBy(int sortby) {
-        if(mSortBy == sortby) {
-            mSortReverse = !mSortReverse;
-        } else {
-            mSortBy = sortby;
-            mSortReverse = false;
-        }
-        updateLists();
     }
 }
