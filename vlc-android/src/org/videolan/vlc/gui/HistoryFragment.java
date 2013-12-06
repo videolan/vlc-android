@@ -57,6 +57,8 @@ public class HistoryFragment extends SherlockListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        getSherlockActivity().getSupportActionBar().setTitle(R.string.history);
+
         View v = inflater.inflate(R.layout.history_list, container, false);
         setListAdapter(mHistoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);

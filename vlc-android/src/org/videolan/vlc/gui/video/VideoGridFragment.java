@@ -105,6 +105,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mVideoAdapter = new VideoListAdapter(getActivity(), this);
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
         setListAdapter(mVideoAdapter);
@@ -118,6 +119,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        getSherlockActivity().getSupportActionBar().setTitle(R.string.video);
+
         View v = inflater.inflate(R.layout.video_grid, container, false);
 
         // init the information for the scan (1/2)

@@ -68,6 +68,12 @@
     <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="background">@drawable/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/ActionBar.Text</item>
+    </style>
+
+    <style name="ActionBar.Text" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/action_bar_title</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="Theme.VLC.AlertMenu" parent="android:Theme.Dialog">

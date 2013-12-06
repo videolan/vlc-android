@@ -14,5 +14,6 @@
     <color name="darkorange">#ff8800</color>
     <color name="black">#000001</color>
     <color name="transparent_gray">#8000</color>
+    <color name="action_bar_title">#FFFFFF</color>
 
 </resources>

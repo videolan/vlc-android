@@ -78,6 +78,8 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        getSherlockActivity().getSupportActionBar().setTitle(R.string.directories);
+
         View v = inflater.inflate(R.layout.directory_view, container, false);
         setListAdapter(mDirectoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);

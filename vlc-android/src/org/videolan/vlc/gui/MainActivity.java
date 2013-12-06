@@ -283,7 +283,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private void prepareActionBar() {
         mActionBar = getSupportActionBar();
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        mActionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
         mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
