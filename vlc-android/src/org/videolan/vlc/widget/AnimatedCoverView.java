@@ -53,6 +53,14 @@ public class AnimatedCoverView extends View {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        // Reinitialize the current animation.
+        mCurrentAnim = null;
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         if (mImage != null) {
             // Determine the animation parameters.
