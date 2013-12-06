@@ -473,6 +473,17 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        // Disable the sort option if we can't use it on the current fragment.
+        if (current == null || !(current instanceof ISortable)) {
+            menu.findItem(R.id.ml_menu_sortby).setEnabled(false);
+            menu.findItem(R.id.ml_menu_sortby).setVisible(false);
+        }
+        return true;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         changeMenuOffset();
