@@ -75,7 +75,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private ListView mSongsList;
 
     private AudioServiceController mAudioController;
-    private boolean mOrientationChanged = false;
     private boolean mShowRemainingTime = false;
     private String lastTitle;
 
@@ -205,13 +204,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mOrientationChanged = true;
-        update();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         MainActivity activity = (MainActivity) getActivity();
@@ -250,21 +242,8 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
 
         // Exit the player and return to the main menu when there is no media
         if (!mAudioController.hasMedia()) {
-            if (!mOrientationChanged)
-                getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
+            getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
             return;
-        }
-
-        // because the activity is not recreated when orientation changes (configChanges in manifest),
-        // the fragment's layout is not refreshed between layout & layout-land.
-        // we have to do it manually
-        if (mOrientationChanged) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            ViewGroup rootView = (ViewGroup) getView();
-            rootView.removeAllViews();
-            rootView.addView(onCreateView(inflater, rootView, null));
-            lastTitle = "";
-            mOrientationChanged = false;
         }
 
         String title = mAudioController.getTitle();
