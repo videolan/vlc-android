@@ -54,6 +54,7 @@ import android.widget.SeekBar;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 public class AudioPlayerFragment extends SherlockFragment implements IAudioPlayer {
     public final static String TAG = "VLC/AudioPlayerFragment";
@@ -71,8 +72,11 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private ImageButton mShuffle;
     private ImageButton mRepeat;
     private ImageButton mAdvFunc;
+    private ImageButton mPlaylistSwitch;
     private SeekBar mTimeline;
     private ListView mSongsList;
+
+    ViewSwitcher mSwitcher;
 
     private AudioServiceController mAudioController;
     private boolean mShowRemainingTime = false;
@@ -112,10 +116,15 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mShuffle = (ImageButton) v.findViewById(R.id.shuffle);
         mRepeat = (ImageButton) v.findViewById(R.id.repeat);
         mAdvFunc = (ImageButton) v.findViewById(R.id.adv_function);
+        mPlaylistSwitch = (ImageButton) v.findViewById(R.id.playlist_switch);
         mTimeline = (SeekBar) v.findViewById(R.id.timeline);
 
         mSongsList = (ListView) v.findViewById(R.id.songs_list);
         mSongsList.setAdapter(mSongsListAdapter);
+
+        mSwitcher = (ViewSwitcher) v.findViewById(R.id.view_switcher);
+        mSwitcher.setInAnimation(getActivity(), android.R.anim.fade_in);
+        mSwitcher.setOutAnimation(getActivity(), android.R.anim.fade_out);
 
         mTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +172,16 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
             @Override
             public void onClick(View v) {
                 showAdvancedOptions(v);
+            }
+        });
+        mPlaylistSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSwitcher.showNext();
+                if (mSwitcher.getDisplayedChild() == 0)
+                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_switch_glow);
+                else
+                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_switch);
             }
         });
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
