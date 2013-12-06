@@ -379,7 +379,7 @@ public class AudioBrowserFragment extends SherlockFragment implements ISortable 
         Collections.sort(audioList, MediaComparators.byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
-            mAlbumsAdapter.add(media.getAlbum(), null, media);
+            mAlbumsAdapter.add(media.getAlbum(), media.getArtist(), media);
         }
         mAlbumsAdapter.addLeterSeparators();
 
