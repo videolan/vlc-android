@@ -36,10 +36,8 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
