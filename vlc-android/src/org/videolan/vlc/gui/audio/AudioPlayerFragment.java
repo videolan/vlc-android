@@ -20,7 +20,6 @@
 package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
@@ -83,11 +82,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     private String lastTitle;
 
     private AudioListAdapter mSongsListAdapter;
-
-    public final static int SORT_BY_TITLE = 0;
-    public final static int SORT_BY_LENGTH = 1;
-    private boolean mSortReverse = false;
-    private int mSortBy = SORT_BY_TITLE;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -316,18 +310,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         currentItem = mAudioController.getCurrentMediaLocation();
 
         mSongsListAdapter.clear();
-        switch (mSortBy) {
-            case SORT_BY_LENGTH:
-                Collections.sort(audioList, MediaComparators.byLength);
-                break;
-            case SORT_BY_TITLE:
-            default:
-                Collections.sort(audioList, MediaComparators.byMRL);
-                break;
-        }
-        if (mSortReverse) {
-            Collections.reverse(audioList);
-        }
 
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
