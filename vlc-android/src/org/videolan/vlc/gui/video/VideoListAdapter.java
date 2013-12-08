@@ -198,6 +198,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         holder.subtitle.setText(text);
         holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
         holder.more.setVisibility(View.INVISIBLE);
+        holder.progress.setVisibility(View.GONE);
     }
 
     private void fillVideoView(ViewHolder holder, Media media) {
