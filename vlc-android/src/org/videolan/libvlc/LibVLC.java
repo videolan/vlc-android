@@ -412,7 +412,12 @@ public class LibVLC {
      * @param position The index of the media
      */
     public void playIndex(int position) {
-        playIndex(mLibVlcInstance, position);
+        String mrl = mMediaList.getMRL(position);
+        if (mrl == null)
+            return;
+        String[] options = mMediaList.getMediaOptions(position);
+        mInternalMediaPlayerIndex = position;
+        playMrl(mLibVlcInstance, mrl, options);
     }
 
     public TrackInfo[] readTracksInfo(String mrl) {
@@ -475,9 +480,9 @@ public class LibVLC {
     }
 
     /**
-     * Play an index in the native media list (playlist)
+     * Play an mrl
      */
-    private native void playIndex(long instance, int position);
+    private native void playMrl(long instance, String mrl, String[] mediaOptions);
 
     /**
      * Returns true if any media is playing

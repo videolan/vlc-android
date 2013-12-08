@@ -322,8 +322,9 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
     eventHandlerInstance = getEventHandlerReference(env, thiz, eventHandler);
 }
 
-static void create_player_and_play(JNIEnv* env, jobject thiz,
-                                   jlong instance, int position) {
+void Java_org_videolan_libvlc_LibVLC_playMrl(JNIEnv *env, jobject thiz, jlong instance,
+                                             jstring mrl, jobjectArray mediaOptions)
+{
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
@@ -363,41 +364,26 @@ static void create_player_and_play(JNIEnv* env, jobject thiz,
     jmethodID methodID = (*env)->GetMethodID(env, cls, "applyEqualizer", "()V");
     (*env)->CallVoidMethod(env, thiz, methodID);
 
-    setInt(env, thiz, "mInternalMediaPlayerIndex", (jint)position);
-
-    jfieldID fid = (*env)->GetFieldID(env, cls, "mMediaList", "Lorg/videolan/libvlc/MediaList;");
-    jobject list = (*env)->GetObjectField(env, thiz, fid);
-    jclass clsList = (*env)->FindClass(env, "org/videolan/libvlc/MediaList");
-
-    methodID = (*env)->GetMethodID(env, clsList, "getMRL", "(I)Ljava/lang/String;");
-    jstring mrl = (jstring)(*env)->CallObjectMethod(env, list, methodID, (jint)position);
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, 0);
 
     libvlc_media_t* p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)instance, p_mrl);
     /* media options */
-    methodID = (*env)->GetMethodID(env, clsList, "getMediaOptions", "(I)[Ljava/lang/String;");
-    jobjectArray mediaOptions = (jobject)(*env)->CallObjectMethod(env, list, methodID, (jint)position);
-    int stringCount = (*env)->GetArrayLength(env, mediaOptions);
-    for(int i = 0; i < stringCount; i++) {
-        jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
-        const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
-        libvlc_media_add_option(p_md, p_st); // option
-        (*env)->ReleaseStringUTFChars(env, option, p_st);
+    if (mediaOptions != NULL)
+    {
+        int stringCount = (*env)->GetArrayLength(env, mediaOptions);
+        for(int i = 0; i < stringCount; i++)
+        {
+            jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
+            const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
+            libvlc_media_add_option(p_md, p_st); // option
+            (*env)->ReleaseStringUTFChars(env, option, p_st);
+        }
     }
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
-    (*env)->DeleteLocalRef(env, mrl);
-    (*env)->DeleteLocalRef(env, mediaOptions);
-    (*env)->DeleteLocalRef(env, list);
-    list = NULL;
 
     libvlc_media_player_set_media(mp, p_md);
     libvlc_media_player_play(mp);
-}
-
-void Java_org_videolan_libvlc_LibVLC_playIndex(JNIEnv *env, jobject thiz,
-                                            jlong instance, int position) {
-    create_player_and_play(env, thiz, instance, position);
 }
 
 jfloat Java_org_videolan_libvlc_LibVLC_getRate(JNIEnv *env, jobject thiz) {
