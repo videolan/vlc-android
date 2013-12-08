@@ -163,31 +163,34 @@ public class MediaList {
         return mInternalList.get(position).m.getLocation();
     }
 
-    private String[] getMediaOptions(int position) {
-        if (!isValid(position))
-            return null;
-        boolean noOmx = mInternalList.get(position).noOmx;
-        boolean noVideo = mInternalList.get(position).noVideo;
+    public String[] getMediaOptions(int position) {
+        boolean noOmx = !mLibVLC.useIOMX();
+        boolean noVideo = false;
+        if (isValid(position))
+        {
+            if (!noOmx)
+                noOmx = mInternalList.get(position).noOmx;
+            noVideo = mInternalList.get(position).noVideo;
+        }
         ArrayList<String> options = new ArrayList<String>();
 
         if (!noOmx) {
-            if (mLibVLC.useIOMX()) {
-                /*
-                 * Set higher caching values if using iomx decoding, since some omx
-                 * decoders have a very high latency, and if the preroll data isn't
-                 * enough to make the decoder output a frame, the playback timing gets
-                 * started too soon, and every decoded frame appears to be too late.
-                 * On Nexus One, the decoder latency seems to be 25 input packets
-                 * for 320x170 H.264, a few packets less on higher resolutions.
-                 * On Nexus S, the decoder latency seems to be about 7 packets.
-                 */
-                options.add(":file-caching=1500");
-                options.add(":network-caching=1500");
-                options.add(":codec=mediacodec,iomx,all");
-            }
-            if (noVideo)
-                options.add(":no-video");
+            /*
+             * Set higher caching values if using iomx decoding, since some omx
+             * decoders have a very high latency, and if the preroll data isn't
+             * enough to make the decoder output a frame, the playback timing gets
+             * started too soon, and every decoded frame appears to be too late.
+             * On Nexus One, the decoder latency seems to be 25 input packets
+             * for 320x170 H.264, a few packets less on higher resolutions.
+             * On Nexus S, the decoder latency seems to be about 7 packets.
+             */
+            options.add(":file-caching=1500");
+            options.add(":network-caching=1500");
+            options.add(":codec=mediacodec,iomx,all");
         }
+        if (noVideo)
+            options.add(":no-video");
+
         return options.toArray(new String[options.size()]);
     }
 
