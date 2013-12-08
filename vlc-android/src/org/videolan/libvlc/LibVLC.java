@@ -417,19 +417,19 @@ public class LibVLC {
             return;
         String[] options = mMediaList.getMediaOptions(position);
         mInternalMediaPlayerIndex = position;
-        playMrl(mLibVlcInstance, mrl, options);
+        playMRL(mLibVlcInstance, mrl, options);
     }
 
     /**
-     * Play an mrl
+     * Play an MRL directly.
      *
-     * @param position The index of the media
+     * @param mrl MRL of the media to play.
      */
-    public void playMrl(String mrl) {
+    public void playMRL(String mrl) {
         // index=-1 will return options from libvlc instance without relying on MediaList
         String[] options = mMediaList.getMediaOptions(-1);
         mInternalMediaPlayerIndex = 0;
-        playMrl(mLibVlcInstance, mrl, options);
+        playMRL(mLibVlcInstance, mrl, options);
     }
 
     public TrackInfo[] readTracksInfo(String mrl) {
@@ -494,7 +494,7 @@ public class LibVLC {
     /**
      * Play an mrl
      */
-    private native void playMrl(long instance, String mrl, String[] mediaOptions);
+    private native void playMRL(long instance, String mrl, String[] mediaOptions);
 
     /**
      * Returns true if any media is playing

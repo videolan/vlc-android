@@ -322,7 +322,7 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
     eventHandlerInstance = getEventHandlerReference(env, thiz, eventHandler);
 }
 
-void Java_org_videolan_libvlc_LibVLC_playMrl(JNIEnv *env, jobject thiz, jlong instance,
+void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong instance,
                                              jstring mrl, jobjectArray mediaOptions)
 {
     /* Release previous media player, if any */
