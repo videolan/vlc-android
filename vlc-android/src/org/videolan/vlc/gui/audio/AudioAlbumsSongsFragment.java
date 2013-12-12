@@ -61,6 +61,9 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     private ArrayList<Media> mediaList;
     private String mTitle;
 
+    TabHost mTabHost;
+    private int mCurrentTab = 0;
+
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
@@ -89,7 +92,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
         View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 
-        TabHost tabHost = (TabHost) v.findViewById(android.R.id.tabhost);
+        mTabHost = (TabHost) v.findViewById(android.R.id.tabhost);
         ListView albumsList = (ListView) v.findViewById(R.id.albums);
         ListView songsList = (ListView) v.findViewById(R.id.songs);
 
@@ -99,10 +102,12 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         songsList.setOnItemClickListener(songsListener);
         albumsList.setOnItemClickListener(albumsListener);
 
-        tabHost.setup();
+        mTabHost.setup();
 
-        addNewTab(tabHost, "albums", "Albums", R.id.albums);
-        addNewTab(tabHost, "songs", "Songs", R.id.songs);
+        addNewTab(mTabHost, "albums", "Albums", R.id.albums);
+        addNewTab(mTabHost, "songs", "Songs", R.id.songs);
+
+        mTabHost.setCurrentTab(mCurrentTab);
 
         return v;
     }
@@ -124,6 +129,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     @Override
     public void onPause() {
         super.onPause();
+        mCurrentTab = mTabHost.getCurrentTab();
     }
 
     @Override
