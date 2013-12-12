@@ -12,7 +12,6 @@
         android:layout_marginLeft="10dip"
         android:layout_marginTop="5dip"
         android:text="@string/title"
-        android:textAllCaps="true"
         android:textColor="?attr/darkorange"
         android:textSize="20sp" />
     
