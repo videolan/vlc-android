@@ -132,7 +132,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/ic_lock" />
+                android:background="@drawable/lock" />
 
             <ImageButton
                 android:id="@+id/player_overlay_backward"
