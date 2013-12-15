@@ -162,6 +162,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     private boolean mSwitchingView;
     private boolean mEndReached;
+    private boolean mCanSeek;
 
     // Playlist
     private int savedIndexPosition = -1;
@@ -357,7 +358,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         // Save position
-        if (time >= 0) {
+        if (time >= 0 && mCanSeek) {
             if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
                 MediaDatabase.getInstance(this).updateMedia(
                         mLocation,
@@ -665,6 +666,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     activity.handleVout(msg);
                     break;
                 case EventHandler.MediaPlayerPositionChanged:
+                    if (!activity.mCanSeek)
+                        activity.mCanSeek = true;
                     //don't spam the logs
                     break;
                 case EventHandler.MediaPlayerEncounteredError:
@@ -930,7 +933,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     private void doSeekTouch(float coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (coef > 0.5 || Math.abs(gesturesize) < 1)
+        if (coef > 0.5 || Math.abs(gesturesize) < 1 || !mCanSeek)
             return;
 
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK)
@@ -1032,7 +1035,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (fromUser) {
+            if (fromUser && mCanSeek) {
                 mLibVLC.setTime(progress);
                 setOverlayProgress();
                 mTime.setText(Util.millisToString(progress));
@@ -1171,7 +1174,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     public void seek(int delta) {
         // unseekable stream
-        if(mLibVLC.getLength() <= 0) return;
+        if(mLibVLC.getLength() <= 0 || !mCanSeek) return;
 
         long position = mLibVLC.getTime() + delta;
         if (position < 0) position = 0;
@@ -1535,6 +1538,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             savedIndexPosition = mLibVLC.getMediaList().size() - 1;
             mLibVLC.playIndex(savedIndexPosition);
         }
+        mCanSeek = false;
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
