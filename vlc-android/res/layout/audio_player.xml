@@ -57,14 +57,14 @@
 
         <ImageButton
             android:id="@+id/adv_function"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="#00000000"
             android:focusable="true"
             android:padding="10dip"
             android:scaleType="fitXY"
-            android:src="@drawable/dots" />
+            android:src="@drawable/dots_dark" />
     </LinearLayout>
 
 	<ViewSwitcher
