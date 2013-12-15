@@ -115,10 +115,10 @@
             android:focusable="true"
             android:maxHeight="4dip"
             android:minHeight="4dip"
-            android:paddingLeft="15dip"
-            android:paddingRight="15dip"
+            android:paddingLeft="16dip"
+            android:paddingRight="16dip"
             android:progressDrawable="@drawable/po_seekbar"
-            android:thumb="@drawable/ic_seekbar_thumb" />
+            android:thumb="@drawable/seekbar_thumb" />
 
         <TextView
             android:id="@+id/length"

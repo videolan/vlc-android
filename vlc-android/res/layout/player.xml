@@ -164,10 +164,10 @@
                 android:layout_toRightOf="@+id/player_overlay_time"
                 android:maxHeight="2dip"
                 android:minHeight="2dip"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:progressDrawable="@drawable/po_seekbar"
-                android:thumb="@drawable/ic_seekbar_thumb" />
+                android:thumb="@drawable/seekbar_thumb" />
 
             <TextView
                 android:id="@+id/player_overlay_length"
