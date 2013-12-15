@@ -395,9 +395,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-        if (mLibVLC != null && !mSwitchingView) {
-            mLibVLC.stop();
-        }
 
         EventHandler em = EventHandler.getInstance();
         em.removeHandler(eventHandler);
