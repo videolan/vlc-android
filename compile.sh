@@ -6,6 +6,23 @@
 
 set -e
 
+BUILD=
+FETCH=
+case "$1" in
+    --fetch)
+    FETCH=1
+    shift
+    ;;
+    --build)
+    BUILD=1
+    shift
+    ;;
+    *)
+    FETCH=1
+    BUILD=1
+    ;;
+esac
+
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
    echo "They must point to your NDK and SDK directories.\n"
@@ -88,18 +105,20 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 ANDROID_PATH="`pwd`"
 
-# 1/ libvlc, libvlccore and its plugins
-TESTED_HASH=1cd2652
-if [ ! -d "vlc" ]; then
-    echo "VLC source not found, cloning"
-    git clone git://git.videolan.org/vlc.git vlc
-    cd vlc
-    git checkout -B android ${TESTED_HASH}
-else
-    echo "VLC source found"
-    cd vlc
-    if ! git cat-file -e ${TESTED_HASH}; then
-        cat << EOF
+if [ ! -z "$FETCH" ]
+then
+    # 1/ libvlc, libvlccore and its plugins
+    TESTED_HASH=1cd2652
+    if [ ! -d "vlc" ]; then
+        echo "VLC source not found, cloning"
+        git clone git://git.videolan.org/vlc.git vlc
+        cd vlc
+        git checkout -B android ${TESTED_HASH}
+    else
+        echo "VLC source found"
+        cd vlc
+        if ! git cat-file -e ${TESTED_HASH}; then
+            cat << EOF
 ***
 *** Error: Your vlc checkout does not contain the latest tested commit ***
 ***
@@ -114,8 +133,17 @@ git checkout -B android ${TESTED_HASH}
 *** : This will delete any changes you made to the current branch ***
 
 EOF
-        exit 1
+            exit 1
+        fi
     fi
+else
+    cd vlc
+fi
+
+if [ -z "$BUILD" ]
+then
+    echo "Not building anything, please run $0 --build"
+    exit 0
 fi
 
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
