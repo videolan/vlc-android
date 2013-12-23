@@ -244,9 +244,10 @@ cd contrib/android
 if [ $# -ne 0 ] && [ "$1" = "release" ]; then
     OPTS=""
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
-    RELEASEFLAG="RELEASE=1"
+    RELEASE=1
 else
     OPTS="--enable-debug"
+    RELEASE=0
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
@@ -261,13 +262,14 @@ cd ../.. && mkdir -p android && cd android
 
 if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
     CLEAN="jniclean"
-    RELEASEFLAG="vlc-android/obj/local/armeabi-v7a/libvlcjni.so"
+    TARGET="vlc-android/obj/local/armeabi-v7a/libvlcjni.so"
 else
     CLEAN="distclean"
     echo "Bootstraping"
     ../bootstrap
     echo "Configuring"
     ${ANDROID_PATH}/configure.sh $OPTS
+    TARGET=
 fi
 
 echo "Building"
@@ -287,7 +289,7 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/android
 
 make $CLEAN
-make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL $RELEASEFLAG
+make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL RELEASE=$RELEASE $TARGET
 
 # 3/ Environment script
 echo "Generating environment script."

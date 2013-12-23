@@ -27,7 +27,7 @@ VERBOSE = @
 GEN = @echo "Generating" $@;
 endif
 
-ifneq ($(RELEASE),)
+ifeq ($(RELEASE),1)
 ANT_TARGET = release
 VLC_APK=$(SRC)/bin/VLC-release-unsigned.apk
 NDK_DEBUG=0
