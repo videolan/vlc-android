@@ -69,7 +69,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lxml2 -lpng -lgnutls -lgcrypt -lgpg-error \
 	-lnettle -lhogweed -lgmp \
 	-lfreetype -liconv -lass -lfribidi -lopus \
-	-lEGL -lGLESv2 \
+	-lEGL -lGLESv2 -ljpeg \
 	$(CPP_STATIC)
 
 include $(BUILD_SHARED_LIBRARY)
