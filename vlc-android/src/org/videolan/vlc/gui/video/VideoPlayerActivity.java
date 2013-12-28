@@ -70,6 +70,7 @@ import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
+import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -178,6 +179,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     //Volume
     private AudioManager mAudioManager;
     private int mAudioMax;
+    private OnAudioFocusChangeListener mAudioFocusListener;
 
     //Touch Events
     private static final int TOUCH_NONE = 0;
@@ -625,6 +627,44 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mInfo.setVisibility(View.INVISIBLE);
     }
 
+    @TargetApi(Build.VERSION_CODES.FROYO)
+    private void changeAudioFocus(boolean gain) {
+        if(!Util.isFroyoOrLater()) // NOP if not supported
+            return;
+
+        if (mAudioFocusListener == null) {
+            mAudioFocusListener = new OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    /*
+                     * Pause playback during alerts and notifications
+                     */
+                    switch (focusChange)
+                    {
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            if (mLibVLC.isPlaying())
+                                mLibVLC.pause();
+                            break;
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                            if (!mLibVLC.isPlaying())
+                                mLibVLC.play();
+                            break;
+                    }
+                }
+            };
+        }
+
+        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
+        if(gain)
+            am.requestAudioFocus(mAudioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        else
+            am.abandonAudioFocus(mAudioFocusListener);
+    }
+
     /**
      *  Handle libvlc asynchronous events
      */
@@ -648,15 +688,18 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                      *  playback. (#7540) */
                     activity.setESTrackLists(true);
                     activity.setESTracks();
+                    activity.changeAudioFocus(true);
                     break;
                 case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     break;
                 case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
+                    activity.changeAudioFocus(false);
                     break;
                 case EventHandler.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
+                    activity.changeAudioFocus(false);
                     activity.endReached();
                     break;
                 case EventHandler.MediaPlayerVout:
