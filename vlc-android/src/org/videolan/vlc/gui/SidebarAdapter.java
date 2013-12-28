@@ -66,10 +66,10 @@ public class SidebarAdapter extends BaseAdapter {
 
     static {
         SidebarEntry entries2[] = {
-            new SidebarEntry( "video", R.string.video, R.drawable.header_icon_video ),
-            new SidebarEntry( "audio", R.string.audio, R.drawable.header_icon_audio ),
-            new SidebarEntry( "directories", R.string.directories, R.drawable.ic_folder ),
-            new SidebarEntry( "history", R.string.history, android.R.drawable.ic_menu_recent_history ),
+            new SidebarEntry( "video", R.string.video, R.drawable.video ),
+            new SidebarEntry( "audio", R.string.audio, R.drawable.audio ),
+            new SidebarEntry( "directories", R.string.directories, R.drawable.folder ),
+            new SidebarEntry( "history", R.string.history, R.drawable.time ),
             //new SidebarEntry( "bookmarks", R.string.bookmarks, R.drawable.ic_bookmarks ),
             //new SidebarEntry( "playlists", R.string.playlists, R.drawable.icon ),
         };
