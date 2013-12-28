@@ -145,7 +145,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
             holder.progress = (ProgressBar) v.findViewById(R.id.ml_item_progress);
-            holder.more = (ImageView) v.findViewById(R.id.ml_item_more);
+            holder.more = (ImageView) v.findViewById(R.id.item_more);
             holder.listmode = mListMode;
             v.setTag(holder);
 

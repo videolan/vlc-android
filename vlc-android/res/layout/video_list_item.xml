@@ -52,10 +52,10 @@
             android:paddingLeft="12dip" />
     </LinearLayout>
     <ImageView
-        android:id="@+id/ml_item_more"
+        android:id="@+id/item_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/dropdown_ic_arrow"
+        android:src="@drawable/item_more"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true" />
