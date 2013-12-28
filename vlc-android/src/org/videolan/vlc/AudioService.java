@@ -263,21 +263,34 @@ public class AudioService extends Service {
         if(!Util.isFroyoOrLater()) // NOP if not supported
             return;
 
-        audioFocusListener = new OnAudioFocusChangeListener() {
-            @Override
-            public void onAudioFocusChange(int focusChange) {
-                if(focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ||
-                   focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                    /*
-                     * Lower the volume to 36% to "duck" when an alert or something
-                     * needs to be played.
-                     */
-                    LibVLC.getExistingInstance().setVolume(36);
-                } else {
-                    LibVLC.getExistingInstance().setVolume(100);
+        if (audioFocusListener == null) {
+            audioFocusListener = new OnAudioFocusChangeListener() {
+                @Override
+                public void onAudioFocusChange(int focusChange) {
+                    LibVLC libVLC = LibVLC.getExistingInstance();
+                    switch (focusChange)
+                    {
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            if (libVLC.isPlaying())
+                                libVLC.pause();
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            /*
+                             * Lower the volume to 36% to "duck" when an alert or something
+                             * needs to be played.
+                             */
+                            libVLC.setVolume(36);
+                            break;
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                            libVLC.setVolume(100);
+                            break;
+                    }
                 }
-            }
-        };
+            };
+        }
 
         AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
         if(gain)
