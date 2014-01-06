@@ -803,15 +803,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     private void changeSurfaceSize() {
         // get screen size
-        int dw = getWindow().getDecorView().getWidth();
-        int dh = getWindow().getDecorView().getHeight();
+        int sw = getWindow().getDecorView().getWidth();
+        int sh = getWindow().getDecorView().getHeight();
+
+        double dw = sw, dh = sh;
 
         // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
         boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        if (dw > dh && isPortrait || dw < dh && !isPortrait) {
-            int d = dw;
-            dw = dh;
-            dh = d;
+        if (sw > sh && isPortrait || sw < sh && !isPortrait) {
+            dw = sh;
+            dh = sw;
         }
 
         // sanity check
@@ -834,40 +835,40 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
 
         // compute the display aspect ratio
-        double dar = (double) dw / (double) dh;
+        double dar = dw / dh;
 
         switch (mCurrentSize) {
             case SURFACE_BEST_FIT:
                 if (dar < ar)
-                    dh = (int) (dw / ar);
+                    dh = dw / ar;
                 else
-                    dw = (int) (dh * ar);
+                    dw = dh * ar;
                 break;
             case SURFACE_FIT_HORIZONTAL:
-                dh = (int) (dw / ar);
+                dh = dw / ar;
                 break;
             case SURFACE_FIT_VERTICAL:
-                dw = (int) (dh * ar);
+                dw = dh * ar;
                 break;
             case SURFACE_FILL:
                 break;
             case SURFACE_16_9:
                 ar = 16.0 / 9.0;
                 if (dar < ar)
-                    dh = (int) (dw / ar);
+                    dh = dw / ar;
                 else
-                    dw = (int) (dh * ar);
+                    dw = dh * ar;
                 break;
             case SURFACE_4_3:
                 ar = 4.0 / 3.0;
                 if (dar < ar)
-                    dh = (int) (dw / ar);
+                    dh = dw / ar;
                 else
-                    dw = (int) (dh * ar);
+                    dw = dh * ar;
                 break;
             case SURFACE_ORIGINAL:
                 dh = mVideoVisibleHeight;
-                dw = (int) vw;
+                dw = vw;
                 break;
         }
 
@@ -876,14 +877,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         // set display size
         LayoutParams lp = mSurface.getLayoutParams();
-        lp.width  = dw * mVideoWidth / mVideoVisibleWidth;
-        lp.height = dh * mVideoHeight / mVideoVisibleHeight;
+        lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
+        lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         mSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         lp = mSurfaceFrame.getLayoutParams();
-        lp.width = dw;
-        lp.height = dh;
+        lp.width = (int) Math.floor(dw);
+        lp.height = (int) Math.floor(dh);
         mSurfaceFrame.setLayoutParams(lp);
 
         mSurface.invalidate();
