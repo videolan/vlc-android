@@ -35,6 +35,7 @@ import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
+import org.videolan.vlc.widget.SlidingPaneLayout;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -101,6 +102,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private SidebarAdapter mSidebarAdapter;
     private AudioMiniPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
+    private SlidingPaneLayout mSlidingPane;
 
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
@@ -175,6 +177,8 @@ public class MainActivity extends SherlockFragmentActivity {
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         mMenu.setContent(v_main);
+
+        mSlidingPane = (SlidingPaneLayout) v_main.findViewById(R.id.pane);
 
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
@@ -737,5 +741,19 @@ public class MainActivity extends SherlockFragmentActivity {
     public void setMiniPlayerKeepHidden(boolean k)
     {
         mAudioPlayer.setKeepHidden(k);
+    }
+
+    /**
+     * Show the mini player.
+     */
+    public void showMiniPlayer() {
+        mSlidingPane.openPane();
+    }
+
+    /**
+     * Hide the mini player.
+     */
+    public void hideMiniPlayer() {
+        mSlidingPane.openPaneEntirely();
     }
 }

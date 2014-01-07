@@ -22,6 +22,7 @@ package org.videolan.vlc.widget;
 
 import android.app.Activity;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
@@ -117,11 +118,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                     mTouchY = event.getRawY();
                     break;
                 case MotionEvent.ACTION_UP:
-                    if(mTouchY - event.getRawY() > root.getHeight()) {
-                        // should show playlist view of AudioPlayerFragment
-                        Toast.makeText(AudioMiniPlayer.this.getActivity(), "AudioMiniPlayer swipe up", Toast.LENGTH_SHORT).show();
-                        return true;
-                    } else if(Math.abs( mTouchY - event.getRawY() ) < 5 && Math.abs( mTouchX - event.getRawX() ) < 5) {
+                    if (Math.abs(mTouchY - event.getRawY()) < 5 && Math.abs(mTouchX - event.getRawX()) < 5) {
                         // effectively a click
                         // should show cover view of AudioPlayerFragment
                         AudioPlayerFragment.start(getActivity());
@@ -227,23 +224,13 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     }
 
     public void show() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_enter_bottom, 0);
-        ft.show(this);
-        ft.commit();
+        MainActivity activity = (MainActivity)getActivity();
+        activity.showMiniPlayer();
     }
 
     public void hide() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager()
-                .beginTransaction();
-        /*
-            The exit animation won't run because of a bug in the compatibility library.
-            See: https://code.google.com/p/android/issues/detail?id=32405
-        */
-        ft.setCustomAnimations(0, R.anim.anim_leave_bottom);
-        ft.hide(this);
-        ft.commit();
+        MainActivity activity = (MainActivity)getActivity();
+        activity.hideMiniPlayer();
     }
 
     private boolean mKeepHidden = false;

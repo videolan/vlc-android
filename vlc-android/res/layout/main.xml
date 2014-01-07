@@ -1,39 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <FrameLayout android:id="@+id/fragment_placeholder"
+<org.videolan.vlc.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pane"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip" />
-    <RelativeLayout
-        android:id="@+id/info_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:visibility="gone">
-        <ProgressBar
-            android:id="@+id/info_progress"
-            style="?android:attr/progressBarStyleHorizontal"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/fragment_placeholder"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:progressDrawable="@drawable/progress"/>
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:singleLine="true"
-            android:textColor="#FFFFFFFF"
-            android:shadowColor="#CC000000"
-            android:shadowRadius="1.5"
-            android:shadowDx="1"
-            android:shadowDy="1"/>
-    </RelativeLayout>
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:id="@+id/info_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:id="@+id/info_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:progressDrawable="@drawable/progress" />
+
+            <TextView
+                android:id="@+id/info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="5dip"
+                android:shadowColor="#CC000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1.5"
+                android:singleLine="true"
+                android:textColor="#FFFFFFFF" />
+        </RelativeLayout>
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/audio_mini_player"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"/>
-</LinearLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:minHeight="60dp" />
+
+</org.videolan.vlc.widget.SlidingPaneLayout>
