@@ -201,6 +201,8 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         activity.setMiniPlayerKeepHidden(true);
         getSherlockActivity().getSupportActionBar().hide();
         mAudioController.addAudioPlayer(this);
+        update();
+        updateProgress();
     }
 
     @Override
