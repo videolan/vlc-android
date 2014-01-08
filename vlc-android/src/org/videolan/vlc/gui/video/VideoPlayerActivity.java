@@ -51,7 +51,6 @@ import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -334,7 +333,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
             AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
             AudioServiceController.getInstance().unbindAudioService(this);
-            AudioPlayerFragment.start(this);
             return;
         }
 

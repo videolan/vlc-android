@@ -157,7 +157,6 @@ public class AudioBrowserFragment extends SherlockFragment {
             ArrayList<String> songList = new ArrayList<String>();
             int selectedId = mSongsAdapter.getListWithPosition(songList, p);
             mAudioController.load(songList, selectedId);
-            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -175,7 +174,6 @@ public class AudioBrowserFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -288,7 +286,6 @@ public class AudioBrowserFragment extends SherlockFragment {
         else
             mAudioController.load(medias, startPosition);
 
-        AudioPlayerFragment.start(getActivity());
         return super.onContextItemSelected(item);
     }
 

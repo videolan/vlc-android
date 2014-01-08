@@ -28,7 +28,6 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.app.ListActivity;
@@ -256,7 +255,6 @@ public class SearchActivity extends ListActivity {
                         arr.add(audioItem.getLocation());
                 }
                 AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
-                AudioPlayerFragment.start(this);
                 finish();
                 return;
             }

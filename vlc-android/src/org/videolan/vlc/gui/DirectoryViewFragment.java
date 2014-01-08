@@ -28,7 +28,6 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 
@@ -145,7 +144,6 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
             alertDialog.show();
         } else if(id == R.id.directory_view_play_audio) {
             AudioServiceController.getInstance().load(mediaLocation, true);
-            AudioPlayerFragment.start(getActivity());
         } else if(id == R.id.directory_view_play_video) {
             VideoPlayerActivity.start(getActivity(), mediaLocation);
         }
@@ -177,7 +175,6 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
                     || !LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
                 List<String> mediaLocations = mDirectoryAdapter.getAllMediaLocations();
                 audioController.load(mediaLocations, mediaLocations.indexOf(mediaFile));
-                AudioPlayerFragment.start(getActivity());
             } else {
                 VideoPlayerActivity.start(getActivity(), mediaFile);
             }

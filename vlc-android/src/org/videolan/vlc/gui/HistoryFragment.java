@@ -23,7 +23,6 @@ package org.videolan.vlc.gui;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -82,7 +81,6 @@ public class HistoryFragment extends SherlockListFragment {
 
         LibVLC.getExistingInstance().setMediaList();
         audioController.playIndex(position);
-        AudioPlayerFragment.start(getActivity());
     }
 
     @Override

@@ -182,7 +182,6 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioPlayerFragment.start(getActivity());
         }
     };
 
@@ -191,7 +190,6 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
             mAudioController.load(mediaLocation, 0);
-            AudioPlayerFragment.start(getActivity());
         }
     };
 }

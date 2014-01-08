@@ -38,7 +38,6 @@ import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.annotation.TargetApi;
@@ -271,7 +270,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     protected void playAudio(Media media) {
         AudioServiceController.getInstance().load(media.getLocation(), true);
-        AudioPlayerFragment.start(getActivity());
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {

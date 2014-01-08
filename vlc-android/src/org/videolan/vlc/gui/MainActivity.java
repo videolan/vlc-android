@@ -30,7 +30,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
@@ -638,7 +637,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     }
                 }
             } else if (action.equalsIgnoreCase(ACTION_SHOW_PLAYER)) {
-                ShowFragment("player", AudioPlayerFragment.class);
+                showMiniPlayer();
             }
         }
     };

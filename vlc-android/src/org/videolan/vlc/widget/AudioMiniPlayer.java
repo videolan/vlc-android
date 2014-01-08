@@ -36,7 +36,6 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.audio.AudioListAdapter;
-import org.videolan.vlc.gui.audio.AudioPlayerFragment;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 
