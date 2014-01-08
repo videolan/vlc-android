@@ -189,12 +189,6 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //update();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         MainActivity activity = (MainActivity) getActivity();
