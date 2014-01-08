@@ -22,4 +22,5 @@ package org.videolan.vlc.interfaces;
 
 interface IAudioServiceCallback {
     void update();
+    void updateProgress();
 }

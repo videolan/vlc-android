@@ -395,6 +395,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.executeUpdate();
+                    service.executeUpdateProgress();
 
                     String location = service.mLibVLC.getMediaList().getMRL(service.mCurrentIndex);
                     long length = service.mLibVLC.getLength();
@@ -423,6 +424,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
                     service.executeUpdate();
+                    service.executeUpdateProgress();
                     service.showNotification();
                     service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerPaused);
                     if (service.mWakeLock.isHeld())
@@ -431,6 +433,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerStopped:
                     Log.i(TAG, "MediaPlayerStopped");
                     service.executeUpdate();
+                    service.executeUpdateProgress();
                     service.setRemoteControlClientPlaybackState(EventHandler.MediaPlayerStopped);
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
@@ -438,6 +441,7 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerEndReached:
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
+                    service.executeUpdateProgress();
                     service.next();
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
@@ -457,6 +461,7 @@ public class AudioService extends Service {
                         service.mLibVLC.getMediaList().getMRL(
                                 service.mCurrentIndex)), Toast.LENGTH_SHORT);
                     service.executeUpdate();
+                    service.executeUpdateProgress();
                     service.next();
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
@@ -542,6 +547,16 @@ public class AudioService extends Service {
             updateWidget(this);
     }
 
+    private void executeUpdateProgress() {
+        for (IAudioServiceCallback callback : mCallback.keySet()) {
+            try {
+                callback.updateProgress();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Alias for mMetadataCache.get(mCurrentIndex)
      *
@@ -576,7 +591,7 @@ public class AudioService extends Service {
                 case SHOW_PROGRESS:
                     if (service.mCallback.size() > 0) {
                         removeMessages(SHOW_PROGRESS);
-                        service.executeUpdate(false);
+                        service.executeUpdateProgress();
                         sendEmptyMessageDelayed(SHOW_PROGRESS, 1000);
                     }
                     break;
@@ -714,6 +729,7 @@ public class AudioService extends Service {
         mHandler.removeMessages(SHOW_PROGRESS);
         hideNotification();
         executeUpdate();
+        executeUpdateProgress();
         changeAudioFocus(false);
     }
 
@@ -729,6 +745,7 @@ public class AudioService extends Service {
                 @Override
                 public void run() {
                     service.executeUpdate();
+                    service.executeUpdateProgress();
                 }
             }, 1000);
         } else {
@@ -1054,6 +1071,7 @@ public class AudioService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
             executeUpdate();
+            executeUpdateProgress();
         }
 
         /**

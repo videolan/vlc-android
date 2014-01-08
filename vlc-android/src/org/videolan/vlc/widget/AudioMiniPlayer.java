@@ -211,14 +211,15 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 mBackward.setVisibility(ImageButton.VISIBLE);
             else
                 mBackward.setVisibility(ImageButton.INVISIBLE);
-            int time = mAudioPlayerControl.getTime();
-            int length = mAudioPlayerControl.getLength();
-            // Update all view elements
-
-            mProgressBar.setMax(length);
-            mProgressBar.setProgress(time);
         }
+    }
 
+    @Override
+    public synchronized void updateProgress() {
+        int time = mAudioPlayerControl.getTime();
+        int length = mAudioPlayerControl.getLength();
+        mProgressBar.setMax(length);
+        mProgressBar.setProgress(time);
     }
 
     public void show() {

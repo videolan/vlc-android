@@ -253,12 +253,7 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         lastTitle = title;
         mTitle.setText(lastTitle);
         mArtist.setText(mAudioController.getArtist());
-        int time = mAudioController.getTime();
-        int length = mAudioController.getLength();
-        mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
-        mLength.setText(Util.millisToString(length));
-        mTimeline.setMax(length);
-        mTimeline.setProgress(time);
+
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
             mPlayPause.setContentDescription(getString(R.string.pause));
@@ -294,6 +289,16 @@ public class AudioPlayerFragment extends SherlockFragment implements IAudioPlaye
         mTimeline.setOnSeekBarChangeListener(mTimelineListner);
 
         updateList();
+    }
+
+    @Override
+    public synchronized void updateProgress() {
+        int time = mAudioController.getTime();
+        int length = mAudioController.getLength();
+        mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
+        mLength.setText(Util.millisToString(length));
+        mTimeline.setMax(length);
+        mTimeline.setProgress(time);
     }
 
     private void updateList() {

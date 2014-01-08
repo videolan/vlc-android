@@ -54,6 +54,11 @@ public class AudioServiceController implements IAudioPlayerControl {
         public void update() throws RemoteException {
             updateAudioPlayer();
         }
+
+        @Override
+        public void updateProgress() throws RemoteException {
+            updateProgressAudioPlayer();
+        }
     };
 
     private AudioServiceController() {
@@ -167,6 +172,14 @@ public class AudioServiceController implements IAudioPlayerControl {
     private void updateAudioPlayer() {
         for (IAudioPlayer player : mAudioPlayer)
             player.update();
+    }
+
+    /**
+     * Update the progress of all AudioPlayers
+     */
+    private void updateProgressAudioPlayer() {
+        for (IAudioPlayer player : mAudioPlayer)
+            player.updateProgress();
     }
 
     /**
