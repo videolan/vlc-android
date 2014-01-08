@@ -239,8 +239,6 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Set up the mini audio player */
         mAudioPlayer = new AudioMiniPlayer();
         mAudioController = AudioServiceController.getInstance();
-        mAudioPlayer.setAudioPlayerControl(mAudioController);
-        mAudioPlayer.update();
 
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.audio_mini_player, mAudioPlayer)
@@ -740,7 +738,6 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     public void setMiniPlayerKeepHidden(boolean k)
     {
-        mAudioPlayer.setKeepHidden(k);
     }
 
     /**
