@@ -114,12 +114,6 @@ public class SlidingPaneLayout extends ViewGroup {
 
     private final ViewDragHelper mDragHelper;
 
-    /**
-     * Stores whether or not the pane was open the last time it was slideable.
-     * If open/close operations are invoked this state is modified. Used by
-     * instance state save/restore.
-     */
-    private boolean mPreservedOpenState;
     private boolean mFirstLayout = true;
 
     private final Rect mTmpRect = new Rect();
@@ -388,7 +382,7 @@ public class SlidingPaneLayout extends ViewGroup {
         int nextYStart = yStart;
 
         if (mFirstLayout) {
-            mSlideOffset = mCanSlide && mPreservedOpenState ? 1.f : 0.f;
+            mSlideOffset = mCanSlide ? 1.f : 0.f;
         }
 
         for (int i = 0; i < childCount; i++) {
@@ -444,26 +438,8 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     @Override
-    public void requestChildFocus(View child, View focused) {
-        super.requestChildFocus(child, focused);
-        if (!isInTouchMode() && !mCanSlide) {
-            mPreservedOpenState = child == mSlideableView;
-        }
-    }
-
-    @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final int action = MotionEventCompat.getActionMasked(ev);
-
-        // Preserve the open state based on the last view that was touched.
-        if (!mCanSlide && action == MotionEvent.ACTION_DOWN && getChildCount() > 1) {
-            // After the first things will be slideable.
-            final View secondChild = getChildAt(1);
-            if (secondChild != null) {
-                mPreservedOpenState = !mDragHelper.isViewUnder(secondChild,
-                        (int) ev.getX(), (int) ev.getY());
-            }
-        }
 
         if (!mCanSlide || (mIsUnableToDrag && action != MotionEvent.ACTION_DOWN)) {
             mDragHelper.cancel();
@@ -515,26 +491,20 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     private boolean closePane(View pane, int initialVelocity) {
-        if (mFirstLayout || smoothSlideTo(0.f, initialVelocity)) {
-            mPreservedOpenState = false;
+        if (mFirstLayout || smoothSlideTo(0.f, initialVelocity))
             return true;
-        }
         return false;
     }
 
     private boolean openPaneEntirely(View pane, int initialVelocity) {
-        if (mFirstLayout || smoothSlideTo(1.f, initialVelocity)) {
-            mPreservedOpenState = false;
+        if (mFirstLayout || smoothSlideTo(1.f, initialVelocity))
             return true;
-        }
         return false;
     }
 
     private boolean openPane(View pane, int initialVelocity) {
-        if (mFirstLayout || smoothSlideTo(1 - (float)mOverhangSize / mSlideRange, initialVelocity)) {
-            mPreservedOpenState = true;
+        if (mFirstLayout || smoothSlideTo(1 - (float)mOverhangSize / mSlideRange, initialVelocity))
             return true;
-        }
         return false;
     }
 
@@ -762,7 +732,7 @@ public class SlidingPaneLayout extends ViewGroup {
         Parcelable superState = super.onSaveInstanceState();
 
         SavedState ss = new SavedState(superState);
-        ss.isOpen = isSlideable() ? isOpen() : mPreservedOpenState;
+        ss.isOpen = isOpen();
 
         return ss;
     }
@@ -777,7 +747,6 @@ public class SlidingPaneLayout extends ViewGroup {
         } else {
             closePane();
         }
-        mPreservedOpenState = ss.isOpen;
     }
 
     private class DragHelperCallback extends ViewDragHelper.Callback {
@@ -789,18 +758,6 @@ public class SlidingPaneLayout extends ViewGroup {
             }
 
             return ((LayoutParams) child.getLayoutParams()).slideable;
-        }
-
-        @Override
-        public void onViewDragStateChanged(int state) {
-            if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_IDLE) {
-                if (mSlideOffset == 0) {
-                    updateObscuredViewsVisibility(mSlideableView);
-                    mPreservedOpenState = false;
-                } else {
-                    mPreservedOpenState = true;
-                }
-            }
         }
 
         @Override
