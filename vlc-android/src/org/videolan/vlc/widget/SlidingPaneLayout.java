@@ -855,6 +855,19 @@ public class SlidingPaneLayout extends ViewGroup {
         }
     }
 
+    /**
+     * Test if the second child is displayed under the coordinates given in parameters.
+     * @param x
+     * @param y
+     * @return true if the second child is displayed else false.
+     */
+    public boolean isSecondChildUnder(int x, int y) {
+        View secondChild = getChildAt(1);
+        if (secondChild == null)
+            return false;
+        return mDragHelper.isViewUnder(secondChild, x, y);
+    }
+
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
 
         /**

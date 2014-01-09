@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <org.videolan.vlc.widget.ContentLinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
@@ -42,7 +42,7 @@
                 android:singleLine="true"
                 android:textColor="#FFFFFFFF" />
         </RelativeLayout>
-    </LinearLayout>
+    </org.videolan.vlc.widget.ContentLinearLayout>
 
     <FrameLayout
         android:id="@+id/audio_mini_player"
