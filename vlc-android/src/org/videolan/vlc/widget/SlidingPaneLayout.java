@@ -522,7 +522,7 @@ public class SlidingPaneLayout extends ViewGroup {
         return false;
     }
 
-    private boolean hidePane(View pane, int initialVelocity) {
+    private boolean openPaneEntirely(View pane, int initialVelocity) {
         if (mFirstLayout || smoothSlideTo(1.f, initialVelocity)) {
             mPreservedOpenState = false;
             return true;
@@ -555,7 +555,7 @@ public class SlidingPaneLayout extends ViewGroup {
      * @return true if the pane was slideable and is now closed/in the process of closing
      */
     public boolean openPaneEntirely() {
-        return hidePane(mSlideableView, 0);
+        return openPaneEntirely(mSlideableView, 0);
     }
 
     /**
