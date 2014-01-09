@@ -503,6 +503,8 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     private boolean openPane(View pane, int initialVelocity) {
+        if (isOpen()) // Do not open the pane if it is already open.
+            return false;
         if (mFirstLayout || smoothSlideTo(1 - (float)mOverhangSize / mSlideRange, initialVelocity))
             return true;
         return false;
@@ -539,13 +541,13 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     /**
-     * Check if the layout is completely open. It can be open either because the slider
+     * Check if the layout is open. It can be open either because the slider
      * itself is open revealing the left pane, or if all content fits without sliding.
      *
      * @return true if sliding panels are completely open
      */
     public boolean isOpen() {
-        return !mCanSlide || mSlideOffset == 1;
+        return !mCanSlide || mSlideOffset < 1;
     }
 
     /**
