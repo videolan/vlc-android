@@ -732,14 +732,6 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     /**
-     * Tell the mini player to keep hidden or not.
-     * @param k true if the player must keep hidden, else false.
-     */
-    public void setMiniPlayerKeepHidden(boolean k)
-    {
-    }
-
-    /**
      * Show the mini player.
      */
     public void showMiniPlayer() {
