@@ -109,6 +109,13 @@ public class SlidingPaneLayout extends ViewGroup {
      */
     private boolean mIsUnableToDrag;
 
+    /**
+     * The opening states of the pane.
+     */
+    public final int STATE_OPENED_ENTIRELY = 0;
+    public final int STATE_OPENED = 1;
+    public final int STATE_CLOSED = 2;
+
     private float mInitialMotionX;
     private float mInitialMotionY;
 
@@ -503,8 +510,6 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     private boolean openPane(View pane, int initialVelocity) {
-        if (isOpen()) // Do not open the pane if it is already open.
-            return false;
         if (mFirstLayout || smoothSlideTo(1 - (float)mOverhangSize / mSlideRange, initialVelocity))
             return true;
         return false;
@@ -541,13 +546,17 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     /**
-     * Check if the layout is open. It can be open either because the slider
-     * itself is open revealing the left pane, or if all content fits without sliding.
-     *
-     * @return true if sliding panels are completely open
+     * Return the open state of the pane.
+     * @return STATE_OPEN, STATE_OPEN_ENTIRELY or STATE_CLOSED
      */
-    public boolean isOpen() {
-        return !mCanSlide || mSlideOffset < 1;
+    public int getState()
+    {
+        if (mSlideOffset == 1.f)
+            return STATE_OPENED_ENTIRELY;
+        else if (mSlideOffset == 0.f)
+            return STATE_CLOSED;
+        else
+            return STATE_OPENED;
     }
 
     /**
@@ -734,7 +743,7 @@ public class SlidingPaneLayout extends ViewGroup {
         Parcelable superState = super.onSaveInstanceState();
 
         SavedState ss = new SavedState(superState);
-        ss.isOpen = isOpen();
+        ss.state = getState();
 
         return ss;
     }
@@ -744,9 +753,15 @@ public class SlidingPaneLayout extends ViewGroup {
         SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
 
-        if (ss.isOpen) {
+        switch(ss.state)
+        {
+        case STATE_OPENED:
             openPane();
-        } else {
+            break;
+        case STATE_OPENED_ENTIRELY:
+            openPaneEntirely();
+            break;
+        case STATE_CLOSED:
             closePane();
         }
     }
@@ -861,7 +876,7 @@ public class SlidingPaneLayout extends ViewGroup {
     }
 
     static class SavedState extends BaseSavedState {
-        boolean isOpen;
+        int state;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -869,13 +884,13 @@ public class SlidingPaneLayout extends ViewGroup {
 
         private SavedState(Parcel in) {
             super(in);
-            isOpen = in.readInt() != 0;
+            state = in.readInt();
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeInt(isOpen ? 1 : 0);
+            out.writeInt(state);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =

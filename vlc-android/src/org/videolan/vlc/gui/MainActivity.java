@@ -735,7 +735,9 @@ public class MainActivity extends SherlockFragmentActivity {
      * Show the mini player.
      */
     public void showMiniPlayer() {
-        mSlidingPane.openPane();
+        // Open the pane only if is entirely opened.
+        if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
+            mSlidingPane.openPane();
     }
 
     /**
