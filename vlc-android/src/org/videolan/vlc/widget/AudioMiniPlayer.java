@@ -193,8 +193,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     @Override
     public void onResume() {
         super.onResume();
-        update();
-        updateProgress();
     }
 
     @Override
