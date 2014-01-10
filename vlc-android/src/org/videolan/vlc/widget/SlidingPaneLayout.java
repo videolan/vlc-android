@@ -115,6 +115,7 @@ public class SlidingPaneLayout extends ViewGroup {
     public final int STATE_OPENED_ENTIRELY = 0;
     public final int STATE_OPENED = 1;
     public final int STATE_CLOSED = 2;
+    private int mState;
 
     private float mInitialMotionX;
     private float mInitialMotionY;
@@ -388,10 +389,6 @@ public class SlidingPaneLayout extends ViewGroup {
         int yStart = paddingTop;
         int nextYStart = yStart;
 
-        if (mFirstLayout) {
-            mSlideOffset = mCanSlide ? 1.f : 0.f;
-        }
-
         for (int i = 0; i < childCount; i++) {
             final View child = getChildAt(i);
 
@@ -412,6 +409,21 @@ public class SlidingPaneLayout extends ViewGroup {
                 final int margin = lp.topMargin + lp.bottomMargin;
                 final int range = Math.min(nextYStart, height - paddingBottom) - yStart - margin;
                 mSlideRange = range;
+
+                if (mFirstLayout) {
+                    switch (mState) {
+                    case STATE_CLOSED:
+                        mSlideOffset = mCanSlide ? 0.f : 1.f;
+                        break;
+                    case STATE_OPENED:
+                        mSlideOffset = mCanSlide ? 1 - (float)mOverhangSize / mSlideRange : 1.f;
+                        break;
+                    default: // STATE_OPENED_ENTIRELY
+                        mSlideOffset = 1.f;
+                        break;
+                    }
+                }
+
                 final int pos = (int) (range * mSlideOffset);
                 yStart += pos + lp.topMargin;
                 mSlideOffset = (float) pos / mSlideRange;
@@ -551,12 +563,7 @@ public class SlidingPaneLayout extends ViewGroup {
      */
     public int getState()
     {
-        if (mSlideOffset == 1.f)
-            return STATE_OPENED_ENTIRELY;
-        else if (mSlideOffset == 0.f)
-            return STATE_CLOSED;
-        else
-            return STATE_OPENED;
+        return mState;
     }
 
     /**
@@ -743,7 +750,7 @@ public class SlidingPaneLayout extends ViewGroup {
         Parcelable superState = super.onSaveInstanceState();
 
         SavedState ss = new SavedState(superState);
-        ss.state = getState();
+        ss.state = mState;
 
         return ss;
     }
@@ -781,6 +788,22 @@ public class SlidingPaneLayout extends ViewGroup {
         public void onViewCaptured(View capturedChild, int activePointerId) {
             // Make all child views visible in preparation for sliding things around
             setAllChildrenVisible();
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_IDLE) {
+                if (mSlideOffset == 0) {
+                    if (mState != STATE_CLOSED)
+                        mState = STATE_CLOSED;
+                } else if (mSlideOffset == 1 - (float)mOverhangSize/mSlideRange) {
+                    if (mState != STATE_OPENED) {
+                        mState = STATE_OPENED;
+                    }
+                } else if (mState != STATE_OPENED_ENTIRELY) {
+                    mState = STATE_OPENED_ENTIRELY;
+                }
+            }
         }
 
         @Override
