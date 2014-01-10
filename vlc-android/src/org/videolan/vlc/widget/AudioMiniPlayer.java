@@ -229,12 +229,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             return;
         }
 
-        // Exit the player and return to the main menu when there is no media
-        if (!mAudioController.hasMedia()) {
-            getActivity().getSupportFragmentManager().popBackStackImmediate(); // remove this fragment from view
-            return;
-        }
-
         String title = mAudioController.getTitle();
         if (title != null && !title.equals(lastTitle)) {
             Bitmap cover = mAudioController.getCover();
