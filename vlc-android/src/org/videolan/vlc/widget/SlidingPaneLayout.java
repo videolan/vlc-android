@@ -50,7 +50,7 @@ import java.util.ArrayList;
 
 
 public class SlidingPaneLayout extends ViewGroup {
-    private static final String TAG = "SlidingPaneLayout";
+    private static final String TAG = "VLC/SlidingPaneLayout";
 
     /**
      * Default size of the overhang for a pane in the open state.
