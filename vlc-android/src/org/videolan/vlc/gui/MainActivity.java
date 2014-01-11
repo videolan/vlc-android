@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MainActivity.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -214,6 +214,10 @@ public class MainActivity extends SherlockFragmentActivity {
                  * to quit
                  */
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                /* Hide the mini player */
+                if(mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
+                    mSlidingPane.openPane();
 
                 /* Switch the fragment */
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
