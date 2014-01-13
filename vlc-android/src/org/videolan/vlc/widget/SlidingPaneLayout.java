@@ -504,7 +504,38 @@ public class SlidingPaneLayout extends ViewGroup {
         if (!mCanSlide) {
             return super.onTouchEvent(ev);
         }
+
         mDragHelper.processTouchEvent(ev);
+
+        final int action = ev.getAction();
+
+        switch (action & MotionEventCompat.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN: {
+                final float x = ev.getX();
+                final float y = ev.getY();
+                mInitialMotionX = x;
+                mInitialMotionY = y;
+                break;
+            }
+
+            case MotionEvent.ACTION_UP: {
+                final float x = ev.getX();
+                final float y = ev.getY();
+                final float dx = x - mInitialMotionX;
+                final float dy = y - mInitialMotionY;
+                final int slop = mDragHelper.getTouchSlop();
+                if (dx * dx + dy * dy < slop * slop &&
+                    mDragHelper.isViewUnder(mSlideableView, (int) x, (int) y)) {
+                    // Close or open the pane on touch event.
+                    if (getState() == STATE_OPENED)
+                        closePane();
+                    else if (getState() == STATE_CLOSED)
+                        openPane();
+                    break;
+                }
+                break;
+            }
+        }
 
         return true;
     }
