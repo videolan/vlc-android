@@ -41,11 +41,17 @@ interface IAudioService {
     boolean hasNext();
     boolean hasPrevious();
     String getTitle();
+    String getTitlePrev();
+    String getTitleNext();
     String getArtist();
+    String getArtistPrev();
+    String getArtistNext();
     String getAlbum();
     int getTime();
     int getLength();
     Bitmap getCover();
+    Bitmap getCoverPrev();
+    Bitmap getCoverNext();
     void addAudioCallback(IAudioServiceCallback cb);
     void removeAudioCallback(IAudioServiceCallback cb);
     void detectHeadset(boolean enable);

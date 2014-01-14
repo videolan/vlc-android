@@ -27,11 +27,23 @@ import android.graphics.Bitmap;
 public interface IAudioPlayerControl {
     String getTitle();
 
+    String getTitlePrev();
+
+    String getTitleNext();
+
     String getArtist();
+
+    String getArtistPrev();
+
+    String getArtistNext();
 
     String getAlbum();
 
     Bitmap getCover();
+
+    Bitmap getCoverPrev();
+
+    Bitmap getCoverNext();
 
     int getLength();
 

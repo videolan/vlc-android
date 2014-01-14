@@ -919,9 +919,41 @@ public class AudioService extends Service {
         }
 
         @Override
+        public String getArtistPrev() throws RemoteException {
+            if (mPrevIndex != -1)
+                return mLibVLC.getMediaList().getMedia(mPrevIndex).getArtist();
+            else
+                return null;
+        }
+
+        @Override
+        public String getArtistNext() throws RemoteException {
+            if (mNextIndex != -1)
+                return mLibVLC.getMediaList().getMedia(mNextIndex).getArtist();
+            else
+                return null;
+        }
+
+        @Override
         public String getTitle() throws RemoteException {
             if (hasCurrentMedia())
                 return getCurrentMedia().getTitle();
+            else
+                return null;
+        }
+
+        @Override
+        public String getTitlePrev() throws RemoteException {
+            if (mPrevIndex != -1)
+                return mLibVLC.getMediaList().getMedia(mPrevIndex).getTitle();
+            else
+                return null;
+        }
+
+        @Override
+        public String getTitleNext() throws RemoteException {
+            if (mNextIndex != -1)
+                return mLibVLC.getMediaList().getMedia(mNextIndex).getTitle();
             else
                 return null;
         }
@@ -932,6 +964,22 @@ public class AudioService extends Service {
                 return AudioService.this.getCover();
             }
             return null;
+        }
+
+        @Override
+        public Bitmap getCoverPrev() throws RemoteException {
+            if (mPrevIndex != -1)
+                return AudioUtil.getCover(AudioService.this, mLibVLC.getMediaList().getMedia(mPrevIndex), 64);
+            else
+                return null;
+        }
+
+        @Override
+        public Bitmap getCoverNext() throws RemoteException {
+            if (mNextIndex != -1)
+                return AudioUtil.getCover(AudioService.this, mLibVLC.getMediaList().getMedia(mNextIndex), 64);
+            else
+                return null;
         }
 
         @Override

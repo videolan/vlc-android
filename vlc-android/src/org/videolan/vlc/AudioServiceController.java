@@ -289,8 +289,28 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     @Override
+    public String getArtistPrev() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistPrev", null, null);
+    }
+
+    @Override
+    public String getArtistNext() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getArtistNext", null, null);
+    }
+
+    @Override
     public String getTitle() {
         return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitle", null, null);
+    }
+
+    @Override
+    public String getTitlePrev() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitlePrev", null, null);
+    }
+
+    @Override
+    public String getTitleNext() {
+        return remoteProcedureCall(mAudioServiceBinder, String.class, (String)null, "getTitleNext", null, null);
     }
 
     @Override
@@ -328,6 +348,16 @@ public class AudioServiceController implements IAudioPlayerControl {
     @Override
     public Bitmap getCover() {
         return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCover", null, null);
+    }
+
+    @Override
+    public Bitmap getCoverPrev() {
+        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverPrev", null, null);
+    }
+
+    @Override
+    public Bitmap getCoverNext() {
+        return remoteProcedureCall(mAudioServiceBinder, Bitmap.class, (Bitmap)null, "getCoverNext", null, null);
     }
 
     @Override
