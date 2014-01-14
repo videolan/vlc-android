@@ -12,6 +12,7 @@
     <color name="font_light">#777777</color>
     <color name="orange">#ffbb33</color>
     <color name="darkorange">#ff8800</color>
+    <color name="darkerorange">#ff7200</color>
     <color name="black">#000001</color>
     <color name="transparent_gray">#8000</color>
     <color name="action_bar_title">#FFFFFF</color>
