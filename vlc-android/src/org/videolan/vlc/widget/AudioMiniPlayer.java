@@ -47,7 +47,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -58,10 +57,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
-    private ImageView mCover;
+    private AudioMediaSwitcher mAudioMediaSwitcher;
     private AnimatedCoverView mBigCover;
-    private TextView mTitle;
-    private TextView mArtist;
     private TextView mTime;
     private TextView mLength;
     private ImageButton mPlayPause;
@@ -79,7 +76,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
 
     private AudioServiceController mAudioController;
     private boolean mShowRemainingTime = false;
-    private String lastTitle;
 
     private AudioListAdapter mSongsListAdapter;
 
@@ -88,7 +84,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         super.onCreate(savedInstanceState);
 
         mAudioController = AudioServiceController.getInstance();
-        lastTitle = "";
 
         mSongsListAdapter = new AudioListAdapter(getActivity());
     }
@@ -97,10 +92,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.audio_player, container, false);
 
-        mCover = (ImageView) v.findViewById(R.id.cover);
+        mAudioMediaSwitcher = (AudioMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
         mBigCover = (AnimatedCoverView) v.findViewById(R.id.big_cover);
-        mTitle = (TextView) v.findViewById(R.id.title);
-        mArtist = (TextView) v.findViewById(R.id.artist);
         mTime = (TextView) v.findViewById(R.id.time);
         mLength = (TextView) v.findViewById(R.id.length);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
@@ -229,22 +222,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             return;
         }
 
-        String title = mAudioController.getTitle();
-        if (title != null && !title.equals(lastTitle)) {
-            Bitmap cover = mAudioController.getCover();
-            if (cover != null) {
-                mCover.setVisibility(ImageView.VISIBLE);
-                mCover.setImageBitmap(cover);
-                mBigCover.setImageBitmap(cover);
-            } else {
-                mCover.setVisibility(ImageView.GONE);
-                mBigCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.cone));
-            }
-        }
+        Bitmap cover = mAudioController.getCover();
+        if (cover == null)
+            cover = BitmapFactory.decodeResource(getResources(), R.drawable.cone);
+        mBigCover.setImageBitmap(cover);
 
-        lastTitle = title;
-        mTitle.setText(lastTitle);
-        mArtist.setText(mAudioController.getArtist());
+        mAudioMediaSwitcher.updateMedia();
 
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
