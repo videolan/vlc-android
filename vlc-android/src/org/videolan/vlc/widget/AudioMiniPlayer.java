@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.audio.AudioListAdapter;
 import org.videolan.vlc.interfaces.IAudioPlayer;
+import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -93,6 +94,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         View v = inflater.inflate(R.layout.audio_player, container, false);
 
         mAudioMediaSwitcher = (AudioMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
+        mAudioMediaSwitcher.setAudioMediaSwitcherListener(mAudioMediaSwitcherListener);
+
         mBigCover = (AnimatedCoverView) v.findViewById(R.id.big_cover);
         mTime = (TextView) v.findViewById(R.id.time);
         mLength = (TextView) v.findViewById(R.id.length);
@@ -228,6 +231,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mBigCover.setImageBitmap(cover);
 
         mAudioMediaSwitcher.updateMedia();
+        mAdvFunc.setVisibility(ImageButton.VISIBLE);
+        mPlaylistSwitch.setVisibility(ImageButton.VISIBLE);
 
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
@@ -396,4 +401,30 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         MainActivity activity = (MainActivity)getActivity();
         activity.hideMiniPlayer();
     }
+
+    private final AudioMediaSwitcherListener mAudioMediaSwitcherListener = new AudioMediaSwitcherListener() {
+
+        @Override
+        public void onMediaSwitching() {}
+
+        @Override
+        public void onMediaSwitched(int position) {
+            if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
+                mAudioController.previous();
+            else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
+                mAudioController.next();
+        }
+
+        @Override
+        public void onTouchDown() {
+            mAdvFunc.setVisibility(ImageButton.GONE);
+            mPlaylistSwitch.setVisibility(ImageButton.GONE);
+        }
+
+        @Override
+        public void onTouchUp() {
+            mAdvFunc.setVisibility(ImageButton.VISIBLE);
+            mPlaylistSwitch.setVisibility(ImageButton.VISIBLE);
+        }
+    };
 }

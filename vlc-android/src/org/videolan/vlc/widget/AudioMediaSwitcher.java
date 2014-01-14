@@ -34,8 +34,15 @@ import android.widget.TextView;
 
 public class AudioMediaSwitcher extends FlingViewGroup {
 
+    private AudioMediaSwitcherListener mAudioMediaSwitcherListener;
+
+    private boolean hasPrevious;
+    private int previousPosition;
+
     public AudioMediaSwitcher(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        setOnViewSwitchedListener(mViewSwitchListener);
     }
 
     public void updateMedia() {
@@ -45,12 +52,17 @@ public class AudioMediaSwitcher extends FlingViewGroup {
 
         removeAllViews();
 
+        hasPrevious = false;
+        previousPosition = 0;
+
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (audioController.hasPrevious())
+        if (audioController.hasPrevious()) {
             addMediaView(inflater,
                     audioController.getTitlePrev(),
                     audioController.getArtistPrev(),
                     audioController.getCoverPrev());
+            hasPrevious = true;
+        }
         if (audioController.hasMedia())
             addMediaView(inflater,
                     audioController.getTitle(),
@@ -63,6 +75,7 @@ public class AudioMediaSwitcher extends FlingViewGroup {
                     audioController.getCoverNext());
 
         if (audioController.hasPrevious() && audioController.hasMedia()) {
+            previousPosition = 1;
             scrollTo(1);
         }
     }
@@ -83,5 +96,62 @@ public class AudioMediaSwitcher extends FlingViewGroup {
         artistView.setText(artist);
 
         addView(v);
+    }
+
+    private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
+
+        @Override
+        public void onSwitching(float progress) {
+            if (mAudioMediaSwitcherListener != null)
+                mAudioMediaSwitcherListener.onMediaSwitching();
+        }
+
+        @Override
+        public void onSwitched(int position) {
+            if (mAudioMediaSwitcherListener != null)
+            {
+                if (previousPosition != position) {
+                    if (position == 0 && hasPrevious)
+                        mAudioMediaSwitcherListener.onMediaSwitched(AudioMediaSwitcherListener.PREVIOUS_MEDIA);
+                    if (position == 1 && !hasPrevious)
+                        mAudioMediaSwitcherListener.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA);
+                    else if (position == 2)
+                        mAudioMediaSwitcherListener.onMediaSwitched(AudioMediaSwitcherListener.NEXT_MEDIA);
+                    previousPosition = position;
+                }
+                else
+                    mAudioMediaSwitcherListener.onMediaSwitched(AudioMediaSwitcherListener.CURRENT_MEDIA);
+            }
+        }
+
+        @Override
+        public void onTouchDown() {
+            if (mAudioMediaSwitcherListener != null)
+                mAudioMediaSwitcherListener.onTouchDown();
+        }
+
+        @Override
+        public void onTouchUp() {
+            if (mAudioMediaSwitcherListener != null)
+                mAudioMediaSwitcherListener.onTouchUp();
+        }
+    };
+
+    public void setAudioMediaSwitcherListener(AudioMediaSwitcherListener l) {
+        mAudioMediaSwitcherListener = l;
+    }
+
+    public static interface AudioMediaSwitcherListener {
+        public final static int PREVIOUS_MEDIA = 1;
+        public final static int CURRENT_MEDIA = 2;
+        public final static int NEXT_MEDIA = 3;
+
+        void onMediaSwitching();
+
+        void onMediaSwitched(int position);
+
+        void onTouchDown();
+
+        void onTouchUp();
     }
 }
