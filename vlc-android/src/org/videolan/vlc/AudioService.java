@@ -108,7 +108,7 @@ public class AudioService extends Service {
     private LibVLC mLibVLC;
     private Stack<Integer> mPrevious; // Stack of previously played indexes, used in shuffle mode
     private int mCurrentIndex; // Set to -1 if there is no currently loaded media
-    private int mPrevIndex; // Set to -1 if no next media
+    private int mPrevIndex; // Set to -1 if no previous media
     private int mNextIndex; // Set to -1 if no next media
     private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventHandler mEventHandler;
