@@ -311,6 +311,12 @@ public class AudioBrowserFragment extends SherlockFragment {
             mFlingViewPosition = position;
         }
 
+        @Override
+        public void onTouchDown() {}
+
+        @Override
+        public void onTouchUp() {}
+
     };
 
     /**

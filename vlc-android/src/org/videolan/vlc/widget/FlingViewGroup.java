@@ -164,6 +164,8 @@ public class FlingViewGroup extends ViewGroup {
                 if (!mScroller.isFinished())
                     mScroller.abortAnimation();
                 mLastX = x;
+                if (mViewSwitchListener != null)
+                    mViewSwitchListener.onTouchDown();
                 break;
             case MotionEvent.ACTION_MOVE:
                 int delta = (int) (mLastX - x);
@@ -200,6 +202,9 @@ public class FlingViewGroup extends ViewGroup {
                     mVelocityTracker.recycle();
                     mVelocityTracker = null;
                 }
+
+                if (mViewSwitchListener != null)
+                    mViewSwitchListener.onTouchUp();
 
                 break;
         }
@@ -247,6 +252,10 @@ public class FlingViewGroup extends ViewGroup {
         void onSwitching(float progress);
 
         void onSwitched(int position);
+
+        void onTouchDown();
+
+        void onTouchUp();
     }
 
 }
