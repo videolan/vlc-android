@@ -212,7 +212,10 @@ public class FlingViewGroup extends ViewGroup {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mViewSwitchListener != null) {
             float progress = (float) l / (float) (getWidth() * (getChildCount() - 1));
-            mViewSwitchListener.onSwitching(progress);
+            if (l != mCurrentView * getWidth())
+                mViewSwitchListener.onSwitching(progress);
+            else
+                mViewSwitchListener.onSwitched(mCurrentView);
         }
     }
 
@@ -227,17 +230,13 @@ public class FlingViewGroup extends ViewGroup {
         final int delta = (position * getWidth()) - getScrollX();
         mScroller.startScroll(getScrollX(), 0, delta, 0, Math.abs(delta));
         invalidate();
-        if (mViewSwitchListener != null) {
-            mViewSwitchListener.onSwitched(position);
-        }
     }
 
     public void scrollTo(int position) {
         mCurrentView = position;
-        scrollTo(position * getWidth(), 0);
-        if (mViewSwitchListener != null) {
-            mViewSwitchListener.onSwitched(position);
-        }
+        final int delta = (position * getWidth()) - getScrollX();
+        mScroller.startScroll(getScrollX(), 0, delta, 0, 0);
+        invalidate();
     }
 
     public void setOnViewSwitchedListener(ViewSwitchListener l) {
