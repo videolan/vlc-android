@@ -2,20 +2,13 @@
 
     <item android:id="@android:id/background">
         <shape>
-            <gradient
-                android:angle="270"
-                android:centerColor="#AADDDDDD"
-                android:endColor="#AAAAAAAA"
-                android:startColor="#AAAAAAAA" />
+            <solid android:color="@color/background_menu"/>
         </shape>
     </item>
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <gradient
-                    android:angle="270"
-                    android:endColor="#FFAA4400"
-                    android:startColor="#FFEE8800" />
+                <solid android:color="@color/darkorange"/>
             </shape>
         </clip>
     </item>
