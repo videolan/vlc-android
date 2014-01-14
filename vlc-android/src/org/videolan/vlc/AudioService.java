@@ -558,9 +558,9 @@ public class AudioService extends Service {
     }
 
     /**
-     * Alias for mMetadataCache.get(mCurrentIndex)
+     * Return the current media.
      *
-     * @return The current media
+     * @return The current media or null if there is not any.
      */
     private Media getCurrentMedia() {
         return mLibVLC.getMediaList().getMedia(mCurrentIndex);
