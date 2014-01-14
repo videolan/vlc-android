@@ -93,6 +93,8 @@ public class FlingViewGroup extends ViewGroup {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        if (!mScroller.isFinished())
+            mScroller.abortAnimation();
         super.onSizeChanged(w, h, oldw, oldh);
         scrollTo(mCurrentView * w, 0);
         requestLayout();
