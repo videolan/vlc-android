@@ -232,6 +232,14 @@ public class FlingViewGroup extends ViewGroup {
         }
     }
 
+    public void scrollTo(int position) {
+        mCurrentView = position;
+        scrollTo(position * getWidth(), 0);
+        if (mViewSwitchListener != null) {
+            mViewSwitchListener.onSwitched(position);
+        }
+    }
+
     public void setOnViewSwitchedListener(ViewSwitchListener l) {
         mViewSwitchListener = l;
     }
