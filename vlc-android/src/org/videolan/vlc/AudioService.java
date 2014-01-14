@@ -101,9 +101,15 @@ public class AudioService extends Service {
     public static final String WIDGET_PACKAGE = "org.videolan.vlc";
     public static final String WIDGET_CLASS = "org.videolan.vlc.widget.VLCAppWidgetProvider";
 
+    public static final int CURRENT_ITEM = 1;
+    public static final int PREVIOUS_ITEM = 2;
+    public static final int NEXT_ITEM = 3;
+
     private LibVLC mLibVLC;
     private Stack<Integer> mPrevious; // Stack of previously played indexes, used in shuffle mode
     private int mCurrentIndex; // Set to -1 if there is no currently loaded media
+    private int mPrevIndex; // Set to -1 if no next media
+    private int mNextIndex; // Set to -1 if no next media
     private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventHandler mEventHandler;
     private boolean mShuffling = false;
@@ -137,6 +143,8 @@ public class AudioService extends Service {
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mCurrentIndex = -1;
+        mPrevIndex = -1;
+        mNextIndex = -1;
         mPrevious = new Stack<Integer>();
         mEventHandler = EventHandler.getInstance();
         mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
@@ -733,22 +741,11 @@ public class AudioService extends Service {
         changeAudioFocus(false);
     }
 
-    private void next() {
-        // Try to expand any items present
-        // Cache will be refreshed below
-        int pos = mLibVLC.expandAndPlay();
-        if(pos == 0) {
-            Log.d(TAG, "Found subitems, updating media display");
+    private void determinePrevAndNextIndices() {
+        mNextIndex = mLibVLC.expand();
+        mPrevIndex = -1;
 
-            final AudioService service = this;
-            mVlcEventHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    service.executeUpdate();
-                    service.executeUpdateProgress();
-                }
-            }, 1000);
-        } else {
+        if (mNextIndex == -1) {
             // No subitems; play the next item.
             int size = mLibVLC.getMediaList().size();
 
@@ -768,30 +765,40 @@ public class AudioService extends Service {
                     }
                     // Find a new index not in mPrevious.
                     while(mPrevious.contains(
-                            mCurrentIndex = (int)(Math.random() * size)
+                            mNextIndex = (int)(Math.random() * size)
                          ));
                 } else {
                     if(mCurrentIndex + 1 < size)
-                        mCurrentIndex++;
+                        mNextIndex = mCurrentIndex + 1;
                     else {
                         if(mRepeating == RepeatType.None) {
-                            stop();
-                            return;
+                            mNextIndex = -1;
                         } else {
-                            mCurrentIndex = 0;
+                            mNextIndex = 0;
                         }
                     }
                 }
             }
-
-            if (size == 0 || mCurrentIndex >= size) {
-                Log.w(TAG, "Warning: invalid next index, aborted !");
-                stop();
-                return;
-            }
-
-            mLibVLC.playIndex(mCurrentIndex);
         }
+
+        if(mShuffling && mPrevious.size() > 0) {
+            mPrevIndex = mPrevious.pop();
+        } else if(mCurrentIndex > 0) {
+            mPrevIndex = mCurrentIndex - 1;
+        }
+    }
+
+    private void next() {
+        mCurrentIndex = mNextIndex;
+
+        int size = mLibVLC.getMediaList().size();
+        if (size == 0 || mCurrentIndex >= size) {
+            Log.w(TAG, "Warning: invalid next index, aborted !");
+            stop();
+            return;
+        }
+
+        mLibVLC.playIndex(mCurrentIndex);
 
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         setUpRemoteControlClient();
@@ -799,6 +806,8 @@ public class AudioService extends Service {
         updateWidget(this);
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
+
+        determinePrevAndNextIndices();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -820,11 +829,7 @@ public class AudioService extends Service {
     }
 
     private void previous() {
-        if(mShuffling && mPrevious.size() > 0) {
-            mCurrentIndex = mPrevious.pop();
-        } else if(mCurrentIndex > 0) {
-            mCurrentIndex--;
-        }
+        mCurrentIndex = mPrevIndex;
 
         int size = mLibVLC.getMediaList().size();
         if (size == 0 || mCurrentIndex >= size) {
@@ -840,6 +845,8 @@ public class AudioService extends Service {
         updateWidget(this);
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
+
+        determinePrevAndNextIndices();
     }
 
     private void shuffle() {
@@ -1021,6 +1028,7 @@ public class AudioService extends Service {
             updateRemoteControlClientMetadata();
             AudioService.this.saveMediaList();
             AudioService.this.saveCurrentMedia();
+            determinePrevAndNextIndices();
         }
 
         /**
@@ -1048,6 +1056,7 @@ public class AudioService extends Service {
             showNotification();
             updateWidget(AudioService.this);
             updateRemoteControlClientMetadata();
+            determinePrevAndNextIndices();
         }
 
         /**
@@ -1094,6 +1103,7 @@ public class AudioService extends Service {
                 mLibVLC.getMediaList().add(media);
             }
             AudioService.this.saveMediaList();
+            determinePrevAndNextIndices();
         }
 
         @Override
@@ -1137,12 +1147,7 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasNext() throws RemoteException {
-            if (mRepeating == RepeatType.Once)
-                return false;
-
-            if (mShuffling && mPrevious.size() < mLibVLC.getMediaList().size() - 1)
-                return true;
-            else if (!mShuffling && mCurrentIndex < mLibVLC.getMediaList().size() - 1)
+            if (mNextIndex != -1)
                 return true;
             else
                 return false;
@@ -1150,12 +1155,7 @@ public class AudioService extends Service {
 
         @Override
         public boolean hasPrevious() throws RemoteException {
-            if (mRepeating == RepeatType.Once)
-                return false;
-
-            if (mShuffling && mPrevious.size() > 0)
-                return true;
-            else if (!mShuffling && mCurrentIndex > 0)
+            if (mPrevIndex != -1)
                 return true;
             else
                 return false;

@@ -648,6 +648,14 @@ public class LibVLC {
         return r;
     }
 
+    /**
+     * Expand the current media.
+     * @return the index of the media was expanded, and -1 if no media was expanded
+     */
+    public int expand() {
+        return mMediaList.expandMedia(mInternalMediaPlayerIndex);
+    }
+
     private native void setEventHandler(EventHandler eventHandler);
 
     private native void detachEventHandler();
