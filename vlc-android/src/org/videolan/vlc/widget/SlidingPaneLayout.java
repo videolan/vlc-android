@@ -203,7 +203,6 @@ public class SlidingPaneLayout extends ViewGroup {
         ViewCompat.setImportantForAccessibility(this, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
 
         mDragHelper = ViewDragHelper.create(this, 0.5f, new DragHelperCallback());
-        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_TOP);
         mDragHelper.setMinVelocity(MIN_FLING_VELOCITY * density);
     }
 
@@ -948,11 +947,6 @@ public class SlidingPaneLayout extends ViewGroup {
             // Make sure we never move views horizontally.
             // This could happen if the child has less width than its parent.
             return child.getLeft();
-        }
-
-        @Override
-        public void onEdgeDragStarted(int edgeFlags, int pointerId) {
-            mDragHelper.captureChildView(mSlideableView, pointerId);
         }
     }
 
