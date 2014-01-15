@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <org.videolan.vlc.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pane"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    vlc:overhangSize="60dp" >
 
     <org.videolan.vlc.widget.ContentLinearLayout
         android:layout_width="fill_parent"
@@ -46,7 +48,6 @@
     <FrameLayout
         android:id="@+id/audio_mini_player"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:minHeight="60dp" />
+        android:layout_height="fill_parent" />
 
 </org.videolan.vlc.widget.SlidingPaneLayout>

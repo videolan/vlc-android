@@ -24,6 +24,7 @@ package org.videolan.vlc.widget;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -47,6 +48,8 @@ import android.view.accessibility.AccessibilityEvent;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+import org.videolan.vlc.R;
 
 
 public class SlidingPaneLayout extends ViewGroup {
@@ -151,8 +154,20 @@ public class SlidingPaneLayout extends ViewGroup {
     public SlidingPaneLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
+        mOverhangSize = -1;
+
+        if (attrs != null) {
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingPaneLayout);
+
+            if (ta != null)
+                mOverhangSize = ta.getDimensionPixelSize(R.styleable.SlidingPaneLayout_overhangSize, -1);
+            ta.recycle();
+        }
+
         final float density = context.getResources().getDisplayMetrics().density;
-        mOverhangSize = (int) (DEFAULT_OVERHANG_SIZE * density + 0.5f);
+        if (mOverhangSize == -1) {
+            mOverhangSize = (int) (DEFAULT_OVERHANG_SIZE * density + 0.5f);
+        }
 
         setWillNotDraw(false);
 
@@ -402,10 +417,6 @@ public class SlidingPaneLayout extends ViewGroup {
             int offset = 0;
 
             if (lp.slideable) {
-                int overhangSize = child.getMinimumHeight();
-                if (overhangSize != 0)
-                    mOverhangSize = overhangSize;
-
                 final int margin = lp.topMargin + lp.bottomMargin;
                 final int range = Math.min(nextYStart, height - paddingBottom) - yStart - margin;
                 mSlideRange = range;

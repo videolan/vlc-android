@@ -12,4 +12,8 @@
     <attr name="orange" format="reference|color" />
     <attr name="darkorange" format="reference|color" />
 
+    <declare-styleable name="SlidingPaneLayout">
+        <attr name="overhangSize" format="dimension" />
+    </declare-styleable>
+
 </resources>
