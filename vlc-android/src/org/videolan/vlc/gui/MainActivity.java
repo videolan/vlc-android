@@ -178,6 +178,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mMenu.setContent(v_main);
 
         mSlidingPane = (SlidingPaneLayout) v_main.findViewById(R.id.pane);
+        mSlidingPane.setPanelSlideListener(mPanelSlideListener);
 
         View sidebar = LayoutInflater.from(this).inflate(R.layout.sidebar, null);
         final ListView listView = (ListView)sidebar.findViewById(android.R.id.list);
@@ -750,4 +751,25 @@ public class MainActivity extends SherlockFragmentActivity {
     public void hideMiniPlayer() {
         mSlidingPane.openPaneEntirely();
     }
+
+    private final SlidingPaneLayout.PanelSlideListener mPanelSlideListener
+        = new SlidingPaneLayout.PanelSlideListener() {
+
+            @Override
+            public void onPanelSlide(float slideOffset) {}
+
+            @Override
+            public void onPanelOpened() {
+                mAudioPlayer.setHeaderButtonVisibilities(false, false, true);
+            }
+
+            @Override
+            public void onPanelOpenedEntirely() {}
+
+            @Override
+            public void onPanelClosed() {
+                mAudioPlayer.setHeaderButtonVisibilities(true, true, false);
+            }
+
+    };
 }
