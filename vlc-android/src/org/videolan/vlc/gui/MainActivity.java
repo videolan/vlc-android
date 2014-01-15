@@ -106,6 +106,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
     private TextView mInfoText;
+    private View mAudioPlayerFilling;
     private String mCurrentFragment;
 
     private SharedPreferences mSettings;
@@ -191,6 +192,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mInfoLayout = v_main.findViewById(R.id.info_layout);
         mInfoProgress = (ProgressBar) v_main.findViewById(R.id.info_progress);
         mInfoText = (TextView) v_main.findViewById(R.id.info_text);
+        mAudioPlayerFilling = v_main.findViewById(R.id.audio_mini_player_filling);
 
         /* Set up the action bar */
         prepareActionBar();
@@ -743,6 +745,7 @@ public class MainActivity extends SherlockFragmentActivity {
         // Open the pane only if is entirely opened.
         if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
             mSlidingPane.openPane();
+        mAudioPlayerFilling.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -750,6 +753,7 @@ public class MainActivity extends SherlockFragmentActivity {
      */
     public void hideMiniPlayer() {
         mSlidingPane.openPaneEntirely();
+        mAudioPlayerFilling.setVisibility(View.GONE);
     }
 
     private final SlidingPaneLayout.PanelSlideListener mPanelSlideListener
