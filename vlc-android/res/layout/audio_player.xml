@@ -31,15 +31,30 @@
 
         <ImageButton
             android:id="@+id/adv_function"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_weight="0"
             android:background="#00000000"
             android:focusable="true"
-            android:padding="10dip"
             android:scaleType="fitXY"
             android:src="@drawable/dots_dark" />
+
+        <ImageButton
+            android:id="@+id/header_play_pause"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#00000000"
+            android:contentDescription="@string/pause"
+            android:focusable="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_pause" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 	<ViewSwitcher

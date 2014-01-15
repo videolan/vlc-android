@@ -63,6 +63,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private TextView mTime;
     private TextView mLength;
     private ImageButton mPlayPause;
+    private ImageButton mHeaderPlayPause;
     private ImageButton mStop;
     private ImageButton mNext;
     private ImageButton mPrevious;
@@ -100,6 +101,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mTime = (TextView) v.findViewById(R.id.time);
         mLength = (TextView) v.findViewById(R.id.length);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
+        mHeaderPlayPause = (ImageButton) v.findViewById(R.id.header_play_pause);
         mStop = (ImageButton) v.findViewById(R.id.stop);
         mNext = (ImageButton) v.findViewById(R.id.next);
         mPrevious = (ImageButton) v.findViewById(R.id.previous);
@@ -123,6 +125,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
             }
         });
         mPlayPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPlayPauseClick(v);
+            }
+        });
+        mHeaderPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPlayPauseClick(v);
@@ -237,9 +245,13 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
             mPlayPause.setContentDescription(getString(R.string.pause));
+            mHeaderPlayPause.setImageResource(R.drawable.ic_pause);
+            mHeaderPlayPause.setContentDescription(getString(R.string.pause));
         } else {
             mPlayPause.setImageResource(R.drawable.ic_play);
             mPlayPause.setContentDescription(getString(R.string.play));
+            mHeaderPlayPause.setImageResource(R.drawable.ic_play);
+            mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {
             mShuffle.setImageResource(R.drawable.ic_shuffle_glow);
