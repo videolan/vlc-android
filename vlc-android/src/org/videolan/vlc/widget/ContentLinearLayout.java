@@ -43,6 +43,6 @@ public class ContentLinearLayout extends LinearLayout {
         if (slidingPaneLayout.isSecondChildUnder((int)ev.getX(), (int)ev.getY()))
             return true;
         else
-            return super.onInterceptHoverEvent(ev);
+            return super.onInterceptTouchEvent(ev);
     }
 }
