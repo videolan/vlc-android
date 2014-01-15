@@ -143,6 +143,34 @@ public class SlidingPaneLayout extends ViewGroup {
         }
     }
 
+    private PanelSlideListener mPanelSlideListener;
+
+    /**
+     * Listener for monitoring events about the sliding pane.
+     */
+    public interface PanelSlideListener {
+        /**
+         * Called when the sliding pane position changes.
+         * @param slideOffset The new offset of this sliding pane within its range, from 0-1
+         */
+        public void onPanelSlide(float slideOffset);
+
+        /**
+         * Called when the sliding pane becomes slid open.
+         */
+        public void onPanelOpened();
+
+        /**
+         * Called when the sliding pane becomes slid open entirely.
+         */
+        public void onPanelOpenedEntirely();
+
+        /**
+         * Called when a sliding pane becomes slid completely closed.
+         */
+        public void onPanelClosed();
+    }
+
     public SlidingPaneLayout(Context context) {
         this(context, null);
     }
@@ -177,6 +205,14 @@ public class SlidingPaneLayout extends ViewGroup {
         mDragHelper = ViewDragHelper.create(this, 0.5f, new DragHelperCallback());
         mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_TOP);
         mDragHelper.setMinVelocity(MIN_FLING_VELOCITY * density);
+    }
+
+    /**
+     * Set the panel slide listener.
+     * @param l the PanelSlideListener
+     */
+    public void setPanelSlideListener(PanelSlideListener l) {
+        mPanelSlideListener = l;
     }
 
     /**
@@ -851,16 +887,27 @@ public class SlidingPaneLayout extends ViewGroup {
         public void onViewDragStateChanged(int state) {
             if (mDragHelper.getViewDragState() == ViewDragHelper.STATE_IDLE) {
                 if (mSlideOffset == 0) {
-                    if (mState != STATE_CLOSED)
+                    if (mState != STATE_CLOSED) {
                         mState = STATE_CLOSED;
+                        if (mPanelSlideListener != null)
+                            mPanelSlideListener.onPanelClosed();
+                    }
                 } else if (mSlideOffset == 1 - (float)mOverhangSize/mSlideRange) {
                     if (mState != STATE_OPENED) {
                         mState = STATE_OPENED;
+                        if (mPanelSlideListener != null)
+                            mPanelSlideListener.onPanelOpened();
                     }
-                } else if (mState != STATE_OPENED_ENTIRELY) {
-                    mState = STATE_OPENED_ENTIRELY;
+                } else if (mSlideOffset == 1) {
+                    if (mState != STATE_OPENED_ENTIRELY) {
+                        mState = STATE_OPENED_ENTIRELY;
+                        if (mPanelSlideListener != null)
+                            mPanelSlideListener.onPanelOpenedEntirely();
+                    }
                 }
             }
+            else if (mPanelSlideListener != null)
+                    mPanelSlideListener.onPanelSlide((float)mSlideOffset / mSlideRange);
         }
 
         @Override
