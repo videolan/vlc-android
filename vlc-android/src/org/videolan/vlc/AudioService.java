@@ -792,7 +792,7 @@ public class AudioService extends Service {
         mCurrentIndex = mNextIndex;
 
         int size = mLibVLC.getMediaList().size();
-        if (size == 0 || mCurrentIndex >= size) {
+        if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
             Log.w(TAG, "Warning: invalid next index, aborted !");
             stop();
             return;
@@ -832,7 +832,7 @@ public class AudioService extends Service {
         mCurrentIndex = mPrevIndex;
 
         int size = mLibVLC.getMediaList().size();
-        if (size == 0 || mCurrentIndex >= size) {
+        if (size == 0 || mPrevIndex < 0 || mCurrentIndex >= size) {
             Log.w(TAG, "Warning: invalid previous index, aborted !");
             stop();
             return;
