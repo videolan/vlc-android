@@ -907,7 +907,7 @@ public class SlidingPaneLayout extends ViewGroup {
                 }
             }
             else if (mPanelSlideListener != null)
-                    mPanelSlideListener.onPanelSlide((float)mSlideOffset / mSlideRange);
+                    mPanelSlideListener.onPanelSlide(mSlideOffset);
         }
 
         @Override
