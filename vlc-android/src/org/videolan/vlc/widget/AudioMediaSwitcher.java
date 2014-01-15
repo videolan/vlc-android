@@ -78,6 +78,8 @@ public class AudioMediaSwitcher extends FlingViewGroup {
             previousPosition = 1;
             scrollTo(1);
         }
+        else
+            scrollTo(0);
     }
 
     private void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
