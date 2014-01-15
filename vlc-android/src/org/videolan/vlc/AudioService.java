@@ -750,24 +750,34 @@ public class AudioService extends Service {
             int size = mLibVLC.getMediaList().size();
 
             // Repeating once doesn't change the index
-            if(mRepeating != RepeatType.Once) {
+            if (mRepeating == RepeatType.Once) {
+                mPrevIndex = mNextIndex = mCurrentIndex;
+            } else {
+
                 if(mShuffling) {
-                    mPrevious.push(mCurrentIndex);
+                    if(mPrevious.size() > 0)
+                        mPrevIndex = mPrevious.peek();
                     // If we've played all songs already in shuffle, then either
                     // reshuffle or stop (depending on RepeatType).
-                    if(mPrevious.size() == size) {
+                    if(mPrevious.size() + 1 == size) {
                         if(mRepeating == RepeatType.None) {
-                            stop();
+                            mNextIndex = -1;
                             return;
                         } else {
                             mPrevious.clear();
                         }
                     }
                     // Find a new index not in mPrevious.
-                    while(mPrevious.contains(
-                            mNextIndex = (int)(Math.random() * size)
-                         ));
+                    do
+                    {
+                        mNextIndex = (int)(Math.random() * size);
+                    }
+                    while(mNextIndex == mCurrentIndex || mPrevious.contains(mNextIndex));
+
                 } else {
+                    // normal playback
+                    if(mCurrentIndex > 0)
+                        mPrevIndex = mCurrentIndex - 1;
                     if(mCurrentIndex + 1 < size)
                         mNextIndex = mCurrentIndex + 1;
                     else {
@@ -780,15 +790,10 @@ public class AudioService extends Service {
                 }
             }
         }
-
-        if(mShuffling && mPrevious.size() > 0) {
-            mPrevIndex = mPrevious.pop();
-        } else if(mCurrentIndex > 0) {
-            mPrevIndex = mCurrentIndex - 1;
-        }
     }
 
     private void next() {
+        mPrevious.push(mCurrentIndex);
         mCurrentIndex = mNextIndex;
 
         int size = mLibVLC.getMediaList().size();
@@ -830,6 +835,8 @@ public class AudioService extends Service {
 
     private void previous() {
         mCurrentIndex = mPrevIndex;
+        if (mPrevious.size() > 0)
+            mPrevious.pop();
 
         int size = mLibVLC.getMediaList().size();
         if (size == 0 || mPrevIndex < 0 || mCurrentIndex >= size) {
@@ -854,10 +861,12 @@ public class AudioService extends Service {
             mPrevious.clear();
         mShuffling = !mShuffling;
         saveCurrentMedia();
+        determinePrevAndNextIndices();
     }
 
     private void setRepeatType(int t) {
         mRepeating = RepeatType.values()[t];
+        determinePrevAndNextIndices();
     }
 
     private Bitmap getCover() {
