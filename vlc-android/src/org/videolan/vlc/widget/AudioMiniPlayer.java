@@ -364,7 +364,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
 
     public void onStopClick(View view) {
         mAudioController.stop();
-        getActivity().getSupportFragmentManager().popBackStack(); // remove this fragment from view
     }
 
     public void onNextClick(View view) {
