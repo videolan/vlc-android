@@ -29,18 +29,22 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 import org.videolan.vlc.widget.HeaderScrollView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -190,25 +194,34 @@ public class AudioBrowserFragment extends SherlockFragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
+        setContextMenuItems(menu, v);
+    }
 
+    private void setContextMenuItems(Menu menu, View v) {
         if (v.getId() != R.id.songs_list) {
-            menu.setGroupEnabled(R.id.songs_view_only, false);
-            menu.setGroupEnabled(R.id.phone_only, false);
+            menu.setGroupVisible(R.id.songs_view_only, false);
+            menu.setGroupVisible(R.id.phone_only, false);
         }
         if (!Util.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if(!getUserVisibleHint()) return super.onContextItemSelected(item);
+    public boolean onContextItemSelected(MenuItem menu) {
+        if(!getUserVisibleHint())
+            return super.onContextItemSelected(menu);
 
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menu.getMenuInfo();
+        if (info != null && handleContextItemSelected(menu, info.position))
+            return true;
+        return super.onContextItemSelected(menu);
+    }
+
+    private boolean handleContextItemSelected(MenuItem item, int position) {
         ContextMenuInfo menuInfo = item.getMenuInfo();
-        if(menuInfo == null) return super.onContextItemSelected(item);
 
         int startPosition;
         int groupPosition;
-        int childPosition;
         List<String> medias;
         int id = item.getItemId();
 
@@ -220,20 +233,16 @@ public class AudioBrowserFragment extends SherlockFragment {
         if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
             groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
-            if (childPosition < 0)
-                childPosition = 0;
         }
         else {
             AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
             groupPosition = info.position;
-            childPosition = 0;
         }
 
         if (id == R.id.audio_list_browser_delete) {
-            /*AlertDialog alertDialog = CommonDialogs.deleteMedia(
+            AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
-                    mSongsAdapter.getLocation(groupPosition).get(0),
+                    mSongsAdapter.getLocations(groupPosition).get(0),
                     new VlcRunnable(mSongsAdapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
@@ -242,7 +251,7 @@ public class AudioBrowserFragment extends SherlockFragment {
                             updateLists();
                         }
                     });
-            alertDialog.show();*/
+            alertDialog.show();
             return true;
         }
 
@@ -253,7 +262,7 @@ public class AudioBrowserFragment extends SherlockFragment {
 
         if (useAllItems) {
             startPosition = groupPosition;
-            //medias = mSongsAdapter.getMedia(groupPosition);
+            medias = mSongsAdapter.getLocations(groupPosition);
             medias = new ArrayList<String>();
         }
         else {
@@ -261,20 +270,16 @@ public class AudioBrowserFragment extends SherlockFragment {
             switch (mFlingViewGroup.getPosition())
             {
                 case MODE_SONG:
-                    //medias = mSongsAdapter.getMedia(groupPosition);
-                    medias = new ArrayList<String>();
+                    medias = mSongsAdapter.getLocations(groupPosition);
                     break;
                 case MODE_ARTIST:
-                    //medias = mArtistsAdapter.getMedia(groupPosition);
-                    medias = new ArrayList<String>();
+                    medias = mArtistsAdapter.getLocations(groupPosition);
                     break;
                 case MODE_ALBUM:
-                    //medias = mArtistsAdapter.getMedia(groupPosition);
-                    medias = new ArrayList<String>();
+                    medias = mArtistsAdapter.getLocations(groupPosition);
                     break;
                 case MODE_GENRE:
-                    //medias = mGenresAdapter.getMedia(groupPosition);
-                    medias = new ArrayList<String>();
+                    medias = mGenresAdapter.getLocations(groupPosition);
                     break;
                 default:
                     return true;
