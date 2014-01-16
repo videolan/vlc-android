@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.videolan.vlc.BitmapCache;
@@ -333,7 +334,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
      * @param position Position to retrieve in to _this_ adapter.
      * @return The position of 'position' in the new single list, or 0 if not found.
      */
-    public int getListWithPosition(ArrayList<String> outputList, int position) {
+    public int getListWithPosition(List<String> outputList, int position) {
         int outputPosition = 0;
         outputList.clear();
         for(int i = 0; i < mItems.size(); i++) {
