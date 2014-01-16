@@ -233,10 +233,8 @@ public class AudioBrowserFragment extends SherlockFragment {
         List<String> medias;
         int id = item.getItemId();
 
-        boolean useAllItems = (id == R.id.audio_list_browser_play_all ||
-                               id == R.id.audio_list_browser_append_all);
-        boolean append = (id == R.id.audio_list_browser_append ||
-                          id == R.id.audio_list_browser_append_all);
+        boolean useAllItems = id == R.id.audio_list_browser_play_all;
+        boolean append = id == R.id.audio_list_browser_append;
 
         if (ExpandableListContextMenuInfo.class.isInstance(menuInfo)) {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
