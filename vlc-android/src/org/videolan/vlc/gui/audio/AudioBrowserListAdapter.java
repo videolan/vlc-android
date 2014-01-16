@@ -33,6 +33,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
@@ -56,6 +57,8 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     public static final int ITEM_WITHOUT_COVER = 0;
     public static final int ITEM_WITH_COVER = 1;
     private int mItemType;
+
+    private ContextPopupMenuListener mContextPopupMenuListener;
 
     // An item of the list: a media or a separator.
     class ListItem {
@@ -162,6 +165,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
             holder.footer = (View) v.findViewById(R.id.footer);
+            holder.more = (ImageView) v.findViewById(R.id.item_more);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
@@ -203,6 +207,15 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         }
         holder.footer.setLayoutParams(paramsFooter);
 
+        final int pos = position;
+        holder.more.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mContextPopupMenuListener != null)
+                    mContextPopupMenuListener.onPopupMenu(v, pos);
+            }
+        });
+
         return v;
     }
 
@@ -241,6 +254,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         TextView title;
         TextView subtitle;
         View footer;
+        ImageView more;
         int viewType;
     }
 
@@ -346,5 +360,13 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             return true;
         else
             return false;
+    }
+
+    public interface ContextPopupMenuListener {
+        void onPopupMenu(View anchor, final int position);
+    }
+
+    void setContextPopupMenuListener(ContextPopupMenuListener l) {
+        mContextPopupMenuListener = l;
     }
 }

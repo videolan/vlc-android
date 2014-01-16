@@ -37,7 +37,9 @@ import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
 import org.videolan.vlc.widget.HeaderScrollView;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -52,10 +54,12 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.PopupMenu;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -96,6 +100,11 @@ public class AudioBrowserFragment extends SherlockFragment {
         mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mAlbumsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mGenresAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITHOUT_COVER);
+
+        mSongsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
+        mArtistsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
+        mAlbumsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
+        mGenresAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
     }
 
     @Override
@@ -386,4 +395,31 @@ public class AudioBrowserFragment extends SherlockFragment {
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
     }
+
+    AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener
+        = new AudioBrowserListAdapter.ContextPopupMenuListener() {
+
+            @Override
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            public void onPopupMenu(View anchor, final int position) {
+                if (!Util.isHoneycombOrLater()) {
+                    // Call the "classic" context menu
+                    anchor.performLongClick();
+                    return;
+                }
+
+                PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+                popupMenu.getMenuInflater().inflate(R.menu.audio_list_browser, popupMenu.getMenu());
+                setContextMenuItems(popupMenu.getMenu(), anchor);
+
+                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return handleContextItemSelected(item, position);
+                    }
+                });
+                popupMenu.show();
+            }
+
+    };
 }
