@@ -406,6 +406,13 @@ public class MainActivity extends SherlockFragmentActivity {
             mMenu.showContent();
             return;
         }
+
+        // Slide down the mini player if it is shown entirely.
+        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED) {
+            mSlidingPane.openPane();
+            return;
+        }
+
         // If it's the directory view, a "backpressed" action shows a parent.
         if (mCurrentFragment.equals("directories")) {
             DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
