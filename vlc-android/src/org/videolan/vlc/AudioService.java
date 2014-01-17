@@ -1164,6 +1164,7 @@ public class AudioService extends Service {
             }
             AudioService.this.saveMediaList();
             determinePrevAndNextIndices();
+            executeUpdate();
         }
 
         @Override
