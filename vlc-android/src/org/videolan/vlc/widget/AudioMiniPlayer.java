@@ -49,6 +49,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -58,6 +59,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
+    private ProgressBar mProgressBar;
     private AudioMediaSwitcher mAudioMediaSwitcher;
     private AnimatedCoverView mBigCover;
     private TextView mTime;
@@ -97,6 +99,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.audio_player, container, false);
+
+        mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
 
         mAudioMediaSwitcher = (AudioMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
         mAudioMediaSwitcher.setAudioMediaSwitcherListener(mAudioMediaSwitcherListener);
@@ -298,6 +302,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
         mTimeline.setProgress(time);
+        mProgressBar.setMax(length);
+        mProgressBar.setProgress(time);
     }
 
     private void updateList() {
