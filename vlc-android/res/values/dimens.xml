@@ -2,5 +2,4 @@
 	<dimen name="shadow_width">6px</dimen>
 	<dimen name="widget_margin">10dp</dimen>
     <dimen name="audio_browser_item_size">50dp</dimen>
-    <dimen name="audio_browser_item_footer_height">1dp</dimen>
 </resources>

@@ -58,7 +58,7 @@
     <View
         android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/audio_browser_item_footer_height"
+        android:layout_height="1dp"
         android:background="@color/item_footer" />
 
 </LinearLayout>

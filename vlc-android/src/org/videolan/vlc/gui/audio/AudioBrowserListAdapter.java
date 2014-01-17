@@ -188,25 +188,11 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             paramsCover = new RelativeLayout.LayoutParams(0, RelativeLayout.LayoutParams.WRAP_CONTENT);
         holder.cover.setLayoutParams(paramsCover);
 
-        LinearLayout.LayoutParams paramsSubTitle;
-        if (item.mSubTitle == null)
-            paramsSubTitle = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 0);
-        else {
-            paramsSubTitle = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            holder.subtitle.setText(item.mSubTitle);
-        }
-        holder.subtitle.setLayoutParams(paramsSubTitle);
+        holder.subtitle.setVisibility(item.mSubTitle == null ? TextView.GONE : TextView.VISIBLE);
+        holder.subtitle.setText(item.mSubTitle);
 
         // Remove the footer if the item is just above a separator.
-        LinearLayout.LayoutParams paramsFooter;
-        if (isMediaItemAboveASeparator(position))
-            paramsFooter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0);
-        else {
-            int height = (int) mContext.getResources().getDimension(R.dimen.audio_browser_item_footer_height);
-            paramsFooter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
-        }
-        holder.footer.setLayoutParams(paramsFooter);
+        holder.footer.setVisibility(isMediaItemAboveASeparator(position) ? View.GONE : View.VISIBLE);
 
         final int pos = position;
         holder.more.setOnClickListener(new OnClickListener() {
