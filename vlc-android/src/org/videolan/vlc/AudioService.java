@@ -1146,7 +1146,10 @@ public class AudioService extends Service {
         @Override
         public void append(List<String> mediaLocationList) throws RemoteException {
             if (!hasCurrentMedia())
+            {
                 load(mediaLocationList, 0, false);
+                return;
+            }
 
             MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
             for (int i = 0; i < mediaLocationList.size(); i++) {
