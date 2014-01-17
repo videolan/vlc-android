@@ -7,6 +7,7 @@
     <attr name="item_footer" format="reference|color" />
     <attr name="background_menu_divider" format="reference|color" />
     <attr name="background_menu" format="reference|color" />
+    <attr name="background_player" format="reference|color" />
     <attr name="font_default" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="orange" format="reference|color" />
