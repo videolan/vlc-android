@@ -771,7 +771,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
             @Override
             public void onPanelOpened() {
-                mAudioPlayer.setHeaderVisibilities(false, false, true);
+                mAudioPlayer.setHeaderVisibilities(false, false, true, true);
             }
 
             @Override
@@ -779,7 +779,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
             @Override
             public void onPanelClosed() {
-                mAudioPlayer.setHeaderVisibilities(true, true, false);
+                mAudioPlayer.setHeaderVisibilities(true, true, false, false);
             }
 
     };

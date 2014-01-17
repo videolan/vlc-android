@@ -86,6 +86,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
     private boolean mHeaderPlayPauseVisible;
+    private boolean mProgressBarVisible;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +130,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
         mHeaderPlayPauseVisible = true;
+        mProgressBarVisible = true;
         restoreHedaderButtonVisibilities();
 
         mTime.setOnClickListener(new View.OnClickListener() {
@@ -422,10 +424,11 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
      * @param headerPlayPauseVisible
      */
     public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
-                                            boolean headerPlayPauseVisible) {
+                                      boolean headerPlayPauseVisible, boolean progressBarVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
         mHeaderPlayPauseVisible = headerPlayPauseVisible;
+        mProgressBarVisible = progressBarVisible;
         restoreHedaderButtonVisibilities();
     }
 
@@ -433,6 +436,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mAdvFunc.setVisibility(mAdvFuncVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? ImageButton.VISIBLE : ImageButton.GONE);
+        mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
     }
 
     private void hideHedaderButtons() {
