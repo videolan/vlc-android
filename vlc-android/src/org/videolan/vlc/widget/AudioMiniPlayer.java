@@ -416,12 +416,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     }
 
     /**
-     * Set the visibilities of the player header buttons.
+     * Set the visibilities of the player header elements.
      * @param advFuncVisible
      * @param playlistSwitchVisible
      * @param headerPlayPauseVisible
      */
-    public void setHeaderButtonVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
+    public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                             boolean headerPlayPauseVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
