@@ -395,17 +395,6 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         update();
     }
 
-/* TODO
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /* Stop the controller if we are going home /
-        if(keyCode == KeyEvent.KEYCODE_HOME) {
-            mAudioController.stop();
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-*/
-
     public void showAdvancedOptions(View v) {
         CommonDialogs.advancedOptions(getActivity(), v, MenuType.Audio);
     }
