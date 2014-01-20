@@ -20,6 +20,7 @@
         <item name="item_common_pressed">@color/item_common_pressed</item>
         <item name="item_common_selected">@color/item_common_selected</item>
         <item name="item_footer">@color/item_footer</item>
+        <item name="playlist_item_footer">@color/playlist_item_footer</item>
         <item name="background_menu_divider">@color/background_menu_divider</item>
         <item name="background_menu">@color/background_menu</item>
         <item name="background_player">@color/background_player</item>
@@ -53,8 +54,10 @@
         <item name="item_common_pressed">@color/item_common_pressed</item>
         <item name="item_common_selected">@color/item_common_selected</item>
         <item name="item_footer">@color/item_footer</item>
+        <item name="playlist_item_footer">@color/playlist_item_footer</item>
         <item name="background_menu_divider">@color/background_menu_divider</item>
         <item name="background_menu">@color/background_menu</item>
+        <item name="background_player">@color/background_player</item>
         <item name="font_default">@color/font_default</item>
         <item name="font_light">@color/font_light</item>
         <item name="orange">@color/orange</item>

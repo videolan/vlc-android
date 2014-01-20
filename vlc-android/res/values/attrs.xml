@@ -5,6 +5,7 @@
     <attr name="item_common_pressed" format="reference|color" />
     <attr name="item_common_selected" format="reference|color" />
     <attr name="item_footer" format="reference|color" />
+    <attr name="playlist_item_footer" format="reference|color" />
     <attr name="background_menu_divider" format="reference|color" />
     <attr name="background_menu" format="reference|color" />
     <attr name="background_player" format="reference|color" />
