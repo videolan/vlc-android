@@ -179,7 +179,7 @@
     <string name="clear_history">Izbriši povijest pretraživanja</string>
     <string name="clear_media_db">Izbriši medijsku bazu podataka</string>
     <string name="media_db_cleared">Baza medijskih podataka je izbrisana!</string>
-    <string name="subtitles_text_encoding">Kodiranje teksta podnaslova</string>
+    <string name="subtitle_text_encoding">Kodiranje teksta podnaslova</string>
     <string name="debug_logs">Zapisnici pogreški</string>
     <string name="start_logging">Počni zapisivanje</string>
     <string name="stop_logging">Obustavi zapisivanje</string>

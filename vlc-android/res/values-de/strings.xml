@@ -176,7 +176,7 @@
     <string name="clear_history">Verlauf löschen</string>
     <string name="clear_media_db">Medienbibliothek leeren</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
-    <string name="subtitles_text_encoding">Text-Kodierung</string>
+    <string name="subtitle_text_encoding">Text-Kodierung</string>
     <string name="debug_logs">Fehlerprotokolle</string>
     <string name="start_logging">Starte Protokollierung</string>
     <string name="stop_logging">Stoppe Protokollierung</string>

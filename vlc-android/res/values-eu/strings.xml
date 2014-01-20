@@ -174,7 +174,7 @@
     <string name="clear_history">Garbitu bilaketa-historia</string>
     <string name="media_db_cleared">Multimedia datu-basea garbituta!</string>
     <string name="clear_media_db">Garbitu multimedia datu-basea</string>
-    <string name="subtitles_text_encoding">Azpitituluen testu-kodeketa</string>
+    <string name="subtitle_text_encoding">Azpitituluen testu-kodeketa</string>
 
     <string name="debug_logs">Arazketa-erregistroa</string>
     <string name="start_logging">Hasi erregistratzen</string>

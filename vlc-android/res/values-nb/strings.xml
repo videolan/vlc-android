@@ -176,7 +176,7 @@
     <string name="clear_history">Tøm søkehistorie</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="media_db_cleared">Mediedatabase tømt!</string>
-    <string name="subtitles_text_encoding">Tekstkoding</string>
+    <string name="subtitle_text_encoding">Tekstkoding</string>
     <string name="debug_logs">Feilsøk loggene</string>
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>

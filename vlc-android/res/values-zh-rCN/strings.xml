@@ -170,7 +170,7 @@
     <string name="clear_history">清除搜索历史记录</string>
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="media_db_cleared">媒体数据库已清除!</string>
-    <string name="subtitles_text_encoding">字幕文本编码</string>
+    <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="debug_logs">调试日志</string>
     <string name="start_logging">开始记录日志</string>
     <string name="stop_logging">停止记录日志</string>

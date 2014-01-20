@@ -176,7 +176,7 @@
     <string name="clear_history">Ryd søgehistorik</string>
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="media_db_cleared">Medie-database er ryddet!</string>
-    <string name="subtitles_text_encoding">Tekst-indkodning</string>
+    <string name="subtitle_text_encoding">Tekst-indkodning</string>
     <string name="debug_logs">Fejlsøgningslogge</string>
     <string name="start_logging">Start logregistrering</string>
     <string name="stop_logging">Stop logregistrering</string>

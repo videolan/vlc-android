@@ -182,7 +182,7 @@
     <string name="clear_history">Очисти историју претраге</string>
     <string name="clear_media_db">Очисти медијску базу</string>
     <string name="media_db_cleared">Медијска база је очишћена.</string>
-    <string name="subtitles_text_encoding">Кодирање текста</string>
+    <string name="subtitle_text_encoding">Кодирање текста</string>
     <string name="debug_logs">Евиденције за отклањање грешака</string>
     <string name="start_logging">Започни евидентирање</string>
     <string name="stop_logging">Заустави евидентирање</string>

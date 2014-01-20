@@ -178,7 +178,7 @@
     <string name="clear_history">Neteja l\'historial de cerca</string>
     <string name="clear_media_db">Neteja la base de dades multimèdia</string>
     <string name="media_db_cleared">S\'ha netejat la base de dades multimèdia</string>
-    <string name="subtitles_text_encoding">Codificació del text</string>
+    <string name="subtitle_text_encoding">Codificació del text</string>
     <string name="debug_logs">Depura els registres</string>
     <string name="start_logging">S\'esta registrant</string>
     <string name="stop_logging">Finalitza el registre</string>

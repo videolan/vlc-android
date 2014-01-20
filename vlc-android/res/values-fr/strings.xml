@@ -183,7 +183,7 @@
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
-    <string name="subtitles_text_encoding">Codage des caractères pour certains sous-titres</string>
+    <string name="subtitle_text_encoding">Codage des caractères pour certains sous-titres</string>
 
     <string name="debug_logs">Journal de débogage</string>
     <string name="start_logging">Démarrer l\'enregistrement</string>

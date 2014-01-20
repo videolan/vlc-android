@@ -182,7 +182,7 @@
     <string name="clear_history">Очистити історію пошуку</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
-    <string name="subtitles_text_encoding">Кодування тексту</string>
+    <string name="subtitle_text_encoding">Кодування тексту</string>
     <string name="debug_logs">Журнали налагодження</string>
     <string name="start_logging">Почати запис у журнал</string>
     <string name="stop_logging">Зупинити запис у журнал</string>

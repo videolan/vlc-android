@@ -182,7 +182,7 @@
     <string name="clear_history">Očisti historiju pretraživanja</string>
     <string name="clear_media_db">Očisti medijsku bazu podataka</string>
     <string name="media_db_cleared">Medijska baza podataka očišćena!</string>
-    <string name="subtitles_text_encoding">Kodiranje teksta titlova</string>
+    <string name="subtitle_text_encoding">Kodiranje teksta titlova</string>
     <string name="debug_logs">Zapisnik otkrivanja grešaka</string>
     <string name="start_logging">Pokreni zapisivanje</string>
     <string name="stop_logging">Zaustavi zapisivanje</string>

@@ -173,7 +173,7 @@
     <string name="clear_history">تلاش کرنے کا ریکارڈ ختم کريں</string>
     <string name="clear_media_db">میڈیا ڈیٹا بیس کو خالى کريں</string>
     <string name="media_db_cleared">ميڈيا ڈیٹابيس خالى کر ديا گيا ہے!</string>
-    <string name="subtitles_text_encoding">متن کى ضابطہ کاری (اينکوڈنگ)</string>
+    <string name="subtitle_text_encoding">متن کى ضابطہ کاری (اينکوڈنگ)</string>
     <string name="debug_logs">ڈیبگ کرنے کا خاموش ریکارڈ</string>
     <string name="start_logging">خاموش ریکارڈ شروع کريں</string>
     <string name="stop_logging">خاموش ریکارڈ روک دیں</string>

@@ -156,7 +156,7 @@
     <string name="screen_orientation_sensor">ସ୍ବୟଂଚାଳିତ (ସମ୍ବେଦକ)</string>
     <string name="screen_orientation_start_lock">ଆରମ୍ଭରେ ଅବରୋଧିତ କରନ୍ତୁ</string>
     <string name="screen_orientation_portrait">ପ୍ରତିକୃତି</string>
-    <string name="subtitles_text_encoding">ପାଠ ଏନକୋଡିଂ</string>
+    <string name="subtitle_text_encoding">ପାଠ ଏନକୋଡିଂ</string>
     <string name="aout">ଅଡ଼ିଓ ଆଉଟପୁଟ୍</string>
     <string name="aout_audiotrack">AudioTrack (ମୂଳ)</string>
     <string name="aout_audiotrack_java">AudioTrack (ଜାଭା)</string>

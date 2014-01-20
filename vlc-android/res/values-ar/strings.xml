@@ -200,7 +200,7 @@
     <string name="clear_history">امسح تأريخ البحث</string>
     <string name="clear_media_db">امسح قاعدة بيانات الوسائط</string>
     <string name="media_db_cleared">تم مسح قاعدة بيانات الوسائط!</string>
-    <string name="subtitles_text_encoding">ترميز نص التّرجمة</string>
+    <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="debug_logs">سجلّات الإصلاح</string>
     <string name="start_logging">ابدأ التّسجيل</string>
     <string name="stop_logging">أوقِف التّسجيل</string>

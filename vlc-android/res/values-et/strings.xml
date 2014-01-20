@@ -160,7 +160,7 @@
     <string name="clear_history">Puhasta otsingu ajalugu</string>
     <string name="clear_media_db">Puhasta meedia andmebaas</string>
     <string name="media_db_cleared">Meedia andmebaas puhastatud!</string>
-    <string name="subtitles_text_encoding">Teksti kodeering</string>
+    <string name="subtitle_text_encoding">Teksti kodeering</string>
     <string name="advanced_prefs_category">Laiendatud</string>
     <string name="advanced_debugging">Täpsustatud silumine</string>
     <string name="aout">Audioväljund</string>

@@ -176,7 +176,7 @@
     <string name="clear_history">Arama geçmişini temizle</string>
     <string name="clear_media_db">Ortam veritabanını temizle</string>
     <string name="media_db_cleared">Ortam veritabanı temizlendi!</string>
-    <string name="subtitles_text_encoding">Altyazı metin kodlaması</string>
+    <string name="subtitle_text_encoding">Altyazı metin kodlaması</string>
     <string name="debug_logs">Hata ayıklama günlükleri</string>
     <string name="start_logging">Günlüğe kaydedilsin</string>
     <string name="stop_logging">Günlüğe kaydedilmesin</string>

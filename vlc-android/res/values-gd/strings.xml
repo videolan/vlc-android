@@ -186,7 +186,7 @@
     <string name="clear_history">Falamhaich eachdraidh nan lorg</string>
     <string name="clear_media_db">Falamhaich stòr-dàta nam meadhanan</string>
     <string name="media_db_cleared">Chaidh stòr-dàta nam meadhanan fhalamhadh</string>
-    <string name="subtitles_text_encoding">Còdachadh an teacsa</string>
+    <string name="subtitle_text_encoding">Còdachadh an teacsa</string>
     <string name="debug_logs">Logaichean dì-bhugachaidh</string>
     <string name="start_logging">Tòisich air logadh</string>
     <string name="stop_logging">Sguir dhen logadh</string>

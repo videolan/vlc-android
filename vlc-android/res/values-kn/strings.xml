@@ -170,7 +170,7 @@
     <string name="clear_history">ಹುಡುಕು ಇತಿಹಾಸವನ್ನು ತೆರವುಗೊಳಿಸಿ </string>
     <string name="clear_media_db">ಮಾಧ್ಯಮ ಡೇಟಾಬೇಸ್ ತರವುಗೊಳಿಸಿ </string>
     <string name="media_db_cleared">ಮೀಡಿಯಾ ಡೇಟಾಬೇಸ್ ತೆರವುಗೊಳಿಸಲಾಗಿದೆ!</string>
-    <string name="subtitles_text_encoding">ಉಪಶೀರ್ಷಿಕೆ ಪಠ್ಯ ಎನ್ಕೋಡಿಂಗ್</string>
+    <string name="subtitle_text_encoding">ಉಪಶೀರ್ಷಿಕೆ ಪಠ್ಯ ಎನ್ಕೋಡಿಂಗ್</string>
     <string name="debug_logs">ದೋಷಸೂಚಕ ದಾಖಲೆಗಳು</string>
     <string name="start_logging">ದಾಖಲೆ  ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="stop_logging">ದಾಖಲೆ  ನಿಲ್ಲಿಸಿ</string>

@@ -168,7 +168,7 @@
     <string name="clear_history">សម្អាត​ប្រវត្តិ​ស្វែងរក</string>
     <string name="clear_media_db">សម្អាត​មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ</string>
     <string name="media_db_cleared">បាន​សម្អាត​មូលដ្ឋាន​ទិន្នន័យ!</string>
-    <string name="subtitles_text_encoding">ការ​អ៊ិនកូដ​អត្ថបទ​ចំណង​ជើង​រង</string>
+    <string name="subtitle_text_encoding">ការ​អ៊ិនកូដ​អត្ថបទ​ចំណង​ជើង​រង</string>
     <string name="debug_logs">កំណត់​ហេតុ​កែ​កំហុស</string>
     <string name="start_logging">ចាប់ផ្ដើម​ចុះ​កំណត់​ហេតុ</string>
     <string name="stop_logging">បញ្ឈប់​ការ​ចុះ​កំណត់​ហេតុ</string>

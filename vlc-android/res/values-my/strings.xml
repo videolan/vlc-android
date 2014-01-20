@@ -165,7 +165,7 @@
     <string name="clear_history">ရှာဖွေသမိုင်းဖယ်ရှား</string>
     <string name="clear_media_db">မီဒီယာအချက်အလက်အစုရှင်းလင်း</string>
     <string name="media_db_cleared">မီဒီယာအချက်အလက်အစုရှင်းလင်းပြီး!</string>
-    <string name="subtitles_text_encoding">ဘာသာပြန်စာသားကုဒ်ပြောင်း</string>
+    <string name="subtitle_text_encoding">ဘာသာပြန်စာသားကုဒ်ပြောင်း</string>
     <string name="advanced_prefs_category">အဆင့်မြင့်</string>
     <string name="advanced_debugging">အဆင့်မြင့်အမှားရှာပြင်</string>
     <string name="aout">အသံပေးပို့</string>

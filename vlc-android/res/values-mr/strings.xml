@@ -176,7 +176,7 @@
     <string name="clear_history">शोध इतिहास नष्ट करा</string>
     <string name="clear_media_db">मीडिया डेटाबेस स्वच्छ करा</string>
     <string name="media_db_cleared">मीडिया डेटाबेस स्वच्छ केला!</string>
-    <string name="subtitles_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
+    <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="debug_logs">डीबग लॉग</string>
     <string name="start_logging">लॉगिंग चालू करा</string>
     <string name="stop_logging">लॉगिंग थांबवा</string>

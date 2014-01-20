@@ -1,7 +1,7 @@
 /*****************************************************************************
  * Util.java
  *****************************************************************************
- * Copyright © 2011-2013 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ public class Util {
             return;
 
         instance.setIomx(pref.getBoolean("enable_iomx", false));
-        instance.setSubtitlesEncoding(pref.getString("subtitles_text_encoding", ""));
+        instance.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
         instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
         instance.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
         instance.setChroma(pref.getString("chroma_format", ""));

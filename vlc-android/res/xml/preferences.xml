@@ -73,9 +73,9 @@
             android:defaultValue=""
             android:entries="@array/subtitles_encoding_list"
             android:entryValues="@array/subtitles_encoding_values"
-            android:key="subtitles_text_encoding"
+            android:key="subtitle_text_encoding"
             android:persistent="true"
-            android:title="@string/subtitles_text_encoding" />
+            android:title="@string/subtitle_text_encoding" />
         <PreferenceScreen
             android:key="clear_history"
             android:title="@string/clear_history" />

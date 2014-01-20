@@ -166,7 +166,7 @@
     <string name="clear_history">Limpar histórico</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="media_db_cleared">Banco de mídias limpo!</string>
-    <string name="subtitles_text_encoding">Codificação do texto da legenda</string>
+    <string name="subtitle_text_encoding">Codificação do texto da legenda</string>
     <string name="debug_logs">Registros de depuração</string>
     <string name="start_logging">Iniciar o registro</string>
     <string name="stop_logging">Parar o registro</string>

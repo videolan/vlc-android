@@ -188,7 +188,7 @@
     <string name="clear_history">Počisti zgodovino iskanja</string>
     <string name="clear_media_db">Izprazni bazo predstavnih vsebin</string>
     <string name="media_db_cleared">Baza predstavnih vsebin izpraznjena!</string>
-    <string name="subtitles_text_encoding">Kodiranje besedila</string>
+    <string name="subtitle_text_encoding">Kodiranje besedila</string>
     <string name="debug_logs">Razhroščevanje beleženj</string>
     <string name="start_logging">Začni beleženje</string>
     <string name="stop_logging">Prekini beleženje</string>

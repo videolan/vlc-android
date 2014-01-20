@@ -161,7 +161,7 @@
     <string name="clear_history">清除搜尋歷史</string>
     <string name="clear_media_db">清除媒體資料庫</string>
     <string name="media_db_cleared">媒體資料庫已清除!</string>
-    <string name="subtitles_text_encoding">文字編碼</string>
+    <string name="subtitle_text_encoding">文字編碼</string>
     <string name="debug_logs">除錯記錄</string>
     <string name="start_logging">開始記錄</string>
     <string name="stop_logging">停止記錄</string>

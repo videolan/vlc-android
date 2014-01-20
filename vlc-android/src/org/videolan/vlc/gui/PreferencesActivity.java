@@ -1,7 +1,7 @@
 /*****************************************************************************
  * PreferencesActivity.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,7 +228,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equalsIgnoreCase("enable_iomx")
-                || key.equalsIgnoreCase("subtitles_text_encoding")
+                || key.equalsIgnoreCase("subtitle_text_encoding")
                 || key.equalsIgnoreCase("aout")
                 || key.equalsIgnoreCase("vout")
                 || key.equalsIgnoreCase("chroma_format")

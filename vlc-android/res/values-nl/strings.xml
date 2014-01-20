@@ -176,7 +176,7 @@
     <string name="clear_history">Zoekgeschiedenis wissen</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="media_db_cleared">Media-database gewist!</string>
-    <string name="subtitles_text_encoding">Tekstcodering</string>
+    <string name="subtitle_text_encoding">Tekstcodering</string>
     <string name="debug_logs">Debug-logboeken</string>
     <string name="start_logging">Start loggen</string>
     <string name="stop_logging">Stop loggen</string>

@@ -168,7 +168,7 @@
     <string name="clear_history">Hreinsa leitarferil</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
-    <string name="subtitles_text_encoding">Kóðun skjátexta</string>
+    <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="debug_logs">Aflúsunarannálar</string>
     <string name="start_logging">Byrja annálsskráningu</string>
     <string name="stop_logging">Stöðva annálsskráningu</string>

@@ -170,7 +170,7 @@
     <string name="clear_history">検索履歴をクリア</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
-    <string name="subtitles_text_encoding">テキストエンコーディング</string>
+    <string name="subtitle_text_encoding">テキストエンコーディング</string>
     <string name="debug_logs">デバッグログ</string>
     <string name="start_logging">ログを開始</string>
     <string name="stop_logging">ログを停止</string>

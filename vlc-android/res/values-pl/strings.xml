@@ -182,7 +182,7 @@
     <string name="clear_history">Wyczyść historię wyszukiwania</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
-    <string name="subtitles_text_encoding">Kodowanie tekstu</string>
+    <string name="subtitle_text_encoding">Kodowanie tekstu</string>
     <string name="debug_logs">Dzienniki debugowania</string>
     <string name="start_logging">Rozpocznij rejestrowanie</string>
     <string name="stop_logging">Zatrzymaj rejestrowanie</string>

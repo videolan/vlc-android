@@ -188,7 +188,7 @@
     <string name="clear_history">Clirio\'r hanes chwilio</string>
     <string name="clear_media_db">Clirio\'r gronfa ddata cyfryngau</string>
     <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>
-    <string name="subtitles_text_encoding">Amgodiad testun isdeitlau</string>
+    <string name="subtitle_text_encoding">Amgodiad testun isdeitlau</string>
     <string name="debug_logs">Logiau dadfygio</string>
     <string name="start_logging">Dechrau logio</string>
     <string name="stop_logging">Stopio logio</string>

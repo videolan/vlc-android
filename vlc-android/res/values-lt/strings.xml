@@ -180,7 +180,7 @@
     <string name="clear_history">Išvalyti paieškos istoriją</string>
     <string name="clear_media_db">Išvalyti kūrinių duomenų bazę</string>
     <string name="media_db_cleared">Kūrinių duomenų bazė išvalyta!</string>
-    <string name="subtitles_text_encoding">Subtitrų koduotė</string>
+    <string name="subtitle_text_encoding">Subtitrų koduotė</string>
     <string name="debug_logs">Derinimo žurnalai</string>
     <string name="start_logging">Pradėti registruoti žurnale</string>
     <string name="stop_logging">Stabdyti registravimą žurnale</string>

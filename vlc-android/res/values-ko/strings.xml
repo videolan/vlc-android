@@ -170,7 +170,7 @@
     <string name="clear_history">검색 기록 지우기</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
     <string name="media_db_cleared">미디어 데이터베이스 지워짐!</string>
-    <string name="subtitles_text_encoding">텍스트 인코딩</string>
+    <string name="subtitle_text_encoding">텍스트 인코딩</string>
     <string name="debug_logs">디버그 로그</string>
     <string name="start_logging">기록 시작</string>
     <string name="stop_logging">기록 중지</string>

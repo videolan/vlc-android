@@ -182,7 +182,7 @@
     <string name="clear_history">Очистить историю поиска</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="media_db_cleared">База метаданных очищена.</string>
-    <string name="subtitles_text_encoding">Кодировка текста</string>
+    <string name="subtitle_text_encoding">Кодировка текста</string>
     <string name="debug_logs">Отладочные сообщения</string>
     <string name="start_logging">Начать протоколирование</string>
     <string name="stop_logging">Закончить протоколирование</string>

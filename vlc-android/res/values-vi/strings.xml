@@ -170,7 +170,7 @@
     <string name="clear_history">Xóa Nhật Ký xem</string>
     <string name="clear_media_db">Xóa thông tin đã lưu về các tập tin/file</string>
     <string name="media_db_cleared">Dữ liệu đã lưu về tập tin/file đã được thực hiện xong!</string>
-    <string name="subtitles_text_encoding">Mã hóa phụ đề</string>
+    <string name="subtitle_text_encoding">Mã hóa phụ đề</string>
     <string name="debug_logs">Nhật Ký Gỡ Rối</string>
     <string name="start_logging">Bắt đầu ghi Nhật Ký</string>
     <string name="stop_logging">Dừng lại chế độ Nhật Ký</string>

@@ -176,7 +176,7 @@
     <string name="clear_history">Καθαρισμός ιστορικού εύρεσης</string>
     <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
     <string name="media_db_cleared">Η βάση δεδομένων των μέσων εκκαθαρίστηκε!</string>
-    <string name="subtitles_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
+    <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="debug_logs">Καταγραφές αποσφαλμάτωσης</string>
     <string name="start_logging">Ξεκινήστε την καταγραφή</string>
     <string name="stop_logging">Τέλος καταγραφής</string>

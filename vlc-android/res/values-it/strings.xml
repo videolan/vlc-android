@@ -176,7 +176,7 @@
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
-    <string name="subtitles_text_encoding">Codifica del testo</string>
+    <string name="subtitle_text_encoding">Codifica del testo</string>
     <string name="debug_logs">Log di debug</string>
     <string name="start_logging">Avvia la scrittura del log</string>
     <string name="stop_logging">Ferma la scrittura del log</string>

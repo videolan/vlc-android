@@ -170,7 +170,7 @@
     <string name="clear_history">מחיקת היסטוריית החיפוש</string>
     <string name="clear_media_db">מחיקת מסד נתוני המדיה</string>
     <string name="media_db_cleared">מסד נתוני המדיה פונה!</string>
-    <string name="subtitles_text_encoding">קידוד טקסט</string>
+    <string name="subtitle_text_encoding">קידוד טקסט</string>
     <string name="debug_logs">יומני ניפוי שגיאות</string>
     <string name="start_logging">הפעלת הרישום ליומן</string>
     <string name="stop_logging">הפסקת הרישום ליומן</string>

@@ -174,7 +174,7 @@
     <string name="clear_history">खोज के इतिहास को हटायें</string>
     <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
     <string name="media_db_cleared">मीडिया डेटाबेस को खली कर दिया गया हैं!</string>
-    <string name="subtitles_text_encoding">मूलशब्द संकेतीकरण</string>
+    <string name="subtitle_text_encoding">मूलशब्द संकेतीकरण</string>
     <string name="debug_logs">डिबग लॉग्स</string>
     <string name="start_logging">लॉगिंग शुरू</string>
     <string name="stop_logging">लॉगिंग बंद करें</string>

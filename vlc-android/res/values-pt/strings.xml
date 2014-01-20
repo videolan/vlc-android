@@ -176,7 +176,7 @@
     <string name="clear_history">Limpar histórico de pesquisa</string>
     <string name="clear_media_db">Limpar a base de dados da media</string>
     <string name="media_db_cleared">A base de dados da media foi limpa!</string>
-    <string name="subtitles_text_encoding">Codificação do texto</string>
+    <string name="subtitle_text_encoding">Codificação do texto</string>
     <string name="debug_logs">Registos de depuração</string>
     <string name="start_logging">Iniciar a gravação do registo</string>
     <string name="stop_logging">Parar a gravação do registo</string>

@@ -170,7 +170,7 @@
     <string name="clear_history">ล้างประวัติการค้นหา</string>
     <string name="clear_media_db">ล้างฐานข้อมูลสื่อ</string>
     <string name="media_db_cleared">ล้างฐานข้อมูลสื่อเรียบร้อยแล้ว</string>
-    <string name="subtitles_text_encoding">รหัสอักขระ</string>
+    <string name="subtitle_text_encoding">รหัสอักขระ</string>
     <string name="debug_logs">ปูมดีบั๊ก</string>
     <string name="start_logging">เริ่มเก็บปูม</string>
     <string name="stop_logging">หยุดเก็บปูม</string>

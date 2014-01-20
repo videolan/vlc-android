@@ -182,7 +182,7 @@
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
     <string name="media_db_cleared">Databáza médií bola vyprázdnená!</string>
-    <string name="subtitles_text_encoding">Kódovanie textu titulkov</string>
+    <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="debug_logs">Záznamy pre ladenie</string>
     <string name="start_logging">Spustiť zaznamenávanie</string>
     <string name="stop_logging">Zastaviť zaznamenávanie</string>
