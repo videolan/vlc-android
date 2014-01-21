@@ -57,10 +57,13 @@
             android:key="enable_frame_skip"
             android:summary="@string/enable_frame_skip_summary"
             android:title="@string/enable_frame_skip" />
-        <CheckBoxPreference
-            android:key="enable_iomx"
-            android:summary="@string/enable_iomx_summary"
-            android:title="@string/enable_iomx" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/hardware_acceleration_list"
+            android:entryValues="@array/hardware_acceleration_values"
+            android:key="hardware_acceleration"
+            android:title="@string/hardware_acceleration"
+            android:summary="@string/hardware_acceleration_summary" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_time_stretching_audio"

@@ -36,13 +36,13 @@ public class MediaList {
     private class MediaHolder {
         Media m;
         boolean noVideo; // default false
-        boolean noOmx; // default false
+        boolean noHardwareAcceleration; // default false
 
         public MediaHolder(Media media) {
-            m = media; noVideo = false; noOmx = false;
+            m = media; noVideo = false; noHardwareAcceleration = false;
         }
-        public MediaHolder(Media m_, boolean noVideo_, boolean noOmx_) {
-            m = m_; noVideo = noVideo_; noOmx = noOmx_;
+        public MediaHolder(Media m_, boolean noVideo_, boolean noHardwareAcceleration_) {
+            m = m_; noVideo = noVideo_; noHardwareAcceleration = noHardwareAcceleration_;
         }
     }
 
@@ -74,8 +74,8 @@ public class MediaList {
     public void add(Media media, boolean noVideo) {
         add(media, noVideo, false);
     }
-    public void add(Media media, boolean noVideo, boolean noOmx) {
-        mInternalList.add(new MediaHolder(media, noVideo, noOmx));
+    public void add(Media media, boolean noVideo, boolean noHardwareAcceleration) {
+        mInternalList.add(new MediaHolder(media, noVideo, noHardwareAcceleration));
         signal_list_event(EventHandler.CustomMediaListItemAdded, mInternalList.size() - 1, media.getLocation());
     }
 
@@ -164,17 +164,17 @@ public class MediaList {
     }
 
     public String[] getMediaOptions(int position) {
-        boolean noOmx = !mLibVLC.useIOMX();
+        boolean noHardwareAcceleration = mLibVLC.getHardwareAcceleration() == 0;
         boolean noVideo = false;
         if (isValid(position))
         {
-            if (!noOmx)
-                noOmx = mInternalList.get(position).noOmx;
+            if (!noHardwareAcceleration)
+                noHardwareAcceleration = mInternalList.get(position).noHardwareAcceleration;
             noVideo = mInternalList.get(position).noVideo;
         }
         ArrayList<String> options = new ArrayList<String>();
 
-        if (!noOmx) {
+        if (!noHardwareAcceleration) {
             /*
              * Set higher caching values if using iomx decoding, since some omx
              * decoders have a very high latency, and if the preroll data isn't

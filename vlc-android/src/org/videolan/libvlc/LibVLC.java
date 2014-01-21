@@ -58,7 +58,7 @@ public class LibVLC {
     //private WakeLock mWakeLock;
 
     /** Settings */
-    private boolean iomx = false;
+    private int hardwareAcceleration = -1;
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private int vout = VOUT_ANDROID_SURFACE;
@@ -216,12 +216,20 @@ public class LibVLC {
      * those get/is* are called from native code to get settings values.
      */
 
-    public boolean useIOMX() {
-        return iomx;
+    public int getHardwareAcceleration() {
+        return this.hardwareAcceleration;
     }
 
-    public void setIomx(boolean iomx) {
-        this.iomx = iomx;
+    public void setHardwareAcceleration(int hardwareAcceleration) {
+        if (hardwareAcceleration < 0) {
+            // Automatic mode: activate MediaCodec opaque direct rendering for 4.3 and above.
+            if (LibVlcUtil.isJellyBeanMR2OrLater())
+                this.hardwareAcceleration = 2;
+            else
+                this.hardwareAcceleration = 0;
+        }
+        else
+            this.hardwareAcceleration = hardwareAcceleration;
     }
 
     public String getSubtitlesEncoding() {

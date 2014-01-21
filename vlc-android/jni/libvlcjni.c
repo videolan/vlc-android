@@ -42,6 +42,10 @@
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
 
+#define HW_ACCELERATION_DISABLED 0
+#define HW_ACCELERATION_DECODING 1
+#define HW_ACCELERATION_FULL     2
+
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
@@ -57,8 +61,9 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
 
     if (!noOmx) {
         jclass cls = (*env)->GetObjectClass(env, thiz);
-        jmethodID methodId = (*env)->GetMethodID(env, cls, "useIOMX", "()Z");
-        if ((*env)->CallBooleanMethod(env, thiz, methodId)) {
+        jmethodID methodId = (*env)->GetMethodID(env, cls, "getHardwareAcceleration", "()I");
+        int hardwareAcceleration = (*env)->CallIntMethod(env, thiz, methodId);
+        if (hardwareAcceleration == HW_ACCELERATION_DECODING || hardwareAcceleration == HW_ACCELERATION_FULL) {
             /*
              * Set higher caching values if using iomx decoding, since some omx
              * decoders have a very high latency, and if the preroll data isn't
@@ -248,6 +253,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     methodId = (*env)->GetMethodID(env, cls, "isVerboseMode", "()Z");
     verbosity = (*env)->CallBooleanMethod(env, thiz, methodId);
 
+    methodId = (*env)->GetMethodID(env, cls, "getHardwareAcceleration", "()I");
+    int hardwareAcceleration = (*env)->CallIntMethod(env, thiz, methodId);
+
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
         "-I", "dummy",
@@ -271,6 +279,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
         use_opengles2 ? "--vout=gles2" : "--vout=androidsurface",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
+        (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : "--no-mediacodec-dr",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 

@@ -227,7 +227,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(key.equalsIgnoreCase("enable_iomx")
+        if(key.equalsIgnoreCase("hardware_acceleration")
                 || key.equalsIgnoreCase("subtitle_text_encoding")
                 || key.equalsIgnoreCase("aout")
                 || key.equalsIgnoreCase("vout")

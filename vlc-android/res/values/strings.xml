@@ -193,8 +193,11 @@
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
-    <string name="enable_iomx">Hardware accelerated decoding</string>
-    <string name="enable_iomx_summary">Improves performance, but may not work with all devices.</string>
+    <string name="hardware_acceleration">Hardware Acceleration</string>
+    <string name="hardware_acceleration_summary">Disabled: better stability.\nDecoding: may improve performance.\nFull: may improve performance further.</string>
+    <string name="hardware_acceleration_disabled">Disabled</string>
+    <string name="hardware_acceleration_decoding">Decoding Acceleration</string>
+    <string name="hardware_acceleration_full">Full Acceleration</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
     <string name="enable_frame_skip">Enable frame skip</string>
@@ -233,6 +236,19 @@
     <string name="set_locale_detail">Leave blank to reset</string>
     <string name="set_locale_popup">Quit and reset VLC for changes to take effect.</string>
     <string name="quit">Quit application</string>
+
+    <string-array name="hardware_acceleration_list">
+        <item>@string/automatic</item>
+        <item>@string/hardware_acceleration_disabled</item>
+        <item>@string/hardware_acceleration_decoding</item>
+        <item>@string/hardware_acceleration_full</item>
+    </string-array>
+    <string-array name="hardware_acceleration_values" translatable="false">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
     <string-array name="deblocking_list">
         <item>@string/automatic</item>

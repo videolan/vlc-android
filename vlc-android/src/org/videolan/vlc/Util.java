@@ -115,7 +115,6 @@ public class Util {
         if (instance == null)
             return;
 
-        instance.setIomx(pref.getBoolean("enable_iomx", false));
         instance.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
         instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
         instance.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
@@ -146,6 +145,13 @@ public class Util {
         catch(NumberFormatException nfe) {
             deblocking = -1;
         }
+        int hardwareAcceleration;
+        try {
+            hardwareAcceleration = Integer.parseInt(pref.getString("hardware_acceleration", "-1"));
+        }
+        catch(NumberFormatException nfe) {
+            hardwareAcceleration = -1;
+        }
         int networkCaching = pref.getInt("network_caching_value", 0);
         if(networkCaching > 60000)
             networkCaching = 60000;
@@ -155,6 +161,7 @@ public class Util {
         instance.setVout(vout);
         instance.setDeblocking(deblocking);
         instance.setNetworkCaching(networkCaching);
+        instance.setHardwareAcceleration(hardwareAcceleration);
     }
 
     /** Print an on-screen message to alert the user */
