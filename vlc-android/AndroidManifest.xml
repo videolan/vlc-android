@@ -192,6 +192,7 @@
                 <data android:pathPattern=".*\\.mxf" />
                 <data android:pathPattern=".*\\.mxg" />
                 <data android:pathPattern=".*\\.nsv" />
+                <data android:pathPattern=".*\\.nut" />
                 <data android:pathPattern=".*\\.nuv" />
                 <data android:pathPattern=".*\\.ogm" />
                 <data android:pathPattern=".*\\.ogv" />
@@ -250,6 +251,7 @@
                 <data android:pathPattern=".*\\.MXF" />
                 <data android:pathPattern=".*\\.MXG" />
                 <data android:pathPattern=".*\\.NSV" />
+                <data android:pathPattern=".*\\.NUT" />
                 <data android:pathPattern=".*\\.NUV" />
                 <data android:pathPattern=".*\\.OGM" />
                 <data android:pathPattern=".*\\.OGV" />
