@@ -167,6 +167,7 @@
                 <data android:pathPattern=".*\\.flv" />
                 <data android:pathPattern=".*\\.gvi" />
                 <data android:pathPattern=".*\\.gxf" />
+                <data android:pathPattern=".*\\.ismv" />
                 <data android:pathPattern=".*\\.iso" />
                 <data android:pathPattern=".*\\.m1v" />
                 <data android:pathPattern=".*\\.m2v" />
@@ -226,6 +227,7 @@
                 <data android:pathPattern=".*\\.FLV" />
                 <data android:pathPattern=".*\\.GVI" />
                 <data android:pathPattern=".*\\.GXF" />
+                <data android:pathPattern=".*\\.ISMV" />
                 <data android:pathPattern=".*\\.ISO" />
                 <data android:pathPattern=".*\\.M1V" />
                 <data android:pathPattern=".*\\.M2V" />
