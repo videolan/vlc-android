@@ -31,6 +31,14 @@ pthread_cond_t vout_android_surf_attached;
 static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
 static jobject vout_android_java_surf = NULL;
+static jobject vout_android_subtitles_surf = NULL;
+
+void *jni_LockAndGetSubtitlesSurface() {
+    pthread_mutex_lock(&vout_android_lock);
+    while (vout_android_subtitles_surf == NULL)
+        pthread_cond_wait(&vout_android_surf_attached, &vout_android_lock);
+    return vout_android_subtitles_surf;
+}
 
 void *jni_LockAndGetAndroidSurface() {
     pthread_mutex_lock(&vout_android_lock);
@@ -111,5 +119,19 @@ void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
         (*env)->DeleteGlobalRef(env, vout_android_java_surf);
     vout_android_gui = NULL;
     vout_android_java_surf = NULL;
+    pthread_mutex_unlock(&vout_android_lock);
+}
+
+void Java_org_videolan_libvlc_LibVLC_attachSubtitlesSurface(JNIEnv *env, jobject thiz, jobject surf) {
+    pthread_mutex_lock(&vout_android_lock);
+    vout_android_subtitles_surf = (*env)->NewGlobalRef(env, surf);
+    pthread_cond_signal(&vout_android_surf_attached);
+    pthread_mutex_unlock(&vout_android_lock);
+}
+
+void Java_org_videolan_libvlc_LibVLC_detachSubtitlesSurface(JNIEnv *env, jobject thiz) {
+    pthread_mutex_lock(&vout_android_lock);
+    (*env)->DeleteGlobalRef(env, vout_android_subtitles_surf);
+    vout_android_subtitles_surf = NULL;
     pthread_mutex_unlock(&vout_android_lock);
 }

@@ -76,6 +76,9 @@ public class LibVLC {
 
     public native void detachSurface();
 
+    public native void attachSubtitlesSurface(Surface surface);
+    public native void detachSubtitlesSurface();
+
     /* Load library before object instantiation */
     static {
         try {

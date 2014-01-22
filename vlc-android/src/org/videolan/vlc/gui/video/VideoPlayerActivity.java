@@ -107,7 +107,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
 
     private SurfaceView mSurface;
+    private SurfaceView mSubtitlesSurface;
     private SurfaceHolder mSurfaceHolder;
+    private SurfaceHolder mSubtitlesSurfaceHolder;
     private FrameLayout mSurfaceFrame;
     private LibVLC mLibVLC;
     private String mLocation;
@@ -282,6 +284,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
         mSurfaceHolder.addCallback(mSurfaceCallback);
 
+        mSubtitlesSurface = (SurfaceView) findViewById(R.id.subtitles_surface);
+        mSubtitlesSurfaceHolder = mSubtitlesSurface.getHolder();
+        mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
+        mSubtitlesSurface.setZOrderMediaOverlay(true);
+        mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
+
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
@@ -313,6 +321,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "LibVLC initialisation failed");
             return;
         }
+        /* Only show the subtitles surface when using "Full Acceleration" mode */
+        if (mLibVLC.getHardwareAcceleration() == 2)
+            mSubtitlesSurface.setVisibility(View.VISIBLE);
 
         EventHandler em = EventHandler.getInstance();
         em.addHandler(eventHandler);
@@ -874,12 +885,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         // force surface buffer size
         mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+        mSubtitlesSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 
         // set display size
         LayoutParams lp = mSurface.getLayoutParams();
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         mSurface.setLayoutParams(lp);
+        mSubtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
         lp = mSurfaceFrame.getLayoutParams();
@@ -888,6 +901,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSurfaceFrame.setLayoutParams(lp);
 
         mSurface.invalidate();
+        mSubtitlesSurface.invalidate();
     }
 
     /**
@@ -1313,6 +1327,22 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     };
 
+    private final SurfaceHolder.Callback mSubtitlesSurfaceCallback = new Callback() {
+        @Override
+        public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            mLibVLC.attachSubtitlesSurface(holder.getSurface());
+        }
+
+        @Override
+        public void surfaceCreated(SurfaceHolder holder) {
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            mLibVLC.detachSubtitlesSurface();
+        }
+    };
+
     /**
      * show overlay the the default timeout
      */
@@ -1377,11 +1407,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         int layout = 0;
         if (!Util.hasCombBar() && Util.isJellyBeanOrLater())
             layout = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        mSurface.setSystemUiVisibility(
-                (dim ? (Util.hasCombBar()
-                        ? View.SYSTEM_UI_FLAG_LOW_PROFILE
+        int visibility =  (dim ? (Util.hasCombBar()
+                ? View.SYSTEM_UI_FLAG_LOW_PROFILE
                         : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                    : View.SYSTEM_UI_FLAG_VISIBLE) | layout);
+                        : View.SYSTEM_UI_FLAG_VISIBLE) | layout;
+        mSurface.setSystemUiVisibility(visibility);
+        mSubtitlesSurface.setSystemUiVisibility(visibility);
     }
 
     private void updateOverlayPausePlay() {
