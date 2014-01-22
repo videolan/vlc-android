@@ -255,6 +255,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     methodId = (*env)->GetMethodID(env, cls, "getHardwareAcceleration", "()I");
     int hardwareAcceleration = (*env)->CallIntMethod(env, thiz, methodId);
+    /* With the MediaCodec opaque mode we cannot use the OpenGL ES vout. */
+    if (hardwareAcceleration == HW_ACCELERATION_FULL)
+        use_opengles2 = false;
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
