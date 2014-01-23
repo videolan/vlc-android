@@ -22,7 +22,6 @@ package org.videolan.libvlc;
 
 import java.util.ArrayList;
 
-
 import android.os.Bundle;
 
 /**
@@ -136,6 +135,9 @@ public class MediaList {
     }
 
     public void move(int startPosition, int endPosition) {
+        if(!( isValid(startPosition) && isValid(endPosition) ))
+            throw new IndexOutOfBoundsException("Indexes out of range");
+
         MediaHolder toMove = mInternalList.get(startPosition);
         mInternalList.remove(startPosition);
         if (startPosition >= endPosition)
