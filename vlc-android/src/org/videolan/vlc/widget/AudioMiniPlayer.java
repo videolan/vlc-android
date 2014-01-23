@@ -44,10 +44,17 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -209,6 +216,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 mAudioController.moveItem(positionStart, positionEnd);
             }
         });
+        registerForContextMenu(mSongsList);
 
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -228,6 +236,27 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.audio_player_mini, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        if(info == null) // info can be null
+            return super.onContextItemSelected(item);
+        int id = item.getItemId();
+
+        if(id == R.id.audio_player_mini_remove) {
+            Log.d(TAG, "Context menu removing " + info.position);
+            mAudioController.remove(info.position);
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     /**
