@@ -1,7 +1,7 @@
 /*****************************************************************************
  * IAudioService.aidl
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ interface IAudioService {
     void load(in List<String> mediaPathList, int position, boolean noVideo);
     void append(in List<String> mediaPathList);
     void moveItem(int positionStart, int positionEnd);
+    void remove(int position);
     List<String> getMediaLocations();
     String getCurrentMediaLocation();
     boolean isPlaying();

@@ -503,12 +503,18 @@ public class AudioService extends Service {
                 index = msg.getData().getInt("item_index");
                 if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex++;
+
+                service.determinePrevAndNextIndices();
+                service.executeUpdate();
                 break;
             case EventHandler.CustomMediaListItemDeleted:
                 Log.i(TAG, "CustomMediaListItemDeleted");
                 index = msg.getData().getInt("item_index");
                 if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex--;
+
+                service.determinePrevAndNextIndices();
+                service.executeUpdate();
                 break;
             case EventHandler.CustomMediaListItemMoved:
                 Log.i(TAG, "CustomMediaListItemMoved");
@@ -1198,6 +1204,11 @@ public class AudioService extends Service {
         @Override
         public void moveItem(int positionStart, int positionEnd) throws RemoteException {
             mLibVLC.getMediaList().move(positionStart, positionEnd);
+        }
+
+        @Override
+        public void remove(int position) {
+            mLibVLC.getMediaList().remove(position);
         }
 
         @Override
