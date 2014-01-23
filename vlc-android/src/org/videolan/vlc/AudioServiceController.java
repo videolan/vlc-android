@@ -249,6 +249,12 @@ public class AudioServiceController implements IAudioPlayerControl {
                 new Object[] { mediaPathList } );
     }
 
+    public void moveItem(int positionStart, int positionEnd) {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "moveItem",
+                new Class<?>[] { int.class, int.class },
+                new Object[] { positionStart, positionEnd } );
+    }
+
     @SuppressWarnings("unchecked")
     public List<String> getMediaLocations() {
         List<String> def = new ArrayList<String>();

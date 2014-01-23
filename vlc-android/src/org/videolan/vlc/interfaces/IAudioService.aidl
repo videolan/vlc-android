@@ -31,6 +31,7 @@ interface IAudioService {
     void setTime(long time);
     void load(in List<String> mediaPathList, int position, boolean noVideo);
     void append(in List<String> mediaPathList);
+    void moveItem(int positionStart, int positionEnd);
     List<String> getMediaLocations();
     String getCurrentMediaLocation();
     boolean isPlaying();

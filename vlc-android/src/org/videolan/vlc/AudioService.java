@@ -1170,6 +1170,27 @@ public class AudioService extends Service {
             executeUpdate();
         }
 
+        /**
+         * Move an item inside the playlist.
+         */
+        @Override
+        public void moveItem(int positionStart, int positionEnd) throws RemoteException {
+            mLibVLC.getMediaList().move(positionStart, positionEnd);
+            if (mCurrentIndex == positionStart) {
+                mCurrentIndex = positionEnd;
+                if (positionEnd > positionStart)
+                    mCurrentIndex--;
+            }
+
+            // If we are in random mode, we completely reset the stored previous track
+            // as their indices changed.
+            // TODO: better handling of item move in random mode?
+            mPrevious.clear();
+
+            determinePrevAndNextIndices();
+            executeUpdate();
+        }
+
         @Override
         public List<String> getMediaLocations() {
             ArrayList<String> medias = new ArrayList<String>();

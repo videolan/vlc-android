@@ -135,6 +135,15 @@ public class MediaList {
         signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
     }
 
+    public void move(int startPosition, int endPosition) {
+        MediaHolder toMove = mInternalList.get(startPosition);
+        mInternalList.remove(startPosition);
+        if (startPosition >= endPosition)
+            mInternalList.add(endPosition, toMove);
+        else
+            mInternalList.add(endPosition - 1, toMove);
+    }
+
     public void remove(int position) {
         if (!isValid(position))
             return;
