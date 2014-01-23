@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/play_pause"
-        android:title="@string/play" />
+        android:id="@+id/audio_player_mini_remove"
+        android:title="@string/remove" />
 </menu>
