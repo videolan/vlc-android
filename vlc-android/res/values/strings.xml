@@ -213,7 +213,7 @@
     <string name="clear_history">Clear search history</string>
     <string name="clear_media_db">Clear media database</string>
     <string name="media_db_cleared">Media database cleared!</string>
-    <string name="subtitles_text_encoding">Subtitle text encoding</string>
+    <string name="subtitle_text_encoding">Subtitle text encoding</string>
 
     <string name="debug_logs">Debug logs</string>
     <string name="start_logging">Start logging</string>
