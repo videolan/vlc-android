@@ -510,6 +510,28 @@ public class AudioService extends Service {
                 if(service.mCurrentIndex >= index && !expanding)
                     service.mCurrentIndex--;
                 break;
+            case EventHandler.CustomMediaListItemMoved:
+                Log.i(TAG, "CustomMediaListItemMoved");
+                int positionStart = msg.getData().getInt("index_before");
+                int positionEnd = msg.getData().getInt("index_after");
+                if (service.mCurrentIndex == positionStart) {
+                    service.mCurrentIndex = positionEnd;
+                    if (positionEnd > positionStart)
+                        service.mCurrentIndex--;
+                } else if (positionStart > service.mCurrentIndex
+                        && positionEnd <= service.mCurrentIndex)
+                    service.mCurrentIndex++;
+                else if (positionStart < service.mCurrentIndex
+                        && positionEnd >= service.mCurrentIndex)
+                    service.mCurrentIndex--;
+
+                // If we are in random mode, we completely reset the stored previous track
+                // as their indices changed.
+                service.mPrevious.clear();
+
+                service.determinePrevAndNextIndices();
+                service.executeUpdate();
+                break;
             case EventHandler.CustomMediaListExpanding:
                 expanding = true;
                 break;
@@ -1176,23 +1198,6 @@ public class AudioService extends Service {
         @Override
         public void moveItem(int positionStart, int positionEnd) throws RemoteException {
             mLibVLC.getMediaList().move(positionStart, positionEnd);
-            if (mCurrentIndex == positionStart) {
-                mCurrentIndex = positionEnd;
-                if (positionEnd > positionStart)
-                    mCurrentIndex--;
-            }
-            else if (positionStart > mCurrentIndex && positionEnd <= mCurrentIndex)
-                mCurrentIndex++;
-            else if (positionStart < mCurrentIndex && positionEnd >= mCurrentIndex)
-                mCurrentIndex--;
-
-            // If we are in random mode, we completely reset the stored previous track
-            // as their indices changed.
-            // TODO: better handling of item move in random mode?
-            mPrevious.clear();
-
-            determinePrevAndNextIndices();
-            executeUpdate();
         }
 
         @Override
