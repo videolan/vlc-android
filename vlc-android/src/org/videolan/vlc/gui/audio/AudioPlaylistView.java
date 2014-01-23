@@ -134,15 +134,6 @@ public class AudioPlaylistView extends ListView {
     public void startDrag(int positionDragStart, String title, String artist) {
         mPositionDragStart = positionDragStart;
         if (mDragShadow != null) {
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
-                if (holder.position == positionDragStart) {
-                    LinearLayout layout = (LinearLayout)child.findViewById(R.id.layout_item);
-                    layout.setBackgroundResource(R.color.darkorange);
-                }
-            }
-
             TextView titleView = (TextView)mDragShadow.findViewById(R.id.title);
             TextView artistView = (TextView)mDragShadow.findViewById(R.id.artist);
             LinearLayout layout = (LinearLayout)mDragShadow.findViewById(R.id.layout_item);
@@ -159,12 +150,21 @@ public class AudioPlaylistView extends ListView {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
+            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
+            View layout_footer = (View)child.findViewById(R.id.layout_footer);
+            AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
 
-            child.getHitRect(rect);
-            if (rect.contains(getWidth() / 2, (int)mTouchY))
-                expansion.setVisibility(LinearLayout.VISIBLE);
-            else
-                expansion.setVisibility(LinearLayout.GONE);
+            if (holder.position == mPositionDragStart) {
+                layout_item.setVisibility(LinearLayout.GONE);
+                layout_footer.setVisibility(LinearLayout.GONE);
+            }
+            else {
+                child.getHitRect(rect);
+                if (rect.contains(getWidth() / 2, (int)mTouchY))
+                    expansion.setVisibility(LinearLayout.VISIBLE);
+                else
+                    expansion.setVisibility(LinearLayout.GONE);
+            }
         }
     }
 
@@ -176,7 +176,8 @@ public class AudioPlaylistView extends ListView {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
-            LinearLayout layout = (LinearLayout)child.findViewById(R.id.layout_item);
+            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
+            View layout_footer = (View)child.findViewById(R.id.layout_footer);
 
             child.getHitRect(rect);
             if (rect.contains(getWidth() / 2, (int)mTouchY)) {
@@ -186,7 +187,8 @@ public class AudioPlaylistView extends ListView {
                     mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
             }
             expansion.setVisibility(LinearLayout.GONE);
-            layout.setBackgroundResource(0);
+            layout_item.setVisibility(LinearLayout.VISIBLE);
+            layout_footer.setVisibility(LinearLayout.VISIBLE);
         }
     }
 
