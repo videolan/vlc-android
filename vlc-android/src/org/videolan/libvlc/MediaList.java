@@ -151,6 +151,10 @@ public class MediaList {
             mInternalList.add(endPosition, toMove);
         else
             mInternalList.add(endPosition - 1, toMove);
+        Bundle b = new Bundle();
+        b.putInt("index_before", startPosition);
+        b.putInt("index_after", endPosition);
+        mEventHandler.callback(EventHandler.CustomMediaListItemMoved, b);
     }
 
     public void remove(int position) {

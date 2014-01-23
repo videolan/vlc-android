@@ -1,7 +1,7 @@
 /*****************************************************************************
  * EventHandler.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -92,6 +92,7 @@ public class EventHandler {
     public static final int CustomMediaListExpandingEnd       = 0x2001;
     public static final int CustomMediaListItemAdded          = 0x2002;
     public static final int CustomMediaListItemDeleted        = 0x2003;
+    public static final int CustomMediaListItemMoved          = 0x2004;
 
     private ArrayList<Handler> mEventHandler;
     private static EventHandler mInstance;
