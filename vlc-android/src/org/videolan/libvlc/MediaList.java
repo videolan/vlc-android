@@ -134,6 +134,13 @@ public class MediaList {
         signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
     }
 
+    /**
+     * Move a media from one position to another
+     *
+     * @param startPosition start position
+     * @param endPosition end position
+     * @throws IndexOutOfBoundsException
+     */
     public void move(int startPosition, int endPosition) {
         if(!( isValid(startPosition) && isValid(endPosition) ))
             throw new IndexOutOfBoundsException("Indexes out of range");
