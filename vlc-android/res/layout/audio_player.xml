@@ -78,7 +78,7 @@
 	    android:layout_height="match_parent"
 	    android:layout_weight="1" >
 
-	    <ListView
+	    <org.videolan.vlc.gui.audio.AudioPlaylistView
 	        android:id="@+id/songs_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"

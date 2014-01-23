@@ -29,8 +29,9 @@ import org.videolan.vlc.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -85,18 +86,29 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             holder = (ViewHolder) v.getTag();
 
         Media media = getItem(position);
+        final String title = media.getTitle();
+        final String artist = media.getSubtitle();
+        final int pos = position;
 
-        holder.title.setText(media.getTitle());
+        holder.title.setText(title);
         ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
                 ? R.color.list_title_last
                 : R.color.list_title);
         holder.title.setTextColor(titleColor);
-        holder.artist.setText(media.getSubtitle());
+        holder.artist.setText(artist);
+        holder.position = position;
 
-        holder.moveButton.setOnClickListener(new OnClickListener() {
+        final AudioPlaylistView playlistView = (AudioPlaylistView)parent;
+
+        holder.moveButton.setOnTouchListener(new OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                // TODO Start dragging.
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    playlistView.startDrag(pos, title, artist);
+                    return true;
+                }
+                else
+                    return false;
             }
         });
 
@@ -119,6 +131,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
     }
 
     static class ViewHolder {
+        int position;
         TextView title;
         TextView artist;
         ImageButton moveButton;
