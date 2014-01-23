@@ -146,16 +146,11 @@ public class MediaList {
             throw new IndexOutOfBoundsException("Indexes out of range");
 
         MediaHolder toMove = mInternalList.get(startPosition);
-        String l = toMove.m.getLocation();
         mInternalList.remove(startPosition);
-        signal_list_event(EventHandler.CustomMediaListItemDeleted, startPosition, l);
-        if(startPosition >= endPosition) {
+        if (startPosition >= endPosition)
             mInternalList.add(endPosition, toMove);
-            signal_list_event(EventHandler.CustomMediaListItemAdded, endPosition, l);
-        } else {
+        else
             mInternalList.add(endPosition - 1, toMove);
-            signal_list_event(EventHandler.CustomMediaListItemAdded, endPosition - 1, l);
-        }
     }
 
     public void remove(int position) {
