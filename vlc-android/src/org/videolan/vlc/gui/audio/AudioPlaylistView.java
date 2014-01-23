@@ -100,6 +100,7 @@ public class AudioPlaylistView extends ListView {
             {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
+                dragging();
                 break;
             case MotionEvent.ACTION_UP:
                 dragDropped();
@@ -133,6 +134,15 @@ public class AudioPlaylistView extends ListView {
     public void startDrag(int positionDragStart, String title, String artist) {
         mPositionDragStart = positionDragStart;
         if (mDragShadow != null) {
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
+                AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
+                if (holder.position == positionDragStart) {
+                    LinearLayout layout = (LinearLayout)child.findViewById(R.id.layout_item);
+                    layout.setBackgroundResource(R.color.darkorange);
+                }
+            }
+
             TextView titleView = (TextView)mDragShadow.findViewById(R.id.title);
             TextView artistView = (TextView)mDragShadow.findViewById(R.id.artist);
             LinearLayout layout = (LinearLayout)mDragShadow.findViewById(R.id.layout_item);
@@ -143,27 +153,51 @@ public class AudioPlaylistView extends ListView {
         }
     }
 
+    private void dragging() {
+        // Find the child view that is currently touched (perform a hit test)
+        Rect rect = new Rect();
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
+
+            child.getHitRect(rect);
+            if (rect.contains(getWidth() / 2, (int)mTouchY))
+                expansion.setVisibility(LinearLayout.VISIBLE);
+            else
+                expansion.setVisibility(LinearLayout.GONE);
+        }
+    }
+
     public void dragDropped() {
         mIsDragging = false;
 
         // Find the child view that was touched (perform a hit test)
         Rect rect = new Rect();
-        int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
+        for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
+            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
+            LinearLayout layout = (LinearLayout)child.findViewById(R.id.layout_item);
+
             child.getHitRect(rect);
             if (rect.contains(getWidth() / 2, (int)mTouchY)) {
                 // Send back the performed change thanks to the listener.
                 AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
                 if (mOnItemDraggedListener != null)
                     mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
-                break;
             }
+            expansion.setVisibility(LinearLayout.GONE);
+            layout.setBackgroundResource(0);
         }
     }
 
     public void dragAborted() {
         mIsDragging = false;
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
+            expansion.setVisibility(LinearLayout.GONE);
+        }
     }
 
     public interface OnItemDraggedListener {
