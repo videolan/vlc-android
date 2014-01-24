@@ -49,7 +49,7 @@ public class AudioPlaylistView extends ListView {
         mIsDragging = false;
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mDragShadow = inflater.inflate(R.layout.audio_playlist_item, this, false);
+        mDragShadow = inflater.inflate(R.layout.audio_playlist_item_drag_shadow, this, false);
     }
 
     @Override
@@ -136,10 +136,8 @@ public class AudioPlaylistView extends ListView {
         if (mDragShadow != null) {
             TextView titleView = (TextView)mDragShadow.findViewById(R.id.title);
             TextView artistView = (TextView)mDragShadow.findViewById(R.id.artist);
-            LinearLayout layout = (LinearLayout)mDragShadow.findViewById(R.id.layout_item);
             titleView.setText(title);
             artistView.setText(artist);
-            layout.setBackgroundResource(R.color.darkorange);
             mIsDragging = true;
         }
     }
