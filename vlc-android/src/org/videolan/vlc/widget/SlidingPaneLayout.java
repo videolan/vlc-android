@@ -553,7 +553,10 @@ public class SlidingPaneLayout extends ViewGroup {
             return super.onTouchEvent(ev);
         }
 
-        mDragHelper.processTouchEvent(ev);
+        try {
+            mDragHelper.processTouchEvent(ev);
+        }
+        catch (IllegalArgumentException ex) { }
 
         final int action = ev.getAction();
 
