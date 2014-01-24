@@ -84,7 +84,7 @@ public class AudioPlaylistView extends ListView {
             break;
         }
 
-        return mIsDragging;
+        return mIsDragging || super.onInterceptTouchEvent(event);
     }
 
     @Override
@@ -115,6 +115,7 @@ public class AudioPlaylistView extends ListView {
             }
             invalidate();
         }
+
         return handleEvent || super.onTouchEvent(event);
     }
 
