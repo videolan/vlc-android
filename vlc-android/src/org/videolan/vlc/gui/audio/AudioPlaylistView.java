@@ -42,6 +42,7 @@ public class AudioPlaylistView extends ListView {
     private float mTouchY;
 
     private OnItemDraggedListener mOnItemDraggedListener;
+    private OnItemRemovedListener mOnItemRemovedListener;
 
     public AudioPlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -210,4 +211,16 @@ public class AudioPlaylistView extends ListView {
         mOnItemDraggedListener = l;
     }
 
+    public interface OnItemRemovedListener {
+        public void onItemRemoved(int position);
+    }
+
+    public void setOnItemRemovedListener(OnItemRemovedListener l) {
+        mOnItemRemovedListener = l;
+    }
+
+    public void removeItem(int position) {
+        if (mOnItemRemovedListener != null)
+            mOnItemRemovedListener.onItemRemoved(position);
+    }
 }

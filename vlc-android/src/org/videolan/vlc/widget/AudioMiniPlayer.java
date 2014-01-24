@@ -216,6 +216,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 mAudioController.moveItem(positionStart, positionEnd);
             }
         });
+        mSongsList.setOnItemRemovedListener(new AudioPlaylistView.OnItemRemovedListener() {
+            @Override
+            public void onItemRemoved(int position) {
+                mAudioController.remove(position);
+            }
+        });
         registerForContextMenu(mSongsList);
 
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
