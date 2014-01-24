@@ -142,7 +142,8 @@ public class MediaList {
      * @throws IndexOutOfBoundsException
      */
     public void move(int startPosition, int endPosition) {
-        if(!( isValid(startPosition) && isValid(endPosition) ))
+        if (!(isValid(startPosition)
+              && endPosition >= 0 && endPosition <= mInternalList.size()))
             throw new IndexOutOfBoundsException("Indexes out of range");
 
         MediaHolder toMove = mInternalList.get(startPosition);
