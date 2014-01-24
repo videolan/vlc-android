@@ -188,6 +188,16 @@ public class AudioPlaylistView extends ListView {
 
     public void dragAborted() {
         mIsDragging = false;
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
+            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
+            View layout_footer = (View)child.findViewById(R.id.layout_footer);
+            layout_item.setVisibility(LinearLayout.VISIBLE);
+            layout_footer.setVisibility(LinearLayout.VISIBLE);
+            expansion.setVisibility(LinearLayout.GONE);
+        }
     }
 
     public interface OnItemDraggedListener {
