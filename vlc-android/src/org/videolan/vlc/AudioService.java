@@ -510,9 +510,21 @@ public class AudioService extends Service {
             case EventHandler.CustomMediaListItemDeleted:
                 Log.i(TAG, "CustomMediaListItemDeleted");
                 index = msg.getData().getInt("item_index");
-                if(service.mCurrentIndex >= index && !expanding)
+                if (service.mCurrentIndex == index && !expanding) {
+                    // The current item has been deleted
                     service.mCurrentIndex--;
+                    service.determinePrevAndNextIndices();
+                    if (service.mNextIndex != -1)
+                        service.next();
+                    else if (service.mCurrentIndex != -1)
+                        service.mLibVLC.playIndex(service.mCurrentIndex);
+                    else
+                        service.stop();
+                    break;
+                }
 
+                if(service.mCurrentIndex > index && !expanding)
+                    service.mCurrentIndex--;
                 service.determinePrevAndNextIndices();
                 service.executeUpdate();
                 break;
