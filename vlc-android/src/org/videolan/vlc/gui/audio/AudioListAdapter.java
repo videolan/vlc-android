@@ -82,16 +82,16 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.artist = (TextView) v.findViewById(R.id.artist);
             holder.moveButton = (ImageButton) v.findViewById(R.id.move);
+            holder.expansion = (LinearLayout)v.findViewById(R.id.item_expansion);
+            holder.layoutItem = (LinearLayout)v.findViewById(R.id.layout_item);
+            holder.layoutFooter = (View)v.findViewById(R.id.layout_footer);
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
 
-        LinearLayout expansion = (LinearLayout)v.findViewById(R.id.item_expansion);
-        LinearLayout layout_item = (LinearLayout)v.findViewById(R.id.layout_item);
-        View layout_footer = (View)v.findViewById(R.id.layout_footer);
-        expansion.setVisibility(LinearLayout.GONE);
-        layout_item.setVisibility(LinearLayout.VISIBLE);
-        layout_footer.setVisibility(LinearLayout.VISIBLE);
+        holder.expansion.setVisibility(LinearLayout.GONE);
+        holder.layoutItem.setVisibility(LinearLayout.VISIBLE);
+        holder.layoutFooter.setVisibility(LinearLayout.VISIBLE);
 
         Media media = getItem(position);
         final String title = media.getTitle();
@@ -143,5 +143,8 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
         TextView title;
         TextView artist;
         ImageButton moveButton;
+        LinearLayout expansion;
+        LinearLayout layoutItem;
+        View layoutFooter;
     }
 }
