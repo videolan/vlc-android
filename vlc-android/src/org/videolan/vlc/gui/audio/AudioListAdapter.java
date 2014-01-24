@@ -35,6 +35,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AudioListAdapter extends ArrayAdapter<Media> {
@@ -84,6 +85,13 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
+
+        LinearLayout expansion = (LinearLayout)v.findViewById(R.id.item_expansion);
+        LinearLayout layout_item = (LinearLayout)v.findViewById(R.id.layout_item);
+        View layout_footer = (View)v.findViewById(R.id.layout_footer);
+        expansion.setVisibility(LinearLayout.GONE);
+        layout_item.setVisibility(LinearLayout.VISIBLE);
+        layout_footer.setVisibility(LinearLayout.VISIBLE);
 
         Media media = getItem(position);
         final String title = media.getTitle();

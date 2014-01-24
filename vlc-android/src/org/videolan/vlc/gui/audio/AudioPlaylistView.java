@@ -175,31 +175,19 @@ public class AudioPlaylistView extends ListView {
         Rect rect = new Rect();
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
-            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
-            View layout_footer = (View)child.findViewById(R.id.layout_footer);
-
             child.getHitRect(rect);
             if (rect.contains(getWidth() / 2, (int)mTouchY)) {
                 // Send back the performed change thanks to the listener.
                 AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
                 if (mOnItemDraggedListener != null)
                     mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
+                break;
             }
-            expansion.setVisibility(LinearLayout.GONE);
-            layout_item.setVisibility(LinearLayout.VISIBLE);
-            layout_footer.setVisibility(LinearLayout.VISIBLE);
         }
     }
 
     public void dragAborted() {
         mIsDragging = false;
-
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
-            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
-            expansion.setVisibility(LinearLayout.GONE);
-        }
     }
 
     public interface OnItemDraggedListener {
