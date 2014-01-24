@@ -86,9 +86,14 @@ public class FlingViewGroup extends ViewGroup {
         }
 
         final int count = getChildCount();
+        int maxHeight = 0;
         for (int i = 0; i < count; i++) {
-            getChildAt(i).measure(widthMeasureSpec, heightMeasureSpec);
+            View child = getChildAt(i);
+            child.measure(widthMeasureSpec, heightMeasureSpec);
+            maxHeight = Math.max(maxHeight, child.getMeasuredHeight());
         }
+
+        setMeasuredDimension(getMeasuredWidth(), maxHeight);
     }
 
     @Override
