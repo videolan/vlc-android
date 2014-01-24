@@ -173,6 +173,7 @@ public class AudioPlaylistView extends ListView {
 
         // Find the child view that was touched (perform a hit test)
         Rect rect = new Rect();
+        boolean b_foundHitChild =  false;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             child.getHitRect(rect);
@@ -181,9 +182,12 @@ public class AudioPlaylistView extends ListView {
                 AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
                 if (mOnItemDraggedListener != null)
                     mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
+                b_foundHitChild = true;
                 break;
             }
         }
+        if (!b_foundHitChild)
+            mOnItemDraggedListener.OnItemDradded(mPositionDragStart, this.getCount());
     }
 
     public void dragAborted() {
