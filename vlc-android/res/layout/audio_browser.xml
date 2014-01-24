@@ -5,10 +5,9 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-	    <org.videolan.vlc.widget.HeaderScrollView
+        android:layout_height="wrap_content">
+        <org.videolan.vlc.widget.HeaderScrollView
 	        android:id="@+id/header"
 	        android:scrollbars="none"
 	        android:fadingEdge="none"
@@ -19,7 +18,9 @@
 	            android:id="@+id/header_layout"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:orientation="horizontal">
+	            android:orientation="horizontal"
+                android:paddingTop="5sp"
+                android:paddingBottom="5sp" >
                 <TextView
 	                android:text="@string/artists"
 	                android:textAllCaps="true"
