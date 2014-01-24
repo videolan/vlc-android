@@ -32,6 +32,7 @@ import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -100,6 +101,7 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
         final String title = media.getTitle();
         final String artist = media.getSubtitle();
         final int pos = position;
+        final View itemView = v;
 
         holder.title.setText(title);
         ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
@@ -127,6 +129,12 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             @Override
             public void onItemSlided() {
                 playlistView.removeItem(pos);
+            }
+        });
+        holder.layoutItem.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playlistView.performItemClick(itemView, pos, 0);
             }
         });
 
