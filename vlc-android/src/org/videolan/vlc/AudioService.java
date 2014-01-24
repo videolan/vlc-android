@@ -528,7 +528,7 @@ public class AudioService extends Service {
                         && positionEnd <= service.mCurrentIndex)
                     service.mCurrentIndex++;
                 else if (positionStart < service.mCurrentIndex
-                        && positionEnd >= service.mCurrentIndex)
+                        && positionEnd > service.mCurrentIndex)
                     service.mCurrentIndex--;
 
                 // If we are in random mode, we completely reset the stored previous track
