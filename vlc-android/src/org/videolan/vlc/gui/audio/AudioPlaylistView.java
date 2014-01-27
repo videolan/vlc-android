@@ -149,21 +149,18 @@ public class AudioPlaylistView extends ListView {
         Rect rect = new Rect();
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
-            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
-            View layout_footer = (View)child.findViewById(R.id.layout_footer);
             AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
 
             if (holder.position == mPositionDragStart) {
-                layout_item.setVisibility(LinearLayout.GONE);
-                layout_footer.setVisibility(LinearLayout.GONE);
+                holder.layoutItem.setVisibility(LinearLayout.GONE);
+                holder.layoutFooter.setVisibility(LinearLayout.GONE);
             }
             else {
                 child.getHitRect(rect);
                 if (rect.contains(getWidth() / 2, (int)mTouchY))
-                    expansion.setVisibility(LinearLayout.VISIBLE);
+                    holder.expansion.setVisibility(LinearLayout.VISIBLE);
                 else
-                    expansion.setVisibility(LinearLayout.GONE);
+                    holder.expansion.setVisibility(LinearLayout.GONE);
             }
         }
     }
@@ -195,12 +192,10 @@ public class AudioPlaylistView extends ListView {
 
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            LinearLayout expansion = (LinearLayout)child.findViewById(R.id.item_expansion);
-            LinearLayout layout_item = (LinearLayout)child.findViewById(R.id.layout_item);
-            View layout_footer = (View)child.findViewById(R.id.layout_footer);
-            layout_item.setVisibility(LinearLayout.VISIBLE);
-            layout_footer.setVisibility(LinearLayout.VISIBLE);
-            expansion.setVisibility(LinearLayout.GONE);
+            AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
+            holder.layoutItem.setVisibility(LinearLayout.VISIBLE);
+            holder.layoutFooter.setVisibility(LinearLayout.VISIBLE);
+            holder.expansion.setVisibility(LinearLayout.GONE);
         }
     }
 
