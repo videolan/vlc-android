@@ -82,7 +82,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
-    public AudioAlbumsSongsFragment(ArrayList<Media> mediaList, String title) {
+    public void setMediaList(ArrayList<Media> mediaList, String title) {
         this.mediaList = mediaList;
         mTitle = title;
     }

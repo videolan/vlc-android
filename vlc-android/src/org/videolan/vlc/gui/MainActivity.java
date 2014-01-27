@@ -108,6 +108,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private TextView mInfoText;
     private View mAudioPlayerFilling;
     private String mCurrentFragment;
+    private String mPreviousFragment;
 
     private SharedPreferences mSettings;
 
@@ -421,6 +422,13 @@ public class MainActivity extends SherlockFragmentActivity {
                 return;
             }
         }
+
+        // If it's the albums songs fragment, we leave it.
+        if (mCurrentFragment.equals("albumsSongs")) {
+            hideAudioAlbumsSongsFragment();
+            return;
+        }
+
         super.onBackPressed();
     }
 
@@ -464,6 +472,26 @@ public class MainActivity extends SherlockFragmentActivity {
         ft.replace(R.id.fragment_placeholder, fragment, tag);
         ft.addToBackStack(tag);
         ft.commit();
+    }
+
+    /**
+     * Show the new albums songs fragment.
+     */
+    public Fragment showAudioAlbumsSongsFragment() {
+        mPreviousFragment = mCurrentFragment;
+        mCurrentFragment = "albumsSongs";
+        Fragment frag = getFragment(mCurrentFragment);
+        ShowFragment(this, "albumsSongs", frag);
+        return frag;
+    }
+
+    /**
+     * Hide the albums songs fragment.
+     */
+    public void hideAudioAlbumsSongsFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        mCurrentFragment = mPreviousFragment;
     }
 
     /** Create menu from XML
@@ -562,6 +590,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 onSearchRequested();
                 break;
             case android.R.id.home:
+                // If it's the albums songs view, a "backpressed" action shows .
+                if (mCurrentFragment.equals("albumsSongs")) {
+                    hideAudioAlbumsSongsFragment();
+                    break;
+                }
                 /* Toggle the sidebar */
                 if(mMenu.isMenuShowing())
                     mMenu.showContent();
