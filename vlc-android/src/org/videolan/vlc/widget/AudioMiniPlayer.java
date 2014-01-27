@@ -210,6 +210,14 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
                 mAudioController.load(mSongsListAdapter.getLocations(), p);
             }
         });
+        mSongsList.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+                getActivity().openContextMenu(view);
+                return true;
+            }
+        });
         mSongsList.setOnItemDraggedListener(new AudioPlaylistView.OnItemDraggedListener() {
             @Override
             public void OnItemDradded(int positionStart, int positionEnd) {

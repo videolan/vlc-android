@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -135,6 +136,13 @@ public class AudioListAdapter extends ArrayAdapter<Media> {
             @Override
             public void onClick(View v) {
                 playlistView.performItemClick(itemView, pos, 0);
+            }
+        });
+        holder.layoutItem.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                playlistView.performItemLongClick(itemView, pos, 0);
+                return true;
             }
         });
 

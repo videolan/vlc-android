@@ -43,6 +43,7 @@ public class AudioPlaylistView extends ListView {
 
     private OnItemDraggedListener mOnItemDraggedListener;
     private OnItemRemovedListener mOnItemRemovedListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
     public AudioPlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -218,5 +219,14 @@ public class AudioPlaylistView extends ListView {
     public void removeItem(int position) {
         if (mOnItemRemovedListener != null)
             mOnItemRemovedListener.onItemRemoved(position);
+    }
+
+    public void performItemLongClick(View view, int position, long id) {
+        if (mOnItemLongClickListener != null)
+            mOnItemLongClickListener.onItemLongClick(this, view, position, id);
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener l) {
+        mOnItemLongClickListener = l;
     }
 }
