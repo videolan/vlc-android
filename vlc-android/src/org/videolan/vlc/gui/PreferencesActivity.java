@@ -44,6 +44,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -240,6 +241,19 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             Util.updateLibVlcSettings(sharedPreferences);
             LibVLC.restart(this);
         }
+    }
+
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
+    {
+        super.onPreferenceTreeClick(preferenceScreen, preference);
+        if (preference!=null)
+            if (preference instanceof PreferenceScreen)
+                if (((PreferenceScreen)preference).getDialog()!=null)
+                    ((PreferenceScreen)preference).getDialog().getWindow().getDecorView()
+                    .setBackgroundDrawable(this.getWindow().getDecorView().getBackground()
+                            .getConstantState().newDrawable());
+        return false;
     }
 
     @Override
