@@ -377,6 +377,9 @@ public class MainActivity extends SherlockFragmentActivity {
         MediaLibrary.getInstance(this).stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
+        /* Do not save the albums songs fragment as the current fragment. */
+        if (mCurrentFragment.equals("albumsSongs"))
+            mCurrentFragment = "audio";
         editor.putString("fragment", mCurrentFragment);
         editor.commit();
 
