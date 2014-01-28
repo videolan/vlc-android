@@ -219,9 +219,8 @@ public class MainActivity extends SherlockFragmentActivity {
                  */
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
-                /* Hide the mini player */
-                if(mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
-                    mSlidingPane.openPane();
+                /* Slide down the mini player */
+                slideDownMiniPlayer();
 
                 /* Switch the fragment */
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -412,10 +411,8 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 
         // Slide down the mini player if it is shown entirely.
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED) {
-            mSlidingPane.openPane();
+        if (slideDownMiniPlayer())
             return;
-        }
 
         // If it's the directory view, a "backpressed" action shows a parent.
         if (mCurrentFragment.equals("directories")) {
@@ -449,6 +446,10 @@ public class MainActivity extends SherlockFragmentActivity {
         } catch (IllegalAccessException e) {
             Log.e(TAG, "Failed to instantiate "+fragmentClass.getName()+", ShowFragment("+tag+") aborted.");
         }
+
+        // Slide down the mini player if needed.
+        slideDownMiniPlayer();
+
         ShowFragment(this, tag, fragment);
     }
 
@@ -789,6 +790,18 @@ public class MainActivity extends SherlockFragmentActivity {
         if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
             mSlidingPane.openPane();
         mAudioPlayerFilling.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Slide down the mini player.
+     * @return true on success else false.
+     */
+    public boolean slideDownMiniPlayer() {
+        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED) {
+            mSlidingPane.openPane();
+            return true;
+        }
+        return false;
     }
 
     /**
