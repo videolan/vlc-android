@@ -266,10 +266,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
-        /* The VLC default is to pick the highest resolution possible
-         * (i.e. 1080p). For mobile, pick a more sane default for slow
-         * mobile data networks and slower hardware. */
-        "--preferred-resolution", "360",
         "--avcodec-fast",
         "--subsdec-encoding", subsencodingstr,
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
