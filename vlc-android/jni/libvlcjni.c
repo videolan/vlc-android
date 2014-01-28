@@ -261,7 +261,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
-        "--no-osd",
         "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
