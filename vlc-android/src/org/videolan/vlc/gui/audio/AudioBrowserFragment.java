@@ -160,6 +160,7 @@ public class AudioBrowserFragment extends SherlockFragment {
         super.onResume();
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mHeader.highlightTab(-1, mFlingViewPosition);
+        mHeader.scroll(mFlingViewPosition / 3.f);
         updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
     }
