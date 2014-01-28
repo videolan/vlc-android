@@ -265,9 +265,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--no-stats",
         "--no-plugins-cache",
 
-        /* XXX: remove */
-        "--no-drop-late-frames",
-
         /* CPU intensive plugin, setting for slow devices */
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
 
