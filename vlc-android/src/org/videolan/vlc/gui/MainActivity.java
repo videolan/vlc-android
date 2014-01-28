@@ -30,7 +30,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.AudioMiniPlayer;
@@ -377,7 +376,8 @@ public class MainActivity extends SherlockFragmentActivity {
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         /* Do not save the albums songs fragment as the current fragment. */
-        if (mCurrentFragment.equals("albumsSongs"))
+        if (mCurrentFragment.equals("albumsSongs")
+            || mCurrentFragment.equals("equalizer"))
             mCurrentFragment = "audio";
         editor.putString("fragment", mCurrentFragment);
         editor.commit();
@@ -424,8 +424,9 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 
         // If it's the albums songs fragment, we leave it.
-        if (mCurrentFragment.equals("albumsSongs")) {
-            hideAudioAlbumsSongsFragment();
+        if (mCurrentFragment.equals("albumsSongs")
+            || mCurrentFragment.equals("equalizer")) {
+            popFragmentBackStack();
             return;
         }
 
@@ -479,20 +480,23 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     /**
-     * Show the new albums songs fragment.
+     * Show a new fragment.
      */
-    public Fragment showAudioAlbumsSongsFragment() {
+    public Fragment showNewFragment(String fragmentTag) {
+        // Slide down the mini player if needed.
+        slideDownMiniPlayer();
+
         mPreviousFragment = mCurrentFragment;
-        mCurrentFragment = "albumsSongs";
+        mCurrentFragment = fragmentTag;
         Fragment frag = getFragment(mCurrentFragment);
-        ShowFragment(this, "albumsSongs", frag);
+        ShowFragment(this, mCurrentFragment, frag);
         return frag;
     }
 
     /**
      * Hide the albums songs fragment.
      */
-    public void hideAudioAlbumsSongsFragment() {
+    public void popFragmentBackStack() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack();
         mCurrentFragment = mPreviousFragment;
@@ -567,7 +571,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
                 break;
             case R.id.ml_menu_equalizer:
-                ShowFragment("equalizer", EqualizerFragment.class);
+                showNewFragment("equalizer");
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
@@ -595,8 +599,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             case android.R.id.home:
                 // If it's the albums songs view, a "backpressed" action shows .
-                if (mCurrentFragment.equals("albumsSongs")) {
-                    hideAudioAlbumsSongsFragment();
+                if (mCurrentFragment.equals("albumsSongs")
+                    || mCurrentFragment.equals("equalizer")) {
+                    popFragmentBackStack();
                     break;
                 }
                 /* Toggle the sidebar */
