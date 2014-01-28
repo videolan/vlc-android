@@ -10,6 +10,7 @@
 
     <style name="Theme.VLC" parent="Theme.Sherlock.Light">
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="windowContentOverlay">@drawable/actionbar_shadow</item>
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
@@ -73,11 +74,11 @@
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="background">@drawable/actionbar_background</item>
         <item name="android:titleTextStyle">@style/ActionBar.Text</item>
+        <item name="titleTextStyle">@style/ActionBar.Text</item>
     </style>
 
-    <style name="ActionBar.Text" parent="@android:style/TextAppearance">
+    <style name="ActionBar.Text" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_title</item>
-        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="Theme.VLC.AlertMenu" parent="android:Theme.Dialog">
