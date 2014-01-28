@@ -261,9 +261,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
-        /* generic options, should be removed */
-        "--no-stats",
-
         /* CPU intensive plugin, setting for slow devices */
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
 
