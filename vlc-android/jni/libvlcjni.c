@@ -261,19 +261,35 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
+        /* generic options, should be removed */
         "--no-stats",
         "--no-plugins-cache",
+
+        /* XXX: remove */
         "--no-drop-late-frames",
-        "--avcodec-fast",
-        "--subsdec-encoding", subsencodingstr,
+
+        /* CPU intensive plugin, setting for slow devices */
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
+
+        /* avcodec speed settings for slow devices */
+        "--avcodec-fast", // non-spec-compliant speedup tricks
         "--avcodec-skiploopfilter", deblockstr,
         "--avcodec-skip-frame", enable_frame_skip ? "2" : "0",
         "--avcodec-skip-idct", enable_frame_skip ? "2" : "0",
+
+        /* Remove me when UTF-8 is enforced by law */
+        "--subsdec-encoding", subsencodingstr,
+
+        /* XXX: why can't the default be fine ? #7792 */
         (networkCaching > 0) ? networkCachingstr : "",
+
+        /* Android audio API is a mess */
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
+
+        /* Android video API is a mess */
         use_opengles2 ? "--vout=gles2" : "--vout=androidsurface",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
+        /* XXX: we can't recover from direct rendering failure */
         (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : "--no-mediacodec-dr",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
