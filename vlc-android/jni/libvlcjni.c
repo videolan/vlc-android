@@ -263,7 +263,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     const char *argv[] = {
         /* generic options, should be removed */
         "--no-stats",
-        "--no-plugins-cache",
 
         /* CPU intensive plugin, setting for slow devices */
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
