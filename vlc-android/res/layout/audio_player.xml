@@ -55,6 +55,18 @@
             android:scaleType="fitXY"
             android:src="@drawable/dots_dark" />
 
+        <TextView
+            android:id="@+id/header_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginRight="15dp"
+            android:layout_weight="0"
+            android:clickable="true"
+            android:text="@string/time_0"
+            android:textColor="?attr/darkorange"
+            android:textSize="18sp" />
+
         <ImageButton
             android:id="@+id/header_play_pause"
             android:layout_width="40dp"

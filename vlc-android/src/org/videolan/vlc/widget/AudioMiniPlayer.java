@@ -70,6 +70,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private AudioMediaSwitcher mAudioMediaSwitcher;
     private AnimatedCoverView mBigCover;
     private TextView mTime;
+    private TextView mHeaderTime;
     private TextView mLength;
     private ImageButton mPlayPause;
     private ImageButton mHeaderPlayPause;
@@ -94,6 +95,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     private boolean mPlaylistSwitchVisible;
     private boolean mHeaderPlayPauseVisible;
     private boolean mProgressBarVisible;
+    private boolean mHeaderTimeVisible;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
 
         mBigCover = (AnimatedCoverView) v.findViewById(R.id.big_cover);
         mTime = (TextView) v.findViewById(R.id.time);
+        mHeaderTime = (TextView) v.findViewById(R.id.header_time);
         mLength = (TextView) v.findViewById(R.id.length);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
         mHeaderPlayPause = (ImageButton) v.findViewById(R.id.header_play_pause);
@@ -138,6 +141,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mPlaylistSwitchVisible = false;
         mHeaderPlayPauseVisible = true;
         mProgressBarVisible = true;
+        mHeaderTimeVisible = true;
         restoreHedaderButtonVisibilities();
 
         mTime.setOnClickListener(new View.OnClickListener() {
@@ -350,6 +354,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         int time = mAudioController.getTime();
         int length = mAudioController.getLength();
         mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
+        mHeaderTime.setText(Util.millisToString(time));
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
         mTimeline.setProgress(time);
@@ -400,8 +405,8 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
             if (fromUser) {
                 mAudioController.setTime(prog);
-                mTime.setText(Util.millisToString(mShowRemainingTime ? prog-mAudioController.getLength() : prog))
-            ;
+                mTime.setText(Util.millisToString(mShowRemainingTime ? prog-mAudioController.getLength() : prog));
+                mHeaderTime.setText(Util.millisToString(prog));
         }
     }
     };
@@ -473,11 +478,13 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
      * @param headerPlayPauseVisible
      */
     public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
-                                      boolean headerPlayPauseVisible, boolean progressBarVisible) {
+                                      boolean headerPlayPauseVisible, boolean progressBarVisible,
+                                      boolean headerTimeVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
         mHeaderPlayPauseVisible = headerPlayPauseVisible;
         mProgressBarVisible = progressBarVisible;
+        mHeaderTimeVisible = headerTimeVisible;
         restoreHedaderButtonVisibilities();
     }
 
@@ -486,12 +493,14 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
         mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
+        mHeaderTime.setVisibility(mHeaderTimeVisible ? TextView.VISIBLE : TextView.GONE);
     }
 
     private void hideHedaderButtons() {
         mAdvFunc.setVisibility(ImageButton.GONE);
         mPlaylistSwitch.setVisibility(ImageButton.GONE);
         mHeaderPlayPause.setVisibility(ImageButton.GONE);
+        mHeaderTime.setVisibility(TextView.GONE);
     }
 
     private final AudioMediaSwitcherListener mAudioMediaSwitcherListener = new AudioMediaSwitcherListener() {
