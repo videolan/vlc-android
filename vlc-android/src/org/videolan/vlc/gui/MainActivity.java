@@ -438,22 +438,6 @@ public class MainActivity extends SherlockFragmentActivity {
         return mSidebarAdapter.fetchFragment(id);
     }
 
-    private void ShowFragment(String tag, Class<? extends Fragment> fragmentClass) {
-        Fragment fragment = null;
-        try {
-            fragment = fragmentClass.newInstance();
-        } catch (InstantiationException e) {
-            Log.e(TAG, "Failed to instantiate "+fragmentClass.getName()+", ShowFragment("+tag+") aborted.");
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "Failed to instantiate "+fragmentClass.getName()+", ShowFragment("+tag+") aborted.");
-        }
-
-        // Slide down the mini player if needed.
-        slideDownMiniPlayer();
-
-        ShowFragment(this, tag, fragment);
-    }
-
     public static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment) {
         if (fragment == null) {
             Log.e(TAG, "Cannot show a null fragment, ShowFragment("+tag+") aborted.");
