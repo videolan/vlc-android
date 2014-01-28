@@ -59,6 +59,7 @@ jboolean Java_org_videolan_libvlc_LibVLC_hasVideoTrack(JNIEnv *env, jobject thiz
     libvlc_media_parse(p_m);
 
     libvlc_media_player_t* p_mp = libvlc_media_player_new_from_media(p_m);
+    libvlc_media_player_set_video_title_display(p_mp, libvlc_position_disable, 0);
 
     struct length_change_monitor* monitor;
     monitor = malloc(sizeof(struct length_change_monitor));

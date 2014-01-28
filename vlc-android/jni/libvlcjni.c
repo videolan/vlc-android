@@ -262,7 +262,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
         "--no-osd",
-        "--no-video-title-show",
         "--no-stats",
         "--no-plugins-cache",
         "--no-drop-late-frames",
@@ -336,6 +335,7 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
 
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)(intptr_t)instance);
+    libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
     //if AOUT_AUDIOTRACK_JAVA, we use amem

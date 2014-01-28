@@ -100,6 +100,7 @@ void Java_org_videolan_libvlc_MediaList_loadPlaylist(JNIEnv *env, jobject thiz, 
     pthread_mutex_lock(&monitor->doneMutex);
 
     libvlc_media_player_t* p_mp = libvlc_media_player_new((libvlc_instance_t*)(intptr_t)getLong(env, libvlcJava, "mLibVlcInstance"));
+    libvlc_media_player_set_video_title_display(p_mp, libvlc_position_disable, 0);
     libvlc_event_manager_t* ev = libvlc_media_player_event_manager(p_mp);
     libvlc_event_attach(ev, libvlc_MediaPlayerEndReached, stopped_callback, monitor);
     libvlc_media_player_set_media(p_mp, p_md);
