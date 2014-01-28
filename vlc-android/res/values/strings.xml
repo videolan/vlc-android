@@ -236,7 +236,7 @@
     <string name="set_locale">Set locale</string>
     <string name="set_locale_detail">Leave blank to reset</string>
     <string name="set_locale_popup">Quit and reset VLC for changes to take effect.</string>
-    <string name="quit">Quit application</string>
+    <string name="quit">Quit and restart application</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
