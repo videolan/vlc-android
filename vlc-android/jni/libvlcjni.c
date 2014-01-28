@@ -228,15 +228,15 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     methodId = (*env)->GetMethodID(env, cls, "getDeblocking", "()I");
     int deblocking = (*env)->CallIntMethod(env, thiz, methodId);
-    char deblockstr[2] = "3";
-    snprintf(deblockstr, 2, "%d", deblocking);
+    char deblockstr[2];
+    snprintf(deblockstr, sizeof(deblockstr), "%d", deblocking);
     LOGD("Using deblocking level %d", deblocking);
 
     methodId = (*env)->GetMethodID(env, cls, "getNetworkCaching", "()I");
     int networkCaching = (*env)->CallIntMethod(env, thiz, methodId);
-    char networkCachingstr[25] = "0";
+    char networkCachingstr[25];
     if(networkCaching > 0) {
-        snprintf(networkCachingstr, 25, "--network-caching=%d", networkCaching);
+        snprintf(networkCachingstr, sizeof(networkCachingstr), "--network-caching=%d", networkCaching);
         LOGD("Using network caching of %d ms", networkCaching);
     }
 
