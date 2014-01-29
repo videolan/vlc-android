@@ -158,7 +158,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
 
         if (b_createView) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.audio_browser_item_simple, parent, false);
+            v = inflater.inflate(R.layout.audio_browser_item, parent, false);
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
