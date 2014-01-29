@@ -81,7 +81,7 @@ public class HistoryAdapter extends BaseAdapter {
 
         /* If view not created */
         if (v == null) {
-            v = mInflater.inflate(R.layout.audio_browser_item, parent, false);
+            v = mInflater.inflate(R.layout.list_item, parent, false);
             holder = new DirectoryAdapter.DirectoryViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
