@@ -45,14 +45,14 @@
         </RelativeLayout>
 
         <View
-            android:id="@+id/audio_mini_player_filling"
+            android:id="@+id/audio_player_filling"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:visibility="gone" />
     </org.videolan.vlc.widget.ContentLinearLayout>
 
     <FrameLayout
-        android:id="@+id/audio_mini_player"
+        android:id="@+id/audio_player"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

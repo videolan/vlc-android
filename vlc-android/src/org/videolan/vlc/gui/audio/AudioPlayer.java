@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.widget;
+package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
 
@@ -34,9 +34,9 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
-import org.videolan.vlc.gui.audio.AudioListAdapter;
-import org.videolan.vlc.gui.audio.AudioPlaylistView;
 import org.videolan.vlc.interfaces.IAudioPlayer;
+import org.videolan.vlc.widget.AnimatedCoverView;
+import org.videolan.vlc.widget.AudioMediaSwitcher;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import android.graphics.Bitmap;
@@ -63,7 +63,7 @@ import android.widget.ViewSwitcher;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
+public class AudioPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
     private ProgressBar mProgressBar;
@@ -259,7 +259,7 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.audio_player_mini, menu);
+        menuInflater.inflate(R.menu.audio_player, menu);
     }
 
     @Override
@@ -463,12 +463,12 @@ public class AudioMiniPlayer extends Fragment implements IAudioPlayer {
 
     public void show() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.showMiniPlayer();
+        activity.showAudioPlayer();
     }
 
     public void hide() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.hideMiniPlayer();
+        activity.hideAudioPlayer();
     }
 
     /**
