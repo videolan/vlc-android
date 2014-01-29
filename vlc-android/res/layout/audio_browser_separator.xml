@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dip"
         android:layout_marginTop="5dip"
+        android:singleLine="true"
         android:text="@string/title"
         android:textColor="?attr/darkorange"
         android:textSize="20sp" />
