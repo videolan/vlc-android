@@ -2,9 +2,9 @@
 
     <item
         android:bottom="0dp"
-        android:left="-6dp"
-        android:right="-6dp"
-        android:top="-6dp">
+        android:left="-7dp"
+        android:right="-7dp"
+        android:top="-7dp">
         <shape android:shape="rectangle" >
             <padding
                 android:bottom="15dp"
