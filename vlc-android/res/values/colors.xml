@@ -8,6 +8,7 @@
     <color name="playlist_item_footer">#d0d0d0</color>
     <color name="background_common">#f2f1f0</color>
     <color name="background_player">#fafaf9</color>
+    <color name="background_playlist">#e7e5e2</color>
     <color name="background_menu_divider">#d0d0d0</color>
     <color name="background_menu">#e0e0e0</color>
     <color name="font_default">#222222</color>

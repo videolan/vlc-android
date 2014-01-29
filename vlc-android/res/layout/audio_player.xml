@@ -94,7 +94,7 @@
 	        android:id="@+id/songs_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:background="?attr/background_menu" />
+	        android:background="?attr/background_playlist" />
 
 	    <org.videolan.vlc.widget.AnimatedCoverView
 	        android:id="@+id/big_cover"
