@@ -206,10 +206,8 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
             ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
             groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
         }
-        else {
-            AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-            groupPosition = info.position;
-        }
+        else
+            groupPosition = position;
 
         if (id == R.id.audio_list_browser_delete) {
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
