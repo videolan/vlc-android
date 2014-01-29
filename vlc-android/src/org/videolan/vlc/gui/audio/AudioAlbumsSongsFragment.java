@@ -31,6 +31,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.widget.FlingViewGroup;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -39,6 +40,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,6 +79,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     private String mTitle;
 
     TabHost mTabHost;
+    FlingViewGroup mFlingViewGroup;
     private int mCurrentTab = 0;
 
     /* All subclasses of Fragment must include a public empty constructor. */
@@ -114,6 +117,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         mTabHost = (TabHost) v.findViewById(android.R.id.tabhost);
         ListView albumsList = (ListView) v.findViewById(R.id.albums);
         ListView songsList = (ListView) v.findViewById(R.id.songs);
+        mFlingViewGroup = (FlingViewGroup) v.findViewById(R.id.fling_view_group);
 
         songsList.setAdapter(mSongsAdapter);
         albumsList.setAdapter(mAlbumsAdapter);
@@ -126,18 +130,52 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
         mTabHost.setup();
 
-        addNewTab(mTabHost, "albums", "Albums", R.id.albums);
-        addNewTab(mTabHost, "songs", "Songs", R.id.songs);
+        addNewTab(mTabHost, "albums", "Albums");
+        addNewTab(mTabHost, "songs", "Songs");
 
         mTabHost.setCurrentTab(mCurrentTab);
+
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                mCurrentTab = mTabHost.getCurrentTab();
+                mFlingViewGroup.smoothScrollTo(mCurrentTab);
+            }
+        });
+
+        mFlingViewGroup.setOnViewSwitchedListener(new FlingViewGroup.ViewSwitchListener() {
+            @Override
+            public void onSwitching(float progress) { }
+            @Override
+            public void onSwitched(int position) {
+                mTabHost.setCurrentTab(position);
+            }
+            @Override
+            public void onTouchDown() {}
+            @Override
+            public void onTouchUp() {}
+        });
 
         return v;
     }
 
-    private void addNewTab(TabHost tabHost, String tag, String title, int contentID) {
+    private class DummyContentFactory implements TabHost.TabContentFactory {
+        private final Context mContext;
+        public DummyContentFactory(Context ctx) {
+            mContext = ctx;
+        }
+        @Override
+        public View createTabContent(String tag) {
+            View dummy = new View(mContext);
+            return dummy;
+        }
+    }
+
+    private void addNewTab(TabHost tabHost, String tag, String title) {
+        DummyContentFactory dcf = new DummyContentFactory(tabHost.getContext());
         TabSpec tabSpec = tabHost.newTabSpec(tag);
         tabSpec.setIndicator(getNewTabIndicator(tabHost.getContext(), title));
-        tabSpec.setContent(contentID);
+        tabSpec.setContent(dcf);
         tabHost.addTab(tabSpec);
     }
 

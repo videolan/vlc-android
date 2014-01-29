@@ -251,6 +251,13 @@ public class FlingViewGroup extends ViewGroup {
         invalidate();
     }
 
+    public void smoothScrollTo(int position) {
+        mCurrentView = position;
+        final int delta = (position * getWidth()) - getScrollX();
+        mScroller.startScroll(getScrollX(), 0, delta, 0, 300);
+        invalidate();
+    }
+
     public void setOnViewSwitchedListener(ViewSwitchListener l) {
         mViewSwitchListener = l;
     }
