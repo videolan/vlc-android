@@ -23,6 +23,7 @@
         <item name="font_light">@color/font_light</item>
         <item name="orange">@color/orange</item>
         <item name="darkorange">@color/darkorange</item>
+        <item name="darkerorange">@color/darkerorange</item>
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 </resources>

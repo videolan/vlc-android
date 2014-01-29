@@ -30,6 +30,7 @@
         <item name="font_light">@color/font_light</item>
         <item name="orange">@color/orange</item>
         <item name="darkorange">@color/darkorange</item>
+        <item name="darkerorange">@color/darkerorange</item>
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
@@ -69,6 +70,7 @@
 
     <style name="Theme.VLC.Fullscreen" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@color/black</item>
+        <item name="transparent_gray">@color/transparent_gray</item>
     </style>
 
     <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
