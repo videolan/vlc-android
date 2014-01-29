@@ -256,6 +256,7 @@ export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
 make fetch
 # We already have zlib available
 [ -e .zlib ] || (mkdir -p zlib; touch .zlib)
+which autopoint >/dev/null || make $MAKEFLAGS .gettext
 make $MAKEFLAGS
 
 cd ../.. && mkdir -p android && cd android
