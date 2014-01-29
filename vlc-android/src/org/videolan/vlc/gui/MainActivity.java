@@ -470,6 +470,10 @@ public class MainActivity extends SherlockFragmentActivity {
         // Slide down the mini player if needed.
         slideDownMiniPlayer();
 
+        // Do not show the new fragment if the requested fragment is already shown.
+        if (mCurrentFragment.equals(fragmentTag))
+            return null;
+
         mPreviousFragment = mCurrentFragment;
         mCurrentFragment = fragmentTag;
         Fragment frag = getFragment(mCurrentFragment);
