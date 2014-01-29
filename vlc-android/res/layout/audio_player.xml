@@ -188,18 +188,6 @@
             android:src="@drawable/ic_pause" />
 
         <ImageButton
-            android:id="@+id/stop"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:background="#00000000"
-            android:contentDescription="@string/stop"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_stop" />
-
-        <ImageButton
             android:id="@+id/next"
             android:layout_width="50dp"
             android:layout_height="50dp"

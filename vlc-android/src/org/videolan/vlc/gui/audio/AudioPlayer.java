@@ -74,7 +74,6 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     private TextView mLength;
     private ImageButton mPlayPause;
     private ImageButton mHeaderPlayPause;
-    private ImageButton mStop;
     private ImageButton mNext;
     private ImageButton mPrevious;
     private ImageButton mShuffle;
@@ -121,7 +120,6 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         mLength = (TextView) v.findViewById(R.id.length);
         mPlayPause = (ImageButton) v.findViewById(R.id.play_pause);
         mHeaderPlayPause = (ImageButton) v.findViewById(R.id.header_play_pause);
-        mStop = (ImageButton) v.findViewById(R.id.stop);
         mNext = (ImageButton) v.findViewById(R.id.next);
         mPrevious = (ImageButton) v.findViewById(R.id.previous);
         mShuffle = (ImageButton) v.findViewById(R.id.shuffle);
@@ -156,16 +154,17 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
                 onPlayPauseClick(v);
             }
         });
+        mPlayPause.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onStopClick(v);
+                return true;
+            }
+        });
         mHeaderPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onPlayPauseClick(v);
-            }
-        });
-        mStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onStopClick(v);
             }
         });
         mNext.setOnClickListener(new View.OnClickListener() {
