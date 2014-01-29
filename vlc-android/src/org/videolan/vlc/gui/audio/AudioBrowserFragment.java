@@ -168,9 +168,8 @@ public class AudioBrowserFragment extends SherlockFragment {
     OnItemClickListener songListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> songList = new ArrayList<String>();
-            int selectedId = mSongsAdapter.getListWithPosition(songList, p);
-            mAudioController.load(songList, selectedId);
+            ArrayList<String> mediaLocation = mSongsAdapter.getLocations(p);
+            mAudioController.load(mediaLocation, 0);
         }
     };
 
