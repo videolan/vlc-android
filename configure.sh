@@ -48,6 +48,7 @@ STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
 AR="${CROSS_COMPILE}ar" \
 sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS \
+                --disable-nls \
                 --enable-live555 --enable-realrtsp \
                 --enable-avformat \
                 --enable-swscale \
