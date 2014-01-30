@@ -257,6 +257,7 @@ make fetch
 # We already have zlib available
 [ -e .zlib ] || (mkdir -p zlib; touch .zlib)
 which autopoint >/dev/null || make $MAKEFLAGS .gettext
+export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 make $MAKEFLAGS
 
 cd ../.. && mkdir -p android && cd android
