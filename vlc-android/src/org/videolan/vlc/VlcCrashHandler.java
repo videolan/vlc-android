@@ -20,11 +20,9 @@
 
 package org.videolan.vlc;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -97,29 +95,10 @@ public class VlcCrashHandler implements UncaughtExceptionHandler {
     private void writeLogcat(String name) {
         CharSequence timestamp = DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis());
         String filename = name + "_" + timestamp + ".log";
-        String[] args = { "logcat", "-v", "time", "-d" };
-
         try {
-            Process process = Runtime.getRuntime().exec(args);
-            InputStreamReader input = new InputStreamReader(
-                    process.getInputStream());
-            OutputStreamWriter output = new OutputStreamWriter(
-                    new FileOutputStream(filename));
-            BufferedReader br = new BufferedReader(input);
-            BufferedWriter bw = new BufferedWriter(output);
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                bw.write(line);
-                bw.newLine();
-            }
-
-            bw.close();
-            output.close();
-            br.close();
-            input.close();
+            Util.writeLogcat(filename);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Cannot write logcat to disk");
         }
     }
 }
