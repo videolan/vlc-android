@@ -615,6 +615,10 @@ public class MainActivity extends SherlockFragmentActivity {
                 onSearchRequested();
                 break;
             case android.R.id.home:
+                // Slide down the audio player.
+                if (slideDownAudioPlayer())
+                    break;
+
                 // If it's the albums songs view, a "backpressed" action shows .
                 if (secondaryFragments.contains(mCurrentFragment)) {
                     popSecondaryFragment();
