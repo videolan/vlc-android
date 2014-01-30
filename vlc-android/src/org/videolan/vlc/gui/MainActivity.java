@@ -114,7 +114,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mAudioPlayerFilling;
     private String mCurrentFragment;
     private String mPreviousFragment;
-    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer");
+    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer", "about");
     private HashMap<String, Fragment> mSecondaryFragments = new HashMap<String, Fragment>();
 
     private SharedPreferences mSettings;
@@ -481,6 +481,8 @@ public class MainActivity extends SherlockFragmentActivity {
             f = new AudioAlbumsSongsFragment();
         } else if(id.equals("equalizer")) {
             f = new EqualizerFragment();
+        } else if(id.equals("about")) {
+            f = new AboutFragment();
         }
         else {
             throw new IllegalArgumentException("Wrong fragment id.");
@@ -579,8 +581,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             // About
             case R.id.ml_menu_about:
-                intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
+                showSecondaryFragment("about");
                 break;
             // Preferences
             case R.id.ml_menu_preferences:
