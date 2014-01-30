@@ -27,6 +27,7 @@ import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
 
 import android.app.AlertDialog;
@@ -36,6 +37,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -45,6 +47,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -174,6 +177,39 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         return true;
                     }
                 });
+
+        Preference dumpLogcatLog = findPreference("dump_logcat");
+        dumpLogcatLog.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                            Toast.makeText(PreferencesActivity.this,
+                                    R.string.dump_logcat_failure,
+                                    Toast.LENGTH_LONG).show();
+                            return true;
+                        }
+
+                        CharSequence timestamp = DateFormat.format(
+                                "yyyyMMdd_kkmmss", System.currentTimeMillis());
+                        String filename = Environment.getExternalStorageDirectory().getPath() + "/vlc_logcat_" + timestamp + ".log";
+                        try {
+                            Util.writeLogcat(filename);
+                            Toast.makeText(
+                                    PreferencesActivity.this,
+                                    String.format(
+                                            VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
+                                            filename), Toast.LENGTH_LONG)
+                                    .show();
+                        } catch (Exception e) {
+                            Toast.makeText(PreferencesActivity.this,
+                                    R.string.dump_logcat_failure,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                        return true;
+                    }
+                });
+
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
         int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;

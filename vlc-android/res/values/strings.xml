@@ -237,6 +237,9 @@
     <string name="set_locale_detail">Leave blank to reset</string>
     <string name="set_locale_popup">Quit and reset VLC for changes to take effect.</string>
     <string name="quit">Quit and restart application</string>
+    <string name="dump_logcat">Dump logcat log</string>
+    <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
+    <string name="dump_logcat_failure">Failed to dump logcat.</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

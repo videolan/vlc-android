@@ -126,6 +126,11 @@
                 android:enabled="true"
                 android:key="quit_app"
                 android:title="@string/quit" />
+
+            <Preference
+                android:enabled="true"
+                android:key="dump_logcat"
+                android:title="@string/dump_logcat" />
         </PreferenceScreen>
     </PreferenceCategory>
 
