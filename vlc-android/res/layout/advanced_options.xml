@@ -35,7 +35,6 @@
             android:layout_height="wrap_content" />
 
         <View
-            android:id="@+id/add_subtitle_divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#8FFF"
@@ -48,6 +47,15 @@
             android:layout_margin="10dp"
             android:background="@drawable/background_item"
             android:text="@string/subtitle_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/equalizer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_item"
+            android:text="@string/equalizer"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 

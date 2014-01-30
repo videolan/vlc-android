@@ -112,8 +112,8 @@ public class CommonDialogs {
             }
         }
 
-        View add_subtitle_divider = view.findViewById(R.id.add_subtitle_divider);
         TextView add_subtitle = (TextView)view.findViewById(R.id.add_subtitle);
+        TextView equalizer = (TextView)view.findViewById(R.id.equalizer);
         if(t == MenuType.Video) {
             add_subtitle.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -150,9 +150,17 @@ public class CommonDialogs {
                     dialog.dismiss();
                 }
             });
+            equalizer.setVisibility(View.GONE);
         } else {
+            final MainActivity activity = (MainActivity)context;
+            equalizer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.showNewFragment("equalizer");
+                    dialog.dismiss();
+                }
+            });
             add_subtitle.setVisibility(View.GONE);
-            add_subtitle_divider.setVisibility(View.GONE);
         }
 
         // show dialog
