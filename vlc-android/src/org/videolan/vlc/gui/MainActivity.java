@@ -20,6 +20,10 @@
 
 package org.videolan.vlc.gui;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
@@ -30,7 +34,9 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
+import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.SlidingPaneLayout;
@@ -108,6 +114,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mAudioPlayerFilling;
     private String mCurrentFragment;
     private String mPreviousFragment;
+    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer");
+    private HashMap<String, Fragment> mSecondaryFragments = new HashMap<String, Fragment>();
 
     private SharedPreferences mSettings;
 
@@ -375,10 +383,6 @@ public class MainActivity extends SherlockFragmentActivity {
         MediaLibrary.getInstance(this).stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
-        /* Do not save the albums songs fragment as the current fragment. */
-        if (mCurrentFragment.equals("albumsSongs")
-            || mCurrentFragment.equals("equalizer"))
-            mCurrentFragment = "audio";
         editor.putString("fragment", mCurrentFragment);
         editor.commit();
 
@@ -424,9 +428,8 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 
         // If it's the albums songs fragment, we leave it.
-        if (mCurrentFragment.equals("albumsSongs")
-            || mCurrentFragment.equals("equalizer")) {
-            popFragmentBackStack();
+        if (secondaryFragments.contains(mCurrentFragment)) {
+            popSecondaryFragment();
             return;
         }
 
@@ -464,9 +467,33 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     /**
-     * Show a new fragment.
+     * Fetch a secondary fragment.
+     * @param id the fragment id
+     * @return the fragment.
      */
-    public Fragment showNewFragment(String fragmentTag) {
+    public Fragment fetchSecondaryFragment(String id) {
+        if (mSecondaryFragments.containsKey(id)
+            && mSecondaryFragments.get(id) != null)
+            return mSecondaryFragments.get(id);
+
+        Fragment f;
+        if (id.equals("albumsSongs")) {
+            f = new AudioAlbumsSongsFragment();
+        } else if(id.equals("equalizer")) {
+            f = new EqualizerFragment();
+        }
+        else {
+            throw new IllegalArgumentException("Wrong fragment id.");
+        }
+        f.setRetainInstance(true);
+        mSecondaryFragments.put(id, f);
+        return f;
+    }
+
+    /**
+     * Show a secondary fragment.
+     */
+    public Fragment showSecondaryFragment(String fragmentTag) {
         // Slide down the audio player if needed.
         slideDownAudioPlayer();
 
@@ -474,19 +501,21 @@ public class MainActivity extends SherlockFragmentActivity {
         if (mCurrentFragment.equals(fragmentTag))
             return null;
 
-        mPreviousFragment = mCurrentFragment;
+        if (!secondaryFragments.contains(mCurrentFragment))
+            mPreviousFragment = mCurrentFragment;
+
         mCurrentFragment = fragmentTag;
-        Fragment frag = getFragment(mCurrentFragment);
+        Fragment frag = fetchSecondaryFragment(mCurrentFragment);
         ShowFragment(this, mCurrentFragment, frag);
         return frag;
     }
 
     /**
-     * Hide the albums songs fragment.
+     * Hide the current secondary fragment.
      */
-    public void popFragmentBackStack() {
+    public void popSecondaryFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStack();
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         mCurrentFragment = mPreviousFragment;
     }
 
@@ -559,7 +588,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
                 break;
             case R.id.ml_menu_equalizer:
-                showNewFragment("equalizer");
+                showSecondaryFragment("equalizer");
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
@@ -587,9 +616,8 @@ public class MainActivity extends SherlockFragmentActivity {
                 break;
             case android.R.id.home:
                 // If it's the albums songs view, a "backpressed" action shows .
-                if (mCurrentFragment.equals("albumsSongs")
-                    || mCurrentFragment.equals("equalizer")) {
-                    popFragmentBackStack();
+                if (secondaryFragments.contains(mCurrentFragment)) {
+                    popSecondaryFragment();
                     break;
                 }
                 /* Toggle the sidebar */

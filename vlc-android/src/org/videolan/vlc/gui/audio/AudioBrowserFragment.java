@@ -178,7 +178,7 @@ public class AudioBrowserFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<Media> mediaList = mArtistsAdapter.getMedia(p);
             MainActivity activity = (MainActivity)getActivity();
-            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showNewFragment("albumsSongs");
+            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             frag.setMediaList(mediaList, mediaList.get(0).getArtist());
         }
     };
@@ -196,7 +196,7 @@ public class AudioBrowserFragment extends SherlockFragment {
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<Media> mediaList = mGenresAdapter.getMedia(p);
             MainActivity activity = (MainActivity)getActivity();
-            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showNewFragment("albumsSongs");
+            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             frag.setMediaList(mediaList, mediaList.get(0).getGenre());
         }
     };
