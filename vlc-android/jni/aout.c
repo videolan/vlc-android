@@ -245,3 +245,14 @@ void aout_close(void *opaque)
     (*myVm)->DetachCurrentThread (myVm);
     free (p_sys);
 }
+
+int aout_get_native_sample_rate(void)
+{
+    JNIEnv *p_env;
+    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jclass cls = (*p_env)->FindClass (p_env, "android/media/AudioTrack");
+    jmethodID method = (*p_env)->GetStaticMethodID (p_env, cls, "getNativeOutputSampleRate", "(I)I");
+    int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
+    (*myVm)->DetachCurrentThread (myVm);
+    return sample_rate;
+}
