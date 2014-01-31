@@ -7,27 +7,27 @@
 
     <ImageView
         android:id="@+id/dvi_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|left"
-        android:layout_marginRight="5dip"
+        android:layout_width="@dimen/audio_browser_item_size"
+        android:layout_height="@dimen/audio_browser_item_size"
+        android:layout_gravity="center"
         android:contentDescription="@string/cover_art"
         android:src="@drawable/icon" />
 
     <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/cover"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingLeft="10dp" >
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:text="@string/title"
             android:textColor="@color/list_title"
             android:textSize="20sp" />
@@ -36,11 +36,11 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:text="@string/info"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="@string/artist"
             android:textColor="@color/list_subtitle"
             android:textSize="14sp" />
     </LinearLayout>
+
 </LinearLayout>
