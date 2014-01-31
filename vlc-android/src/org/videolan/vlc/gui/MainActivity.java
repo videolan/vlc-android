@@ -363,6 +363,8 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
             Log.d(TAG, "Reloading displayed fragment");
+            if (secondaryFragments.contains(mCurrentFragment))
+                mCurrentFragment = "video";
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_placeholder, ff, mCurrentFragment);
