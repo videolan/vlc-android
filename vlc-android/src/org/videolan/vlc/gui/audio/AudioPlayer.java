@@ -34,13 +34,11 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
+import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
+import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.interfaces.IAudioPlayer;
-import org.videolan.vlc.widget.AnimatedCoverView;
-import org.videolan.vlc.widget.AudioMediaSwitcher;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -67,8 +65,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     public static final String TAG = "VLC/AudioMiniPlayer";
 
     private ProgressBar mProgressBar;
-    private AudioMediaSwitcher mAudioMediaSwitcher;
-    private AnimatedCoverView mBigCover;
+    private HeaderMediaSwitcher mHeaderMediaSwitcher;
+    private CoverMediaSwitcher mCoverMediaSwitcher;
     private TextView mTime;
     private TextView mHeaderTime;
     private TextView mLength;
@@ -111,10 +109,11 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
         mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
 
-        mAudioMediaSwitcher = (AudioMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
-        mAudioMediaSwitcher.setAudioMediaSwitcherListener(mAudioMediaSwitcherListener);
+        mHeaderMediaSwitcher = (HeaderMediaSwitcher) v.findViewById(R.id.audio_media_switcher);
+        mHeaderMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
+        mCoverMediaSwitcher = (CoverMediaSwitcher) v.findViewById(R.id.cover_media_switcher);
+        mCoverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
 
-        mBigCover = (AnimatedCoverView) v.findViewById(R.id.big_cover);
         mTime = (TextView) v.findViewById(R.id.time);
         mHeaderTime = (TextView) v.findViewById(R.id.header_time);
         mLength = (TextView) v.findViewById(R.id.length);
@@ -300,12 +299,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             return;
         }
 
-        Bitmap cover = mAudioController.getCover();
-        if (cover == null)
-            cover = BitmapFactory.decodeResource(getResources(), R.drawable.cone);
-        mBigCover.setImageBitmap(cover);
-
-        mAudioMediaSwitcher.updateMedia();
+        mHeaderMediaSwitcher.updateMedia();
+        mCoverMediaSwitcher.updateMedia();
 
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(R.drawable.ic_pause);
@@ -502,7 +497,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         mHeaderTime.setVisibility(TextView.GONE);
     }
 
-    private final AudioMediaSwitcherListener mAudioMediaSwitcherListener = new AudioMediaSwitcherListener() {
+    private final AudioMediaSwitcherListener mHeaderMediaSwitcherListener = new AudioMediaSwitcherListener() {
 
         @Override
         public void onMediaSwitching() {}
@@ -525,4 +520,25 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             restoreHedaderButtonVisibilities();
         }
     };
+
+    private final AudioMediaSwitcherListener mCoverMediaSwitcherListener = new AudioMediaSwitcherListener() {
+
+        @Override
+        public void onMediaSwitching() {}
+
+        @Override
+        public void onMediaSwitched(int position) {
+            if (position == AudioMediaSwitcherListener.PREVIOUS_MEDIA)
+                mAudioController.previous();
+            else if (position == AudioMediaSwitcherListener.NEXT_MEDIA)
+                mAudioController.next();
+        }
+
+        @Override
+        public void onTouchDown() {}
+
+        @Override
+        public void onTouchUp() {}
+    };
+
 }

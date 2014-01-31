@@ -21,18 +21,14 @@
 package org.videolan.vlc.widget;
 
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
-public class AudioMediaSwitcher extends FlingViewGroup {
+public abstract class AudioMediaSwitcher extends FlingViewGroup {
 
     private AudioMediaSwitcherListener mAudioMediaSwitcherListener;
 
@@ -82,23 +78,7 @@ public class AudioMediaSwitcher extends FlingViewGroup {
             scrollTo(0);
     }
 
-    private void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
-        View v = inflater.inflate(R.layout.audio_media_switcher_item, this, false);
-
-        ImageView coverView = (ImageView) v.findViewById(R.id.cover);
-        TextView titleView = (TextView) v.findViewById(R.id.title);
-        TextView artistView = (TextView) v.findViewById(R.id.artist);
-
-        if (cover != null) {
-            coverView.setVisibility(VISIBLE);
-            coverView.setImageBitmap(cover);
-        }
-
-        titleView.setText(title);
-        artistView.setText(artist);
-
-        addView(v);
-    }
+    protected abstract void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover);
 
     private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
 

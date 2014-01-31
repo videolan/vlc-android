@@ -27,7 +27,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
-        <org.videolan.vlc.widget.AudioMediaSwitcher
+        <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
             android:id="@+id/audio_media_switcher"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -96,11 +96,11 @@
 	        android:layout_height="fill_parent"
 	        android:background="?attr/background_playlist" />
 
-	    <org.videolan.vlc.widget.AnimatedCoverView
-	        android:id="@+id/big_cover"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
-	        android:scaleType="centerCrop" />
+	    <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
+            android:id="@+id/cover_media_switcher"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
 	</ViewSwitcher>
 
     <LinearLayout
