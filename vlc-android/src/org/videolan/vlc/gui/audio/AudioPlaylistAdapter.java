@@ -41,12 +41,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AudioListAdapter extends ArrayAdapter<Media> {
+public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
 
-    public AudioListAdapter(Context context) {
+    public AudioPlaylistAdapter(Context context) {
         super(context, 0);
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;

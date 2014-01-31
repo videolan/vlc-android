@@ -150,7 +150,7 @@ public class AudioPlaylistView extends ListView {
         Rect rect = new Rect();
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
+            AudioPlaylistAdapter.ViewHolder holder = (AudioPlaylistAdapter.ViewHolder)child.getTag();
 
             if (holder.position == mPositionDragStart) {
                 holder.layoutItem.setVisibility(LinearLayout.GONE);
@@ -177,7 +177,7 @@ public class AudioPlaylistView extends ListView {
             child.getHitRect(rect);
             if (rect.contains(getWidth() / 2, (int)mTouchY)) {
                 // Send back the performed change thanks to the listener.
-                AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
+                AudioPlaylistAdapter.ViewHolder holder = (AudioPlaylistAdapter.ViewHolder)child.getTag();
                 if (mOnItemDraggedListener != null)
                     mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
                 b_foundHitChild = true;
@@ -193,7 +193,7 @@ public class AudioPlaylistView extends ListView {
 
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
-            AudioListAdapter.ViewHolder holder = (AudioListAdapter.ViewHolder)child.getTag();
+            AudioPlaylistAdapter.ViewHolder holder = (AudioPlaylistAdapter.ViewHolder)child.getTag();
             holder.layoutItem.setVisibility(LinearLayout.VISIBLE);
             holder.layoutFooter.setVisibility(LinearLayout.VISIBLE);
             holder.expansion.setVisibility(LinearLayout.GONE);

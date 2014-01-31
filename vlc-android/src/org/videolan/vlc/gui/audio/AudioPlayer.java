@@ -86,7 +86,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     private AudioServiceController mAudioController;
     private boolean mShowRemainingTime = false;
 
-    private AudioListAdapter mSongsListAdapter;
+    private AudioPlaylistAdapter mSongsListAdapter;
 
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
@@ -100,7 +100,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
         mAudioController = AudioServiceController.getInstance();
 
-        mSongsListAdapter = new AudioListAdapter(getActivity());
+        mSongsListAdapter = new AudioPlaylistAdapter(getActivity());
     }
 
     @Override
