@@ -44,4 +44,9 @@
         android:id="@+id/ml_menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
         android:title="@string/about" />
+    <item
+        android:title="@string/clear_history"
+        android:visible="false"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:id="@+id/search_clear_history" />
 </menu>

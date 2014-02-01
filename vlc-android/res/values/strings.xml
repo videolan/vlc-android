@@ -155,6 +155,8 @@
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played</string>
 
+    <string name="search">Search</string>
+
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">License</string>

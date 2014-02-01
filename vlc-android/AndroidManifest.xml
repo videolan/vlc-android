@@ -40,18 +40,6 @@
         <activity
             android:name=".gui.CompatErrorActivity" />
         <activity
-            android:name=".gui.SearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
             android:name=".gui.AboutActivity" />
         <activity
             android:name=".gui.PreferencesActivity" />

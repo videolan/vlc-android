@@ -114,7 +114,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private View mAudioPlayerFilling;
     private String mCurrentFragment;
     private String mPreviousFragment;
-    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer", "about");
+    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer",
+                                                            "about", "search");
     private HashMap<String, Fragment> mSecondaryFragments = new HashMap<String, Fragment>();
 
     private SharedPreferences mSettings;
@@ -485,6 +486,8 @@ public class MainActivity extends SherlockFragmentActivity {
             f = new EqualizerFragment();
         } else if(id.equals("about")) {
             f = new AboutFragment();
+        } else if(id.equals("search")) {
+            f = new SearchFragment();
         }
         else {
             throw new IllegalArgumentException("Wrong fragment id.");
@@ -544,6 +547,9 @@ public class MainActivity extends SherlockFragmentActivity {
             menu.findItem(R.id.ml_menu_sortby).setEnabled(false);
             menu.findItem(R.id.ml_menu_sortby).setVisible(false);
         }
+        // Enable the clear search history function for the search fragment.
+        if (mCurrentFragment.equals("search"))
+            menu.findItem(R.id.search_clear_history).setVisible(true);
         return true;
     }
 
@@ -555,9 +561,10 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onSearchRequested() {
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
-        return false;
+        if (mCurrentFragment.equals("search"))
+            ((SearchFragment)fetchSecondaryFragment("search")).onSearchKeyPressed();
+        showSecondaryFragment("search");
+        return true;
     }
 
     /**
@@ -632,6 +639,9 @@ public class MainActivity extends SherlockFragmentActivity {
                     mMenu.showContent();
                 else
                     mMenu.showMenu();
+                break;
+            case R.id.search_clear_history:
+                ((SearchFragment)fetchSecondaryFragment("search")).clearSearchHistory();
                 break;
         }
         return super.onOptionsItemSelected(item);
