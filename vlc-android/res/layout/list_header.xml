@@ -13,9 +13,4 @@
         android:textColor="?attr/font_default"
         android:textSize="16sp" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="?attr/background_menu_divider" />
-
 </LinearLayout>
