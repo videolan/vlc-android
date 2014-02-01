@@ -557,6 +557,7 @@ public class SlidingPaneLayout extends ViewGroup {
             mDragHelper.processTouchEvent(ev);
         }
         catch (IllegalArgumentException ex) { }
+        catch (ArrayIndexOutOfBoundsException ex) { }
 
         return true;
     }
