@@ -137,7 +137,7 @@ public class SearchFragment extends ListFragment {
     private void showSearchHistory() {
 
         // Add header to the history
-        String headerText = getString(R.string.history);
+        String headerText = getString(R.string.search_history);
         showListHeader(headerText);
 
         MediaDatabase db = MediaDatabase.getInstance(getActivity());
