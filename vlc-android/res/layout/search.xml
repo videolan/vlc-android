@@ -11,7 +11,7 @@
         android:paddingTop="5dip"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:background="@drawable/actionbar_background">
+        android:background="?attr/background_menu_divider">
         <ImageView
             android:layout_width="35dip"
             android:layout_height="35dip"
