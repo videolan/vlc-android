@@ -166,6 +166,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
                 onPlayPauseClick(v);
             }
         });
+        mHeaderPlayPause.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onStopClick(v);
+                return true;
+            }
+        });
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
