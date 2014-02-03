@@ -843,6 +843,16 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     /**
+     * Slide up and down the audio player depending on its current state.
+     */
+    public void slideUpOrDownAudioPlayer() {
+        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
+            mSlidingPane.openPane();
+        else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED)
+            mSlidingPane.closePane();
+    }
+
+    /**
      * Hide the audio player.
      */
     public void hideAudioPlayer() {

@@ -120,6 +120,8 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
 
         @Override
         public void onTouchClick() {
+            if (mAudioMediaSwitcherListener != null)
+                mAudioMediaSwitcherListener.onTouchClick();
         }
     };
 
@@ -139,5 +141,7 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
         void onTouchDown();
 
         void onTouchUp();
+
+        void onTouchClick();
     }
 }

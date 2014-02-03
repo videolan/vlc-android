@@ -526,6 +526,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         public void onTouchUp() {
             restoreHedaderButtonVisibilities();
         }
+
+        @Override
+        public void onTouchClick() {
+            MainActivity activity = (MainActivity)getActivity();
+            activity.slideUpOrDownAudioPlayer();
+        }
     };
 
     private final AudioMediaSwitcherListener mCoverMediaSwitcherListener = new AudioMediaSwitcherListener() {
@@ -546,6 +552,9 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
         @Override
         public void onTouchUp() {}
+
+        @Override
+        public void onTouchClick() {}
     };
 
 }
