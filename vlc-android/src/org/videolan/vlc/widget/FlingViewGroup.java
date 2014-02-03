@@ -45,6 +45,9 @@ public class FlingViewGroup extends ViewGroup {
 
     private float mLastX;
     private float mLastInterceptDownY;
+    private float mInitialMotionX;
+    private float mInitialMotionY;
+
     private ViewSwitchListener mViewSwitchListener;
 
     public FlingViewGroup(Context context, AttributeSet attrs) {
@@ -165,9 +168,12 @@ public class FlingViewGroup extends ViewGroup {
 
         final int action = event.getAction();
         final float x = event.getX();
+        final float y = event.getY();
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                mInitialMotionX = x;
+                mInitialMotionY = y;
                 if (!mScroller.isFinished())
                     mScroller.abortAnimation();
                 mLastX = x;
@@ -210,8 +216,15 @@ public class FlingViewGroup extends ViewGroup {
                     mVelocityTracker = null;
                 }
 
-                if (mViewSwitchListener != null)
+                if (mViewSwitchListener != null) {
                     mViewSwitchListener.onTouchUp();
+                    final float dx = x - mInitialMotionX;
+                    final float dy = y - mInitialMotionY;
+                    ViewConfiguration config = ViewConfiguration.get(getContext());
+                    final int slop = config.getScaledTouchSlop();
+                    if (dx * dx + dy * dy < slop * slop)
+                        mViewSwitchListener.onTouchClick();
+                }
 
                 break;
         }
@@ -270,6 +283,8 @@ public class FlingViewGroup extends ViewGroup {
         void onTouchDown();
 
         void onTouchUp();
+
+        void onTouchClick();
     }
 
 }

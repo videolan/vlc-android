@@ -328,6 +328,8 @@ public class AudioBrowserFragment extends SherlockFragment {
         @Override
         public void onTouchUp() {}
 
+        @Override
+        public void onTouchClick() {}
     };
 
     /**

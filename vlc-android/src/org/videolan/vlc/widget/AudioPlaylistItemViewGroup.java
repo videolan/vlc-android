@@ -51,6 +51,9 @@ public class AudioPlaylistItemViewGroup extends FlingViewGroup {
 
         @Override
         public void onTouchUp() { }
+
+        @Override
+        public void onTouchClick() { }
     };
 
     public void setOnItemSlidedListener(OnItemSlidedListener l) {

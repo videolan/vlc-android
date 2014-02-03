@@ -116,6 +116,8 @@ public class AboutFragment extends SherlockFragment {
             public void onTouchDown() {}
             @Override
             public void onTouchUp() {}
+            @Override
+            public void onTouchClick() {}
         });
 
         return v;
