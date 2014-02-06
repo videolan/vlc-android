@@ -28,6 +28,9 @@ import android.widget.SeekBar;
 
 public class VerticalSeekBar extends SeekBar {
 
+    private boolean mIsMovingThumb = false;
+    static private float THUMB_SLOP = 25;
+
     public VerticalSeekBar(Context context) {
         super(context);
     }
@@ -63,23 +66,49 @@ public class VerticalSeekBar extends SeekBar {
         onSizeChanged(getWidth(), getHeight(), 0, 0);
     }
 
+    private boolean isWithinThumb(MotionEvent event) {
+        final float progress = getProgress();
+        final float density = this.getResources().getDisplayMetrics().density;
+        final float height = getHeight();
+        final float y = event.getY();
+        final float max = getMax();
+        if (progress >= max - (int)(max * (y + THUMB_SLOP * density) / height)
+            && progress <= max - (int)(max * (y - THUMB_SLOP * density) / height))
+            return true;
+        else
+            return false;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnabled()) {
             return false;
         }
 
+        boolean handled = false;
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-                setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
-                onSizeChanged(getWidth(), getHeight(), 0, 0);
+                if (isWithinThumb(event)) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                    mIsMovingThumb = true;
+                    handled = true;
+                }
                 break;
-
+            case MotionEvent.ACTION_MOVE:
+                if (mIsMovingThumb) {
+                    setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+                    onSizeChanged(getWidth(), getHeight(), 0, 0);
+                    handled = true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                mIsMovingThumb = false;
+                handled = true;
                 break;
         }
-        return true;
+        return handled;
     }
 }

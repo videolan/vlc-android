@@ -77,17 +77,6 @@ public class EqualizerFragment extends SherlockFragment {
         preamp = (SeekBar) v.findViewById(R.id.equalizer_preamp);
         bands_layout = (LinearLayout) v.findViewById(R.id.equalizer_bands);
 
-        // only allow scroll in the lower 50dp part of the layout (where frequencies are displayed)
-        HorizontalScrollView scroll = (HorizontalScrollView) v.findViewById(R.id.equalizer_scroll);
-        final float density = this.getResources().getDisplayMetrics().density;
-        scroll.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int delta = v.getHeight() - (int) event.getY();
-                return delta > 50 * density;
-            }
-        });
-
         return v;
     }
 
