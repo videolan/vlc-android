@@ -93,13 +93,16 @@ public class EqualizerFragment extends SherlockFragment {
         rootView.addView(v);
         saveViewChildren(v);
 
-        onResume();
+        fillViews();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        fillViews();
+    }
 
+    private void fillViews() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         float[] bands = null;
         String[] presets = null;
