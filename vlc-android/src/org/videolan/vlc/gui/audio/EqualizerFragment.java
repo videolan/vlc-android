@@ -112,12 +112,14 @@ public class EqualizerFragment extends SherlockFragment {
 
         // presets
         equalizer_presets.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, presets));
-        equalizer_presets.setSelection(preferences.getInt("equalizer_preset", 0), false);
-        // set listener asynchronously to prevent the listener from being fired during spinner init
+        equalizer_presets.setOnItemSelectedListener(mPresetListener);
+
+        // Set the default selection asynchronously to prevent a layout initialization bug.
+        final int equalizer_preset_pref = preferences.getInt("equalizer_preset", 0);
         equalizer_presets.post(new Runnable() {
             @Override
             public void run() {
-                equalizer_presets.setOnItemSelectedListener(mPresetListener);
+                equalizer_presets.setSelection(equalizer_preset_pref, false);
             }
         });
 
