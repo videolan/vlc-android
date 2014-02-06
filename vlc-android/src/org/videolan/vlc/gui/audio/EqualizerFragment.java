@@ -29,7 +29,9 @@ import org.videolan.vlc.widget.EqualizerBar;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -71,13 +73,30 @@ public class EqualizerFragment extends SherlockFragment {
 
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.equalizer, container, false);
+        saveViewChildren(v);
 
+        return v;
+    }
+
+    private void saveViewChildren(View v) {
         button = (ToggleButton) v.findViewById(R.id.equalizer_button);
         equalizer_presets = (Spinner) v.findViewById(R.id.equalizer_presets);
         preamp = (SeekBar) v.findViewById(R.id.equalizer_preamp);
         bands_layout = (LinearLayout) v.findViewById(R.id.equalizer_bands);
+    }
 
-        return v;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.equalizer, null);
+        ViewGroup rootView = (ViewGroup) getView();
+        rootView.removeAllViews();
+        rootView.addView(v);
+        saveViewChildren(v);
+
+        onResume();
     }
 
     @Override

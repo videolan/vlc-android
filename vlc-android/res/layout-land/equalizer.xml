@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
@@ -16,18 +16,20 @@
 
         <Spinner
             android:id="@+id/equalizer_presets"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/equalizer_preamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="4dip"
-        android:minHeight="4dip"
-        android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/seekbar_thumb" />
+        <SeekBar
+            android:id="@+id/equalizer_preamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:maxHeight="4dip"
+            android:minHeight="4dip"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:thumb="@drawable/seekbar_thumb" />
+    </LinearLayout>
 
     <HorizontalScrollView
         android:id="@+id/equalizer_scroll"
