@@ -153,8 +153,9 @@ public class EqualizerFragment extends SherlockFragment {
             bar.setListener(new BandListener(i + 1));
 
             bands_layout.addView(bar);
-            LayoutParams params = bar.getLayoutParams();
-            params.height = LayoutParams.MATCH_PARENT;
+            LinearLayout.LayoutParams params =
+                    new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+                                                  LayoutParams.MATCH_PARENT, 1);
             bar.setLayoutParams(params);
         }
     }
