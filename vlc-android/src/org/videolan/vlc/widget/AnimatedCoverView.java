@@ -26,8 +26,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 
@@ -95,9 +95,9 @@ public class AnimatedCoverView extends View {
                         mCurrentMove == ANIMATION_MOVE_1 ? rect.bottom - scaledImageHeight : 0);
 
                 int animationDuration = scaledImageHeight == rect.bottom ?
-                        (scaledImageWidth - rect.right) * 15 : (scaledImageHeight - rect.bottom) * 15;
+                        (scaledImageWidth - rect.right) * 60 : (scaledImageHeight - rect.bottom) * 60;
                 mCurrentAnim.setDuration(animationDuration);
-                mCurrentAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+                mCurrentAnim.setInterpolator(new LinearInterpolator());
                 mCurrentAnim.initialize(mImage.getWidth(), mImage.getHeight(), rect.right, rect.bottom);
             }
 
