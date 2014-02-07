@@ -56,6 +56,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
+import android.app.Presentation;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,6 +71,7 @@ import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.MediaRouter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -111,6 +113,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private SurfaceHolder mSurfaceHolder;
     private SurfaceHolder mSubtitlesSurfaceHolder;
     private FrameLayout mSurfaceFrame;
+    private MediaRouter mMediaRouter;
+    private MediaRouter.SimpleCallback mMediaRouterCallback;
+    private SecondaryDisplay mPresentation;
     private LibVLC mLibVLC;
     private String mLocation;
 
@@ -334,11 +339,40 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         setRequestedOrientation(mScreenOrientation != 100
                 ? mScreenOrientation
                 : getScreenOrientation());
+
+        if (Util.isJellyBeanOrLater()) {
+            // Get the media router service (miracast)
+            mMediaRouter = (MediaRouter)getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
+                @Override
+                public void onRouteSelected(MediaRouter router, int type, MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRouteSelected: type=" + type + ", info=" + info);
+                    updatePresentation();
+                }
+
+                @Override
+                public void onRouteUnselected(MediaRouter router, int type, MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRouteUnselected: type=" + type + ", info=" + info);
+                    updatePresentation();
+                }
+
+                @Override
+                public void onRoutePresentationDisplayChanged(MediaRouter router, MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
+                    updatePresentation();
+                }
+            };
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        if (mMediaRouter != null) {
+            // Stop listening for changes to media routes.
+            mMediaRouter.removeCallback(mMediaRouterCallback);
+        }
 
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
@@ -400,6 +434,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     @Override
     protected void onStop() {
         super.onStop();
+
+        // Dismiss the presentation when the activity is not visible.
+        if (mPresentation != null) {
+            Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
+            mPresentation.dismiss();
+            mPresentation = null;
+        }
     }
 
     @Override
@@ -418,6 +459,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         super.onResume();
         mSwitchingView = false;
         AudioServiceController.getInstance().bindAudioService(this);
+
+        if (mMediaRouter != null) {
+            // Listen for changes to media routes.
+            mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
+        }
 
         load();
 
@@ -444,6 +490,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mLibVLC.addSubtitleTrack(file);
             }
         }
+
+        updatePresentation();
     }
 
     @Override
@@ -813,14 +861,28 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void changeSurfaceSize() {
+        int sw;
+        int sh;
+
         // get screen size
-        int sw = getWindow().getDecorView().getWidth();
-        int sh = getWindow().getDecorView().getHeight();
+        if (mPresentation == null) {
+            sw = getWindow().getDecorView().getWidth();
+            sh = getWindow().getDecorView().getHeight();
+        } else {
+            sw = mPresentation.getWindow().getDecorView().getWidth();
+            sh = mPresentation.getWindow().getDecorView().getHeight();
+        }
 
         double dw = sw, dh = sh;
+        boolean isPortrait;
 
-        // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
-        boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (mPresentation == null) {
+            // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
+            isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        } else {
+            isPortrait = false;
+        }
+
         if (sw > sh && isPortrait || sw < sh && !isPortrait) {
             dw = sh;
             dh = sw;
@@ -883,25 +945,45 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 break;
         }
 
+        SurfaceView surface;
+        SurfaceView subtitlesSurface;
+        SurfaceHolder surfaceHolder;
+        SurfaceHolder subtitlesSurfaceHolder;
+        FrameLayout surfaceFrame;
+
+        if (mPresentation == null) {
+            surface = mSurface;
+            subtitlesSurface = mSubtitlesSurface;
+            surfaceHolder = mSurfaceHolder;
+            subtitlesSurfaceHolder = mSubtitlesSurfaceHolder;
+            surfaceFrame = mSurfaceFrame;
+        } else {
+            surface = mPresentation.mSurface;
+            subtitlesSurface = mPresentation.mSubtitlesSurface;
+            surfaceHolder = mPresentation.mSurfaceHolder;
+            subtitlesSurfaceHolder = mPresentation.mSubtitlesSurfaceHolder;
+            surfaceFrame = mPresentation.mSurfaceFrame;
+        }
+
         // force surface buffer size
-        mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
-        mSubtitlesSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+        surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
+        subtitlesSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 
         // set display size
-        LayoutParams lp = mSurface.getLayoutParams();
+        LayoutParams lp = surface.getLayoutParams();
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
-        mSurface.setLayoutParams(lp);
-        mSubtitlesSurface.setLayoutParams(lp);
+        surface.setLayoutParams(lp);
+        subtitlesSurface.setLayoutParams(lp);
 
         // set frame size (crop if necessary)
-        lp = mSurfaceFrame.getLayoutParams();
+        lp = surfaceFrame.getLayoutParams();
         lp.width = (int) Math.floor(dw);
         lp.height = (int) Math.floor(dh);
-        mSurfaceFrame.setLayoutParams(lp);
+        surfaceFrame.setLayoutParams(lp);
 
-        mSurface.invalidate();
-        mSubtitlesSurface.invalidate();
+        surface.invalidate();
+        subtitlesSurface.invalidate();
     }
 
     /**
@@ -1259,6 +1341,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void onClick(View v) {
+
             if (mCurrentSize < SURFACE_ORIGINAL) {
                 mCurrentSize++;
             } else {
@@ -1347,7 +1430,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay the the default timeout
      */
     private void showOverlay() {
-        showOverlay(OVERLAY_TIMEOUT);
+        if (mPresentation == null)
+            showOverlay(OVERLAY_TIMEOUT);
+        else
+            showOverlay(OVERLAY_INFINITE); // Hack until we have fullscreen controls
     }
 
     /**
@@ -1378,6 +1464,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * hider overlay
      */
     private void hideOverlay(boolean fromUser) {
+        if (mPresentation != null)
+            return; // Hack until we have fullscreen controls
+
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
@@ -1741,5 +1830,119 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     public void showAdvancedOptions(View v) {
         CommonDialogs.advancedOptions(this, v, MenuType.Video);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void updatePresentation() {
+        if (mMediaRouter == null)
+            return;
+
+        // Get the current route and its presentation display.
+        MediaRouter.RouteInfo route = mMediaRouter.getSelectedRoute(
+            MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
+
+        Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
+
+        // Dismiss the current presentation if the display has changed.
+        if (mPresentation != null && mPresentation.getDisplay() != presentationDisplay) {
+            Log.i(TAG, "Dismissing presentation because the current route no longer "
+                    + "has a presentation display.");
+            mLibVLC.stop();
+            finish(); //TODO restore the video on the new display instead of closing
+            mPresentation.dismiss();
+            mPresentation = null;
+        }
+
+        // Show a new presentation if needed.
+        if (mPresentation == null && presentationDisplay != null) {
+            Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
+            mPresentation = new SecondaryDisplay(this, presentationDisplay);
+            mPresentation.setOnDismissListener(mOnDismissListener);
+            try {
+                mPresentation.show();
+            } catch (WindowManager.InvalidDisplayException ex) {
+                Log.w(TAG, "Couldn't show presentation!  Display was removed in "
+                        + "the meantime.", ex);
+                mPresentation = null;
+            }
+        }
+    }
+
+    /**
+     * Listens for when presentations are dismissed.
+     */
+    private final DialogInterface.OnDismissListener mOnDismissListener = new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            if (dialog == mPresentation) {
+                Log.i(TAG, "Presentation was dismissed.");
+                mPresentation = null;
+            }
+        }
+    };
+
+    private final static class SecondaryDisplay extends Presentation {
+        public final static String TAG = "VLC/SecondaryDisplay";
+
+        private Context mContext;
+        private SurfaceView mSurface;
+        private SurfaceView mSubtitlesSurface;
+        private SurfaceHolder mSurfaceHolder;
+        private SurfaceHolder mSubtitlesSurfaceHolder;
+        private FrameLayout mSurfaceFrame;
+        private LibVLC mLibVLC;
+
+        public SecondaryDisplay(Context context, Display display) {
+            super(context, display);
+            if (context instanceof Activity) {
+                setOwnerActivity((Activity) context);
+            }
+            mContext = context;
+
+            try {
+                mLibVLC = Util.getLibVlcInstance();
+            } catch (LibVlcException e) {
+                Log.d(TAG, "LibVLC initialisation failed");
+                return;
+            }
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.player_remote);
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+            mSurface = (SurfaceView) findViewById(R.id.remote_player_surface);
+            mSurfaceHolder = mSurface.getHolder();
+            mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
+            String chroma = pref.getString("chroma_format", "");
+            if(Util.isGingerbreadOrLater() && chroma.equals("YV12")) {
+                mSurfaceHolder.setFormat(ImageFormat.YV12);
+            } else if (chroma.equals("RV16")) {
+                mSurfaceHolder.setFormat(PixelFormat.RGB_565);
+            } else {
+                mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
+            }
+
+            VideoPlayerActivity activity = (VideoPlayerActivity)getOwnerActivity();
+            if (activity == null) {
+                Log.e(TAG, "Failed to get the VideoPlayerActivity instance, secondary display won't work");
+                return;
+            }
+
+            mSurfaceHolder.addCallback(activity.mSurfaceCallback);
+
+            mSubtitlesSurface = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
+            mSubtitlesSurfaceHolder = mSubtitlesSurface.getHolder();
+            mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
+            mSubtitlesSurface.setZOrderMediaOverlay(true);
+            mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
+
+            /* Only show the subtitles surface when using "Full Acceleration" mode */
+            if (mLibVLC != null && mLibVLC.getHardwareAcceleration() == 2)
+                mSubtitlesSurface.setVisibility(View.VISIBLE);
+        }
     }
 }
