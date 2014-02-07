@@ -748,11 +748,11 @@ public class SlidingPaneLayout extends ViewGroup {
             return;
         }
 
-        final int shadowWidth = mShadowDrawable.getIntrinsicWidth();
-        final int right = shadowView.getLeft();
-        final int top = shadowView.getTop();
-        final int bottom = shadowView.getBottom();
-        final int left = right - shadowWidth;
+        final int shadowHeight = mShadowDrawable.getIntrinsicHeight();
+        final int right = shadowView.getRight();
+        final int left = shadowView.getLeft();
+        final int bottom = shadowView.getTop();
+        final int top = bottom - shadowHeight;
         mShadowDrawable.setBounds(left, top, right, bottom);
         mShadowDrawable.draw(c);
     }

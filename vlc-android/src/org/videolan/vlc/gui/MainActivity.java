@@ -868,11 +868,14 @@ public class MainActivity extends SherlockFragmentActivity {
 
             @Override
             public void onPanelOpened() {
+                mSlidingPane.setShadowResource(R.drawable.mini_player_top_shadow);
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true);
             }
 
             @Override
-            public void onPanelOpenedEntirely() {}
+            public void onPanelOpenedEntirely() {
+                mSlidingPane.setShadowDrawable(null);
+            }
 
             @Override
             public void onPanelClosed() {
