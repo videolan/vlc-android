@@ -25,6 +25,7 @@ import org.videolan.vlc.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -132,6 +133,28 @@ public class AudioPlaylistView extends ListView {
             mDragShadow.draw(canvas);
             canvas.restore();
         }
+    }
+
+    @Override
+    public void draw(Canvas c) {
+        super.draw(c);
+
+        // Draw the top and bottom list shadows.
+        Drawable mShadowDrawable = getResources().getDrawable(R.drawable.audio_playlist_shadow);
+
+        final int shadowHeight = mShadowDrawable.getIntrinsicHeight();
+        final int right = getRight();
+        final int left = getLeft();
+        final int bottom = getBottom();
+        final int top = bottom - shadowHeight;
+
+        mShadowDrawable.setBounds(left, top, right, bottom);
+        mShadowDrawable.draw(c);
+
+        c.rotate(180, c.getWidth() / 2, c.getHeight() / 2);
+
+        mShadowDrawable.setBounds(left, top, right, bottom);
+        mShadowDrawable.draw(c);
     }
 
     public void startDrag(int positionDragStart, String title, String artist) {
