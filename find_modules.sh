@@ -7,6 +7,7 @@ then
 fi
 
 blacklist="
+addons.*
 stats
 access_(bd|shm|imem)
 oldrc
