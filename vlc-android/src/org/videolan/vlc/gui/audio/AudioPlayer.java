@@ -208,9 +208,9 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             public void onClick(View v) {
                 mSwitcher.showNext();
                 if (mSwitcher.getDisplayedChild() == 0)
-                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_switch_glow);
+                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_pressed);
                 else
-                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_switch);
+                    mPlaylistSwitch.setImageResource(R.drawable.ic_playlist_normal);
             }
         });
         mSongsList.setOnItemClickListener(new OnItemClickListener() {
@@ -321,20 +321,20 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {
-            mShuffle.setImageResource(R.drawable.ic_shuffle_glow);
+            mShuffle.setImageResource(R.drawable.ic_shuffle_pressed);
         } else {
-            mShuffle.setImageResource(R.drawable.ic_shuffle);
+            mShuffle.setImageResource(R.drawable.ic_shuffle_normal);
         }
         switch(mAudioController.getRepeatType()) {
         case None:
-            mRepeat.setImageResource(R.drawable.ic_repeat);
+            mRepeat.setImageResource(R.drawable.ic_repeat_normal);
             break;
         case Once:
             mRepeat.setImageResource(R.drawable.ic_repeat_one);
             break;
         default:
         case All:
-            mRepeat.setImageResource(R.drawable.ic_repeat_glow);
+            mRepeat.setImageResource(R.drawable.ic_repeat_pressed);
             break;
         }
         if (mAudioController.hasNext())
