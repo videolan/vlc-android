@@ -491,7 +491,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }
         }
 
-        updatePresentation();
+        if (Util.isJellyBeanOrLater()) {
+            updatePresentation();
+        }
     }
 
     @Override
