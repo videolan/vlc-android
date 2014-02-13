@@ -101,7 +101,7 @@
             android:background="#00ffffff"
             android:clickable="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_forward" />
+            android:src="@drawable/ic_wforward" />
     </LinearLayout>
 
 </RelativeLayout>

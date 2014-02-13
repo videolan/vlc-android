@@ -193,7 +193,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@+id/player_overlay_adv_function"
-                android:background="@drawable/ic_forward" />
+                android:background="@drawable/ic_wforward" />
 
             <ImageButton
                 android:id="@+id/player_overlay_adv_function"
