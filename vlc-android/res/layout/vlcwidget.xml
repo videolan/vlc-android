@@ -67,7 +67,7 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_backward" />
+                    android:src="@drawable/ic_wbackward" />
 
                 <ImageButton
                     android:id="@+id/play_pause"

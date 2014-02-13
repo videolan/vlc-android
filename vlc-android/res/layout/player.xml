@@ -146,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toRightOf="@+id/lock_overlay_button"
-                android:background="@drawable/ic_backward" />
+                android:background="@drawable/ic_wbackward" />
 
             <TextView
                 android:id="@+id/player_overlay_time"
