@@ -77,7 +77,7 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_play" />
+                    android:src="@drawable/ic_wplay" />
 
                 <ImageButton
                     android:id="@+id/stop"

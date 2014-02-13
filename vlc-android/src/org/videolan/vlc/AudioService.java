@@ -693,7 +693,7 @@ public class AudioService extends Service {
                     view.setImageViewBitmap(R.id.cover, cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
-                view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_wpause : R.drawable.ic_play);
+                view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_wpause : R.drawable.ic_wplay);
                 view.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view.setOnClickPendingIntent(R.id.forward, piForward);
                 view.setOnClickPendingIntent(R.id.stop, piStop);
@@ -705,7 +705,7 @@ public class AudioService extends Service {
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);
                 view_expanded.setTextViewText(R.id.album, album);
-                view_expanded.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_wpause : R.drawable.ic_play);
+                view_expanded.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_wpause : R.drawable.ic_wplay);
                 view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
                 view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
