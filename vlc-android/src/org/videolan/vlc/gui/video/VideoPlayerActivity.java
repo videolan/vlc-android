@@ -210,7 +210,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
 
     @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player);
@@ -340,7 +340,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 ? mScreenOrientation
                 : getScreenOrientation());
 
-        if (Util.isJellyBeanOrLater()) {
+        if (Util.isJellyBeanMR1OrLater()) {
             // Get the media router service (miracast)
             mMediaRouter = (MediaRouter)getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
@@ -491,7 +491,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }
         }
 
-        if (Util.isJellyBeanOrLater()) {
+        if (Util.isJellyBeanMR1OrLater()) {
             updatePresentation();
         }
     }
@@ -1834,7 +1834,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         CommonDialogs.advancedOptions(this, v, MenuType.Video);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void updatePresentation() {
         if (mMediaRouter == null)
             return;
@@ -1883,6 +1883,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     };
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private final static class SecondaryDisplay extends Presentation {
         public final static String TAG = "VLC/SecondaryDisplay";
 
