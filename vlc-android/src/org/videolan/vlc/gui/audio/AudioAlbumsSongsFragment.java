@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaLibrary;
@@ -46,15 +47,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.TabHost;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
@@ -102,6 +103,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
     }
 
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         updateList();
@@ -340,7 +342,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         @Override
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         public void onPopupMenu(View anchor, final int position) {
-            if (!Util.isHoneycombOrLater()) {
+            if (!LibVlcUtil.isHoneycombOrLater()) {
                 // Call the "classic" context menu
                 anchor.performLongClick();
                 return;

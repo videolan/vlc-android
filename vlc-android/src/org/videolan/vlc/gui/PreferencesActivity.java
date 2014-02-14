@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.BitmapCache;
@@ -212,18 +213,18 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
-        int aoutEntriesId = Util.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
-        int aoutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
+        int aoutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
+        int aoutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
         aoutPref.setEntries(aoutEntriesId);
         aoutPref.setEntryValues(aoutEntriesIdValues);
         if (aoutPref.getValue() == null)
-            aoutPref.setValue(Util.isGingerbreadOrLater()
+            aoutPref.setValue(LibVlcUtil.isGingerbreadOrLater()
                     ? "2"/*AOUT_OPENSLES*/
                             : "0"/*AOUT_AUDIOTRACK_JAVA*/);
         // Video output
         ListPreference voutPref = (ListPreference) findPreference("vout");
-        int voutEntriesId = Util.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
-        int voutEntriesIdValues = Util.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
+        int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
+        int voutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
         voutPref.setEntries(voutEntriesId);
         voutPref.setEntryValues(voutEntriesIdValues);
         if (voutPref.getValue() == null)

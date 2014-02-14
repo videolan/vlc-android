@@ -106,7 +106,7 @@ public class AudioUtil {
 
     @SuppressLint("NewApi")
     public static void prepareCacheFolder(Context context) {
-        if (Util.isFroyoOrLater() && Util.hasExternalStorage() && context.getExternalCacheDir() != null)
+        if (LibVlcUtil.isFroyoOrLater() && Util.hasExternalStorage() && context.getExternalCacheDir() != null)
             CACHE_DIR = context.getExternalCacheDir().getPath();
         else
             CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + context.getPackageName() + "/cache";

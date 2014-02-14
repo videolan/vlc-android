@@ -41,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 
 import android.content.Context;
@@ -69,7 +70,8 @@ public class Util {
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = isICSOrLater() && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        hasNavBar = LibVlcUtil.isICSOrLater()
+                && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
     }
 
     public static LibVLC getLibVlcInstance() throws LibVlcException {
@@ -390,36 +392,6 @@ public class Util {
                 TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 VLCApplication.getAppResources().getDisplayMetrics())
                          );
-    }
-
-    public static boolean isFroyoOrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO;
-    }
-
-    public static boolean isGingerbreadOrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-    }
-
-    public static boolean isHoneycombOrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
-    }
-
-    public static boolean isICSOrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    }
-
-    public static boolean isJellyBeanOrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
-    }
-
-    public static boolean isJellyBeanMR1OrLater()
-    {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES. JELLY_BEAN_MR1;
     }
 
     public static boolean hasExternalStorage() {

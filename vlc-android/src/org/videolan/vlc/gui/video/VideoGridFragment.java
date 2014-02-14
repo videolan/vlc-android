@@ -26,6 +26,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.android.ui.SherlockGridFragment;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaDatabase;
@@ -326,7 +327,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onContextPopupMenu(View anchor, final int position) {
-        if (!Util.isHoneycombOrLater()) {
+        if (!LibVlcUtil.isHoneycombOrLater()) {
             // Call the "classic" context menu
             anchor.performLongClick();
             return;
