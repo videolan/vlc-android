@@ -227,7 +227,7 @@ cd contrib/android
     --disable-upnp \
     --disable-gme \
     --disable-tremor \
-    --disable-vorbis \
+    --enable-vorbis \
     --disable-sidplay2 \
     --disable-samplerate \
     --disable-faad2 \
