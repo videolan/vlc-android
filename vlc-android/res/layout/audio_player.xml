@@ -173,7 +173,7 @@
             android:contentDescription="@string/previous"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_backward" />
+            android:src="@drawable/ic_previous" />
 
         <ImageButton
             android:id="@+id/play_pause"
@@ -195,7 +195,7 @@
             android:contentDescription="@string/next"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_forward" />
+            android:src="@drawable/ic_next" />
 
         <ImageButton
             android:id="@+id/repeat"

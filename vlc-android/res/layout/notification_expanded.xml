@@ -79,7 +79,7 @@
             android:background="#00ffffff"
             android:clickable="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_wbackward" />
+            android:src="@drawable/ic_wprevious" />
 
         <ImageButton
             android:id="@+id/play_pause"
@@ -101,7 +101,7 @@
             android:background="#00ffffff"
             android:clickable="true"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_wforward" />
+            android:src="@drawable/ic_wnext" />
     </LinearLayout>
 
 </RelativeLayout>
