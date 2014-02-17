@@ -14,25 +14,12 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_pause_glow.svg"
+   sodipodi:docname="ic_pause_pressed.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
      id="defs4684">
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4696"
-       x="-0.36000001"
-       width="1.72"
-       y="-0.36000001"
-       height="1.72">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.24837"
-         id="feGaussianBlur4698" />
-    </filter>
     <filter
        color-interpolation-filters="sRGB"
        inkscape:collect="always"
@@ -46,6 +33,19 @@
          stdDeviation="11.24837"
          id="feGaussianBlur4698-4" />
     </filter>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter7490"
+       x="-0.35999858"
+       width="1.7199972"
+       y="-0.36000142"
+       height="1.7200028">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="11.250182"
+         id="feGaussianBlur7492" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -55,15 +55,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="4.441635"
+     inkscape:cx="-16.808365"
      inkscape:cy="75.317769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-width="1680"
+     inkscape:window-height="1026"
+     inkscape:window-x="1920"
+     inkscape:window-y="54"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -83,30 +83,40 @@
      id="layer1"
      transform="translate(0,-922.36218)">
     <g
-       transform="translate(-957.50064,302.49978)"
-       id="g4739">
-      <rect
-         style="fill:#ff8800;fill-opacity:1;stroke:none;filter:url(#filter4696-8)"
-         id="rect4716"
-         width="74.989136"
-         height="74.989136"
-         x="647.36206"
-         y="-1144.9312"
-         transform="matrix(0,1,-1,0,-84.935949,0.00577164)" />
-      <rect
-         style="opacity:0.9;fill:#1e1e1e;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect4644"
-         width="29.997608"
-         height="75.000923"
-         x="984.99988"
-         y="647.36194" />
-      <rect
-         y="647.36194"
-         x="1030.0038"
-         height="75.000923"
-         width="29.997608"
-         id="rect4646"
-         style="opacity:0.9;fill:#1e1e1e;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       transform="translate(-877.50064,502.49978)"
+       id="g7507">
+      <g
+         style="fill:#ff8800;fill-opacity:1;stroke:none;filter:url(#filter7490)"
+         transform="translate(1.4709462e-7,-100)"
+         id="g7478">
+        <path
+           inkscape:connector-curvature="0"
+           id="rect7480"
+           d="m 904.99988,547.36194 29.99761,0 0,75.00092 -29.99761,0 z"
+           style="opacity:0.9;fill:#ff8800;fill-opacity:1;stroke:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="rect7482"
+           d="m 950.00378,547.36194 29.99761,0 0,75.00092 -29.99761,0 z"
+           style="opacity:0.9;fill:#ff8800;fill-opacity:1;stroke:none" />
+      </g>
+      <g
+         id="g7497">
+        <rect
+           y="447.36194"
+           x="904.99988"
+           height="75.000923"
+           width="29.997608"
+           id="rect4644-7"
+           style="opacity:0.9;fill:#1e1e1e;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        <rect
+           style="opacity:0.9;fill:#1e1e1e;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect4646-3"
+           width="29.997608"
+           height="75.000923"
+           x="950.00378"
+           y="447.36194" />
+      </g>
     </g>
   </g>
 </svg>
