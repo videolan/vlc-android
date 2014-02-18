@@ -58,6 +58,22 @@ void jni_UnlockAndroidSurface() {
     pthread_mutex_unlock(&vout_android_lock);
 }
 
+void jni_EventHardwareAccelerationError()
+{
+    if (vout_android_gui == NULL)
+        return;
+
+    JNIEnv *env;
+    (*myVm)->AttachCurrentThread(myVm, &env, NULL);
+
+    jclass cls = (*env)->GetObjectClass(env, vout_android_gui);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "eventHardwareAccelerationError", "()V");
+    (*env)->CallVoidMethod(env, vout_android_gui, methodId);
+
+    (*env)->DeleteLocalRef(env, cls);
+    (*myVm)->DetachCurrentThread(myVm);
+}
+
 void jni_SetAndroidSurfaceSizeEnv(JNIEnv *p_env, int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
 {
     if (vout_android_gui == NULL)
