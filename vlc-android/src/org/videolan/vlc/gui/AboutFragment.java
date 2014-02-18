@@ -96,6 +96,7 @@ public class AboutFragment extends SherlockFragment {
         addNewTab(mTabHost, "licence", getResources().getString(R.string.licence));
 
         mTabHost.setCurrentTab(mCurrentTab);
+        mFlingViewGroup.snapToScreen(mCurrentTab);
 
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override

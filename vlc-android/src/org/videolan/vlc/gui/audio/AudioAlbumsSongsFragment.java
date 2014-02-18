@@ -135,6 +135,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         addNewTab(mTabHost, "songs", "Songs");
 
         mTabHost.setCurrentTab(mCurrentTab);
+        mFlingViewGroup.snapToScreen(mCurrentTab);
 
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
