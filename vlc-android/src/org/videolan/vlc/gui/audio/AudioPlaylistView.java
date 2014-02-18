@@ -151,7 +151,7 @@ public class AudioPlaylistView extends ListView {
         mShadowDrawable.setBounds(left, top, right, bottom);
         mShadowDrawable.draw(c);
 
-        c.rotate(180, c.getWidth() / 2, c.getHeight() / 2);
+        c.rotate(180, getWidth() / 2, getHeight() / 2);
 
         mShadowDrawable.setBounds(left, top, right, bottom);
         mShadowDrawable.draw(c);
