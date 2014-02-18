@@ -94,6 +94,8 @@ public class EventHandler {
     public static final int CustomMediaListItemDeleted        = 0x2003;
     public static final int CustomMediaListItemMoved          = 0x2004;
 
+    public static final int HardwareAccelerationError         = 0x3000;
+
     private ArrayList<Handler> mEventHandler;
     private static EventHandler mInstance;
 
