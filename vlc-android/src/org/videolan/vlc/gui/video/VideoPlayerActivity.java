@@ -210,6 +210,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     private ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
 
+    // Whether fallback from HW acceleration to SW decoding was done.
+    private boolean mDisabledHardwareAcceleration = false;
+    private int mPreviousHardwareAccelerationMode;
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -451,6 +455,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         EventHandler em = EventHandler.getInstance();
         em.removeHandler(eventHandler);
+
+        // HW acceleration was temporarily disabled because of an error, restore the previous value.
+        if (mDisabledHardwareAcceleration)
+            mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
 
         mAudioManager = null;
     }
@@ -774,6 +782,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     Log.i(TAG, "MediaPlayerEncounteredError");
                     activity.encounteredError();
                     break;
+                case EventHandler.HardwareAccelerationError:
+                    Log.i(TAG, "HardwareAccelerationError");
+                    activity.handleHardwareAccelerationError();
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
@@ -850,6 +862,35 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         })
         .setTitle(R.string.encountered_error_title)
         .setMessage(R.string.encountered_error_message)
+        .create();
+        dialog.show();
+    }
+
+    public void eventHardwareAccelerationError() {
+        EventHandler em = EventHandler.getInstance();
+        em.callback(EventHandler.HardwareAccelerationError, new Bundle());
+    }
+
+    private void handleHardwareAccelerationError() {
+        mLibVLC.stop();
+        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                mDisabledHardwareAcceleration = true;
+                mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
+                mLibVLC.setHardwareAcceleration(0);
+                load();
+            }
+        })
+        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        })
+        .setTitle(R.string.hardware_acceleration_error_title)
+        .setMessage(R.string.hardware_acceleration_error_message)
         .create();
         dialog.show();
     }
