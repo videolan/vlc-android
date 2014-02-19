@@ -85,13 +85,24 @@
         <item name="android:textColor">@color/action_bar_title</item>
     </style>
 
-    <style name="Theme.VLC.AlertMenu" parent="android:Theme.Dialog">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
+    <!-- Advanced options menu styles -->
+
+    <style name="Theme.VLC.AdvancedOptions" parent="@android:style/Theme.Dialog">
+      <item name="android:windowIsFloating">true</item>
+      <item name="android:backgroundDimEnabled">false</item>
+      <item name="android:windowIsTranslucent">false</item>
+      <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.VLC.AdvancedOptionsAudio" parent="Theme.VLC.AdvancedOptions">
+      <item name="android:windowBackground">@drawable/advanced_options_audio_background</item>
+      <item name="android:textColor">@color/black</item>
+      <item name="advanced_options_divider">@color/darkgrey</item>
+    </style>
+
+    <style name="Theme.VLC.AdvancedOptionsVideo" parent="Theme.VLC.AdvancedOptions">
+      <item name="android:windowBackground">@drawable/advanced_options_video_background</item>
+      <item name="android:textColor">@color/white</item>
+      <item name="advanced_options_divider">@color/white</item>
     </style>
 </resources>

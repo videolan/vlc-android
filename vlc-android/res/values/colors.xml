@@ -17,7 +17,9 @@
     <color name="darkorange">#ff8800</color>
     <color name="darkerorange">#ff7200</color>
     <color name="black">#000001</color>
+    <color name="white">#FFFFFF</color>
     <color name="transparent_gray">#8000</color>
     <color name="action_bar_title">#FFFFFF</color>
+    <color name="darkgrey">#ffa0a0a0</color>
 
 </resources>

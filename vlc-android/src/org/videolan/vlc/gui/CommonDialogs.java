@@ -25,14 +25,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.interfaces.OnExpandableListener;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,9 +39,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.LinearLayout;
@@ -87,17 +84,16 @@ public class CommonDialogs {
     }
 
     public static void advancedOptions(final Context context, View v, MenuType t) {
-        LayoutInflater inflater = LayoutInflater.from(VLCApplication.getAppContext());
-        View view = inflater.inflate(R.layout.advanced_options, null);
 
-        // build dialog
-        Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.Theme_VLC_AlertMenu))
-                .setView(view);
-        final AlertDialog dialog = builder.create();
+        int style = t == MenuType.Video ?
+                R.style.Theme_VLC_AdvancedOptionsVideo : R.style.Theme_VLC_AdvancedOptionsAudio;
+
+        final Dialog dialog = new Dialog(context, style);
+        dialog.setContentView(R.layout.advanced_options);
         dialog.setCanceledOnTouchOutside(true);
 
         // register listener on each ExpandableLayout in advanced_layout
-        LinearLayout advanced_layout = (LinearLayout) view.findViewById(R.id.advanced_layout);
+        LinearLayout advanced_layout = (LinearLayout) dialog.findViewById(R.id.advanced_layout);
         OnExpandableListener mExpandableListener = new OnExpandableListener() {
             @Override
             public void onDismiss() {
@@ -112,8 +108,8 @@ public class CommonDialogs {
             }
         }
 
-        TextView add_subtitle = (TextView)view.findViewById(R.id.add_subtitle);
-        TextView equalizer = (TextView)view.findViewById(R.id.equalizer);
+        TextView add_subtitle = (TextView)dialog.findViewById(R.id.add_subtitle);
+        TextView equalizer = (TextView)dialog.findViewById(R.id.equalizer);
         if(t == MenuType.Video) {
             add_subtitle.setOnClickListener(new View.OnClickListener() {
                 @Override
