@@ -1660,7 +1660,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (getIntent().getData() != null
                     && getIntent().getData().getScheme() != null
                     && getIntent().getData().getScheme().equals("content")) {
-                if(getIntent().getData().getHost().equals("media")) {
+                if(getIntent().getData().getHost().equals("media") || getIntent().getData().getHost().equals("mms")) {
                     // Media URI
                     Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
                     int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
