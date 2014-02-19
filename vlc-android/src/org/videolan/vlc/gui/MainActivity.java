@@ -180,12 +180,11 @@ public class MainActivity extends SherlockFragmentActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         // Set up the sliding menu
-        setContentView(R.layout.sliding_menu);
-        mMenu = (SlidingMenu) findViewById(R.id.sliding_menu);
+        mMenu = (SlidingMenu) LayoutInflater.from(this).inflate(R.layout.sliding_menu, null);
         changeMenuOffset();
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
-        mMenu.setContent(v_main);
+        setContentView(v_main);
 
         mSlidingPane = (SlidingPaneLayout) v_main.findViewById(R.id.pane);
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
@@ -196,6 +195,7 @@ public class MainActivity extends SherlockFragmentActivity {
         mSidebarAdapter = new SidebarAdapter();
         listView.setAdapter(mSidebarAdapter);
         mMenu.setMenu(sidebar);
+        mMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT, true);
 
         /* Initialize UI variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
@@ -864,7 +864,12 @@ public class MainActivity extends SherlockFragmentActivity {
         = new SlidingPaneLayout.PanelSlideListener() {
 
             @Override
-            public void onPanelSlide(float slideOffset) {}
+            public void onPanelSlide(float slideOffset) {
+                if (slideOffset <= 0.1)
+                    getSupportActionBar().hide();
+                else
+                    getSupportActionBar().show();
+            }
 
             @Override
             public void onPanelOpened() {

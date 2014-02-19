@@ -882,13 +882,13 @@ public class SlidingPaneLayout extends ViewGroup {
                     }
                 }
             }
-            else if (mPanelSlideListener != null)
-                    mPanelSlideListener.onPanelSlide(mSlideOffset);
         }
 
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             onPanelDragged(top);
+            if (mPanelSlideListener != null)
+                mPanelSlideListener.onPanelSlide(mSlideOffset);
             invalidate();
         }
 

@@ -11,6 +11,11 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/actionbar_background" />
+
         <FrameLayout
             android:id="@+id/fragment_placeholder"
             android:layout_width="fill_parent"
