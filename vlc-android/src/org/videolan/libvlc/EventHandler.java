@@ -35,7 +35,7 @@ public class EventHandler {
     //public static final int MediaMetaChanged                = 0;
     //public static final int MediaSubItemAdded               = 1;
     //public static final int MediaDurationChanged            = 2;
-    //public static final int MediaParsedChanged              = 3;
+    public static final int MediaParsedChanged                = 3;
     //public static final int MediaFreed                      = 4;
     //public static final int MediaStateChanged               = 5;
 

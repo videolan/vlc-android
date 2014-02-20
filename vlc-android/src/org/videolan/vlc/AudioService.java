@@ -401,6 +401,9 @@ public class AudioService extends Service {
             if(service == null) return;
 
             switch (msg.getData().getInt("event")) {
+                case EventHandler.MediaParsedChanged:
+                    Log.i(TAG, "MediaParsedChanged");
+                    break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     service.executeUpdate();

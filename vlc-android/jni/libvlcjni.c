@@ -370,7 +370,6 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
 
-
     /* Keep a pointer to this media player */
     setLong(env, thiz, "mInternalMediaPlayerInstance", (jlong)(intptr_t)mp);
 
@@ -395,6 +394,14 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
     }
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
+
+    /* Connect the media event manager. */
+    libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
+    static const libvlc_event_type_t mp_media_events[] = {
+        libvlc_MediaParsedChanged
+    };
+    for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
+        libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, myVm);
 
     libvlc_media_player_set_media(mp, p_md);
     libvlc_media_player_play(mp);

@@ -51,6 +51,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 
 import android.annotation.TargetApi;
@@ -747,8 +748,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         public void handleMessage(Message msg) {
             VideoPlayerActivity activity = getOwner();
             if(activity == null) return;
+            // Do not handle events if we are leaving the VideoPlayerActivity
+            if (activity.mSwitchingView) return;
 
             switch (msg.getData().getInt("event")) {
+                case EventHandler.MediaParsedChanged:
+                    Log.i(TAG, "MediaParsedChanged");
+                    if (activity.mLibVLC.getVideoTracksCount() < 1) {
+                        Log.i(TAG, "No video track, open in audio mode");
+                        activity.switchToAudioMode();
+                    }
+                    break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
                     activity.showOverlay();
@@ -902,6 +912,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mSwitchingView = true;
             finish();
         }
+    }
+
+    private void switchToAudioMode() {
+        mSwitchingView = true;
+        // Show the MainActivity if it is not in background.
+        if (getIntent().getAction() != null
+            && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
+        finish();
     }
 
     private void changeSurfaceSize() {
