@@ -1181,6 +1181,7 @@ public class AudioService extends Service {
             // Notify everyone
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
+            determinePrevAndNextIndices();
             executeUpdate();
             executeUpdateProgress();
         }
