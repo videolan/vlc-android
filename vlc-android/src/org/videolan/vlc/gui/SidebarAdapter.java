@@ -30,6 +30,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -76,8 +77,8 @@ public class SidebarAdapter extends BaseAdapter {
         entries = Arrays.asList(entries2);
     }
 
-    public SidebarAdapter() {
-        mInflater = LayoutInflater.from(VLCApplication.getAppContext());
+    public SidebarAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
         mFragments = new HashMap<String, Fragment>(entries.size());
     }
 
