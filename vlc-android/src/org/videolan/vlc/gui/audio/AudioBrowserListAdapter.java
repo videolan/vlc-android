@@ -130,6 +130,29 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         mItems.add(item);
     }
 
+    /**
+     * Remove all the reference to a media in the list items.
+     * Remove also all the list items that contain only this media.
+     * @param media the media to remove
+     */
+    public void removeMedia(Media media) {
+        for (int i = 0; i < mItems.size(); ++i) {
+            ListItem item = mItems.get(i);
+            if (item.mMediaList == null)
+                continue;
+            for (int j = 0; j < item.mMediaList.size(); ++j)
+                if (item.mMediaList.get(j).getLocation().equals(media.getLocation())) {
+                    item.mMediaList.remove(j);
+                    j--;
+                }
+            if (item.mMediaList.isEmpty() && !item.mIsSeparator) {
+                mItems.remove(i);
+                i--;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public void clear() {
         mMediaItemMap.clear();
         mItems.clear();
