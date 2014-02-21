@@ -40,7 +40,7 @@ public class SpeedSelector extends ExpandableLayout {
     public SpeedSelector(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTitle(R.string.playback_speed);
-        setIcon(R.drawable.ic_forward_normal);
+        setIconAttribute(R.attr.ic_speed_normal_style);
         setContent(context, R.layout.expandable_speed_selector);
 
         mSeekbar = (SeekBar) findViewById(R.id.speed_seek_bar);

@@ -82,11 +82,13 @@
       <item name="android:windowBackground">@drawable/advanced_options_audio_background</item>
       <item name="android:textColor">@color/black</item>
       <item name="advanced_options_divider">@color/darkgrey</item>
+      <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
     </style>
 
     <style name="Theme.VLC.AdvancedOptionsVideo" parent="Theme.VLC.AdvancedOptions">
       <item name="android:windowBackground">@drawable/advanced_options_video_background</item>
       <item name="android:textColor">@color/white</item>
       <item name="advanced_options_divider">@color/white</item>
+      <item name="ic_speed_normal_style">@drawable/ic_wspeed_normal</item>
     </style>
 </resources>
