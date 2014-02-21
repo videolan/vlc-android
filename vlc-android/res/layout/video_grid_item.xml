@@ -41,14 +41,14 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textSize="12sp"
-            android:textColor="@color/list_title" />
+            android:textColor="?attr/list_title" />
         <TextView
             android:id="@+id/ml_item_subtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="10sp"
-            android:textColor="@color/list_subtitle" />
+            android:textColor="?attr/list_subtitle" />
     </LinearLayout>
     <ImageView
         android:id="@+id/item_more"

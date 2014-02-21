@@ -64,7 +64,7 @@
                         android:layout_marginTop="5dip"
                         android:singleLine="true"
                         android:text="@string/title"
-                        android:textColor="@color/list_title"
+                        android:textColor="?attr/list_title"
                         android:textSize="16sp" />
 
                     <TextView
@@ -76,7 +76,7 @@
                         android:layout_marginRight="5dip"
                         android:singleLine="true"
                         android:text="@string/artist"
-                        android:textColor="@color/list_subtitle"
+                        android:textColor="?attr/list_subtitle"
                         android:textSize="11sp" />
                 </LinearLayout>
 

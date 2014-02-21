@@ -32,6 +32,10 @@
         <item name="audio_player_header_time">@color/darkorange</item>
         <item name="font_default">@color/font_default</item>
         <item name="font_light">@color/font_light</item>
+        <item name="list_menu">@color/list_menu</item>
+        <item name="list_subtitle">@color/list_subtitle</item>
+        <item name="list_title_last">@color/list_title_last</item>
+        <item name="list_title">@color/list_title</item>
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 

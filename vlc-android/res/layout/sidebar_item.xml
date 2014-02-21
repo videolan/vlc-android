@@ -9,6 +9,6 @@
     android:padding="13dip"
     android:drawableLeft="@drawable/icon"
     android:text="@string/title"
-    android:textColor="@color/list_menu"
+    android:textColor="?attr/list_menu"
     android:textSize="20sp"
     android:gravity="center" />
