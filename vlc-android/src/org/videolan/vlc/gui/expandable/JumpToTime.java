@@ -46,7 +46,7 @@ public class JumpToTime extends ExpandableLayout {
     public JumpToTime(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTitle(R.string.jump_to_time);
-        setIcon(R.drawable.ic_menu_goto);
+        setIconAttribute(R.attr.ic_jumpto_normal_style);
         setContent(context, R.layout.expandable_jump_to_time);
 
         mHourWheel = (WheelView) findViewById(R.id.hour);

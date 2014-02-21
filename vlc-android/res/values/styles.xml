@@ -84,6 +84,7 @@
       <item name="advanced_options_divider">@color/darkgrey</item>
       <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
       <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
+      <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
     </style>
 
     <style name="Theme.VLC.AdvancedOptionsVideo" parent="Theme.VLC.AdvancedOptions">
@@ -92,5 +93,6 @@
       <item name="advanced_options_divider">@color/white</item>
       <item name="ic_speed_normal_style">@drawable/ic_wspeed_normal</item>
       <item name="ic_sleep_normal_style">@drawable/ic_wsleep_normal</item>
+      <item name="ic_jumpto_normal_style">@drawable/ic_wjumpto_normal</item>
     </style>
 </resources>
