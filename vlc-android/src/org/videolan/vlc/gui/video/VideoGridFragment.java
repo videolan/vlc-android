@@ -276,8 +276,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
         Media media = mVideoAdapter.getItem(position);
-        if (media instanceof MediaGroup)
-            return true;
         switch (menu.getItemId())
         {
         case R.id.video_list_play:
@@ -314,6 +312,11 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        // Do not show the menu of media group.
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
+        Media media = mVideoAdapter.getItem(info.position);
+        if (media instanceof MediaGroup)
+            return;
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.video_list, menu);
     }
