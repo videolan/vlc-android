@@ -39,6 +39,7 @@ import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.interfaces.ISortable;
 
 import android.annotation.TargetApi;
@@ -289,9 +290,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             playAudio(media);
             return true;
         case R.id.video_list_info:
-            Intent intent = new Intent(getActivity(), MediaInfoActivity.class);
-            intent.putExtra("itemLocation", media.getLocation());
-            startActivity(intent);
+            MainActivity activity = (MainActivity)getActivity();
+            MediaInfoFragment frag = (MediaInfoFragment)activity.showSecondaryFragment("mediaInfo");
+            frag.setMediaLocation(media.getLocation());
             return true;
         case R.id.video_list_delete:
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
