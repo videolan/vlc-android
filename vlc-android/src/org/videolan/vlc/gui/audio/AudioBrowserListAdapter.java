@@ -96,6 +96,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             mMediaItemMap.put(title, item);
             mItems.add(item);
         }
+        notifyDataSetChanged();
     }
 
     public void addLeterSeparators() {
@@ -123,11 +124,13 @@ public class AudioBrowserListAdapter extends BaseAdapter {
                 firstSeparator = false;
             }
         }
+        notifyDataSetChanged();
     }
 
     public void addSeparator(String title) {
         ListItem item = new ListItem(title, null, null, true);
         mItems.add(item);
+        notifyDataSetChanged();
     }
 
     /**
@@ -156,6 +159,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     public void clear() {
         mMediaItemMap.clear();
         mItems.clear();
+        notifyDataSetChanged();
     }
 
     @Override
