@@ -257,9 +257,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     public void onGridItemClick(GridView l, View v, int position, long id) {
         Media media = (Media) getListAdapter().getItem(position);
         if (media instanceof MediaGroup) {
-            VideoGridFragment videoList = new VideoGridFragment();
-            videoList.setGroup(media.getTitle());
-            MainActivity.ShowFragment(getActivity(), "videolist", videoList);
+            MainActivity activity = (MainActivity)getActivity();
+            VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
+            frag.setGroup(media.getTitle());
         }
         else
             playVideo(media, false);

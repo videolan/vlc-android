@@ -38,6 +38,7 @@ import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.widget.SlidingPaneLayout;
@@ -116,7 +117,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private String mCurrentFragment;
     private String mPreviousFragment;
     private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer",
-                                                            "about", "search", "mediaInfo");
+                                                            "about", "search", "mediaInfo",
+                                                            "videoGroupList");
     private HashMap<String, Fragment> mSecondaryFragments = new HashMap<String, Fragment>();
 
     private SharedPreferences mSettings;
@@ -491,6 +493,8 @@ public class MainActivity extends SherlockFragmentActivity {
             f = new SearchFragment();
         } else if(id.equals("mediaInfo")) {
             f = new MediaInfoFragment();
+        } else if(id.equals("videoGroupList")) {
+            f = new VideoGridFragment();
         }
         else {
             throw new IllegalArgumentException("Wrong fragment id.");
