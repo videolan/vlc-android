@@ -258,8 +258,8 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
                     new VlcRunnable(mSongsAdapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
-                            Media aMedia = (Media) o;
-                            mMediaLibrary.getMediaItems().remove(aMedia);
+                            AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
+                            mMediaLibrary.getMediaItems().remove(listItem.mMediaList.get(0));
                             updateList();
                         }
                     });
