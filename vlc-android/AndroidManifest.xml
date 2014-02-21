@@ -40,17 +40,9 @@
         <activity
             android:name=".gui.CompatErrorActivity" />
         <activity
-            android:name=".gui.AboutActivity" />
-        <activity
             android:name=".gui.PreferencesActivity" />
         <activity
-            android:name=".gui.BrowserActivity"
-            android:label="@string/mediafiles"
-            android:theme="@style/Theme.VLC.Basic" />
-        <activity
             android:name=".gui.DebugLogActivity" />
-        <activity
-            android:name=".gui.video.MediaInfoActivity" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
