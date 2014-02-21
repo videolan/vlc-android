@@ -35,18 +35,6 @@
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
-    <style name="Theme.VLC.Basic" parent="android:Theme.Light">
-        <item name="item_divider">@color/item_divider</item>
-        <item name="item_common_pressed">@color/item_common_pressed</item>
-        <item name="item_common_selected">@color/item_common_selected</item>
-        <item name="item_footer">@color/item_footer</item>
-        <item name="background_menu_divider">@color/background_menu_divider</item>
-        <item name="background_menu">@color/background_menu</item>
-        <item name="font_default">@color/font_default</item>
-        <item name="font_light">@color/font_light</item>
-        <item name="android:windowBackground">@color/background_common</item>
-    </style>
-
     <style name="Theme.VLC.List">
         <item name="android:listSelector">@drawable/background_item</item>
     </style>
