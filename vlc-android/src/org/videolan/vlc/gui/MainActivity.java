@@ -447,7 +447,7 @@ public class MainActivity extends SherlockFragmentActivity {
         return mSidebarAdapter.fetchFragment(id);
     }
 
-    public static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment) {
+    private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment) {
         if (fragment == null) {
             Log.e(TAG, "Cannot show a null fragment, ShowFragment("+tag+") aborted.");
             return;
