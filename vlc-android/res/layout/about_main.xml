@@ -35,7 +35,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name_full"
-                    android:textColor="@android:color/black"
                     android:textSize="29sp" />
             </LinearLayout>
         </LinearLayout>
@@ -46,7 +45,6 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/about_text"
-            android:textColor="@android:color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -56,7 +54,6 @@
             android:layout_weight="0.12"
             android:gravity="center|top"
             android:text="@string/about_copyright"
-            android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -65,14 +62,12 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/authors"
-            android:textColor="@android:color/black"
             android:textSize="12sp" />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/vlc_authors"
-            android:textColor="@android:color/black"
             android:textSize="12sp" />
 
         <TextView
@@ -84,7 +79,6 @@
             android:autoLink="web"
             android:gravity="center"
             android:text="@string/about_link"
-            android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -94,7 +88,6 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/revision"
-            android:textColor="@android:color/black"
             android:textSize="12sp" />
 
         <TextView
@@ -103,7 +96,6 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/compiled_by"
-            android:textColor="@android:color/black"
             android:textSize="11sp" />
 
         <TextView
@@ -113,7 +105,6 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text=""
-            android:textColor="@android:color/black"
             android:textSize="11sp" />
 
     </LinearLayout>
