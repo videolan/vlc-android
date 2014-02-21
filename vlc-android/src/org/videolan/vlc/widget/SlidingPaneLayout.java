@@ -868,7 +868,7 @@ public class SlidingPaneLayout extends ViewGroup {
                             mPanelSlideListener.onPanelClosed();
                     }
                 } else if (Math.abs(mSlideOffset - (1 - (float)mOverhangSize / mSlideRange))
-                           <= 0.0001) {
+                           <= 0.001) {
                     if (mState != STATE_OPENED) {
                         mState = STATE_OPENED;
                         if (mPanelSlideListener != null)
