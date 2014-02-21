@@ -49,7 +49,7 @@ public class TimeSleep extends ExpandableLayout {
     public TimeSleep(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTitle(R.string.sleep_title);
-        setIcon(R.drawable.sleep);
+        setIconAttribute(R.attr.ic_sleep_normal_style);
         setContent(context, R.layout.expandable_time_sleep);
 
         mHourWheel = (WheelView) findViewById(R.id.hour);
