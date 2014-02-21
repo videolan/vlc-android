@@ -99,12 +99,16 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
 
+    private AudioServiceController mAudioController;
+
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAudioController = AudioServiceController.getInstance();
 
         mVideoAdapter = new VideoListAdapter(getActivity(), this);
         mMediaLibrary = MediaLibrary.getInstance(getActivity());
@@ -270,7 +274,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     }
 
     protected void playAudio(Media media) {
-        AudioServiceController.getInstance().load(media.getLocation(), true);
+        mAudioController.load(media.getLocation(), true);
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
@@ -301,6 +305,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
                             Media media = (Media) o;
                             mMediaLibrary.getMediaItems().remove(media);
                             mVideoAdapter.remove(media);
+                            mAudioController.removeLocation(media.getLocation());
                         }
                     });
             alertDialog.show();

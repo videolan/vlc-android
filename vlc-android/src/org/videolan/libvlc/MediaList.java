@@ -166,6 +166,17 @@ public class MediaList {
         signal_list_event(EventHandler.CustomMediaListItemDeleted, position, uri);
     }
 
+    public void remove(String location) {
+        for (int i = 0; i < mInternalList.size(); ++i) {
+            String uri = mInternalList.get(i).m.getLocation();
+            if (uri.equals(location)) {
+                mInternalList.remove(i);
+                signal_list_event(EventHandler.CustomMediaListItemDeleted, i, uri);
+                i--;
+            }
+        }
+    }
+
     public int size() {
         return mInternalList.size();
     }

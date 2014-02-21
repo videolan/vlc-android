@@ -33,6 +33,7 @@ interface IAudioService {
     void append(in List<String> mediaPathList);
     void moveItem(int positionStart, int positionEnd);
     void remove(int position);
+    void removeLocation(String location);
     List<String> getMediaLocations();
     String getCurrentMediaLocation();
     boolean isPlaying();

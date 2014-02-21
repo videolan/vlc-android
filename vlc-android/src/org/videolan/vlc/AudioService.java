@@ -1230,6 +1230,11 @@ public class AudioService extends Service {
         }
 
         @Override
+        public void removeLocation(String location) {
+            mLibVLC.getMediaList().remove(location);
+        }
+
+        @Override
         public List<String> getMediaLocations() {
             ArrayList<String> medias = new ArrayList<String>();
             for (int i = 0; i < mLibVLC.getMediaList().size(); i++) {

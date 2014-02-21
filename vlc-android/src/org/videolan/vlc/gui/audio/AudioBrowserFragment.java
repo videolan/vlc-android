@@ -255,7 +255,9 @@ public class AudioBrowserFragment extends SherlockFragment {
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
-                            mMediaLibrary.getMediaItems().remove(listItem.mMediaList.get(0));
+                            Media media = listItem.mMediaList.get(0);
+                            mMediaLibrary.getMediaItems().remove(media);
+                            mAudioController.removeLocation(media.getLocation());
                             updateLists();
                         }
                     });

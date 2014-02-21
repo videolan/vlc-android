@@ -263,6 +263,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
                             mMediaLibrary.getMediaItems().remove(media);
                             mSongsAdapter.removeMedia(media);
                             mAlbumsAdapter.removeMedia(media);
+                            mAudioController.removeLocation(media.getLocation());
                         }
                     });
             alertDialog.show();
