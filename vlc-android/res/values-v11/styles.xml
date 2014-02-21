@@ -19,11 +19,11 @@
         <item name="background_menu">@color/background_menu</item>
         <item name="background_player">@color/background_player</item>
         <item name="background_playlist">@color/background_playlist</item>
+        <item name="audio_browser_separator">@color/darkorange</item>
+        <item name="playlist_item_drag_shadow">@color/darkorange</item>
+        <item name="audio_player_header_time">@color/darkorange</item>
         <item name="font_default">@color/font_default</item>
         <item name="font_light">@color/font_light</item>
-        <item name="orange">@color/orange</item>
-        <item name="darkorange">@color/darkorange</item>
-        <item name="darkerorange">@color/darkerorange</item>
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 </resources>

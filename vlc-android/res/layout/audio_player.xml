@@ -64,7 +64,7 @@
             android:layout_weight="0"
             android:clickable="true"
             android:text="@string/time_0"
-            android:textColor="?attr/darkorange"
+            android:textColor="?attr/audio_player_header_time"
             android:textSize="18sp" />
 
         <ImageButton

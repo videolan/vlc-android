@@ -12,11 +12,11 @@
     <attr name="background_playlist" format="reference|color" />
     <attr name="font_default" format="reference|color" />
     <attr name="font_light" format="reference|color" />
-    <attr name="orange" format="reference|color" />
-    <attr name="darkorange" format="reference|color" />
-    <attr name="darkerorange" format="reference|color" />
-    <attr name="transparent_gray" format="reference|color" />
+    <attr name="video_player_overlay" format="reference|color" />
     <attr name="advanced_options_divider" format="reference|color" />
+    <attr name="audio_browser_separator" format="reference|color" />
+    <attr name="playlist_item_drag_shadow" format="reference|color" />
+    <attr name="audio_player_header_time" format="reference|color" />
 
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />

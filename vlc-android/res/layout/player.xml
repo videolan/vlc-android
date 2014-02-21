@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
-            android:background="?attr/transparent_gray"
+            android:background="?attr/video_player_overlay"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
 
@@ -126,7 +126,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="?attr/transparent_gray"
+            android:background="?attr/video_player_overlay"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
 

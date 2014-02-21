@@ -13,12 +13,12 @@
         android:layout_marginTop="5dip"
         android:singleLine="true"
         android:text="@string/title"
-        android:textColor="?attr/darkorange"
+        android:textColor="?attr/audio_browser_separator"
         android:textSize="20sp" />
     
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dip"
-        android:background="?attr/darkorange" />
+        android:background="?attr/audio_browser_separator" />
 
 </LinearLayout>
