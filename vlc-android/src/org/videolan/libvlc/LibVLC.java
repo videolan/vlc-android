@@ -37,6 +37,11 @@ public class LibVLC {
     public static final int VOUT_ANDROID_SURFACE = 0;
     public static final int VOUT_OPEGLES2 = 1;
 
+    public static final int HW_ACCELERATION_AUTOMATIC = -1;
+    public static final int HW_ACCELERATION_DISABLED = 0;
+    public static final int HW_ACCELERATION_DECODING = 1;
+    public static final int HW_ACCELERATION_FULL = 2;
+
     private static LibVLC sInstance;
 
     /** libVLC instance C pointer */
@@ -58,7 +63,7 @@ public class LibVLC {
     //private WakeLock mWakeLock;
 
     /** Settings */
-    private int hardwareAcceleration = -1;
+    private int hardwareAcceleration = HW_ACCELERATION_AUTOMATIC;
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private int vout = VOUT_ANDROID_SURFACE;
@@ -227,9 +232,9 @@ public class LibVLC {
         if (hardwareAcceleration < 0) {
             // Automatic mode: activate MediaCodec opaque direct rendering for 4.3 and above.
             if (LibVlcUtil.isJellyBeanMR2OrLater())
-                this.hardwareAcceleration = 2;
+                this.hardwareAcceleration = HW_ACCELERATION_FULL;
             else
-                this.hardwareAcceleration = 0;
+                this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
         }
         else
             this.hardwareAcceleration = hardwareAcceleration;
