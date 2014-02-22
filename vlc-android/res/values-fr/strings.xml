@@ -131,6 +131,12 @@
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
     <string name="invalid_location">Le media %1$s ne peux pas être lu.</string>
 
+    <string name="search">Recherche</string>
+    <string name="search_history">Historique</string>
+
+    <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
+    <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
+
     <!-- About -->
     <string name="app_name_full">Lecteur multimédia VLC</string>
     <string name="licence">Licence</string>
@@ -167,8 +173,11 @@
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma Vidéo</string>
     <string name="chroma_format_summary">RGB 32-bit:\tmode par défaut\nRGB 16-bit:\taméliore les performances vidéos mais diminue la qualité\nYUV:\taméliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
-    <string name="enable_iomx">Décodage matériel</string>
-    <string name="enable_iomx_summary">Active l\'accélération matérielle pour améliorer les performances. Ne fonctionne pas sur tous les appareils.</string>
+    <string name="hardware_acceleration">Accélération Matérielle</string>
+    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nDécodage: peut améliorer les performances.\nComplète: potentiellement les meilleures performances.</string>
+    <string name="hardware_acceleration_disabled">Désactivée</string>
+    <string name="hardware_acceleration_decoding">Décodage matériel</string>
+    <string name="hardware_acceleration_full">Accélération complète</string>
     <string name="enable_time_stretching_audio">Correction audio</string>
     <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie. Nécessite un appareil puissant</string>
     <string name="enable_frame_skip">Activer le saut de trames</string>
@@ -199,6 +208,8 @@
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="vout">Sortie vidéo</string>
+    <string name="vout_summary">Modifier le type de sortie vidéo</string>
     <string name="network_caching">Cache réseau (ms)</string>
     <string name="network_caching_summary">Durée du cache pour les ressources réseau (en millisecondes). Ne fonctionne pas avec le décodage matériel. Laisser vide pour la valeur par défaut.</string>
     <string name="enable_verbose_mode">Verbosité</string>
@@ -207,4 +218,7 @@
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
     <string name="quit">Redémarrer l\'application</string>
+    <string name="dump_logcat">Sauvegarder journal logcat</string>
+    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans le fichier: %1$s!</string>
+    <string name="dump_logcat_failure">Erreur lors de la sauvegarde du logcat.</string>
 </resources>
