@@ -889,7 +889,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             public void onClick(DialogInterface dialog, int id) {
                 mDisabledHardwareAcceleration = true;
                 mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
-                mLibVLC.setHardwareAcceleration(0);
+                mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
                 load();
             }
         })
