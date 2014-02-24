@@ -1140,6 +1140,7 @@ public class SlidingPaneLayout extends ViewGroup {
     private class DisableLayerRunnable implements Runnable {
         final View mChildView;
 
+        @SuppressWarnings("unused")
         DisableLayerRunnable(View childView) {
             mChildView = childView;
         }
