@@ -42,6 +42,10 @@
         <activity
             android:name=".gui.PreferencesActivity" />
         <activity
+            android:name=".gui.BrowserActivity"
+            android:label="@string/mediafiles"
+            android:theme="@style/Theme.VLC.NoTitleBar" />
+        <activity
             android:name=".gui.DebugLogActivity" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
