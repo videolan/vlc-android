@@ -39,7 +39,7 @@
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
-   <style name="Theme.VLC.Black" parent="Theme.VLC">
+    <style name="Theme.VLC.Black" parent="Theme.VLC">
         <item name="android:textColor">@color/white</item>
 
         <item name="font_default">@color/white</item>
