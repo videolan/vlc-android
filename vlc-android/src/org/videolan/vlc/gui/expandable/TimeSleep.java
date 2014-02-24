@@ -26,6 +26,7 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.widget.ExpandableLayout;
 
@@ -49,7 +50,7 @@ public class TimeSleep extends ExpandableLayout {
     public TimeSleep(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTitle(R.string.sleep_title);
-        setIconAttribute(R.attr.ic_sleep_normal_style);
+        setIcon(Util.getResourceFromAttribute(context, R.attr.ic_sleep_normal_style));
         setContent(context, R.layout.expandable_time_sleep);
 
         mHourWheel = (WheelView) findViewById(R.id.hour);

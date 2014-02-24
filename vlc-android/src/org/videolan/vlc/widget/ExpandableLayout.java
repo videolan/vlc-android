@@ -88,13 +88,6 @@ public class ExpandableLayout extends LinearLayout {
         mIcon.setVisibility(View.VISIBLE);
     }
 
-    public void setIconAttribute(int attrid) {
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new int[] {attrid});
-        int resId = a.getResourceId(0, 0);
-        a.recycle();
-        setIcon(resId);
-    }
-
     public void setContent(Context context, int resid) {
         View view = LayoutInflater.from(context).inflate(resid, null, true);
         mContent.addView(view);

@@ -29,6 +29,7 @@ import kankan.wheel.widget.adapters.NumericWheelAdapter;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.content.Context;
@@ -46,7 +47,7 @@ public class JumpToTime extends ExpandableLayout {
     public JumpToTime(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTitle(R.string.jump_to_time);
-        setIconAttribute(R.attr.ic_jumpto_normal_style);
+        setIcon(Util.getResourceFromAttribute(context, R.attr.ic_jumpto_normal_style));
         setContent(context, R.layout.expandable_jump_to_time);
 
         mHourWheel = (WheelView) findViewById(R.id.hour);

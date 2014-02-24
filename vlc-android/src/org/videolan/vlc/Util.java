@@ -47,6 +47,7 @@ import org.videolan.libvlc.Media;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteFullException;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -540,5 +541,18 @@ public class Util {
      */
     public static boolean nullEquals(String s1, String s2) {
         return (s1 == null ? s2 == null : s1.equals(s2));
+    }
+
+    /**
+     * Get a resource id from an attribute id.
+     * @param context
+     * @param attrId
+     * @return the resource id
+     */
+    public static int getResourceFromAttribute(Context context, int attrId) {
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[] {attrId});
+        int resId = a.getResourceId(0, 0);
+        a.recycle();
+        return resId;
     }
 }
