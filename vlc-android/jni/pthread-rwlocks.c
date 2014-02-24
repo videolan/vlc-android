@@ -60,28 +60,13 @@
 #define  RWLOCKATTR_DEFAULT     0
 #define  RWLOCKATTR_SHARED_MASK 0x0010
 
-/* __get_thread and pthread_internal_t didn't change since introduced,
- * up to ics */
-typedef struct pthread_internal_t
-{
-    struct pthread_internal_t*  next;
-    struct pthread_internal_t** pref;
-    pthread_attr_t              attr;
-    pid_t                       kernel_id;
-    pthread_cond_t              join_cond;
-    int                         join_count;
-    void*                       return_value;
-    int                         intern;
-    __pthread_cleanup_t*        cleanup_stack;
-    void**                      tls;         /* thread-local storage area */
-} pthread_internal_t;
-
-extern pthread_internal_t* __get_thread(void);
-
-/* Return a global kernel ID for the current thread */
 static int __get_thread_id(void)
 {
-    return __get_thread()->kernel_id;
+#ifdef __LP64__
+#error Don't build pthread fallbacks for 64 bit, use the proper functions
+#else
+    return pthread_self();
+#endif
 }
 
 int pthread_rwlockattr_init(pthread_rwlockattr_t *attr)
