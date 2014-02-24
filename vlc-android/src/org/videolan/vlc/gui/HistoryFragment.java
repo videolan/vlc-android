@@ -49,7 +49,7 @@ public class HistoryFragment extends SherlockListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mHistoryAdapter = new HistoryAdapter();
+        mHistoryAdapter = new HistoryAdapter(getActivity());
         Log.d(TAG, "HistoryFragment()");
     }
 

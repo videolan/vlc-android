@@ -29,6 +29,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.audio.AudioUtil;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.util.Log;
@@ -45,8 +46,8 @@ public class HistoryAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private LibVLC mLibVLC;
 
-    public HistoryAdapter() {
-        mInflater = LayoutInflater.from(VLCApplication.getAppContext());
+    public HistoryAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
         try {
             mLibVLC = LibVLC.getInstance();
         } catch (LibVlcException e) {
