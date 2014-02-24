@@ -121,7 +121,6 @@
             android:layout_weight="0"
             android:clickable="true"
             android:text="@string/time_0"
-            android:textColor="#000000"
             android:textSize="12sp" />
 
         <SeekBar
@@ -144,7 +143,6 @@
             android:layout_gravity="center|right"
             android:layout_weight="0"
             android:text="@string/time_0"
-            android:textColor="#000000"
             android:textSize="12sp" />
     </LinearLayout>
 
