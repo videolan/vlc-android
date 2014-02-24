@@ -335,6 +335,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         /* Only show the subtitles surface when using "Full Acceleration" mode */
         if (mLibVLC.getHardwareAcceleration() == 2)
             mSubtitlesSurface.setVisibility(View.VISIBLE);
+        // Signal to LibVLC that the videoPlayerActivity was created, thus the
+        // SurfaceView is now available for MediaCodec direct rendering.
+        mLibVLC.eventVideoPlayerActivityCreated(true);
 
         EventHandler em = EventHandler.getInstance();
         em.addHandler(eventHandler);
@@ -457,6 +460,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         EventHandler em = EventHandler.getInstance();
         em.removeHandler(eventHandler);
 
+        // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
+        mLibVLC.eventVideoPlayerActivityCreated(false);
         // HW acceleration was temporarily disabled because of an error, restore the previous value.
         if (mDisabledHardwareAcceleration)
             mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
