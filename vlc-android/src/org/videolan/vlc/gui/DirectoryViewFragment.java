@@ -63,7 +63,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDirectoryAdapter = new DirectoryAdapter();
+        mDirectoryAdapter = new DirectoryAdapter(getActivity());
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
