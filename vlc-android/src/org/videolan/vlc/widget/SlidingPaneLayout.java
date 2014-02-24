@@ -565,6 +565,8 @@ public class SlidingPaneLayout extends ViewGroup {
     private boolean closePane(View pane, int initialVelocity) {
         if (mFirstLayout) {
             mState = STATE_CLOSED;
+            if (mPanelSlideListener != null)
+                mPanelSlideListener.onPanelClosed();
             return true;
         }
         else if (smoothSlideTo(0.f, initialVelocity))
@@ -576,6 +578,8 @@ public class SlidingPaneLayout extends ViewGroup {
     private boolean openPaneEntirely(View pane, int initialVelocity) {
         if (mFirstLayout) {
             mState = STATE_OPENED_ENTIRELY;
+            if (mPanelSlideListener != null)
+                mPanelSlideListener.onPanelOpenedEntirely();
             return true;
         }
         else if (smoothSlideTo(1.f, initialVelocity))
@@ -587,6 +591,8 @@ public class SlidingPaneLayout extends ViewGroup {
     private boolean openPane(View pane, int initialVelocity) {
         if (mFirstLayout) {
             mState = STATE_OPENED;
+            if (mPanelSlideListener != null)
+                mPanelSlideListener.onPanelOpened();
             return true;
         }
         else if (smoothSlideTo(1 - (float)mOverhangSize / mSlideRange, initialVelocity))
