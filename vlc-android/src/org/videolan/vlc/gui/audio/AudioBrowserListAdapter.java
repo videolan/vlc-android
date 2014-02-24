@@ -193,6 +193,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
             holder.footer = (View) v.findViewById(R.id.footer);
             holder.more = (ImageView) v.findViewById(R.id.item_more);
+            holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
@@ -251,6 +252,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
+            holder.viewType = VIEW_SEPARATOR;
             v.setTag(holder);
         } else
             holder = (ViewHolder) v.getTag();
