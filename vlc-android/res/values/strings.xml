@@ -197,6 +197,8 @@
     <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="enable_black_theme">Enable the black theme</string>
+    <string name="enable_black_theme_summary">Change the interface colors for a better comfort in low light environments.</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: default chroma\nRGB 16-bit: better performance but lower quality\nYUV: best performance but does not work on all devices. Android 2.3 and later only.</string>

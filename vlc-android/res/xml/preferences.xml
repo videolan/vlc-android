@@ -35,6 +35,11 @@
             android:key="enable_steal_remote_control"
             android:summary="@string/enable_steal_remote_control_summary"
             android:title="@string/enable_steal_remote_control" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_black_theme"
+            android:summary="@string/enable_black_theme_summary"
+            android:title="@string/enable_black_theme" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/performance_prefs_category" >

@@ -186,6 +186,11 @@ public class MainActivity extends SherlockFragmentActivity {
         mMenu = (SlidingMenu) LayoutInflater.from(this).inflate(R.layout.sliding_menu, null);
         changeMenuOffset();
 
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
+        if (enableBlackTheme)
+            setTheme(R.style.Theme_VLC_Black);
+
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         setContentView(v_main);
 
@@ -660,6 +665,11 @@ public class MainActivity extends SherlockFragmentActivity {
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
                 MediaLibrary.getInstance(this).loadMediaItems(this, true);
+            else if (resultCode == PreferencesActivity.RESULT_RESTART) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
         }
     }
 

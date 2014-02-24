@@ -60,6 +60,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     public final static String VIDEO_RESUME_TIME = "VideoResumeTime";
     public final static String VIDEO_SUBTITLE_FILES = "VideoSubtitleFiles";
     public final static int RESULT_RESCAN = RESULT_FIRST_USER + 1;
+    public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +113,17 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         restartService(preference.getContext());
+                        return true;
+                    }
+                });
+
+        // Black theme
+        Preference checkboxBlackTheme = findPreference("enable_black_theme");
+        checkboxBlackTheme.setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        setResult(RESULT_RESTART);
                         return true;
                     }
                 });

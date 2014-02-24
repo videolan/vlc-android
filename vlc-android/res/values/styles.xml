@@ -39,6 +39,14 @@
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
+   <style name="Theme.VLC.Black" parent="Theme.VLC">
+        <item name="font_default">@color/white</item>
+        <item name="background_player">@color/font_default</item>
+        <item name="background_playlist">@color/font_default</item>
+        <item name="list_title">@color/bt_list_title</item>
+        <item name="android:windowBackground">@color/font_default</item>
+    </style>
+
     <style name="Theme.VLC.List">
         <item name="android:listSelector">@drawable/background_item</item>
     </style>
