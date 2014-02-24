@@ -51,10 +51,12 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
+    private Context mContext;
     private VideoGridFragment mFragment;
 
     public VideoListAdapter(Context context, VideoGridFragment fragment) {
         super(context, 0);
+        mContext = context;
         mFragment = fragment;
     }
 
@@ -179,7 +181,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         holder.thumbnail.setImageBitmap(thumbnail);
 
         /* Color state */
-        ColorStateList titleColor = v.getResources().getColorStateList(R.color.list_title);
+        ColorStateList titleColor = v.getResources().getColorStateList(
+                Util.getResourceFromAttribute(mContext, R.attr.list_title));
         holder.title.setTextColor(titleColor);
 
         if (media instanceof MediaGroup)

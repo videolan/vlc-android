@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
 
 import android.content.Context;
@@ -45,9 +46,11 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
 
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
+    private Context mContext;
 
     public AudioPlaylistAdapter(Context context) {
         super(context, 0);
+        mContext = context;
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
     }
@@ -106,8 +109,8 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
 
         holder.title.setText(title);
         ColorStateList titleColor = v.getResources().getColorStateList(mCurrentIndex == position
-                ? R.color.list_title_last
-                : R.color.list_title);
+                ? Util.getResourceFromAttribute(mContext, R.attr.list_title_last)
+                : Util.getResourceFromAttribute(mContext, R.attr.list_title));
         holder.title.setTextColor(titleColor);
         holder.artist.setText(artist);
         holder.position = position;
