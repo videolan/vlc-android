@@ -74,6 +74,16 @@
 	        android:layout_alignTop="@+id/header"
 	        android:background="@drawable/header_fadeout_overlay" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/no_media"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/nomedia"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
     <org.videolan.vlc.widget.FlingViewGroup
         android:id="@+id/content"
         android:layout_width="fill_parent"

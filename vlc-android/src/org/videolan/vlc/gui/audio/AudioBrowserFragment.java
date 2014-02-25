@@ -80,6 +80,8 @@ public class AudioBrowserFragment extends SherlockFragment {
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
 
+    private View mEmptyView;
+
     public final static int MODE_TOTAL = 4; // Number of audio browser modes
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
@@ -126,6 +128,8 @@ public class AudioBrowserFragment extends SherlockFragment {
                 return true;
             }
         });
+
+        mEmptyView = v.findViewById(R.id.no_media);
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
         ListView artistList = (ListView)v.findViewById(R.id.artists_list);
@@ -360,6 +364,12 @@ public class AudioBrowserFragment extends SherlockFragment {
 
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance(getActivity()).getAudioItems();
+
+        if (audioList.isEmpty())
+            mEmptyView.setVisibility(View.VISIBLE);
+        else
+            mEmptyView.setVisibility(View.GONE);
+
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
