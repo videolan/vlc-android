@@ -576,9 +576,6 @@ public class AudioService extends Service {
         // Preserve playback when switching to video
         hideNotification(false);
 
-        // Don't crash if user stopped the media
-        if(!mLibVLC.isPlaying()) return;
-
         // Switch to the video player & don't lose the currently playing stream
         VideoPlayerActivity.start(VLCApplication.getAppContext(), MRL, title, index, true);
     }
