@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="35dip"
             android:layout_height="35dip"
-            android:src="@drawable/header_icon_loupe"
+            android:src="@drawable/ic_menu_search"
             android:scaleType="fitXY"
             android:paddingTop="2dip"
             android:layout_marginLeft="5dip"
