@@ -21,6 +21,7 @@
 package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.interfaces.OnExpandableListener;
 
 import android.content.Context;
@@ -66,7 +67,9 @@ public class ExpandableLayout extends LinearLayout {
 
     private void setState(Boolean expanded) {
         mExpanded = expanded;
-        mMore.setImageResource(expanded ? R.drawable.ic_up : R.drawable.ic_down);
+        mMore.setImageResource(expanded ?
+                Util.getResourceFromAttribute(getContext(), R.attr.ic_up_style) :
+                    Util.getResourceFromAttribute(getContext(), R.attr.ic_down_style));
         mContent.setVisibility(expanded ? View.VISIBLE : View.GONE);
     }
 

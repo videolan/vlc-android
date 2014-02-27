@@ -99,6 +99,8 @@
       <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
       <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
       <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
+      <item name="ic_down_style">@drawable/ic_down</item>
+      <item name="ic_up_style">@drawable/ic_up</item>
     </style>
 
     <style name="Theme.VLC.AdvancedOptionsVideo" parent="Theme.VLC.AdvancedOptions">
@@ -108,5 +110,7 @@
       <item name="ic_speed_normal_style">@drawable/ic_wspeed_normal</item>
       <item name="ic_sleep_normal_style">@drawable/ic_wsleep_normal</item>
       <item name="ic_jumpto_normal_style">@drawable/ic_wjumpto_normal</item>
+      <item name="ic_down_style">@drawable/ic_down_w</item>
+      <item name="ic_up_style">@drawable/ic_up_w</item>
     </style>
 </resources>

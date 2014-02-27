@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="130"
+   height="130"
+   id="svg4682"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="ic_up_w.svg"
+   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4684" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="70.095731"
+     inkscape:cy="61.032055"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="1026"
+     inkscape:window-x="1920"
+     inkscape:window-y="54"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4687">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-922.36218)">
+    <path
+       sodipodi:nodetypes="cccccccccccsccccc"
+       inkscape:connector-curvature="0"
+       id="path11059"
+       d="m 104.77208,1013.927 c 2.74908,-0.036 5.22528,-2.4404 5.22792,-5.0769 l 0,-7.4378 c 0,-1.3282 -0.57504,-2.64709 -1.5552,-3.58554 L 71.386039,962.28847 c -0.9786,-0.9399 -2.35392,-1.4885 -3.73896,-1.4914 l -5.29404,0 c -1.38504,0 -2.76036,0.5515 -3.73896,1.4914 l -37.058878,35.53829 c -0.98004,0.93845 -1.5522,2.25734 -1.5552,3.58554 l 0,7.4378 c 0.012,1.989 1.3566,3.9133 3.273,4.674 1.9164,0.7607 4.28796,0.3126 5.76012,-1.0884 l 35.503678,-34.04702 0.92652,0 35.503681,34.04702 c 0.9942,0.9549 2.39808,1.5052 3.80508,1.4913 z"
+       style="opacity:0.9;fill:#fafafa;fill-opacity:1;stroke:none" />
+  </g>
+</svg>

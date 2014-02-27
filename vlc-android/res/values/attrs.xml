@@ -25,6 +25,8 @@
     <attr name="ic_speed_normal_style" format="reference" />
     <attr name="ic_sleep_normal_style" format="reference" />
     <attr name="ic_jumpto_normal_style" format="reference" />
+    <attr name="ic_down_style" format="reference" />
+    <attr name="ic_up_style" format="reference" />
 
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />
