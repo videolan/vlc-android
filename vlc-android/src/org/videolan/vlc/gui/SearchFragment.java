@@ -30,9 +30,10 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -46,7 +47,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class SearchFragment extends ListFragment {
+public class SearchFragment extends SherlockListFragment {
 
     public final static String TAG = "VLC/SearchActivit";
 
@@ -57,7 +58,7 @@ public class SearchFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().getActionBar().setTitle(getResources().getString(R.string.search));
+        getSherlockActivity().getSupportActionBar().setTitle(R.string.search);
 
         View v = inflater.inflate(R.layout.search, container, false);
 
