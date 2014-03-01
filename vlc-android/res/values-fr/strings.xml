@@ -132,7 +132,7 @@
     <string name="invalid_location">Le media %1$s ne peux pas être lu.</string>
 
     <string name="search">Recherche</string>
-    <string name="search_history">Historique</string>
+    <string name="search_history">Historique de recherche</string>
 
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
     <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
