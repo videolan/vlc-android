@@ -53,7 +53,7 @@
         <item name="playlist_item_footer">@color/grey1</item>
         <item name="background_player">@color/black1</item>
         <item name="background_playlist">@color/black2</item>
-        <item name="background_header">@color/black1</item>
+        <item name="background_header">@color/black3</item>
         <item name="list_title">@color/bt_list_title</item>
         <item name="android:windowBackground">@color/font_default</item>
 
