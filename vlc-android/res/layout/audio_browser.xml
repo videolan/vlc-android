@@ -13,7 +13,7 @@
 	        android:fadingEdge="none"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:background="?attr/background_menu">
+	        android:background="?attr/background_header">
 	        <LinearLayout
 	            android:id="@+id/header_layout"
 	            android:layout_width="wrap_content"
@@ -65,14 +65,14 @@
 	        android:layout_alignBottom="@+id/header"
 	        android:layout_alignLeft="@+id/header"
 	        android:layout_alignTop="@+id/header"
-	        android:background="@drawable/header_fadein_overlay" />
+	        android:background="?attr/header_fadein_overlay" />
 	    <View
 	        android:layout_width="20dip"
 	        android:layout_height="10dip"
 	        android:layout_alignBottom="@+id/header"
 	        android:layout_alignRight="@+id/header"
 	        android:layout_alignTop="@+id/header"
-	        android:background="@drawable/header_fadeout_overlay" />
+	        android:background="?attr/header_fadeout_overlay" />
     </RelativeLayout>
 
     <TextView
