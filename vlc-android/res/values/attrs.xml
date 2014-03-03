@@ -35,6 +35,7 @@
     <attr name="ic_repeat_one" format="reference" />
     <attr name="ic_shuffle_normal" format="reference" />
     <attr name="ic_shuffle_pressed" format="reference" />
+    <attr name="ic_audio_player_dots" format="reference" />
 
     <attr name="mini_player_top_shadow" format="reference" />
     <attr name="audio_playlist_shadow" format="reference" />

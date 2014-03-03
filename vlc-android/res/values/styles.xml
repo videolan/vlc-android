@@ -51,6 +51,7 @@
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
         <item name="ic_shuffle_normal">@drawable/ic_shuffle_normal</item>
         <item name="ic_shuffle_pressed">@drawable/ic_shuffle_pressed</item>
+        <item name="ic_audio_player_dots">@drawable/dots_dark</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC">
@@ -73,6 +74,7 @@
         <item name="ic_playlist_normal">@drawable/ic_playlist_normal_w</item>
         <item name="ic_repeat_normal">@drawable/ic_repeat_normal_w</item>
         <item name="ic_shuffle_normal">@drawable/ic_shuffle_normal_w</item>
+        <item name="ic_audio_player_dots">@drawable/dots</item>
     </style>
 
     <style name="Theme.VLC.List">
