@@ -110,7 +110,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
 
             views.setTextViewText(R.id.songName, title);
             views.setTextViewText(R.id.artist, artist);
-            views.setImageViewResource(R.id.play_pause, isplaying ? R.drawable.ic_wpause : R.drawable.ic_wplay);
+            views.setImageViewResource(R.id.play_pause, isplaying ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
             views.setViewVisibility(R.id.timeline_parent, artist != null && artist.length() > 0 ? View.VISIBLE : View.INVISIBLE);
         }
         else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {

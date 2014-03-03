@@ -146,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toRightOf="@+id/lock_overlay_button"
-                android:background="@drawable/ic_wbackward" />
+                android:background="@drawable/ic_backward_w" />
 
             <TextView
                 android:id="@+id/player_overlay_time"
@@ -193,7 +193,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@+id/player_overlay_adv_function"
-                android:background="@drawable/ic_wforward" />
+                android:background="@drawable/ic_forward_w" />
 
             <ImageButton
                 android:id="@+id/player_overlay_adv_function"

@@ -140,9 +140,9 @@
       <item name="android:windowBackground">@drawable/advanced_options_video_background</item>
       <item name="android:textColor">@color/white</item>
       <item name="advanced_options_divider">@color/white</item>
-      <item name="ic_speed_normal_style">@drawable/ic_wspeed_normal</item>
-      <item name="ic_sleep_normal_style">@drawable/ic_wsleep_normal</item>
-      <item name="ic_jumpto_normal_style">@drawable/ic_wjumpto_normal</item>
+      <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
+      <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
+      <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
       <item name="ic_down_style">@drawable/ic_down_w</item>
       <item name="ic_up_style">@drawable/ic_up_w</item>
     </style>
