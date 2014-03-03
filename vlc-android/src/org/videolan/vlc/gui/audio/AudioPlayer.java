@@ -42,6 +42,7 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -311,15 +312,17 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         mHeaderMediaSwitcher.updateMedia();
         mCoverMediaSwitcher.updateMedia();
 
+        FragmentActivity act = getActivity();
+
         if (mAudioController.isPlaying()) {
-            mPlayPause.setImageResource(R.drawable.ic_pause);
+            mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
             mPlayPause.setContentDescription(getString(R.string.pause));
-            mHeaderPlayPause.setImageResource(R.drawable.ic_pause);
+            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
             mHeaderPlayPause.setContentDescription(getString(R.string.pause));
         } else {
-            mPlayPause.setImageResource(R.drawable.ic_play);
+            mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
             mPlayPause.setContentDescription(getString(R.string.play));
-            mHeaderPlayPause.setImageResource(R.drawable.ic_play);
+            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {

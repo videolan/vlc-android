@@ -76,7 +76,7 @@
             android:contentDescription="@string/pause"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_pause" />
+            android:src="?attr/ic_pause" />
 
         <View
             android:layout_width="10dp"
@@ -171,7 +171,7 @@
             android:contentDescription="@string/previous"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_previous" />
+            android:src="?attr/ic_previous" />
 
         <ImageButton
             android:id="@+id/play_pause"
@@ -183,7 +183,7 @@
             android:contentDescription="@string/pause"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_pause" />
+            android:src="?attr/ic_pause" />
 
         <ImageButton
             android:id="@+id/next"
@@ -193,7 +193,7 @@
             android:contentDescription="@string/next"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_next" />
+            android:src="?attr/ic_next" />
 
         <ImageButton
             android:id="@+id/repeat"
