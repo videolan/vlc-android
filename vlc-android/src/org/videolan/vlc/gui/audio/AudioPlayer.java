@@ -326,25 +326,20 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                      R.attr.ic_shuffle_pressed));
+            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_pressed));
         } else {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                      R.attr.ic_shuffle_normal));
+            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_normal));
         }
         switch(mAudioController.getRepeatType()) {
         case None:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                     R.attr.ic_repeat_normal));
+            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_normal));
             break;
         case Once:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                     R.attr.ic_repeat_one));
+            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_one));
             break;
         default:
         case All:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                     R.attr.ic_repeat_pressed));
+            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_pressed));
             break;
         }
         if (mAudioController.hasNext())
