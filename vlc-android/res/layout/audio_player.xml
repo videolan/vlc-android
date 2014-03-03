@@ -42,7 +42,7 @@
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_playlist_pressed" />
+            android:src="?attr/ic_playlist_pressed" />
 
         <ImageButton
             android:id="@+id/adv_function"
@@ -161,7 +161,7 @@
             android:contentDescription="@string/shuffle"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_shuffle_normal" />
+            android:src="?attr/ic_shuffle_normal" />
 
         <ImageButton
             android:id="@+id/previous"
@@ -203,7 +203,7 @@
             android:contentDescription="@string/repeat"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_repeat_normal" />
+            android:src="?attr/ic_repeat_normal" />
     </LinearLayout>
 
 </LinearLayout>
