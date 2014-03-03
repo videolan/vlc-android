@@ -13,6 +13,8 @@
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
@@ -108,6 +110,10 @@
 
     <style name="ActionBar.Text" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_title</item>
+    </style>
+
+    <style name="ActionBar.OverflowButton">
+        <item name="android:src">@drawable/ic_menu_overflow</item>
     </style>
 
     <!-- Advanced options menu styles -->
