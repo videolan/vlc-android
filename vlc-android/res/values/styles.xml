@@ -37,6 +37,9 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/list_title</item>
         <item name="android:windowBackground">@color/background_common</item>
+
+        <item name="mini_player_top_shadow">@drawable/mini_player_top_shadow</item>
+        <item name="audio_playlist_shadow">@drawable/audio_playlist_shadow</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC">
@@ -47,6 +50,9 @@
         <item name="background_playlist">@color/font_default</item>
         <item name="list_title">@color/bt_list_title</item>
         <item name="android:windowBackground">@color/font_default</item>
+
+        <item name="mini_player_top_shadow">@null</item>
+        <item name="audio_playlist_shadow">@null</item>
     </style>
 
     <style name="Theme.VLC.List">

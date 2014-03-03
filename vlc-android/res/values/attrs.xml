@@ -28,6 +28,9 @@
     <attr name="ic_down_style" format="reference" />
     <attr name="ic_up_style" format="reference" />
 
+    <attr name="mini_player_top_shadow" format="reference" />
+    <attr name="audio_playlist_shadow" format="reference" />
+
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />
     </declare-styleable>
