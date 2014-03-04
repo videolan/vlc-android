@@ -23,6 +23,7 @@
     <string name="append_all">Añadir todo</string>
     <string name="last_playlist">Última lista de reproducción</string>
     <string name="delete">Eliminar</string>
+    <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar este archivo «%1$s»?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 archivo de medio</item>
         <item quantity="other">%d archivos de medio</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vídeo</item>
+        <item quantity="other">%d vídeos</item>
     </plurals>
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Hasta la carpeta padre</string>
@@ -125,6 +130,10 @@
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
     <string name="invalid_location">La localización %1$s no puede ser reproducida</string>
+    <string name="search">Buscar</string>
+    <string name="search_history">Buscar en el historial</string>
+    <string name="hardware_acceleration_error_title">Error en la aceleración por hardware</string>
+    <string name="hardware_acceleration_error_message">La aceleración por hardware ha encontrado un error. ¿Desea deshabilitarlo y probar de nuevo?</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licencia</string>
@@ -153,15 +162,20 @@
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_headset_detection">Detectar auriculares</string>
     <string name="enable_headset_detection_summary">Pausar al quitar los cascos, continuar al insertar los cascos</string>
-    <string name="enable_wheel_bar">Habilitar «wheel bar»</string>
-    <string name="enable_wheel_bar_summary">Estilo alternativo para la barra de búsqueda en la interfaz del vídeo</string>
+    <string name="enable_jump_buttons">Habilitar botones de salto</string>
+    <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evitar conflictos robando el control remoto de otras aplicaciones. Esto previene llamar al hacer doble clic en teléfonos HTC.</string>
+    <string name="enable_black_theme">Habilitar el tema negro</string>
+    <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para  mayor comodidad en ambientes con poca luz.</string>
     <string name="performance_prefs_category">Rendieminto</string>
     <string name="chroma_format">Forzar croma</string>
     <string name="chroma_format_summary">RGB 32-bit: chroma por defecto\nRGB 16-bit: mejor rendimiento pero menor calidad\nYUV: el mejor rendimiento pero no funciona en todos los dispositivos. Solo Android 2.3 y posteriores.</string>
-    <string name="enable_iomx">Habilitar decodificación acelerada por hardware</string>
-    <string name="enable_iomx_summary">Mejora el rendimiento, pero puede no funcionar en todos los dispositivos.</string>
+    <string name="hardware_acceleration">Aceleración por hardware</string>
+    <string name="hardware_acceleration_summary">Deshabilitado: mejor estabilidad.\nDecodificación: puede mejorar el rendimiento.\nCompleta: puede mejorar el rendimiento más.</string>
+    <string name="hardware_acceleration_disabled">Deshabilitado</string>
+    <string name="hardware_acceleration_decoding">Aceleración de decodificación</string>
+    <string name="hardware_acceleration_full">Aceleración completa</string>
     <string name="enable_time_stretching_audio">Habilitar audio «time-stretching»</string>
     <string name="enable_time_stretching_audio_summary">Aumentar y reducir la velocidad del audio sin cambiar el tono (requiere un dispositivo rápido)</string>
     <string name="enable_frame_skip">Habilitar salto de fotogramas</string>
@@ -176,7 +190,7 @@
     <string name="clear_history">Limpiar historial de búsqueda</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>
-    <string name="subtitle_text_encoding">Codificación de texto</string>
+    <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="debug_logs">Registros de depuración</string>
     <string name="start_logging">Iniciar registro</string>
     <string name="stop_logging">Detener registro</string>
@@ -197,5 +211,11 @@
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
     <string name="set_locale_popup">Cierre y reinicialice VLC para que los cambios tengan efecto.</string>
-    <string name="quit">Cerrar aplicación</string>
+    <string name="quit">Cerrar y reiniciar aplicación</string>
+    <string name="dump_logcat">Volcar trazas logcat</string>
+    <string name="dump_logcat_success">Logcat volcado correctamente a %1$s</string>
+    <string name="dump_logcat_failure">Fallo al volcar logcat.</string>
+    <string name="vout">Salida de vídeo</string>
+    <string name="vout_summary">Cambiar el método que usa VLC para la salida de vídeo.</string>
+    <string name="vout_android_surface">Superficie Android</string>
 </resources>
