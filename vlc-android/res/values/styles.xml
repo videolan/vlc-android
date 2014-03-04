@@ -70,7 +70,7 @@
         <item name="background_playlist">@color/black2</item>
         <item name="background_header">@color/black3</item>
         <item name="list_title">@color/bt_list_title</item>
-        <item name="android:windowBackground">@color/font_default</item>
+        <item name="android:windowBackground">@color/black2</item>
 
         <item name="mini_player_top_shadow">@null</item>
         <item name="audio_playlist_shadow">@null</item>
