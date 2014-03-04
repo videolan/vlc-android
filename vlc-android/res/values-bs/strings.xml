@@ -24,6 +24,7 @@
     <string name="append_all">Prisvoji sve</string>
     <string name="last_playlist">Posljednja lista izvođenja</string>
     <string name="delete">Izbriši</string>
+    <string name="remove">Izbriši</string>
     <string name="set_song">Postavi kao zvono</string>
     <string name="info">Informacije</string>
     <string name="confirm_delete">Izbriši datoteku \'%1$s\' ?</string>
@@ -58,6 +59,11 @@
         <item quantity="one">1 medijska datoteka</item>
         <item quantity="few">%d medijskih datoteka</item>
         <item quantity="other">%d medijske datoteke</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="few">%d videa</item>
+        <item quantity="other">%d  videi</item>
     </plurals>
     <string name="internal_memory">Interna memorija</string>
     <string name="parent_folder">Do nadređene mape</string>
@@ -131,6 +137,10 @@
     <string name="encountered_error_title">Greška reproduciranja</string>
     <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može producirati</string>
+    <string name="search">Pretraga</string>
+    <string name="search_history">Historija pretraživanja</string>
+    <string name="hardware_acceleration_error_title">HV greška ubrzanja</string>
+    <string name="hardware_acceleration_error_message">HV ubrzanje je naišlo na grešku. Da li ga želite isključiti i pokušati ponovo?</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
@@ -159,15 +169,20 @@
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
     <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
-    <string name="enable_wheel_bar">Uključi kotačnu traku</string>
-    <string name="enable_wheel_bar_summary">Alternativni stil trake traženja za video okruženje</string>
+    <string name="enable_jump_buttons">Omogući skok dugmad</string>
+    <string name="enable_jump_buttons_summary">Pokaži nazad i naprijed dugmad na video okruženju</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
     <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
+    <string name="enable_black_theme">Omogući crnu temu</string>
+    <string name="enable_black_theme_summary">Izmijenite boje interfejsa za bolji ugođaj u okruženjima sa slabim svjetlom.</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
     <string name="chroma_format_summary">RGB 32-bit: zadani krom\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije samo.</string>
-    <string name="enable_iomx">Uključi hardverski ubrzano dekodiranje</string>
-    <string name="enable_iomx_summary">Poboljšava performanse, ali možda neće raditi sa svim uređajima.</string>
+    <string name="hardware_acceleration">Hardversko Ubrzanje</string>
+    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
+    <string name="hardware_acceleration_disabled">Isključeno</string>
+    <string name="hardware_acceleration_decoding">Ubrzanje Dekodiranja</string>
+    <string name="hardware_acceleration_full">Puno Ubrzanje</string>
     <string name="enable_time_stretching_audio">Vremensko-proširavanje zvuka</string>
     <string name="enable_time_stretching_audio_summary">Ubrzaj i uspori zvuk bez mijenjanja tonaliteta (zahtjeva brz uređaj).</string>
     <string name="enable_frame_skip">Omogući prekakanje okvira</string>
@@ -203,5 +218,11 @@
     <string name="set_locale">Podesi lokaciju</string>
     <string name="set_locale_detail">Ostavi prazno za resetovanje</string>
     <string name="set_locale_popup">Zatvori i resetuj VLC kako bi promjene djelovale.</string>
-    <string name="quit">Zatvori aplikaciju</string>
+    <string name="quit">Zatvori i ponovo pokreni aplikaciju</string>
+    <string name="dump_logcat">Izbaci logcat zapis</string>
+    <string name="dump_logcat_success">Logcat uspješno izbačen u %1$s!</string>
+    <string name="dump_logcat_failure">Nije uspjelo izbacivanje logcat-a.</string>
+    <string name="vout">Video izlaz</string>
+    <string name="vout_summary">Izmijeni metodu koju VLC koristi za izlaz videa.</string>
+    <string name="vout_android_surface">Android površina</string>
 </resources>
