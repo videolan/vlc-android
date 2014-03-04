@@ -22,6 +22,7 @@
     <string name="append_all">全部追加</string>
     <string name="last_playlist">上次使用时的播放列表</string>
     <string name="delete">删除</string>
+    <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否删除文件“%1$s”?</string>
@@ -48,6 +49,9 @@
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d 个媒体文件</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d 个视频</item>
     </plurals>
     <string name="internal_memory">内部存储</string>
     <string name="parent_folder">转到上级目录</string>
@@ -119,12 +123,16 @@
     <string name="encountered_error_title">回放错误</string>
     <string name="encountered_error_message">VLC 播放该媒体时遇到问题。\n请尝试刷新媒体库。</string>
     <string name="invalid_location">指定位置 %1$s 无法播放</string>
+    <string name="search">搜索</string>
+    <string name="search_history">搜索历史</string>
+    <string name="hardware_acceleration_error_title">硬件加速错误</string>
+    <string name="hardware_acceleration_error_message">硬件加速遇到错误。您是否希望禁用它并再试一次？</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授权许可</string>
     <string name="revision">修订版本</string>
     <string name="about">关于</string>
-    <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC media player 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
+    <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
     <string name="compiled_by">此版本 VLC 的编译者为:</string>
     <string name="vlc_authors">VLC 全体作者。</string>
     <!-- Preferences -->
@@ -147,15 +155,20 @@
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
     <string name="enable_headset_detection">启用耳机侦测</string>
     <string name="enable_headset_detection_summary">耳机移除时暂停；插入时继续播放</string>
-    <string name="enable_wheel_bar">启用滚动条</string>
-    <string name="enable_wheel_bar_summary">另一种风格的视频界面进度条</string>
+    <string name="enable_jump_buttons">启用跳转按钮</string>
+    <string name="enable_jump_buttons_summary">在视频界面显示快退与快进按钮</string>
     <string name="enable_steal_remote_control">独占耳机远程控制</string>
     <string name="enable_steal_remote_control_summary">通过拦截其他应用的远程控制避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
+    <string name="enable_black_theme">启用黑色主题</string>
+    <string name="enable_black_theme_summary">更改界面颜色以在较暗环境获取更舒适的感受。</string>
     <string name="performance_prefs_category">性能</string>
     <string name="chroma_format">强制画面色度</string>
     <string name="chroma_format_summary">RGB 32 位: 默认色度\nRGB 16 位: 性能稍高，但画质略低\nYUV: 性能最高，但并非在所有设备上都可用。仅限 Android 2.3 及更高版本使用。</string>
-    <string name="enable_iomx">启用硬件加速解码</string>
-    <string name="enable_iomx_summary">提高性能，但可能不适用于所有设备。</string>
+    <string name="hardware_acceleration">硬件加速</string>
+    <string name="hardware_acceleration_summary">禁用: 最为稳定。\n解码: 可提升性能。\n完全: 可进一步提升性能。</string>
+    <string name="hardware_acceleration_disabled">禁用</string>
+    <string name="hardware_acceleration_decoding">解码加速</string>
+    <string name="hardware_acceleration_full">完全加速</string>
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
     <string name="enable_time_stretching_audio_summary">可加速与减慢音频播放而不改变音调 (需要较快设备支持)。</string>
     <string name="enable_frame_skip">启用跳帧</string>
@@ -191,5 +204,11 @@
     <string name="set_locale">设置区域变量</string>
     <string name="set_locale_detail">留空可重置</string>
     <string name="set_locale_popup">请退出并重置 VLC 使更改生效。</string>
-    <string name="quit">退出应用程序</string>
+    <string name="quit">退出并重新启动应用程序</string>
+    <string name="dump_logcat">logcat 日志转储</string>
+    <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
+    <string name="dump_logcat_failure">logcat 日志转储失败。</string>
+    <string name="vout">视频输出</string>
+    <string name="vout_summary">更改 VLC 输出视频所采用的方式。</string>
+    <string name="vout_android_surface">Android 表面</string>
 </resources>
