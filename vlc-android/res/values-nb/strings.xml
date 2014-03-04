@@ -5,7 +5,7 @@
     <string name="cancel">Avbryt</string>
     <string name="other">Annet</string>
     <string name="filebrowser_title">Velg mediefil å spille</string>
-    <string name="sortby">Sortér etter</string>
+    <string name="sortby">Sortér etter…</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_length">Lengde</string>
     <string name="searchable_hint">Søk…</string>
@@ -23,6 +23,7 @@
     <string name="append_all">Legg til alle</string>
     <string name="last_playlist">Siste spilleliste</string>
     <string name="delete">Slett</string>
+    <string name="remove">Fjern</string>
     <string name="set_song">Bruk som ringetone</string>
     <string name="info">Informasjon</string>
     <string name="confirm_delete">Slette filen \'%1$s\' ?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 mediefil</item>
         <item quantity="other">%d mediefiler</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d vidoer</item>
     </plurals>
     <string name="internal_memory">Internt minne</string>
     <string name="parent_folder">Til øverste katalog</string>
@@ -125,6 +130,8 @@
     <string name="encountered_error_title">Avspillingsfeil</string>
     <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nVennligst prøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Kan ikke spille fra %1$s.</string>
+    <string name="search">Søk</string>
+    <string name="search_history">Søk i historien</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Lisens</string>
@@ -153,15 +160,18 @@
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
     <string name="enable_headset_detection_summary">Pauser når hodetelefon fjernes; gjenopptar når hodetelefon settes inn</string>
-    <string name="enable_wheel_bar">Aktiver hjulkontroll</string>
-    <string name="enable_wheel_bar_summary">Alternativ søkelinje for videoavspilling</string>
+    <string name="enable_jump_buttons">Aktivér hoppeknapper</string>
+    <string name="enable_jump_buttons_summary">Vis bakover- og fremoverknapper ved videoavspilling</string>
     <string name="enable_steal_remote_control">Eksklusiv fjernkontroll fra hodetelefon</string>
     <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="performance_prefs_category">Ytelse</string>
     <string name="chroma_format">Tving chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: standard fargetone\nRGB 16-bit: bedre ytelse men lavere kvalitet\nYUV: best ytelse men fungerer ikke på alle enheter. Bare Android 2.3 og senere.</string>
-    <string name="enable_iomx">Aktiver maskinvareakselerert dekoding</string>
-    <string name="enable_iomx_summary">Forbedrer ytelsen, men fungerer kanskje ikke med alle enheter.</string>
+    <string name="hardware_acceleration">Maskinvareakselerasjon</string>
+    <string name="hardware_acceleration_summary">Avslått: bedre stabilitet.\nDekoding: kan forbedre ytelsen.\nFull: kan forbedre ytelsen ytterligere.</string>
+    <string name="hardware_acceleration_disabled">Avslått</string>
+    <string name="hardware_acceleration_decoding">Dekodeakselerasjon</string>
+    <string name="hardware_acceleration_full">Full akselerasjon</string>
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
     <string name="enable_time_stretching_audio_summary">Øk og senk lydhastigheten uten å endre tonehøyde (krever en rask enhet)</string>
     <string name="enable_frame_skip">Tillat å hoppe over rammer</string>
@@ -176,7 +186,7 @@
     <string name="clear_history">Tøm søkehistorie</string>
     <string name="clear_media_db">Tøm mediedatabase</string>
     <string name="media_db_cleared">Mediedatabase tømt!</string>
-    <string name="subtitle_text_encoding">Tekstkoding</string>
+    <string name="subtitle_text_encoding">Undertekstkoding</string>
     <string name="debug_logs">Feilsøk loggene</string>
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>
@@ -186,7 +196,7 @@
     <string name="advanced_prefs_category">Avansert</string>
     <string name="advanced_debugging">Avansert feilsøking</string>
     <string name="aout">Lyd ut</string>
-    <string name="aout_summary">Endre metoden VLC bruker for lyd ut.</string>
+    <string name="aout_summary">Endre metoden VLC bruker for lydutgang.</string>
     <string name="aout_audiotrack">AudioTrack (opprinnelig)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
@@ -197,5 +207,8 @@
     <string name="set_locale">Velg lokalitet</string>
     <string name="set_locale_detail">La være tom for å tilbakestille</string>
     <string name="set_locale_popup">Avslutt og tilbakestill VLC for at endringene skal innføres.</string>
-    <string name="quit">Lukk applikasjon</string>
+    <string name="quit">Avslutt og start på nytt</string>
+    <string name="vout">Videoutgang</string>
+    <string name="vout_summary">Endre metoden VLC bruker for videoutgang.</string>
+    <string name="vout_android_surface">Android brukerflate</string>
 </resources>
