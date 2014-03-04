@@ -23,6 +23,7 @@
     <string name="append_all">Alles toevoegen</string>
     <string name="last_playlist">Laatste afspeellijst</string>
     <string name="delete">Verwijderen</string>
+    <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 mediabestand</item>
         <item quantity="other">%d mediabestanden</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d video\'s</item>
     </plurals>
     <string name="internal_memory">Intern geheugen</string>
     <string name="parent_folder">Naar bovenliggende map</string>
@@ -125,6 +130,10 @@
     <string name="encountered_error_title">Fout bij afspelen</string>
     <string name="encountered_error_message">VLC heeft een fout aangetroffen bij dit mediabestand.\nProbeer de mediabibliotheek te vernieuwen.</string>
     <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden</string>
+    <string name="search">Zoeken</string>
+    <string name="search_history">Zoekgeschiedenis</string>
+    <string name="hardware_acceleration_error_title">Hardwareversnellingsfout</string>
+    <string name="hardware_acceleration_error_message">Er trad een fout op bij hardwareversnelling. Wilt u ze uitschakelen en opnieuw proberen?</string>
     <!-- About -->
     <string name="app_name_full">VLC voor Android™</string>
     <string name="licence">Licentie</string>
@@ -153,15 +162,20 @@
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
     <string name="enable_headset_detection_summary">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
-    <string name="enable_wheel_bar">Wheel bar inschakelen</string>
-    <string name="enable_wheel_bar_summary">Alternatieve zoekbalkstijl voor de video-interface</string>
+    <string name="enable_jump_buttons">Sprong-knoppen inschakelen</string>
+    <string name="enable_jump_buttons_summary">Achterwaarts- en voorwaarts-knoppen weergeven op de video-interface</string>
     <string name="enable_steal_remote_control">Exclusieve headset-afstandsbediening</string>
     <string name="enable_steal_remote_control_summary">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
+    <string name="enable_black_theme">Zwart thema inschakelen</string>
+    <string name="enable_black_theme_summary">De interface-kleuren wijzigen voor een beter comfort in omgevingen met weinig licht.</string>
     <string name="performance_prefs_category">Prestaties</string>
     <string name="chroma_format">Chroma forceren</string>
     <string name="chroma_format_summary">NIET INSCHAKELEN!!! Werkt mogelijk niet op alle apparaten. Alleen 2.3 en later.</string>
-    <string name="enable_iomx">Hardwareversnelling inschakelen bij decoderen</string>
-    <string name="enable_iomx_summary">Verbetert prestaties, maar werkt mogelijk niet op alle apparaten.</string>
+    <string name="hardware_acceleration">Hardwareversnelling</string>
+    <string name="hardware_acceleration_summary">Uitgeschakeld: betere stabiliteit.\nDecoderen: kan prestaties verbeteren.\nVolledig: kan prestaties nog meer verbeteren.</string>
+    <string name="hardware_acceleration_disabled">Uitgeschakeld</string>
+    <string name="hardware_acceleration_decoding">Decodeerversnelling</string>
+    <string name="hardware_acceleration_full">Volledige versnelling</string>
     <string name="enable_time_stretching_audio">Tijdrekken van audio inschakelen</string>
     <string name="enable_time_stretching_audio_summary">Audio versnellen en vertragen zonder de toonhoogte te veranderen (vereist een snel apparaat)</string>
     <string name="enable_frame_skip">Overslaan van beelden inschakelen</string>
@@ -176,7 +190,7 @@
     <string name="clear_history">Zoekgeschiedenis wissen</string>
     <string name="clear_media_db">Media-database wissen</string>
     <string name="media_db_cleared">Media-database gewist!</string>
-    <string name="subtitle_text_encoding">Tekstcodering</string>
+    <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="debug_logs">Debug-logboeken</string>
     <string name="start_logging">Start loggen</string>
     <string name="stop_logging">Stop loggen</string>
@@ -197,5 +211,11 @@
     <string name="set_locale">Taal instellen</string>
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
     <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
-    <string name="quit">Toepassing afsluiten</string>
+    <string name="quit">Toepassing afsluiten en opnieuw starten</string>
+    <string name="dump_logcat">Logcat-log dumpen</string>
+    <string name="dump_logcat_success">Logcat succesvol gedumpt naar %1$s!</string>
+    <string name="dump_logcat_failure">Logcat dumpen mislukt.</string>
+    <string name="vout">Video-uitvoer</string>
+    <string name="vout_summary">Verander de video-uitvoermethode die VLC gebruikt.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
