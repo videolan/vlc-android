@@ -430,6 +430,6 @@
     <string name="vout">Video output</string>
     <string name="vout_summary">Change the method that VLC uses to output video.</string>
     <string name="vout_android_surface">Android surface</string>
-    <string name="vout_opengles2">OpenGL ES 2.0</string>
+    <string name="vout_opengles2" translatable="false">OpenGL ES 2.0</string>
 
 </resources>
