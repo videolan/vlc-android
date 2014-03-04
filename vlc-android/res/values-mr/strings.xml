@@ -23,6 +23,7 @@
     <string name="append_all">सर्व जोडा</string>
     <string name="last_playlist">मागील प्लेलिस्ट</string>
     <string name="delete">काढून टाका</string>
+    <string name="remove">काढून टाका</string>
     <string name="set_song">रिंगटोन साठी सेट करा</string>
     <string name="info">माहिती</string>
     <string name="confirm_delete">\'%1$s\' ही फाईल काढून टाकावी?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 मीडिया फाईल</item>
         <item quantity="other">%d मीडिया फाईल</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 चित्रफीत</item>
+        <item quantity="other">%d चित्रफिती</item>
     </plurals>
     <string name="internal_memory">अंतर्गत मेमरी</string>
     <string name="parent_folder">वरच्या फोल्डरला जा</string>
@@ -125,6 +130,8 @@
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
     <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location"> %1$s हे स्थान प्ले करू शकत नाही</string>
+    <string name="search">शोधा</string>
+    <string name="search_history">शोध इतिहास</string>
     <!-- About -->
     <string name="app_name_full">Android™ साठी VLC</string>
     <string name="licence">परवाना</string>
@@ -153,15 +160,14 @@
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
     <string name="enable_headset_detection_summary">हेडसेट काढल्यावर विराम घ्या; घातल्यावर पुन्हा आरंभ करा</string>
-    <string name="enable_wheel_bar">व्हील बार सक्रीय करा</string>
-    <string name="enable_wheel_bar_summary">चित्रफीत इंटरफेस साठी वैकल्पिक शैलीचा सीक बार</string>
+    <string name="enable_jump_buttons">जंप बटणे सक्रीय करा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
     <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.\nहे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
     <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
     <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा\nRGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता\nYUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
-    <string name="enable_iomx">हार्डवेअर अॅक्सलरेटेड डिकोडिंग</string>
-    <string name="enable_iomx_summary">कार्यप्रदर्शन सुधारते, पण सर्व उपकरणांबरोबर काम करेलच असे नाही.</string>
+    <string name="hardware_acceleration">हार्डवेअर अॅक्सलरेशन</string>
+    <string name="hardware_acceleration_disabled">निष्क्रिय करा</string>
     <string name="enable_time_stretching_audio">टाईम-स्ट्रेचिंग ध्वनी</string>
     <string name="enable_time_stretching_audio_summary">पिच न बदलता ध्वनी गतिमान करा किंवा मंदगती करा (गतिमान उपकरणाची गरज).</string>
     <string name="enable_frame_skip">फ्रेम स्कीप सक्रीय करा</string>
@@ -197,5 +203,6 @@
     <string name="set_locale">स्थानिकता सेट करा</string>
     <string name="set_locale_detail">रिसेट करण्यासाठी रिकामे सोडा</string>
     <string name="set_locale_popup">परिणाम प्रस्थापित होण्यासाठी VLC बंद करून पुन्हा सुरु करा.</string>
-    <string name="quit">अनुप्रयोगाच्या बाहेर पडा</string>
+    <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
+    <string name="vout">चित्रफीत आउटपुट</string>
 </resources>
