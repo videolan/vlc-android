@@ -23,6 +23,7 @@
     <string name="append_all">Aggiungi tutto</string>
     <string name="last_playlist">Ultima scaletta</string>
     <string name="delete">Elimina</string>
+    <string name="remove">Rimuovi</string>
     <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare questo file?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 file multimediale</item>
         <item quantity="other">%d file multimediali</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
+        <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Livello superiore</string>
@@ -125,6 +130,8 @@
     <string name="encountered_error_title">Errore di riproduzione</string>
     <string name="encountered_error_message">VLC ha riscontrato un errore con questo media. Prova ad aggiornare la raccolta mulltimediale</string>
     <string name="invalid_location">La posizione %1$s non può essere riprodotta</string>
+    <string name="search">Cerca</string>
+    <string name="search_history">Cerca nella cronologia</string>
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
     <string name="licence">Licenza</string>
@@ -153,15 +160,18 @@
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_headset_detection">Rileva le cuffie</string>
     <string name="enable_headset_detection_summary">Pausa alla rimozione delle cuffie; riprendi all\'inserimento</string>
-    <string name="enable_wheel_bar">Wheel bar</string>
-    <string name="enable_wheel_bar_summary">Stile alternativo della barra di posizionamento dell\'interfaccia video</string>
+    <string name="enable_jump_buttons">Abilita i pulsanti di avanzamento</string>
+    <string name="enable_jump_buttons_summary">Mostra i pulsanti di avanzamento nell\'interfaccia video</string>
     <string name="enable_steal_remote_control">Controllo esclusivo delle cuffie</string>
     <string name="enable_steal_remote_control_summary">Evita conflitti acquisendo il controllo remoto delle cuffie da altre applicazioni. Ciò impedisce la chiamata con doppio tocco sui telefoni HTC.</string>
     <string name="performance_prefs_category">Prestazioni</string>
     <string name="chroma_format">Forza croma</string>
     <string name="chroma_format_summary">RGB 32-bit: croma predefinita\nRGB 16-bit: migliori prestazioni, ma qualità inferiore\nYUV: migliori prestazioni, ma non funziona su tutti i dispositivi Android 2.3 e successivi.</string>
-    <string name="enable_iomx">Decodifica con accelerazione hardware</string>
-    <string name="enable_iomx_summary">Migliora le prestazioni, ma potrebbe non funzionare con tutti i dispositivi.</string>
+    <string name="hardware_acceleration">Accelerazione hardware</string>
+    <string name="hardware_acceleration_summary">Disabilitata: maggiore stabilità.\nDecodifica: potrebbe migliorare le prestazioni.\nCompleta: potrebbe migliorare ulteriormente le prestazioni.</string>
+    <string name="hardware_acceleration_disabled">Disabilitata</string>
+    <string name="hardware_acceleration_decoding">Accelerazione decodifica</string>
+    <string name="hardware_acceleration_full">Accelerazione completa</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_summary">Aumenta e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce).</string>
     <string name="enable_frame_skip">Abilita il salto di fotogrammi</string>
@@ -176,7 +186,7 @@
     <string name="clear_history">Cancella cronologia ricerche</string>
     <string name="clear_media_db">Cancella il database multimediale</string>
     <string name="media_db_cleared">Database multimediale cancellato!</string>
-    <string name="subtitle_text_encoding">Codifica del testo</string>
+    <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="debug_logs">Log di debug</string>
     <string name="start_logging">Avvia la scrittura del log</string>
     <string name="stop_logging">Ferma la scrittura del log</string>
@@ -197,5 +207,11 @@
     <string name="set_locale">Imposta locale</string>
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
     <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
-    <string name="quit">Esci dall\'applicazione</string>
+    <string name="quit">Esci e riavvia l\'applicazione</string>
+    <string name="dump_logcat">Salva log logcat</string>
+    <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
+    <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
+    <string name="vout">Uscita video</string>
+    <string name="vout_summary">Cambia il metodo utilizzato da VLC per l\'uscita video.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
