@@ -23,6 +23,7 @@
     <string name="append_all">Adicionar todos</string>
     <string name="last_playlist">Última lista de reprodução</string>
     <string name="delete">Excluir</string>
+    <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\' ?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">$d arquivo de mídia</item>
         <item quantity="other">%d arquivos de mídia</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 vídeo</item>
+        <item quantity="other">%d vídeos</item>
     </plurals>
     <string name="internal_memory">memória interna</string>
     <string name="parent_folder">Pasta superior</string>
@@ -114,6 +119,7 @@
     <string name="jump_to_time">Ir ao Ponto</string>
     <string name="subtitle_label">Adicionar arquivo de legenda</string>
     <string name="subtitle_select">Selecionar arquivo de legenda</string>
+    <string name="no_file_picker_found">Nenhum seletor de arquivos foi encontrado no sistema.</string>
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir fluxo de rede</string>
@@ -122,7 +128,12 @@
     <string name="error_problem">Desculpe, ocorreu um problema durante a carga e o VLC para Android™ foi fechado.</string>
     <string name="error_message_is">A mensagem de erro é (por favor, mencione isso quando estiver depurando):\n</string>
     <string name="encountered_error_title">Erro de reprodução</string>
+    <string name="encountered_error_message">O VLC encontrou um ero com esta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
     <string name="invalid_location">O ponto %1$s não pode ser reproduzido</string>
+    <string name="search">Pesquisar</string>
+    <string name="search_history">Histórico de pesquisas</string>
+    <string name="hardware_acceleration_error_title">Erro na aceleração por hardware</string>
+    <string name="hardware_acceleration_error_message">A aceleração por hardware encontrou um erro. Deseja desabilitá-la e tentar novamente?</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -151,22 +162,35 @@
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
     <string name="enable_headset_detection_summary">Pausar ao remover fone de ouvido; continuar ao inserir fone de ouvido</string>
-    <string name="enable_wheel_bar">Barra de rolagem</string>
-    <string name="enable_wheel_bar_summary">Barra de busca alternativa para a interface de vídeo</string>
+    <string name="enable_jump_buttons">Habilitar os botões de navegação</string>
+    <string name="enable_jump_buttons_summary">Exibir os botões de avanço e retrocesso na interface de vídeo</string>
     <string name="enable_steal_remote_control">Controle remoto exclusivo para o fone</string>
     <string name="enable_steal_remote_control_summary">Evite conflitos tomando o acesso ao controle remoto. Isso evita a discagem por duplo-toque dos telefones HTC.</string>
+    <string name="enable_black_theme">Habilitar o tema escuro</string>
+    <string name="enable_black_theme_summary">Muda a interface para melhorar o conforto em ambientes com pouca iluminação.</string>
     <string name="performance_prefs_category">Desempenho</string>
     <string name="chroma_format">Impor um formato cromático</string>
-    <string name="enable_iomx">Decodificação acelerada por hardware</string>
-    <string name="enable_iomx_summary">Aumenta o desempenho, mas pode não funcionar com todos os dispositivos.</string>
+    <string name="chroma_format_summary">RGB 32-bit: formato cromático padrão\nRGB 16-bit: desempenho superior, mas qualidade inferior\nYUV: o melhor desempenho, mas não funciona com todos os dispositivos. Apenas para Android 2.3 ou superior.</string>
+    <string name="hardware_acceleration">Aceleração por Hardware</string>
+    <string name="hardware_acceleration_summary">Desabilitado: maior estabilidade.\nDecodificação: pode aumentar o desempenho.\nTotal: pode aumentar mais ainda o desempenho.</string>
+    <string name="hardware_acceleration_disabled">Desabilitado</string>
+    <string name="hardware_acceleration_decoding">Aceleração de Decodificação</string>
+    <string name="hardware_acceleration_full">Aceleração Total</string>
     <string name="enable_time_stretching_audio">Compressão de tempo de áudio</string>
     <string name="enable_time_stretching_audio_summary">Acelera ou desacelera um áudio sem alterar o tom (requer um dispositivo rápido).</string>
     <string name="enable_frame_skip">Habilitar salto de quadros</string>
+    <string name="enable_frame_skip_summary">Aumenta o desempenho de decodificação mas pode reduzir a qualidade de vídeo.</string>
+    <string name="deblocking">Configurações do filtro de amenização de blocos</string>
+    <string name="deblocking_summary">Altera as configurações do filtro de amenização de blocos. Somente para usuários avançados.</string>
+    <string name="deblocking_always">Amenzação máxima (mais lento)</string>
+    <string name="deblocking_nonref">Amenização média</string>
+    <string name="deblocking_nonkey">Pouca amenização</string>
+    <string name="deblocking_all">Sem amenização (mais rápido)</string>
     <string name="other_prefs_category">Outro</string>
     <string name="clear_history">Limpar histórico</string>
     <string name="clear_media_db">Limpar banco de mídias</string>
     <string name="media_db_cleared">Banco de mídias limpo!</string>
-    <string name="subtitle_text_encoding">Codificação do texto da legenda</string>
+    <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="debug_logs">Registros de depuração</string>
     <string name="start_logging">Iniciar o registro</string>
     <string name="stop_logging">Parar o registro</string>
@@ -181,10 +205,17 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="network_caching">Valor de memória para rede</string>
+    <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar o detalhamento (logcat)</string>
     <string name="set_locale">Definir local</string>
     <string name="set_locale_detail">Deixe em branco para redefinir</string>
     <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
-    <string name="quit">Fechar o aplicativo</string>
+    <string name="quit">Fechar e reiniciar o programa</string>
+    <string name="dump_logcat">Despejar os registros do logcat</string>
+    <string name="dump_logcat_success">O logcat despejou os registros com sucesso em %1$s!</string>
+    <string name="dump_logcat_failure">Falha ao despejar os registros do logcat.</string>
+    <string name="vout">Saída de vídeo</string>
+    <string name="vout_summary">Alterar o método que o VLC usa para reproduzir vídeo.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
