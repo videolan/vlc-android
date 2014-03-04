@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--  Main VLC Interface  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Main VLC Interface -->
     <string name="ok">Ok</string>
     <string name="cancel">Annuler</string>
     <string name="other">Autre</string>
@@ -23,15 +23,16 @@
     <string name="append_all">Lire tout à la suite</string>
     <string name="last_playlist">Dernière liste de lecture</string>
     <string name="delete">Supprimer</string>
+    <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Supprimer le média \'%1$s\' ?</string>
-    <string name="ringtone_set"> \'%1$s\' est maintenant votre sonnerie.</string>
+    <string name="confirm_delete">Supprimer le média « %1$s » ?</string>
+    <string name="ringtone_set">« %1$s » est maintenant votre sonnerie.</string>
     <string name="ringtone_error">Impossible de définir une nouvelle sonnerie, une erreur est survenue.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
     <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat ou détruire votre maison !\n\n Amusez-vous bien ;)</string>
-    <string name="info_title">VLC Bêta</string>
+    <string name="info_title">VLC Béta</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
@@ -47,19 +48,19 @@
         <item quantity="other">%d albums</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">1 sous-répertoire</item>
-        <item quantity="other">%d sous-répertoires</item>
+        <item quantity="one">1 sous-dossier</item>
+        <item quantity="other">%d sous-dossiers</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 fichier multimedia</item>
-        <item quantity="other">%d fichiers multimedia</item>
+        <item quantity="one">1 fichier multimédia</item>
+        <item quantity="other">%d fichiers multimédia</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">1 vidéo</item>
         <item quantity="other">%d vidéos</item>
     </plurals>
     <string name="internal_memory">Mémoire interne</string>
-    <string name="parent_folder">Répertoire parent</string>
+    <string name="parent_folder">Dossier parent</string>
     <string name="audio">Audio</string>
     <string name="video">Vidéo</string>
     <string name="bookmarks">Signets</string>
@@ -70,16 +71,16 @@
     <string name="title">Titre</string>
     <string name="artist">Artiste</string>
     <string name="album">Album</string>
-    <string name="directory">Répertoire</string>
-    <string name="directories">Répertoires</string>
+    <string name="directory">Dossier</string>
+    <string name="directories">Dossiers</string>
     <string name="loading">Chargement</string>
     <string name="please_wait">Veuillez patienter…</string>
-    <string name="nomedia">Pas de fichiers multimédia</string>
+    <string name="nomedia">Aucun fichier multimédia trouvé, veuillez transférer les fichiers vers votre périphérique ou ajuster vos préférences.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
-    <string name="nosubdirectory">Pas de sous-répertoires</string>
+    <string name="nosubdirectory">Pas de sous-dossiers</string>
     <string name="nohistory">Pas d\'historique de lecture</string>
-    <string name="validation">Etes-vous sûr ?</string>
+    <string name="validation">Êtes-vous sûr ?</string>
     <string name="cover_art">Jaquette</string>
     <string name="shuffle">Aléatoire</string>
     <string name="repeat">Répétition aucun/un/tout</string>
@@ -91,73 +92,68 @@
     <string name="surface_best_fit">Ajuster au mieux</string>
     <string name="surface_fit_horizontal">Ajuster horizontalement</string>
     <string name="surface_fit_vertical">Ajuster verticalement</string>
-    <string name="surface_fill">Etirer</string>
+    <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
-    <string name="unseekable_stream">Flux indéplaçable</string>
+    <string name="unseekable_stream">Flux impossible à chercher</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>
     <string name="track_text">Piste sous-titres</string>
     <string name="track_unknown">Piste inconnue</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
-    <string name="track_language_info">Langue: %1$s\n</string>
+    <string name="track_codec_info">Codec : %1$s\n</string>
+    <string name="track_language_info">Langue : %1$s\n</string>
     <string name="volume">Volume</string>
     <string name="brightness">Luminosité</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">%1$d canal\n</item>
         <item quantity="other">%1$d canaux\n</item>
     </plurals>
-    <string name="track_samplerate_info">Fréquence d\'échantillonage: %1$d Hz\n</string>
-    <string name="track_resolution_info">Résolution: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Débit d\'images: %1$.3f\n</string>
+    <string name="track_samplerate_info">Fréquence d\'échantillonnage : %1$d Hz\n</string>
+    <string name="track_resolution_info">Résolution : %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Débit d\'images : %1$.3f\n</string>
     <string name="tools">Outils</string>
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="sleep_title">Veille</string>
-    <string name="sleep_cancel">Annuler Veille</string>
+    <string name="sleep_cancel">Annuler veille</string>
     <string name="jump_to_time">Aller au temps</string>
     <string name="subtitle_label">Ajouter des sous-titres</string>
-    <string name="subtitle_select">Selectionner des sous-titres</string>
+    <string name="subtitle_select">Sélectionner des sous-titres</string>
     <string name="no_file_picker_found">Aucun explorateur de fichier n\'a été trouvé sur le système.</string>
     <string name="open">Ouvrir</string>
     <string name="open_mrl">Ouvrir MRL</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
-    <string name="open_mrl_dialog_msg">Enter une addresse réseau: e.g. http://, mms:// ou rtsp://</string>
+    <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
-    <string name="error_problem">Désolé, VLC pour Android à rencontré un problème et a dû s\'arrêter.</string>
-    <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner):\n</string>
-
+    <string name="error_problem">Désolé, VLC pour Android a rencontré un problème et a dû s\'arrêter.</string>
+    <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner) :\n</string>
     <string name="encountered_error_title">Erreur de lecture</string>
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
     <string name="invalid_location">Le media %1$s ne peux pas être lu.</string>
-
     <string name="search">Recherche</string>
-    <string name="search_history">Historique de recherche</string>
-
-    <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
-    <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
-
+    <string name="search_history">Recherche dans l\'historique</string>
+    <string name="hardware_acceleration_error_title">Erreur d\'accélération HW</string>
+    <string name="hardware_acceleration_error_message">L\'accélération HW a rencontré une erreur. Désirez-vous la désactiver et essayer à nouveau?</string>
     <!-- About -->
-    <string name="app_name_full">Lecteur multimédia VLC</string>
+    <string name="app_name_full">VLC pour Android™</string>
     <string name="licence">Licence</string>
     <string name="revision">Révision</string>
     <string name="about">À propos</string>
     <string name="about_text">VLC pour Android™ est un portage de VLC media player, le célèbre lecteur multimedia open source. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
-    <string name="compiled_by">Cette version de VLC est compilé par:</string>
+    <string name="compiled_by">Cette version de VLC est compilée par :</string>
     <string name="vlc_authors">Auteurs de VLC.</string>
-
-    <!--  Preferences -->
+    <!-- Preferences -->
     <string name="preferences">Préférences</string>
     <string name="library_prefs_category">Bibliothèque multimédia</string>
-    <string name="directories_summary">Sélectionnez les repertoires de votre bibliothèque multimédia</string>
-    <string name="add_custom_path">Ajouter un répertoire</string>
-    <string name="add_custom_path_description">Entrer un répertoire additionnel à scanner:</string>
-    <string name="remove_custom_path">Retirer le répertoire</string>
+    <string name="directories_summary">Sélectionnez les dossiers de votre bilbiothèque multimédia</string>
+    <string name="add_custom_path">Ajouter un dossier</string>
+    <string name="add_custom_path_description">Entrer un dossier additionnel à scanner :</string>
+    <string name="remove_custom_path">Retirer le dossier</string>
     <string name="main_prefs_category">Général</string>
     <string name="automatic">Automatique</string>
     <string name="screen_orientation">Orientation vidéo</string>
     <string name="screen_orientation_sensor">Automatique (senseur)</string>
-    <string name="screen_orientation_start_lock">Figé au démarrage</string>
+    <string name="screen_orientation_start_lock">Figée au démarrage</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Paysage</string>
     <string name="screen_orientation_reverse_portrait">Portrait inversé</string>
@@ -165,60 +161,61 @@
     <string name="enable_brightness_gesture">Contrôle de la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôlez la luminosité au toucher</string>
     <string name="enable_headset_detection">Détecter le casque</string>
-    <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, Reprise lors du branchement du casque</string>
-    <string name="enable_jump_buttons">Activer les boutons de saut</string>
-    <string name="enable_jump_buttons_summary">Afficher les boutons avancer/reculer sur l\'interface vidéo</string>
+    <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
+    <string name="enable_jump_buttons">Autoriser les boutons de saut</string>
+    <string name="enable_jump_buttons_summary">Montrer les boutons avant et arrière dans l\'interface vidéo</string>
     <string name="enable_steal_remote_control">Contrôle exclusif de la télécommande</string>
-    <string name="enable_steal_remote_control_summary">Evite les conflits en volant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
+    <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
+    <string name="enable_black_theme">Activer le thème sombre</string>
+    <string name="enable_black_theme_summary">Change les couleurs de l\'interface pour un meilleur confort dans les environnements de faible luminosité.</string>
     <string name="performance_prefs_category">Performance</string>
-    <string name="chroma_format">Chroma Vidéo</string>
-    <string name="chroma_format_summary">RGB 32-bit:\tmode par défaut\nRGB 16-bit:\taméliore les performances vidéos mais diminue la qualité\nYUV:\taméliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
-    <string name="hardware_acceleration">Accélération Matérielle</string>
-    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nDécodage: peut améliorer les performances.\nComplète: potentiellement les meilleures performances.</string>
+    <string name="chroma_format">Chroma vidéo</string>
+    <string name="chroma_format_summary">RGB 32-bit :\tmode par défaut\nRGB 16-bit :\taméliore les performances vidéos mais diminue la qualité\nYUV :\taméliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
+    <string name="hardware_acceleration">Accélération matérielle</string>
+    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage: peut améliorer les performances.\nComplète: peut davantage améliorer les performances.</string>
     <string name="hardware_acceleration_disabled">Désactivée</string>
-    <string name="hardware_acceleration_decoding">Décodage matériel</string>
+    <string name="hardware_acceleration_decoding">Accélération au décodage</string>
     <string name="hardware_acceleration_full">Accélération complète</string>
-    <string name="enable_time_stretching_audio">Correction audio</string>
-    <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie. Nécessite un appareil puissant</string>
-    <string name="enable_frame_skip">Activer le saut de trames</string>
-    <string name="enable_frame_skip_summary">Accélère le décodage pour améliorer les performances, mais diminue la qualité</string>
+    <string name="enable_time_stretching_audio">Étirement temporel audio</string>
+    <string name="enable_time_stretching_audio_summary">Active la correction audio en lecture accélérée ou ralentie (nécessite un appareil puissant).</string>
+    <string name="enable_frame_skip">Permettre le saut de trame</string>
+    <string name="enable_frame_skip_summary">Accélère le décodage mais peut diminuer la qualité de la vidéo.</string>
     <string name="deblocking">Filtre de déblocage</string>
-    <string name="deblocking_summary">Améliore la qualité mais nécessite un appareil puissant</string>
-    <string name="deblocking_always">Déblocage max (plus lente)</string>
+    <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
+    <string name="deblocking_always">Déblocage max (plus lent)</string>
     <string name="deblocking_nonref">Déblocage intermédiaire</string>
     <string name="deblocking_nonkey">Déblocage faible</string>
     <string name="deblocking_all">Sans déblocage (plus rapide)</string>
     <string name="other_prefs_category">Autre</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
-    <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
-    <string name="subtitle_text_encoding">Codage des caractères pour certains sous-titres</string>
-
+    <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
+    <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="debug_logs">Journal de débogage</string>
     <string name="start_logging">Démarrer l\'enregistrement</string>
     <string name="stop_logging">Arrêter l\'enregistrement</string>
     <string name="clear_log">Vider le journal</string>
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
-
     <string name="advanced_prefs_category">Avancé</string>
     <string name="advanced_debugging">Débogage avancé</string>
     <string name="aout">Sortie audio</string>
-    <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement sonore</string>
+    <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio.</string>
     <string name="aout_audiotrack">AudioTrack (natif)</string>
     <string name="aout_audiotrack_java">AudioTrack (java)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="vout">Sortie vidéo</string>
-    <string name="vout_summary">Modifier le type de sortie vidéo</string>
-    <string name="network_caching">Cache réseau (ms)</string>
-    <string name="network_caching_summary">Durée du cache pour les ressources réseau (en millisecondes). Ne fonctionne pas avec le décodage matériel. Laisser vide pour la valeur par défaut.</string>
+    <string name="network_caching">Taille du cache réseau</string>
+    <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
     <string name="enable_verbose_mode">Verbosité</string>
     <string name="enable_verbose_mode_summary">Augmenter la verbosité (logcat)</string>
     <string name="set_locale">Définir la langue</string>
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et relancer VLC pour appliquer la langue.</string>
-    <string name="quit">Redémarrer l\'application</string>
-    <string name="dump_logcat">Sauvegarder journal logcat</string>
-    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans le fichier: %1$s!</string>
-    <string name="dump_logcat_failure">Erreur lors de la sauvegarde du logcat.</string>
+    <string name="quit">Quitter et redémarrer l\'application</string>
+    <string name="dump_logcat">Rejeter le fichier journal logcat</string>
+    <string name="dump_logcat_success">Logcat à été rejeté avec succès vers « %1$s » !</string>
+    <string name="dump_logcat_failure">Echec de rejet de logcat.</string>
+    <string name="vout">Sortie vidéo</string>
+    <string name="vout_summary">Modifier la méthode utilisée par VLC pour la sortie vidéo.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
