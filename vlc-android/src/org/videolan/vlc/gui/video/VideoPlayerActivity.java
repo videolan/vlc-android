@@ -895,6 +895,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mDisabledHardwareAcceleration = true;
                 mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
                 mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+                mSubtitlesSurface.setVisibility(View.INVISIBLE);
                 load();
             }
         })
