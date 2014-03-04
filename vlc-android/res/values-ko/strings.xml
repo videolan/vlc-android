@@ -22,6 +22,7 @@
     <string name="append_all">모두 추가</string>
     <string name="last_playlist">마지막 재생목록</string>
     <string name="delete">삭제</string>
+    <string name="remove">삭제</string>
     <string name="set_song">벨소리로 설정</string>
     <string name="info">정보</string>
     <string name="confirm_delete">파일을 삭제할까요?</string>
@@ -48,6 +49,9 @@
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d 미디어 파일</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d 비디오</item>
     </plurals>
     <string name="internal_memory">내부 메모리</string>
     <string name="parent_folder">상위 폴더로 이동</string>
@@ -119,6 +123,10 @@
     <string name="encountered_error_title">재생 오류</string>
     <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로고침 해 보세요.</string>
     <string name="invalid_location">%1$s 위치를 재생할 수 없습니다</string>
+    <string name="search">검색</string>
+    <string name="search_history">검색 기록</string>
+    <string name="hardware_acceleration_error_title">HW 가속 오류</string>
+    <string name="hardware_acceleration_error_message">HW 가속에 문제가 발생했습니다. HW 가속을 끄고 재시도할까요?</string>
     <!-- About -->
     <string name="app_name_full">안드로이드™ 용 VLC</string>
     <string name="licence">라이센스</string>
@@ -147,15 +155,20 @@
     <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스쳐로 밝기 조절하기</string>
     <string name="enable_headset_detection">헤드셋 감지</string>
     <string name="enable_headset_detection_summary">헤드셋 제거시 일시 중지하기; 헤드셋 삽입시 다시 시작하기</string>
-    <string name="enable_wheel_bar">휠바 사용</string>
-    <string name="enable_wheel_bar_summary">비디오 인터페이스의 대체 스타일의 탐색바</string>
+    <string name="enable_jump_buttons">이동 버튼 활성화하기</string>
+    <string name="enable_jump_buttons_summary">비디오 인터페이스에 앞으로/뒤로 감기 버튼 보이기</string>
     <string name="enable_steal_remote_control">헤드셋 원격 제어 독점</string>
     <string name="enable_steal_remote_control_summary">다른 앱의 원격 제어 가로챔에 의한 충돌 방지. HTC 폰의 더블 클릭 전화걸기를 방지합니다.</string>
+    <string name="enable_black_theme">검정 테마 사용하기</string>
+    <string name="enable_black_theme_summary">저광량 환경에서 더 편한 색상의 인터페이스로 바꾸기</string>
     <string name="performance_prefs_category">성능</string>
     <string name="chroma_format">강제 비디오 채도</string>
     <string name="chroma_format_summary">RGB 32-비트: 기본 크로마\nRGB 16-비트: 높은 성능, 낮은 품질\nYUV: 가장 좋은 성능이지만 모든 기기에서 동작하지 않습니다. 안드로이드 2.3 이상 필요.</string>
-    <string name="enable_iomx">하드웨어 가속 디코딩 사용</string>
-    <string name="enable_iomx_summary">성능이 향상디지만 모든 기기에서 동작하지 않을 수 있습니다.</string>
+    <string name="hardware_acceleration">하드웨어 가속</string>
+    <string name="hardware_acceleration_summary">사용 안함: 안정성 증가.\n디코딩: 성능이 향상될 수 있음.\n전부: 성능이 더 향상될 수 있음.</string>
+    <string name="hardware_acceleration_disabled">사용 안함</string>
+    <string name="hardware_acceleration_decoding">디코딩 가속</string>
+    <string name="hardware_acceleration_full">전부 가속</string>
     <string name="enable_time_stretching_audio">시간-연장 오디오 사용</string>
     <string name="enable_time_stretching_audio_summary">음조 변경 없이 오디오 속도 빠르게/느리게  (빠른 장치 필요)</string>
     <string name="enable_frame_skip">프레임 건너뛰기 사용</string>
@@ -170,7 +183,7 @@
     <string name="clear_history">검색 기록 지우기</string>
     <string name="clear_media_db">미디어 데이터베이스 지우기</string>
     <string name="media_db_cleared">미디어 데이터베이스 지워짐!</string>
-    <string name="subtitle_text_encoding">텍스트 인코딩</string>
+    <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
     <string name="debug_logs">디버그 로그</string>
     <string name="start_logging">기록 시작</string>
     <string name="stop_logging">기록 중지</string>
@@ -191,5 +204,11 @@
     <string name="set_locale">언어 설정</string>
     <string name="set_locale_detail">재설정 하려면 비워두세요</string>
     <string name="set_locale_popup">변경을 적용하기 위해 VLC 종료하고 재설정하세요.</string>
-    <string name="quit">애플리케이션 종료</string>
+    <string name="quit">앱 종료 후 재시작하기</string>
+    <string name="dump_logcat">logcat 로그 덤프하기</string>
+    <string name="dump_logcat_success">Logcat이 %1$s에 성공적으로 덤프했습니다!</string>
+    <string name="dump_logcat_failure">Logcat 덤프에 실패했습니다.</string>
+    <string name="vout">비디오 출력</string>
+    <string name="vout_summary">VLC가 비디오 출력을 위해 사용하는 방식을 변경합니다.</string>
+    <string name="vout_android_surface">안드로이드 Surface</string>
 </resources>
