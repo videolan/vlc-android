@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
     <string name="ok">យល់ព្រម</string>
     <string name="cancel">បោះបង់</string>
@@ -22,6 +22,7 @@
     <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
     <string name="last_playlist">បញ្ជី​ចាក់​ចុង​ក្រោយ</string>
     <string name="delete">លុប</string>
+    <string name="remove">លុប​ចេញ</string>
     <string name="set_song">កំណត់​ជា​សំឡេង​រោទ៍</string>
     <string name="info">ព័ត៌មាន</string>
     <string name="confirm_delete">លុប​ឯកសារ \'%1$s\' ?</string>
@@ -48,6 +49,9 @@
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">ឯកសារ​មេឌៀ %d</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d វីដេអូ</item>
     </plurals>
     <string name="internal_memory">អង្គ​ចងចាំ​ខាង​ក្នុង</string>
     <string name="parent_folder">ទៅ​ថត​មេ</string>
@@ -119,6 +123,10 @@
     <string name="encountered_error_title">កំហុស​ក្នុង​ការ​ចាក់​ឡើងវិញ</string>
     <string name="encountered_error_message">VLC មាន​កំហុស​ជា​មួយ​មេឌៀ​នេះ។\nសូម​ព្យាយាម​ផ្ទុក​​បណ្ណាល័យ​មេឌៀ​ឡើង​វិញ។</string>
     <string name="invalid_location">មិន​អាច​ចាក់​ទីតាំង %1$s បាន​ទេ</string>
+    <string name="search">ស្វែងរក</string>
+    <string name="search_history">ប្រវត្តិ​ស្វែងរក</string>
+    <string name="hardware_acceleration_error_title">កំហុស​ការ​បង្កើន​ល្បឿន HW</string>
+    <string name="hardware_acceleration_error_message">មាន​កំហុស​កើត​ឡើង​ក្នុង​ការ​បង្កើន​ល្បឿន HW ។ តើ​អ្នក​ចង់​បិទ​វា​ហើយ​ព្យាយាម​ម្ដងទៀត​ឬ?</string>
     <!-- About -->
     <string name="app_name_full">VLC សម្រាប់ Android™</string>
     <string name="licence">អាជ្ញាប័ណ្ណ</string>
@@ -147,17 +155,22 @@
     <string name="enable_brightness_gesture_summary">ពិនិត្យ​ពន្លឺ​ដោយ​កាយវិការ​អំឡុង​ពេល​ចាក់​វីដេអូ​ឡើងវិញ</string>
     <string name="enable_headset_detection">រក​កាស</string>
     <string name="enable_headset_detection_summary">ផ្អាក​ពេល​ដក​កាស​ចេញ បន្ត​ពេល​ដោត​កាស​</string>
-    <string name="enable_wheel_bar">បើក​របារ​បង្វិល</string>
-    <string name="enable_wheel_bar_summary">របារ​ស្វែងរក​រចនាប័ទ្ម​ជំនួស​សម្រាប់​ចំណុច​ប្រទាក់​វីដេអូ</string>
+    <string name="enable_jump_buttons">បើក​ប៊ូតុង​លោត</string>
+    <string name="enable_jump_buttons_summary">បង្ហាញ​ប៊ូតុង​ទៅមុខ និង​ថយក្រោយ​នៅ​លើ​ចំណុចប្រទាក់​វីដេអូ</string>
     <string name="enable_steal_remote_control">មិន​បញ្ចូល​ការ​បញ្ហា​កាស​ពី​ចម្ងាយ</string>
     <string name="enable_steal_remote_control_summary">ជៀសវាង​មាន​បញ្ហា​ដោយ​លួច​ការ​បញ្ជា​ពី​ចម្ងាយ​ពី​កម្មវិធី​ផ្សេងៗ។ វា​ការ​ពារ​ពី​ការ​ចុច​ទ្វេដង​លើ​ទូរស័ព្ទ HTC</string>
     <string name="performance_prefs_category">ការ​អនុវត្ត</string>
     <string name="chroma_format">បង្ខុំ​​ក្រូមវីដេអូ</string>
     <string name="chroma_format_summary">RGB 32-bit: ក្រូម​លំនាំដើម​\nRGB 16-bit: កា​រ​អនុវត្ត​ល្អ ប៉ុន្តែ​គុណភាព​ទាប\nYUV: កា​រ​អនុវត្ត​ល្អ​បំផុត​ ប៉ុន្តែ​មិន​ដំណើរការ​លើ​ឧបករណ៍​ទាំងអស់។ Android 2.3 និង​ថ្មី​ជាង​នេះ​ប៉ុណ្ណោះ។</string>
-    <string name="enable_iomx">អនុញ្ញាត​ឲ្យ​ផ្នែក​រឹង​បង្កើន​ល្បឿន​ឌិកូដ</string>
-    <string name="enable_iomx_summary">លើក​កម្ពស់​ការ​អនុវត្ត​ ប៉ុន្តែ​​អាច​មិន​ដំណើរការ​ជាមួយ​ឧបករណ៍​ទាំងអស់។</string>
+    <string name="hardware_acceleration">ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង</string>
+    <string name="hardware_acceleration_summary">បាន​បិទ៖ ស្ថេរ​ភាព​កាន់​តែ​ល្អ​ប្រសើរ។\nការ​ឌិកូដ៖ អាច​ធ្វើ​ឲ្យ​ប្រតិបត្តិ​ការ​ល្អ​ប្រសើរ។\nពេញ៖ អាច​ធ្វើ​ឲ្យ​ប្រតិបត្តិ​ការ​ល្អ​ប្រសើរ​នៅ​ពេល​អនាគត។</string>
+    <string name="hardware_acceleration_disabled">បាន​បិទ</string>
+    <string name="hardware_acceleration_decoding">ការ​បង្កើន​ល្បឿន​កា​ឌិកូដ</string>
+    <string name="hardware_acceleration_full">ការ​បង្កើន​ល្បឿន​ពេញ</string>
     <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
     <string name="enable_time_stretching_audio_summary">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
+    <string name="enable_frame_skip">បើក​ការ​រំល​ស៊ុម</string>
+    <string name="enable_frame_skip_summary">បង្កើន​ល្បឿន​ការ​ដាក់​លេខ​កូដ ប៉ុន្តែ​អាច​បន្ថយ​គុណភាព​វីដេអូ។</string>
     <string name="deblocking">ការ​កំណត់​តម្រង Deblocking</string>
     <string name="deblocking_summary">ប្ដូរ​ការ​កំណត់​តម្រង deblocking ។ អាច​ធ្វើឲ្យ​គុណភាព​វីដេអូ​ប្រសើរ​ឡើង។ សម្រាប់​តែ​អ្នកប្រើ​ជាន់ខ្ពស់​បុណ្ណោះ។</string>
     <string name="deblocking_always">deblocking ទាំងស្រុង (យឺត​បំផុត)</string>
@@ -182,10 +195,16 @@
     <string name="aout_audiotrack">AudioTrack (ដើម)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">តម្លៃ​ឃ្លាំង​សម្ងាត់​បណ្ដាញ</string>
+    <string name="network_caching_summary">ចំនួន​ពេលវេលា​ដើម្បី​ទ្រាប់​មេឌៀ​បណ្ដាញ (គិតជា​មិ.វិ.)។ មិន​ដំណើរការ​ជាមួយ​ការ​ដោះ​លេខ​កូដ​ទេ។ ទុក​ឲ្យ​វា​ទទេ​ដើម្បី​កំណត់​ឡើង​វិញ។</string>
     <string name="enable_verbose_mode">បរិយាយ</string>
     <string name="enable_verbose_mode_summary">បង្កើន​ការ​បរិយាយ (logcat)</string>
     <string name="set_locale">កំណត់​មូលដ្ឋាន (locale)</string>
     <string name="set_locale_detail">ទុក​ទំនេរ ដើម្បី​កំណត់​ឡើងវិញ</string>
     <string name="set_locale_popup">ចាកចេញ និង​កំណត់​ VLC ឡើងវិញ ​ដើម្បី​មាន​ប្រសិទ្ធភាព ។</string>
-    <string name="quit">បិទ​​កម្មវិធី</string>
+    <string name="quit">ចេញ ហើយ​ចាប់ផ្ដើម​កម្មវិធី​ឡើង​វិញ</string>
+    <string name="dump_logcat_failure">បាន​បរាជ័យ​ក្នុង​ការ​បោះបង់ logcat ។</string>
+    <string name="vout">ការ​បង្ហាញ​វីដេអូ</string>
+    <string name="vout_summary">ប្ដូរ​វិធី​ដែល VLC ប្រើ​ដើម្បី​បង្ហាញ​វីដេអូ។</string>
+    <string name="vout_android_surface">ផ្ទៃ​របស់ Android</string>
 </resources>
