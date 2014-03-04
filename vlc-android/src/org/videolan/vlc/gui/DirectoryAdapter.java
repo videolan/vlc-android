@@ -326,7 +326,7 @@ public class DirectoryAdapter extends BaseAdapter {
         if(selectedNode.isFile())
             holder.icon.setImageResource(R.drawable.icon);
         else
-            holder.icon.setImageResource(R.drawable.folder);
+            holder.icon.setImageResource(R.drawable.ic_menu_folder);
 
         return v;
     }

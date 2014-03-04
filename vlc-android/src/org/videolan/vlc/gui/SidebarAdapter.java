@@ -67,10 +67,10 @@ public class SidebarAdapter extends BaseAdapter {
 
     static {
         SidebarEntry entries2[] = {
-            new SidebarEntry( "video", R.string.video, R.drawable.video ),
-            new SidebarEntry( "audio", R.string.audio, R.drawable.audio ),
-            new SidebarEntry( "directories", R.string.directories, R.drawable.folder ),
-            new SidebarEntry( "history", R.string.history, R.drawable.time ),
+            new SidebarEntry( "video", R.string.video, R.drawable.ic_menu_video ),
+            new SidebarEntry( "audio", R.string.audio, R.drawable.ic_menu_audio ),
+            new SidebarEntry( "directories", R.string.directories, R.drawable.ic_menu_folder ),
+            new SidebarEntry( "history", R.string.history, R.drawable.ic_menu_history ),
             //new SidebarEntry( "bookmarks", R.string.bookmarks, R.drawable.ic_bookmarks ),
             //new SidebarEntry( "playlists", R.string.playlists, R.drawable.icon ),
         };
