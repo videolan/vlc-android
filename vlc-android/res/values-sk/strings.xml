@@ -24,6 +24,7 @@
     <string name="append_all">Pripojiť všetko</string>
     <string name="last_playlist">Posledný playlist</string>
     <string name="delete">Vymazať</string>
+    <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
@@ -58,6 +59,11 @@
         <item quantity="one">1 súbor s médiom</item>
         <item quantity="few">%d súbory s médiami</item>
         <item quantity="other">%d súborov s médiami</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">%d video</item>
+        <item quantity="few">%d videá</item>
+        <item quantity="other">%d videí</item>
     </plurals>
     <string name="internal_memory">Interná pamäť</string>
     <string name="parent_folder">Do rodičovského priečinka</string>
@@ -131,6 +137,10 @@
     <string name="encountered_error_title">Chyba počas prehrávania</string>
     <string name="encountered_error_message">Program VLC zaznamenal chybu pri tomto médiu.\nProsím skúste obnoviť knižnicu médií.</string>
     <string name="invalid_location">Z umiestnenia %1$s nemožno prehrávať</string>
+    <string name="search">Vyhľadať</string>
+    <string name="search_history">História vyhľadávania</string>
+    <string name="hardware_acceleration_error_title">Chyba HW akcelerácie</string>
+    <string name="hardware_acceleration_error_message">HW akcelerácia zaznamenala chybu. Chcete ju vypnúť a skúsiť to ešte raz?</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Licencia</string>
@@ -159,15 +169,20 @@
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_headset_detection">Detegovať headset</string>
     <string name="enable_headset_detection_summary">Pozastaviť pri odpojení headsetu; pokračovať pri pripojení headsetu</string>
-    <string name="enable_wheel_bar">Zapnúť lištu v elipse</string>
-    <string name="enable_wheel_bar_summary">Vyhľadávací panel s alternatívnym štýlom pre rozhranie videa</string>
+    <string name="enable_jump_buttons">Zapnúť tlačidlá pre preskakovanie</string>
+    <string name="enable_jump_buttons_summary">Zobraziť tlačidlá na posúvanie dopredu/dozadu v rozhraní s videom</string>
     <string name="enable_steal_remote_control">Výhradné vzdialené ovládanie headsetu</string>
     <string name="enable_steal_remote_control_summary">Táto voľba zabraňuje konfliktom spôsobeným tým, že vzdialené ovládanie preberú iné aplikácie. Táto voľba zároveň bráni uskutočneniu hovoru pri dvojitom kliknutí na telefónoch HTC.</string>
+    <string name="enable_black_theme">Zapnúť čiernu tému</string>
+    <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v priestoroch so slabým osvetlením.</string>
     <string name="performance_prefs_category">Výkon</string>
     <string name="chroma_format">Vynútiť farebnú sýtosť - chroma</string>
     <string name="chroma_format_summary">RGB 32-bit: predvolená sýtosť - chroma\nRGB 16-bit: lepší výkon ale nižšia kvalita\nYUV: najlepší výkon, nemusí však fungovať na všetkých zariadeniach. Len pre systém Android 2.3 a novší.</string>
-    <string name="enable_iomx">Hardvérovo akcelerované dekódovanie</string>
-    <string name="enable_iomx_summary">Zlepšuje výkon, avšak nemusí fungovať na všetkých zariadeniach.</string>
+    <string name="hardware_acceleration">Hardvérová akcelerácia</string>
+    <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita.\nDekódovanie: môže zlepšiť výkon.\nÚplná: môže ešte viac zlepšiť výkon.</string>
+    <string name="hardware_acceleration_disabled">Vypnuté</string>
+    <string name="hardware_acceleration_decoding">Akcelerácia dekódovania</string>
+    <string name="hardware_acceleration_full">Úplná akcelerácia</string>
     <string name="enable_time_stretching_audio">Zapnúť časové úpravy zvuku</string>
     <string name="enable_time_stretching_audio_summary">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie).</string>
     <string name="enable_frame_skip">Zapnúť preskočenie snímkov</string>
@@ -203,5 +218,11 @@
     <string name="set_locale">Nastaviť lokálne</string>
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
     <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
-    <string name="quit">Ukončiť program</string>
+    <string name="quit">Ukončiť a reštartovať aplikáciu</string>
+    <string name="dump_logcat">Analyzovať záznam logcat</string>
+    <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
+    <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
+    <string name="vout">Výstup videa</string>
+    <string name="vout_summary">Zmeňte metódu, ktorú progrma VLC používa pre výstup videa.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
