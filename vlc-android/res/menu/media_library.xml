@@ -35,6 +35,7 @@
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_equalizer"
+        android:icon="@drawable/ic_menu_equalizer"
         android:title="@string/equalizer" />
     <item
         android:id="@+id/ml_menu_preferences"
