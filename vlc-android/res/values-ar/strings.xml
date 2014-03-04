@@ -27,6 +27,7 @@
     <string name="append_all">ألحِق الكل</string>
     <string name="last_playlist">قائمة التّشغيل الأخيرة</string>
     <string name="delete">احذف</string>
+    <string name="remove">أزِل</string>
     <string name="set_song">اضبطها للرّنين</string>
     <string name="info">معلومات</string>
     <string name="confirm_delete">أأحذف الملف \'%1$s\' ؟</string>
@@ -74,12 +75,20 @@
         <item quantity="many">%d ملف وسائط</item>
         <item quantity="other">%d ملف وسائط</item>
     </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="zero">%d مقطع مرئي</item>
+        <item quantity="one">%d مقطع مرئي</item>
+        <item quantity="two">%d مقطع مرئي</item>
+        <item quantity="few">%d مقطع مرئي</item>
+        <item quantity="many">%d مقطع مرئي</item>
+        <item quantity="other">%d مقطع مرئي</item>
+    </plurals>
     <string name="internal_memory">الذّاكرة الدّاخليّة</string>
     <string name="parent_folder">اذهب إلى المجلد الأعلى</string>
     <string name="audio">صوتي</string>
     <string name="video">مرئي</string>
     <string name="bookmarks">العلامات</string>
-    <string name="equalizer">معادِل</string>
+    <string name="equalizer">مُعادِل</string>
     <string name="all_albums">كل المجموعات</string>
     <string name="genres">الأساليب</string>
     <string name="playlists">قوائم التّشغيل</string>
@@ -149,6 +158,8 @@
     <string name="encountered_error_title">خطأ تشغيلي</string>
     <string name="encountered_error_message">حدث خطأ مع هذا الوسيط في VLC.\nجرّب تحديث مكتبة الوسائط رجاءً.</string>
     <string name="invalid_location">تعذّر تشغيل الموقع %1$s</string>
+    <string name="search">ابحث</string>
+    <string name="search_history">تأريخ البحث</string>
     <!-- About -->
     <string name="app_name_full">VLC للأندرويد™</string>
     <string name="licence">الرّخصة</string>
@@ -177,15 +188,18 @@
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
     <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
-    <string name="enable_wheel_bar">فعّل شريط التّمرير</string>
-    <string name="enable_wheel_bar_summary">منظر آخر لشريط التّمرير في الواجهة المرئية</string>
+    <string name="enable_jump_buttons">فعّل أزرار القفز</string>
+    <string name="enable_jump_buttons_summary">أظهِر أزرار التّقدّم و العودة في واجهة المرئيات</string>
     <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
     <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
     <string name="performance_prefs_category">الأداء</string>
     <string name="chroma_format">قوّ الصّفاء المرئي</string>
     <string name="chroma_format_summary">RGB 32-bit: الصّفاء الافتراضي\nRGB 16-bit: أداء أفضل مع جودة أقل\nYUV: الأداء الأفضل لكن لا يعمل على جميع الأجهزة. أندرويد 2.3 و الأحدث فقط.</string>
-    <string name="enable_iomx">فك التّرميز المُسرّع عتاديًا</string>
-    <string name="enable_iomx_summary">يحسّن الأداء، لكنّه قد لا يعمل على جميع الأجهزة.</string>
+    <string name="hardware_acceleration">ترميز مُسرّع عتاديًا</string>
+    <string name="hardware_acceleration_summary">معطَّل : أحسن استقراراً.\nفكّ الترميز : قد يحسّن الأداء.\nكامل : قد يحسّن الأداء أكثر.\n</string>
+    <string name="hardware_acceleration_disabled">تعطيل</string>
+    <string name="hardware_acceleration_decoding">فكّ ترميز التسارع</string>
+    <string name="hardware_acceleration_full">تسريع أقصى</string>
     <string name="enable_time_stretching_audio">الوقت المُمتد للصّوت</string>
     <string name="enable_time_stretching_audio_summary">سرّع و بطّئ الصّوت بدون تغيير درجته (يتطلب جهازًا سريعًا).</string>
     <string name="enable_frame_skip">فعّل التّجاوز الإطاري</string>
@@ -221,5 +235,11 @@
     <string name="set_locale">اضبط المحلّية</string>
     <string name="set_locale_detail">اتركه فارغًا لإعادة ضبطه</string>
     <string name="set_locale_popup">كي تأخذ تغييراتك مجراها عليك إغلاق VLC و إعادة تشغيله.</string>
-    <string name="quit">أغلق التّطبيق</string>
+    <string name="quit">أغلق وأعِدْ تشغيل التّطبيق</string>
+    <string name="dump_logcat">طرْح سِجِل logcat</string>
+    <string name="dump_logcat_success">طُرح Logcat بنجاح في %1$s !</string>
+    <string name="dump_logcat_failure">فشل طرْح logcat.</string>
+    <string name="vout">الإخراج المرئي</string>
+    <string name="vout_summary">غير طريقة إخراج VLC المرئي.</string>
+    <string name="vout_android_surface">واجهة أندرويد</string>
 </resources>
