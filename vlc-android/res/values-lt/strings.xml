@@ -24,6 +24,7 @@
     <string name="append_all">Įtraukti visus</string>
     <string name="last_playlist">Paskiausias grojaraštis</string>
     <string name="delete">Šalinti</string>
+    <string name="remove">Pašalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="info">Informacija</string>
     <string name="confirm_delete">Pašalinti failą \'%1$s\' ?</string>
@@ -58,6 +59,11 @@
         <item quantity="one">%d kūrinys</item>
         <item quantity="few">%d kūriniai</item>
         <item quantity="other">%d kūrinių</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">klipas</item>
+        <item quantity="few">%d klipai</item>
+        <item quantity="other">%d klipų</item>
     </plurals>
     <string name="internal_memory">Vidinė atmintis</string>
     <string name="parent_folder">Į aukštesnį aplanką</string>
@@ -159,17 +165,22 @@
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
     <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
-    <string name="enable_wheel_bar">Įgalinti riedančią juostelę</string>
-    <string name="enable_wheel_bar_summary">Kitokio stiliaus slinkties juosta vaizdo sąsajoje</string>
+    <string name="enable_jump_buttons">Įgalinti peršokimo mygtukus</string>
+    <string name="enable_jump_buttons_summary">Vaizdo klipų leisti rodyti prasukimo atgal ir priekin mygtukus</string>
     <string name="enable_steal_remote_control">Išskirtinė nuotolinė ausinių kontrolė</string>
     <string name="enable_steal_remote_control_summary">Vengti konflikto, kuomet reaguojama į kitų programų nuotolinę kontrolę. Tai leidžia išvengti skambinimo dukart spustelėjus HTC telefonus.</string>
     <string name="performance_prefs_category">Našumas</string>
     <string name="chroma_format">Priverstinai naudoti konkretų spalvingumą</string>
     <string name="chroma_format_summary">RGB, 32 bitų: nusmatytasis spalvingumas\nRGB, 16 bitų: greitesnis apdorojimas, bet prastesnė kokybė\nYUV: didžiausias našumas. Tik Android 2.3 ir vėlesnėse.</string>
-    <string name="enable_iomx">Aparatinis iškodavimas</string>
-    <string name="enable_iomx_summary">Padidina našumą, bet veikia ne visuose įrenginiuose.</string>
+    <string name="hardware_acceleration">Aparatinis spartinimas</string>
+    <string name="hardware_acceleration_summary">Uždrausta: stabilesnis veikimas.\nIškoduojant: gali padidinti našumą.\nVisiškas: gali dar labiau pagerinti našumą.</string>
+    <string name="hardware_acceleration_disabled">Uždrausta</string>
+    <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
+    <string name="hardware_acceleration_full">Visiškas spartinimas</string>
     <string name="enable_time_stretching_audio">Tempo keitimas išlaikant garso aukštį</string>
     <string name="enable_time_stretching_audio_summary">Pagreitinti arba sulėtinti grojimą, tačiau nekeičiant garso tono aukščio (veikia greituose įrenginiuose).</string>
+    <string name="enable_frame_skip">Įgalinti kadrų praleidimą</string>
+    <string name="enable_frame_skip_summary">Pagreitina iškodavimą, bet gali sumažinti vaizdo kokybę.</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
     <string name="deblocking_summary">Pakeisti išblokavimo filtrui taikomas nuostatas. Gali pagerinti vaizdo kokybę. Tik patyrusiems naudotojams.</string>
     <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>
@@ -194,10 +205,18 @@
     <string name="aout_audiotrack">AudioTrack (gimtoji)</string>
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
+    <string name="network_caching">Tinklo podėlio reikšmė</string>
+    <string name="network_caching_summary">Laiko buferio dydis (milisekundėmis) grojant kūrinius per tinklą. Neturi įtakos, kai naudojamas aparatinis spartinimas. Norėdami naudoti numatytąjį, ištrinkite reikšmę.</string>
     <string name="enable_verbose_mode">Detaliai</string>
-    <string name="enable_verbose_mode_summary">Didinti detalumą (logcat)</string>
+    <string name="enable_verbose_mode_summary">Didinti pranešimų detalumą (logcat)</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="set_locale_detail">Ištrinkite, jei norite naudoti numatytą</string>
     <string name="set_locale_popup">Pakeitimai įsigalios iš naujo paleisdus VLC.</string>
-    <string name="quit">Baigti</string>
+    <string name="quit">Baigti ir paleisti iš naujo</string>
+    <string name="dump_logcat">Įrašyti pranešimų žurnalą</string>
+    <string name="dump_logcat_success">Pranešimų žunalas „logcat“ sėkmingai įrašytas į %1$s!</string>
+    <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“.</string>
+    <string name="vout">Vaizdo išvedimas</string>
+    <string name="vout_summary">Keisti VLC vaizdo išvedimo būdą.</string>
+    <string name="vout_android_surface">Android paviršius</string>
 </resources>
