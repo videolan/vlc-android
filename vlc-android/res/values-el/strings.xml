@@ -23,6 +23,7 @@
     <string name="append_all">Προσθήκη όλων</string>
     <string name="last_playlist">Τελευταία λίστα αναπαραγωγής</string>
     <string name="delete">Διαγραφή</string>
+    <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\' ?</string>
@@ -53,6 +54,10 @@
     <plurals name="mediafiles_quantity">
         <item quantity="one">1 αρχείο μέσων</item>
         <item quantity="other">%d αρχεία μέσων</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 βίντεο</item>
+        <item quantity="other">%d βίντεο</item>
     </plurals>
     <string name="internal_memory">Εσωτερική μνήμη</string>
     <string name="parent_folder">Πάνω στον αρχικό φάκελο</string>
@@ -125,6 +130,10 @@
     <string name="encountered_error_title">Σφάλμα στην αναπαραγωγή</string>
     <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το μέσο.\nΠαρακαλώ ανανεώστε τη βιβλιοθήκη μέσων.</string>
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να παιχτεί</string>
+    <string name="search">Εύρεση</string>
+    <string name="search_history">Ιστορικό εύρεσης</string>
+    <string name="hardware_acceleration_error_title">Σφάλμα επιτάχυνσης υλικού</string>
+    <string name="hardware_acceleration_error_message">Η επιτάχυνση υλικού αντιμετώπισε ένα σφάλμα. Θέλετε να την απενεργοποιήσετε και να ξαναδοκιμάσετε.</string>
     <!-- About -->
     <string name="app_name_full">Το VLC για το Android™</string>
     <string name="licence">Άδεια</string>
@@ -153,15 +162,20 @@
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
     <string name="enable_headset_detection_summary">Παύση κατά την αφαίρεση των ακουστικών˙ συνέχιση με την εισαγωγή των ακουστικών</string>
-    <string name="enable_wheel_bar">Ενεργοποίηση μπάρας τροχού </string>
-    <string name="enable_wheel_bar_summary">Εναλλακτικού στυλ μπάρα εύρεσης για τη διεπαφή βίντεο</string>
+    <string name="enable_jump_buttons">Ενεργοποίηση πλήκτρων άλματος</string>
+    <string name="enable_jump_buttons_summary">Εμφάνιση των πλήκτρων άλματος πίσω και μπροστά για την διασύνδεση βίντεο</string>
     <string name="enable_steal_remote_control">Αποκλειστικός έλεγχος από απόσταση των ακουστικών</string>
     <string name="enable_steal_remote_control_summary">Αποφύγετε τις συγκρούσεις κλέβοντας τον απομακρυσμένο έλεγχο από άλλες εφαρμογές. Αυτό αποτρέπει την κλήση για το διπλό κλικ στα HTC τηλέφωνα.</string>
+    <string name="enable_black_theme">Ενεργοποίηση του μαύρου θέματος</string>
+    <string name="enable_black_theme_summary">Αλλάξτε τα χρώματα διεπαφής για μεγαλύτερη άνεση στο συνθήκες χαμηλού φωτισμού.</string>
     <string name="performance_prefs_category">Απόδοση</string>
     <string name="chroma_format">Επιβολή βίντεο χρώματος</string>
     <string name="chroma_format_summary">RGB 32-bit: προεπιλεγμένο χρώμα\nRGB 16-bit: καλύτερη απόδοση αλλά χειρότερη ποιότητα\nYUV: κάλλιστη απόδοση αλλά δεν δουλεύει σε όλες τις συσκευές. Android 2.3 και νεώτερο μόνο.</string>
-    <string name="enable_iomx">Αποκωδικοποίηση με επιτάχυνση υλικού</string>
-    <string name="enable_iomx_summary">Βελτιώνει την απόδοση, αλλά ενδέχεται να μην δουλεύει με όλες τις συσκευές.</string>
+    <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
+    <string name="hardware_acceleration_summary">Απενεργοποιημένο: καλύτερη σταθερότητα.\nΑποκωδικοποίηση: ίσως βελτιώσει την απόδοση.\nΠλήρης: ίσως βελτιώσει την απόδοση περαιτέρω.</string>
+    <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
+    <string name="hardware_acceleration_decoding">Επιτάχυνση Αποκωδικοποίησης</string>
+    <string name="hardware_acceleration_full">Πλήρης Επιτάχυνση</string>
     <string name="enable_time_stretching_audio">Χρονική διαστολή ήχου </string>
     <string name="enable_time_stretching_audio_summary">Επιταχύνει και να επιβραδύνει τον ήχο χωρίς να αλλάζει τη συχνότητα (απαιτεί μια γρήγορη συσκευή).</string>
     <string name="enable_frame_skip">Ενεργοποίηση άλματος καρέ</string>
@@ -197,5 +211,11 @@
     <string name="set_locale">Ορισμός τοπικής ρύθμισης</string>
     <string name="set_locale_detail">Αφήστε το κενό για να το επαναφέρετε</string>
     <string name="set_locale_popup">Κλείστε και επαναφέρετε το VLC για να ισχύσουν οι αλλαγές.</string>
-    <string name="quit">Κλείστε την εφαρμογή</string>
+    <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
+    <string name="dump_logcat">Κατεκτύπωση καταγραφών logcat </string>
+    <string name="dump_logcat_success">Επιτυχής κατεκτύπωση logcat στο %1$s!</string>
+    <string name="dump_logcat_failure">Αποτυχία κατεκτύπωσης logcat.</string>
+    <string name="vout">Έξοδος βίντεο</string>
+    <string name="vout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή βίντεο.</string>
+    <string name="vout_android_surface">Android surface</string>
 </resources>
