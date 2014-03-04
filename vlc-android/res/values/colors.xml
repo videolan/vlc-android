@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="item_divider">#00000000</color>
     <color name="item_common_pressed">#e0e0e0</color>
     <color name="item_common_selected">#5e5e5e</color>
     <color name="item_footer">#e0e0e0</color>

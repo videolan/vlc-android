@@ -4,8 +4,6 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="?attr/item_divider"
-    android:dividerHeight="1dp" >
+    android:layout_height="match_parent" >
 
 </ListView>

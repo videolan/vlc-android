@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="item_divider" format="reference|color" />
     <attr name="item_common_pressed" format="reference|color" />
     <attr name="item_common_selected" format="reference|color" />
     <attr name="item_footer" format="reference|color" />
