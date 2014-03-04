@@ -24,6 +24,7 @@
     <string name="append_all">Додати все</string>
     <string name="last_playlist">Останній список</string>
     <string name="delete">Видалити</string>
+    <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
@@ -58,6 +59,11 @@
         <item quantity="one">%d медіа файл</item>
         <item quantity="few">%d медіа файли</item>
         <item quantity="other">%d медіа файлів</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">%d відео</item>
+        <item quantity="few">%d відео</item>
+        <item quantity="other">%d відео</item>
     </plurals>
     <string name="internal_memory">Внутрішня пам\'ять</string>
     <string name="parent_folder">До батьківського каталогу</string>
@@ -131,6 +137,10 @@
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити</string>
+    <string name="search">Пошук</string>
+    <string name="search_history">Історія пошуку</string>
+    <string name="hardware_acceleration_error_title">Помилка апаратного прискорення</string>
+    <string name="hardware_acceleration_error_message">Апаратне прискорення спричинило помилку. Волієте вимкнути його та спробувати знову?</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Ліцензія</string>
@@ -159,15 +169,20 @@
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
     <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
-    <string name="enable_wheel_bar">Увімкнути коліщатко</string>
-    <string name="enable_wheel_bar_summary">Альтернативний стиль панелі пошуку для відео інтерфейсу</string>
+    <string name="enable_jump_buttons">Увімкнути кнопки переходів</string>
+    <string name="enable_jump_buttons_summary">Показувати кнопки переходу вперед і назад на відеоінтерфейсі</string>
     <string name="enable_steal_remote_control">Виняткове віддалене управління гарнітурою</string>
     <string name="enable_steal_remote_control_summary">Уникає конфліктів через перехоплення віддаленого управління іншими програмами. Це запобігає дзвінкам при подвійному натисканні на HTC телефонах.</string>
+    <string name="enable_black_theme">Увімкнути чорну тему</string>
+    <string name="enable_black_theme_summary">Змінити кольори інтерфейся для більшої зручності при поганому освітленні.</string>
     <string name="performance_prefs_category">Швидкодія</string>
     <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
     <string name="chroma_format_summary">RGB 32-бітна: типова насиченість кольору\nRGB 16-бітна: краща швидкодія, але гірша якість\nYUV: найкраща швидкодія, але не працює на всіх пристроях. Android 2.3 та новіші лише.</string>
-    <string name="enable_iomx">Увімкнути декодування з апаратним прискоренням</string>
-    <string name="enable_iomx_summary">Покращує швидкодію, але може не працювати на всіх пристроях.</string>
+    <string name="hardware_acceleration">Апаратне прискорення</string>
+    <string name="hardware_acceleration_summary">Вимкнено: краща стабільність.\nПрограмне: може поліпшити швидкодію.\nПовне: згодом може поліпшити швидкодію.</string>
+    <string name="hardware_acceleration_disabled">Вимкнено</string>
+    <string name="hardware_acceleration_decoding">Програмне прискорення</string>
+    <string name="hardware_acceleration_full">Повне прискорення</string>
     <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
     <string name="enable_time_stretching_audio_summary">Прискорює та уповільнює звук без зміни висоти тону (вимагає швидкого пристрою).</string>
     <string name="enable_frame_skip">Увімкнути пропуск кадрів</string>
@@ -182,7 +197,7 @@
     <string name="clear_history">Очистити історію пошуку</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="media_db_cleared">Медіабазу очищено!</string>
-    <string name="subtitle_text_encoding">Кодування тексту</string>
+    <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="debug_logs">Журнали налагодження</string>
     <string name="start_logging">Почати запис у журнал</string>
     <string name="stop_logging">Зупинити запис у журнал</string>
@@ -203,5 +218,11 @@
     <string name="set_locale">Установка локалі</string>
     <string name="set_locale_detail">Залишіть порожній рядок для типового значення</string>
     <string name="set_locale_popup">Вийдіть і перезапустіть VLC для набуття чинності змін.</string>
-    <string name="quit">Вийти із програми</string>
+    <string name="quit">Вийти і перезапустити програму</string>
+    <string name="dump_logcat">Викинути журнал logcat</string>
+    <string name="dump_logcat_success">Logcat успішно викинули до %1$s!</string>
+    <string name="dump_logcat_failure">Не вдалося викинути logcat.</string>
+    <string name="vout">Вивід відео</string>
+    <string name="vout_summary">Змінює метод, який VLC використовує для виведення відео.</string>
+    <string name="vout_android_surface">Android поверхня</string>
 </resources>
