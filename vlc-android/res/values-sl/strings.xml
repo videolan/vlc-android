@@ -25,6 +25,7 @@
     <string name="append_all">Dodaj vse</string>
     <string name="last_playlist">Zadnji seznam predvajanja</string>
     <string name="delete">Izbriši</string>
+    <string name="remove">Odstrani</string>
     <string name="set_song">Nastavi za zvonjenje</string>
     <string name="info">Podatki</string>
     <string name="confirm_delete">Želite izbrisati datoteko \'%1$s\'?</string>
@@ -63,6 +64,12 @@
         <item quantity="two">2 predstavni datoteki</item>
         <item quantity="few">%d predstavne datoteke</item>
         <item quantity="other">%d predstavnih datotek</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">%d video</item>
+        <item quantity="two">%d videa</item>
+        <item quantity="few">%d videi</item>
+        <item quantity="other">%d videov</item>
     </plurals>
     <string name="internal_memory">Notranji pomnilnik</string>
     <string name="parent_folder">V nadrejeno mapo</string>
@@ -137,6 +144,7 @@
     <string name="encountered_error_title">Napaka pri predvajanju</string>
     <string name="encountered_error_message">VLC je odkril napako na tej predstavni vsebini.\nProsimo poskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="invalid_location">Lokacije %1$s ni mogoče predvajati</string>
+    <string name="search_history">Zgodovina iskanja</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Dovoljenje</string>
@@ -165,15 +173,17 @@
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
     <string name="enable_headset_detection">Zaznaj slušalke</string>
     <string name="enable_headset_detection_summary">Prekini ob odklopu slušalk; Nadaljuj ob priklopu slušalk</string>
-    <string name="enable_wheel_bar">Omogoči kolešček</string>
-    <string name="enable_wheel_bar_summary">Alternativen stil iskalne vrstice za video vmesnik</string>
+    <string name="enable_jump_buttons">Omogoči gumbe za skok</string>
+    <string name="enable_jump_buttons_summary">Pokaži gumba naprej in nazaj v vmesniku za video</string>
     <string name="enable_steal_remote_control">Ekskluziven daljinski nadzor slušalk</string>
     <string name="enable_steal_remote_control_summary">Izognite se konfliktom z odvzemom daljinskega nadzora drugim napravam. To prepreči klicanje z dvoklikom na HTC telefonih.</string>
     <string name="performance_prefs_category">Zmogljivost</string>
     <string name="chroma_format">Vsili kromo videa</string>
     <string name="chroma_format_summary">RGB, 32-bitni: privzeta kroma\nRGB, 16-bitni: boljše delovanje ob nižji kakovosti\nYUV: najboljše, vendar ne deluje na vseh napravah. Android 2.3 ali sodobnejši.</string>
-    <string name="enable_iomx">Omogoči strojno pospešeno dekodiranje</string>
-    <string name="enable_iomx_summary">Izboljša zmogljivost, vendar mogoče ne bo delovalo z vsemi napravami.</string>
+    <string name="hardware_acceleration">Strojno pospeševanje</string>
+    <string name="hardware_acceleration_disabled">Onemogočeno</string>
+    <string name="hardware_acceleration_decoding">Pospeševanje dekodiranja</string>
+    <string name="hardware_acceleration_full">Polno pospeševanje</string>
     <string name="enable_time_stretching_audio">Časovno raztegovanje zvoka</string>
     <string name="enable_time_stretching_audio_summary">Pohitri ali upočasni zvok brez spremembe višine tona (potrebuje hitro napravo).</string>
     <string name="enable_frame_skip">Omogoči izpuščanje sličic</string>
@@ -188,12 +198,13 @@
     <string name="clear_history">Počisti zgodovino iskanja</string>
     <string name="clear_media_db">Izprazni bazo predstavnih vsebin</string>
     <string name="media_db_cleared">Baza predstavnih vsebin izpraznjena!</string>
-    <string name="subtitle_text_encoding">Kodiranje besedila</string>
+    <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="debug_logs">Razhroščevanje beleženj</string>
     <string name="start_logging">Začni beleženje</string>
     <string name="stop_logging">Prekini beleženje</string>
     <string name="clear_log">Počisti dnevnik</string>
     <string name="copy_to_clipboard">Kopiraj na odložišče</string>
+    <string name="copied_to_clipboard">Zapisnik kopiran na odložišče.</string>
     <string name="advanced_prefs_category">Napredno</string>
     <string name="advanced_debugging">Napredno razhroščevanje</string>
     <string name="aout">Zvočni izhod</string>
@@ -202,10 +213,13 @@
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="network_caching">Vrednost omrežnega predpomnjenja</string>
+    <string name="network_caching_summary">Dolžina časa za medpomnjenje omrežnega medija (v ms). Ne deluje s strojnim dekodiranjem. Za ponastavitev pustite prazno.</string>
     <string name="enable_verbose_mode">Podrobno</string>
     <string name="enable_verbose_mode_summary">Povečaj podrobnost (logcat)</string>
     <string name="set_locale">Nastavi področje</string>
     <string name="set_locale_detail">Pustite prazno za ponastavitev</string>
     <string name="set_locale_popup">Da bodo spremembe začele veljati, zapustite in ponastavite VLC.</string>
-    <string name="quit">Izhod iz programa</string>
+    <string name="vout">Video izhod</string>
+    <string name="vout_summary">Spremenite metodo, ki jo VLC uporablja za izhodni video.</string>
+    <string name="vout_android_surface">Površina Android</string>
 </resources>
