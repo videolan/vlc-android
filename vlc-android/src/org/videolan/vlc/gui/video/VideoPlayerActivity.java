@@ -630,7 +630,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mTime.setEnabled(false);
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
-        mMenu.setEnabled(false);
         hideOverlay(true);
     }
 
@@ -645,7 +644,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mTime.setEnabled(true);
         mSeekbar.setEnabled(true);
         mLength.setEnabled(true);
-        mMenu.setEnabled(true);
         mShowing = false;
         showOverlay();
     }
@@ -1518,6 +1516,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
                 mPlayPause.setVisibility(View.VISIBLE);
+                mMenu.setVisibility(View.VISIBLE);
                 dimStatusBar(false);
             }
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -1546,11 +1545,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
+            mMenu.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         }
