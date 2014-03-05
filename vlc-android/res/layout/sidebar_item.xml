@@ -6,9 +6,10 @@
     android:layout_marginLeft="5dip"
     android:layout_marginRight="5dip"
     android:layout_marginTop="5dip"
-    android:padding="13dip"
     android:drawableLeft="@drawable/icon"
+    android:drawablePadding="5dip"
+    android:gravity="left|center_vertical"
+    android:padding="13dip"
     android:text="@string/title"
     android:textColor="?attr/list_menu"
-    android:textSize="20sp"
-    android:gravity="center" />
+    android:textSize="20sp" />
