@@ -152,10 +152,12 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     @Override
     public void onListItemClick(ListView l, View v, int p, long id) {
-        Boolean success = mDirectoryAdapter.browse(p);
-        if(!success) { /* Clicked on a media file */
+        int success = mDirectoryAdapter.browse(p);
+
+        if(success < 0) /* Clicked on a media file */
             openMediaFile(p);
-        }
+        else
+            setSelection(success);
     }
 
     public boolean isRootDirectory () {
@@ -163,7 +165,10 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     }
 
     public void showParentDirectory() {
-        mDirectoryAdapter.browse("..");
+        int success = mDirectoryAdapter.browse("..");
+
+        if(success >= 0)
+            setSelection(success);
     };
 
     private void openMediaFile(int p) {
