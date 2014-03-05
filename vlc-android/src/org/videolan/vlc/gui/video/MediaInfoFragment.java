@@ -137,6 +137,8 @@ public class MediaInfoFragment extends SherlockListFragment {
     };
 
     private void updateImage() {
+        if (getView() == null)
+            return;
         ImageView imageView = (ImageView) getView().findViewById(R.id.image);
         imageView.setImageBitmap(mImage);
         mPlayButton.setVisibility(View.VISIBLE);
