@@ -11,7 +11,6 @@
     <string name="searchable_hint">Gelintar...</string>
     <string name="history">Sejarah</string>
     <plurals name="search_found_results_quantity">
-        <item quantity="one">%d keputusan ditemui</item>
         <item quantity="other">%d keputusan ditemui</item>
     </plurals>
     <string name="play">Main</string>
@@ -38,25 +37,20 @@
     <string name="unknown_genre">Genre Tidak Diketahui</string>
     <string name="songs">Lagu</string>
     <plurals name="songs_quantity">
-        <item quantity="one">1 lagu</item>
         <item quantity="other">%d lagu</item>
     </plurals>
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <plurals name="albums_quantity">
-        <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">1 subfolder</item>
         <item quantity="other">%d subfolder</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 fail media</item>
         <item quantity="other">%d fail media</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="one">1 video</item>
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Ingatan dalaman</string>
@@ -106,7 +100,6 @@
     <string name="volume">Volum</string>
     <string name="brightness">Kecerahan</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 saluran\n</item>
         <item quantity="other">%1$d saluran\n</item>
     </plurals>
     <string name="track_samplerate_info">Kadar sampel: : %1$d Hz\n</string>
