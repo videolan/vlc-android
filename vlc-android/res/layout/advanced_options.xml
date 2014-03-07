@@ -48,9 +48,10 @@
     <TextView
         android:id="@+id/equalizer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/background_item"
+        android:drawableLeft="?attr/ic_equalizer_normal_style"
         android:text="@string/equalizer"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
