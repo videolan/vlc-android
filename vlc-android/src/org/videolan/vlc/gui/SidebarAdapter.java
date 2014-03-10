@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -64,6 +65,7 @@ public class SidebarAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     static final List<SidebarEntry> entries;
     private HashMap<String, Fragment> mFragments;
+    private String mCurrentFragmentId;
 
     static {
         SidebarEntry entries2[] = {
@@ -113,11 +115,22 @@ public class SidebarAdapter extends BaseAdapter {
             img.setBounds(0, 0, dp_32, dp_32);
             textView.setCompoundDrawables(img, null, null, null);
         }
+        // Set in bold the current item.
+        if (mCurrentFragmentId.equals(sidebarEntry.id))
+            textView.setTypeface(null, Typeface.BOLD);
+        else
+            textView.setTypeface(null, Typeface.NORMAL);
 
         return v;
     }
 
     public Fragment fetchFragment(String id) {
+        // Save the previous fragment in case an error happens after.
+        String prevFragmentId = mCurrentFragmentId;
+
+        // Set the current fragment.
+        setCurrentFragment(id);
+
         if(mFragments.containsKey(id) && mFragments.get(id) != null) {
             return mFragments.get(id);
         }
@@ -132,11 +145,17 @@ public class SidebarAdapter extends BaseAdapter {
             f = new HistoryFragment();
         }
         else {
+            mCurrentFragmentId = prevFragmentId; // Restore the current fragment id.
             throw new IllegalArgumentException("Wrong fragment id.");
         }
         f.setRetainInstance(true);
         mFragments.put(id, f);
         return f;
+    }
+
+    private void setCurrentFragment(String id) {
+        mCurrentFragmentId = id;
+        this.notifyDataSetChanged();
     }
 
     /**
