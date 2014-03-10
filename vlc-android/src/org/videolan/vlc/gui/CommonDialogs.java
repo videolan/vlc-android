@@ -109,7 +109,7 @@ public class CommonDialogs {
         }
 
         TextView add_subtitle = (TextView)dialog.findViewById(R.id.add_subtitle);
-        TextView equalizer = (TextView)dialog.findViewById(R.id.equalizer);
+        LinearLayout equalizer = (LinearLayout)dialog.findViewById(R.id.equalizer);
         if(t == MenuType.Video) {
             add_subtitle.setOnClickListener(new View.OnClickListener() {
                 @Override
