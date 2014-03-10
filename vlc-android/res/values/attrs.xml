@@ -46,6 +46,8 @@
     <attr name="header_fadein_overlay" format="reference" />
     <attr name="header_fadeout_overlay" format="reference" />
 
+    <attr name="advanced_options_style" format="reference" />
+
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />
     </declare-styleable>

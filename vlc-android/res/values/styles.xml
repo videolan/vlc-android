@@ -57,6 +57,8 @@
         <item name="ic_pause">@drawable/ic_pause</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
+
+        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.Sherlock">
@@ -108,6 +110,8 @@
         <item name="ic_pause">@drawable/ic_pause_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
+
+        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
 
     <style name="Theme.VLC.List">
@@ -129,6 +133,8 @@
     <style name="Theme.VLC.Fullscreen" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@color/black</item>
         <item name="video_player_overlay">@color/transparent_gray</item>
+
+        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
 
     <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
@@ -155,8 +161,8 @@
       <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.VLC.AdvancedOptionsAudio" parent="Theme.VLC.AdvancedOptions">
-      <item name="android:windowBackground">@drawable/advanced_options_audio_background</item>
+    <style name="Theme.VLC.AdvancedOptionsLight" parent="Theme.VLC.AdvancedOptions">
+      <item name="android:windowBackground">@drawable/abs__menu_dropdown_panel_holo_light</item>
       <item name="android:textColor">@color/black</item>
       <item name="advanced_options_divider">@color/darkgrey</item>
       <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
@@ -168,8 +174,8 @@
     </style>
     
 
-    <style name="Theme.VLC.AdvancedOptionsVideo" parent="Theme.VLC.AdvancedOptions">
-      <item name="android:windowBackground">@drawable/advanced_options_video_background</item>
+    <style name="Theme.VLC.AdvancedOptionsBlack" parent="Theme.VLC.AdvancedOptions">
+      <item name="android:windowBackground">@drawable/abs__menu_dropdown_panel_holo_dark</item>
       <item name="android:textColor">@color/white</item>
       <item name="advanced_options_divider">@color/white</item>
       <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>

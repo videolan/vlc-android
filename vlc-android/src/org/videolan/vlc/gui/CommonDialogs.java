@@ -25,6 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.interfaces.OnExpandableListener;
 import org.videolan.vlc.widget.ExpandableLayout;
@@ -85,8 +86,7 @@ public class CommonDialogs {
 
     public static void advancedOptions(final Context context, View v, MenuType t) {
 
-        int style = t == MenuType.Video ?
-                R.style.Theme_VLC_AdvancedOptionsVideo : R.style.Theme_VLC_AdvancedOptionsAudio;
+        int style = Util.getResourceFromAttribute(context, R.attr.advanced_options_style);
 
         final Dialog dialog = new Dialog(context, style);
         dialog.setContentView(R.layout.advanced_options);
@@ -162,12 +162,9 @@ public class CommonDialogs {
         // show dialog
         dialog.show();
 
-        // force size
+        // force location
         float density = context.getResources().getDisplayMetrics().density;
         LayoutParams lp = dialog.getWindow().getAttributes();
-        lp.width = (int) (density * 300 + 0.5f); // 300dp
-
-        // force location
         if (v != null) {
             lp.gravity = Gravity.TOP | Gravity.LEFT;
             int[] location = new int[2];
