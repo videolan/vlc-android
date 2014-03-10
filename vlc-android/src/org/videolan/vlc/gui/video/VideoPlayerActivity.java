@@ -139,6 +139,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_SIZE = 3;
+    private static final int AUDIO_SERVICE_CONNECTION_SUCCESS = 5;
+    private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
     private static final int FADE_OUT_INFO = 4;
     private boolean mDragging;
     private boolean mShowing;
@@ -473,13 +475,28 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     protected void onResume() {
         super.onResume();
         mSwitchingView = false;
-        AudioServiceController.getInstance().bindAudioService(this);
+        AudioServiceController.getInstance().bindAudioService(this,
+                new AudioServiceController.AudioServiceConnectionListener() {
+            @Override
+            public void onConnectionSuccess() {
+                mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_SUCCESS);
+            }
+
+            @Override
+            public void onConnectionFailed() {
+                mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+            }
+        });
 
         if (mMediaRouter != null) {
             // Listen for changes to media routes.
             mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
         }
 
+
+    }
+
+    private void startPlayback() {
         load();
 
         /*
@@ -556,11 +573,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (dontParse)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        else {
-            // Stop the currently running audio
-            AudioServiceController asc = AudioServiceController.getInstance();
-            asc.stop();
-        }
 
         context.startActivity(intent);
     }
@@ -839,6 +851,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     break;
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
+                    break;
+                case AUDIO_SERVICE_CONNECTION_SUCCESS:
+                    activity.startPlayback();
+                    break;
+                case AUDIO_SERVICE_CONNECTION_FAILED:
+                    activity.finish();
                     break;
             }
         }
@@ -1761,9 +1779,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 dontParse = false;
             }
         } else if (savedIndexPosition > -1) {
+            AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mLibVLC.setMediaList();
             mLibVLC.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
+            AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mLibVLC.setMediaList();
             mLibVLC.getMediaList().add(new Media(mLibVLC, mLocation));
             savedIndexPosition = mLibVLC.getMediaList().size() - 1;
