@@ -73,9 +73,21 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     /**
+     * The connection listener interface for the audio service
+     */
+    public interface AudioServiceConnectionListener {
+        public void onConnectionSuccess();
+        public void onConnectionFailed();
+    }
+
+    /**
      * Bind to audio service if it is running
      */
     public void bindAudioService(Context context) {
+        bindAudioService(context, null);
+    }
+
+    public void bindAudioService(Context context, final AudioServiceConnectionListener connectionListerner) {
         if (context == null) {
             Log.w(TAG, "bindAudioService() with null Context. Ooops" );
             return;
@@ -108,8 +120,12 @@ public class AudioServiceController implements IAudioPlayerControl {
                     try {
                         mAudioServiceBinder.addAudioCallback(mCallback);
                         mAudioServiceBinder.detectHeadset(enableHS);
+                        if (connectionListerner != null)
+                            connectionListerner.onConnectionSuccess();
                     } catch (RemoteException e) {
                         Log.e(TAG, "remote procedure call failed: addAudioCallback()");
+                        if (connectionListerner != null)
+                            connectionListerner.onConnectionFailed();
                     }
                     updateAudioPlayer();
                 }
@@ -121,8 +137,12 @@ public class AudioServiceController implements IAudioPlayerControl {
             try {
                 if (mAudioServiceBinder != null)
                     mAudioServiceBinder.addAudioCallback(mCallback);
+                if (connectionListerner != null)
+                    connectionListerner.onConnectionSuccess();
             } catch (RemoteException e) {
                 Log.e(TAG, "remote procedure call failed: addAudioCallback()");
+                if (connectionListerner != null)
+                    connectionListerner.onConnectionFailed();
             }
         }
     }
