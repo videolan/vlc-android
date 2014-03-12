@@ -4,7 +4,6 @@
     <color name="item_common_pressed">#e0e0e0</color>
     <color name="item_common_selected">#5e5e5e</color>
     <color name="item_footer">#e0e0e0</color>
-    <color name="playlist_item_footer">#d0d0d0</color>
     <color name="background_common">#f2f1f0</color>
     <color name="background_player">#fafaf9</color>
     <color name="background_playlist">#e7e5e2</color>
@@ -26,5 +25,6 @@
     <color name="black3">#181818</color>
 
     <color name="grey1">#393939</color>
+    <color name="grey2">#d0d0d0</color>
 
 </resources>
