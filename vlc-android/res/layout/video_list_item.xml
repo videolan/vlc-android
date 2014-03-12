@@ -63,5 +63,5 @@
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:layout_below="@+id/ml_item_layout_thumbnail"
-        android:background="?attr/background_menu_divider" />
+        android:background="?attr/item_footer" />
 </RelativeLayout>
