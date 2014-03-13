@@ -12,7 +12,7 @@
         android:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:icon="@drawable/ic_menu_sortby"
         android:id="@+id/ml_menu_sortby">
         <menu>
             <item
