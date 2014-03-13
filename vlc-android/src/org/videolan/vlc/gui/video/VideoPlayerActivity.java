@@ -638,7 +638,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 setRequestedOrientation(getScreenOrientation());
         }
         showInfo(R.string.locked, 1000);
-        mLock.setBackgroundResource(R.drawable.locked);
+        mLock.setBackgroundResource(R.drawable.ic_locked);
         mTime.setEnabled(false);
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
@@ -652,7 +652,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
-        mLock.setBackgroundResource(R.drawable.lock);
+        mLock.setBackgroundResource(R.drawable.ic_lock);
         mTime.setEnabled(true);
         mSeekbar.setEnabled(true);
         mLength.setEnabled(true);
