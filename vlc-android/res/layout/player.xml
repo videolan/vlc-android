@@ -118,7 +118,7 @@
                 android:id="@+id/player_overlay_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/crop_circle" />
+                android:background="@drawable/ic_crop_circle" />
         </LinearLayout>
 
         <RelativeLayout
