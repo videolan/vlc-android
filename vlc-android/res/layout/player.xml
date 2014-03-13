@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/pause_circle" />
+            android:background="@drawable/ic_pause_circle" />
 
         <TextView
             android:id="@+id/player_overlay_info"

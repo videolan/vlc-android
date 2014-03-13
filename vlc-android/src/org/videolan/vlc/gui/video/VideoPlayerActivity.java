@@ -1600,7 +1600,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
 
         mPlayPause.setBackgroundResource(mLibVLC.isPlaying()
-                ? R.drawable.pause_circle : R.drawable.ic_play_circle);
+                ? R.drawable.ic_pause_circle : R.drawable.ic_play_circle);
     }
 
     /**
