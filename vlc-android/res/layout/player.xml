@@ -112,7 +112,7 @@
                 android:id="@+id/player_overlay_audio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/audio_circle" />
+                android:background="@drawable/ic_audio_circle" />
 
             <ImageButton
                 android:id="@+id/player_overlay_size"
