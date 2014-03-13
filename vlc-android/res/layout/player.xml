@@ -106,7 +106,7 @@
                 android:id="@+id/player_overlay_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/text_circle" />
+                android:background="@drawable/ic_subtitle_circle" />
 
             <ImageButton
                 android:id="@+id/player_overlay_audio"
