@@ -36,7 +36,7 @@
     <filter
        color-interpolation-filters="sRGB"
        inkscape:collect="always"
-       id="filter3934-5-0-1"
+       id="filter3934-5-0-7"
        x="-0.23999999"
        width="1.48"
        y="-0.23999999"
@@ -44,20 +44,7 @@
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="10"
-         id="feGaussianBlur3936-8-3-3" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3934-5-0-2"
-       x="-0.23999999"
-       width="1.48"
-       y="-0.23999999"
-       height="1.48">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="10"
-         id="feGaussianBlur3936-8-3-9" />
+         id="feGaussianBlur3936-8-3-2" />
     </filter>
   </defs>
   <sodipodi:namedview
@@ -68,7 +55,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="79.738348"
+     inkscape:cx="37.238348"
      inkscape:cy="46.946388"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -100,9 +87,9 @@
        transform="matrix(1.25,0,0,1.25,-226.25,338.15945)" />
     <g
        transform="matrix(1.25,0,0,1.25,289.03931,739.86053)"
-       id="g5282">
+       id="g3988">
       <g
-         style="fill:#ff8800;fill-opacity:1;filter:url(#filter3934-5-0-2)"
+         style="fill:#ff8800;fill-opacity:1;filter:url(#filter3934-5-0-7)"
          id="g5075"
          transform="translate(-412.23145,-321.36086)">
         <path
@@ -131,22 +118,25 @@
            d="m 270,507.36218 -37.5,21.65064 0,-43.30127 z"
            inkscape:transform-center-x="-6.25" />
       </g>
-      <path
-         d="m 295,507.36218 c 0,27.61424 -22.38576,50 -50,50 -27.61424,0 -50,-22.38576 -50,-50 0,-27.61423 22.38576,-50 50,-50 27.61424,0 50,22.38577 50,50 z"
-         sodipodi:ry="50"
-         sodipodi:rx="50"
-         sodipodi:cy="507.36218"
-         sodipodi:cx="245"
-         id="path5189"
-         style="opacity:0.9;fill:#2d2d2d;fill-opacity:1;stroke:none"
-         sodipodi:type="arc"
-         transform="translate(-412.23145,-321.36086)" />
-      <path
-         inkscape:transform-center-y="8.7767787"
-         inkscape:connector-curvature="0"
-         id="path5192"
-         d="m -187.21171,160.96041 c -5.54,0 -10,4.46 -10,10 l 0,25 c 0,5.54 4.46,10 10,10 l 22.1875,0 -3.65625,14.625 a 1.50015,1.50015 0 0 0 2.53125,1.4375 l 16.0625,-16.0625 2.875,0 c 5.54,0 10,-4.46 10,-10 l 0,-25 c 0,-5.54 -4.46,-10 -10,-10 l -40,0 z m -4,10 48,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -48,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 0,10 28,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -28,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 35,0 13,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -13,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m -35,10 38,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -38,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 45,0 3,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -3,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z"
-         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <g
+         id="g3961"
+         transform="translate(132.78829,223.59871)">
+        <path
+           d="m 295,507.36218 c 0,27.61424 -22.38576,50 -50,50 -27.61424,0 -50,-22.38576 -50,-50 0,-27.61423 22.38576,-50 50,-50 27.61424,0 50,22.38577 50,50 z"
+           sodipodi:ry="50"
+           sodipodi:rx="50"
+           sodipodi:cy="507.36218"
+           sodipodi:cx="245"
+           id="path3963"
+           style="opacity:0.9;fill:#2d2d2d;fill-opacity:1;stroke:none"
+           sodipodi:type="arc"
+           transform="translate(-545.01974,-544.95957)" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path3966"
+           d="m -315.01974,-57.625003 c -5.54,0 -10,4.46 -10,10 l 0,20 c 0,5.54 4.46,10 10,10 l 14.4375,0 -3.5,12.6875 a 1.50015,1.3562116 0 0 0 2.53125,1.3125 l 15.46875,-14 1.0625,0 c 5.54,0 10,-4.46 10,-10 l 0,-20 c 0,-5.54 -4.46,-10 -10,-10 l -30,0 z m -4,7.5 38,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -38,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 0,10 21,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -21,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 28,0 10,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -10,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m -28,10 28,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -28,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z m 35,0 3,0 c 0.554,0 1,0.446 1,1 l 0,3 c 0,0.554 -0.446,1 -1,1 l -3,0 c -0.554,0 -1,-0.446 -1,-1 l 0,-3 c 0,-0.554 0.446,-1 1,-1 z"
+           style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      </g>
     </g>
   </g>
 </svg>
