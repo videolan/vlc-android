@@ -172,6 +172,7 @@ public class SidebarAdapter extends BaseAdapter {
             return;
         }
         mFragments.put(id, f);
+        setCurrentFragment(id);
         // if Android added it, it's been implicitly added already...
     }
 }
