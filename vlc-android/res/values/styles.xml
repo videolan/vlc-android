@@ -59,6 +59,10 @@
         <item name="ic_pause">@drawable/ic_pause</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
+        <item name="ic_menu_video">@drawable/ic_menu_video</item>
+        <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
+        <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
+        <item name="ic_menu_history">@drawable/ic_menu_history</item>
 
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
@@ -114,6 +118,10 @@
         <item name="ic_pause">@drawable/ic_pause_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
+        <item name="ic_menu_video">@drawable/ic_menu_video_w</item>
+        <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
+        <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
+        <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
 
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
