@@ -96,9 +96,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -152,6 +157,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
+    private ImageView mLoading;
     private ImageButton mPlayPause;
     private ImageButton mBackward;
     private ImageButton mForward;
@@ -305,6 +311,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
+
+        mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
+        startLoadingAnimation();
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -776,6 +785,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+                    activity.stopLoadingAnimation();
                     activity.showOverlay();
                     /** FIXME: update the track list when it changes during the
                      *  playback. (#7540) */
@@ -1778,6 +1788,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mLibVLC.playIndex(savedIndexPosition);
                 dontParse = false;
             }
+            else {
+                stopLoadingAnimation();
+                showOverlay();
+            }
         } else if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mLibVLC.setMediaList();
@@ -2037,5 +2051,26 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (mLibVLC != null && mLibVLC.getHardwareAcceleration() == 2)
                 mSubtitlesSurface.setVisibility(View.VISIBLE);
         }
+    }
+
+    /**
+     * Start the video loading animation.
+     */
+    private void startLoadingAnimation() {
+        AnimationSet anim = new AnimationSet(true);
+        RotateAnimation rotate = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(800);
+        rotate.setInterpolator(new DecelerateInterpolator());
+        rotate.setRepeatCount(RotateAnimation.INFINITE);
+        anim.addAnimation(rotate);
+        mLoading.startAnimation(anim);
+    }
+
+    /**
+     * Stop the video loading animation.
+     */
+    private void stopLoadingAnimation() {
+        mLoading.setVisibility(View.INVISIBLE);
+        mLoading.clearAnimation();
     }
 }
