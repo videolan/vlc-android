@@ -30,7 +30,6 @@
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
                 android:layout_marginTop="5dip"
-                android:singleLine="true"
                 android:text="@string/title"
                 android:textColor="?attr/list_title"
                 android:textSize="16sp" />
@@ -42,7 +41,6 @@
                 android:layout_marginBottom="5dip"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:singleLine="true"
                 android:text="@string/artist"
                 android:textColor="?attr/list_subtitle"
                 android:textSize="11sp" />
