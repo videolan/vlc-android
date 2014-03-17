@@ -85,8 +85,8 @@
         <item name="item_common_selected">@color/item_common_selected</item>
         <item name="item_footer">@color/grey1</item>
         <item name="playlist_item_footer">@color/grey1</item>
-        <item name="background_menu_divider">@color/background_menu_divider</item>
-        <item name="background_menu">@color/background_menu</item>
+        <item name="background_menu_divider">@color/grey1</item>
+        <item name="background_menu">@color/black2</item>
         <item name="background_player">@color/black1</item>
         <item name="background_playlist">@color/black2</item>
         <item name="background_header">@color/black3</item>
@@ -95,7 +95,7 @@
         <item name="audio_player_header_time">@color/darkorange</item>
         <item name="font_default">@color/white</item>
         <item name="font_light">@color/font_light</item>
-        <item name="list_menu">@color/font_light</item>
+        <item name="list_menu">@color/white</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
