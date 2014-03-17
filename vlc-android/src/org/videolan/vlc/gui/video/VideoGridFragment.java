@@ -59,6 +59,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -320,6 +321,15 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.video_list, menu);
+        setContextMenuItems(menu, media);
+    }
+
+    private void setContextMenuItems(Menu menu, Media media) {
+        long lastTime = media.getTime();
+        if (lastTime > 0) {
+            MenuItem playFromStart = menu.findItem(R.id.video_list_play_from_start);
+            playFromStart.setVisible(true);
+        }
     }
 
     @Override
@@ -340,6 +350,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
         PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
         popupMenu.getMenuInflater().inflate(R.menu.video_list, popupMenu.getMenu());
+        Media media = mVideoAdapter.getItem(position);
+        setContextMenuItems(popupMenu.getMenu(), media);
         popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
