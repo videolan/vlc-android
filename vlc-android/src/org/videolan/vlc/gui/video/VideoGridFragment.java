@@ -281,9 +281,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         Media media = mVideoAdapter.getItem(position);
         switch (menu.getItemId())
         {
-        case R.id.video_list_play:
-            playVideo(media, false);
-            return true;
         case R.id.video_list_play_from_start:
             playVideo(media, true);
             return true;
