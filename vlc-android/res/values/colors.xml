@@ -19,6 +19,7 @@
     <color name="transparent_gray">#8000</color>
     <color name="action_bar_title">#FFFFFF</color>
     <color name="darkgrey">#ffa0a0a0</color>
+    <color name="background_remote">#ff323232</color>
 
     <color name="black1">#0f0f0f</color>
     <color name="black2">#222222</color>

@@ -174,6 +174,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -2;
+    private boolean mSecondaryDisplayIsRunning = false;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -218,7 +219,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * It is possible to have multiple custom subs in one session
      * (just like desktop VLC allows you as well.)
      */
-    private ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
+    private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<String>();
 
     // Whether fallback from HW acceleration to SW decoding was done.
     private boolean mDisabledHardwareAcceleration = false;
@@ -228,7 +229,38 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.player);
+
+        if (LibVlcUtil.isJellyBeanMR1OrLater()) {
+            // Get the media router service (miracast)
+            mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
+                @Override
+                public void onRouteSelected(MediaRouter router, int type,
+                        MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRouteSelected: type=" + type + ", info="
+                            + info);
+                    updatePresentation();
+                }
+
+                @Override
+                public void onRouteUnselected(MediaRouter router, int type,
+                        MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRouteUnselected: type=" + type + ", info="
+                            + info);
+                    updatePresentation();
+                }
+
+                @Override
+                public void onRoutePresentationDisplayChanged(
+                        MediaRouter router, MediaRouter.RouteInfo info) {
+                    Log.d(TAG, "onRoutePresentationDisplayChanged: info="
+                            + info);
+                    updatePresentation();
+                }
+            };
+        }
+
+        updatePresentation();
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         if (LibVlcUtil.isICSOrLater())
@@ -364,29 +396,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 ? mScreenOrientation
                 : getScreenOrientation());
 
-        if (LibVlcUtil.isJellyBeanMR1OrLater()) {
-            // Get the media router service (miracast)
-            mMediaRouter = (MediaRouter)getSystemService(Context.MEDIA_ROUTER_SERVICE);
-            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
-                @Override
-                public void onRouteSelected(MediaRouter router, int type, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRouteSelected: type=" + type + ", info=" + info);
-                    updatePresentation();
-                }
-
-                @Override
-                public void onRouteUnselected(MediaRouter router, int type, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRouteUnselected: type=" + type + ", info=" + info);
-                    updatePresentation();
-                }
-
-                @Override
-                public void onRoutePresentationDisplayChanged(MediaRouter router, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
-                    updatePresentation();
-                }
-            };
-        }
     }
 
     @Override
@@ -1626,8 +1635,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             return;
         }
 
-        mPlayPause.setBackgroundResource(mLibVLC.isPlaying()
-                ? R.drawable.ic_pause_circle : R.drawable.ic_play_circle);
+
+        if (!mSecondaryDisplayIsRunning) {
+            mPlayPause
+                    .setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
+                            : R.drawable.ic_play_circle);
+        } else {
+            mPlayPause
+                    .setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
+                            : R.drawable.ic_play_circle_big_o);
+        }
     }
 
     /**
@@ -1974,6 +1991,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             finish(); //TODO restore the video on the new display instead of closing
             mPresentation.dismiss();
             mPresentation = null;
+            mSecondaryDisplayIsRunning = false;
         }
 
         // Show a new presentation if needed.
@@ -1981,6 +1999,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
             mPresentation = new SecondaryDisplay(this, presentationDisplay);
             mPresentation.setOnDismissListener(mOnDismissListener);
+            mSecondaryDisplayIsRunning = true;
             try {
                 mPresentation.show();
             } catch (WindowManager.InvalidDisplayException ex) {
@@ -1989,6 +2008,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mPresentation = null;
             }
         }
+        setContentView(mSecondaryDisplayIsRunning ? R.layout.player_remote_control
+                : R.layout.player);
     }
 
     /**
