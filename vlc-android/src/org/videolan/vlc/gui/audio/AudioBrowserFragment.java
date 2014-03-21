@@ -275,7 +275,7 @@ public class AudioBrowserFragment extends SherlockFragment {
         }
 
         if (id == R.id.audio_list_browser_set_song) {
-            //AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition),getActivity());
+            AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition).mMediaList.get(0), getActivity());
             return true;
         }
 
