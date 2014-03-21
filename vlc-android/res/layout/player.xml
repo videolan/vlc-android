@@ -50,7 +50,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ic_cone_o" />
 
         <TextView
             android:id="@+id/player_overlay_loading_text"

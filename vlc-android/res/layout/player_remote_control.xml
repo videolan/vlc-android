@@ -39,14 +39,6 @@
         android:background="@color/background_remote"
         android:fitsSystemWindows="true" >
 
-        <ImageView
-            android:id="@+id/player_overlay_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/background_cone" />
-
         <LinearLayout
             android:id="@+id/player_overlay_header"
             android:layout_width="fill_parent"
@@ -100,6 +92,14 @@
             android:textColor="#ffffff"
             android:textSize="36sp"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/player_overlay_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/background_cone" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -242,9 +242,19 @@
             android:id="@+id/player_overlay_loading"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/icon" />
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/player_overlay_header"
+            android:src="@drawable/ic_cone_o" />
+
+        <TextView
+            android:id="@+id/player_overlay_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/player_overlay_loading"
+            android:text="@string/please_wait"
+            android:textSize="20sp" />
+
     </RelativeLayout>
 
 </RelativeLayout>
