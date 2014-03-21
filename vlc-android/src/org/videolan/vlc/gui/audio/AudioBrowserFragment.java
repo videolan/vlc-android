@@ -214,9 +214,14 @@ public class AudioBrowserFragment extends SherlockFragment {
     }
 
     private void setContextMenuItems(Menu menu, View v) {
-        if (v.getId() != R.id.songs_list) {
+        final int pos = mFlingViewGroup.getPosition();
+        if (pos != MODE_SONG) {
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
+        }
+        if (pos == MODE_ARTIST || v.getId() == MODE_GENRE) {
+            MenuItem play = menu.findItem(R.id.audio_list_browser_play);
+            play.setVisible(true);
         }
         if (!Util.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);

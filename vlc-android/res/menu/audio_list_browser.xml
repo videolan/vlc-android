@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/audio_list_browser_play"
+        android:title="@string/play"
+        android:visible="false" />
+    <item
         android:id="@+id/audio_list_browser_append"
         android:title="@string/append" />
     <group android:id="@+id/songs_view_only">
