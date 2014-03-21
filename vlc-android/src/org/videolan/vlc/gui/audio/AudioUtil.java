@@ -62,10 +62,10 @@ public class AudioUtil {
     public static String COVER_DIR = null;
     public static String PLAYLIST_DIR = null;
 
-    public static void setRingtone( Media song, Activity activity){
+    public static void setRingtone(Media song, Context context){
         File newringtone = LibVlcUtil.URItoFile(song.getLocation());
         if(!newringtone.exists()) {
-            Toast.makeText(activity.getApplicationContext(),activity.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -82,23 +82,23 @@ public class AudioUtil {
         Uri uri = MediaStore.Audio.Media.getContentUriForPath(newringtone.getAbsolutePath());
         Uri newUri;
         try {
-            activity.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newringtone.getAbsolutePath() + "\"", null);
-            newUri = activity.getContentResolver().insert(uri, values);
+            context.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newringtone.getAbsolutePath() + "\"", null);
+            newUri = context.getContentResolver().insert(uri, values);
             RingtoneManager.setActualDefaultRingtoneUri(
-                    activity.getApplicationContext(),
+                    context.getApplicationContext(),
                     RingtoneManager.TYPE_RINGTONE,
                     newUri
                     );
         } catch(Exception e) {
-            Toast.makeText(activity.getApplicationContext(),
-                    activity.getString(R.string.ringtone_error),
+            Toast.makeText(context.getApplicationContext(),
+                    context.getString(R.string.ringtone_error),
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
         Toast.makeText(
-                activity.getApplicationContext(),
-                activity.getString(R.string.ringtone_set, song.getTitle()),
+                context.getApplicationContext(),
+                context.getString(R.string.ringtone_set, song.getTitle()),
                 Toast.LENGTH_SHORT)
                 .show();
 
