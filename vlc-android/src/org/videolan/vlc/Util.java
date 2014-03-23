@@ -440,7 +440,9 @@ public class Util {
                     if (list.contains(s))
                         continue;
 
-                    if (line.contains("/dev/block/vold")) {
+                    if (line.contains("extSdCard") && line.contains("sdcardfs"))
+                        list.add(s);
+                    else if (line.contains("/dev/block/vold") && !line.contains("extSdCard")) {
                         if (!line.startsWith("tmpfs") &&
                             !line.startsWith("/dev/mapper") &&
                             !s.startsWith("/mnt/secure") &&
