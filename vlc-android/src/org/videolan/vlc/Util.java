@@ -429,6 +429,7 @@ public class Util {
             ArrayList<String> list = new ArrayList<String>();
             list.add(Environment.getExternalStorageDirectory().getPath());
             String line;
+            boolean addedExtSdCard = false;
             while((line = bufReader.readLine()) != null) {
                 if(line.contains("vfat") || line.contains("exfat") ||
                    line.contains("sdcardfs") || line.contains("/mnt") ||
@@ -440,17 +441,23 @@ public class Util {
                     if (list.contains(s))
                         continue;
 
-                    if (line.contains("extSdCard") && line.contains("sdcardfs"))
+                    if (line.contains("extSdCard") && line.contains("sdcardfs") && !addedExtSdCard) {
+                        addedExtSdCard = true;
                         list.add(s);
-                    else if (line.contains("/dev/block/vold") && !line.contains("extSdCard")) {
-                        if (!line.startsWith("tmpfs") &&
-                            !line.startsWith("/dev/mapper") &&
-                            !s.startsWith("/mnt/secure") &&
-                            !s.startsWith("/mnt/shell") &&
-                            !s.startsWith("/mnt/asec") &&
-                            !s.startsWith("/mnt/obb")
-                            ) {
-                            list.add(s);
+                    }
+                    else if (line.contains("/dev/block/vold")) {
+                        boolean isExtSdCardEntry = line.contains("extSdCard");
+                        if (!isExtSdCardEntry || !addedExtSdCard) {
+                            if (!line.startsWith("tmpfs") &&
+                                !line.startsWith("/dev/mapper") &&
+                                !s.startsWith("/mnt/secure") &&
+                                !s.startsWith("/mnt/shell") &&
+                                !s.startsWith("/mnt/asec") &&
+                                !s.startsWith("/mnt/obb")
+                                ) {
+                                addedExtSdCard = addedExtSdCard || isExtSdCardEntry;
+                                list.add(s);
+                            }
                         }
                     }
                 }
