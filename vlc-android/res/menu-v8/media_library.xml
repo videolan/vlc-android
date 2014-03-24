@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ml_menu_search"
+        android:icon="@drawable/ic_menu_search_wb"
+        android:title="@string/searchable_hint"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ml_menu_open_mrl"
+        android:icon="@drawable/ic_menu_goto_wb"
+        android:title="@string/open_mrl"
+        android:showAsAction="ifRoom" />
+    <item
+        android:title="@string/sortby"
+        android:icon="@drawable/ic_menu_sortby_wb"
+        android:id="@+id/ml_menu_sortby">
+        <menu>
+            <item
+                android:id="@+id/ml_menu_sortby_name"
+                android:title="@string/sortby_name" />
+            <item
+                android:id="@+id/ml_menu_sortby_length"
+                android:title="@string/sortby_length" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/ml_menu_last_playlist"
+        android:icon="@drawable/ic_menu_revert_wb"
+        android:title="@string/last_playlist"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ml_menu_refresh"
+        android:icon="@drawable/ic_menu_refresh_wb"
+        android:title="@string/refresh"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/ml_menu_equalizer"
+        android:icon="@drawable/ic_menu_equalizer_wb"
+        android:title="@string/equalizer" />
+    <item
+        android:id="@+id/ml_menu_preferences"
+        android:icon="@drawable/ic_menu_preferences_wb"
+        android:title="@string/preferences" />
+    <item
+        android:id="@+id/ml_menu_about"
+        android:icon="@drawable/ic_menu_info_wb"
+        android:title="@string/about" />
+    <item
+        android:title="@string/clear_history"
+        android:visible="false"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:id="@+id/search_clear_history" />
+</menu>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="130"
+   height="130"
+   id="svg4682"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="ic_menu_sortby_g.svg"
+   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4684" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.959798"
+     inkscape:cx="-0.74562401"
+     inkscape:cy="74.339893"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4687">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-922.36218)">
+    <path
+       id="path4080"
+       d="m 88.48052,949.90628 c -0.4653,-0.01 -0.9981,0.5417 -1,1 l 0,52.00002 -4,0 c -0.6986,5e-4 -1.1559,0.8605 -0.8125,1.4687 l 9,20 c 0.3488,0.6156 1.4012,0.6156 1.75,0 l 9,-20 c 0.3434,-0.6083 -0.2389,-1.4682 -0.9375,-1.4687 l -4,0 0,-52.00002 c 0,-0.5228 -0.4772,-0.9971 -1,-1 -6.3823,-0.065 -2.5506,0.066 -8,0 z m -59.000001,6 c -1.108,0 -2,0.892 -2,2 l 0,8 c 0,1.108 0.892,2 2,2 l 11.000001,0 c 1.108,0 2,-0.892 2,-2 l 0,-8 c 0,-1.108 -0.892,-2 -2,-2 l -11.000001,0 z m 0,17 c -1.1031,0 -2,0.8656 -2,1.9688 l 0,8.0312 c 0,1.1031 0.8969,2 2,2 l 21.000001,0 c 1.1031,0 2,-0.8969 2,-2 l 0,-8.0312 c 0,-1.1032 -0.8969,-1.9688 -2,-1.9688 l -21.000001,0 z m 0,17 c -1.108,0 -2,0.892 -2,2 l 0,8 c 0,1.10802 0.892,2.00002 2,2.00002 l 31.000001,0 c 1.108,0 2,-0.892 2,-2.00002 l 0,-8 c 0,-1.108 -0.892,-2 -2,-2 l -31.000001,0 z m 0,16.99992 c -1.108,0 -2,0.892 -2,2 l 0,8 c 0,1.108 0.892,2 2,2 l 41.000001,0 c 1.108,0 2,-0.892 2,-2 l 0,-8 c 0,-1.108 -0.892,-2 -2,-2 l -41.000001,0 z"
+       style="fill:#fafafa;fill-opacity:1;stroke:#323232;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
