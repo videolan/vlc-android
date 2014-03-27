@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VideoPlayerActivity.java
  *****************************************************************************
- * Copyright © 2011-2013 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -158,6 +158,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private TextView mLength;
     private TextView mInfo;
     private ImageView mLoading;
+    private TextView mLoadingText;
     private ImageButton mPlayPause;
     private ImageButton mBackward;
     private ImageButton mForward;
@@ -312,9 +313,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
 
+        /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
+        mLoadingText = (TextView) findViewById(R.id.player_overlay_loading_text);
         startLoadingAnimation();
 
+        /* Services and miscellaneous */
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
@@ -2064,6 +2068,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         rotate.setRepeatCount(RotateAnimation.INFINITE);
         anim.addAnimation(rotate);
         mLoading.startAnimation(anim);
+        mLoadingText.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -2072,5 +2077,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private void stopLoadingAnimation() {
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
+        mLoadingText.setVisibility(View.GONE);
     }
 }

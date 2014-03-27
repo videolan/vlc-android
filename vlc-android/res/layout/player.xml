@@ -53,6 +53,15 @@
             android:src="@drawable/icon" />
 
         <TextView
+            android:id="@+id/player_overlay_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_overlay_loading"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:text="@string/please_wait" />
+
+        <TextView
             android:id="@+id/player_overlay_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
