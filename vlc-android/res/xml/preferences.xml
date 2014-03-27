@@ -1,82 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/library_prefs_category" >
+    <PreferenceCategory android:title="@string/general_prefs_category" >
         <PreferenceScreen
             android:key="directories"
             android:summary="@string/directories_summary"
             android:title="@string/directories" />
-    </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/main_prefs_category" >
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/hardware_acceleration_list"
+            android:entryValues="@array/hardware_acceleration_values"
+            android:key="hardware_acceleration"
+            android:summary="@string/hardware_acceleration_summary"
+            android:title="@string/hardware_acceleration" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/screen_orientation_list"
             android:entryValues="@array/screen_orientation_values"
             android:key="screen_orientation"
             android:title="@string/screen_orientation" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_brightness_gesture"
-            android:summary="@string/enable_brightness_gesture_summary"
-            android:title="@string/enable_brightness_gesture" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_headset_detection"
-            android:summary="@string/enable_headset_detection_summary"
-            android:title="@string/enable_headset_detection" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_jump_buttons"
-            android:summary="@string/enable_jump_buttons_summary"
-            android:title="@string/enable_jump_buttons" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_steal_remote_control"
-            android:summary="@string/enable_steal_remote_control_summary"
-            android:title="@string/enable_steal_remote_control" />
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="enable_black_theme"
             android:summary="@string/enable_black_theme_summary"
             android:title="@string/enable_black_theme" />
-    </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/performance_prefs_category" >
-        <ListPreference
-            android:defaultValue=""
-            android:entries="@array/chroma_formats"
-            android:entryValues="@array/chroma_formats_values"
-            android:key="chroma_format"
-            android:summary="@string/chroma_format_summary"
-            android:title="@string/chroma_format" />
-        <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/deblocking_list"
-            android:entryValues="@array/deblocking_values"
-            android:key="deblocking"
-            android:title="@string/deblocking"
-            android:summary="@string/deblocking_summary" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_frame_skip"
-            android:summary="@string/enable_frame_skip_summary"
-            android:title="@string/enable_frame_skip" />
-        <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/hardware_acceleration_list"
-            android:entryValues="@array/hardware_acceleration_values"
-            android:key="hardware_acceleration"
-            android:title="@string/hardware_acceleration"
-            android:summary="@string/hardware_acceleration_summary" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="enable_time_stretching_audio"
-            android:summary="@string/enable_time_stretching_audio_summary"
-            android:title="@string/enable_time_stretching_audio" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/other_prefs_category" >
         <ListPreference
             android:defaultValue=""
             android:entries="@array/subtitles_encoding_list"
@@ -84,58 +34,116 @@
             android:key="subtitle_text_encoding"
             android:persistent="true"
             android:title="@string/subtitle_text_encoding" />
-        <PreferenceScreen
-            android:key="clear_history"
-            android:title="@string/clear_history" />
-        <Preference
-            android:enabled="true"
-            android:key="clear_media_db"
-            android:title="@string/clear_media_db" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/advanced_prefs_category" >
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="enable_verbose_mode"
-            android:summary="@string/enable_verbose_mode_summary"
-            android:title="@string/enable_verbose_mode" />
+    <PreferenceCategory android:title="@string/extra_prefs_category" >
+        <PreferenceScreen android:title="@string/interface_prefs_category" >
+            <PreferenceCategory android:title="@string/interface_prefs_category" >
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="enable_brightness_gesture"
+                    android:summary="@string/enable_brightness_gesture_summary"
+                    android:title="@string/enable_brightness_gesture" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="enable_headset_detection"
+                    android:summary="@string/enable_headset_detection_summary"
+                    android:title="@string/enable_headset_detection" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_jump_buttons"
+                    android:summary="@string/enable_jump_buttons_summary"
+                    android:title="@string/enable_jump_buttons" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_steal_remote_control"
+                    android:summary="@string/enable_steal_remote_control_summary"
+                    android:title="@string/enable_steal_remote_control" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/performance_prefs_category" >
+            <PreferenceCategory android:title="@string/performance_prefs_category" >
+                <ListPreference
+                    android:defaultValue=""
+                    android:entries="@array/chroma_formats"
+                    android:entryValues="@array/chroma_formats_values"
+                    android:key="chroma_format"
+                    android:summary="@string/chroma_format_summary"
+                    android:title="@string/chroma_format" />
+                <ListPreference
+                    android:defaultValue="-1"
+                    android:entries="@array/deblocking_list"
+                    android:entryValues="@array/deblocking_values"
+                    android:key="deblocking"
+                    android:summary="@string/deblocking_summary"
+                    android:title="@string/deblocking" />
 
-        <PreferenceScreen android:title="@string/advanced_debugging" >
-            <PreferenceScreen
-                android:key="debug_logs"
-                android:title="@string/debug_logs" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_frame_skip"
+                    android:summary="@string/enable_frame_skip_summary"
+                    android:title="@string/enable_frame_skip" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_time_stretching_audio"
+                    android:summary="@string/enable_time_stretching_audio_summary"
+                    android:title="@string/enable_time_stretching_audio" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/advanced_prefs_category" >
+            <PreferenceCategory android:title="@string/advanced_prefs_category" >
+                <ListPreference
+                    android:key="aout"
+                    android:summary="@string/aout_summary"
+                    android:title="@string/aout" />
+                <ListPreference
+                    android:key="vout"
+                    android:summary="@string/vout_summary"
+                    android:title="@string/vout" />
 
-            <ListPreference
-                android:key="aout"
-                android:summary="@string/aout_summary"
-                android:title="@string/aout" />
+                <Preference
+                    android:enabled="true"
+                    android:key="clear_media_db"
+                    android:title="@string/clear_media_db" />
 
-            <ListPreference
-                android:key="vout"
-                android:summary="@string/vout_summary"
-                android:title="@string/vout" />
+                <PreferenceScreen
+                    android:key="clear_history"
+                    android:title="@string/clear_history" />
 
-            <EditTextPreference
-                android:key="network_caching"
-                android:summary="@string/network_caching_summary"
-                android:title="@string/network_caching"
-                android:defaultValue=""
-                android:maxLength="5" />
+                <EditTextPreference
+                    android:defaultValue=""
+                    android:key="set_locale"
+                    android:summary="@string/set_locale_detail"
+                    android:title="@string/set_locale" />
+                <EditTextPreference
+                    android:defaultValue=""
+                    android:key="network_caching"
+                    android:maxLength="5"
+                    android:summary="@string/network_caching_summary"
+                    android:title="@string/network_caching" />
 
-            <EditTextPreference
-                android:defaultValue=""
-                android:key="set_locale"
-                android:summary="@string/set_locale_detail"
-                android:title="@string/set_locale" />
+                <Preference
+                    android:enabled="true"
+                    android:key="quit_app"
+                    android:title="@string/quit" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="@string/developer_prefs_category" >
+            <PreferenceCategory android:title="@string/developer_prefs_category" >
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="enable_verbose_mode"
+                    android:summary="@string/enable_verbose_mode_summary"
+                    android:title="@string/enable_verbose_mode" />
 
-            <Preference
-                android:enabled="true"
-                android:key="quit_app"
-                android:title="@string/quit" />
+                <PreferenceScreen
+                    android:key="debug_logs"
+                    android:title="@string/debug_logs" />
 
-            <Preference
-                android:enabled="true"
-                android:key="dump_logcat"
-                android:title="@string/dump_logcat" />
+                <Preference
+                    android:enabled="true"
+                    android:key="dump_logcat"
+                    android:title="@string/dump_logcat" />
+            </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
 
