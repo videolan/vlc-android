@@ -395,7 +395,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (mMediaRouter != null) {
             // Stop listening for changes to media routes.
-            mMediaRouter.removeCallback(mMediaRouterCallback);
+            mediaRouterAddCallback(false);
         }
 
         if(mSwitchingView) {
@@ -503,10 +503,23 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (mMediaRouter != null) {
             // Listen for changes to media routes.
-            mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
+            mediaRouterAddCallback(true);
         }
+    }
 
+    /**
+     * Add or remove MediaRouter callbacks. This is provided for version targeting.
+     *
+     * @param add true to add, false to remove
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void mediaRouterAddCallback(boolean add) {
+        if(!LibVlcUtil.isJellyBeanMR1OrLater() || mMediaRouter == null) return;
 
+        if(add)
+            mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
+        else
+            mMediaRouter.removeCallback(mMediaRouterCallback);
     }
 
     private void startPlayback() {
