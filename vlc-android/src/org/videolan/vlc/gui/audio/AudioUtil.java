@@ -39,7 +39,6 @@ import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
