@@ -120,7 +120,11 @@ uninstall:
 run:
 	@echo "=== Running VLC on device ==="
 	adb wait-for-device
+ifeq ($(URL),)
 	adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
+else
+	adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.video.VideoPlayerActivity $(URL)
+endif
 
 build-and-run: install run
 
