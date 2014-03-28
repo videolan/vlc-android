@@ -11,6 +11,7 @@
     <string name="searchable_hint">Gelintar...</string>
     <string name="history">Sejarah</string>
     <plurals name="search_found_results_quantity">
+        <item quantity="one">%d keputusan ditemui</item>
         <item quantity="other">%d keputusan ditemui</item>
     </plurals>
     <string name="play">Main</string>
@@ -37,20 +38,25 @@
     <string name="unknown_genre">Genre Tidak Diketahui</string>
     <string name="songs">Lagu</string>
     <plurals name="songs_quantity">
+        <item quantity="one">1 lagu</item>
         <item quantity="other">%d lagu</item>
     </plurals>
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <plurals name="albums_quantity">
+        <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
     </plurals>
     <plurals name="subfolders_quantity">
+        <item quantity="one">1 subfolder</item>
         <item quantity="other">%d subfolder</item>
     </plurals>
     <plurals name="mediafiles_quantity">
+        <item quantity="one">1 fail media</item>
         <item quantity="other">%d fail media</item>
     </plurals>
     <plurals name="videos_quantity">
+        <item quantity="one">1 video</item>
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Ingatan dalaman</string>
@@ -100,7 +106,7 @@
     <string name="volume">Volum</string>
     <string name="brightness">Kecerahan</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d saluran\n</item>
+        <item quantity="other">one: 1 saluran\n\nother: %1$d saluran\n</item>
     </plurals>
     <string name="track_samplerate_info">Kadar sampel: : %1$d Hz\n</string>
     <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
@@ -137,12 +143,15 @@
     <string name="vlc_authors">Pengarang VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Keutamaan</string>
-    <string name="library_prefs_category">Pustaka media</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke dalam pustaka media</string>
     <string name="add_custom_path">Tambah laluan suai</string>
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
     <string name="remove_custom_path">Buang laluan suai</string>
-    <string name="main_prefs_category">Utama</string>
+    <string name="hardware_acceleration">Pemecutan Perkakasan</string>
+    <string name="hardware_acceleration_summary">Dilumpuhkan: kestablian lebih baik.\nPenyahkodan: mungkin tingkatkan prestasi.\nPenuh: mungkin tingkatkan lagi prestasi.</string>
+    <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
+    <string name="hardware_acceleration_decoding">Menyahkod Pemecutan</string>
+    <string name="hardware_acceleration_full">Pemecutan Penuh</string>
     <string name="automatic">Automatik</string>
     <string name="screen_orientation">Orientasi skrin video</string>
     <string name="screen_orientation_sensor">Automatik (penderia)</string>
@@ -151,6 +160,9 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="screen_orientation_reverse_portrait">Potret balikan</string>
     <string name="screen_orientation_reverse_landscape">Landskap balikan</string>
+    <string name="enable_black_theme">Benarkan tema hitam</string>
+    <string name="enable_black_theme_summary">Ubah warna antaramuka untuk kelihatan lebih baik dalam persekitaran kurang cahaya.</string>
+    <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
@@ -159,55 +171,46 @@
     <string name="enable_jump_buttons_summary">Tunjuk butang undur dan maju pada antaramuka video</string>
     <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
     <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
-    <string name="enable_black_theme">Benarkan tema hitam</string>
-    <string name="enable_black_theme_summary">Ubah warna antaramuka untuk kelihatan lebih baik dalam persekitaran kurang cahaya.</string>
     <string name="performance_prefs_category">Prestasi</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="chroma_format_summary">RGB 32-bit: kroma lalai\nRGB 16-bit: prestasi lebih baik tetapi kurang kualiti\nYUV: prestasi terbaik tetapi tidak dapat berfungsi pada semua peranti. Android 2.3 dan terbaru sahaja.</string>
-    <string name="hardware_acceleration">Pemecutan Perkakasan</string>
-    <string name="hardware_acceleration_summary">Dilumpuhkan: kestablian lebih baik.\nPenyahkodan: mungkin tingkatkan prestasi.\nPenuh: mungkin tingkatkan lagi prestasi.</string>
-    <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
-    <string name="hardware_acceleration_decoding">Menyahkod Pemecutan</string>
-    <string name="hardware_acceleration_full">Pemecutan Penuh</string>
-    <string name="enable_time_stretching_audio">Audio diregang-masa</string>
-    <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
-    <string name="enable_frame_skip">Benarhkan langkau bingkai</string>
-    <string name="enable_frame_skip_summary">Percepatkan menyahkod tetapi menyebabkan kualiti video rendah.</string>
     <string name="deblocking">Tetapan penapis menyahsekat</string>
     <string name="deblocking_summary">Tukar tetapan penapis menyahsekat. Boleh meningkatkan kualiti video. Pengguna lanjutan sahaja.</string>
     <string name="deblocking_always">Menyahsekat penuh (paling perlahan)</string>
     <string name="deblocking_nonref">Menyahsekat sederhana</string>
     <string name="deblocking_nonkey">Menyahsekat rendah</string>
     <string name="deblocking_all">Tiada menyahsekat (terpantas)</string>
-    <string name="other_prefs_category">Lain-lain</string>
-    <string name="clear_history">Kosongkan sejarah gelintar</string>
+    <string name="enable_frame_skip">Benarhkan langkau bingkai</string>
+    <string name="enable_frame_skip_summary">Percepatkan menyahkod tetapi menyebabkan kualiti video rendah.</string>
+    <string name="enable_time_stretching_audio">Audio diregang-masa</string>
+    <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
+    <string name="advanced_prefs_category">Lanjutan</string>
+    <string name="aout">Output audio</string>
+    <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
+    <string name="aout_audiotrack">TrekAudio (tabii)</string>
+    <string name="aout_audiotrack_java">TrekAudio (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="vout">Output video</string>
+    <string name="vout_summary">Ubah kaedah yang VLC gunakan untuk video outout.</string>
+    <string name="vout_android_surface">Permukaan Android</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
+    <string name="clear_history">Kosongkan sejarah gelintar</string>
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
-    <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
+    <string name="set_locale">Tetapkan lokaliti</string>
+    <string name="set_locale_detail">Tinggalkan kosong untuk tetap semula</string>
+    <string name="set_locale_popup">Keluar dan tetap semula VLC supaya perubahan berkesan.</string>
+    <string name="network_caching">Nilai caching rangkaian</string>
+    <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
+    <string name="enable_verbose_mode">Berjela</string>
+    <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
     <string name="debug_logs">Nyahpijat log</string>
     <string name="start_logging">Mula mengelog</string>
     <string name="stop_logging">Henti mengelog</string>
     <string name="clear_log">Koosngkan log</string>
     <string name="copy_to_clipboard">Salin ke papan keratan</string>
     <string name="copied_to_clipboard">Log disalin ke papan keratan.</string>
-    <string name="advanced_prefs_category">Lanjutan</string>
-    <string name="advanced_debugging">Penyahpijatan lanjutan</string>
-    <string name="aout">Output audio</string>
-    <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
-    <string name="aout_audiotrack">AudioTrack (tabii)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="network_caching">Nilai caching rangkaian</string>
-    <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
-    <string name="enable_verbose_mode">Berjela</string>
-    <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
-    <string name="set_locale">Tetapkan lokaliti</string>
-    <string name="set_locale_detail">Tinggalkan kosong untuk tetap semula</string>
-    <string name="set_locale_popup">Keluar dan tetap semula VLC supaya perubahan berkesan.</string>
     <string name="quit">Keluar dan mula semula aplikasi</string>
     <string name="dump_logcat">Longgok log logcat</string>
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
-    <string name="vout">Output video</string>
-    <string name="vout_summary">Ubah kaedah yang VLC gunakan untuk video outout.</string>
-    <string name="vout_android_surface">Permukaan Android</string>
 </resources>
