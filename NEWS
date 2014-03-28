@@ -1,7 +1,7 @@
-Changes between 0.1.2 and 0.9.0:
+Changes between 0.1.4 and 0.9.0:
 --------------------------------
 
-Core
+Core:
  * Support video cropping
  * Support for SDK package creation
 
@@ -20,6 +20,33 @@ Translations:
    Portuguese, Russian, Scottish Gaelic, Serbian, Simplified Chinese,
    Slovak, Spanish, Thai, Traditional Chinese, Turkish, Ukrainian, Urdu,
    Vietnamese and Welsh translations
+
+
+Changes between 0.1.3 and 0.1.4:
+--------------------------------
+
+Main Application:
+ * Remove completion for URL opening
+ * Fix video stream playback when notifications arise
+ * Fix crashes in History Fragment
+ * Fix widget update events
+
+Core:
+ * Fix video output on 2.x versions
+ * Fix thumbnailer
+
+
+Changes between 0.1.2 and 0.1.3:
+--------------------------------
+
+Main Application:
+ * Fix SQlite crash on init
+ * Fix wrong display time on video player
+ * Fix crash on item selection in subfolder in directory view
+
+Core:
+ * Fix for FLAC
+ * Fix for video output on 4.3
 
 
 Changes between 0.1.1 and 0.1.2:
