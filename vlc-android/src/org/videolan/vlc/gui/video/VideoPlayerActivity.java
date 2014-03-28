@@ -174,7 +174,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -2;
-    private boolean mSecondaryDisplayIsRunning = false;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -235,32 +234,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
                 @Override
-                public void onRouteSelected(MediaRouter router, int type,
-                        MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRouteSelected: type=" + type + ", info="
-                            + info);
-                    updatePresentation();
-                }
-
-                @Override
-                public void onRouteUnselected(MediaRouter router, int type,
-                        MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRouteUnselected: type=" + type + ", info="
-                            + info);
-                    updatePresentation();
-                }
-
-                @Override
                 public void onRoutePresentationDisplayChanged(
                         MediaRouter router, MediaRouter.RouteInfo info) {
                     Log.d(TAG, "onRoutePresentationDisplayChanged: info="
                             + info);
-                    updatePresentation();
+                    removePresentation();
                 }
             };
         }
 
-        updatePresentation();
+        createPresentation();
+        setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         if (LibVlcUtil.isICSOrLater())
@@ -392,10 +376,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // 100 is the value for screen_orientation_start_lock
-        setRequestedOrientation(mScreenOrientation != 100
-                ? mScreenOrientation
-                : getScreenOrientation());
-
+        if (mPresentation == null)
+            setRequestedOrientation(mScreenOrientation != 100
+                    ? mScreenOrientation
+                    : getScreenOrientation());
+        else
+            setRequestedOrientation(getScreenOrientation());
     }
 
     @Override
@@ -556,10 +542,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.i(TAG, "Adding user-selected subtitle " + file);
                 mLibVLC.addSubtitleTrack(file);
             }
-        }
-
-        if (LibVlcUtil.isJellyBeanMR1OrLater()) {
-            updatePresentation();
         }
     }
 
@@ -1631,20 +1613,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void updateOverlayPausePlay() {
-        if (mLibVLC == null) {
+        if (mLibVLC == null)
             return;
-        }
 
-
-        if (!mSecondaryDisplayIsRunning) {
-            mPlayPause
-                    .setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
+        if (mPresentation == null)
+            mPlayPause.setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
                             : R.drawable.ic_play_circle);
-        } else {
-            mPlayPause
-                    .setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
+        else
+            mPlayPause.setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
                             : R.drawable.ic_play_circle_big_o);
-        }
     }
 
     /**
@@ -1973,7 +1950,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void updatePresentation() {
+    private void createPresentation() {
         if (mMediaRouter == null)
             return;
 
@@ -1983,23 +1960,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
 
-        // Dismiss the current presentation if the display has changed.
-        if (mPresentation != null && mPresentation.getDisplay() != presentationDisplay) {
-            Log.i(TAG, "Dismissing presentation because the current route no longer "
-                    + "has a presentation display.");
-            mLibVLC.stop();
-            finish(); //TODO restore the video on the new display instead of closing
-            mPresentation.dismiss();
-            mPresentation = null;
-            mSecondaryDisplayIsRunning = false;
-        }
-
-        // Show a new presentation if needed.
-        if (mPresentation == null && presentationDisplay != null) {
+        if (presentationDisplay != null) {
+            // Show a new presentation if possible.
             Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
             mPresentation = new SecondaryDisplay(this, presentationDisplay);
             mPresentation.setOnDismissListener(mOnDismissListener);
-            mSecondaryDisplayIsRunning = true;
             try {
                 mPresentation.show();
             } catch (WindowManager.InvalidDisplayException ex) {
@@ -2008,8 +1973,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mPresentation = null;
             }
         }
-        setContentView(mSecondaryDisplayIsRunning ? R.layout.player_remote_control
-                : R.layout.player);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void removePresentation() {
+        if (mMediaRouter == null)
+            return;
+
+        // Dismiss the current presentation if the display has changed.
+        Log.i(TAG, "Dismissing presentation because the current route no longer "
+                + "has a presentation display.");
+        mLibVLC.pause(); // Stop sending frames to avoid a crash.
+        finish(); //TODO restore the video on the new display instead of closing
+        mPresentation.dismiss();
+        mPresentation = null;
     }
 
     /**
