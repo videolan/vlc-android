@@ -256,7 +256,7 @@ public class LibVLC {
 
     public void setAout(int aout) {
         if (aout < 0)
-            this.aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+            this.aout = LibVlcUtil.isICSOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
         else
             this.aout = aout;
     }
