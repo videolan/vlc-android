@@ -434,11 +434,21 @@ public class Util {
         ArrayList<String> list = new ArrayList<String>();
         list.add(Environment.getExternalStorageDirectory().getPath());
 
-        List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs");
+        List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse");
         List<String> typeBL = Arrays.asList("tmpfs");
         String[] mountWL = { "/mnt", "/Removable" };
-        String[] mountBL = { "/mnt/secure", "/mnt/shell", "/mnt/asec", "/mnt/obb", "/mnt/media_rw/extSdCard" };
-        String[] deviceWL = { "/dev/block/vold", "/mnt/media_rw/extSdCard" };
+        String[] mountBL = {
+                "/mnt/secure",
+                "/mnt/shell",
+                "/mnt/asec",
+                "/mnt/obb",
+                "/mnt/media_rw/extSdCard",
+                "/mnt/media_rw/sdcard",
+                "/storage/emulated" };
+        String[] deviceWL = {
+                "/dev/block/vold",
+                "/dev/fuse",
+                "/mnt/media_rw/extSdCard" };
 
         try {
             bufReader = new BufferedReader(new FileReader("/proc/mounts"));
