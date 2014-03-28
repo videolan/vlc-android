@@ -7,7 +7,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="other">Other</string>
-    <string name="filebrowser_title">Select media to play</string>
     <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_length">Length</string>
@@ -421,11 +420,11 @@
         <item>RGB 16-bit</item>
         <item>YUV</item>
     </string-array>
-    <string-array name="vouts_values">
+    <string-array name="vouts_values" translatable="false">
         <item >0</item>
         <item >1</item>
     </string-array>
-    <string-array name="vouts_values_froyo">
+    <string-array name="vouts_values_froyo" translatable="false">
         <item >0</item>
     </string-array>
     <string-array name="vouts">

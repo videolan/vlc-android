@@ -43,7 +43,6 @@
                 android:layout_gravity="bottom|left"
                 android:layout_margin="10dip"
                 android:background="@drawable/ic_play"
-                android:onClick="onPlayClick"
                 android:visibility="invisible" />
 
             <TextView
