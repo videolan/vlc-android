@@ -30,11 +30,11 @@
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Delete the file \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' was set as the ringtone.</string>
+    <string name="confirm_delete">Delete the file \'%1$s\'?</string>
+    <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>
-    <string name="not_show_again">"Don't show this message again."</string>
+    <string name="not_show_again">Don't show this message again.</string>
     <string name="beta_warning">This is a beta version.\n\nThis version is NOT STABLE!\n\nDo NOT use, unless you know what you are doing.\n\nIt might kill your kitten and destroy your house.\nUse it at your own risk.\n\nHave Fun! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unknown Artist</string>
@@ -82,7 +82,7 @@
     <string name="directories">Directories</string>
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait…</string>
-    <string name="nomedia">No media files found, please transfer files to your device or adjust your preferences.</string>
+    <string name="nomedia">No media files found, please transfer some files to your device or adjust your preferences.</string>
     <string name="mediafiles">Media files</string>
     <string name="notavailable">not available</string>
     <string name="nosubdirectory">No subdirectories.</string>
@@ -152,13 +152,13 @@
 
     <string name="encountered_error_title">Playback error</string>
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
-    <string name="invalid_location">The location %1$s cannot be played</string>
+    <string name="invalid_location">The location %1$s cannot be played.</string>
 
     <string name="search">Search</string>
     <string name="search_history">Search history</string>
 
     <string name="hardware_acceleration_error_title">HW acceleration error</string>
-    <string name="hardware_acceleration_error_message">HW acceleration encountered an error. Do you want to disable it and try again?</string>
+    <string name="hardware_acceleration_error_message">An error occured with hardware acceleration. Would you like to disable it and try again?</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -183,8 +183,8 @@
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_summary">Disabled: better stability.\nDecoding: may improve performance.\nFull: may improve performance further.</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
-    <string name="hardware_acceleration_decoding">Decoding Acceleration</string>
-    <string name="hardware_acceleration_full">Full Acceleration</string>
+    <string name="hardware_acceleration_decoding">Decoding acceleration</string>
+    <string name="hardware_acceleration_full">Full acceleration</string>
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
@@ -194,10 +194,10 @@
     <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
     <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
     <string name="enable_black_theme">Enable the black theme</string>
-    <string name="enable_black_theme_summary">Change the interface colors for a better comfort in low light environments.</string>
+    <string name="enable_black_theme_summary">Change the interface colours for better comfort in low light environments.</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
 
-    <string name="extra_prefs_category">Extra Settings</string>
+    <string name="extra_prefs_category">Extra settings</string>
 
     <string name="interface_prefs_category">Interface</string>
     <string name="enable_brightness_gesture">Enable brightness gesture</string>
@@ -238,7 +238,7 @@
     <string name="media_db_cleared">Media database cleared!</string>
     <string name="set_locale">Set locale</string>
     <string name="set_locale_detail">Leave blank to reset</string>
-    <string name="set_locale_popup">Quit and reset VLC for changes to take effect.</string>
+    <string name="set_locale_popup">Quit and restart VLC for changes to take effect.</string>
     <string name="network_caching">Network caching value</string>
     <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
 
