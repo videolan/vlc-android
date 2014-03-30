@@ -2,20 +2,34 @@ Changes between 0.1.4 and 0.9.0:
 --------------------------------
 
 Core:
- * Support video cropping
+ * Hardware acceleration for video decoding and rendering
+ * New OpenGL video output
+ * Support subtitles accelerated rendering
  * Support for SDK package creation
+ * Decoding and filter accelerations for ARM and x86
+ * Support video cropping
+ * Allow thumbnailing of 4k videos
 
 Main Application:
- * Fix opening MRLs and video streaming
- * Fix many crashes and warnings
- * New equalizer
+ * New UI for the application, available in white and dark
+ * Enable Hardware decoding by default on Android 4.3 and newer
+   Direct fallback to software when hardware fails
+ * New UI for HDMI and Secondary Screens
+ * Experimental support for Miracast/WiDi
+ * New audio equalizer
+ * Group of video files in folders, for TV shows
+ * New preferences organization
+ * New detection for SDcards
  * Add an option for frame skip to improve performance
  * Add an option to set network caching
+ * Better audio service destruction
+ * Fix opening MRLs and video streaming
+ * Fix many crashes and warnings
 
 Translations:
- * Initial Greek, Kannada, and Slovenian translations
+ * Initial Greek, Kannada, Slovenian, Uzbek, Swedish, Sinhala translations
  * Updates to the Arabic, Bosnian, Brazilian Portuguese, Catalan, Czech,
-   Danish, Dutch, Galician, German, Hebrew, Hindi, Icelandic, Italian,
+   Danish, Dutch, French, Galician, German, Greek, Hebrew, Hindi, Icelandic, Italian,
    Japanese, Khmer, Korean, Lithuanian, Marathi, Norwegian Bokmal, Polish,
    Portuguese, Russian, Scottish Gaelic, Serbian, Simplified Chinese,
    Slovak, Spanish, Thai, Traditional Chinese, Turkish, Ukrainian, Urdu,
