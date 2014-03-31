@@ -8,16 +8,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.VLC" parent="Theme.Sherlock.Light">
+    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
-        <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
-        <item name="android:actionBarSize">50dp</item>
-        <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+    </style>
+
+    <style name="Theme.VLC.Apearance" parent="Theme.Sherlock.Light">
         <item name="marginTopContent">50dp</item>
+
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
@@ -68,16 +68,16 @@
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
 
-    <style name="Theme.VLC.Black" parent="Theme.Sherlock">
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
-        <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
-        <item name="android:actionBarSize">50dp</item>
-        <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+    </style>
+
+    <style name="Theme.VLC.Apearance.Black" parent="Theme.Sherlock">
         <item name="marginTopContent">50dp</item>
+
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
@@ -152,9 +152,7 @@
     </style>
 
     <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
-        <item name="android:background">@drawable/actionbar_background</item>
         <item name="background">@drawable/actionbar_background</item>
-        <item name="android:titleTextStyle">@style/ActionBar.Text</item>
         <item name="titleTextStyle">@style/ActionBar.Text</item>
     </style>
 

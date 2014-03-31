@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarSize">50dp</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+    </style>
+
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Apearance.Black">
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionBarSize">50dp</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+    </style>
+
+    <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
+        <item name="android:background">@drawable/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/ActionBar.Text</item>
+    </style>
+
+</resources>
