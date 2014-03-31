@@ -17,6 +17,7 @@ sed -i.orig "s,${OLD_PATH},${NEW_PATH},g" Makefile
 cd vlc-android/
 
 sed -i.orig -e "s/versionCode\(.*\)0\"/versionCode\1$2\"/" AndroidManifest.xml
+sed -i.orig -e "s/android:debuggable=\"true\"/android:debuggable=\"false\"/" AndroidManifest.xml
 
 mv src/${OLD_PATH} src/tmp
 mkdir -p src/${OLD_PATH}
