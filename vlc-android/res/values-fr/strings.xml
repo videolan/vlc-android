@@ -32,7 +32,7 @@
     <string name="pause">Pause</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
     <string name="beta_warning">Ceci est une version bêta.\n\nCette version est INSTABLE !\n\nN\'utiliser que si vous êtes sûr de vous.\n\nCela pourrait tuer votre chat ou détruire votre maison !\n\n Amusez-vous bien ;)</string>
-    <string name="info_title">VLC Béta</string>
+    <string name="info_title">VLC Bêta</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
@@ -95,7 +95,7 @@
     <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
-    <string name="unseekable_stream">Flux impossible à chercher</string>
+    <string name="unseekable_stream">Impossible de naviguer dans le flux</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>
@@ -129,7 +129,7 @@
     <string name="error_message_is">Le message d\'erreur est le suivant (merci de le mentionner) :\n</string>
     <string name="encountered_error_title">Erreur de lecture</string>
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
-    <string name="invalid_location">Le media %1$s ne peux pas être lu.</string>
+    <string name="invalid_location">Le média %1$s ne peut pas être lu.</string>
     <string name="search">Recherche</string>
     <string name="search_history">Historique de recherche</string>
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
@@ -145,7 +145,7 @@
     <!-- Preferences -->
     <string name="preferences">Préférences</string>
     <string name="general_prefs_category">Général</string>
-    <string name="directories_summary">Sélectionnez les dossiers de votre bilbiothèque multimédia</string>
+    <string name="directories_summary">Sélectionnez les dossiers de votre bibliothèque multimédia</string>
     <string name="add_custom_path">Ajouter un dossier</string>
     <string name="add_custom_path_description">Entrer un dossier additionnel à scanner :</string>
     <string name="remove_custom_path">Retirer le dossier</string>
@@ -177,7 +177,7 @@
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
-    <string name="chroma_format_summary">RGB 32-bit :\tmode par défaut\nRGB 16-bit :\taméliore les performances vidéos mais diminue la qualité\nYUV :\taméliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
+    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
     <string name="deblocking_always">Déblocage max (plus lent)</string>
@@ -215,7 +215,7 @@
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
-    <string name="dump_logcat">Rejeter le fichier journal logcat</string>
-    <string name="dump_logcat_success">Logcat à été rejeté avec succès vers %1$s!</string>
-    <string name="dump_logcat_failure">Echec de rejet de logcat.</string>
+    <string name="dump_logcat">Sauvegarder le fichier journal logcat</string>
+    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans %1$s !</string>
+    <string name="dump_logcat_failure">Échec de sauvegarde du logcat.</string>
 </resources>
