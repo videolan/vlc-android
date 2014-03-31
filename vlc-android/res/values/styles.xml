@@ -17,6 +17,7 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="marginTopContent">50dp</item>
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
@@ -76,6 +77,7 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="marginTopContent">50dp</item>
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>

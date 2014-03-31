@@ -56,4 +56,6 @@
         <attr name="overhangSize" format="dimension" />
     </declare-styleable>
 
+    <attr name="marginTopContent" format="dimension" />
+
 </resources>
