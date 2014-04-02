@@ -332,7 +332,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     public ArrayList<String> getLocations(int position) {
         // Return all the media locations of a list item list.
         ArrayList<String> locations = new ArrayList<String>();
-        if (!mItems.get(position).mIsSeparator) {
+        if (position < mItems.size() && !mItems.get(position).mIsSeparator) {
             ArrayList<Media> mediaList = mItems.get(position).mMediaList;
             for (int i = 0; i < mediaList.size(); ++i)
                 locations.add(mediaList.get(i).getLocation());
