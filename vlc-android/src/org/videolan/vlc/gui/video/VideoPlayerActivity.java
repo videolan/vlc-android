@@ -1987,7 +1987,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 + "has a presentation display.");
         mLibVLC.pause(); // Stop sending frames to avoid a crash.
         finish(); //TODO restore the video on the new display instead of closing
-        mPresentation.dismiss();
+        if (mPresentation != null) mPresentation.dismiss();
         mPresentation = null;
     }
 
