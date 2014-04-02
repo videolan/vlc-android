@@ -268,7 +268,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
             VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
-            frag.setGroup(media.getTitle());
+            if (frag != null) {
+                frag.setGroup(media.getTitle());
+            }
         }
         else
             playVideo(media, false);
