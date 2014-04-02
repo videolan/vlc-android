@@ -518,12 +518,14 @@ public class MainActivity extends SherlockFragmentActivity {
         // Slide down the audio player if needed.
         slideDownAudioPlayer();
 
-        // Do not show the new fragment if the requested fragment is already shown.
-        if (mCurrentFragment.equals(fragmentTag))
-            return null;
+        if (mCurrentFragment != null) {
+            // Do not show the new fragment if the requested fragment is already shown.
+            if (mCurrentFragment.equals(fragmentTag))
+                return null;
 
-        if (!secondaryFragments.contains(mCurrentFragment))
-            mPreviousFragment = mCurrentFragment;
+            if (!secondaryFragments.contains(mCurrentFragment))
+                mPreviousFragment = mCurrentFragment;
+        }
 
         mCurrentFragment = fragmentTag;
         Fragment frag = fetchSecondaryFragment(mCurrentFragment);
