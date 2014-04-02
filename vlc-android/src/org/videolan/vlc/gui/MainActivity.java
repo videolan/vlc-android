@@ -429,19 +429,21 @@ public class MainActivity extends SherlockFragmentActivity {
         if (slideDownAudioPlayer())
             return;
 
-        // If it's the directory view, a "backpressed" action shows a parent.
-        if (mCurrentFragment.equals("directories")) {
-            DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
-            if (!directoryView.isRootDirectory()) {
-                directoryView.showParentDirectory();
+        if (mCurrentFragment!= null) {
+            // If it's the directory view, a "backpressed" action shows a parent.
+            if (mCurrentFragment.equals("directories")) {
+                DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
+                if (!directoryView.isRootDirectory()) {
+                    directoryView.showParentDirectory();
+                    return;
+                }
+            }
+
+            // If it's the albums songs fragment, we leave it.
+            if (secondaryFragments.contains(mCurrentFragment)) {
+                popSecondaryFragment();
                 return;
             }
-        }
-
-        // If it's the albums songs fragment, we leave it.
-        if (secondaryFragments.contains(mCurrentFragment)) {
-            popSecondaryFragment();
-            return;
         }
 
         super.onBackPressed();
