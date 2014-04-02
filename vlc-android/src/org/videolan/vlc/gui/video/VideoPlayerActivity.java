@@ -1759,7 +1759,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     // other content-based URI (probably file pickers)
                     mLocation = getIntent().getData().getPath();
                 }
-            } else {
+            } else if (getIntent().getDataString() != null) {
                 // Plain URI
                 mLocation = getIntent().getDataString();
                 // Remove VLC prefix if needed
@@ -1774,6 +1774,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         e.printStackTrace();
                     }
                 }
+            } else {
+                Log.e(TAG, "Couldn't undertstand the intents");
             }
             if(getIntent().getExtras() != null)
                 intentPosition = getIntent().getExtras().getLong("position", -1);
