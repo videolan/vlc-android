@@ -1775,7 +1775,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     }
                 }
             } else {
-                Log.e(TAG, "Couldn't undertstand the intents");
+                Log.e(TAG, "Couldn't understand the intent");
+                encounteredError();
             }
             if(getIntent().getExtras() != null)
                 intentPosition = getIntent().getExtras().getLong("position", -1);
