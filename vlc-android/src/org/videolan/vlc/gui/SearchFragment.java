@@ -224,6 +224,8 @@ public class SearchFragment extends SherlockListFragment {
     };
 
     public void onSearchKeyPressed() {
+        if (mSearchText == null)
+            return;
         mSearchText.requestFocus();
         mSearchText.setSelection(mSearchText.getText().length());
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
