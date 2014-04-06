@@ -581,7 +581,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onSearchRequested() {
-        if (mCurrentFragment.equals("search"))
+        if (mCurrentFragment != null && mCurrentFragment.equals("search"))
             ((SearchFragment)fetchSecondaryFragment("search")).onSearchKeyPressed();
         showSecondaryFragment("search");
         return true;
