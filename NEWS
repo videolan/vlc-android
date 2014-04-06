@@ -1,5 +1,12 @@
-Changes between 0.9.0 and 0.9.1-git:
+Changes between 0.9.0 and 0.9.1:
 --------------------------------
+
+Core:
+ * Fix mp4 playback
+
+Main Application:
+ * Fix crash on some 2.3.x devices
+ * Fix numerous crashes in the interface
 
 
 
