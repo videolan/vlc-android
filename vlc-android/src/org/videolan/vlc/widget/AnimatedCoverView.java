@@ -96,6 +96,8 @@ public class AnimatedCoverView extends View {
 
                 int animationDuration = scaledImageHeight == rect.bottom ?
                         (scaledImageWidth - rect.right) * 60 : (scaledImageHeight - rect.bottom) * 60;
+                if (animationDuration <= 10)
+                    animationDuration = 10;
                 mCurrentAnim.setDuration(animationDuration);
                 mCurrentAnim.setInterpolator(new LinearInterpolator());
                 mCurrentAnim.initialize(mImage.getWidth(), mImage.getHeight(), rect.right, rect.bottom);
