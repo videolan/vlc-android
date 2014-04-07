@@ -298,7 +298,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         case R.id.video_list_info:
             MainActivity activity = (MainActivity)getActivity();
             MediaInfoFragment frag = (MediaInfoFragment)activity.showSecondaryFragment("mediaInfo");
-            frag.setMediaLocation(media.getLocation());
+            if (frag != null) {
+                frag.setMediaLocation(media.getLocation());
+            }
             return true;
         case R.id.video_list_delete:
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
