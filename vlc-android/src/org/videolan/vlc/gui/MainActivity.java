@@ -568,7 +568,7 @@ public class MainActivity extends SherlockFragmentActivity {
             menu.findItem(R.id.ml_menu_sortby).setVisible(true);
         }
         // Enable the clear search history function for the search fragment.
-        if (mCurrentFragment.equals("search"))
+        if (mCurrentFragment != null && mCurrentFragment.equals("search"))
             menu.findItem(R.id.search_clear_history).setVisible(true);
         return true;
     }
@@ -623,11 +623,11 @@ public class MainActivity extends SherlockFragmentActivity {
             // Refresh
             case R.id.ml_menu_refresh:
                 // TODO: factor this into each fragment
-                if(mCurrentFragment.equals("directories")) {
+                if(mCurrentFragment != null && mCurrentFragment.equals("directories")) {
                     DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
                     directoryView.refresh();
                 }
-                else if(mCurrentFragment.equals("history"))
+                else if(mCurrentFragment != null && mCurrentFragment.equals("history"))
                     ((HistoryFragment) getFragment(mCurrentFragment)).refresh();
                 else
                     MediaLibrary.getInstance(this).loadMediaItems(this, true);
