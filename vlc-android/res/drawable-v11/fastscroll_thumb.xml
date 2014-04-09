@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/fastscroll_thumb_pressed" android:state_pressed="true"/>
-    <item android:drawable="@drawable/fastscroll_thumb_default"/>
-
-</selector>
