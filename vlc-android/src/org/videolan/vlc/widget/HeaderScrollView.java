@@ -51,7 +51,7 @@ public class HeaderScrollView extends HorizontalScrollView {
             public void run() {
                 LinearLayout hl = (LinearLayout) findViewById(R.id.header_layout);
                 for (int i = 0; i < hl.getChildCount(); ++i) {
-                    View t = (View)hl.getChildAt(i);
+                    View t = hl.getChildAt(i);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mTabWidth, LayoutParams.WRAP_CONTENT, 1);
                     if (i == 0)
                         lp.setMargins(mTabWidth / 2, 0, 0, 0);
