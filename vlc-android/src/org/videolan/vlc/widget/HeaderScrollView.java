@@ -100,5 +100,6 @@ public class HeaderScrollView extends HorizontalScrollView {
         TextView newView = (TextView) hl.getChildAt(newPosition);
         if (newView != null)
             newView.setTextColor(attrs.getColor(1, 0));
+        attrs.recycle();
     }
 }
