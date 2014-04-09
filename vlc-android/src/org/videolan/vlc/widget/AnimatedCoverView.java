@@ -41,6 +41,14 @@ public class AnimatedCoverView extends View {
     private final static int ANIMATION_MOVE_2 = 1;
     private int mCurrentMove = ANIMATION_MOVE_2;
 
+    private Rect mSrc = new Rect();
+    private Rect mDst = new Rect();
+    float[] mStartPos = new float[2];
+    private Transformation mTrans = new Transformation();
+    private Paint mPaint = new Paint();
+    private int mScaledImageWidth;
+    private int mScaledImageHeight;
+
     public AnimatedCoverView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -64,61 +72,59 @@ public class AnimatedCoverView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (mImage != null) {
-            // Determine the animation parameters.
-            Rect rect = new Rect();
-            canvas.getClipBounds(rect);
-
-            float ARview = (float)rect.width() / rect.height();
-            float ARimage = (float)mImage.getWidth() / mImage.getHeight();
-
-            int scaledImageWidth;
-            int scaledImageHeight;
-
-            if (ARimage > ARview) {
-                scaledImageWidth = (int)((float)mImage.getWidth() * rect.bottom / mImage.getHeight());
-                scaledImageHeight = rect.bottom;
-            }
-            else {
-                scaledImageWidth = rect.right;
-                scaledImageHeight = (int)((float)mImage.getHeight() * rect.right / mImage.getWidth());
-            }
-
             // Switch the current animation if needed.
             if (mCurrentAnim == null || mCurrentAnim.hasEnded())
-            {
-                mCurrentMove = mCurrentMove == ANIMATION_MOVE_1 ? ANIMATION_MOVE_2 : ANIMATION_MOVE_1;
-
-                mCurrentAnim = new TranslateAnimation(
-                        mCurrentMove == ANIMATION_MOVE_1 ? 0 : rect.right - scaledImageWidth,
-                        mCurrentMove == ANIMATION_MOVE_1 ? rect.right - scaledImageWidth : 0,
-                        mCurrentMove == ANIMATION_MOVE_1 ? 0 : rect.bottom - scaledImageHeight,
-                        mCurrentMove == ANIMATION_MOVE_1 ? rect.bottom - scaledImageHeight : 0);
-
-                int animationDuration = scaledImageHeight == rect.bottom ?
-                        (scaledImageWidth - rect.right) * 60 : (scaledImageHeight - rect.bottom) * 60;
-                if (animationDuration <= 10)
-                    animationDuration = 10;
-                mCurrentAnim.setDuration(animationDuration);
-                mCurrentAnim.setInterpolator(new LinearInterpolator());
-                mCurrentAnim.initialize(mImage.getWidth(), mImage.getHeight(), rect.right, rect.bottom);
-            }
+                switchAnimation(canvas);
 
             // Animate and draw
-            Transformation trans = new Transformation();
-            mCurrentAnim.getTransformation(AnimationUtils.currentAnimationTimeMillis(), trans);
-            float[] pt = new float[2];
-            trans.getMatrix().mapPoints(pt);
+            mCurrentAnim.getTransformation(AnimationUtils.currentAnimationTimeMillis(), mTrans);
+            mStartPos[0] = 0; mStartPos[1] = 0;
+            mTrans.getMatrix().mapPoints(mStartPos);
 
-            Rect src = new Rect(0, 0, mImage.getWidth(), mImage.getHeight());
-            Rect dst = new Rect((int)pt[0], (int)pt[1], (int)pt[0] + scaledImageWidth, (int)pt[1] + scaledImageHeight);
-            Paint paint = new Paint();
-            paint.setFilterBitmap(true);
-            canvas.drawBitmap(mImage, src, dst, paint);
+            mSrc.set(0, 0, mImage.getWidth(), mImage.getHeight());
+            mDst.set((int)mStartPos[0], (int)mStartPos[1],
+                    (int)mStartPos[0] + mScaledImageWidth, (int)mStartPos[1] + mScaledImageHeight);
+            mPaint.setFilterBitmap(true);
+            canvas.drawBitmap(mImage, mSrc, mDst, mPaint);
             super.onDraw(canvas);
 
             // Request another draw operation until time is up.
             invalidate();
         }
+    }
+
+    private void switchAnimation(Canvas canvas) {
+        // Determine the animation parameters.
+        Rect rect = new Rect();
+        canvas.getClipBounds(rect);
+
+        float ARview = (float)rect.width() / rect.height();
+        float ARimage = (float)mImage.getWidth() / mImage.getHeight();
+
+        if (ARimage > ARview) {
+            mScaledImageWidth = (int)((float)mImage.getWidth() * rect.bottom / mImage.getHeight());
+            mScaledImageHeight = rect.bottom;
+        }
+        else {
+            mScaledImageWidth = rect.right;
+            mScaledImageHeight = (int)((float)mImage.getHeight() * rect.right / mImage.getWidth());
+        }
+
+        mCurrentMove = mCurrentMove == ANIMATION_MOVE_1 ? ANIMATION_MOVE_2 : ANIMATION_MOVE_1;
+
+        mCurrentAnim = new TranslateAnimation(
+                mCurrentMove == ANIMATION_MOVE_1 ? 0 : rect.right - mScaledImageWidth,
+                mCurrentMove == ANIMATION_MOVE_1 ? rect.right - mScaledImageWidth : 0,
+                mCurrentMove == ANIMATION_MOVE_1 ? 0 : rect.bottom - mScaledImageHeight,
+                mCurrentMove == ANIMATION_MOVE_1 ? rect.bottom - mScaledImageHeight : 0);
+
+        int animationDuration = mScaledImageHeight == rect.bottom ?
+                (mScaledImageWidth - rect.right) * 60 : (mScaledImageHeight - rect.bottom) * 60;
+        if (animationDuration <= 10)
+            animationDuration = 10;
+        mCurrentAnim.setDuration(animationDuration);
+        mCurrentAnim.setInterpolator(new LinearInterpolator());
+        mCurrentAnim.initialize(mImage.getWidth(), mImage.getHeight(), rect.right, rect.bottom);
     }
 
     public void setImageBitmap(Bitmap b) {
