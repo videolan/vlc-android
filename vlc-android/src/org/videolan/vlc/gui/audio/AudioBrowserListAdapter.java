@@ -33,8 +33,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -191,7 +191,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
-            holder.footer = (View) v.findViewById(R.id.footer);
+            holder.footer = v.findViewById(R.id.footer);
             holder.more = (ImageView) v.findViewById(R.id.item_more);
             holder.viewType = VIEW_MEDIA;
             v.setTag(holder);
