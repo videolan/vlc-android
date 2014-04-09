@@ -158,7 +158,7 @@
     <string name="search_history">Search history</string>
 
     <string name="hardware_acceleration_error_title">HW acceleration error</string>
-    <string name="hardware_acceleration_error_message">An error occured with hardware acceleration. Would you like to disable it and try again?</string>
+    <string name="hardware_acceleration_error_message">An error occurred with hardware acceleration. Would you like to disable it and try again?</string>
 
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
