@@ -64,6 +64,7 @@
         <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
         <item name="ic_menu_history">@drawable/ic_menu_history</item>
+        <item name="ic_move_media">@drawable/ic_move_media</item>
 
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
@@ -124,7 +125,8 @@
         <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
         <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
-
+        <item name="ic_move_media">@drawable/ic_move_media_w</item>
+        
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
 
