@@ -68,6 +68,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
 
     @Override
     public void onStart() {
+        super.onStart();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
         filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
