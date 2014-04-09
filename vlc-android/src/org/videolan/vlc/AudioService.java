@@ -870,7 +870,9 @@ public class AudioService extends Service {
             editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, media.getGenre());
             editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
-            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, getCover());
+            // Copy the cover bitmap because the RemonteControlClient can recycle its artwork bitmap.
+            Bitmap cover = getCover();
+            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, cover.copy(cover.getConfig(), false));
             editor.apply();
         }
     }
