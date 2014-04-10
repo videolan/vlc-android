@@ -34,6 +34,7 @@
     </FrameLayout>
 
     <RelativeLayout
+        android:id="@+id/player_overlay_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_remote"
@@ -111,7 +112,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/player_overlay_header"
             android:layout_centerHorizontal="true"
-            android:background="@color/background_remote"
             android:padding="5dp"
             android:textColor="#ffffff"
             android:textSize="36sp"
