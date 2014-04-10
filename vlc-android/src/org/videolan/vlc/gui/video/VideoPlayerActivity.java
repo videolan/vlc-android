@@ -1536,10 +1536,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay the the default timeout
      */
     private void showOverlay() {
-        if (mPresentation == null)
             showOverlay(OVERLAY_TIMEOUT);
-        else
-            showOverlay(OVERLAY_INFINITE); // Hack until we have fullscreen controls
     }
 
     /**
@@ -1571,9 +1568,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * hider overlay
      */
     private void hideOverlay(boolean fromUser) {
-        if (mPresentation != null)
-            return; // Hack until we have fullscreen controls
-
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
