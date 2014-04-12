@@ -521,7 +521,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void startPlayback() {
-        load();
+        loadMedia();
 
         /*
          * if the activity has been paused by pressing the power button,
@@ -893,7 +893,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             eventHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    load();
+                    loadMedia();
                 }
             }, 1000);
         } else {
@@ -933,7 +933,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
                 mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
                 mSubtitlesSurface.setVisibility(View.INVISIBLE);
-                load();
+                loadMedia();
             }
         })
         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -1714,7 +1714,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * - position (long) - position of the video to start with (in ms)
      */
     @SuppressWarnings({ "unchecked" })
-    private void load() {
+    private void loadMedia() {
         mLocation = null;
         String title = getResources().getString(R.string.title);
         boolean dontParse = false;
