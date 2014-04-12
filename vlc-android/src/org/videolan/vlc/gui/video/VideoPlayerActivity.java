@@ -1713,7 +1713,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * External extras:
      * - position (long) - position of the video to start with (in ms)
      */
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private void load() {
         mLocation = null;
         String title = getResources().getString(R.string.title);
@@ -1725,21 +1725,32 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
-            /* Started from external application */
+            /* Started from external application 'content' */
             if (getIntent().getData() != null
                     && getIntent().getData().getScheme() != null
                     && getIntent().getData().getScheme().equals("content")) {
-                if(getIntent().getData().getHost().equals("media") || getIntent().getData().getHost().equals("mms")) {
-                    // Media URI
-                    Cursor cursor = managedQuery(getIntent().getData(), new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
-                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                    if (cursor.moveToFirst())
-                        mLocation = LibVLC.PathToURI(cursor.getString(column_index));
-                } else if(getIntent().getData().getHost().equals("com.fsck.k9.attachmentprovider")
-                       || getIntent().getData().getHost().equals("gmail-ls")) {
-                    // Mail-based apps - download the stream to a temporary file and play it
+
+                // Media or MMS URI
+                if(getIntent().getData().getHost().equals("media")
+                        || getIntent().getData().getHost().equals("mms")) {
                     try {
-                        Cursor cursor = getContentResolver().query(getIntent().getData(), new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
+                        Cursor cursor = getContentResolver().query(getIntent().getData(),
+                                new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
+                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                        if (cursor.moveToFirst())
+                            mLocation = LibVLC.PathToURI(cursor.getString(column_index));
+                    } catch (Exception e) {
+                        Log.e(TAG, "Couldn't read the file from media or MMS");
+                        encounteredError();
+                    }
+                }
+
+                // Mail-based apps - download the stream to a temporary file and play it
+                else if(getIntent().getData().getHost().equals("com.fsck.k9.attachmentprovider")
+                       || getIntent().getData().getHost().equals("gmail-ls")) {
+                    try {
+                        Cursor cursor = getContentResolver().query(getIntent().getData(),
+                                new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
                         cursor.moveToFirst();
                         String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
                         Log.i(TAG, "Getting file " + filename + " from content:// URI");
@@ -1757,11 +1768,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         Log.e(TAG, "Couldn't download file from mail URI");
                         encounteredError();
                     }
-                } else {
-                    // other content-based URI (probably file pickers)
+                }
+
+                // other content-based URI (probably file pickers)
+                else {
                     mLocation = getIntent().getData().getPath();
                 }
-            } else if (getIntent().getDataString() != null) {
+            } /* External application */
+            else if (getIntent().getDataString() != null) {
                 // Plain URI
                 mLocation = getIntent().getDataString();
                 // Remove VLC prefix if needed
@@ -1780,11 +1794,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.e(TAG, "Couldn't understand the intent");
                 encounteredError();
             }
+
+            // Try to get the position
             if(getIntent().getExtras() != null)
                 intentPosition = getIntent().getExtras().getLong("position", -1);
-        } else if(getIntent().getAction() != null
-                && getIntent().getAction().equals(PLAY_FROM_VIDEOGRID) && getIntent().getExtras() != null) {
-            /* Started from VideoListActivity */
+        } /* ACTION_VIEW */
+        /* Started from VideoListActivity */
+        else if(getIntent().getAction() != null
+                && getIntent().getAction().equals(PLAY_FROM_VIDEOGRID)
+                && getIntent().getExtras() != null) {
             mLocation = getIntent().getExtras().getString("itemLocation");
             itemTitle = getIntent().getExtras().getString("itemTitle");
             dontParse = getIntent().getExtras().getBoolean("dontParse");
@@ -1845,6 +1863,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     mLibVLC.setTime(intentPosition);
             }
 
+            // Get possible subtitles
             String subtitleList_serialized = preferences.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
             ArrayList<String> prefsList = new ArrayList<String>();
             if(subtitleList_serialized != null) {
@@ -1861,6 +1880,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     mSubtitleSelectedFiles.add(x);
              }
 
+            // Get the title
             try {
                 title = URLDecoder.decode(mLocation, "UTF-8");
             } catch (UnsupportedEncodingException e) {
