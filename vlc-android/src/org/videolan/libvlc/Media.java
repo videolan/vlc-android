@@ -373,7 +373,7 @@ public class Media implements Comparable<Media> {
     }
 
     public String getGenre() {
-        if(mGenre == getValueWrapper(null, UnknownStringType.Genre))
+        if(getValueWrapper(null, UnknownStringType.Genre).equals(mGenre))
             return mGenre;
         else if( mGenre.length() > 1)/* Make genres case insensitive via normalisation */
             return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase(Locale.getDefault());
