@@ -1004,14 +1004,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         // compute the aspect ratio
         double ar, vw;
-        double density = (double)mSarNum / (double)mSarDen;
-        if (density == 1.0) {
+        if (mSarDen == mSarNum) {
             /* No indication about the density, assuming 1:1 */
             vw = mVideoVisibleWidth;
             ar = (double)mVideoVisibleWidth / (double)mVideoVisibleHeight;
         } else {
             /* Use the specified aspect ratio */
-            vw = mVideoVisibleWidth * density;
+            vw = mVideoVisibleWidth * (double)mSarNum / mSarDen;
             ar = vw / mVideoVisibleHeight;
         }
 
