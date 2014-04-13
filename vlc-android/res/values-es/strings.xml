@@ -4,7 +4,6 @@
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Otro</string>
-    <string name="filebrowser_title">Seleccionar medio a reproducir</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nombre</string>
     <string name="sortby_length">Longitud</string>
@@ -26,8 +25,8 @@
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
     <string name="info">Información</string>
-    <string name="confirm_delete">¿Eliminar este archivo «%1$s»?</string>
-    <string name="ringtone_set">«%1$s» ha sido establecido como tono de llamada.</string>
+    <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
+    <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">No mostrar este mensaje de nuevo.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Carpetas</string>
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
-    <string name="nomedia">No se han encontrado medios, transfiera archivos a su dispositivo o ajuste sus preferencias.</string>
+    <string name="nomedia">No se han encontrador archivos multimedia, transfiera algunos archivos a su dispositivo o ajuste sus preferencias.</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">no disponible</string>
     <string name="nosubdirectory">No hay subcarpetas.</string>
@@ -123,17 +122,17 @@
     <string name="open">Abrir</string>
     <string name="open_mrl">Abrir MRL</string>
     <string name="open_mrl_dialog_title">Abrir volcado de red</string>
-    <string name="open_mrl_dialog_msg">Introducir MRL de red: p.e. http://, mms:// o rtsp://</string>
+    <string name="open_mrl_dialog_msg">Ingrese MRL de red: p.e. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
     <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n</string>
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
-    <string name="invalid_location">La localización %1$s no puede ser reproducida</string>
+    <string name="invalid_location">La localización %1$s no puede reproducirse.</string>
     <string name="search">Buscar</string>
     <string name="search_history">Buscar en el historial</string>
     <string name="hardware_acceleration_error_title">Error en la aceleración por hardware</string>
-    <string name="hardware_acceleration_error_message">La aceleración por hardware ha encontrado un error. ¿Desea deshabilitarlo y probar de nuevo?</string>
+    <string name="hardware_acceleration_error_message">Ha ocurrido un error con la aceleración por hardware. ¿Desea deshabilitarla y probar de nuevo? </string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licencia</string>
@@ -163,7 +162,7 @@
     <string name="screen_orientation_reverse_portrait">Invertir vertical</string>
     <string name="screen_orientation_reverse_landscape">Invertir apaisado</string>
     <string name="enable_black_theme">Habilitar el tema negro</string>
-    <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para  mayor comodidad en ambientes con poca luz.</string>
+    <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para una mayor comodidad en entornos de poca luz.</string>
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="extra_prefs_category">Preferencias extra</string>
     <string name="interface_prefs_category">Interfaz</string>
@@ -202,7 +201,7 @@
     <string name="media_db_cleared">¡Base de datos de medios limpiada!</string>
     <string name="set_locale">Establecer idioma</string>
     <string name="set_locale_detail">Dejar en blanco para reinicializar</string>
-    <string name="set_locale_popup">Cierre y reinicialice VLC para que los cambios tengan efecto.</string>
+    <string name="set_locale_popup">Salir y reiniciar VLC para que los cambios tomen efecto.</string>
     <string name="network_caching">Valor de cache de red</string>
     <string name="network_caching_summary">La cantidad de tiempo que almacenar en memoria intermedia (en ms). No funciona con hardware de decodificación. Dejar en blanco para reinicializar.</string>
     <string name="developer_prefs_category">Desarrollador</string>
