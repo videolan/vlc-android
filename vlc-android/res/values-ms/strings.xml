@@ -4,14 +4,12 @@
     <string name="ok">OK</string>
     <string name="cancel">Batal</string>
     <string name="other">Lain-lain</string>
-    <string name="filebrowser_title">Pilih media untuk dimainkan</string>
     <string name="sortby">Isih dengan...</string>
     <string name="sortby_name">Nama</string>
     <string name="sortby_length">Tempoh</string>
     <string name="searchable_hint">Gelintar...</string>
     <string name="history">Sejarah</string>
     <plurals name="search_found_results_quantity">
-        <item quantity="one">%d keputusan ditemui</item>
         <item quantity="other">%d keputusan ditemui</item>
     </plurals>
     <string name="play">Main</string>
@@ -27,7 +25,7 @@
     <string name="set_song">Tetapkan sebagai nada dering</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' telah ditetapkan sebagai nada dering</string>
+    <string name="ringtone_set">Fail \'%1$s\' telah ditetapkan sebagai nada dering.</string>
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
     <string name="pause">Jeda</string>
     <string name="not_show_again">Jangan tunjuk mesej ini lagi.</string>
@@ -38,25 +36,20 @@
     <string name="unknown_genre">Genre Tidak Diketahui</string>
     <string name="songs">Lagu</string>
     <plurals name="songs_quantity">
-        <item quantity="one">1 lagu</item>
         <item quantity="other">%d lagu</item>
     </plurals>
     <string name="artists">Artis</string>
     <string name="albums">Album</string>
     <plurals name="albums_quantity">
-        <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
     </plurals>
     <plurals name="subfolders_quantity">
-        <item quantity="one">1 subfolder</item>
         <item quantity="other">%d subfolder</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 fail media</item>
         <item quantity="other">%d fail media</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="one">1 video</item>
         <item quantity="other">%d video</item>
     </plurals>
     <string name="internal_memory">Ingatan dalaman</string>
@@ -75,7 +68,7 @@
     <string name="directories">Direktori</string>
     <string name="loading">Memuatkan...</string>
     <string name="please_wait">Sila tunggu...</string>
-    <string name="nomedia">Tiada media ditemui, sila pindahkan fail ke peranti anda atau laraskan keutamaan anda.</string>
+    <string name="nomedia">Tiada media ditemui, sila pindah beberapa fail ke peranti anda atau laraskan keutamaan anda.</string>
     <string name="mediafiles">Fail media</string>
     <string name="notavailable">tidak tersedia</string>
     <string name="nosubdirectory">Tiada subdirektori.</string>
@@ -106,7 +99,7 @@
     <string name="volume">Volum</string>
     <string name="brightness">Kecerahan</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">one: 1 saluran\n\nother: %1$d saluran\n</item>
+        <item quantity="other">%1$d saluran\n</item>
     </plurals>
     <string name="track_samplerate_info">Kadar sampel: : %1$d Hz\n</string>
     <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
@@ -128,11 +121,10 @@
     <string name="error_message_is">Ralat mesej adalah (sila sebutkan ini ketika menyahpijat):\n</string>
     <string name="encountered_error_title">Ralat mainbalik</string>
     <string name="encountered_error_message">VLC mengalami ralat dengan media ini.\nSila cuba segar  semula pustaka media.</string>
-    <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan</string>
+    <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
     <string name="search">Gelintar</string>
     <string name="search_history">Gelintar sejarah</string>
     <string name="hardware_acceleration_error_title">Ralat pemecutan HW</string>
-    <string name="hardware_acceleration_error_message">Pemecutan HW menghadapi ralat. Anda mahu lumpuhkannya dan cuba lagi?</string>
     <!-- About -->
     <string name="app_name_full">VLC untuk Android™</string>
     <string name="licence">Lesen\n</string>
@@ -143,6 +135,7 @@
     <string name="vlc_authors">Pengarang VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Keutamaan</string>
+    <string name="general_prefs_category">Am</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke dalam pustaka media</string>
     <string name="add_custom_path">Tambah laluan suai</string>
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
@@ -150,8 +143,8 @@
     <string name="hardware_acceleration">Pemecutan Perkakasan</string>
     <string name="hardware_acceleration_summary">Dilumpuhkan: kestablian lebih baik.\nPenyahkodan: mungkin tingkatkan prestasi.\nPenuh: mungkin tingkatkan lagi prestasi.</string>
     <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
-    <string name="hardware_acceleration_decoding">Menyahkod Pemecutan</string>
-    <string name="hardware_acceleration_full">Pemecutan Penuh</string>
+    <string name="hardware_acceleration_decoding">Menyahkod pemecutan</string>
+    <string name="hardware_acceleration_full">Pemecutan penuh</string>
     <string name="automatic">Automatik</string>
     <string name="screen_orientation">Orientasi skrin video</string>
     <string name="screen_orientation_sensor">Automatik (penderia)</string>
@@ -163,6 +156,8 @@
     <string name="enable_black_theme">Benarkan tema hitam</string>
     <string name="enable_black_theme_summary">Ubah warna antaramuka untuk kelihatan lebih baik dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
+    <string name="extra_prefs_category">Tetapan tambahan</string>
+    <string name="interface_prefs_category">Antaramuka</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
@@ -198,9 +193,10 @@
     <string name="media_db_cleared">Pangkalan data media dikosongkan!</string>
     <string name="set_locale">Tetapkan lokaliti</string>
     <string name="set_locale_detail">Tinggalkan kosong untuk tetap semula</string>
-    <string name="set_locale_popup">Keluar dan tetap semula VLC supaya perubahan berkesan.</string>
+    <string name="set_locale_popup">Keluar dan mula semula VLC suoaya perubahan berkesan.</string>
     <string name="network_caching">Nilai caching rangkaian</string>
     <string name="network_caching_summary">Amaun masa untuk menimbal media rangkaian (dalam ms). Tidak berfungsi dengan menyahkog perkakasan. Tinggalkan kosong untuk tetap semula.</string>
+    <string name="developer_prefs_category">Pembangun</string>
     <string name="enable_verbose_mode">Berjela</string>
     <string name="enable_verbose_mode_summary">TIngkatkan kejelaan (logcat)</string>
     <string name="debug_logs">Nyahpijat log</string>
