@@ -4,7 +4,6 @@
     <string name="ok">Iawn</string>
     <string name="cancel">Diddymu</string>
     <string name="other">Arall</string>
-    <string name="filebrowser_title">Dewis cyfrwng i\'w chwarae</string>
     <string name="sortby">Trefnu yn ôl…</string>
     <string name="sortby_name">Enw</string>
     <string name="sortby_length">Hyd</string>
@@ -28,8 +27,8 @@
     <string name="remove">Tynnu</string>
     <string name="set_song">Gosod fel sain canu</string>
     <string name="info">Gwybodaeth</string>
-    <string name="confirm_delete">Dileu\'r ffeil \'%1$s\' ?</string>
-    <string name="ringtone_set">Gosodwyd \'%1$s\' fel y sain canu.</string>
+    <string name="confirm_delete">Dileu\'r ffeil \'%1$s\'?</string>
+    <string name="ringtone_set">Gosodwyd y ffeil \'%1$s\' fel y tôn canu.</string>
     <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
     <string name="not_show_again">Peidio dangos y neges eto</string>
@@ -87,7 +86,7 @@
     <string name="directories">Cyfeiriaduron</string>
     <string name="loading">Yn llwytho…</string>
     <string name="please_wait">Arhoswch…</string>
-    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwydda ffeiliau i dy ddyfais neu addasa\'r cyfeiriadau\'r llyfrgell.</string>
+    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwyddwch neu lawrlwythwch ffeiliau i\'ch dyfais neu addaswch eich gosodiadau.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">ddim ar gael</string>
     <string name="nosubdirectory">Dim is-gyfeiriaduron.</string>
@@ -143,11 +142,11 @@
     <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):\n</string>
     <string name="encountered_error_title">Gwall chwarae</string>
     <string name="encountered_error_message">Roedd gwall wrth geisio chwarae\'r cyfrwng hwn.\nCeisia ail-lwytho\'r llyfrgell cyfryngau.</string>
-    <string name="invalid_location">Ni ellir chwarae\'r lleoliad %1$s</string>
+    <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
     <string name="search">Chwilio</string>
     <string name="search_history">Hanes chwilio</string>
     <string name="hardware_acceleration_error_title">Gwall cyflymydd HW</string>
-    <string name="hardware_acceleration_error_message">Roedd gwall gyda\'r cyflymydd HW. Ydych am ei analluogi a rhoi cynnig arall arni?</string>
+    <string name="hardware_acceleration_error_message">Bu gwall gyda\'r cyflymydd caledwedd. Hoffech ei analluogi a cheisio eto?</string>
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android™</string>
     <string name="licence">Trwydded</string>
@@ -166,8 +165,8 @@
     <string name="hardware_acceleration">Cyflymiad Caledwedd</string>
     <string name="hardware_acceleration_summary">Analluogwyd: gwell sefydlogrwydd\nDatgodio: gwell perfformiad o bosib\nLlawn: perfformiad gwell fyth o bosib</string>
     <string name="hardware_acceleration_disabled">Analluogwyd</string>
-    <string name="hardware_acceleration_decoding">Cyflymiad Datgodio</string>
-    <string name="hardware_acceleration_full">Cylfymiad Llawn</string>
+    <string name="hardware_acceleration_decoding">Cyflymiad datgodio</string>
+    <string name="hardware_acceleration_full">Cyflymiad llawn</string>
     <string name="automatic">Awtomatig</string>
     <string name="screen_orientation">Gorweddiad sgrin fideo</string>
     <string name="screen_orientation_sensor">Awtomatig (synhwyro)</string>
@@ -177,9 +176,9 @@
     <string name="screen_orientation_reverse_portrait">Darlun gwrthwyneb</string>
     <string name="screen_orientation_reverse_landscape">Tirlun gwrthwyneb</string>
     <string name="enable_black_theme">Galluogi\'r thema du</string>
-    <string name="enable_black_theme_summary">Newid lliwiau\'r rhyngwyneb i fod yn fwy cyfforddus ble nad oes gymaint o olau.</string>
+    <string name="enable_black_theme_summary">Newidiwch liwiau\'r rhyngwyneb i fod yn fwy cyfforddus mewn amgylchedd heb lawer o olau.</string>
     <string name="subtitle_text_encoding">Amgodiad testun isdeitlau</string>
-    <string name="extra_prefs_category">Gosodiadau Ychwanegol</string>
+    <string name="extra_prefs_category">Gosodiadau ychwanegol</string>
     <string name="interface_prefs_category">Rhyngwyneb</string>
     <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
@@ -216,7 +215,7 @@
     <string name="media_db_cleared">Cliriwyd y gronfa ddata cyfryngau!</string>
     <string name="set_locale">Gosod rhanbarth</string>
     <string name="set_locale_detail">Gadael yn wag i\'w ailosod</string>
-    <string name="set_locale_popup">Ailddechreua VLC i\'r newidiadau dod yn effeithiol.</string>
+    <string name="set_locale_popup">Caewch ac ailddechrau VLC i gwblhau\'r newidiadau.</string>
     <string name="network_caching">Gwerth cof dros dro</string>
     <string name="network_caching_summary">Y cyfnod o amser i fyffro cyfrwng rhwydwaith (mewn milieiliadau). Nid yw\'n gweithio wrth ddatgodio gan y caledwedd. Gadael yn wag i\'w ailosod.</string>
     <string name="developer_prefs_category">Datblygwr</string>
