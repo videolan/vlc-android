@@ -4,7 +4,6 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="other">其他</string>
-    <string name="filebrowser_title">选择要播放的媒体文件</string>
     <string name="sortby">排序条件</string>
     <string name="sortby_name">名称</string>
     <string name="sortby_length">长度</string>
@@ -26,7 +25,7 @@
     <string name="set_song">设为铃声</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否删除文件“%1$s”?</string>
-    <string name="ringtone_set">“%1$s”已设为新铃声。</string>
+    <string name="ringtone_set">文件“%1$s”已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
     <string name="not_show_again">不再显示此提示信息。</string>
@@ -69,7 +68,7 @@
     <string name="directories">目录</string>
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
-    <string name="nomedia">未找到媒体文件，请传输一些文件到您的设备，或调整偏好设置。</string>
+    <string name="nomedia">未找到媒体文件，请传输一些文件到您的设备，或调整您的偏好设置。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
     <string name="nosubdirectory">无子目录。</string>
@@ -122,17 +121,16 @@
     <string name="error_message_is">错误消息为 (协助排查问题时请提供该内容):\n</string>
     <string name="encountered_error_title">回放错误</string>
     <string name="encountered_error_message">VLC 播放该媒体时遇到问题。\n请尝试刷新媒体库。</string>
-    <string name="invalid_location">指定位置 %1$s 无法播放</string>
+    <string name="invalid_location">无法播放位置 %1$s。</string>
     <string name="search">搜索</string>
     <string name="search_history">搜索历史</string>
     <string name="hardware_acceleration_error_title">硬件加速错误</string>
-    <string name="hardware_acceleration_error_message">硬件加速遇到错误。您是否希望禁用它并再试一次？</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授权许可</string>
     <string name="revision">修订版本</string>
     <string name="about">关于</string>
-    <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
+    <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC media player 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
     <string name="compiled_by">此版本 VLC 的编译者为:</string>
     <string name="vlc_authors">VLC 全体作者。</string>
     <!-- Preferences -->
@@ -195,7 +193,7 @@
     <string name="media_db_cleared">媒体数据库已清除!</string>
     <string name="set_locale">设置区域变量</string>
     <string name="set_locale_detail">留空可重置</string>
-    <string name="set_locale_popup">请退出并重置 VLC 使更改生效。</string>
+    <string name="set_locale_popup">退出并重启 VLC 使更改生效。</string>
     <string name="network_caching">网络缓存值</string>
     <string name="network_caching_summary">缓冲网络媒体的时间量 (单位为毫秒)。硬件解码时无效。留空可重置。</string>
     <string name="developer_prefs_category">开发</string>
