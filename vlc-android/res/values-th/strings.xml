@@ -118,7 +118,7 @@
     <string name="error_message_is">ข้อขัดข้องคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):\n</string>
     <string name="encountered_error_title">การเล่นขัดข้อง</string>
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง\nโปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
-    <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %s ได้</string>
+    <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1 ได้</string>
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
     <string name="licence">สัญญาอนุญาต</string>
