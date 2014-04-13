@@ -237,7 +237,7 @@ public class MediaDatabase {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        return (String[]) playlists.toArray();
+        return playlists.toArray(new String[playlists.size()]);
     }
 
     /**
