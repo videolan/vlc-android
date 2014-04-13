@@ -92,7 +92,7 @@ public class SidebarAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return (long)position; // The SidebarEntry list is unique
+        return position; // The SidebarEntry list is unique
     }
 
     @Override
@@ -131,6 +131,7 @@ public class SidebarAdapter extends BaseAdapter {
         if(mFragments.containsKey(id) && mFragments.get(id) != null) {
             return mFragments.get(id);
         }
+
         Fragment f;
         if(id.equals("audio")) {
             f = new AudioBrowserFragment();
