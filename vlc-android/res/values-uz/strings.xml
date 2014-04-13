@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Bekor qilish</string>
     <string name="other">Boshqa</string>
-    <string name="filebrowser_title">Ijro etish uchun media turini tanlang</string>
     <string name="sortby">Saralash:</string>
     <string name="sortby_name">Nomi</string>
     <string name="sortby_length">Uzunligi</string>
@@ -25,8 +24,6 @@
     <string name="remove">Oʻchirish</string>
     <string name="set_song">Rington sifatida oʻrnatish</string>
     <string name="info">Ma\'lumot</string>
-    <string name="confirm_delete">\'%1$s\' fayli o‘chirilsinmi?</string>
-    <string name="ringtone_set">\'%1$s\' rington sifatida oʻrnatildi.</string>
     <string name="ringtone_error">Rington oʻrnatilayotganda xato yuz berdi.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Ushbu xabar boshqa ko‘rsatilmasin.</string>
@@ -69,7 +66,6 @@
     <string name="directories">Direktoriyalar</string>
     <string name="loading">Yuklanmoqda</string>
     <string name="please_wait">Kuting...</string>
-    <string name="nomedia">Birorta ham media fayl topimadi, qurilmangizga fayllarni ko‘chiring yoki sozlamalarni to‘g‘rilang.</string>
     <string name="mediafiles">Media fayllar</string>
     <string name="notavailable">mavjud emas</string>
     <string name="nosubdirectory">Quyi direktoriyalar mavjud emas.</string>
@@ -122,11 +118,9 @@
     <string name="error_message_is">Xato xabari (agar nosozlikni hal qilish kerak boʻlsa buni koʻrsating):\n</string>
     <string name="encountered_error_title">Ijro etishda xato</string>
     <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
-    <string name="invalid_location">%1$s manzildagi mediani qo‘yib bo‘lmaydi</string>
     <string name="search">Izlash</string>
     <string name="search_history">Tarixdan izlash</string>
     <string name="hardware_acceleration_error_title">HW tezlatishda xato</string>
-    <string name="hardware_acceleration_error_message">HW tezlatishda xato yuz berdi. Uni oʻchirib, qaytadan ishga tushirishni xohlaysizmi?</string>
     <!-- About -->
     <string name="app_name_full">Android™ uchun VLC</string>
     <string name="licence">Litsenziya</string>
@@ -144,8 +138,6 @@
     <string name="hardware_acceleration">Qurilmani tezlatish</string>
     <string name="hardware_acceleration_summary">Oʻchirilgan: yaxshiroq stabillik.\nKoddan chiqarish: ishlashini yaxshilash mumkin.\nToʻliq: uzoqroq ishlashini yaxshilashi mumkin.</string>
     <string name="hardware_acceleration_disabled">Oʻchirilgan</string>
-    <string name="hardware_acceleration_decoding">Koddan chiqarish tezligi</string>
-    <string name="hardware_acceleration_full">Toʻliq tezlashtirish</string>
     <string name="automatic">Avtomatik</string>
     <string name="screen_orientation">Video ekranning joylashish oʻrni</string>
     <string name="screen_orientation_sensor">Automatik (sensor)</string>
@@ -190,7 +182,6 @@
     <string name="media_db_cleared">Media ma’lumotlar bazasi tozalandi!</string>
     <string name="set_locale">Tilni o‘rnatish</string>
     <string name="set_locale_detail">Tiklash uchun boʻsh qoldiring</string>
-    <string name="set_locale_popup">O‘zgarishlar amalga oshishi uchun VLC’dan chiqing va qaytadan ishga tushiring.</string>
     <string name="network_caching">Tarmoq keshi qiymati</string>
     <string name="network_caching_summary">Tarmoqdagi mediani buferga yuklash vaqti (ms da). Qurilmada koddan chiqarishda ishlamaydi. Tiklash uchun bo‘sh qoldiring.</string>
     <string name="enable_verbose_mode">Batafsil</string>
