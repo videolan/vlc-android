@@ -68,7 +68,7 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --disable-vcd \
                 --disable-v4l2 \
                 --disable-gnomevfs \
-                --disable-dvdread \
+                --enable-dvdread \
                 --disable-dvdnav \
                 --disable-bluray \
                 --disable-linsys \

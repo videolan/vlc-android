@@ -211,6 +211,7 @@ gen_pc_file GLESv2 2
 
 cd contrib/android
 ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
+    --enable-dvdread \
     --disable-dca \
     --disable-goom \
     --disable-chromaprint \
