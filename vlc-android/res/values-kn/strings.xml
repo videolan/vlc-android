@@ -4,7 +4,6 @@
     <string name="ok">ಸರಿ</string>
     <string name="cancel">ರದ್ದುಮಾಡು</string>
     <string name="other">ಇತರ</string>
-    <string name="filebrowser_title">ಆಡಿಸಲು ಮಾಧ್ಯಮವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</string>
     <string name="sortby">ಹೀಗೆ ವಿಂಗಡಿಸಿ</string>
     <string name="sortby_name">ಹೆಸರು</string>
     <string name="sortby_length">ಉದ್ದ</string>
@@ -25,8 +24,6 @@
     <string name="remove">ತೆಗೆದುಹಾಕು</string>
     <string name="set_song">ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸಿ </string>
     <string name="info">ಮಾಹಿತಿ</string>
-    <string name="confirm_delete"> \'%1$s\' ಕಡತ ಅಳಿಸಲೆ  ?</string>
-    <string name="ringtone_set">\'%1$s\' ಅನ್ನು ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸಲಾಗಿದೆ .</string>
     <string name="ringtone_error"> ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸುವಾಗ ದೋಷ ಉಂಟಾಗಿದೆ </string>
     <string name="pause">ವಿರಾಮ</string>
     <string name="not_show_again">ಈ ಸಂದೇಶವನ್ನು ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
@@ -69,7 +66,6 @@
     <string name="directories">ಕಡತಕೋಶಗಳು  </string>
     <string name="loading">ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ </string>
     <string name="please_wait">ತುಸು ನಿರೀಕ್ಷಿಸಿ ○○○</string>
-    <string name="nomedia">ಯಾವುದೇ ಮಾಧ್ಯಮ ಕಡತಗಳು ಕಂಡು ಬಂದಿಲ್ಲ , ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಾಧನಕ್ಕೆ ಕಡತಗಳನ್ನು ವರ್ಗಾಯಿಸಿ ಅಥವಾ ನಿಮ್ಮ ಆಯ್ಕೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ  </string>
     <string name="mediafiles">ಮಾಧ್ಯಮ ಕಡತಗಳು</string>
     <string name="notavailable">ಲಭ್ಯವಿಲ್ಲ</string>
     <string name="nosubdirectory">ಉಪಕಡತಕೋಶಗಳು ಇಲ್ಲ .</string>
@@ -122,11 +118,9 @@
     <string name="error_message_is">ದೋಷ ಸಂದೇಶ ( ಡಿಬಗ್ಗಿಂಗ್ ಮಾಡುವಾಗ ದಯವಿಟ್ಟು ಇದನ್ನು ಉಲ್ಲೇಖಿಸಿ ):\n</string>
     <string name="encountered_error_title">ಪ್ಲೇಬ್ಯಾಕ್ ದೋಷ</string>
     <string name="encountered_error_message">VLC ಈ ಮಾಧ್ಯಮದೊಂದಿಗೆ  ಒಂದು ದೋಷವನ್ನು ಎದುರಿಸಿದೆ. ⏎\nಮಾಧ್ಯಮ ಗ್ರಂಥಾಲಯದ ರಿಫ್ರೆಶ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.</string>
-    <string name="invalid_location">%1$s ಸ್ಥಳವನ್ನು  ಆಡಿಸಲು  ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ</string>
     <string name="search">ಹುಡುಕು</string>
     <string name="search_history">ಹುಡುಕು ಇತಿಹಾಸ </string>
     <string name="hardware_acceleration_error_title">HW ವೇಗವರ್ಧನೆ ದೋಷ</string>
-    <string name="hardware_acceleration_error_message">HW ವೇಗವರ್ಧನೆ ದೋಷ ಎದುರಾಗಿದೆ. ನೀವು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ   ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಲು  ಬಯಸುವಿರಾ?</string>
     <!-- About -->
     <string name="app_name_full">VLC  Android™ ಆವೃತ್ತಿ </string>
     <string name="licence">ಪರವಾನಗೆ</string>
@@ -144,8 +138,6 @@
     <string name="hardware_acceleration">ಯಂತ್ರಾಂಶದ ವೇಗವರ್ಧಕ</string>
     <string name="hardware_acceleration_summary">ನಿಷ್ಕ್ರಿಯ: ಉತ್ತಮ ಸ್ಥಿರತೆ.\nಡಿಕೋಡಿಂಗ್: ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸಬಹುದು.\nಪೂರ್ಣ: ಮತ್ತಷ್ಟು ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸಬಹುದು.</string>
     <string name="hardware_acceleration_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-    <string name="hardware_acceleration_decoding">ಡಿಕೋಡಿಂಗ್ ವೇಗವರ್ಧನೆ</string>
-    <string name="hardware_acceleration_full">ಪೂರ್ಣ ವೇಗವರ್ಧನೆ</string>
     <string name="automatic">ಸ್ವಯಂಚಾಲಿತ</string>
     <string name="screen_orientation">ದೃಶ್ಯ ಪರದೆಯ ದೃಷ್ಟಿಕೋನ</string>
     <string name="screen_orientation_sensor">ಸ್ವಯಂಚಾಲಿತ (ಸಂವೇದಕ)</string>
@@ -155,7 +147,6 @@
     <string name="screen_orientation_reverse_portrait"> ಹಿಮ್ಮುಖ ಭಾವಚಿತ್ರ</string>
     <string name="screen_orientation_reverse_landscape"> ಹಿಮ್ಮುಖ ಭೂದೃಶ್ಯ</string>
     <string name="enable_black_theme">ಕಪ್ಪು ಥೀಮ್ ಸಕ್ರಿಯಗೊಳಿಸು</string>
-    <string name="enable_black_theme_summary">ಕಡಿಮೆ ಬೆಳಕಿನ ಪರಿಸರದಲ್ಲಿ ಉತ್ತಮ ನೆಮ್ಮದಿಗಾಗಿ ಇಂಟರ್ಫೇಸ್ ಬಣ್ಣಗಳನ್ನು ಬದಲಿಸಿ.</string>
     <string name="subtitle_text_encoding">ಉಪಶೀರ್ಷಿಕೆ ಪಠ್ಯ ಎನ್ಕೋಡಿಂಗ್</string>
     <string name="enable_brightness_gesture">ಹೊಳಪು ಸಂಜ್ಞೆ  ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string name="enable_brightness_gesture_summary">ವೀಡಿಯೋ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯದಲ್ಲಿ ಸಂಜ್ಞೆಯ ಮೂಲಕ ಹೊಳಪನ್ನು ನಿಯಂತ್ರಿಸಿ </string>
@@ -192,7 +183,6 @@
     <string name="media_db_cleared">ಮೀಡಿಯಾ ಡೇಟಾಬೇಸ್ ತೆರವುಗೊಳಿಸಲಾಗಿದೆ!</string>
     <string name="set_locale">ಸಾಧನದ ಪ್ರದೇಶ</string>
     <string name="set_locale_detail">ಮರುಹೊಂದಿಸಲು ಖಾಲಿ ಬಿಡಿ</string>
-    <string name="set_locale_popup">ಬದಲಾವಣೆಗಳು ಕಾರ್ಯಗತವಾಗಲು VLC ತೊರೆದು ಮರುಹೊಂದಿಸಿ. </string>
     <string name="network_caching">ಜಾಲಬಂಧ ಕ್ಯಾಚಿಂಗ್  ಮೌಲ್ಯ</string>
     <string name="network_caching_summary">ನೆಟ್ವರ್ಕ್ ಮಾಧ್ಯಮ ಬಫರ್  ಆಗಲು ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯ  (ms ರಲ್ಲಿ). ಹಾರ್ಡ್ವೇರ್ ಡಿಕೋಡಿಂಗ್ ಜೊತೆ ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ. ಮರುಹೊಂದಿಸಲು ಖಾಲಿ ಬಿಡಿ.</string>
     <string name="enable_verbose_mode">ಶಬ್ದ ಬಾಹುಳ್ಯದ</string>
