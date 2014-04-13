@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Annulla</string>
     <string name="other">Altro</string>
-    <string name="filebrowser_title">Seleziona media da riprodurre</string>
     <string name="sortby">Ordina per…</string>
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Durata</string>
@@ -26,8 +25,8 @@
     <string name="remove">Rimuovi</string>
     <string name="set_song">Imposta come suoneria</string>
     <string name="info">Informazioni</string>
-    <string name="confirm_delete">Vuoi eliminare questo file?</string>
-    <string name="ringtone_set">\'%1$s\' è stato impostato come suoneria.</string>
+    <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
+    <string name="ringtone_set">Il file \'%1$s\' è stato impostato come suoneria.</string>
     <string name="ringtone_error">Si è verificato un errore durante l\'impostazione della suoneria.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrare ancora questo messaggio.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Cartelle</string>
     <string name="loading">Caricamento</string>
     <string name="please_wait">Attendi…</string>
-    <string name="nomedia">Nessun file multimediale trovato, trasferisci i file al tuo dispositivo o modifica le preferenze.</string>
+    <string name="nomedia">Nessun file multimediale trovato, trasferisci dei file sul tuo dispositivo o modifica le preferenze.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
     <string name="nosubdirectory">Nessuna sottocartella.</string>
@@ -129,11 +128,10 @@
     <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
     <string name="encountered_error_title">Errore di riproduzione</string>
     <string name="encountered_error_message">VLC ha riscontrato un errore con questo media. Prova ad aggiornare la raccolta mulltimediale</string>
-    <string name="invalid_location">La posizione %1$s non può essere riprodotta</string>
+    <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
     <string name="search">Cerca</string>
     <string name="search_history">Cerca nella cronologia</string>
     <string name="hardware_acceleration_error_title">Errore accelerazione hardware</string>
-    <string name="hardware_acceleration_error_message">L\'accelerazione hardware ha riscontrato un errore. Vuoi disabilitarla e prova ancora?</string>
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
     <string name="licence">Licenza</string>
@@ -144,6 +142,7 @@
     <string name="vlc_authors">Autori di VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
+    <string name="general_prefs_category">Generale</string>
     <string name="directories_summary">Seleziona le cartelle da includere nelle raccolta</string>
     <string name="add_custom_path">Aggiungi percorso personalizzato</string>
     <string name="add_custom_path_description">Inserisci cartella personalizzata da analizzare:</string>
@@ -164,6 +163,8 @@
     <string name="enable_black_theme">Abilita il tema scuro</string>
     <string name="enable_black_theme_summary">Cambia i colori dell\'interfaccia per un migliore utilizzo in ambienti a bassa luminosità.</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
+    <string name="extra_prefs_category">Impostazioni aggiuntive</string>
+    <string name="interface_prefs_category">Interfaccia</string>
     <string name="enable_brightness_gesture">Abilita i gesti di luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_headset_detection">Rileva le cuffie</string>
@@ -199,9 +200,10 @@
     <string name="media_db_cleared">Database multimediale cancellato!</string>
     <string name="set_locale">Imposta locale</string>
     <string name="set_locale_detail">Lascia vuoto per ripristinare</string>
-    <string name="set_locale_popup">Esci e ripristina VLC per applicare le modifiche.</string>
+    <string name="set_locale_popup">Esci e riavvia VLC per applicare le modifiche.</string>
     <string name="network_caching">Valore della cache di rete</string>
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
+    <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_summary">Aumenta la verbosità (logcat)</string>
     <string name="debug_logs">Log di debug</string>
