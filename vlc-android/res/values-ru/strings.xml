@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="other">Другое</string>
-    <string name="filebrowser_title">Выберите местоположения медиафайлов</string>
     <string name="sortby">Сортировка…</string>
     <string name="sortby_name">по имени</string>
     <string name="sortby_length">по размеру</string>
@@ -27,8 +26,8 @@
     <string name="remove">Удалить</string>
     <string name="set_song">Сделать мелодией звонка</string>
     <string name="info">Информация</string>
-    <string name="confirm_delete">Удалить файл \'%1$s\' ?</string>
-    <string name="ringtone_set">Теперь \'%1$s\' - мелодия звонка.</string>
+    <string name="confirm_delete">Удалить файл \'%1$s\'?</string>
+    <string name="ringtone_set">Теперь \'%1$s\' — мелодия звонка.</string>
     <string name="ringtone_error">При попытке сменить мелодию звонка произошла ошибка.</string>
     <string name="pause">Пауза</string>
     <string name="not_show_again">Больше не выводить это сообщение.</string>
@@ -136,11 +135,10 @@
     <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n</string>
     <string name="encountered_error_title">Ошибка воспроизведения</string>
     <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопытайтесь обновить медиатеку.</string>
-    <string name="invalid_location">Воспроизвести %1$s нельзя</string>
+    <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
     <string name="hardware_acceleration_error_title">Ошибка апп. ускорения</string>
-    <string name="hardware_acceleration_error_message">Функция аппаратного ускорения возвратила ошибку. Хотите отключить её и попробовать снова?</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
@@ -151,6 +149,7 @@
     <string name="vlc_authors">Разработчики VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
+    <string name="general_prefs_category">Общие</string>
     <string name="directories_summary">Выберите каталоги для составления медиатеки</string>
     <string name="add_custom_path">Добавить свой путь</string>
     <string name="add_custom_path_description">Включить в сканирование дополнительный каталог:</string>
@@ -171,6 +170,8 @@
     <string name="enable_black_theme">Включить тёмное оформление</string>
     <string name="enable_black_theme_summary">Изменить цвета интерфейса для большего комфорта при низкой освещённости.</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
+    <string name="extra_prefs_category">Доп. настройки</string>
+    <string name="interface_prefs_category">Интерфейс</string>
     <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
@@ -209,6 +210,7 @@
     <string name="set_locale_popup">Закройте и перезапустите VLC, чтобы изменения вступили в силу.</string>
     <string name="network_caching">Размер кэша сетевых данных</string>
     <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
+    <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>
     <string name="debug_logs">Отладочные сообщения</string>
