@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Outro</string>
-    <string name="filebrowser_title">Selecione uma mídia para reproduzir</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Tamanho</string>
@@ -26,8 +25,8 @@
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque</string>
     <string name="info">Informações</string>
-    <string name="confirm_delete">Excluir o arquivo \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' foi definido como toque.</string>
+    <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="ringtone_set">O arquivo \'%1$s\' foi definido como toque.</string>
     <string name="ringtone_error">Ocorreu um erro ao definir o toque.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">Não exibir esta mensagem novamente.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Pastas</string>
     <string name="loading">Carregando</string>
     <string name="please_wait">Por favor, aguarde…</string>
-    <string name="nomedia">Nenhum arquivo de mídia encontrado. Por favor, transfira arquivos para o seu dispositivo ou ajuste suas preferências.</string>
+    <string name="nomedia">Arquivos de mídia não encontrados. Por favor, transfira alguns arquivos para o seu dispositivo ou ajuste suas preferências.</string>
     <string name="mediafiles">Arquivos de mídia</string>
     <string name="notavailable">Não disponível</string>
     <string name="nosubdirectory">Nenhuma sub pasta.</string>
@@ -129,11 +128,10 @@
     <string name="error_message_is">A mensagem de erro é (por favor, mencione isso quando estiver depurando):\n</string>
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um ero com esta mídia.\nPor favor, tente atualizar a biblioteca de mídias.</string>
-    <string name="invalid_location">O ponto %1$s não pode ser reproduzido</string>
+    <string name="invalid_location">Não é possível reproduzir na área %1$s.</string>
     <string name="search">Pesquisar</string>
     <string name="search_history">Histórico de pesquisas</string>
     <string name="hardware_acceleration_error_title">Erro na aceleração por hardware</string>
-    <string name="hardware_acceleration_error_message">A aceleração por hardware encontrou um erro. Deseja desabilitá-la e tentar novamente?</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -144,6 +142,7 @@
     <string name="vlc_authors">Autores do VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferências</string>
+    <string name="general_prefs_category">Geral</string>
     <string name="directories_summary">Selecione pastas para incluir na biblioteca de mídias</string>
     <string name="add_custom_path">Adicionar um caminho personalizado</string>
     <string name="add_custom_path_description">Preencha uma pasta personalizada para verificação:</string>
@@ -151,8 +150,8 @@
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desabilitado: maior estabilidade.\nDecodificação: pode aumentar o desempenho.\nTotal: pode aumentar mais ainda o desempenho.</string>
     <string name="hardware_acceleration_disabled">Desabilitado</string>
-    <string name="hardware_acceleration_decoding">Aceleração de Decodificação</string>
-    <string name="hardware_acceleration_full">Aceleração Total</string>
+    <string name="hardware_acceleration_decoding">Aceleração de decodificação</string>
+    <string name="hardware_acceleration_full">Aceleração total</string>
     <string name="automatic">Automático</string>
     <string name="screen_orientation">Orientação da tela do vídeo</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
@@ -162,8 +161,10 @@
     <string name="screen_orientation_reverse_portrait">Retrato Invertido</string>
     <string name="screen_orientation_reverse_landscape">Paisagem Invertida</string>
     <string name="enable_black_theme">Habilitar o tema escuro</string>
-    <string name="enable_black_theme_summary">Muda a interface para melhorar o conforto em ambientes com pouca iluminação.</string>
+    <string name="enable_black_theme_summary">Altera as cores da interface para melhorar o conforto em ambientes de pouca iluminação.</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
+    <string name="extra_prefs_category">Configurações extras</string>
+    <string name="interface_prefs_category">Interface</string>
     <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
@@ -199,9 +200,10 @@
     <string name="media_db_cleared">Banco de mídias limpo!</string>
     <string name="set_locale">Definir local</string>
     <string name="set_locale_detail">Deixe em branco para redefinir</string>
-    <string name="set_locale_popup">Fechar e redefinir o VLC para aplicar as mudanças.</string>
+    <string name="set_locale_popup">Fecha e reinicia o VLC para que as alterações tenham efeito.</string>
     <string name="network_caching">Valor de memória para rede</string>
     <string name="network_caching_summary">A quantidade de tempo para armazenar em memória (em ms). Não funciona com decodificação por hardware. Deixe vazio para restaurar a configuração.</string>
+    <string name="developer_prefs_category">Desenvolvedor</string>
     <string name="enable_verbose_mode">Modo detalhado</string>
     <string name="enable_verbose_mode_summary">Aumentar o detalhamento (logcat)</string>
     <string name="debug_logs">Registros de depuração</string>
