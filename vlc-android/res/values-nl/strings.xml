@@ -4,7 +4,6 @@
     <string name="ok">Ok</string>
     <string name="cancel">Annuleren</string>
     <string name="other">Andere</string>
-    <string name="filebrowser_title">Selecteer media om af te spelen</string>
     <string name="sortby">Sorteren op…</string>
     <string name="sortby_name">Naam</string>
     <string name="sortby_length">Lengte</string>
@@ -27,7 +26,7 @@
     <string name="set_song">Als beltoon instellen</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
-    <string name="ringtone_set">\'%1$s\' werd als beltoon ingesteld.</string>
+    <string name="ringtone_set">Het bestand \'%1$s\' werd als beltoon ingesteld.</string>
     <string name="ringtone_error">Er trad een fout op bij het instellen van de beltoon.</string>
     <string name="pause">Pauzeren</string>
     <string name="not_show_again">Niet meer weergeven.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Mappen</string>
     <string name="loading">Laden…</string>
     <string name="please_wait">Even wachten…</string>
-    <string name="nomedia">Geen mediabestanden gevonden. Zet mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
+    <string name="nomedia">Geen mediabestanden gevonden. Zet een aantal mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
     <string name="mediafiles">Mediabestanden</string>
     <string name="notavailable">niet beschikbaar</string>
     <string name="nosubdirectory">Geen submappen.</string>
@@ -129,7 +128,7 @@
     <string name="error_message_is">De foutmelding is (vermeld dit bij het debuggen):\n</string>
     <string name="encountered_error_title">Fout bij afspelen</string>
     <string name="encountered_error_message">VLC heeft een fout aangetroffen bij dit mediabestand.\nProbeer de mediabibliotheek te vernieuwen.</string>
-    <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden</string>
+    <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden.</string>
     <string name="search">Zoeken</string>
     <string name="search_history">Zoekgeschiedenis</string>
     <string name="hardware_acceleration_error_title">Hardwareversnellingsfout</string>
@@ -202,7 +201,7 @@
     <string name="media_db_cleared">Media-database gewist!</string>
     <string name="set_locale">Taal instellen</string>
     <string name="set_locale_detail">Leeglaten om te herstellen</string>
-    <string name="set_locale_popup">VLC afsluiten en herstellen om wijzigingen toe te passen.</string>
+    <string name="set_locale_popup">VLC afsluiten en opnieuw starten om wijzigingen toe te passen.</string>
     <string name="network_caching">Netwerkbuffergrootte</string>
     <string name="network_caching_summary">De hoeveelheid tijd om netwerkmedia te  bufferen (in ms). Werkt niet met hardware-decoderen. Leeg laten om te herstellen.</string>
     <string name="developer_prefs_category">Ontwikkelaar</string>
