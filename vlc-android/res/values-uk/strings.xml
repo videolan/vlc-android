@@ -4,7 +4,6 @@
     <string name="ok">Гаразд</string>
     <string name="cancel">Скасувати</string>
     <string name="other">Інше</string>
-    <string name="filebrowser_title">Виберіть медіафайл</string>
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
     <string name="sortby_length">довжиною</string>
@@ -28,7 +27,7 @@
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
-    <string name="ringtone_set">\'%1$s\' встановлено як мелодія.</string>
+    <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
     <string name="not_show_again">„Не показувати це повідомлення знову“.</string>
@@ -81,7 +80,7 @@
     <string name="directories">Каталоги</string>
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
-    <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть файли на пристрій або змініть параметри.</string>
+    <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Немає підкаталогів.</string>
@@ -136,7 +135,7 @@
     <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n</string>
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
-    <string name="invalid_location">Розташування %1$s не можливо відтворити</string>
+    <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
     <string name="search">Пошук</string>
     <string name="search_history">Історія пошуку</string>
     <string name="hardware_acceleration_error_title">Помилка апаратного прискорення</string>
@@ -170,7 +169,7 @@
     <string name="screen_orientation_reverse_portrait">Перевернута книжкова</string>
     <string name="screen_orientation_reverse_landscape">Перевернута альбомна</string>
     <string name="enable_black_theme">Увімкнути чорну тему</string>
-    <string name="enable_black_theme_summary">Змінити кольори інтерфейся для більшої зручності при поганому освітленні.</string>
+    <string name="enable_black_theme_summary">Змінити кольори інтерфейсу для більшої зручності при поганому освітленні.</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="extra_prefs_category">Додаткове параметри</string>
     <string name="interface_prefs_category">Інтерфейс</string>
