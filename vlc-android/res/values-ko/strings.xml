@@ -4,7 +4,6 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="other">다른</string>
-    <string name="filebrowser_title">재생할 미디어를 선택</string>
     <string name="sortby">정렬…</string>
     <string name="sortby_name">이름</string>
     <string name="sortby_length">길이</string>
@@ -25,8 +24,8 @@
     <string name="remove">삭제</string>
     <string name="set_song">벨소리로 설정</string>
     <string name="info">정보</string>
-    <string name="confirm_delete">파일을 삭제할까요?</string>
-    <string name="ringtone_set">\'%1$s\' 이(가) 벨소리로 설정됨.</string>
+    <string name="confirm_delete">\'%1$s\' 파일을 삭제할까요?</string>
+    <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">Ringtone 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
     <string name="not_show_again">이 메시지를 다시 보지않음.</string>
@@ -69,7 +68,7 @@
     <string name="directories">디렉토리</string>
     <string name="loading">읽는중…</string>
     <string name="please_wait">기다려 주세요…</string>
-    <string name="nomedia">미디어 파일이 없습니다, 장치에 파일을 전송하거나 선택사항을 조정 하세요.</string>
+    <string name="nomedia">미디어 파일이 없습니다, 장치에 몇몇 파일을 전송하거나 선택사항을 조정하세요.</string>
     <string name="mediafiles">미디어 파일</string>
     <string name="notavailable">사용할수 없음</string>
     <string name="nosubdirectory">하위 디렉토리 없음.</string>
@@ -122,11 +121,11 @@
     <string name="error_message_is">오류 메시지 (디버깅때 말씀해 주세요):</string>
     <string name="encountered_error_title">재생 오류</string>
     <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로고침 해 보세요.</string>
-    <string name="invalid_location">%1$s 위치를 재생할 수 없습니다</string>
+    <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
     <string name="search">검색</string>
     <string name="search_history">검색 기록</string>
     <string name="hardware_acceleration_error_title">HW 가속 오류</string>
-    <string name="hardware_acceleration_error_message">HW 가속에 문제가 발생했습니다. HW 가속을 끄고 재시도할까요?</string>
+    <string name="hardware_acceleration_error_message">하드웨어 가속에 문제가 발생했습니다. 하드웨어 가속을 끄고 재시도할까요?</string>
     <!-- About -->
     <string name="app_name_full">안드로이드™ 용 VLC</string>
     <string name="licence">라이센스</string>
@@ -195,7 +194,7 @@
     <string name="media_db_cleared">미디어 데이터베이스 지워짐!</string>
     <string name="set_locale">언어 설정</string>
     <string name="set_locale_detail">재설정 하려면 비워두세요</string>
-    <string name="set_locale_popup">변경을 적용하기 위해 VLC 종료하고 재설정하세요.</string>
+    <string name="set_locale_popup">변경을 적용하려면 VLC를 종료하고 재시작하세요.</string>
     <string name="network_caching">네트워크 캐쉬 값</string>
     <string name="network_caching_summary">네트워크 미디어를 버퍼할 시간의 크기 (ms). 하드웨어 디코딩에서는 동작하지 않습니다. 초기화하려면 공백으로 놓아 두세요.</string>
     <string name="developer_prefs_category">개발자</string>
