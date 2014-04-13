@@ -4,7 +4,6 @@
     <string name="ok">Uredu</string>
     <string name="cancel">Otkaži</string>
     <string name="other">Drugi</string>
-    <string name="filebrowser_title">Izaberi medije za produciranje</string>
     <string name="sortby">Sortiraj po…</string>
     <string name="sortby_name">Nazivu</string>
     <string name="sortby_length">Dužini</string>
@@ -27,8 +26,8 @@
     <string name="remove">Izbriši</string>
     <string name="set_song">Postavi kao zvono</string>
     <string name="info">Informacije</string>
-    <string name="confirm_delete">Izbriši datoteku \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' je postavljeno kao zvono.</string>
+    <string name="confirm_delete">Izbriši datoteku \'%1$s\'?</string>
+    <string name="ringtone_set">Datoteka \'%1$s\' je postavljena kao zvono.</string>
     <string name="ringtone_error">Dogodila se greška tokom postavljanja zvona.</string>
     <string name="pause">Pauziraj</string>
     <string name="not_show_again">Ne prikazuj ovu poruku ponovo.</string>
@@ -81,7 +80,7 @@
     <string name="directories">Direktoriji</string>
     <string name="loading">Učitava</string>
     <string name="please_wait">Molim sačekajte…</string>
-    <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite datoteke na vaš uređaj ili podesite svoja podešavanja.</string>
+    <string name="nomedia">Medijske datoteke nisu pronađene, molimo prenesite neke datoteke na svoj uređaj ili podesite svoje postavke.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nije dostupno</string>
     <string name="nosubdirectory">Nema poddirektorija.</string>
@@ -136,11 +135,11 @@
     <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):\n</string>
     <string name="encountered_error_title">Greška reproduciranja</string>
     <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
-    <string name="invalid_location">Lokacija %1$s se ne može producirati</string>
+    <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
     <string name="search">Pretraga</string>
     <string name="search_history">Historija pretraživanja</string>
     <string name="hardware_acceleration_error_title">HV greška ubrzanja</string>
-    <string name="hardware_acceleration_error_message">HV ubrzanje je naišlo na grešku. Da li ga želite isključiti i pokušati ponovo?</string>
+    <string name="hardware_acceleration_error_message">Pojavila se greška sa hardverskim ubrzanjem. Želite li ga isključiti i pokušati ponovo?</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
@@ -151,6 +150,7 @@
     <string name="vlc_authors">VLC Autori.</string>
     <!-- Preferences -->
     <string name="preferences">Podešavanja</string>
+    <string name="general_prefs_category">Opće</string>
     <string name="directories_summary">Izaberi direktorije za uključivanje u medijskoj biblioteci</string>
     <string name="add_custom_path">Dodaj prilagođen put</string>
     <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
@@ -158,8 +158,8 @@
     <string name="hardware_acceleration">Hardversko Ubrzanje</string>
     <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
     <string name="hardware_acceleration_disabled">Isključeno</string>
-    <string name="hardware_acceleration_decoding">Ubrzanje Dekodiranja</string>
-    <string name="hardware_acceleration_full">Puno Ubrzanje</string>
+    <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
+    <string name="hardware_acceleration_full">Puno ubrzanje</string>
     <string name="automatic">Automatski</string>
     <string name="screen_orientation">Orijentacija video ekrana</string>
     <string name="screen_orientation_sensor">Automatski (senzor)</string>
@@ -171,6 +171,8 @@
     <string name="enable_black_theme">Omogući crnu temu</string>
     <string name="enable_black_theme_summary">Izmijenite boje interfejsa za bolji ugođaj u okruženjima sa slabim svjetlom.</string>
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
+    <string name="extra_prefs_category">Dodatne postavke</string>
+    <string name="interface_prefs_category">Okruženje</string>
     <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
@@ -206,9 +208,10 @@
     <string name="media_db_cleared">Medijska baza podataka očišćena!</string>
     <string name="set_locale">Podesi lokaciju</string>
     <string name="set_locale_detail">Ostavi prazno za resetovanje</string>
-    <string name="set_locale_popup">Zatvori i resetuj VLC kako bi promjene djelovale.</string>
+    <string name="set_locale_popup">Zatvori i restartuj VLC kako bi djelovale promjene.</string>
     <string name="network_caching">Veličina predmemoriranja mreže</string>
     <string name="network_caching_summary">Količina vremena za amortizovanje mrežnog medija (u ms). Ne radi sa hardverskim dekodiranjem. Ostavite prazno za resetovanje.</string>
+    <string name="developer_prefs_category">Programer</string>
     <string name="enable_verbose_mode">Pojačavanje</string>
     <string name="enable_verbose_mode_summary">Povećaj pojačavanje (logcat)</string>
     <string name="debug_logs">Zapisnik otkrivanja grešaka</string>
