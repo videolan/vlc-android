@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
     <string name="other">Övrig</string>
-    <string name="filebrowser_title">Välj media att spela upp</string>
     <string name="sortby">Sortera efter…</string>
     <string name="sortby_name">Namn</string>
     <string name="sortby_length">Längd</string>
@@ -27,7 +26,7 @@
     <string name="set_song">Ange som ringsignal</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \'%1$s\'?</string>
-    <string name="ringtone_set">\'%1$s\' ställdes in som ringsignal.</string>
+    <string name="ringtone_set">Filen \'%1$s\' ställdes in som ringsignal.</string>
     <string name="ringtone_error">Ett fel inträffade när ringsignalen ställdes in.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Visa inte detta meddelande igen.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Kataloger</string>
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta...</string>
-    <string name="nomedia">Inga mediafiler hittades, var god överför filer till din enhet eller justera dina inställningar.</string>
+    <string name="nomedia">Inga mediafiler hittades, var god överför några filer till din enhet eller justera dina inställningar.</string>
     <string name="mediafiles">Mediafiler</string>
     <string name="notavailable">inte tillgänglig</string>
     <string name="nosubdirectory">Inga underkataloger.</string>
@@ -129,11 +128,11 @@
     <string name="error_message_is">Felmeddelandet är (var god nämn detta under felsökningen):\n</string>
     <string name="encountered_error_title">Uppspelningsfel</string>
     <string name="encountered_error_message">VLC stötte på ett fel med denna media.\nVar god försök uppdatera mediabiblioteket.</string>
-    <string name="invalid_location">Platsen %1$s kan inte spelas upp</string>
+    <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="search">Sök</string>
     <string name="search_history">Sökhistorik</string>
     <string name="hardware_acceleration_error_title">HV-accelerationsfel</string>
-    <string name="hardware_acceleration_error_message">HV-acceleration stötte på ett problem. Vill du  avaktivera det och försöka igen?</string>
+    <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelerationen. Vill du inaktivera den och försöka igen?</string>
     <!-- About -->
     <string name="app_name_full">VLC för Android™</string>
     <string name="licence">Licens</string>
@@ -152,7 +151,7 @@
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Avaktiverad: bättre stabilitet.\nDekodning: kan förbättra prestandan.\nFull: kan förbättra prestandan ytterligare.</string>
     <string name="hardware_acceleration_disabled">Avaktiverad</string>
-    <string name="hardware_acceleration_decoding">Accelererad dekodning</string>
+    <string name="hardware_acceleration_decoding">Avkodningsacceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skärmorientering för video</string>
@@ -163,7 +162,7 @@
     <string name="screen_orientation_reverse_portrait">Omvänt porträtt</string>
     <string name="screen_orientation_reverse_landscape">Omvänt landskap</string>
     <string name="enable_black_theme">Aktivera mörkt tema</string>
-    <string name="enable_black_theme_summary">Ändra gränssnittets färg för bättre bekvämlighet i svagt upplysta miljöer.</string>
+    <string name="enable_black_theme_summary">Ändra gränssnittets färger för bättre bekvämlighet i svagt upplysta miljöer.</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="extra_prefs_category">Extra inställningar</string>
     <string name="interface_prefs_category">Gränssnitt</string>
@@ -202,7 +201,7 @@
     <string name="media_db_cleared">Mediadatabas rensad!</string>
     <string name="set_locale">Ange lokal</string>
     <string name="set_locale_detail">Lämna tomt för att återställa</string>
-    <string name="set_locale_popup">Avsluta och återställ VLC för ändringarna att träda i kraft.</string>
+    <string name="set_locale_popup">Avsluta och starta om VLC för att ändringarna ska träda i kraft.</string>
     <string name="network_caching">Cachevärde för nätverk</string>
     <string name="network_caching_summary">Tid att buffra media (i ms). Fungerar ej vid hårdvarukodning. Lämna blankt för att nollställa.</string>
     <string name="developer_prefs_category">Utvecklare</string>
