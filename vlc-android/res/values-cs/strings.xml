@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Zrušit</string>
     <string name="other">Jiné</string>
-    <string name="filebrowser_title">Vyberte soubor k přehrání</string>
     <string name="sortby">Třídit dle…</string>
     <string name="sortby_name">Název</string>
     <string name="sortby_length">Délka</string>
@@ -140,7 +139,6 @@
     <string name="search">Hledat</string>
     <string name="search_history">Historie hledání</string>
     <string name="hardware_acceleration_error_title">Chyba hardwarové akcelerace</string>
-    <string name="hardware_acceleration_error_message">Při hardwarové akceleraci nastala chyba. Přejete si ji zakázat a zkusit operaci znovu?</string>
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
     <string name="licence">Licence</string>
@@ -151,6 +149,7 @@
     <string name="vlc_authors">Autoři VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Nastavení</string>
+    <string name="general_prefs_category">Obecné</string>
     <string name="directories_summary">Vyberat adresáře zahrnuté do knihovny médií</string>
     <string name="add_custom_path">Přidat vlastní cestu</string>
     <string name="add_custom_path_description">Zadejte dodatečnou cestu k adresáři na prohledání:</string>
@@ -171,6 +170,8 @@
     <string name="enable_black_theme">Povolit černý vzhled</string>
     <string name="enable_black_theme_summary">Změní barvy rozhraní pro vyšší pohodlí v prostředí s nižším osvětlením.</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
+    <string name="extra_prefs_category">Další nastavení</string>
+    <string name="interface_prefs_category">Rozhraní</string>
     <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
@@ -209,6 +210,7 @@
     <string name="set_locale_popup">Ukončete a restartujte VLC pro projevení změn</string>
     <string name="network_caching">Velikost vyrovnávací paměti síťě</string>
     <string name="network_caching_summary">Velikost zásobníku pro síťová média (v ms). Nefunguje s hardwarovým dekódováním. Ponechte prázdné pro výchozí hodnotu.</string>
+    <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Podrobné</string>
     <string name="enable_verbose_mode_summary">Zvýšit podrobnosti v záznamu (logcat)</string>
     <string name="debug_logs">Ladící záznamy</string>
