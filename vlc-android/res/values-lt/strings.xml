@@ -4,7 +4,6 @@
     <string name="ok">Gerai</string>
     <string name="cancel">Atšaukti</string>
     <string name="other">Kita</string>
-    <string name="filebrowser_title">Pasirinkite kūrinį</string>
     <string name="sortby">Rikiuoti pagal…</string>
     <string name="sortby_name">Pavadinimas</string>
     <string name="sortby_length">Trukmė</string>
@@ -27,8 +26,6 @@
     <string name="remove">Pašalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="info">Informacija</string>
-    <string name="confirm_delete">Pašalinti failą \'%1$s\' ?</string>
-    <string name="ringtone_set">„%1$s“ naudojamas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
     <string name="not_show_again">Neberodyti šio pranešimo.</string>
@@ -81,7 +78,6 @@
     <string name="directories">Katalogai</string>
     <string name="loading">Įkeliama</string>
     <string name="please_wait">Palaukite…</string>
-    <string name="nomedia">Kūrinių neradome. Įkelkite į savo įrenginį vaizdo ar garso kūrinių arba pakeiskite nustatymus.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
     <string name="nosubdirectory">Pakatalogių nėra.</string>
@@ -136,7 +132,9 @@
     <string name="error_message_is">Klaida (ją nurodykite derinindami):\n</string>
     <string name="encountered_error_title">Grojimo klaida</string>
     <string name="encountered_error_message">Atlikdama šį kūrinį, VLC susidūrė su klaida.\nPabandykite atnaujinti fonoteką.</string>
-    <string name="invalid_location">Negalime pagroti %1$s</string>
+    <string name="search">Paieška</string>
+    <string name="search_history">Paieškos žurnalas</string>
+    <string name="hardware_acceleration_error_title">Aparatinio spartinimo klaida</string>
     <!-- About -->
     <string name="app_name_full">VLC versija, skirta Android™</string>
     <string name="licence">Licencija</string>
@@ -147,6 +145,7 @@
     <string name="vlc_authors">VLC autoriai</string>
     <!-- Preferences -->
     <string name="preferences">Nuostatos</string>
+    <string name="general_prefs_category">Bendra</string>
     <string name="directories_summary">Pasirinkite katalogus, kuriuos norite įtraukti į fonoteką</string>
     <string name="add_custom_path">Pridėti savitą kelią</string>
     <string name="add_custom_path_description">Įtraukite papildomą žvalgytiną katalogą:</string>
@@ -154,8 +153,6 @@
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
     <string name="hardware_acceleration_summary">Uždrausta: stabilesnis veikimas.\nIškoduojant: gali padidinti našumą.\nVisiškas: gali dar labiau pagerinti našumą.</string>
     <string name="hardware_acceleration_disabled">Uždrausta</string>
-    <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
-    <string name="hardware_acceleration_full">Visiškas spartinimas</string>
     <string name="automatic">Automatiškai</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinis (jutiklis)</string>
@@ -164,7 +161,9 @@
     <string name="screen_orientation_landscape">Gulsčias</string>
     <string name="screen_orientation_reverse_portrait">Stačias, apverstas</string>
     <string name="screen_orientation_reverse_landscape">Gulsčias, apverstas</string>
+    <string name="enable_black_theme">Naudoti tamsų apipavidalinimą</string>
     <string name="subtitle_text_encoding">Subtitrų koduotė</string>
+    <string name="interface_prefs_category">Sąsaja</string>
     <string name="enable_brightness_gesture">Įgalinti ryškumo gestus</string>
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
@@ -200,9 +199,9 @@
     <string name="media_db_cleared">Kūrinių duomenų bazė išvalyta!</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="set_locale_detail">Ištrinkite, jei norite naudoti numatytą</string>
-    <string name="set_locale_popup">Pakeitimai įsigalios iš naujo paleisdus VLC.</string>
     <string name="network_caching">Tinklo podėlio reikšmė</string>
     <string name="network_caching_summary">Laiko buferio dydis (milisekundėmis) grojant kūrinius per tinklą. Neturi įtakos, kai naudojamas aparatinis spartinimas. Norėdami naudoti numatytąjį, ištrinkite reikšmę.</string>
+    <string name="developer_prefs_category">Programuotojas</string>
     <string name="enable_verbose_mode">Detaliai</string>
     <string name="enable_verbose_mode_summary">Didinti pranešimų detalumą (logcat)</string>
     <string name="debug_logs">Derinimo žurnalai</string>
