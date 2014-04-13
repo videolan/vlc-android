@@ -26,8 +26,6 @@
     <string name="remove">Noņemt</string>
     <string name="set_song">Iestatīt kā zvana signālu</string>
     <string name="info">Informācija</string>
-    <string name="confirm_delete">Izdzēst datni \'%1$s\' ?</string>
-    <string name="ringtone_set">\"%1$s\" tika noteikts kā zvana signāls.</string>
     <string name="ringtone_error">Radās kļūda nosakot zvana signālu.</string>
     <string name="pause">Nopauzēt</string>
     <string name="not_show_again">Nerādīt šo ziņu atkārtoti.</string>
@@ -80,7 +78,6 @@
     <string name="directories">Katalogi</string>
     <string name="loading">Ielādēšana</string>
     <string name="please_wait">Lūdzu uzgaidiet ...</string>
-    <string name="nomedia">Nav multivides faili atrasti, lūdzu pārsūtiet failus uz ierīci vai pielāgojiet savām vēlmēm.</string>
     <string name="mediafiles">Multivides faili</string>
     <string name="notavailable">Nav pieejams</string>
     <string name="nosubdirectory">Nav apakšdirektorijas.</string>
@@ -135,11 +132,9 @@
     <string name="error_message_is">Kļūdas ziņojums ir (lūdzu minēt to, kad uziet un novērst defektus): \n</string>
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
     <string name="encountered_error_message">VLC radās kļūda ar šo mediju.\nLūdzu, mēģiniet atjaunināt mediju bibliotēka.</string>
-    <string name="invalid_location">Atrašanās vieta %1$s nevar tikt atskaņota</string>
     <string name="search">Meklēt</string>
     <string name="search_history">Meklēšanas vēsture</string>
     <string name="hardware_acceleration_error_title">HW paātrinājuma kļūda</string>
-    <string name="hardware_acceleration_error_message">HW paātrinājuma radās kļūda. Vai jūs vēlatos izslēgtu to un mēģiniet vēlreiz?</string>
     <!-- About -->
     <string name="app_name_full">VLC priekš Android™</string>
     <string name="licence">License</string>
@@ -157,8 +152,6 @@
     <string name="hardware_acceleration">Aparatūras paātrināšana</string>
     <string name="hardware_acceleration_summary">Atspējots: labāka stabilitāte.\nDekodēšana: var uzlabot veiktspēju.\nPilns: var uzlabot veiktspēju vēl vairāk.</string>
     <string name="hardware_acceleration_disabled">Izslēgts</string>
-    <string name="hardware_acceleration_decoding">Dekodēšanas Paātrinājums</string>
-    <string name="hardware_acceleration_full">Pilns Paātrinājums</string>
     <string name="automatic">Automātisks</string>
     <string name="screen_orientation">Video ekrāna orientācija</string>
     <string name="screen_orientation_sensor">Automātisks (sensors)</string>
@@ -168,7 +161,6 @@
     <string name="screen_orientation_reverse_portrait">Atpakaļgaitas portrets</string>
     <string name="screen_orientation_reverse_landscape">Atgriezt ainavu</string>
     <string name="enable_black_theme">Aktivizēt melno tēmu</string>
-    <string name="enable_black_theme_summary">Mainīt interfeisa krāsas priekš labāka komforta vāja apgaismojuma apstākļos.</string>
     <string name="subtitle_text_encoding">Apakšvirsraksta teksta kodēšana</string>
     <string name="enable_brightness_gesture">Aktivizēt spilgtuma žestu</string>
     <string name="enable_brightness_gesture_summary">Kontrolējiet spilgtumu ar žestu video atskaņošanas laikā</string>
@@ -205,7 +197,6 @@
     <string name="media_db_cleared">Mediju datubāze izvadītīta!</string>
     <string name="set_locale">noteikt darbības vietu</string>
     <string name="set_locale_detail">Atstājiet tukšu, lai atjaunotu</string>
-    <string name="set_locale_popup">Pamest un atjaunot VLC, lai izmaiņas stātos spēkā.</string>
     <string name="network_caching">Tīkla kešdarbes vērtība</string>
     <string name="network_caching_summary">Laika daudzums lai buferētu tīkla mediju (ms). Nedarbojas ar aparatūras dekodēšanu. Atstājiet tukšu, lai atjaunotu.</string>
     <string name="enable_verbose_mode">Runīgs</string>
