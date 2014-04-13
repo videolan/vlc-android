@@ -187,9 +187,10 @@ public class SlidingPaneLayout extends ViewGroup {
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingPaneLayout);
 
-            if (ta != null)
+            if (ta != null) {
                 mOverhangSize = ta.getDimensionPixelSize(R.styleable.SlidingPaneLayout_overhangSize, -1);
-            ta.recycle();
+                ta.recycle();
+            }
         }
 
         final float density = context.getResources().getDisplayMetrics().density;
