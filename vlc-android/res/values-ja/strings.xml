@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
     <string name="other">その他</string>
-    <string name="filebrowser_title">再生するメディアの選択</string>
     <string name="sortby">並べ替え…</string>
     <string name="sortby_name">名前</string>
     <string name="sortby_length">長さ</string>
@@ -25,7 +24,7 @@
     <string name="remove">削除</string>
     <string name="set_song">呼び出し音に設定</string>
     <string name="info">情報</string>
-    <string name="confirm_delete">このファイルを削除しますか?</string>
+    <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
     <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
