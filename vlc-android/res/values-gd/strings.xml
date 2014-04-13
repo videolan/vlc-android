@@ -4,7 +4,6 @@
     <string name="ok">Ceart ma-thà</string>
     <string name="cancel">Sguir dheth</string>
     <string name="other">Eile</string>
-    <string name="filebrowser_title">Tagh meadhan gus a chluich</string>
     <string name="sortby">Seòrsaich a-rèir…</string>
     <string name="sortby_name">Ainm</string>
     <string name="sortby_length">Faid</string>
@@ -28,8 +27,6 @@
     <string name="remove">Thoir air falbh</string>
     <string name="set_song">Cleachd mar sheirm an fhòn</string>
     <string name="info">Fiosrachadh</string>
-    <string name="confirm_delete">A bheil thu airson am faidhle a sguabadh às?</string>
-    <string name="ringtone_set">Chaidh \"%1$s\" a shuidheachadh mar sheirm.</string>
     <string name="ringtone_error">Thachair mearachd nuair a dh/\'fheuch sinn ris an t-seirm a shuidheachadh.</string>
     <string name="pause">Cuir na stad</string>
     <string name="not_show_again">Na seall an teachdaireachd seo a-rithist.</string>
@@ -87,7 +84,6 @@
     <string name="directories">Pasgain</string>
     <string name="loading">\'Ga luchdadh…</string>
     <string name="please_wait">Fuirich ort</string>
-    <string name="nomedia">Cha deach faidhle meadhain a lorg, gluais feadhainn dhan uidheam agad no rèitich na roghainnean agad.</string>
     <string name="mediafiles">Faidhlichean mheananan</string>
     <string name="notavailable">chan eil seo ri fhaighinn</string>
     <string name="nosubdirectory">Chan eil fo-eòlaire ann.</string>
@@ -143,11 +139,9 @@
     <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):\n</string>
     <string name="encountered_error_title">Mearachd \'ga chluich</string>
     <string name="encountered_error_message">Thachair VLC ri mearachd sa mheadhan seo.\nFeuch is ath-nuadhaich leabharlann nam meadhan.</string>
-    <string name="invalid_location">Chan urrainn dhuinn %1$s a chluich</string>
     <string name="search">Lorg</string>
     <string name="search_history">Lorg san eachdraidh</string>
     <string name="hardware_acceleration_error_title">Mearachd le luathachadh HW</string>
-    <string name="hardware_acceleration_error_message">Thachair luathachadh HW ri mearachd. A bheil thu airson a chur à comas is feuchainn ris a-rithist?</string>
     <!-- About -->
     <string name="app_name_full">VLC airson Android™</string>
     <string name="licence">Ceadachas</string>
@@ -165,8 +159,6 @@
     <string name="hardware_acceleration">Luathachadh bathair-chruaidh</string>
     <string name="hardware_acceleration_summary">À comas: seasmhachd nas fhearr.\nDì-chòdachadh: piseach air dèanadas is dòcha.\nSlàn: piseach nas motha air dèanadas is dòcha.</string>
     <string name="hardware_acceleration_disabled">À comas</string>
-    <string name="hardware_acceleration_decoding">Luathachadh an dì-chòdachaidh</string>
-    <string name="hardware_acceleration_full">Dì-chòdachadh slàn</string>
     <string name="automatic">Fèin-obrachail</string>
     <string name="screen_orientation">Comhair na sgrìn</string>
     <string name="screen_orientation_sensor">Fèin-obrachail (mothaichear)</string>
@@ -176,7 +168,6 @@
     <string name="screen_orientation_reverse_portrait">Portraid bun os cionn</string>
     <string name="screen_orientation_reverse_landscape">Dreach-tìre bun os cionn</string>
     <string name="enable_black_theme">Cuir an t-ùrlar dubh an comas</string>
-    <string name="enable_black_theme_summary">Atharraich dathan na h-eadar-aghaidh airson dreach nas fhearr ann an àrainneachd dhorcha.</string>
     <string name="subtitle_text_encoding">Còdachadh teacsa nam fo-thiotal</string>
     <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
     <string name="enable_brightness_gesture_summary">Atharraich an t-soilleireachd tro ghluasad rè a chluich</string>
@@ -213,7 +204,6 @@
     <string name="media_db_cleared">Chaidh stòr-dàta nam meadhanan fhalamhadh</string>
     <string name="set_locale">Suidhich an sgeama ionadail</string>
     <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
-    <string name="set_locale_popup">Fàg VLC is ath-thòisich gus na dh\'atharraich thu a chur an sàs</string>
     <string name="network_caching">Luach tasgadan an lìonraidh</string>
     <string name="network_caching_summary">Àm bufaradh a\' mheadhain lìonraidh (ann am ms). Chan obraich seo le dì-chòdachadh bathair-chruaidh. Fàg bàn seo gus ath-shuidheachadh.</string>
     <string name="enable_verbose_mode">Briathrach</string>
