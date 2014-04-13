@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Ακύρωση</string>
     <string name="other">Άλλο</string>
-    <string name="filebrowser_title">Επιλέξτε μέσα για αναπαραγωγή</string>
     <string name="sortby">Ταξινόμηση κατά ...</string>
     <string name="sortby_name">Όνομα</string>
     <string name="sortby_length">Διάρκεια</string>
@@ -26,8 +25,8 @@
     <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
     <string name="info">Πληροφορίες</string>
-    <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
+    <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\'?</string>
+    <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
     <string name="pause">Παύση</string>
     <string name="not_show_again">Να μην ξαναεμφανιστεί αυτό το μήνυμα</string>
@@ -75,7 +74,7 @@
     <string name="directories">Κατάλογοι</string>
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Παρακαλώ περιμένετε...</string>
-    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
+    <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
     <string name="nosubdirectory">Κανένας υποκατάλογος</string>
@@ -129,11 +128,11 @@
     <string name="error_message_is">Το μήνυμα σφάλματος είναι (παρακαλούμε αναφέρετε το κατά την επίλυση προβλημάτων):\n</string>
     <string name="encountered_error_title">Σφάλμα στην αναπαραγωγή</string>
     <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το μέσο.\nΠαρακαλώ ανανεώστε τη βιβλιοθήκη μέσων.</string>
-    <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να παιχτεί</string>
+    <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να παιχτεί.</string>
     <string name="search">Εύρεση</string>
     <string name="search_history">Ιστορικό εύρεσης</string>
     <string name="hardware_acceleration_error_title">Σφάλμα επιτάχυνσης υλικού</string>
-    <string name="hardware_acceleration_error_message">Η επιτάχυνση υλικού αντιμετώπισε ένα σφάλμα. Θέλετε να την απενεργοποιήσετε και να ξαναδοκιμάσετε; </string>
+    <string name="hardware_acceleration_error_message">Η επιτάχυνση υλικού αντιμετώπισε ένα σφάλμα. Θα θέλατε να την απενεργοποιήσετε και να ξαναδοκιμάσετε; </string>
     <!-- About -->
     <string name="app_name_full">Το VLC για το Android™</string>
     <string name="licence">Άδεια</string>
@@ -152,8 +151,8 @@
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
     <string name="hardware_acceleration_summary">Απενεργοποιημένο: καλύτερη σταθερότητα.\nΑποκωδικοποίηση: ίσως βελτιώσει την απόδοση.\nΠλήρης: ίσως βελτιώσει την απόδοση περαιτέρω.</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
-    <string name="hardware_acceleration_decoding">Επιτάχυνση Αποκωδικοποίησης</string>
-    <string name="hardware_acceleration_full">Πλήρης Επιτάχυνση</string>
+    <string name="hardware_acceleration_decoding">Επιτάχυνση αποκωδικοποίησης</string>
+    <string name="hardware_acceleration_full">Πλήρης επιτάχυνση</string>
     <string name="automatic">Αυτόματο</string>
     <string name="screen_orientation">Προσανατολισμός της βίντεο-οθόνης</string>
     <string name="screen_orientation_sensor">Αυτόματο (αισθητήρας)</string>
@@ -163,9 +162,9 @@
     <string name="screen_orientation_reverse_portrait">Αντίστροφο πορτραίτο</string>
     <string name="screen_orientation_reverse_landscape">Αντίστροφο τοπίο</string>
     <string name="enable_black_theme">Ενεργοποίηση του μαύρου θέματος</string>
-    <string name="enable_black_theme_summary">Αλλάξτε τα χρώματα διεπαφής για μεγαλύτερη άνεση στο συνθήκες χαμηλού φωτισμού.</string>
+    <string name="enable_black_theme_summary">Αλλάξτε τα χρώματα διεπαφής για μεγαλύτερη άνεση σε περιβάλλοντα χαμηλού φωτισμού.</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
-    <string name="extra_prefs_category">Έξτρα Επιλογές</string>
+    <string name="extra_prefs_category">Έξτρα επιλογές</string>
     <string name="interface_prefs_category">Διεπαφή</string>
     <string name="enable_brightness_gesture">Ενεργοποίηση χειρονομιών φωτεινότητας </string>
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
@@ -202,7 +201,7 @@
     <string name="media_db_cleared">Η βάση δεδομένων των μέσων εκκαθαρίστηκε!</string>
     <string name="set_locale">Ορισμός τοπικής ρύθμισης</string>
     <string name="set_locale_detail">Αφήστε το κενό για να το επαναφέρετε</string>
-    <string name="set_locale_popup">Κλείστε και επαναφέρετε το VLC για να ισχύσουν οι αλλαγές.</string>
+    <string name="set_locale_popup">Κλείστε και κάντε επανεκκίνηση του VLC για να ισχύσουν οι αλλαγές.</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
     <string name="network_caching_summary">Το ποσό του χρόνου για να διαβαστούν δικτυακά μέσα (σε ms). Δεν λειτουργεί με την αποκωδικοποίηση υλικού. Αφήστε το κενό για επαναφορά.</string>
     <string name="developer_prefs_category">Προγραμματιστής</string>
