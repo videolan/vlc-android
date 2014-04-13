@@ -4,7 +4,6 @@
     <string name="ok">موافق</string>
     <string name="cancel">ألغِ</string>
     <string name="other">آخر</string>
-    <string name="filebrowser_title">اختر وسيطًا لتشغيله</string>
     <string name="sortby">افرز حسب...</string>
     <string name="sortby_name">الاسم</string>
     <string name="sortby_length">الطول</string>
@@ -30,8 +29,8 @@
     <string name="remove">أزِل</string>
     <string name="set_song">اضبطها للرّنين</string>
     <string name="info">معلومات</string>
-    <string name="confirm_delete">أأحذف الملف \'%1$s\' ؟</string>
-    <string name="ringtone_set">\'%1$s\' ضُبطت للرّنين.</string>
+    <string name="confirm_delete">احذف الملف \'%1$s\' ؟</string>
+    <string name="ringtone_set">لقد اعتُمد الملف \'%1$s\' كرنَّة الهاتف. </string>
     <string name="ringtone_error">حدث خطأ أثناء ضبطها للرّنين.</string>
     <string name="pause">ألبِث</string>
     <string name="not_show_again">لا تُظهر هذه الرّسالة مجددًا.</string>
@@ -99,7 +98,7 @@
     <string name="directories">الأدلة</string>
     <string name="loading">يجري التّحميل</string>
     <string name="please_wait">انتظر رجاءً...</string>
-    <string name="nomedia">تعذر العثور على ملفات وسائط، انقل ملفات إلى جهازك أو تحقّق من إعداداتك.</string>
+    <string name="nomedia">لا وجود لملفات الوسائط، رجاءً نقّل بعض الملفات إلى جهازك أو عدّل خياراتك.</string>
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير مُتاح</string>
     <string name="nosubdirectory">ليست مجلدات ثانوية.</string>
@@ -157,7 +156,7 @@
     <string name="error_message_is">رسالة الخطأ هي (يرجى ذكرها عند محاولة الإصلاح):\n</string>
     <string name="encountered_error_title">خطأ تشغيلي</string>
     <string name="encountered_error_message">حدث خطأ مع هذا الوسيط في VLC.\nجرّب تحديث مكتبة الوسائط رجاءً.</string>
-    <string name="invalid_location">تعذّر تشغيل الموقع %1$s</string>
+    <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="search">ابحث</string>
     <string name="search_history">تأريخ البحث</string>
     <string name="hardware_acceleration_error_title">خطأ في تسريع العتاد</string>
@@ -172,6 +171,7 @@
     <string name="vlc_authors">مؤلّفو VLC.</string>
     <!-- Preferences -->
     <string name="preferences">التّفضيلات</string>
+    <string name="general_prefs_category">عام</string>
     <string name="directories_summary">اختر أدلّة لضمّها إلى مكتبة الوسائط</string>
     <string name="add_custom_path">أضِف مسارًا مخصّصًا</string>
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
@@ -179,8 +179,8 @@
     <string name="hardware_acceleration">ترميز مُسرّع عتاديًا</string>
     <string name="hardware_acceleration_summary">معطَّل : أحسن استقراراً.\nفكّ الترميز : قد يحسّن الأداء.\nكامل : قد يحسّن الأداء أكثر.\n</string>
     <string name="hardware_acceleration_disabled">تعطيل</string>
-    <string name="hardware_acceleration_decoding">فكّ ترميز التسارع</string>
-    <string name="hardware_acceleration_full">تسريع أقصى</string>
+    <string name="hardware_acceleration_decoding">يجري فك ترميز التسريع</string>
+    <string name="hardware_acceleration_full">تسريع كامل</string>
     <string name="automatic">تلقائي</string>
     <string name="screen_orientation">اتّجاه الشّاشة المرئية</string>
     <string name="screen_orientation_sensor">تلقائي (حسّاس)</string>
@@ -190,8 +190,10 @@
     <string name="screen_orientation_reverse_portrait">طولي معكوس</string>
     <string name="screen_orientation_reverse_landscape">عرضي معكوس</string>
     <string name="enable_black_theme">تشغيل السمة السوداء</string>
-    <string name="enable_black_theme_summary">غيّر ألوان الواجهة لراحة أفضل في أماكن ذات إضاءة ضعيفة.</string>
+    <string name="enable_black_theme_summary">غيّر ألوان الواجهة لراحة أفضل في أماكن ذات إضاءات ضعيفة.</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
+    <string name="extra_prefs_category">إعدادات إضافية</string>
+    <string name="interface_prefs_category">واجهة</string>
     <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
@@ -227,9 +229,10 @@
     <string name="media_db_cleared">تم مسح قاعدة بيانات الوسائط!</string>
     <string name="set_locale">اضبط المحلّية</string>
     <string name="set_locale_detail">اتركه فارغًا لإعادة ضبطه</string>
-    <string name="set_locale_popup">كي تأخذ تغييراتك مجراها عليك إغلاق VLC و إعادة تشغيله.</string>
+    <string name="set_locale_popup">اخرج وأعد تشغيل VLC لكي تُفعَّل التغييرات.</string>
     <string name="network_caching">قيمة مخبئيات الشّبكة</string>
     <string name="network_caching_summary">الوقت اللازم لدفق الوسيط الشّبكي (بالميللي ثانية). لا تستعمله مع فك التّرميز العتادي. اتركه فارغًا لإعادة ضبطه.</string>
+    <string name="developer_prefs_category">مطوِّر</string>
     <string name="enable_verbose_mode">المطوّل</string>
     <string name="enable_verbose_mode_summary">زِد التّطويل</string>
     <string name="debug_logs">سجلّات الإصلاح</string>
