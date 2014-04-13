@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Outro</string>
-    <string name="filebrowser_title">Selecionar media para reproduzir</string>
     <string name="sortby">Ordenar por ...</string>
     <string name="sortby_name">Nome</string>
     <string name="sortby_length">Duração</string>
@@ -26,8 +25,8 @@
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
     <string name="info">Informação</string>
-    <string name="confirm_delete">Apagar o ficheiro \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' foi configurado como toque de chamada.</string>
+    <string name="confirm_delete">Apagar o ficheiro \'%1$s\'?</string>
+    <string name="ringtone_set">O ficheiro \'%1$s\' foi definido com toque de chamada.</string>
     <string name="ringtone_error">Ocorreu um erro ao configurar o toque de chamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">Não voltar a mostrar esta mensagem.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Diretórios</string>
     <string name="loading">A carregar</string>
     <string name="please_wait">Aguarde, por favor...</string>
-    <string name="nomedia">Não foram encontrados ficheiros de média, por favor, transfira os ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
+    <string name="nomedia">Não foram encontrados ficheiros multimédia, por favor, transfira alguns ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
     <string name="mediafiles">Ficheiros de media</string>
     <string name="notavailable">não disponível</string>
     <string name="nosubdirectory">Sem subdiretórios.</string>
@@ -129,11 +128,11 @@
     <string name="error_message_is">A mensagem de erro é (por favor, mencione isto quando efetuar a depuração):\n\n</string>
     <string name="encountered_error_title">Erro de reprodução</string>
     <string name="encountered_error_message">O VLC encontrou um erro nesta media.\nPor favor, tente atualizar a biblioteca de media.</string>
-    <string name="invalid_location">Não é possível reproduzir a localização %1$s</string>
+    <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
     <string name="search">Procurar</string>
     <string name="search_history">Histórico de pesquisa</string>
     <string name="hardware_acceleration_error_title">Erro de aceleração HW</string>
-    <string name="hardware_acceleration_error_message">A aceleração HW encontrou um erro. Deseja desativá-la e tentar de novo?</string>
+    <string name="hardware_acceleration_error_message">Ocorreu um erro com a aceleração de hardware. Deseja desativar e tentar novamente?</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -144,6 +143,7 @@
     <string name="vlc_authors">Autores do VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferências</string>
+    <string name="general_prefs_category">Geral</string>
     <string name="directories_summary">Selecione os diretórios a incluir na biblioteca de media</string>
     <string name="add_custom_path">Adicionar um caminho personalizado</string>
     <string name="add_custom_path_description">Insira um diretório personalizado adicional para pesquisar:</string>
@@ -162,8 +162,10 @@
     <string name="screen_orientation_reverse_portrait">Retrato invertido</string>
     <string name="screen_orientation_reverse_landscape">Paisagem invertido</string>
     <string name="enable_black_theme">Ativar o tema negro</string>
-    <string name="enable_black_theme_summary">Altere as cores da interface para um conforto melhor em ambientes com pouca luz.</string>
+    <string name="enable_black_theme_summary">Altere as cores da interface para melhor conforto em ambientes com pouca luz.</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
+    <string name="extra_prefs_category">Configurações Extra</string>
+    <string name="interface_prefs_category">Interface</string>
     <string name="enable_brightness_gesture">Ativar gesto do brilho</string>
     <string name="enable_brightness_gesture_summary">Controlar o brilho com um gesto durante a reprodução do vídeo</string>
     <string name="enable_headset_detection">Detetar auscultadores</string>
@@ -199,9 +201,10 @@
     <string name="media_db_cleared">A base de dados da media foi limpa!</string>
     <string name="set_locale">Definir Local</string>
     <string name="set_locale_detail">Deixar em branco para reiniciar</string>
-    <string name="set_locale_popup">Sair e reiniciar o VLC para aplicar as alterações.</string>
+    <string name="set_locale_popup">Saia e reinicie o VLC para aplicar as alterações.</string>
     <string name="network_caching">Valor da cache da rede</string>
     <string name="network_caching_summary">A quantidade de tempo para o buffer de media de rede (em ms). Não funciona com a descodificação de hardware. Deixe em branco para repor.</string>
+    <string name="developer_prefs_category">Programadores/Criadores</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_summary">Aumentar a verbosidade (logcat)</string>
     <string name="debug_logs">Registos de depuração</string>
