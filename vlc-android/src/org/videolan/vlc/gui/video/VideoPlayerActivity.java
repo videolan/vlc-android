@@ -945,7 +945,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         .setTitle(R.string.hardware_acceleration_error_title)
         .setMessage(R.string.hardware_acceleration_error_message)
         .create();
-        dialog.show();
+        if(!isFinishing())
+            dialog.show();
     }
 
     private void handleVout(Message msg) {
