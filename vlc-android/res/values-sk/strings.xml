@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Storno</string>
     <string name="other">Iné</string>
-    <string name="filebrowser_title">Vyberte médium, ktoré chcete prehrať</string>
     <string name="sortby">Zoradiť podľa…</string>
     <string name="sortby_name">názvu</string>
     <string name="sortby_length">dĺžky</string>
@@ -28,7 +27,7 @@
     <string name="set_song">Nastaviť ako zvonenie</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
-    <string name="ringtone_set">\'%1$s\' bol nastavený ako tón zvonenia.</string>
+    <string name="ringtone_set">Súbor \'%1$s\' bol nastavený ako tón zvonenia.</string>
     <string name="ringtone_error">Počas nastavovania tónu zvonenia nastala chyba.</string>
     <string name="pause">Pozastaviť</string>
     <string name="not_show_again">Už nezobrazovať túto správu.</string>
@@ -81,7 +80,7 @@
     <string name="directories">Priečinky</string>
     <string name="loading">Načítava sa…</string>
     <string name="please_wait">Prosím čakajte…</string>
-    <string name="nomedia">Nenašli sa žiadne médiá, preneste prosím súbory do zariadenia alebo upravte nastavenia.</string>
+    <string name="nomedia">Nenašli sa žiadne médiá, prosím preneste do svojho zariadenia nejaké súbory alebo upravte nastavenia.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
     <string name="nosubdirectory">Žiadne podpriečinky.</string>
@@ -136,11 +135,11 @@
     <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):\n</string>
     <string name="encountered_error_title">Chyba počas prehrávania</string>
     <string name="encountered_error_message">Program VLC zaznamenal chybu pri tomto médiu.\nProsím skúste obnoviť knižnicu médií.</string>
-    <string name="invalid_location">Z umiestnenia %1$s nemožno prehrávať</string>
+    <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
     <string name="search">Vyhľadať</string>
     <string name="search_history">História vyhľadávania</string>
     <string name="hardware_acceleration_error_title">Chyba HW akcelerácie</string>
-    <string name="hardware_acceleration_error_message">HW akcelerácia zaznamenala chybu. Chcete ju vypnúť a skúsiť to ešte raz?</string>
+    <string name="hardware_acceleration_error_message">Nastala chyba spojená s HW-akceleráciou. Chcete ju vypnúť a skúsiť to znova?</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Licencia</string>
@@ -170,7 +169,7 @@
     <string name="screen_orientation_reverse_portrait">Na výšku, obrátene</string>
     <string name="screen_orientation_reverse_landscape">Na šírku, obrátene</string>
     <string name="enable_black_theme">Zapnúť čiernu tému</string>
-    <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v priestoroch so slabým osvetlením.</string>
+    <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v prostredí so slabým osvetlením.</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="extra_prefs_category">Extra nastavenia</string>
     <string name="interface_prefs_category">Rozhranie</string>
@@ -209,7 +208,7 @@
     <string name="media_db_cleared">Databáza médií bola vyprázdnená!</string>
     <string name="set_locale">Nastaviť lokálne</string>
     <string name="set_locale_detail">Pre obnovenie pôvodného nastavenia ponechajte prázdne.</string>
-    <string name="set_locale_popup">Aby sa zmeny uplatnili, ukončite a resetujte program VLC.</string>
+    <string name="set_locale_popup">Na uplatnenie zmien je potrebné ukončiť a reštartovať program VLC.</string>
     <string name="network_caching">Hodnota ukladania do vyrovnávacej pamäte zo siete</string>
     <string name="network_caching_summary">Čas ukladania do vyrovnávacej pamäti pri sieťovou médiu (v ms). Nespolupracuje s hardvérovým dekódovaním. Pre obnovenie predvolenej hodnoty ponechajte políčko prázdne.</string>
     <string name="developer_prefs_category">Vývojár</string>
