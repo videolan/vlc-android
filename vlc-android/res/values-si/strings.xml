@@ -4,7 +4,6 @@
     <string name="ok">හරි</string>
     <string name="cancel">අත් හරින්න</string>
     <string name="other">වෙනත්</string>
-    <string name="filebrowser_title">වැයීම් මාධ්‍ය තෝරන්න</string>
     <string name="sortby">මෙසේ පෙළගස්වන්න…</string>
     <string name="sortby_name">නම</string>
     <string name="sortby_length">දිග</string>
@@ -26,8 +25,6 @@
     <string name="remove">ඉවත් කරන්න</string>
     <string name="set_song">හඬනාදය ලෙස සකසන්න</string>
     <string name="info">තොරතුරු</string>
-    <string name="confirm_delete">\'%1$s\' ගොනුව මකනවද?</string>
-    <string name="ringtone_set">\'%1$s\' හඬනාදය ලෙස සකසන ලදී.</string>
     <string name="ringtone_error">හඬනාදය සකසන අතරතුරදී දෝෂයක් හට ගැනුණි.</string>
     <string name="pause">විරාමය</string>
     <string name="not_show_again">මෙම පණිවුඩය නැවත පෙන්වන්න එපා.</string>
@@ -75,7 +72,6 @@
     <string name="directories">නාමාවලීන්</string>
     <string name="loading">පූරණය වෙමින්</string>
     <string name="please_wait">කරුණාකර රැඳෙන්න…</string>
-    <string name="nomedia">කිසිදු මාධ්‍ය ගොනුවක් හමු නොවුණි, කරුණාකර ඔබේ උපාංගයට ගොනු මාරු කිරීම හෝ ඔබේ අභිරුචින් හැඩ ගස්වන්න.</string>
     <string name="mediafiles">මාධ්‍ය ගොනු</string>
     <string name="notavailable">ලබාගත නොහැක</string>
     <string name="nosubdirectory">උපනාමාවලීන් නොමැත.</string>
@@ -129,11 +125,9 @@
     <string name="error_message_is">දෝෂ පණිවුඩය වනුයේ (කරුණාකර නිදොස්කරණයේදී මෙය සිහිපත් කරන්න):\n</string>
     <string name="encountered_error_title">පිළිවැයීම් දෝෂය</string>
     <string name="encountered_error_message">VLC හට මෙම මාධ්‍ය සමඟ දෝෂයක් හට ගනුණි.\nකරුණාකර මාධ්‍ය පුස්තකාලය ප්‍රබෝධවත් කිරීමට උත්සාහ කරන්න.</string>
-    <string name="invalid_location">%1$s පිහිටීම වාදනය කල නොහැක</string>
     <string name="search">සොයන්න</string>
     <string name="search_history">සෙවුම් ඉතිහාසය</string>
     <string name="hardware_acceleration_error_title">HW ත්වරණ දෝෂය</string>
-    <string name="hardware_acceleration_error_message">HW ත්වරණයේ දෝෂයක් හට ගැනුණි. ඔබ එය දුබල කර නැවත උත්සාහ කරන්න කැමතිද?</string>
     <!-- About -->
     <string name="app_name_full">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC</string>
     <string name="licence">බලපත්‍රය</string>
@@ -151,8 +145,6 @@
     <string name="hardware_acceleration">දෘඩාංග ත්වරණය</string>
     <string name="hardware_acceleration_summary">අක්‍රියයි: යහපත් ස්ථාවරත්වය.\nවිසංකේතීකරණය: ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.\nපූර්ණ: තවදුරටත් ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.</string>
     <string name="hardware_acceleration_disabled">අක්‍රියයි</string>
-    <string name="hardware_acceleration_decoding">විසංකේතීකරණ ත්වරණය</string>
-    <string name="hardware_acceleration_full">පූර්ණ ත්වරණය</string>
     <string name="automatic">ස්වයංක්‍රීය</string>
     <string name="screen_orientation">විදෘශ්‍ය තිරයේ දිශානතිය</string>
     <string name="screen_orientation_sensor">ස්වයංක්‍රීය (සංවේදකය)</string>
@@ -198,7 +190,6 @@
     <string name="media_db_cleared">මාධ්‍ය දත්ත සංචිතය හිස් කෙරිණි!</string>
     <string name="set_locale">ස්ථානය සකසන්න</string>
     <string name="set_locale_detail">යළි සැකසීම සඳහා හිස්ව තබන්න</string>
-    <string name="set_locale_popup">සිදු කෙරූ වෙනස් කම් සුරැකීමට VLC වසා දමා යළි සකසන්න.</string>
     <string name="network_caching">ජාල කෑෂිත අගය</string>
     <string name="network_caching_summary">ජාලගත මාධ්‍ය අවරෝධක විමා ගතවන කාල ප්‍රමාණය (මිලිතත්පර වලින්). දෘඩාංග විසංකේතිකරණය සමඟ වැඩ නොකරයි. යළි සැකසීමට හිස්ව තබන්න.</string>
     <string name="enable_verbose_mode">දිගින් දිගට කථාකරන</string>
