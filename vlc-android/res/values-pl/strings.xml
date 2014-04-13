@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Anuluj</string>
     <string name="other">Inne</string>
-    <string name="filebrowser_title">Wybierz plik do odtwarzania</string>
     <string name="sortby">Sortuj według…</string>
     <string name="sortby_name">Nazwy</string>
     <string name="sortby_length">Długości</string>
@@ -27,8 +26,8 @@
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
     <string name="info">Informacje</string>
-    <string name="confirm_delete">Usunąć ten plik?</string>
-    <string name="ringtone_set">\'%1$s\' został ustawiony jako dzwonek.</string>
+    <string name="confirm_delete">Usunąć plik \'%1$s\'?</string>
+    <string name="ringtone_set">Plik \'%1$s\' został ustawiony jako dzwonek.</string>
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Nie pokazuj tego komunikatu ponownie.</string>
@@ -81,7 +80,7 @@
     <string name="directories">Katalogi</string>
     <string name="loading">Ładowanie…</string>
     <string name="please_wait">Proszę czekać…</string>
-    <string name="nomedia">Brak plików multimedialnych, proszę przenieś pliki na twoje urządzenie lub zmień ustawienia.</string>
+    <string name="nomedia">Brak plików multimedialnych, proszę przenieś kilka plików na twoje urządzenie lub zmień ustawienia.</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
     <string name="nosubdirectory">Brak podkatalogów.</string>
@@ -136,7 +135,7 @@
     <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):⏎</string>
     <string name="encountered_error_title">Błąd odtwarzania</string>
     <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
-    <string name="invalid_location">Pozycja %1$s nie może być odtwarzana</string>
+    <string name="invalid_location">Pozycja %1$s nie może być odtwarzana.</string>
     <string name="search">Szukaj</string>
     <string name="search_history">Historia wyszukiwania</string>
     <string name="hardware_acceleration_error_title">Błąd sprzętowej akceleracji</string>
@@ -209,7 +208,7 @@
     <string name="media_db_cleared">Baza danych mediów została wyczyszczona!</string>
     <string name="set_locale">Ustaw język</string>
     <string name="set_locale_detail">Pozostaw puste, aby zresetować</string>
-    <string name="set_locale_popup">Zamknij i zresetuj VLC, aby zastosować zmiany.</string>
+    <string name="set_locale_popup">Zamknij i uruchom ponowne VLC, aby zastosować zmiany.</string>
     <string name="network_caching">Wartość buforowania sieci</string>
     <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w ms). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
     <string name="developer_prefs_category">Deweloper</string>
