@@ -116,6 +116,7 @@ public class EqualizerFragment extends SherlockFragment {
                 equalizer = new float[bands.length + 1];
         } catch (LibVlcException e) {
             e.printStackTrace();
+            return;
         }
 
         // on/off
