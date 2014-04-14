@@ -228,6 +228,10 @@ public class MainActivity extends SherlockFragmentActivity {
                     return;
                 }
 
+                // This should not happen
+                if(entry == null || entry.id == null)
+                    return;
+
                 /*
                  * Clear any backstack before switching tabs. This avoids
                  * activating an old backstack, when a user hits the back button
@@ -372,7 +376,7 @@ public class MainActivity extends SherlockFragmentActivity {
          */
         if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
             Log.d(TAG, "Reloading displayed fragment");
-            if (secondaryFragments.contains(mCurrentFragment))
+            if (mCurrentFragment == null || secondaryFragments.contains(mCurrentFragment))
                 mCurrentFragment = "video";
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
