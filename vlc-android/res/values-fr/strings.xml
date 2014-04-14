@@ -151,7 +151,7 @@
     <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage: peut améliorer les performances.\nComplète: peut davantage améliorer les performances.</string>
     <string name="hardware_acceleration_disabled">Désactivée</string>
     <string name="hardware_acceleration_decoding">Accélération au décodage</string>
-    <string name="hardware_acceleration_full">Pleine accélération</string>
+    <string name="hardware_acceleration_full">Accélération complète</string>
     <string name="automatic">Automatique</string>
     <string name="screen_orientation">Orientation vidéo</string>
     <string name="screen_orientation_sensor">Automatique (senseur)</string>
@@ -213,7 +213,7 @@
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
-    <string name="dump_logcat">Rejeter le fichier journal logcat</string>
-    <string name="dump_logcat_success">Logcat à été rejeté avec succès vers %1$s!</string>
-    <string name="dump_logcat_failure">Echec de rejet de logcat.</string>
+    <string name="dump_logcat">Sauvegarder le fichier journal logcat</string>
+    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans %1$s !</string>
+    <string name="dump_logcat_failure">Échec de sauvegarde du logcat.</string>
 </resources>
