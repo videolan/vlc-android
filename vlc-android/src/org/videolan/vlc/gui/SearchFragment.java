@@ -188,16 +188,6 @@ public class SearchFragment extends SherlockListFragment {
         }
     };
 
-    /**
-     * Clear the search history.
-     */
-    public void clearSearchHistory() {
-            MediaDatabase db = MediaDatabase.getInstance(getActivity());
-            db.clearSearchhistory();
-            if (mHistoryAdapter == getListAdapter())
-                showSearchHistory();
-    }
-
     private final OnEditorActionListener searchTextListener = new OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
