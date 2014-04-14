@@ -653,7 +653,7 @@ public class MediaDatabase {
         return history;
     }
 
-    public synchronized void clearSearchhistory() {
+    public synchronized void clearSearchHistory() {
         mDb.delete(SEARCHHISTORY_TABLE_NAME, null, null);
     }
 

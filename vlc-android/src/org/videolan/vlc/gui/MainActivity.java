@@ -666,7 +666,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     mMenu.showMenu();
                 break;
             case R.id.search_clear_history:
-                MediaDatabase.getInstance(this).clearSearchhistory();
+                MediaDatabase.getInstance(this).clearSearchHistory();
                 break;
         }
         return super.onOptionsItemSelected(item);

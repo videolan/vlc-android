@@ -144,7 +144,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MediaDatabase db = MediaDatabase.getInstance(getApplicationContext());
-                                db.clearSearchhistory();
+                                db.clearSearchHistory();
                             }
                         })
 
