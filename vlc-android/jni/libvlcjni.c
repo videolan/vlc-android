@@ -265,7 +265,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
 
         /* avcodec speed settings for slow devices */
-        "--avcodec-fast", // non-spec-compliant speedup tricks
+        //"--avcodec-fast", // non-spec-compliant speedup tricks
         "--avcodec-skiploopfilter", deblockstr,
         "--avcodec-skip-frame", enable_frame_skip ? "2" : "0",
         "--avcodec-skip-idct", enable_frame_skip ? "2" : "0",
