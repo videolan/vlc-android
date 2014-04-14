@@ -28,6 +28,7 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
@@ -665,7 +666,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     mMenu.showMenu();
                 break;
             case R.id.search_clear_history:
-                ((SearchFragment)fetchSecondaryFragment("search")).clearSearchHistory();
+                MediaDatabase.getInstance(this).clearSearchhistory();
                 break;
         }
         return super.onOptionsItemSelected(item);
