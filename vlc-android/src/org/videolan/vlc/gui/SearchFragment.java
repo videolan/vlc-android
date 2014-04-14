@@ -87,8 +87,17 @@ public class SearchFragment extends SherlockListFragment {
         mSearchText.requestFocus();
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mSearchText, InputMethodManager.RESULT_SHOWN);
+        imm.showSoftInput(mSearchText, InputMethodManager.SHOW_IMPLICIT);
+
         showSearchHistory();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     private void search(CharSequence key, int type) {
