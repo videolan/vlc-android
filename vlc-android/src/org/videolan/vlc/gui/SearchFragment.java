@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui;
 
+import java.lang.Override;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -66,13 +67,19 @@ public class SearchFragment extends SherlockListFragment {
         mHistoryAdapter = new SearchHistoryAdapter(getActivity());
         mResultAdapter = new SearchResultAdapter(getActivity());
 
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
+
         mSearchText = (EditText) v.findViewById(R.id.search_text);
         mSearchText.setOnEditorActionListener(searchTextListener);
         mSearchText.addTextChangedListener(searchTextWatcher);
 
         mSearchText.requestFocus();
-
-        return v;
     }
 
     @Override
