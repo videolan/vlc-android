@@ -78,13 +78,13 @@ public class SearchFragment extends SherlockListFragment {
         mSearchText = (EditText) v.findViewById(R.id.search_text);
         mSearchText.setOnEditorActionListener(searchTextListener);
         mSearchText.addTextChangedListener(searchTextWatcher);
-
-        mSearchText.requestFocus();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        mSearchText.requestFocus();
 
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mSearchText, InputMethodManager.RESULT_SHOWN);
