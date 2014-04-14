@@ -50,7 +50,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class SearchFragment extends SherlockListFragment {
 
-    public final static String TAG = "VLC/SearchActivit";
+    public final static String TAG = "VLC/SearchActivity";
 
     private EditText mSearchText;
     private SearchHistoryAdapter mHistoryAdapter;
