@@ -257,6 +257,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     @Override
     public void onPause() {
         super.onPause();
+        getView().cancelLongPress();
     }
 
     @Override
