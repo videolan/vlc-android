@@ -1736,9 +1736,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     try {
                         Cursor cursor = getContentResolver().query(getIntent().getData(),
                                 new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
-                        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                        if (cursor.moveToFirst())
-                            mLocation = LibVLC.PathToURI(cursor.getString(column_index));
+                        if (cursor != null) {
+                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                            if (cursor.moveToFirst())
+                                mLocation = LibVLC.PathToURI(cursor.getString(column_index));
+                            cursor.close();
+                        }
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't read the file from media or MMS");
                         encounteredError();
@@ -1751,19 +1754,23 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     try {
                         Cursor cursor = getContentResolver().query(getIntent().getData(),
                                 new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
-                        cursor.moveToFirst();
-                        String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
-                        Log.i(TAG, "Getting file " + filename + " from content:// URI");
-                        InputStream is = getContentResolver().openInputStream(getIntent().getData());
-                        OutputStream os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = 0;
-                        while((bytesRead = is.read(buffer)) >= 0) {
-                            os.write(buffer, 0, bytesRead);
+                        if (cursor != null) {
+                            cursor.moveToFirst();
+                            String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
+                            cursor.close();
+                            Log.i(TAG, "Getting file " + filename + " from content:// URI");
+
+                            InputStream is = getContentResolver().openInputStream(getIntent().getData());
+                            OutputStream os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                            byte[] buffer = new byte[1024];
+                            int bytesRead = 0;
+                            while((bytesRead = is.read(buffer)) >= 0) {
+                                os.write(buffer, 0, bytesRead);
+                            }
+                            os.close();
+                            is.close();
+                            mLocation = LibVLC.PathToURI(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
                         }
-                        os.close();
-                        is.close();
-                        mLocation = LibVLC.PathToURI(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");
                         encounteredError();
