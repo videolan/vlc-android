@@ -872,7 +872,7 @@ public class AudioService extends Service {
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
             // Copy the cover bitmap because the RemonteControlClient can recycle its artwork bitmap.
             Bitmap cover = getCover();
-            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, cover.copy(cover.getConfig(), false));
+            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, ((cover != null) ? cover.copy(cover.getConfig(), false) : null));
             editor.apply();
         }
     }
