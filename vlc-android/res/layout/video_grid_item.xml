@@ -54,7 +54,7 @@
         android:id="@+id/item_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/item_more"
+        android:src="@drawable/ic_more"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true" />
