@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.videolan.vlc"
     android:installLocation="auto"
-    android:versionCode="9300"
-    android:versionName="0.9.3" >
+    android:versionCode="9399"
+    android:versionName="0.9.4-git" >
 
     <uses-sdk
         android:minSdkVersion="7"
