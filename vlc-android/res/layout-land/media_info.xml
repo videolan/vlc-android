@@ -42,7 +42,7 @@
                 android:layout_height="50dip"
                 android:layout_gravity="bottom|left"
                 android:layout_margin="10dip"
-                android:background="@drawable/ic_play"
+                android:background="@drawable/ic_play_circle"
                 android:visibility="invisible" />
 
             <TextView
