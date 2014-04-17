@@ -62,9 +62,11 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:cacheColorHint="#00000000"
+            android:clipToPadding="false"
             android:divider="#00000000"
             android:fastScrollEnabled="true"
-            android:listSelector="@android:color/transparent" />
-    </LinearLayout>
+            android:listSelector="@android:color/transparent"
+            android:paddingBottom="@dimen/listview_bottom_padding" />
+</LinearLayout>
 
 </LinearLayout>

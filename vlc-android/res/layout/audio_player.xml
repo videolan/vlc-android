@@ -84,19 +84,21 @@
 
     </LinearLayout>
 
-	<ViewSwitcher
-	    android:id="@+id/view_switcher"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:layout_weight="1"
+    <ViewSwitcher
+        android:id="@+id/view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="?attr/background_playlist" >
 
-	    <org.videolan.vlc.gui.audio.AudioPlaylistView
-	        android:id="@+id/songs_list"
-	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent" />
+        <org.videolan.vlc.gui.audio.AudioPlaylistView
+            android:id="@+id/songs_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/listview_bottom_padding"/>
 
-	    <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
+        <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
             android:id="@+id/cover_media_switcher"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

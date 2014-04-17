@@ -6,10 +6,12 @@
 
     <ListView
         android:id="@android:id/list"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/listview_bottom_padding"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
     <TextView
         android:id="@android:id/empty"

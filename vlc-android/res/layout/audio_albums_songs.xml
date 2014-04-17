@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -14,7 +13,7 @@
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/background_header">
+            android:background="?attr/background_header" >
         </TabWidget>
 
         <FrameLayout
@@ -31,7 +30,9 @@
                     android:id="@+id/albums"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clipToPadding="false"
                     android:fastScrollEnabled="true"
+                    android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
 
@@ -39,12 +40,13 @@
                     android:id="@+id/songs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:clipToPadding="false"
                     android:fastScrollEnabled="true"
+                    android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp" />
             </org.videolan.vlc.widget.FlingViewGroup>
         </FrameLayout>
-
     </LinearLayout>
 
 </TabHost>

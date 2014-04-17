@@ -95,27 +95,35 @@
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:fastScrollEnabled="true" />
+            android:fastScrollEnabled="true"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:clipToPadding="false" />
         <ListView
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:fastScrollEnabled="true" />
+            android:fastScrollEnabled="true"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:clipToPadding="false" />
        <ListView
             android:id="@+id/songs_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:fastScrollEnabled="true" />
+            android:fastScrollEnabled="true"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:clipToPadding="false" />
         <ListView
             android:id="@+id/genres_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:fastScrollEnabled="true" />
+            android:fastScrollEnabled="true"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:clipToPadding="false" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>

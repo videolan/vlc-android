@@ -30,9 +30,13 @@
             android:inputType="textNoSuggestions"
             android:imeOptions="actionSearch" />
     </LinearLayout>
+
     <ListView
         android:id="@id/android:list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fastScrollEnabled="true" />
+        android:clipToPadding="false"
+        android:fastScrollEnabled="true"
+        android:paddingBottom="@dimen/listview_bottom_padding" />
+
 </LinearLayout>
