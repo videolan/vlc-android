@@ -148,12 +148,10 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_weight="0">
 
         <ImageButton
             android:id="@+id/shuffle"
@@ -166,21 +164,23 @@
             android:src="?attr/ic_shuffle_normal" />
 
         <ImageButton
-            android:id="@+id/previous"
+            android:id="@+id/repeat"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:background="#00000000"
-            android:contentDescription="@string/previous"
+            android:contentDescription="@string/repeat"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_previous" />
+            android:src="?attr/ic_repeat_normal" />
 
         <ImageButton
             android:id="@+id/play_pause"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:background="#00000000"
             android:contentDescription="@string/pause"
             android:focusable="true"
@@ -191,6 +191,9 @@
             android:id="@+id/next"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/play_pause"
             android:background="#00000000"
             android:contentDescription="@string/next"
             android:focusable="true"
@@ -198,14 +201,18 @@
             android:src="?attr/ic_next" />
 
         <ImageButton
-            android:id="@+id/repeat"
+            android:id="@+id/previous"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/play_pause"
             android:background="#00000000"
-            android:contentDescription="@string/repeat"
+            android:contentDescription="@string/previous"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_repeat_normal" />
-    </LinearLayout>
+            android:src="?attr/ic_previous" />
+
+    </RelativeLayout>
 
 </LinearLayout>
