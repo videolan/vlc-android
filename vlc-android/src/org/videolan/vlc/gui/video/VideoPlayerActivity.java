@@ -166,6 +166,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private ImageButton mForward;
     private boolean mEnableJumpButtons;
     private boolean mEnableBrightnessGesture;
+    private boolean mEnableDualDisplay;
     private boolean mDisplayRemainingTime = false;
     private int mScreenOrientation;
     private ImageButton mAudioTrack;
@@ -245,10 +246,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             };
         }
 
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mEnableDualDisplay = pref.getBoolean("enable_dual_display", false);
         createPresentation();
         setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         if (LibVlcUtil.isICSOrLater())
             getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
@@ -1983,7 +1987,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void createPresentation() {
-        if (mMediaRouter == null)
+        if (mMediaRouter == null || mEnableDualDisplay)
             return;
 
         // Get the current route and its presentation display.

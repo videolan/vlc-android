@@ -39,6 +39,11 @@
         <PreferenceScreen android:title="@string/interface_prefs_category" >
             <PreferenceCategory android:title="@string/interface_prefs_category" >
                 <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_dual_display"
+                    android:summary="@string/enable_dual_display_summary"
+                    android:title="@string/enable_dual_display" />
+                <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_brightness_gesture"
                     android:summary="@string/enable_brightness_gesture_summary"
