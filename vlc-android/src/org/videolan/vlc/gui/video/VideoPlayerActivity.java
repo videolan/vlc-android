@@ -1987,7 +1987,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void createPresentation() {
-        if (mMediaRouter == null || mEnableDualDisplay)
+        if (mMediaRouter == null || !mEnableDualDisplay)
             return;
 
         // Get the current route and its presentation display.

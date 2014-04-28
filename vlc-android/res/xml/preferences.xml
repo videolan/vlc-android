@@ -39,7 +39,7 @@
         <PreferenceScreen android:title="@string/interface_prefs_category" >
             <PreferenceCategory android:title="@string/interface_prefs_category" >
                 <CheckBoxPreference
-                    android:defaultValue="false"
+                    android:defaultValue="true"
                     android:key="enable_dual_display"
                     android:summary="@string/enable_dual_display_summary"
                     android:title="@string/enable_dual_display" />

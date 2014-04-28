@@ -256,7 +256,7 @@
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
     <string name="enable_dual_display">Dual display mode</string>
-    <string name="enable_dual_display_summary">Disable remote mode when a secondary display via HDMI/Chromecast is connected</string>
+    <string name="enable_dual_display_summary">Display video on secondary displays connected via HDMI/Chromecast</string>
     
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
