@@ -244,6 +244,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     removePresentation();
                 }
             };
+            Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
         }
 
 
@@ -2008,7 +2009,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         + "the meantime.", ex);
                 mPresentation = null;
             }
-        }
+        } else
+            Log.i(TAG, "No secondary display detected");
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -2101,6 +2103,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             /* Only show the subtitles surface when using "Full Acceleration" mode */
             if (mLibVLC != null && mLibVLC.getHardwareAcceleration() == 2)
                 mSubtitlesSurface.setVisibility(View.VISIBLE);
+            Log.i(TAG, "Secondary display created");
         }
     }
 
