@@ -255,9 +255,9 @@
     <string name="dump_logcat">Dump logcat log</string>
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
-    <string name="enable_dual_display">Dual display mode</string>
-    <string name="enable_dual_display_summary">Display video on secondary displays connected via HDMI/Chromecast</string>
-    
+    <string name="enable_clone_mode">Prefer clone mode for Secondary Displays</string>
+    <string name="enable_clone_mode_summary">Clone the device screen without remote control when secondary displays are connected (HDMI/Miracast).</string>
+
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>

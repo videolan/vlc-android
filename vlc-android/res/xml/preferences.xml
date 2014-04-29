@@ -39,10 +39,10 @@
         <PreferenceScreen android:title="@string/interface_prefs_category" >
             <PreferenceCategory android:title="@string/interface_prefs_category" >
                 <CheckBoxPreference
-                    android:defaultValue="true"
-                    android:key="enable_dual_display"
-                    android:summary="@string/enable_dual_display_summary"
-                    android:title="@string/enable_dual_display" />
+                    android:defaultValue="false"
+                    android:key="enable_clone_mode"
+                    android:summary="@string/enable_clone_mode_summary"
+                    android:title="@string/enable_clone_mode" />
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_brightness_gesture"
