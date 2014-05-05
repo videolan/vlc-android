@@ -1151,8 +1151,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             break;
 
         case MotionEvent.ACTION_MOVE:
-            // No volume/brightness action if coef < 2
-            if (coef > 2) {
+            // No volume/brightness action if coef < 2 or a secondary display is connected
+            //TODO : Volume action when a secondary display is connected
+            if (coef > 2 && mPresentation == null) {
                 // Volume (Up or Down - Right side)
                 if (!mEnableBrightnessGesture || mTouchX > (screen.widthPixels / 2)){
                     doVolumeTouch(y_changed);
