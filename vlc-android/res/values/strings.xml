@@ -199,7 +199,14 @@
 
     <string name="extra_prefs_category">Extra settings</string>
 
-    <string name="interface_prefs_category">Interface</string>
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category">Interface - Secondary Display</string>
+    <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Keep Hardware Acceleration setting</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardware Acceleration might not work</string>
+    <string name="enable_clone_mode">Prefer clone</string>
+    <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
+    <string name="interface_other_category">Interface - Other</string>
     <string name="enable_brightness_gesture">Enable brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_headset_detection">Detect headset</string>
@@ -255,8 +262,6 @@
     <string name="dump_logcat">Dump logcat log</string>
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
-    <string name="enable_clone_mode">Prefer clone mode for Secondary Displays</string>
-    <string name="enable_clone_mode_summary">Clone the device screen without remote control when secondary displays are connected (HDMI/Miracast).</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

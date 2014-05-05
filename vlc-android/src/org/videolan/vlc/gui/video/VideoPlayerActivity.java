@@ -371,6 +371,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "LibVLC initialisation failed");
             return;
         }
+
+        if (mPresentation != null && !pref.getBoolean("enable_secondary_display_hardware_acceleration", false)) {
+            mDisabledHardwareAcceleration = true;
+            mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
+            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+            Log.d(TAG,"Secondary Display : Hardware Acceleration disabled");
+        }
+        Log.d(TAG,"Hardware Acceleration mode : " + Integer.toString(mLibVLC.getHardwareAcceleration() ));
+
         /* Only show the subtitles surface when using "Full Acceleration" mode */
         if (mLibVLC.getHardwareAcceleration() == 2)
             mSubtitlesSurface.setVisibility(View.VISIBLE);
