@@ -683,4 +683,7 @@ public class LibVLC {
     public native String[] getPresets();
 
     public native float[] getPreset(int index);
+
+    private void onNativeCrash() {
+    }
 }

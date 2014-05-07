@@ -38,6 +38,7 @@
 #include "aout.h"
 #include "vout.h"
 #include "utils.h"
+#include "native_crash_handler.h"
 
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
@@ -301,10 +302,14 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     LOGI("LibVLC initialized: %p", instance);
 
     libvlc_log_set(instance, debug_log, &verbosity);
+
+    init_native_crash_handler(env, thiz);
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
+    destroy_native_crash_handler(env);
+
     releaseMediaPlayer(env, thiz);
     jlong libVlcInstance = getLong(env, thiz, "mLibVlcInstance");
     if (!libVlcInstance)
