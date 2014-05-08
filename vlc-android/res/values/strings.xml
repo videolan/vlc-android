@@ -202,8 +202,8 @@
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category">Interface - Secondary Display</string>
     <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Keep Hardware Acceleration setting</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Hardware Acceleration might not work</string>
+    <string name="enable_secondary_display_hardware_acceleration">Keep hardware acceleration setting</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardware acceleration might not work</string>
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
@@ -263,7 +263,7 @@
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
 
-    <string name="serious_crash">Sorry, a serious crash has occured…</string>
+    <string name="serious_crash">Unfortunately, a serious error has occured and VLC had to close.</string>
     <string name="restart_vlc">Restart VLC</string>
 
     <string-array name="hardware_acceleration_list">
