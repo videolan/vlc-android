@@ -237,6 +237,31 @@ public class Util {
     }
 
     /**
+     * Get the last 500 lines of the application logcat.
+     *
+     * @return the log string.
+     * @throws IOException
+     */
+    public static String getLogcat() throws IOException {
+        String[] args = { "logcat", "-v", "time", "-d", "-t", "500" };
+
+        Process process = Runtime.getRuntime().exec(args);
+        InputStreamReader input = new InputStreamReader(
+                process.getInputStream());
+        BufferedReader br = new BufferedReader(input);
+        StringBuilder log = new StringBuilder();
+        String line;
+
+        while ((line = br.readLine()) != null)
+            log.append(line + "\n");
+
+        br.close();
+        input.close();
+
+        return log.toString();
+    }
+
+    /**
      * Convert time to a string
      * @param millis e.g.time/length from file
      * @return formated string (hh:)mm:ss
