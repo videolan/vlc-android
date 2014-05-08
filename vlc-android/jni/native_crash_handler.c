@@ -25,9 +25,19 @@
 static struct sigaction old_actions[NSIG];
 static jobject j_libVLC;
 
-
 /** Unique Java VM instance, as defined in libvlcjni.c */
 extern JavaVM *myVm;
+
+// Monitored signals.
+static const int monitored_signals[] = {
+    SIGILL,
+    SIGABRT,
+    SIGBUS,
+    SIGFPE,
+    SIGSEGV,
+    SIGSTKFLT,
+    SIGPIPE
+};
 
 
 /**
@@ -61,28 +71,22 @@ void init_native_crash_handler(JNIEnv *env, jobject j_libVLC_local)
     handler.sa_flags = SA_RESETHAND;
 
     // Install the signal handlers and save their old actions.
-    #define CATCHSIG(X) sigaction(X, &handler, &old_actions[X])
-    CATCHSIG(SIGILL);
-    CATCHSIG(SIGABRT);
-    CATCHSIG(SIGBUS);
-    CATCHSIG(SIGFPE);
-    CATCHSIG(SIGSEGV);
-    CATCHSIG(SIGSTKFLT);
-    CATCHSIG(SIGPIPE);
+    for (unsigned i = 0; i < sizeof(monitored_signals) / sizeof(int); ++i)
+    {
+        const int s = monitored_signals[i];
+        sigaction(s, &handler, &old_actions[s]);
+    }
 }
 
 
 void destroy_native_crash_handler(JNIEnv *env)
 {
     // Uninstall the signal handlers and restore their old actions.
-    #define REMOVESIG(X) sigaction(X, &old_actions[X], NULL)
-    REMOVESIG(SIGILL);
-    REMOVESIG(SIGABRT);
-    REMOVESIG(SIGBUS);
-    REMOVESIG(SIGFPE);
-    REMOVESIG(SIGSEGV);
-    REMOVESIG(SIGSTKFLT);
-    REMOVESIG(SIGPIPE);
+    for (unsigned i = 0; i < sizeof(monitored_signals) / sizeof(int); ++i)
+    {
+        const int s = monitored_signals[i];
+        sigaction(s, &old_actions[s], NULL);
+    }
 
     (*env)->DeleteGlobalRef(env, j_libVLC);
 }
