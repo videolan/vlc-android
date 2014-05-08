@@ -46,6 +46,11 @@
             android:theme="@style/Theme.VLC.NoTitleBar" />
         <activity android:name=".gui.DebugLogActivity" />
         <activity
+            android:name=".gui.NativeCrashActivity"
+            android:process=":NativeCrashActivity"
+            android:stateNotNeeded="true"
+            android:theme="@style/Theme.VLC" />
+        <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.VLC.Fullscreen" >

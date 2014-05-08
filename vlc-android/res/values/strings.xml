@@ -263,6 +263,9 @@
     <string name="dump_logcat_success">Logcat successfully dumped to %1$s!</string>
     <string name="dump_logcat_failure">Failed to dump logcat.</string>
 
+    <string name="serious_crash">Sorry, a serious crash has occured…</string>
+    <string name="restart_vlc">Restart VLC</string>
+
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>
