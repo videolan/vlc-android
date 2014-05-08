@@ -44,8 +44,10 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.gui.NativeCrashActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.TypedArray;
@@ -82,10 +84,19 @@ public class Util {
             Thread.setDefaultUncaughtExceptionHandler(new VlcCrashHandler());
 
             instance = LibVLC.getInstance();
-            Context context = VLCApplication.getAppContext();
+            final Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             updateLibVlcSettings(pref);
             instance.init(context);
+            instance.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
+                @Override
+                public void onNativeCrash() {
+                    Intent i = new Intent(context, NativeCrashActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                }
+            });
         }
         return instance;
     }
