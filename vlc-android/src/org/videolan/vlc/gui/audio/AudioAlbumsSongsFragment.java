@@ -32,6 +32,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.widget.FlingViewGroup;
 
 import android.annotation.TargetApi;
@@ -158,6 +159,11 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
             public void onTouchUp() {}
             @Override
             public void onTouchClick() {}
+            @Override
+            public void onBackSwitched() {
+                MainActivity activity = (MainActivity)getActivity();
+                activity.popSecondaryFragment();
+            }
         });
 
         return v;

@@ -119,6 +119,11 @@ public class AboutFragment extends SherlockFragment {
             public void onTouchUp() {}
             @Override
             public void onTouchClick() {}
+            @Override
+            public void onBackSwitched() {
+                MainActivity activity = (MainActivity)getActivity();
+                activity.popSecondaryFragment();
+            }
         });
 
         return v;
