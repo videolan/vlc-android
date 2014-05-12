@@ -93,8 +93,8 @@ public class Util {
                 public void onNativeCrash() {
                     Intent i = new Intent(context, NativeCrashActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("PID", android.os.Process.myPid());
                     context.startActivity(i);
-                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
             });
         }
