@@ -286,6 +286,7 @@
                 <data android:pathPattern=".*\\.flac" />
                 <data android:pathPattern=".*\\.it" />
                 <data android:pathPattern=".*\\.m4a" />
+                <data android:pathPattern=".*\\.m4b" />
                 <data android:pathPattern=".*\\.m4p" />
                 <data android:pathPattern=".*\\.mid" />
                 <data android:pathPattern=".*\\.mka" />
@@ -333,6 +334,7 @@
                 <data android:pathPattern=".*\\.FLAC" />
                 <data android:pathPattern=".*\\.IT" />
                 <data android:pathPattern=".*\\.M4A" />
+                <data android:pathPattern=".*\\.M4B" />
                 <data android:pathPattern=".*\\.M4P" />
                 <data android:pathPattern=".*\\.MID" />
                 <data android:pathPattern=".*\\.MKA" />
