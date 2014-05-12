@@ -23,7 +23,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:logo="@drawable/icon"
+        android:logo="@drawable/ic_menu_info"
         android:theme="@style/Theme.VLC.NoTitleBar" >
         <activity
             android:name=".gui.MainActivity"
