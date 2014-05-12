@@ -101,8 +101,7 @@ public class NativeCrashActivity extends Activity {
             if (params[0].length() == 0)
                 return false;
             HttpClient httpClient = new DefaultHttpClient();
-            // FIXME: move this script to a Videolan server.
-            HttpPost httpPost = new HttpPost("http://magsoft.dinauz.org/videolan/vlc-android/upload_crash_log.php");
+            HttpPost httpPost = new HttpPost("http://people.videolan.org/~magsoft/vlc-android_crashes/upload_crash_log.php");
 
             try {
                 httpPost.setEntity(new ByteArrayEntity(
