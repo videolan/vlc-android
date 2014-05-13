@@ -171,7 +171,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Bitmap thumbnail = Util.getPictureFromCache(media);
         if (thumbnail == null) {
             // missing thumbnail
-            thumbnail = BitmapCache.GetFromResource(v, R.drawable.thumbnail);
+            thumbnail = BitmapCache.GetFromResource(v, R.drawable.icon_g);
         }
         else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
             // dummy thumbnail
