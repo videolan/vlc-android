@@ -26,6 +26,8 @@
     <string name="remove">Pašalinti</string>
     <string name="set_song">Naudoti kaip skambučio toną</string>
     <string name="info">Informacija</string>
+    <string name="confirm_delete">Pašalinti failą \'%1$s\'?</string>
+    <string name="ringtone_set">„%1$s“ naudojamas kaip skambučio tonas.</string>
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
     <string name="not_show_again">Neberodyti šio pranešimo.</string>
@@ -78,6 +80,7 @@
     <string name="directories">Katalogai</string>
     <string name="loading">Įkeliama</string>
     <string name="please_wait">Palaukite…</string>
+    <string name="nomedia">Kūrinių neradome. Įkelkite į savo įrenginį vaizdo ar garso kūrinių arba pakeiskite nuostatas.</string>
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
     <string name="nosubdirectory">Pakatalogių nėra.</string>
@@ -132,9 +135,11 @@
     <string name="error_message_is">Klaida (ją nurodykite derinindami):\n</string>
     <string name="encountered_error_title">Grojimo klaida</string>
     <string name="encountered_error_message">Atlikdama šį kūrinį, VLC susidūrė su klaida.\nPabandykite atnaujinti fonoteką.</string>
+    <string name="invalid_location">Negalime pagroti %1$s.</string>
     <string name="search">Paieška</string>
     <string name="search_history">Paieškos žurnalas</string>
     <string name="hardware_acceleration_error_title">Aparatinio spartinimo klaida</string>
+    <string name="hardware_acceleration_error_message">Kilo aparatinio spartinimo nesklandumų. Ar norėtumėte atsisakyti aparatinio spartinimo ir naudotis programa toliau?</string>
     <!-- About -->
     <string name="app_name_full">VLC versija, skirta Android™</string>
     <string name="licence">Licencija</string>
@@ -153,6 +158,8 @@
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
     <string name="hardware_acceleration_summary">Uždrausta: stabilesnis veikimas.\nIškoduojant: gali padidinti našumą.\nVisiškas: gali dar labiau pagerinti našumą.</string>
     <string name="hardware_acceleration_disabled">Uždrausta</string>
+    <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
+    <string name="hardware_acceleration_full">Visiškas spartinimas</string>
     <string name="automatic">Automatiškai</string>
     <string name="screen_orientation">Vaizdo padėtis</string>
     <string name="screen_orientation_sensor">Automatinis (jutiklis)</string>
@@ -162,8 +169,17 @@
     <string name="screen_orientation_reverse_portrait">Stačias, apverstas</string>
     <string name="screen_orientation_reverse_landscape">Gulsčias, apverstas</string>
     <string name="enable_black_theme">Naudoti tamsų apipavidalinimą</string>
+    <string name="enable_black_theme_summary">Pakeisti sąsajos spalvas taip, kad jos geriau derėtų mažo apšvietimo aplinkoje.</string>
     <string name="subtitle_text_encoding">Subtitrų koduotė</string>
-    <string name="interface_prefs_category">Sąsaja</string>
+    <string name="extra_prefs_category">Papildomos nuostatos</string>
+    <string name="interface_prefs_screen">Sąsaja</string>
+    <string name="interface_secondary_display_category">Sąsaja - antras ekranas</string>
+    <string name="interface_secondary_display_category_summary">Nuostatos, naudotinos antrąjį ekraną prijungus (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Išlaikyti aparatinio spartinimo nuostatas</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Aparatinis spartinimas gali neveikti</string>
+    <string name="enable_clone_mode">Pageidatinas klonavimas</string>
+    <string name="enable_clone_mode_summary">Klonuoti įrenginio ekraną be nuotolinio valdymo.</string>
+    <string name="interface_other_category">Sąsaja - kita</string>
     <string name="enable_brightness_gesture">Įgalinti ryškumo gestus</string>
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
@@ -199,6 +215,7 @@
     <string name="media_db_cleared">Kūrinių duomenų bazė išvalyta!</string>
     <string name="set_locale">Nustatyti kalbą</string>
     <string name="set_locale_detail">Ištrinkite, jei norite naudoti numatytą</string>
+    <string name="set_locale_popup">Pakeitimai įsigalios iš naujo paleisdus VLC.</string>
     <string name="network_caching">Tinklo podėlio reikšmė</string>
     <string name="network_caching_summary">Laiko buferio dydis (milisekundėmis) grojant kūrinius per tinklą. Neturi įtakos, kai naudojamas aparatinis spartinimas. Norėdami naudoti numatytąjį, ištrinkite reikšmę.</string>
     <string name="developer_prefs_category">Programuotojas</string>
@@ -214,4 +231,9 @@
     <string name="dump_logcat">Įrašyti pranešimų žurnalą</string>
     <string name="dump_logcat_success">Pranešimų žunalas „logcat“ sėkmingai įrašytas į %1$s!</string>
     <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“.</string>
+    <string name="serious_crash">Deja, VLC programa užsrigo ir ją reikia užverti.</string>
+    <string name="help_us_send_log">Padėkite mums tobulinti VLC nusiųsdami šią informaciją apie programos klaidą:</string>
+    <string name="restart_vlc">Iš naujo paleisti VLC</string>
+    <string name="send_log">Siųsti žurnalą</string>
+    <string name="sending_log">Siunčiamas žurnalas...</string>
 </resources>
