@@ -172,7 +172,6 @@
     <string name="enable_black_theme_summary">Schimbaţi culorile interfeței pentru un confort mai bun în mediile slab iluminate.</string>
     <string name="subtitle_text_encoding">Codificarea textului din subtitlu</string>
     <string name="extra_prefs_category">Extra Configurări</string>
-    <string name="interface_prefs_category">Interfață</string>
     <string name="enable_brightness_gesture">Activează gesturile pentru luminozitate</string>
     <string name="enable_brightness_gesture_summary">Controlează luminozitatea prin gesturi în timpul redării video</string>
     <string name="enable_headset_detection">Detectează căștile</string>
