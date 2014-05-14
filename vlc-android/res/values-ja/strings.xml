@@ -158,7 +158,14 @@
     <string name="enable_black_theme_summary">低照度の環境での快適性を向上するためにインターフェースの色を変更します。</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="extra_prefs_category">その他の設定</string>
-    <string name="interface_prefs_category">インターフェース</string>
+    <string name="interface_prefs_screen">インターフェース</string>
+    <string name="interface_secondary_display_category">インターフェース - 二台目のディスプレイ</string>
+    <string name="interface_secondary_display_category_summary">二台目のディスプレイが (HDMI/Miracast) で接続された場合の設定</string>
+    <string name="enable_secondary_display_hardware_acceleration">ハードウェアアクセラレーション設定の保持</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">おそらくハードウェアアクセラレーションは動作しません。</string>
+    <string name="enable_clone_mode">複製を選択</string>
+    <string name="enable_clone_mode_summary">リモート制御なしでスクリーンを複製</string>
+    <string name="interface_other_category">インターフェース - その他</string>
     <string name="enable_brightness_gesture">ジェスチャーで輝度を調整</string>
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
@@ -210,4 +217,9 @@
     <string name="dump_logcat">logcatがログをダンプ</string>
     <string name="dump_logcat_success">Logcatが %1$s にログをダンプしました!</string>
     <string name="dump_logcat_failure">logcatがダンプに失敗しました。</string>
+    <string name="serious_crash">深刻なエラーが発生したため、VLCを終了しました。</string>
+    <string name="help_us_send_log">以下のクラッシュログを送信することでVLCの改善に協力してください:</string>
+    <string name="restart_vlc">VLCの再起動</string>
+    <string name="send_log">ログの送信</string>
+    <string name="sending_log">ログを送信中...</string>
 </resources>
