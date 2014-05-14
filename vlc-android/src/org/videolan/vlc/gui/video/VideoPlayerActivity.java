@@ -1149,11 +1149,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             // Seek
             mTouchX = event.getRawX();
             // Click DVD menus
-            int offsetX = (screen.widthPixels - mSurface.getWidth()) / 2;
-            int offsetY = (screen.heightPixels - mSurface.getHeight()) / 2;
-            LibVLC.sendMouseEvent( 0,
-                    ((int)mTouchX - offsetX) * mVideoWidth / mSurface.getWidth(),
-                    ((int)mTouchY - offsetY) * mVideoHeight / mSurface.getHeight());
+            int[] offset = new int[2];
+            mSurface.getLocationOnScreen(offset);
+            LibVLC.sendMouseEvent(0,
+                    Math.round((mTouchX - offset[0]) * mVideoWidth / mSurface.getWidth()),
+                    Math.round((mTouchY - offset[1]) * mVideoHeight / mSurface.getHeight()));
             break;
 
         case MotionEvent.ACTION_MOVE:

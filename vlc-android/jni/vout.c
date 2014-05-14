@@ -177,7 +177,7 @@ void Java_org_videolan_libvlc_LibVLC_sendMouseEvent(JNIEnv* env, jobject thiz, j
     mouse_button = button;
 }
 
-void jni_getMouseCoordinates( int *button, int *x, int *y)
+void jni_getMouseCoordinates(int *button, int *x, int *y)
 {
     *x = mouse_x;
     *y = mouse_y;
