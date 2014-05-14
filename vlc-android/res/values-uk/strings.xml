@@ -172,7 +172,14 @@
     <string name="enable_black_theme_summary">Змінити кольори інтерфейсу для більшої зручності при поганому освітленні.</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="extra_prefs_category">Додаткове параметри</string>
-    <string name="interface_prefs_category">Інтерфейс</string>
+    <string name="interface_prefs_screen">Інтерфейс</string>
+    <string name="interface_secondary_display_category">Інтерфейс - Додатковий дисплей</string>
+    <string name="interface_secondary_display_category_summary">Установки при під\'єднанні додаткових дисплеїв (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Зберегти установку апаратного прискорення</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Апаратне прискорення може не працювати</string>
+    <string name="enable_clone_mode">Переважно клонувати</string>
+    <string name="enable_clone_mode_summary">Клонувати екран пристрою без дистанційного керування</string>
+    <string name="interface_other_category">Інтерфейс - Інше</string>
     <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
@@ -224,4 +231,9 @@
     <string name="dump_logcat">Викинути журнал logcat</string>
     <string name="dump_logcat_success">Logcat успішно викинули до %1$s!</string>
     <string name="dump_logcat_failure">Не вдалося викинути logcat.</string>
+    <string name="serious_crash">Несподівано трапилася серйозна помилка, тому VLC довелося закрити.</string>
+    <string name="help_us_send_log">Допомогти нам поліпшити VLC, відправивши журнал аварії:</string>
+    <string name="restart_vlc">Перезапустити VLC</string>
+    <string name="send_log">Надіслати журнал</string>
+    <string name="sending_log">Відправка журналу...</string>
 </resources>
