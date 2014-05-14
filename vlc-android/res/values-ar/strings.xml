@@ -193,7 +193,6 @@
     <string name="enable_black_theme_summary">غيّر ألوان الواجهة لراحة أفضل في أماكن ذات إضاءات ضعيفة.</string>
     <string name="subtitle_text_encoding">ترميز نص التّرجمة</string>
     <string name="extra_prefs_category">إعدادات إضافية</string>
-    <string name="interface_prefs_category">واجهة</string>
     <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
