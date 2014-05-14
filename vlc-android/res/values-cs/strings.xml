@@ -139,6 +139,7 @@
     <string name="search">Hledat</string>
     <string name="search_history">Historie hledání</string>
     <string name="hardware_acceleration_error_title">Chyba hardwarové akcelerace</string>
+    <string name="hardware_acceleration_error_message">Při běhu se zapnutou hardwarovou akcelerací nastala chyba. Přejete si ji zakázat a zkusit operaci znovu?</string>
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
     <string name="licence">Licence</string>
@@ -171,7 +172,6 @@
     <string name="enable_black_theme_summary">Změní barvy rozhraní pro vyšší pohodlí v prostředí s nižším osvětlením.</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
     <string name="extra_prefs_category">Další nastavení</string>
-    <string name="interface_prefs_category">Rozhraní</string>
     <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
