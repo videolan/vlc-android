@@ -25,6 +25,8 @@
     <string name="remove">Suprimeix</string>
     <string name="set_song">Estableix com a so del telèfon</string>
     <string name="info">Informació</string>
+    <string name="confirm_delete">Voleu suprimir el fitxer «%1$s»?</string>
+    <string name="ringtone_set">S\'ha establert el fitxer «%1$s» com a to de trucada.</string>
     <string name="ringtone_error">S\'ha produït un error en establir el to de trucada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">No mostris més aquest missatge.</string>
@@ -72,6 +74,7 @@
     <string name="directories">Directoris</string>
     <string name="loading">S\'està carregant</string>
     <string name="please_wait">Espereu…</string>
+    <string name="nomedia">No s\'ha trobat cap fitxer multimèdia. Transferiu fitxers al vostre dispositiu o ajusteu les preferències.</string>
     <string name="mediafiles">Fitxers multimèdia</string>
     <string name="notavailable">no disponible</string>
     <string name="nosubdirectory">No hi ha cap subdirectori.</string>
@@ -125,9 +128,11 @@
     <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):\n</string>
     <string name="encountered_error_title">Error de reproducció</string>
     <string name="encountered_error_message">VLC ha trobat un error en aquest suport. Si us plau, refresca la biblioteca multimèdia</string>
+    <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
     <string name="search">Cerca</string>
     <string name="search_history">Historial de cerca</string>
     <string name="hardware_acceleration_error_title">Error d\'acceleració de maquinari</string>
+    <string name="hardware_acceleration_error_message">S\'ha produït un error en l\'acceleració de maquinari. Voleu inhabilitar-la i provar de nou?</string>
     <!-- About -->
     <string name="app_name_full">VLC per a l\'Android™</string>
     <string name="licence">Llicència</string>
@@ -138,6 +143,7 @@
     <string name="vlc_authors">Autors del VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferències</string>
+    <string name="general_prefs_category">General</string>
     <string name="directories_summary">Selecciona els directoris a incloure a la biblioteca multimèdia</string>
     <string name="add_custom_path">Afegeix un camí personalitzat</string>
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
@@ -145,6 +151,8 @@
     <string name="hardware_acceleration">Acceleració per maquinari</string>
     <string name="hardware_acceleration_summary">Inhabilitat: millor estabilitat.\nDescodificació: pot millorar el rendiment.\nComplet: pot millorar encara més el rendiment.</string>
     <string name="hardware_acceleration_disabled">Inhabilitat</string>
+    <string name="hardware_acceleration_decoding">Acceleració de descodificació</string>
+    <string name="hardware_acceleration_full">Acceleració completa</string>
     <string name="automatic">Automàtic</string>
     <string name="screen_orientation">Orientació de la pantalla</string>
     <string name="screen_orientation_sensor">Automàtic (sensor)</string>
@@ -154,7 +162,9 @@
     <string name="screen_orientation_reverse_portrait">Vertical invers</string>
     <string name="screen_orientation_reverse_landscape">Horitzontal invers</string>
     <string name="enable_black_theme">Activa el tema fosc</string>
+    <string name="enable_black_theme_summary">Canvia els colors de la interfície per a un millor confort en llocs amb poca llum.</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
+    <string name="extra_prefs_category">Paràmetres extres</string>
     <string name="enable_brightness_gesture">Habilita els gestos de brillantor</string>
     <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
@@ -190,8 +200,10 @@
     <string name="media_db_cleared">S\'ha netejat la base de dades multimèdia</string>
     <string name="set_locale">Estableix la configuració local</string>
     <string name="set_locale_detail">Deixeu-ho en blanc per reiniciar-ho</string>
+    <string name="set_locale_popup">Tanqueu i reinicieu el VLC per a que els canvis tinguin efecte.</string>
     <string name="network_caching">Valor de memòria cau de la xarxa</string>
     <string name="network_caching_summary">La quantitat de temps que s\'emmagetzemarà l\'element multimèdia en xarxa (en ms). No funciona amb decodificació per maquinari. Deixeu-ho en blanc per reiniciar.</string>
+    <string name="developer_prefs_category">Desenvolupador</string>
     <string name="enable_verbose_mode">Detallat</string>
     <string name="enable_verbose_mode_summary">Incrementa la verbositat (logcat)</string>
     <string name="debug_logs">Depura els registres</string>
