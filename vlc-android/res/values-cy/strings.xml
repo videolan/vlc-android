@@ -179,7 +179,14 @@
     <string name="enable_black_theme_summary">Newidiwch liwiau\'r rhyngwyneb i fod yn fwy cyfforddus mewn amgylchedd heb lawer o olau.</string>
     <string name="subtitle_text_encoding">Amgodiad testun isdeitlau</string>
     <string name="extra_prefs_category">Gosodiadau ychwanegol</string>
-    <string name="interface_prefs_category">Rhyngwyneb</string>
+    <string name="interface_prefs_screen">Rhyngwyneb</string>
+    <string name="interface_secondary_display_category">Rhyngwyneb - Ail Ddangosydd</string>
+    <string name="interface_secondary_display_category_summary">Gosodiadau pan mae ail ddangosyddion wedi\'u cysylltu (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Cadw gosodiad cyflymiad caledwedd</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Mae\'n bosib na fydd cyflymiad caledwedd yn gweithio</string>
+    <string name="enable_clone_mode">Ffafrio clôn</string>
+    <string name="enable_clone_mode_summary">Clonio sgrin y ddyfais heb remote control.</string>
+    <string name="interface_other_category">Rhyngwyneb - Arall</string>
     <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
     <string name="enable_headset_detection">Canfod clustffonau</string>
@@ -231,4 +238,9 @@
     <string name="dump_logcat">Gympio log logcat</string>
     <string name="dump_logcat_success">Dympiwyd logcat i %1$s!</string>
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
+    <string name="serious_crash">Yn anffodus, mae gwall wedi achosi VLC i gau.</string>
+    <string name="help_us_send_log">Helpwch ni wella VLC gan anfon y log canlynol o\'r broblem:</string>
+    <string name="restart_vlc">Ail-ddechrau VLC</string>
+    <string name="send_log">Anfon y log</string>
+    <string name="sending_log">Yn anfon y log…</string>
 </resources>
