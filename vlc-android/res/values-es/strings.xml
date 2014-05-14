@@ -165,7 +165,14 @@
     <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para una mayor comodidad en entornos de poca luz.</string>
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="extra_prefs_category">Preferencias extra</string>
-    <string name="interface_prefs_category">Interfaz</string>
+    <string name="interface_prefs_screen">Interfaz</string>
+    <string name="interface_secondary_display_category">Interfaz - Pantalla secundaria</string>
+    <string name="interface_secondary_display_category_summary">Preferencias cuando son conectadas pantallas secundarias (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Mantener la preferencia de aceleración por hardware</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">La aceleración por hardware podría no funcionar</string>
+    <string name="enable_clone_mode">Preferir clonar</string>
+    <string name="enable_clone_mode_summary">Clonar la pantalla del dispositivo sin control remoto.</string>
+    <string name="interface_other_category">Interfaz - Otro</string>
     <string name="enable_brightness_gesture">Habilitar gesto de brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_headset_detection">Detectar auriculares</string>
@@ -174,7 +181,7 @@
     <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evitar conflictos robando el control remoto de otras aplicaciones. Esto previene llamar al hacer doble clic en teléfonos HTC.</string>
-    <string name="performance_prefs_category">Rendieminto</string>
+    <string name="performance_prefs_category">Rendimiento</string>
     <string name="chroma_format">Forzar croma</string>
     <string name="chroma_format_summary">RGB 32-bit: chroma por defecto\nRGB 16-bit: mejor rendimiento pero menor calidad\nYUV: el mejor rendimiento pero no funciona en todos los dispositivos. Solo Android 2.3 y posteriores.</string>
     <string name="deblocking">Preferencias del filtro de desbloqueo</string>
@@ -217,4 +224,6 @@
     <string name="dump_logcat">Volcar trazas logcat</string>
     <string name="dump_logcat_success">Logcat volcado correctamente a %1$s</string>
     <string name="dump_logcat_failure">Fallo al volcar logcat.</string>
+    <string name="serious_crash">Desafortunadamente, ha ocurrido un error grave  y VLC tuvo que cerrar.</string>
+    <string name="restart_vlc">Reiniciar VLC</string>
 </resources>
