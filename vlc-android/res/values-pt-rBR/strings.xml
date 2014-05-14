@@ -132,6 +132,7 @@
     <string name="search">Pesquisar</string>
     <string name="search_history">Histórico de pesquisas</string>
     <string name="hardware_acceleration_error_title">Erro na aceleração por hardware</string>
+    <string name="hardware_acceleration_error_message">Ocorreu um erro com o hardware de aceleração. Gostaria de desabilitá-lo e tentar novamente</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -164,7 +165,6 @@
     <string name="enable_black_theme_summary">Altera as cores da interface para melhorar o conforto em ambientes de pouca iluminação.</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="extra_prefs_category">Configurações extras</string>
-    <string name="interface_prefs_category">Interface</string>
     <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
