@@ -165,7 +165,14 @@
     <string name="enable_black_theme_summary">Ändert die Schnittstellen-Farben für eine bessere Annehmlichkeit in lichtschwachen Umgebungen.</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="extra_prefs_category">Extra-Einstellungen</string>
-    <string name="interface_prefs_category">Interface</string>
+    <string name="interface_prefs_screen">Schnittstelle</string>
+    <string name="interface_secondary_display_category">Schnittstelle - Zweiter Bildschirm</string>
+    <string name="interface_secondary_display_category_summary">Einstellungen für verbundenen zweiten Bildschirm (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Einstellung für die Hardwarebeschleunigung behalten</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardwarebeschleunigung funktioniert möglicherweise nicht</string>
+    <string name="enable_clone_mode">Klonen bevorzugen</string>
+    <string name="enable_clone_mode_summary">Klont den Gerätebildschirm ohne Fernbedienungsmöglichkeit.</string>
+    <string name="interface_other_category">Schnittstelle - Andere</string>
     <string name="enable_brightness_gesture">Helligkeitsgesten aktivieren</string>
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_headset_detection">Kopfhörer erkennen</string>
@@ -217,4 +224,9 @@
     <string name="dump_logcat">logcat-Protokoll erstellen</string>
     <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
+    <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
+    <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC durch das Übersenden des folgenden Fehlerberichtes:</string>
+    <string name="restart_vlc">VLC neu starten</string>
+    <string name="send_log">Sende Fehlerbericht</string>
+    <string name="sending_log">Sende Fehlerbericht...</string>
 </resources>
