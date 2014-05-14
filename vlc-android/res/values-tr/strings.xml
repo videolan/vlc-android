@@ -132,6 +132,7 @@
     <string name="search">Arama</string>
     <string name="search_history">Arama geçmişi</string>
     <string name="hardware_acceleration_error_title">Donanım hızlandırma hatası</string>
+    <string name="hardware_acceleration_error_message">Donanım hızlandırması kullanılırken bir hata oluştu. Devre dışı bırakarak yeniden denemek ister misiniz?</string>
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
     <string name="licence">Lisans</string>
@@ -164,7 +165,14 @@
     <string name="enable_black_theme_summary">Düşük ışıklı ortamlarda daha rahat kullanım için arayüz renklerini değiştirir.</string>
     <string name="subtitle_text_encoding">Altyazı metin kodlaması</string>
     <string name="extra_prefs_category">Ek ayarlar</string>
-    <string name="interface_prefs_category">Arayüz</string>
+    <string name="interface_prefs_screen">Arayüz</string>
+    <string name="interface_secondary_display_category">Arayüz - İkinci Ekran</string>
+    <string name="interface_secondary_display_category_summary">İkinci bir ekranın bağlandığı durumda (HDMI/Miracast) ayarlar.</string>
+    <string name="enable_secondary_display_hardware_acceleration">Donanım hızlandırması ayarı korunsun</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Donanım hızlandırması çalışmayabilir</string>
+    <string name="enable_clone_mode">Yineleme yeğlensin</string>
+    <string name="enable_clone_mode_summary">İkinci bir ekran bağlandığında uzaktan kumandayı kullanmadan aygıt ekranı ikinci ekrana yinelenir.</string>
+    <string name="interface_other_category">Arayüz - Diğer</string>
     <string name="enable_brightness_gesture">Parlaklık el hareketi kullanılsın</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
     <string name="enable_headset_detection">Kulaklık algılansın</string>
@@ -216,4 +224,9 @@
     <string name="dump_logcat">Logcat günlüğünü yazın</string>
     <string name="dump_logcat_success">Logcat %1$s dosyasına yazıldı!</string>
     <string name="dump_logcat_failure">Logcat yazılamadı.</string>
+    <string name="serious_crash">Malesef önemli bir hata oluştuğundan VLC kapatılacak.</string>
+    <string name="help_us_send_log">Aşağıdaki çökme günlüğünü göndererek VLC\'nin geliştirilmesinde bize yardımcı olun:</string>
+    <string name="restart_vlc">VLC yazılımını yeniden başlatın</string>
+    <string name="send_log">Günlüğü gönder</string>
+    <string name="sending_log">Günlük gönderiliyor...</string>
 </resources>
