@@ -139,6 +139,7 @@
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
     <string name="hardware_acceleration_error_title">Ошибка апп. ускорения</string>
+    <string name="hardware_acceleration_error_message">При использовании аппаратного ускорения произошла ошибка. Хотите отключить его и попробовать снова?</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
@@ -171,7 +172,6 @@
     <string name="enable_black_theme_summary">Изменить цвета интерфейса для большего комфорта при низкой освещённости.</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="extra_prefs_category">Доп. настройки</string>
-    <string name="interface_prefs_category">Интерфейс</string>
     <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
