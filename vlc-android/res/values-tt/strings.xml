@@ -158,7 +158,8 @@
     <string name="enable_black_theme_summary">Интерфейс төсен түбән яктылыкта күбрәк уңайлык булсын өчен үзгәртү.</string>
     <string name="subtitle_text_encoding">Субтитрлар тексты кодировкасы</string>
     <string name="extra_prefs_category">Өстәмә көйләү</string>
-    <string name="interface_prefs_category">Интерфейс</string>
+    <string name="interface_prefs_screen">Интерфейс</string>
+    <string name="interface_other_category">Интерфейс - Башкалар</string>
     <string name="enable_brightness_gesture">Ишарә белән яктылыкны үзгәртергә</string>
     <string name="enable_brightness_gesture_summary">Видео уйнатканда яктылык белән ишарә ярдәмендә идарә итү</string>
     <string name="enable_headset_detection">Гарнитураны күзәтү</string>
@@ -210,4 +211,7 @@
     <string name="dump_logcat">logcat журналын бушатыргаt</string>
     <string name="dump_logcat_success">logcat журналы уңышлы %1$s бушатылды!</string>
     <string name="dump_logcat_failure">logcat бушатып булмады.</string>
+    <string name="restart_vlc">VLC киредән кабызу</string>
+    <string name="send_log">Логны җибәрергә</string>
+    <string name="sending_log">Логны җибәрү...</string>
 </resources>
