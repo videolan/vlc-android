@@ -165,7 +165,14 @@
     <string name="enable_black_theme_summary">Αλλάξτε τα χρώματα διεπαφής για μεγαλύτερη άνεση σε περιβάλλοντα χαμηλού φωτισμού.</string>
     <string name="subtitle_text_encoding">Κωδικοποίηση κειμένου υποτίτλων</string>
     <string name="extra_prefs_category">Έξτρα επιλογές</string>
-    <string name="interface_prefs_category">Διεπαφή</string>
+    <string name="interface_prefs_screen">Διεπαφή</string>
+    <string name="interface_secondary_display_category">Διεπαφή - Δευτερεύουσα Οθόνη</string>
+    <string name="interface_secondary_display_category_summary">Επιλογές για όταν οι δευτερεύουσες οθόνες είναι συνδεμένες (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Κρατείστε την επιλογή για την επιτάχυνση υλικού</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Η επιτάχυνση υλικού μπορεί να μην δουλέψει</string>
+    <string name="enable_clone_mode">Προτίμηση του κλώνου</string>
+    <string name="enable_clone_mode_summary">Κλωνοποίηση της οθόνης της συσκευής χωρίς τηλεχειριστήριο.</string>
+    <string name="interface_other_category">Διεπαφή - \'Αλλο</string>
     <string name="enable_brightness_gesture">Ενεργοποίηση χειρονομιών φωτεινότητας </string>
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
@@ -217,4 +224,6 @@
     <string name="dump_logcat">Κατεκτύπωση καταγραφών logcat </string>
     <string name="dump_logcat_success">Επιτυχής κατεκτύπωση logcat στο %1$s!</string>
     <string name="dump_logcat_failure">Αποτυχία κατεκτύπωσης logcat.</string>
+    <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
+    <string name="restart_vlc">Επανεκκίνηση του VLC</string>
 </resources>
