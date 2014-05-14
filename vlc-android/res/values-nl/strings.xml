@@ -165,7 +165,14 @@
     <string name="enable_black_theme_summary">De interface-kleuren wijzigen voor een beter comfort in omgevingen met weinig licht.</string>
     <string name="subtitle_text_encoding">Ondertitel-tekstcodering</string>
     <string name="extra_prefs_category">Extra instellingen</string>
-    <string name="interface_prefs_category">Interface</string>
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category">Interface - secundair scherm</string>
+    <string name="interface_secondary_display_category_summary">Instellingen wanneer secundaire schermen verbonden zijn (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Instelling voor hardwareversnelling behouden</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardwareversnelling werkt misschien niet</string>
+    <string name="enable_clone_mode">Kloon verkiezen</string>
+    <string name="enable_clone_mode_summary">Apparaatscherm zonder afstandsbediening klonen.</string>
+    <string name="interface_other_category">Interface - andere</string>
     <string name="enable_brightness_gesture">Helderheidsgebaren inschakelen</string>
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
@@ -217,4 +224,9 @@
     <string name="dump_logcat">Logcat-log dumpen</string>
     <string name="dump_logcat_success">Logcat succesvol gedumpt naar %1$s!</string>
     <string name="dump_logcat_failure">Logcat dumpen mislukt.</string>
+    <string name="serious_crash">Er trad spijtig genoeg een ernstige fout op en VLC moest afsluiten.</string>
+    <string name="help_us_send_log">Help ons om VLC te verbeteren door de volgende crash-log te verzenden:</string>
+    <string name="restart_vlc">VLC opnieuw starten</string>
+    <string name="send_log">Log verzenden</string>
+    <string name="sending_log">Log verzenden...</string>
 </resources>
