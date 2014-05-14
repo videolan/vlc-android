@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
-    <string name="ok">確認</string>
+    <string name="ok">好</string>
     <string name="cancel">取消</string>
     <string name="other">其他</string>
-    <string name="filebrowser_title">選擇媒體以播放</string>
     <string name="sortby">依…排序</string>
     <string name="sortby_name">名稱</string>
     <string name="sortby_length">長度</string>
@@ -23,14 +21,16 @@
     <string name="append_all">全部添加</string>
     <string name="last_playlist">前次播放清單</string>
     <string name="delete">刪除</string>
+    <string name="remove">移除</string>
     <string name="set_song">設為鈴聲</string>
     <string name="info">資訊</string>
-    <string name="confirm_delete">刪除檔案 \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' 已經設為鈴聲</string>
+    <string name="confirm_delete">刪除檔案 \'%1$s\'?</string>
+    <string name="ringtone_set">\'%1$s\' 已經設為鈴聲。</string>
     <string name="ringtone_error">設為鈴聲時發生錯誤</string>
     <string name="pause">暫停</string>
     <string name="not_show_again">別再顯示此訊息</string>
     <string name="beta_warning">這是一個測試版本\n\n此版本尚不穩定！\n\n除非你知道你在做什麼，否則請勿使用。\n\n它可能會殺了你的小貓或毀了你的房子。\n\n請自行承擔風險\n\n祝你玩得愉快！ :)</string>
+    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">未知藝人</string>
     <string name="unknown_album">未知專輯</string>
     <string name="unknown_genre">未知類型</string>
@@ -48,6 +48,9 @@
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="other">%d 個媒體檔案</item>
+    </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="other">%d 影片</item>
     </plurals>
     <string name="internal_memory">內部記憶體</string>
     <string name="parent_folder">回到上一層目錄</string>
@@ -85,7 +88,7 @@
     <string name="surface_fill">填滿</string>
     <string name="surface_original">中央</string>
     <string name="thumbnail">縮圖</string>
-    <string name="unseekable_stream">非跳轉串流</string>
+    <string name="unseekable_stream">無法被搜尋的串流</string>
     <string name="refresh">重新整理</string>
     <string name="track_audio">音訊軌</string>
     <string name="track_video">視訊軌</string>
@@ -118,22 +121,31 @@
     <string name="error_message_is">錯誤訊息為 (請在除錯時陳述):\n</string>
     <string name="encountered_error_title">播放錯誤</string>
     <string name="encountered_error_message">VLC 在處理該媒體的時候遇到了錯誤。\n請試著重新整理媒體資料庫。</string>
-    <string name="invalid_location">位置 %1$s 無法被播放</string>
-
+    <string name="invalid_location">位置 %1$s 無法被播放。</string>
+    <string name="search">搜尋</string>
+    <string name="search_history">清除歷史</string>
+    <string name="hardware_acceleration_error_title">硬體加速失敗</string>
+    <string name="hardware_acceleration_error_message">使用硬體加速時發生錯誤。您是否取消並重試？</string>
     <!-- About -->
+    <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授權</string>
     <string name="revision">修訂</string>
     <string name="about">關於</string>
     <string name="about_text">VLC for Android™ 移植自VLC媒體播放器，是相當受歡迎的開源媒體播放器。此Android™版本可以讀取大部分的媒體檔案和網路串流。</string>
-
+    <string name="compiled_by">This version of VLC is compiled by:</string>
+    <string name="vlc_authors">VLC Authors.</string>
     <!-- Preferences -->
     <string name="preferences">偏好設定</string>
-    <string name="library_prefs_category">媒體庫</string>
+    <string name="general_prefs_category">一般</string>
     <string name="directories_summary">選擇目錄以增加到媒體庫</string>
     <string name="add_custom_path">增加自訂路徑</string>
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
-    <string name="main_prefs_category">主要</string>
+    <string name="hardware_acceleration">硬體加速</string>
+    <string name="hardware_acceleration_summary">關閉：更好的穩定性。\n解法：可能會改善效能。\n全選：可能會更進一步改善效能。</string>
+    <string name="hardware_acceleration_disabled">關閉</string>
+    <string name="hardware_acceleration_decoding">解碼加速</string>
+    <string name="hardware_acceleration_full">加速全開</string>
     <string name="automatic">自動</string>
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動化 (感應)</string>
@@ -142,42 +154,69 @@
     <string name="screen_orientation_landscape">橫式</string>
     <string name="screen_orientation_reverse_portrait">直向反轉</string>
     <string name="screen_orientation_reverse_landscape">橫向反轉</string>
+    <string name="enable_black_theme">啟用黑色主題</string>
+    <string name="enable_black_theme_summary">低光源環境時改變為更舒服之介面顏色。</string>
+    <string name="subtitle_text_encoding">字幕編碼</string>
+    <string name="extra_prefs_category">額外設定</string>
+    <string name="interface_prefs_screen">介面</string>
+    <string name="interface_secondary_display_category">介面 - 第二顯示器</string>
+    <string name="interface_secondary_display_category_summary">設定當第二顯示器連接時 (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">保持硬體加速設定</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">硬體加速可能無法使用</string>
+    <string name="enable_clone_mode">偏好複製品</string>
+    <string name="enable_clone_mode_summary">在沒有遠端控制之下複製設備螢幕</string>
+    <string name="interface_other_category">介面  - 其他</string>
     <string name="enable_brightness_gesture">啟用亮度手勢</string>
     <string name="enable_brightness_gesture_summary">播放視訊時以手勢控制亮度</string>
     <string name="enable_headset_detection">偵測耳機</string>
     <string name="enable_headset_detection_summary">耳機拔除時暫停、插入時繼續播放</string>
-    <string name="enable_wheel_bar">啟用飛輪列</string>
-    <string name="enable_wheel_bar_summary">在視頻介面使用原生風格的搜尋列</string>
+    <string name="enable_jump_buttons">啟用跳轉按鈕</string>
+    <string name="enable_jump_buttons_summary">在影片介面上顯示向前和向後按鈕</string>
     <string name="enable_steal_remote_control">專用耳機遙控</string>
     <string name="enable_steal_remote_control_summary">在使用其他 app 的遙控功能時避免衝突，這可以防止在 HTC 的手機上雙擊時撥號。</string>
     <string name="performance_prefs_category">效能</string>
     <string name="chroma_format">強制套用視頻色彩格式</string>
     <string name="chroma_format_summary">RGB 32-bit: 預設的色彩濃度\nRGB 16-bit: 較好的效能，但是品質較低\nYUV: 最佳效能，但僅能在Android 2.3版之後的裝置上運作</string>
-    <string name="enable_iomx">啟用硬體加速解碼</string>
-    <string name="enable_iomx_summary">增進效能，但非所有裝置皆適用。</string>
+    <string name="deblocking">去區塊濾波器設定</string>
+    <string name="deblocking_summary">變更去區塊濾波器設定。可以改善視訊品質。僅適用於進階使用者。</string>
+    <string name="deblocking_always">完整去區塊 (最慢)</string>
+    <string name="deblocking_nonref">中等去區塊</string>
+    <string name="deblocking_nonkey">少量去區塊</string>
+    <string name="deblocking_all">沒有去區塊 (最快)</string>
+    <string name="enable_frame_skip">啟用跳幀</string>
+    <string name="enable_frame_skip_summary">加快解碼，但可能會降低視訊品質。</string>
     <string name="enable_time_stretching_audio">啟用時間伸展音訊</string>
     <string name="enable_time_stretching_audio_summary">加速或減速音訊但不會改變音調 (需要較快的裝置)</string>
-    <string name="other_prefs_category">其他</string>
-    <string name="clear_history">清除搜尋歷史</string>
+    <string name="advanced_prefs_category">進階</string>
+    <string name="aout">音訊輸出</string>
+    <string name="aout_summary">改變VLC音訊輸出方式</string>
+    <string name="aout_audiotrack">音訊軌(原生)</string>
+    <string name="aout_audiotrack_java">音訊軌(Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="vout">視訊輸出</string>
+    <string name="vout_summary">改變VLC視訊輸出方式</string>
+    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">清除媒體資料庫</string>
+    <string name="clear_history">清除搜尋歷史</string>
     <string name="media_db_cleared">媒體資料庫已清除!</string>
-    <string name="subtitle_text_encoding">文字編碼</string>
+    <string name="set_locale">設定地區</string>
+    <string name="set_locale_detail">保持空白以重置</string>
+    <string name="set_locale_popup">離開並重置 VLC 以套用變更。</string>
+    <string name="network_caching">網路快取值</string>
+    <string name="network_caching_summary">緩衝網路媒體的時間(in ms)。沒有硬體解碼。留下空白以重置。</string>
+    <string name="developer_prefs_category">開發者</string>
+    <string name="enable_verbose_mode">Verbose</string>
+    <string name="enable_verbose_mode_summary">增加詳盡程度 (logcat)</string>
     <string name="debug_logs">除錯記錄</string>
     <string name="start_logging">開始記錄</string>
     <string name="stop_logging">停止記錄</string>
     <string name="clear_log">清除記錄</string>
     <string name="copy_to_clipboard">複製到剪貼簿</string>
     <string name="copied_to_clipboard">已複製記錄到剪貼簿</string>
-    <string name="advanced_prefs_category">進階</string>
-    <string name="advanced_debugging">進階除錯</string>
-    <string name="aout">音訊輸出</string>
-    <string name="aout_summary">改變VLC音訊輸出方式</string>
-    <string name="aout_audiotrack">AudioTrack (原生)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_verbose_mode_summary">增加詳盡程度 (logcat)</string>
-    <string name="set_locale">設定地區</string>
-    <string name="set_locale_detail">保持空白以重置</string>
-    <string name="set_locale_popup">離開並重置VLC以套用變更</string>
-    <string name="quit">離開應用程式</string>
+    <string name="quit">離開並重啟應用程式</string>
+    <string name="dump_logcat">轉存 logcat 紀錄檔</string>
+    <string name="dump_logcat_success">Logcat 成功轉存到 %1$s!</string>
+    <string name="dump_logcat_failure">轉存 logcat 失敗。</string>
+    <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，VLC 必須關閉。</string>
+    <string name="restart_vlc">重新啟動 VLC</string>
 </resources>
