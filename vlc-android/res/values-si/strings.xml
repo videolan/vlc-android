@@ -25,6 +25,8 @@
     <string name="remove">ඉවත් කරන්න</string>
     <string name="set_song">හඬනාදය ලෙස සකසන්න</string>
     <string name="info">තොරතුරු</string>
+    <string name="confirm_delete">\'%1$s\' ගොනුව මකා දමනවා ද?</string>
+    <string name="ringtone_set">\'%1$s\' ගොනුව නාද විලාසය වශයෙන් සකස් කරන ලදී.</string>
     <string name="ringtone_error">හඬනාදය සකසන අතරතුරදී දෝෂයක් හට ගැනුණි.</string>
     <string name="pause">විරාමය</string>
     <string name="not_show_again">මෙම පණිවුඩය නැවත පෙන්වන්න එපා.</string>
@@ -72,6 +74,7 @@
     <string name="directories">නාමාවලීන්</string>
     <string name="loading">පූරණය වෙමින්</string>
     <string name="please_wait">කරුණාකර රැඳෙන්න…</string>
+    <string name="nomedia">මාධ්‍ය ගොනු කිසිවක් හමු නොවුණි, කරුණාකර ගොනු කිහිපයක් ඔබේ උපාංගයට ඇතුල් කිරීම හෝ ඔබේ අභිරුචි සැකසීමක් සිදු කරන්න.</string>
     <string name="mediafiles">මාධ්‍ය ගොනු</string>
     <string name="notavailable">ලබාගත නොහැක</string>
     <string name="nosubdirectory">උපනාමාවලීන් නොමැත.</string>
@@ -125,19 +128,22 @@
     <string name="error_message_is">දෝෂ පණිවුඩය වනුයේ (කරුණාකර නිදොස්කරණයේදී මෙය සිහිපත් කරන්න):\n</string>
     <string name="encountered_error_title">පිළිවැයීම් දෝෂය</string>
     <string name="encountered_error_message">VLC හට මෙම මාධ්‍ය සමඟ දෝෂයක් හට ගනුණි.\nකරුණාකර මාධ්‍ය පුස්තකාලය ප්‍රබෝධවත් කිරීමට උත්සාහ කරන්න.</string>
+    <string name="invalid_location">%1$s ස්ථානය වාදනය කළ නොහැක.</string>
     <string name="search">සොයන්න</string>
     <string name="search_history">සෙවුම් ඉතිහාසය</string>
     <string name="hardware_acceleration_error_title">HW ත්වරණ දෝෂය</string>
+    <string name="hardware_acceleration_error_message">දෘඩාංග ත්වරණයෙදී දෝෂයක් හට ගැනිණි. එය ක්‍රියා විරහිත කර නැවත උත්සාහ කිරීමට ඔබ කැමති ද?</string>
     <!-- About -->
     <string name="app_name_full">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC</string>
     <string name="licence">බලපත්‍රය</string>
     <string name="revision">සංශෝධනය</string>
     <string name="about">මේ ගැන</string>
-    <string name="about_text">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC යනු ජනප්‍රිය විවෘත මූලාශ්‍ර මාධ්‍ය වාදකක් වන, VLC මාධ්‍ය වාදකයේ කවුළුවකි. ඇන්ඩ්‍රොයිඩ්™ අනුවදය හට බොහෝ ගොනු සහ ජාල දහරාවන් කියවීමට හැක.</string>
+    <string name="about_text">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC යනු ජනප්‍රිය විවෘත මූලාශ්‍ර මාධ්‍ය වාදකයක් වන, VLC මාධ්‍ය වාදකයේ කවුළුවකි. ඇන්ඩ්‍රොයිඩ්™ අනුවාදය හට බොහෝ ගොනු සහ ජාල දහරාවන් කියවීමට හැක. සිංහල පරිවර්තනය පසිඳු කවින්ද විසිනි.</string>
     <string name="compiled_by">VLC හී මෙම අනුවාදය සම්පාදන කරන ලද්දේ:</string>
     <string name="vlc_authors">VLC කතෘන්.</string>
     <!-- Preferences -->
     <string name="preferences">අභිරුචි</string>
+    <string name="general_prefs_category">ප්‍රධාන</string>
     <string name="directories_summary">මාධ්‍ය පුස්තකාලයේ අඩංගු විය යුතු ඩිරෙක්ටරියන් තෝරාගන්න</string>
     <string name="add_custom_path">රිසිකළ පෙතක් එක් කරන්න</string>
     <string name="add_custom_path_description">සුපිරික්සිම සඳහා අමතර රිසිකළ ඩිරෙක්ටරියක් යොදන්න:</string>
@@ -145,6 +151,8 @@
     <string name="hardware_acceleration">දෘඩාංග ත්වරණය</string>
     <string name="hardware_acceleration_summary">අක්‍රියයි: යහපත් ස්ථාවරත්වය.\nවිසංකේතීකරණය: ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.\nපූර්ණ: තවදුරටත් ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.</string>
     <string name="hardware_acceleration_disabled">අක්‍රියයි</string>
+    <string name="hardware_acceleration_decoding">විසංකේතීකරණ ත්වරණය</string>
+    <string name="hardware_acceleration_full">පූර්ණ ත්වරණය</string>
     <string name="automatic">ස්වයංක්‍රීය</string>
     <string name="screen_orientation">විදෘශ්‍ය තිරයේ දිශානතිය</string>
     <string name="screen_orientation_sensor">ස්වයංක්‍රීය (සංවේදකය)</string>
@@ -154,7 +162,11 @@
     <string name="screen_orientation_reverse_portrait">ප්‍රතිවර්ත පිළිරුව</string>
     <string name="screen_orientation_reverse_landscape">ප්‍රතිවර්ත භූදර්ශනය</string>
     <string name="enable_black_theme">කළු තේමාව සක්‍රිය කරන්න</string>
+    <string name="enable_black_theme_summary">අව ආලෝක තත්ත්වයන් හිදී දර්ශනය පහසුවීමට වීමට අතුරුමුහුණතෙහි වර්ණ වෙනස් කරන්න.</string>
     <string name="subtitle_text_encoding">උපසිරැසි පෙළ කේතීකරණය</string>
+    <string name="extra_prefs_category">අමතර සැකසුම්</string>
+    <string name="interface_prefs_screen">අතුරුමුහුණත</string>
+    <string name="interface_other_category">අතුරුමුහුණත් - වෙනත්</string>
     <string name="enable_brightness_gesture">බැබළීම් ඉංගිතය සක්‍රිය කරන්න</string>
     <string name="enable_brightness_gesture_summary">විදෘශ්‍ය පිළිවැයීම අතරතුරදී ඉංගිතිය මඟින් දීප්තිය පාලනය කරන්න</string>
     <string name="enable_headset_detection">ඉස් බණුව හඳුනා ගන්න</string>
@@ -190,8 +202,10 @@
     <string name="media_db_cleared">මාධ්‍ය දත්ත සංචිතය හිස් කෙරිණි!</string>
     <string name="set_locale">ස්ථානය සකසන්න</string>
     <string name="set_locale_detail">යළි සැකසීම සඳහා හිස්ව තබන්න</string>
+    <string name="set_locale_popup">වෙනස් කිරීම් බල පැවැත්වීමට VLC තුළින් ඉවත් වී නැවත අරඹන්න.</string>
     <string name="network_caching">ජාල කෑෂිත අගය</string>
     <string name="network_caching_summary">ජාලගත මාධ්‍ය අවරෝධක විමා ගතවන කාල ප්‍රමාණය (මිලිතත්පර වලින්). දෘඩාංග විසංකේතිකරණය සමඟ වැඩ නොකරයි. යළි සැකසීමට හිස්ව තබන්න.</string>
+    <string name="developer_prefs_category">සංවර්ධක</string>
     <string name="enable_verbose_mode">දිගින් දිගට කථාකරන</string>
     <string name="enable_verbose_mode_summary">වාග්බාහුල්‍යය වැඩි කරන්න (logcat)</string>
     <string name="debug_logs">දෝෂහරණ ලොග්</string>
@@ -204,4 +218,7 @@
     <string name="dump_logcat">logcat ලඝු නික්ෂේපය</string>
     <string name="dump_logcat_success">Logcat %1$s වෙත සාර්ථකව නික්ෂේප කෙරිණි!</string>
     <string name="dump_logcat_failure">logcat නික්ෂේප කිරීමට අසමත් විය.</string>
+    <string name="restart_vlc">VLC යළි අරඹන්න</string>
+    <string name="send_log">ලඝු සටහන යවන්න</string>
+    <string name="sending_log">ලඝු සටහන යවමින්...</string>
 </resources>
