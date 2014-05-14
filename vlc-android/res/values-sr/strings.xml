@@ -138,6 +138,8 @@
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
     <string name="search">Претражи</string>
     <string name="search_history">Историја претраге</string>
+    <string name="hardware_acceleration_error_title">Грешка у хардверском убрзању</string>
+    <string name="hardware_acceleration_error_message">Дошло је до грешке при хардверском убрзавању. Желите ли да га онемогућите и покушате поново?</string>
     <!-- About -->
     <string name="app_name_full">VLC за Android</string>
     <string name="licence">Лиценца</string>
@@ -154,7 +156,10 @@
     <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
     <string name="remove_custom_path">Уклони прилагођену путању</string>
     <string name="hardware_acceleration">Хардверско убрзање</string>
+    <string name="hardware_acceleration_summary">Онемогућено: боља стабилност.\nДекодирање: може побољшати перформансе.\nПуно: може додатно побољшати перформансе.</string>
     <string name="hardware_acceleration_disabled">Искључено</string>
+    <string name="hardware_acceleration_decoding">Убрзање декодирања</string>
+    <string name="hardware_acceleration_full">Пуно убрзање</string>
     <string name="automatic">Аутоматско</string>
     <string name="screen_orientation">Усмерење екрана</string>
     <string name="screen_orientation_sensor">Аутоматски (сензор)</string>
@@ -164,13 +169,14 @@
     <string name="screen_orientation_reverse_portrait">Обрнуто усправно</string>
     <string name="screen_orientation_reverse_landscape">Обрнуто положено</string>
     <string name="enable_black_theme">Омогући тамну тему</string>
+    <string name="enable_black_theme_summary">Промените боју интерфејса ради лакшег сналажења у окружењима ниског осветљења.</string>
     <string name="subtitle_text_encoding">Енкодирање текстуалних титлова</string>
-    <string name="extra_prefs_category">Додатна подешавања</string>
-    <string name="interface_prefs_category">Интерфејс</string>
+    <string name="extra_prefs_category">Додатне поставке</string>
     <string name="enable_brightness_gesture">Покрет за осветљење</string>
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
     <string name="enable_headset_detection_summary">Паузирај по уклањању слушалица; настави по убацивању</string>
+    <string name="enable_jump_buttons">Омогући дугмад за прескакање</string>
     <string name="enable_jump_buttons_summary">Прикажи типке за премотавање назад и напред на видео снимку</string>
     <string name="enable_steal_remote_control">Искључиво даљинско управљање слушалицама</string>
     <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Овим ћете спречити позивање двоструким додиром на HTC телефонима.</string>
@@ -195,6 +201,7 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Приказ видеа</string>
     <string name="vout_summary">Промени начин који ВЛЦ користи да прикаже видео</string>
+    <string name="vout_android_surface">Површина Android-а</string>
     <string name="clear_media_db">Очисти медијску базу</string>
     <string name="clear_history">Очисти историју претраге</string>
     <string name="media_db_cleared">Медијска база је очишћена.</string>
@@ -213,4 +220,7 @@
     <string name="copy_to_clipboard">Копирај</string>
     <string name="copied_to_clipboard">Евиденција је копирана.</string>
     <string name="quit">Изађи и поново покрени апликацију</string>
+    <string name="dump_logcat">Испиши logcat евиденцију</string>
+    <string name="dump_logcat_success">Logcat је успешно исписан у %1$s.</string>
+    <string name="dump_logcat_failure">Не могу да испишем logcat.</string>
 </resources>
