@@ -132,6 +132,7 @@
     <string name="search">Cerca</string>
     <string name="search_history">Cerca nella cronologia</string>
     <string name="hardware_acceleration_error_title">Errore accelerazione hardware</string>
+    <string name="hardware_acceleration_error_message">Si è verificato un errore con l\'accelerazione hardware Vuoi disabilitarla e prova ancora?</string>
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
     <string name="licence">Licenza</string>
@@ -164,7 +165,14 @@
     <string name="enable_black_theme_summary">Cambia i colori dell\'interfaccia per un migliore utilizzo in ambienti a bassa luminosità.</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="extra_prefs_category">Impostazioni aggiuntive</string>
-    <string name="interface_prefs_category">Interfaccia</string>
+    <string name="interface_prefs_screen">Interfaccia</string>
+    <string name="interface_secondary_display_category">Interfaccia- Display Secondario</string>
+    <string name="interface_secondary_display_category_summary">Impostazioni di un secondo display quando è collegato (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Mantenere la stessa impostazione di accelerazione hardware</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">L\' Accelerazione hardware potrebbe non funzionare</string>
+    <string name="enable_clone_mode">Preferenze clone</string>
+    <string name="enable_clone_mode_summary">Clona lo schermo del dispositivo senza telecomando.</string>
+    <string name="interface_other_category">Interfaccia - Altro</string>
     <string name="enable_brightness_gesture">Abilita i gesti di luminosità</string>
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_headset_detection">Rileva le cuffie</string>
@@ -216,4 +224,6 @@
     <string name="dump_logcat">Salva log logcat</string>
     <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
     <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
+    <string name="serious_crash">Purtroppo, si è verificato un errore grave e VLC si e\' chiuso in automatico.</string>
+    <string name="restart_vlc">Riavvia VLC</string>
 </resources>
