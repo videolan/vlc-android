@@ -172,7 +172,14 @@
     <string name="enable_black_theme_summary">Izmijenite boje interfejsa za bolji ugođaj u okruženjima sa slabim svjetlom.</string>
     <string name="subtitle_text_encoding">Kodiranje teksta podtitla</string>
     <string name="extra_prefs_category">Dodatne postavke</string>
-    <string name="interface_prefs_category">Okruženje</string>
+    <string name="interface_prefs_screen">Interfejs</string>
+    <string name="interface_secondary_display_category">Interfejs - Sekundarni Ekran</string>
+    <string name="interface_secondary_display_category_summary">Postavke kada su sekundardni ekrani povezani (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Sačuvaj postavku hardverskog ubrzanja</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardversko ubrzanje možda neće raditi</string>
+    <string name="enable_clone_mode">Preferiraj kloniranje</string>
+    <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
+    <string name="interface_other_category">Interfejs - Drugo</string>
     <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
@@ -224,4 +231,5 @@
     <string name="dump_logcat">Izbaci logcat zapis</string>
     <string name="dump_logcat_success">Logcat uspješno izbačen u %1$s!</string>
     <string name="dump_logcat_failure">Nije uspjelo izbacivanje logcat-a.</string>
+    <string name="restart_vlc">Ponovo Pokreni VLC</string>
 </resources>
