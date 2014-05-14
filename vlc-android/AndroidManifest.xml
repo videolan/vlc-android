@@ -121,6 +121,7 @@
                 <data android:mimeType="application/vnd.dvd*" />
                 <data android:mimeType="application/vnd.dolby*" />
                 <data android:mimeType="application/vnd.rn-realmedia*" />
+                <data android:mimeType="application/x-iso9660-image" />
                 <data android:mimeType="application/x-extension-mp4" />
                 <data android:mimeType="application/x-flac" />
                 <data android:mimeType="application/x-matroska" />
