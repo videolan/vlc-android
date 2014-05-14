@@ -179,7 +179,9 @@
     <string name="enable_black_theme_summary">Spremeni barve vmesnika za prijetnejše delo v slabše osvetljenih okoljih.</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="extra_prefs_category">Dodatne nastavitve</string>
-    <string name="interface_prefs_category">Vmesnik</string>
+    <string name="interface_prefs_screen">Vmesnik</string>
+    <string name="interface_secondary_display_category">Vmesnik - drugotni zaslon</string>
+    <string name="interface_other_category">Vmesnik - drugo</string>
     <string name="enable_brightness_gesture">Omogoči gesto za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
     <string name="enable_headset_detection">Zaznaj slušalke</string>
@@ -228,4 +230,5 @@
     <string name="copy_to_clipboard">Kopiraj na odložišče</string>
     <string name="copied_to_clipboard">Zapisnik kopiran na odložišče.</string>
     <string name="quit">Izhod in ponovni zagon programa</string>
+    <string name="restart_vlc">Ponovno zaženi VLC</string>
 </resources>
