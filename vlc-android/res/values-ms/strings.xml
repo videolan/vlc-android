@@ -29,7 +29,7 @@
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
     <string name="pause">Jeda</string>
     <string name="not_show_again">Jangan tunjuk mesej ini lagi.</string>
-    <string name="beta_warning">Ini adalah versi beta.\n\nVersi ini TIDAK STABIL!\n\nJANGAN guna, kecuali anda betul-betul tahu.\n\nPenggunaan perisian ini mungkin boleh membunuh kucing anda atau mebinasakan rumah anda.\n\nGunakan atas risiko sendiri\n\nSelamat Mencuba! :)</string>
+    <string name="beta_warning">Ini adalah versi beta.\n\nVersi ini TIDAK STABIL!\n\nJANGAN guna, kecuali anda betul-betul tahu.\n\nPenggunaan perisian ini mungkin boleh membunuh kucing anda atau mebinasakan rumah anda.\n\nGunakan atas risiko sendiri.\n\nSelamat Mencuba! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artis Tidak Diketahui</string>
     <string name="unknown_album">Album Tidak Diketahui</string>
@@ -120,14 +120,15 @@
     <string name="error_problem">Maaf, VLC untuk Android mengalami masalah memuatkan dan perlu ditutup.</string>
     <string name="error_message_is">Ralat mesej adalah (sila sebutkan ini ketika menyahpijat):\n</string>
     <string name="encountered_error_title">Ralat mainbalik</string>
-    <string name="encountered_error_message">VLC mengalami ralat dengan media ini.\nSila cuba segar  semula pustaka media.</string>
+    <string name="encountered_error_message">VLC mengalami ralat dengan media ini.\nSila cuba segar semula pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
     <string name="search">Gelintar</string>
     <string name="search_history">Gelintar sejarah</string>
     <string name="hardware_acceleration_error_title">Ralat pemecutan HW</string>
+    <string name="hardware_acceleration_error_message">Pemecutan HW menghadapi ralat. Anda mahu lumpuhkannya dan cuba lagi?</string>
     <!-- About -->
     <string name="app_name_full">VLC untuk Android™</string>
-    <string name="licence">Lesen\n</string>
+    <string name="licence">Lesen</string>
     <string name="revision">Revisi</string>
     <string name="about">Perihal</string>
     <string name="about_text">VLC untuk Android™ adalah port pemain media VLC, pemain media sumber terbuka yang popular. Versi Android™ boleh membaca kebanyakan fail dan strim rangkaian.</string>
@@ -157,7 +158,6 @@
     <string name="enable_black_theme_summary">Ubah warna antaramuka untuk kelihatan lebih baik dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="extra_prefs_category">Tetapan tambahan</string>
-    <string name="interface_prefs_category">Antaramuka</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
@@ -175,7 +175,7 @@
     <string name="deblocking_nonref">Menyahsekat sederhana</string>
     <string name="deblocking_nonkey">Menyahsekat rendah</string>
     <string name="deblocking_all">Tiada menyahsekat (terpantas)</string>
-    <string name="enable_frame_skip">Benarhkan langkau bingkai</string>
+    <string name="enable_frame_skip">Benarkan langkau bingkai</string>
     <string name="enable_frame_skip_summary">Percepatkan menyahkod tetapi menyebabkan kualiti video rendah.</string>
     <string name="enable_time_stretching_audio">Audio diregang-masa</string>
     <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
@@ -202,7 +202,7 @@
     <string name="debug_logs">Nyahpijat log</string>
     <string name="start_logging">Mula mengelog</string>
     <string name="stop_logging">Henti mengelog</string>
-    <string name="clear_log">Koosngkan log</string>
+    <string name="clear_log">Kosongkan log</string>
     <string name="copy_to_clipboard">Salin ke papan keratan</string>
     <string name="copied_to_clipboard">Log disalin ke papan keratan.</string>
     <string name="quit">Keluar dan mula semula aplikasi</string>
