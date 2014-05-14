@@ -158,7 +158,14 @@
     <string name="enable_black_theme_summary">저광량 환경에서 더 편한 색상의 인터페이스로 바꾸기</string>
     <string name="subtitle_text_encoding">자막 텍스트 인코딩</string>
     <string name="extra_prefs_category">추가 설정</string>
-    <string name="interface_prefs_category">인터페이스</string>
+    <string name="interface_prefs_screen">인터페이스</string>
+    <string name="interface_secondary_display_category">인터페이스 - 두번째 디스플레이</string>
+    <string name="interface_secondary_display_category_summary">두번째 디스플레이(HDMIG미라캐스트)를 연결했을 때의 설정</string>
+    <string name="enable_secondary_display_hardware_acceleration">하드웨어 가속 설정을 유지하기</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">하드웨어 가속이 동작하지 않는 듯 싶습니다</string>
+    <string name="enable_clone_mode">복제모드 우선사용</string>
+    <string name="enable_clone_mode_summary">원격 조정 없이 장치 화면을 복제합니다.</string>
+    <string name="interface_other_category">인터페이스 - 기타</string>
     <string name="enable_brightness_gesture">밝기 제스처 사용</string>
     <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스쳐로 밝기 조절하기</string>
     <string name="enable_headset_detection">헤드셋 감지</string>
@@ -210,4 +217,9 @@
     <string name="dump_logcat">logcat 로그 덤프하기</string>
     <string name="dump_logcat_success">Logcat이 %1$s에 성공적으로 덤프했습니다!</string>
     <string name="dump_logcat_failure">Logcat 덤프에 실패했습니다.</string>
+    <string name="serious_crash">불행하게도 VLC에 심각한 에러가 발생해서 종료해야 합니다.</string>
+    <string name="help_us_send_log">다음의 충돌 로그를 전송해서 VLC를 개선하도록 도와주세요:</string>
+    <string name="restart_vlc">VLC 재시작</string>
+    <string name="send_log">로그 전송하기</string>
+    <string name="sending_log">로그 전송 중...</string>
 </resources>
