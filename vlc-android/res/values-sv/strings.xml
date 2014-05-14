@@ -132,7 +132,7 @@
     <string name="search">Sök</string>
     <string name="search_history">Sökhistorik</string>
     <string name="hardware_acceleration_error_title">HV-accelerationsfel</string>
-    <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelerationen. Vill du inaktivera den och försöka igen?</string>
+    <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelereringen. Vill du inaktivera den och försöka igen?</string>
     <!-- About -->
     <string name="app_name_full">VLC för Android™</string>
     <string name="licence">Licens</string>
@@ -151,8 +151,8 @@
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Avaktiverad: bättre stabilitet.\nDekodning: kan förbättra prestandan.\nFull: kan förbättra prestandan ytterligare.</string>
     <string name="hardware_acceleration_disabled">Avaktiverad</string>
-    <string name="hardware_acceleration_decoding">Avkodningsacceleration</string>
-    <string name="hardware_acceleration_full">Full acceleration</string>
+    <string name="hardware_acceleration_decoding">Avkodningsaccelerering</string>
+    <string name="hardware_acceleration_full">Full accelerering</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skärmorientering för video</string>
     <string name="screen_orientation_sensor">Automatiskt (sensor)</string>
@@ -165,10 +165,17 @@
     <string name="enable_black_theme_summary">Ändra gränssnittets färger för bättre bekvämlighet i svagt upplysta miljöer.</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="extra_prefs_category">Extra inställningar</string>
-    <string name="interface_prefs_category">Gränssnitt</string>
+    <string name="interface_prefs_screen">Gränssnitt</string>
+    <string name="interface_secondary_display_category">Gränssnitt - Sekundär skärm</string>
+    <string name="interface_secondary_display_category_summary">Inställningar när sekundära skärmar är anslutna (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Behåll inställning för hårdvaruaccelerering</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hårdvaruaccelerering kanske inte fungerar</string>
+    <string name="enable_clone_mode">Föredra klon</string>
+    <string name="enable_clone_mode_summary">Klona enhetens skärm utan fjärrkontroll.</string>
+    <string name="interface_other_category">Gränssnitt - Övrigt</string>
     <string name="enable_brightness_gesture">Aktivera gest för ljusstyrka</string>
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
-    <string name="enable_headset_detection">Upptäck hörlurar</string>
+    <string name="enable_headset_detection">Identifiera hörlurar</string>
     <string name="enable_headset_detection_summary">Pausa är hörlurar tas bort; fortsätt när hörlurar ansluts</string>
     <string name="enable_jump_buttons">Aktivera knapp för att hoppa </string>
     <string name="enable_jump_buttons_summary">Visa knapparna Bakåt och Framåt på videogränssnittet</string>
@@ -183,7 +190,7 @@
     <string name="deblocking_nonref">Medelhög avblockering</string>
     <string name="deblocking_nonkey">Låg avblockering</string>
     <string name="deblocking_all">Ingen avblockering (snabbast)</string>
-    <string name="enable_frame_skip">Aktivera hoppa över ram</string>
+    <string name="enable_frame_skip">Aktivera hoppa över bildruta</string>
     <string name="enable_frame_skip_summary">Snabbar upp avkodningen men kan sänka videokvaliteten.</string>
     <string name="enable_time_stretching_audio">Tidsutsträckt ljud</string>
     <string name="enable_time_stretching_audio_summary">Höj och sänk ljudets hastighet utan att ändra tonläget (kräver en snabb enhet).</string>
@@ -217,4 +224,9 @@
     <string name="dump_logcat">Töm logcat-loggen</string>
     <string name="dump_logcat_success">Logcat tömdes till %1$s!</string>
     <string name="dump_logcat_failure">Misslyckades att tömma logcat.</string>
+    <string name="serious_crash">Tyvärr uppstod ett allvarligt fel och VLC blev tvungen att stängas ned.</string>
+    <string name="help_us_send_log">Hjälp oss att förbättra VLC genom att skicka följande kraschlogg:</string>
+    <string name="restart_vlc">Starta om VLC</string>
+    <string name="send_log">Skicka loggen</string>
+    <string name="sending_log">Skickar loggen...</string>
 </resources>
