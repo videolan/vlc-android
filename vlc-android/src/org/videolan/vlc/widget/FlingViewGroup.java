@@ -201,12 +201,10 @@ public class FlingViewGroup extends ViewGroup {
                 final VelocityTracker velocityTracker = mVelocityTracker;
                 velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                 int velocityX = (int) velocityTracker.getXVelocity();
-                ViewConfiguration config = ViewConfiguration.get(getContext());
-                final int slop = config.getScaledTouchSlop();
                 final float dx = x - mInitialMotionX;
                 final float dy = y - mInitialMotionY;
 
-                if (dx > 0 && mCurrentView == 0 && dx > slop) {
+                if (dx > 0 && mCurrentView == 0 && dx > mTouchSlop) {
                     if (mViewSwitchListener != null)
                         mViewSwitchListener.onBackSwitched();
                 } else if (velocityX > 1000 && mCurrentView > 0) {
@@ -225,7 +223,7 @@ public class FlingViewGroup extends ViewGroup {
 
                 if (mViewSwitchListener != null) {
                     mViewSwitchListener.onTouchUp();
-                    if (dx * dx + dy * dy < slop * slop)
+                    if (dx * dx + dy * dy < mTouchSlop * mTouchSlop)
                         mViewSwitchListener.onTouchClick();
                 }
 
