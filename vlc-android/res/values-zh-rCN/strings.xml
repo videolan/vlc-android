@@ -125,6 +125,7 @@
     <string name="search">搜索</string>
     <string name="search_history">搜索历史</string>
     <string name="hardware_acceleration_error_title">硬件加速错误</string>
+    <string name="hardware_acceleration_error_message">硬件加速发生错误。是否希望禁用它并尝试再次播放?</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授权许可</string>
@@ -157,7 +158,14 @@
     <string name="enable_black_theme_summary">更改界面颜色以在较暗环境获取更舒适的感受。</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="extra_prefs_category">附加设置</string>
-    <string name="interface_prefs_category">界面</string>
+    <string name="interface_prefs_screen">界面</string>
+    <string name="interface_secondary_display_category">界面 - 外置显示器</string>
+    <string name="interface_secondary_display_category_summary">连接外置显示器时 (HDMI/Miracast) 的设置项。</string>
+    <string name="enable_secondary_display_hardware_acceleration">保留硬件加速设置</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">硬件加速可能会失效</string>
+    <string name="enable_clone_mode">克隆优先</string>
+    <string name="enable_clone_mode_summary">克隆设备屏幕，而不启用远程控制。</string>
+    <string name="interface_other_category">界面 - 其他</string>
     <string name="enable_brightness_gesture">启用亮度手势</string>
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
     <string name="enable_headset_detection">启用耳机侦测</string>
@@ -209,4 +217,9 @@
     <string name="dump_logcat">logcat 日志转储</string>
     <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
     <string name="dump_logcat_failure">logcat 日志转储失败。</string>
+    <string name="serious_crash">糟糕，发生严重错误，VLC 不得不关闭。</string>
+    <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
+    <string name="restart_vlc">重新启动 VLC</string>
+    <string name="send_log">发送日志</string>
+    <string name="sending_log">正在发送日志…</string>
 </resources>
