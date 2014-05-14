@@ -172,7 +172,14 @@
     <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v prostredí so slabým osvetlením.</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="extra_prefs_category">Extra nastavenia</string>
-    <string name="interface_prefs_category">Rozhranie</string>
+    <string name="interface_prefs_screen">Rozhranie</string>
+    <string name="interface_secondary_display_category">Rozhranie – sekundárny displej</string>
+    <string name="interface_secondary_display_category_summary">Nastavenia pri pripojení sekundárnych displejov (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Zachovať nastavenie HW akcelerácie</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">HW akcelerácia možno nebude fungovať</string>
+    <string name="enable_clone_mode">Uprednostniť klonovanie</string>
+    <string name="enable_clone_mode_summary">Klonovať obrazovku zariadenia bez diaľkového ovládania.</string>
+    <string name="interface_other_category">Rozhranie – Iné</string>
     <string name="enable_brightness_gesture">Zapnúť gesto pre jas</string>
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_headset_detection">Detegovať headset</string>
@@ -224,4 +231,6 @@
     <string name="dump_logcat">Analyzovať záznam logcat</string>
     <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
     <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
+    <string name="serious_crash">Bohužiaľ nastala závažná chyba a VLC bolo nutné ukončiť.</string>
+    <string name="restart_vlc">Reštartovať VLC</string>
 </resources>
