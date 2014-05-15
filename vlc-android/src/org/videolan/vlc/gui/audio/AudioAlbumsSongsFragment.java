@@ -132,8 +132,8 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
         mTabHost.setup();
 
-        addNewTab(mTabHost, "albums", "Albums");
-        addNewTab(mTabHost, "songs", "Songs");
+        addNewTab(mTabHost, "albums", v.getResources().getString(R.string.albums));
+        addNewTab(mTabHost, "songs", v.getResources().getString(R.string.songs));
 
         mTabHost.setCurrentTab(mCurrentTab);
         mFlingViewGroup.snapToScreen(mCurrentTab);
