@@ -58,7 +58,8 @@ public class NativeCrashActivity extends Activity {
             @Override
             public void onClick(View v) {
                 AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
-                asyncHttpRequest.execute(Build.MODEL, Build.DEVICE, mLog);
+                asyncHttpRequest.execute(Build.BRAND, Build.MANUFACTURER, Build.PRODUCT, Build.MODEL,
+                                         Build.DEVICE, Build.VERSION.RELEASE, mLog);
             }
         });
 
@@ -104,8 +105,10 @@ public class NativeCrashActivity extends Activity {
             HttpPost httpPost = new HttpPost("http://people.videolan.org/~magsoft/vlc-android_crashes/upload_crash_log.php");
 
             try {
-                httpPost.setEntity(new ByteArrayEntity(
-                        compress(params[0] + "\n" + params[1] + "\n" + params[2])));
+                String msg = "";
+                for (int i = 0; i < params.length; ++i)
+                    msg += params[i] + "\n";
+                httpPost.setEntity(new ByteArrayEntity(compress(msg)));
                 httpClient.execute(httpPost);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
