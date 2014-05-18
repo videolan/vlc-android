@@ -291,9 +291,9 @@ public class AudioBrowserListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = 0;
+        int viewType = VIEW_MEDIA;
         if (mItems.get(position).mIsSeparator)
-            viewType = 1;
+            viewType = VIEW_SEPARATOR;
         return viewType;
     }
 
