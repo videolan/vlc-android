@@ -316,16 +316,12 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
         mSongsAdapter.clear();
 
         Collections.sort(mediaList, MediaComparators.byAlbum);
-        String lastAlbumName = new String();
 
         for (int i = 0; i < mediaList.size(); ++i) {
             Media media = mediaList.get(i);
+            mAlbumsAdapter.addSeparator(media.getArtist(), media);
             mAlbumsAdapter.add(media.getAlbum(), null, media);
-
-            if (!lastAlbumName.equals(media.getAlbum())) {
-                mSongsAdapter.addSeparator(media.getAlbum());
-                lastAlbumName = media.getAlbum();
-            }
+            mSongsAdapter.addSeparator(media.getAlbum(), media);
             mSongsAdapter.add(media.getTitle(), null, media);
         }
     }
