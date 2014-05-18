@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.videolan.vlc.BitmapCache;
@@ -105,7 +106,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
 
         for (int i = 0; i < mItems.size(); ++i) {
             String title = mItems.get(i).mTitle;
-            char firstChar = title.toUpperCase().charAt(0);
+            char firstChar = title.toUpperCase(Locale.ENGLISH).charAt(0);
 
             if (Character.isLetter(firstChar)) {
                 if (firstSeparator || firstChar != prevFirstChar) {
