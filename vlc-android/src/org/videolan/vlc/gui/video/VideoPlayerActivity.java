@@ -1526,7 +1526,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.d(TAG, "Pixel format is YV12");
             else
                 Log.d(TAG, "Pixel format is other/unknown");
-            mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this);
+            if(holder != null)
+                mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this);
         }
 
         @Override
