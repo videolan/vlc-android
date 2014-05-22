@@ -269,10 +269,12 @@ if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
     TARGET="vlc-android/obj/local/armeabi-v7a/libvlcjni.so"
 else
     CLEAN="distclean"
-    echo "Bootstraping"
-    ../bootstrap
-    echo "Configuring"
-    ${ANDROID_PATH}/configure.sh $OPTS
+    if [ ! -f ../configure ]; then
+        echo "Bootstraping"
+        ../bootstrap
+        echo "Configuring"
+        ${ANDROID_PATH}/configure.sh $OPTS
+    fi
     TARGET=
 fi
 
