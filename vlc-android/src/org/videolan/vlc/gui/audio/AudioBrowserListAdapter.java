@@ -132,6 +132,8 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     }
 
     public void addSeparator(String title, Media media) {
+        if(title == null) return;
+        title = title.trim();
         if (mSeparatorItemMap.containsKey(title))
             mSeparatorItemMap.get(title).mMediaList.add(media);
         else {
