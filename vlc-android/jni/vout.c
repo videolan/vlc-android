@@ -169,19 +169,22 @@ void Java_org_videolan_libvlc_LibVLC_detachSubtitlesSurface(JNIEnv *env, jobject
 static int mouse_x = -1;
 static int mouse_y = -1;
 static int mouse_button = -1;
+static int mouse_action = -1;
 
-void Java_org_videolan_libvlc_LibVLC_sendMouseEvent(JNIEnv* env, jobject thiz, jint button, jint x, jint y)
+void Java_org_videolan_libvlc_LibVLC_sendMouseEvent(JNIEnv* env, jobject thiz, jint action, jint button, jint x, jint y)
 {
     mouse_x = x;
     mouse_y = y;
     mouse_button = button;
+    mouse_action = action;
 }
 
-void jni_getMouseCoordinates(int *button, int *x, int *y)
+void jni_getMouseCoordinates(int *action, int *button, int *x, int *y)
 {
     *x = mouse_x;
     *y = mouse_y;
     *button = mouse_button;
+    *action = mouse_action;
 
-    mouse_button = mouse_x = mouse_y = -1;
+    mouse_button = mouse_action = mouse_x = mouse_y = -1;
 }

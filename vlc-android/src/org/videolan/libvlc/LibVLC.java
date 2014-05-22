@@ -639,7 +639,7 @@ public class LibVLC {
 
     public static native String nativeToURI(String path);
     
-    public native static void sendMouseEvent( int button, int x, int y);
+    public native static void sendMouseEvent( int action, int button, int x, int y);
 
     /**
      * Quickly converts path to URIs, which are mandatory in libVLC.

@@ -1139,6 +1139,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         float coef = Math.abs (y_changed / x_changed);
         float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
 
+        /* Offset for Mouse Events */
+        int[] offset = new int[2];
+        mSurface.getLocationOnScreen(offset);
+        int xTouch = Math.round((event.getRawX() - offset[0]) * mVideoWidth / mSurface.getWidth());
+        int yTouch = Math.round((event.getRawY() - offset[1]) * mVideoHeight / mSurface.getHeight());
+
         switch (event.getAction()) {
 
         case MotionEvent.ACTION_DOWN:
@@ -1148,15 +1154,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mTouchAction = TOUCH_NONE;
             // Seek
             mTouchX = event.getRawX();
-            // Click DVD menus
-            int[] offset = new int[2];
-            mSurface.getLocationOnScreen(offset);
-            LibVLC.sendMouseEvent(0,
-                    Math.round((mTouchX - offset[0]) * mVideoWidth / mSurface.getWidth()),
-                    Math.round((mTouchY - offset[1]) * mVideoHeight / mSurface.getHeight()));
+            // Mouse events for the core
+            LibVLC.sendMouseEvent(MotionEvent.ACTION_DOWN, 0, xTouch, yTouch);
             break;
 
         case MotionEvent.ACTION_MOVE:
+            // Mouse events for the core
+            LibVLC.sendMouseEvent(MotionEvent.ACTION_MOVE, 0, xTouch, yTouch);
+
             // No volume/brightness action if coef < 2 or a secondary display is connected
             //TODO : Volume action when a secondary display is connected
             if (coef > 2 && mPresentation == null) {
@@ -1180,6 +1185,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             break;
 
         case MotionEvent.ACTION_UP:
+            // Mouse events for the core
+            LibVLC.sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
+
             // Audio or Brightness
             if ( mTouchAction == TOUCH_NONE) {
                 if (!mShowing) {
