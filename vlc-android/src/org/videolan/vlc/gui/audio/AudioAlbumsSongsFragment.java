@@ -216,11 +216,14 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.audio_list_browser, menu);
-        setContextMenuItems(menu, v);
+        int position = 0;
+        if (menuInfo instanceof AdapterContextMenuInfo)
+            position = ((AdapterContextMenuInfo)menuInfo).position;
+        setContextMenuItems(menu, v, position);
     }
 
-    private void setContextMenuItems(Menu menu, View v) {
-        if (v.getId() != R.id.songs) {
+    private void setContextMenuItems(Menu menu, View v, int position) {
+        if (mTabHost.getCurrentTabTag() != "songs" || mSongsAdapter.getItem(position).mIsSeparator) {
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
         }
@@ -356,7 +359,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
             PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
             popupMenu.getMenuInflater().inflate(R.menu.audio_list_browser, popupMenu.getMenu());
-            setContextMenuItems(popupMenu.getMenu(), anchor);
+            setContextMenuItems(popupMenu.getMenu(), anchor, position);
 
             popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                 @Override
