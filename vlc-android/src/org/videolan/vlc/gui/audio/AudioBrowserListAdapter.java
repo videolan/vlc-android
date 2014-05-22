@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.videolan.vlc.BitmapCache;
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.R;
 
 import android.content.Context;
@@ -90,6 +90,9 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     }
 
     public void add(String title, String subTitle, Media media) {
+        if(title == null) return;
+        title = title.trim();
+        if(subTitle != null) subTitle = subTitle.trim();
         if (mMediaItemMap.containsKey(title))
             mMediaItemMap.get(title).mMediaList.add(media);
         else {
