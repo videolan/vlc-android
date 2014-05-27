@@ -199,4 +199,15 @@
       <item name="ic_down_style">@drawable/ic_down_w</item>
       <item name="ic_up_style">@drawable/ic_up_w</item>
     </style>
+
+    <!-- Tips Apearance-->
+
+    <style name="TipsFontStyle">
+      <item name="android:textColor">@color/darkerorange</item>
+      <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TipsFontStyle.Small" parent="TipsFontStyle">
+      <item name="android:textSize">10sp</item>
+    </style>
 </resources>

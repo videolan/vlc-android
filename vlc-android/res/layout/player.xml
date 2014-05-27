@@ -7,7 +7,6 @@
      the double FrameLayout is necessary here to do cropping on the bottom right
      (which requires the surface not be centered), while keeping the result centered
     -->
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,6 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" >
+
+        <include
+            android:id="@+id/player_overlay_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/player_tips" />
 
         <ImageButton
             android:id="@+id/player_overlay_play"
@@ -117,7 +122,7 @@
             android:layout_above="@+id/progress_overlay"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/player_overlay_header"
-            android:gravity="bottom|center_horizontal"
+            android:gravity="bottom|right"
             android:orientation="vertical"
             android:visibility="invisible" >
 

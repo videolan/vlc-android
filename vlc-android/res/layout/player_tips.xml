@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent_gray"
+    android:clickable="true"
+    android:onClick="onClickOverlayTips" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="4" >
+
+        <TextView
+            style="@style/TipsFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="@string/video_player_tips"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <TextView
+                style="@style/TipsFontStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
+                android:gravity="center"
+                android:text="@string/brightness" />
+
+            <TextView
+                style="@style/TipsFontStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
+                android:gravity="center"
+                android:text="@string/volume" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TipsFontStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top"
+            android:drawableBottom="@drawable/ic_gesture_swipe_horizontally"
+            android:gravity="center"
+            android:text="@string/seek" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/player_tips_progress"
+            android:layout_alignParentRight="true" >
+
+            <ImageView
+                android:id="@+id/player_tips_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/player_tips_audio"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_subtitle_circle" />
+
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/player_tips_subtitle"
+                android:layout_marginTop="-6dp"
+                android:paddingRight="5dp"
+                android:text="@string/subtitles" />
+
+            <ImageView
+                android:id="@+id/player_tips_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/player_tips_size"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_audio_circle" />
+
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/player_tips_audio"
+                android:layout_marginTop="-6dp"
+                android:paddingRight="5dp"
+                android:text="@string/track_audio" />
+
+            <ImageView
+                android:id="@+id/player_tips_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_crop_circle" />
+
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/player_tips_size"
+                android:layout_marginTop="-6dp"
+                android:paddingRight="5dp"
+                android:text="@string/resize" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/player_tips_progress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/video_player_overlay"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <ImageView
+                android:id="@+id/player_tips_lock"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_lock" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/dots"
+                android:onClick="showAdvancedOptions" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/player_tips_lock"
+                android:background="@drawable/button_oval"
+                android:clickable="true"
+                android:onClick="onClickDismissTips"
+                android:paddingLeft="5dp"
+                android:text="@string/ok_got_it"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/TipsFontStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/player_tips_progress"
+            android:layout_marginTop="-6dp"
+            android:paddingRight="5dp"
+            android:text="@string/options" />
+
+        <TextView
+            style="@style/TipsFontStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/player_tips_progress"
+            android:layout_marginTop="-6dp"
+            android:paddingLeft="5dp"
+            android:text="@string/lock" />
+    </RelativeLayout>
+
+</RelativeLayout>

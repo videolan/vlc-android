@@ -160,6 +160,15 @@
     <string name="hardware_acceleration_error_title">HW acceleration error</string>
     <string name="hardware_acceleration_error_message">An error occurred with hardware acceleration. Would you like to disable it and try again?</string>
 
+    <!-- Tips -->
+    <string name="video_player_tips">Video player tips:</string>
+    <string name="seek">Seek</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="resize">Resize</string>
+    <string name="options">Options</string>
+    <string name="lock">Lock</string>
+    <string name="ok_got_it">Got it, dismiss this</string>
+
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">License</string>
@@ -447,5 +456,4 @@
     <string-array name="vouts_froyo">
         <item >@string/vout_android_surface</item>
     </string-array>
-
 </resources>

@@ -65,6 +65,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -135,6 +136,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private static final int SURFACE_4_3 = 5;
     private static final int SURFACE_ORIGINAL = 6;
     private int mCurrentSize = SURFACE_BEST_FIT;
+
+    private SharedPreferences mSettings;
 
     /** Overlay */
     private View mOverlayHeader;
@@ -227,6 +230,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private boolean mDisabledHardwareAcceleration = false;
     private int mPreviousHardwareAccelerationMode;
 
+    // Tips
+    private View mOverlayTips;
+    private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,9 +255,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
 
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mEnableCloneMode = pref.getBoolean("enable_clone_mode", false);
+        mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
         createPresentation();
         setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
@@ -290,11 +297,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
 
-        mEnableBrightnessGesture = pref.getBoolean("enable_brightness_gesture", true);
+        mEnableBrightnessGesture = mSettings.getBoolean("enable_brightness_gesture", true);
         mScreenOrientation = Integer.valueOf(
-                pref.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
+                mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
-        mEnableJumpButtons = pref.getBoolean("enable_jump_buttons", false);
+        mEnableJumpButtons = mSettings.getBoolean("enable_jump_buttons", false);
         mPlayPause = (ImageButton) findViewById(R.id.player_overlay_play);
         mPlayPause.setOnClickListener(mPlayPauseListener);
         mBackward = (ImageButton) findViewById(R.id.player_overlay_backward);
@@ -318,7 +325,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
-        String chroma = pref.getString("chroma_format", "");
+        String chroma = mSettings.getString("chroma_format", "");
         if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
             mSurfaceHolder.setFormat(ImageFormat.YV12);
         } else if (chroma.equals("RV16")) {
@@ -372,7 +379,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             return;
         }
 
-        if (mPresentation != null && !pref.getBoolean("enable_secondary_display_hardware_acceleration", false)) {
+        if (mPresentation != null && !mSettings.getBoolean("enable_secondary_display_hardware_acceleration", false)) {
             mDisabledHardwareAcceleration = true;
             mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
             mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
@@ -392,13 +399,24 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        // 100 is the value for screen_orientation_start_lock
-        if (mPresentation == null)
+        // Extra initialization when no secondary display is detected
+        if (mPresentation == null) {
+            // Orientation
+            // 100 is the value for screen_orientation_start_lock
             setRequestedOrientation(mScreenOrientation != 100
                     ? mScreenOrientation
                     : getScreenOrientation());
-        else
+            // Tips
+            mOverlayTips = findViewById(R.id.player_overlay_tips);
+            if(mSettings.getBoolean(PREF_TIPS_SHOWN, false))
+                mOverlayTips.setVisibility(View.GONE);
+            else {
+                mOverlayTips.bringToFront();
+                mOverlayTips.invalidate();
+            }
+        } else
             setRequestedOrientation(getScreenOrientation());
+
     }
 
     @Override
@@ -1604,12 +1622,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
+            mOverlayTips.setVisibility(View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
                 mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                //mOverlayTips.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -2154,4 +2174,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mLoading.clearAnimation();
         mLoadingText.setVisibility(View.GONE);
     }
+
+    public void onClickOverlayTips(View v) {
+        mOverlayTips.setVisibility(View.GONE);
+    }
+
+    public void onClickDismissTips(View v) {
+        mOverlayTips.setVisibility(View.GONE);
+        Editor editor = mSettings.edit();
+        editor.putBoolean(PREF_TIPS_SHOWN, true);
+        editor.commit();
+    }
+
 }

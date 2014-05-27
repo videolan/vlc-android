@@ -225,4 +225,14 @@
     <string name="dump_logcat">Sauvegarder le fichier journal logcat</string>
     <string name="dump_logcat_success">Logcat sauvegardé avec succès dans %1$s !</string>
     <string name="dump_logcat_failure">Échec de sauvegarde du logcat.</string>
+
+<!-- Tips -->
+    <string name="video_player_tips">Astuces du lecteur vidéo</string>
+    <string name="seek">Recherche</string>
+    <string name="subtitles">Sous-titres</string>
+    <string name="resize">Ajuster l\'image</string>
+    <string name="options">Options</string>
+    <string name="lock">Vérouiller</string>
+    <string name="ok_got_it">J\'ai compris</string>
+
 </resources>
