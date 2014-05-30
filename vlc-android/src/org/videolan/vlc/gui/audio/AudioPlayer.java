@@ -42,6 +42,7 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -177,18 +178,18 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
                 return true;
             }
         });
-        mNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNextClick(v);
-            }
-        });
-        mPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPreviousClick(v);
-            }
-        });
+        boolean blackTheme = PreferenceManager.getDefaultSharedPreferences(
+                getActivity()).getBoolean("enable_black_theme", false);
+        mNext.setOnTouchListener(new LongSeekListener(true,
+                blackTheme ? R.drawable.ic_next_normal_w
+                        : R.drawable.ic_next_normal,
+                blackTheme ? R.drawable.ic_next_pressed_w
+                        : R.drawable.ic_next_pressed));
+        mPrevious.setOnTouchListener(new LongSeekListener(false,
+                blackTheme ? R.drawable.ic_previous_normal_w
+                        : R.drawable.ic_previous_normal,
+                blackTheme ? R.drawable.ic_previous_pressed_w
+                        : R.drawable.ic_previous_pressed));
         mShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
