@@ -41,6 +41,7 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -48,6 +49,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -86,6 +88,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
     private AudioServiceController mAudioController;
     private boolean mShowRemainingTime = false;
+    private boolean mPreviewingSeek = false;
 
     private AudioPlaylistAdapter mSongsListAdapter;
 
@@ -360,13 +363,17 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     public synchronized void updateProgress() {
         int time = mAudioController.getTime();
         int length = mAudioController.getLength();
-        mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
+
         mHeaderTime.setText(Util.millisToString(time));
         mLength.setText(Util.millisToString(length));
         mTimeline.setMax(length);
-        mTimeline.setProgress(time);
         mProgressBar.setMax(length);
-        mProgressBar.setProgress(time);
+
+        if(!mPreviewingSeek) {
+            mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
+            mTimeline.setProgress(time);
+            mProgressBar.setProgress(time);
+        }
     }
 
     private void updateList() {
@@ -563,4 +570,84 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         public void onTouchClick() {}
     };
 
+    class LongSeekListener implements View.OnTouchListener {
+        boolean forward;
+        int normal, pressed;
+
+        public LongSeekListener(boolean forwards, int normalRes, int pressedRes) {
+            this.forward = forwards;
+            this.normal = normalRes;
+            this.pressed = pressedRes;
+        }
+
+        int possibleSeek;
+        boolean vibrated;
+        Runnable seekRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if(!vibrated) {
+                    ((android.os.Vibrator) AudioPlayer.this.getActivity()
+                            .getSystemService(Context.VIBRATOR_SERVICE))
+                            .vibrate(80);
+                    ;
+                    vibrated = true;
+                }
+
+                if(forward)
+                    possibleSeek += 4000;
+                else {
+                    if(possibleSeek > 4000)
+                        possibleSeek -= 4000;
+                    else if(possibleSeek <= 4000)
+                        possibleSeek = 0;
+                }
+
+                mTime.setText(Util.millisToString(mShowRemainingTime ? possibleSeek-mAudioController.getLength() : possibleSeek));
+                mTimeline.setProgress(possibleSeek);
+                mProgressBar.setProgress(possibleSeek);
+                h.postDelayed(seekRunnable, 50);
+            }
+        };
+        Handler h = new Handler();
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                (forward ? mNext : mPrevious).setImageResource(this.pressed);
+
+                possibleSeek = mAudioController.getTime();
+                mPreviewingSeek = true;
+                vibrated = false;
+
+                h.postDelayed(seekRunnable, 1000);
+                return true;
+
+            case MotionEvent.ACTION_UP:
+                (forward ? mNext : mPrevious).setImageResource(this.normal);
+                h.removeCallbacks(seekRunnable);
+                mPreviewingSeek = false;
+
+                if(event.getEventTime()-event.getDownTime() < 1000) {
+                    if(forward)
+                        onNextClick(v);
+                    else
+                        onPreviousClick(v);
+                } else {
+                    if(forward) {
+                        if(possibleSeek < mAudioController.getLength())
+                            mAudioController.setTime(possibleSeek);
+                        else
+                            onNextClick(v);
+                    } else {
+                        if(possibleSeek > 0)
+                            mAudioController.setTime(possibleSeek);
+                        else
+                            onPreviousClick(v);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+    }
 }
