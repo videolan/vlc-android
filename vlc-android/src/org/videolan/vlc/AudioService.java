@@ -454,6 +454,7 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
                     service.executeUpdateProgress();
+                    service.determinePrevAndNextIndices();
                     service.next();
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
