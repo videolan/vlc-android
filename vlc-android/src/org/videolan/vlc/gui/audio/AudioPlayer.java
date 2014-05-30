@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioMiniPlayer.java
+ * AudioPlayer.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class AudioPlayer extends Fragment implements IAudioPlayer {
-    public static final String TAG = "VLC/AudioMiniPlayer";
+    public static final String TAG = "VLC/AudioPlayer";
 
     private ProgressBar mProgressBar;
     private HeaderMediaSwitcher mHeaderMediaSwitcher;
