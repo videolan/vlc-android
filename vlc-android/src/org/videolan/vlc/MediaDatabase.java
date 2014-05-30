@@ -499,8 +499,13 @@ public class MediaDatabase {
         if (cursor.moveToFirst()) {
             blob = cursor.getBlob(0);
             if (blob != null && blob.length > 1 && blob.length < 500000) {
-                picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
-                blob = null;
+                try {
+                    picture = BitmapFactory.decodeByteArray(blob, 0, blob.length);
+                } catch(OutOfMemoryError e) {
+                    picture = null;
+                } finally {
+                    blob = null;
+                }
             }
         }
         cursor.close();
