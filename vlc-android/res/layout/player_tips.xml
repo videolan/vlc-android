@@ -160,7 +160,6 @@
                 android:background="@drawable/button_oval"
                 android:clickable="true"
                 android:onClick="onClickDismissTips"
-                android:paddingLeft="5dp"
                 android:text="@string/ok_got_it"
                 android:textColor="@color/white"
                 android:textStyle="bold"

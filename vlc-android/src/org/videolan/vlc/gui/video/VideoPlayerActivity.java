@@ -1622,14 +1622,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (mShowing) {
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
-            mOverlayTips.setVisibility(View.INVISIBLE);
+            if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
                 mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                //mOverlayTips.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
