@@ -1,218 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="?attr/background_player"
-    android:orientation="vertical" >
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="@android:style/Widget.ProgressBar.Horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:focusable="false"
-        android:indeterminate="false"
-        android:maxHeight="2dip"
-        android:minHeight="2dip"
-        android:paddingLeft="0px"
-        android:paddingRight="0px"
-        android:progressDrawable="@drawable/progress_mini_player" />
+    android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:id="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="60dip"
-        android:layout_weight="0"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:layout_height="fill_parent"
+        android:background="?attr/background_player"
+        android:orientation="vertical" >
 
-        <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
-            android:id="@+id/audio_media_switcher"
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/playlist_switch"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_weight="0"
-            android:background="#00000000"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_playlist_pressed" />
-
-        <ImageButton
-            android:id="@+id/adv_function"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_weight="0"
-            android:background="#00000000"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_audio_player_dots" />
-
-        <TextView
-            android:id="@+id/header_time"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_marginRight="15dp"
             android:layout_weight="0"
-            android:clickable="true"
-            android:text="@string/time_0"
-            android:textColor="?attr/audio_player_header_time"
-            android:textSize="18sp" />
+            android:focusable="false"
+            android:indeterminate="false"
+            android:maxHeight="2dip"
+            android:minHeight="2dip"
+            android:paddingLeft="0px"
+            android:paddingRight="0px"
+            android:progressDrawable="@drawable/progress_mini_player" />
 
-        <ImageButton
-            android:id="@+id/header_play_pause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="#00000000"
-            android:contentDescription="@string/pause"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_pause" />
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="60dip"
+            android:layout_weight="0"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
-        <View
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
+            <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
+                android:id="@+id/audio_media_switcher"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
 
+            <ImageButton
+                android:id="@+id/playlist_switch"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:background="#00000000"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_playlist_pressed" />
+
+            <ImageButton
+                android:id="@+id/adv_function"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:background="#00000000"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_audio_player_dots" />
+
+            <TextView
+                android:id="@+id/header_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginRight="15dp"
+                android:layout_weight="0"
+                android:clickable="true"
+                android:text="@string/time_0"
+                android:textColor="?attr/audio_player_header_time"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/header_play_pause"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:contentDescription="@string/pause"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_pause" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <ViewSwitcher
+            android:id="@+id/view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/background_playlist" >
+
+            <org.videolan.vlc.gui.audio.AudioPlaylistView
+                android:id="@+id/songs_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/listview_bottom_padding" />
+
+            <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
+                android:id="@+id/cover_media_switcher"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" />
+        </ViewSwitcher>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="5dip"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_weight="0"
+                android:clickable="true"
+                android:text="@string/time_0"
+                android:textSize="12sp" />
+
+            <SeekBar
+                android:id="@+id/timeline"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:maxHeight="4dip"
+                android:minHeight="4dip"
+                android:paddingLeft="16dip"
+                android:paddingRight="16dip"
+                android:progressDrawable="@drawable/po_seekbar"
+                android:thumb="@drawable/seekbar_thumb" />
+
+            <TextView
+                android:id="@+id/length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_weight="0"
+                android:text="@string/time_0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" >
+
+            <ImageButton
+                android:id="@+id/shuffle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#00000000"
+                android:contentDescription="@string/shuffle"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_shuffle_normal" />
+
+            <ImageButton
+                android:id="@+id/repeat"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="#00000000"
+                android:contentDescription="@string/repeat"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_repeat_normal" />
+
+            <ImageButton
+                android:id="@+id/play_pause"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#00000000"
+                android:contentDescription="@string/pause"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_pause" />
+
+            <ImageButton
+                android:id="@+id/next"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/play_pause"
+                android:background="#00000000"
+                android:contentDescription="@string/next"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_next" />
+
+            <ImageButton
+                android:id="@+id/previous"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/play_pause"
+                android:background="#00000000"
+                android:contentDescription="@string/previous"
+                android:focusable="true"
+                android:scaleType="fitXY"
+                android:src="?attr/ic_previous" />
+        </RelativeLayout>
     </LinearLayout>
 
-    <ViewSwitcher
-        android:id="@+id/view_switcher"
+    <include
+        android:id="@+id/playlist_overlay_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="?attr/background_playlist" >
+        layout="@layout/audio_playlist_tips"
+        android:visibility="gone" />
 
-        <org.videolan.vlc.gui.audio.AudioPlaylistView
-            android:id="@+id/songs_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/listview_bottom_padding"/>
-
-        <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
-            android:id="@+id/cover_media_switcher"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-	</ViewSwitcher>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:layout_marginRight="5dip"
-        android:layout_marginTop="5dip"
-        android:layout_weight="0"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:layout_weight="0"
-            android:clickable="true"
-            android:text="@string/time_0"
-            android:textSize="12sp" />
-
-        <SeekBar
-            android:id="@+id/timeline"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:focusable="true"
-            android:maxHeight="4dip"
-            android:minHeight="4dip"
-            android:paddingLeft="16dip"
-            android:paddingRight="16dip"
-            android:progressDrawable="@drawable/po_seekbar"
-            android:thumb="@drawable/seekbar_thumb" />
-
-        <TextView
-            android:id="@+id/length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_weight="0"
-            android:text="@string/time_0"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0">
-
-        <ImageButton
-            android:id="@+id/shuffle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="#00000000"
-            android:contentDescription="@string/shuffle"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_shuffle_normal" />
-
-        <ImageButton
-            android:id="@+id/repeat"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="#00000000"
-            android:contentDescription="@string/repeat"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_repeat_normal" />
-
-        <ImageButton
-            android:id="@+id/play_pause"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="#00000000"
-            android:contentDescription="@string/pause"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_pause" />
-
-        <ImageButton
-            android:id="@+id/next"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/play_pause"
-            android:background="#00000000"
-            android:contentDescription="@string/next"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_next" />
-
-        <ImageButton
-            android:id="@+id/previous"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/play_pause"
-            android:background="#00000000"
-            android:contentDescription="@string/previous"
-            android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_previous" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

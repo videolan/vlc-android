@@ -908,6 +908,7 @@ public class MainActivity extends SherlockFragmentActivity {
                     mSlidingPane.setShadowResource(resId);
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true);
                 mMenu.setSlidingEnabled(true);
+                mAudioPlayer.hidePlaylistTips();
             }
 
             @Override
@@ -920,6 +921,7 @@ public class MainActivity extends SherlockFragmentActivity {
             public void onPanelClosed() {
                 mAudioPlayer.setHeaderVisibilities(true, true, false, false, false);
                 mMenu.setSlidingEnabled(false);
+                mAudioPlayer.showPlaylistTips();
             }
 
     };

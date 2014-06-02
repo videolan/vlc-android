@@ -235,4 +235,9 @@
     <string name="lock">Vérouiller</string>
     <string name="ok_got_it">J\'ai compris</string>
 
+    <string name="playlist_tips">Astuces de la playlist</string>
+    <string name="remove_song">Retirer une chanson</string>
+    <string name="rearrange_order">Réarranger l\'ordre</string>
+    <string name="hold_to_seek">Maintenir pour rechercher</string>
+
 </resources>

@@ -169,6 +169,11 @@
     <string name="lock">Lock</string>
     <string name="ok_got_it">Got it, dismiss this</string>
 
+    <string name="playlist_tips">Playlist tips</string>
+    <string name="remove_song">Remove song</string>
+    <string name="rearrange_order">Rearrange order</string>
+    <string name="hold_to_seek">Hold to seek</string>
+
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">License</string>

@@ -17,6 +17,7 @@
     <color name="black">#000001</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent_gray">#8000</color>
+    <color name="transparent_white">#dcfafafa</color>
     <color name="action_bar_title">#FFFFFF</color>
     <color name="darkgrey">#ffa0a0a0</color>
     <color name="background_remote">#ff323232</color>
