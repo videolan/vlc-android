@@ -109,7 +109,20 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         notifyDataSetChanged();
     }
 
-    public void addLeterSeparators() {
+    public void addLetterSeparators() {
+        calculateSections(true);
+    }
+
+    public void addScrollSections() {
+        calculateSections(false);
+    }
+
+    /**
+     * Calculate sections of the list
+     *
+     * @param addSeparators True to add GUI-level separators, false to just populate the cache
+     */
+    private void calculateSections(boolean addSeparators) {
         char prevFirstChar = 'a';
         boolean firstSeparator = true;
 

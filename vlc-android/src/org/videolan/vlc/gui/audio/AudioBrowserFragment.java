@@ -392,6 +392,7 @@ public class AudioBrowserFragment extends SherlockFragment {
             Media media = audioList.get(i);
             mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
         }
+        mSongsAdapter.addScrollSections();
 
         Collections.sort(audioList, MediaComparators.byArtist);
         for (int i = 0; i < audioList.size(); i++) {
@@ -418,6 +419,13 @@ public class AudioBrowserFragment extends SherlockFragment {
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
+        // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
+        int[] lists = { R.id.songs_list, R.id.artists_list, R.id.albums_list, R.id.genres_list };
+        for(int r : lists) {
+            ListView l = (ListView)getView().findViewById(r);
+            l.setFastScrollEnabled(false);
+            l.setFastScrollEnabled(true);
+        }
     }
 
     AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener
