@@ -14,26 +14,12 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_next_pressed.svg"
+   sodipodi:docname="ic_next_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684">
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4710-8"
-       x="-0.338999"
-       width="1.6779979"
-       y="-0.38377488"
-       height="1.7675498">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.992965"
-         id="feGaussianBlur4712-5" />
-    </filter>
-  </defs>
+     id="defs4684" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -42,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="34.937247"
+     inkscape:cx="-7.562753"
      inkscape:cy="74.187989"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -50,7 +36,7 @@
      inkscape:window-width="1680"
      inkscape:window-height="1026"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -60,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,10 +55,34 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-922.36218)">
-    <path
-       style="opacity:0.9;fill:#323232;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 22.546897,949.86217 0,74.96873 20,-11.5625 0,11.5625 34.906196,-20.1562 0,20.1875 30.000007,0 0,-37.53128 0,-37.46875 -30.000007,0 0,20.15625 -34.906196,-20.15625 0,11.53125 -20,-11.53125 z"
-       id="rect4558-9"
-       inkscape:connector-curvature="0" />
+    <g
+       id="g2997"
+       transform="translate(-1.964286,5.357159)">
+      <rect
+         rx="2"
+         ry="2"
+         y="944.505"
+         x="91.964287"
+         height="75"
+         width="20"
+         id="rect4928-4"
+         style="color:#000000;fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+      <path
+         transform="matrix(1.4021244,0,0,1.4058474,-706.17623,170.3461)"
+         d="m 519.8125,550.6875 a 0.70275342,0.70275342 0 0 0 -0.5,0.6875 l 0,51.96875 a 0.70275342,0.70275342 0 0 0 1.03125,0.59375 l 45,-25.96875 a 0.70275342,0.70275342 0 0 0 0,-1.1875 l -45,-26 a 0.70275342,0.70275342 0 0 0 -0.53125,-0.0937 z"
+         id="path5965"
+         style="fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         inkscape:original="M 520 551.375 L 520 603.34375 L 565 577.375 L 520 551.375 z "
+         inkscape:radius="0.70268315"
+         sodipodi:type="inkscape:offset" />
+      <path
+         sodipodi:type="inkscape:offset"
+         inkscape:radius="0.70268315"
+         inkscape:original="M 520 551.375 L 520 603.34375 L 565 577.375 L 520 551.375 z "
+         style="fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         id="path5967"
+         d="m 519.8125,550.6875 a 0.70275342,0.70275342 0 0 0 -0.5,0.6875 l 0,51.96875 a 0.70275342,0.70275342 0 0 0 1.03125,0.59375 l 45,-25.96875 a 0.70275342,0.70275342 0 0 0 0,-1.1875 l -45,-26 a 0.70275342,0.70275342 0 0 0 -0.53125,-0.0937 z"
+         transform="matrix(1.4021244,0,0,1.4058474,-681.17623,170.3461)" />
+    </g>
   </g>
 </svg>
