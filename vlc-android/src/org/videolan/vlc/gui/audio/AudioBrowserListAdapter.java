@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioSongsListAdapter.java
+ * AudioBrowserListAdapter.java
  *****************************************************************************
- * Copyright © 2011-2012 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import org.videolan.vlc.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,15 +40,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-public class AudioBrowserListAdapter extends BaseAdapter {
+public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer {
+    public final static String TAG = "VLC/AudioBrowserListAdapter";
 
     // Key: the item title, value: ListItem of only media item (no separator).
     private Map<String, ListItem> mMediaItemMap;
     private Map<String, ListItem> mSeparatorItemMap;
     // A list of all the list items: media items and separators.
     private ArrayList<ListItem> mItems;
+    // A list of all the sections in the list; better performance than searching the whole list
+    private SparseArray<String> mSections;
 
     private Context mContext;
 
@@ -83,6 +88,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         mMediaItemMap = new HashMap<String, ListItem>();
         mSeparatorItemMap = new HashMap<String, ListItem>();
         mItems = new ArrayList<ListItem>();
+        mSections = new SparseArray<String>();
         mContext = context;
         if (itemType != ITEM_WITHOUT_COVER && itemType != ITEM_WITH_COVER)
             throw new IllegalArgumentException();
@@ -113,17 +119,25 @@ public class AudioBrowserListAdapter extends BaseAdapter {
 
             if (Character.isLetter(firstChar)) {
                 if (firstSeparator || firstChar != prevFirstChar) {
-                    ListItem item = new ListItem(String.valueOf(firstChar), null, null, true);
-                    mItems.add(i, item);
-                    i++;
+                    if(addSeparators) {
+                        ListItem item = new ListItem(String.valueOf(firstChar), null, null, true);
+                        mItems.add(i, item);
+                        mSections.put(i, String.valueOf(firstChar));
+                        i++;
+                    } else
+                        mSections.put(i, String.valueOf(firstChar));
                     prevFirstChar = firstChar;
                     firstSeparator = false;
                 }
             }
             else if (firstSeparator) {
-                ListItem item = new ListItem("#", null, null, true);
-                mItems.add(i, item);
-                i++;
+                if(addSeparators) {
+                    ListItem item = new ListItem("#", null, null, true);
+                    mItems.add(i, item);
+                    mSections.put(i, "#");
+                    i++;
+                } else
+                    mSections.put(i, "#");
                 prevFirstChar = firstChar;
                 firstSeparator = false;
             }
@@ -171,6 +185,7 @@ public class AudioBrowserListAdapter extends BaseAdapter {
         mMediaItemMap.clear();
         mSeparatorItemMap.clear();
         mItems.clear();
+        mSections.clear();
         notifyDataSetChanged();
     }
 
@@ -331,6 +346,29 @@ public class AudioBrowserListAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
         return position < mItems.size() && mItems.get(position).mMediaList.size() > 0;
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSections.keyAt(sectionIndex);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        for(int i = 0; i < mSections.size(); i++) {
+            if(position > mSections.keyAt(i))
+                return i;
+        }
+        return mSections.size()-1; // default to last section
+    }
+
+    @Override
+    public Object[] getSections() {
+        ArrayList<String> sections = new ArrayList<String>();
+        for(int i = 0; i < mSections.size(); i++) {
+            sections.add(mSections.valueAt(i));
+        }
+        return sections.toArray();
     }
 
     public ArrayList<Media> getMedia(int position) {
