@@ -398,21 +398,21 @@ public class AudioBrowserFragment extends SherlockFragment {
             Media media = audioList.get(i);
             mArtistsAdapter.add(media.getArtist(), null, media);
         }
-        mArtistsAdapter.addLeterSeparators();
+        mArtistsAdapter.addLetterSeparators();
 
         Collections.sort(audioList, MediaComparators.byAlbum);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), media.getArtist(), media);
         }
-        mAlbumsAdapter.addLeterSeparators();
+        mAlbumsAdapter.addLetterSeparators();
 
         Collections.sort(audioList, MediaComparators.byGenre);
         for (int i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mGenresAdapter.add(media.getGenre(), null, media);
         }
-        mGenresAdapter.addLeterSeparators();
+        mGenresAdapter.addLetterSeparators();
 
         mSongsAdapter.notifyDataSetChanged();
         mArtistsAdapter.notifyDataSetChanged();
