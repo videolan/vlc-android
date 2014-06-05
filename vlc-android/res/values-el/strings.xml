@@ -133,6 +133,14 @@
     <string name="search_history">Ιστορικό εύρεσης</string>
     <string name="hardware_acceleration_error_title">Σφάλμα επιτάχυνσης υλικού</string>
     <string name="hardware_acceleration_error_message">Η επιτάχυνση υλικού αντιμετώπισε ένα σφάλμα. Θα θέλατε να την απενεργοποιήσετε και να ξαναδοκιμάσετε; </string>
+    <!--Tips-->
+    <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
+    <string name="seek">Εύρεση</string>
+    <string name="subtitles">Υπότιτλοι</string>
+    <string name="resize">Αλλαγή μεγέθους</string>
+    <string name="options">Επιλογές</string>
+    <string name="lock">Κλείδωμα</string>
+    <string name="ok_got_it">Το\'πιασα, κλείστο</string>
     <!-- About -->
     <string name="app_name_full">Το VLC για το Android™</string>
     <string name="licence">Άδεια</string>
@@ -225,5 +233,8 @@
     <string name="dump_logcat_success">Επιτυχής κατεκτύπωση logcat στο %1$s!</string>
     <string name="dump_logcat_failure">Αποτυχία κατεκτύπωσης logcat.</string>
     <string name="serious_crash">Δυστυχώς, ένα σοβαρό σφάλμα ανάγκασε το VLC να κλείσει.</string>
+    <string name="help_us_send_log">Βοηθήστε μας να βελτιώσουμε το VLC αποστέλλοντας το ακόλουθο αρχείο καταγραφής:</string>
     <string name="restart_vlc">Επανεκκίνηση του VLC</string>
+    <string name="send_log">Αποστολή του αρχείου καταγραφής</string>
+    <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται...</string>
 </resources>
