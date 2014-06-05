@@ -30,7 +30,7 @@
     <string name="ringtone_error">හඬනාදය සකසන අතරතුරදී දෝෂයක් හට ගැනුණි.</string>
     <string name="pause">විරාමය</string>
     <string name="not_show_again">මෙම පණිවුඩය නැවත පෙන්වන්න එපා.</string>
-    <string name="beta_warning">මෙය බීටා අනුවාදයයි.\n\nමෙම අනුවාදය ස්ථාවර නොවේ!\n\nඔබ කරන්නේ කුමක්දැයි දැනගෙන මිසක්, භාවිතා කරන්න එපා.\n\nඑය ඔබේ පූසා මරා දමා නිවස විනාශ කරනු ඇත.\nඑය ඔබේම අවදානමකින් භාවිතා කරන්න.\n\nසතුටු වෙන්න! :)</string>
+    <string name="beta_warning">මෙය අත්හදාබැලීම් අනුවාදයයි.\n\nමෙම අනුවාදය ස්ථාවර නොවේ!\n\nඔබ කරන්නේ කුමක්දැයි දැනගෙන මිසක්, භාවිතා කරන්න එපා.\n\nඑය ඔබේ පූසා මරා දමා නිවස විනාශ කර ගන්නවා වැනි වැඩකි.\nඑය ඔබේම අවදානමකින් භාවිතා කරන්න.\n\nසතුටු වෙන්න! :)</string>
     <string name="info_title">VLC බීටා</string>
     <string name="unknown_artist">නොදත් කලාකරු</string>
     <string name="unknown_album">නොදත් ඇල්බමය</string>
@@ -79,7 +79,7 @@
     <string name="notavailable">ලබාගත නොහැක</string>
     <string name="nosubdirectory">උපනාමාවලීන් නොමැත.</string>
     <string name="nohistory">ඔබ සතුව තවමත් පිළිවැයීම් ඉතිහාසයක් නැත.</string>
-    <string name="validation">ඔබට සහතිකද?</string>
+    <string name="validation">ඔබට සහතික ද?</string>
     <string name="cover_art">කවරයේ චිත්‍රය</string>
     <string name="shuffle">කලවම්</string>
     <string name="repeat">කිසිවක් නැති/එකක්/සියල්ලම යළි යළිත්</string>
@@ -133,6 +133,7 @@
     <string name="search_history">සෙවුම් ඉතිහාසය</string>
     <string name="hardware_acceleration_error_title">HW ත්වරණ දෝෂය</string>
     <string name="hardware_acceleration_error_message">දෘඩාංග ත්වරණයෙදී දෝෂයක් හට ගැනිණි. එය ක්‍රියා විරහිත කර නැවත උත්සාහ කිරීමට ඔබ කැමති ද?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC</string>
     <string name="licence">බලපත්‍රය</string>
@@ -166,6 +167,9 @@
     <string name="subtitle_text_encoding">උපසිරැසි පෙළ කේතීකරණය</string>
     <string name="extra_prefs_category">අමතර සැකසුම්</string>
     <string name="interface_prefs_screen">අතුරුමුහුණත</string>
+    <string name="interface_secondary_display_category">අතුරුමුහුණත් - ද්විතීයක දර්ශකය</string>
+    <string name="enable_secondary_display_hardware_acceleration">දෘඩාංග ත්වරිත සැකසුම් තබාගන්න</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">දෘඩාංග ත්වරණය සමහරවිට ක්‍රියා නොකරනු ඇත</string>
     <string name="interface_other_category">අතුරුමුහුණත් - වෙනත්</string>
     <string name="enable_brightness_gesture">බැබළීම් ඉංගිතය සක්‍රිය කරන්න</string>
     <string name="enable_brightness_gesture_summary">විදෘශ්‍ය පිළිවැයීම අතරතුරදී ඉංගිතිය මඟින් දීප්තිය පාලනය කරන්න</string>
