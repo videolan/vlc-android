@@ -133,6 +133,14 @@
     <string name="search_history">Arama geçmişi</string>
     <string name="hardware_acceleration_error_title">Donanım hızlandırma hatası</string>
     <string name="hardware_acceleration_error_message">Donanım hızlandırması kullanılırken bir hata oluştu. Devre dışı bırakarak yeniden denemek ister misiniz?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
+    <string name="seek">Arama</string>
+    <string name="subtitles">Altyazılar</string>
+    <string name="resize">Boyutlandırın</string>
+    <string name="options">Ayarlar</string>
+    <string name="lock">Kilitleyin</string>
+    <string name="ok_got_it">Anladım, boşver</string>
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
     <string name="licence">Lisans</string>
@@ -225,8 +233,8 @@
     <string name="dump_logcat_success">Logcat %1$s dosyasına yazıldı!</string>
     <string name="dump_logcat_failure">Logcat yazılamadı.</string>
     <string name="serious_crash">Malesef önemli bir hata oluştuğundan VLC kapatılacak.</string>
-    <string name="help_us_send_log">Aşağıdaki çökme günlüğünü göndererek VLC\'nin geliştirilmesinde bize yardımcı olun:</string>
+    <string name="help_us_send_log">Bu çökme kaydını göndererek VLC\'nin geliştirilmesine yardımcı olun:</string>
     <string name="restart_vlc">VLC yazılımını yeniden başlatın</string>
-    <string name="send_log">Günlüğü gönder</string>
+    <string name="send_log">Günlüğü gönderin</string>
     <string name="sending_log">Günlük gönderiliyor...</string>
 </resources>
