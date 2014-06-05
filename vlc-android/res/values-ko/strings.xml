@@ -126,6 +126,13 @@
     <string name="search_history">검색 기록</string>
     <string name="hardware_acceleration_error_title">HW 가속 오류</string>
     <string name="hardware_acceleration_error_message">하드웨어 가속에 문제가 발생했습니다. 하드웨어 가속을 끄고 재시도할까요?</string>
+    <!--Tips-->
+    <string name="video_player_tips">동영상 재생기 팁:</string>
+    <string name="seek">탐색</string>
+    <string name="subtitles">자막</string>
+    <string name="resize">크기조절</string>
+    <string name="options">옵션</string>
+    <string name="lock">잠그기</string>
     <!-- About -->
     <string name="app_name_full">안드로이드™ 용 VLC</string>
     <string name="licence">라이센스</string>
