@@ -14,26 +14,12 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_wplay_pressed.svg"
+   sodipodi:docname="ic_stop_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684">
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4686"
-       x="-0.38784611"
-       width="1.7756922"
-       y="-0.33588457"
-       height="1.6717691">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="7.2721143"
-         id="feGaussianBlur4688" />
-    </filter>
-  </defs>
+     id="defs4684" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -42,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="-4.1297936"
+     inkscape:cx="-10.736937"
      inkscape:cy="75.317769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -50,7 +36,7 @@
      inkscape:window-width="1680"
      inkscape:window-height="1026"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -60,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,12 +56,13 @@
      id="layer1"
      transform="translate(0,-922.36218)">
     <rect
-       transform="matrix(0,1,-1,0,0,0)"
-       y="-102.49457"
-       x="949.86761"
-       height="74.989136"
-       width="74.989136"
-       id="rect3339"
-       style="opacity:0.9;fill:#fafafa;fill-opacity:1;stroke:#1e1e1e;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       ry="2"
+       rx="2"
+       y="949.86218"
+       x="27.5"
+       height="75"
+       width="75"
+       id="rect5729"
+       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>

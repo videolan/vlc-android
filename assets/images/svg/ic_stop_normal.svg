@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_stop_glow.svg"
+   sodipodi:docname="ic_stop_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -56,19 +56,6 @@
        effect="spiro"
        id="path-effect4313"
        is_visible="true" />
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4696"
-       x="-0.36000001"
-       width="1.72"
-       y="-0.36000001"
-       height="1.72">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.24837"
-         id="feGaussianBlur4698" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -78,7 +65,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="36.481242"
+     inkscape:cx="-53.674872"
      inkscape:cy="73.695053"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -86,7 +73,7 @@
      inkscape:window-width="1680"
      inkscape:window-height="1026"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -96,7 +83,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -106,12 +93,13 @@
      id="layer1"
      transform="translate(0,-922.36218)">
     <rect
-       style="opacity:0.9;fill:#323232;fill-opacity:1;stroke:#fafafa;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="rect4598"
-       width="74.989136"
-       height="74.989136"
-       x="949.86761"
-       y="-102.49457"
-       transform="matrix(0,1,-1,0,0,0)" />
+       style="color:#000000;fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4954"
+       width="75"
+       height="75"
+       x="27.5"
+       y="949.86218"
+       rx="2"
+       ry="2" />
   </g>
 </svg>
