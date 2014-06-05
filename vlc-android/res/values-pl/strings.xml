@@ -140,6 +140,7 @@
     <string name="search_history">Historia wyszukiwania</string>
     <string name="hardware_acceleration_error_title">Błąd akceleracji sprzętowej</string>
     <string name="hardware_acceleration_error_message">Wystąpił błąd z akceleracją sprzętową. Czy chcesz ją wyłączyć i spróbować ponownie?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
     <string name="licence">Licencja</string>
@@ -231,7 +232,6 @@
     <string name="dump_logcat">Zrób zrzut dziennika zdarzeń</string>
     <string name="dump_logcat_success">Dziennik zdarzeń pomyślnie zrzucony do %1$s!</string>
     <string name="dump_logcat_failure">Nie udało się zrzucić dziennika zdarzeń.</string>
-    <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja VLC musiała zostać zamknięta.</string>
     <string name="help_us_send_log">Pomóż nam ulepszyć VLC przez wysłanie dziennika awarii:</string>
     <string name="restart_vlc">Uruchom ponownie VLC</string>
     <string name="send_log">Wyślij dziennik</string>
