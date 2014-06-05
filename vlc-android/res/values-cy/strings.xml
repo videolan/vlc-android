@@ -147,6 +147,14 @@
     <string name="search_history">Hanes chwilio</string>
     <string name="hardware_acceleration_error_title">Gwall cyflymydd HW</string>
     <string name="hardware_acceleration_error_message">Bu gwall gyda\'r cyflymydd caledwedd. Hoffech ei analluogi a cheisio eto?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Awgrymiadau chwaraewr fideo:</string>
+    <string name="seek">Canfod</string>
+    <string name="subtitles">Isdeitlau</string>
+    <string name="resize">Newid maint</string>
+    <string name="options">Dewisiadau</string>
+    <string name="lock">Cloi</string>
+    <string name="ok_got_it">Iawn, dwi\'n deall.</string>
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android™</string>
     <string name="licence">Trwydded</string>
@@ -238,7 +246,7 @@
     <string name="dump_logcat">Gympio log logcat</string>
     <string name="dump_logcat_success">Dympiwyd logcat i %1$s!</string>
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
-    <string name="serious_crash">Yn anffodus, mae gwall wedi achosi VLC i gau.</string>
+    <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae VLC.</string>
     <string name="help_us_send_log">Helpwch ni wella VLC gan anfon y log canlynol o\'r broblem:</string>
     <string name="restart_vlc">Ail-ddechrau VLC</string>
     <string name="send_log">Anfon y log</string>
