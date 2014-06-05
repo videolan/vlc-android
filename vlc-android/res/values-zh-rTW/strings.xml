@@ -126,6 +126,14 @@
     <string name="search_history">清除歷史</string>
     <string name="hardware_acceleration_error_title">硬體加速失敗</string>
     <string name="hardware_acceleration_error_message">使用硬體加速時發生錯誤。您是否取消並重試？</string>
+    <!--Tips-->
+    <string name="video_player_tips">影片播放器秘訣：</string>
+    <string name="seek">尋找</string>
+    <string name="subtitles">字幕</string>
+    <string name="resize">調整大小</string>
+    <string name="options">選項</string>
+    <string name="lock">鎖定</string>
+    <string name="ok_got_it">了解，關閉這個</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授權</string>
@@ -218,5 +226,8 @@
     <string name="dump_logcat_success">Logcat 成功轉存到 %1$s!</string>
     <string name="dump_logcat_failure">轉存 logcat 失敗。</string>
     <string name="serious_crash">很遺憾，一個嚴重的錯誤的發生，VLC 必須關閉。</string>
+    <string name="help_us_send_log">幫助我們改善 VLC 藉由發送以下系統崩潰紀錄：</string>
     <string name="restart_vlc">重新啟動 VLC</string>
+    <string name="send_log">發送紀錄</string>
+    <string name="sending_log">正在發送紀錄...</string>
 </resources>
