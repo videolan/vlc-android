@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.videolan.vlc.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vlc="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/pane"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    vlc:overhangSize="60dp" >
+    android:layout_height="match_parent" >
 
-    <org.videolan.vlc.widget.ContentLinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+    <org.videolan.vlc.widget.SlidingPaneLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vlc="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pane"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        vlc:overhangSize="60dp" >
 
-        <View
+        <org.videolan.vlc.widget.ContentLinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="?attr/marginTopContent"
-            android:background="@drawable/actionbar_background" />
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="?attr/marginTopContent"
+                android:background="@drawable/actionbar_background" />
+
+            <FrameLayout
+                android:id="@+id/fragment_placeholder"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <RelativeLayout
+                android:id="@+id/info_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:visibility="gone" >
+
+                <ProgressBar
+                    android:id="@+id/info_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:progressDrawable="@drawable/progress" />
+
+                <TextView
+                    android:id="@+id/info_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:shadowColor="#CC000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1.5"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFFFF" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/audio_player_filling"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:visibility="gone" />
+        </org.videolan.vlc.widget.ContentLinearLayout>
 
         <FrameLayout
-            android:id="@+id/fragment_placeholder"
+            android:id="@+id/audio_player"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="fill_parent" />
+    </org.videolan.vlc.widget.SlidingPaneLayout>
 
-        <RelativeLayout
-            android:id="@+id/info_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:visibility="gone" >
-
-            <ProgressBar
-                android:id="@+id/info_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:progressDrawable="@drawable/progress" />
-
-            <TextView
-                android:id="@+id/info_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="5dip"
-                android:shadowColor="#CC000000"
-                android:shadowDx="1"
-                android:shadowDy="1"
-                android:shadowRadius="1.5"
-                android:singleLine="true"
-                android:textColor="#FFFFFFFF" />
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/audio_player_filling"
-            android:layout_width="fill_parent"
-            android:layout_height="60dp"
-            android:visibility="gone" />
-    </org.videolan.vlc.widget.ContentLinearLayout>
-
-    <FrameLayout
-        android:id="@+id/audio_player"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
-</org.videolan.vlc.widget.SlidingPaneLayout>
+</RelativeLayout>

@@ -24,8 +24,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -33,7 +31,6 @@ import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RepeatType;
 import org.videolan.vlc.Util;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
@@ -103,10 +100,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     private boolean mHeaderTimeVisible;
 
     // Tips
-    private View mOverlayTips;
-    private TextView mOkGotIt;
     private static final String PREF_TIPS_SHOWN = "playlist_tips_shown";
-    private SharedPreferences mSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -258,27 +252,6 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         registerForContextMenu(mSongsList);
 
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        // Tips
-        mSettings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        mOverlayTips = (View) v.findViewById(R.id.playlist_overlay_tips);
-        mOverlayTips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hidePlaylistTips();
-            }
-        });
-
-        mOkGotIt = (TextView) v.findViewById(R.id.okgoit_playlist_button);
-        mOkGotIt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOverlayTips.setVisibility(View.GONE);
-                Editor editor = mSettings.edit();
-                editor.putBoolean(PREF_TIPS_SHOWN, true);
-                editor.commit();
-            }
-        });
 
         return v;
     }
@@ -682,17 +655,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         }
     }
 
-    public void hidePlaylistTips() {
-        mOverlayTips.setVisibility(View.GONE);
-    }
-
     public void showPlaylistTips() {
-        if(mSettings.getBoolean(PREF_TIPS_SHOWN, false))
-            mOverlayTips.setVisibility(View.GONE);
-        else {
-            mOverlayTips.setVisibility(View.VISIBLE);
-            mOverlayTips.bringToFront();
-            mOverlayTips.invalidate();
-        }
+        MainActivity activity = (MainActivity)getActivity();
+        activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_TIPS_SHOWN);
     }
 }
