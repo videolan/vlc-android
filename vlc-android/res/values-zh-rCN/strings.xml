@@ -126,6 +126,14 @@
     <string name="search_history">搜索历史</string>
     <string name="hardware_acceleration_error_title">硬件加速错误</string>
     <string name="hardware_acceleration_error_message">硬件加速发生错误。是否希望禁用它并尝试再次播放?</string>
+    <!--Tips-->
+    <string name="video_player_tips">视频播放器小提示:</string>
+    <string name="seek">定位</string>
+    <string name="subtitles">字幕</string>
+    <string name="resize">缩放</string>
+    <string name="options">选项</string>
+    <string name="lock">锁定</string>
+    <string name="ok_got_it">知道啦，别烦了</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授权许可</string>
@@ -217,7 +225,7 @@
     <string name="dump_logcat">logcat 日志转储</string>
     <string name="dump_logcat_success">Logcat 日志已成功转储至 %1$s!</string>
     <string name="dump_logcat_failure">logcat 日志转储失败。</string>
-    <string name="serious_crash">糟糕，发生严重错误，VLC 不得不关闭。</string>
+    <string name="serious_crash">糟糕，发生了很严重的错误，VLC 不得不关闭鸟。</string>
     <string name="help_us_send_log">您可以将下述崩溃日志发送给我们，协助改进 VLC:</string>
     <string name="restart_vlc">重新启动 VLC</string>
     <string name="send_log">发送日志</string>
