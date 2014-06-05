@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_wforward_normal.svg"
+   sodipodi:docname="ic_pause_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="-4.1297936"
+     inkscape:cx="67.477349"
      inkscape:cy="75.317769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -36,7 +36,7 @@
      inkscape:window-width="1680"
      inkscape:window-height="1026"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,22 +56,26 @@
      id="layer1"
      transform="translate(0,-922.36218)">
     <g
-       transform="translate(-877.50064,402.49978)"
-       id="g4187">
+       transform="translate(-357.5,402.5)"
+       id="g5764">
       <rect
-         y="547.36194"
-         x="904.99988"
-         height="75.000923"
-         width="29.997608"
-         id="rect3345"
-         style="opacity:0.9;fill:#fafafa;fill-opacity:1;stroke:#1e1e1e;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         rx="2"
+         ry="2"
+         y="547.36218"
+         x="390"
+         height="75"
+         width="25"
+         id="rect5726"
+         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <rect
-         style="opacity:0.9;fill:#fafafa;fill-opacity:1;stroke:#1e1e1e;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         id="rect3347"
-         width="29.997608"
-         height="75.000923"
-         x="950.00378"
-         y="547.36194" />
+         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         id="rect5728"
+         width="25"
+         height="75"
+         x="430"
+         y="547.36218"
+         ry="2"
+         rx="2" />
     </g>
   </g>
 </svg>
