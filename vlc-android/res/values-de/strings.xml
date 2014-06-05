@@ -133,6 +133,14 @@
     <string name="search_history">Suchverlauf</string>
     <string name="hardware_acceleration_error_title">Fehler in der Hardwarebeschleunigung</string>
     <string name="hardware_acceleration_error_message">Bei der Hardwarebeschleunigung ist ein Fehler aufgetreten. Wollen Sie es deaktivieren und nochmals versuchen?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Filmwiedergabetipps:</string>
+    <string name="seek">Suchen</string>
+    <string name="subtitles">Untertitel</string>
+    <string name="resize">Ändern der Größe</string>
+    <string name="options">Optionen</string>
+    <string name="lock">Sperren</string>
+    <string name="ok_got_it">Verstanden und weiter</string>
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
     <string name="licence">Lizenz</string>
@@ -184,12 +192,12 @@
     <string name="performance_prefs_category">Leistung</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
     <string name="chroma_format_summary">RGB 32-Bit: Standard Farbsättigung\nRGB 16-bit:  Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
-    <string name="deblocking">Anti-Klötzchenfilterseinstellungen</string>
-    <string name="deblocking_summary">Die Einstellungen des Anti-Klötzchenfilters ändern. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
-    <string name="deblocking_always">Anti-Klötzchenfilter maximal</string>
-    <string name="deblocking_nonref">Anti-Klötzchenfilter mittel</string>
-    <string name="deblocking_nonkey">Anti-Klötzchenfilter niedrig</string>
-    <string name="deblocking_all">Anti-Klötzchenfilter deaktiviert</string>
+    <string name="deblocking">Einstellungen des Deblockierungsfilters</string>
+    <string name="deblocking_summary">Änderungen der Deblockierungsfilter-Einstellungen. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
+    <string name="deblocking_always">Vollständige Deblockierung (am langsamsten)</string>
+    <string name="deblocking_nonref">Mittlere Deblockierung</string>
+    <string name="deblocking_nonkey">Niedrige Deblockierung</string>
+    <string name="deblocking_all">Keine Deblockierung (schnellstes)</string>
     <string name="enable_frame_skip">Frame überspringen aktivieren</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
