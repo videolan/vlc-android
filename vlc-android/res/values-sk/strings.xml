@@ -140,6 +140,13 @@
     <string name="search_history">História vyhľadávania</string>
     <string name="hardware_acceleration_error_title">Chyba HW akcelerácie</string>
     <string name="hardware_acceleration_error_message">Nastala chyba spojená s HW-akceleráciou. Chcete ju vypnúť a skúsiť to znova?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Tipy pre prehrávač videa:</string>
+    <string name="seek">Vyhľadať</string>
+    <string name="subtitles">Titulky</string>
+    <string name="resize">Zmeniť veľkosť</string>
+    <string name="options">Vlastnosti</string>
+    <string name="lock">Uzamknút</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Licencia</string>
@@ -232,5 +239,8 @@
     <string name="dump_logcat_success">Záznam logcat bol úspešne analyzovaný a uložený do %1$s!</string>
     <string name="dump_logcat_failure">Nepodarilo sa analyzovať záznam logcat.</string>
     <string name="serious_crash">Bohužiaľ nastala závažná chyba a VLC bolo nutné ukončiť.</string>
+    <string name="help_us_send_log">Pomôžte nám zlepšiť aplikáciu VLC zaslaním nasledujúceho záznamu o zlyhaní:</string>
     <string name="restart_vlc">Reštartovať VLC</string>
+    <string name="send_log">Odoslať záznam</string>
+    <string name="sending_log">Odosiela sa záznam...</string>
 </resources>
