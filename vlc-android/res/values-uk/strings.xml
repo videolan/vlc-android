@@ -140,6 +140,14 @@
     <string name="search_history">Історія пошуку</string>
     <string name="hardware_acceleration_error_title">Помилка апаратного прискорення</string>
     <string name="hardware_acceleration_error_message">Апаратне прискорення спричинило помилку. Волієте вимкнути його та спробувати знову?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Поради для відеопрогравача:</string>
+    <string name="seek">Шукати</string>
+    <string name="subtitles">Субтитри</string>
+    <string name="resize">Змінити розміри</string>
+    <string name="options">Параметри</string>
+    <string name="lock">Блокувати</string>
+    <string name="ok_got_it">Зрозумів, відхилити це</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Ліцензія</string>
