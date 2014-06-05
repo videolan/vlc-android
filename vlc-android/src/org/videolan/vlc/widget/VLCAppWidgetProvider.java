@@ -118,7 +118,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             if (cover != null)
                 views.setImageViewBitmap(R.id.cover, cover);
             else
-                views.setImageViewResource(R.id.cover, R.drawable.cone);
+                views.setImageViewResource(R.id.cover, R.drawable.icon);
             views.setProgressBar(R.id.timeline, 100, 0, false);
         }
         else if (ACTION_WIDGET_UPDATE_POSITION.equals(action)) {

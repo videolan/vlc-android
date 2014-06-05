@@ -40,7 +40,7 @@ public class CoverMediaSwitcher extends AudioMediaSwitcher {
         AnimatedCoverView coverView = new AnimatedCoverView(inflater.getContext(), null);
 
         if (cover == null)
-            cover = BitmapFactory.decodeResource(getResources(), R.drawable.cone);
+            cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
         coverView.setImageBitmap(cover);
 
         addView(coverView);

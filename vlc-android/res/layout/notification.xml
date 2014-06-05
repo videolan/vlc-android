@@ -13,7 +13,7 @@
         android:id="@+id/cover"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/cone" />
+        android:src="@drawable/icon" />
 
     <LinearLayout
         android:layout_width="0dp"
