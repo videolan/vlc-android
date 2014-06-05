@@ -140,6 +140,14 @@
     <string name="search_history">Historija pretraživanja</string>
     <string name="hardware_acceleration_error_title">HV greška ubrzanja</string>
     <string name="hardware_acceleration_error_message">Pojavila se greška sa hardverskim ubrzanjem. Želite li ga isključiti i pokušati ponovo?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Savjeti video izvođača:</string>
+    <string name="seek">Traži</string>
+    <string name="subtitles">Podtitlovi</string>
+    <string name="resize">Promijeni veličinu</string>
+    <string name="options">Opcije</string>
+    <string name="lock">Zaključaj</string>
+    <string name="ok_got_it">Uredu, odbaci ovo</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
@@ -231,5 +239,9 @@
     <string name="dump_logcat">Izbaci logcat zapis</string>
     <string name="dump_logcat_success">Logcat uspješno izbačen u %1$s!</string>
     <string name="dump_logcat_failure">Nije uspjelo izbacivanje logcat-a.</string>
+    <string name="serious_crash">Nažalost, dogodila se ozbiljna greška i VLC se morao zatvoriti.</string>
+    <string name="help_us_send_log">Pomozi nam poboljšati VLC slanjem sljedećeg izvještaja padanja programa:</string>
     <string name="restart_vlc">Ponovo Pokreni VLC</string>
+    <string name="send_log">Pošalji izvještaj</string>
+    <string name="sending_log">Šaljem izvještaj...</string>
 </resources>
