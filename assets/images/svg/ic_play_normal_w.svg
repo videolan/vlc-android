@@ -14,26 +14,12 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_wpause_pressed.svg"
+   sodipodi:docname="ic_play_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684">
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4696"
-       x="-0.36000001"
-       width="1.72"
-       y="-0.36000001"
-       height="1.72">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="11.24837"
-         id="feGaussianBlur4698" />
-    </filter>
-  </defs>
+     id="defs4684" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -42,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="-4.1297936"
+     inkscape:cx="46.048778"
      inkscape:cy="75.317769"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -50,7 +36,7 @@
      inkscape:window-width="1680"
      inkscape:window-height="1026"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata4687">
@@ -60,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,22 +56,12 @@
      id="layer1"
      transform="translate(0,-922.36218)">
     <path
-       sodipodi:type="star"
-       style="opacity:0.9;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:#1e1e1e;stroke-width:1.38654327;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="path3337"
-       sodipodi:sides="3"
-       sodipodi:cx="535"
-       sodipodi:cy="577.36218"
-       sodipodi:r1="30"
-       sodipodi:r2="15"
-       sodipodi:arg1="0"
-       sodipodi:arg2="1.0471976"
-       inkscape:flatsided="true"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 565,577.36218 -45,25.98076 0,-51.96152 z"
-       transform="matrix(1.442436,0,0,1.442436,-717.52153,154.55418)"
-       inkscape:transform-center-x="-10.818263"
-       inkscape:transform-center-y="1.8712659e-05" />
+       sodipodi:type="inkscape:offset"
+       inkscape:radius="0.70268315"
+       inkscape:original="M 520 551.375 L 520 603.34375 L 565 577.375 L 520 551.375 z "
+       style="fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path5069"
+       d="m 519.8125,550.6875 a 0.70275342,0.70275342 0 0 0 -0.5,0.6875 l 0,51.96875 a 0.70275342,0.70275342 0 0 0 1.03125,0.59375 l 45,-25.96875 a 0.70275342,0.70275342 0 0 0 0,-1.1875 l -45,-26 a 0.70275342,0.70275342 0 0 0 -0.53125,-0.0937 z"
+       transform="matrix(1.4021244,0,0,1.4058474,-695.64051,175.70324)" />
   </g>
 </svg>
