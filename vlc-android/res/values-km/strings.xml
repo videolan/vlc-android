@@ -126,6 +126,13 @@
     <string name="search_history">ប្រវត្តិ​ស្វែងរក</string>
     <string name="hardware_acceleration_error_title">កំហុស​ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង</string>
     <string name="hardware_acceleration_error_message">មាន​កំហុស​ក្នុង​ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង។ តើ​អ្នក​ចង់​បិទ​វា រួច​សាកល្បង​ម្ដងទៀត​ដែរ​ឬទេ?</string>
+    <!--Tips-->
+    <string name="video_player_tips">គន្លឹះកម្មវិធីចាក់វីដេអូ:</string>
+    <string name="seek">ស្វែងរក</string>
+    <string name="subtitles">ចំណងជើង</string>
+    <string name="resize">\nផ្លាស់ប្តូរទំហំ</string>
+    <string name="options">ជម្រើស</string>
+    <string name="lock">ចាក់សោ</string>
     <!-- About -->
     <string name="app_name_full">VLC សម្រាប់ Android™</string>
     <string name="licence">អាជ្ញាប័ណ្ណ</string>
@@ -158,6 +165,12 @@
     <string name="enable_black_theme_summary">ប្ដូរ​ពណ៌​ចំណុច​ប្រទាក់​ដើម្បីឲ្យ​ប្រសើរ​សម្រាប់​បរិស្ថាន​ពន្លឺ​ទាប។</string>
     <string name="subtitle_text_encoding">ការ​ដាក់​លេខ​កូដ​អត្ថបទ​ចំណង​ជើង​រង</string>
     <string name="extra_prefs_category">ការ​កំណត់​បន្ថែម</string>
+    <string name="interface_prefs_screen">ចំណុច​ប្រទាក់</string>
+    <string name="interface_secondary_display_category">ចំណុច​ប្រទាក់ - ការ​បង្ហាញ​ទីពីរ</string>
+    <string name="enable_secondary_display_hardware_acceleration">រក្សាការកំណត់ការបង្កើនល្បឿនផ្នែករឹង</string>
+    <string name="enable_clone_mode">ក្លូន​ដែល​ពេញចិត្ត</string>
+    <string name="enable_clone_mode_summary">ក្លូន​អេក្រង់​ឧបករណ៍​នេះ ដោយ​មិន​បាច់​ការ​បញ្ជា​ពី​ចម្ងាយ។</string>
+    <string name="interface_other_category">ចំណុចប្រទាក់ - ផ្សេង</string>
     <string name="enable_brightness_gesture">បើក​កាយវិការ​ពន្លឺ</string>
     <string name="enable_brightness_gesture_summary">ពិនិត្យ​ពន្លឺ​ដោយ​កាយវិការ​អំឡុង​ពេល​ចាក់​វីដេអូ​ឡើងវិញ</string>
     <string name="enable_headset_detection">រក​កាស</string>
@@ -209,4 +222,7 @@
     <string name="dump_logcat">បោះបង់​កំណត់ហេតុ logcat</string>
     <string name="dump_logcat_success">បាន​បោះបង់​កំណត់ហេតុ Logcat ទៅកាន់ %1$s ដោយ​ជោគជ័យ!</string>
     <string name="dump_logcat_failure">បាន​បរាជ័យ​ក្នុង​ការ​បោះបង់ logcat ។</string>
+    <string name="restart_vlc">ចាប់​ផ្ដើម VLC ឡើងវិញ</string>
+    <string name="send_log">ផ្ញើចូល</string>
+    <string name="sending_log">កំពុង​ផ្ញើចូល...</string>
 </resources>
