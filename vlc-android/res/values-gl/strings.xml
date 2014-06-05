@@ -133,6 +133,11 @@
     <string name="search_history">Historial de busca</string>
     <string name="hardware_acceleration_error_title">Houbo un erro coa aceleración de hardware</string>
     <string name="hardware_acceleration_error_message">Houbo un erro coa aceleración de hardware. Quere desactivala e tentalo de novo?</string>
+    <!--Tips-->
+    <string name="subtitles">Subtítulos</string>
+    <string name="resize">Redimensionar</string>
+    <string name="options">Opcións</string>
+    <string name="lock">Bloquear</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licenza</string>
@@ -165,6 +170,14 @@
     <string name="enable_black_theme_summary">Muda as cores da interface para seren máis confortábeis en ambientes con pouca luz.</string>
     <string name="subtitle_text_encoding">Codificación do texto dos subtítulos</string>
     <string name="extra_prefs_category">Configuracións extra</string>
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category">Interface - Pantalla secundaria</string>
+    <string name="interface_secondary_display_category_summary">Configuracións para cando haxa conectadas pantallas secundarias (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Manter a configuración de aceleración de hardware</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">É posíbel que non funcione a aceleración de hardware</string>
+    <string name="enable_clone_mode">Preferir a clonación</string>
+    <string name="enable_clone_mode_summary">Clonar a pantalla do dispositivo sen control remoto.</string>
+    <string name="interface_other_category">Interface - Outras</string>
     <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
@@ -216,4 +229,9 @@
     <string name="dump_logcat">Descargar o rexistro de logcat</string>
     <string name="dump_logcat_success">Descargouse correctamente o rexistro de logcat en %1$s!</string>
     <string name="dump_logcat_failure">Produciuse un erro ao descargar o rexistro de logcat</string>
+    <string name="serious_crash">Produciuse un erro grave e houbo que pechar o VLC.   </string>
+    <string name="help_us_send_log">Axúdenos a mellorar o VLC enviando o seguinte informe de erro:</string>
+    <string name="restart_vlc">Reiniciar o VLC</string>
+    <string name="send_log">Enviar o informe</string>
+    <string name="sending_log">Enviando o informe…</string>
 </resources>
