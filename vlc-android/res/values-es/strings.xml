@@ -133,6 +133,14 @@
     <string name="search_history">Buscar en el historial</string>
     <string name="hardware_acceleration_error_title">Error en la aceleración por hardware</string>
     <string name="hardware_acceleration_error_message">Ha ocurrido un error con la aceleración por hardware. ¿Desea deshabilitarla y probar de nuevo? </string>
+    <!--Tips-->
+    <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
+    <string name="seek">Buscar</string>
+    <string name="subtitles">Subtítulos</string>
+    <string name="resize">Cambiar tamaño</string>
+    <string name="options">Opciones</string>
+    <string name="lock">Bloquear</string>
+    <string name="ok_got_it">Obtenido, descartar esto</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licencia</string>
@@ -224,6 +232,9 @@
     <string name="dump_logcat">Volcar trazas logcat</string>
     <string name="dump_logcat_success">Logcat volcado correctamente a %1$s</string>
     <string name="dump_logcat_failure">Fallo al volcar logcat.</string>
-    <string name="serious_crash">Desafortunadamente, ha ocurrido un error grave  y VLC tuvo que cerrar.</string>
+    <string name="serious_crash">Desafortunadamente, ha ocurrido un error serio y VLC ha tenido que cerrarse.</string>
+    <string name="help_us_send_log">Ayúdanos a mejorar VLC enviándonos las siguientes trazas de fallo:</string>
     <string name="restart_vlc">Reiniciar VLC</string>
+    <string name="send_log">Enviar las trazas</string>
+    <string name="sending_log">Enviando las trazas...</string>
 </resources>
