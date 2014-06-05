@@ -140,6 +140,7 @@
     <string name="search_history">Искать в истории</string>
     <string name="hardware_acceleration_error_title">Ошибка апп. ускорения</string>
     <string name="hardware_acceleration_error_message">При использовании аппаратного ускорения произошла ошибка. Хотите отключить его и попробовать снова?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
@@ -172,6 +173,14 @@
     <string name="enable_black_theme_summary">Изменить цвета интерфейса для большего комфорта при низкой освещённости.</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="extra_prefs_category">Доп. настройки</string>
+    <string name="interface_prefs_screen">Интерфейс</string>
+    <string name="interface_secondary_display_category">Интерфейс — вторичный дисплей</string>
+    <string name="interface_secondary_display_category_summary">Параметры при подключении вторичного дисплея (HDMI/Miracast)</string>
+    <string name="enable_secondary_display_hardware_acceleration">Сохранить режим аппаратного ускорения</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Аппаратное ускорение может не работать</string>
+    <string name="enable_clone_mode">Клонирование</string>
+    <string name="enable_clone_mode_summary">Клонировать экран устройства без удалённого управления.</string>
+    <string name="interface_other_category">Интерфейс — Другое</string>
     <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
@@ -223,4 +232,8 @@
     <string name="dump_logcat">Выгрузить журнал logcat</string>
     <string name="dump_logcat_success">Журнал logcat успешно выгружен в %1$s!</string>
     <string name="dump_logcat_failure">Выгрузить logcat не удалось.</string>
+    <string name="help_us_send_log">Помогите нам усовершенствовать VLC, отправив протокол сбоя:</string>
+    <string name="restart_vlc">Перезапустить VLC</string>
+    <string name="send_log">Отправить протокол</string>
+    <string name="sending_log">Отправка протокола...</string>
 </resources>
