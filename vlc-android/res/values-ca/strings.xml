@@ -133,6 +133,7 @@
     <string name="search_history">Historial de cerca</string>
     <string name="hardware_acceleration_error_title">Error d\'acceleració de maquinari</string>
     <string name="hardware_acceleration_error_message">S\'ha produït un error en l\'acceleració de maquinari. Voleu inhabilitar-la i provar de nou?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC per a l\'Android™</string>
     <string name="licence">Llicència</string>
@@ -165,6 +166,14 @@
     <string name="enable_black_theme_summary">Canvia els colors de la interfície per a un millor confort en llocs amb poca llum.</string>
     <string name="subtitle_text_encoding">Codificació del text del subtítol</string>
     <string name="extra_prefs_category">Paràmetres extres</string>
+    <string name="interface_prefs_screen">Interfície</string>
+    <string name="interface_secondary_display_category">Interfície - Segona pantalla</string>
+    <string name="interface_secondary_display_category_summary">Configuració quan les pantalles secundaries estiguin connectades (HDMI/Miracast)</string>
+    <string name="enable_secondary_display_hardware_acceleration">Permet la configuració d\'acceleració per maquinari</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">L\'accelaració per maquinari podria no funcionar</string>
+    <string name="enable_clone_mode">Pereixo clonar</string>
+    <string name="enable_clone_mode_summary">Clona la pantalla del dispositiu sense el control remot.</string>
+    <string name="interface_other_category">Interfície - Altres</string>
     <string name="enable_brightness_gesture">Habilita els gestos de brillantor</string>
     <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
     <string name="enable_headset_detection">Detecta els auriculars</string>
@@ -216,4 +225,8 @@
     <string name="dump_logcat">Aboca el registre logcat</string>
     <string name="dump_logcat_success">S\'ha abocat el registre logcat a %1$s!</string>
     <string name="dump_logcat_failure">No s\'ha pogut bolcar el logcat.</string>
+    <string name="help_us_send_log">Ajudan\'s a millorar VLC enviant-nos el següent fitxer de registre de fallades:</string>
+    <string name="restart_vlc">Reinicia el VLC</string>
+    <string name="send_log">Envia el fitxer de registre</string>
+    <string name="sending_log">Enviat el fitxer de registre...</string>
 </resources>
