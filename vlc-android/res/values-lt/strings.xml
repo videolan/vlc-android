@@ -140,6 +140,7 @@
     <string name="search_history">Paieškos žurnalas</string>
     <string name="hardware_acceleration_error_title">Aparatinio spartinimo klaida</string>
     <string name="hardware_acceleration_error_message">Kilo aparatinio spartinimo nesklandumų. Ar norėtumėte atsisakyti aparatinio spartinimo ir naudotis programa toliau?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC versija, skirta Android™</string>
     <string name="licence">Licencija</string>
@@ -231,7 +232,6 @@
     <string name="dump_logcat">Įrašyti pranešimų žurnalą</string>
     <string name="dump_logcat_success">Pranešimų žunalas „logcat“ sėkmingai įrašytas į %1$s!</string>
     <string name="dump_logcat_failure">Nepavyko įrašyti „logcat“.</string>
-    <string name="serious_crash">Deja, VLC programa užsrigo ir ją reikia užverti.</string>
     <string name="help_us_send_log">Padėkite mums tobulinti VLC nusiųsdami šią informaciją apie programos klaidą:</string>
     <string name="restart_vlc">Iš naujo paleisti VLC</string>
     <string name="send_log">Siųsti žurnalą</string>
