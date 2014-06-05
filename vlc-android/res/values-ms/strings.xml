@@ -126,6 +126,7 @@
     <string name="search_history">Gelintar sejarah</string>
     <string name="hardware_acceleration_error_title">Ralat pemecutan HW</string>
     <string name="hardware_acceleration_error_message">Pemecutan HW menghadapi ralat. Anda mahu lumpuhkannya dan cuba lagi?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC untuk Android™</string>
     <string name="licence">Lesen</string>
@@ -158,6 +159,14 @@
     <string name="enable_black_theme_summary">Ubah warna antaramuka untuk kelihatan lebih baik dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="extra_prefs_category">Tetapan tambahan</string>
+    <string name="interface_prefs_screen">Antaramuka</string>
+    <string name="interface_secondary_display_category">Antaramuka - Paparan Kedua</string>
+    <string name="interface_secondary_display_category_summary">Tetapkan bila paparan kedua bersambung (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Kekalkan tetapan pemecutan perkakasan</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Pemecutan perkakasan mungkin tidak berfungsi</string>
+    <string name="enable_clone_mode">Utamakan klon</string>
+    <string name="enable_clone_mode_summary">Klonkan skrin peranti tanpa kawalan jauh.</string>
+    <string name="interface_other_category">Antaramuka - Lain</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
@@ -209,4 +218,8 @@
     <string name="dump_logcat">Longgok log logcat</string>
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
+    <string name="help_us_send_log">Bantu kami mempertingkatkan VLC dengan menghantar log kerosakan berikut:</string>
+    <string name="restart_vlc">Mula semula VLC</string>
+    <string name="send_log">Hantar log</string>
+    <string name="sending_log">Menghantar log...</string>
 </resources>
