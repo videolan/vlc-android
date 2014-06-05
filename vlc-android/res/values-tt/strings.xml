@@ -126,6 +126,7 @@
     <string name="search_history">Тарихта эзләргә</string>
     <string name="hardware_acceleration_error_title">Апп. тизләнештә хата</string>
     <string name="hardware_acceleration_error_message">Аппаратлы тизләнеш белән хата килеп чыкты. Аны сүндерергәме яки кабатлап караргамы?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC Android™ өчен</string>
     <string name="licence">Хокук</string>
@@ -159,6 +160,12 @@
     <string name="subtitle_text_encoding">Субтитрлар тексты кодировкасы</string>
     <string name="extra_prefs_category">Өстәмә көйләү</string>
     <string name="interface_prefs_screen">Интерфейс</string>
+    <string name="interface_secondary_display_category">Интерфейс - өстәмә дисплей</string>
+    <string name="interface_secondary_display_category_summary">Өстәмә дисплейлар тоташканда көйләүләр (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Аппаратлы тизләнеш көйләүләрен тотыгыз</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Аппаратлы тизләнеш эшли алмый</string>
+    <string name="enable_clone_mode">Күчермә яхшырак</string>
+    <string name="enable_clone_mode_summary">Ерактан идарә итү пультсыз җиһаз экранына күчермә ясарга</string>
     <string name="interface_other_category">Интерфейс - Башкалар</string>
     <string name="enable_brightness_gesture">Ишарә белән яктылыкны үзгәртергә</string>
     <string name="enable_brightness_gesture_summary">Видео уйнатканда яктылык белән ишарә ярдәмендә идарә итү</string>
@@ -211,6 +218,7 @@
     <string name="dump_logcat">logcat журналын бушатыргаt</string>
     <string name="dump_logcat_success">logcat журналы уңышлы %1$s бушатылды!</string>
     <string name="dump_logcat_failure">logcat бушатып булмады.</string>
+    <string name="help_us_send_log">VLC кушымтасын яхшырту өчен безгә һәлакәт логын җибәрегез:</string>
     <string name="restart_vlc">VLC киредән кабызу</string>
     <string name="send_log">Логны җибәрергә</string>
     <string name="sending_log">Логны җибәрү...</string>
