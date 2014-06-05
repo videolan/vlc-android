@@ -94,7 +94,7 @@
     <string name="surface_fill">Étirer</string>
     <string name="surface_original">Centrer</string>
     <string name="thumbnail">Miniature</string>
-    <string name="unseekable_stream">Flux impossible à chercher</string>
+    <string name="unseekable_stream">Impossible de naviguer dans le flux</string>
     <string name="refresh">Rafraîchir</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>
@@ -132,6 +132,8 @@
     <string name="search">Recherche</string>
     <string name="search_history">Historique de recherche</string>
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
+    <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC pour Android™</string>
     <string name="licence">Licence</string>
@@ -143,7 +145,7 @@
     <!-- Preferences -->
     <string name="preferences">Préférences</string>
     <string name="general_prefs_category">Général</string>
-    <string name="directories_summary">Sélectionnez les dossiers de votre bilbiothèque multimédia</string>
+    <string name="directories_summary">Sélectionnez les dossiers de votre bibliothèque multimédia</string>
     <string name="add_custom_path">Ajouter un dossier</string>
     <string name="add_custom_path_description">Entrer un dossier additionnel à scanner :</string>
     <string name="remove_custom_path">Retirer le dossier</string>
@@ -164,15 +166,14 @@
     <string name="enable_black_theme_summary">Change les couleurs de l\'interface pour un meilleur confort dans les environnement sous éclairés.</string>
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="extra_prefs_category">Réglages supplémentaires</string>
-
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category">Interface - Écran auxiliaire</string>
-    <string name="interface_secondary_display_category_summary"> Préférences lorsqu\'un écran auxiliaire est connecté (HDMI/Miracast).</string>
+    <string name="interface_secondary_display_category_summary">Préférences lorsqu\'un écran auxiliaire est connecté (HDMI/Miracast).</string>
     <string name="enable_secondary_display_hardware_acceleration">Conserver le réglage de l\'accélération matérielle</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Il est possible que l\'accélération matérielle ne fonctionne pas.</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Il est possible que l\'accélération matérielle ne fonctionne pas</string>
     <string name="enable_clone_mode">Préférer le mode clone</string>
     <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécomande</string>
-    <string name="interface_other_category">Interface - Autre</string>
+    <string name="interface_other_category">Interface - Autres</string>
     <string name="enable_brightness_gesture">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
     <string name="enable_headset_detection">Détecter le casque</string>
@@ -181,10 +182,9 @@
     <string name="enable_jump_buttons_summary">Activer les boutons de recherches avant et arrière dans l\'interface vidéo</string>
     <string name="enable_steal_remote_control">Contrôle exclusif de la télécommande</string>
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
-
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
-    <string name="chroma_format_summary">RGB 32-bit :\tmode par défaut\nRGB 16-bit :\taméliore les performances vidéos mais diminue la qualité\nYUV :\taméliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement</string>
+    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
     <string name="deblocking_always">Déblocage max (plus lent)</string>
@@ -222,22 +222,11 @@
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
-    <string name="dump_logcat">Sauvegarder le fichier journal logcat</string>
-    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans %1$s !</string>
-    <string name="dump_logcat_failure">Échec de sauvegarde du logcat.</string>
-
-<!-- Tips -->
-    <string name="video_player_tips">Astuces du lecteur vidéo</string>
-    <string name="seek">Recherche</string>
-    <string name="subtitles">Sous-titres</string>
-    <string name="resize">Ajuster l\'image</string>
-    <string name="options">Options</string>
-    <string name="lock">Vérouiller</string>
-    <string name="ok_got_it">J\'ai compris</string>
-
-    <string name="playlist_tips">Astuces de la playlist</string>
-    <string name="remove_song">Retirer une chanson</string>
-    <string name="rearrange_order">Réarranger l\'ordre</string>
-    <string name="hold_to_seek">Maintenir pour rechercher</string>
-
+    <string name="dump_logcat">Sauvegarder journal logcat</string>
+    <string name="dump_logcat_success">Logcat sauvegardé avec succès dans le fichier: %1$s !</string>
+    <string name="dump_logcat_failure">Erreur lors de la sauvegarde du logcat.</string>
+    <string name="help_us_send_log">Aidez-nous à améliorer VLC en renvoyant le rapport de crash suivant :</string>
+    <string name="restart_vlc">Redémarrer VLC</string>
+    <string name="send_log">Envoyer le rapport</string>
+    <string name="sending_log">Envoi du rapport...</string>
 </resources>
