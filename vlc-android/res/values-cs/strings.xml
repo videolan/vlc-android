@@ -140,6 +140,7 @@
     <string name="search_history">Historie hledání</string>
     <string name="hardware_acceleration_error_title">Chyba hardwarové akcelerace</string>
     <string name="hardware_acceleration_error_message">Při běhu se zapnutou hardwarovou akcelerací nastala chyba. Přejete si ji zakázat a zkusit operaci znovu?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
     <string name="licence">Licence</string>
@@ -172,6 +173,14 @@
     <string name="enable_black_theme_summary">Změní barvy rozhraní pro vyšší pohodlí v prostředí s nižším osvětlením.</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
     <string name="extra_prefs_category">Další nastavení</string>
+    <string name="interface_prefs_screen">Rozhraní</string>
+    <string name="interface_secondary_display_category">Rozhraní - Vedlejší obrazovka</string>
+    <string name="interface_secondary_display_category_summary">Nastavení pro další připojené obrazovky (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Ponechat nastavení hardwarové akcelerace</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Hardwarová akcelerace nemusí fungovat</string>
+    <string name="enable_clone_mode">Upřednostnit klon</string>
+    <string name="enable_clone_mode_summary">Klonovat obrazovku zařízení bez dálkového ovládání.</string>
+    <string name="interface_other_category">Rozhraní - Další</string>
     <string name="enable_brightness_gesture">Povolit gesto jasu</string>
     <string name="enable_brightness_gesture_summary">Ovládat jas pomocí gesta při přehrávání videa</string>
     <string name="enable_headset_detection">Detekovat sluchátka</string>
@@ -223,4 +232,8 @@
     <string name="dump_logcat">Vypsat záznam logcat</string>
     <string name="dump_logcat_success">Záznam logcat úspěšně vypsán do %1$s!</string>
     <string name="dump_logcat_failure">Vypsání záznamu logcat selhalo.</string>
+    <string name="help_us_send_log">Pomozte nám vylepšit přehrávač VLC zasláním následujícího záznamu o pádu aplikace:</string>
+    <string name="restart_vlc">Restartovat VLC</string>
+    <string name="send_log">Zaslat záznam</string>
+    <string name="sending_log">Zasílám záznam...</string>
 </resources>
