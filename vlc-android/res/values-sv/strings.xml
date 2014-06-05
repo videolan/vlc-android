@@ -133,6 +133,14 @@
     <string name="search_history">Sökhistorik</string>
     <string name="hardware_acceleration_error_title">HV-accelerationsfel</string>
     <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelereringen. Vill du inaktivera den och försöka igen?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Tips för videospelaren:</string>
+    <string name="seek">Sök</string>
+    <string name="subtitles">Undertexter</string>
+    <string name="resize">Ändra storlek</string>
+    <string name="options">Alternativ</string>
+    <string name="lock">Lås</string>
+    <string name="ok_got_it">Uppfattat, stäng detta</string>
     <!-- About -->
     <string name="app_name_full">VLC för Android™</string>
     <string name="licence">Licens</string>
