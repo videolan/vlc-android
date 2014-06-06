@@ -134,6 +134,13 @@
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
     <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
     <!--Tips-->
+    <string name="video_player_tips">Astuces du lecteur vidéo</string>
+    <string name="seek">Recherche</string>
+    <string name="subtitles">Sous-titres</string>
+    <string name="resize">Ajuster l\'image</string>
+    <string name="options">Options</string>
+    <string name="lock">Vérouiller</string>
+    <string name="ok_got_it">J\'ai compris</string>
     <!-- About -->
     <string name="app_name_full">VLC pour Android™</string>
     <string name="licence">Licence</string>
