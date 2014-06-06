@@ -861,6 +861,7 @@ public class MainActivity extends SherlockFragmentActivity {
         if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
             mSlidingPane.openPane();
         mAudioPlayerFilling.setVisibility(View.VISIBLE);
+        mAudioPlayer.showAudioPlayerTips();
     }
 
     /**

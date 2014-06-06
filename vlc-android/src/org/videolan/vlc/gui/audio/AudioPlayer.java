@@ -100,7 +100,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
     private boolean mHeaderTimeVisible;
 
     // Tips
-    private static final String PREF_TIPS_SHOWN = "playlist_tips_shown";
+    private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
+    private static final String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -657,6 +658,11 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
     public void showPlaylistTips() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_TIPS_SHOWN);
+        activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
+    }
+
+    public void showAudioPlayerTips() {
+        MainActivity activity = (MainActivity)getActivity();
+        activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
 }
