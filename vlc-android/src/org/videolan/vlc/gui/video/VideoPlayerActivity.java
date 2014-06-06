@@ -358,8 +358,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         // Clear the resume time, since it is only used for resumes in external
         // videos.
-        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
         // Also clear the subs list, because it is supposed to be per session
         // only (like desktop VLC). We don't want the customs subtitle file
@@ -454,8 +453,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mSurface.setKeepScreenOn(false);
 
-        SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = mSettings.edit();
         // Save position
         if (time >= 0 && mCanSeek) {
             if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
@@ -1897,7 +1895,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
-            SharedPreferences preferences = getSharedPreferences(PreferencesActivity.NAME, MODE_PRIVATE);
             Media media = MediaDatabase.getInstance(this).getMedia(mLocation);
             if(media != null) {
                 // in media library
@@ -1908,8 +1905,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mLastSpuTrack = media.getSpuTrack();
             } else {
                 // not in media library
-                long rTime = preferences.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                SharedPreferences.Editor editor = preferences.edit();
+                long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                Editor editor = mSettings.edit();
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 editor.commit();
                 if(rTime > 0)
@@ -1920,7 +1917,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }
 
             // Get possible subtitles
-            String subtitleList_serialized = preferences.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+            String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
             ArrayList<String> prefsList = new ArrayList<String>();
             if(subtitleList_serialized != null) {
                 ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
@@ -2085,7 +2082,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     };
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private final static class SecondaryDisplay extends Presentation {
+    private final class SecondaryDisplay extends Presentation {
         public final static String TAG = "VLC/SecondaryDisplay";
 
         private Context mContext;
@@ -2116,12 +2113,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.player_remote);
 
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-
             mSurface = (SurfaceView) findViewById(R.id.remote_player_surface);
             mSurfaceHolder = mSurface.getHolder();
             mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
-            String chroma = pref.getString("chroma_format", "");
+            String chroma = mSettings.getString("chroma_format", "");
             if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
                 mSurfaceHolder.setFormat(ImageFormat.YV12);
             } else if (chroma.equals("RV16")) {
