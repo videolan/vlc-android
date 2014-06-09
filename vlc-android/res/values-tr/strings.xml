@@ -141,6 +141,10 @@
     <string name="options">Ayarlar</string>
     <string name="lock">Kilitleyin</string>
     <string name="ok_got_it">Anladım, boşver</string>
+    <string name="playlist_tips">Oynatma listesi ipuçları</string>
+    <string name="remove_song">Şarkıyı çıkarın</string>
+    <string name="rearrange_order">Sıralamayı düzenleyin</string>
+    <string name="hold_to_seek">İlerlemek için basılı tutun</string>
     <!-- About -->
     <string name="app_name_full">Android™ için VLC</string>
     <string name="licence">Lisans</string>
