@@ -141,6 +141,10 @@
     <string name="options">Indstillinger</string>
     <string name="lock">Lås</string>
     <string name="ok_got_it">Forstået - afvis dette</string>
+    <string name="playlist_tips">Tips til spillelisten</string>
+    <string name="remove_song">Fjern sang</string>
+    <string name="rearrange_order">Skift rækkefølge</string>
+    <string name="hold_to_seek">Hold for søgning</string>
     <!-- About -->
     <string name="app_name_full">VLC til Android™</string>
     <string name="licence">Licens</string>
