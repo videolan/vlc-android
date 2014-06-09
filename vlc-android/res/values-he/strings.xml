@@ -141,6 +141,10 @@
     <string name="options">אפשרויות</string>
     <string name="lock">נעילה</string>
     <string name="ok_got_it">הבנתי, עזוב אותי</string>
+    <string name="playlist_tips">עצות רשימת נגינה</string>
+    <string name="remove_song">הסרת שיר</string>
+    <string name="rearrange_order">שינוי הסדר</string>
+    <string name="hold_to_seek">יש להחזיק כדי לגלול</string>
     <!-- About -->
     <string name="app_name_full">VLC ל־Android™</string>
     <string name="licence">רישיון</string>
