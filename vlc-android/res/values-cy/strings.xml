@@ -155,6 +155,10 @@
     <string name="options">Dewisiadau</string>
     <string name="lock">Cloi</string>
     <string name="ok_got_it">Iawn, dwi\'n deall.</string>
+    <string name="playlist_tips">Cyngor rhestr chwarae</string>
+    <string name="remove_song">Tynnu trac</string>
+    <string name="rearrange_order">Ail-drefnu</string>
+    <string name="hold_to_seek">Dal lawr i chwilio</string>
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android™</string>
     <string name="licence">Trwydded</string>
