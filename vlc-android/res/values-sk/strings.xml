@@ -147,6 +147,11 @@
     <string name="resize">Zmeniť veľkosť</string>
     <string name="options">Vlastnosti</string>
     <string name="lock">Uzamknút</string>
+    <string name="ok_got_it">Rozumiem, pokračovať</string>
+    <string name="playlist_tips">Tipy k playlistu</string>
+    <string name="remove_song">Odstrániť skladbu</string>
+    <string name="rearrange_order">Zmeniť poradie</string>
+    <string name="hold_to_seek">Podržte pre spustenie vyhľadávania</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Licencia</string>
