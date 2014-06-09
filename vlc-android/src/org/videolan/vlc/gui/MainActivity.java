@@ -861,7 +861,6 @@ public class MainActivity extends SherlockFragmentActivity {
         if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
             mSlidingPane.openPane();
         mAudioPlayerFilling.setVisibility(View.VISIBLE);
-        mAudioPlayer.showAudioPlayerTips();
     }
 
     /**
@@ -913,6 +912,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true);
                 mMenu.setSlidingEnabled(true);
                 removeTipViewIfDisplayed();
+                mAudioPlayer.showAudioPlayerTips();
             }
 
             @Override
