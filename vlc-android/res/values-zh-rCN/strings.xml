@@ -134,6 +134,10 @@
     <string name="options">选项</string>
     <string name="lock">锁定</string>
     <string name="ok_got_it">知道啦，别烦了</string>
+    <string name="playlist_tips">播放列表提示</string>
+    <string name="remove_song">移除曲目</string>
+    <string name="rearrange_order">重排 </string>
+    <string name="hold_to_seek">按住可改变进度</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授权许可</string>
