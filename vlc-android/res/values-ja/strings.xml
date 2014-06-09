@@ -134,6 +134,10 @@
     <string name="options">オプション</string>
     <string name="lock">ロック</string>
     <string name="ok_got_it">これを取り除く</string>
+    <string name="playlist_tips">プレイリスト活用法</string>
+    <string name="remove_song">歌を削除</string>
+    <string name="rearrange_order">順序を再調整</string>
+    <string name="hold_to_seek">シークを停止</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">ライセンス</string>
