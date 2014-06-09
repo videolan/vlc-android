@@ -148,6 +148,10 @@
     <string name="options">Opcije</string>
     <string name="lock">Zaključaj</string>
     <string name="ok_got_it">Uredu, odbaci ovo</string>
+    <string name="playlist_tips">Savjeti za listu izvođenja</string>
+    <string name="remove_song">Izbriši pjesmu</string>
+    <string name="rearrange_order">Preuredi redoslijed</string>
+    <string name="hold_to_seek">Drži za traženje</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
