@@ -236,6 +236,7 @@
     <string name="dump_logcat">Sauvegarder journal logcat</string>
     <string name="dump_logcat_success">Logcat sauvegardé avec succès dans le fichier: %1$s !</string>
     <string name="dump_logcat_failure">Erreur lors de la sauvegarde du logcat.</string>
+    <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
     <string name="help_us_send_log">Aidez-nous à améliorer VLC en renvoyant le rapport de crash suivant :</string>
     <string name="restart_vlc">Redémarrer VLC</string>
     <string name="send_log">Envoyer le rapport</string>
