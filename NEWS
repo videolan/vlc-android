@@ -1,9 +1,20 @@
-Changes between 0.9.3 and 0.9.4-git:
+Changes between 0.9.3 and 0.9.4:
 --------------------------------
+
+Core:
+ * Fix playback of numerous files
+ * Fix some crashes in hardware decoding
 
 Main application:
  * Add the possibility to send a report after a native crash
- * Icon tweaks
+ * New VLC icon
+ * Video tips and howto to start using the program
+ * Numerous Icons tweaks
+ * Support Dual Audio in remote mode
+ * Fast scroll letters in audio views
+ * DVD menu are now working
+ * Vibration on long clicks
+ * Major translations updates
 
 
 Changes between 0.9.2 and 0.9.3:
