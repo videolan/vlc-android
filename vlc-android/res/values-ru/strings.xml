@@ -141,6 +141,17 @@
     <string name="hardware_acceleration_error_title">Ошибка апп. ускорения</string>
     <string name="hardware_acceleration_error_message">При использовании аппаратного ускорения произошла ошибка. Хотите отключить его и попробовать снова?</string>
     <!--Tips-->
+    <string name="video_player_tips">Подсказки для видеоплеера:</string>
+    <string name="seek">Переход</string>
+    <string name="subtitles">Субтитры</string>
+    <string name="resize">Изменение размера</string>
+    <string name="options">Параметры</string>
+    <string name="lock">Блокировка</string>
+    <string name="ok_got_it">Принято</string>
+    <string name="playlist_tips">Подсказки для плейлиста</string>
+    <string name="remove_song">Удаление</string>
+    <string name="rearrange_order">Изменение порядка</string>
+    <string name="hold_to_seek">Удержание — переход</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
@@ -232,6 +243,7 @@
     <string name="dump_logcat">Выгрузить журнал logcat</string>
     <string name="dump_logcat_success">Журнал logcat успешно выгружен в %1$s!</string>
     <string name="dump_logcat_failure">Выгрузить logcat не удалось.</string>
+    <string name="serious_crash">К сожалению, произошла серьёзная ошибка и VLC пришлось закрыть.</string>
     <string name="help_us_send_log">Помогите нам усовершенствовать VLC, отправив протокол сбоя:</string>
     <string name="restart_vlc">Перезапустить VLC</string>
     <string name="send_log">Отправить протокол</string>
