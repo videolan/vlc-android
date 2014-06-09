@@ -492,6 +492,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
             mPresentation.dismiss();
             mPresentation = null;
+            mAudioManager.setParameters("bgm_state=false");
         }
     }
 
@@ -2045,6 +2046,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mPresentation.setOnDismissListener(mOnDismissListener);
             try {
                 mPresentation.show();
+                mAudioManager.setParameters("bgm_state=true");
             } catch (WindowManager.InvalidDisplayException ex) {
                 Log.w(TAG, "Couldn't show presentation!  Display was removed in "
                         + "the meantime.", ex);
@@ -2066,6 +2068,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         finish(); //TODO restore the video on the new display instead of closing
         if (mPresentation != null) mPresentation.dismiss();
         mPresentation = null;
+        mAudioManager.setParameters("bgm_state=false");
     }
 
     /**
