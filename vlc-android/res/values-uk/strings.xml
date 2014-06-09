@@ -148,6 +148,10 @@
     <string name="options">Параметри</string>
     <string name="lock">Блокувати</string>
     <string name="ok_got_it">Зрозумів, відхилити це</string>
+    <string name="playlist_tips">Поради до списку</string>
+    <string name="remove_song">Видалити пісню</string>
+    <string name="rearrange_order">Перебудувати порядок</string>
+    <string name="hold_to_seek">Утримуйте для пошуку</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Ліцензія</string>
