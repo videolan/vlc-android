@@ -108,7 +108,7 @@ ANDROID_PATH="`pwd`"
 if [ ! -z "$FETCH" ]
 then
     # 1/ libvlc, libvlccore and its plugins
-    TESTED_HASH=602d02a
+    TESTED_HASH=e363420
     if [ ! -d "vlc" ]; then
         echo "VLC source not found, cloning"
         git clone git://git.videolan.org/vlc.git vlc
