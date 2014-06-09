@@ -141,6 +141,10 @@
     <string name="options">Opties</string>
     <string name="lock">Vergrendelen</string>
     <string name="ok_got_it">Begrepen</string>
+    <string name="playlist_tips">Afspeellijst-tips</string>
+    <string name="remove_song">Liedje verwijderen</string>
+    <string name="rearrange_order">Volgorde wijzigen</string>
+    <string name="hold_to_seek">Inhouden om te zoeken</string>
     <!-- About -->
     <string name="app_name_full">VLC voor Android™</string>
     <string name="licence">Licentie</string>
