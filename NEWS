@@ -2,18 +2,18 @@ Changes between 0.9.3 and 0.9.4:
 --------------------------------
 
 Core:
- * Fix playback of numerous files
+ * Fix playback of numerous files formats
  * Fix some crashes in hardware decoding
 
 Main application:
- * Add the possibility to send a report after a native crash
  * New VLC icon
- * Video tips and howto to start using the program
- * Numerous Icons tweaks
+ * Tips and tutorial are shown on the first start
+ * Add the possibility to send a report after a native crash
+ * Numerous icons modifications and tweaks
  * Support Dual Audio in remote mode
- * Fast scroll letters in audio views
- * DVD menu are now working
- * Vibration on long clicks
+ * Fast scroll using letters in audio views
+ * DVD menu are now supported
+ * Vibrations on long clicks
  * Major translations updates
 
 
