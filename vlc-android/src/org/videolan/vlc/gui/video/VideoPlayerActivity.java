@@ -254,8 +254,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
         }
 
-
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        /* Services and miscellaneous */
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
         createPresentation();
@@ -348,10 +351,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
         mLoadingText = (TextView) findViewById(R.id.player_overlay_loading_text);
         startLoadingAnimation();
-
-        /* Services and miscellaneous */
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
         mSwitchingView = false;
         mEndReached = false;
