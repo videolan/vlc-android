@@ -363,7 +363,16 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     @Override
     public int getPositionForSection(int sectionIndex) {
-        return mSections.keyAt(sectionIndex);
+        int index;
+        if(mSections.size() == 0)
+            index = 0;
+        else if(sectionIndex > mSections.size())
+            index = mSections.size() - 1;
+        else if(sectionIndex < 0)
+            index = 0;
+        else
+            index = sectionIndex;
+        return mSections.keyAt(index);
     }
 
     @Override
