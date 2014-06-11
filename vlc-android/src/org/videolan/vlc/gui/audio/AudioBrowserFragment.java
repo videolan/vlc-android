@@ -421,10 +421,12 @@ public class AudioBrowserFragment extends SherlockFragment {
         mGenresAdapter.notifyDataSetChanged();
         // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
         int[] lists = { R.id.songs_list, R.id.artists_list, R.id.albums_list, R.id.genres_list };
-        for(int r : lists) {
-            ListView l = (ListView)getView().findViewById(r);
-            l.setFastScrollEnabled(false);
-            l.setFastScrollEnabled(true);
+        if(getView() != null) {
+            for(int r : lists) {
+                ListView l = (ListView)getView().findViewById(r);
+                l.setFastScrollEnabled(false);
+                l.setFastScrollEnabled(true);
+            }
         }
     }
 
