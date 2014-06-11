@@ -128,7 +128,11 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         for (int i = 0; i < mItems.size(); ++i) {
             String title = mItems.get(i).mTitle;
-            char firstChar = title.toUpperCase(Locale.ENGLISH).charAt(0);
+            char firstChar;
+            if(title.length() > 0)
+                firstChar = title.toUpperCase(Locale.ENGLISH).charAt(0);
+            else
+                firstChar = '#'; // Blank / spaces-only song title.
 
             if (Character.isLetter(firstChar)) {
                 if (firstSeparator || firstChar != prevFirstChar) {
