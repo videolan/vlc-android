@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 import org.videolan.libvlc.EventHandler;
@@ -1865,6 +1866,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
 
         mSurface.setKeepScreenOn(true);
+
+        /* WARNING: hack to avoid a crash in mediacodec on KitKat.
+         * Disable the hardware acceleration the media has a ts extension. */
+        if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
+            String locationLC = mLocation.toLowerCase(Locale.ENGLISH);
+            if (locationLC.endsWith(".ts")
+                || locationLC.endsWith("tts")
+                || locationLC.endsWith(".m2t")
+                || locationLC.endsWith(".m2ts"))
+                mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+        }
 
         /* Start / resume playback */
         if(dontParse && itemPosition >= 0) {
