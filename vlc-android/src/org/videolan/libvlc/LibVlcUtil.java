@@ -73,6 +73,11 @@ public class LibVlcUtil {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 
+    public static boolean isKitKatOrLater()
+    {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT;
+    }
+
     private static String errorMsg = null;
     private static boolean isCompatible = false;
     public static String getErrorMsg() {
