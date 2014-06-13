@@ -1872,7 +1872,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
             String locationLC = mLocation.toLowerCase(Locale.ENGLISH);
             if (locationLC.endsWith(".ts")
-                || locationLC.endsWith("tts")
+                || locationLC.endsWith(".tts")
                 || locationLC.endsWith(".m2t")
                 || locationLC.endsWith(".m2ts")) {
                 mDisabledHardwareAcceleration = true;
