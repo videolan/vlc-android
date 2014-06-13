@@ -1874,8 +1874,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (locationLC.endsWith(".ts")
                 || locationLC.endsWith("tts")
                 || locationLC.endsWith(".m2t")
-                || locationLC.endsWith(".m2ts"))
+                || locationLC.endsWith(".m2ts")) {
+                mDisabledHardwareAcceleration = true;
+                mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
                 mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
+            }
         }
 
         /* Start / resume playback */
