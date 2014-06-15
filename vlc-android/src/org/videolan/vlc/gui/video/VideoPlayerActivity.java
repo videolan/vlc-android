@@ -1551,7 +1551,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 Log.d(TAG, "Pixel format is YV12");
             else
                 Log.d(TAG, "Pixel format is other/unknown");
-            if(holder != null)
+            if(mLibVLC != null)
                 mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this);
         }
 
@@ -1561,14 +1561,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            mLibVLC.detachSurface();
+            if(mLibVLC != null)
+                mLibVLC.detachSurface();
         }
     };
 
     private final SurfaceHolder.Callback mSubtitlesSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            mLibVLC.attachSubtitlesSurface(holder.getSurface());
+            if(mLibVLC != null)
+                mLibVLC.attachSubtitlesSurface(holder.getSurface());
         }
 
         @Override
@@ -1577,7 +1579,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            mLibVLC.detachSubtitlesSurface();
+            if(mLibVLC != null)
+                mLibVLC.detachSubtitlesSurface();
         }
     };
 
