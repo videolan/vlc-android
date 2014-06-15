@@ -111,7 +111,7 @@ then
     TESTED_HASH=8bb10a1
     if [ ! -d "vlc" ]; then
         echo "VLC source not found, cloning"
-        git clone git://git.videolan.org/vlc.git vlc
+        git clone git://git.videolan.org/vlc/vlc-2.2.git vlc
         cd vlc
         git checkout -B android ${TESTED_HASH}
     else
