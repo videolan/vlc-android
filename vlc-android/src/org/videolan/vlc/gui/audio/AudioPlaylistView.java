@@ -209,13 +209,13 @@ public class AudioPlaylistView extends ListView {
                 // Send back the performed change thanks to the listener.
                 AudioPlaylistAdapter.ViewHolder holder = (AudioPlaylistAdapter.ViewHolder)child.getTag();
                 if (mOnItemDraggedListener != null)
-                    mOnItemDraggedListener.OnItemDradded(mPositionDragStart, holder.position);
+                    mOnItemDraggedListener.onItemDragged(mPositionDragStart, holder.position);
                 b_foundHitChild = true;
                 break;
             }
         }
         if (!b_foundHitChild)
-            mOnItemDraggedListener.OnItemDradded(mPositionDragStart, this.getCount());
+            mOnItemDraggedListener.onItemDragged(mPositionDragStart, this.getCount());
     }
 
     public void dragAborted() {
@@ -231,7 +231,7 @@ public class AudioPlaylistView extends ListView {
     }
 
     public interface OnItemDraggedListener {
-        public void OnItemDradded(int positionStart, int positionEnd);
+        public void onItemDragged(int positionStart, int positionEnd);
     };
 
     public void setOnItemDraggedListener(OnItemDraggedListener l) {

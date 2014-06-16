@@ -240,7 +240,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         });
         mSongsList.setOnItemDraggedListener(new AudioPlaylistView.OnItemDraggedListener() {
             @Override
-            public void OnItemDradded(int positionStart, int positionEnd) {
+            public void onItemDragged(int positionStart, int positionEnd) {
                 mAudioController.moveItem(positionStart, positionEnd);
             }
         });
