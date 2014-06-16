@@ -185,10 +185,10 @@ public class AudioUtil {
                     titleHash = "0" + titleHash;
                 }
                 /* Use generated hash to find art */
-                artworkURL = CACHE_DIR + "/art/arturl/" + titleHash + "/art.png";
+                artworkURL = ART_DIR + "/arturl/" + titleHash + "/art.png";
             } else {
                 /* Otherwise, it was cached by artist and album */
-                artworkURL = CACHE_DIR + "/art/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
+                artworkURL = ART_DIR + "/artistalbum/" + mArtist + "/" + mAlbum + "/art.png";
             }
 
             return artworkURL;
