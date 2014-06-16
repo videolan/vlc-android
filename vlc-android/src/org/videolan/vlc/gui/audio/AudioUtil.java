@@ -120,7 +120,7 @@ public class AudioUtil {
         }
     }
 
-    public static void clearCacheFolder() {
+    public static void clearCacheFolders() {
         for(String path : Arrays.asList(ART_DIR, COVER_DIR, PLAYLIST_DIR)) {
             File file = new File(path);
             if (file.exists())
