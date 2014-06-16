@@ -56,9 +56,21 @@ import android.widget.Toast;
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
 
+    /**
+     * Cache directory (/sdcard/Android/data/...)
+     */
     public static String CACHE_DIR = null;
+    /**
+     * VLC embedded art storage location
+     */
     public static String ART_DIR = null;
+    /**
+     * Cover caching directory
+     */
     public static String COVER_DIR = null;
+    /**
+     * User-defined playlist storage directory
+     */
     public static String PLAYLIST_DIR = null;
 
     public static void setRingtone(Media song, Context context){
