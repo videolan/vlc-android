@@ -125,7 +125,7 @@ public class AudioUtil {
         COVER_DIR = CACHE_DIR + "/covers/";
         PLAYLIST_DIR = CACHE_DIR + "/playlists/";
 
-        for(String path : Arrays.asList(ART_DIR, COVER_DIR, PLAYLIST_DIR)) {
+        for(String path : Arrays.asList(ART_DIR, COVER_DIR)) {
             File file = new File(path);
             if (!file.exists())
                 file.mkdirs();
@@ -133,7 +133,7 @@ public class AudioUtil {
     }
 
     public static void clearCacheFolders() {
-        for(String path : Arrays.asList(ART_DIR, COVER_DIR, PLAYLIST_DIR)) {
+        for(String path : Arrays.asList(ART_DIR, COVER_DIR)) {
             File file = new File(path);
             if (file.exists())
                 deleteContent(file, false);
