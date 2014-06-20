@@ -1,6 +1,13 @@
-Changes between 0.9.5 and 0.9.6-git:
+Changes between 0.9.5 and 0.9.6:
 --------------------------------
 
+Core:
+ * repair equalizer
+ * Blacklist hardware decoding for more TS files
+
+Main Application:
+ * Fix crash in Audio browsing and Video player
+ * Fix retaining of user playlists when clearing
 
 
 Changes between 0.9.4 and 0.9.5:
