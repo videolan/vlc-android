@@ -4,7 +4,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
     <string name="other">Annet</string>
-    <string name="filebrowser_title">Velg mediefil å spille</string>
     <string name="sortby">Sortér etter…</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_length">Lengde</string>
@@ -26,8 +25,8 @@
     <string name="remove">Fjern</string>
     <string name="set_song">Bruk som ringetone</string>
     <string name="info">Informasjon</string>
-    <string name="confirm_delete">Slette filen \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' ble valgt som ringetone.</string>
+    <string name="confirm_delete">Slette filen \'%1$s\'?</string>
+    <string name="ringtone_set">Filen \'%1$s\' ble satt som ringetone.</string>
     <string name="ringtone_error">En feil oppsto under valg av ny ringetone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ikke vis denne meldingen igjen.</string>
@@ -75,7 +74,7 @@
     <string name="directories">Mapper</string>
     <string name="loading">Laster</string>
     <string name="please_wait">Vent litt…</string>
-    <string name="nomedia">Ingen mediefiler funnet, vennligst overfør filer til din enhet eller endre på innstillingene.</string>
+    <string name="nomedia">Ingen mediefiler ble funnet, vennligst overfør noen filer til enheten din eller justere dine innstillinger.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">Ikke tilgjengelig</string>
     <string name="nosubdirectory">Ingen undermapper.</string>
@@ -129,9 +128,27 @@
     <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n</string>
     <string name="encountered_error_title">Avspillingsfeil</string>
     <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nVennligst prøv å oppdatere mediebiblioteket.</string>
-    <string name="invalid_location">Kan ikke spille fra %1$s.</string>
+    <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
     <string name="search">Søk</string>
     <string name="search_history">Søk i historien</string>
+    <string name="hardware_acceleration_error_title">Maskinvareaksellerasjons-feil</string>
+    <string name="hardware_acceleration_error_message">Det oppstod en feil med maskinvareakselerasjon. Har du lyst til å deaktivere det og prøve igjen?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Videospiller-tips:</string>
+    <string name="seek">Søk</string>
+    <string name="subtitles">Undertitler</string>
+    <string name="resize">Endre størrelse</string>
+    <string name="options">Valg</string>
+    <string name="lock">Lås</string>
+    <string name="ok_got_it">Skjønner, avfei dette</string>
+    <string name="playlist_tips">Spilleliste-tips</string>
+    <string name="remove_song">Fjern sang</string>
+    <string name="rearrange_order">Stokk om rekkefølgen</string>
+    <string name="hold_to_seek">Hold for å søke</string>
+    <string name="audio_player_tips">Lydspiller-tips</string>
+    <string name="previous_next_song">Forrige/Neste sang</string>
+    <string name="show_playlist">Vis spilleliste</string>
+    <string name="hold_to_stop">Hold for å stoppe</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Lisens</string>
@@ -142,6 +159,7 @@
     <string name="vlc_authors">VLC forfattere.</string>
     <!-- Preferences -->
     <string name="preferences">Innstillinger</string>
+    <string name="general_prefs_category">Generelt</string>
     <string name="directories_summary">Velg mapper å inkludere i mediabiblioteket.</string>
     <string name="add_custom_path">Legg til egendefinert bane</string>
     <string name="add_custom_path_description">Legg til en ekstra mappe å sjekke:</string>
@@ -149,7 +167,7 @@
     <string name="hardware_acceleration">Maskinvareakselerasjon</string>
     <string name="hardware_acceleration_summary">Avslått: bedre stabilitet.\nDekoding: kan forbedre ytelsen.\nFull: kan forbedre ytelsen ytterligere.</string>
     <string name="hardware_acceleration_disabled">Avslått</string>
-    <string name="hardware_acceleration_decoding">Dekodeakselerasjon</string>
+    <string name="hardware_acceleration_decoding">Dekoder aksellerasjon</string>
     <string name="hardware_acceleration_full">Full akselerasjon</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skjermorientering</string>
@@ -159,7 +177,18 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="screen_orientation_reverse_portrait">Opp-ned portrett</string>
     <string name="screen_orientation_reverse_landscape">Opp-ned landskap</string>
+    <string name="enable_black_theme">Aktiver svart tema</string>
+    <string name="enable_black_theme_summary">Endre farger på grensesnittet for økt komfort i miljø med lite lys.</string>
     <string name="subtitle_text_encoding">Undertekstkoding</string>
+    <string name="extra_prefs_category">Ekstra innstillinger</string>
+    <string name="interface_prefs_screen">Grensesnitt</string>
+    <string name="interface_secondary_display_category">Grensesnitt - skjerm nummer to</string>
+    <string name="interface_secondary_display_category_summary">Innstillinger når skjerm nummer to er koblet til (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Behold maskinvareksellerasjons-innstilling</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Det kan hende maskinvareaksellerasjon ikke virker</string>
+    <string name="enable_clone_mode">Foretrekk klone</string>
+    <string name="enable_clone_mode_summary">Klon enhetens skjerm uten fjernkontroll.</string>
+    <string name="interface_other_category">Grensesnitt - Annet</string>
     <string name="enable_brightness_gesture">Aktiver bevegelse for lysstyrke.</string>
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
@@ -195,9 +224,10 @@
     <string name="media_db_cleared">Mediedatabase tømt!</string>
     <string name="set_locale">Velg lokalitet</string>
     <string name="set_locale_detail">La være tom for å tilbakestille</string>
-    <string name="set_locale_popup">Avslutt og tilbakestill VLC for at endringene skal innføres.</string>
+    <string name="set_locale_popup">Avslutt og start VLC på nytt for å iverksette endringene.</string>
     <string name="network_caching">Nettverksbufferverdi</string>
     <string name="network_caching_summary">Tiden det tar å bufre nettverksmedier (i ms). Fungerer ikke med maskinvarekoding. Forlat tomt for å tilbakestille.</string>
+    <string name="developer_prefs_category">Utvikler</string>
     <string name="enable_verbose_mode">Detaljer</string>
     <string name="enable_verbose_mode_summary">Flere detaljer (logcat)</string>
     <string name="debug_logs">Feilsøk loggene</string>
@@ -207,4 +237,12 @@
     <string name="copy_to_clipboard">Kopier til utklippstavla</string>
     <string name="copied_to_clipboard">Kopier logg til utklippstavla</string>
     <string name="quit">Avslutt og start på nytt</string>
+    <string name="dump_logcat">Dump logcat-logg</string>
+    <string name="dump_logcat_success">Vellykket logcat dump til %1$s!</string>
+    <string name="dump_logcat_failure">Klarte ikke å utføre logcat dump.</string>
+    <string name="serious_crash">En markant feil har desverre inntruffet, og VLC må avstenges.</string>
+    <string name="help_us_send_log">Hjelp oss å forbedre VLC ved å sende inn følgende kjæsj-logg:</string>
+    <string name="restart_vlc">Omstart av VLC</string>
+    <string name="send_log">Send inn loggen</string>
+    <string name="sending_log">Sender inn loggen...</string>
 </resources>
