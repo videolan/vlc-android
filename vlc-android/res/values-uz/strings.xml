@@ -17,7 +17,7 @@
     <string name="play_as_audio">Audio sifatida ijro etish</string>
     <string name="play_as_video">Video sifatida ijro etish</string>
     <string name="append">Qo‘shish</string>
-    <string name="play_all">Barchasini qo‘yish</string>
+    <string name="play_all">Barchasini ijro etish</string>
     <string name="append_all">Hammasini qo‘shish</string>
     <string name="last_playlist">Soʻnggi qoʻyilganlar</string>
     <string name="delete">O‘chirish</string>
@@ -121,6 +121,7 @@
     <string name="search">Izlash</string>
     <string name="search_history">Tarixdan izlash</string>
     <string name="hardware_acceleration_error_title">HW tezlatishda xato</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">Android™ uchun VLC</string>
     <string name="licence">Litsenziya</string>
