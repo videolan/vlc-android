@@ -152,6 +152,10 @@
     <string name="remove_song">Izbriši pjesmu</string>
     <string name="rearrange_order">Preuredi redoslijed</string>
     <string name="hold_to_seek">Drži za traženje</string>
+    <string name="audio_player_tips">Savjeti audio izvođača</string>
+    <string name="previous_next_song">Prethodna/Sljedeća pjesma</string>
+    <string name="show_playlist">Prikaži Listu izvođenja</string>
+    <string name="hold_to_stop">Drži za zaustavljanje</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Licenca</string>
