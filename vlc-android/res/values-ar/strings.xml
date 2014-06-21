@@ -161,6 +161,7 @@
     <string name="search_history">تأريخ البحث</string>
     <string name="hardware_acceleration_error_title">خطأ في تسريع العتاد</string>
     <string name="hardware_acceleration_error_message">حدث خطأ في تسريع العتاد. هل تريد تعطيله والمحاولة مرة أخرى؟</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC للأندرويد™</string>
     <string name="licence">الرّخصة</string>
@@ -244,4 +245,6 @@
     <string name="dump_logcat">طرْح سِجِل logcat</string>
     <string name="dump_logcat_success">طُرح Logcat بنجاح في %1$s !</string>
     <string name="dump_logcat_failure">فشل طرْح logcat.</string>
+    <string name="restart_vlc">أعد تشغيل VLC</string>
+    <string name="send_log">أرسل السجل</string>
 </resources>
