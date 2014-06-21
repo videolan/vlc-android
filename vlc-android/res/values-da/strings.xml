@@ -145,6 +145,10 @@
     <string name="remove_song">Fjern sang</string>
     <string name="rearrange_order">Skift rækkefølge</string>
     <string name="hold_to_seek">Hold for søgning</string>
+    <string name="audio_player_tips">Tips til lydafspilning</string>
+    <string name="previous_next_song">Forrige/næste sang</string>
+    <string name="show_playlist">Vis spilleliste</string>
+    <string name="hold_to_stop">Hold nede for stop</string>
     <!-- About -->
     <string name="app_name_full">VLC til Android™</string>
     <string name="licence">Licens</string>
