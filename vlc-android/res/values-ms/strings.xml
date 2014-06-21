@@ -127,6 +127,21 @@
     <string name="hardware_acceleration_error_title">Ralat pemecutan HW</string>
     <string name="hardware_acceleration_error_message">Pemecutan HW menghadapi ralat. Anda mahu lumpuhkannya dan cuba lagi?</string>
     <!--Tips-->
+    <string name="video_player_tips">Petua pemain video:</string>
+    <string name="seek">Jangkau</string>
+    <string name="subtitles">Sarikata</string>
+    <string name="resize">Saiz Semula</string>
+    <string name="options">Pilihan</string>
+    <string name="lock">Kunci</string>
+    <string name="ok_got_it">Dapat, singkir ia</string>
+    <string name="playlist_tips">Petua senarai main</string>
+    <string name="remove_song">Buang lagu</string>
+    <string name="rearrange_order">Susun semula tertib</string>
+    <string name="hold_to_seek">Tahan untuk jangkau</string>
+    <string name="audio_player_tips">Petua pemain audio</string>
+    <string name="previous_next_song">Lagu Terdahulu/Berikutnya</string>
+    <string name="show_playlist">Tunjuk Senarai Main</string>
+    <string name="hold_to_stop">Tahan untuk henti</string>
     <!-- About -->
     <string name="app_name_full">VLC untuk Android™</string>
     <string name="licence">Lesen</string>
@@ -218,6 +233,7 @@
     <string name="dump_logcat">Longgok log logcat</string>
     <string name="dump_logcat_success">Logcat berjaya dilonggok ke %1$s!</string>
     <string name="dump_logcat_failure">Gagal longgokkan logcat.</string>
+    <string name="serious_crash">Malangnya, satu ralat yang serius telah berlaku dan VLC perlu ditutup.</string>
     <string name="help_us_send_log">Bantu kami mempertingkatkan VLC dengan menghantar log kerosakan berikut:</string>
     <string name="restart_vlc">Mula semula VLC</string>
     <string name="send_log">Hantar log</string>
