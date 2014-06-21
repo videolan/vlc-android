@@ -134,6 +134,14 @@
     <string name="options">選項</string>
     <string name="lock">鎖定</string>
     <string name="ok_got_it">了解，關閉這個</string>
+    <string name="playlist_tips">播放清單秘訣</string>
+    <string name="remove_song">移除歌曲</string>
+    <string name="rearrange_order">重新排列順序</string>
+    <string name="hold_to_seek">按住搜尋</string>
+    <string name="audio_player_tips">音訊播放器秘訣</string>
+    <string name="previous_next_song">上一頁/下一首歌曲</string>
+    <string name="show_playlist">顯示播放清單</string>
+    <string name="hold_to_stop">按住停止</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">授權</string>
