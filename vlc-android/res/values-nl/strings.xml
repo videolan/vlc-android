@@ -145,6 +145,10 @@
     <string name="remove_song">Liedje verwijderen</string>
     <string name="rearrange_order">Volgorde wijzigen</string>
     <string name="hold_to_seek">Inhouden om te zoeken</string>
+    <string name="audio_player_tips">Audiospeler-tips</string>
+    <string name="previous_next_song">Vorig/volgend liedje</string>
+    <string name="show_playlist">Afspeellijst weergeven</string>
+    <string name="hold_to_stop">Inhouden om te stoppen</string>
     <!-- About -->
     <string name="app_name_full">VLC voor Android™</string>
     <string name="licence">Licentie</string>
