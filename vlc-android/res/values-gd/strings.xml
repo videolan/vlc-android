@@ -27,6 +27,8 @@
     <string name="remove">Thoir air falbh</string>
     <string name="set_song">Cleachd mar sheirm an fhòn</string>
     <string name="info">Fiosrachadh</string>
+    <string name="confirm_delete">A bheil thu airson am faidhle \"%1$s\" a sguabadh às?</string>
+    <string name="ringtone_set">Chaidh am faidhle \"%1$s\" a shuidheachadh mar sheirm.</string>
     <string name="ringtone_error">Thachair mearachd nuair a dh/\'fheuch sinn ris an t-seirm a shuidheachadh.</string>
     <string name="pause">Cuir na stad</string>
     <string name="not_show_again">Na seall an teachdaireachd seo a-rithist.</string>
@@ -84,6 +86,7 @@
     <string name="directories">Pasgain</string>
     <string name="loading">\'Ga luchdadh…</string>
     <string name="please_wait">Fuirich ort</string>
+    <string name="nomedia">Cha deach faidhle meadhain a lorg, cuir faidhlichean air an uidheam agad no cuir air gleus na roghainnean agad.</string>
     <string name="mediafiles">Faidhlichean mheananan</string>
     <string name="notavailable">chan eil seo ri fhaighinn</string>
     <string name="nosubdirectory">Chan eil fo-eòlaire ann.</string>
@@ -139,9 +142,27 @@
     <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):\n</string>
     <string name="encountered_error_title">Mearachd \'ga chluich</string>
     <string name="encountered_error_message">Thachair VLC ri mearachd sa mheadhan seo.\nFeuch is ath-nuadhaich leabharlann nam meadhan.</string>
+    <string name="invalid_location">Cha ghabh an t-ionad %1$s a chluich.</string>
     <string name="search">Lorg</string>
     <string name="search_history">Lorg san eachdraidh</string>
     <string name="hardware_acceleration_error_title">Mearachd le luathachadh HW</string>
+    <string name="hardware_acceleration_error_message">Thachair mearachd le luathachadh a\' bhathair-chruaidh. A bheil thu airson a chur à comas is feuchainn ris a-rithist?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Gliocasan air cluicheadair a\' video:</string>
+    <string name="seek">Sir</string>
+    <string name="subtitles">Fo-thiotalan</string>
+    <string name="resize">Atharraich am meud</string>
+    <string name="options">Roghainnean</string>
+    <string name="lock">Glais</string>
+    <string name="ok_got_it">Tha mi agaibh, falaichibh an teachdaireachd a-nis</string>
+    <string name="playlist_tips">Gliocasan mun liosta-chluich</string>
+    <string name="remove_song">Thoir air falbh an t-òran</string>
+    <string name="rearrange_order">Atharraich an t-òrdugh</string>
+    <string name="hold_to_seek">Cum airson sireadh a dhèanamh</string>
+    <string name="audio_player_tips">Gliocasan mu chluicheadair nam fuaim</string>
+    <string name="previous_next_song">An ath-òran/an t-òran roimhe</string>
+    <string name="show_playlist">Seall an liosta-chluich</string>
+    <string name="hold_to_stop">Cum gus stad a chur air</string>
     <!-- About -->
     <string name="app_name_full">VLC airson Android™</string>
     <string name="licence">Ceadachas</string>
@@ -152,6 +173,7 @@
     <string name="vlc_authors">Ùghdaran VLC</string>
     <!-- Preferences -->
     <string name="preferences">Roghainnean</string>
+    <string name="general_prefs_category">Coitcheann</string>
     <string name="directories_summary">Tagh pasgan a thèid a ghabhail a-steach ann an leabharlann nam meadhan</string>
     <string name="add_custom_path">Cuir slighe ghnàthaichte ris</string>
     <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
@@ -159,6 +181,8 @@
     <string name="hardware_acceleration">Luathachadh bathair-chruaidh</string>
     <string name="hardware_acceleration_summary">À comas: seasmhachd nas fhearr.\nDì-chòdachadh: piseach air dèanadas is dòcha.\nSlàn: piseach nas motha air dèanadas is dòcha.</string>
     <string name="hardware_acceleration_disabled">À comas</string>
+    <string name="hardware_acceleration_decoding">Luathachadh an dì-chòdachaidh</string>
+    <string name="hardware_acceleration_full">Luathachadh slàn</string>
     <string name="automatic">Fèin-obrachail</string>
     <string name="screen_orientation">Comhair na sgrìn</string>
     <string name="screen_orientation_sensor">Fèin-obrachail (mothaichear)</string>
@@ -168,7 +192,17 @@
     <string name="screen_orientation_reverse_portrait">Portraid bun os cionn</string>
     <string name="screen_orientation_reverse_landscape">Dreach-tìre bun os cionn</string>
     <string name="enable_black_theme">Cuir an t-ùrlar dubh an comas</string>
+    <string name="enable_black_theme_summary">Atharraich dathan na h-eadar-aghaidh airson \'s gum bi e nas cofhurtaile ann an droch-sholas.</string>
     <string name="subtitle_text_encoding">Còdachadh teacsa nam fo-thiotal</string>
+    <string name="extra_prefs_category">Roghainnean a bharrachd</string>
+    <string name="interface_prefs_screen">Eadar-aghaidh</string>
+    <string name="interface_secondary_display_category">Eadar-aghaidh - Taisbeanadh dàrnacha</string>
+    <string name="interface_secondary_display_category_summary">Roghainnean a bhios an sàs ma bhios taisbeanadh dàrnach ceangailte ris (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Cum roghainn luathachadh a\' bhathair-chruaidh</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Dh\'fhaoidte nach obraich luathachadh a\' bhathar-chruaidh</string>
+    <string name="enable_clone_mode">\'S fhearr clòn</string>
+    <string name="enable_clone_mode_summary">Clònaich sgrìn an uidheim as aonais smachd cèin.</string>
+    <string name="interface_other_category">Eadar-aghaidh - Eile</string>
     <string name="enable_brightness_gesture">Cuir am comas smachd air an t-soilleireachd le gluasad</string>
     <string name="enable_brightness_gesture_summary">Atharraich an t-soilleireachd tro ghluasad rè a chluich</string>
     <string name="enable_headset_detection">Mothaich dha headset</string>
@@ -204,8 +238,10 @@
     <string name="media_db_cleared">Chaidh stòr-dàta nam meadhanan fhalamhadh</string>
     <string name="set_locale">Suidhich an sgeama ionadail</string>
     <string name="set_locale_detail">Fàg seo bàn gus ath-shuidheachadh</string>
+    <string name="set_locale_popup">Fàg an-seo is ath-thòisich VLC gus na h-atharraichean a chur an sàs.</string>
     <string name="network_caching">Luach tasgadan an lìonraidh</string>
     <string name="network_caching_summary">Àm bufaradh a\' mheadhain lìonraidh (ann am ms). Chan obraich seo le dì-chòdachadh bathair-chruaidh. Fàg bàn seo gus ath-shuidheachadh.</string>
+    <string name="developer_prefs_category">Luchd-leasachaidh</string>
     <string name="enable_verbose_mode">Briathrach</string>
     <string name="enable_verbose_mode_summary">Cuir am briathrachas an àirde (logcat)</string>
     <string name="debug_logs">Logaichean dì-bhugachaidh</string>
@@ -218,4 +254,9 @@
     <string name="dump_logcat">Dumpaich loga logcat</string>
     <string name="dump_logcat_success">Chaidh logcat a dhumpadh ann an %1$s!</string>
     <string name="dump_logcat_failure">Dh\'fhàillig dumpadh logcat.</string>
+    <string name="serious_crash">Gu mì-fhortanach, thachar droch-mhearachd is b\' fheudar dha VLC dùnadh.</string>
+    <string name="help_us_send_log">Nach cuidich thu leinn a\' leasachadh VLC? Cuir thugainn loga an tuislidh a leanas:</string>
+    <string name="restart_vlc">Ath-thòisich VLC</string>
+    <string name="send_log">Cuir an loga</string>
+    <string name="sending_log">A\' cur an loga...</string>
 </resources>
