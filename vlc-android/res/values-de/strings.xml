@@ -145,6 +145,10 @@
     <string name="remove_song">Lied entfernen</string>
     <string name="rearrange_order">Reihenfolge umorganisieren</string>
     <string name="hold_to_seek">Zum Suchen gedrückt halten</string>
+    <string name="audio_player_tips">Audiowiedergabetipps</string>
+    <string name="previous_next_song">Vorheriges/Nächstes Lied</string>
+    <string name="show_playlist">Wiedergabeliste anzeigen</string>
+    <string name="hold_to_stop">Zum Stoppen gedrückt halten</string>
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
     <string name="licence">Lizenz</string>
