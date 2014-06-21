@@ -133,6 +133,22 @@
     <string name="search_history">Histórico de pesquisa</string>
     <string name="hardware_acceleration_error_title">Erro de aceleração HW</string>
     <string name="hardware_acceleration_error_message">Ocorreu um erro com a aceleração de hardware. Deseja desativar e tentar novamente?</string>
+    <!--Tips-->
+    <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
+    <string name="seek">Procurar</string>
+    <string name="subtitles">Legendas</string>
+    <string name="resize">Redimensionar</string>
+    <string name="options">Opções</string>
+    <string name="lock">Bloquear</string>
+    <string name="ok_got_it">Entendi, ignorar isto</string>
+    <string name="playlist_tips">Dicas da lista de reprodução</string>
+    <string name="remove_song">Remover canção</string>
+    <string name="rearrange_order">Rearranjar ordem</string>
+    <string name="hold_to_seek">Segure para procurar</string>
+    <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
+    <string name="previous_next_song">Canção Anterior/Seguinte</string>
+    <string name="show_playlist">Mostrar Lista de Reprodução</string>
+    <string name="hold_to_stop">Segure para parar</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -165,7 +181,14 @@
     <string name="enable_black_theme_summary">Altere as cores da interface para melhor conforto em ambientes com pouca luz.</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
     <string name="extra_prefs_category">Configurações Extra</string>
-    <string name="interface_prefs_category">Interface</string>
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category">Interface - Ecrã Secundário</string>
+    <string name="interface_secondary_display_category_summary">Definições quando ecrãs secundários estão ligados (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Manter a definição da aceleração por hardware</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">A aceleração por hardware pode não funcionar</string>
+    <string name="enable_clone_mode">Prefirir clone</string>
+    <string name="enable_clone_mode_summary">Clone o ecrã do dispositivo sem um controlo remoto.</string>
+    <string name="interface_other_category">Interface - Outro</string>
     <string name="enable_brightness_gesture">Ativar gesto do brilho</string>
     <string name="enable_brightness_gesture_summary">Controlar o brilho com um gesto durante a reprodução do vídeo</string>
     <string name="enable_headset_detection">Detetar auscultadores</string>
@@ -190,8 +213,8 @@
     <string name="advanced_prefs_category">Avançado</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC usa para a saída de áudio.</string>
-    <string name="aout_audiotrack">AudioTrack (original)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_audiotrack">Faixa de Áudio (original)</string>
+    <string name="aout_audiotrack_java">Faixa de Áudio (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Saída de vídeo</string>
     <string name="vout_summary">Alterar o método que o VLC utiliza para mostrar vídeo.</string>
@@ -217,4 +240,9 @@
     <string name="dump_logcat">Limpar o registo do ficheiro de registos</string>
     <string name="dump_logcat_success">O ficheiro de registos foi enviado com sucesso para %1$s!</string>
     <string name="dump_logcat_failure">Não foi possível limpar o ficheiro de registos.</string>
+    <string name="serious_crash">Infelizmente, um erro sério ocorreu e o VLC teve de fechar.</string>
+    <string name="help_us_send_log">Ajude-nos a melhorar o VLC ao enviar-nos o seguinte registo de falha:</string>
+    <string name="restart_vlc">Reiniciar VLC</string>
+    <string name="send_log">Enviar o registo</string>
+    <string name="sending_log">A enviar o registo...</string>
 </resources>
