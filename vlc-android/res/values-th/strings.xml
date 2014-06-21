@@ -122,6 +122,7 @@
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง\nโปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1$s ได้</string>
     <string name="search_history">ประวัติการค้นหา</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
     <string name="licence">สัญญาอนุญาต</string>
@@ -147,7 +148,6 @@
     <string name="enable_black_theme">เปิดใช้ชุดตกแต่งโทนสีดำ</string>
     <string name="subtitle_text_encoding">การลงรหัสข้อความบทบรรยาย</string>
     <string name="extra_prefs_category">ค่าตั้งพิเศษอื่นๆ</string>
-    <string name="interface_prefs_category">ส่วนติดต่อ</string>
     <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมแสงสว่างโดยการเลื่อน ในขณะที่กำลังเล่นวีดิทัศน์อยู่</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
