@@ -147,6 +147,19 @@
     <string name="search_history">Zgodovina iskanja</string>
     <string name="hardware_acceleration_error_title">Napaka strojnega pospeševanja</string>
     <string name="hardware_acceleration_error_message">Pri pospeševanju strojne opreme je prišlo do napake. Jo želite onemogočiti in poskusiti znova?</string>
+    <!--Tips-->
+    <string name="seek">Išči</string>
+    <string name="subtitles">Podnaslovi</string>
+    <string name="resize">Spremeni velikost</string>
+    <string name="options">Možnosti</string>
+    <string name="lock">Zakleni</string>
+    <string name="ok_got_it">Razumem, umakni</string>
+    <string name="playlist_tips">Namigi seznama predvajanja</string>
+    <string name="remove_song">Odstrani pesem</string>
+    <string name="rearrange_order">Prerazvrsti</string>
+    <string name="audio_player_tips">Namigi za zvočni predvajalnik</string>
+    <string name="previous_next_song">Prejšnja/naslednja pesem</string>
+    <string name="show_playlist">Pokaži seznam predvajanja</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Dovoljenje</string>
@@ -181,6 +194,8 @@
     <string name="extra_prefs_category">Dodatne nastavitve</string>
     <string name="interface_prefs_screen">Vmesnik</string>
     <string name="interface_secondary_display_category">Vmesnik - drugotni zaslon</string>
+    <string name="enable_secondary_display_hardware_acceleration">Ohrani nastavitev strojnega pospeševanja</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Strojno pospeševanje morda ne bo delovalo</string>
     <string name="interface_other_category">Vmesnik - drugo</string>
     <string name="enable_brightness_gesture">Omogoči gesto za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
