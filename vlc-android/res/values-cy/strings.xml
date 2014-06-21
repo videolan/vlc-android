@@ -148,7 +148,7 @@
     <string name="hardware_acceleration_error_title">Gwall cyflymydd HW</string>
     <string name="hardware_acceleration_error_message">Bu gwall gyda\'r cyflymydd caledwedd. Hoffech ei analluogi a cheisio eto?</string>
     <!--Tips-->
-    <string name="video_player_tips">Awgrymiadau chwaraewr fideo:</string>
+    <string name="video_player_tips">Awgrymiadau chwaraeydd fideo:</string>
     <string name="seek">Canfod</string>
     <string name="subtitles">Isdeitlau</string>
     <string name="resize">Newid maint</string>
@@ -159,12 +159,16 @@
     <string name="remove_song">Tynnu trac</string>
     <string name="rearrange_order">Ail-drefnu</string>
     <string name="hold_to_seek">Dal lawr i chwilio</string>
+    <string name="audio_player_tips">Awgrymiadau chwaraeydd sain</string>
+    <string name="previous_next_song">Trac blaenorol/nesaf</string>
+    <string name="show_playlist">Dangos Rhestr Chwarae</string>
+    <string name="hold_to_stop">Dal lawr i stopio</string>
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android™</string>
     <string name="licence">Trwydded</string>
     <string name="revision">Adolygiad</string>
     <string name="about">Ynghylch</string>
-    <string name="about_text">Porth o chwaraewr VLC, y chwaraewr cyfryngau cod agored poblogaidd, yw VLC ar gyfer Android™. Gall y fersiwn Android™ chwarae\'r rhan fwyaf o ffeiliau cyfryngau a ffrydiau rhwydwaith.</string>
+    <string name="about_text">Mae VLC ar gyfer Android™ yn borth o\'r chwaraeydd cyfryngau cod agored poblogaidd gan VideoLAN. Mae\'r fersiwn Android™ yn chwarae bron pob math o ffeil cyfryngau a ffrwd rhwydwaith.</string>
     <string name="compiled_by">Cafodd y fersiwn hon o VLC ei grynhoi gan:</string>
     <string name="vlc_authors">Awduron VLC.</string>
     <!-- Preferences -->
