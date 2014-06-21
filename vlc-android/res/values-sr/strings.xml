@@ -140,6 +140,7 @@
     <string name="search_history">Историја претраге</string>
     <string name="hardware_acceleration_error_title">Грешка у хардверском убрзању</string>
     <string name="hardware_acceleration_error_message">Дошло је до грешке при хардверском убрзавању. Желите ли да га онемогућите и покушате поново?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC за Android</string>
     <string name="licence">Лиценца</string>
