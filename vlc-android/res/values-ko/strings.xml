@@ -133,10 +133,15 @@
     <string name="resize">크기조절</string>
     <string name="options">옵션</string>
     <string name="lock">잠그기</string>
+    <string name="ok_got_it">알았습니다. 이것을 닫으세요</string>
     <string name="playlist_tips">재생목록 팁</string>
     <string name="remove_song">노래 삭제하기</string>
     <string name="rearrange_order">순서 재정렬하기</string>
     <string name="hold_to_seek">탐색하려면 누른 채로</string>
+    <string name="audio_player_tips">음악 재생기 팁</string>
+    <string name="previous_next_song">이전/다음 곡</string>
+    <string name="show_playlist">재생목록 보기</string>
+    <string name="hold_to_stop">멈추려면 누르고 있기</string>
     <!-- About -->
     <string name="app_name_full">안드로이드™ 용 VLC</string>
     <string name="licence">라이센스</string>
