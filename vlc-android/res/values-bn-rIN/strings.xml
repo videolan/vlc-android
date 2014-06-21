@@ -1,7 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources>
-    <!--Main VLC Interface-->
-    <string name="filebrowser_title"> মিডিয়া চালাতে নির্বাচন করুন</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Main VLC Interface -->
+    <string name="ok">\t\nঠিক আছে</string>
+    <string name="cancel">\t\nরদ করা</string>
+    <string name="other">\t\nঅন্য</string>
     <string name="sortby">সাজান…</string>
     <string name="sortby_name">নাম</string>
     <string name="sortby_length">দৈর্ঘ্য</string>
@@ -20,7 +22,6 @@
     <string name="delete">মুছে ফেলা</string>
     <string name="set_song">রিংটোন হিসাবে সেট করুন</string>
     <string name="info">তথ্য</string>
-    <string name="confirm_delete">ফাইল \'%1$s\' মুছে ফেলুন?</string>
     <string name="pause">বিরতি</string>
     <string name="not_show_again">এই বার্তাটি কি পুনরায় দেখায় না।</string>
     <string name="beta_warning">এইটি একটি বেটা সংস্করণ। এই সংস্করণটি না স্থির! না কি ব্যবহার করে, যদি না আপনি জানে যার আপনি করছে। এইটি আপনার kitten হত্যা করতে পারে, আপনার বাড়ি ধ্বংস করুন এবং mayan apocalypse শুরু করুন। আপনার নিজের ঝুঁকিতে এইটি ব্যবহার করুন। আনন্দ করুন!:)</string>
@@ -47,6 +48,7 @@
     <string name="audio">অডিও</string>
     <string name="video">ভিডিও</string>
     <string name="bookmarks">বুকমার্কগুলি</string>
+    <string name="equalizer">ইকুয়ালাইজার</string>
     <string name="all_albums">সমস্ত অ্যালবাম</string>
     <string name="genres">জেনার</string>
     <string name="playlists">সঙ্গীত-তালিকা</string>
@@ -57,11 +59,16 @@
     <string name="directories">ডিরেক্টরিগুলি</string>
     <string name="loading">লোড হচ্ছে …</string>
     <string name="please_wait">অনুগ্রহ করে অপেক্ষা করুন …</string>
-    <string name="nomedia">কোন মিডিয়া ফাইল পাওয়া যায়নি, আপনার ডিভাইস ফাইল বা হস্তান্তর আপনার পছন্দ সামঞ্জস্য দয়া করে.</string>
     <string name="mediafiles">মিডিয়া ফাইল</string>
     <string name="notavailable">উপলব্ধ নয়</string>
     <string name="nosubdirectory">কোনও সাবডিরেক্টরি না।</string>
+    <string name="nohistory">আপনার কোনো প্লেব্যাক ইতিহাস এখনো আছে.</string>
     <string name="validation">আপনি কি নিশ্চিত?</string>
+    <string name="cover_art">কভার কলা </string>
+    <string name="shuffle">অদলবদল</string>
+    <string name="previous">পূর্ববর্তী</string>
+    <string name="stop">বন্ধ করা হবে</string>
+    <string name="next">পরবর্তী</string>
     <string name="locked">লক</string>
     <string name="unlocked">উদ্ঘাটিত</string>
     <string name="surface_best_fit">সর্বোত্তম খাপ খায়</string>
@@ -77,6 +84,8 @@
     <string name="track_unknown">অজানা ট্র্যাক</string>
     <string name="track_codec_info">কোডেক: %1$s\n</string>
     <string name="track_language_info">ভাষা: %1$s\n</string>
+    <string name="volume">আয়তন</string>
+    <string name="brightness">উজ্জ্বলতা</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 চ্যানেল</item>
         <item quantity="other">%1$d চ্যানেল</item>
@@ -84,6 +93,8 @@
     <string name="track_samplerate_info">নমুনা হার: %1$d Hz\n</string>
     <string name="track_resolution_info">রিসোলিউশন: %1$dx%2$d\n</string>
     <string name="track_framerate_info">ফ্রেম রেট: %1$.3f\n</string>
+    <string name="tools">সরঞ্জাম</string>
+    <string name="playback_speed">প্লেব্যাক গতি</string>
     <string name="open">খোলা</string>
     <string name="open_mrl">MRL খুলুন</string>
     <string name="open_mrl_dialog_title">ওপেন সোর্স নেটওয়ার্ক প্রবাহ</string>
@@ -91,9 +102,8 @@
     <string name="error_not_compatible">দুঃখিত, আপনার ডিভাইস Android™এর জন্য VLCএর এই সংস্করণটির দ্বারা বর্তমানে সমর্থন করা হয় না।</string>
     <string name="error_problem">দুঃখিত, Android এর জন্য VLC একটি সমস্যা লোড হয় এবং বন্ধ ছিল.</string>
     <string name="error_message_is">ত্রুটি বার্তাটি (দয়া করে এই যখন ডিবাগিং উল্লেখ):</string>
-    <string name="playback_speed">প্লেব্যাক গতি</string>
-
-    <!--About-->
+    <!--Tips-->
+    <!-- About -->
     <string name="app_name_full">Android এর জন্য VLC ™</string>
     <string name="licence">লাইসেন্স</string>
     <string name="revision">সংস্করণ</string>
@@ -101,30 +111,22 @@
     <string name="about_text">অ্যানড্রইড ™ জন্য VLC হয় VLC মিডিয়া প্লেয়ার, জনপ্রিয় ওপেন সোর্স মিডিয়া প্লেয়ার একটি বন্দর. অ্যানড্রইড ™ সংস্করণে সর্বাধিক ফাইল এবং নেটওয়ার্ক স্ট্রিম পড়তে পারেন.</string>
     <string name="compiled_by">VLC \'র এই সংস্করণ দ্বারা কম্পাইল করা হয়:</string>
     <string name="vlc_authors">VLC লেখক।</string>
-
-    <!--Preferences-->
+    <!-- Preferences -->
     <string name="preferences">পছন্দ</string>
-    <string name="main_prefs_category">প্রধান</string>
-    <string name="clear_history">অনুসন্ধানের ইতিহাস সাফ করুন</string>
-    <string name="advanced_prefs_category">নিশুতি</string>
-    <string name="enable_iomx">হার্ডওয়্যার দ্বারা চালিত ডিকোডিং সক্ষম করুন</string>
-    <string name="advanced_debugging">উন্নত ডিবাগিং</string>
-    <string name="quit">অ্যাপ্লিকেশন থেকে প্রস্থান</string>
-    <string name="clear_media_db">সাফ মিডিয়া ডাটাবেস</string>
-    <string name="media_db_cleared">মিডিয়া ডাটাবেস সাফ!</string>
-    <string name="set_locale">স্থানীয় সেট করুন</string>
-    <string name="set_locale_detail">রিসেট করতে ফাঁকা ছেড়ে চলে যান</string>
-    <string name="set_locale_popup">প্রস্থান করুন এবং প্রভাব গ্রহণ করতে পরিবর্তনের জন্য VLC রিসেট করুন।</string>
-    <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
-    <string name="enable_headset_detection_summary">হেডসেট উপর বিরাম মুছে ফেলা হয়েছে; হেডসেট ঢোকানো উপর সারসংকলন</string>
-    <string name="enable_wheel_bar">চাকা বার সক্ষম করুন</string>
+    <string name="automatic">স্বয়ংক্রিয়</string>
     <string name="enable_brightness_gesture">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
-    <string name="enable_verbose_mode">বাগ্বহুল</string>
-    <string name="enable_verbose_mode_summary">ভার্বোসিটি (logcat) বাড়ান</string>
+    <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
+    <string name="enable_time_stretching_audio">সময় প্রসারিত করছে অডিও সক্ষম করুন</string>
+    <string name="advanced_prefs_category">নিশুতি</string>
     <string name="aout">অডিও আউটপুট</string>
     <string name="aout_audiotrack">AudioTrack (নেটিভ)</string>
     <string name="aout_audiotrack_java">AudioTrack (জাভা)</string>
     <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_time_stretching_audio">সময় প্রসারিত করছে অডিও সক্ষম করুন</string>
-    <string name="enable_time_stretching_audio_summary">শব্দের গ্রাম পরিবর্তন কর ব্যতীত গতি উপর এবং ধীর নিচে অডিও (একটি দ্রুত ডিভাইস প্রয়োজন বোধ করে)</string>
+    <string name="clear_media_db">সাফ মিডিয়া ডাটাবেস</string>
+    <string name="clear_history">অনুসন্ধানের ইতিহাস সাফ করুন</string>
+    <string name="media_db_cleared">মিডিয়া ডাটাবেস সাফ!</string>
+    <string name="set_locale">স্থানীয় সেট করুন</string>
+    <string name="set_locale_detail">রিসেট করতে ফাঁকা ছেড়ে চলে যান</string>
+    <string name="enable_verbose_mode">বাগ্বহুল</string>
+    <string name="enable_verbose_mode_summary">ভার্বোসিটি (logcat) বাড়ান</string>
 </resources>
