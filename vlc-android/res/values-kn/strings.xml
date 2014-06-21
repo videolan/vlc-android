@@ -121,6 +121,7 @@
     <string name="search">ಹುಡುಕು</string>
     <string name="search_history">ಹುಡುಕು ಇತಿಹಾಸ </string>
     <string name="hardware_acceleration_error_title">HW ವೇಗವರ್ಧನೆ ದೋಷ</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC  Android™ ಆವೃತ್ತಿ </string>
     <string name="licence">ಪರವಾನಗೆ</string>
