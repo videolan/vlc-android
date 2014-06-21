@@ -30,7 +30,7 @@
     <string name="pause">一時停止</string>
     <string name="not_show_again">このメッセージを今後表示しない。</string>
     <string name="beta_warning">これはベータ版です。\n\nこのバージョンは安定していません!\n\nあなたが何をしているか知らないまま使用しないでください。\n\nあなたに破壊的な結果をもたらし、マヤの黙示録を開始させるかもしれません。\nご自身のリスクでご利用ください。\n\nそれではお楽しみください! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLCベータ版</string>
     <string name="unknown_artist">未知のアーティスト</string>
     <string name="unknown_album">未知のアルバム</string>
     <string name="unknown_genre">未知のジャンル</string>
@@ -138,6 +138,10 @@
     <string name="remove_song">歌を削除</string>
     <string name="rearrange_order">順序を再調整</string>
     <string name="hold_to_seek">シークを停止</string>
+    <string name="audio_player_tips">オーディオプレイヤーのTips</string>
+    <string name="previous_next_song">前/次の曲</string>
+    <string name="show_playlist">プレイリストの表示</string>
+    <string name="hold_to_stop">停止を保持</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">ライセンス</string>
@@ -207,7 +211,7 @@
     <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ビデオ出力</string>
     <string name="vout_summary">ビデオ出力に使用するメソッドを変更します。</string>
-    <string name="vout_android_surface">アンドロイドの外観</string>
+    <string name="vout_android_surface">Androidの外観</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_history">検索履歴をクリア</string>
     <string name="media_db_cleared">メディアデータベースはクリアされました!</string>
