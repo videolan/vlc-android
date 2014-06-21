@@ -4,7 +4,6 @@
     <string name="ok">Í lagi</string>
     <string name="cancel">Hætta við</string>
     <string name="other">Annað</string>
-    <string name="filebrowser_title">Veldu miðil til að spila</string>
     <string name="sortby">Raða eftir…</string>
     <string name="sortby_name">Heiti</string>
     <string name="sortby_length">Lengd</string>
@@ -23,10 +22,9 @@
     <string name="append_all">Bæta öllu við</string>
     <string name="last_playlist">Síðasti spilunarlisti</string>
     <string name="delete">Eyða</string>
+    <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
     <string name="info">Upplýsingar</string>
-    <string name="confirm_delete">Eyða skránni \'%1$s\' ?</string>
-    <string name="ringtone_set">\'%1$s\' var sett sem hringitónn.</string>
     <string name="ringtone_error">Upp kom villa þegar verið var að setja hringitón.</string>
     <string name="pause">Í bið</string>
     <string name="not_show_again">Ekki sýna þessi skilaboð aftur.</string>
@@ -54,6 +52,10 @@
         <item quantity="one">1 margmiðlunarskrá</item>
         <item quantity="other">%d margmiðlunarskrár</item>
     </plurals>
+    <plurals name="videos_quantity">
+        <item quantity="one">1 myndskeið</item>
+        <item quantity="other">%d myndskeið</item>
+    </plurals>
     <string name="internal_memory">Innra minni</string>
     <string name="parent_folder">Upp í yfirmöppu</string>
     <string name="audio">Hljóð</string>
@@ -70,7 +72,6 @@
     <string name="directories">Möppur</string>
     <string name="loading">Hleð inn</string>
     <string name="please_wait">Bíddu aðeins…</string>
-    <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
     <string name="mediafiles">Margmiðlunarskrár</string>
     <string name="notavailable">Ekki tiltækt</string>
     <string name="nosubdirectory">Engar undirmöppur.</string>
@@ -124,7 +125,10 @@
     <string name="error_message_is">Villumeldingin er (taktu þetta fram við aflúsun):\n</string>
     <string name="encountered_error_title">Afspilunarvilla</string>
     <string name="encountered_error_message">VLC rakst á villu í þessum miðli.\nReyndu að endurlesa margmiðlunarsafnið.</string>
-    <string name="invalid_location">Ekki er hægt að spila staðsetninguna %1$s</string>
+    <string name="search">Leita</string>
+    <string name="search_history">Leita í ferilskrá</string>
+    <string name="hardware_acceleration_error_title">Villa í vélbúnaðarhröðun</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC fyrir Android™</string>
     <string name="licence">Notkunarleyfi</string>
@@ -135,12 +139,12 @@
     <string name="vlc_authors">Höfundar VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Kjörstillingar</string>
-    <string name="library_prefs_category">Miðlasafn</string>
     <string name="directories_summary">Veldu möppur til að hafa með í margmiðlunarsafninu</string>
     <string name="add_custom_path">Bæta við sérsniðinni slóð</string>
     <string name="add_custom_path_description">Bæta við aukamöppu til að leita í:</string>
     <string name="remove_custom_path">Fjarlægja sérsniðna slóð</string>
-    <string name="main_prefs_category">Aðal</string>
+    <string name="hardware_acceleration">Vélbúnaðarhröðun</string>
+    <string name="hardware_acceleration_disabled">Óvirkt</string>
     <string name="automatic">Sjálfvirkt</string>
     <string name="screen_orientation">Stefna myndspilunarglugga</string>
     <string name="screen_orientation_sensor">Sjálfvirkt (skynjari)</string>
@@ -149,43 +153,42 @@
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="screen_orientation_reverse_portrait">Speglað lóðrétt</string>
     <string name="screen_orientation_reverse_landscape">Speglað lárétt</string>
+    <string name="enable_black_theme">Virkja svart þema</string>
+    <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
-    <string name="enable_wheel_bar">Virkja hjólslá</string>
-    <string name="enable_wheel_bar_summary">Öðruvísi framvinduslá fyrir myndspilunargluggann</string>
     <string name="enable_steal_remote_control">Sérstök fjarstýring heyrnartóla</string>
     <string name="enable_steal_remote_control_summary">Forðast árekstra við að stela fjarstýringu frá öðrum forritum. Þetta kemur í veg fyrir að hringt sé við tvíslátt á HTC-símum.</string>
     <string name="performance_prefs_category">Afköst</string>
     <string name="chroma_format">Þvinga litgildi (chroma) myndmerkis</string>
     <string name="chroma_format_summary">RGB 32-bita: sjálfgefin litgildi (chroma)\nRGB 16-bita: betri afköst en lélegri gæði\nYUV: bestu afköst en virkar ekki á öllum tækjum. Einungis Android 2.3 og síðar.</string>
-    <string name="enable_iomx">Vélbúnaðarhröðun við afkóðun</string>
-    <string name="enable_iomx_summary">Eykur afköst en virkar kannski ekki á öllum tækjum.</string>
+    <string name="enable_frame_skip">Virkja rammasleppingu</string>
+    <string name="enable_frame_skip_summary">Hraðari afkóðun en gæti minnkað gæði myndmerkis.</string>
     <string name="enable_time_stretching_audio">Tímaaðlögun hljóðs (time streching)</string>
     <string name="enable_time_stretching_audio_summary">Hraða og hægja hljóð án þess að breyta tónhæð (krefst hraðvirks tækis).</string>
-    <string name="other_prefs_category">Annað</string>
-    <string name="clear_history">Hreinsa leitarferil</string>
+    <string name="advanced_prefs_category">Nánar</string>
+    <string name="aout">Hljóðúttak</string>
+    <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
+    <string name="aout_audiotrack">AudioTrack (innbyggt)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
+    <string name="vout">Myndmerkissúttak</string>
+    <string name="vout_summary">Breyttu aðferðinni sem VLC notar til að senda út myndmerki.</string>
+    <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
+    <string name="clear_history">Hreinsa leitarferil</string>
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
-    <string name="subtitle_text_encoding">Kóðun skjátexta</string>
+    <string name="set_locale">Setja staðfærslu</string>
+    <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
+    <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
+    <string name="enable_verbose_mode_summary"> Auktu magn upplýsinga (verbosity / logcat)</string>
     <string name="debug_logs">Aflúsunarannálar</string>
     <string name="start_logging">Byrja annálsskráningu</string>
     <string name="stop_logging">Stöðva annálsskráningu</string>
     <string name="clear_log">Hreinsa annál</string>
     <string name="copy_to_clipboard">Afrita á klippispjald</string>
     <string name="copied_to_clipboard">Afritaði annál á klippispjald.</string>
-    <string name="advanced_prefs_category">Nánar</string>
-    <string name="advanced_debugging">Nánari aflúsun</string>
-    <string name="aout">Hljóðúttak</string>
-    <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
-    <string name="aout_audiotrack">AudioTrack (innbyggt)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
-    <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
-    <string name="enable_verbose_mode_summary"> Auktu magn upplýsinga (verbosity / logcat)</string>
-    <string name="set_locale">Setja staðfærslu</string>
-    <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
-    <string name="set_locale_popup">Hætta og frumstilla VLC svo breytingar taki gildi.</string>
-    <string name="quit">Hætta í forriti</string>
+    <string name="quit">Hætta og endurræsa forrit</string>
 </resources>
