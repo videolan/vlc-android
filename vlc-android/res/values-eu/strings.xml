@@ -133,6 +133,7 @@
     <string name="search_history">Bilatu historia</string>
     <string name="hardware_acceleration_error_title">HW-azelerazioaren errorea</string>
     <string name="hardware_acceleration_error_message">Errorea gertatu da hardware-azelerazioarekin. Desgaitu eta berriro saiatu nahi duzu?</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">Android™-erako VLC</string>
     <string name="licence">Lizentzia</string>
