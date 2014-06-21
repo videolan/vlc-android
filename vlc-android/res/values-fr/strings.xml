@@ -134,17 +134,21 @@
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
     <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
     <!--Tips-->
-    <string name="video_player_tips">Astuces du lecteur vidéo</string>
-    <string name="seek">Recherche</string>
+    <string name="video_player_tips">Astuces du lecteur vidéo :</string>
+    <string name="seek">Naviguer</string>
     <string name="subtitles">Sous-titres</string>
-    <string name="resize">Ajuster l\'image</string>
+    <string name="resize">Redimensionner</string>
     <string name="options">Options</string>
     <string name="lock">Verrouiller</string>
     <string name="ok_got_it">J\'ai compris</string>
-    <string name="playlist_tips">Astuces de la playlist</string>
-    <string name="remove_song">Retirer une chanson</string>
-    <string name="rearrange_order">Réarranger l\'ordre</string>
-    <string name="hold_to_seek">Maintenir pour rechercher</string>
+    <string name="playlist_tips">Astuces de la liste de lecture</string>
+    <string name="remove_song">Supprimer la chanson</string>
+    <string name="rearrange_order">Modifier l\'ordre</string>
+    <string name="hold_to_seek">Maintenir pour naviguer</string>
+    <string name="audio_player_tips">Conseils de lecteur audio</string>
+    <string name="previous_next_song">Chanson Précédente/Suivante</string>
+    <string name="show_playlist">Afficher la liste de lecture</string>
+    <string name="hold_to_stop">Maintenir pour arrêter</string>
     <!-- About -->
     <string name="app_name_full">VLC pour Android™</string>
     <string name="licence">Licence</string>
