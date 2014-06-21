@@ -133,6 +133,15 @@
     <string name="search_history">Histórico de pesquisas</string>
     <string name="hardware_acceleration_error_title">Erro na aceleração por hardware</string>
     <string name="hardware_acceleration_error_message">Ocorreu um erro com o hardware de aceleração. Gostaria de desabilitá-lo e tentar novamente</string>
+    <!--Tips-->
+    <string name="subtitles">Legendas</string>
+    <string name="resize">Redimensionar</string>
+    <string name="options">Opções</string>
+    <string name="lock">Bloquear</string>
+    <string name="remove_song">Excluir música</string>
+    <string name="rearrange_order">Reorganizar</string>
+    <string name="previous_next_song">Música anterior/posterior</string>
+    <string name="show_playlist">Exibir Lista de Reprodução</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licença</string>
@@ -165,6 +174,11 @@
     <string name="enable_black_theme_summary">Altera as cores da interface para melhorar o conforto em ambientes de pouca iluminação.</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="extra_prefs_category">Configurações extras</string>
+    <string name="interface_prefs_screen">Interface</string>
+    <string name="interface_secondary_display_category">Interface - Tela Secundária</string>
+    <string name="interface_secondary_display_category_summary">Configurações para quando telas secundárias estão conectadas (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Manter as configurações de aceleração por hardware</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">A aceleração por hardware pode não funcionar</string>
     <string name="enable_brightness_gesture">Habilitar brilho por gestos</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_headset_detection">Detectar fone de ouvido</string>
@@ -216,4 +230,9 @@
     <string name="dump_logcat">Despejar os registros do logcat</string>
     <string name="dump_logcat_success">O logcat despejou os registros com sucesso em %1$s!</string>
     <string name="dump_logcat_failure">Falha ao despejar os registros do logcat.</string>
+    <string name="serious_crash">Infelizmente ocorreu um erro severo e o VLC precisou ser fechado.</string>
+    <string name="help_us_send_log">Ajude-nos a melhorar o VLC enviando o seguinte registro de problemas:</string>
+    <string name="restart_vlc">Reiniciar o VLC</string>
+    <string name="send_log">Enviar o registro</string>
+    <string name="sending_log">Enviando o registro...</string>
 </resources>
