@@ -141,6 +141,21 @@
     <string name="hardware_acceleration_error_title">Chyba hardwarové akcelerace</string>
     <string name="hardware_acceleration_error_message">Při běhu se zapnutou hardwarovou akcelerací nastala chyba. Přejete si ji zakázat a zkusit operaci znovu?</string>
     <!--Tips-->
+    <string name="video_player_tips">Tipy přehrávače videa:</string>
+    <string name="seek">Hledat</string>
+    <string name="subtitles">Titulky</string>
+    <string name="resize">Změnit velikost</string>
+    <string name="options">Možnosti</string>
+    <string name="lock">Uzamknout</string>
+    <string name="ok_got_it">Rozumím, zavři to</string>
+    <string name="playlist_tips">Tipy seznamu skladeb</string>
+    <string name="remove_song">Odstranit píseň</string>
+    <string name="rearrange_order">Změnit pořadí</string>
+    <string name="hold_to_seek">Podržte k hledání</string>
+    <string name="audio_player_tips">Tipy přehrávače hudby</string>
+    <string name="previous_next_song">Předchozí/Následující píseň</string>
+    <string name="show_playlist">Zobrazit seznam skladeb</string>
+    <string name="hold_to_stop">Podržte pro zastavení</string>
     <!-- About -->
     <string name="app_name_full">VLC pro Android™</string>
     <string name="licence">Licence</string>
@@ -232,6 +247,7 @@
     <string name="dump_logcat">Vypsat záznam logcat</string>
     <string name="dump_logcat_success">Záznam logcat úspěšně vypsán do %1$s!</string>
     <string name="dump_logcat_failure">Vypsání záznamu logcat selhalo.</string>
+    <string name="serious_crash">Bohužel nastala závažná chyba a přehrávač VLC se musel ukončit.</string>
     <string name="help_us_send_log">Pomozte nám vylepšit přehrávač VLC zasláním následujícího záznamu o pádu aplikace:</string>
     <string name="restart_vlc">Restartovat VLC</string>
     <string name="send_log">Zaslat záznam</string>
