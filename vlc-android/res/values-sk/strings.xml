@@ -152,6 +152,10 @@
     <string name="remove_song">Odstrániť skladbu</string>
     <string name="rearrange_order">Zmeniť poradie</string>
     <string name="hold_to_seek">Podržte pre spustenie vyhľadávania</string>
+    <string name="audio_player_tips">Tipy pre prehrávač zvuku</string>
+    <string name="previous_next_song">Predchádzajúca/ďalšia skladba</string>
+    <string name="show_playlist">Zobraziť playlist</string>
+    <string name="hold_to_stop">Podržte pre zastavenie</string>
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
     <string name="licence">Licencia</string>
