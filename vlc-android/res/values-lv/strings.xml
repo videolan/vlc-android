@@ -135,6 +135,7 @@
     <string name="search">Meklēt</string>
     <string name="search_history">Meklēšanas vēsture</string>
     <string name="hardware_acceleration_error_title">HW paātrinājuma kļūda</string>
+    <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC priekš Android™</string>
     <string name="licence">License</string>
