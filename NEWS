@@ -8,6 +8,7 @@ Core:
 Main Application:
  * Fix crash in Audio browsing and Video player
  * Fix retaining of user playlists when clearing
+ * Updates of all translations
 
 
 Changes between 0.9.4 and 0.9.5:
