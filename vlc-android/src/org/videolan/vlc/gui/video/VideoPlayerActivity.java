@@ -110,7 +110,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -483,6 +482,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         AudioServiceController.getInstance().unbindAudioService(this);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onStop() {
         super.onStop();
@@ -1000,6 +1000,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         finish();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void changeSurfaceSize() {
         int sw;
         int sh;
