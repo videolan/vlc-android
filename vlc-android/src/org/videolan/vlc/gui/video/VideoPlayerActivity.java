@@ -2107,7 +2107,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final class SecondaryDisplay extends Presentation {
         public final static String TAG = "VLC/SecondaryDisplay";
 
-        private Context mContext;
         private SurfaceView mSurface;
         private SurfaceView mSubtitlesSurface;
         private SurfaceHolder mSurfaceHolder;
@@ -2120,8 +2119,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (context instanceof Activity) {
                 setOwnerActivity((Activity) context);
             }
-            mContext = context;
-
             try {
                 mLibVLC = Util.getLibVlcInstance();
             } catch (LibVlcException e) {
@@ -2201,5 +2198,4 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         editor.putBoolean(PREF_TIPS_SHOWN, true);
         editor.commit();
     }
-
 }
