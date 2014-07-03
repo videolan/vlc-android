@@ -1,0 +1,48 @@
+# view res/layout/abc_action_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ActionMenuView { <init>(...); }
+
+# view res/layout/abc_expanded_menu_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ExpandedMenuView { <init>(...); }
+
+# view res/layout/abc_list_menu_item_layout.xml #generated:17
+# view res/layout/abc_popup_menu_item_layout.xml #generated:17
+-keep class android.support.v7.internal.view.menu.ListMenuItemView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:19
+# view res/layout/abc_action_bar_decor_include.xml #generated:47
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:29
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:52
+-keep class android.support.v7.internal.widget.ActionBarContainer { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:31
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:40
+# view res/layout/abc_action_mode_bar.xml #generated:19
+-keep class android.support.v7.internal.widget.ActionBarContextView { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarOverlayLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_decor_include.xml #generated:25
+# view res/layout/abc_action_bar_decor_overlay.xml #generated:35
+-keep class android.support.v7.internal.widget.ActionBarView { <init>(...); }
+
+# view res/layout/abc_action_bar_home.xml #generated:17
+-keep class android.support.v7.internal.widget.ActionBarView$HomeView { <init>(...); }
+
+# view res/layout/abc_action_bar_tabbar.xml #generated:17
+# view res/layout/abc_activity_chooser_view.xml #generated:19
+-keep class android.support.v7.internal.widget.LinearLayoutICS { <init>(...); }
+
+# view v11/res/layout-v11/abc_action_bar_decor.xml #generated:17
+# view v11/res/layout-v11/abc_simple_decor.xml #generated:17
+-keep class android.support.v7.internal.widget.NativeActionModeAwareLayout { <init>(...); }
+
+# view res/layout/abc_action_bar_tab.xml #generated:17
+-keep class android.support.v7.internal.widget.ScrollingTabContainerView$TabView { <init>(...); }
+
+# view res/layout/abc_search_view.xml #generated:85
+-keep class android.support.v7.widget.SearchView$SearchAutoComplete { <init>(...); }
+
