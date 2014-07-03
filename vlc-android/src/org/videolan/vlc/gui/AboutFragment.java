@@ -24,12 +24,12 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.widget.FlingViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +45,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-public class AboutFragment extends SherlockFragment {
+public class AboutFragment extends Fragment {
     public final static String TAG = "VLC/AboutActivity";
 
     private TabHost mTabHost;
@@ -55,7 +55,7 @@ public class AboutFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getSherlockActivity().getSupportActionBar().setTitle("VLC " + getVersion(getActivity()));
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("VLC " + getVersion(getActivity()));
 
         View v = inflater.inflate(R.layout.about, container, false);
 

@@ -24,6 +24,8 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -35,9 +37,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
-public class HistoryFragment extends SherlockListFragment {
+public class HistoryFragment extends ListFragment {
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;
@@ -56,7 +56,7 @@ public class HistoryFragment extends SherlockListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        getSherlockActivity().getSupportActionBar().setTitle(R.string.history);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.history);
 
         View v = inflater.inflate(R.layout.history_list, container, false);
         setListAdapter(mHistoryAdapter);

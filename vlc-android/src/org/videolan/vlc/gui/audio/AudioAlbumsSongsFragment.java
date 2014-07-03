@@ -40,6 +40,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -60,9 +62,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class AudioAlbumsSongsFragment extends SherlockFragment {
+public class AudioAlbumsSongsFragment extends Fragment {
 
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -112,7 +112,7 @@ public class AudioAlbumsSongsFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getSherlockActivity().getSupportActionBar().setTitle(mTitle);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mTitle);
 
         View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 

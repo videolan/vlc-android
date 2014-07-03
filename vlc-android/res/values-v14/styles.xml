@@ -15,7 +15,7 @@
         <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
     </style>
 
-    <style name="ActionBar" parent="Widget.Sherlock.Light.ActionBar">
+    <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="android:background">@drawable/actionbar_background</item>
         <item name="android:titleTextStyle">@style/ActionBar.Text</item>
     </style>

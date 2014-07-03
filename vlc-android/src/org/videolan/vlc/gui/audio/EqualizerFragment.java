@@ -27,13 +27,13 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.widget.EqualizerBar;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +49,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class EqualizerFragment extends SherlockFragment {
+public class EqualizerFragment extends Fragment {
 
     public final static String TAG = "VLC/EqualizerFragment";
     private ToggleButton button;
@@ -66,7 +66,7 @@ public class EqualizerFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        getSherlockActivity().getSupportActionBar().setTitle(getResources().getString(R.string.equalizer));
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.equalizer));
 
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.equalizer, container, false);

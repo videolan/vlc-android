@@ -17,31 +17,24 @@
 package org.videolan.android.ui;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.view.menu.MenuItemWrapper;
-import com.actionbarsherlock.internal.view.menu.MenuWrapper;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+public class SherlockGridFragment extends GridFragment {
+    private FragmentActivity mActivity;
 
-import static com.actionbarsherlock.app.SherlockFragmentActivity.OnCreateOptionsMenuListener;
-import static com.actionbarsherlock.app.SherlockFragmentActivity.OnOptionsItemSelectedListener;
-import static com.actionbarsherlock.app.SherlockFragmentActivity.OnPrepareOptionsMenuListener;
-
-public class SherlockGridFragment extends GridFragment implements OnCreateOptionsMenuListener, OnPrepareOptionsMenuListener, OnOptionsItemSelectedListener {
-    private SherlockFragmentActivity mActivity;
-
-    public SherlockFragmentActivity getSherlockActivity() {
+    public FragmentActivity getSherlockActivity() {
         return mActivity;
     }
 
     @Override
     public void onAttach(Activity activity) {
-        if (!(activity instanceof SherlockFragmentActivity)) {
+        if (!(activity instanceof FragmentActivity)) {
             throw new IllegalStateException(getClass().getSimpleName() + " must be attached to a SherlockFragmentActivity.");
         }
-        mActivity = (SherlockFragmentActivity)activity;
+        mActivity = (FragmentActivity)activity;
 
         super.onAttach(activity);
     }
@@ -53,28 +46,13 @@ public class SherlockGridFragment extends GridFragment implements OnCreateOption
     }
 
     @Override
-    public final void onCreateOptionsMenu(android.view.Menu menu, android.view.MenuInflater inflater) {
-        onCreateOptionsMenu(new MenuWrapper(menu), mActivity.getSupportMenuInflater());
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //Nothing to see here.
     }
 
     @Override
-    public final void onPrepareOptionsMenu(android.view.Menu menu) {
-        onPrepareOptionsMenu(new MenuWrapper(menu));
-    }
-
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         //Nothing to see here.
-    }
-
-    @Override
-    public final boolean onOptionsItemSelected(android.view.MenuItem item) {
-        return onOptionsItemSelected(new MenuItemWrapper(item));
     }
 
     @Override

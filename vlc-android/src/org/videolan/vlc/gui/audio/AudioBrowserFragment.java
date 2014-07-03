@@ -44,6 +44,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -63,9 +65,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class AudioBrowserFragment extends SherlockFragment {
+public class AudioBrowserFragment extends Fragment {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
@@ -113,7 +113,7 @@ public class AudioBrowserFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        getSherlockActivity().getSupportActionBar().setTitle(R.string.audio);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.audio);
 
         View v = inflater.inflate(R.layout.audio_browser, container, false);
 

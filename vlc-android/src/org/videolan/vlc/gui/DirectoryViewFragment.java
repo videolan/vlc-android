@@ -37,6 +37,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -49,9 +51,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
-public class DirectoryViewFragment extends SherlockListFragment implements ISortable {
+public class DirectoryViewFragment extends ListFragment implements ISortable {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
@@ -81,7 +81,7 @@ public class DirectoryViewFragment extends SherlockListFragment implements ISort
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        getSherlockActivity().getSupportActionBar().setTitle(R.string.directories);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.directories);
 
         View v = inflater.inflate(R.layout.directory_view, container, false);
         setListAdapter(mDirectoryAdapter);

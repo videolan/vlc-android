@@ -31,13 +31,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
 import org.videolan.vlc.WeakHandler;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +47,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MediaInfoFragment extends SherlockListFragment {
+public class MediaInfoFragment extends ListFragment {
 
     public final static String TAG = "VLC/MediaInfoFragment";
     private Media mItem;
@@ -97,7 +97,7 @@ public class MediaInfoFragment extends SherlockListFragment {
         }
 
         mTitleView.setText(mItem.getTitle());
-        getSherlockActivity().getSupportActionBar().setTitle(mItem.getTitle());
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
         mLengthView.setText(Util.millisToString(mItem.getLength()));
 
         new Thread(mLoadImage).start();
