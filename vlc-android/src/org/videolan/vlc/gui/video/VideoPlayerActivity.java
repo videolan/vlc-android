@@ -325,6 +325,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mMenu = (ImageButton) findViewById(R.id.player_overlay_adv_function);
 
+        try {
+            mLibVLC = Util.getLibVlcInstance();
+        } catch (LibVlcException e) {
+            Log.d(TAG, "LibVLC initialisation failed");
+            return;
+        }
+
         mSurface = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurface.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
@@ -369,13 +376,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
-
-        try {
-            mLibVLC = Util.getLibVlcInstance();
-        } catch (LibVlcException e) {
-            Log.d(TAG, "LibVLC initialisation failed");
-            return;
-        }
 
         if (mPresentation != null && !mSettings.getBoolean("enable_secondary_display_hardware_acceleration", false)) {
             mDisabledHardwareAcceleration = true;
