@@ -539,3 +539,26 @@ jstring Java_org_videolan_libvlc_LibVLC_changeset(JNIEnv* env, jobject thiz)
 {
     return (*env)->NewStringUTF(env, libvlc_get_changeset());
 }
+
+jint Java_org_videolan_libvlc_LibVLC_getTitle(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_media_player_get_title(mp);
+    return -1;
+}
+
+void Java_org_videolan_libvlc_LibVLC_setTitle(JNIEnv *env, jobject thiz, jint title)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        libvlc_media_player_set_title(mp, title);
+}
+
+jint Java_org_videolan_libvlc_LibVLC_getChapterCountForTitle(JNIEnv *env, jobject thiz, jint title)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_media_player_get_chapter_count_for_title(mp, title);
+    return -1;
+}

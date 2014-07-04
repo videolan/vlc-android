@@ -710,4 +710,9 @@ public class LibVLC {
     public String getCachePath() {
         return mCachePath;
     }
+
+    public native int getTitle();
+    public native void setTitle(int title);
+    public native int getChapterCountForTitle(int title);
+
 }
