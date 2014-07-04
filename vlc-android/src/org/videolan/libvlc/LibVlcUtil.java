@@ -120,7 +120,8 @@ public class LibVlcUtil {
         float bogoMIPS = -1;
         int processors = 0;
 
-        if(CPU_ABI.equals("x86")) {
+        if(CPU_ABI.equals("x86") ||
+           CPU_ABI2.equals("x86")) {
             hasX86 = true;
         } else if(CPU_ABI.equals("armeabi-v7a") ||
                   CPU_ABI2.equals("armeabi-v7a")) {
