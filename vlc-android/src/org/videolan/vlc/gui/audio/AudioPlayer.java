@@ -658,11 +658,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
     public void showPlaylistTips() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
+        if(activity != null)
+            activity.showTipViewIfNeeded(R.layout.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
     }
 
     public void showAudioPlayerTips() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
+        if(activity != null)
+            activity.showTipViewIfNeeded(R.layout.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
 }
