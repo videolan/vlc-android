@@ -1871,6 +1871,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mSurface.setKeepScreenOn(true);
 
+        if( mLibVLC == null)
+            return;
+
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
          * Disable the hardware acceleration the media has a ts extension. */
         if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
