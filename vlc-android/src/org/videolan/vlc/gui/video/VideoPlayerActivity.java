@@ -234,6 +234,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private View mOverlayTips;
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
 
+    // Navigation handling (DVD, Blu-Ray...)
+    private ImageButton mNavMenu;
+    private boolean mHasNav = false;
+    private boolean mIsNavMenu = false;
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,6 +320,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mAudioTrack.setVisibility(View.GONE);
         mSubtitle = (ImageButton) findViewById(R.id.player_overlay_subtitle);
         mSubtitle.setVisibility(View.GONE);
+        mNavMenu = (ImageButton) findViewById(R.id.player_overlay_navmenu);
+        mNavMenu.setVisibility(View.GONE);
 
         mLock = (ImageButton) findViewById(R.id.lock_overlay_button);
         mLock.setOnClickListener(mLockListener);
@@ -414,6 +421,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         } else
             setRequestedOrientation(getScreenOrientation());
 
+        updateNavStatus();
     }
 
     @Override
@@ -819,7 +827,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             switch (msg.getData().getInt("event")) {
                 case EventHandler.MediaParsedChanged:
                     Log.i(TAG, "MediaParsedChanged");
-                    if (activity.mLibVLC.getVideoTracksCount() < 1) {
+                    activity.updateNavStatus();
+                    if (!activity.mHasNav && activity.mLibVLC.getVideoTracksCount() < 1) {
                         Log.i(TAG, "No video track, open in audio mode");
                         activity.switchToAudioMode();
                     }
@@ -833,6 +842,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     activity.setESTrackLists(true);
                     activity.setESTracks();
                     activity.changeAudioFocus(true);
+                    activity.updateNavStatus();
                     break;
                 case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
@@ -847,7 +857,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     activity.endReached();
                     break;
                 case EventHandler.MediaPlayerVout:
-                    activity.handleVout(msg);
+                    activity.updateNavStatus();
+                    if (!activity.mHasNav)
+                        activity.handleVout(msg);
                     break;
                 case EventHandler.MediaPlayerPositionChanged:
                     if (!activity.mCanSeek)
@@ -1427,6 +1439,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     };
 
+    private final OnClickListener mNavMenuListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            /* Try to return to the menu. */
+            /* FIXME: not working correctly in all cases */
+            mLibVLC.setTitle(0);
+        }
+    };
+
     /**
     *
     */
@@ -1595,6 +1616,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay
      */
     private void showOverlay(int timeout) {
+        if (mIsNavMenu)
+            return;
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
@@ -1652,7 +1675,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void dimStatusBar(boolean dim) {
-        if (!LibVlcUtil.isHoneycombOrLater() || !Util.hasNavBar())
+        if (!LibVlcUtil.isHoneycombOrLater() || !Util.hasNavBar() || mIsNavMenu)
             return;
         int layout = 0;
         if (!Util.hasCombBar() && LibVlcUtil.isJellyBeanOrLater())
@@ -1902,6 +1925,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 stopLoadingAnimation();
                 showOverlay();
             }
+            updateNavStatus();
         } else if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mLibVLC.setMediaList();
@@ -2199,5 +2223,30 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         Editor editor = mSettings.edit();
         editor.putBoolean(PREF_TIPS_SHOWN, true);
         editor.commit();
+    }
+
+    private void updateNavStatus() {
+        mHasNav = mLibVLC.getChapterCountForTitle(0) > 1;
+        mIsNavMenu = mHasNav && mLibVLC.getTitle() == 0;
+
+        Log.e(TAG, "UpdateNavStatus: " + mHasNav + " " + mIsNavMenu);
+        if (mIsNavMenu) {
+            /*
+             * Keep the overlay hidden in order to have touch events directly
+             * transmitted to navigation handling.
+             */
+            hideOverlay(false);
+        }
+        else if (mHasNav) {
+            setESTrackLists(true);
+            setESTracks();
+
+            /* Show the return to menu button. */
+            mNavMenu.setVisibility(View.VISIBLE);
+            mNavMenu.setOnClickListener(mNavMenuListener);
+        }
+        else
+            mNavMenu.setVisibility(View.GONE);
+
     }
 }
