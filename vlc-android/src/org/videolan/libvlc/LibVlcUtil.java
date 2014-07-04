@@ -147,6 +147,8 @@ public class LibVlcUtil {
                 // (see kernel sources arch/x86/kernel/cpu/proc.c)
                 if(line.contains("clflush size"))
                     hasX86 = true;
+                if(line.contains("GenuineIntel"))
+                    hasX86 = true;
                 // "microsecond timers" is specific to MIPS.
                 // see arch/mips/kernel/proc.c
                 if(line.contains("microsecond timers"))
