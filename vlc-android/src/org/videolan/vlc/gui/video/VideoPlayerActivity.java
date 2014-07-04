@@ -240,14 +240,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         super.onCreate(savedInstanceState);
 
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
-            // Get the media router service (miracast)
+            // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
             mMediaRouterCallback = new MediaRouter.SimpleCallback() {
                 @Override
                 public void onRoutePresentationDisplayChanged(
                         MediaRouter router, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRoutePresentationDisplayChanged: info="
-                            + info);
+                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
                     removePresentation();
                 }
             };
