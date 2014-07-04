@@ -260,6 +260,11 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     if (hardwareAcceleration == HW_ACCELERATION_FULL)
         use_opengles2 = false;
 
+    methodId = (*env)->GetMethodID(env, cls, "getCachePath", "()Ljava/lang/String;");
+    jstring cachePath = (*env)->CallObjectMethod(env, thiz, methodId);
+    const char *cache_path = (*env)->GetStringUTFChars(env, cachePath, 0);
+    setenv("DVDCSS_CACHE", cache_path, 1);
+
     /* Don't add any invalid options, otherwise it causes LibVLC to crash */
     const char *argv[] = {
         /* CPU intensive plugin, setting for slow devices */
@@ -292,6 +297,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     (*env)->ReleaseStringUTFChars(env, chroma, chromastr);
     (*env)->ReleaseStringUTFChars(env, subsencoding, subsencodingstr);
+    (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
 
     if (!instance)
     {
