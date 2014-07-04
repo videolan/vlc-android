@@ -101,7 +101,7 @@
             android:src="@drawable/background_cone" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/player_overlay_info"
             android:layout_centerHorizontal="true"
@@ -114,38 +114,54 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_pause_circle_big_o" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/option_overlay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-                <ImageButton
-                    android:id="@+id/player_overlay_subtitle"
+                <LinearLayout
+                    android:id="@+id/option_nodvd_overlay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_subtitle_circle_o" />
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <ImageButton
+                        android:id="@+id/player_overlay_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_subtitle_circle_o" />
+
+                    <ImageButton
+                        android:id="@+id/player_overlay_audio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_audio_circle_o" />
+
+                    <ImageButton
+                        android:id="@+id/player_overlay_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_crop_circle_o" />
+
+                    <ImageButton
+                        android:id="@+id/player_overlay_adv_function"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_dots_circle_o"
+                        android:onClick="showAdvancedOptions" />
+                </LinearLayout>
 
                 <ImageButton
-                    android:id="@+id/player_overlay_audio"
+                    android:id="@+id/player_overlay_navmenu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_audio_circle_o" />
-
-                <ImageButton
-                    android:id="@+id/player_overlay_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_crop_circle_o" />
-
-                <ImageButton
-                    android:id="@+id/player_overlay_adv_function"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_dots_circle_o"
-                    android:onClick="showAdvancedOptions" />
-            </LinearLayout>
+                    android:layout_alignLeft="@+id/option_nodvd_overlay"
+                    android:layout_below="@+id/option_nodvd_overlay"
+                    android:background="@drawable/ic_navmenu_circle_o"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
 
         <RelativeLayout

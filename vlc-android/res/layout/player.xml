@@ -139,6 +139,13 @@
                 android:background="@drawable/ic_audio_circle" />
 
             <ImageButton
+                android:id="@+id/player_overlay_navmenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_navmenu_circle"
+                android:visibility="visible" />
+
+            <ImageButton
                 android:id="@+id/player_overlay_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
