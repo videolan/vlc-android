@@ -1589,7 +1589,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay the the default timeout
      */
     private void showOverlay() {
-            showOverlay(OVERLAY_TIMEOUT);
+        showOverlay(OVERLAY_TIMEOUT);
     }
 
     /**
