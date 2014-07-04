@@ -75,6 +75,9 @@ public class LibVLC {
     private boolean frameSkip = false;
     private int networkCaching = 0;
 
+    /** Path of application-specific cache */
+    private String mCachePath = "";
+
     /** Native crash handler */
     private OnNativeCrashListener mOnNativeCrashListener;
 
@@ -374,6 +377,8 @@ public class LibVLC {
                 Log.e(TAG, LibVlcUtil.getErrorMsg());
                 throw new LibVlcException();
             }
+
+            mCachePath = context.getCacheDir().getAbsolutePath();
             nativeInit();
             mMediaList = mPrimaryList = new MediaList(this);
             setEventHandler(EventHandler.getInstance());
@@ -700,5 +705,9 @@ public class LibVLC {
     private void onNativeCrash() {
         if (mOnNativeCrashListener != null)
             mOnNativeCrashListener.onNativeCrash();
+    }
+
+    public String getCachePath() {
+        return mCachePath;
     }
 }
