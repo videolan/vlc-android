@@ -166,6 +166,7 @@
     <string name="enable_black_theme_summary">कमी प्रकाश वातावरणात चांगली सुविधेसाठी संवाद रंग बदला.</string>
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
+    <string name="enable_clone_mode">क्लोन प्राधान्य</string>
     <string name="enable_brightness_gesture">तेजस्वीपणा जेस्चर सक्रीय करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
