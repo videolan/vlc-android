@@ -146,7 +146,6 @@
     <string name="lock">Blochează</string>
     <string name="remove_song">Înlătură melodie</string>
     <string name="rearrange_order">Rearanjează ordinea</string>
-    <string name="show_playlist">Arată Playlist</string>
     <!-- About -->
     <string name="app_name_full">VLC pentru Android™</string>
     <string name="licence">Licență</string>
