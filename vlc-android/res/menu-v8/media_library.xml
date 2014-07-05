@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto" >
+
     <item
         android:id="@+id/ml_menu_search"
         android:icon="@drawable/ic_menu_search_wb"
         android:title="@string/searchable_hint"
-        android:showAsAction="ifRoom" />
+        vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_open_mrl"
         android:icon="@drawable/ic_menu_goto_wb"
         android:title="@string/open_mrl"
-        android:showAsAction="ifRoom" />
+        vlc:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sortby_wb"
@@ -27,12 +29,12 @@
         android:id="@+id/ml_menu_last_playlist"
         android:icon="@drawable/ic_menu_revert_wb"
         android:title="@string/last_playlist"
-        android:showAsAction="ifRoom" />
+        vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_refresh"
         android:icon="@drawable/ic_menu_refresh_wb"
         android:title="@string/refresh"
-        android:showAsAction="ifRoom" />
+        vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_equalizer"
         android:icon="@drawable/ic_menu_equalizer_wb"
