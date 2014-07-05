@@ -36,7 +36,7 @@
     <string name="unknown_artist">Nieznany wykonawca</string>
     <string name="unknown_album">Nieznany album</string>
     <string name="unknown_genre">Nieznany gatunek</string>
-    <string name="songs">Piosenki</string>
+    <string name="songs">Utwory</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 utwór</item>
         <item quantity="few">%d utwory</item>
@@ -141,6 +141,21 @@
     <string name="hardware_acceleration_error_title">Błąd akceleracji sprzętowej</string>
     <string name="hardware_acceleration_error_message">Wystąpił błąd z akceleracją sprzętową. Czy chcesz ją wyłączyć i spróbować ponownie?</string>
     <!--Tips-->
+    <string name="video_player_tips">Porady odtwarzacza wideo:</string>
+    <string name="seek">Szukaj</string>
+    <string name="subtitles">Napisy</string>
+    <string name="resize">Zmiana rozmiaru</string>
+    <string name="options">Opcje</string>
+    <string name="lock">Zablokuj</string>
+    <string name="ok_got_it">Rozumiem, zamknij okno</string>
+    <string name="playlist_tips">Porady listy odtwarzania</string>
+    <string name="remove_song">Usuń utwór</string>
+    <string name="rearrange_order">Zmień kolejność</string>
+    <string name="hold_to_seek">Przytrzymaj, aby szukać</string>
+    <string name="audio_player_tips">Porady odtwarzacza audio</string>
+    <string name="previous_next_song">Poprzedni/Następny utwór</string>
+    <string name="show_playlist">Pokaż listę odtwarzania</string>
+    <string name="hold_to_stop">Przytrzymaj, aby zatrzymać</string>
     <!-- About -->
     <string name="app_name_full">VLC dla Androida™</string>
     <string name="licence">Licencja</string>
@@ -232,6 +247,7 @@
     <string name="dump_logcat">Zrób zrzut dziennika zdarzeń</string>
     <string name="dump_logcat_success">Dziennik zdarzeń pomyślnie zrzucony do %1$s!</string>
     <string name="dump_logcat_failure">Nie udało się zrzucić dziennika zdarzeń.</string>
+    <string name="serious_crash">Niestety, wystąpił poważny błąd i aplikacja VLC została zamknięta.</string>
     <string name="help_us_send_log">Pomóż nam ulepszyć VLC przez wysłanie dziennika awarii:</string>
     <string name="restart_vlc">Uruchom ponownie VLC</string>
     <string name="send_log">Wyślij dziennik</string>
