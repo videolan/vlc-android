@@ -4,7 +4,7 @@
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
     <string name="other">その他</string>
-    <string name="sortby">並べ替え…</string>
+    <string name="sortby">並び替え…</string>
     <string name="sortby_name">名前</string>
     <string name="sortby_length">長さ</string>
     <string name="searchable_hint">検索…</string>
@@ -133,11 +133,11 @@
     <string name="resize">リサイズ</string>
     <string name="options">オプション</string>
     <string name="lock">ロック</string>
-    <string name="ok_got_it">これを取り除く</string>
+    <string name="ok_got_it">こTipsを消去</string>
     <string name="playlist_tips">プレイリスト活用法</string>
     <string name="remove_song">歌を削除</string>
     <string name="rearrange_order">順序を再調整</string>
-    <string name="hold_to_seek">シークを停止</string>
+    <string name="hold_to_seek">シークを保持</string>
     <string name="audio_player_tips">オーディオプレイヤーのTips</string>
     <string name="previous_next_song">前/次の曲</string>
     <string name="show_playlist">プレイリストの表示</string>
