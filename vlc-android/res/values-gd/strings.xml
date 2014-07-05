@@ -161,7 +161,6 @@
     <string name="hold_to_seek">Cum airson sireadh a dhèanamh</string>
     <string name="audio_player_tips">Gliocasan mu chluicheadair nam fuaim</string>
     <string name="previous_next_song">An ath-òran/an t-òran roimhe</string>
-    <string name="show_playlist">Seall an liosta-chluich</string>
     <string name="hold_to_stop">Cum gus stad a chur air</string>
     <!-- About -->
     <string name="app_name_full">VLC airson Android™</string>
