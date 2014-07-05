@@ -147,7 +147,7 @@
     <string name="hold_to_seek">Κρατήστε για αναζήτηση</string>
     <string name="audio_player_tips">Συμβουλές αναπαραγωγής ήχου</string>
     <string name="previous_next_song">Προηγούμενο/επόμενο τραγούδι</string>
-    <string name="show_playlist">Προβολή αναπαραγωγής</string>
+    <string name="show_playlist">Προβολή λίστας αναπαραγωγής</string>
     <string name="hold_to_stop">Κρατείστε για να σταματήσει</string>
     <!-- About -->
     <string name="app_name_full">Το VLC για το Android™</string>
