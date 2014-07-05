@@ -147,7 +147,6 @@
     <string name="hold_to_seek">Segure para procurar</string>
     <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
     <string name="previous_next_song">Canção Anterior/Seguinte</string>
-    <string name="show_playlist">Mostrar Lista de Reprodução</string>
     <string name="hold_to_stop">Segure para parar</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
