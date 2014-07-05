@@ -152,6 +152,10 @@
     <string name="remove_song">Удаление</string>
     <string name="rearrange_order">Изменение порядка</string>
     <string name="hold_to_seek">Удержание — переход</string>
+    <string name="audio_player_tips">Подсказки для аудиоплеера:</string>
+    <string name="previous_next_song">Пред./след. композиция</string>
+    <string name="show_playlist">Показать плейлист</string>
+    <string name="hold_to_stop">Удержание — останов</string>
     <!-- About -->
     <string name="app_name_full">VLC для Android™</string>
     <string name="licence">Лицензия</string>
