@@ -161,7 +161,7 @@
     <string name="hold_to_seek">Dal lawr i chwilio</string>
     <string name="audio_player_tips">Awgrymiadau chwaraeydd sain</string>
     <string name="previous_next_song">Trac blaenorol/nesaf</string>
-    <string name="show_playlist">Dangos Rhestr Chwarae</string>
+    <string name="show_playlist">Dangos rhestr chwarae</string>
     <string name="hold_to_stop">Dal lawr i stopio</string>
     <!-- About -->
     <string name="app_name_full">VLC ar gyfer Android™</string>
