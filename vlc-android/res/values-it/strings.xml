@@ -141,6 +141,14 @@
     <string name="options">Opzioni</string>
     <string name="lock">Blocca</string>
     <string name="ok_got_it">Ricevuto, rimuovilo</string>
+    <string name="playlist_tips">Suggerimenti della scaletta</string>
+    <string name="remove_song">Rimuovi brano</string>
+    <string name="rearrange_order">Modifica ordine</string>
+    <string name="hold_to_seek">Trattieni per posizionare</string>
+    <string name="audio_player_tips">Suggerimenti del lettore audio</string>
+    <string name="previous_next_song">Brano precedente/successivo</string>
+    <string name="show_playlist">Mostra scaletta</string>
+    <string name="hold_to_stop">Trattieni per fermare</string>
     <!-- About -->
     <string name="app_name_full">VLC per Android™</string>
     <string name="licence">Licenza</string>
