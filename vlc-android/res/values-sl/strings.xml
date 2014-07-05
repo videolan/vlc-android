@@ -159,7 +159,6 @@
     <string name="rearrange_order">Prerazvrsti</string>
     <string name="audio_player_tips">Namigi za zvočni predvajalnik</string>
     <string name="previous_next_song">Prejšnja/naslednja pesem</string>
-    <string name="show_playlist">Pokaži seznam predvajanja</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Dovoljenje</string>
