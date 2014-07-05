@@ -141,6 +141,21 @@
     <string name="hardware_acceleration_error_title">Грешка у хардверском убрзању</string>
     <string name="hardware_acceleration_error_message">Дошло је до грешке при хардверском убрзавању. Желите ли да га онемогућите и покушате поново?</string>
     <!--Tips-->
+    <string name="video_player_tips">Савети за видео-плејер:</string>
+    <string name="seek">Премотај</string>
+    <string name="subtitles">Титлови</string>
+    <string name="resize">Промени величину</string>
+    <string name="options">Опције</string>
+    <string name="lock">Закључај</string>
+    <string name="ok_got_it">Одбаци</string>
+    <string name="playlist_tips">Савети за плејлисту</string>
+    <string name="remove_song">Уклони</string>
+    <string name="rearrange_order">Промени редослед</string>
+    <string name="hold_to_seek">Држите да премотате</string>
+    <string name="audio_player_tips">Савети за аудио-плејер</string>
+    <string name="previous_next_song">Претходна/следећа песма</string>
+    <string name="show_playlist">Прикажи плејлисту</string>
+    <string name="hold_to_stop">Држите да зауставите</string>
     <!-- About -->
     <string name="app_name_full">VLC за Android</string>
     <string name="licence">Лиценца</string>
@@ -173,6 +188,14 @@
     <string name="enable_black_theme_summary">Промените боју интерфејса ради лакшег сналажења у окружењима ниског осветљења.</string>
     <string name="subtitle_text_encoding">Енкодирање текстуалних титлова</string>
     <string name="extra_prefs_category">Додатне поставке</string>
+    <string name="interface_prefs_screen">Интерфејс</string>
+    <string name="interface_secondary_display_category">Интерфејс – други екран</string>
+    <string name="interface_secondary_display_category_summary">Поставке при повезивању другог екрана (HDMI/Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">Задржи режим хардверског убрзања</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">Хардверско убрзање можда неће радити</string>
+    <string name="enable_clone_mode">Клонирање</string>
+    <string name="enable_clone_mode_summary">Клонирајте екран уређаја без управљања на даљину.</string>
+    <string name="interface_other_category">Интерфејс – друго</string>
     <string name="enable_brightness_gesture">Покрет за осветљење</string>
     <string name="enable_brightness_gesture_summary">Управљајте осветљењем покретима током репродукције</string>
     <string name="enable_headset_detection">Откриј слушалице</string>
@@ -224,4 +247,9 @@
     <string name="dump_logcat">Испиши logcat евиденцију</string>
     <string name="dump_logcat_success">Logcat је успешно исписан у %1$s.</string>
     <string name="dump_logcat_failure">Не могу да испишем logcat.</string>
+    <string name="serious_crash">Нажалост, дошло је до озбиљне грешке која је проузроковала пад VLC-а.</string>
+    <string name="help_us_send_log">Помозите нам да побољшамо VLC слањем следећег извештаја о паду:</string>
+    <string name="restart_vlc">Поново покрени VLC</string>
+    <string name="send_log">Пошаљи извештај</string>
+    <string name="sending_log">Шаљем извештај…</string>
 </resources>
