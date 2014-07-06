@@ -220,7 +220,7 @@ public class MediaLibrary {
             final MediaDatabase DBManager = MediaDatabase.getInstance(VLCApplication.getAppContext());
 
             // show progressbar in footer
-            MainActivity.showProgressBar(mContext);
+            MainActivity.showProgressBar();
 
             List<File> mediaDirs = DBManager.getMediaDirs();
             if (mediaDirs.size() == 0) {
@@ -303,7 +303,7 @@ public class MediaLibrary {
                 // Process the stacked items
                 for (File file : mediaToScan) {
                     String fileURI = LibVLC.PathToURI(file.getPath());
-                    MainActivity.sendTextInfo(mContext, file.getName(), count,
+                    MainActivity.sendTextInfo(file.getName(), count,
                             mediaToScan.size());
                     count++;
                     if (existingMedias.containsKey(fileURI)) {
@@ -353,10 +353,10 @@ public class MediaLibrary {
                 }
 
                 // hide progressbar in footer
-                MainActivity.clearTextInfo(mContext);
-                MainActivity.hideProgressBar(mContext);
+                MainActivity.clearTextInfo();
+                MainActivity.hideProgressBar();
 
-                VideoGridFragment.actionScanStop(mContext);
+                VideoGridFragment.actionScanStop();
 
                 if (mRestart) {
                     Log.d(TAG, "Restarting scan");

@@ -32,6 +32,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
@@ -782,35 +783,29 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    public static void showProgressBar(Context context) {
-        if (context == null)
-            return;
+    public static void showProgressBar() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SHOW_PROGRESSBAR);
-        context.getApplicationContext().sendBroadcast(intent);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
-    public static void hideProgressBar(Context context) {
-        if (context == null)
-            return;
+    public static void hideProgressBar() {
         Intent intent = new Intent();
         intent.setAction(ACTION_HIDE_PROGRESSBAR);
-        context.getApplicationContext().sendBroadcast(intent);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
-    public static void sendTextInfo(Context context, String info, int progress, int max) {
-        if (context == null)
-            return;
+    public static void sendTextInfo(String info, int progress, int max) {
         Intent intent = new Intent();
         intent.setAction(ACTION_SHOW_TEXTINFO);
         intent.putExtra("info", info);
         intent.putExtra("progress", progress);
         intent.putExtra("max", max);
-        context.getApplicationContext().sendBroadcast(intent);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
-    public static void clearTextInfo(Context context) {
-        sendTextInfo(context, null, 0, 100);
+    public static void clearTextInfo() {
+        sendTextInfo(null, 0, 100);
     }
 
     private void onOpenMRL() {
