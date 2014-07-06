@@ -85,16 +85,7 @@ public class MediaInfoFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        update();
-    }
 
-    public void setMediaLocation(String MRL) {
-        if (MRL == null)
-            return;
-        mItem = MediaLibrary.getInstance(getActivity()).getMediaItem(MRL);
-    }
-
-    private void update() {
         if (mItem == null) {
             // Shouldn't happen, maybe user opened it faster than Media Library could index it
             return;
@@ -105,6 +96,12 @@ public class MediaInfoFragment extends ListFragment {
         mLengthView.setText(Util.millisToString(mItem.getLength()));
 
         new Thread(mLoadImage).start();
+    }
+
+    public void setMediaLocation(String MRL) {
+        if (MRL == null)
+            return;
+        mItem = MediaLibrary.getInstance(getActivity()).getMediaItem(MRL);
     }
 
     Runnable mLoadImage = new Runnable() {
