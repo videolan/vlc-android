@@ -35,6 +35,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.Util;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
@@ -153,7 +154,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
         Log.i(TAG,"mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
         if (mMediaLibrary.isWorking()) {
-            actionScanStart(getActivity().getApplicationContext());
+            actionScanStart();
         }
 
         mAnimator = new VideoGridAnimator(getGridView());
@@ -479,19 +480,15 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         }
     };
 
-    public static void actionScanStart(Context context) {
-        if (context == null)
-            return;
+    public static void actionScanStart() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_START);
-        context.getApplicationContext().sendBroadcast(intent);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 
-    public static void actionScanStop(Context context) {
-        if (context == null)
-            return;
+    public static void actionScanStop() {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
-        context.getApplicationContext().sendBroadcast(intent);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 }

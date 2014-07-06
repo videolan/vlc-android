@@ -81,7 +81,7 @@ public class MediaLibrary {
     public void loadMediaItems(Context context) {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
-            VideoGridFragment.actionScanStart(context.getApplicationContext());
+            VideoGridFragment.actionScanStart();
             mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
             mLoadingThread.start();
         }
