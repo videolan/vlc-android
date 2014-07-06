@@ -118,7 +118,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mAudioController = AudioServiceController.getInstance();
 
         mVideoAdapter = new VideoListAdapter(getActivity(), this);
-        mMediaLibrary = MediaLibrary.getInstance(getActivity());
+        mMediaLibrary = MediaLibrary.getInstance();
         setListAdapter(mVideoAdapter);
 
         /* Load the thumbnailer */

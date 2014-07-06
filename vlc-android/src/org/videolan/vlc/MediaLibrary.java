@@ -98,7 +98,7 @@ public class MediaLibrary {
         return false;
     }
 
-    public static MediaLibrary getInstance(Context context) {
+    public static MediaLibrary getInstance() {
         if (mInstance == null)
             mInstance = new MediaLibrary();
         return mInstance;

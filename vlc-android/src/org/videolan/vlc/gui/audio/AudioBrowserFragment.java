@@ -97,7 +97,7 @@ public class AudioBrowserFragment extends Fragment {
 
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaLibrary = MediaLibrary.getInstance(getActivity());
+        mMediaLibrary = MediaLibrary.getInstance();
 
         mSongsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
         mArtistsAdapter = new AudioBrowserListAdapter(getActivity(), AudioBrowserListAdapter.ITEM_WITH_COVER);
@@ -375,7 +375,7 @@ public class AudioBrowserFragment extends Fragment {
     };
 
     private void updateLists() {
-        List<Media> audioList = MediaLibrary.getInstance(getActivity()).getAudioItems();
+        List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
 
         if (audioList.isEmpty())
             mEmptyView.setVisibility(View.VISIBLE);

@@ -331,7 +331,7 @@ public class MainActivity extends ActionBarActivity {
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            MediaLibrary.getInstance(this).loadMediaItems();
+            MediaLibrary.getInstance().loadMediaItems();
     }
 
     @Override
@@ -398,9 +398,9 @@ public class MainActivity extends ActionBarActivity {
         super.onPause();
 
         /* Check for an ongoing scan that needs to be resumed during onResume */
-        mScanNeeded = MediaLibrary.getInstance(this).isWorking();
+        mScanNeeded = MediaLibrary.getInstance().isWorking();
         /* Stop scanning for files */
-        MediaLibrary.getInstance(this).stop();
+        MediaLibrary.getInstance().stop();
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
@@ -639,7 +639,7 @@ public class MainActivity extends ActionBarActivity {
                 else if(mCurrentFragment != null && mCurrentFragment.equals("history"))
                     ((HistoryFragment) getFragment(mCurrentFragment)).refresh();
                 else
-                    MediaLibrary.getInstance(this).loadMediaItems(this, true);
+                    MediaLibrary.getInstance().loadMediaItems(this, true);
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
@@ -681,7 +681,7 @@ public class MainActivity extends ActionBarActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN)
-                MediaLibrary.getInstance(this).loadMediaItems(this, true);
+                MediaLibrary.getInstance().loadMediaItems(this, true);
             else if (resultCode == PreferencesActivity.RESULT_RESTART) {
                 Intent intent = getIntent();
                 finish();

@@ -101,7 +101,7 @@ public class AudioAlbumsSongsFragment extends Fragment {
         mSongsAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
 
         mAudioController = AudioServiceController.getInstance();
-        mMediaLibrary = MediaLibrary.getInstance(getActivity());
+        mMediaLibrary = MediaLibrary.getInstance();
     }
 
     @Override

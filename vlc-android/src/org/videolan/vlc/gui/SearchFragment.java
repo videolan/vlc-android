@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.lang.Override;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -105,7 +104,7 @@ public class SearchFragment extends ListFragment {
         // set result adapter to the list
         mResultAdapter.clear();
         String[] keys = key.toString().split("\\s+");
-        ArrayList<Media> allItems = MediaLibrary.getInstance(getActivity()).getMediaItems();
+        ArrayList<Media> allItems = MediaLibrary.getInstance().getMediaItems();
         int results = 0;
         for (int i = 0; i < allItems.size(); i++) {
             Media item = allItems.get(i);
