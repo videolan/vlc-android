@@ -331,7 +331,7 @@ public class MainActivity extends ActionBarActivity {
 
         /* Load media items from database and storage */
         if (mScanNeeded)
-            MediaLibrary.getInstance(this).loadMediaItems(this);
+            MediaLibrary.getInstance(this).loadMediaItems();
     }
 
     @Override

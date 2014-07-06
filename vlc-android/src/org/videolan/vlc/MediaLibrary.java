@@ -74,11 +74,11 @@ public class MediaLibrary {
             isStopping = true;
             mRestartContext = context;
         } else {
-            loadMediaItems(context);
+            loadMediaItems();
         }
     }
 
-    public void loadMediaItems(Context context) {
+    public void loadMediaItems() {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
             VideoGridFragment.actionScanStart();
@@ -379,7 +379,7 @@ public class MediaLibrary {
             MediaLibrary owner = getOwner();
             if(owner == null) return;
             if (owner.mRestartContext != null)
-                owner.loadMediaItems(owner.mRestartContext);
+                owner.loadMediaItems();
             else
                 Log.e(TAG, "Context lost in a black hole");
         }
