@@ -94,6 +94,9 @@ public class HistoryAdapter extends BaseAdapter {
 
         String holderText = "";
         Media m = mLibVLC.getPrimaryMediaList().getMedia(position);
+        if (m == null )
+            return v;
+
         Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
         holder.title.setText(m.getTitle());
         holderText = m.getSubtitle();
