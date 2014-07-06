@@ -32,6 +32,7 @@ import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.text.format.DateFormat;
+import android.view.Window;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -296,12 +298,18 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference)
     {
         super.onPreferenceTreeClick(preferenceScreen, preference);
-        if (preference!=null)
-            if (preference instanceof PreferenceScreen)
-                if (((PreferenceScreen)preference).getDialog()!=null)
-                    ((PreferenceScreen)preference).getDialog().getWindow().getDecorView()
-                    .setBackgroundDrawable(this.getWindow().getDecorView().getBackground()
-                            .getConstantState().newDrawable());
+        try {
+            if (preference!=null && preference instanceof PreferenceScreen) {
+                Dialog dialog = ((PreferenceScreen)preference).getDialog();
+                if (dialog!=null) {
+                    Window window = dialog.getWindow();
+                    if(window != null)
+                        window.getDecorView().setBackgroundDrawable(
+                                this.getWindow().getDecorView().getBackground()
+                                .getConstantState().newDrawable());
+                }
+            }
+        } catch(Exception e){}
         return false;
     }
 
