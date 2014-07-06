@@ -60,7 +60,7 @@ public class MediaLibrary {
     private Context mRestartContext;
     protected Thread mLoadingThread;
 
-    private MediaLibrary(Context context) {
+    private MediaLibrary() {
         mInstance = this;
         mItemList = new ArrayList<Media>();
         mUpdateHandler = new ArrayList<Handler>();
@@ -82,7 +82,7 @@ public class MediaLibrary {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
             VideoGridFragment.actionScanStart();
-            mLoadingThread = new Thread(new GetMediaItemsRunnable(context.getApplicationContext()));
+            mLoadingThread = new Thread(new GetMediaItemsRunnable());
             mLoadingThread.start();
         }
     }
@@ -102,7 +102,7 @@ public class MediaLibrary {
 
     public static MediaLibrary getInstance(Context context) {
         if (mInstance == null)
-            mInstance = new MediaLibrary(context);
+            mInstance = new MediaLibrary();
         return mInstance;
     }
 
@@ -200,10 +200,8 @@ public class MediaLibrary {
 
         private final Stack<File> directories = new Stack<File>();
         private final HashSet<String> directoriesScanned = new HashSet<String>();
-        private Context mContext;
 
-        public GetMediaItemsRunnable(Context context) {
-            mContext = context;
+        public GetMediaItemsRunnable() {
         }
 
         @Override
@@ -364,7 +362,6 @@ public class MediaLibrary {
                     restartHandler.sendEmptyMessageDelayed(1, 200);
                 } else {
                     mRestartContext = null;
-                    mContext = null;
                 }
             }
         }
