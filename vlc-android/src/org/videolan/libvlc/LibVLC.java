@@ -57,7 +57,7 @@ public class LibVLC {
     private StringBuffer mDebugLogBuffer;
     private boolean mIsBufferingLog = false;
 
-    private Aout mAout;
+    private AudioOutput mAout;
 
     /** Keep screen bright */
     //private WakeLock mWakeLock;
@@ -152,7 +152,7 @@ public class LibVLC {
      * It is private because this class is a singleton.
      */
     private LibVLC() {
-        mAout = new Aout();
+        mAout = new AudioOutput();
     }
 
     /**

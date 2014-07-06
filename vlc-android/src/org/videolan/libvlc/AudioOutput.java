@@ -25,7 +25,7 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
-public class Aout {
+public class AudioOutput {
     /**
      * Java side of the audio output module for Android.
      * Uses an AudioTrack to play decoded audio buffers.
@@ -33,7 +33,7 @@ public class Aout {
      * TODO Use MODE_STATIC instead of MODE_STREAM with a MemoryFile (ashmem)
      */
 
-    public Aout() {
+    public AudioOutput() {
     }
 
     private AudioTrack mAudioTrack;
