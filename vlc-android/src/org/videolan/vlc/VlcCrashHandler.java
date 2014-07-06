@@ -29,6 +29,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import org.videolan.vlc.util.Util;
+
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;

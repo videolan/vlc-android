@@ -48,6 +48,8 @@ import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
 import android.app.Notification;

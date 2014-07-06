@@ -25,9 +25,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.interfaces.OnExpandableListener;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.app.Activity;

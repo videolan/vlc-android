@@ -21,7 +21,7 @@
 package org.videolan.vlc.gui;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.FlingViewGroup;
 
 import android.content.Context;

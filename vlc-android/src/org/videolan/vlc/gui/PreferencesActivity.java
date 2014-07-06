@@ -24,12 +24,12 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.AudioService;
 import org.videolan.vlc.AudioServiceController;
-import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
 
 import android.app.AlertDialog;
 import android.content.Context;

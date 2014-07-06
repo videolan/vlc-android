@@ -22,9 +22,9 @@ package org.videolan.vlc.gui.audio;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.EqualizerBar;
 
 import android.content.Context;

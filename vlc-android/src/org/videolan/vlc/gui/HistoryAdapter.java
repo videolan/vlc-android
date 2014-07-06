@@ -26,8 +26,8 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.WeakHandler;
 
 import android.content.Context;
 import android.graphics.Bitmap;

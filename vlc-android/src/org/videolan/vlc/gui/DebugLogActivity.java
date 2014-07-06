@@ -23,7 +23,7 @@ package org.videolan.vlc.gui;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.Util;
 
 import android.app.Activity;
 import android.os.Bundle;

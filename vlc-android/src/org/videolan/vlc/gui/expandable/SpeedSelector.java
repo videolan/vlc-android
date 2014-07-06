@@ -22,7 +22,7 @@ package org.videolan.vlc.gui.expandable;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.content.Context;

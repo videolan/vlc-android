@@ -27,8 +27,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.BitmapCache;
 
 import android.content.Context;
 import android.graphics.Bitmap;

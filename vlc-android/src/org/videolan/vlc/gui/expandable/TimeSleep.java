@@ -26,8 +26,8 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.app.AlarmManager;

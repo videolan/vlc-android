@@ -34,13 +34,13 @@ import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcRunnable;
-import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

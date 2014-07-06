@@ -25,10 +25,10 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.BitmapCache;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

@@ -30,7 +30,7 @@ import java.util.Stack;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.Util;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;

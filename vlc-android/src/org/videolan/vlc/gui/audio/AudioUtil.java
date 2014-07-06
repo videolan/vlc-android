@@ -32,11 +32,11 @@ import java.util.Arrays;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.BitmapCache;
-import org.videolan.vlc.MurmurHash;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.MurmurHash;
+import org.videolan.vlc.util.Util;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;

@@ -47,13 +47,13 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.WeakHandler;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

@@ -28,8 +28,8 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
-import org.videolan.vlc.WeakHandler;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WeakHandler;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;

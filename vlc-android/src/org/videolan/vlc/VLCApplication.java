@@ -22,6 +22,7 @@ package org.videolan.vlc;
 import java.util.Locale;
 
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.BitmapCache;
 
 import android.app.Application;
 import android.content.Context;

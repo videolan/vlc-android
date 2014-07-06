@@ -21,8 +21,8 @@
 package org.videolan.vlc.widget;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.interfaces.OnExpandableListener;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
 import android.util.AttributeSet;

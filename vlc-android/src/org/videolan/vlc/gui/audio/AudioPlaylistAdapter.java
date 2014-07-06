@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
 
 import android.content.Context;

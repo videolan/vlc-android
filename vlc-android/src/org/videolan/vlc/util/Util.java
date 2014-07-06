@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc;
+package org.videolan.vlc.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,6 +44,10 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VlcCrashHandler;
+import org.videolan.vlc.MediaDatabase.mediaColumn;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
 import android.content.Context;

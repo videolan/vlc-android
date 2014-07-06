@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.videolan.libvlc.Media;
+import org.videolan.vlc.util.Util;
 
 public class MediaGroup extends Media {
 

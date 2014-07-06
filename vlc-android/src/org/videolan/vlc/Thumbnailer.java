@@ -34,6 +34,7 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -31,8 +31,8 @@ import java.util.regex.Pattern;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.Util;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
 import android.os.Build;
