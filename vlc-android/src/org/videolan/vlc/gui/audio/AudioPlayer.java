@@ -27,9 +27,9 @@ import android.content.Intent;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
-import org.videolan.vlc.RepeatType;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;

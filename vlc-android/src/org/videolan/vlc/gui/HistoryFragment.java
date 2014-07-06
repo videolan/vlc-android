@@ -21,8 +21,9 @@
 package org.videolan.vlc.gui;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioServiceController;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;

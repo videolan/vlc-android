@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VlcRunnable;
+import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;

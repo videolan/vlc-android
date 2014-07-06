@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.widget;
 
-import org.videolan.vlc.AudioServiceController;
+import org.videolan.vlc.audio.AudioServiceController;
 
 import android.content.Context;
 import android.graphics.Bitmap;

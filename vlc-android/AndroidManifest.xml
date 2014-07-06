@@ -369,7 +369,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AudioService" />
+        <service android:name="org.videolan.vlc.audio.AudioService" />
 
         <receiver android:name=".PhoneStateReceiver" >
             <intent-filter>

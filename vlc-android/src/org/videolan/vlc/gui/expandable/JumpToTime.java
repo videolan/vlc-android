@@ -27,8 +27,8 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.NumericWheelAdapter;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.vlc.AudioServiceController;
 import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 

@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.interfaces;
 
-import org.videolan.vlc.RepeatType;
+import org.videolan.vlc.audio.RepeatType;
 
 import android.graphics.Bitmap;
 
