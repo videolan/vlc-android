@@ -57,7 +57,6 @@ public class MediaLibrary {
     private final ReadWriteLock mItemListLock;
     private boolean isStopping = false;
     private boolean mRestart = false;
-    private Context mRestartContext;
     protected Thread mLoadingThread;
 
     private MediaLibrary() {
@@ -72,7 +71,6 @@ public class MediaLibrary {
             /* do a clean restart if a scan is ongoing */
             mRestart = true;
             isStopping = true;
-            mRestartContext = context;
         } else {
             loadMediaItems();
         }
@@ -360,8 +358,6 @@ public class MediaLibrary {
                     Log.d(TAG, "Restarting scan");
                     mRestart = false;
                     restartHandler.sendEmptyMessageDelayed(1, 200);
-                } else {
-                    mRestartContext = null;
                 }
             }
         }
@@ -378,10 +374,7 @@ public class MediaLibrary {
         public void handleMessage(Message msg) {
             MediaLibrary owner = getOwner();
             if(owner == null) return;
-            if (owner.mRestartContext != null)
-                owner.loadMediaItems();
-            else
-                Log.e(TAG, "Context lost in a black hole");
+            owner.loadMediaItems();
         }
     }
 
