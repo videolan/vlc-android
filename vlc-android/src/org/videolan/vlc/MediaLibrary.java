@@ -215,7 +215,7 @@ public class MediaLibrary {
             }
 
             // Initialize variables
-            final MediaDatabase DBManager = MediaDatabase.getInstance(VLCApplication.getAppContext());
+            final MediaDatabase DBManager = MediaDatabase.getInstance();
 
             // show progressbar in footer
             MainActivity.showProgressBar();
@@ -322,7 +322,7 @@ public class MediaLibrary {
                         Media m = new Media(libVlcInstance, fileURI);
                         mItemList.add(m);
                         // Add this item to database
-                        MediaDatabase db = MediaDatabase.getInstance(VLCApplication.getAppContext());
+                        MediaDatabase db = MediaDatabase.getInstance();
                         db.addMedia(m);
                         mItemListLock.writeLock().unlock();
                     }

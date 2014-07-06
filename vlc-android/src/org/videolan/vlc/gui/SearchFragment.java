@@ -155,7 +155,7 @@ public class SearchFragment extends ListFragment {
         String headerText = getString(R.string.search_history);
         showListHeader(headerText);
 
-        MediaDatabase db = MediaDatabase.getInstance(getActivity());
+        MediaDatabase db = MediaDatabase.getInstance();
         mHistoryAdapter.clear();
         ArrayList<String> history = db.getSearchhistory(20);
         for (String s : history)
@@ -205,7 +205,7 @@ public class SearchFragment extends ListFragment {
             mSearchText.requestFocus();
         } else if (getListAdapter() == mResultAdapter) {
             // add search text to the database (history)
-            MediaDatabase db = MediaDatabase.getInstance(getActivity());
+            MediaDatabase db = MediaDatabase.getInstance();
             db.addSearchhistoryItem(mSearchText.getText().toString());
 
             // open media in the player

@@ -76,7 +76,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
             holder = (ViewHolder) view.getTag();
 
         final File item = getItem(position);
-        final MediaDatabase dbManager = MediaDatabase.getInstance(view.getContext());
+        final MediaDatabase dbManager = MediaDatabase.getInstance();
 
         if(item != null && item.getPath().equals(ADD_ITEM_PATH)) {
             holder.text.setText(R.string.add_custom_path);
@@ -112,7 +112,7 @@ public class BrowserAdapter extends ArrayAdapter<File>
     private final OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            final MediaDatabase dbManager = MediaDatabase.getInstance(buttonView.getContext());
+            final MediaDatabase dbManager = MediaDatabase.getInstance();
             File item = (File) buttonView.getTag();
             if (item == null)
                 return;

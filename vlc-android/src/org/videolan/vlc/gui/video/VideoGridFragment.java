@@ -175,7 +175,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     public void onResume() {
         super.onResume();
         //Get & set times
-        HashMap<String, Long> times = MediaDatabase.getInstance(getActivity()).getVideoTimes(getActivity());
+        HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
         mVideoAdapter.setTimes(times);
         mVideoAdapter.notifyDataSetChanged();
         updateList();

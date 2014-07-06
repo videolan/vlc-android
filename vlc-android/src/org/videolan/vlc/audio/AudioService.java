@@ -417,8 +417,7 @@ public class AudioService extends Service {
 
                     String location = service.mLibVLC.getMediaList().getMRL(service.mCurrentIndex);
                     long length = service.mLibVLC.getLength();
-                    MediaDatabase dbManager = MediaDatabase
-                            .getInstance(VLCApplication.getAppContext());
+                    MediaDatabase dbManager = MediaDatabase.getInstance();
                     Media m = dbManager.getMedia(location);
                     /**
                      * 1) There is a media to update
@@ -1098,7 +1097,7 @@ public class AudioService extends Service {
 
             mPrevious.clear();
 
-            MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
+            MediaDatabase db = MediaDatabase.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
                 Media media = db.getMedia(location);
@@ -1203,7 +1202,7 @@ public class AudioService extends Service {
                 return;
             }
 
-            MediaDatabase db = MediaDatabase.getInstance(AudioService.this);
+            MediaDatabase db = MediaDatabase.getInstance();
             for (int i = 0; i < mediaLocationList.size(); i++) {
                 String location = mediaLocationList.get(i);
                 Media media = db.getMedia(location);

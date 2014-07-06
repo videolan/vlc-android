@@ -670,7 +670,7 @@ public class MainActivity extends ActionBarActivity {
                     mMenu.showMenu();
                 break;
             case R.id.search_clear_history:
-                MediaDatabase.getInstance(this).clearSearchHistory();
+                MediaDatabase.getInstance().clearSearchHistory();
                 break;
         }
         return super.onOptionsItemSelected(item);

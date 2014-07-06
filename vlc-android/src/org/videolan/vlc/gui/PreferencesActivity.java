@@ -143,7 +143,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                MediaDatabase db = MediaDatabase.getInstance(getApplicationContext());
+                                MediaDatabase db = MediaDatabase.getInstance();
                                 db.clearSearchHistory();
                             }
                         })
@@ -159,7 +159,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        MediaDatabase.getInstance(getBaseContext()).emptyDatabase();
+                        MediaDatabase.getInstance().emptyDatabase();
                         BitmapCache.getInstance().clear();
                         AudioUtil.clearCacheFolders();
                         Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();

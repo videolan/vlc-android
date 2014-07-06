@@ -101,9 +101,9 @@ public class MediaDatabase {
         this.mDb = helper.getWritableDatabase();
     }
 
-    public synchronized static MediaDatabase getInstance(Context context) {
+    public synchronized static MediaDatabase getInstance() {
         if (instance == null) {
-            instance = new MediaDatabase(context.getApplicationContext());
+            instance = new MediaDatabase(VLCApplication.getAppContext());
         }
         return instance;
     }

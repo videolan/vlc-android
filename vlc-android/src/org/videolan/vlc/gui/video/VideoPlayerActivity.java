@@ -462,8 +462,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
         if (time >= 0 && mCanSeek) {
-            if(MediaDatabase.getInstance(this).mediaItemExists(mLocation)) {
-                MediaDatabase.getInstance(this).updateMedia(
+            if(MediaDatabase.getInstance().mediaItemExists(mLocation)) {
+                MediaDatabase.getInstance().updateMedia(
                         mLocation,
                         MediaDatabase.mediaColumn.MEDIA_TIME,
                         time);
@@ -1377,7 +1377,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     }
                     if(trackID < 0) return;
 
-                    MediaDatabase.getInstance(VideoPlayerActivity.this).updateMedia(
+                    MediaDatabase.getInstance().updateMedia(
                             mLocation,
                             MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
                             trackID);
@@ -1424,7 +1424,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     }
                     if(trackID < -1) return;
 
-                    MediaDatabase.getInstance(VideoPlayerActivity.this).updateMedia(
+                    MediaDatabase.getInstance().updateMedia(
                             mLocation,
                             MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
                             trackID);
@@ -1710,7 +1710,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         int time = (int) mLibVLC.getTime();
         int length = (int) mLibVLC.getLength();
         if (length == 0) {
-            Media media = MediaDatabase.getInstance(this).getMedia(mLocation);
+            Media media = MediaDatabase.getInstance().getMedia(mLocation);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -1941,7 +1941,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
-            Media media = MediaDatabase.getInstance(this).getMedia(mLocation);
+            Media media = MediaDatabase.getInstance().getMedia(mLocation);
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)

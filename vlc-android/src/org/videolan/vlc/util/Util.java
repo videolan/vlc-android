@@ -47,7 +47,6 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VlcCrashHandler;
-import org.videolan.vlc.MediaDatabase.mediaColumn;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
 import android.content.Context;
@@ -390,7 +389,7 @@ public class Util {
                  * adding it to the memcache for later use.
                  */
                 Context c = VLCApplication.getAppContext();
-                picture = MediaDatabase.getInstance(c).getPicture(c, media.getLocation());
+                picture = MediaDatabase.getInstance().getPicture(c, media.getLocation());
                 cache.addBitmapToMemCache(media.getLocation(), picture);
             }
             return picture;
@@ -402,7 +401,7 @@ public class Util {
     public static void setPicture(Context context, Media m, Bitmap p) {
         Log.d(TAG, "Setting new picture for " + m.getTitle());
         try {
-            MediaDatabase.getInstance(context).updateMedia(
+            MediaDatabase.getInstance().updateMedia(
                 m.getLocation(),
                 MediaDatabase.mediaColumn.MEDIA_PICTURE,
                 p);
