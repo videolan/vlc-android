@@ -1,3 +1,25 @@
+Changes between 0.9.6 and 0.9.7:
+--------------------------------
+
+Core:
+ * Fix pthread issue on Android L
+ * Fix wrong error on some x86 devices
+
+Main Application:
+ * Add a DVD menu button, fix DVD navigation and improve DVD menus support
+ * Cache DVD CSS keys
+ * Remove dependency on ActionBarSherlock: use android-support-v7-appcompat
+   instead, from now on.
+ * Fix various crashes on application and video playback start
+
+Translations:
+ * Initial Nepali and  Bengali translations
+ * Update of Traditional Chinese, Simplified Chinese, Uzbek, Serbian, Slovenian,
+   Russian, Romanian, Brazilian Portuguese, Portuguese, Polish, Marathi,
+   Japanese, Italian, Scottish Gaelic, French, Modern Greek, Welsh, and Bosnian
+   translations
+
+
 Changes between 0.9.5 and 0.9.6:
 --------------------------------
 
