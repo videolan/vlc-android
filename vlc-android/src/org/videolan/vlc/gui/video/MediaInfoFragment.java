@@ -79,9 +79,13 @@ public class MediaInfoFragment extends ListFragment {
         mAdapter = new MediaInfoAdapter(getActivity());
         setListAdapter(mAdapter);
 
-        update();
-
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        update();
     }
 
     public void setMediaLocation(String MRL) {
