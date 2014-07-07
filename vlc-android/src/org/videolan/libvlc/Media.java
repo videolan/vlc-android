@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Locale;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -337,7 +336,7 @@ public class Media implements Comparable<Media> {
     /**
      * Sets the raw picture object.
      *
-     * In VLC for Android, use {@link org.videolan.vlc.util.Util#setPicture(Context, Media, Bitmap)} instead.
+     * In VLC for Android, use {@link org.videolan.vlc.util.Util#setPicture(Media, Bitmap)} instead.
      *
      * @param p
      */

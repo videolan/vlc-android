@@ -168,7 +168,7 @@ public class Thumbnailer implements Runnable {
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
             if (b == null) {// We were not able to create a thumbnail for this item, store a dummy
-                Util.setPicture(mContext, item, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
+                Util.setPicture(item, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
                 continue;
             }
 
@@ -176,7 +176,7 @@ public class Thumbnailer implements Runnable {
 
             Log.i(TAG, "Thumbnail created for " + item.getFileName());
 
-            Util.setPicture(mContext, item, thumbnail);
+            Util.setPicture(item, thumbnail);
             // Post to the file browser the new item.
             mVideoGridFragment.setItemToUpdate(item);
 

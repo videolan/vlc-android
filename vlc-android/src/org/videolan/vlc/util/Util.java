@@ -398,7 +398,7 @@ public class Util {
         }
     }
 
-    public static void setPicture(Context context, Media m, Bitmap p) {
+    public static void setPicture(Media m, Bitmap p) {
         Log.d(TAG, "Setting new picture for " + m.getTitle());
         try {
             MediaDatabase.getInstance().updateMedia(
