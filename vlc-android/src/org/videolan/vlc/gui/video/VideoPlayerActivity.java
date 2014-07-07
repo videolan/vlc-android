@@ -236,7 +236,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     // Navigation handling (DVD, Blu-Ray...)
     private ImageButton mNavMenu;
-    private boolean mHasChapters = false;
+    private boolean mHasMenu = false;
     private boolean mIsNavMenu = false;
 
     @Override
@@ -830,7 +830,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 case EventHandler.MediaParsedChanged:
                     Log.i(TAG, "MediaParsedChanged");
                     activity.updateNavStatus();
-                    if (!activity.mHasChapters && activity.mLibVLC.getVideoTracksCount() < 1) {
+                    if (!activity.mHasMenu && activity.mLibVLC.getVideoTracksCount() < 1) {
                         Log.i(TAG, "No video track, open in audio mode");
                         activity.switchToAudioMode();
                     }
@@ -860,7 +860,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     break;
                 case EventHandler.MediaPlayerVout:
                     activity.updateNavStatus();
-                    if (!activity.mHasChapters)
+                    if (!activity.mHasMenu)
                         activity.handleVout(msg);
                     break;
                 case EventHandler.MediaPlayerPositionChanged:
@@ -2228,8 +2228,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void updateNavStatus() {
-        mHasChapters = mLibVLC.getChapterCountForTitle(0) > 1;
-        mIsNavMenu = mHasChapters && mLibVLC.getTitle() == 0 && mLibVLC.getTitleCount() > 1;
+        mHasMenu = mLibVLC.getChapterCountForTitle(0) > 1;
+        mIsNavMenu = mHasMenu && mLibVLC.getTitle() == 0 && mLibVLC.getTitleCount() > 1;
         /***
          * HACK ALERT: assume that any media with >1 titles = DVD with menus
          * Should be replaced with a more robust title/chapter selection popup
@@ -2246,7 +2246,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
              */
             hideOverlay(false);
         }
-        else if (mHasChapters) {
+        else if (mHasMenu) {
             setESTrackLists(true);
             setESTracks();
 
