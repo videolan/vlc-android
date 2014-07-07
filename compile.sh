@@ -92,6 +92,7 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 ANDROID_PATH="`pwd`"
 
+# Fetch VLC source
 if [ ! -z "$FETCH" ]
 then
     # 1/ libvlc, libvlccore and its plugins
@@ -135,6 +136,7 @@ then
     exit 0
 fi
 
+# Setup CFLAGS
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
@@ -165,6 +167,7 @@ EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
 
+# Make in //
 UNAMES=$(uname -s)
 MAKEFLAGS=
 if which nproc >/dev/null
@@ -175,6 +178,7 @@ then
 MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
 fi
 
+# Build buildsystem tools
 export PATH=`pwd`/extras/tools/build/bin:$PATH
 echo "Building tools"
 cd extras/tools
@@ -182,8 +186,11 @@ cd extras/tools
 make $MAKEFLAGS
 cd ../..
 
+############
+# Contribs #
+############
 echo "Building the contribs"
-mkdir -p contrib/android
+mkdir -p contrib/contrib-android-${TARGET_TUPLE}
 
 gen_pc_file() {
     echo "Generating $1 pkg-config file"
@@ -198,7 +205,7 @@ mkdir -p contrib/${TARGET_TUPLE}/lib/pkgconfig
 gen_pc_file EGL 1.1
 gen_pc_file GLESv2 2
 
-cd contrib/android
+cd contrib/contrib-android-${TARGET_TUPLE}
 ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
     --enable-dvdread \
     --enable-dvdnav \
@@ -251,7 +258,10 @@ which autopoint >/dev/null || make $MAKEFLAGS .gettext
 export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 make $MAKEFLAGS
 
-cd ../.. && mkdir -p android && cd android
+############
+# Make VLC #
+############
+cd ../.. && mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
 
 if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
     CLEAN="jniclean"
@@ -270,10 +280,10 @@ fi
 echo "Building"
 make $MAKEFLAGS
 
-
-# 2/ VLC android UI and specific code
-
-echo "Building Android"
+####################################
+# VLC android UI and specific code
+####################################
+echo "Building VLC for Android"
 cd ../../
 
 export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
@@ -281,12 +291,14 @@ export ANDROID_SYS_HEADERS_HC=${PWD}/android-headers-hc
 export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
 
 export ANDROID_LIBS=${PWD}/android-libs
-export VLC_BUILD_DIR=vlc/android
+export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
 
 make $CLEAN
 make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL RELEASE=$RELEASE $TARGET
 
-# 3/ Environment script
+#
+# Exporting a environment script with all the necessary variables
+#
 echo "Generating environment script."
 cat <<EOF
 This is a script that will export many of the variables used in this
