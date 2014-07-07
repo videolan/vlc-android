@@ -41,21 +41,8 @@ case "$REL" in
         GCCVER=4.8
         CXXSTL="/"${GCCVER}
     ;;
-    8?*)
-        # we don't use 4.4.3 because it doesn't handle threads correctly.
-        # TODO : clang?
-        if test -d ${ANDROID_NDK}/toolchains/arm-linux-androideabi-4.7
-        # if gcc 4.7 is present, it's there for all the archs (x86, mips, arm)
-        then
-            # since r8d
-            GCCVER=4.7
-        else
-            GCCVER=4.6
-        fi
-        CXXSTL="/"${GCCVER}
-    ;;
     7|8|*)
-        echo "You need the NDKv8b or later"
+        echo "You need the NDKv9 or later"
         exit 1
     ;;
 esac
