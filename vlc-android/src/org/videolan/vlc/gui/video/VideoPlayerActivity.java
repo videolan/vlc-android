@@ -2228,8 +2228,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void updateNavStatus() {
-        mHasMenu = mLibVLC.getChapterCountForTitle(0) > 1;
-        mIsNavMenu = mHasMenu && mLibVLC.getTitle() == 0 && mLibVLC.getTitleCount() > 1;
+        mHasMenu = mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1;
+        mIsNavMenu = mHasMenu && mLibVLC.getTitle() == 0;
         /***
          * HACK ALERT: assume that any media with >1 titles = DVD with menus
          * Should be replaced with a more robust title/chapter selection popup
