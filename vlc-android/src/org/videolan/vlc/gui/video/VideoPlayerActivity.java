@@ -2229,9 +2229,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     private void updateNavStatus() {
         mHasChapters = mLibVLC.getChapterCountForTitle(0) > 1;
-        mIsNavMenu = mHasChapters && mLibVLC.getTitle() == 0;
+        mIsNavMenu = mHasChapters && mLibVLC.getTitle() == 0 && mLibVLC.getTitleCount() > 1;
+        /***
+         * HACK ALERT: assume that any media with >1 titles = DVD with menus
+         * Should be replaced with a more robust title/chapter selection popup
+         */
 
-        Log.e(TAG, "UpdateNavStatus: " + mHasChapters + " " + mIsNavMenu);
+        Log.d(TAG,
+                "updateNavStatus: getChapterCountForTitle(0) = "
+                        + mLibVLC.getChapterCountForTitle(0)
+                        + ", getTitleCount() = " + mLibVLC.getTitleCount());
         if (mIsNavMenu) {
             /*
              * Keep the overlay hidden in order to have touch events directly
