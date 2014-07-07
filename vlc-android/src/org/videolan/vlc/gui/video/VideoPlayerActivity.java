@@ -236,7 +236,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     // Navigation handling (DVD, Blu-Ray...)
     private ImageButton mNavMenu;
-    private boolean mHasNav = false;
+    private boolean mHasChapters = false;
     private boolean mIsNavMenu = false;
 
     @Override
@@ -828,7 +828,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 case EventHandler.MediaParsedChanged:
                     Log.i(TAG, "MediaParsedChanged");
                     activity.updateNavStatus();
-                    if (!activity.mHasNav && activity.mLibVLC.getVideoTracksCount() < 1) {
+                    if (!activity.mHasChapters && activity.mLibVLC.getVideoTracksCount() < 1) {
                         Log.i(TAG, "No video track, open in audio mode");
                         activity.switchToAudioMode();
                     }
@@ -858,7 +858,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     break;
                 case EventHandler.MediaPlayerVout:
                     activity.updateNavStatus();
-                    if (!activity.mHasNav)
+                    if (!activity.mHasChapters)
                         activity.handleVout(msg);
                     break;
                 case EventHandler.MediaPlayerPositionChanged:
@@ -2226,10 +2226,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void updateNavStatus() {
-        mHasNav = mLibVLC.getChapterCountForTitle(0) > 1;
-        mIsNavMenu = mHasNav && mLibVLC.getTitle() == 0;
+        mHasChapters = mLibVLC.getChapterCountForTitle(0) > 1;
+        mIsNavMenu = mHasChapters && mLibVLC.getTitle() == 0;
 
-        Log.e(TAG, "UpdateNavStatus: " + mHasNav + " " + mIsNavMenu);
+        Log.e(TAG, "UpdateNavStatus: " + mHasChapters + " " + mIsNavMenu);
         if (mIsNavMenu) {
             /*
              * Keep the overlay hidden in order to have touch events directly
@@ -2237,7 +2237,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
              */
             hideOverlay(false);
         }
-        else if (mHasNav) {
+        else if (mHasChapters) {
             setESTrackLists(true);
             setESTracks();
 
