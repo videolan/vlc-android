@@ -562,3 +562,11 @@ jint Java_org_videolan_libvlc_LibVLC_getChapterCountForTitle(JNIEnv *env, jobjec
         return libvlc_media_player_get_chapter_count_for_title(mp, title);
     return -1;
 }
+
+jint Java_org_videolan_libvlc_LibVLC_getTitleCount(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_media_player_get_title_count(mp);
+    return -1;
+}
