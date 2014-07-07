@@ -56,17 +56,15 @@ public class Thumbnailer implements Runnable {
 
     protected Thread mThread;
     private LibVLC mLibVlc;
-    private final Context mContext;
     private int totalCount;
     private final float mDensity;
     private final String mPrefix;
 
     public Thumbnailer(Context context, Display display) {
-        mContext = context;
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         mDensity = metrics.density;
-        mPrefix = mContext.getResources().getString(R.string.thumbnail);
+        mPrefix = context.getResources().getString(R.string.thumbnail);
     }
 
     public void start(VideoGridFragment videoGridFragment) {
