@@ -1,5 +1,9 @@
-Changes between 0.9.7 and 0.9.8-git:
---------------------------------
+Changes between 0.9.7 and 0.9.7.1:
+----------------------------------
+
+Main Application:
+ * Fix "mysterious" disappearance of the video buttons :)
+ * Fix a couple of crashes in preferences, history and media information panels
 
 
 Changes between 0.9.6 and 0.9.7:
