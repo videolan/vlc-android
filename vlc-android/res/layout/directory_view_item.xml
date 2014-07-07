@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:ellipsize="marquee"
-            android:maxLines="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:text="@string/title"
             android:textColor="?attr/list_title"
             android:textSize="20sp" />

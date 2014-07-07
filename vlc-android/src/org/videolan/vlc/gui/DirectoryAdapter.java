@@ -303,6 +303,7 @@ public class DirectoryAdapter extends BaseAdapter {
             holder = new DirectoryViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
+            holder.title.setSelected(true);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.icon = (ImageView) v.findViewById(R.id.dvi_icon);
             v.setTag(holder);
