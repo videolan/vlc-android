@@ -28,11 +28,11 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VlcRunnable;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VlcRunnable;
 import org.videolan.vlc.widget.FlingViewGroup;
 
 import android.annotation.TargetApi;
