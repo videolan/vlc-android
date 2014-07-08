@@ -169,7 +169,7 @@ public class Media implements Comparable<Media> {
         if (mType == TYPE_ALL) {
             int dotIndex = mLocation.lastIndexOf(".");
             if (dotIndex != -1) {
-                String fileExt = mLocation.substring(dotIndex);
+                String fileExt = mLocation.substring(dotIndex).toLowerCase(Locale.ENGLISH);
                 if( Media.VIDEO_EXTENSIONS.contains(fileExt) ) {
                     mType = TYPE_VIDEO;
                 } else if (Media.AUDIO_EXTENSIONS.contains(fileExt)) {
