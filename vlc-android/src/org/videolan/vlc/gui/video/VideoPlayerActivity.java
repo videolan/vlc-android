@@ -501,7 +501,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
             mPresentation.dismiss();
             mPresentation = null;
-            mAudioManager.setParameters("bgm_state=false");
         }
     }
 
@@ -772,9 +771,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     @TargetApi(Build.VERSION_CODES.FROYO)
-    private void changeAudioFocus(boolean gain) {
+    private int changeAudioFocus(boolean acquire) {
         if(!LibVlcUtil.isFroyoOrLater()) // NOP if not supported
-            return;
+            return AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
 
         if (mAudioFocusListener == null) {
             mAudioFocusListener = new OnAudioFocusChangeListener() {
@@ -802,11 +801,18 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             };
         }
 
-        AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
-        if(gain)
-            am.requestAudioFocus(mAudioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-        else
-            am.abandonAudioFocus(mAudioFocusListener);
+        int result;
+        if(acquire) {
+            result = mAudioManager.requestAudioFocus(mAudioFocusListener,
+                    AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+            mAudioManager.setParameters("bgm_state=true");
+        }
+        else {
+            result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
+            mAudioManager.setParameters("bgm_state=false");
+        }
+
+        return result;
     }
 
     /**
@@ -2093,7 +2099,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mPresentation.setOnDismissListener(mOnDismissListener);
             try {
                 mPresentation.show();
-                mAudioManager.setParameters("bgm_state=true");
             } catch (WindowManager.InvalidDisplayException ex) {
                 Log.w(TAG, "Couldn't show presentation!  Display was removed in "
                         + "the meantime.", ex);
@@ -2115,7 +2120,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         finish(); //TODO restore the video on the new display instead of closing
         if (mPresentation != null) mPresentation.dismiss();
         mPresentation = null;
-        mAudioManager.setParameters("bgm_state=false");
     }
 
     /**
