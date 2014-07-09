@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -378,7 +379,8 @@ public class LibVLC {
                 throw new LibVlcException();
             }
 
-            mCachePath = context.getCacheDir().getAbsolutePath();
+            File cacheDir = context.getCacheDir();
+            mCachePath = (cacheDir != null) ? cacheDir.getAbsolutePath() : null;
             nativeInit();
             mMediaList = mPrimaryList = new MediaList(this);
             setEventHandler(EventHandler.getInstance());
