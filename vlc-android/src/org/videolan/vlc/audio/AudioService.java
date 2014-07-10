@@ -113,29 +113,36 @@ public class AudioService extends Service {
     public static final int NEXT_ITEM = 3;
 
     private LibVLC mLibVLC;
-    private Stack<Integer> mPrevious; // Stack of previously played indexes, used in shuffle mode
-    private int mCurrentIndex; // Set to -1 if there is no currently loaded media
-    private int mPrevIndex; // Set to -1 if no previous media
-    private int mNextIndex; // Set to -1 if no next media
     private HashMap<IAudioServiceCallback, Integer> mCallback;
     private EventHandler mEventHandler;
-    private boolean mShuffling = false;
-    private RepeatType mRepeating = RepeatType.None;
-    private boolean mDetectHeadset = true;
     private OnAudioFocusChangeListener audioFocusListener;
-    private ComponentName mRemoteControlClientReceiverComponent;
+    private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
 
+    // Index management
+    /**
+     * Stack of previously played indexes, used in shuffle mode
+     */
+    private Stack<Integer> mPrevious;
+    private int mCurrentIndex; // Set to -1 if no media is currently loaded
+    private int mPrevIndex; // Set to -1 if no previous media
+    private int mNextIndex; // Set to -1 if no next media
+
+    // Playback management
+    private boolean mShuffling = false;
+    private RepeatType mRepeating = RepeatType.None;
+
+    // RemoteControlClient-related
     /**
      * RemoteControlClient is for lock screen playback control.
      */
     private RemoteControlClient mRemoteControlClient = null;
     private RemoteControlClientReceiver mRemoteControlClientReceiver = null;
-
     /**
      * Last widget position update timestamp
      */
     private long mWidgetPositionTimestamp = Calendar.getInstance().getTimeInMillis();
+    private ComponentName mRemoteControlClientReceiverComponent;
 
     @Override
     public void onCreate() {
