@@ -466,7 +466,7 @@ public class AudioService extends Service {
                     Log.i(TAG, "MediaPlayerEndReached");
                     service.executeUpdate();
                     service.executeUpdateProgress();
-                    service.determinePrevAndNextIndices();
+                    service.determinePrevAndNextIndices(true);
                     service.next();
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
@@ -797,7 +797,11 @@ public class AudioService extends Service {
     }
 
     private void determinePrevAndNextIndices() {
-        mNextIndex = mLibVLC.expand();
+        determinePrevAndNextIndices(false);
+    }
+
+    private void determinePrevAndNextIndices(boolean expand) {
+        mNextIndex = expand ? mLibVLC.expand() : -1;
         mPrevIndex = -1;
 
         if (mNextIndex == -1) {
