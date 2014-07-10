@@ -223,6 +223,19 @@ public class MediaDatabase {
                 dropMediaTableQuery(db);
                 createMediaTableQuery(db);
             }
+            // Upgrade incrementally from oldVersion to newVersion
+            for(int i = oldVersion+1; i <= newVersion; i++) {
+                switch(i) {
+                case 9:
+                    // Remodelled playlist tables: re-create them
+                    db.execSQL("DROP TABLE " + PLAYLIST_MEDIA_TABLE_NAME + ";");
+                    db.execSQL("DROP TABLE " + PLAYLIST_TABLE_NAME + ";");
+                    createPlaylistTablesQuery(db);
+                    break;
+                default:
+                    break;
+                }
+            }
         }
     }
 
