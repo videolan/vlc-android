@@ -79,7 +79,8 @@ public class MediaDatabase {
     private final String PLAYLIST_MEDIA_TABLE_NAME = "playlist_media_table";
     private final String PLAYLIST_MEDIA_ID = "id";
     private final String PLAYLIST_MEDIA_PLAYLISTNAME = "playlist_name";
-    private final String PLAYLIST_MEDIA_MEDIAPATH = "media_path";
+    private final String PLAYLIST_MEDIA_MEDIALOCATION = "media_location";
+    private final String PLAYLIST_MEDIA_ORDER = "playlist_order";
 
     private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
     private final String SEARCHHISTORY_DATE = "date";
@@ -196,7 +197,8 @@ public class MediaDatabase {
                     PLAYLIST_MEDIA_TABLE_NAME + " (" +
                     PLAYLIST_MEDIA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     PLAYLIST_MEDIA_PLAYLISTNAME + " VARCHAR(200) NOT NULL," +
-                    PLAYLIST_MEDIA_MEDIAPATH + " TEXT NOT NULL);";
+                    PLAYLIST_MEDIA_MEDIALOCATION + " TEXT NOT NULL," +
+                    PLAYLIST_MEDIA_ORDER + " INTEGER NOT NULL);";
 
             db.execSQL(createPlaylistMediaTableQuery);
 
@@ -243,31 +245,151 @@ public class MediaDatabase {
 
     /**
      * Add new playlist
-     * @param name
-     * @return id of the new playlist
+     *
+     * @param name Unique name of the playlist
+     * @return False if invalid name or already exists, true otherwise
      */
-    public void addPlaylist(String name) {
+    public boolean playlistAdd(String name) {
+        // Check length
+        if(name.length() >= 200)
+            return false;
+
+        // Check if already exists
+        if(playlistExists(name))
+            return false;
+
+        // Create new playlist
         ContentValues values = new ContentValues();
         values.put(PLAYLIST_NAME, name);
-        mDb.insert(PLAYLIST_TABLE_NAME, "NULL", values);
+        long res = mDb.insert(PLAYLIST_TABLE_NAME, "NULL", values);
+        return res != -1;
     }
 
-    public void deletePlaylist(String name) {
+    /**
+     * Delete a playlist and all of its entries.
+     *
+     * @param name Unique name of the playlist
+     */
+    public void playlistDelete(String name) {
         mDb.delete(PLAYLIST_TABLE_NAME, PLAYLIST_NAME + "=?",
                 new String[] { name });
+        mDb.delete(PLAYLIST_MEDIA_TABLE_NAME, PLAYLIST_MEDIA_PLAYLISTNAME
+                + "=?", new String[] { name });
     }
 
-    public void addMediaToPlaylist(String playlistName, String mediaPath) {
+    /**
+     * Check if the playlist in question exists.
+     *
+     * @param name Unique name of the playlist
+     * @return true if playlist exists, false otherwise
+     */
+    public boolean playlistExists(String name) {
+        // Check duplicates
+        Cursor c = mDb.query(PLAYLIST_TABLE_NAME,
+                new String[] { PLAYLIST_NAME }, PLAYLIST_NAME + "= ?",
+                new String[] { name }, null, null, "1");
+        int count = c.getCount();
+        c.close();
+        return (count > 0);
+    }
+
+    /**
+     * Insert an item with location into playlistName at the specified position
+     *
+     * @param playlistName Unique name of the playlist
+     * @param position Position to insert into
+     * @param mrl MRL of the media
+     */
+    public void playlistInsertItem(String playlistName, int position, String mrl) {
+        playlistShiftItems(playlistName, position, 1);
+
         ContentValues values = new ContentValues();
         values.put(PLAYLIST_MEDIA_PLAYLISTNAME, playlistName);
-        values.put(PLAYLIST_MEDIA_MEDIAPATH, mediaPath);
+        values.put(PLAYLIST_MEDIA_MEDIALOCATION, mrl);
+        values.put(PLAYLIST_MEDIA_ORDER, position);
+        mDb.insert(PLAYLIST_MEDIA_TABLE_NAME, "NULL", values);
     }
 
-    public void removeMediaFromPlaylist(String playlistName, String mediaPath) {
+    /**
+     * Shifts all items starting at position by the given factor.
+     *
+     * For instance:
+     * Before:
+     * 0 - A
+     * 1 - B
+     * 2 - C
+     * 3 - D
+     *
+     * After playlistShiftItems(playlist, 1, 1):
+     * 0 - A
+     * 2 - B
+     * 3 - C
+     * 4 - D
+     *
+     * @param playlistName Unique name of the playlist
+     * @param position Position to start shifting at
+     * @param factor Factor to shift the order by
+     */
+    private void playlistShiftItems(String playlistName, int position, int factor) {
+        // Increment all media orders by 1 after the insert position
+        Cursor c = mDb.query(
+                PLAYLIST_MEDIA_TABLE_NAME,
+                new String[] { PLAYLIST_MEDIA_ID, PLAYLIST_MEDIA_ORDER },
+                PLAYLIST_MEDIA_PLAYLISTNAME + "=? AND " + PLAYLIST_MEDIA_ORDER + " >= ?",
+                new String[] { playlistName, String.valueOf(position) },
+                null, null,
+                PLAYLIST_MEDIA_ORDER + " ASC");
+        while(c.moveToNext()) {
+            ContentValues cv = new ContentValues();
+            int ii = c.getInt(c.getColumnIndex(PLAYLIST_MEDIA_ORDER)) + factor;
+            Log.d(TAG, "ii = " + ii);
+            cv.put(PLAYLIST_MEDIA_ORDER, ii /* i */);
+            mDb.update(PLAYLIST_MEDIA_TABLE_NAME, cv, PLAYLIST_MEDIA_ID + "=?",
+                    new String[] { c.getString(c.getColumnIndex(PLAYLIST_MEDIA_ID)) });
+        }
+    }
+
+    /**
+     * Removes the item at the given position
+     *
+     * @param playlistName Unique name of the playlist
+     * @param position Position to remove
+     */
+    public void playlistRemoveItem(String playlistName, int position) {
         mDb.delete(PLAYLIST_MEDIA_TABLE_NAME,
-                PLAYLIST_MEDIA_PLAYLISTNAME + "=? "
-                        + PLAYLIST_MEDIA_MEDIAPATH + "=?",
-                new String[] { playlistName, mediaPath });
+                PLAYLIST_MEDIA_PLAYLISTNAME + "=? AND " +
+                PLAYLIST_MEDIA_ORDER + "=?",
+                new String[] { playlistName, Integer.toString(position) });
+
+        playlistShiftItems(playlistName, position+1, -1);
+    }
+
+    /**
+     * Rename the specified playlist.
+     *
+     * @param playlistName Unique name of the playlist
+     * @param newPlaylistName New name of the playlist
+     * @return false on error, if playlist doesn't exist or if the new name
+     * already exists, true otherwise
+     */
+    public boolean playlistRename(String playlistName, String newPlaylistName) {
+        if(!playlistExists(playlistName) || playlistExists(newPlaylistName))
+            return false;
+
+        // Update playlist table
+        ContentValues values = new ContentValues();
+        values.put(PLAYLIST_NAME, newPlaylistName);
+        mDb.update(PLAYLIST_TABLE_NAME, values, PLAYLIST_NAME + " =?",
+                new String[] { playlistName });
+
+        // Update playlist media table
+        values = new ContentValues();
+        values.put(PLAYLIST_MEDIA_PLAYLISTNAME, newPlaylistName);
+        mDb.update(PLAYLIST_MEDIA_TABLE_NAME, values,
+                PLAYLIST_MEDIA_PLAYLISTNAME + " =?",
+                new String[] { playlistName });
+
+        return true;
     }
 
     /**
