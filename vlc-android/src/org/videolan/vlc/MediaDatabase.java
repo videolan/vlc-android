@@ -173,20 +173,7 @@ public class MediaDatabase {
             db.execSQL(query);
         }
 
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-
-            String createDirTabelQuery = "CREATE TABLE IF NOT EXISTS "
-                    + DIR_TABLE_NAME + " ("
-                    + DIR_ROW_PATH + " TEXT PRIMARY KEY NOT NULL"
-                    + ");";
-
-            // Create the directories table
-            db.execSQL(createDirTabelQuery);
-
-            // Create the media table
-            createMediaTableQuery(db);
-
+        private void createPlaylistTablesQuery(SQLiteDatabase db) {
             String createPlaylistTableQuery = "CREATE TABLE IF NOT EXISTS " +
                     PLAYLIST_TABLE_NAME + " (" +
                     PLAYLIST_NAME + " VARCHAR(200) PRIMARY KEY NOT NULL);";
@@ -201,6 +188,24 @@ public class MediaDatabase {
                     PLAYLIST_MEDIA_ORDER + " INTEGER NOT NULL);";
 
             db.execSQL(createPlaylistMediaTableQuery);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+
+            String createDirTabelQuery = "CREATE TABLE IF NOT EXISTS "
+                    + DIR_TABLE_NAME + " ("
+                    + DIR_ROW_PATH + " TEXT PRIMARY KEY NOT NULL"
+                    + ");";
+
+            // Create the directories table
+            db.execSQL(createDirTabelQuery);
+
+            // Create the media table
+            createMediaTableQuery(db);
+
+            // Create playlist tables
+            createPlaylistTablesQuery(db);
 
             String createSearchhistoryTabelQuery = "CREATE TABLE IF NOT EXISTS "
                     + SEARCHHISTORY_TABLE_NAME + " ("
