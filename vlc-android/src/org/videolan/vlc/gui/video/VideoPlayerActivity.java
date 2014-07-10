@@ -1876,7 +1876,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     try {
                         mLocation = URLDecoder.decode(mLocation,"UTF-8");
                     } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
+                        Log.w(TAG, "UnsupportedEncodingException while decoding MRL " + mLocation);
                     }
                 }
             } else {
@@ -1901,11 +1901,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         mSurface.setKeepScreenOn(true);
 
-        if( mLibVLC == null)
+        if(mLibVLC == null)
             return;
 
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
-         * Disable the hardware acceleration the media has a ts extension. */
+         * Disable hardware acceleration if the media has a ts extension. */
         if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
             String locationLC = mLocation.toLowerCase(Locale.ENGLISH);
             if (locationLC.endsWith(".ts")
