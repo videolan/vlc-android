@@ -63,7 +63,7 @@
 static int __get_thread_id(void)
 {
 #ifdef __LP64__
-#error Don't build pthread fallbacks for 64 bit, use the proper functions
+#error "Don't build pthread fallbacks for 64-bit; use the proper functions"
 #else
     return pthread_self();
 #endif
