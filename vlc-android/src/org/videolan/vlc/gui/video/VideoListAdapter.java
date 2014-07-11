@@ -28,7 +28,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
@@ -170,7 +170,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Media media = getItem(position);
 
         /* Thumbnail */
-        Bitmap thumbnail = BitmapHelper.getPictureFromCache(media);
+        Bitmap thumbnail = BitmapUtil.getPictureFromCache(media);
         if (thumbnail == null) {
             // missing thumbnail
             thumbnail = BitmapCache.GetFromResource(v, R.drawable.icon_g);

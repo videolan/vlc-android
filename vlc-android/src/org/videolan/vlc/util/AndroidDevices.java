@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * AndroidDevices.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -40,6 +40,7 @@ import android.os.Environment;
 import android.telephony.TelephonyManager;
 
 public class AndroidDevices {
+    public final static String TAG = "VLC/Util/AndroidDevices";
 
     final static boolean hasNavBar;
 

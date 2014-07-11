@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * Logcat.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -27,7 +27,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class LogCat {
+public class Logcat {
+    public final static String TAG = "VLC/Util/Logcat";
 
     /**
      * Writes the current app logcat to a file.

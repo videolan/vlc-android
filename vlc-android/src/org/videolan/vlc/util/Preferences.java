@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * Preferences.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class Preferences {
+    public final static String TAG = "VLC/Util/Preferences";
 
     public static float[] getFloatArray(SharedPreferences pref, String key) {
         float[] array = null;

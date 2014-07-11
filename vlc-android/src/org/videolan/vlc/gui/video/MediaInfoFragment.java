@@ -28,7 +28,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -133,7 +133,7 @@ public class MediaInfoFragment extends ListFragment {
                 return;
 
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            mImage = BitmapHelper.cropBorders(mImage, width, height);
+            mImage = BitmapUtil.cropBorders(mImage, width, height);
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }

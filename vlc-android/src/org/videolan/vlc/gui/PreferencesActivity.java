@@ -29,7 +29,7 @@ import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.LogCat;
+import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.VLCInstance;
 
 import android.app.AlertDialog;
@@ -210,7 +210,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                                 "yyyyMMdd_kkmmss", System.currentTimeMillis());
                         String filename = Environment.getExternalStorageDirectory().getPath() + "/vlc_logcat_" + timestamp + ".log";
                         try {
-                            LogCat.writeLogcat(filename);
+                            Logcat.writeLogcat(filename);
                             Toast.makeText(
                                     PreferencesActivity.this,
                                     String.format(

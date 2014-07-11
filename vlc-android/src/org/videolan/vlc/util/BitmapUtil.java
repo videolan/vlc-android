@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * BitmapUtil.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -27,8 +27,8 @@ import org.videolan.vlc.VLCApplication;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-public class BitmapHelper {
-    public final static String TAG = "VLC/Util";
+public class BitmapUtil {
+    public final static String TAG = "VLC/Util/BitmapUtil";
 
     public static Bitmap cropBorders(Bitmap bitmap, int width, int height)
     {

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.BitmapUtil;
 
 public class MediaGroup extends Media {
 
@@ -41,7 +41,7 @@ public class MediaGroup extends Media {
                 media.getTime(),
                 media.getLength(),
                 Media.TYPE_GROUP,
-                BitmapHelper.getPictureFromCache(media),
+                BitmapUtil.getPictureFromCache(media),
                 media.getTitle(),
                 media.getArtist(),
                 media.getGenre(),

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * Strings.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -25,6 +25,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Strings {
+    public final static String TAG = "VLC/Util/Strings";
 
     public static String stripTrailingSlash(String s) {
         if( s.endsWith("/") && s.length() > 1 )

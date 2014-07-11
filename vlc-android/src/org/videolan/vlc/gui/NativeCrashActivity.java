@@ -10,7 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.LogCat;
+import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
 
 import android.app.Activity;
@@ -77,7 +77,7 @@ public class NativeCrashActivity extends Activity {
         protected String doInBackground(Void... v) {
             String log = null;
             try {
-                log = LogCat.getLogcat();
+                log = Logcat.getLogcat();
             } catch (IOException e) {
                 e.printStackTrace();
             }

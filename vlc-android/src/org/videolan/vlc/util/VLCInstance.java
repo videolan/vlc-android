@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Util.java
+ * VLCInstance.java
  *****************************************************************************
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
@@ -32,6 +32,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class VLCInstance {
+    public final static String TAG = "VLC/Util/VLCInstance";
 
     /** A set of utility functions for the VLC application */
     public static LibVLC getLibVlcInstance() throws LibVlcException {

@@ -34,7 +34,7 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
 
 import android.content.Context;
@@ -108,7 +108,7 @@ public class Thumbnailer implements Runnable {
      * @param id the if of the file browser item.
      */
     public void addJob(Media item) {
-        if(BitmapHelper.getPictureFromCache(item) != null || item.isPictureParsed())
+        if(BitmapUtil.getPictureFromCache(item) != null || item.isPictureParsed())
             return;
         lock.lock();
         mItems.add(item);
