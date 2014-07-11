@@ -31,8 +31,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 public class Util {
@@ -42,11 +40,7 @@ public class Util {
     }
 
     public static int convertPxToDp(int px) {
-        WindowManager wm = (WindowManager)VLCApplication.getAppContext().
-                getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
+        DisplayMetrics metrics = VLCApplication.getAppResources().getDisplayMetrics();
         float logicalDensity = metrics.density;
         int dp = Math.round(px / logicalDensity);
         return dp;
