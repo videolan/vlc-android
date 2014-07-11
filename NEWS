@@ -1,6 +1,10 @@
 Changes between 0.9.7 and 0.9.8-git:
 --------------------------------
 
+ * Fix compatibility with Android 2.1
+ * Fix Media detection when the extension was in UPPER CASE
+ * Fix default display orientation for the Video Player
+
 
 Changes between 0.9.7 and 0.9.7.1:
 ----------------------------------
