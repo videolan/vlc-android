@@ -19,14 +19,14 @@
  *****************************************************************************/
 package org.videolan.vlc.util;
 
-public abstract class VlcRunnable implements Runnable {
+public abstract class VLCRunnable implements Runnable {
     private final Object user;
 
-    public VlcRunnable() {
+    public VLCRunnable() {
         this.user = null;
     }
 
-    public VlcRunnable(Object o) {
+    public VLCRunnable(Object o) {
         this.user = o;
     }
 

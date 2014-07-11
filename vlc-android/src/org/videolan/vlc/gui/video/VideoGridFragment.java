@@ -39,7 +39,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VlcRunnable;
+import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
@@ -308,7 +308,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
                     media.getLocation(),
-                    new VlcRunnable(media) {
+                    new VLCRunnable(media) {
                         @Override
                         public void run(Object o) {
                             Media media = (Media) o;

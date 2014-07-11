@@ -35,13 +35,13 @@ import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-public class VlcCrashHandler implements UncaughtExceptionHandler {
+public class VLCCrashHandler implements UncaughtExceptionHandler {
 
     private static final String TAG = "VLC/VlcCrashHandler";
 
     private UncaughtExceptionHandler defaultUEH;
 
-    public VlcCrashHandler() {
+    public VLCCrashHandler() {
         this.defaultUEH = Thread.getDefaultUncaughtExceptionHandler();
     }
 

@@ -23,7 +23,7 @@ package org.videolan.vlc.util;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VlcCrashHandler;
+import org.videolan.vlc.VLCCrashHandler;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
 import android.content.Context;
@@ -37,7 +37,7 @@ public class VLCInstance {
     public static LibVLC getLibVlcInstance() throws LibVlcException {
         LibVLC instance = LibVLC.getExistingInstance();
         if (instance == null) {
-            Thread.setDefaultUncaughtExceptionHandler(new VlcCrashHandler());
+            Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
             instance = LibVLC.getInstance();
             final Context context = VLCApplication.getAppContext();

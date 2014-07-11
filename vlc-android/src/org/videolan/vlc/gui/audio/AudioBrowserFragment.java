@@ -32,7 +32,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.VlcRunnable;
+import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.FlingViewGroup;
 import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
@@ -264,7 +264,7 @@ public class AudioBrowserFragment extends Fragment {
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
                     mSongsAdapter.getLocations(groupPosition).get(0),
-                    new VlcRunnable(mSongsAdapter.getItem(groupPosition)) {
+                    new VLCRunnable(mSongsAdapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;

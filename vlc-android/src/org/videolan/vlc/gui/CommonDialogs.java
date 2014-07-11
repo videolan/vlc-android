@@ -27,7 +27,7 @@ import java.net.URISyntaxException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.interfaces.OnExpandableListener;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VlcRunnable;
+import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.app.Activity;
@@ -58,7 +58,7 @@ public class CommonDialogs {
 
     public static AlertDialog deleteMedia(final Context context,
                                           final String addressMedia,
-                                          final VlcRunnable runnable) {
+                                          final VLCRunnable runnable) {
         URI adressMediaUri = null;
         try {
             adressMediaUri = new URI (addressMedia);
