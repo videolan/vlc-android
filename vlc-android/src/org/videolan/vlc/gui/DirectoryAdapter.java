@@ -32,7 +32,8 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
 
 import android.content.Context;
 import android.os.Build;
@@ -104,7 +105,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
         public Boolean existsChild(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(Util.nullEquals(n.name, _n)) return true;
+                if(Strings.nullEquals(n.name, _n)) return true;
             }
             return false;
         }
@@ -124,7 +125,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
         public DirectoryAdapter.Node ensureExists(String _n) {
             for(DirectoryAdapter.Node n : this.children) {
-                if(Util.nullEquals(n.name, _n)) return n;
+                if(Strings.nullEquals(n.name, _n)) return n;
             }
             DirectoryAdapter.Node nn = new Node(_n);
             this.children.add(nn);
@@ -181,7 +182,7 @@ public class DirectoryAdapter extends BaseAdapter {
     private void populateNode(DirectoryAdapter.Node n, String path, int depth) {
         if (path == null) {
             // We're on the storage list
-            String storages[] = Util.getMediaDirectories();
+            String storages[] = AndroidDevices.getMediaDirectories();
             for (String storage : storages) {
                 File f = new File(storage);
                 DirectoryAdapter.Node child = new DirectoryAdapter.Node(f.getName(), getVisibleName(f));
@@ -257,7 +258,7 @@ public class DirectoryAdapter extends BaseAdapter {
 
     private void DirectoryAdapter_Core(Context activityContext, String rootDir) {
         if (rootDir != null)
-            rootDir = Util.stripTrailingSlash(rootDir);
+            rootDir = Strings.stripTrailingSlash(rootDir);
         Log.v(TAG, "rootMRL is " + rootDir);
         mInflater = LayoutInflater.from(activityContext);
         mRootNode = new DirectoryAdapter.Node(rootDir);
@@ -365,12 +366,12 @@ public class DirectoryAdapter extends BaseAdapter {
     public int browse(String directoryName) {
         if (this.mCurrentDir == null) {
             // We're on the storage list
-            String storages[] = Util.getMediaDirectories();
+            String storages[] = AndroidDevices.getMediaDirectories();
             for (String storage : storages) {
-                storage = Util.stripTrailingSlash(storage);
+                storage = Strings.stripTrailingSlash(storage);
                 if (storage.endsWith(directoryName)) {
                     this.mCurrentRoot = storage;
-                    this.mCurrentDir = Util.stripTrailingSlash(storage);
+                    this.mCurrentDir = Strings.stripTrailingSlash(storage);
                     break;
                 }
             }
@@ -379,7 +380,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 this.mCurrentDir = new URI(
                         LibVLC.PathToURI(this.mCurrentDir + "/" + directoryName))
                         .normalize().getPath();
-                this.mCurrentDir = Util.stripTrailingSlash(this.mCurrentDir);
+                this.mCurrentDir = Strings.stripTrailingSlash(this.mCurrentDir);
 
                 if (this.mCurrentDir.equals(getParentDir(this.mCurrentRoot))) {
                     // Returning to the storage list
@@ -460,7 +461,7 @@ public class DirectoryAdapter extends BaseAdapter {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return Util.stripTrailingSlash(path);
+        return Strings.stripTrailingSlash(path);
     }
 
     private String getVisibleName(File file) {

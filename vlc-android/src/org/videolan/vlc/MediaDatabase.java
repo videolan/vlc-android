@@ -38,6 +38,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteFullException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -667,5 +668,18 @@ public class MediaDatabase {
      */
     public synchronized void emptyDatabase() {
         mDb.delete(MEDIA_TABLE_NAME, null, null);
+    }
+
+    public static void setPicture(Media m, Bitmap p) {
+        Log.d(TAG, "Setting new picture for " + m.getTitle());
+        try {
+            getInstance().updateMedia(
+                m.getLocation(),
+                mediaColumn.MEDIA_PICTURE,
+                p);
+        } catch (SQLiteFullException e) {
+            Log.d(TAG, "SQLiteFullException while setting picture");
+        }
+        m.setPictureParsed(true);
     }
 }

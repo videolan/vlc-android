@@ -52,7 +52,9 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
@@ -332,7 +334,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mMenu = (ImageButton) findViewById(R.id.player_overlay_adv_function);
 
         try {
-            mLibVLC = Util.getLibVlcInstance();
+            mLibVLC = VLCInstance.getLibVlcInstance();
         } catch (LibVlcException e) {
             Log.d(TAG, "LibVLC initialisation failed");
             return;
@@ -1214,7 +1216,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 // disappear on the user if more adjustment is needed. This
                 // is because on devices with soft navigation (e.g. Galaxy
                 // Nexus), gestures can't be made without activating the UI.
-                if(Util.hasNavBar())
+                if(AndroidDevices.hasNavBar())
                     showOverlay();
             }
             // Seek (Right or Left move)
@@ -1272,8 +1274,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             //Show the jump's size
             showInfo(String.format("%s%s (%s)",
                     jump >= 0 ? "+" : "",
-                    Util.millisToString(jump),
-                    Util.millisToString(time + jump)), 1000);
+                    Strings.millisToString(jump),
+                    Strings.millisToString(time + jump)), 1000);
         else
             showInfo(R.string.unseekable_stream, 1000);
     }
@@ -1347,8 +1349,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (fromUser && mCanSeek) {
                 mLibVLC.setTime(progress);
                 setOverlayProgress();
-                mTime.setText(Util.millisToString(progress));
-                showInfo(Util.millisToString(progress));
+                mTime.setText(Strings.millisToString(progress));
+                showInfo(Strings.millisToString(progress));
             }
 
         }
@@ -1683,12 +1685,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void dimStatusBar(boolean dim) {
-        if (!LibVlcUtil.isHoneycombOrLater() || !Util.hasNavBar() || mIsNavMenu)
+        if (!LibVlcUtil.isHoneycombOrLater() || !AndroidDevices.hasNavBar() || mIsNavMenu)
             return;
         int layout = 0;
-        if (!Util.hasCombBar() && LibVlcUtil.isJellyBeanOrLater())
+        if (!AndroidDevices.hasCombBar() && LibVlcUtil.isJellyBeanOrLater())
             layout = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        int visibility =  (dim ? (Util.hasCombBar()
+        int visibility =  (dim ? (AndroidDevices.hasCombBar()
                 ? View.SYSTEM_UI_FLAG_LOW_PROFILE
                         : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
                         : View.SYSTEM_UI_FLAG_VISIBLE) | layout;
@@ -1730,10 +1732,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
         mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
-        if (time >= 0) mTime.setText(Util.millisToString(time));
+        if (time >= 0) mTime.setText(Strings.millisToString(time));
         if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
-                ? "- " + Util.millisToString(length - time)
-                : Util.millisToString(length));
+                ? "- " + Strings.millisToString(length - time)
+                : Strings.millisToString(length));
 
         return time;
     }
@@ -2152,7 +2154,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 setOwnerActivity((Activity) context);
             }
             try {
-                mLibVLC = Util.getLibVlcInstance();
+                mLibVLC = VLCInstance.getLibVlcInstance();
             } catch (LibVlcException e) {
                 Log.d(TAG, "LibVLC initialisation failed");
                 return;

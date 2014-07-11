@@ -30,6 +30,8 @@ import java.util.Stack;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.Util;
 
 import android.app.AlertDialog;
@@ -95,8 +97,8 @@ public class BrowserActivity extends ListActivity {
 
     private void refreshRoots() {
         ArrayList<String> list = new ArrayList<String>();
-        list.addAll(Arrays.asList(Util.getStorageDirectories()));
-        list.addAll(Arrays.asList(Util.getCustomDirectories()));
+        list.addAll(Arrays.asList(AndroidDevices.getStorageDirectories()));
+        list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
         mRoots = list.toArray(new String[list.size()]);
     }
 
@@ -114,7 +116,7 @@ public class BrowserActivity extends ListActivity {
         final File item = mAdapter.getItem(position);
         if (mCurrentDir != null
                 || item.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)
-                || Arrays.asList(Util.getStorageDirectories()).contains(
+                || Arrays.asList(AndroidDevices.getStorageDirectories()).contains(
                         item.getPath())) {
             return;
         }
@@ -129,7 +131,7 @@ public class BrowserActivity extends ListActivity {
                     if(f.getPath().startsWith(item.getPath()))
                         dbManager.removeDir(f.getPath());
                 }
-                Util.removeCustomDirectory(item.getPath());
+                CustomDirectories.removeCustomDirectory(item.getPath());
                 refresh();
                 return true;
             }
@@ -190,7 +192,7 @@ public class BrowserActivity extends ListActivity {
             b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Util.addCustomDirectory(input.getText().toString());
+                    CustomDirectories.addCustomDirectory(input.getText().toString());
                     refresh();
                 }
             });

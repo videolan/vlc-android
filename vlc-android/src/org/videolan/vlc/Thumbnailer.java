@@ -34,7 +34,8 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.VLCInstance;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -70,7 +71,7 @@ public class Thumbnailer implements Runnable {
     public void start(VideoGridFragment videoGridFragment) {
         if (mLibVlc == null) {
             try {
-                mLibVlc = Util.getLibVlcInstance();
+                mLibVlc = VLCInstance.getLibVlcInstance();
             } catch (LibVlcException e) {
                 Log.e(TAG, "Can't obtain libvlc instance");
                 e.printStackTrace();
@@ -107,7 +108,7 @@ public class Thumbnailer implements Runnable {
      * @param id the if of the file browser item.
      */
     public void addJob(Media item) {
-        if(Util.getPictureFromCache(item) != null || item.isPictureParsed())
+        if(BitmapHelper.getPictureFromCache(item) != null || item.isPictureParsed())
             return;
         lock.lock();
         mItems.add(item);
@@ -166,7 +167,7 @@ public class Thumbnailer implements Runnable {
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
             if (b == null) {// We were not able to create a thumbnail for this item, store a dummy
-                Util.setPicture(item, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
+                MediaDatabase.setPicture(item, Bitmap.createBitmap(1, 1, Config.ARGB_8888));
                 continue;
             }
 
@@ -174,7 +175,7 @@ public class Thumbnailer implements Runnable {
 
             Log.i(TAG, "Thumbnail created for " + item.getFileName());
 
-            Util.setPicture(item, thumbnail);
+            MediaDatabase.setPicture(item, thumbnail);
             // Post to the file browser the new item.
             mVideoGridFragment.setItemToUpdate(item);
 

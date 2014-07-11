@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.interfaces.IAudioPlayer;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
@@ -369,13 +370,13 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         int time = mAudioController.getTime();
         int length = mAudioController.getLength();
 
-        mHeaderTime.setText(Util.millisToString(time));
-        mLength.setText(Util.millisToString(length));
+        mHeaderTime.setText(Strings.millisToString(time));
+        mLength.setText(Strings.millisToString(length));
         mTimeline.setMax(length);
         mProgressBar.setMax(length);
 
         if(!mPreviewingSeek) {
-            mTime.setText(Util.millisToString(mShowRemainingTime ? time-length : time));
+            mTime.setText(Strings.millisToString(mShowRemainingTime ? time-length : time));
             mTimeline.setProgress(time);
             mProgressBar.setProgress(time);
         }
@@ -424,8 +425,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
         public void onProgressChanged(SeekBar sb, int prog, boolean fromUser) {
             if (fromUser) {
                 mAudioController.setTime(prog);
-                mTime.setText(Util.millisToString(mShowRemainingTime ? prog-mAudioController.getLength() : prog));
-                mHeaderTime.setText(Util.millisToString(prog));
+                mTime.setText(Strings.millisToString(mShowRemainingTime ? prog-mAudioController.getLength() : prog));
+                mHeaderTime.setText(Strings.millisToString(prog));
         }
     }
     };
@@ -607,7 +608,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
                         possibleSeek = 0;
                 }
 
-                mTime.setText(Util.millisToString(mShowRemainingTime ? possibleSeek-mAudioController.getLength() : possibleSeek));
+                mTime.setText(Strings.millisToString(mShowRemainingTime ? possibleSeek-mAudioController.getLength() : possibleSeek));
                 mTimeline.setProgress(possibleSeek);
                 mProgressBar.setProgress(possibleSeek);
                 h.postDelayed(seekRunnable, 50);

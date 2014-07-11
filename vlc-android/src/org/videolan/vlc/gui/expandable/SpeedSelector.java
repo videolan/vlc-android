@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.expandable;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.ExpandableLayout;
 
@@ -55,7 +56,7 @@ public class SpeedSelector extends ExpandableLayout {
                 rate = libVLC.getRate();
         }
 
-        setText(Util.formatRateString(rate));
+        setText(Strings.formatRateString(rate));
         mSeekbar.setProgress((int) (((Math.log(rate) / Math.log(4)) + 1) * 100));
 
         mSeekbar.setOnSeekBarChangeListener(mSeekBarListener);
@@ -66,7 +67,7 @@ public class SpeedSelector extends ExpandableLayout {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
-            setText(Util.formatRateString(rate));
+            setText(Strings.formatRateString(rate));
             LibVLC.getExistingInstance().setRate(rate);
         }
 

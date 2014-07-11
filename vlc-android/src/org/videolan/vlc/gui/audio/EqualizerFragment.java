@@ -24,7 +24,8 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.Preferences;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.EqualizerBar;
 
 import android.content.Context;
@@ -107,11 +108,11 @@ public class EqualizerFragment extends Fragment {
         float[] bands = null;
         String[] presets = null;
         try {
-            libVlc = Util.getLibVlcInstance();
+            libVlc = VLCInstance.getLibVlcInstance();
             bands = libVlc.getBands();
             presets = libVlc.getPresets();
             if (equalizer == null)
-                equalizer = Util.getFloatArray(preferences, "equalizer_values");
+                equalizer = Preferences.getFloatArray(preferences, "equalizer_values");
             if (equalizer == null)
                 equalizer = new float[bands.length + 1];
         } catch (LibVlcException e) {
@@ -175,7 +176,7 @@ public class EqualizerFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("equalizer_enabled", button.isChecked());
-        Util.putFloatArray(editor, "equalizer_values", equalizer);
+        Preferences.putFloatArray(editor, "equalizer_values", equalizer);
         editor.putInt("equalizer_preset", equalizer_presets.getSelectedItemPosition());
         editor.commit();
     }

@@ -52,7 +52,8 @@ import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
@@ -150,7 +151,7 @@ public class AudioService extends Service {
 
         // Get libVLC instance
         try {
-            mLibVLC = Util.getLibVlcInstance();
+            mLibVLC = VLCInstance.getLibVlcInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
         }
@@ -1372,7 +1373,7 @@ public class AudioService extends Service {
     }
 
     private synchronized void loadLastPlaylist() {
-        if (!Util.hasExternalStorage())
+        if (!AndroidDevices.hasExternalStorage())
             return;
 
         String line;
@@ -1415,7 +1416,7 @@ public class AudioService extends Service {
     }
 
     private synchronized void saveCurrentMedia() {
-        if (!Util.hasExternalStorage())
+        if (!AndroidDevices.hasExternalStorage())
             return;
 
         FileOutputStream output;
@@ -1436,7 +1437,7 @@ public class AudioService extends Service {
     }
 
     private synchronized void saveMediaList() {
-        if (!Util.hasExternalStorage())
+        if (!AndroidDevices.hasExternalStorage())
             return;
 
         FileOutputStream output;

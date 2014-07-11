@@ -34,6 +34,7 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.MurmurHash;
 import org.videolan.vlc.util.Util;
@@ -117,7 +118,7 @@ public class AudioUtil {
 
     @SuppressLint("NewApi")
     public static void prepareCacheFolder(Context context) {
-        if (LibVlcUtil.isFroyoOrLater() && Util.hasExternalStorage() && context.getExternalCacheDir() != null)
+        if (LibVlcUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
             CACHE_DIR = context.getExternalCacheDir().getPath();
         else
             CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + context.getPackageName() + "/cache";
@@ -231,7 +232,7 @@ public class AudioUtil {
         }
 
         // if external storage is not available, skip covers to prevent slow audio browsing
-        if (!Util.hasExternalStorage())
+        if (!AndroidDevices.hasExternalStorage())
             return null;
 
         try {

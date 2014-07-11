@@ -28,6 +28,8 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import android.content.Context;
@@ -168,7 +170,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         Media media = getItem(position);
 
         /* Thumbnail */
-        Bitmap thumbnail = Util.getPictureFromCache(media);
+        Bitmap thumbnail = BitmapHelper.getPictureFromCache(media);
         if (thumbnail == null) {
             // missing thumbnail
             thumbnail = BitmapCache.GetFromResource(v, R.drawable.icon_g);
@@ -210,13 +212,13 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         String text;
         if (lastTime > 0) {
             text = String.format("%s / %s",
-                    Util.millisToText(lastTime),
-                    Util.millisToText(media.getLength()));
+                    Strings.millisToText(lastTime),
+                    Strings.millisToText(media.getLength()));
             holder.progress.setVisibility(View.VISIBLE);
             holder.progress.setMax((int) (media.getLength() / 1000));
             holder.progress.setProgress((int) (lastTime / 1000));
         } else {
-            text = Util.millisToText(media.getLength());
+            text = Strings.millisToText(media.getLength());
             holder.progress.setVisibility(View.GONE);
         }
 

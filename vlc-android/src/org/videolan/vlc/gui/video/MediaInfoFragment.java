@@ -28,7 +28,9 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.BitmapHelper;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.graphics.Bitmap;
@@ -93,7 +95,7 @@ public class MediaInfoFragment extends ListFragment {
 
         mTitleView.setText(mItem.getTitle());
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
-        mLengthView.setText(Util.millisToString(mItem.getLength()));
+        mLengthView.setText(Strings.millisToString(mItem.getLength()));
 
         new Thread(mLoadImage).start();
     }
@@ -109,7 +111,7 @@ public class MediaInfoFragment extends ListFragment {
         public void run() {
             LibVLC mLibVlc = null;
             try {
-                mLibVlc = Util.getLibVlcInstance();
+                mLibVlc = VLCInstance.getLibVlcInstance();
             } catch (LibVlcException e) {
                 return;
             }
@@ -131,7 +133,7 @@ public class MediaInfoFragment extends ListFragment {
                 return;
 
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
-            mImage = Util.cropBorders(mImage, width, height);
+            mImage = BitmapHelper.cropBorders(mImage, width, height);
 
             mHandler.sendEmptyMessage(NEW_IMAGE);
         }

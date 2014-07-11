@@ -31,7 +31,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VlcRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.FlingViewGroup;
@@ -227,7 +227,7 @@ public class AudioBrowserFragment extends Fragment {
             MenuItem play = menu.findItem(R.id.audio_list_browser_play);
             play.setVisible(true);
         }
-        if (!Util.isPhone())
+        if (!AndroidDevices.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
     }
 

@@ -22,7 +22,7 @@ package org.videolan.vlc;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.audio.AudioService;
-import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,7 +46,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         LibVLC mLibVLC;
         try {
-            mLibVLC = Util.getLibVlcInstance();
+            mLibVLC = VLCInstance.getLibVlcInstance();
         } catch (LibVlcException e) {
             return;
         }

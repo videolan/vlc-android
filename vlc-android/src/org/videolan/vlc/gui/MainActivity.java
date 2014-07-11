@@ -42,6 +42,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SlidingPaneLayout;
 
@@ -167,7 +168,7 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             // Start LibVLC
-            Util.getLibVlcInstance();
+            VLCInstance.getLibVlcInstance();
         } catch (LibVlcException e) {
             e.printStackTrace();
             Intent i = new Intent(this, CompatErrorActivity.class);
