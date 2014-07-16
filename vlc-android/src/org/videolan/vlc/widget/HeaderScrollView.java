@@ -1,7 +1,7 @@
 /*****************************************************************************
- * AudioBrowserActivity.java
+ * HeaderScrollView.java
  *****************************************************************************
- * Copyright © 2011-2013 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,9 +91,10 @@ public class HeaderScrollView extends HorizontalScrollView {
 
     public void highlightTab(int existingPosition, int newPosition) {
         LinearLayout hl = (LinearLayout) findViewById(R.id.header_layout);
-        TypedArray attrs = getContext().obtainStyledAttributes(new int[] { R.attr.font_light, R.attr.font_default});
         if (hl == null)
             return;
+
+        TypedArray attrs = getContext().obtainStyledAttributes(new int[] { R.attr.font_light, R.attr.font_default});
         TextView oldView = (TextView) hl.getChildAt(existingPosition);
         if (oldView != null)
             oldView.setTextColor(attrs.getColor(0, 0));
