@@ -35,6 +35,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Stack;
 
 import org.videolan.libvlc.EventHandler;
@@ -830,7 +831,7 @@ public class AudioService extends Service {
                     // Find a new index not in mPrevious.
                     do
                     {
-                        mNextIndex = (int)(Math.random() * size);
+                        mNextIndex = new Random().nextInt(size);
                     }
                     while(mNextIndex == mCurrentIndex || mPrevious.contains(mNextIndex));
 
