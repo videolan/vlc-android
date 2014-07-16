@@ -101,7 +101,7 @@ public class MediaLibrary {
         return false;
     }
 
-    public static MediaLibrary getInstance() {
+    public synchronized static MediaLibrary getInstance() {
         if (mInstance == null)
             mInstance = new MediaLibrary();
         return mInstance;
