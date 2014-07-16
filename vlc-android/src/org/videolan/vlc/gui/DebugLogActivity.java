@@ -81,9 +81,8 @@ public class DebugLogActivity extends Activity {
         updateTextView(instance);
 
         Button copyToClipboard = (Button)findViewById(R.id.copy_to_clipboard);
-        if(((TextView)findViewById(R.id.textview)).getText().length() > 0)
-            copyToClipboard.setEnabled(true);
-            copyToClipboard.setOnClickListener(new View.OnClickListener() {
+        copyToClipboard.setEnabled(((TextView)findViewById(R.id.textview)).getText().length() > 0);
+        copyToClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 copyTextToClipboard();
