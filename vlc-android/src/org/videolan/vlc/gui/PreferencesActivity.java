@@ -98,12 +98,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         });
 
         // Headset detection option
-        CheckBoxPreference checkboxHS = (CheckBoxPreference) findPreference("enable_headset_detection");
+        final CheckBoxPreference checkboxHS = (CheckBoxPreference) findPreference("enable_headset_detection");
         checkboxHS.setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
-                        CheckBoxPreference checkboxHS = (CheckBoxPreference) preference;
                         AudioServiceController.getInstance().detectHeadset(checkboxHS.isChecked());
                         return true;
                     }
