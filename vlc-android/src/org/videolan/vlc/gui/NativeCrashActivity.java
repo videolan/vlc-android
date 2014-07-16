@@ -110,10 +110,12 @@ public class NativeCrashActivity extends Activity {
             HttpPost httpPost = new HttpPost("http://people.videolan.org/~magsoft/vlc-android_crashes/upload_crash_log.php");
 
             try {
-                String msg = "";
-                for (int i = 0; i < params.length; ++i)
-                    msg += params[i] + "\n";
-                httpPost.setEntity(new ByteArrayEntity(compress(msg)));
+                StringBuilder msgBuilder = new StringBuilder();
+                for (int i = 0; i < params.length; ++i) {
+                    msgBuilder.append(params[i]);
+                    msgBuilder.append("\n");
+                }
+                httpPost.setEntity(new ByteArrayEntity(compress(msgBuilder.toString())));
                 httpClient.execute(httpPost);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
