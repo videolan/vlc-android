@@ -129,7 +129,7 @@ public class AboutFragment extends Fragment {
         return v;
     }
 
-    private class DummyContentFactory implements TabHost.TabContentFactory {
+    private static class DummyContentFactory implements TabHost.TabContentFactory {
         private final Context mContext;
         public DummyContentFactory(Context ctx) {
             mContext = ctx;

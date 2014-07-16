@@ -32,7 +32,7 @@ public class MediaList {
 
     /* Since the libvlc_media_t is not created until the media plays, we have
      * to cache them here. */
-    private class MediaHolder {
+    private static class MediaHolder {
         Media m;
         boolean noVideo; // default false
         boolean noHardwareAcceleration; // default false

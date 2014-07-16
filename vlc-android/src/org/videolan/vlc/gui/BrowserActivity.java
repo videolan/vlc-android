@@ -64,7 +64,7 @@ public class BrowserActivity extends ListActivity {
     private final Stack<ScrollState> mScrollStates = new Stack<ScrollState>();
     private String mRoots[];
 
-    private class ScrollState {
+    private static class ScrollState {
         public ScrollState(int index, int top) {
             this.index = index;
             this.top = top;

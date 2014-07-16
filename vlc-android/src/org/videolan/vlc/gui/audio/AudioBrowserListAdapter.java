@@ -307,7 +307,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         return v;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         View layout;
         ImageView cover;
         TextView title;

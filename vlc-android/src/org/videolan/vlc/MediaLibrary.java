@@ -384,7 +384,7 @@ public class MediaLibrary {
     /**
      * Filters all irrelevant files
      */
-    private class MediaItemFilter implements FileFilter {
+    private static class MediaItemFilter implements FileFilter {
 
         @Override
         public boolean accept(File f) {
