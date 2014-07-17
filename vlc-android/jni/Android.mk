@@ -54,6 +54,9 @@ endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
 endif
+ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/codec/omxil/iomx_hwbuffer.c))
+	LOCAL_CFLAGS += -DHAVE_IOMX_DR
+endif
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \

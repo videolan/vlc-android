@@ -50,6 +50,12 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
+#ifdef HAVE_IOMX_DR
+#define NO_IOMX_DR "--no-omxil-dr"
+#else
+#define NO_IOMX_DR ""
+#endif
+
 libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)(intptr_t)instance;
@@ -293,6 +299,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
         /* XXX: we can't recover from direct rendering failure */
         (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : "--no-mediacodec-dr",
+        (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : NO_IOMX_DR,
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 
