@@ -76,7 +76,7 @@ public class AudioUtil {
 
     public static void setRingtone(Media song, Context context){
         File newringtone = LibVlcUtil.URItoFile(song.getLocation());
-        if(!newringtone.exists()) {
+        if( newringtone != null && !newringtone.exists()) {
             Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
             return;
         }
