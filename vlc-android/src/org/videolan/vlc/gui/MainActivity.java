@@ -229,7 +229,7 @@ public class MainActivity extends ActionBarActivity {
                 SidebarAdapter.SidebarEntry entry = (SidebarEntry) listView.getItemAtPosition(position);
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
-                if(current == null || current.getTag().equals(entry.id)) { /* Already selected */
+                if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
                     mMenu.showContent();
                     return;
                 }
