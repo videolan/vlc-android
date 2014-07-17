@@ -356,10 +356,13 @@ public class Media implements Comparable<Media> {
         if (mTitle != null && mType != TYPE_VIDEO)
             return mTitle;
         else {
-            int end = getFileName().lastIndexOf(".");
+            String fileName = getFileName();
+            if (fileName == null)
+                return new String();
+            int end = fileName.lastIndexOf(".");
             if (end <= 0)
-                return getFileName();
-            return getFileName().substring(0, end);
+                return fileName;
+            return fileName.substring(0, end);
         }
     }
 

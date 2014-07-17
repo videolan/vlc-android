@@ -85,10 +85,12 @@ public class LibVlcUtil {
     }
 
     public static File URItoFile(String URI) {
+        if(URI == null) return null;
         return new File(Uri.decode(URI).replace("file://",""));
     }
 
     public static String URItoFileName(String URI) {
+        if(URI == null) return null;
         return URItoFile(URI).getName();
     }
 
