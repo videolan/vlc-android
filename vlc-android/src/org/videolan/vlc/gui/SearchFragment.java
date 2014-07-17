@@ -210,17 +210,19 @@ public class SearchFragment extends ListFragment {
 
             // open media in the player
             Media item = (Media) getListView().getItemAtPosition(position);
-            if (item.getType() == Media.TYPE_VIDEO) {
-                VideoPlayerActivity.start(getActivity(), item.getLocation());
-            } else {
-                ArrayList<String> arr = new ArrayList<String>();
-                for (int i = 0; i < getListAdapter().getCount(); i++) {
-                    Media audioItem = (Media) getListAdapter().getItem(i);
-                    if (audioItem.getType() == Media.TYPE_AUDIO)
-                        arr.add(audioItem.getLocation());
+            if (item != null) {
+                if (item.getType() == Media.TYPE_VIDEO) {
+                    VideoPlayerActivity.start(getActivity(), item.getLocation());
+                } else {
+                    ArrayList<String> arr = new ArrayList<String>();
+                    for (int i = 0; i < getListAdapter().getCount(); i++) {
+                        Media audioItem = (Media) getListAdapter().getItem(i);
+                        if (audioItem.getType() == Media.TYPE_AUDIO)
+                            arr.add(audioItem.getLocation());
+                    }
+                    AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
+                    return;
                 }
-                AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));
-                return;
             }
             super.onListItemClick(l, v, position, id);
 
