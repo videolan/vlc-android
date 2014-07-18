@@ -48,15 +48,18 @@ public class Logcat {
         BufferedWriter bw = new BufferedWriter(output);
         String line;
 
-        while ((line = br.readLine()) != null) {
-            bw.write(line);
-            bw.newLine();
+        try {
+            while ((line = br.readLine()) != null) {
+                bw.write(line);
+                bw.newLine();
+            }
+        }catch(Exception e) {}
+        finally {
+            bw.close();
+            output.close();
+            br.close();
+            input.close();
         }
-
-        bw.close();
-        output.close();
-        br.close();
-        input.close();
     }
 
     /**
