@@ -1382,8 +1382,8 @@ public class AudioService extends Service {
             return;
 
         String line;
-        FileInputStream input;
-        BufferedReader br;
+        FileInputStream input = null;
+        BufferedReader br = null;
         int rowCount = 0;
 
         int position = 0;
@@ -1396,7 +1396,7 @@ public class AudioService extends Service {
             br = new BufferedReader(new InputStreamReader(input));
             currentMedia = br.readLine();
             mShuffling = "1".equals(br.readLine());
-            br.close();
+            br.close(); br = null;
             input.close();
 
             // read MediaList
@@ -1408,16 +1408,21 @@ public class AudioService extends Service {
                     position = rowCount;
                 rowCount++;
             }
-            br.close();
-            input.close();
 
             // load playlist
             mInterface.load(mediaPathList, position, false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                if (br!= null) br.close();
+                if (input != null) input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private synchronized void saveCurrentMedia() {
