@@ -230,7 +230,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         // Compute the left/right padding dynamically
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        int sidePadding = (int) (outMetrics.widthPixels / 100 * Math.pow(outMetrics.density, 3) / 2);
+        int sidePadding = (int) (outMetrics.widthPixels / 100. * Math.pow(outMetrics.density, 3) / 2.);
         sidePadding = Math.max(0, Math.min(100, sidePadding));
         mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
                 sidePadding, mGridView.getPaddingBottom());
