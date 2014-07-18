@@ -39,6 +39,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.drawable.Drawable.ConstantState;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -303,10 +304,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 Dialog dialog = ((PreferenceScreen)preference).getDialog();
                 if (dialog!=null) {
                     Window window = dialog.getWindow();
-                    if(window != null)
-                        window.getDecorView().setBackgroundDrawable(
-                                this.getWindow().getDecorView().getBackground()
-                                .getConstantState().newDrawable());
+                    if (window != null) {
+                        ConstantState state = this.getWindow().getDecorView().getBackground().getConstantState();
+                        if (state != null)
+                            window.getDecorView().setBackgroundDrawable(state.newDrawable());
+                    }
                 }
             }
         } catch(Exception e){}
