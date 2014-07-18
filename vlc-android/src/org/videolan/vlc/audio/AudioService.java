@@ -133,6 +133,7 @@ public class AudioService extends Service {
     // Playback management
     private boolean mShuffling = false;
     private RepeatType mRepeating = RepeatType.None;
+    private Random mRandom = null; // Used in shuffling process
 
     // RemoteControlClient-related
     /**
@@ -828,10 +829,11 @@ public class AudioService extends Service {
                             mPrevious.clear();
                         }
                     }
+                    if(mRandom == null) mRandom = new Random();
                     // Find a new index not in mPrevious.
                     do
                     {
-                        mNextIndex = new Random().nextInt(size);
+                        mNextIndex = mRandom.nextInt(size);
                     }
                     while(mNextIndex == mCurrentIndex || mPrevious.contains(mNextIndex));
 
