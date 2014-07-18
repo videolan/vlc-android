@@ -372,7 +372,7 @@ public class GridFragment extends Fragment {
             mGrid = (GridView) rawGridView;
             if (mEmptyView != null) {
                 mGrid.setEmptyView(mEmptyView);
-            } else if (mEmptyText != null) {
+            } else if (mEmptyText != null && mStandardEmptyView != null) {
                 mStandardEmptyView.setText(mEmptyText);
                 mGrid.setEmptyView(mStandardEmptyView);
             }
