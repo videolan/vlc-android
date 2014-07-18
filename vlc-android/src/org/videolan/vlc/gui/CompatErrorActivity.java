@@ -51,7 +51,7 @@ public class CompatErrorActivity extends Activity {
         //asyncHttpRequest.execute(Build.MODEL, Build.DEVICE);
     }
 
-    public class AsyncHttpRequest extends AsyncTask<String, String, Boolean> {
+    public static class AsyncHttpRequest extends AsyncTask<String, String, Boolean> {
 
         public AsyncHttpRequest() { }
 
