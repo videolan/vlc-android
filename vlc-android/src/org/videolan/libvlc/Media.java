@@ -358,7 +358,7 @@ public class Media implements Comparable<Media> {
         else {
             String fileName = getFileName();
             if (fileName == null)
-                return new String();
+                return "";
             int end = fileName.lastIndexOf(".");
             if (end <= 0)
                 return fileName;
