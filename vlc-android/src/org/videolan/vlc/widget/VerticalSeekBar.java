@@ -97,7 +97,8 @@ public class VerticalSeekBar extends SeekBar {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mIsMovingThumb) {
-                    setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+                    final int max = getMax();
+                    setProgress( max - (int) (max* event.getY() / getHeight()));
                     onSizeChanged(getWidth(), getHeight(), 0, 0);
                     handled = true;
                 }
