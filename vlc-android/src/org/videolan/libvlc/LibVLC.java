@@ -162,7 +162,7 @@ public class LibVLC {
      * destroy() before exiting.
      */
     @Override
-    public void finalize() {
+    protected void finalize() {
         if (mLibVlcInstance != 0) {
             Log.d(TAG, "LibVLC is was destroyed yet before finalize()");
             destroy();
