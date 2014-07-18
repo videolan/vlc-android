@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -79,18 +80,29 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
         CharSequence timestamp = DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis());
         String filename = name + "_" + timestamp + ".log";
 
+        FileOutputStream stream;
         try {
-            FileOutputStream stream = new FileOutputStream(filename);
-            OutputStreamWriter output = new OutputStreamWriter(stream);
-            BufferedWriter bw = new BufferedWriter(output);
+            stream = new FileOutputStream(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
 
+        OutputStreamWriter output = new OutputStreamWriter(stream);
+        BufferedWriter bw = new BufferedWriter(output);
+
+        try {
             bw.write(log);
             bw.newLine();
-
-            bw.close();
-            output.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                bw.close();
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
