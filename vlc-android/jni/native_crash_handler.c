@@ -35,7 +35,11 @@ static const int monitored_signals[] = {
     SIGBUS,
     SIGFPE,
     SIGSEGV,
+#ifndef _MIPS_ARCH
     SIGSTKFLT,
+#else
+    SIGEMT,
+#endif
     SIGPIPE
 };
 
