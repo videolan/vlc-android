@@ -37,7 +37,7 @@ fi
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
-    9*)
+    9*|10*)
         GCCVER=4.8
         CXXSTL="/"${GCCVER}
     ;;
