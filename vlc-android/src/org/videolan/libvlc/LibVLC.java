@@ -300,9 +300,12 @@ public class LibVLC {
             LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
             if( (m.hasArmV6 && !(m.hasArmV7)) || m.hasMips )
                 ret = 4;
-            else if(m.frequency > 1200 && m.processors > 2)
+            else if(m.frequency >= 1200 && m.processors > 2)
                 ret = 1;
-            else
+            else if(m.bogoMIPS >= 1200 && m.processors > 2) {
+                ret = 1;
+                Log.d(TAG, "Used bogoMIPS due to lack of frequency info");
+            } else
                 ret = 3;
         } else if(deblocking > 4) { // sanity check
             ret = 3;
