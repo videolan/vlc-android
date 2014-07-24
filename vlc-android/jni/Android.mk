@@ -75,33 +75,39 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 
 include $(BUILD_SHARED_LIBRARY)
 
+# libiomx-* build
 
+LIBIOMX_SRC_FILES_COMMON := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
+LIBIOMX_INCLUDES_COMMON := $(VLC_SRC_DIR)/modules/codec/omxil
+LIBIOMX_LDLIBS_COMMON := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder
+LIBIOMX_CFLAGS_COMMON := -Wno-psabi
+
+LIBIOMX_INCLUDES_gingerbread := $(LIBIOMX_INCLUDES_COMMON) \
+	$(ANDROID_SYS_HEADERS_GINGERBREAD)/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS_GINGERBREAD)/system/core/include
+
+LIBIOMX_INCLUDES_hc := $(LIBIOMX_INCLUDES_COMMON) \
+	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/native/include \
+	$(ANDROID_SYS_HEADERS_HC)/system/core/include \
+	$(ANDROID_SYS_HEADERS_HC)/hardware/libhardware/include
+
+LIBIOMX_INCLUDES_ics := $(LIBIOMX_INCLUDES_COMMON) \
+	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/native/include \
+	$(ANDROID_SYS_HEADERS_ICS)/system/core/include \
+	$(ANDROID_SYS_HEADERS_ICS)/hardware/libhardware/include
+
+define build_iomx
 include $(CLEAR_VARS)
-
-LOCAL_MODULE     := libiomx-gingerbread
-LOCAL_SRC_FILES  := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
-LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/modules/codec/omxil $(ANDROID_SYS_HEADERS_GINGERBREAD)/frameworks/base/include $(ANDROID_SYS_HEADERS_GINGERBREAD)/system/core/include
-LOCAL_CFLAGS     := -Wno-psabi
-LOCAL_LDLIBS     := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder
-
+LOCAL_MODULE := $(1)
+LOCAL_SRC_FILES  := $(LIBIOMX_SRC_FILES_COMMON)
+LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
+LOCAL_LDLIBS     := $(LIBIOMX_LDLIBS_COMMON)
+LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON)
 include $(BUILD_SHARED_LIBRARY)
+endef
 
-include $(CLEAR_VARS)
-
-LOCAL_MODULE     := libiomx-hc
-LOCAL_SRC_FILES  := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
-LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/modules/codec/omxil $(ANDROID_SYS_HEADERS_HC)/frameworks/base/include $(ANDROID_SYS_HEADERS_HC)/frameworks/base/native/include $(ANDROID_SYS_HEADERS_HC)/system/core/include $(ANDROID_SYS_HEADERS_HC)/hardware/libhardware/include
-LOCAL_CFLAGS     := -Wno-psabi
-LOCAL_LDLIBS     := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder
-
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-
-LOCAL_MODULE     := libiomx-ics
-LOCAL_SRC_FILES  := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
-LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/modules/codec/omxil $(ANDROID_SYS_HEADERS_ICS)/frameworks/base/include $(ANDROID_SYS_HEADERS_ICS)/frameworks/base/native/include $(ANDROID_SYS_HEADERS_ICS)/system/core/include $(ANDROID_SYS_HEADERS_ICS)/hardware/libhardware/include
-LOCAL_CFLAGS     := -Wno-psabi
-LOCAL_LDLIBS     := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder
-
-include $(BUILD_SHARED_LIBRARY)
+# call build_iomx for each libiomx-* in LIBVLC_LIBS
+$(foreach IOMX_MODULE,$(filter libiomx-%,$(LIBVLC_LIBS)), \
+	$(eval $(call build_iomx,$(IOMX_MODULE),$(subst libiomx-,,$(IOMX_MODULE)))))

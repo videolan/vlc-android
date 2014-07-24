@@ -7,11 +7,10 @@ ARCH = $(ANDROID_ABI)
 SRC=vlc-android
 JAVA_SOURCES=$(SRC)/src/org/videolan/vlc/*.java
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
-LIBVLCJNI=	\
-	$(SRC)/obj/local/$(ARCH)/libvlcjni.so \
-	$(SRC)/obj/local/$(ARCH)/libiomx-ics.so \
-	$(SRC)/obj/local/$(ARCH)/libiomx-hc.so \
-	$(SRC)/obj/local/$(ARCH)/libiomx-gingerbread.so \
+LIBVLC_LIBS = libvlcjni
+LIBVLC_LIBS += libiomx-ics libiomx-hc libiomx-gingerbread
+
+LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS)))
 
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h
 
@@ -91,7 +90,8 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		VLC_BUILD_DIR="$$VLC_BUILD_DIR" \
 		VLC_MODULES="$$vlc_modules" \
 		NDK_DEBUG=$(NDK_DEBUG) \
-		TARGET_CFLAGS="$$VLC_EXTRA_CFLAGS"
+		TARGET_CFLAGS="$$VLC_EXTRA_CFLAGS" \
+		LIBVLC_LIBS="$(LIBVLC_LIBS)"
 
 apkclean:
 	rm -f $(VLC_APK)
