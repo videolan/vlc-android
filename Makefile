@@ -10,6 +10,10 @@ JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 LIBVLC_LIBS = libvlcjni
 LIBVLC_LIBS += libiomx-ics libiomx-hc libiomx-gingerbread
 
+# The following iomx libs are used for DEBUG only.
+# (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
+#LIBVLC_LIBS += libiomx-kk libiomx-jbmr2
+
 LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS)))
 
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h
