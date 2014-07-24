@@ -79,32 +79,45 @@ include $(BUILD_SHARED_LIBRARY)
 
 LIBIOMX_SRC_FILES_COMMON := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LIBIOMX_INCLUDES_COMMON := $(VLC_SRC_DIR)/modules/codec/omxil
-LIBIOMX_LDLIBS_COMMON := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder
+LIBIOMX_LDLIBS_COMMON := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
 LIBIOMX_CFLAGS_COMMON := -Wno-psabi
+# Once we always build this with a version of vlc that contains iomx_hwbuffer.c,
+# we can remove this condition
+ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/codec/omxil/iomx_hwbuffer.c))
+LIBIOMX_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx_hwbuffer.c
+endif
 
+# no hwbuffer for gingerbread
 LIBIOMX_INCLUDES_gingerbread := $(LIBIOMX_INCLUDES_COMMON) \
 	$(ANDROID_SYS_HEADERS_GINGERBREAD)/frameworks/base/include \
-	$(ANDROID_SYS_HEADERS_GINGERBREAD)/system/core/include
+	$(ANDROID_SYS_HEADERS_GINGERBREAD)/system/core/include \
+	$(ANDROID_SYS_HEADERS_GINGERBREAD)/hardware/libhardware/include
+LIBIOMX_LDLIBS_gingerbread := $(LIBIOMX_LDLIBS_COMMON)
+LIBIOMX_CFLAGS_gingerbread := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=10
 
 LIBIOMX_INCLUDES_hc := $(LIBIOMX_INCLUDES_COMMON) \
 	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/include \
 	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/native/include \
 	$(ANDROID_SYS_HEADERS_HC)/system/core/include \
 	$(ANDROID_SYS_HEADERS_HC)/hardware/libhardware/include
+LIBIOMX_LDLIBS_hc := $(LIBIOMX_LDLIBS_COMMON)
+LIBIOMX_CFLAGS_hc := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=11
 
 LIBIOMX_INCLUDES_ics := $(LIBIOMX_INCLUDES_COMMON) \
 	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/include \
 	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/native/include \
 	$(ANDROID_SYS_HEADERS_ICS)/system/core/include \
 	$(ANDROID_SYS_HEADERS_ICS)/hardware/libhardware/include
+LIBIOMX_LDLIBS_ics := $(LIBIOMX_LDLIBS_COMMON) $(LIBIOMX_LDLIBS_HWBUFFER)
+LIBIOMX_CFLAGS_ics := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=14
 
 define build_iomx
 include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(LIBIOMX_SRC_FILES_COMMON)
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
-LOCAL_LDLIBS     := $(LIBIOMX_LDLIBS_COMMON)
-LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON)
+LOCAL_LDLIBS     := $(LIBIOMX_LDLIBS_$(2))
+LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_$(2))
 include $(BUILD_SHARED_LIBRARY)
 endef
 
