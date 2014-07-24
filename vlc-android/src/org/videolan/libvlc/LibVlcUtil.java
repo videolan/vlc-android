@@ -218,18 +218,21 @@ public class LibVlcUtil {
             }
         }
 
-        float frequency = 0.f;
+        float frequency = -1;
         try {
             FileReader fileReader = new FileReader("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
             BufferedReader br = new BufferedReader(fileReader);
+            String line = "";
             try {
-                frequency = Float.parseFloat(br.readLine()) / 1000.f; /* Convert to MHz */
+                line = br.readLine();
+                frequency = Float.parseFloat(line) / 1000.f; /* Convert to MHz */
             } catch(NumberFormatException e) {
-                /* keep default value of 0.f */
+                Log.w(TAG, "Could not parse maximum CPU frequency!");
+                Log.w(TAG, "Failed to parse: " + line);
             }
             fileReader.close();
         } catch(IOException ex) {
-            Log.w(TAG, "Could not find maximum CPU frequency.");
+            Log.w(TAG, "Could not find maximum CPU frequency!");
         }
 
         errorMsg = null;
