@@ -218,6 +218,20 @@ public class LibVlcUtil {
             }
         }
 
+        float frequency = 0.f;
+        try {
+            FileReader fileReader = new FileReader("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
+            BufferedReader br = new BufferedReader(fileReader);
+            try {
+                frequency = Float.parseFloat(br.readLine()) / 1000.f; /* Convert to MHz */
+            } catch(NumberFormatException e) {
+                /* keep default value of 0.f */
+            }
+            fileReader.close();
+        } catch(IOException ex) {
+            Log.w(TAG, "Could not find maximum CPU frequency.");
+        }
+
         errorMsg = null;
         isCompatible = true;
         // Store into MachineSpecs
@@ -230,6 +244,7 @@ public class LibVlcUtil {
         machineSpecs.hasX86 = hasX86;
         machineSpecs.bogoMIPS = bogoMIPS;
         machineSpecs.processors = processors;
+        machineSpecs.frequency = frequency;
         return true;
     }
 
@@ -246,6 +261,7 @@ public class LibVlcUtil {
         public boolean hasX86;
         public float bogoMIPS;
         public int processors;
+        public float frequency; /* in MHz */
     }
 
     private static final int EM_386 = 3;
