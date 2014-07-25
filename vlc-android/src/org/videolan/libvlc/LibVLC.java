@@ -559,6 +559,11 @@ public class LibVLC {
     public native void stop();
 
     /**
+     * Get player state.
+     */
+    public native int getPlayerState();
+
+    /**
      * Gets volume as integer
      */
     public native int getVolume();

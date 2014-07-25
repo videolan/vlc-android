@@ -487,6 +487,14 @@ void Java_org_videolan_libvlc_LibVLC_stop(JNIEnv *env, jobject thiz)
         libvlc_media_player_stop(mp);
 }
 
+jint Java_org_videolan_libvlc_LibVLC_getPlayerState(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jint) libvlc_media_player_get_state(mp);
+    return -1;
+}
+
 jint Java_org_videolan_libvlc_LibVLC_getVolume(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
