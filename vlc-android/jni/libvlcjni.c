@@ -288,6 +288,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         /* Remove me when UTF-8 is enforced by law */
         "--subsdec-encoding", subsencodingstr,
 
+        /* Enable statistics */
+        "--stats",
+
         /* XXX: why can't the default be fine ? #7792 */
         (networkCaching > 0) ? networkCachingstr : "",
 

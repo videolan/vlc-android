@@ -265,6 +265,101 @@ jobject Java_org_videolan_libvlc_LibVLC_getAudioTrackDescription(JNIEnv *env, jo
     return audioTrackMap;
 }
 
+jobject Java_org_videolan_libvlc_LibVLC_getStats(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (!mp)
+        return NULL;
+
+    libvlc_media_t *p_mp = libvlc_media_player_get_media(mp);
+    if (!p_mp)
+        return NULL;
+
+    libvlc_media_stats_t p_stats;
+    libvlc_media_get_stats(p_mp, &p_stats);
+
+    jclass mapClass = (*env)->FindClass(env, "java/util/Map");
+    jclass hashMapClass = (*env)->FindClass(env, "java/util/HashMap");
+    jmethodID mapPut = (*env)->GetMethodID(env, mapClass, "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    /* We need a concrete map to start */
+    jmethodID mapInit = (*env)->GetMethodID(env, hashMapClass, "<init>", "()V");
+    jclass integerCls = (*env)->FindClass(env, "java/lang/Integer");
+    jmethodID integerConstructor = (*env)->GetMethodID(env, integerCls, "<init>", "(I)V");
+    jclass floatCls = (*env)->FindClass(env, "java/lang/Float");
+    jmethodID floatConstructor = (*env)->GetMethodID(env, floatCls, "<init>", "(F)V");
+
+     LOGE("No media player %f", p_stats.f_demux_bitrate);
+
+    jobject statistics = (*env)->NewObject(env, hashMapClass, mapInit);
+    jobject value = (*env)->NewObject(env, floatCls, floatConstructor, p_stats.f_demux_bitrate);
+    jstring name = (*env)->NewStringUTF(env, "demuxBitrate");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, floatCls, floatConstructor, p_stats.f_input_bitrate);
+    name = (*env)->NewStringUTF(env, "inputBitrate");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, floatCls, floatConstructor, p_stats.f_send_bitrate);
+    name = (*env)->NewStringUTF(env, "sendBitrate");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_decoded_audio);
+    name = (*env)->NewStringUTF(env, "decodedAudio");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_decoded_video);
+    name = (*env)->NewStringUTF(env, "decodedVideo");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_demux_corrupted);
+    name = (*env)->NewStringUTF(env, "demuxCorrupted");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_demux_discontinuity);
+    name = (*env)->NewStringUTF(env, "demuxDiscontinuity");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_demux_read_bytes);
+    name = (*env)->NewStringUTF(env, "demuxReadBytes");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_displayed_pictures);
+    name = (*env)->NewStringUTF(env, "displayedPictures");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_lost_abuffers);
+    name = (*env)->NewStringUTF(env, "lostAbuffers");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_lost_pictures);
+    name = (*env)->NewStringUTF(env, "lostPictures");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_played_abuffers);
+    name = (*env)->NewStringUTF(env, "playedAbuffers");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_read_bytes);
+    name = (*env)->NewStringUTF(env, "readBytes");
+    (*env)->CallObjectMethod(env, statistics, mapPut, value, name);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_sent_bytes);
+    name = (*env)->NewStringUTF(env, "sentBytes");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    value = (*env)->NewObject(env, integerCls, integerConstructor, p_stats.i_sent_packets);
+    name = (*env)->NewStringUTF(env, "sentPackets");
+    (*env)->CallObjectMethod(env, statistics, mapPut, name, value);
+
+    // Clean up local references
+    (*env)->DeleteLocalRef(env, mapClass);
+    (*env)->DeleteLocalRef(env, hashMapClass);
+    (*env)->DeleteLocalRef(env, integerCls);
+    (*env)->DeleteLocalRef(env, floatCls);
+
+    return statistics;
+}
+
 jint Java_org_videolan_libvlc_LibVLC_getAudioTrack(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);

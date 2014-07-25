@@ -637,6 +637,8 @@ public class LibVLC {
 
     public native Map<Integer,String> getAudioTrackDescription();
 
+    public native Map<String, Object> getStats();
+
     public native int getAudioTrack();
 
     public native int setAudioTrack(int index);
