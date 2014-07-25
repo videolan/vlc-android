@@ -1,9 +1,19 @@
 Changes between 0.9.7 and 0.9.8-git:
 --------------------------------
 
+Main Application:
  * Fix compatibility with Android 2.1
  * Fix Media detection when the extension was in UPPER CASE
  * Fix default display orientation for the Video Player
+ * Fix possible crashes and leaks
+
+Core:
+ * Fix compatibility with MIPS (broken with the native crash handler
+ * Support building with NDKr10
+ * Prepare support for OMX zero-copy
+
+libVLCjni:
+ * Add bitrate information, statistics and player state methods
 
 
 Changes between 0.9.7 and 0.9.7.1:
