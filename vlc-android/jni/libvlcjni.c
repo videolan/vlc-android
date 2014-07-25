@@ -143,9 +143,9 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
 
     if (ev->type == libvlc_MediaPlayerPositionChanged) {
-            jstring sData = (*env)->NewStringUTF(env, "data");
-            (*env)->CallVoidMethod(env, bundle, putFloat, sData, ev->u.media_player_position_changed.new_position);
-            (*env)->DeleteLocalRef(env, sData);
+        jstring sData = (*env)->NewStringUTF(env, "data");
+        (*env)->CallVoidMethod(env, bundle, putFloat, sData, ev->u.media_player_position_changed.new_position);
+        (*env)->DeleteLocalRef(env, sData);
     } else if (ev->type == libvlc_MediaPlayerTimeChanged) {
         jstring sData = (*env)->NewStringUTF(env, "data");
         (*env)->CallVoidMethod(env, bundle, putInt, sData, (int) ev->u.media_player_time_changed.new_time);
