@@ -62,18 +62,13 @@ typedef struct camera_module {
     int (*get_camera_info)(int camera_id, struct camera_info *info);
 } camera_module_t;
 
-struct camera_memory;
-typedef void (*camera_release_memory)(struct camera_memory *mem);
-
 typedef struct camera_memory {
     void *data;
     size_t size;
     void *handle;
-    camera_release_memory release;
 } camera_memory_t;
 
-typedef camera_memory_t* (*camera_request_memory)(int fd, size_t buf_size, unsigned int num_bufs,
-                                                  void *user);
+typedef camera_memory_t* (*camera_request_memory)(size_t size, void *user);
 
 typedef void (*camera_notify_callback)(int32_t msg_type,
         int32_t ext1,
@@ -81,19 +76,19 @@ typedef void (*camera_notify_callback)(int32_t msg_type,
         void *user);
 
 typedef void (*camera_data_callback)(int32_t msg_type,
-        const camera_memory_t *data, unsigned int index,
-        camera_frame_metadata_t *metadata, void *user);
+        const camera_memory_t *data,
+        void *user);
 
 typedef void (*camera_data_timestamp_callback)(int64_t timestamp,
         int32_t msg_type,
-        const camera_memory_t *data, unsigned int index,
+        const camera_memory_t *data,
         void *user);
 
 #define HAL_CAMERA_PREVIEW_WINDOW_TAG 0xcafed00d
 
 typedef struct preview_stream_ops {
     int (*dequeue_buffer)(struct preview_stream_ops* w,
-                          buffer_handle_t** buffer, int *stride);
+                buffer_handle_t** buffer);
     int (*enqueue_buffer)(struct preview_stream_ops* w,
                 buffer_handle_t* buffer);
     int (*cancel_buffer)(struct preview_stream_ops* w,
@@ -105,10 +100,9 @@ typedef struct preview_stream_ops {
                 int left, int top, int right, int bottom);
     int (*set_usage)(struct preview_stream_ops* w, int usage);
     int (*set_swap_interval)(struct preview_stream_ops *w, int interval);
+
     int (*get_min_undequeued_buffer_count)(const struct preview_stream_ops *w,
                 int *count);
-    int (*lock_buffer)(struct preview_stream_ops* w,
-                buffer_handle_t* buffer);
 } preview_stream_ops_t;
 
 struct camera_device;
@@ -267,18 +261,8 @@ typedef struct camera_device_ops {
      */
     int (*set_parameters)(struct camera_device *, const char *parms);
 
-    /** Retrieve the camera parameters.  The buffer returned by the camera HAL
-        must be returned back to it with put_parameters, if put_parameters
-        is not NULL.
-     */
+    /** Return the camera parameters. */
     char *(*get_parameters)(struct camera_device *);
-
-    /** The camera HAL uses its own memory to pass us the parameters when we
-        call get_parameters.  Use this function to return the memory back to
-        the camera HAL, if put_parameters is not NULL.  If put_parameters
-        is NULL, then you have to use free() to release the memory.
-    */
-    void (*put_parameters)(struct camera_device *, char *);
 
     /**
      * Send command to camera driver.

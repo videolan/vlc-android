@@ -101,8 +101,6 @@ typedef uint16_t GpsLocationFlags;
 #define GPS_CAPABILITY_MSA              0x0000004
 /** GPS supports single-shot fixes */
 #define GPS_CAPABILITY_SINGLE_SHOT      0x0000008
-/** GPS supports on demand time injection */
-#define GPS_CAPABILITY_ON_DEMAND_TIME   0x0000010
 
 /** Flags used to specify which aiding data to delete
     when calling delete_aiding_data(). */
@@ -356,9 +354,6 @@ typedef void (* gps_acquire_wakelock)();
 /** Callback utility for releasing the GPS wakelock. */
 typedef void (* gps_release_wakelock)();
 
-/** Callback for requesting NTP time */
-typedef void (* gps_request_utc_time)();
-
 /** Callback for creating a thread that can call into the Java framework code.
  *  This must be used to create any threads that report events up to the framework.
  */
@@ -376,7 +371,6 @@ typedef struct {
     gps_acquire_wakelock acquire_wakelock_cb;
     gps_release_wakelock release_wakelock_cb;
     gps_create_thread create_thread_cb;
-    gps_request_utc_time request_utc_time_cb;
 } GpsCallbacks;
 
 
@@ -473,7 +467,6 @@ typedef struct {
 
     AGpsType        type;
     AGpsStatusValue status;
-    uint32_t        ipaddr;
 } AGpsStatus;
 
 /** Callback with AGPS status information.
@@ -665,12 +658,6 @@ typedef struct {
      * These parameters match values in the android.net.NetworkInfo class.
      */
     void (*update_network_state) (int connected, int type, int roaming, const char* extra_info);
-
-    /**
-     * Notify GPS of network status changes.
-     * These parameters match values in the android.net.NetworkInfo class.
-     */
-    void (*update_network_availability) (int avaiable, const char* apn);
 } AGpsRilInterface;
 
 __END_DECLS

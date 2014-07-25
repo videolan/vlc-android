@@ -18,12 +18,10 @@
 #define ANDROID_INCLUDE_HARDWARE_QEMUD_H
 
 #include <cutils/sockets.h>
-#include "qemu_pipe.h"
 
 /* the following is helper code that is used by the QEMU-specific
  * hardware HAL modules to communicate with the emulator program
- * through the 'qemud' multiplexing daemon, or through the qemud
- * pipe.
+ * through the 'qemud' multiplexing daemon.
  *
  * see the documentation comments for details in
  * development/emulator/qemud/qemud.c
@@ -66,37 +64,30 @@ qemud_channel_open(const char*  name)
     int  fd;
     int  namelen = strlen(name);
     char answer[2];
-    char pipe_name[256];
 
-    /* First, try to connect to the pipe. */
-    snprintf(pipe_name, sizeof(pipe_name), "qemud:%s", name);
-    fd = qemu_pipe_open(pipe_name);
+    /* connect to qemud control socket */
+    fd = socket_local_client( "qemud",
+                              ANDROID_SOCKET_NAMESPACE_RESERVED,
+                              SOCK_STREAM );
     if (fd < 0) {
-        D("QEMUD pipe is not available for %s: %s", name, strerror(errno));
-        /* If pipe is not available, connect to qemud control socket */
-        fd = socket_local_client( "qemud",
-                                  ANDROID_SOCKET_NAMESPACE_RESERVED,
-                                  SOCK_STREAM );
-        if (fd < 0) {
-            D("no qemud control socket: %s", strerror(errno));
-            return -1;
-        }
+        D("no qemud control socket: %s", strerror(errno));
+        return -1;
+    }
 
-        /* send service name to connect */
-        if (qemud_fd_write(fd, name, namelen) != namelen) {
-            D("can't send service name to qemud: %s",
-               strerror(errno));
-            close(fd);
-            return -1;
-        }
+    /* send service name to connect */
+    if (qemud_fd_write(fd, name, namelen) != namelen) {
+        D("can't send service name to qemud: %s",
+           strerror(errno));
+        close(fd);
+        return -1;
+    }
 
-        /* read answer from daemon */
-        if (qemud_fd_read(fd, answer, 2) != 2 ||
-            answer[0] != 'O' || answer[1] != 'K') {
-            D("cant' connect to %s service through qemud", name);
-            close(fd);
-            return -1;
-        }
+    /* read answer from daemon */
+    if (qemud_fd_read(fd, answer, 2) != 2 ||
+        answer[0] != 'O' || answer[1] != 'K') {
+        D("cant' connect to %s service through qemud", name);
+        close(fd);
+        return -1;
     }
     return fd;
 }

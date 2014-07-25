@@ -15,329 +15,379 @@
  */
 
 
-#ifndef ANDROID_AUDIO_HAL_INTERFACE_H
-#define ANDROID_AUDIO_HAL_INTERFACE_H
+#ifndef ANDROID_AUDIO_CORE_H
+#define ANDROID_AUDIO_CORE_H
 
+#include <stdbool.h>
 #include <stdint.h>
-#include <strings.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
 
 #include <cutils/bitops.h>
 
-#include <hardware/hardware.h>
-#include <system/audio.h>
-#include <hardware/audio_effect.h>
-
 __BEGIN_DECLS
 
-/**
- * The id of this module
- */
-#define AUDIO_HARDWARE_MODULE_ID "audio"
-
-/**
- * Name of the audio devices to open
- */
-#define AUDIO_HARDWARE_INTERFACE "audio_hw_if"
-
-/**************************************/
-
-/**
- *  standard audio parameters that the HAL may need to handle
+/* The enums were moved here mostly from
+ * frameworks/base/include/media/AudioSystem.h
  */
 
-/**
- *  audio device parameters
+typedef int audio_io_handle_t;
+
+/* Audio stream types */
+typedef enum {
+    AUDIO_STREAM_DEFAULT          = -1,
+    AUDIO_STREAM_VOICE_CALL       = 0,
+    AUDIO_STREAM_SYSTEM           = 1,
+    AUDIO_STREAM_RING             = 2,
+    AUDIO_STREAM_MUSIC            = 3,
+    AUDIO_STREAM_ALARM            = 4,
+    AUDIO_STREAM_NOTIFICATION     = 5,
+    AUDIO_STREAM_BLUETOOTH_SCO    = 6,
+    AUDIO_STREAM_ENFORCED_AUDIBLE = 7, /* Sounds that cannot be muted by user and must be routed to speaker */
+    AUDIO_STREAM_DTMF             = 8,
+    AUDIO_STREAM_TTS              = 9,
+
+    AUDIO_STREAM_CNT,
+    AUDIO_STREAM_MAX              = AUDIO_STREAM_CNT - 1,
+} audio_stream_type_t;
+
+/* Do not change these values without updating their counterparts
+ * in media/java/android/media/MediaRecorder.java!
  */
+typedef enum {
+    AUDIO_SOURCE_DEFAULT             = 0,
+    AUDIO_SOURCE_MIC                 = 1,
+    AUDIO_SOURCE_VOICE_UPLINK        = 2,
+    AUDIO_SOURCE_VOICE_DOWNLINK      = 3,
+    AUDIO_SOURCE_VOICE_CALL          = 4,
+    AUDIO_SOURCE_CAMCORDER           = 5,
+    AUDIO_SOURCE_VOICE_RECOGNITION   = 6,
+    AUDIO_SOURCE_VOICE_COMMUNICATION = 7,
 
-/* BT SCO Noise Reduction + Echo Cancellation parameters */
-#define AUDIO_PARAMETER_KEY_BT_NREC "bt_headset_nrec"
-#define AUDIO_PARAMETER_VALUE_ON "on"
-#define AUDIO_PARAMETER_VALUE_OFF "off"
+    AUDIO_SOURCE_CNT,
+    AUDIO_SOURCE_MAX                 = AUDIO_SOURCE_CNT - 1,
+} audio_source_t;
 
-/* TTY mode selection */
-#define AUDIO_PARAMETER_KEY_TTY_MODE "tty_mode"
-#define AUDIO_PARAMETER_VALUE_TTY_OFF "tty_off"
-#define AUDIO_PARAMETER_VALUE_TTY_VCO "tty_vco"
-#define AUDIO_PARAMETER_VALUE_TTY_HCO "tty_hco"
-#define AUDIO_PARAMETER_VALUE_TTY_FULL "tty_full"
-
-/**
- *  audio stream parameters
+/* special audio session values
+ * (XXX: should this be living in the audio effects land?)
  */
-
-#define AUDIO_PARAMETER_STREAM_ROUTING "routing"
-#define AUDIO_PARAMETER_STREAM_FORMAT "format"
-#define AUDIO_PARAMETER_STREAM_CHANNELS "channels"
-#define AUDIO_PARAMETER_STREAM_FRAME_COUNT "frame_count"
-#define AUDIO_PARAMETER_STREAM_INPUT_SOURCE "input_source"
-
-/**************************************/
-
-/* common audio stream parameters and operations */
-struct audio_stream {
-
-    /**
-     * sampling rate is in Hz - eg. 44100
+typedef enum {
+    /* session for effects attached to a particular output stream
+     * (value must be less than 0)
      */
-    uint32_t (*get_sample_rate)(const struct audio_stream *stream);
+    AUDIO_SESSION_OUTPUT_STAGE = -1,
 
-    /* currently unused - use set_parameters with key
-     *    AUDIO_PARAMETER_STREAM_SAMPLING_RATE
+    /* session for effects applied to output mix. These effects can
+     * be moved by audio policy manager to another output stream
+     * (value must be 0)
      */
-    int (*set_sample_rate)(struct audio_stream *stream, uint32_t rate);
+    AUDIO_SESSION_OUTPUT_MIX = 0,
+} audio_session_t;
 
-    /**
-     * size of output buffer in bytes - eg. 4800
-     */
-    size_t (*get_buffer_size)(const struct audio_stream *stream);
+/* Audio sub formats (see enum audio_format). */
 
-    /**
-     * the channel mask -
-     *  e.g. AUDIO_CHANNEL_OUT_STEREO or AUDIO_CHANNEL_IN_STEREO
-     */
-    uint32_t (*get_channels)(const struct audio_stream *stream);
+/* PCM sub formats */
+typedef enum {
+    AUDIO_FORMAT_PCM_SUB_16_BIT          = 0x1, /* DO NOT CHANGE */
+    AUDIO_FORMAT_PCM_SUB_8_BIT           = 0x2, /* DO NOT CHANGE */
+} audio_format_pcm_sub_fmt_t;
 
-    /**
-     * audio format - eg. AUDIO_FORMAT_PCM_16_BIT
-     */
-    int (*get_format)(const struct audio_stream *stream);
+/* MP3 sub format field definition : can use 11 LSBs in the same way as MP3
+ * frame header to specify bit rate, stereo mode, version...
+ */
+typedef enum {
+    AUDIO_FORMAT_MP3_SUB_NONE            = 0x0,
+} audio_format_mp3_sub_fmt_t;
 
-    /* currently unused - use set_parameters with key
-     *     AUDIO_PARAMETER_STREAM_FORMAT
-     */
-    int (*set_format)(struct audio_stream *stream, int format);
+/* AMR NB/WB sub format field definition: specify frame block interleaving,
+ * bandwidth efficient or octet aligned, encoding mode for recording...
+ */
+typedef enum {
+    AUDIO_FORMAT_AMR_SUB_NONE            = 0x0,
+} audio_format_amr_sub_fmt_t;
 
-    /**
-     * Put the audio hardware input/output into standby mode.
-     * Returns 0 on success and <0 on failure.
-     */
-    int (*standby)(struct audio_stream *stream);
+/* AAC sub format field definition: specify profile or bitrate for recording... */
+typedef enum {
+    AUDIO_FORMAT_AAC_SUB_NONE            = 0x0,
+} audio_format_aac_sub_fmt_t;
 
-    /** dump the state of the audio input/output device */
-    int (*dump)(const struct audio_stream *stream, int fd);
+/* VORBIS sub format field definition: specify quality for recording... */
+typedef enum {
+    AUDIO_FORMAT_VORBIS_SUB_NONE         = 0x0,
+} audio_format_vorbis_sub_fmt_t;
 
-    audio_devices_t (*get_device)(const struct audio_stream *stream);
-    int (*set_device)(struct audio_stream *stream, audio_devices_t device);
-
-    /**
-     * set/get audio stream parameters. The function accepts a list of
-     * parameter key value pairs in the form: key1=value1;key2=value2;...
-     *
-     * Some keys are reserved for standard parameters (See AudioParameter class)
-     *
-     * If the implementation does not accept a parameter change while
-     * the output is active but the parameter is acceptable otherwise, it must
-     * return -ENOSYS.
-     *
-     * The audio flinger will put the stream in standby and then change the
-     * parameter value.
-     */
-    int (*set_parameters)(struct audio_stream *stream, const char *kv_pairs);
-
-    /*
-     * Returns a pointer to a heap allocated string. The caller is responsible
-     * for freeing the memory for it.
-     */
-    char * (*get_parameters)(const struct audio_stream *stream,
-                             const char *keys);
-    int (*add_audio_effect)(const struct audio_stream *stream,
-                             effect_handle_t effect);
-    int (*remove_audio_effect)(const struct audio_stream *stream,
-                             effect_handle_t effect);
-};
-typedef struct audio_stream audio_stream_t;
-
-/**
- * audio_stream_out is the abstraction interface for the audio output hardware.
+/* Audio format consists in a main format field (upper 8 bits) and a sub format
+ * field (lower 24 bits).
  *
- * It provides information about various properties of the audio output
- * hardware driver.
+ * The main format indicates the main codec type. The sub format field
+ * indicates options and parameters for each format. The sub format is mainly
+ * used for record to indicate for instance the requested bitrate or profile.
+ * It can also be used for certain formats to give informations not present in
+ * the encoded audio stream (e.g. octet alignement for AMR).
  */
+typedef enum {
+    AUDIO_FORMAT_INVALID             = 0xFFFFFFFFUL,
+    AUDIO_FORMAT_DEFAULT             = 0,
+    AUDIO_FORMAT_PCM                 = 0x00000000UL, /* DO NOT CHANGE */
+    AUDIO_FORMAT_MP3                 = 0x01000000UL,
+    AUDIO_FORMAT_AMR_NB              = 0x02000000UL,
+    AUDIO_FORMAT_AMR_WB              = 0x03000000UL,
+    AUDIO_FORMAT_AAC                 = 0x04000000UL,
+    AUDIO_FORMAT_HE_AAC_V1           = 0x05000000UL,
+    AUDIO_FORMAT_HE_AAC_V2           = 0x06000000UL,
+    AUDIO_FORMAT_VORBIS              = 0x07000000UL,
+    AUDIO_FORMAT_MAIN_MASK           = 0xFF000000UL,
+    AUDIO_FORMAT_SUB_MASK            = 0x00FFFFFFUL,
 
-struct audio_stream_out {
-    struct audio_stream common;
+    /* Aliases */
+    AUDIO_FORMAT_PCM_16_BIT          = (AUDIO_FORMAT_PCM |
+                                        AUDIO_FORMAT_PCM_SUB_16_BIT),
+    AUDIO_FORMAT_PCM_8_BIT           = (AUDIO_FORMAT_PCM |
+                                        AUDIO_FORMAT_PCM_SUB_8_BIT),
+} audio_format_t;
 
-    /**
-     * return the audio hardware driver latency in milli seconds.
-     */
-    uint32_t (*get_latency)(const struct audio_stream_out *stream);
+/* Channel mask definitions must be kept in sync with JAVA values in
+ * frameworks/base/media/java/android/media/AudioFormat.java */
+typedef enum {
+    /* output channels */
+    AUDIO_CHANNEL_OUT_FRONT_LEFT            = 0x4,
+    AUDIO_CHANNEL_OUT_FRONT_RIGHT           = 0x8,
+    AUDIO_CHANNEL_OUT_FRONT_CENTER          = 0x10,
+    AUDIO_CHANNEL_OUT_LOW_FREQUENCY         = 0x20,
+    AUDIO_CHANNEL_OUT_BACK_LEFT             = 0x40,
+    AUDIO_CHANNEL_OUT_BACK_RIGHT            = 0x80,
+    AUDIO_CHANNEL_OUT_FRONT_LEFT_OF_CENTER  = 0x100,
+    AUDIO_CHANNEL_OUT_FRONT_RIGHT_OF_CENTER = 0x200,
+    AUDIO_CHANNEL_OUT_BACK_CENTER           = 0x400,
 
-    /**
-     * Use this method in situations where audio mixing is done in the
-     * hardware. This method serves as a direct interface with hardware,
-     * allowing you to directly set the volume as apposed to via the framework.
-     * This method might produce multiple PCM outputs or hardware accelerated
-     * codecs, such as MP3 or AAC.
-     */
-    int (*set_volume)(struct audio_stream_out *stream, float left, float right);
+    AUDIO_CHANNEL_OUT_MONO     = AUDIO_CHANNEL_OUT_FRONT_LEFT,
+    AUDIO_CHANNEL_OUT_STEREO   = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT),
+    AUDIO_CHANNEL_OUT_QUAD     = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                  AUDIO_CHANNEL_OUT_BACK_LEFT |
+                                  AUDIO_CHANNEL_OUT_BACK_RIGHT),
+    AUDIO_CHANNEL_OUT_SURROUND = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_CENTER |
+                                  AUDIO_CHANNEL_OUT_BACK_CENTER),
+    AUDIO_CHANNEL_OUT_5POINT1  = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_CENTER |
+                                  AUDIO_CHANNEL_OUT_LOW_FREQUENCY |
+                                  AUDIO_CHANNEL_OUT_BACK_LEFT |
+                                  AUDIO_CHANNEL_OUT_BACK_RIGHT),
+    AUDIO_CHANNEL_OUT_7POINT1  = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_CENTER |
+                                  AUDIO_CHANNEL_OUT_LOW_FREQUENCY |
+                                  AUDIO_CHANNEL_OUT_BACK_LEFT |
+                                  AUDIO_CHANNEL_OUT_BACK_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_LEFT_OF_CENTER |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT_OF_CENTER),
+    AUDIO_CHANNEL_OUT_ALL      = (AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_CENTER |
+                                  AUDIO_CHANNEL_OUT_LOW_FREQUENCY |
+                                  AUDIO_CHANNEL_OUT_BACK_LEFT |
+                                  AUDIO_CHANNEL_OUT_BACK_RIGHT |
+                                  AUDIO_CHANNEL_OUT_FRONT_LEFT_OF_CENTER |
+                                  AUDIO_CHANNEL_OUT_FRONT_RIGHT_OF_CENTER |
+                                  AUDIO_CHANNEL_OUT_BACK_CENTER),
 
-    /**
-     * write audio buffer to driver. Returns number of bytes written
-     */
-    ssize_t (*write)(struct audio_stream_out *stream, const void* buffer,
-                     size_t bytes);
+    /* input channels */
+    AUDIO_CHANNEL_IN_LEFT            = 0x4,
+    AUDIO_CHANNEL_IN_RIGHT           = 0x8,
+    AUDIO_CHANNEL_IN_FRONT           = 0x10,
+    AUDIO_CHANNEL_IN_BACK            = 0x20,
+    AUDIO_CHANNEL_IN_LEFT_PROCESSED  = 0x40,
+    AUDIO_CHANNEL_IN_RIGHT_PROCESSED = 0x80,
+    AUDIO_CHANNEL_IN_FRONT_PROCESSED = 0x100,
+    AUDIO_CHANNEL_IN_BACK_PROCESSED  = 0x200,
+    AUDIO_CHANNEL_IN_PRESSURE        = 0x400,
+    AUDIO_CHANNEL_IN_X_AXIS          = 0x800,
+    AUDIO_CHANNEL_IN_Y_AXIS          = 0x1000,
+    AUDIO_CHANNEL_IN_Z_AXIS          = 0x2000,
+    AUDIO_CHANNEL_IN_VOICE_UPLINK    = 0x4000,
+    AUDIO_CHANNEL_IN_VOICE_DNLINK    = 0x8000,
 
-    /* return the number of audio frames written by the audio dsp to DAC since
-     * the output has exited standby
-     */
-    int (*get_render_position)(const struct audio_stream_out *stream,
-                               uint32_t *dsp_frames);
-};
-typedef struct audio_stream_out audio_stream_out_t;
+    AUDIO_CHANNEL_IN_MONO   = AUDIO_CHANNEL_IN_FRONT,
+    AUDIO_CHANNEL_IN_STEREO = (AUDIO_CHANNEL_IN_LEFT | AUDIO_CHANNEL_IN_RIGHT),
+    AUDIO_CHANNEL_IN_ALL    = (AUDIO_CHANNEL_IN_LEFT |
+                               AUDIO_CHANNEL_IN_RIGHT |
+                               AUDIO_CHANNEL_IN_FRONT |
+                               AUDIO_CHANNEL_IN_BACK|
+                               AUDIO_CHANNEL_IN_LEFT_PROCESSED |
+                               AUDIO_CHANNEL_IN_RIGHT_PROCESSED |
+                               AUDIO_CHANNEL_IN_FRONT_PROCESSED |
+                               AUDIO_CHANNEL_IN_BACK_PROCESSED|
+                               AUDIO_CHANNEL_IN_PRESSURE |
+                               AUDIO_CHANNEL_IN_X_AXIS |
+                               AUDIO_CHANNEL_IN_Y_AXIS |
+                               AUDIO_CHANNEL_IN_Z_AXIS |
+                               AUDIO_CHANNEL_IN_VOICE_UPLINK |
+                               AUDIO_CHANNEL_IN_VOICE_DNLINK),
+} audio_channels_t;
 
-struct audio_stream_in {
-    struct audio_stream common;
+typedef enum {
+    AUDIO_MODE_INVALID          = -2,
+    AUDIO_MODE_CURRENT          = -1,
+    AUDIO_MODE_NORMAL           = 0,
+    AUDIO_MODE_RINGTONE         = 1,
+    AUDIO_MODE_IN_CALL          = 2,
+    AUDIO_MODE_IN_COMMUNICATION = 3,
 
-    /** set the input gain for the audio driver. This method is for
-     *  for future use */
-    int (*set_gain)(struct audio_stream_in *stream, float gain);
+    AUDIO_MODE_CNT,
+    AUDIO_MODE_MAX              = AUDIO_MODE_CNT - 1,
+} audio_mode_t;
 
-    /** read audio buffer in from audio driver */
-    ssize_t (*read)(struct audio_stream_in *stream, void* buffer,
-                    size_t bytes);
+typedef enum {
+    AUDIO_IN_ACOUSTICS_AGC_ENABLE    = 0x0001,
+    AUDIO_IN_ACOUSTICS_AGC_DISABLE   = 0,
+    AUDIO_IN_ACOUSTICS_NS_ENABLE     = 0x0002,
+    AUDIO_IN_ACOUSTICS_NS_DISABLE    = 0,
+    AUDIO_IN_ACOUSTICS_TX_IIR_ENABLE = 0x0004,
+    AUDIO_IN_ACOUSTICS_TX_DISABLE    = 0,
+} audio_in_acoustics_t;
 
-    /**
-     * Return the amount of input frames lost in the audio driver since the
-     * last call of this function.
-     * Audio driver is expected to reset the value to 0 and restart counting
-     * upon returning the current value by this function call.
-     * Such loss typically occurs when the user space process is blocked
-     * longer than the capacity of audio driver buffers.
-     *
-     * Unit: the number of input audio frames
-     */
-    uint32_t (*get_input_frames_lost)(struct audio_stream_in *stream);
-};
-typedef struct audio_stream_in audio_stream_in_t;
+typedef enum {
+    /* output devices */
+    AUDIO_DEVICE_OUT_EARPIECE                  = 0x1,
+    AUDIO_DEVICE_OUT_SPEAKER                   = 0x2,
+    AUDIO_DEVICE_OUT_WIRED_HEADSET             = 0x4,
+    AUDIO_DEVICE_OUT_WIRED_HEADPHONE           = 0x8,
+    AUDIO_DEVICE_OUT_BLUETOOTH_SCO             = 0x10,
+    AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET     = 0x20,
+    AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT      = 0x40,
+    AUDIO_DEVICE_OUT_BLUETOOTH_A2DP            = 0x80,
+    AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES = 0x100,
+    AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER    = 0x200,
+    AUDIO_DEVICE_OUT_AUX_DIGITAL               = 0x400,
+    AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET         = 0x800,
+    AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET         = 0x1000,
+    AUDIO_DEVICE_OUT_DEFAULT                   = 0x8000,
+    AUDIO_DEVICE_OUT_ALL      = (AUDIO_DEVICE_OUT_EARPIECE |
+                                 AUDIO_DEVICE_OUT_SPEAKER |
+                                 AUDIO_DEVICE_OUT_WIRED_HEADSET |
+                                 AUDIO_DEVICE_OUT_WIRED_HEADPHONE |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_SCO |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_A2DP |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER |
+                                 AUDIO_DEVICE_OUT_AUX_DIGITAL |
+                                 AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET |
+                                 AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET |
+                                 AUDIO_DEVICE_OUT_DEFAULT),
+    AUDIO_DEVICE_OUT_ALL_A2DP = (AUDIO_DEVICE_OUT_BLUETOOTH_A2DP |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_SPEAKER),
+    AUDIO_DEVICE_OUT_ALL_SCO  = (AUDIO_DEVICE_OUT_BLUETOOTH_SCO |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_SCO_HEADSET |
+                                 AUDIO_DEVICE_OUT_BLUETOOTH_SCO_CARKIT),
 
-/**
- * return the frame size (number of bytes per sample).
- */
-static inline uint32_t audio_stream_frame_size(struct audio_stream *s)
+    /* input devices */
+    AUDIO_DEVICE_IN_COMMUNICATION         = 0x10000,
+    AUDIO_DEVICE_IN_AMBIENT               = 0x20000,
+    AUDIO_DEVICE_IN_BUILTIN_MIC           = 0x40000,
+    AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET = 0x80000,
+    AUDIO_DEVICE_IN_WIRED_HEADSET         = 0x100000,
+    AUDIO_DEVICE_IN_AUX_DIGITAL           = 0x200000,
+    AUDIO_DEVICE_IN_VOICE_CALL            = 0x400000,
+    AUDIO_DEVICE_IN_BACK_MIC              = 0x800000,
+    AUDIO_DEVICE_IN_DEFAULT               = 0x80000000,
+
+    AUDIO_DEVICE_IN_ALL     = (AUDIO_DEVICE_IN_COMMUNICATION |
+                               AUDIO_DEVICE_IN_AMBIENT |
+                               AUDIO_DEVICE_IN_BUILTIN_MIC |
+                               AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET |
+                               AUDIO_DEVICE_IN_WIRED_HEADSET |
+                               AUDIO_DEVICE_IN_AUX_DIGITAL |
+                               AUDIO_DEVICE_IN_VOICE_CALL |
+                               AUDIO_DEVICE_IN_BACK_MIC |
+                               AUDIO_DEVICE_IN_DEFAULT),
+    AUDIO_DEVICE_IN_ALL_SCO = AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET,
+} audio_devices_t;
+
+static inline bool audio_is_output_device(audio_devices_t device)
 {
-    int chan_samp_sz;
+    if ((popcount(device) == 1) && ((device & ~AUDIO_DEVICE_OUT_ALL) == 0))
+        return true;
+    else
+        return false;
+}
 
-    switch (s->get_format(s)) {
-    case AUDIO_FORMAT_PCM_16_BIT:
-        chan_samp_sz = sizeof(int16_t);
-        break;
-    case AUDIO_FORMAT_PCM_8_BIT:
+static inline bool audio_is_input_device(audio_devices_t device)
+{
+    if ((popcount(device) == 1) && ((device & ~AUDIO_DEVICE_IN_ALL) == 0))
+        return true;
+    else
+        return false;
+}
+
+static inline bool audio_is_a2dp_device(audio_devices_t device)
+{
+    if ((popcount(device) == 1) && (device & AUDIO_DEVICE_OUT_ALL_A2DP))
+        return true;
+    else
+        return false;
+}
+
+static inline bool audio_is_bluetooth_sco_device(audio_devices_t device)
+{
+    if ((popcount(device) == 1) && (device & (AUDIO_DEVICE_OUT_ALL_SCO |
+                   AUDIO_DEVICE_IN_BLUETOOTH_SCO_HEADSET)))
+        return true;
+    else
+        return false;
+}
+
+static inline bool audio_is_input_channel(uint32_t channel)
+{
+    if ((channel & ~AUDIO_CHANNEL_IN_ALL) == 0)
+        return true;
+    else
+        return false;
+}
+
+static inline bool audio_is_output_channel(uint32_t channel)
+{
+    if ((channel & ~AUDIO_CHANNEL_OUT_ALL) == 0)
+        return true;
+    else
+        return false;
+}
+
+static inline bool audio_is_valid_format(uint32_t format)
+{
+    switch (format & AUDIO_FORMAT_MAIN_MASK) {
+    case AUDIO_FORMAT_PCM:
+    case AUDIO_FORMAT_MP3:
+    case AUDIO_FORMAT_AMR_NB:
+    case AUDIO_FORMAT_AMR_WB:
+    case AUDIO_FORMAT_AAC:
+    case AUDIO_FORMAT_HE_AAC_V1:
+    case AUDIO_FORMAT_HE_AAC_V2:
+    case AUDIO_FORMAT_VORBIS:
+        return true;
     default:
-        chan_samp_sz = sizeof(int8_t);
-        break;
+        return false;
     }
-
-    return popcount(s->get_channels(s)) * chan_samp_sz;
 }
 
-
-/**********************************************************************/
-
-/**
- * Every hardware module must have a data structure named HAL_MODULE_INFO_SYM
- * and the fields of this data structure must begin with hw_module_t
- * followed by module specific information.
- */
-struct audio_module {
-    struct hw_module_t common;
-};
-
-struct audio_hw_device {
-    struct hw_device_t common;
-
-    /**
-     * used by audio flinger to enumerate what devices are supported by
-     * each audio_hw_device implementation.
-     *
-     * Return value is a bitmask of 1 or more values of audio_devices_t
-     */
-    uint32_t (*get_supported_devices)(const struct audio_hw_device *dev);
-
-    /**
-     * check to see if the audio hardware interface has been initialized.
-     * returns 0 on success, -ENODEV on failure.
-     */
-    int (*init_check)(const struct audio_hw_device *dev);
-
-    /** set the audio volume of a voice call. Range is between 0.0 and 1.0 */
-    int (*set_voice_volume)(struct audio_hw_device *dev, float volume);
-
-    /**
-     * set the audio volume for all audio activities other than voice call.
-     * Range between 0.0 and 1.0. If any value other than 0 is returned,
-     * the software mixer will emulate this capability.
-     */
-    int (*set_master_volume)(struct audio_hw_device *dev, float volume);
-
-    /**
-     * setMode is called when the audio mode changes. AUDIO_MODE_NORMAL mode
-     * is for standard audio playback, AUDIO_MODE_RINGTONE when a ringtone is
-     * playing, and AUDIO_MODE_IN_CALL when a call is in progress.
-     */
-    int (*set_mode)(struct audio_hw_device *dev, int mode);
-
-    /* mic mute */
-    int (*set_mic_mute)(struct audio_hw_device *dev, bool state);
-    int (*get_mic_mute)(const struct audio_hw_device *dev, bool *state);
-
-    /* set/get global audio parameters */
-    int (*set_parameters)(struct audio_hw_device *dev, const char *kv_pairs);
-
-    /*
-     * Returns a pointer to a heap allocated string. The caller is responsible
-     * for freeing the memory for it.
-     */
-    char * (*get_parameters)(const struct audio_hw_device *dev,
-                             const char *keys);
-
-    /* Returns audio input buffer size according to parameters passed or
-     * 0 if one of the parameters is not supported
-     */
-    size_t (*get_input_buffer_size)(const struct audio_hw_device *dev,
-                                    uint32_t sample_rate, int format,
-                                    int channel_count);
-
-    /** This method creates and opens the audio hardware output stream */
-    int (*open_output_stream)(struct audio_hw_device *dev, uint32_t devices,
-                              int *format, uint32_t *channels,
-                              uint32_t *sample_rate,
-                              struct audio_stream_out **out);
-
-    void (*close_output_stream)(struct audio_hw_device *dev,
-                                struct audio_stream_out* out);
-
-    /** This method creates and opens the audio hardware input stream */
-    int (*open_input_stream)(struct audio_hw_device *dev, uint32_t devices,
-                             int *format, uint32_t *channels,
-                             uint32_t *sample_rate,
-                             audio_in_acoustics_t acoustics,
-                             struct audio_stream_in **stream_in);
-
-    void (*close_input_stream)(struct audio_hw_device *dev,
-                               struct audio_stream_in *in);
-
-    /** This method dumps the state of the audio hardware */
-    int (*dump)(const struct audio_hw_device *dev, int fd);
-};
-typedef struct audio_hw_device audio_hw_device_t;
-
-/** convenience API for opening and closing a supported device */
-
-static inline int audio_hw_device_open(const struct hw_module_t* module,
-                                       struct audio_hw_device** device)
+static inline bool audio_is_linear_pcm(uint32_t format)
 {
-    return module->methods->open(module, AUDIO_HARDWARE_INTERFACE,
-                                 (struct hw_device_t**)device);
-}
-
-static inline int audio_hw_device_close(struct audio_hw_device* device)
-{
-    return device->common.close(&device->common);
+    switch (format) {
+    case AUDIO_FORMAT_PCM_16_BIT:
+    case AUDIO_FORMAT_PCM_8_BIT:
+        return true;
+    default:
+        return false;
+    }
 }
 
 
 __END_DECLS
 
-#endif  // ANDROID_AUDIO_INTERFACE_H
+#endif  // ANDROID_AUDIO_CORE_H

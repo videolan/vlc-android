@@ -17,17 +17,8 @@
 #define ANDROID_INCLUDE_HARDWARE_QEMU_PIPE_H
 
 #include <sys/cdefs.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <pthread.h>  /* for pthread_once() */
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
 
-#ifndef D
-#  define  D(...)   do{}while(0)
-#endif
+__BEGIN_DECLS
 
 /* Try to open a new Qemu fast-pipe. This function returns a file descriptor
  * that can be used to communicate with a named service managed by the
@@ -51,41 +42,8 @@
  * except for a few special cases (e.g. GSM modem), where EBUSY will be
  * returned if more than one client tries to connect to it.
  */
-static __inline__ int
-qemu_pipe_open(const char*  pipeName)
-{
-    char  buff[256];
-    int   buffLen;
-    int   fd, ret;
+extern int  qemu_pipe_open(const char*  pipeName);
 
-    if (pipeName == NULL || pipeName[0] == '\0') {
-        errno = EINVAL;
-        return -1;
-    }
-
-    snprintf(buff, sizeof buff, "pipe:%s", pipeName);
-
-    fd = open("/dev/qemu_pipe", O_RDWR);
-    if (fd < 0) {
-        D("%s: Could not open /dev/qemu_pipe: %s", __FUNCTION__, strerror(errno));
-        //errno = ENOSYS;
-        return -1;
-    }
-
-    buffLen = strlen(buff);
-
-    ret = TEMP_FAILURE_RETRY(write(fd, buff, buffLen+1));
-    if (ret != buffLen+1) {
-        D("%s: Could not connect to %s pipe service: %s", __FUNCTION__, pipeName, strerror(errno));
-        if (ret == 0) {
-            errno = ECONNRESET;
-        } else if (ret > 0) {
-            errno = EINVAL;
-        }
-        return -1;
-    }
-
-    return fd;
-}
+__END_DECLS
 
 #endif /* ANDROID_INCLUDE_HARDWARE_QEMUD_PIPE_H */
