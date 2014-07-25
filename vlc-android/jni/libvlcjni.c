@@ -146,6 +146,10 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
             jstring sData = (*env)->NewStringUTF(env, "data");
             (*env)->CallVoidMethod(env, bundle, putFloat, sData, ev->u.media_player_position_changed.new_position);
             (*env)->DeleteLocalRef(env, sData);
+    } else if (ev->type == libvlc_MediaPlayerTimeChanged) {
+        jstring sData = (*env)->NewStringUTF(env, "data");
+        (*env)->CallVoidMethod(env, bundle, putInt, sData, (int) ev->u.media_player_time_changed.new_time);
+        (*env)->DeleteLocalRef(env, sData);
     } else if(ev->type == libvlc_MediaPlayerVout) {
         /* For determining the vout/ES track change */
         jstring sData = (*env)->NewStringUTF(env, "data");
@@ -388,6 +392,7 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
         libvlc_MediaPlayerStopped,
         libvlc_MediaPlayerVout,
         libvlc_MediaPlayerPositionChanged,
+        libvlc_MediaPlayerTimeChanged,
         libvlc_MediaPlayerEncounteredError
     };
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
