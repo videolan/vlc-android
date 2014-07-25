@@ -55,7 +55,6 @@ enum {
     kKeyIsSyncFrame       = 'sync',  // int32_t (bool)
     kKeyIsCodecConfig     = 'conf',  // int32_t (bool)
     kKeyTime              = 'time',  // int64_t (usecs)
-    kKeyDecodingTime      = 'decT',  // int64_t (decoding timestamp in usecs)
     kKeyNTPTime           = 'ntpT',  // uint64_t (ntp-timestamp)
     kKeyTargetTime        = 'tarT',  // int64_t (usecs)
     kKeyDriftTime         = 'dftT',  // int64_t (usecs)
@@ -115,14 +114,6 @@ enum {
 
     // An indication that a video buffer has been rendered.
     kKeyRendered          = 'rend',  // bool (int32_t)
-
-    // The language code for this media
-    kKeyMediaLanguage     = 'lang',  // cstring
-
-    // To store the timed text format data
-    kKeyTextFormatData    = 'text',  // raw data
-
-    kKeyRequiresSecureBuffers = 'secu',  // bool (int32_t)
 };
 
 enum {

@@ -27,7 +27,7 @@ namespace android {
 class Rect : public ARect
 {
 public:
-    typedef ARect::value_type value_type;
+    typedef int32_t value_type;
 
     // we don't provide copy-ctor and operator= on purpose
     // because we want the compiler generated versions

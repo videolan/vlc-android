@@ -29,7 +29,6 @@
 namespace android {
 
 class Parcel;
-class ISurfaceComposerClient;
 
 struct layer_state_t {
 
@@ -54,8 +53,8 @@ struct layer_state_t {
             };
             SurfaceID       surface;
             uint32_t        what;
-            float           x;
-            float           y;
+            int32_t         x;
+            int32_t         y;
             uint32_t        z;
             uint32_t        w;
             uint32_t        h;
@@ -67,13 +66,6 @@ struct layer_state_t {
             matrix22_t      matrix;
             // non POD must be last. see write/read
             Region          transparentRegion;
-};
-
-struct ComposerState {
-    sp<ISurfaceComposerClient> client;
-    layer_state_t state;
-    status_t    write(Parcel& output) const;
-    status_t    read(const Parcel& input);
 };
 
 }; // namespace android

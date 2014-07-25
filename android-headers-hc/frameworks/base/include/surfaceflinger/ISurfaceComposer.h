@@ -33,9 +33,6 @@
 namespace android {
 // ----------------------------------------------------------------------------
 
-class IMemoryHeap;
-class ComposerState;
-
 class ISurfaceComposer : public IInterface
 {
 public:
@@ -80,7 +77,6 @@ public:
         eOrientation90          = 1,
         eOrientation180         = 2,
         eOrientation270         = 3,
-        eOrientationUnchanged   = 4,
         eOrientationSwapMask    = 0x01
     };
     
@@ -89,10 +85,19 @@ public:
         eElectronBeamAnimationOff = 0x10
     };
 
+    // flags for setOrientation
+    enum {
+        eOrientationAnimationDisable = 0x00000001
+    };
+
     /* create connection with surface flinger, requires
      * ACCESS_SURFACE_FLINGER permission
      */
     virtual sp<ISurfaceComposerClient> createConnection() = 0;
+
+    /* create a client connection with surface flinger
+     */
+    virtual sp<ISurfaceComposerClient> createClientConnection() = 0;
 
     /* create a graphic buffer allocator
      */
@@ -102,8 +107,15 @@ public:
     virtual sp<IMemoryHeap> getCblk() const = 0;
 
     /* open/close transactions. requires ACCESS_SURFACE_FLINGER permission */
-    virtual void setTransactionState(const Vector<ComposerState>& state,
-            int orientation) = 0;
+    virtual void openGlobalTransaction() = 0;
+    virtual void closeGlobalTransaction() = 0;
+
+    /* [un]freeze display. requires ACCESS_SURFACE_FLINGER permission */
+    virtual status_t freezeDisplay(DisplayID dpy, uint32_t flags) = 0;
+    virtual status_t unfreezeDisplay(DisplayID dpy, uint32_t flags) = 0;
+
+    /* Set display orientation. requires ACCESS_SURFACE_FLINGER permission */
+    virtual int setOrientation(DisplayID dpy, int orientation, uint32_t flags) = 0;
 
     /* signal that we're done booting.
      * Requires ACCESS_SURFACE_FLINGER permission
@@ -122,10 +134,14 @@ public:
     virtual status_t turnElectronBeamOff(int32_t mode) = 0;
     virtual status_t turnElectronBeamOn(int32_t mode) = 0;
 
-    /* verify that an ISurfaceTexture was created by SurfaceFlinger.
+    /* Signal surfaceflinger that there might be some work to do
+     * This is an ASYNCHRONOUS call.
      */
-    virtual bool authenticateSurfaceTexture(
-            const sp<ISurfaceTexture>& surface) const = 0;
+    virtual void signal() const = 0;
+
+    /* verify that an ISurface was created by SurfaceFlinger.
+     */
+    virtual bool authenticateSurface(const sp<ISurface>& surface) const = 0;
 };
 
 // ----------------------------------------------------------------------------
@@ -138,12 +154,15 @@ public:
         // Java by ActivityManagerService.
         BOOT_FINISHED = IBinder::FIRST_CALL_TRANSACTION,
         CREATE_CONNECTION,
+        CREATE_CLIENT_CONNECTION,
         CREATE_GRAPHIC_BUFFER_ALLOC,
         GET_CBLK,
-        SET_TRANSACTION_STATE,
+        OPEN_GLOBAL_TRANSACTION,
+        CLOSE_GLOBAL_TRANSACTION,
         SET_ORIENTATION,
         FREEZE_DISPLAY,
         UNFREEZE_DISPLAY,
+        SIGNAL,
         CAPTURE_SCREEN,
         TURN_ELECTRON_BEAM_OFF,
         TURN_ELECTRON_BEAM_ON,

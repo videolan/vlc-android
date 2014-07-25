@@ -22,14 +22,13 @@
 
 #include <media/stagefright/MediaErrors.h>
 #include <utils/RefBase.h>
-#include <utils/Vector.h>
 
 namespace android {
 
 class MediaBuffer;
 class MetaData;
 
-struct MediaSource : public virtual RefBase {
+struct MediaSource : public RefBase {
     MediaSource();
 
     // To be called before any other methods on this object, except
@@ -97,15 +96,6 @@ struct MediaSource : public virtual RefBase {
     // until a subsequent read-with-seek. Currently only supported by
     // OMXCodec.
     virtual status_t pause() {
-        return ERROR_UNSUPPORTED;
-    }
-
-    // The consumer of this media source requests that the given buffers
-    // are to be returned exclusively in response to read calls.
-    // This will be called after a successful start() and before the
-    // first read() call.
-    // Callee assumes ownership of the buffers if no error is returned.
-    virtual status_t setBuffers(const Vector<MediaBuffer *> &buffers) {
         return ERROR_UNSUPPORTED;
     }
 

@@ -297,14 +297,6 @@ enum {
      * may not be the window currently touched.
      */
     AMOTION_EVENT_ACTION_SCROLL = 8,
-
-    /* The pointer is not down but has entered the boundaries of a window or view.
-     */
-    AMOTION_EVENT_ACTION_HOVER_ENTER = 9,
-
-    /* The pointer is not down but has exited the boundaries of a window or view.
-     */
-    AMOTION_EVENT_ACTION_HOVER_EXIT = 10,
 };
 
 /*
@@ -372,8 +364,6 @@ enum {
     AMOTION_EVENT_AXIS_WHEEL = 21,
     AMOTION_EVENT_AXIS_GAS = 22,
     AMOTION_EVENT_AXIS_BRAKE = 23,
-    AMOTION_EVENT_AXIS_DISTANCE = 24,
-    AMOTION_EVENT_AXIS_TILT = 25,
     AMOTION_EVENT_AXIS_GENERIC_1 = 32,
     AMOTION_EVENT_AXIS_GENERIC_2 = 33,
     AMOTION_EVENT_AXIS_GENERIC_3 = 34,
@@ -393,30 +383,6 @@ enum {
 
     // NOTE: If you add a new axis here you must also add it to several other files.
     //       Refer to frameworks/base/core/java/android/view/MotionEvent.java for the full list.
-};
-
-/*
- * Constants that identify buttons that are associated with motion events.
- * Refer to the documentation on the MotionEvent class for descriptions of each button.
- */
-enum {
-    AMOTION_EVENT_BUTTON_PRIMARY = 1 << 0,
-    AMOTION_EVENT_BUTTON_SECONDARY = 1 << 1,
-    AMOTION_EVENT_BUTTON_TERTIARY = 1 << 2,
-    AMOTION_EVENT_BUTTON_BACK = 1 << 3,
-    AMOTION_EVENT_BUTTON_FORWARD = 1 << 4,
-};
-
-/*
- * Constants that identify tool types.
- * Refer to the documentation on the MotionEvent class for descriptions of each tool type.
- */
-enum {
-    AMOTION_EVENT_TOOL_TYPE_UNKNOWN = 0,
-    AMOTION_EVENT_TOOL_TYPE_FINGER = 1,
-    AMOTION_EVENT_TOOL_TYPE_STYLUS = 2,
-    AMOTION_EVENT_TOOL_TYPE_MOUSE = 3,
-    AMOTION_EVENT_TOOL_TYPE_ERASER = 4,
 };
 
 /*
@@ -443,7 +409,6 @@ enum {
     AINPUT_SOURCE_GAMEPAD = 0x00000400 | AINPUT_SOURCE_CLASS_BUTTON,
     AINPUT_SOURCE_TOUCHSCREEN = 0x00001000 | AINPUT_SOURCE_CLASS_POINTER,
     AINPUT_SOURCE_MOUSE = 0x00002000 | AINPUT_SOURCE_CLASS_POINTER,
-    AINPUT_SOURCE_STYLUS = 0x00004000 | AINPUT_SOURCE_CLASS_POINTER,
     AINPUT_SOURCE_TRACKBALL = 0x00010000 | AINPUT_SOURCE_CLASS_NAVIGATION,
     AINPUT_SOURCE_TOUCHPAD = 0x00100000 | AINPUT_SOURCE_CLASS_POSITION,
     AINPUT_SOURCE_JOYSTICK = 0x01000000 | AINPUT_SOURCE_CLASS_JOYSTICK,
@@ -559,9 +524,6 @@ int32_t AMotionEvent_getFlags(const AInputEvent* motion_event);
  * event was generated. */
 int32_t AMotionEvent_getMetaState(const AInputEvent* motion_event);
 
-/* Get the button state of all buttons that are pressed. */
-int32_t AMotionEvent_getButtonState(const AInputEvent* motion_event);
-
 /* Get a bitfield indicating which edges, if any, were touched by this motion event.
  * For touch events, clients can use this to determine if the user's finger was
  * touching the edge of the display. */
@@ -602,15 +564,10 @@ float AMotionEvent_getYPrecision(const AInputEvent* motion_event);
 size_t AMotionEvent_getPointerCount(const AInputEvent* motion_event);
 
 /* Get the pointer identifier associated with a particular pointer
- * data index in this event.  The identifier tells you the actual pointer
+ * data index is this event.  The identifier tells you the actual pointer
  * number associated with the data, accounting for individual pointers
  * going up and down since the start of the current gesture. */
 int32_t AMotionEvent_getPointerId(const AInputEvent* motion_event, size_t pointer_index);
-
-/* Get the tool type of a pointer for the given pointer index.
- * The tool type indicates the type of tool used to make contact such as a
- * finger or stylus, if known. */
-int32_t AMotionEvent_getToolType(const AInputEvent* motion_event, size_t pointer_index);
 
 /* Get the original raw X coordinate of this event.
  * For touch events on the screen, this is the original location of the event
@@ -700,8 +657,7 @@ int64_t AMotionEvent_getHistoricalEventTime(AInputEvent* motion_event,
  * and views.
  * Whole numbers are pixels; the value may have a fraction for input devices
  * that are sub-pixel precise. */
-float AMotionEvent_getHistoricalRawX(const AInputEvent* motion_event, size_t pointer_index,
-        size_t history_index);
+float AMotionEvent_getHistoricalRawX(const AInputEvent* motion_event, size_t pointer_index);
 
 /* Get the historical raw Y coordinate of this event for the given pointer index that
  * occurred between this event and the previous motion event.
@@ -710,8 +666,7 @@ float AMotionEvent_getHistoricalRawX(const AInputEvent* motion_event, size_t poi
  * and views.
  * Whole numbers are pixels; the value may have a fraction for input devices
  * that are sub-pixel precise. */
-float AMotionEvent_getHistoricalRawY(const AInputEvent* motion_event, size_t pointer_index,
-        size_t history_index);
+float AMotionEvent_getHistoricalRawY(const AInputEvent* motion_event, size_t pointer_index);
 
 /* Get the historical X coordinate of this event for the given pointer index that
  * occurred between this event and the previous motion event.

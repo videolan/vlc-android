@@ -27,7 +27,7 @@
 #include <media/IAudioTrack.h>
 #include <media/IAudioRecord.h>
 #include <media/IAudioFlingerClient.h>
-#include <hardware/audio_effect.h>
+#include <media/EffectApi.h>
 #include <media/IEffect.h>
 #include <media/IEffectClient.h>
 #include <utils/String8.h>
@@ -48,8 +48,8 @@ public:
                                 pid_t pid,
                                 int streamType,
                                 uint32_t sampleRate,
-                                uint32_t format,
-                                uint32_t channelMask,
+                                int format,
+                                int channelCount,
                                 int frameCount,
                                 uint32_t flags,
                                 const sp<IMemory>& sharedBuffer,
@@ -61,8 +61,8 @@ public:
                                 pid_t pid,
                                 int input,
                                 uint32_t sampleRate,
-                                uint32_t format,
-                                uint32_t channelMask,
+                                int format,
+                                int channelCount,
                                 int frameCount,
                                 uint32_t flags,
                                 int *sessionId,
@@ -73,7 +73,7 @@ public:
      */
     virtual     uint32_t    sampleRate(int output) const = 0;
     virtual     int         channelCount(int output) const = 0;
-    virtual     uint32_t    format(int output) const = 0;
+    virtual     int         format(int output) const = 0;
     virtual     size_t      frameCount(int output) const = 0;
     virtual     uint32_t    latency(int output) const = 0;
 
@@ -139,8 +139,9 @@ public:
 
     virtual int newAudioSessionId() = 0;
 
-    virtual void acquireAudioSessionId(int audioSession) = 0;
-    virtual void releaseAudioSessionId(int audioSession) = 0;
+    virtual status_t loadEffectLibrary(const char *libPath, int *handle) = 0;
+
+    virtual status_t unloadEffectLibrary(int handle) = 0;
 
     virtual status_t queryNumberEffects(uint32_t *numEffects) = 0;
 

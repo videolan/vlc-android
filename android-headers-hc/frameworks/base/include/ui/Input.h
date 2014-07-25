@@ -37,16 +37,10 @@ class SkMatrix;
  * Additional private constants not defined in ndk/ui/input.h.
  */
 enum {
-    /* Private control to determine when an app is tracking a key sequence. */
-    AKEY_EVENT_FLAG_START_TRACKING = 0x40000000,
-
-    /* Key event is inconsistent with previously sent key events. */
-    AKEY_EVENT_FLAG_TAINTED = 0x80000000,
-};
-
-enum {
-    /* Motion event is inconsistent with previously sent motion events. */
-    AMOTION_EVENT_FLAG_TAINTED = 0x80000000,
+    /*
+     * Private control to determine when an app is tracking a key sequence.
+     */
+    AKEY_EVENT_FLAG_START_TRACKING = 0x40000000
 };
 
 enum {
@@ -134,12 +128,6 @@ enum {
     // input device or an application with system-wide event injection permission.
     POLICY_FLAG_TRUSTED = 0x02000000,
 
-    // Indicates that the input event has passed through an input filter.
-    POLICY_FLAG_FILTERED = 0x04000000,
-
-    // Disables automatic key repeating behavior.
-    POLICY_FLAG_DISABLE_KEY_REPEAT = 0x08000000,
-
     /* These flags are set by the input reader policy as it intercepts each event. */
 
     // Indicates that the screen was off when the event was received and the event
@@ -154,6 +142,14 @@ enum {
     // The input event should still be sent to the InputDispatcher so that it can see all
     // input events received include those that it will not deliver.
     POLICY_FLAG_PASS_TO_USER = 0x40000000,
+};
+
+/*
+ * Button state.
+ */
+enum {
+    // Primary button pressed (left mouse button).
+    BUTTON_STATE_PRIMARY = 1 << 0,
 };
 
 /*
@@ -206,16 +202,9 @@ struct PointerCoords {
 
     float getAxisValue(int32_t axis) const;
     status_t setAxisValue(int32_t axis, float value);
+    float* editAxisValue(int32_t axis);
 
     void scale(float scale);
-
-    inline float getX() const {
-        return getAxisValue(AMOTION_EVENT_AXIS_X);
-    }
-
-    inline float getY() const {
-        return getAxisValue(AMOTION_EVENT_AXIS_Y);
-    }
 
 #ifdef HAVE_ANDROID_OS
     status_t readFromParcel(Parcel* parcel);
@@ -231,29 +220,6 @@ struct PointerCoords {
 
 private:
     void tooManyAxes(int axis);
-};
-
-/*
- * Pointer property data.
- */
-struct PointerProperties {
-    // The id of the pointer.
-    int32_t id;
-
-    // The pointer tool type.
-    int32_t toolType;
-
-    inline void clear() {
-        id = -1;
-        toolType = 0;
-    }
-
-    bool operator==(const PointerProperties& other) const;
-    inline bool operator!=(const PointerProperties& other) const {
-        return !(*this == other);
-    }
-
-    void copyFrom(const PointerProperties& other);
 };
 
 /*
@@ -358,8 +324,6 @@ public:
 
     inline int32_t getFlags() const { return mFlags; }
 
-    inline void setFlags(int32_t flags) { mFlags = flags; }
-
     inline int32_t getEdgeFlags() const { return mEdgeFlags; }
 
     inline void setEdgeFlags(int32_t edgeFlags) { mEdgeFlags = edgeFlags; }
@@ -367,8 +331,6 @@ public:
     inline int32_t getMetaState() const { return mMetaState; }
 
     inline void setMetaState(int32_t metaState) { mMetaState = metaState; }
-
-    inline int32_t getButtonState() const { return mButtonState; }
 
     inline float getXOffset() const { return mXOffset; }
 
@@ -380,21 +342,9 @@ public:
 
     inline nsecs_t getDownTime() const { return mDownTime; }
 
-    inline void setDownTime(nsecs_t downTime) { mDownTime = downTime; }
+    inline size_t getPointerCount() const { return mPointerIds.size(); }
 
-    inline size_t getPointerCount() const { return mPointerProperties.size(); }
-
-    inline const PointerProperties* getPointerProperties(size_t pointerIndex) const {
-        return &mPointerProperties[pointerIndex];
-    }
-
-    inline int32_t getPointerId(size_t pointerIndex) const {
-        return mPointerProperties[pointerIndex].id;
-    }
-
-    inline int32_t getToolType(size_t pointerIndex) const {
-        return mPointerProperties[pointerIndex].toolType;
-    }
+    inline int32_t getPointerId(size_t pointerIndex) const { return mPointerIds[pointerIndex]; }
 
     inline nsecs_t getEventTime() const { return mSampleEventTimes[getHistorySize()]; }
 
@@ -526,7 +476,6 @@ public:
             int32_t flags,
             int32_t edgeFlags,
             int32_t metaState,
-            int32_t buttonState,
             float xOffset,
             float yOffset,
             float xPrecision,
@@ -534,7 +483,7 @@ public:
             nsecs_t downTime,
             nsecs_t eventTime,
             size_t pointerCount,
-            const PointerProperties* pointerProperties,
+            const int32_t* pointerIds,
             const PointerCoords* pointerCoords);
 
     void copyFrom(const MotionEvent* other, bool keepHistory);
@@ -560,9 +509,7 @@ public:
     }
 
     // Low-level accessors.
-    inline const PointerProperties* getPointerProperties() const {
-        return mPointerProperties.array();
-    }
+    inline const int32_t* getPointerIds() const { return mPointerIds.array(); }
     inline const nsecs_t* getSampleEventTimes() const { return mSampleEventTimes.array(); }
     inline const PointerCoords* getSamplePointerCoords() const {
             return mSamplePointerCoords.array();
@@ -573,13 +520,12 @@ protected:
     int32_t mFlags;
     int32_t mEdgeFlags;
     int32_t mMetaState;
-    int32_t mButtonState;
     float mXOffset;
     float mYOffset;
     float mXPrecision;
     float mYPrecision;
     nsecs_t mDownTime;
-    Vector<PointerProperties> mPointerProperties;
+    Vector<int32_t> mPointerIds;
     Vector<nsecs_t> mSampleEventTimes;
     Vector<PointerCoords> mSamplePointerCoords;
 };
@@ -620,39 +566,8 @@ private:
  */
 class VelocityTracker {
 public:
-    // Default polynomial degree.  (used by getVelocity)
-    static const uint32_t DEFAULT_DEGREE = 2;
-
-    // Default sample horizon.  (used by getVelocity)
-    // We don't use too much history by default since we want to react to quick
-    // changes in direction.
-    static const nsecs_t DEFAULT_HORIZON = 100 * 1000000; // 100 ms
-
     struct Position {
         float x, y;
-    };
-
-    struct Estimator {
-        static const size_t MAX_DEGREE = 2;
-
-        // Polynomial coefficients describing motion in X and Y.
-        float xCoeff[MAX_DEGREE + 1], yCoeff[MAX_DEGREE + 1];
-
-        // Polynomial degree (number of coefficients), or zero if no information is
-        // available.
-        uint32_t degree;
-
-        // Confidence (coefficient of determination), between 0 (no fit) and 1 (perfect fit).
-        float confidence;
-
-        inline void clear() {
-            degree = 0;
-            confidence = 0;
-            for (size_t i = 0; i <= MAX_DEGREE; i++) {
-                xCoeff[i] = 0;
-                yCoeff[i] = 0;
-            }
-        }
     };
 
     VelocityTracker();
@@ -676,15 +591,9 @@ public:
     void addMovement(const MotionEvent* event);
 
     // Gets the velocity of the specified pointer id in position units per second.
-    // Returns false and sets the velocity components to zero if there is
-    // insufficient movement information for the pointer.
+    // Returns false and sets the velocity components to zero if there is no movement
+    // information for the pointer.
     bool getVelocity(uint32_t id, float* outVx, float* outVy) const;
-
-    // Gets a quadratic estimator for the movements of the specified pointer id.
-    // Returns false and clears the estimator if there is no information available
-    // about the pointer.
-    bool getEstimator(uint32_t id, uint32_t degree, nsecs_t horizon,
-            Estimator* outEstimator) const;
 
     // Gets the active pointer id, or -1 if none.
     inline int32_t getActivePointerId() const { return mActivePointerId; }
@@ -694,16 +603,18 @@ public:
 
 private:
     // Number of samples to keep.
-    static const uint32_t HISTORY_SIZE = 20;
+    static const uint32_t HISTORY_SIZE = 10;
+
+    // Oldest sample to consider when calculating the velocity.
+    static const nsecs_t MAX_AGE = 200 * 1000000; // 200 ms
+
+    // The minimum duration between samples when estimating velocity.
+    static const nsecs_t MIN_DURATION = 10 * 1000000; // 10 ms
 
     struct Movement {
         nsecs_t eventTime;
         BitSet32 idBits;
         Position positions[MAX_POINTERS];
-
-        inline const Position& getPosition(uint32_t id) const {
-            return positions[idBits.getIndexOfBit(id)];
-        }
     };
 
     uint32_t mIndex;

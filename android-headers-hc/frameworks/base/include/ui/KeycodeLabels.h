@@ -228,9 +228,6 @@ static const KeycodeLabel KEYCODES[] = {
     { "BUTTON_14", 201 },
     { "BUTTON_15", 202 },
     { "BUTTON_16", 203 },
-    { "LANGUAGE_SWITCH", 204 },
-    { "MANNER_MODE", 205 },
-    { "3D_MODE", 206 },
 
     // NOTE: If you add a new keycode here you must also add it to several other files.
     //       Refer to frameworks/base/core/java/android/view/KeyEvent.java for the full list.
@@ -278,8 +275,6 @@ static const KeycodeLabel AXES[] = {
     { "WHEEL", 21 },
     { "GAS", 22 },
     { "BRAKE", 23 },
-    { "DISTANCE", 24 },
-    { "TILT", 25 },
     { "GENERIC_1", 32 },
     { "GENERIC_2", 33 },
     { "GENERIC_3", 34 },

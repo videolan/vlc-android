@@ -27,17 +27,23 @@
 namespace android {
 // ----------------------------------------------------------------------------
 
-class GraphicBuffer;
-
 class IGraphicBufferAlloc : public IInterface
 {
 public:
     DECLARE_META_INTERFACE(GraphicBufferAlloc);
 
-    /* Create a new GraphicBuffer for the client to use.
+    /* Create a new GraphicBuffer for the client to use.  The server will
+     * maintain a reference to the newly created GraphicBuffer until
+     * freeAllGraphicBuffers is called.
      */
     virtual sp<GraphicBuffer> createGraphicBuffer(uint32_t w, uint32_t h,
-            PixelFormat format, uint32_t usage, status_t* error) = 0;
+            PixelFormat format, uint32_t usage) = 0;
+
+    /* Free all but one of the GraphicBuffer objects that the server is
+     * currently referencing. If bufIndex is not a valid index of the buffers
+     * the server is referencing, then all buffers are freed.
+     */
+    virtual void freeAllGraphicBuffersExcept(int bufIndex) = 0;
 };
 
 // ----------------------------------------------------------------------------

@@ -47,14 +47,6 @@ enum {
     METADATA_KEY_ALBUMARTIST     = 13,
     METADATA_KEY_DISC_NUMBER     = 14,
     METADATA_KEY_COMPILATION     = 15,
-    METADATA_KEY_HAS_AUDIO       = 16,
-    METADATA_KEY_HAS_VIDEO       = 17,
-    METADATA_KEY_VIDEO_WIDTH     = 18,
-    METADATA_KEY_VIDEO_HEIGHT    = 19,
-    METADATA_KEY_BITRATE         = 20,
-    METADATA_KEY_TIMED_TEXT_LANGUAGES      = 21,
-    METADATA_KEY_IS_DRM          = 22,
-
     // Add more here...
 };
 
@@ -64,11 +56,7 @@ public:
     MediaMetadataRetriever();
     ~MediaMetadataRetriever();
     void disconnect();
-
-    status_t setDataSource(
-            const char *dataSourceUrl,
-            const KeyedVector<String8, String8> *headers = NULL);
-
+    status_t setDataSource(const char* dataSourceUrl);
     status_t setDataSource(int fd, int64_t offset, int64_t length);
     sp<IMemory> getFrameAtTime(int64_t timeUs, int option);
     sp<IMemory> extractAlbumArt();

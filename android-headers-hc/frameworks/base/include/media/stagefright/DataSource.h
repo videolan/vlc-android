@@ -20,7 +20,6 @@
 
 #include <sys/types.h>
 
-#include <media/stagefright/MediaErrors.h>
 #include <utils/Errors.h>
 #include <utils/KeyedVector.h>
 #include <utils/List.h>
@@ -39,7 +38,6 @@ public:
         kWantsPrefetching      = 1,
         kStreamedFromLocalHost = 2,
         kIsCachingDataSource   = 4,
-        kIsHTTPBasedSource     = 8,
     };
 
     static sp<DataSource> CreateFromURI(
@@ -62,10 +60,6 @@ public:
         return 0;
     }
 
-    virtual status_t reconnectAtOffset(off64_t offset) {
-        return ERROR_UNSUPPORTED;
-    }
-
     ////////////////////////////////////////////////////////////////////////////
 
     bool sniff(String8 *mimeType, float *confidence, sp<AMessage> *meta);
@@ -81,16 +75,14 @@ public:
     static void RegisterDefaultSniffers();
 
     // for DRM
-    virtual sp<DecryptHandle> DrmInitialization() {
+    virtual DecryptHandle* DrmInitialization() {
         return NULL;
     }
-    virtual void getDrmInfo(sp<DecryptHandle> &handle, DrmManagerClient **client) {};
+    virtual void getDrmInfo(DecryptHandle **handle, DrmManagerClient **client) {};
 
     virtual String8 getUri() {
         return String8();
     }
-
-    virtual String8 getMIMEType() const;
 
 protected:
     virtual ~DataSource() {}

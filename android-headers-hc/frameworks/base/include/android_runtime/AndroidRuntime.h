@@ -31,18 +31,13 @@
 
 namespace android {
 
+class CursorWindow;
+
 class AndroidRuntime
 {
 public:
     AndroidRuntime();
     virtual ~AndroidRuntime();
-
-    enum StartMode {
-        Zygote,
-        SystemServer,
-        Application,
-        Tool,
-    };
 
     /**
      * Register a set of methods in the specified class.
@@ -51,30 +46,28 @@ public:
         const char* className, const JNINativeMethod* gMethods, int numMethods);
 
     /**
-     * Call a class's static main method with the given arguments,
+     * Call a static Java function that takes no arguments and returns void.
      */
-    status_t callMain(const char* className, jclass clazz, int argc,
-        const char* const argv[]);
+    status_t callStatic(const char* className, const char* methodName);
 
     /**
-     * Find a class, with the input either of the form
+     * Call a class's static main method with the given arguments,
+     */
+    status_t callMain(const char* className, int argc, const char* const argv[]);
+
+    /**
+     * Find a class, with the input either of the form 
      * "package/class" or "package.class".
      */
     static jclass findClass(JNIEnv* env, const char* className);
 
     int addVmArguments(int argc, const char* const argv[]);
 
-    void start(const char *classname, const char* options);
+    void start(const char *classname, const bool startSystemServer);
+    void start();       // start in android.util.RuntimeInit
 
     static AndroidRuntime* getRuntime();
-
-    /**
-     * This gets called after the VM has been created, but before we
-     * run any code. Override it to make any FindClass calls that need
-     * to use CLASSPATH.
-     */
-    virtual void onVmCreated(JNIEnv* env);
-
+    
     /**
      * This gets called after the JavaVM has initialized.  Override it
      * with the system's native entry point.
@@ -105,9 +98,6 @@ public:
     /** return a pointer to the JNIEnv pointer for this thread */
     static JNIEnv* getJNIEnv();
 
-    /** return a new string corresponding to 'className' with all '.'s replaced by '/'s. */
-    static char* toSlashClassName(const char* className);
-
 private:
     static int startReg(JNIEnv* env);
     void parseExtraOpts(char* extraOptsBuf);
@@ -122,7 +112,7 @@ private:
      * Thread creation helpers.
      */
     static int javaCreateThreadEtc(
-                                android_thread_func_t entryFunction,
+                                android_thread_func_t entryFunction, 
                                 void* userData,
                                 const char* threadName,
                                 int32_t threadPriority,
@@ -130,6 +120,11 @@ private:
                                 android_thread_id_t* threadId);
     static int javaThreadShell(void* args);
 };
+
+// Returns the Unix file descriptor for a ParcelFileDescriptor object
+extern int getParcelFileDescriptorFD(JNIEnv* env, jobject object);
+
+extern CursorWindow * get_window_from_object(JNIEnv * env, jobject javaWindow);
 
 }
 

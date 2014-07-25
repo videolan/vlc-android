@@ -26,6 +26,7 @@ namespace android {
 
 // ----------------------------------------------------------------------------
 
+#define THREAD_PRIORITY_AUDIO_CLIENT (ANDROID_PRIORITY_AUDIO)
 // Maximum cumulated timeout milliseconds before restarting audioflinger thread
 #define MAX_STARTUP_TIMEOUT_MS  3000    // Longer timeout period at startup to cope with A2DP init time
 #define MAX_RUN_TIMEOUT_MS      1000
@@ -81,15 +82,15 @@ struct audio_track_cblk_t
                 // 16 bit because data is converted to 16 bit before being stored in buffer
 
                 uint8_t     frameSize;
-                uint8_t     pad1;
+                uint8_t     channelCount;
+                uint16_t    flags;
+
                 uint16_t    bufferTimeoutMs; // Maximum cumulated timeout before restarting audioflinger
-
                 uint16_t    waitTimeMs;      // Cumulated wait time
+
                 uint16_t    sendLevel;
-    volatile    int32_t     flags;
-
+                uint16_t    reserved;
                 // Cache line boundary (32 bytes)
-
                             audio_track_cblk_t();
                 uint32_t    stepUser(uint32_t frameCount);
                 bool        stepServer(uint32_t frameCount);
@@ -97,7 +98,6 @@ struct audio_track_cblk_t
                 uint32_t    framesAvailable();
                 uint32_t    framesAvailable_l();
                 uint32_t    framesReady();
-                bool        tryLock();
 };
 
 

@@ -26,7 +26,7 @@ struct StagefrightMediaScanner : public MediaScanner {
     StagefrightMediaScanner();
     virtual ~StagefrightMediaScanner();
 
-    virtual MediaScanResult processFile(
+    virtual status_t processFile(
             const char *path, const char *mimeType,
             MediaScannerClient &client);
 
@@ -35,10 +35,6 @@ struct StagefrightMediaScanner : public MediaScanner {
 private:
     StagefrightMediaScanner(const StagefrightMediaScanner &);
     StagefrightMediaScanner &operator=(const StagefrightMediaScanner &);
-
-    MediaScanResult processFileInternal(
-            const char *path, const char *mimeType,
-            MediaScannerClient &client);
 };
 
 }  // namespace android

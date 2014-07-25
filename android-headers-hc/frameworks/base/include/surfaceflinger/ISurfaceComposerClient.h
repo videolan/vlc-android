@@ -33,9 +33,14 @@ namespace android {
 
 // ----------------------------------------------------------------------------
 
+class IMemoryHeap;
+
+typedef int32_t    ClientID;
 typedef int32_t    DisplayID;
 
 // ----------------------------------------------------------------------------
+
+class layer_state_t;
 
 class ISurfaceComposerClient : public IInterface
 {
@@ -45,14 +50,21 @@ public:
     struct surface_data_t {
         int32_t             token;
         int32_t             identity;
+        uint32_t            width;
+        uint32_t            height;
+        uint32_t            format;
         status_t readFromParcel(const Parcel& parcel);
         status_t writeToParcel(Parcel* parcel) const;
     };
+
+    virtual sp<IMemoryHeap> getControlBlock() const = 0;
+    virtual ssize_t getTokenForSurface(const sp<ISurface>& sur) const = 0;
 
     /*
      * Requires ACCESS_SURFACE_FLINGER permission
      */
     virtual sp<ISurface> createSurface( surface_data_t* data,
+                                        int pid,
                                         const String8& name,
                                         DisplayID display,
                                         uint32_t w,
@@ -64,6 +76,11 @@ public:
      * Requires ACCESS_SURFACE_FLINGER permission
      */
     virtual status_t    destroySurface(SurfaceID sid) = 0;
+
+    /*
+     * Requires ACCESS_SURFACE_FLINGER permission
+     */
+    virtual status_t    setState(int32_t count, const layer_state_t* states) = 0;
 };
 
 // ----------------------------------------------------------------------------

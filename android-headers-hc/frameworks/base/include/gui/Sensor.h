@@ -21,9 +21,8 @@
 #include <sys/types.h>
 
 #include <utils/Errors.h>
-#include <utils/Flattenable.h>
 #include <utils/String8.h>
-#include <utils/Timers.h>
+#include <utils/Flattenable.h>
 
 #include <hardware/sensors.h>
 
@@ -65,8 +64,6 @@ public:
     float getResolution() const;
     float getPowerUsage() const;
     int32_t getMinDelay() const;
-    nsecs_t getMinDelayNs() const;
-    int32_t getVersion() const;
 
     // Flattenable interface
     virtual size_t getFlattenedSize() const;
@@ -86,7 +83,6 @@ private:
     float   mResolution;
     float   mPower;
     int32_t mMinDelay;
-    int32_t mVersion;
 };
 
 // ----------------------------------------------------------------------------

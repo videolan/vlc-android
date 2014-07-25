@@ -31,10 +31,6 @@ struct MPEG2TSWriter : public MediaWriter {
     MPEG2TSWriter(int fd);
     MPEG2TSWriter(const char *filename);
 
-    MPEG2TSWriter(
-            void *cookie,
-            ssize_t (*write)(void *cookie, const void *data, size_t size));
-
     virtual status_t addSource(const sp<MediaSource> &source);
     virtual status_t start(MetaData *param = NULL);
     virtual status_t stop();
@@ -55,10 +51,6 @@ private:
     struct SourceInfo;
 
     FILE *mFile;
-
-    void *mWriteCookie;
-    ssize_t (*mWriteFunc)(void *cookie, const void *data, size_t size);
-
     sp<ALooper> mLooper;
     sp<AHandlerReflector<MPEG2TSWriter> > mReflector;
 
@@ -76,8 +68,6 @@ private:
     void writeProgramAssociationTable();
     void writeProgramMap();
     void writeAccessUnit(int32_t sourceIndex, const sp<ABuffer> &buffer);
-
-    ssize_t internalWrite(const void *data, size_t size);
 
     DISALLOW_EVIL_CONSTRUCTORS(MPEG2TSWriter);
 };

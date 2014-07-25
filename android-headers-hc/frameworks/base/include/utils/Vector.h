@@ -29,9 +29,6 @@
 
 namespace android {
 
-template <typename TYPE>
-class SortedVector;
-
 /*!
  * The main templated vector class ensuring type safety
  * while making use of VectorImpl.
@@ -50,17 +47,13 @@ public:
     
                             Vector();
                             Vector(const Vector<TYPE>& rhs);
-    explicit                Vector(const SortedVector<TYPE>& rhs);
     virtual                 ~Vector();
 
     /*! copy operator */
             const Vector<TYPE>&     operator = (const Vector<TYPE>& rhs) const;
             Vector<TYPE>&           operator = (const Vector<TYPE>& rhs);    
 
-            const Vector<TYPE>&     operator = (const SortedVector<TYPE>& rhs) const;
-            Vector<TYPE>&           operator = (const SortedVector<TYPE>& rhs);
-
-            /*
+    /*
      * empty the vector
      */
 
@@ -172,26 +165,6 @@ public:
      // for debugging only
      inline size_t getItemSize() const { return itemSize(); }
 
-
-     /*
-      * these inlines add some level of compatibility with STL. eventually
-      * we should probably turn things around.
-      */
-     typedef TYPE* iterator;
-     typedef TYPE const* const_iterator;
-
-     inline iterator begin() { return editArray(); }
-     inline iterator end()   { return editArray() + size(); }
-     inline const_iterator begin() const { return array(); }
-     inline const_iterator end() const   { return array() + size(); }
-     inline void reserve(size_t n) { setCapacity(n); }
-     inline bool empty() const{ return isEmpty(); }
-     inline void push_back(const TYPE& item)  { insertAt(item, size()); }
-     inline void push_front(const TYPE& item) { insertAt(item, 0); }
-     inline iterator erase(iterator pos) {
-         return begin() + removeItemsAt(pos-array());
-     }
-
 protected:
     virtual void    do_construct(void* storage, size_t num) const;
     virtual void    do_destroy(void* storage, size_t num) const;
@@ -222,11 +195,6 @@ Vector<TYPE>::Vector(const Vector<TYPE>& rhs)
 }
 
 template<class TYPE> inline
-Vector<TYPE>::Vector(const SortedVector<TYPE>& rhs)
-    : VectorImpl(static_cast<const VectorImpl&>(rhs)) {
-}
-
-template<class TYPE> inline
 Vector<TYPE>::~Vector() {
     finish_vector();
 }
@@ -239,18 +207,6 @@ Vector<TYPE>& Vector<TYPE>::operator = (const Vector<TYPE>& rhs) {
 
 template<class TYPE> inline
 const Vector<TYPE>& Vector<TYPE>::operator = (const Vector<TYPE>& rhs) const {
-    VectorImpl::operator = (static_cast<const VectorImpl&>(rhs));
-    return *this;
-}
-
-template<class TYPE> inline
-Vector<TYPE>& Vector<TYPE>::operator = (const SortedVector<TYPE>& rhs) {
-    VectorImpl::operator = (static_cast<const VectorImpl&>(rhs));
-    return *this;
-}
-
-template<class TYPE> inline
-const Vector<TYPE>& Vector<TYPE>::operator = (const SortedVector<TYPE>& rhs) const {
     VectorImpl::operator = (rhs);
     return *this; 
 }

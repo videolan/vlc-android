@@ -55,10 +55,6 @@ public:
     status_t setInterleaveDuration(uint32_t duration);
     int32_t getTimeScale() const { return mTimeScale; }
 
-    status_t setGeoData(int latitudex10000, int longitudex10000);
-    void setStartTimeOffsetMs(int ms) { mStartTimeOffsetMs = ms; }
-    int32_t getStartTimeOffsetMs() const { return mStartTimeOffsetMs; }
-
 protected:
     virtual ~MPEG4Writer();
 
@@ -71,8 +67,7 @@ private:
     bool mUse32BitOffset;
     bool mIsFileSizeLimitExplicitlyRequested;
     bool mPaused;
-    bool mStarted;  // Writer thread + track threads started successfully
-    bool mWriterThreadStarted;  // Only writer thread started successfully
+    bool mStarted;
     off64_t mOffset;
     off_t mMdatOffset;
     uint8_t *mMoovBoxBuffer;
@@ -84,10 +79,6 @@ private:
     uint32_t mInterleaveDurationUs;
     int32_t mTimeScale;
     int64_t mStartTimestampUs;
-    int mLatitudex10000;
-    int mLongitudex10000;
-    bool mAreGeoTagsAvailable;
-    int32_t mStartTimeOffsetMs;
 
     Mutex mLock;
 
@@ -117,13 +108,6 @@ private:
     struct ChunkInfo {
         Track               *mTrack;        // Owner
         List<Chunk>         mChunks;        // Remaining chunks to be written
-
-        // Previous chunk timestamp that has been written
-        int64_t mPrevChunkTimestampUs;
-
-        // Max time interval between neighboring chunks
-        int64_t mMaxInterChunkDurUs;
-
     };
 
     bool            mIsFirstChunk;
@@ -173,17 +157,8 @@ private:
     bool use32BitFileOffset() const;
     bool exceedsFileDurationLimit();
     bool isFileStreamable() const;
-    void trackProgressStatus(size_t trackId, int64_t timeUs, status_t err = OK);
+    void trackProgressStatus(const Track* track, int64_t timeUs, status_t err = OK);
     void writeCompositionMatrix(int32_t degrees);
-    void writeMvhdBox(int64_t durationUs);
-    void writeMoovBox(int64_t durationUs);
-    void writeFtypBox(MetaData *param);
-    void writeUdtaBox();
-    void writeGeoDataBox();
-    void writeLatitude(int degreex10000);
-    void writeLongitude(int degreex10000);
-    void sendSessionSummary();
-    void release();
 
     MPEG4Writer(const MPEG4Writer &);
     MPEG4Writer &operator=(const MPEG4Writer &);

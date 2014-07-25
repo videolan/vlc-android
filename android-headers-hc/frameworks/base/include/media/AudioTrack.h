@@ -30,6 +30,7 @@
 #include <binder/IMemory.h>
 #include <utils/threads.h>
 
+
 namespace android {
 
 // ----------------------------------------------------------------------------
@@ -69,8 +70,8 @@ public:
             MUTE    = 0x00000001
         };
         uint32_t    flags;
+        int         channelCount;
         int         format;
-        int         channelCount; // will be removed in the future, do not use
         size_t      frameCount;
         size_t      size;
         union {
@@ -125,11 +126,11 @@ public:
      * Parameters:
      *
      * streamType:         Select the type of audio stream this track is attached to
-     *                     (e.g. AUDIO_STREAM_MUSIC).
+     *                     (e.g. AudioSystem::MUSIC).
      * sampleRate:         Track sampling rate in Hz.
-     * format:             Audio format (e.g AUDIO_FORMAT_PCM_16_BIT for signed
+     * format:             Audio format (e.g AudioSystem::PCM_16_BIT for signed
      *                     16 bits per sample).
-     * channelMask:        Channel mask: see audio_channels_t.
+     * channels:           Channel mask: see AudioSystem::audio_channels.
      * frameCount:         Total size of track PCM buffer in frames. This defines the
      *                     latency of the track.
      * flags:              Reserved for future use.
@@ -143,7 +144,7 @@ public:
                         AudioTrack( int streamType,
                                     uint32_t sampleRate  = 0,
                                     int format           = 0,
-                                    int channelMask      = 0,
+                                    int channels         = 0,
                                     int frameCount       = 0,
                                     uint32_t flags       = 0,
                                     callback_t cbf       = 0,
@@ -163,7 +164,7 @@ public:
                         AudioTrack( int streamType,
                                     uint32_t sampleRate = 0,
                                     int format          = 0,
-                                    int channelMask     = 0,
+                                    int channels        = 0,
                                     const sp<IMemory>& sharedBuffer = 0,
                                     uint32_t flags      = 0,
                                     callback_t cbf      = 0,
@@ -187,7 +188,7 @@ public:
             status_t    set(int streamType      =-1,
                             uint32_t sampleRate = 0,
                             int format          = 0,
-                            int channelMask     = 0,
+                            int channels        = 0,
                             int frameCount      = 0,
                             uint32_t flags      = 0,
                             callback_t cbf      = 0,
@@ -438,8 +439,8 @@ private:
             bool processAudioBuffer(const sp<AudioTrackThread>& thread);
             status_t createTrack_l(int streamType,
                                  uint32_t sampleRate,
-                                 uint32_t format,
-                                 uint32_t channelMask,
+                                 int format,
+                                 int channelCount,
                                  int frameCount,
                                  uint32_t flags,
                                  const sp<IMemory>& sharedBuffer,
@@ -459,12 +460,11 @@ private:
     uint32_t                mFrameCount;
 
     audio_track_cblk_t*     mCblk;
-    uint32_t                mFormat;
     uint8_t                 mStreamType;
+    uint8_t                 mFormat;
     uint8_t                 mChannelCount;
     uint8_t                 mMuted;
-    uint8_t                 mReserved;
-    uint32_t                mChannelMask;
+    uint32_t                mChannels;
     status_t                mStatus;
     uint32_t                mLatency;
 
@@ -481,12 +481,10 @@ private:
     bool                    mMarkerReached;
     uint32_t                mNewPosition;
     uint32_t                mUpdatePeriod;
-    bool                    mFlushed; // FIXME will be made obsolete by making flush() synchronous
     uint32_t                mFlags;
     int                     mSessionId;
     int                     mAuxEffectId;
     Mutex                   mLock;
-    status_t                mRestoreStatus;
 };
 
 

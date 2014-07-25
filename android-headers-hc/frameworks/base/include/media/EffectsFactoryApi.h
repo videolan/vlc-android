@@ -20,7 +20,7 @@
 #include <errno.h>
 #include <stdint.h>
 #include <sys/types.h>
-#include <hardware/audio_effect.h>
+#include <media/EffectApi.h>
 
 #if __cplusplus
 extern "C" {
@@ -99,17 +99,17 @@ int EffectQueryEffect(uint32_t index, effect_descriptor_t *pDescriptor);
 //              use especially with tunneled HW accelerated effects
 //
 //    Input/Output:
-//          pHandle:        address where to return the effect handle.
+//          pInterface:    address where to return the effect interface.
 //
 //    Output:
 //        returned value:    0          successful operation.
 //                          -ENODEV     factory failed to initialize
-//                          -EINVAL     invalid pEffectUuid or pHandle
+//                          -EINVAL     invalid pEffectUuid or pInterface
 //                          -ENOENT     no effect with this uuid found
-//        *pHandle:         updated with the effect handle.
+//        *pInterface:     updated with the effect interface.
 //
 ////////////////////////////////////////////////////////////////////////////////
-int EffectCreate(effect_uuid_t *pEffectUuid, int32_t sessionId, int32_t ioId, effect_handle_t *pHandle);
+int EffectCreate(effect_uuid_t *pEffectUuid, int32_t sessionId, int32_t ioId, effect_interface_t *pInterface);
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -120,7 +120,7 @@ int EffectCreate(effect_uuid_t *pEffectUuid, int32_t sessionId, int32_t ioId, ef
 //          released.
 //
 //    Input:
-//          handle:    handler on the effect interface to be released.
+//          interface:    handler on the effect interface to be released.
 //
 //    Output:
 //        returned value:    0          successful operation.
@@ -128,7 +128,51 @@ int EffectCreate(effect_uuid_t *pEffectUuid, int32_t sessionId, int32_t ioId, ef
 //                          -EINVAL     invalid interface handler
 //
 ////////////////////////////////////////////////////////////////////////////////
-int EffectRelease(effect_handle_t handle);
+int EffectRelease(effect_interface_t interface);
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//    Function:       EffectLoadLibrary
+//
+//    Description:    Loads the effect library which path is given as first argument.
+//          This must be the full path of a dynamic library (.so) implementing one or
+//          more effect engines and exposing the effect library interface described in
+//          EffectApi.h. The function returns a handle on the library for used by
+//          further call to EffectUnloadLibrary() to unload the library.
+//
+//    Input:
+//          libPath:    full path of the dynamic library file in the file system.
+//
+//          handle:     address where to return the library handle
+//
+//    Output:
+//        returned value:    0          successful operation.
+//                          -ENODEV     effect factory not initialized or
+//                                      library could not be loaded or
+//                                      library does not implement required functions
+//                          -EINVAL     invalid libPath string or handle
+//
+////////////////////////////////////////////////////////////////////////////////
+int EffectLoadLibrary(const char *libPath, int *handle);
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//    Function:       EffectUnloadLibrary
+//
+//    Description:  Unloads the effect library which handle is given as argument.
+//
+//    Input:
+//          handle: library handle
+//
+//    Output:
+//        returned value:    0          successful operation.
+//                          -ENODEV     effect factory not initialized
+//                          -ENOENT     invalid handle
+//
+////////////////////////////////////////////////////////////////////////////////
+int EffectUnloadLibrary(int handle);
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 //

@@ -67,10 +67,10 @@ private:
     friend class LightRefBase<FramebufferNativeWindow>;    
     ~FramebufferNativeWindow(); // this class cannot be overloaded
     static int setSwapInterval(ANativeWindow* window, int interval);
-    static int dequeueBuffer(ANativeWindow* window, ANativeWindowBuffer** buffer);
-    static int lockBuffer(ANativeWindow* window, ANativeWindowBuffer* buffer);
-    static int queueBuffer(ANativeWindow* window, ANativeWindowBuffer* buffer);
-    static int query(const ANativeWindow* window, int what, int* value);
+    static int dequeueBuffer(ANativeWindow* window, android_native_buffer_t** buffer);
+    static int lockBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int queueBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int query(ANativeWindow* window, int what, int* value);
     static int perform(ANativeWindow* window, int operation, ...);
     
     framebuffer_device_t* fbDev;

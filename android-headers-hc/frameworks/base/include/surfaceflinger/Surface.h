@@ -28,8 +28,6 @@
 #include <ui/Region.h>
 #include <ui/egl/android_natives.h>
 
-#include <gui/SurfaceTextureClient.h>
-
 #include <surfaceflinger/ISurface.h>
 #include <surfaceflinger/ISurfaceComposerClient.h>
 
@@ -39,9 +37,15 @@ namespace android {
 
 // ---------------------------------------------------------------------------
 
-class ISurfaceTexture;
+class GraphicBuffer;
+class GraphicBufferMapper;
+class IOMX;
+class Rect;
 class Surface;
 class SurfaceComposerClient;
+class SharedClient;
+class SharedBufferClient;
+class SurfaceClient;
 
 // ---------------------------------------------------------------------------
 
@@ -57,6 +61,7 @@ public:
     static bool isSameSurface(
             const sp<SurfaceControl>& lhs, const sp<SurfaceControl>& rhs);
         
+    uint32_t    getFlags() const { return mFlags; }
     uint32_t    getIdentity() const { return mIdentity; }
 
     // release surface data from java
@@ -85,13 +90,29 @@ private:
     SurfaceControl& operator = (SurfaceControl& rhs);
     SurfaceControl(const SurfaceControl& rhs);
 
+    
     friend class SurfaceComposerClient;
+
+    // camera and camcorder need access to the ISurface binder interface for preview
+    friend class CameraService;
+    friend class MediaRecorder;
+    // mediaplayer needs access to ISurface for display
+    friend class MediaPlayer;
+    // for testing
+    friend class Test;
+    // videoEditor preview classes
+    friend class VideoEditorPreviewController;
+
+    const sp<ISurface>& getISurface() const { return mSurface; }
+    
+
     friend class Surface;
 
     SurfaceControl(
             const sp<SurfaceComposerClient>& client,
             const sp<ISurface>& surface,
-            const ISurfaceComposerClient::surface_data_t& data);
+            const ISurfaceComposerClient::surface_data_t& data,
+            uint32_t w, uint32_t h, PixelFormat format, uint32_t flags);
 
     ~SurfaceControl();
 
@@ -102,6 +123,10 @@ private:
     sp<ISurface>                mSurface;
     SurfaceID                   mToken;
     uint32_t                    mIdentity;
+    uint32_t                    mWidth;
+    uint32_t                    mHeight;
+    PixelFormat                 mFormat;
+    uint32_t                    mFlags;
     mutable Mutex               mLock;
     
     mutable sp<Surface>         mSurfaceData;
@@ -109,7 +134,8 @@ private:
     
 // ---------------------------------------------------------------------------
 
-class Surface : public SurfaceTextureClient
+class Surface 
+    : public EGLNativeBase<ANativeWindow, Surface, RefBase>
 {
 public:
     struct SurfaceInfo {
@@ -122,50 +148,174 @@ public:
         uint32_t    reserved[2];
     };
 
-    explicit Surface(const sp<ISurfaceTexture>& st);
-
-    static status_t writeToParcel(const sp<Surface>& control, Parcel* parcel);
+    static status_t writeToParcel(
+            const sp<Surface>& control, Parcel* parcel);
 
     static sp<Surface> readFromParcel(const Parcel& data);
+
     static bool isValid(const sp<Surface>& surface) {
         return (surface != 0) && surface->isValid();
     }
 
     bool        isValid();
+    uint32_t    getFlags() const    { return mFlags; }
     uint32_t    getIdentity() const { return mIdentity; }
-    sp<ISurfaceTexture> getSurfaceTexture();
 
     // the lock/unlock APIs must be used from the same thread
-    status_t    lock(SurfaceInfo* info, Region* dirty = NULL);
+    status_t    lock(SurfaceInfo* info, bool blocking = true);
+    status_t    lock(SurfaceInfo* info, Region* dirty, bool blocking = true);
     status_t    unlockAndPost();
 
-    sp<IBinder> asBinder() const;
+    // setSwapRectangle() is intended to be used by GL ES clients
+    void        setSwapRectangle(const Rect& r);
+
 
 private:
+    /*
+     * Android frameworks friends
+     * (eventually this should go away and be replaced by proper APIs)
+     */
+    // camera and camcorder need access to the ISurface binder interface for preview
+    friend class CameraService;
+    friend class MediaRecorder;
+    // MediaPlayer needs access to ISurface for display
+    friend class MediaPlayer;
+    friend class IOMX;
+    friend class SoftwareRenderer;
     // this is just to be able to write some unit tests
     friend class Test;
+    // videoEditor preview classes
+    friend class VideoEditorPreviewController;
+    friend class PreviewRenderer;
+
+private:
+    friend class SurfaceComposerClient;
     friend class SurfaceControl;
 
     // can't be copied
     Surface& operator = (Surface& rhs);
     Surface(const Surface& rhs);
 
-    explicit Surface(const sp<SurfaceControl>& control);
+    Surface(const sp<SurfaceControl>& control);
     Surface(const Parcel& data, const sp<IBinder>& ref);
     ~Surface();
+
+
+    /*
+     *  ANativeWindow hooks
+     */
+    static int setSwapInterval(ANativeWindow* window, int interval);
+    static int dequeueBuffer(ANativeWindow* window, android_native_buffer_t** buffer);
+    static int cancelBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int lockBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int queueBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int query(ANativeWindow* window, int what, int* value);
+    static int perform(ANativeWindow* window, int operation, ...);
+
+    int dequeueBuffer(android_native_buffer_t** buffer);
+    int lockBuffer(android_native_buffer_t* buffer);
+    int queueBuffer(android_native_buffer_t* buffer);
+    int cancelBuffer(android_native_buffer_t* buffer);
+    int query(int what, int* value);
+    int perform(int operation, va_list args);
+
+    void dispatch_setUsage(va_list args);
+    int  dispatch_connect(va_list args);
+    int  dispatch_disconnect(va_list args);
+    int  dispatch_crop(va_list args);
+    int  dispatch_set_buffer_count(va_list args);
+    int  dispatch_set_buffers_geometry(va_list args);
+    int  dispatch_set_buffers_transform(va_list args);
+    
+    void setUsage(uint32_t reqUsage);
+    int  connect(int api);
+    int  disconnect(int api);
+    int  crop(Rect const* rect);
+    int  setBufferCount(int bufferCount);
+    int  setBuffersGeometry(int w, int h, int format);
+    int  setBuffersTransform(int transform);
 
     /*
      *  private stuff...
      */
-    void init(const sp<ISurfaceTexture>& surfaceTexture);
+    void init();
+    status_t validate(bool inCancelBuffer = false) const;
+    sp<ISurface> getISurface() const;
+
+    // When the buffer pool is a fixed size we want to make sure SurfaceFlinger
+    // won't stall clients, so we require an extra buffer.
+    enum { MIN_UNDEQUEUED_BUFFERS = 2 };
+
+    inline const GraphicBufferMapper& getBufferMapper() const { return mBufferMapper; }
+    inline GraphicBufferMapper& getBufferMapper() { return mBufferMapper; }
+
+    status_t getBufferLocked(int index,
+            uint32_t w, uint32_t h, uint32_t format, uint32_t usage);
+    int getBufferIndex(const sp<GraphicBuffer>& buffer) const;
+
+    int getConnectedApi() const;
+    
+    bool needNewBuffer(int bufIdx,
+            uint32_t *pWidth, uint32_t *pHeight,
+            uint32_t *pFormat, uint32_t *pUsage) const;
 
     static void cleanCachedSurfacesLocked();
 
-    virtual int query(int what, int* value) const;
+    class BufferInfo {
+        uint32_t mWidth;
+        uint32_t mHeight;
+        uint32_t mFormat;
+        uint32_t mUsage;
+        mutable uint32_t mDirty;
+        enum {
+            GEOMETRY = 0x01
+        };
+    public:
+        BufferInfo();
+        void set(uint32_t w, uint32_t h, uint32_t format);
+        void set(uint32_t usage);
+        void get(uint32_t *pWidth, uint32_t *pHeight,
+                uint32_t *pFormat, uint32_t *pUsage) const;
+        bool validateBuffer(const sp<GraphicBuffer>& buffer) const;
+    };
 
     // constants
+    GraphicBufferMapper&        mBufferMapper;
+    SurfaceClient&              mClient;
+    SharedBufferClient*         mSharedBufferClient;
+    status_t                    mInitCheck;
     sp<ISurface>                mSurface;
     uint32_t                    mIdentity;
+    PixelFormat                 mFormat;
+    uint32_t                    mFlags;
+
+    // protected by mSurfaceLock
+    Rect                        mSwapRectangle;
+    int                         mConnected;
+    Rect                        mNextBufferCrop;
+    uint32_t                    mNextBufferTransform;
+    BufferInfo                  mBufferInfo;
+    
+    // protected by mSurfaceLock. These are also used from lock/unlock
+    // but in that case, they must be called form the same thread.
+    mutable Region              mDirtyRegion;
+
+    // must be used from the lock/unlock thread
+    sp<GraphicBuffer>           mLockedBuffer;
+    sp<GraphicBuffer>           mPostedBuffer;
+    mutable Region              mOldDirtyRegion;
+    bool                        mReserved;
+
+    // only used from dequeueBuffer()
+    Vector< sp<GraphicBuffer> > mBuffers;
+
+    // query() must be called from dequeueBuffer() thread
+    uint32_t                    mWidth;
+    uint32_t                    mHeight;
+
+    // Inherently thread-safe
+    mutable Mutex               mSurfaceLock;
+    mutable Mutex               mApiLock;
 
     // A cache of Surface objects that have been deserialized into this process.
     static Mutex sCachedSurfacesLock;

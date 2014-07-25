@@ -21,14 +21,11 @@
 #include <gui/SurfaceTexture.h>
 
 #include <ui/egl/android_natives.h>
-#include <ui/Region.h>
 
 #include <utils/RefBase.h>
 #include <utils/threads.h>
 
 namespace android {
-
-class Surface;
 
 class SurfaceTextureClient
     : public EGLNativeBase<ANativeWindow, SurfaceTextureClient, RefBase>
@@ -38,73 +35,60 @@ public:
 
     sp<ISurfaceTexture> getISurfaceTexture() const;
 
-protected:
-    SurfaceTextureClient();
-    void setISurfaceTexture(const sp<ISurfaceTexture>& surfaceTexture);
-
 private:
+
     // can't be copied
     SurfaceTextureClient& operator = (const SurfaceTextureClient& rhs);
     SurfaceTextureClient(const SurfaceTextureClient& rhs);
-    void init();
 
     // ANativeWindow hooks
-    static int hook_cancelBuffer(ANativeWindow* window, ANativeWindowBuffer* buffer);
-    static int hook_dequeueBuffer(ANativeWindow* window, ANativeWindowBuffer** buffer);
-    static int hook_lockBuffer(ANativeWindow* window, ANativeWindowBuffer* buffer);
-    static int hook_perform(ANativeWindow* window, int operation, ...);
-    static int hook_query(const ANativeWindow* window, int what, int* value);
-    static int hook_queueBuffer(ANativeWindow* window, ANativeWindowBuffer* buffer);
-    static int hook_setSwapInterval(ANativeWindow* window, int interval);
+    static int cancelBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int dequeueBuffer(ANativeWindow* window, android_native_buffer_t** buffer);
+    static int lockBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int perform(ANativeWindow* window, int operation, ...);
+    static int query(ANativeWindow* window, int what, int* value);
+    static int queueBuffer(ANativeWindow* window, android_native_buffer_t* buffer);
+    static int setSwapInterval(ANativeWindow* window, int interval);
+
+    int cancelBuffer(android_native_buffer_t* buffer);
+    int dequeueBuffer(android_native_buffer_t** buffer);
+    int lockBuffer(android_native_buffer_t* buffer);
+    int perform(int operation, va_list args);
+    int query(int what, int* value);
+    int queueBuffer(android_native_buffer_t* buffer);
+    int setSwapInterval(int interval);
 
     int dispatchConnect(va_list args);
     int dispatchDisconnect(va_list args);
     int dispatchSetBufferCount(va_list args);
     int dispatchSetBuffersGeometry(va_list args);
-    int dispatchSetBuffersDimensions(va_list args);
-    int dispatchSetBuffersFormat(va_list args);
-    int dispatchSetScalingMode(va_list args);
     int dispatchSetBuffersTransform(va_list args);
-    int dispatchSetBuffersTimestamp(va_list args);
     int dispatchSetCrop(va_list args);
     int dispatchSetUsage(va_list args);
-    int dispatchLock(va_list args);
-    int dispatchUnlockAndPost(va_list args);
 
-protected:
-    virtual int cancelBuffer(ANativeWindowBuffer* buffer);
-    virtual int dequeueBuffer(ANativeWindowBuffer** buffer);
-    virtual int lockBuffer(ANativeWindowBuffer* buffer);
-    virtual int perform(int operation, va_list args);
-    virtual int query(int what, int* value) const;
-    virtual int queueBuffer(ANativeWindowBuffer* buffer);
-    virtual int setSwapInterval(int interval);
+    int connect(int api);
+    int disconnect(int api);
+    int setBufferCount(int bufferCount);
+    int setBuffersGeometry(int w, int h, int format);
+    int setBuffersTransform(int transform);
+    int setCrop(Rect const* rect);
+    int setUsage(uint32_t reqUsage);
 
-    virtual int connect(int api);
-    virtual int disconnect(int api);
-    virtual int setBufferCount(int bufferCount);
-    virtual int setBuffersDimensions(int w, int h);
-    virtual int setBuffersFormat(int format);
-    virtual int setScalingMode(int mode);
-    virtual int setBuffersTransform(int transform);
-    virtual int setBuffersTimestamp(int64_t timestamp);
-    virtual int setCrop(Rect const* rect);
-    virtual int setUsage(uint32_t reqUsage);
-    virtual int lock(ANativeWindow_Buffer* outBuffer, ARect* inOutDirtyBounds);
-    virtual int unlockAndPost();
+    void freeAllBuffers();
 
     enum { MIN_UNDEQUEUED_BUFFERS = SurfaceTexture::MIN_UNDEQUEUED_BUFFERS };
+    enum { MIN_BUFFER_SLOTS = SurfaceTexture::MIN_BUFFER_SLOTS };
     enum { NUM_BUFFER_SLOTS = SurfaceTexture::NUM_BUFFER_SLOTS };
     enum { DEFAULT_FORMAT = PIXEL_FORMAT_RGBA_8888 };
-
-private:
-    void freeAllBuffers();
-    int getSlotFromBufferLocked(android_native_buffer_t* buffer) const;
 
     // mSurfaceTexture is the interface to the surface texture server. All
     // operations on the surface texture client ultimately translate into
     // interactions with the server using this interface.
     sp<ISurfaceTexture> mSurfaceTexture;
+
+    // mAllocator is the binder object that is referenced to prevent the
+    // dequeued buffers from being freed prematurely.
+    sp<IBinder> mAllocator;
 
     // mSlots stores the buffers that have been allocated for each buffer slot.
     // It is initialized to null pointers, and gets filled in with the result of
@@ -130,33 +114,10 @@ private:
     // at the next deuque operation. It is initialized to 0.
     uint32_t mReqUsage;
 
-    // mTimestamp is the timestamp that will be used for the next buffer queue
-    // operation. It defaults to NATIVE_WINDOW_TIMESTAMP_AUTO, which means that
-    // a timestamp is auto-generated when queueBuffer is called.
-    int64_t mTimestamp;
-
-    // mDefaultWidth is default width of the window, regardless of the
-    // native_window_set_buffers_dimensions call
-    uint32_t mDefaultWidth;
-
-    // mDefaultHeight is default width of the window, regardless of the
-    // native_window_set_buffers_dimensions call
-    uint32_t mDefaultHeight;
-
-    // mTransformHint is the transform probably applied to buffers of this
-    // window. this is only a hint, actual transform may differ.
-    uint32_t mTransformHint;
-
     // mMutex is the mutex used to prevent concurrent access to the member
     // variables of SurfaceTexture objects. It must be locked whenever the
     // member variables are accessed.
-    mutable Mutex mMutex;
-
-    // must be used from the lock/unlock thread
-    sp<GraphicBuffer>           mLockedBuffer;
-    sp<GraphicBuffer>           mPostedBuffer;
-    mutable Region              mOldDirtyRegion;
-    bool                        mConnectedToCpu;
+    Mutex mMutex;
 };
 
 }; // namespace android

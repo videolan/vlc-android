@@ -32,6 +32,7 @@
 namespace android {
 
 class Parcel;
+class ISurface;
 class Surface;
 class ISurfaceTexture;
 
@@ -55,8 +56,7 @@ enum player_type {
 
 
 // callback mechanism for passing messages to MediaPlayer object
-typedef void (*notify_callback_f)(void* cookie,
-        int msg, int ext1, int ext2, const Parcel *obj);
+typedef void (*notify_callback_f)(void* cookie, int msg, int ext1, int ext2);
 
 // abstract base class - use MediaPlayerInterface
 class MediaPlayerBase : public RefBase
@@ -85,7 +85,7 @@ public:
         // audio data.
         virtual status_t    open(
                 uint32_t sampleRate, int channelCount,
-                int format=AUDIO_FORMAT_PCM_16_BIT,
+                int format=AudioSystem::PCM_16_BIT,
                 int bufferCount=DEFAULT_AUDIOSINK_BUFFERCOUNT,
                 AudioCallback cb = NULL,
                 void *cookie = NULL) = 0;
@@ -102,10 +102,6 @@ public:
     virtual             ~MediaPlayerBase() {}
     virtual status_t    initCheck() = 0;
     virtual bool        hardwareOutput() = 0;
-
-    virtual status_t    setUID(uid_t uid) {
-        return INVALID_OPERATION;
-    }
 
     virtual status_t    setDataSource(
             const char *url,
@@ -136,8 +132,6 @@ public:
     virtual status_t    reset() = 0;
     virtual status_t    setLooping(int loop) = 0;
     virtual player_type playerType() = 0;
-    virtual status_t    setParameter(int key, const Parcel &request) = 0;
-    virtual status_t    getParameter(int key, Parcel *reply) = 0;
 
     // Invoke a generic method on the player by using opaque parcels
     // for the request and reply.
@@ -166,14 +160,9 @@ public:
         mCookie = cookie; mNotify = notifyFunc;
     }
 
-    void        sendEvent(int msg, int ext1=0, int ext2=0,
-                          const Parcel *obj=NULL) {
+    void        sendEvent(int msg, int ext1=0, int ext2=0) {
         Mutex::Autolock autoLock(mNotifyLock);
-        if (mNotify) mNotify(mCookie, msg, ext1, ext2, obj);
-    }
-
-    virtual status_t dump(int fd, const Vector<String16> &args) const {
-        return INVALID_OPERATION;
+        if (mNotify) mNotify(mCookie, msg, ext1, ext2);
     }
 
 private:

@@ -53,9 +53,6 @@ struct OMXCodec : public MediaSource,
 
         // Enable GRALLOC_USAGE_PROTECTED for output buffers from native window
         kEnableGrallocUsageProtected = 128,
-
-        // Secure decoding mode
-        kUseSecureInputBuffers = 256,
     };
     static sp<MediaSource> Create(
             const sp<IOMX> &omx,
@@ -81,13 +78,6 @@ struct OMXCodec : public MediaSource,
 
     // from MediaBufferObserver
     virtual void signalBufferReturned(MediaBuffer *buffer);
-
-    // for use by ACodec
-    static void findMatchingCodecs(
-            const char *mime,
-            bool createEncoder, const char *matchComponentName,
-            uint32_t flags,
-            Vector<String8> *matchingCodecs);
 
 protected:
     virtual ~OMXCodec();
@@ -167,10 +157,6 @@ private:
     bool mOMXLivesLocally;
     IOMX::node_id mNode;
     uint32_t mQuirks;
-
-    // Flags specified in the creation of the codec.
-    uint32_t mFlags;
-
     bool mIsEncoder;
     char *mMIME;
     char *mComponentName;
@@ -212,12 +198,11 @@ private:
     List<size_t> mFilledBuffers;
     Condition mBufferFilled;
 
-    // Used to record the decoding time for an output picture from
-    // a video encoder.
-    List<int64_t> mDecodingTimeList;
+    bool mIsMetaDataStoredInVideoBuffers;
+    bool mOnlySubmitOneBufferAtOneTime;
+    bool mEnableGrallocUsageProtected;
 
-    OMXCodec(const sp<IOMX> &omx, IOMX::node_id node,
-             uint32_t quirks, uint32_t flags,
+    OMXCodec(const sp<IOMX> &omx, IOMX::node_id node, uint32_t quirks,
              bool isEncoder, const char *mime, const char *componentName,
              const sp<MediaSource> &source,
              const sp<ANativeWindow> &nativeWindow);
@@ -228,8 +213,7 @@ private:
     void setComponentRole();
 
     void setAMRFormat(bool isWAMR, int32_t bitRate);
-    status_t setAACFormat(int32_t numChannels, int32_t sampleRate, int32_t bitRate);
-    void setG711Format(int32_t numChannels);
+    void setAACFormat(int32_t numChannels, int32_t sampleRate, int32_t bitRate);
 
     status_t setVideoPortFormatType(
             OMX_U32 portIndex,
@@ -291,10 +275,6 @@ private:
     void drainInputBuffers();
     void fillOutputBuffers();
 
-    bool drainAnyInputBuffer();
-    BufferInfo *findInputBufferByDataPointer(void *ptr);
-    BufferInfo *findEmptyInputBuffer();
-
     // Returns true iff a flush was initiated and a completion event is
     // upcoming, false otherwise (A flush was not necessary as we own all
     // the buffers on that port).
@@ -303,7 +283,7 @@ private:
     bool flushPortAsync(OMX_U32 portIndex);
 
     void disablePortAsync(OMX_U32 portIndex);
-    status_t enablePortAsync(OMX_U32 portIndex);
+    void enablePortAsync(OMX_U32 portIndex);
 
     static size_t countBuffersWeOwn(const Vector<BufferInfo> &buffers);
     static bool isIntermediateState(State state);
@@ -319,24 +299,30 @@ private:
     void initOutputFormat(const sp<MetaData> &inputFormat);
     status_t initNativeWindow();
 
-    void initNativeWindowCrop();
-
     void dumpPortStatus(OMX_U32 portIndex);
 
-    status_t configureCodec(const sp<MetaData> &meta);
+    status_t configureCodec(const sp<MetaData> &meta, uint32_t flags);
 
     static uint32_t getComponentQuirks(
             const char *componentName, bool isEncoder);
 
+    static void findMatchingCodecs(
+            const char *mime,
+            bool createEncoder, const char *matchComponentName,
+            uint32_t flags,
+            Vector<String8> *matchingCodecs);
+
     void restorePatchedDataPointer(BufferInfo *info);
 
     status_t applyRotation();
-    status_t waitForBufferFilled_l();
-
-    int64_t retrieveDecodingTimeUs(bool isCodecSpecific);
 
     OMXCodec(const OMXCodec &);
     OMXCodec &operator=(const OMXCodec &);
+};
+
+struct CodecProfileLevel {
+    OMX_U32 mProfile;
+    OMX_U32 mLevel;
 };
 
 struct CodecCapabilities {
@@ -351,17 +337,10 @@ struct CodecCapabilities {
 // that encode content of the given type.
 // profile and level indications only make sense for h.263, mpeg4 and avc
 // video.
-// If hwCodecOnly==true, only returns hardware-based components, software and
-// hardware otherwise.
 // The profile/level values correspond to
 // OMX_VIDEO_H263PROFILETYPE, OMX_VIDEO_MPEG4PROFILETYPE,
 // OMX_VIDEO_AVCPROFILETYPE, OMX_VIDEO_H263LEVELTYPE, OMX_VIDEO_MPEG4LEVELTYPE
 // and OMX_VIDEO_AVCLEVELTYPE respectively.
-
-status_t QueryCodecs(
-        const sp<IOMX> &omx,
-        const char *mimeType, bool queryDecoders, bool hwCodecOnly,
-        Vector<CodecCapabilities> *results);
 
 status_t QueryCodecs(
         const sp<IOMX> &omx,

@@ -33,6 +33,7 @@ namespace android {
 class IMemory;
 class IOMXObserver;
 class IOMXRenderer;
+class ISurface;
 class Surface;
 
 class IOMX : public IInterface {
@@ -182,11 +183,6 @@ public:
     virtual status_t onTransact(
             uint32_t code, const Parcel &data, Parcel *reply,
             uint32_t flags = 0);
-};
-
-struct CodecProfileLevel {
-    OMX_U32 mProfile;
-    OMX_U32 mLevel;
 };
 
 }  // namespace android

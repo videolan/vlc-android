@@ -56,12 +56,7 @@ public:
     virtual uint32_t flags() const;
 
     // for DRM
-    virtual void setDrmFlag(bool flag) {
-        mIsDrm = flag;
-    };
-    virtual bool getDrmFlag() {
-        return mIsDrm;
-    }
+    virtual void setDrmFlag(bool flag) {};
     virtual char* getDrmTrackInfo(size_t trackID, int *len) {
         return NULL;
     }
@@ -71,8 +66,6 @@ protected:
     virtual ~MediaExtractor() {}
 
 private:
-    bool mIsDrm;
-
     MediaExtractor(const MediaExtractor &);
     MediaExtractor &operator=(const MediaExtractor &);
 };

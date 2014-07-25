@@ -32,8 +32,6 @@ namespace android {
 template <class TYPE>
 class SortedVector : private SortedVectorImpl
 {
-    friend class Vector<TYPE>;
-
 public:
             typedef TYPE    value_type;
     
