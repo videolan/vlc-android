@@ -161,6 +161,7 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
             setInt(env, item, "Type", p_tracks[i]->i_type);
             setString(env, item, "Codec", (const char*)vlc_fourcc_GetDescription(0,p_tracks[i]->i_codec));
             setString(env, item, "Language", p_tracks[i]->psz_language);
+            setInt(env, item, "Bitrate", p_tracks[i]->i_bitrate);
 
             if (p_tracks[i]->i_type == libvlc_track_video)
             {
