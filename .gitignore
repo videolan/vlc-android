@@ -1,9 +1,26 @@
+# VLC
 /vlc/
+
+# Android .so
 /android-libs/*.so
+
+# Local configuration
 local.properties
+env.sh
+
+# OS specific
 .DS_Store
-*.keystore
+.directory
 *~
 .*.swp
-.directory
-env.sh
+Thumbs.db
+
+# Signage keys
+*.keystore
+
+# Eclipse
+#.classpath
+#.project
+
+# Android Studio
+.idea
