@@ -139,6 +139,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     jobject bundle = (*env)->NewObject(env, clsBundle, clsCtor);
 
     jmethodID putInt = (*env)->GetMethodID(env, clsBundle, "putInt", "(Ljava/lang/String;I)V" );
+    jmethodID putLong = (*env)->GetMethodID(env, clsBundle, "putLong", "(Ljava/lang/String;J)V" );
     jmethodID putFloat = (*env)->GetMethodID(env, clsBundle, "putFloat", "(Ljava/lang/String;F)V" );
     jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
 
@@ -148,7 +149,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
         (*env)->DeleteLocalRef(env, sData);
     } else if (ev->type == libvlc_MediaPlayerTimeChanged) {
         jstring sData = (*env)->NewStringUTF(env, "data");
-        (*env)->CallVoidMethod(env, bundle, putInt, sData, (int) ev->u.media_player_time_changed.new_time);
+        (*env)->CallVoidMethod(env, bundle, putLong, sData, ev->u.media_player_time_changed.new_time);
         (*env)->DeleteLocalRef(env, sData);
     } else if(ev->type == libvlc_MediaPlayerVout) {
         /* For determining the vout/ES track change */
