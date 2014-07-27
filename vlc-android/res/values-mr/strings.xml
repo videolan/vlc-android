@@ -134,6 +134,21 @@
     <string name="hardware_acceleration_error_title">HW प्रवेग त्रुटी</string>
     <string name="hardware_acceleration_error_message">एक त्रुटी हार्डवेअर प्रवेग आली. आपण ते अक्षम करा आणि पुन्हा प्रयत्न करू इच्छिता?</string>
     <!--Tips-->
+    <string name="video_player_tips">व्हिडिओ प्लेअर टिपा:</string>
+    <string name="seek">शोधणे</string>
+    <string name="subtitles">उपशीर्षके</string>
+    <string name="resize">आकार बदला</string>
+    <string name="options">पर्याय</string>
+    <string name="lock">बंद</string>
+    <string name="ok_got_it">हे कळाले, हे काढा</string>
+    <string name="playlist_tips">प्लेलिस्ट टिपा</string>
+    <string name="remove_song">गाणे काढा</string>
+    <string name="rearrange_order">पुनर्रचना ऑर्डर</string>
+    <string name="hold_to_seek">शोधण्यासाठी दाबून ठेवा</string>
+    <string name="audio_player_tips">ऑडिओ प्लेयर टिपा</string>
+    <string name="previous_next_song">मागील / पुढील गाणे</string>
+    <string name="show_playlist">प्लेलिस्ट दर्शवा</string>
+    <string name="hold_to_stop">थांबवण्यासाठी दाबून ठेवा</string>
     <!-- About -->
     <string name="app_name_full">Android™ साठी VLC</string>
     <string name="licence">परवाना</string>
@@ -166,7 +181,14 @@
     <string name="enable_black_theme_summary">कमी प्रकाश वातावरणात चांगली सुविधेसाठी संवाद रंग बदला.</string>
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
+    <string name="interface_prefs_screen">इंटरफेस</string>
+    <string name="interface_secondary_display_category">इंटरफेस - दुय्यम प्रदर्शन</string>
+    <string name="interface_secondary_display_category_summary">सेटिंग्ज जेंव्हा दुय्यम डिस्प्ले कनेक्ट (HDMI / Miracast).</string>
+    <string name="enable_secondary_display_hardware_acceleration">\nहार्डवेअर प्रवेग सेटिंग ठेवा.</string>
+    <string name="enable_secondary_display_hardware_acceleration_summary">हार्डवेअर प्रवेग कदाचित काम नाही करनार</string>
     <string name="enable_clone_mode">क्लोन प्राधान्य</string>
+    <string name="enable_clone_mode_summary">साधन स्क्रीन क्लोन तयार दूरस्थ नियंत्रण शिवाय.</string>
+    <string name="interface_other_category">इंटरफेस - इतर</string>
     <string name="enable_brightness_gesture">तेजस्वीपणा जेस्चर सक्रीय करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
@@ -202,6 +224,7 @@
     <string name="media_db_cleared">मीडिया डेटाबेस स्वच्छ केला!</string>
     <string name="set_locale">स्थानिकता सेट करा</string>
     <string name="set_locale_detail">रिसेट करण्यासाठी रिकामे सोडा</string>
+    <string name="set_locale_popup">बंद अाणि पुनःअारंभ करा VLC प्रभावी बदलांसाठी.</string>
     <string name="network_caching">नेटवर्क कॅशिंग मूल्य</string>
     <string name="network_caching_summary">नेटवर्क मीडिया बफर करण्यासाठी लागणारा वेळ (ms मध्ये). हार्डवेअर डिकोडिंग सोबत काम करत नाही. पूर्ववत करण्यासाठी रिक्त सोडा.</string>
     <string name="developer_prefs_category">विकसक</string>
@@ -214,4 +237,12 @@
     <string name="copy_to_clipboard">क्लिपबोर्ड मध्ये कॉपी करा</string>
     <string name="copied_to_clipboard">लॉग क्लिपबोर्ड मध्ये कॉपी केला.</string>
     <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
+    <string name="dump_logcat">logcat नोंद डंप</string>
+    <string name="dump_logcat_success">यशस्वीरित्या Logcat यात डंप केले %1$s!</string>
+    <string name="dump_logcat_failure">Logcat डंप करण्यात अयशस्वी.</string>
+    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आहे आणि VLC बंद करावे लागले.</string>
+    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून VLC सुधारणास आम्हाला मदत करा:</string>
+    <string name="restart_vlc">VLC पुनः प्रारंभ</string>
+    <string name="send_log">लॉग पाठवा</string>
+    <string name="sending_log">लॉग पाठवत आहे ...</string>
 </resources>
