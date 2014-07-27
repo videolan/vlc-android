@@ -145,6 +145,10 @@
     <string name="remove_song">הסרת שיר</string>
     <string name="rearrange_order">שינוי הסדר</string>
     <string name="hold_to_seek">יש להחזיק כדי לגלול</string>
+    <string name="audio_player_tips">עצות לנגן המדיה</string>
+    <string name="previous_next_song">השיר הבא/הקודם</string>
+    <string name="show_playlist">הצגת רשימת נגינה</string>
+    <string name="hold_to_stop">יש להחזיק כדי לעצור</string>
     <!-- About -->
     <string name="app_name_full">VLC ל־Android™</string>
     <string name="licence">רישיון</string>
