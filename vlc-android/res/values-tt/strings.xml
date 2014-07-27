@@ -127,12 +127,27 @@
     <string name="hardware_acceleration_error_title">Апп. тизләнештә хата</string>
     <string name="hardware_acceleration_error_message">Аппаратлы тизләнеш белән хата килеп чыкты. Аны сүндерергәме яки кабатлап караргамы?</string>
     <!--Tips-->
+    <string name="video_player_tips">Видео уйнаткыч киңәше:</string>
+    <string name="seek">Эзләргә</string>
+    <string name="subtitles">Субтитрлар</string>
+    <string name="resize">Кисәргә</string>
+    <string name="options">Шартлар</string>
+    <string name="lock">Тыю</string>
+    <string name="ok_got_it">Аны алырга, моны кире кагарга</string>
+    <string name="playlist_tips">Уйнату бит киңәше</string>
+    <string name="remove_song">Җырны бетерергә</string>
+    <string name="rearrange_order">Тәртипне үзгәртү</string>
+    <string name="hold_to_seek">Эзләүне җибәрмәгез</string>
+    <string name="audio_player_tips">Аудио уйнаткыч киңәше:</string>
+    <string name="previous_next_song">Алдагы/Киләсе җыр</string>
+    <string name="show_playlist">Уйнату битен күрсәтергә</string>
+    <string name="hold_to_stop">Туктауны җибәрмәгез</string>
     <!-- About -->
     <string name="app_name_full">VLC Android™ өчен</string>
     <string name="licence">Хокук</string>
     <string name="revision">Ревизия</string>
     <string name="about">Кушымта турында</string>
-    <string name="about_text">VLC Android™ өчен - VLC медиа уйнаткычы порты (популяр уйнаткыч ачык башлангыч код белән). Android™ өчен юрама күпчек файл һәм челтәр ташкыннарын уйната ала.</string>
+    <string name="about_text">VLC Android™ өчен - VLC медиа уйнаткычы порты (популяр уйнаткыч ачык башлангыч код белән). Android™ өчен юрама күпчелек файл һәм челтәр ташкыннарын уйната ала.</string>
     <string name="compiled_by">Бу VLC юрамасын җыйды:</string>
     <string name="vlc_authors">VLC әзерләүчеләре.</string>
     <!-- Preferences -->
@@ -215,9 +230,10 @@
     <string name="copy_to_clipboard">Алмашу буферыннан күчерергә</string>
     <string name="copied_to_clipboard">Беркетмә алмашу буферына күчерелде.</string>
     <string name="quit">Кушымтаны киредән кабызырга</string>
-    <string name="dump_logcat">logcat журналын бушатыргаt</string>
+    <string name="dump_logcat">logcat журналын бушатырга</string>
     <string name="dump_logcat_success">logcat журналы уңышлы %1$s бушатылды!</string>
     <string name="dump_logcat_failure">logcat бушатып булмады.</string>
+    <string name="serious_crash">Кызганычка каршы, кискен хата килеп чыкты һәм  VLC ябылырга мәҗбүр булды.</string>
     <string name="help_us_send_log">VLC кушымтасын яхшырту өчен безгә һәлакәт логын җибәрегез:</string>
     <string name="restart_vlc">VLC киредән кабызу</string>
     <string name="send_log">Логны җибәрергә</string>
