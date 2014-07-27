@@ -288,8 +288,6 @@ jobject Java_org_videolan_libvlc_LibVLC_getStats(JNIEnv *env, jobject thiz)
     jclass floatCls = (*env)->FindClass(env, "java/lang/Float");
     jmethodID floatConstructor = (*env)->GetMethodID(env, floatCls, "<init>", "(F)V");
 
-     LOGE("No media player %f", p_stats.f_demux_bitrate);
-
     jobject statistics = (*env)->NewObject(env, hashMapClass, mapInit);
     jobject value = (*env)->NewObject(env, floatCls, floatConstructor, p_stats.f_demux_bitrate);
     jstring name = (*env)->NewStringUTF(env, "demuxBitrate");
