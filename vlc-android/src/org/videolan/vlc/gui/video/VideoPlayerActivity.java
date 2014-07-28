@@ -1956,6 +1956,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)
                     mLibVLC.setTime(media.getTime());
+                // Consume fromStart option after first use to prevent
+                // restarting again when playback is paused.
+                getIntent().putExtra("fromStart", false);
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
