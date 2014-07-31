@@ -1,4 +1,4 @@
-Changes between 0.9.7 and 0.9.8-git:
+Changes between 0.9.7 and 0.9.8:
 --------------------------------
 
 Main Application:
@@ -6,14 +6,19 @@ Main Application:
  * Fix Media detection when the extension was in UPPER CASE
  * Fix default display orientation for the Video Player
  * Fix possible crashes and leaks
+ * Fix "replay from start" issue when screen goes off
 
 Core:
  * Fix compatibility with MIPS (broken with the native crash handler
  * Support building with NDKr10
- * Prepare support for OMX zero-copy
+ * Prepare support for OMX zero-copy for Honeycomb+ (Android-11 and later)
 
 libVLCjni:
  * Add bitrate information, statistics and player state methods
+
+Translations:
+ * Update of Spanish, Finnish, French, Hebrew, Indonesian, Marathi, Polish,
+   Portuguese, Tatar translations
 
 
 Changes between 0.9.7 and 0.9.7.1:
