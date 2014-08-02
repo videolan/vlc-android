@@ -810,8 +810,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mAudioManager.setParameters("bgm_state=true");
         }
         else {
-            result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
-            mAudioManager.setParameters("bgm_state=false");
+            if (mAudioManager != null) {
+                result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
+                mAudioManager.setParameters("bgm_state=false");
+            }
+            else
+                result = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
         }
 
         return result;
