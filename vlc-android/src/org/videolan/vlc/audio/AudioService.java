@@ -890,6 +890,7 @@ public class AudioService extends Service {
             MetadataEditor editor = mRemoteControlClient.editMetadata(true);
             editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, media.getAlbum());
             editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, media.getArtist());
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, media.getArtist());
             editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, media.getGenre());
             editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
