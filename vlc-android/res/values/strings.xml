@@ -228,12 +228,18 @@
     <string name="interface_other_category">Interface - Other</string>
     <string name="enable_brightness_gesture">Enable brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
-    <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
     <string name="enable_jump_buttons">Enable jump buttons</string>
     <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
+    <string name="audio_title_alignment">Audio title alignment</string>
+    <string name="enable_headset_detection">Detect headset</string>
+    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
+    <string name="audio_title_alignment_default">Default</string>
+    <string name="audio_title_alignment_left">Left</string>
+    <string name="audio_title_alignment_centre">Centre</string>
+    <string name="audio_title_alignment_right">Right</string>
+    <string name="audio_title_alignment_marquee">Marquee</string>
 
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
@@ -331,6 +337,19 @@
         <item>1</item> <!-- 1 ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -->
         <item>8</item> <!-- 8 ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE -->
         <item>9</item> <!-- 9 ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT -->
+    </string-array>
+
+    <string-array name="audio_title_alignment_list">
+        <item>@string/audio_title_alignment_default</item>
+        <item>@string/audio_title_alignment_left</item>
+        <item>@string/audio_title_alignment_right</item>
+        <item>@string/audio_title_alignment_marquee</item>
+    </string-array>
+    <string-array name="audio_title_alignment_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="subtitles_encoding_list" tools:ignore="TypographyDashes">

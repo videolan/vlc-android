@@ -58,20 +58,27 @@
                     android:summary="@string/enable_brightness_gesture_summary"
                     android:title="@string/enable_brightness_gesture" />
                 <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="enable_jump_buttons"
+                    android:summary="@string/enable_jump_buttons_summary"
+                    android:title="@string/enable_jump_buttons" />
+                <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_headset_detection"
                     android:summary="@string/enable_headset_detection_summary"
                     android:title="@string/enable_headset_detection" />
                 <CheckBoxPreference
                     android:defaultValue="false"
-                    android:key="enable_jump_buttons"
-                    android:summary="@string/enable_jump_buttons_summary"
-                    android:title="@string/enable_jump_buttons" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
                     android:key="enable_steal_remote_control"
                     android:summary="@string/enable_steal_remote_control_summary"
                     android:title="@string/enable_steal_remote_control" />
+                <ListPreference
+		            android:defaultValue="0"
+		            android:entries="@array/audio_title_alignment_list"
+		            android:entryValues="@array/audio_title_alignment_values"
+		            android:key="audio_title_alignment"
+		            android:persistent="true"
+		            android:title="@string/audio_title_alignment" />
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/performance_prefs_category" >

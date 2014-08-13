@@ -29,8 +29,10 @@ import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Util {
@@ -85,5 +87,26 @@ public class Util {
         int resId = a.getResourceId(0, 0);
         a.recycle();
         return resId;
+    }
+
+    /**
+     * Set the alignment mode of the specified TextView with the desired align
+     * mode from preferences.
+     *
+     * See @array/audio_title_alignment_values
+     *
+     * @param alignMode Align mode as read from preferences
+     * @param t Reference to the textview
+     */
+    public static void setAlignModeByPref(int alignMode, TextView t) {
+        if(alignMode == 1)
+            t.setEllipsize(TruncateAt.END);
+        else if(alignMode == 2)
+            t.setEllipsize(TruncateAt.START);
+        else if(alignMode == 3) {
+            t.setEllipsize(TruncateAt.MARQUEE);
+            t.setMarqueeRepeatLimit(-1);
+            t.setSelected(true);
+        }
     }
 }

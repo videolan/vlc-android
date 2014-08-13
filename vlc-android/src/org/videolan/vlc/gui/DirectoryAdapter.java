@@ -34,10 +34,13 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -252,6 +255,8 @@ public class DirectoryAdapter extends BaseAdapter {
     private String mCurrentDir;
     private String mCurrentRoot;
 
+    private int mAlignMode; // align mode from prefs
+
     public DirectoryAdapter(Context context) {
         DirectoryAdapter_Core(context, null);
     }
@@ -265,6 +270,8 @@ public class DirectoryAdapter extends BaseAdapter {
         mCurrentDir = rootDir;
         this.populateNode(mRootNode, rootDir);
         mCurrentNode = mRootNode;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activityContext);
+        mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
     @Override
@@ -305,6 +312,7 @@ public class DirectoryAdapter extends BaseAdapter {
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
             holder.title.setSelected(true);
+            Util.setAlignModeByPref(mAlignMode, holder.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.icon = (ImageView) v.findViewById(R.id.dvi_icon);
             v.setTag(holder);

@@ -29,7 +29,9 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,12 +49,15 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
     private ArrayList<Media> mMediaList;
     private int mCurrentIndex;
     private Context mContext;
+    private int mAlignMode;
 
     public AudioPlaylistAdapter(Context context) {
         super(context, 0);
         mContext = context;
         mMediaList = new ArrayList<Media>();
         mCurrentIndex = -1;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
     @Override
@@ -86,6 +91,7 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
             v = inflater.inflate(R.layout.audio_playlist_item, parent, false);
             holder = new ViewHolder();
             holder.title = (TextView) v.findViewById(R.id.title);
+            Util.setAlignModeByPref(mAlignMode, holder.title);
             holder.artist = (TextView) v.findViewById(R.id.artist);
             holder.moveButton = (ImageButton) v.findViewById(R.id.move);
             holder.expansion = (LinearLayout)v.findViewById(R.id.item_expansion);

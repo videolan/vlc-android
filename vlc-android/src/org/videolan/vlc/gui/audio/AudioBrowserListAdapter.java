@@ -29,9 +29,12 @@ import java.util.Map;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +56,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     private ArrayList<ListItem> mItems;
     // A list of all the sections in the list; better performance than searching the whole list
     private SparseArray<String> mSections;
+
+    private int mAlignMode; // align mode from prefs
 
     private Context mContext;
 
@@ -93,6 +98,8 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         if (itemType != ITEM_WITHOUT_COVER && itemType != ITEM_WITH_COVER)
             throw new IllegalArgumentException();
         mItemType = itemType;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
     public void add(String title, String subTitle, Media media) {
@@ -233,6 +240,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
             holder.title = (TextView) v.findViewById(R.id.title);
+            Util.setAlignModeByPref(mAlignMode, holder.title);
             holder.cover = (ImageView) v.findViewById(R.id.cover);
             holder.subtitle = (TextView) v.findViewById(R.id.subtitle);
             holder.footer = v.findViewById(R.id.footer);
