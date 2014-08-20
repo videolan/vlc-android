@@ -888,6 +888,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     Log.i(TAG, "HardwareAccelerationError");
                     activity.handleHardwareAccelerationError();
                     break;
+                case EventHandler.MediaPlayerTimeChanged:
+                    // avoid useless error logs
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
