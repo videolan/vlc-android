@@ -51,6 +51,7 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class BrowserActivity extends ListActivity {
     public final static String TAG = "VLC/BrowserActivity";
@@ -192,7 +193,14 @@ public class BrowserActivity extends ListActivity {
             b.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    CustomDirectories.addCustomDirectory(input.getText().toString());
+                    String path = input.getText().toString().trim();
+                    File f = new File(path);
+                    if(!f.exists() || !f.isDirectory()) {
+                        Toast.makeText(BrowserActivity.this, getString(R.string.directorynotfound, path), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    CustomDirectories.addCustomDirectory(f.getAbsolutePath());
                     refresh();
                 }
             });
