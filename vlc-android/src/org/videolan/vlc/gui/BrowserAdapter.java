@@ -78,32 +78,34 @@ public class BrowserAdapter extends ArrayAdapter<File>
         final File item = getItem(position);
         final MediaDatabase dbManager = MediaDatabase.getInstance();
 
-        if(item != null && item.getPath().equals(ADD_ITEM_PATH)) {
-            holder.text.setText(R.string.add_custom_path);
-            holder.check.setVisibility(View.GONE);
-        } else if(item != null && item.getName() != null) {
-            holder.text.setText(getVisibleName(item));
-            holder.check.setVisibility(View.VISIBLE);
-            holder.check.setOnCheckedChangeListener(null);
-            holder.check.setTag(item);
-            holder.check.setEnabled(true);
-            holder.check.setChecked(false);
+        if(item != null) {
+            if(item.getPath().equals(ADD_ITEM_PATH)) {
+                holder.text.setText(R.string.add_custom_path);
+                holder.check.setVisibility(View.GONE);
+            } else if(item.getName() != null) {
+                holder.text.setText(getVisibleName(item));
+                holder.check.setVisibility(View.VISIBLE);
+                holder.check.setOnCheckedChangeListener(null);
+                holder.check.setTag(item);
+                holder.check.setEnabled(true);
+                holder.check.setChecked(false);
 
-            List<File> dirs = dbManager.getMediaDirs();
-            for (File dir : dirs) {
-                if (dir.getPath().equals(item.getPath())) {
-                    holder.check.setEnabled(true);
-                    holder.check.setChecked(true);
-                    break;
-                } else if (dir.getPath().startsWith(item.getPath()+"/")) {
-                    Log.i(TAG, dir.getPath() + " startWith " + item.getPath());
-                    holder.check.setEnabled(false);
-                    holder.check.setChecked(true);
-                    break;
+                List<File> dirs = dbManager.getMediaDirs();
+                for (File dir : dirs) {
+                    if (dir.getPath().equals(item.getPath())) {
+                        holder.check.setEnabled(true);
+                        holder.check.setChecked(true);
+                        break;
+                    } else if (dir.getPath().startsWith(item.getPath()+"/")) {
+                        Log.i(TAG, dir.getPath() + " startWith " + item.getPath());
+                        holder.check.setEnabled(false);
+                        holder.check.setChecked(true);
+                        break;
+                    }
                 }
-            }
 
-            holder.check.setOnCheckedChangeListener(onCheckedChangeListener);
+                holder.check.setOnCheckedChangeListener(onCheckedChangeListener);
+            }
         }
 
         return view;
