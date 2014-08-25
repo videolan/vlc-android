@@ -31,6 +31,7 @@ import java.nio.ByteOrder;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
@@ -99,7 +100,13 @@ public class LibVlcUtil {
         // If already checked return cached result
         if(errorMsg != null || isCompatible) return isCompatible;
 
-        ElfData elf = readLib(context.getApplicationInfo().dataDir + "/lib/libvlcjni.so");
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        String libBasePath;
+        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
+            libBasePath = "/system";
+        else
+            libBasePath = applicationInfo.dataDir;
+        ElfData elf = readLib(libBasePath + "/lib/libvlcjni.so");
         if(elf == null) {
             Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
             Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
