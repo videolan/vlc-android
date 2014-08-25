@@ -598,13 +598,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
         if(data.getData() == null) return;
 
-        String uri = data.getData().getPath();
+        String subtitlePath = data.getData().getPath();
         if(requestCode == CommonDialogs.INTENT_SPECIFIC) {
-            Log.d(TAG, "Specific subtitle file: " + uri);
+            Log.d(TAG, "Specific subtitle file: " + subtitlePath);
         } else if(requestCode == CommonDialogs.INTENT_GENERIC) {
-            Log.d(TAG, "Generic subtitle file: " + uri);
+            Log.d(TAG, "Generic subtitle file: " + subtitlePath);
         }
-        mSubtitleSelectedFiles.add(data.getData().getPath());
+        mSubtitleSelectedFiles.add(subtitlePath);
     }
 
     public static void start(Context context, String location) {
