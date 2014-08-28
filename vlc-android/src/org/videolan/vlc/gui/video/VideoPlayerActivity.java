@@ -351,13 +351,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         } else {
             mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
         }
-        mSurfaceHolder.addCallback(mSurfaceCallback);
 
         mSubtitlesSurface = (SurfaceView) findViewById(R.id.subtitles_surface);
         mSubtitlesSurfaceHolder = mSubtitlesSurface.getHolder();
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
         mSubtitlesSurface.setZOrderMediaOverlay(true);
-        mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
+        if (mPresentation == null) {
+            mSurfaceHolder.addCallback(mSurfaceCallback);
+            mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
+        }
 
         mSeekbar = (SeekBar) findViewById(R.id.player_overlay_seekbar);
         mSeekbar.setOnSeekBarChangeListener(mSeekListener);
