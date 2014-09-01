@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -605,12 +606,13 @@ public class MainActivity extends ActionBarActivity {
 
         // Intent to start a new Activity
         Intent intent;
+        // Current fragment loaded
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
-                Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
                 if (current == null)
                     break;
                 if (current instanceof ISortable)
@@ -632,13 +634,8 @@ public class MainActivity extends ActionBarActivity {
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                // TODO: factor this into each fragment
-                if(mCurrentFragment != null && mCurrentFragment.equals("directories")) {
-                    DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
-                    directoryView.refresh();
-                }
-                else if(mCurrentFragment != null && mCurrentFragment.equals("history"))
-                    ((HistoryFragment) getFragment(mCurrentFragment)).refresh();
+                if(current != null && current instanceof IRefreshable)
+                    ((IRefreshable) current).refresh();
                 else
                     MediaLibrary.getInstance().loadMediaItems(this, true);
                 break;

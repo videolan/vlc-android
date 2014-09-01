@@ -27,6 +27,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
@@ -51,7 +52,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends ListFragment implements ISortable {
+public class DirectoryViewFragment extends ListFragment implements IRefreshable, ISortable {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
@@ -201,6 +202,7 @@ public class DirectoryViewFragment extends ListFragment implements ISortable {
         Util.toaster(getActivity(), R.string.notavailable);
     }
 
+    @Override
     public void refresh() {
         if (mDirectoryAdapter != null)
             mDirectoryAdapter.refresh();

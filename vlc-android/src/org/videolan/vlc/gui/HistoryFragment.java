@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.interfaces.IRefreshable;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -38,7 +39,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-public class HistoryFragment extends ListFragment {
+public class HistoryFragment extends ListFragment implements IRefreshable {
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;
@@ -104,6 +105,7 @@ public class HistoryFragment extends ListFragment {
         return super.onContextItemSelected(item);
     }
 
+    @Override
     public void refresh() {
         Log.d(TAG, "Refreshing view!");
         if( mHistoryAdapter != null )
