@@ -307,6 +307,33 @@ public class MediaDatabase {
         return (count > 0);
     }
 
+   /**
+     * Get all items in the specified playlist.
+     *
+     * @param playlistName Unique name of the playlist
+     * @return Array containing MRLs of the playlist in order, or null on error
+     */
+    public String[] playlistGetItems(String playlistName) {
+        if(!playlistExists(playlistName))
+            return null;
+
+        Cursor c = mDb.query(
+                PLAYLIST_MEDIA_TABLE_NAME,
+                new String[] { PLAYLIST_MEDIA_MEDIALOCATION },
+                PLAYLIST_MEDIA_PLAYLISTNAME + "= ?",
+                new String[] { playlistName }, null, null,
+                PLAYLIST_MEDIA_ORDER + " ASC");
+
+        int count = c.getCount();
+        String ret[] = new String[count]; int i = 0;
+        while(c.moveToNext()) {
+            ret[i] = c.getString(c.getColumnIndex(PLAYLIST_MEDIA_MEDIALOCATION));
+            i++;
+        }
+        c.close();
+        return ret;
+    }
+
     /**
      * Insert an item with location into playlistName at the specified position
      *
