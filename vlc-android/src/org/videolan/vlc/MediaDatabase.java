@@ -51,7 +51,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 8;
+    private final int DB_VERSION = 9;
     private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
