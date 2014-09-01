@@ -241,23 +241,19 @@ public class MediaDatabase {
 
     /**
      * Get all playlists in the database
-     * @return
+     *
+     * @return An array of all the playlist names
      */
     public String[] getPlaylists() {
         ArrayList<String> playlists = new ArrayList<String>();
-        Cursor cursor;
-
-        cursor = mDb.query(
+        Cursor c = mDb.query(
                 PLAYLIST_TABLE_NAME,
                 new String[] { PLAYLIST_NAME },
                 null, null, null, null, null);
-        cursor.moveToFirst();
-        if (!cursor.isAfterLast()) {
-            do {
-                playlists.add(cursor.getString(10));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
+
+        while(c.moveToNext())
+            playlists.add(c.getString(c.getColumnIndex(PLAYLIST_NAME)));
+        c.close();
         return playlists.toArray(new String[playlists.size()]);
     }
 
