@@ -67,19 +67,28 @@ public class CommonDialogs {
         }
         final File fileMedia = new File(adressMediaUri);
 
+        return confirmDialog(
+                context,
+                context.getResources().getString(R.string.confirm_delete,
+                        fileMedia.getName()),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        fileMedia.delete();
+                        if (runnable != null)
+                            runnable.run();
+                    }
+                });
+    }
+
+    public static AlertDialog confirmDialog(final Context context,
+            final String confirmationString,
+            final DialogInterface.OnClickListener callback) {
         AlertDialog alertDialog = new AlertDialog.Builder(context)
-        .setTitle(R.string.validation)
-        .setMessage(context.getResources().getString(R.string.confirm_delete, fileMedia.getName()))
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                fileMedia.delete();
-                if(runnable != null)
-                    runnable.run();
-            }
-        })
-        .setNegativeButton(android.R.string.cancel, null).create();
+                .setTitle(R.string.validation).setMessage(confirmationString)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, callback)
+                .setNegativeButton(android.R.string.cancel, null).create();
 
         return alertDialog;
     }
