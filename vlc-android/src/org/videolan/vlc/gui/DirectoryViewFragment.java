@@ -146,10 +146,13 @@ public class DirectoryViewFragment extends ListFragment implements ISortable {
                         }
                     });
             alertDialog.show();
+            return true;
         } else if(id == R.id.directory_view_play_audio) {
             AudioServiceController.getInstance().load(mediaLocation, true);
+            return true;
         } else if(id == R.id.directory_view_play_video) {
             VideoPlayerActivity.start(getActivity(), mediaLocation);
+            return true;
         }
         return super.onContextItemSelected(item);
     }
