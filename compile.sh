@@ -228,7 +228,8 @@ cd contrib/contrib-android-${TARGET_TUPLE}
     --disable-samplerate \
     --disable-faad2 \
     --disable-harfbuzz \
-    --enable-iconv
+    --enable-iconv \
+    --disable-aribb24
 
 # TODO: mpeg2, theora
 
