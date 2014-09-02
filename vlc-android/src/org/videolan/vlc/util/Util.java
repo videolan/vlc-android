@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
@@ -74,6 +77,21 @@ public class Util {
         } catch (IOException e) {
             return defaultS;
         }
+    }
+
+    /**
+     * Retrieve the existing media object from the media library or create a
+     * new one from the given MRL.
+     *
+     * @param libVLC LibVLC instance
+     * @param mrl MRL of the media
+     * @return A media object from the media library or newly created
+     */
+    public static Media getOrCreateMedia(LibVLC libVLC, String mrl) {
+        Media mlItem = MediaLibrary.getInstance().getMediaItem(mrl);
+        if(mlItem == null)
+            mlItem = new Media(libVLC, mrl);
+        return mlItem;
     }
 
     /**
