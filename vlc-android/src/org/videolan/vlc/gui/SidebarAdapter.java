@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,7 @@ public class SidebarAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
     static final List<SidebarEntry> entries;
+    public static final List<String> sidebarFragments;
     private HashMap<String, Fragment> mFragments;
     private String mCurrentFragmentId;
 
@@ -72,6 +74,11 @@ public class SidebarAdapter extends BaseAdapter {
             //new SidebarEntry( "playlists", R.string.playlists, R.drawable.icon ),
         };
         entries = Arrays.asList(entries2);
+
+        sidebarFragments = new ArrayList<String>();
+        for(SidebarEntry e : entries2) {
+            sidebarFragments.add(e.id);
+        }
     }
 
     public SidebarAdapter(Context context) {

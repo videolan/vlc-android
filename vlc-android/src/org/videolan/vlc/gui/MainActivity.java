@@ -345,12 +345,7 @@ public class MainActivity extends ActionBarActivity {
                 .findFragmentById(R.id.fragment_placeholder);
         boolean found = false;
         if(current != null) {
-            for(int i = 0; i < SidebarAdapter.entries.size(); i++) {
-                if(SidebarAdapter.entries.get(i).id.equals(current.getTag())) {
-                    found = true;
-                    break;
-                }
-            }
+            found = SidebarAdapter.sidebarFragments.contains(current.getTag());
         } else {
             found = true;
         }
@@ -383,8 +378,12 @@ public class MainActivity extends ActionBarActivity {
          */
         if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
             Log.d(TAG, "Reloading displayed fragment");
-            if (mCurrentFragment == null || secondaryFragments.contains(mCurrentFragment))
+            if(mCurrentFragment == null || secondaryFragments.contains(mCurrentFragment))
                 mCurrentFragment = "video";
+            if(!SidebarAdapter.sidebarFragments.contains(mCurrentFragment)) {
+                Log.d(TAG, "Unknown fragment \"" + mCurrentFragment + "\", resetting to video");
+                mCurrentFragment = "video";
+            }
             Fragment ff = getFragment(mCurrentFragment);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_placeholder, ff, mCurrentFragment);
