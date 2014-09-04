@@ -29,7 +29,16 @@
     <string name="ringtone_error">Ringtonni o‘rnatishda xatolik yuz berdi.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Ushbu xabar boshqa ko‘rsatilmasin.</string>
-    <string name="beta_warning">Bu – dasturning beta-versiyasi.\n\nUshbu versiya hali to‘liq BARQAROR EMAS!\n\nAgar o‘z harakatlaringizdan shubhalansangiz, undan foydalanmang.\n\nU mushugingizni o‘ldirishi, uyingizni esa vayron qilishi mumkin.\nYuqoridagilar uchun mas’uliyatni o‘z zimmangizga olsangiz, dasturdan foydalanavering.\n\nVaqtingizni quvnoq o‘tkazing! :)</string>
+    <string name="beta_warning">Bu – dasturning beta-versiyasi.
+
+Ushbu versiya hali to‘liq BARQAROR EMAS!
+
+Agar o‘z harakatlaringizdan shubhalansangiz, undan foydalanmang.
+
+U mushugingizni o‘ldirishi, uyingizni esa vayron qilishi mumkin.
+Yuqoridagilar uchun mas’uliyatni o‘z zimmangizga olsangiz, dasturdan foydalanavering.
+
+Vaqtingizni quvnoq o‘tkazing! :)</string>
     <string name="info_title">VLC (beta)</string>
     <string name="unknown_artist">Noma’lum ijrochi</string>
     <string name="unknown_album">Noma’lum albom</string>
@@ -94,16 +103,22 @@
     <string name="track_video">Video yozuv</string>
     <string name="track_text">Taglavhalar yozuvi</string>
     <string name="track_unknown">Noma’lum yozuv</string>
-    <string name="track_codec_info">Kodek: %1$s\n</string>
-    <string name="track_language_info">Til: %1$s\n</string>
+    <string name="track_codec_info">Kodek: %1$s
+</string>
+    <string name="track_language_info">Til: %1$s
+</string>
     <string name="volume">Ovoz balandligi</string>
     <string name="brightness">Yorqinlik</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d ta kanal\n</item>
+        <item quantity="other">%1$d ta kanal
+</item>
     </plurals>
-    <string name="track_samplerate_info">Chastota: %1$d Gs\n</string>
-    <string name="track_resolution_info">Sig‘imi: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Kadrlar chastotasi: %1$.3f\n</string>
+    <string name="track_samplerate_info">Chastota: %1$d Gs
+</string>
+    <string name="track_resolution_info">Sig‘imi: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Kadrlar chastotasi: %1$.3f
+</string>
     <string name="tools">Asboblar</string>
     <string name="playback_speed">Ijro tezligi</string>
     <string name="sleep_title">Uyqu taymeri</string>
@@ -118,9 +133,11 @@
     <string name="open_mrl_dialog_msg">MRL tarmoq manzili: m-n, http://, mms:// yoki rtsp://</string>
     <string name="error_not_compatible">Kechirasiz, Android™ uchun VLC dasturining ushbu versiyasi qurilmangizda ishlamaydi.</string>
     <string name="error_problem">Kechirasiz, Android uchun VLC dasturini yuklashda muammo yuz berdi, shuning uchun uni yopishga to‘g‘ri keldi.</string>
-    <string name="error_message_is">Xatolik haqida xabar (nosozlikni tuzatish uchun kerak bo‘ladi):\n</string>
+    <string name="error_message_is">Xatolik haqida xabar (nosozlikni tuzatish uchun kerak bo‘ladi):
+</string>
     <string name="encountered_error_title">Ijro etishda xato</string>
-    <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
+    <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.
+Media kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
     <string name="search">Izlash</string>
     <string name="search_history">Tarixdan izlash</string>
@@ -129,7 +146,7 @@
     <!--Tips-->
     <string name="video_player_tips">Video pleyerga oid maslahatlar:</string>
     <string name="seek">Qidirish</string>
-    <string name="subtitles">Taglavhalar</string>
+    <string name="subtitles">Subtitrlar</string>
     <string name="resize">O‘lchamini o‘zgartirish</string>
     <string name="options">Tanlamalar</string>
     <string name="lock">Qulflash</string>
@@ -148,7 +165,7 @@
     <string name="revision">Qayta ko‘rish</string>
     <string name="about">Dastur haqida</string>
     <string name="about_text">Android™ uchun VLC – VLC media pleyerning (ochiq kodli mashhur pleyer) port qilingan versiyasi hisoblanadi. Uning Android™ versyasi ko‘plab fayl turlari va tarmoqli oqim rejimida uzatiladigan videolarni o‘qiy oladi.</string>
-    <string name="compiled_by">VLC dasturining ushbu versiyasi quyidagi yordamida kompilatsiya qilingan:</string>
+    <string name="compiled_by">VLC dasturining ushbu versiyasi ushbu inson tomonidan kompilatsiya qilingan:</string>
     <string name="vlc_authors">VLC dasturi mualliflari.</string>
     <!-- Preferences -->
     <string name="preferences">Sozlamalar</string>
@@ -158,7 +175,9 @@
     <string name="add_custom_path_description">Tekshirish uchun boshqa qo‘shimcha katalogni kiriting:</string>
     <string name="remove_custom_path">Qo‘shimcha yo‘lni olib tashlash</string>
     <string name="hardware_acceleration">Qurilmani tezlatish</string>
-    <string name="hardware_acceleration_summary">Oʻchirilgan: yaxshiroq stabillik.\nKoddan chiqarish: ishlashini yaxshilash mumkin.\nToʻliq: uzoqroq ishlashini yaxshilashi mumkin.</string>
+    <string name="hardware_acceleration_summary">Oʻchirilgan: yaxshiroq stabillik.
+Koddan chiqarish: ishlashini yaxshilash mumkin.
+Toʻliq: uzoqroq ishlashini yaxshilashi mumkin.</string>
     <string name="hardware_acceleration_disabled">Oʻchirilgan</string>
     <string name="hardware_acceleration_decoding">Kodni yechish orqali tezlashtirish</string>
     <string name="hardware_acceleration_full">To‘liq tezlashtirish</string>
@@ -192,7 +211,9 @@
     <string name="enable_steal_remote_control_summary">Boshqa ilova dasturlardagi masofadan boshqarish ziddiyatlaridan qoching. Bu HTC telefonlarda 2 marta chertish orqali amalga oshiriladi.</string>
     <string name="performance_prefs_category">Bajarish</string>
     <string name="chroma_format">Majburiy rangdorlik formati</string>
-    <string name="chroma_format_summary">RGB 32-bit: standart rang\nRGB 16-bit: yaxshiroq ishlaydi, ammo sifati past bo‘ladi\nYUV: juda yaxshi ishlaydi, lekin barcha qurilmalarda ishlamaydi. Faqat Android 2.3 va yangi chiqqanlarida ishlaydi.</string>
+    <string name="chroma_format_summary">RGB 32-bit: standart rang
+RGB 16-bit: yaxshiroq ishlaydi, ammo sifati past bo‘ladi
+YUV: juda yaxshi ishlaydi, lekin barcha qurilmalarda ishlamaydi. Faqat Android 2.3 va yangi chiqqanlarida ishlaydi.</string>
     <string name="deblocking">Filter sozlamalarini ochish</string>
     <string name="deblocking_summary">Blokdan chiqarish sozlamalarini oʻzgartiring. Video sifatini yaxshilashi mumkin. Faqat tajribali foydalanuvchilar uchun.</string>
     <string name="deblocking_always">Toʻliq koddan chiqarish (sekin)</string>
@@ -215,7 +236,7 @@
     <string name="clear_media_db">Media ma’lumotlar bazasini tozalash</string>
     <string name="clear_history">Qidiruv tarixini tozalash</string>
     <string name="media_db_cleared">Media ma’lumotlar bazasi tozalandi!</string>
-    <string name="set_locale">Til muhiti</string>
+    <string name="set_locale">Tilni moslash</string>
     <string name="set_locale_detail">Bo‘sh qator birlamchi qiymatni nazarda tutadi</string>
     <string name="set_locale_popup">O‘zgarishlar kuchga kirishi uchun VLC dasturidan chiqib, uni qaytadan ishga tushiring.</string>
     <string name="network_caching">Tarmoq keshi qiymati</string>
