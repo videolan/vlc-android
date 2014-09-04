@@ -45,11 +45,6 @@
                     android:key="enable_clone_mode"
                     android:summary="@string/enable_clone_mode_summary"
                     android:title="@string/enable_clone_mode" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="enable_secondary_display_hardware_acceleration"
-                    android:summary="@string/enable_secondary_display_hardware_acceleration_summary"
-                    android:title="@string/enable_secondary_display_hardware_acceleration" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/interface_other_category" >
                 <CheckBoxPreference

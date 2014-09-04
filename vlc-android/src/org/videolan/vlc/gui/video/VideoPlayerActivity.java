@@ -387,12 +387,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
 
-        if (mPresentation != null && !mSettings.getBoolean("enable_secondary_display_hardware_acceleration", false)) {
-            mDisabledHardwareAcceleration = true;
-            mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
-            mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-            Log.d(TAG, "Secondary Display: Hardware acceleration disabled");
-        }
         Log.d(TAG,
                 "Hardware acceleration mode: "
                         + Integer.toString(mLibVLC.getHardwareAcceleration()));
