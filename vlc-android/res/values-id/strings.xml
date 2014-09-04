@@ -10,7 +10,7 @@
     <string name="searchable_hint">Mencari...</string>
     <string name="history">Riwayat</string>
     <plurals name="search_found_results_quantity">
-        <item quantity="other">Menemukan %d hasil</item>
+        <item quantity="other">%d hasil ditemukan</item>
     </plurals>
     <string name="play">Mainkan</string>
     <string name="play_from_start">Putar dari awal</string>
@@ -25,11 +25,20 @@
     <string name="set_song">Atur sebagai nada dering</string>
     <string name="info">Informasi</string>
     <string name="confirm_delete">Hapus berkas \'%1$s\'?</string>
-    <string name="ringtone_set">Berkas \'%1$s\' di jadikan ringtone.</string>
+    <string name="ringtone_set">Berkas \'%1$s\' dijadikan ringtone.</string>
     <string name="ringtone_error">Terjadi kesalahan ketika mengatur ringtone.</string>
-    <string name="pause">Tahan</string>
+    <string name="pause">Jeda</string>
     <string name="not_show_again">Jangan tampilkan pesan ini lagi.</string>
-    <string name="beta_warning">Ini merupakan versi beta.\n\nVersi ini belum stabil!\n\nJANGAN gunakan, kecuali Anda mengetahu apa yang Anda lakukan.\n\nIni dapat membunuh kucing Anda dan menghacurkan rumah Anda.\nTanggung resiko sendiri.\n\nSelamat bersenang-senang! :)</string>
+    <string name="beta_warning">Ini merupakan versi beta.
+
+Versi ini belum stabil!
+
+JANGAN gunakan, kecuali Anda mengetahu apa yang Anda lakukan.
+
+Ini dapat membunuh kucing Anda dan menghacurkan rumah Anda.
+Tanggung resiko sendiri.
+
+Selamat bersenang-senang! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artis tak dikenal</string>
     <string name="unknown_album">Album tak dikenal</string>
@@ -94,16 +103,22 @@
     <string name="track_video">Trek video</string>
     <string name="track_text">Trek subtitle</string>
     <string name="track_unknown">Trek tidak dikenal</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
-    <string name="track_language_info">Bahasa: %1$s\n</string>
+    <string name="track_codec_info">Codec: %1$s
+</string>
+    <string name="track_language_info">Bahasa: %1$s
+</string>
     <string name="volume">Volume</string>
     <string name="brightness">Kecerahan</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d saluran\n</item>
+        <item quantity="other">%1$d saluran
+</item>
     </plurals>
-    <string name="track_samplerate_info">Sample rate: %1$d Hz\n</string>
-    <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Frame rate: %1$.3f\n</string>
+    <string name="track_samplerate_info">Sample rate: %1$d Hz
+</string>
+    <string name="track_resolution_info">Resolusi: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Frame rate: %1$.3f
+</string>
     <string name="tools">Peralatan</string>
     <string name="playback_speed">Kecepatan memutar ulang</string>
     <string name="sleep_title">Waktu tidur</string>
@@ -118,9 +133,11 @@
     <string name="open_mrl_dialog_msg">Masukkan MRL jaringan: contoh http://, mms://, atau rtsp://</string>
     <string name="error_not_compatible">Maaf, perangkat Anda belum didukung oleh VLC untuk Android™ versi ini.</string>
     <string name="error_problem">Maaf, VLC untuk Android memiliki masalah dalam memuat dan harus ditutup.</string>
-    <string name="error_message_is">Pesan kesalahannya adalah (sebutkan ini ketika mendebug):\n</string>
+    <string name="error_message_is">Pesan kesalahannya adalah (sebutkan ini ketika mendebug):
+</string>
     <string name="encountered_error_title">Pemutar eror</string>
-    <string name="encountered_error_message">VLC mengalami eror dengan media ini.\nSilakan segarkan pustaka media.</string>
+    <string name="encountered_error_message">VLC mengalami eror dengan media ini.
+Silakan segarkan pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak bisa dimainkan.</string>
     <string name="search">Cari</string>
     <string name="search_history">Cari riwayat</string>
@@ -158,7 +175,9 @@
     <string name="add_custom_path_description">Maskukkan tambahan direktori untuk di pindai:</string>
     <string name="remove_custom_path">Buang jalur manual</string>
     <string name="hardware_acceleration">Akselerasi Perangkat Keras</string>
-    <string name="hardware_acceleration_summary">Dimatikan: stabilitas baik.\nDekoding: dapat meningkatkan performa.\nFull: dapat meningkatkan performa lebih baik.</string>
+    <string name="hardware_acceleration_summary">Dimatikan: stabilitas baik.
+Dekoding: dapat meningkatkan performa.
+Full: dapat meningkatkan performa lebih baik.</string>
     <string name="hardware_acceleration_disabled">Dimatikan</string>
     <string name="hardware_acceleration_decoding">Akselerasi dekoding</string>
     <string name="hardware_acceleration_full">Akselerasi penuh</string>
@@ -190,7 +209,9 @@
     <string name="enable_steal_remote_control">Remot kontrol headset ekslusif</string>
     <string name="performance_prefs_category">Performa</string>
     <string name="chroma_format">Paksa kroma video</string>
-    <string name="chroma_format_summary">RGB 32-bit: default kroma\nRGB 16-bit: performa baik tapi kualitas lebih rendah\nYUV: performa terbaik tetapi tidak bekerja pada semua perangkat. Hanya Android 2.3 dan setelahnya.</string>
+    <string name="chroma_format_summary">RGB 32-bit: default kroma
+RGB 16-bit: performa baik tapi kualitas lebih rendah
+YUV: performa terbaik tetapi tidak bekerja pada semua perangkat. Hanya Android 2.3 dan setelahnya.</string>
     <string name="deblocking">Deblocking pengaturan penyaringan</string>
     <string name="deblocking_summary">Ubah pengaturan penyaringan Deblocking. Dapat meningkatkan kualitas video. Hanya untuk pengguna mahir.</string>
     <string name="deblocking_always">Deblocking penuh (paling lambat)</string>
