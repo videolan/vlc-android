@@ -92,7 +92,8 @@
     <string name="volume">အသံပမာဏ</string>
     <string name="brightness">အရောင်တောက်ပခြင်း</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d လှိုင်းများ⏎\n</item>
+        <item quantity="other">%1$d လှိုင်းများ⏎
+</item>
     </plurals>
     <string name="track_samplerate_info">နမူနာနှုန်း: %1$d Hz⏎</string>
     <string name="track_resolution_info">ပုံရိပ်ပြ: %1$dx%2$d⏎</string>
@@ -108,9 +109,11 @@
     <string name="open_mrl_dialog_msg">ကွန်ယက်အမ်အာအယ်ထည့်: ဥပမာ http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">စက်ရုပ်အတွက်ဗီအယ်စီယခုပံုစံမှာသင့်ပစ္စည်းကိုမထောက်ပံ့။</string>
     <string name="error_problem">စက်ရုပ်အတွက်ဗီအယ်စီတွင်ပြသနာတွေ့ပြီးပိတ်ရန်လိုအပ်။</string>
-    <string name="error_message_is">အမှားပြမှာကြားချက်မှာ (အမှားရှာပြင်နေစဉ်ဖော်ပြပါ):⏎\n</string>
+    <string name="error_message_is">အမှားပြမှာကြားချက်မှာ (အမှားရှာပြင်နေစဉ်ဖော်ပြပါ):⏎
+</string>
     <string name="encountered_error_title">ပြန်ဖွင့်အမှားပြ</string>
-    <string name="encountered_error_message">ယခုမီဒီယာနှင့်ဗီအယ်လ်စီအမှားကြုံကြိုက်နေ။\nမီဒီယာတိုက်ကိုပြန်လည်နှိပ်ပါ။</string>
+    <string name="encountered_error_message">ယခုမီဒီယာနှင့်ဗီအယ်လ်စီအမှားကြုံကြိုက်နေ။
+မီဒီယာတိုက်ကိုပြန်လည်နှိပ်ပါ။</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">ဗီအယ်လ်စီအတွက်စက်ရုပ်™</string>
