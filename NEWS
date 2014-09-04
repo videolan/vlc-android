@@ -10,6 +10,9 @@ Core:
  * Fix assert on some video decoding
  * Fix avi and m4a regressions
 
+Translations:
+ * Update of all the translations (more than 60 languages now)
+
 
 Changes between 0.9.7 and 0.9.8:
 --------------------------------
