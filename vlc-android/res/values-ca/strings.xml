@@ -30,7 +30,16 @@
     <string name="ringtone_error">S\'ha produït un error en establir el to de trucada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">No mostris més aquest missatge.</string>
-    <string name="beta_warning">Aquesta és una versió beta.\n\nAquesta versió NO ÉS ESTABLE!\n\nSi no sabeu que esteu fent, NO la useu.\n\nPot matar el vostre gatet i destruir-vos la casa.\nUseu-la sota la vostra responsabilitat.\n\nDivertiu-vos! :)</string>
+    <string name="beta_warning">Aquesta és una versió beta.
+
+Aquesta versió NO ÉS ESTABLE!
+
+Si no sabeu que esteu fent, NO la useu.
+
+Pot matar el vostre gatet i destruir-vos la casa.
+Useu-la sota la vostra responsabilitat.
+
+Divertiu-vos! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista desconegut</string>
     <string name="unknown_album">Àlbum desconegut</string>
@@ -100,17 +109,24 @@
     <string name="track_video">Pista de vídeo</string>
     <string name="track_text">Pista de subtítols</string>
     <string name="track_unknown">Pista desconeguda</string>
-    <string name="track_codec_info">Còdec: %1$s\n</string>
-    <string name="track_language_info">Llengua: %1$s\n</string>
+    <string name="track_codec_info">Còdec: %1$s
+</string>
+    <string name="track_language_info">Llengua: %1$s
+</string>
     <string name="volume">Volum</string>
     <string name="brightness">Brillantor</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 canal\n</item>
-        <item quantity="other">%1$d canals\n</item>
+        <item quantity="one">1 canal
+</item>
+        <item quantity="other">%1$d canals
+</item>
     </plurals>
-    <string name="track_samplerate_info">Freqüència de mostreig:  %1$d Hz\n</string>
-    <string name="track_resolution_info">Resolució: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Velocitat dels quadres: %1$.3f\n</string>
+    <string name="track_samplerate_info">Freqüència de mostreig:  %1$d Hz
+</string>
+    <string name="track_resolution_info">Resolució: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Velocitat dels quadres: %1$.3f
+</string>
     <string name="tools">Eines</string>
     <string name="playback_speed">Velocitat de reproducció</string>
     <string name="sleep_title">Temporitzador</string>
@@ -125,7 +141,8 @@
     <string name="open_mrl_dialog_msg">Introduïu la xarxa MRL: p.e. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">El vostre dispositiu no és compatible amb aquesta versió del VLC per a l\'Android™.</string>
     <string name="error_problem">S\'ha produït un error en carregar el VLC i s\'ha tancat.</string>
-    <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):\n</string>
+    <string name="error_message_is">El missatge d\'error és (comenteu això quan informeu):
+</string>
     <string name="encountered_error_title">Error de reproducció</string>
     <string name="encountered_error_message">VLC ha trobat un error en aquest suport. Si us plau, refresca la biblioteca multimèdia</string>
     <string name="invalid_location">No es pot reproduir la ruta %1$s.</string>
@@ -150,7 +167,9 @@
     <string name="add_custom_path_description">Introduïu un directori personalitzat addicional on cercar:</string>
     <string name="remove_custom_path">Elimina el camí personalitzat</string>
     <string name="hardware_acceleration">Acceleració per maquinari</string>
-    <string name="hardware_acceleration_summary">Inhabilitat: millor estabilitat.\nDescodificació: pot millorar el rendiment.\nComplet: pot millorar encara més el rendiment.</string>
+    <string name="hardware_acceleration_summary">Inhabilitat: millor estabilitat.
+Descodificació: pot millorar el rendiment.
+Complet: pot millorar encara més el rendiment.</string>
     <string name="hardware_acceleration_disabled">Inhabilitat</string>
     <string name="hardware_acceleration_decoding">Acceleració de descodificació</string>
     <string name="hardware_acceleration_full">Acceleració completa</string>
