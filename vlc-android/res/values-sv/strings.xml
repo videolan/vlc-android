@@ -30,7 +30,16 @@
     <string name="ringtone_error">Ett fel inträffade när ringsignalen ställdes in.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Visa inte detta meddelande igen.</string>
-    <string name="beta_warning">Detta är en betaversion.\n\nDenna version är INTE STABIL!\n\nAnvänd den INTE, såvida du vet vad du håller på med.\n\nDen kan döda din kattunge och förstöra ditt hus.\nAnvänd på egen risk.\n\nHa det så roligt! :)</string>
+    <string name="beta_warning">Detta är en betaversion.
+
+Denna version är INTE STABIL!
+
+Använd den INTE, såvida du vet vad du håller på med.
+
+Den kan döda din kattunge och förstöra ditt hus.
+Använd på egen risk.
+
+Ha det så roligt! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Okänd artist</string>
     <string name="unknown_album">Okänt album</string>
@@ -100,17 +109,24 @@
     <string name="track_video">Videospår</string>
     <string name="track_text">Undertextspår</string>
     <string name="track_unknown">Okänt spår</string>
-    <string name="track_codec_info">Kodek: %1$s\n</string>
-    <string name="track_language_info">Språk: %1$s\n</string>
+    <string name="track_codec_info">Kodek: %1$s
+</string>
+    <string name="track_language_info">Språk: %1$s
+</string>
     <string name="volume">Volym</string>
     <string name="brightness">Ljusstyrka</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanal\n</item>
-        <item quantity="other">%1$d kanaler\n</item>
+        <item quantity="one">1 kanal
+</item>
+        <item quantity="other">%1$d kanaler
+</item>
     </plurals>
-    <string name="track_samplerate_info">Samplingsfrekvens: %1$d Hz\n</string>
-    <string name="track_resolution_info">Upplösning: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Bildfrekvens: %1$.3f\n</string>
+    <string name="track_samplerate_info">Samplingsfrekvens: %1$d Hz
+</string>
+    <string name="track_resolution_info">Upplösning: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Bildfrekvens: %1$.3f
+</string>
     <string name="tools">Verktyg</string>
     <string name="playback_speed">Uppspelningshastighet</string>
     <string name="sleep_title">Sovtimer</string>
@@ -125,9 +141,11 @@
     <string name="open_mrl_dialog_msg">Ange nätverks-MRL: t.ex. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Tyvärr, din enhet stödjer för tillfället inte denna version av VLC för Android™.</string>
     <string name="error_problem">Tyvärr, VLC för Andriod fick ett problem med inläsning och blev tvungen att stängas ned.</string>
-    <string name="error_message_is">Felmeddelandet är (var god nämn detta under felsökningen):\n</string>
+    <string name="error_message_is">Felmeddelandet är (var god nämn detta under felsökningen):
+</string>
     <string name="encountered_error_title">Uppspelningsfel</string>
-    <string name="encountered_error_message">VLC stötte på ett fel med denna media.\nVar god försök uppdatera mediabiblioteket.</string>
+    <string name="encountered_error_message">VLC stötte på ett fel med denna media.
+Var god försök uppdatera mediabiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="search">Sök</string>
     <string name="search_history">Sökhistorik</string>
@@ -165,7 +183,9 @@
     <string name="add_custom_path_description">Ange ytterligare valfri katalog att skanna:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
-    <string name="hardware_acceleration_summary">Avaktiverad: bättre stabilitet.\nDekodning: kan förbättra prestandan.\nFull: kan förbättra prestandan ytterligare.</string>
+    <string name="hardware_acceleration_summary">Avaktiverad: bättre stabilitet.
+Dekodning: kan förbättra prestandan.
+Full: kan förbättra prestandan ytterligare.</string>
     <string name="hardware_acceleration_disabled">Avaktiverad</string>
     <string name="hardware_acceleration_decoding">Avkodningsaccelerering</string>
     <string name="hardware_acceleration_full">Full accelerering</string>
@@ -199,7 +219,9 @@
     <string name="enable_steal_remote_control_summary">Undvik konflikt genom att stjäla fjärrkontroll från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
     <string name="performance_prefs_category">Prestanda</string>
     <string name="chroma_format">Tvinga video färg</string>
-    <string name="chroma_format_summary">RGB 32-bit: Standardfärg\nRGB 16-bit: Bättre prestanda\nYUV: Bästa prestanda men fungerar ej på alla enheter. Endast Android 2.3 och senare.</string>
+    <string name="chroma_format_summary">RGB 32-bit: Standardfärg
+RGB 16-bit: Bättre prestanda
+YUV: Bästa prestanda men fungerar ej på alla enheter. Endast Android 2.3 och senare.</string>
     <string name="deblocking">Inställningar för avblockeringsfiltret</string>
     <string name="deblocking_summary">Ändra inställningar för avblockeringsfiltret. Kan förbättra videokvaliteten. Endast avancerade användare.</string>
     <string name="deblocking_always">Full avblockering (långsammast)</string>
