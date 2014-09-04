@@ -32,7 +32,11 @@
     <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
     <string name="not_show_again">Peidio dangos y neges eto</string>
-    <string name="beta_warning">Fersiwn beta yw hwn. Dyw\'r fersiwn hwn DDIM YN SEFYDLOG!\n\nGall niweidio\'ch cath a dinistrio\'ch tŷ, felly defnyddiwch dim ond os ydych yn gwybod beth rydych yn gwneud. \n\nMwynhewch! :)</string>
+    <string name="beta_warning">Fersiwn beta yw hwn. Dyw\'r fersiwn hwn DDIM YN SEFYDLOG!
+
+Gall niweidio\'ch cath a dinistrio\'ch tŷ, felly defnyddiwch dim ond os ydych yn gwybod beth rydych yn gwneud. 
+
+Mwynhewch! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artist Anhysbys</string>
     <string name="unknown_album">Albwm Anhysbys</string>
@@ -112,19 +116,28 @@
     <string name="track_video">Trac fideo</string>
     <string name="track_text">Trac isdeitlau</string>
     <string name="track_unknown">Trac anhysbys</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
-    <string name="track_language_info">Iaith: %1$s\n</string>
+    <string name="track_codec_info">Codec: %1$s
+</string>
+    <string name="track_language_info">Iaith: %1$s
+</string>
     <string name="volume">Sain</string>
     <string name="brightness">Disgleirdeb</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d sianel\n</item>
-        <item quantity="two">%1$d sianel\n</item>
-        <item quantity="many">%1$d sianel\n</item>
-        <item quantity="other">%1$d sianel\n</item>
+        <item quantity="one">%1$d sianel
+</item>
+        <item quantity="two">%1$d sianel
+</item>
+        <item quantity="many">%1$d sianel
+</item>
+        <item quantity="other">%1$d sianel
+</item>
     </plurals>
-    <string name="track_samplerate_info">Cyfradd sampl: %1$d Hz\n</string>
-    <string name="track_resolution_info">Cydraniad: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Cyfradd fframiau: %1$.3f\n</string>
+    <string name="track_samplerate_info">Cyfradd sampl: %1$d Hz
+</string>
+    <string name="track_resolution_info">Cydraniad: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Cyfradd fframiau: %1$.3f
+</string>
     <string name="tools">Offer</string>
     <string name="playback_speed">Cyflymder chwarae</string>
     <string name="sleep_title">Amserydd cwsg</string>
@@ -139,9 +152,11 @@
     <string name="open_mrl_dialog_msg">Rhowch MRL y cyfrwng: e.e. http://, mms:// neu rtsp://</string>
     <string name="error_not_compatible">Nid yw\'r fersiwn hon o VLC ar gyfer Android™ yn gweithio ar eich dyfais chi ar hyn o\'r bryd.</string>
     <string name="error_problem">Roedd problem wrth llwytho VLC ar gyfer Android™ a buodd rhaid ei gau.</string>
-    <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):\n</string>
+    <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):
+</string>
     <string name="encountered_error_title">Gwall chwarae</string>
-    <string name="encountered_error_message">Roedd gwall wrth geisio chwarae\'r cyfrwng hwn.\nCeisia ail-lwytho\'r llyfrgell cyfryngau.</string>
+    <string name="encountered_error_message">Roedd gwall wrth geisio chwarae\'r cyfrwng hwn.
+Ceisia ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
     <string name="search">Chwilio</string>
     <string name="search_history">Hanes chwilio</string>
@@ -179,7 +194,9 @@
     <string name="add_custom_path_description">Rhowch gyfeiriadur ychwanegol i\'w sganio:</string>
     <string name="remove_custom_path">Tynnu llwybr penodol</string>
     <string name="hardware_acceleration">Cyflymiad Caledwedd</string>
-    <string name="hardware_acceleration_summary">Analluogwyd: gwell sefydlogrwydd\nDatgodio: gwell perfformiad o bosib\nLlawn: perfformiad gwell fyth o bosib</string>
+    <string name="hardware_acceleration_summary">Analluogwyd: gwell sefydlogrwydd
+Datgodio: gwell perfformiad o bosib
+Llawn: perfformiad gwell fyth o bosib</string>
     <string name="hardware_acceleration_disabled">Analluogwyd</string>
     <string name="hardware_acceleration_decoding">Cyflymiad datgodio</string>
     <string name="hardware_acceleration_full">Cyflymiad llawn</string>
@@ -213,7 +230,9 @@
     <string name="enable_steal_remote_control_summary">Osgoi gwrthdaro gan atal aplenni eraill rhag cael rheolaeth ddiwifr (Ar ffonau clic-dwbl HTC, mae hyn yn rhwystro deialu.)</string>
     <string name="performance_prefs_category">Perfformiad</string>
     <string name="chroma_format">Gorfodi lliw fideo</string>
-    <string name="chroma_format_summary">RGB 32-did: Lliwiau rhagosodedig\nRGB 16-did: Gwell perfformiad; ansawdd salach\nYUV: Perfformiad gorau; dim yn gweithio ar bob dyfais; Android 2.3 a\'n uwch yn unig</string>
+    <string name="chroma_format_summary">RGB 32-did: Lliwiau rhagosodedig
+RGB 16-did: Gwell perfformiad; ansawdd salach
+YUV: Perfformiad gorau; dim yn gweithio ar bob dyfais; Android 2.3 a\'n uwch yn unig</string>
     <string name="deblocking">Gosodiadau\'r hidlydd dadflocio</string>
     <string name="deblocking_summary">Newid gosodiadau\'r hidlydd dadflocio. Gall wella ansawdd fideo. Defnyddwyr profiadol yn unig.</string>
     <string name="deblocking_always">Datflocio llawn (arafaf)</string>
