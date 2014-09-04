@@ -91,17 +91,23 @@
     <string name="track_video">വീഡിയോ ട്രാക്ക്‌</string>
     <string name="track_text">ഉപശീര്‍ഷക ട്രാക്ക്‌</string>
     <string name="track_unknown">അജ്ഞാത ട്രാക്ക്‌</string>
-    <string name="track_codec_info">കൊഡെക്ക്: %1$s\n</string>
-    <string name="track_language_info">ഭാഷ: %1$s\n</string>
+    <string name="track_codec_info">കൊഡെക്ക്: %1$s
+</string>
+    <string name="track_language_info">ഭാഷ: %1$s
+</string>
     <string name="volume">ശബ്ദം</string>
     <string name="brightness">തെളിച്ചം</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">൧ ചാനല്‍</item>
-        <item quantity="other">%1$d ചാനലുകള്‍\n</item>
+        <item quantity="other">%1$d ചാനലുകള്‍
+</item>
     </plurals>
-    <string name="track_samplerate_info">സാമ്പിളിന്റെ തോത്: %1$d Hz\n</string>
-    <string name="track_resolution_info">റെസലൂഷൻ: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">ഫ്രയിമിന്‍റെ തോത്:: %1$.3f\n</string>
+    <string name="track_samplerate_info">സാമ്പിളിന്റെ തോത്: %1$d Hz
+</string>
+    <string name="track_resolution_info">റെസലൂഷൻ: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">ഫ്രയിമിന്‍റെ തോത്:: %1$.3f
+</string>
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
     <string name="sleep_title">സ്ലീപ് റ്റൈമര്‍</string>
     <string name="sleep_cancel">സ്ലീപ് റ്റൈമര്‍ റദ്ദാക്കുക</string>
