@@ -30,7 +30,16 @@
     <string name="ringtone_error">ରିଂଗଟୋନ ସେଟ କରିବା ସମୟରେ ଏକ ତ୍ର୍ରୁଟି ହେଲା|</string>
     <string name="pause">ବିରାମ</string>
     <string name="not_show_again">ଏହି ସନ୍ଦେଶ ପୁନର୍ବାର ଦେଖାନ୍ତୁ ନାହିଁ|</string>
-    <string name="beta_warning">ଏହା ଏକ ବେଟା ସଂସ୍କରଣ|\n\n\nଏହି ସଂସ୍କରଣଟି ସ୍ଥିର ନୁହେଁ!\n\n\nଯଦି ଆପଣ ଜାଣିନାହାଁନ୍ତି କଣ କରୁଛନ୍ତି, ତେବେ ବ୍ୟବହାର କରନ୍ତୁ ନାହିଁ|\n\n\nଆପଣ ଏହାକୁ ନିଜ ଦାୟିତ୍ଵରେ ବ୍ୟବହାର କରନ୍ତୁ|</string>
+    <string name="beta_warning">ଏହା ଏକ ବେଟା ସଂସ୍କରଣ|
+
+
+ଏହି ସଂସ୍କରଣଟି ସ୍ଥିର ନୁହେଁ!
+
+
+ଯଦି ଆପଣ ଜାଣିନାହାଁନ୍ତି କଣ କରୁଛନ୍ତି, ତେବେ ବ୍ୟବହାର କରନ୍ତୁ ନାହିଁ|
+
+
+ଆପଣ ଏହାକୁ ନିଜ ଦାୟିତ୍ଵରେ ବ୍ୟବହାର କରନ୍ତୁ|</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">ଅଜ୍ଞାତ କଳାକାର</string>
     <string name="unknown_album">ଅଜ୍ଞାତ ଆଲବମ୍</string>
@@ -94,17 +103,24 @@
     <string name="track_video">ଭିଡ଼ିଓ ଟ୍ରାକ୍</string>
     <string name="track_text">ଉପଟାଇଟେଲ୍‌ ଟ୍ରାକ୍</string>
     <string name="track_unknown">ଅଜ୍ଞାତ ଟ୍ରାକ୍</string>
-    <string name="track_codec_info">କୋଡେକ୍: %1$s\n</string>
-    <string name="track_language_info">ଭାଷା: %1$s\n</string>
+    <string name="track_codec_info">କୋଡେକ୍: %1$s
+</string>
+    <string name="track_language_info">ଭାଷା: %1$s
+</string>
     <string name="volume">ଶବ୍ଦ ନିର୍ଦ୍ଧାରକ</string>
     <string name="brightness">ଔଜଲ୍ୟତା</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">୧ ଚ୍ୟାନେଲ୍‌\n</item>
-        <item quantity="other">%1$d ଚ୍ୟାନେଲ୍‌ସମୂହ\n</item>
+        <item quantity="one">୧ ଚ୍ୟାନେଲ୍‌
+</item>
+        <item quantity="other">%1$d ଚ୍ୟାନେଲ୍‌ସମୂହ
+</item>
     </plurals>
-    <string name="track_samplerate_info">ନମୂନା ମୂଲ୍ୟ: %1$d Hz\n</string>
-    <string name="track_resolution_info">ସ୍ପଷ୍ଟତା: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">ଫ୍ରେମ୍ ମାନ: %1$.3f\n</string>
+    <string name="track_samplerate_info">ନମୂନା ମୂଲ୍ୟ: %1$d Hz
+</string>
+    <string name="track_resolution_info">ସ୍ପଷ୍ଟତା: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">ଫ୍ରେମ୍ ମାନ: %1$.3f
+</string>
     <string name="tools">ଉପକରଣଗୁଡିକ</string>
     <string name="playback_speed">ଚାଳନ ବେଗ</string>
     <string name="sleep_title">ସୁପ୍ତ ଘଣ୍ଟା</string>
@@ -116,7 +132,8 @@
     <string name="open_mrl_dialog_msg">ନେଟୱର୍କ MRL ପ୍ରବେଶ କରନ୍ତୁ: ଉ.ଦା. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">କ୍ଷମା କରିବେ, Android™ ପାଇଁ VLC ର ଏହି ସଂସ୍କରଣକୁ ଆପଣଙ୍କ ଯନ୍ତ୍ର ବର୍ତ୍ତମାନ ସମର୍ଥନ କରୁନାହିଁ|</string>
     <string name="error_problem">କ୍ଷମା କରିବେ, Android ପାଇଁ VLC କୁ ଲୋଡ୍ କରିବାରେ ଅସୁବିଧା ହେଉଥିଲା ଏବଂ ବନ୍ଦ କରିବାକୁ ପଡିଲା|</string>
-    <string name="error_message_is">ତ୍ରୁଟି ସନ୍ଦେଶ ହେଉଛି (ଡିବଗିଂ ସମୟରେ ଦୟାକରି ଏହାକୁ ଉଲ୍ଲେଖ କରନ୍ତୁ):\n</string>
+    <string name="error_message_is">ତ୍ରୁଟି ସନ୍ଦେଶ ହେଉଛି (ଡିବଗିଂ ସମୟରେ ଦୟାକରି ଏହାକୁ ଉଲ୍ଲେଖ କରନ୍ତୁ):
+</string>
     <string name="encountered_error_title">ପଶ୍ଚାତ୍ ଚାଳନ  ତ୍ରୁଟି  </string>
     <string name="search">ସନ୍ଧାନ</string>
     <string name="search_history">ସନ୍ଧାନ ଇତିହାସ</string>
