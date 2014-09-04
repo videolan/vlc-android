@@ -90,16 +90,22 @@
     <string name="track_video">سىن يولى</string>
     <string name="track_text">كىنو خەت يولى</string>
     <string name="track_unknown">يوچۇن يول</string>
-    <string name="track_codec_info">كودلىغۇچ: %1$s\n</string>
-    <string name="track_language_info">تىل: %1$s\n</string>
+    <string name="track_codec_info">كودلىغۇچ: %1$s
+</string>
+    <string name="track_language_info">تىل: %1$s
+</string>
     <string name="volume">ئاۋاز مىقدارى</string>
     <string name="brightness">يورۇقلۇق</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d قانال\n</item>
+        <item quantity="other">%1$d قانال
+</item>
     </plurals>
-    <string name="track_samplerate_info">نۇسخا ئېلىش نىسبىتى: %1$d Hz\n</string>
-    <string name="track_resolution_info">ئېنىقلىقى: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">كاندۇك نىسبىتى: %1$.3f\n</string>
+    <string name="track_samplerate_info">نۇسخا ئېلىش نىسبىتى: %1$d Hz
+</string>
+    <string name="track_resolution_info">ئېنىقلىقى: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">كاندۇك نىسبىتى: %1$.3f
+</string>
     <string name="tools">قوراللار</string>
     <string name="playback_speed">تەكرار چېلىش سۈرئىتى</string>
     <string name="sleep_title">ئۇخلىتىش سانىغۇچ</string>
@@ -114,7 +120,8 @@
     <string name="open_mrl_dialog_msg">تور MRL نى كىرگۈزۈڭ: مەسىلەن: http://, mms:// ياكى rtsp://</string>
     <string name="error_not_compatible">كەچۈرۈڭ، بۇ نەشرىدىكى VLC for Android™ ئۈسكۈنىڭىزنى قوللىمايدۇ.</string>
     <string name="error_problem">كەچۈرۈڭ، VLC for Android نى يۈكلىيەلمىدى، تاقاش زۆرۈر.</string>
-    <string name="error_message_is">خاتالىق ئۇچۇرى (مەسىلىنى تەكشۈرۈپ تۈزىتىشكە ياردەملەشكەندە بۇ مەزمۇنلارنى تەمىنلەڭ)\n</string>
+    <string name="error_message_is">خاتالىق ئۇچۇرى (مەسىلىنى تەكشۈرۈپ تۈزىتىشكە ياردەملەشكەندە بۇ مەزمۇنلارنى تەمىنلەڭ)
+</string>
     <string name="encountered_error_title">تەكرار چېلىش خاتالىقى</string>
     <string name="encountered_error_message">VLC بۇ سىننى قويۇۋاتقاندا مەسىلىگە يولۇقتى. سىن ئامبىرىنى يېڭىلاپ سىناپ بېقىڭ.</string>
     <!--Tips-->
