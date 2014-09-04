@@ -29,7 +29,16 @@
     <string name="ringtone_error">Ringtone 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
     <string name="not_show_again">이 메시지를 다시 보지않음.</string>
-    <string name="beta_warning">이것은 베타 버전입니다.\n\n이 버전은 안정적이지 않습니다!\n\n무엇을 하고 있는지 모른다면 사용하지 마세요.\n\n이것은 당신의 고양이를 죽일수 있고, 집을 파괴하고 마야의 종말론을 초래할수 있습니다.\n위험을 감수하고 사용하세요.\n\n즐기세요! :)</string>
+    <string name="beta_warning">이것은 베타 버전입니다.
+
+이 버전은 안정적이지 않습니다!
+
+무엇을 하고 있는지 모른다면 사용하지 마세요.
+
+이것은 당신의 고양이를 죽일수 있고, 집을 파괴하고 마야의 종말론을 초래할수 있습니다.
+위험을 감수하고 사용하세요.
+
+즐기세요! :)</string>
     <string name="info_title">VLC 베타</string>
     <string name="unknown_artist">알수없는 아티스트</string>
     <string name="unknown_album">알수없는 앨범</string>
@@ -94,16 +103,22 @@
     <string name="track_video">비디오 트랙</string>
     <string name="track_text">자막 트랙</string>
     <string name="track_unknown">알수없는 트랙</string>
-    <string name="track_codec_info">코덱: %1$s\n</string>
-    <string name="track_language_info">언어: %1$s\n</string>
+    <string name="track_codec_info">코덱: %1$s
+</string>
+    <string name="track_language_info">언어: %1$s
+</string>
     <string name="volume">음량</string>
     <string name="brightness">밝기</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d 채널\n</item>
+        <item quantity="other">%1$d 채널
+</item>
     </plurals>
-    <string name="track_samplerate_info">샘플 레이트: %1$d Hz\n</string>
-    <string name="track_resolution_info">해상도: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">프레임 레이트: %1$.3f\n</string>
+    <string name="track_samplerate_info">샘플 레이트: %1$d Hz
+</string>
+    <string name="track_resolution_info">해상도: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">프레임 레이트: %1$.3f
+</string>
     <string name="tools">도구</string>
     <string name="playback_speed">재생 속도</string>
     <string name="sleep_title">취침 타이머</string>
@@ -116,11 +131,15 @@
     <string name="open_mrl">MRL 열기</string>
     <string name="open_mrl_dialog_title">네트워크 스트림 열기</string>
     <string name="open_mrl_dialog_msg">네트워크 MRL 입력: 예 http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">죄송합니다. 현재 이 버전의  Android™ 용 VLC 는 당신의 장치를 지원하지 않습니다.\n\n오류 메시지 (디버깅때 말씀해 주세요):\n</string>
+    <string name="error_not_compatible">죄송합니다. 현재 이 버전의  Android™ 용 VLC 는 당신의 장치를 지원하지 않습니다.
+
+오류 메시지 (디버깅때 말씀해 주세요):
+</string>
     <string name="error_problem">죄송합니다, 안드로이드 VLC 로딩에 문제가 있어 닫아야 합니다.</string>
     <string name="error_message_is">오류 메시지 (디버깅때 말씀해 주세요):</string>
     <string name="encountered_error_title">재생 오류</string>
-    <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로고침 해 보세요.</string>
+    <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.
+미디어 라이브러리를 새로고침 해 보세요.</string>
     <string name="invalid_location">%1$s 위치를 재생할 수 없습니다.</string>
     <string name="search">검색</string>
     <string name="search_history">검색 기록</string>
@@ -158,7 +177,9 @@
     <string name="add_custom_path_description">검색할 추가 사용자 지정 디렉토리 추가:</string>
     <string name="remove_custom_path">사용자 지정 경로 제거</string>
     <string name="hardware_acceleration">하드웨어 가속</string>
-    <string name="hardware_acceleration_summary">사용 안함: 안정성 증가.\n디코딩: 성능이 향상될 수 있음.\n전부: 성능이 더 향상될 수 있음.</string>
+    <string name="hardware_acceleration_summary">사용 안함: 안정성 증가.
+디코딩: 성능이 향상될 수 있음.
+전부: 성능이 더 향상될 수 있음.</string>
     <string name="hardware_acceleration_disabled">사용 안함</string>
     <string name="hardware_acceleration_decoding">디코딩 가속</string>
     <string name="hardware_acceleration_full">전부 가속</string>
@@ -192,7 +213,9 @@
     <string name="enable_steal_remote_control_summary">다른 앱의 원격 제어 가로챔에 의한 충돌 방지. HTC 폰의 더블 클릭 전화걸기를 방지합니다.</string>
     <string name="performance_prefs_category">성능</string>
     <string name="chroma_format">강제 비디오 채도</string>
-    <string name="chroma_format_summary">RGB 32-비트: 기본 크로마\nRGB 16-비트: 높은 성능, 낮은 품질\nYUV: 가장 좋은 성능이지만 모든 기기에서 동작하지 않습니다. 안드로이드 2.3 이상 필요.</string>
+    <string name="chroma_format_summary">RGB 32-비트: 기본 크로마
+RGB 16-비트: 높은 성능, 낮은 품질
+YUV: 가장 좋은 성능이지만 모든 기기에서 동작하지 않습니다. 안드로이드 2.3 이상 필요.</string>
     <string name="deblocking">Deblocking 필터 설정</string>
     <string name="deblocking_summary">Deblocking 필터 설정을 바꾸세요. 비디오 품질을 향상시킬 수 있습니다. 고급 사용자만.</string>
     <string name="deblocking_always">Full deblocking (가장느림)</string>
