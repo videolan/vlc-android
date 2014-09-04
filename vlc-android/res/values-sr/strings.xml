@@ -31,7 +31,12 @@
     <string name="ringtone_error">Дошло је до грешке при постављању мелодије звона.</string>
     <string name="pause">Паузирај</string>
     <string name="not_show_again">Не приказуј поново</string>
-    <string name="beta_warning">Ово је бета верзија, што значи да није стабилна!\n\nМожда вам убије маче или разнесе кућу,\nзато је користите на сопствени ризик.\n\nУживајте! :)</string>
+    <string name="beta_warning">Ово је бета верзија, што значи да није стабилна!
+
+Можда вам убије маче или разнесе кућу,
+зато је користите на сопствени ризик.
+
+Уживајте! :)</string>
     <string name="info_title">VLC бета</string>
     <string name="unknown_artist">Непознат извођач</string>
     <string name="unknown_album">Непознат албум</string>
@@ -106,18 +111,26 @@
     <string name="track_video">Видео-запис</string>
     <string name="track_text">Запис титла</string>
     <string name="track_unknown">Непознати запис</string>
-    <string name="track_codec_info">Кодек: %1$s\n</string>
-    <string name="track_language_info">Језик: %1$s\n</string>
+    <string name="track_codec_info">Кодек: %1$s
+</string>
+    <string name="track_language_info">Језик: %1$s
+</string>
     <string name="volume">Јачина звука</string>
     <string name="brightness">Осветљење</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 канал\n</item>
-        <item quantity="few">%1$d канала\n</item>
-        <item quantity="other">%1$d канала\n</item>
+        <item quantity="one">1 канал
+</item>
+        <item quantity="few">%1$d канала
+</item>
+        <item quantity="other">%1$d канала
+</item>
     </plurals>
-    <string name="track_samplerate_info">Учесталост узорковања: %1$d Hz\n</string>
-    <string name="track_resolution_info">Резолуција: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Учесталост кадрова: %1$.3f\n</string>
+    <string name="track_samplerate_info">Учесталост узорковања: %1$d Hz
+</string>
+    <string name="track_resolution_info">Резолуција: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Учесталост кадрова: %1$.3f
+</string>
     <string name="tools">Алатке</string>
     <string name="playback_speed">Брзина репродукције</string>
     <string name="sleep_title">Аутом. гашење</string>
@@ -134,7 +147,8 @@
     <string name="error_problem">Нажалост, VLC за Android је наишао на проблем и затворио се.</string>
     <string name="error_message_is">Порука о грешци гласи (помените ово при отклањању грешака):</string>
     <string name="encountered_error_title">Грешка при репродукцији</string>
-    <string name="encountered_error_message">VLC је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
+    <string name="encountered_error_message">VLC је наишао на грешку у овом медију.
+Пробајте да освежите медијску библиотеку.</string>
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
     <string name="search">Претражи</string>
     <string name="search_history">Историја претраге</string>
@@ -172,7 +186,9 @@
     <string name="add_custom_path_description">Додатна прилагођена фасцикла за скенирање:</string>
     <string name="remove_custom_path">Уклони прилагођену путању</string>
     <string name="hardware_acceleration">Хардверско убрзање</string>
-    <string name="hardware_acceleration_summary">Онемогућено: боља стабилност.\nДекодирање: може побољшати перформансе.\nПуно: може додатно побољшати перформансе.</string>
+    <string name="hardware_acceleration_summary">Онемогућено: боља стабилност.
+Декодирање: може побољшати перформансе.
+Пуно: може додатно побољшати перформансе.</string>
     <string name="hardware_acceleration_disabled">Искључено</string>
     <string name="hardware_acceleration_decoding">Убрзање декодирања</string>
     <string name="hardware_acceleration_full">Пуно убрзање</string>
@@ -206,7 +222,9 @@
     <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Овим ћете спречити позивање двоструким додиром на HTC телефонима.</string>
     <string name="performance_prefs_category">Перформансе</string>
     <string name="chroma_format">Наметни формат обојености</string>
-    <string name="chroma_format_summary">RGB 32 бита: подразумевана сјајност боје\nRGB 16 бита: боље перформансе, али лошији квалитет\nYUV: најбоље перформансе, али не ради на свим уређајима. Само за Android 2.3 и новији.</string>
+    <string name="chroma_format_summary">RGB 32 бита: подразумевана сјајност боје
+RGB 16 бита: боље перформансе, али лошији квалитет
+YUV: најбоље перформансе, али не ради на свим уређајима. Само за Android 2.3 и новији.</string>
     <string name="deblocking">Поставке филтера за деблокирање</string>
     <string name="deblocking_summary">Промените поставке филтера за деблокирање (само за напредне кориснике). Могуће је побољшање слике.</string>
     <string name="deblocking_always">Пуно деблокирање (најспорије)</string>
