@@ -30,7 +30,16 @@
     <string name="ringtone_error">रिंगटोन सेट करताना एक त्रुटी आली.</string>
     <string name="pause">विरामित करा</string>
     <string name="not_show_again">हा संदेश पुन्हा दाखवू नये.</string>
-    <string name="beta_warning">ही बीटा आवृत्ती आहे.\n\nही आवृत्ती स्थिर नाही!\n\nआपण काय करत आहात हे तुम्हाला माहित असेपर्यंत वापरु नका.\n\nतुमचे मांजरीचे पिल्लू मरु शकते आणि घर नष्ट होऊ शकते.\nतुमच्या स्वतःच्या जबाबदारीवर वापरा.\n\nमजा करा! :)</string>
+    <string name="beta_warning">ही बीटा आवृत्ती आहे.
+
+ही आवृत्ती स्थिर नाही!
+
+आपण काय करत आहात हे तुम्हाला माहित असेपर्यंत वापरु नका.
+
+तुमचे मांजरीचे पिल्लू मरु शकते आणि घर नष्ट होऊ शकते.
+तुमच्या स्वतःच्या जबाबदारीवर वापरा.
+
+मजा करा! :)</string>
     <string name="info_title">VLC बीटा</string>
     <string name="unknown_artist">अनामिक कलाकार</string>
     <string name="unknown_album">अनामिक अल्बम</string>
@@ -100,17 +109,25 @@
     <string name="track_video">चित्रफीत ट्रॅक</string>
     <string name="track_text">उपशीर्षक ट्रॅक</string>
     <string name="track_unknown">अनामिक ट्रॅक</string>
-    <string name="track_codec_info">कोडेक: %1$s\n</string>
-    <string name="track_language_info">भाषा: %1$s\n</string>
+    <string name="track_codec_info">कोडेक: %1$s
+</string>
+    <string name="track_language_info">भाषा: %1$s
+</string>
     <string name="volume">आवाज तीव्रता</string>
     <string name="brightness">तेजस्वीपणा</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 वाहिनी\n\n</item>
-        <item quantity="other">%1$d वाहिन्या\n</item>
+        <item quantity="one">1 वाहिनी
+
+</item>
+        <item quantity="other">%1$d वाहिन्या
+</item>
     </plurals>
-    <string name="track_samplerate_info">सँपल दर: %1$d Hz\n</string>
-    <string name="track_resolution_info">रेझोलूशन: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">फ्रेम दर: %1$.3f\n</string>
+    <string name="track_samplerate_info">सँपल दर: %1$d Hz
+</string>
+    <string name="track_resolution_info">रेझोलूशन: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">फ्रेम दर: %1$.3f
+</string>
     <string name="tools">साधने</string>
     <string name="playback_speed">प्लेबॅक वेग</string>
     <string name="sleep_title">स्लीप टाइमर</string>
@@ -125,9 +142,11 @@
     <string name="open_mrl_dialog_msg">नेटवर्क MRL प्रविष्ट करा: उदा. http://, mms:// किंवा rtsp://</string>
     <string name="error_not_compatible">माफ करा , तुमचे उपकरण VLC च्या Android™ च्या या आवृत्तीसोबत कार्यरत होवू शकत नाही.</string>
     <string name="error_problem">क्षमस्व, VLC लोड करतेवेळी काही समस्या होती त्यामुळे तो बंद करावा लागला.</string>
-    <string name="error_message_is">चूक संदेश असा आहे (कृपया डीबग करतेवेळी याचा उल्लेख करा):\n</string>
+    <string name="error_message_is">चूक संदेश असा आहे (कृपया डीबग करतेवेळी याचा उल्लेख करा):
+</string>
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
-    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
+    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.
+कृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location">स्थान %1$s खेळला जाऊ शकत नाही.</string>
     <string name="search">शोधा</string>
     <string name="search_history">शोध इतिहास</string>
@@ -165,7 +184,9 @@
     <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
     <string name="remove_custom_path">सानुकूल मार्ग काढून टाका</string>
     <string name="hardware_acceleration">हार्डवेअर अॅक्सलरेशन</string>
-    <string name="hardware_acceleration_summary">अक्षम: चांगले स्थिरता.\nडिकोड: कार्यप्रदर्शन सुधारू शकते.\nपूर्ण: पुढील कामगिरी सुधारू शकते.</string>
+    <string name="hardware_acceleration_summary">अक्षम: चांगले स्थिरता.
+डिकोड: कार्यप्रदर्शन सुधारू शकते.
+पूर्ण: पुढील कामगिरी सुधारू शकते.</string>
     <string name="hardware_acceleration_disabled">निष्क्रिय करा</string>
     <string name="hardware_acceleration_decoding">डिकोड प्रवेग</string>
     <string name="hardware_acceleration_full">पूर्ण प्रवेग</string>
@@ -184,7 +205,8 @@
     <string name="interface_prefs_screen">इंटरफेस</string>
     <string name="interface_secondary_display_category">इंटरफेस - दुय्यम प्रदर्शन</string>
     <string name="interface_secondary_display_category_summary">सेटिंग्ज जेंव्हा दुय्यम डिस्प्ले कनेक्ट (HDMI / Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">\nहार्डवेअर प्रवेग सेटिंग ठेवा.</string>
+    <string name="enable_secondary_display_hardware_acceleration">
+हार्डवेअर प्रवेग सेटिंग ठेवा.</string>
     <string name="enable_secondary_display_hardware_acceleration_summary">हार्डवेअर प्रवेग कदाचित काम नाही करनार</string>
     <string name="enable_clone_mode">क्लोन प्राधान्य</string>
     <string name="enable_clone_mode_summary">साधन स्क्रीन क्लोन तयार दूरस्थ नियंत्रण शिवाय.</string>
@@ -196,10 +218,13 @@
     <string name="enable_jump_buttons">जंप बटणे सक्रीय करा</string>
     <string name="enable_jump_buttons_summary">व्हिडिओ इंटरफेसवर मागास व पुढे बटण दर्शवा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
-    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.\nहे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
+    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.
+हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
     <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
-    <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा\nRGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता\nYUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
+    <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा
+RGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता
+YUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
     <string name="deblocking">डीब्लॉकिंग फिल्टर सेटींग्स</string>
     <string name="deblocking_summary">डीब्लॉकिंग फिल्टर सेटींग्स बदला. चित्रफीत गुणवत्ता सुधारू शकते. फक्त प्रगत वापरकर्त्यांसाठी.</string>
     <string name="deblocking_always">पूर्ण डीब्लॉकिंग (सर्वात मंद)</string>
