@@ -29,7 +29,16 @@
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
     <string name="not_show_again">このメッセージを今後表示しない。</string>
-    <string name="beta_warning">これはベータ版です。\n\nこのバージョンは安定していません!\n\nあなたが何をしているか知らないまま使用しないでください。\n\nあなたに破壊的な結果をもたらし、マヤの黙示録を開始させるかもしれません。\nご自身のリスクでご利用ください。\n\nそれではお楽しみください! :)</string>
+    <string name="beta_warning">これはベータ版です。
+
+このバージョンは安定していません!
+
+あなたが何をしているか知らないまま使用しないでください。
+
+あなたに破壊的な結果をもたらし、マヤの黙示録を開始させるかもしれません。
+ご自身のリスクでご利用ください。
+
+それではお楽しみください! :)</string>
     <string name="info_title">VLCベータ版</string>
     <string name="unknown_artist">未知のアーティスト</string>
     <string name="unknown_album">未知のアルバム</string>
@@ -94,16 +103,22 @@
     <string name="track_video">ビデオトラック</string>
     <string name="track_text">字幕トラック</string>
     <string name="track_unknown">未知のトラック</string>
-    <string name="track_codec_info">コーデック: %1$s\n</string>
-    <string name="track_language_info">言語: %1$s\n</string>
+    <string name="track_codec_info">コーデック: %1$s
+</string>
+    <string name="track_language_info">言語: %1$s
+</string>
     <string name="volume">ボリューム</string>
     <string name="brightness">明るさ</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d チャンネル\n</item>
+        <item quantity="other">%1$d チャンネル
+</item>
     </plurals>
-    <string name="track_samplerate_info">サンプリングレート: %1$d Hz\n</string>
-    <string name="track_resolution_info">解像度: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">フレームレート: %1$.3f\n</string>
+    <string name="track_samplerate_info">サンプリングレート: %1$d Hz
+</string>
+    <string name="track_resolution_info">解像度: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">フレームレート: %1$.3f
+</string>
     <string name="tools">ツール</string>
     <string name="playback_speed">再生速度</string>
     <string name="sleep_title">スリープタイマー</string>
@@ -116,9 +131,13 @@
     <string name="open_mrl">MRLを開く</string>
     <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
     <string name="open_mrl_dialog_msg">ネットワークMRLを入力: 例 http://, mms:// または rtsp://</string>
-    <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。\n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
+    <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。
+
+エラーメッセージ(デバッグの際にはこちらをお伝えください):
+</string>
     <string name="error_problem">VLC for Androidはローディングで問題が発生したため、クローズします。</string>
-    <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):\n</string>
+    <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):
+</string>
     <string name="encountered_error_title">再生エラー</string>
     <string name="encountered_error_message">このメディアでエラーを検出しました。メディアライブラリをリフレッシュしてみてください。</string>
     <string name="invalid_location">その場所 %1$s は再生できません</string>
@@ -158,7 +177,9 @@
     <string name="add_custom_path_description">スキャンするカスタムディレクトリの追加:</string>
     <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="hardware_acceleration">ハードウェアアクセラレーション</string>
-    <string name="hardware_acceleration_summary">無効: 安定性重視\nデコーディング: 性能改善\nフル: より改善された性能</string>
+    <string name="hardware_acceleration_summary">無効: 安定性重視
+デコーディング: 性能改善
+フル: より改善された性能</string>
     <string name="hardware_acceleration_disabled">無効</string>
     <string name="hardware_acceleration_decoding">デコーディングアクセラレーション</string>
     <string name="hardware_acceleration_full">フルアクセラレーション</string>
@@ -192,7 +213,9 @@
     <string name="enable_steal_remote_control_summary">他のアプリケーションがリモートコントロールを占有する場合の競合を避けます。HTC製の電話でダブルクリックによる発信を防止します。</string>
     <string name="performance_prefs_category">パフォーマンス</string>
     <string name="chroma_format">強制クロマ</string>
-    <string name="chroma_format_summary">RGB 32ビット: デフォルトのクロマ\nRGB 16ビット: より良いパフォーマンス、低品質\nYUV: 最高のパフォーマンス、すべてのデバイスでは動作しません。Android 2.3以降での動作します。</string>
+    <string name="chroma_format_summary">RGB 32ビット: デフォルトのクロマ
+RGB 16ビット: より良いパフォーマンス、低品質
+YUV: 最高のパフォーマンス、すべてのデバイスでは動作しません。Android 2.3以降での動作します。</string>
     <string name="deblocking">ブロック化抑止フィルター設定</string>
     <string name="deblocking_summary">ブロック化抑止フィルターの設定を変更します。ビデオ品質の向上が可能です。アドバンスドユーザー向けの設定です。</string>
     <string name="deblocking_always">ブロック化抑止最大 (低速)</string>
