@@ -30,7 +30,16 @@
     <string name="ringtone_error">හඬනාදය සකසන අතරතුරදී දෝෂයක් හට ගැනුණි.</string>
     <string name="pause">විරාමය</string>
     <string name="not_show_again">මෙම පණිවුඩය නැවත පෙන්වන්න එපා.</string>
-    <string name="beta_warning">මෙය අත්හදාබැලීම් අනුවාදයයි.\n\nමෙම අනුවාදය ස්ථාවර නොවේ!\n\nඔබ කරන්නේ කුමක්දැයි දැනගෙන මිසක්, භාවිතා කරන්න එපා.\n\nඑය ඔබේ පූසා මරා දමා නිවස විනාශ කර ගන්නවා වැනි වැඩකි.\nඑය ඔබේම අවදානමකින් භාවිතා කරන්න.\n\nසතුටු වෙන්න! :)</string>
+    <string name="beta_warning">මෙය අත්හදාබැලීම් අනුවාදයයි.
+
+මෙම අනුවාදය ස්ථාවර නොවේ!
+
+ඔබ කරන්නේ කුමක්දැයි දැනගෙන මිසක්, භාවිතා කරන්න එපා.
+
+එය ඔබේ පූසා මරා දමා නිවස විනාශ කර ගන්නවා වැනි වැඩකි.
+එය ඔබේම අවදානමකින් භාවිතා කරන්න.
+
+සතුටු වෙන්න! :)</string>
     <string name="info_title">VLC බීටා</string>
     <string name="unknown_artist">නොදත් කලාකරු</string>
     <string name="unknown_album">නොදත් ඇල්බමය</string>
@@ -100,17 +109,24 @@
     <string name="track_video">වීඩියෝ පථය</string>
     <string name="track_text">උපසිරැසි පථය</string>
     <string name="track_unknown">නොදන්නා පථය</string>
-    <string name="track_codec_info">කොඩෙක්: %1$s\n</string>
-    <string name="track_language_info">භාෂාව: %1$s\n</string>
+    <string name="track_codec_info">කොඩෙක්: %1$s
+</string>
+    <string name="track_language_info">භාෂාව: %1$s
+</string>
     <string name="volume">ශබ්දය</string>
     <string name="brightness">දීප්තිය</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 නාලිකාවක්\n</item>
-        <item quantity="other">%1$d නාලිකාවන්\n</item>
+        <item quantity="one">1 නාලිකාවක්
+</item>
+        <item quantity="other">%1$d නාලිකාවන්
+</item>
     </plurals>
-    <string name="track_samplerate_info">නියැදි අනුපාතය: %1$d Hz\n</string>
-    <string name="track_resolution_info">විභේදනය: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">රාමු අනුපාතය: %1$.3f\n</string>
+    <string name="track_samplerate_info">නියැදි අනුපාතය: %1$d Hz
+</string>
+    <string name="track_resolution_info">විභේදනය: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">රාමු අනුපාතය: %1$.3f
+</string>
     <string name="tools">මෙවලම්</string>
     <string name="playback_speed">පිළිවැයීම් වේගය</string>
     <string name="sleep_title">නිඳන මුහුර්තකය</string>
@@ -125,9 +141,11 @@
     <string name="open_mrl_dialog_msg">ජාල MRL යොදන්න: e.g. http://, mms:// හෝ rtsp://</string>
     <string name="error_not_compatible">කණගාටුයි, ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC මෙම අනුවාදය විසින් දැනට ඔබේ උපාංගය සහය නොදක්වයි.</string>
     <string name="error_problem">කණගාටුයි, ඇන්ඩ්‍රොයිඩ් සඳහා VLC සතුව පූරණය වීමේ දෝෂයක් තිබුණු අතර දැන් වැසීමට සිදු වේ.</string>
-    <string name="error_message_is">දෝෂ පණිවුඩය වනුයේ (කරුණාකර නිදොස්කරණයේදී මෙය සිහිපත් කරන්න):\n</string>
+    <string name="error_message_is">දෝෂ පණිවුඩය වනුයේ (කරුණාකර නිදොස්කරණයේදී මෙය සිහිපත් කරන්න):
+</string>
     <string name="encountered_error_title">පිළිවැයීම් දෝෂය</string>
-    <string name="encountered_error_message">VLC හට මෙම මාධ්‍ය සමඟ දෝෂයක් හට ගනුණි.\nකරුණාකර මාධ්‍ය පුස්තකාලය ප්‍රබෝධවත් කිරීමට උත්සාහ කරන්න.</string>
+    <string name="encountered_error_message">VLC හට මෙම මාධ්‍ය සමඟ දෝෂයක් හට ගනුණි.
+කරුණාකර මාධ්‍ය පුස්තකාලය ප්‍රබෝධවත් කිරීමට උත්සාහ කරන්න.</string>
     <string name="invalid_location">%1$s ස්ථානය වාදනය කළ නොහැක.</string>
     <string name="search">සොයන්න</string>
     <string name="search_history">සෙවුම් ඉතිහාසය</string>
@@ -150,7 +168,9 @@
     <string name="add_custom_path_description">සුපිරික්සිම සඳහා අමතර රිසිකළ ඩිරෙක්ටරියක් යොදන්න:</string>
     <string name="remove_custom_path">රිසිකළ පෙත ඉවත් කරන්න</string>
     <string name="hardware_acceleration">දෘඩාංග ත්වරණය</string>
-    <string name="hardware_acceleration_summary">අක්‍රියයි: යහපත් ස්ථාවරත්වය.\nවිසංකේතීකරණය: ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.\nපූර්ණ: තවදුරටත් ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.</string>
+    <string name="hardware_acceleration_summary">අක්‍රියයි: යහපත් ස්ථාවරත්වය.
+විසංකේතීකරණය: ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.
+පූර්ණ: තවදුරටත් ක්‍රියාකාරීත්වය වැඩි දියුණු වේ.</string>
     <string name="hardware_acceleration_disabled">අක්‍රියයි</string>
     <string name="hardware_acceleration_decoding">විසංකේතීකරණ ත්වරණය</string>
     <string name="hardware_acceleration_full">පූර්ණ ත්වරණය</string>
@@ -181,7 +201,9 @@
     <string name="enable_steal_remote_control_summary">වෙනත් යෙදුම් වලින් දුරස්ථ පාලනය සොරකම් කිරීමෙන් ගැටුම් මඟ හරින්න. මෙය HTC දුරකථනවල දෙවරක් ක්ලික් කිරීමෙන් අංකනය වීම වළක්වාලයි.</string>
     <string name="performance_prefs_category">ක්‍රියාකාරිත්වය</string>
     <string name="chroma_format">බලවේග විදෘශ්‍ය වර්ණතීව‍්‍රතාව</string>
-    <string name="chroma_format_summary">RGB 32-bit: පෙරනිමි වර්ණතීව‍්‍රතාව\nRGB 16-bit: යහපත් ක්‍රියාකාරීත්වය නමුත් අඩු ගුණත්වය\nYUV: යහපත් ක්‍රියාකාරීත්වය නමුත් සියලුම උපාංගවල වැඩ නොකරයි. ඇන්ඩ්‍රොයිඩ් 2.3 සහ පසු පමණයි.</string>
+    <string name="chroma_format_summary">RGB 32-bit: පෙරනිමි වර්ණතීව‍්‍රතාව
+RGB 16-bit: යහපත් ක්‍රියාකාරීත්වය නමුත් අඩු ගුණත්වය
+YUV: යහපත් ක්‍රියාකාරීත්වය නමුත් සියලුම උපාංගවල වැඩ නොකරයි. ඇන්ඩ්‍රොයිඩ් 2.3 සහ පසු පමණයි.</string>
     <string name="deblocking">ප්‍රතිවාරක පෙරහන් සැකසුම්</string>
     <string name="deblocking_summary">ප්‍රතිවැළකුම් පෙරහන් සැකසුම් වෙනස් කරන්න. විදෘශ්‍ය ගුණත්වය වැඩි දියුණු විය හැක. උසස් පරිශිකයන්ට පමණි.</string>
     <string name="deblocking_always">පූර්ණ ප්‍රති අවහිර කිරීම (මන්දගාමී)</string>
