@@ -29,7 +29,16 @@
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
     <string name="not_show_again">不再显示此提示信息。</string>
-    <string name="beta_warning">这是测试版本。\n\n该版本*并不稳定*!\n\n如果您不知道自己在干什么，请*不要*使用本应用。\n\n它可能是汪星来的杀手，也可能毁掉您的房子。\n如若使用，责任自负。\n\n祝您使用愉快! :)</string>
+    <string name="beta_warning">这是测试版本。
+
+该版本*并不稳定*!
+
+如果您不知道自己在干什么，请*不要*使用本应用。
+
+它可能是汪星来的杀手，也可能毁掉您的房子。
+如若使用，责任自负。
+
+祝您使用愉快! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">未知艺术家</string>
     <string name="unknown_album">未知专辑</string>
@@ -94,16 +103,22 @@
     <string name="track_video">视频轨</string>
     <string name="track_text">字幕轨</string>
     <string name="track_unknown">未知轨</string>
-    <string name="track_codec_info">编解码器: %1$s\n</string>
-    <string name="track_language_info">语言: %1$s\n</string>
+    <string name="track_codec_info">编解码器: %1$s
+</string>
+    <string name="track_language_info">语言: %1$s
+</string>
     <string name="volume">音量</string>
     <string name="brightness">亮度</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d 声道\n</item>
+        <item quantity="other">%1$d 声道
+</item>
     </plurals>
-    <string name="track_samplerate_info">采样率: %1$d Hz\n</string>
-    <string name="track_resolution_info">分辨率: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">帧率: %1$.3f\n</string>
+    <string name="track_samplerate_info">采样率: %1$d Hz
+</string>
+    <string name="track_resolution_info">分辨率: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">帧率: %1$.3f
+</string>
     <string name="tools">工具</string>
     <string name="playback_speed">回放速度</string>
     <string name="sleep_title">睡眠计时器</string>
@@ -118,9 +133,11 @@
     <string name="open_mrl_dialog_msg">请输入网络 MRL: 如 http://、mms:// 或 rtsp://</string>
     <string name="error_not_compatible">抱歉，该版本的 VLC for Android™ 尚不支持您的设备。</string>
     <string name="error_problem">抱歉，VLC for Android 加载失败，需要关闭。</string>
-    <string name="error_message_is">错误消息为 (协助排查问题时请提供该内容):\n</string>
+    <string name="error_message_is">错误消息为 (协助排查问题时请提供该内容):
+</string>
     <string name="encountered_error_title">回放错误</string>
-    <string name="encountered_error_message">VLC 播放该媒体时遇到问题。\n请尝试刷新媒体库。</string>
+    <string name="encountered_error_message">VLC 播放该媒体时遇到问题。
+请尝试刷新媒体库。</string>
     <string name="invalid_location">无法播放位置 %1$s。</string>
     <string name="search">搜索</string>
     <string name="search_history">搜索历史</string>
@@ -158,7 +175,9 @@
     <string name="add_custom_path_description">输入要扫描的其他自定义目录:</string>
     <string name="remove_custom_path">移除自定义路径</string>
     <string name="hardware_acceleration">硬件加速</string>
-    <string name="hardware_acceleration_summary">禁用: 最为稳定。\n解码: 可提升性能。\n完全: 可进一步提升性能。</string>
+    <string name="hardware_acceleration_summary">禁用: 最为稳定。
+解码: 可提升性能。
+完全: 可进一步提升性能。</string>
     <string name="hardware_acceleration_disabled">禁用</string>
     <string name="hardware_acceleration_decoding">解码加速</string>
     <string name="hardware_acceleration_full">完全加速</string>
@@ -192,7 +211,9 @@
     <string name="enable_steal_remote_control_summary">通过拦截其他应用的远程控制避免冲突。可能导致 HTC 手机的双击拨号功能无法使用。</string>
     <string name="performance_prefs_category">性能</string>
     <string name="chroma_format">强制画面色度</string>
-    <string name="chroma_format_summary">RGB 32 位: 默认色度\nRGB 16 位: 性能稍高，但画质略低\nYUV: 性能最高，但并非在所有设备上都可用。仅限 Android 2.3 及更高版本使用。</string>
+    <string name="chroma_format_summary">RGB 32 位: 默认色度
+RGB 16 位: 性能稍高，但画质略低
+YUV: 性能最高，但并非在所有设备上都可用。仅限 Android 2.3 及更高版本使用。</string>
     <string name="deblocking">去块滤镜设置</string>
     <string name="deblocking_summary">更改去块滤镜设置。能够改进视频质量。仅供高级用户使用。</string>
     <string name="deblocking_always">完全去块 (最慢)</string>
