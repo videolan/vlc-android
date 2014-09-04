@@ -29,7 +29,16 @@
     <string name="ringtone_error">កំហុស​មួយ​បាន​កើត​ឡើង ខណៈ​ដែល​កំណត់​សំឡេង​រោទ៍។</string>
     <string name="pause">ផ្អាក</string>
     <string name="not_show_again">កុំ​បង្ហាញ​សារ​នេះ​ម្ដង​ទៀត ។</string>
-    <string name="beta_warning">នេះ​ជា​កំណែ​បែតា។\n\nកំណែ​នេះ​មិន​មាន​ស្ថិរភាព​ទេ!\n\nកុំ​ប្រើ​វា​ លុះ​ត្រា​តែ​អ្នក​ដឹង​ពី​អ្វី​ដែល​អ្នក​កំពុង​ធ្វើ។\n\nវា​អាច​បំផ្លាញ​អ្វីៗ​ដែល​អ្នក​មាន។\nប្រើ​វា​ដោយ​ប្រុងប្រយ័ត្ន។\n\nសូម​រីករាយ! :)</string>
+    <string name="beta_warning">នេះ​ជា​កំណែ​បែតា។
+
+កំណែ​នេះ​មិន​មាន​ស្ថិរភាព​ទេ!
+
+កុំ​ប្រើ​វា​ លុះ​ត្រា​តែ​អ្នក​ដឹង​ពី​អ្វី​ដែល​អ្នក​កំពុង​ធ្វើ។
+
+វា​អាច​បំផ្លាញ​អ្វីៗ​ដែល​អ្នក​មាន។
+ប្រើ​វា​ដោយ​ប្រុងប្រយ័ត្ន។
+
+សូម​រីករាយ! :)</string>
     <string name="info_title">VLC បែតា</string>
     <string name="unknown_artist">មិន​ស្គាល់​សិល្បករ</string>
     <string name="unknown_album">មិន​ស្គាល់​អាល់ប៊ុម</string>
@@ -94,16 +103,22 @@
     <string name="track_video">បទ​វីដេអូ</string>
     <string name="track_text">បទ​ចំណង​ជើង​រង</string>
     <string name="track_unknown">មិន​ស្គាល់​បទ</string>
-    <string name="track_codec_info">កូឌិក៖ %1$s\n</string>
-    <string name="track_language_info">ភាសា៖ %1$s\n</string>
+    <string name="track_codec_info">កូឌិក៖ %1$s
+</string>
+    <string name="track_language_info">ភាសា៖ %1$s
+</string>
     <string name="volume">កម្រិត​សំឡេង</string>
     <string name="brightness">ពន្លឺ</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d ឆានែល\n</item>
+        <item quantity="other">%1$d ឆានែល
+</item>
     </plurals>
-    <string name="track_samplerate_info">អត្រា​គំរូ៖ %1$d Hz\n</string>
-    <string name="track_resolution_info">គុណភាព​បង្ហាញ៖ %1$dx%2$d\n</string>
-    <string name="track_framerate_info">អត្រា​ស៊ុម៖ %1$.3f\n</string>
+    <string name="track_samplerate_info">អត្រា​គំរូ៖ %1$d Hz
+</string>
+    <string name="track_resolution_info">គុណភាព​បង្ហាញ៖ %1$dx%2$d
+</string>
+    <string name="track_framerate_info">អត្រា​ស៊ុម៖ %1$.3f
+</string>
     <string name="tools">ឧបករណ៍</string>
     <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
     <string name="sleep_title">កម្មវិធី​កំណត់​ម៉ោង​ដេក</string>
@@ -116,11 +131,13 @@
     <string name="open_mrl">បើក MRL</string>
     <string name="open_mrl_dialog_title">បើក​ស្ទ្រីម​បណ្ដាញ</string>
     <string name="open_mrl_dialog_msg">បញ្ចូល MRL បណ្ដាញ៖ ឧ. http://, mms:// ឬ rtsp://</string>
-    <string name="error_not_compatible">សូម​ទោស ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បាន​គាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ នេះ​ទេ។\n</string>
+    <string name="error_not_compatible">សូម​ទោស ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បាន​គាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ នេះ​ទេ។
+</string>
     <string name="error_problem">សូម​ទោស VLC សម្រាប់ Android មាន​បញ្ហា​ក្នុង​កា​រ​ផ្ទុក និង​ពិបាក​បិទ​ណាស់។</string>
     <string name="error_message_is">សារ​កំហុស​គឺ (សូម​រៀបរាប់​ពេល​កែ​កំហុស)៖⏎</string>
     <string name="encountered_error_title">កំហុស​ក្នុង​ការ​ចាក់​ឡើងវិញ</string>
-    <string name="encountered_error_message">VLC មាន​កំហុស​ជា​មួយ​មេឌៀ​នេះ។\nសូម​ព្យាយាម​ផ្ទុក​​បណ្ណាល័យ​មេឌៀ​ឡើង​វិញ។</string>
+    <string name="encountered_error_message">VLC មាន​កំហុស​ជា​មួយ​មេឌៀ​នេះ។
+សូម​ព្យាយាម​ផ្ទុក​​បណ្ណាល័យ​មេឌៀ​ឡើង​វិញ។</string>
     <string name="invalid_location">មិន​អាច​បង្ហាញ​ទីតាំង​ %1$s បាន​ទេ។</string>
     <string name="search">ស្វែងរក</string>
     <string name="search_history">ប្រវត្តិ​ស្វែងរក</string>
@@ -130,7 +147,8 @@
     <string name="video_player_tips">គន្លឹះកម្មវិធីចាក់វីដេអូ:</string>
     <string name="seek">ស្វែងរក</string>
     <string name="subtitles">ចំណងជើង</string>
-    <string name="resize">\nផ្លាស់ប្តូរទំហំ</string>
+    <string name="resize">
+ផ្លាស់ប្តូរទំហំ</string>
     <string name="options">ជម្រើស</string>
     <string name="lock">ចាក់សោ</string>
     <!-- About -->
@@ -149,7 +167,9 @@
     <string name="add_custom_path_description">បញ្ចូល​ថត​ផ្ទាល់​ខ្លួន​​បន្ថែម ​ដើម្បី​វិភាគ​រក៖</string>
     <string name="remove_custom_path">លុប​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>
     <string name="hardware_acceleration">ការ​បង្កើន​ល្បឿន​ផ្នែក​រឹង</string>
-    <string name="hardware_acceleration_summary">បិទ៖ មាន​ស្ថិរ​ភាព​ជាង។\nដោះ​កូដ៖ អាច​ធ្វើ​ឲ្យ​ដំណើរការ​ប្រសើរ​ឡើង។\nពេញលេញ៖ អាច​ធ្វើ​ឲ្យ​ដំណើរការ​ប្រសើរ​នៅ​ពេល​អនាគត។</string>
+    <string name="hardware_acceleration_summary">បិទ៖ មាន​ស្ថិរ​ភាព​ជាង។
+ដោះ​កូដ៖ អាច​ធ្វើ​ឲ្យ​ដំណើរការ​ប្រសើរ​ឡើង។
+ពេញលេញ៖ អាច​ធ្វើ​ឲ្យ​ដំណើរការ​ប្រសើរ​នៅ​ពេល​អនាគត។</string>
     <string name="hardware_acceleration_disabled">បាន​បិទ</string>
     <string name="hardware_acceleration_decoding">បង្កើន​ល្បឿន​ការ​ដោះ​លេខ​កូដ</string>
     <string name="hardware_acceleration_full">បង្កើន​ល្បឿន​ពេញ​លេញ</string>
@@ -181,7 +201,9 @@
     <string name="enable_steal_remote_control_summary">ជៀសវាង​មាន​បញ្ហា​ដោយ​លួច​ការ​បញ្ជា​ពី​ចម្ងាយ​ពី​កម្មវិធី​ផ្សេងៗ។ វា​ការ​ពារ​ពី​ការ​ចុច​ទ្វេដង​លើ​ទូរស័ព្ទ HTC</string>
     <string name="performance_prefs_category">ការ​អនុវត្ត</string>
     <string name="chroma_format">បង្ខុំ​​ក្រូមវីដេអូ</string>
-    <string name="chroma_format_summary">RGB 32-bit: ក្រូម​លំនាំដើម​\nRGB 16-bit: កា​រ​អនុវត្ត​ល្អ ប៉ុន្តែ​គុណភាព​ទាប\nYUV: កា​រ​អនុវត្ត​ល្អ​បំផុត​ ប៉ុន្តែ​មិន​ដំណើរការ​លើ​ឧបករណ៍​ទាំងអស់។ Android 2.3 និង​ថ្មី​ជាង​នេះ​ប៉ុណ្ណោះ។</string>
+    <string name="chroma_format_summary">RGB 32-bit: ក្រូម​លំនាំដើម​
+RGB 16-bit: កា​រ​អនុវត្ត​ល្អ ប៉ុន្តែ​គុណភាព​ទាប
+YUV: កា​រ​អនុវត្ត​ល្អ​បំផុត​ ប៉ុន្តែ​មិន​ដំណើរការ​លើ​ឧបករណ៍​ទាំងអស់។ Android 2.3 និង​ថ្មី​ជាង​នេះ​ប៉ុណ្ណោះ។</string>
     <string name="deblocking">ការ​កំណត់​តម្រង​វីដេអូ</string>
     <string name="deblocking_summary">ប្ដូរ​ការ​កំណត់​តម្រង​វីដេអូ។ អាច​ធ្វើឲ្យ​គុណភាព​វីដេអូ​ប្រសើរ​ឡើង។ សម្រាប់​តែ​អ្នកប្រើ​ជាន់ខ្ពស់​ប៉ុណ្ណោះ។</string>
     <string name="deblocking_always">តម្រង​វីដេអូ​ទាំងស្រុង (យឺត​បំផុត)</string>
