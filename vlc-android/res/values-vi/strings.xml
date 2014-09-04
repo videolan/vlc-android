@@ -26,7 +26,15 @@
     <string name="ringtone_error">Xảy ra lỗi khi chọn đối tượng làm nhạc chuông.</string>
     <string name="pause">Tạm dừng</string>
     <string name="not_show_again">Không hiển thị thông báo này nữa.</string>
-    <string name="beta_warning">Đây là phiên bản thử nghiệm.\n\nĐể có thể hiển thị tiếng Anh, chọn locale với ký tự en, và vi cho tiếng Việt.\n\nPhiên bản chính thức sẽ được cập nhật trong thời gian sớm nhất.\n\nHãy tự do thỏa thích khám phá VLC theo cách mà bạn muốn nhé!\n\nChuyển ngữ bởi Phan Anh :)</string>
+    <string name="beta_warning">Đây là phiên bản thử nghiệm.
+
+Để có thể hiển thị tiếng Anh, chọn locale với ký tự en, và vi cho tiếng Việt.
+
+Phiên bản chính thức sẽ được cập nhật trong thời gian sớm nhất.
+
+Hãy tự do thỏa thích khám phá VLC theo cách mà bạn muốn nhé!
+
+Chuyển ngữ bởi Phan Anh :)</string>
     <string name="info_title">VLC Phiên Bản Thử Nghiệm</string>
     <string name="unknown_artist">Không rõ nghệ sĩ</string>
     <string name="unknown_album">Không rõ album</string>
@@ -90,16 +98,22 @@
     <string name="track_video">Tập tin Video</string>
     <string name="track_text">Tập tin phụ đề</string>
     <string name="track_unknown">Tập tin chưa rõ nguồn</string>
-    <string name="track_codec_info">Codec:%1$s\n</string>
-    <string name="track_language_info">Ngôn ngữ: %1$s\n</string>
+    <string name="track_codec_info">Codec:%1$s
+</string>
+    <string name="track_language_info">Ngôn ngữ: %1$s
+</string>
     <string name="volume">Âm lượng</string>
     <string name="brightness">Độ sáng</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d kênh\n</item>
+        <item quantity="other">%1$d kênh
+</item>
     </plurals>
-    <string name="track_samplerate_info">Xếp hạng mẫu: %1$d Hz\n</string>
-    <string name="track_resolution_info">Độ phân giải: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Tỉ lệ khung hình: %1$.3f\n</string>
+    <string name="track_samplerate_info">Xếp hạng mẫu: %1$d Hz
+</string>
+    <string name="track_resolution_info">Độ phân giải: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Tỉ lệ khung hình: %1$.3f
+</string>
     <string name="tools">Công cụ</string>
     <string name="playback_speed">Tốc độ phát chậm</string>
     <string name="sleep_title">Thời gian chờ</string>
@@ -114,9 +128,11 @@
     <string name="open_mrl_dialog_msg">Điền vào đường dẫn MRL: ví dụ http://, mms:// hoặc rtsp://</string>
     <string name="error_not_compatible">Thật đáng tiếc, phiên bản VLC dành cho Android™ này hiện không hỗ trợ đối với thiết bị của bạn.</string>
     <string name="error_problem">Thật đáng tiếc, VLC dành cho Android đã gặp phải trục trặc trong quá trình khởi động và buộc phải đóng lại.</string>
-    <string name="error_message_is">Lỗi thông báo về lỗi là (vui lòng đề cập đến điều này khi tiến hành chế độ gỡ lỗi)\n</string>
+    <string name="error_message_is">Lỗi thông báo về lỗi là (vui lòng đề cập đến điều này khi tiến hành chế độ gỡ lỗi)
+</string>
     <string name="encountered_error_title">Lỗi xảy ra khi phát lại</string>
-    <string name="encountered_error_message">VLC gặp phải trục trặc với tập tin media này.\nXin vui lòng cập nhật lại hệ thống thư viện tập tin của bạn.</string>
+    <string name="encountered_error_message">VLC gặp phải trục trặc với tập tin media này.
+Xin vui lòng cập nhật lại hệ thống thư viện tập tin của bạn.</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC dành cho </string>
@@ -150,7 +166,9 @@
     <string name="enable_steal_remote_control_summary">Tránh xung đột với các điều khiển từ xa từ các ứng dụng khác. Điều này có thể gây khó khăn cho việc bấm phím số trong lúc gọi điện thoại trên một số dòng của hãng HTC.</string>
     <string name="performance_prefs_category">Thể hiện</string>
     <string name="chroma_format">Bắt buộc video hiển thị đơn sắc</string>
-    <string name="chroma_format_summary">RGB 32-bit: màu sắc mặc định\nRGB 16-bit: chạy nhanh hơn nhưng chất lượng thấp hơn\nYUV: tùy chọn tốt nhất nhưng có thể không hoạt động trên một số thiết bị. Áp dụng cho và các phiên bản về sau.</string>
+    <string name="chroma_format_summary">RGB 32-bit: màu sắc mặc định
+RGB 16-bit: chạy nhanh hơn nhưng chất lượng thấp hơn
+YUV: tùy chọn tốt nhất nhưng có thể không hoạt động trên một số thiết bị. Áp dụng cho và các phiên bản về sau.</string>
     <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
     <string name="deblocking_summary">Thay đổi thiết lập mở khóa với bộ lọc. Có thể cải thiện chất lượng video. Chỉ dành cho người dùng nâng cao.</string>
     <string name="deblocking_always">Mở khóa đầy đủ (chậm nhất)</string>
