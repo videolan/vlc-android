@@ -106,18 +106,26 @@
     <string name="track_video">Stopa s videom</string>
     <string name="track_text">Stopa s titulkami</string>
     <string name="track_unknown">Neznáma stopa</string>
-    <string name="track_codec_info">Kodek: %1$s\n</string>
-    <string name="track_language_info">Jazyk: %1$s\n</string>
+    <string name="track_codec_info">Kodek: %1$s
+</string>
+    <string name="track_language_info">Jazyk: %1$s
+</string>
     <string name="volume">Hlasitosť</string>
     <string name="brightness">Jas</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanál\n</item>
-        <item quantity="few">%1$d kanály\n</item>
-        <item quantity="other">%1$d kanálov\n</item>
+        <item quantity="one">1 kanál
+</item>
+        <item quantity="few">%1$d kanály
+</item>
+        <item quantity="other">%1$d kanálov
+</item>
     </plurals>
-    <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz\n</string>
-    <string name="track_resolution_info">Rozlíšenie: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Frekvencia snímok: %1$.3f\n</string>
+    <string name="track_samplerate_info">Vzorkovacia frekv.: %1$d Hz
+</string>
+    <string name="track_resolution_info">Rozlíšenie: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Frekvencia snímok: %1$.3f
+</string>
     <string name="tools">Nástroje</string>
     <string name="playback_speed">Rýchlosť prehrávania</string>
     <string name="sleep_title">Časovač uspania</string>
@@ -132,9 +140,11 @@
     <string name="open_mrl_dialog_msg">Zadajte sieťovú adresu MRL: napr. http://, mms:// alebo rtsp://</string>
     <string name="error_not_compatible">Ľutujeme, ale toto zariadenie momentálne nie je podporované touto verziou programu VLC for Android™.</string>
     <string name="error_problem">Ľutujeme, VLC for Android má problém s načítaním a je nutné ho ukončiť.</string>
-    <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):\n</string>
+    <string name="error_message_is">Správa o chybe je (prosím uveďte ju pri analyzovaní chyby):
+</string>
     <string name="encountered_error_title">Chyba počas prehrávania</string>
-    <string name="encountered_error_message">Program VLC zaznamenal chybu pri tomto médiu.\nProsím skúste obnoviť knižnicu médií.</string>
+    <string name="encountered_error_message">Program VLC zaznamenal chybu pri tomto médiu.
+Prosím skúste obnoviť knižnicu médií.</string>
     <string name="invalid_location">Z umiestnenia %1$s nie je možné prehrávanie.</string>
     <string name="search">Vyhľadať</string>
     <string name="search_history">História vyhľadávania</string>
@@ -172,7 +182,9 @@
     <string name="add_custom_path_description">Zaradiť do skenovania používateľom nastavený priečinok</string>
     <string name="remove_custom_path">Odstrániť cestu nastavenú používateľom</string>
     <string name="hardware_acceleration">Hardvérová akcelerácia</string>
-    <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita.\nDekódovanie: môže zlepšiť výkon.\nÚplná: môže ešte viac zlepšiť výkon.</string>
+    <string name="hardware_acceleration_summary">Vypnuté: lepšia stabilita.
+Dekódovanie: môže zlepšiť výkon.
+Úplná: môže ešte viac zlepšiť výkon.</string>
     <string name="hardware_acceleration_disabled">Vypnuté</string>
     <string name="hardware_acceleration_decoding">Akcelerácia dekódovania</string>
     <string name="hardware_acceleration_full">Úplná akcelerácia</string>
