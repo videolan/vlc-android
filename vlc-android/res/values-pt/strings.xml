@@ -30,7 +30,16 @@
     <string name="ringtone_error">Ocorreu um erro ao configurar o toque de chamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">Não voltar a mostrar esta mensagem.</string>
-    <string name="beta_warning">Esta é uma versão beta.\n\nEsta versão NÃO É ESTÁVEL!\n\nNÃO a utilize, a não ser que saiba o que está a fazer.\n\nEsta poderá matar o seu gato e destruir a sua casa.\nUtilize-a por sua conta e risco.\n\nDivirta-se! :)</string>
+    <string name="beta_warning">Esta é uma versão beta.
+
+Esta versão NÃO É ESTÁVEL!
+
+NÃO a utilize, a não ser que saiba o que está a fazer.
+
+Esta poderá matar o seu gato e destruir a sua casa.
+Utilize-a por sua conta e risco.
+
+Divirta-se! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista desconhecido</string>
     <string name="unknown_album">Álbum desconhecido</string>
@@ -100,17 +109,26 @@
     <string name="track_video">Faixa de Vídeo</string>
     <string name="track_text">Faixa de Legendas</string>
     <string name="track_unknown">Faixa desconhecida</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
-    <string name="track_language_info">Idioma: %1$s\n</string>
+    <string name="track_codec_info">Codec: %1$s
+</string>
+    <string name="track_language_info">Idioma: %1$s
+</string>
     <string name="volume">Volume </string>
     <string name="brightness">Brilho</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 canal\n\n</item>
-        <item quantity="other">%1$d canais\n\n</item>
+        <item quantity="one">1 canal
+
+</item>
+        <item quantity="other">%1$d canais
+
+</item>
     </plurals>
-    <string name="track_samplerate_info">Frequência: %1$d Hz\n</string>
-    <string name="track_resolution_info">Resolução: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Frequência: %1$.3f\n</string>
+    <string name="track_samplerate_info">Frequência: %1$d Hz
+</string>
+    <string name="track_resolution_info">Resolução: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Frequência: %1$.3f
+</string>
     <string name="tools">Ferramentas</string>
     <string name="playback_speed">Velocidade da Reprodução</string>
     <string name="sleep_title">Temporizador de sono</string>
@@ -125,9 +143,11 @@
     <string name="open_mrl_dialog_msg">Inserir MRL de rede: e.g. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Desculpe, atualmente o seu dispositivo não é suportado por esta versão do VLC para Android™.</string>
     <string name="error_problem">Desculpe, o VLC para Android encontrou um problema durante o carregamento e teve de ser fechado.</string>
-    <string name="error_message_is">A mensagem de erro é (por favor, mencione isto quando efetuar a depuração):\n\n</string>
+    <string name="error_message_is">A mensagem de erro é (por favor, mencione isto quando efetuar a depuração):\n
+</string>
     <string name="encountered_error_title">Erro de reprodução</string>
-    <string name="encountered_error_message">O VLC encontrou um erro nesta media.\nPor favor, tente atualizar a biblioteca de media.</string>
+    <string name="encountered_error_message">O VLC encontrou um erro nesta media.
+Por favor, tente atualizar a biblioteca de media.</string>
     <string name="invalid_location">A localização %1$s não pode ser reproduzida.</string>
     <string name="search">Procurar</string>
     <string name="search_history">Histórico de pesquisa</string>
@@ -165,7 +185,9 @@
     <string name="add_custom_path_description">Insira um diretório personalizado adicional para pesquisar:</string>
     <string name="remove_custom_path">Remover caminho personalizado</string>
     <string name="hardware_acceleration">Aceleração por Hardware</string>
-    <string name="hardware_acceleration_summary">Desativada: melhor estabilidade.\nDescodificação: poderá melhorar o desempenho.\nCompleta: poderá melhorar o desempenho ainda mais.</string>
+    <string name="hardware_acceleration_summary">Desativada: melhor estabilidade.
+Descodificação: poderá melhorar o desempenho.
+Completa: poderá melhorar o desempenho ainda mais.</string>
     <string name="hardware_acceleration_disabled">Disativada</string>
     <string name="hardware_acceleration_decoding">Aceleração da Descodificação</string>
     <string name="hardware_acceleration_full">Aceleração Completa</string>
@@ -199,7 +221,9 @@
     <string name="enable_steal_remote_control_summary">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique nos telefones HTC.</string>
     <string name="performance_prefs_category">Desempenho</string>
     <string name="chroma_format">Forçar chroma do vídeo</string>
-    <string name="chroma_format_summary">32-bits RGB: saturação predefinida\n16-bits RGB: melhor desempenho mas com baixa qualidade\nYUV: o melhor desempenho mas não funciona em todos os dispositivos. Só Android 2.3 e  superior.</string>
+    <string name="chroma_format_summary">32-bits RGB: saturação predefinida
+16-bits RGB: melhor desempenho mas com baixa qualidade
+YUV: o melhor desempenho mas não funciona em todos os dispositivos. Só Android 2.3 e  superior.</string>
     <string name="deblocking">Definições do filtro \"deblocking\"</string>
     <string name="deblocking_summary">Altere as definições dp filtro \"deblocking\". Poderá melhorar a qualidade do vídeo. Só para utilizadores avançados.</string>
     <string name="deblocking_always">\"Deblocking\" completo (mais lento)</string>
