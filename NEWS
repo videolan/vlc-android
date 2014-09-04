@@ -1,5 +1,14 @@
-Changes between 0.9.8 and 0.9.9-git:
+Changes between 0.9.8 and 0.9.9:
 --------------------------------
+
+Main Application:
+ * Fix Artist names on the lock screen and bluetooth interface
+ * Allow VLC to be installed as a system app
+ * Fix potential crashes in the UI
+
+Core:
+ * Fix assert on some video decoding
+ * Fix avi and m4a regressions
 
 
 Changes between 0.9.7 and 0.9.8:
