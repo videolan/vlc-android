@@ -59,12 +59,16 @@
     <string name="track_video">ভিডিও ট্র্যাক</string>
     <string name="track_text">সাবটাইটেল ট্র্যাক</string>
     <string name="track_unknown">অজানা ট্র্যাক</string>
-    <string name="track_codec_info">কোডেক: %1$s\n</string>
-    <string name="track_language_info">ভাষা: %1$s\n</string>
+    <string name="track_codec_info">কোডেক: %1$s
+</string>
+    <string name="track_language_info">ভাষা: %1$s
+</string>
     <string name="volume">ভলিউম</string>
     <string name="brightness">উজ্জ্বলতা</string>
-    <string name="track_samplerate_info">স্যাম্পল রেট: %1$d Hz\n</string>
-    <string name="track_framerate_info">ফ্রেম রেট: %1$.3f\n</string>
+    <string name="track_samplerate_info">স্যাম্পল রেট: %1$d Hz
+</string>
+    <string name="track_framerate_info">ফ্রেম রেট: %1$.3f
+</string>
     <string name="tools">সরঞ্জাম</string>
     <string name="playback_speed">প্লেব্যাকের স্পীড</string>
     <string name="subtitle_select">সাবটাইটেল ফাইল নির্বাচন করুন</string>
