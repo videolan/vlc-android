@@ -32,7 +32,16 @@
     <string name="ringtone_error">Thachair mearachd nuair a dh/\'fheuch sinn ris an t-seirm a shuidheachadh.</string>
     <string name="pause">Cuir na stad</string>
     <string name="not_show_again">Na seall an teachdaireachd seo a-rithist.</string>
-    <string name="beta_warning">Seo tionndadh beta.\n\nCHAN E tionndadh seasmhach a tha seo!\n\nNA CLEACHD e ach ma tha eòlach air a leithid a rud.\n\nDh\'fhaoidte gum marbh e do phiseagan, gun cuir e do thaigh \'na theine \'s gun ith Kali an saoghal mar thoradh air.\nCleachd e air do chunnart fhèin.\n\nAn dòchas gun còrd e riut! :)</string>
+    <string name="beta_warning">Seo tionndadh beta.
+
+CHAN E tionndadh seasmhach a tha seo!
+
+NA CLEACHD e ach ma tha eòlach air a leithid a rud.
+
+Dh\'fhaoidte gum marbh e do phiseagan, gun cuir e do thaigh \'na theine \'s gun ith Kali an saoghal mar thoradh air.
+Cleachd e air do chunnart fhèin.
+
+An dòchas gun còrd e riut! :)</string>
     <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Neach-ealain neo-aithnichte</string>
     <string name="unknown_album">Albam neo-aithnichte</string>
@@ -112,19 +121,28 @@
     <string name="track_video">Traca video</string>
     <string name="track_text">Traca fho-thiotalan</string>
     <string name="track_unknown">Traca neo-aithnichte</string>
-    <string name="track_codec_info">Codec: %1$s\n</string>
-    <string name="track_language_info">Cànan: %1$s\n</string>
+    <string name="track_codec_info">Codec: %1$s
+</string>
+    <string name="track_language_info">Cànan: %1$s
+</string>
     <string name="volume">Àirde na fuaime</string>
     <string name="brightness">Soilleireachd</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d  seanail\n</item>
-        <item quantity="two">%1$d sheanail\n</item>
-        <item quantity="few">%1$d seanailean\n</item>
-        <item quantity="other">%1$d seanail\n</item>
+        <item quantity="one">%1$d  seanail
+</item>
+        <item quantity="two">%1$d sheanail
+</item>
+        <item quantity="few">%1$d seanailean
+</item>
+        <item quantity="other">%1$d seanail
+</item>
     </plurals>
-    <string name="track_samplerate_info">Reat samplachaidh: %1$d Hz\n</string>
-    <string name="track_resolution_info">Dùmhlachd-bhreacaidh: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Reat fhrèamaichean: %1$.3f\n</string>
+    <string name="track_samplerate_info">Reat samplachaidh: %1$d Hz
+</string>
+    <string name="track_resolution_info">Dùmhlachd-bhreacaidh: %1$dx%2$d
+</string>
+    <string name="track_framerate_info">Reat fhrèamaichean: %1$.3f
+</string>
     <string name="tools">Innealan</string>
     <string name="playback_speed">Astar na cluich</string>
     <string name="sleep_title">Cuir /\'na chadal</string>
@@ -137,11 +155,16 @@
     <string name="open_mrl">Fosgail MRL</string>
     <string name="open_mrl_dialog_title">Fosgail sruth lìonraidh</string>
     <string name="open_mrl_dialog_msg">Cuir a-steach MRL an lìonraidh: m.e. http://, mms:// no rtsp://</string>
-    <string name="error_not_compatible">Duilich, chan eil an tionndadh seo de VLC airson Android™ a\' cur taic ris an uidheam agad aig an àm seo.\n\nSeo teachdaireachd na mearachd (thoir luaidh air seo ma bhios tu ri dì-bhugadh):\n</string>
+    <string name="error_not_compatible">Duilich, chan eil an tionndadh seo de VLC airson Android™ a\' cur taic ris an uidheam agad aig an àm seo.
+
+Seo teachdaireachd na mearachd (thoir luaidh air seo ma bhios tu ri dì-bhugadh):
+</string>
     <string name="error_problem">Duilich, bha duilgheadas againn a\' tòiseachadh \'s b\' fheudar dhuinn VLC dùnadh</string>
-    <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):\n</string>
+    <string name="error_message_is">Seo teachdaireachd na mearachd (thoir iomradh air ma dh\'iarras tu taic):
+</string>
     <string name="encountered_error_title">Mearachd \'ga chluich</string>
-    <string name="encountered_error_message">Thachair VLC ri mearachd sa mheadhan seo.\nFeuch is ath-nuadhaich leabharlann nam meadhan.</string>
+    <string name="encountered_error_message">Thachair VLC ri mearachd sa mheadhan seo.
+Feuch is ath-nuadhaich leabharlann nam meadhan.</string>
     <string name="invalid_location">Cha ghabh an t-ionad %1$s a chluich.</string>
     <string name="search">Lorg</string>
     <string name="search_history">Lorg san eachdraidh</string>
@@ -178,7 +201,9 @@
     <string name="add_custom_path_description">Cuir a-steach pasgan gnàthaichte eile gus a sganadh:</string>
     <string name="remove_custom_path">Thoir an t-slighe ghnàthaichte air falbh</string>
     <string name="hardware_acceleration">Luathachadh bathair-chruaidh</string>
-    <string name="hardware_acceleration_summary">À comas: seasmhachd nas fhearr.\nDì-chòdachadh: piseach air dèanadas is dòcha.\nSlàn: piseach nas motha air dèanadas is dòcha.</string>
+    <string name="hardware_acceleration_summary">À comas: seasmhachd nas fhearr.
+Dì-chòdachadh: piseach air dèanadas is dòcha.
+Slàn: piseach nas motha air dèanadas is dòcha.</string>
     <string name="hardware_acceleration_disabled">À comas</string>
     <string name="hardware_acceleration_decoding">Luathachadh an dì-chòdachaidh</string>
     <string name="hardware_acceleration_full">Luathachadh slàn</string>
@@ -212,7 +237,9 @@
     <string name="enable_steal_remote_control_summary">Seachnaidh tu còmhstri eadar aplacaidean \'s an headset a\' glèidheadh smachd. Cha tòisich thu air gairm ri linn briogadh dùbailte le seo air fònaichean HTC.</string>
     <string name="performance_prefs_category">Dèanadas</string>
     <string name="chroma_format">Èignich sàthachd nan dath</string>
-    <string name="chroma_format_summary">RGB 32-bit: chroma bunaiteach\nRGB 16-bit: dèanadas nas fhearr ach càileachd nas miosa\nYUV: dèanadas as fhearr ach chan obraich seo aig gach uidheam. Android 2.3 agus nas ùire.</string>
+    <string name="chroma_format_summary">RGB 32-bit: chroma bunaiteach
+RGB 16-bit: dèanadas nas fhearr ach càileachd nas miosa
+YUV: dèanadas as fhearr ach chan obraich seo aig gach uidheam. Android 2.3 agus nas ùire.</string>
     <string name="deblocking">A\' toirt a\' bhacaidh far roghainnean na criathraige</string>
     <string name="deblocking_summary">Atharraich roghainnean dì-bhacadh na criathraige. Dh\'fhaoidte gum fàs video nas fhearr ri linn sin ach na dèan seo ach ma tha thu eòlach air a leithid a rud.</string>
     <string name="deblocking_always">Dì-bhacadh iomlan (as slaodaiche)</string>
