@@ -49,7 +49,6 @@ import org.videolan.vlc.widget.SlidingPaneLayout;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -79,13 +78,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -277,10 +273,7 @@ public class MainActivity extends ActionBarActivity {
             .replace(R.id.audio_player, mAudioPlayer)
             .commit();
 
-        /* Show info/alpha/beta Warning */
-        if (mSettings.getInt(PREF_SHOW_INFO, -1) != mVersionNumber)
-            showInfoDialog();
-        else if (mFirstRun) {
+        if (mFirstRun) {
             /*
              * The sliding menu is automatically opened when the user closes
              * the info dialog. If (for any reason) the dialog is not shown,
@@ -690,30 +683,6 @@ public class MainActivity extends ActionBarActivity {
     private void reloadPreferences() {
         SharedPreferences sharedPrefs = getSharedPreferences("MainActivity", MODE_PRIVATE);
         mCurrentFragment = sharedPrefs.getString("fragment", "video");
-    }
-
-    private void showInfoDialog() {
-        final Dialog infoDialog = new Dialog(this, R.style.info_dialog);
-        infoDialog.setContentView(R.layout.info_dialog);
-        Button okButton = (Button) infoDialog.findViewById(R.id.ok);
-        okButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckBox notShowAgain =
-                        (CheckBox) infoDialog.findViewById(R.id.not_show_again);
-                if (notShowAgain.isChecked() && mSettings != null) {
-                    Editor editor = mSettings.edit();
-                    editor.putInt(PREF_SHOW_INFO, mVersionNumber);
-                    editor.commit();
-                }
-                /* Close the dialog */
-                infoDialog.dismiss();
-                /* and finally open the sliding menu if first run */
-                if (mFirstRun)
-                    mMenu.showMenu();
-            }
-        });
-        infoDialog.show();
     }
 
     /**
