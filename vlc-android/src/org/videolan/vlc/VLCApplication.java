@@ -37,6 +37,7 @@ public class VLCApplication extends Application {
     private static VLCApplication instance;
 
     public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
+    public final static String INCOMING_CALL_INTENT = "org.videolan.vlc.IncomingCallIntent";
 
     @Override
     public void onCreate() {

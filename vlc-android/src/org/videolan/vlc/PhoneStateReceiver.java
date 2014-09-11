@@ -20,8 +20,6 @@
 
 package org.videolan.vlc;
 
-import org.videolan.libvlc.LibVLC;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,10 +33,9 @@ public class PhoneStateReceiver extends BroadcastReceiver {
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING) ||
                 state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+            Intent newIntent = new Intent(VLCApplication.INCOMING_CALL_INTENT);
+            VLCApplication.getAppContext().sendBroadcast(newIntent);
 
-            LibVLC libVLC = LibVLC.getExistingInstance();
-            if (libVLC != null && libVLC.isPlaying())
-                libVLC.pause();
         }
     }
 

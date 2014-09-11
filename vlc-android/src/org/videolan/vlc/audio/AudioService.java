@@ -185,6 +185,7 @@ public class AudioService extends Service {
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
+        filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
         registerReceiver(serviceReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -335,6 +336,14 @@ public class AudioService extends Service {
             if( mLibVLC == null ) {
                 Log.w(TAG, "Intent received, but VLC is not loaded, skipping.");
                 return;
+            }
+
+            /*
+             * Incoming Call : Pause if VLC is playing audio or video. 
+             */
+            if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
+                if (mLibVLC.isPlaying())
+                    pause();
             }
 
             // skip all headsets events if there is a call
