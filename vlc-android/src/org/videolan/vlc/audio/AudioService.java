@@ -496,8 +496,11 @@ public class AudioService extends Service {
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
+                case EventHandler.MediaPlayerTimeChanged:
+                    // avoid useless error logs
+                    break;
                 default:
-                    Log.e(TAG, "Event not handled");
+                    Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
             }
         }
