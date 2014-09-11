@@ -121,6 +121,8 @@ public class AudioService extends Service {
     private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
 
+    private static boolean mWasPlayingAudio = false;
+
     // Index management
     /**
      * Stack of previously played indexes, used in shuffle mode
@@ -186,6 +188,7 @@ public class AudioService extends Service {
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         filter.addAction(VLCApplication.INCOMING_CALL_INTENT);
+        filter.addAction(VLCApplication.CALL_ENDED_INTENT);
         registerReceiver(serviceReceiver, filter);
 
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -342,8 +345,17 @@ public class AudioService extends Service {
              * Incoming Call : Pause if VLC is playing audio or video. 
              */
             if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
+                mWasPlayingAudio = mLibVLC.isPlaying() && mLibVLC.getVideoTracksCount() < 1;
                 if (mLibVLC.isPlaying())
                     pause();
+            }
+
+            /*
+             * Call ended : Play only if VLC was playing audio.
+             */
+            if (action.equalsIgnoreCase(VLCApplication.CALL_ENDED_INTENT)
+                    && mWasPlayingAudio) {
+                play();
             }
 
             // skip all headsets events if there is a call

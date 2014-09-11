@@ -35,7 +35,11 @@ public class PhoneStateReceiver extends BroadcastReceiver {
                 state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
             Intent newIntent = new Intent(VLCApplication.INCOMING_CALL_INTENT);
             VLCApplication.getAppContext().sendBroadcast(newIntent);
+        }
 
+        if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+            Intent newIntent = new Intent(VLCApplication.CALL_ENDED_INTENT);
+            VLCApplication.getAppContext().sendBroadcast(newIntent);
         }
     }
 
