@@ -252,6 +252,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         LOGD("Using network caching of %d ms", networkCaching);
     }
 
+    methodId = (*env)->GetMethodID(env, cls, "getHttpReconnect", "()Z");
+    bool enable_http_reconnect = (*env)->CallBooleanMethod(env, thiz, methodId);
+
     methodId = (*env)->GetMethodID(env, cls, "getChroma", "()Ljava/lang/String;");
     jstring chroma = (*env)->CallObjectMethod(env, thiz, methodId);
     const char *chromastr = (*env)->GetStringUTFChars(env, chroma, 0);
@@ -308,6 +311,9 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         /* XXX: we can't recover from direct rendering failure */
         (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : "--no-mediacodec-dr",
         (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : NO_IOMX_DR,
+
+        /* Reconnect on lost HTTP streams, e.g. network change */
+        enable_http_reconnect ? "--http-reconnect" : "",
     };
     libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
 

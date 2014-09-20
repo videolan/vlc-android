@@ -75,6 +75,7 @@ public class LibVLC {
     private float[] equalizer = null;
     private boolean frameSkip = false;
     private int networkCaching = 0;
+    private boolean httpReconnect = false;
 
     /** Path of application-specific cache */
     private String mCachePath = "";
@@ -370,6 +371,14 @@ public class LibVLC {
 
     public void setNetworkCaching(int networkcaching) {
         this.networkCaching = networkcaching;
+    }
+
+    public boolean getHttpReconnect() {
+        return httpReconnect;
+    }
+
+    public void setHttpReconnect(boolean httpReconnect) {
+        this.httpReconnect = httpReconnect;
     }
 
     /**
