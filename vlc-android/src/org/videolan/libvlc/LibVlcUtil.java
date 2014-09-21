@@ -146,6 +146,10 @@ public class LibVlcUtil {
             BufferedReader br = new BufferedReader(fileReader);
             String line;
             while((line = br.readLine()) != null) {
+                if(!hasArmV7 && line.contains("AArch64")) {
+                    hasArmV7 = true;
+                    hasArmV6 = true; /* Armv8 is backwards compatible to < v7 */
+                }
                 if(!hasArmV7 && line.contains("ARMv7")) {
                     hasArmV7 = true;
                     hasArmV6 = true; /* Armv7 is backwards compatible to < v6 */
@@ -162,9 +166,9 @@ public class LibVlcUtil {
                 // see arch/mips/kernel/proc.c
                 if(line.contains("microsecond timers"))
                     hasMips = true;
-                if(!hasNeon && line.contains("neon"))
+                if(!hasNeon && (line.contains("neon") || line.contains("asimd")))
                     hasNeon = true;
-                if(!hasFpu && line.contains("vfp"))
+                if(!hasFpu && (line.contains("vfp") || (line.contains("Features") && line.contains("fp"))))
                     hasFpu = true;
                 if(line.startsWith("processor"))
                     processors++;
