@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="@string/help_us_send_log" />
+        android:text="@string/help_us_send_log"
+        android:visibility="gone" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:text="@string/send_log" />
+            android:text="@string/send_log"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/restart_vlc"
