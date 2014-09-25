@@ -293,6 +293,9 @@
     <string name="send_log">Send the log</string>
     <string name="sending_log">Sending the log…</string>
 
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>
