@@ -21,6 +21,8 @@ Thumbs.db
 # Eclipse
 #.classpath
 #.project
+java-libs/appcompat/.classpath
+java-libs/appcompat/.project
 
 # Android Studio
 .idea
