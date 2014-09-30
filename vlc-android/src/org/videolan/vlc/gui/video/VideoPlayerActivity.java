@@ -58,6 +58,7 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
@@ -98,6 +99,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -142,6 +144,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private SharedPreferences mSettings;
 
     /** Overlay */
+    private ActionBar mActionBar;
+    private boolean mOverlayUseStatusBar;
     private View mOverlayHeader;
     private View mOverlayOption;
     private View mOverlayProgress;
@@ -258,6 +262,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 }
             };
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
+            mOverlayUseStatusBar = true;
+        } else {
+            mOverlayUseStatusBar = false;
         }
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -287,15 +294,34 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             );
 
         /** initialize Views an their Events */
-        mOverlayHeader = findViewById(R.id.player_overlay_header);
+        if (mOverlayUseStatusBar) {
+            mActionBar = getActionBar();
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setBackgroundDrawable(null);
+            mActionBar.setDisplayShowCustomEnabled(true);
+            mActionBar.setCustomView(R.layout.action_bar_layout);
+
+            ViewGroup view = (ViewGroup) mActionBar.getCustomView();
+            /* Dispatch ActionBar touch events to the Activity */
+            view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    onTouchEvent(event);
+                    return true;
+                }
+            });
+            mTitle = (TextView) view.findViewById(R.id.player_overlay_title);
+        } else {
+            mOverlayHeader = findViewById(R.id.player_overlay_header);
+            /* header */
+            mTitle = (TextView) findViewById(R.id.player_overlay_title);
+            mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
+            mBattery = (TextView) findViewById(R.id.player_overlay_battery);
+        }
         mOverlayOption = findViewById(R.id.option_overlay);
         mOverlayProgress = findViewById(R.id.progress_overlay);
         mOverlayBackground = findViewById(R.id.player_overlay_background);
-
-        /* header */
-        mTitle = (TextView) findViewById(R.id.player_overlay_title);
-        mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
-        mBattery = (TextView) findViewById(R.id.player_overlay_battery);
 
         // Position and remaining time
         mTime = (TextView) findViewById(R.id.player_overlay_time);
@@ -383,7 +409,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         editor.commit();
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        if (!mOverlayUseStatusBar)
+            filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
 
@@ -641,6 +668,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         {
             String action = intent.getAction();
             if (action.equalsIgnoreCase(Intent.ACTION_BATTERY_CHANGED)) {
+                if (mOverlayUseStatusBar)
+                    return;
                 int batteryLevel = intent.getIntExtra("level", 0);
                 if (batteryLevel >= 50)
                     mBattery.setTextColor(Color.GREEN);
@@ -1635,7 +1664,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (!mShowing) {
             mShowing = true;
             if (!mIsLocked) {
-                mOverlayHeader.setVisibility(View.VISIBLE);
+                if (mOverlayUseStatusBar)
+                    mActionBar.show();
+                else
+                    mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
                 mPlayPause.setVisibility(View.VISIBLE);
                 mMenu.setVisibility(View.VISIBLE);
@@ -1662,7 +1694,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "remove View!");
             if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
-                mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (!mOverlayUseStatusBar)
+                    mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -1672,7 +1705,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
             }
-            mOverlayHeader.setVisibility(View.INVISIBLE);
+            if (mOverlayUseStatusBar)
+                mActionBar.hide();
+            else
+                mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
@@ -1693,10 +1729,21 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         int layout = 0;
         if (!AndroidDevices.hasCombBar() && LibVlcUtil.isJellyBeanOrLater())
             layout = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        int visibility =  (dim ? (AndroidDevices.hasCombBar()
-                ? View.SYSTEM_UI_FLAG_LOW_PROFILE
-                        : View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-                        : View.SYSTEM_UI_FLAG_VISIBLE) | layout;
+        if (mOverlayUseStatusBar)
+            layout |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
+        int visibility = layout;
+        if (dim) {
+            if (AndroidDevices.hasCombBar()) {
+                visibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            } else {
+                visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+                if (mOverlayUseStatusBar)
+                    visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            }
+        } else {
+            visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
+        }
         mSurface.setSystemUiVisibility(visibility);
         mSubtitlesSurface.setSystemUiVisibility(visibility);
     }
@@ -1734,7 +1781,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mForward.setVisibility(isSeekable ? View.VISIBLE : View.GONE);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
-        mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
+        if (!mOverlayUseStatusBar)
+            mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
         if (time >= 0) mTime.setText(Strings.millisToString(time));
         if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
                 ? "- " + Strings.millisToString(length - time)
