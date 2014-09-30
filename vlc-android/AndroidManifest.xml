@@ -54,7 +54,7 @@
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.VLC.Fullscreen" >
+            android:theme="@style/Theme.VLC.Player" >
 
             <!-- This filter captures protocols without type info -->
             <intent-filter>

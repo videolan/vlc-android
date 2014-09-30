@@ -147,7 +147,7 @@
         <item name="android:windowBackground">@color/background_common</item>
     </style>
 
-    <style name="Theme.VLC.Fullscreen" parent="android:Theme.NoTitleBar.Fullscreen">
+    <style name="Theme.VLC.Player" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@color/black</item>
         <item name="video_player_overlay">@color/transparent_gray</item>
 
