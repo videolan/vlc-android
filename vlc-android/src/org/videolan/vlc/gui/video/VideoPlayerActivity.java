@@ -91,6 +91,7 @@ import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -689,6 +690,50 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     public boolean onTrackballEvent(MotionEvent event) {
         showOverlay();
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        showOverlay(OVERLAY_TIMEOUT);
+        switch (keyCode) {
+        case KeyEvent.KEYCODE_F:
+        case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            seek(10000);
+            return true;
+        case KeyEvent.KEYCODE_R:
+        case KeyEvent.KEYCODE_MEDIA_REWIND:
+            seek(-10000);
+            return true;
+        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+        case KeyEvent.KEYCODE_MEDIA_PLAY:
+        case KeyEvent.KEYCODE_MEDIA_PAUSE:
+        case KeyEvent.KEYCODE_SPACE:
+            doPlayPause();
+            return true;
+        case KeyEvent.KEYCODE_V:
+            selectSubtitles();
+            return true;
+        case KeyEvent.KEYCODE_B:
+        case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
+            selectAudioTrack();
+            return true;
+        case KeyEvent.KEYCODE_M:
+        case KeyEvent.KEYCODE_MENU:
+            showNavMenu();
+            return true;
+        case KeyEvent.KEYCODE_O:
+            showAdvancedOptions(mMenu);
+            return true;
+        case KeyEvent.KEYCODE_A:
+            resizeVideo();
+            return true;
+        case KeyEvent.KEYCODE_S:
+        case KeyEvent.KEYCODE_MEDIA_STOP:
+            finish();
+            return true;
+        default:
+            return super.onKeyDown(keyCode, event);
+        }
     }
 
     @Override
@@ -1394,45 +1439,49 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final OnClickListener mAudioTrackListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            final String[] arrList = new String[mAudioTracksList.size()];
-            int i = 0;
-            int listPosition = 0;
-            for(Map.Entry<Integer,String> entry : mAudioTracksList.entrySet()) {
-                arrList[i] = entry.getValue();
-                // map the track position to the list position
-                if(entry.getKey() == mLibVLC.getAudioTrack())
-                    listPosition = i;
-                i++;
-            }
-            AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-            .setTitle(R.string.track_audio)
-            .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int listPosition) {
-                    int trackID = -1;
-                    // Reverse map search...
-                    for(Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
-                        if(arrList[listPosition].equals(entry.getValue())) {
-                            trackID = entry.getKey();
-                            break;
-                        }
-                    }
-                    if(trackID < 0) return;
-
-                    MediaDatabase.getInstance().updateMedia(
-                            mLocation,
-                            MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
-                            trackID);
-                    mLibVLC.setAudioTrack(trackID);
-                    dialog.dismiss();
-                }
-            })
-            .create();
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.setOwnerActivity(VideoPlayerActivity.this);
-            dialog.show();
+            selectAudioTrack();
         }
     };
+
+    private void selectAudioTrack() {
+        final String[] arrList = new String[mAudioTracksList.size()];
+        int i = 0;
+        int listPosition = 0;
+        for(Map.Entry<Integer,String> entry : mAudioTracksList.entrySet()) {
+            arrList[i] = entry.getValue();
+            // map the track position to the list position
+            if(entry.getKey() == mLibVLC.getAudioTrack())
+                listPosition = i;
+            i++;
+        }
+        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        .setTitle(R.string.track_audio)
+        .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int listPosition) {
+                int trackID = -1;
+                // Reverse map search...
+                for(Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
+                    if(arrList[listPosition].equals(entry.getValue())) {
+                        trackID = entry.getKey();
+                        break;
+                    }
+                }
+                if(trackID < 0) return;
+
+                MediaDatabase.getInstance().updateMedia(
+                        mLocation,
+                        MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
+                        trackID);
+                mLibVLC.setAudioTrack(trackID);
+                dialog.dismiss();
+            }
+        })
+        .create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setOwnerActivity(VideoPlayerActivity.this);
+        dialog.show();
+    }
 
     /**
     *
@@ -1440,55 +1489,63 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final OnClickListener mSubtitlesListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            final String[] arrList = new String[mSubtitleTracksList.size()];
-            int i = 0;
-            int listPosition = 0;
-            for(Map.Entry<Integer,String> entry : mSubtitleTracksList.entrySet()) {
-                arrList[i] = entry.getValue();
-                // map the track position to the list position
-                if(entry.getKey() == mLibVLC.getSpuTrack())
-                    listPosition = i;
-                i++;
-            }
-
-            AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-            .setTitle(R.string.track_text)
-            .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int listPosition) {
-                    int trackID = -2;
-                    // Reverse map search...
-                    for(Map.Entry<Integer, String> entry : mSubtitleTracksList.entrySet()) {
-                        if(arrList[listPosition].equals(entry.getValue())) {
-                            trackID = entry.getKey();
-                            break;
-                        }
-                    }
-                    if(trackID < -1) return;
-
-                    MediaDatabase.getInstance().updateMedia(
-                            mLocation,
-                            MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
-                            trackID);
-                    mLibVLC.setSpuTrack(trackID);
-                    dialog.dismiss();
-                }
-            })
-            .create();
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.setOwnerActivity(VideoPlayerActivity.this);
-            dialog.show();
+            selectSubtitles();
         }
     };
+
+    private void selectSubtitles() {
+        final String[] arrList = new String[mSubtitleTracksList.size()];
+        int i = 0;
+        int listPosition = 0;
+        for(Map.Entry<Integer,String> entry : mSubtitleTracksList.entrySet()) {
+            arrList[i] = entry.getValue();
+            // map the track position to the list position
+            if(entry.getKey() == mLibVLC.getSpuTrack())
+                listPosition = i;
+            i++;
+        }
+
+        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        .setTitle(R.string.track_text)
+        .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int listPosition) {
+                int trackID = -2;
+                // Reverse map search...
+                for(Map.Entry<Integer, String> entry : mSubtitleTracksList.entrySet()) {
+                    if(arrList[listPosition].equals(entry.getValue())) {
+                        trackID = entry.getKey();
+                        break;
+                    }
+                }
+                if(trackID < -1) return;
+
+                MediaDatabase.getInstance().updateMedia(
+                        mLocation,
+                        MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
+                        trackID);
+                mLibVLC.setSpuTrack(trackID);
+                dialog.dismiss();
+            }
+        })
+        .create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setOwnerActivity(VideoPlayerActivity.this);
+        dialog.show();
+    }
 
     private final OnClickListener mNavMenuListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            /* Try to return to the menu. */
-            /* FIXME: not working correctly in all cases */
-            mLibVLC.setTitle(0);
+            showNavMenu();
         }
     };
+
+    private void showNavMenu() {
+        /* Try to return to the menu. */
+        /* FIXME: not working correctly in all cases */
+        mLibVLC.setTitle(0);
+    }
 
     /**
     *
@@ -1496,13 +1553,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final OnClickListener mPlayPauseListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mLibVLC.isPlaying())
-                pause();
-            else
-                play();
-            showOverlay();
+            doPlayPause();
         }
     };
+
+    private final void doPlayPause() {
+        if (mLibVLC.isPlaying())
+            pause();
+        else
+            play();
+        showOverlay();
+    }
 
     /**
     *
@@ -1558,39 +1619,42 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void onClick(View v) {
-
-            if (mCurrentSize < SURFACE_ORIGINAL) {
-                mCurrentSize++;
-            } else {
-                mCurrentSize = 0;
-            }
-            changeSurfaceSize();
-            switch (mCurrentSize) {
-                case SURFACE_BEST_FIT:
-                    showInfo(R.string.surface_best_fit, 1000);
-                    break;
-                case SURFACE_FIT_HORIZONTAL:
-                    showInfo(R.string.surface_fit_horizontal, 1000);
-                    break;
-                case SURFACE_FIT_VERTICAL:
-                    showInfo(R.string.surface_fit_vertical, 1000);
-                    break;
-                case SURFACE_FILL:
-                    showInfo(R.string.surface_fill, 1000);
-                    break;
-                case SURFACE_16_9:
-                    showInfo("16:9", 1000);
-                    break;
-                case SURFACE_4_3:
-                    showInfo("4:3", 1000);
-                    break;
-                case SURFACE_ORIGINAL:
-                    showInfo(R.string.surface_original, 1000);
-                    break;
-            }
-            showOverlay();
+            resizeVideo();
         }
     };
+
+    private void resizeVideo() {
+        if (mCurrentSize < SURFACE_ORIGINAL) {
+            mCurrentSize++;
+        } else {
+            mCurrentSize = 0;
+        }
+        changeSurfaceSize();
+        switch (mCurrentSize) {
+            case SURFACE_BEST_FIT:
+                showInfo(R.string.surface_best_fit, 1000);
+                break;
+            case SURFACE_FIT_HORIZONTAL:
+                showInfo(R.string.surface_fit_horizontal, 1000);
+                break;
+            case SURFACE_FIT_VERTICAL:
+                showInfo(R.string.surface_fit_vertical, 1000);
+                break;
+            case SURFACE_FILL:
+                showInfo(R.string.surface_fill, 1000);
+                break;
+            case SURFACE_16_9:
+                showInfo("16:9", 1000);
+                break;
+            case SURFACE_4_3:
+                showInfo("4:3", 1000);
+                break;
+            case SURFACE_ORIGINAL:
+                showInfo(R.string.surface_original, 1000);
+                break;
+        }
+        showOverlay();
+    }
 
     private final OnClickListener mRemainingTimeListener = new OnClickListener() {
         @Override
