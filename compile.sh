@@ -165,6 +165,9 @@ EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
 
+# Setup LDFLAGS
+EXTRA_LDFLAGS="-l${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/libgnustl_static.a"
+
 # Make in //
 UNAMES=$(uname -s)
 MAKEFLAGS=
@@ -248,7 +251,9 @@ else
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
+echo "EXTRA_LDFLAGS= ${EXTRA_LDFLAGS}" >> config.mak
 export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
+export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"
 
 make fetch
 # We already have zlib available
