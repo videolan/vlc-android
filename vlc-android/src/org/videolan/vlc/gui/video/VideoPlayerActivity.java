@@ -210,6 +210,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private AudioManager mAudioManager;
     private int mAudioMax;
     private OnAudioFocusChangeListener mAudioFocusListener;
+    private boolean mMute = false;
+    private int mVol, mVolSave;
 
     //Touch Events
     private static final int TOUCH_NONE = 0;
@@ -218,7 +220,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private static final int TOUCH_SEEK = 3;
     private int mTouchAction;
     private int mSurfaceYDisplayRange;
-    private float mTouchY, mTouchX, mVol;
+    private float mTouchY, mTouchX;
 
     // Brightness
     private boolean mIsFirstBrightnessGesture = true;
@@ -726,6 +728,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             return true;
         case KeyEvent.KEYCODE_A:
             resizeVideo();
+            return true;
+        case KeyEvent.KEYCODE_VOLUME_MUTE:
+            updateMute();
             return true;
         case KeyEvent.KEYCODE_S:
         case KeyEvent.KEYCODE_MEDIA_STOP:
@@ -1366,6 +1371,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
             mTouchAction = TOUCH_VOLUME;
             showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
+        }
+    }
+
+    private void updateMute () {
+        if (!mMute) {
+            mVolSave = mVol;
+            mMute = true;
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+            showInfo(R.string.sound_off,1000);
+        } else {
+            mVol = mVolSave;
+            mMute = false;
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mVol, 0);
+            showInfo(R.string.sound_on,1000);
         }
     }
 

@@ -113,6 +113,8 @@
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="sound_on">Sound On</string>
+    <string name="sound_off">Sound Off</string>
     <string name="brightness">Brightness</string>
 
     <plurals name="track_channels_info_quantity">
