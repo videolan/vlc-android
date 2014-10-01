@@ -165,6 +165,7 @@
 
     <style name="ActionBar.OverflowButton">
         <item name="android:src">@drawable/ic_menu_overflow</item>
+        <item name="android:background">@drawable/abc_item_background_holo_light</item>
     </style>
 
     <!-- Advanced options menu styles -->
