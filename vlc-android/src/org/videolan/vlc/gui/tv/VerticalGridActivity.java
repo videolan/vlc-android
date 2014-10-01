@@ -1,5 +1,5 @@
 /*****************************************************************************
- * MediaItemDetails.java
+ * VerticalGridActivity.java
  *****************************************************************************
  * Copyright © 2012-2014 VLC authors and VideoLAN
  *
@@ -19,25 +19,18 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-public class MediaItemDetails {
+import org.videolan.vlc.R;
 
-	private String title, subTitle, body;
+import android.app.Activity;
+import android.os.Bundle;
 
-	public MediaItemDetails(String title, String subTitle, String body) {
-		this.title = title;
-		this.subTitle = subTitle;
-		this.body = body;
-	}
+public class VerticalGridActivity extends Activity {
 
-	public String getTitle() {
-		return title;
-	}
-
-	public String getSubTitle() {
-		return subTitle;
-	}
-
-	public String getBody() {
-		return body;
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tv_vertical_grid);
+        getWindow().setBackgroundDrawableResource(R.drawable.background);
+    }
 }

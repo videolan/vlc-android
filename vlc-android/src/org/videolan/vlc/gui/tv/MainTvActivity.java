@@ -1,3 +1,22 @@
+/*****************************************************************************
+ * MainTvActivity.java
+ *****************************************************************************
+ * Copyright © 2012-2014 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
 import java.util.ArrayList;
@@ -17,15 +36,13 @@ import org.videolan.vlc.util.WeakHandler;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -34,9 +51,10 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
 import android.support.v17.leanback.widget.Row;
-import android.support.v4.app.FragmentActivity;
 
-public class MainTvActivity extends FragmentActivity implements VideoBrowserInterface {
+public class MainTvActivity extends Activity implements VideoBrowserInterface {
+
+	private static final int NUM_VIDEOS_PREVIEW = 5;
 
 	public static final String TAG = "BrowseActivity";
 
@@ -55,14 +73,21 @@ public class MainTvActivity extends FragmentActivity implements VideoBrowserInte
 	OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
 		@Override
 		public void onItemClicked(Object item, Row row) {
-			VideoPlayerActivity.start(mContext, ((Media)item).getLocation(), false);
-			//code to launch a DetailActivity
-			//                    Intent intent = new Intent(MainTvActivity.this,
-			//                            DetailsActivity.class);
-			//                    // pass the item information
-			//                    intent.putExtra("id", row.getId());
-			//                    intent.putExtra("item", (Parcelable)item);
-			//                    startActivity(intent);
+			Media media = (Media)item;
+			if (media.getType() == Media.TYPE_VIDEO){
+				VideoPlayerActivity.start(mContext, media.getLocation(), false);
+			} else if (media.getType() == Media.TYPE_AUDIO){
+
+				Intent intent = new Intent(MainTvActivity.this,
+						DetailsActivity.class);
+				// pass the item information
+				intent.putExtra("id", row.getId());
+				intent.putExtra("item", (Parcelable)new TvMedia(0, media.getTitle(), media.getDescription(), media.getArtworkURL(), media.getArtworkURL(), media.getLocation()));
+				startActivity(intent);
+			} else if (media.getType() == Media.TYPE_GROUP){
+				Intent intent = new Intent(mContext, VerticalGridActivity.class);
+				startActivity(intent);
+			}
 		}
 	};
 
@@ -163,7 +188,7 @@ public class MainTvActivity extends FragmentActivity implements VideoBrowserInte
 			mVideoIndex = new HashMap<String, Integer>(size);
 			videoAdapter = new ArrayObjectAdapter(
 					new CardPresenter());
-			for (int i = 0 ; i < videoList.size() ; ++i) {
+			for (int i = 0 ; i < NUM_VIDEOS_PREVIEW ; ++i) {
 				item = videoList.get(i);
 				picture = mediaDatabase.getPicture(this, item.getLocation());
 
@@ -178,6 +203,9 @@ public class MainTvActivity extends FragmentActivity implements VideoBrowserInte
 					}
 				}
 			}
+			// Empty item to launch grid activity
+			videoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+
 			HeaderItem header = new HeaderItem(0, "Videos", null);
 			mRowsAdapter.add(new ListRow(header, videoAdapter));
 		}

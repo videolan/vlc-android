@@ -1,4 +1,25 @@
+/*****************************************************************************
+ * MediaItemDetailsFragment.java
+ *****************************************************************************
+ * Copyright © 2012-2014 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
 package org.videolan.vlc.gui.tv;
+
+import org.videolan.vlc.R;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -43,7 +64,7 @@ public class MediaItemDetailsFragment extends DetailsFragment {
 		DetailsOverviewRow detailsOverview = new DetailsOverviewRow(new MediaItemDetails(media.getTitle(), media.getDescription(), "Big body"));
 
 		// Add images and action buttons to the details view
-		detailsOverview.setImageDrawable(res.getDrawable(media.getCardImageId()));
+		detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
 		detailsOverview.addAction(new Action(1, "Play"));
 		detailsOverview.addAction(new Action(2, "Delete"));
 		mRowsAdapter.add(detailsOverview);
