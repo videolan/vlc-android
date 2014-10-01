@@ -86,8 +86,8 @@ LIBIOMX_LDLIBS_COMMON := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -
 LIBIOMX_CFLAGS_COMMON := -Wno-psabi
 # Once we always build this with a version of vlc that contains iomx_hwbuffer.c,
 # we can remove this condition
-ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/codec/omxil/iomx_hwbuffer.c))
-LIBIOMX_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx_hwbuffer.c
+ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c))
+LIBIOMX_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
 endif
 
 # no hwbuffer for gingerbread
