@@ -50,8 +50,8 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = LibVlcUtil.isICSOrLater()
-                && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        hasNavBar = LibVlcUtil.isJellyBeanMR1OrLater() || (LibVlcUtil.isICSOrLater()
+                && !devicesWithoutNavBar.contains(android.os.Build.MODEL));
     }
 
     public static boolean hasExternalStorage() {
