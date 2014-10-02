@@ -52,6 +52,8 @@ import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
 import android.support.v17.leanback.widget.Row;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
@@ -74,23 +76,17 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
 		@Override
 		public void onItemClicked(Object item, Row row) {
-			Media media = (Media)item;
-			if (media.getType() == Media.TYPE_VIDEO){
-				VideoPlayerActivity.start(mContext, media.getLocation(), false);
-			} else if (media.getType() == Media.TYPE_AUDIO){
-
-				Intent intent = new Intent(MainTvActivity.this,
-						DetailsActivity.class);
-				// pass the item information
-				intent.putExtra("item", (Parcelable)new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum()+"\n"+media.getLocation(), media.getLocation()));
-				startActivity(intent);
-			} else if (media.getType() == Media.TYPE_GROUP){
-				Intent intent = new Intent(mContext, VerticalGridActivity.class);
-				intent.putExtra("id", row.getId());
-				startActivity(intent);
-			}
+			TvUtil.openMedia(mContext, (Media)item, row);
 		}
 	};
+
+	OnClickListener mSearchClickedListenernew = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(mContext, SearchActivity.class);
+            startActivity(intent);
+        }
+    };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +104,13 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 		mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
 		mBrowseFragment.setTitle(getString(R.string.app_name));
 		mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.cone));
+        // set search icon color
+		mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
 
 		// add a listener for selected items
 		mBrowseFragment.setOnItemClickedListener(mItemClickListener);
+
+		mBrowseFragment.setOnSearchClickedListener(mSearchClickedListenernew);
 		mMediaLibrary.loadMediaItems(this, true);
 		mThumbnailer = new Thumbnailer(this, getWindowManager().getDefaultDisplay());
 		BackgroundManager.getInstance(this).attach(getWindow());
@@ -194,7 +194,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			// Empty item to launch grid activity
 			videoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
-			HeaderItem header = new HeaderItem(HEADER_VIDEO, "Videos", null);
+			HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
 			mRowsAdapter.add(new ListRow(header, videoAdapter));
 		}
 		
@@ -207,7 +207,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			// Empty item to launch grid activity
 			audioAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
-			HeaderItem header = new HeaderItem(HEADER_MUSIC, "Music", null);
+			HeaderItem header = new HeaderItem(HEADER_MUSIC, getString(R.string.audio), null);
 			mRowsAdapter.add(new ListRow(header, audioAdapter));
 		}
 		mBrowseFragment.setAdapter(mRowsAdapter);
