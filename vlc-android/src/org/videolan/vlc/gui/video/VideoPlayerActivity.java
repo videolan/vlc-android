@@ -281,7 +281,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
 
         if (LibVlcUtil.isICSOrLater())
-            getWindow().getDecorView().findViewById(android.R.id.content).setOnSystemUiVisibilityChangeListener(
+            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(
                     new OnSystemUiVisibilityChangeListener() {
                         @Override
                         public void onSystemUiVisibilityChange(int visibility) {
@@ -1837,8 +1837,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         } else {
             visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
         }
-        mSurface.setSystemUiVisibility(visibility);
-        mSubtitlesSurface.setSystemUiVisibility(visibility);
+        getWindow().getDecorView().setSystemUiVisibility(visibility);
     }
 
     private void updateOverlayPausePlay() {
