@@ -36,7 +36,7 @@ public class DetailsDescriptionPresenter extends
 		// Here we provide static data for testing purposes:
 		viewHolder.getTitle().setText(details.getTitle());
 		viewHolder.getSubtitle().setText(details.getSubTitle());
-//		viewHolder.getBody().setText(details.getBody());
+		viewHolder.getBody().setText(details.getBody());
 	}
 
 	

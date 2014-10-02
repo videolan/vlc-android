@@ -31,22 +31,20 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.util.Util;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v17.leanback.app.VerticalGridFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
-import android.support.v17.leanback.widget.OnItemSelectedListener;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
-import android.util.Log;
 
 public class GridFragment extends VerticalGridFragment implements VideoBrowserInterface {
 	private static final String TAG = "VerticalGridFragment";
@@ -58,26 +56,28 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 	private ArrayObjectAdapter mAdapter;
 	private MediaLibrary mMediaLibrary;
 	private Thumbnailer mThumbnailer;
-	HashMap<String, Integer> mVideoIndex;
+	HashMap<String, Integer> mMediaIndex;
 	Context mContext;
+	long mType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		mContext = getActivity();
+		mType = getActivity().getIntent().getLongExtra("id", 0);
 
 		setTitle(getString(R.string.app_name_full));
 
 		mMediaLibrary = MediaLibrary.getInstance();
-		mThumbnailer = new Thumbnailer(mContext, getActivity().getWindowManager().getDefaultDisplay());
+		if (mType == HEADER_VIDEO)
+			mThumbnailer = new Thumbnailer(mContext, getActivity().getWindowManager().getDefaultDisplay());
 		setupFragment();
 	}
 
 	public void onResume() {
 		super.onResume();
 		if (mMediaLibrary.isWorking()) {
-			actionScanStart();
+			Util.actionScanStart();
 		}
 
 		/* Start the thumbnailer */
@@ -115,16 +115,20 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 		setGridPresenter(gridPresenter);
 
 
-		ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
-		size = videoList.size();
-		mVideoIndex = new HashMap<String, Integer>(size);
+		ArrayList<Media> mediaList = null;
+		if (mType == HEADER_VIDEO)
+			mediaList = mMediaLibrary.getVideoItems();
+		else if (mType == HEADER_MUSIC)
+			mediaList = mMediaLibrary.getAudioItems();
+		size = mediaList == null ? 0 : mediaList.size();
+		mMediaIndex = new HashMap<String, Integer>(size);
 		
 		for (int i = 0 ; i < size ; ++i){
-			media = videoList.get(i);
-			picture = mediaDatabase.getPicture(mContext, media.getLocation());
+			media = mediaList.get(i);
 			mAdapter.add(media);
-			mVideoIndex.put(media.getLocation(), i);
+			mMediaIndex.put(media.getLocation(), i);
 			if (mThumbnailer != null){
+				picture = mediaDatabase.getPicture(mContext, media.getLocation());
 				if (picture== null) {
 					mThumbnailer.addJob(media);
 				} else {
@@ -163,46 +167,21 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 	@Override
 	public void setItemToUpdate(Media item) {
 		mItemToUpdate = item;
-		mHandler.sendEmptyMessage(UPDATE_ITEM);
+		mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
 	}
 
-	private void updateItem() {
-		mAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+	public void updateItem() {
+		mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(mItemToUpdate.getLocation()), 1);
 		try {
 			mBarrier.await();
 		} catch (InterruptedException e) {
 		} catch (BrokenBarrierException e) {}
 	}
 
-	public static void actionScanStart() {
-		Intent intent = new Intent();
-		intent.setAction(ACTION_SCAN_START);
-		VLCApplication.getAppContext().sendBroadcast(intent);
-	}
-
-	public static void actionScanStop() {
-		Intent intent = new Intent();
-		intent.setAction(ACTION_SCAN_STOP);
-		VLCApplication.getAppContext().sendBroadcast(intent);
-	}
+	@Override
+	public void updateList() {
+		// TODO Auto-generated method stub
+	};
 
 	private Handler mHandler = new VideoListHandler(this);
-
-	private static class VideoListHandler extends WeakHandler<GridFragment> {
-		public VideoListHandler(GridFragment owner) {
-			super(owner);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			GridFragment owner = getOwner();
-			if(owner == null) return;
-
-			switch (msg.what) {
-			case UPDATE_ITEM:
-				owner.updateItem();
-				break;
-			}
-		}
-	};
 }

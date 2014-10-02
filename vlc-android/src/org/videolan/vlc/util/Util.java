@@ -32,6 +32,7 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
@@ -41,6 +42,8 @@ import android.widget.Toast;
 
 public class Util {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+    public static final String ACTION_SCAN_START = "org.videolan.vlc.gui.ScanStart";
+    public static final String ACTION_SCAN_STOP = "org.videolan.vlc.gui.ScanStop";
 
     /** Print an on-screen message to alert the user */
     public static void toaster(Context context, int stringId) {
@@ -147,5 +150,17 @@ public class Util {
                 return result;
             }
         }
+    }
+
+    public static void actionScanStart() {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SCAN_START);
+        VLCApplication.getAppContext().sendBroadcast(intent);
+    }
+
+    public static void actionScanStop() {
+        Intent intent = new Intent();
+        intent.setAction(ACTION_SCAN_STOP);
+        VLCApplication.getAppContext().sendBroadcast(intent);
     }
 }

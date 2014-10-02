@@ -6,6 +6,7 @@ import org.videolan.vlc.R;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
@@ -46,7 +47,11 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(String mediaLocation) {
-        	mCardView.setMainImage(new BitmapDrawable(sResources, sMediaDatabase.getPicture(sContext, mediaLocation)));
+			Bitmap picture = sMediaDatabase.getPicture(sContext, mediaLocation);
+			if (picture.getByteCount() > 4)
+				mCardView.setMainImage(new BitmapDrawable(sResources, picture));
+			else
+				updateCardViewImage(sDefaultCardImage);
         }
 
         protected void updateCardViewImage(Drawable image) {

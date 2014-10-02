@@ -31,8 +31,9 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.util.Util;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -41,7 +42,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.os.Parcelable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
@@ -51,6 +51,7 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
 import android.support.v17.leanback.widget.Row;
+import android.util.Log;
 
 public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
@@ -81,11 +82,11 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 				Intent intent = new Intent(MainTvActivity.this,
 						DetailsActivity.class);
 				// pass the item information
-				intent.putExtra("id", row.getId());
-				intent.putExtra("item", (Parcelable)new TvMedia(0, media.getTitle(), media.getDescription(), media.getArtworkURL(), media.getArtworkURL(), media.getLocation()));
+				intent.putExtra("item", (Parcelable)new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum()+"\n"+media.getLocation(), media.getLocation()));
 				startActivity(intent);
 			} else if (media.getType() == Media.TYPE_GROUP){
 				Intent intent = new Intent(mContext, VerticalGridActivity.class);
+				intent.putExtra("id", row.getId());
 				startActivity(intent);
 			}
 		}
@@ -119,7 +120,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 		super.onResume();
 		mMediaLibrary.addUpdateHandler(mHandler);
 		if (mMediaLibrary.isWorking()) {
-			actionScanStart();
+			Util.actionScanStart();
 		}
 
 		/* Start the thumbnailer */
@@ -152,19 +153,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
     }
 
-
-	public static void actionScanStart() {
-		Intent intent = new Intent();
-		intent.setAction(ACTION_SCAN_START);
-		VLCApplication.getAppContext().sendBroadcast(intent);
-	}
-
-	public static void actionScanStop() {
-		Intent intent = new Intent();
-		intent.setAction(ACTION_SCAN_STOP);
-		VLCApplication.getAppContext().sendBroadcast(intent);
-	}
-
 	public void await() throws InterruptedException, BrokenBarrierException {
 		mBarrier.await();
 	}
@@ -173,7 +161,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 		mBarrier.reset();
 	}
 
-	private void updateList() {
+	public void updateList() {
 		MediaDatabase mediaDatabase = MediaDatabase.getInstance();
 		ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
 		ArrayList<Media> audioList = mMediaLibrary.getAudioItems();
@@ -206,7 +194,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			// Empty item to launch grid activity
 			videoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
-			HeaderItem header = new HeaderItem(0, "Videos", null);
+			HeaderItem header = new HeaderItem(HEADER_VIDEO, "Videos", null);
 			mRowsAdapter.add(new ListRow(header, videoAdapter));
 		}
 		
@@ -216,7 +204,10 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			for (Media music : audioList) {
 				audioAdapter.add(music);
 			}
-			HeaderItem header = new HeaderItem(1, "Music", null);
+			// Empty item to launch grid activity
+			audioAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+
+			HeaderItem header = new HeaderItem(HEADER_MUSIC, "Music", null);
 			mRowsAdapter.add(new ListRow(header, audioAdapter));
 		}
 		mBrowseFragment.setAdapter(mRowsAdapter);
@@ -225,10 +216,10 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	@Override
 	public void setItemToUpdate(Media item) {
 		mItemToUpdate = item;
-		mHandler.sendEmptyMessage(UPDATE_ITEM);
+		mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
 	}
 
-	private void updateItem() {
+	public void updateItem() {
 		videoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
 		try {
 			mBarrier.await();
@@ -237,24 +228,4 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	}
 
 	private Handler mHandler = new VideoListHandler(this);
-
-	private static class VideoListHandler extends WeakHandler<MainTvActivity> {
-		public VideoListHandler(MainTvActivity owner) {
-			super(owner);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			MainTvActivity owner = getOwner();
-			if(owner == null) return;
-
-			switch (msg.what) {
-			case UPDATE_ITEM:
-				owner.updateItem();
-				break;
-			case MediaLibrary.MEDIA_ITEMS_UPDATED:
-				owner.updateList();
-			}
-		}
-	};
 }

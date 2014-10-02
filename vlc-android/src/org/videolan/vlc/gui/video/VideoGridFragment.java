@@ -148,12 +148,12 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_SCAN_START);
-        filter.addAction(ACTION_SCAN_STOP);
+        filter.addAction(Util.ACTION_SCAN_START);
+        filter.addAction(Util.ACTION_SCAN_STOP);
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
         Log.i(TAG,"mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
         if (mMediaLibrary.isWorking()) {
-            actionScanStart();
+        	Util.actionScanStart();
         }
 
         mAnimator = new VideoGridAnimator(getGridView());
@@ -358,32 +358,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
      */
     private Handler mHandler = new VideoListHandler(this);
 
-    private static class VideoListHandler extends WeakHandler<VideoGridFragment> {
-        public VideoListHandler(VideoGridFragment owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            VideoGridFragment fragment = getOwner();
-            if(fragment == null) return;
-
-            switch (msg.what) {
-            case UPDATE_ITEM:
-                fragment.updateItem();
-                break;
-            case MediaLibrary.MEDIA_ITEMS_UPDATED:
-                // Don't update the adapter while the layout animation is running
-                if (fragment.mAnimator.isAnimationDone())
-                    fragment.updateList();
-                else
-                    sendEmptyMessageDelayed(msg.what, 500);
-                break;
-            }
-        }
-    };
-
-    private void updateItem() {
+    public void updateItem() {
         mVideoAdapter.update(mItemToUpdate);
         try {
             mBarrier.await();
@@ -391,16 +366,15 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         } catch (BrokenBarrierException e) {
         }
     }
-
     private void focusHelper(boolean idIsEmpty) {
         View parent = getView();
-		MainActivity main = (MainActivity)getActivity();
+        MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
         main.setSearchAsFocusDown(idIsEmpty, parent,
-            android.R.id.list);
-    }
+                    android.R.id.list);
+        }
 
-    private void updateList() {
+    public void updateList() {
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
         if (mThumbnailer != null)
@@ -444,7 +418,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     public void setItemToUpdate(Media item) {
         mItemToUpdate = item;
-        mHandler.sendEmptyMessage(UPDATE_ITEM);
+        mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
     }
 
     public void setGroup(String prefix) {
@@ -464,25 +438,13 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equalsIgnoreCase(ACTION_SCAN_START)) {
+            if (action.equalsIgnoreCase(Util.ACTION_SCAN_START)) {
                 mLayoutFlipperLoading.setVisibility(View.VISIBLE);
                 mTextViewNomedia.setVisibility(View.INVISIBLE);
-            } else if (action.equalsIgnoreCase(ACTION_SCAN_STOP)) {
+            } else if (action.equalsIgnoreCase(Util.ACTION_SCAN_STOP)) {
                 mLayoutFlipperLoading.setVisibility(View.INVISIBLE);
                 mTextViewNomedia.setVisibility(View.VISIBLE);
             }
         }
     };
-
-    public static void actionScanStart() {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_SCAN_START);
-        VLCApplication.getAppContext().sendBroadcast(intent);
-    }
-
-    public static void actionScanStop() {
-        Intent intent = new Intent();
-        intent.setAction(ACTION_SCAN_STOP);
-        VLCApplication.getAppContext().sendBroadcast(intent);
-    }
 }

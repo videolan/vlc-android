@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -82,7 +83,7 @@ public class MediaLibrary {
     public void loadMediaItems() {
         if (mLoadingThread == null || mLoadingThread.getState() == State.TERMINATED) {
             isStopping = false;
-            VideoGridFragment.actionScanStart();
+            Util.actionScanStart();
             mLoadingThread = new Thread(new GetMediaItemsRunnable());
             mLoadingThread.start();
         }
@@ -355,7 +356,7 @@ public class MediaLibrary {
                 MainActivity.clearTextInfo();
                 MainActivity.hideProgressBar();
 
-                VideoGridFragment.actionScanStop();
+                Util.actionScanStop();
 
                 if (mRestart) {
                     Log.d(TAG, "Restarting scan");

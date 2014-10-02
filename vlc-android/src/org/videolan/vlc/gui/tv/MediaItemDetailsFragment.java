@@ -32,7 +32,6 @@ import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
-import android.util.Log;
 
 public class MediaItemDetailsFragment extends DetailsFragment {
 	private static final String TAG = "MediaItemDetailsFragment";
@@ -40,7 +39,6 @@ public class MediaItemDetailsFragment extends DetailsFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 
 		buildDetails();
@@ -48,8 +46,7 @@ public class MediaItemDetailsFragment extends DetailsFragment {
 
 	private void buildDetails() {
 		Bundle extras = getActivity().getIntent().getExtras();
-		Log.d(TAG, "id "+extras.getLong("id"));
-		TvMedia media = extras.getParcelable("item");
+		MediaItemDetails media = extras.getParcelable("item");
 		ClassPresenterSelector selector = new ClassPresenterSelector();
 		// Attach your media item details presenter to the row presenter:
 		DetailsOverviewRowPresenter rowPresenter =
@@ -61,7 +58,7 @@ public class MediaItemDetailsFragment extends DetailsFragment {
 		mRowsAdapter = new ArrayObjectAdapter(selector);
 
 		Resources res = getActivity().getResources();
-		DetailsOverviewRow detailsOverview = new DetailsOverviewRow(new MediaItemDetails(media.getTitle(), media.getDescription(), "Big body"));
+		DetailsOverviewRow detailsOverview = new DetailsOverviewRow(media);
 
 		// Add images and action buttons to the details view
 		detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
