@@ -13,6 +13,7 @@
     <attr name="font_default" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="video_player_overlay" format="reference|color" />
+    <attr name="status_bar_overlay" format="reference|color" />
     <attr name="advanced_options_divider" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
     <attr name="playlist_item_drag_shadow" format="reference|color" />
