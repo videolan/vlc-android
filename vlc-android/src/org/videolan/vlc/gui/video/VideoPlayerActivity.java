@@ -1737,6 +1737,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         showOverlay(OVERLAY_TIMEOUT);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setActionBarVisibility(boolean show) {
+        if (show)
+            mActionBar.show();
+        else
+            mActionBar.hide();
+    }
+
     /**
      * show overlay
      */
@@ -1748,7 +1756,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mShowing = true;
             if (!mIsLocked) {
                 if (mOverlayUseStatusBar)
-                    mActionBar.show();
+                    setActionBarVisibility(true);
                 else
                     mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
@@ -1789,7 +1797,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mOverlayBackground.setVisibility(View.INVISIBLE);
             }
             if (mOverlayUseStatusBar)
-                mActionBar.hide();
+                setActionBarVisibility(false);
             else
                 mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
