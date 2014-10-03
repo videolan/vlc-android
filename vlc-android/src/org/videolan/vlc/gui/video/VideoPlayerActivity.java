@@ -1463,6 +1463,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     };
 
     private void selectAudioTrack() {
+    	if (mAudioTracksList == null) return;
+
         final String[] arrList = new String[mAudioTracksList.size()];
         int i = 0;
         int listPosition = 0;
