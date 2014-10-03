@@ -1827,9 +1827,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         int visibility = layout;
         if (dim) {
-            if (AndroidDevices.hasCombBar()) {
-                visibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
-            } else {
+            visibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            if (!AndroidDevices.hasCombBar()) {
                 visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 if (mOverlayUseStatusBar)
                     visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
