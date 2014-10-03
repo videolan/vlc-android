@@ -1808,6 +1808,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mMenu.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
+        } else if (!fromUser) {
+            /*
+             * Try to hide the Nav Bar again.
+             * It seems that you can't hide the Nav Bar if you previously
+             * showed it in the last 1-2 seconds.
+             */
+            dimStatusBar(true);
         }
     }
 
