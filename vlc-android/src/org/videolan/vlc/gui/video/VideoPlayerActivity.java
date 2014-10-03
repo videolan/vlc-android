@@ -303,7 +303,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setBackgroundDrawable(null);
             mActionBar.setDisplayShowCustomEnabled(true);
-            mActionBar.setCustomView(R.layout.action_bar_layout);
+            mActionBar.setCustomView(R.layout.player_action_bar);
 
             ViewGroup view = (ViewGroup) mActionBar.getCustomView();
             /* Dispatch ActionBar touch events to the Activity */
