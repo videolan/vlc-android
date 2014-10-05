@@ -14,7 +14,11 @@
         android:numColumns="auto_fit"
         android:fastScrollEnabled="true"
         android:fadingEdge="none"
-        android:gravity="center" />
+        android:gravity="center"
+        android:nextFocusUp="@+id/ml_menu_search"
+        android:nextFocusDown="@id/android:list"
+        android:nextFocusLeft="@id/android:list"
+        android:nextFocusRight="@id/android:list" />
 
     <LinearLayout
         android:id="@id/android:empty"
