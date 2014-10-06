@@ -91,6 +91,7 @@ import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -116,7 +117,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 public class VideoPlayerActivity extends Activity implements IVideoPlayer {
-    public final static String TAG = "VLC/VideoPlayerActivity";
+
+	public final static String TAG = "VLC/VideoPlayerActivity";
 
     // Internal intent identifier to distinguish between internal launch and
     // external intent.
@@ -222,6 +224,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private int mSurfaceYDisplayRange;
     private float mTouchY, mTouchX;
 
+    //stick event
+    private static final int JOYSTICK_INPUT_DELAY = 300;
+    private long mLastMove;
+
     // Brightness
     private boolean mIsFirstBrightnessGesture = true;
 
@@ -252,7 +258,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
@@ -694,29 +699,68 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         return true;
     }
 
+    @TargetApi(12) //only active for Android 3.1+
+    public boolean dispatchGenericMotionEvent(MotionEvent event){
+
+		InputDevice mInputDevice = event.getDevice();
+
+		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
+				MotionEvent.AXIS_X);
+		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
+				MotionEvent.AXIS_Y);
+		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
+				MotionEvent.AXIS_Z);
+		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
+				MotionEvent.AXIS_RZ);
+
+		if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
+			if (Math.abs(x) > 0.3){
+				seek(x > 0.0f ? 10000 : -10000);
+				mLastMove = System.currentTimeMillis();
+			} else if (Math.abs(y) > 0.3){
+				if (mIsFirstBrightnessGesture)
+					initBrightnessTouch();
+				changeBrightness(-y/10f);
+				mLastMove = System.currentTimeMillis();
+			} else if (Math.abs(rz) > 0.3){
+				mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+				int delta = -(int) ((rz / 7) * mAudioMax);
+				int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+				setAudioVolume(vol);
+				mLastMove = System.currentTimeMillis();
+			}
+		}
+		return true;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showOverlay(OVERLAY_TIMEOUT);
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+        case KeyEvent.KEYCODE_BUTTON_R1:
             seek(10000);
             return true;
         case KeyEvent.KEYCODE_R:
         case KeyEvent.KEYCODE_MEDIA_REWIND:
+        case KeyEvent.KEYCODE_BUTTON_L1:
             seek(-10000);
             return true;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
         case KeyEvent.KEYCODE_MEDIA_PLAY:
         case KeyEvent.KEYCODE_MEDIA_PAUSE:
         case KeyEvent.KEYCODE_SPACE:
+        case KeyEvent.KEYCODE_BUTTON_A:
             doPlayPause();
             return true;
         case KeyEvent.KEYCODE_V:
+        case KeyEvent.KEYCODE_BUTTON_Y:
             selectSubtitles();
             return true;
         case KeyEvent.KEYCODE_B:
         case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
+        case KeyEvent.KEYCODE_BUTTON_B:
             selectAudioTrack();
             return true;
         case KeyEvent.KEYCODE_M:
@@ -730,6 +774,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             resizeVideo();
             return true;
         case KeyEvent.KEYCODE_VOLUME_MUTE:
+        case KeyEvent.KEYCODE_BUTTON_X:
             updateMute();
             return true;
         case KeyEvent.KEYCODE_S:
@@ -1368,11 +1413,15 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         int delta = -(int) ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
         int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
         if (delta != 0) {
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
-            mTouchAction = TOUCH_VOLUME;
-            showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
+            setAudioVolume(vol);
         }
     }
+
+	private void setAudioVolume(int vol) {
+		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+		mTouchAction = TOUCH_VOLUME;
+		showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
+	}
 
     private void updateMute () {
         if (!mMute) {
@@ -1413,14 +1462,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         // Set delta : 0.07f is arbitrary for now, it possibly will change in the future
         float delta = - y_changed / mSurfaceYDisplayRange * 0.07f;
 
-        // Estimate and adjust Brightness
+        changeBrightness(delta);
+    }
+
+	private void changeBrightness(float delta) {
+		// Estimate and adjust Brightness
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
-
         // Set Brightness
         getWindow().setAttributes(lp);
         showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness*15),1000);
-    }
+	}
 
     /**
      * handle changes of the seekbar (slicer)

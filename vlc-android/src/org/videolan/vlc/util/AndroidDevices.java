@@ -38,6 +38,8 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.view.InputDevice;
+import android.view.MotionEvent;
 
 public class AndroidDevices {
     public final static String TAG = "VLC/Util/AndroidDevices";
@@ -145,4 +147,24 @@ public class AndroidDevices {
         return list.toArray(new String[list.size()]);
     }
 
+    public static float getCenteredAxis(MotionEvent event,
+            InputDevice device, int axis) {
+        final InputDevice.MotionRange range =
+                device.getMotionRange(axis, event.getSource());
+
+        // A joystick at rest does not always report an absolute position of
+        // (0,0). Use the getFlat() method to determine the range of values
+        // bounding the joystick axis center.
+        if (range != null) {
+            final float flat = range.getFlat();
+            final float value = event.getAxisValue(axis);
+
+            // Ignore axis values that are within the 'flat' region of the
+            // joystick axis center.
+            if (Math.abs(value) > flat) {
+                return value;
+            }
+        }
+        return 0;
+    }
 }
