@@ -90,6 +90,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.view.KeyEvent;
 
 public class MainActivity extends ActionBarActivity {
     public final static String TAG = "VLC/MainActivity";
@@ -132,6 +133,7 @@ public class MainActivity extends ActionBarActivity {
     private boolean mScanNeeded = true;
 
     private Handler mHandler = new MainActivityHandler(this);
+    private int mFocusedPrior = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +236,8 @@ public class MainActivity extends ActionBarActivity {
                 Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
                 if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
+                    if (mFocusedPrior != 0)
+                        findViewById(R.id.ml_menu_search).requestFocus();
                     mRootContainer.closeDrawer(mListView);
                     return;
                 }
@@ -268,6 +272,8 @@ public class MainActivity extends ActionBarActivity {
                 if(current.getTag().equals("tracks"))
                     getFragment("audio").setUserVisibleHint(false);
 
+                if (mFocusedPrior != 0)
+                    findViewById(R.id.ml_menu_search).requestFocus();
                 mRootContainer.closeDrawer(mListView);
             }
         });
@@ -409,6 +415,7 @@ public class MainActivity extends ActionBarActivity {
 
         mAudioController.removeAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().unbindAudioService(this);
+        mFocusedPrior = 0;
     }
 
     @Override
@@ -431,6 +438,8 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         if(mRootContainer.isDrawerOpen(mListView)) {
             /* Close the menu first */
+            if (mFocusedPrior != 0)
+                findViewById(R.id.ml_menu_search).requestFocus();
             mRootContainer.closeDrawer(mListView);
             return;
         }
@@ -684,6 +693,13 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    // Note. onKeyDown will not occur while moving within a list
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        mFocusedPrior = getCurrentFocus().getId();
+        return super.onKeyDown(keyCode, event);
     }
 
     private void reloadPreferences() {
