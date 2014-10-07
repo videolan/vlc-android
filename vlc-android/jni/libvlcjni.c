@@ -56,6 +56,18 @@
 #define NO_IOMX_DR ""
 #endif
 
+static void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOptions)
+{
+    int stringCount = (*env)->GetArrayLength(env, mediaOptions);
+    for(int i = 0; i < stringCount; i++)
+    {
+        jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
+        const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
+        libvlc_media_add_option(p_md, p_st); // option
+        (*env)->ReleaseStringUTFChars(env, option, p_st);
+    }
+}
+
 libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
     libvlc_instance_t *libvlc = (libvlc_instance_t*)(intptr_t)instance;
@@ -66,26 +78,16 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
     if (!p_md)
         return NULL;
 
-    if (!noOmx) {
-        jclass cls = (*env)->GetObjectClass(env, thiz);
-        jmethodID methodId = (*env)->GetMethodID(env, cls, "getHardwareAcceleration", "()I");
-        int hardwareAcceleration = (*env)->CallIntMethod(env, thiz, methodId);
-        if (hardwareAcceleration == HW_ACCELERATION_DECODING || hardwareAcceleration == HW_ACCELERATION_FULL) {
-            /*
-             * Set higher caching values if using iomx decoding, since some omx
-             * decoders have a very high latency, and if the preroll data isn't
-             * enough to make the decoder output a frame, the playback timing gets
-             * started too soon, and every decoded frame appears to be too late.
-             * On Nexus One, the decoder latency seems to be 25 input packets
-             * for 320x170 H.264, a few packets less on higher resolutions.
-             * On Nexus S, the decoder latency seems to be about 7 packets.
-             */
-            libvlc_media_add_option(p_md, ":file-caching=1500");
-            libvlc_media_add_option(p_md, ":network-caching=1500");
-            libvlc_media_add_option(p_md, ":codec=mediacodec,iomx,all");
+    jclass cls = (*env)->GetObjectClass(env, thiz);
+    jmethodID methodId = (*env)->GetMethodID(env, cls, "getMediaOptions", "(ZZ)[Ljava/lang/String;");
+    if (methodId != NULL)
+    {
+        jobjectArray mediaOptions = (*env)->CallObjectMethod(env, thiz, methodId, noOmx, noVideo);
+        if (mediaOptions != NULL)
+        {
+            add_media_options(p_md, env, mediaOptions);
+            (*env)->DeleteLocalRef(env, mediaOptions);
         }
-        if (noVideo)
-            libvlc_media_add_option(p_md, ":no-video");
     }
     return p_md;
 }
@@ -417,16 +419,7 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
     libvlc_media_t* p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)instance, p_mrl);
     /* media options */
     if (mediaOptions != NULL)
-    {
-        int stringCount = (*env)->GetArrayLength(env, mediaOptions);
-        for(int i = 0; i < stringCount; i++)
-        {
-            jstring option = (jstring)(*env)->GetObjectArrayElement(env, mediaOptions, i);
-            const char* p_st = (*env)->GetStringUTFChars(env, option, 0);
-            libvlc_media_add_option(p_md, p_st); // option
-            (*env)->ReleaseStringUTFChars(env, option, p_st);
-        }
-    }
+        add_media_options(p_md, env, mediaOptions);
 
     (*env)->ReleaseStringUTFChars(env, mrl, p_mrl);
 
