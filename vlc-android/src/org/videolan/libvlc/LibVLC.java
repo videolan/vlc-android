@@ -43,6 +43,8 @@ public class LibVLC {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
+    private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
+
     private static LibVLC sInstance;
 
     /** libVLC instance C pointer */
@@ -65,6 +67,7 @@ public class LibVLC {
 
     /** Settings */
     private int hardwareAcceleration = HW_ACCELERATION_AUTOMATIC;
+    private String codecList = DEFAULT_CODEC_LIST;
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private int vout = VOUT_ANDROID_SURFACE;
@@ -245,15 +248,49 @@ public class LibVLC {
     }
 
     public void setHardwareAcceleration(int hardwareAcceleration) {
-        if (hardwareAcceleration < 0) {
-            // Automatic mode: activate MediaCodec opaque direct rendering for 4.3 and above.
-            if (LibVlcUtil.isJellyBeanMR2OrLater())
-                this.hardwareAcceleration = HW_ACCELERATION_FULL;
-            else
+
+        if (hardwareAcceleration == HW_ACCELERATION_DISABLED) {
+            Log.d(TAG, "HWDec disabled: by user");
+            this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
+            this.codecList = "all";
+        } else {
+            // Automatic or forced
+            HWDecoderUtil.Decoder decoder = HWDecoderUtil.getDecoderFromDevice();
+
+            if (decoder == HWDecoderUtil.Decoder.NONE) {
+                // NONE
                 this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
+                this.codecList = "all";
+                Log.d(TAG, "HWDec disabled: device not working with mediacodec,iomx");
+            } else if (decoder == HWDecoderUtil.Decoder.UNKNOWN) {
+                // UNKNOWN
+                if (hardwareAcceleration < 0) {
+                    this.hardwareAcceleration = HW_ACCELERATION_DISABLED;
+                    this.codecList = "all";
+                    Log.d(TAG, "HWDec disabled: automatic and (unknown device or android version < 4.3)");
+                } else {
+                    this.hardwareAcceleration = hardwareAcceleration;
+                    this.codecList = DEFAULT_CODEC_LIST;
+                    Log.d(TAG, "HWDec enabled: forced by user and unknown device");
+                }
+            } else {
+                // OMX, MEDIACODEC or ALL
+                this.hardwareAcceleration = hardwareAcceleration < 0 ?
+                        HW_ACCELERATION_FULL : hardwareAcceleration;
+                if (decoder == HWDecoderUtil.Decoder.ALL)
+                    this.codecList = DEFAULT_CODEC_LIST;
+                else {
+                    final StringBuilder sb = new StringBuilder();
+                    if (decoder == HWDecoderUtil.Decoder.MEDIACODEC)
+                        sb.append("mediacodec,");
+                    else if (decoder == HWDecoderUtil.Decoder.OMX)
+                        sb.append("iomx,");
+                    sb.append("all");
+                    this.codecList = sb.toString();
+                }
+                Log.d(TAG, "HWDec enabled: device working with: " + this.codecList);
+            }
         }
-        else
-            this.hardwareAcceleration = hardwareAcceleration;
     }
 
     public String[] getMediaOptions(boolean noHardwareAcceleration, boolean noVideo) {
@@ -274,7 +311,7 @@ public class LibVLC {
              */
             options.add(":file-caching=1500");
             options.add(":network-caching=1500");
-            options.add(":codec=mediacodec,iomx,all");
+            options.add(":codec="+this.codecList);
         }
         if (noVideo)
             options.add(":no-video");
