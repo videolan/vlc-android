@@ -10,9 +10,11 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
-# Must use android-9 here. Any replacement functions needed are in the vlc-android/jni
-# folder.
-ANDROID_API=android-9
+# ANDROID_API must be previously set by compile.sh or env.sh
+if [ -z "$ANDROID_API" ];then
+    echo "ANDROID_API not set, call ./compile.sh first"
+    exit 1
+fi
 
 VLC_SOURCEDIR=..
 

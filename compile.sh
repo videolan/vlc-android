@@ -34,22 +34,6 @@ if [ -z "$ANDROID_ABI" ]; then
    exit 1
 fi
 
-# try to detect NDK version
-REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
-case "$REL" in
-    9*|10*)
-        GCCVER=4.8
-        CXXSTL="/"${GCCVER}
-    ;;
-    7|8|*)
-        echo "You need the NDKv9 or later"
-        exit 1
-    ;;
-esac
-
-export GCCVER
-export CXXSTL
-
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
@@ -68,6 +52,38 @@ else
     PLATFORM_SHORT_ARCH="arm"
 fi
 
+# try to detect NDK version
+REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
+case "$REL" in
+    10*)
+        if [ "${HAVE_64}" = 1 ];then
+            GCCVER=4.9
+            ANDROID_API=android-L
+        else
+            GCCVER=4.8
+            ANDROID_API=android-9
+        fi
+        CXXSTL="/"${GCCVER}
+    ;;
+    9*)
+        if [ "${HAVE_64}" = 1 ];then
+            echo "You need the NDKv10 or later for 64 bits build"
+            exit 1
+        fi
+        GCCVER=4.8
+        ANDROID_API=android-9
+        CXXSTL="/"${GCCVER}
+    ;;
+    7|8|*)
+        echo "You need the NDKv9 or later"
+        exit 1
+    ;;
+esac
+
+export GCCVER
+export CXXSTL
+export ANDROID_API
+
 # XXX : important!
 [ "$HAVE_ARM" = 1 ] && cat << EOF
 For an ARMv6 device without FPU:
@@ -83,6 +99,7 @@ export PATH_HOST
 export HAVE_ARM
 export HAVE_X86
 export HAVE_MIPS
+export HAVE_64
 export PLATFORM_SHORT_ARCH
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
@@ -329,6 +346,7 @@ echo "# Re-run 'sh compile.sh' to update this file." >> env.sh
 
 # The essentials
 cat <<EssentialsA >> env.sh
+export ANDROID_API=$ANDROID_API
 export ANDROID_ABI=$ANDROID_ABI
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
