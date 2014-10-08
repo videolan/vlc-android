@@ -30,7 +30,7 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86 or mips."
+   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86, x86_64 or mips."
    exit 1
 fi
 
@@ -40,6 +40,12 @@ if [ ${ANDROID_ABI} = "x86" ] ; then
     PATH_HOST="x86"
     HAVE_X86=1
     PLATFORM_SHORT_ARCH="x86"
+elif [ ${ANDROID_ABI} = "x86_64" ] ; then
+    TARGET_TUPLE="x86_64-linux-android"
+    PATH_HOST="x86_64"
+    HAVE_X86=1
+    HAVE_64=1
+    PLATFORM_SHORT_ARCH="x86_64"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
@@ -167,6 +173,8 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
     fi
 elif [ ${ANDROID_ABI} = "x86" ] ; then
     EXTRA_CFLAGS="-march=pentium -m32"
+elif [ ${ANDROID_ABI} = "x86_64" ] ; then
+    EXTRA_CFLAGS=""
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
