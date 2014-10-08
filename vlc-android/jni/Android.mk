@@ -4,8 +4,11 @@ include $(CLEAR_VARS)
 LOCAL_MODULE    := libvlcjni
 
 LOCAL_SRC_FILES := libvlcjni.c libvlcjni-util.c libvlcjni-track.c libvlcjni-medialist.c aout.c vout.c libvlcjni-equalizer.c native_crash_handler.c
-LOCAL_SRC_FILES += thumbnailer.c pthread-condattr.c pthread-rwlocks.c pthread-once.c eventfd.c sem.c
-LOCAL_SRC_FILES += pipe2.c
+LOCAL_SRC_FILES += thumbnailer.c
+ifneq ($(ANDROID_API),android-L)
+# compat functions not needed after android-L
+LOCAL_SRC_FILES += pthread-condattr.c pthread-rwlocks.c pthread-once.c eventfd.c sem.c pipe2.c
+endif
 LOCAL_SRC_FILES += wchar/wcpcpy.c
 LOCAL_SRC_FILES += wchar/wcpncpy.c
 LOCAL_SRC_FILES += wchar/wcscasecmp.c
