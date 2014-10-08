@@ -19,7 +19,12 @@ JAVA_SOURCES=\
 	$(SRC)/src/org/videolan/libvlc/*.java
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 LIBVLC_LIBS = libvlcjni
+
+ifneq ($(HAVE_64),1)
+# Can't link with 32bits symbols.
+# Not a problem since MediaCodec should work on 64bits devices (android-L)
 LIBVLC_LIBS += libiomx-ics libiomx-hc libiomx-gingerbread
+endif
 
 # The following iomx libs are used for DEBUG only.
 # (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
