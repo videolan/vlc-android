@@ -1,5 +1,13 @@
-Changes between 0.9.9 and 1.0.0-git:
---------------------------------
+Changes between 0.9.9 and 0.9.10:
+---------------------------------
+
+Main Application:
+ * Support ARMv8 processors
+ * Fix end-of-call behaviour
+ * Move from SlidingMenu to MenuDrawer from support library
+ * Remove beta warning
+ * Use statusbar in video playback after 4.2
+ * Basic Keyboard control support
 
 
 Changes between 0.9.8 and 0.9.9:
