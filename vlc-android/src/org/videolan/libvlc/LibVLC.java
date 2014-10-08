@@ -43,6 +43,12 @@ public class LibVLC {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
+    public static final int DEV_HW_DECODER_AUTOMATIC = -1;
+    public static final int DEV_HW_DECODER_OMX = 0;
+    public static final int DEV_HW_DECODER_OMX_DR = 1;
+    public static final int DEV_HW_DECODER_MEDIACODEC = 2;
+    public static final int DEV_HW_DECODER_MEDIACODEC_DR = 3;
+
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
 
     private static LibVLC sInstance;
@@ -67,7 +73,9 @@ public class LibVLC {
 
     /** Settings */
     private int hardwareAcceleration = HW_ACCELERATION_AUTOMATIC;
+    private int devHardwareDecoder = DEV_HW_DECODER_AUTOMATIC;
     private String codecList = DEFAULT_CODEC_LIST;
+    private String devCodecList = null;
     private String subtitlesEncoding = "";
     private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
     private int vout = VOUT_ANDROID_SURFACE;
@@ -293,13 +301,41 @@ public class LibVLC {
         }
     }
 
+    public int getDevHardwareDecoder() {
+        return this.devHardwareDecoder;
+    }
+
+    public void setDevHardwareDecoder(int devHardwareDecoder) {
+        if (devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC) {
+            this.devHardwareDecoder = devHardwareDecoder;
+            if (this.devHardwareDecoder == DEV_HW_DECODER_OMX ||
+                    this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR)
+                this.devCodecList = "iomx";
+            else
+                this.devCodecList = "mediacodec";
+
+            Log.d(TAG, "HWDec forced: " + this.devCodecList +
+                (isDirectRendering() ? "-dr" : ""));
+            this.devCodecList += ",none";
+        } else {
+            this.devHardwareDecoder = DEV_HW_DECODER_AUTOMATIC;
+            this.devCodecList = null;
+        }
+    }
 
     public boolean isDirectRendering() {
-        return this.hardwareAcceleration == HW_ACCELERATION_FULL;
+        if (devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC) {
+            return (this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR ||
+                    this.devHardwareDecoder == DEV_HW_DECODER_MEDIACODEC_DR);
+        } else {
+            return this.hardwareAcceleration == HW_ACCELERATION_FULL;
+        }
     }
 
     public String[] getMediaOptions(boolean noHardwareAcceleration, boolean noVideo) {
-        if (!noHardwareAcceleration)
+        if (this.devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC)
+            noHardwareAcceleration = noVideo = false;
+        else if (!noHardwareAcceleration)
             noHardwareAcceleration = getHardwareAcceleration() == HW_ACCELERATION_DISABLED;
 
         ArrayList<String> options = new ArrayList<String>();
@@ -316,7 +352,7 @@ public class LibVLC {
              */
             options.add(":file-caching=1500");
             options.add(":network-caching=1500");
-            options.add(":codec="+this.codecList);
+            options.add(":codec="+ (this.devCodecList != null ? this.devCodecList : this.codecList));
         }
         if (noVideo)
             options.add(":no-video");

@@ -100,6 +100,13 @@ public class VLCInstance {
         catch(NumberFormatException nfe) {
             hardwareAcceleration = -1;
         }
+        int devHardwareDecoder;
+        try {
+            devHardwareDecoder = Integer.parseInt(pref.getString("dev_hardware_decoder", "-1"));
+        }
+        catch(NumberFormatException nfe) {
+            devHardwareDecoder = -1;
+        }
         int networkCaching = pref.getInt("network_caching_value", 0);
         if(networkCaching > 60000)
             networkCaching = 60000;
@@ -110,6 +117,7 @@ public class VLCInstance {
         instance.setDeblocking(deblocking);
         instance.setNetworkCaching(networkCaching);
         instance.setHardwareAcceleration(hardwareAcceleration);
+        instance.setDevHardwareDecoder(devHardwareDecoder);
     }
 
 

@@ -206,6 +206,12 @@
     <string name="hardware_acceleration_disabled">Disabled</string>
     <string name="hardware_acceleration_decoding">Decoding acceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
+    <string name="dev_hardware_decoder">Advanced hardware decoder</string>
+    <string name="dev_hardware_decoder_summary">Force hardware decoder, for advanced users only</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
@@ -308,6 +314,21 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="dev_hardware_decoder_list">
+        <item>@string/automatic</item>
+        <item>@string/dev_hardware_decoder_omx</item>
+        <item>@string/dev_hardware_decoder_omx_dr</item>
+        <item>@string/dev_hardware_decoder_mediacodec</item>
+        <item>@string/dev_hardware_decoder_mediacodec_dr</item>
+    </string-array>
+    <string-array name="dev_hardware_decoder_values" translatable="false">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string-array name="deblocking_list">
