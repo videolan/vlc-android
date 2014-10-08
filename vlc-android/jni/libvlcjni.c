@@ -43,10 +43,6 @@
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
 
-#define HW_ACCELERATION_DISABLED 0
-#define HW_ACCELERATION_DECODING 1
-#define HW_ACCELERATION_FULL     2
-
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
@@ -270,10 +266,10 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     methodId = (*env)->GetMethodID(env, cls, "isVerboseMode", "()Z");
     verbosity = (*env)->CallBooleanMethod(env, thiz, methodId);
 
-    methodId = (*env)->GetMethodID(env, cls, "getHardwareAcceleration", "()I");
-    int hardwareAcceleration = (*env)->CallIntMethod(env, thiz, methodId);
+    methodId = (*env)->GetMethodID(env, cls, "isDirectRendering", "()Z");
+    bool direct_rendering = (*env)->CallBooleanMethod(env, thiz, methodId);
     /* With the MediaCodec opaque mode we cannot use the OpenGL ES vout. */
-    if (hardwareAcceleration == HW_ACCELERATION_FULL)
+    if (direct_rendering)
         use_opengles2 = false;
 
     methodId = (*env)->GetMethodID(env, cls, "getCachePath", "()Ljava/lang/String;");
@@ -311,8 +307,8 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         use_opengles2 ? "--vout=gles2" : "--vout=androidsurface",
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
         /* XXX: we can't recover from direct rendering failure */
-        (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : "--no-mediacodec-dr",
-        (hardwareAcceleration == HW_ACCELERATION_FULL) ? "" : NO_IOMX_DR,
+        direct_rendering ? "" : "--no-mediacodec-dr",
+        direct_rendering ? "" : NO_IOMX_DR,
 
         /* Reconnect on lost HTTP streams, e.g. network change */
         enable_http_reconnect ? "--http-reconnect" : "",

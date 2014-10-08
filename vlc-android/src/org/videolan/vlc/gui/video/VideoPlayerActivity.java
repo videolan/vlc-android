@@ -427,7 +427,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
         /* Only show the subtitles surface when using "Full Acceleration" mode */
-        if (mLibVLC.getHardwareAcceleration() == LibVLC.HW_ACCELERATION_FULL)
+        if (mLibVLC.isDirectRendering())
             mSubtitlesSurface.setVisibility(View.VISIBLE);
         // Signal to LibVLC that the videoPlayerActivity was created, thus the
         // SurfaceView is now available for MediaCodec direct rendering.
@@ -2397,7 +2397,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
             /* Only show the subtitles surface when using "Full Acceleration" mode */
-            if (mLibVLC != null && mLibVLC.getHardwareAcceleration() == LibVLC.HW_ACCELERATION_FULL)
+            if (mLibVLC != null && mLibVLC.isDirectRendering())
                 mSubtitlesSurface.setVisibility(View.VISIBLE);
             Log.i(TAG, "Secondary display created");
         }

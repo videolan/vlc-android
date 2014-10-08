@@ -293,6 +293,11 @@ public class LibVLC {
         }
     }
 
+
+    public boolean isDirectRendering() {
+        return this.hardwareAcceleration == HW_ACCELERATION_FULL;
+    }
+
     public String[] getMediaOptions(boolean noHardwareAcceleration, boolean noVideo) {
         if (!noHardwareAcceleration)
             noHardwareAcceleration = getHardwareAcceleration() == HW_ACCELERATION_DISABLED;
