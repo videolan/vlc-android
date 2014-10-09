@@ -30,7 +30,7 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86, x86_64 or mips."
+   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, arm64-v8a, x86, x86_64 or mips."
    exit 1
 fi
 
@@ -51,6 +51,12 @@ elif [ ${ANDROID_ABI} = "mips" ] ; then
     PATH_HOST=$TARGET_TUPLE
     HAVE_MIPS=1
     PLATFORM_SHORT_ARCH="mips"
+elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
+    TARGET_TUPLE="aarch64-linux-android"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_ARM=1
+    HAVE_64=1
+    PLATFORM_SHORT_ARCH="arm64"
 else
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
@@ -171,6 +177,8 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
             EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
         fi
     fi
+elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
+    EXTRA_CFLAGS=""
 elif [ ${ANDROID_ABI} = "x86" ] ; then
     EXTRA_CFLAGS="-march=pentium -m32"
 elif [ ${ANDROID_ABI} = "x86_64" ] ; then

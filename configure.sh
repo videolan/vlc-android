@@ -6,7 +6,7 @@ if [ -z "$ANDROID_NDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-    echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, x86, x86_64 or mips."
+    echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, arm64-v8a, x86, x86_64 or mips."
     exit 1
 fi
 
@@ -19,7 +19,7 @@ fi
 VLC_SOURCEDIR=..
 
 CFLAGS="-g -O2 -fstrict-aliasing -funsafe-math-optimizations"
-if [ -n "$HAVE_ARM" ]; then
+if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
     CFLAGS="${CFLAGS} -mlong-calls"
 fi
 
