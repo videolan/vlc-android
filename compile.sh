@@ -391,3 +391,6 @@ fi
 if [ -n "${NO_FPU}" ]; then
     echo "export NO_FPU=1" >> env.sh
 fi
+if [ -n "${HAVE_64}" ]; then
+    echo "export HAVE_64=1" >> env.sh
+fi
