@@ -294,7 +294,7 @@ cd ../.. && mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_
 
 if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
     CLEAN="jniclean"
-    TARGET="vlc-android/obj/local/armeabi-v7a/libvlcjni.so"
+    TARGET="vlc-android/obj/local/${ANDROID_ABI}/libvlcjni.so"
 else
     CLEAN="distclean"
     if [ ! -f config.h ]; then
