@@ -18,7 +18,7 @@ public class TvUtil {
 			Intent intent = new Intent(activity,
 					DetailsActivity.class);
 			// pass the item information
-			intent.putExtra("item", (Parcelable)new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum()+"\n"+media.getLocation(), media.getLocation()));
+			intent.putExtra("item", (Parcelable)new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
 			activity.startActivity(intent);
 		} else if (media.getType() == Media.TYPE_GROUP){
 			Intent intent = new Intent(activity, VerticalGridActivity.class);

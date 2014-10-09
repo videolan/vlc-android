@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <!-- Cover -->
+        <ImageView
+            android:id="@+id/album_cover"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:src="@drawable/background_cone" >
+        </ImageView>
+
+        <!-- Playlist -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/playlist"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+    <!-- Media HUD -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="30dip"
+        android:paddingLeft="30dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="5dip"
+        android:background="#33000000">
+        <TextView
+            android:id="@+id/media_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_alignParentTop="true"
+	        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"/>
+        <TextView
+            android:id="@+id/media_artist"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/media_title"
+	        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"/>
+        <ProgressBar
+            android:id="@+id/media_progress"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="?android:attr/progressBarStyleHorizontal"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/media_artist"
+	        android:layout_alignStart="@+id/media_controls"
+	        android:layout_alignEnd="@+id/media_controls"
+	        android:indeterminate="false"/>
+        <!-- Media control buttons -->
+         <LinearLayout
+            android:id="@+id/media_controls"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/media_progress">
+	        <ImageView
+	            android:id="@+id/button_previous"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_previous"
+	            android:clickable="true"
+	            android:onClick="onClick"/>
+	        <ImageView
+	            android:id="@+id/button_play"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="10dp"
+	            android:layout_marginRight="10dp"
+	            android:src="@drawable/ic_play"
+	            android:clickable="true"
+	            android:onClick="onClick"/>
+	        <ImageView
+	            android:id="@+id/button_next"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_next"
+	            android:clickable="true"
+	            android:onClick="onClick"/>
+	        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
