@@ -314,6 +314,23 @@ else
     TARGET=
 fi
 
+# ANDROID NDK FIXUP (BLAME GOOGLE)
+config_undef ()
+{
+    sed -i 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+}
+
+if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-L" ] ; then
+    # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
+    # intel devices has nanf. Assume they don't have it.
+    config_undef HAVE_NANF
+fi
+if [ ${ANDROID_API} = "android-L" ] ; then
+    # android-L has empty sys/shm.h headers that triggers shm detection but it
+    # doesn't have any shm functions and/or symbols. */
+    config_undef HAVE_SYS_SHM_H
+fi
+
 echo "Building"
 make $MAKEFLAGS
 
