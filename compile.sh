@@ -202,14 +202,14 @@ EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CX
 EXTRA_LDFLAGS="-l${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/libgnustl_static.a"
 
 # Make in //
-UNAMES=$(uname -s)
-MAKEFLAGS=
-if which nproc >/dev/null
-then
-MAKEFLAGS=-j`nproc`
-elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null
-then
-MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
+if [ -z "$MAKEFLAGS" ]; then
+    UNAMES=$(uname -s)
+    MAKEFLAGS=
+    if which nproc >/dev/null; then
+        MAKEFLAGS=-j`nproc`
+    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
+        MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
+    fi
 fi
 
 # Build buildsystem tools
