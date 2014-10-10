@@ -30,7 +30,6 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoBrowserInterface;
 import org.videolan.vlc.gui.video.VideoListHandler;
@@ -52,7 +51,6 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
 import android.support.v17.leanback.widget.Row;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -60,7 +58,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
 	private static final int NUM_ITEMS_PREVIEW = 5;
 
-	public static final String TAG = "BrowseActivity";
+	public static final String TAG = "VLC/MainTvActivity";
 
 	protected BrowseFragment mBrowseFragment;
 	protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
@@ -68,8 +66,9 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	private Thumbnailer mThumbnailer;
 	private Media mItemToUpdate;
 	ArrayObjectAdapter mRowsAdapter;
-	ArrayObjectAdapter videoAdapter;
-	ArrayObjectAdapter audioAdapter;
+	ArrayObjectAdapter mVideoAdapter;
+	ArrayObjectAdapter mAudioAdapter;
+	ArrayObjectAdapter mCategoriesAdapter;
 	HashMap<String, Integer> mVideoIndex;
 	Drawable mDefaultBackground;
 	Activity mContext;
@@ -77,7 +76,13 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
 		@Override
 		public void onItemClicked(Object item, Row row) {
-			TvUtil.openMedia(mContext, (Media)item, row);
+			if (row.getId() == HEADER_CATEGORIES){
+				String category = (String)item;
+				Intent intent = new Intent(mContext, VerticalGridActivity.class);
+				intent.putExtra(AUDIO_CATEGORY, category);
+				startActivity(intent);
+			} else
+				TvUtil.openMedia(mContext, (Media)item, row);
 		}
 	};
 
@@ -93,7 +98,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		/*
-		 * skip browser and show direcly Audio Player if a song is playing
+		 * skip browser and show directly Audio Player if a song is playing
 		 */
 		if (LibVLC.getExistingInstance() != null){
 			if (LibVLC.getExistingInstance().isPlaying()){
@@ -183,7 +188,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	}
 
 	public void updateItem() {
-		videoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+		mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
 		try {
 			mBarrier.await();
 		} catch (InterruptedException e) {
@@ -204,7 +209,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 		protected Void doInBackground(Void... params) {
 			MediaDatabase mediaDatabase = MediaDatabase.getInstance();
 			ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
-			ArrayList<Media> audioList = mMediaLibrary.getAudioItems();
+//			ArrayList<Media> audioList = mMediaLibrary.getAudioItems();
 			int size;
 			Media item;
 			Bitmap picture;
@@ -213,7 +218,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			if (!videoList.isEmpty()) {
 				size = videoList.size();
 				mVideoIndex = new HashMap<String, Integer>(size);
-				videoAdapter = new ArrayObjectAdapter(
+				mVideoAdapter = new ArrayObjectAdapter(
 						new CardPresenter());
 				if (NUM_ITEMS_PREVIEW < size)
 					size = NUM_ITEMS_PREVIEW;
@@ -221,7 +226,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 					item = videoList.get(i);
 					picture = mediaDatabase.getPicture(mContext, item.getLocation());
 
-					videoAdapter.add(item);
+					mVideoAdapter.add(item);
 					mVideoIndex.put(item.getLocation(), i);
 					if (mThumbnailer != null){
 						if (picture== null) {
@@ -233,18 +238,18 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 					}
 				}
 				// Empty item to launch grid activity
-				videoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+				mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
 				HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
-				mRowsAdapter.add(new ListRow(header, videoAdapter));
+				mRowsAdapter.add(new ListRow(header, mVideoAdapter));
 			}
 
-			// update audio section
+			/*// update audio section
 			if (!audioList.isEmpty()) {
 				size = audioList.size();
 				if (NUM_ITEMS_PREVIEW < size)
 					size = NUM_ITEMS_PREVIEW;
-				audioAdapter = new ArrayObjectAdapter(new CardPresenter());
+				mAudioAdapter = new ArrayObjectAdapter(new CardPresenter());
 				for (int i = 0 ; i < size ; ++i) {
 					item = audioList.get(i);
 					picture = AudioUtil.getCover(mContext, item, 320);
@@ -252,15 +257,24 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 						MediaDatabase.setPicture(item, picture);
 						picture = null;
 					}
-					audioAdapter.add(item);
+					mAudioAdapter.add(item);
 
 				}
 				// Empty item to launch grid activity
-				audioAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+				mAudioAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
 				HeaderItem header = new HeaderItem(HEADER_MUSIC, getString(R.string.audio), null);
-				mRowsAdapter.add(new ListRow(header, audioAdapter));
-			}
+				mRowsAdapter.add(new ListRow(header, mAudioAdapter));
+			}*/
+
+			mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter());
+			mCategoriesAdapter.add(getString(R.string.artists));
+			mCategoriesAdapter.add(getString(R.string.albums));
+			mCategoriesAdapter.add(getString(R.string.genres));
+			mCategoriesAdapter.add(getString(R.string.songs));
+			HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
+			mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
+
 			return null;
 		}
 

@@ -26,20 +26,11 @@ public class CardPresenter extends Presenter {
     private static Drawable sDefaultCardImage;
 
     static class ViewHolder extends Presenter.ViewHolder {
-        private Media mMedia;
         private ImageCardView mCardView;
 
         public ViewHolder(View view) {
             super(view);
             mCardView = (ImageCardView) view;
-        }
-
-        public void setMovie(Media m) {
-            mMedia = m;
-        }
-
-        public Media getMovie() {
-            return mMedia;
         }
 
         public ImageCardView getCardView() {
@@ -80,16 +71,28 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-    	Media media = (Media) item;
-        ((ViewHolder) viewHolder).setMovie(media);
-
-        ((ViewHolder) viewHolder).mCardView.setTitleText(media.getTitle());
-        ((ViewHolder) viewHolder).mCardView.setContentText(media.getDescription());
         ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-        if (media.isPictureParsed())
-			((ViewHolder) viewHolder).updateCardViewImage(media.getLocation());
-		else
-			((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+    	if (item instanceof Media) {
+	    	Media media = (Media) item;
+	        ((ViewHolder) viewHolder).mCardView.setTitleText(media.getTitle());
+	        ((ViewHolder) viewHolder).mCardView.setContentText(media.getDescription());
+	        if (media.isPictureParsed())
+				((ViewHolder) viewHolder).updateCardViewImage(media.getLocation());
+			else
+				((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+    	} else if (item instanceof GridFragment.ListItem) {
+	    	GridFragment.ListItem listItem = (GridFragment.ListItem) item;
+	    	Media media = listItem.mMediaList.get(0);
+	        ((ViewHolder) viewHolder).mCardView.setTitleText(listItem.mTitle);
+	        ((ViewHolder) viewHolder).mCardView.setContentText(listItem.mSubTitle);
+	        if (media.isPictureParsed())
+				((ViewHolder) viewHolder).updateCardViewImage(media.getLocation());
+			else
+				((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+    	} else if (item instanceof String){
+    		((ViewHolder) viewHolder).mCardView.setTitleText((String) item);
+    		((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+    	}
     }
 
     @Override
