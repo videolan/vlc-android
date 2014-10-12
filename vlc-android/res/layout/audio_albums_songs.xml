@@ -34,7 +34,10 @@
                     android:fastScrollEnabled="true"
                     android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
-                    android:paddingRight="20dp" />
+                    android:paddingRight="20dp"
+                    android:nextFocusDown="@id/albums"
+                    android:nextFocusLeft="@id/albums"
+                    android:nextFocusRight="@id/albums" />
 
                 <ListView
                     android:id="@+id/songs"
@@ -44,7 +47,10 @@
                     android:fastScrollEnabled="true"
                     android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
-                    android:paddingRight="20dp" />
+                    android:paddingRight="20dp"
+                    android:nextFocusDown="@id/songs"
+                    android:nextFocusLeft="@id/songs"
+                    android:nextFocusRight="@id/songs" />
             </org.videolan.vlc.widget.FlingViewGroup>
         </FrameLayout>
     </LinearLayout>

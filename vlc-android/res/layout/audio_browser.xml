@@ -13,7 +13,11 @@
 	        android:fadingEdge="none"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:background="?attr/background_header">
+	        android:background="@drawable/background_header_item"
+	        android:nextFocusUp="@+id/ml_menu_search"
+	        android:nextFocusDown="@id/header"
+	        android:nextFocusLeft="@id/header"
+	        android:nextFocusRight="@id/header" >
 	        <LinearLayout
 	            android:id="@+id/header_layout"
 	            android:layout_width="wrap_content"
@@ -97,7 +101,12 @@
             android:paddingRight="20dp"
             android:fastScrollEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:nextFocusUp="@id/header"
+            android:nextFocusDown="@id/header"
+            android:nextFocusLeft="@id/artists_list"
+            android:nextFocusRight="@+id/albums_list" />
         <ListView
             android:id="@+id/albums_list"
             android:layout_width="fill_parent"
@@ -106,7 +115,12 @@
             android:paddingRight="20dp"
             android:fastScrollEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:nextFocusUp="@id/header"
+            android:nextFocusDown="@id/header"
+            android:nextFocusLeft="@id/artists_list"
+            android:nextFocusRight="@+id/songs_list" />
        <ListView
             android:id="@+id/songs_list"
             android:layout_width="fill_parent"
@@ -115,7 +129,12 @@
             android:paddingRight="20dp"
             android:fastScrollEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:nextFocusUp="@id/header"
+            android:nextFocusDown="@id/header"
+            android:nextFocusLeft="@id/albums_list"
+            android:nextFocusRight="@+id/genres_list" />
         <ListView
             android:id="@+id/genres_list"
             android:layout_width="fill_parent"
@@ -124,6 +143,11 @@
             android:paddingRight="20dp"
             android:fastScrollEnabled="true"
             android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:nextFocusUp="@id/header"
+            android:nextFocusDown="@id/header"
+            android:nextFocusLeft="@id/songs_list"
+            android:nextFocusRight="@+id/genres_list" />
     </org.videolan.vlc.widget.FlingViewGroup>
 </LinearLayout>
