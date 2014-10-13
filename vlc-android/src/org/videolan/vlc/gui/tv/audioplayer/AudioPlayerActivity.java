@@ -48,16 +48,17 @@ import android.widget.TextView;
 public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer{
 	public static final String TAG = "AudioPlayerActivity";
 
-	private Activity mContext;
     private AudioServiceController mAudioController;
     private RecyclerView mRecyclerView;
     private Adapter<ViewHolder> mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private ArrayList<String> mLocations;
 
-    //stick event
+    //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
     private long mLastMove;
+    private int mSelectedItem = 0;
+    private int mCurrentlyPlaying;
 
     private TextView mTitleTv, mArtistTv;
     private ImageView mPlayPauseButton, mCover;
@@ -67,7 +68,6 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.tv_audio_player);
 
-		mContext = this;
 		mLocations = getIntent().getStringArrayListExtra("locations");
 		mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
 		mLayoutManager = new LinearLayoutManager(this);
@@ -87,6 +87,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
 		mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
 		mCover = (ImageView)findViewById(R.id.album_cover);
+
 	}
 
 	public void onStart(){
@@ -101,6 +102,16 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		mAudioController.unbindAudioService(this);
 		mLocations.clear();
 	}
+
+	protected void onResume() {
+		super.onResume();
+		mRecyclerView.post(new Runnable() {
+			@Override
+			public void run() {
+				mLayoutManager.getChildAt(mSelectedItem).setSelected(true);
+			}
+		});
+	};
 
 	@Override
 	public void onConnectionSuccess() {
@@ -143,27 +154,42 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
 	public boolean onKeyDown(int keyCode, KeyEvent event){
 		switch (keyCode){
+		/*
+		 * Playback control
+		 */
 		case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-        case KeyEvent.KEYCODE_MEDIA_PLAY:
-        case KeyEvent.KEYCODE_MEDIA_PAUSE:
-        case KeyEvent.KEYCODE_SPACE:
-        case KeyEvent.KEYCODE_BUTTON_A:
+		case KeyEvent.KEYCODE_MEDIA_PLAY:
+		case KeyEvent.KEYCODE_MEDIA_PAUSE:
+		case KeyEvent.KEYCODE_SPACE:
+		case KeyEvent.KEYCODE_BUTTON_A:
 			togglePlayPause();
-			break;
-        case KeyEvent.KEYCODE_F:
-        case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-        case KeyEvent.KEYCODE_BUTTON_R1:
+			return true;
+		case KeyEvent.KEYCODE_F:
+		case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+		case KeyEvent.KEYCODE_BUTTON_R1:
 			goNext();
-			break;
-        case KeyEvent.KEYCODE_R:
-        case KeyEvent.KEYCODE_MEDIA_REWIND:
-        case KeyEvent.KEYCODE_BUTTON_L1:
+			return true;
+		case KeyEvent.KEYCODE_R:
+		case KeyEvent.KEYCODE_MEDIA_REWIND:
+		case KeyEvent.KEYCODE_BUTTON_L1:
 			goPrevious();
-			break;
+			return true;
+		/*
+		 * Playlist navigation
+		 */
+		case KeyEvent.KEYCODE_DPAD_UP:
+			selectPrevious();
+			return true;
+		case KeyEvent.KEYCODE_DPAD_DOWN:
+			selectNext();
+			return true;
+		case KeyEvent.KEYCODE_BUTTON_X:
+			mAudioController.playIndex(mSelectedItem);
+			mCurrentlyPlaying = mSelectedItem;
+			return true;
 		default:
 			return super.onKeyDown(keyCode, event);
 		}
-		return true;
 	}
 
     @TargetApi(12) //only active for Android 3.1+
@@ -173,17 +199,18 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
 		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
 				MotionEvent.AXIS_X);
-		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Y);
-		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Z);
-		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_RZ);
+//		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
+//				MotionEvent.AXIS_Y);
+//		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
+//				MotionEvent.AXIS_Z);
+//		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
+//				MotionEvent.AXIS_RZ);
 
 		if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
 			if (Math.abs(x) > 0.3){
 				seek(x > 0.0f ? 10000 : -10000);
 				mLastMove = System.currentTimeMillis();
+				return true;
 			} 
 			//TODO Will we change volume in app on TV ?
 			/*else if (Math.abs(rz) > 0.3){
@@ -194,7 +221,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 				mLastMove = System.currentTimeMillis();
 			}*/
 		}
-		return true;
+		return false;
     }
 
 	private void seek(int delta) {
@@ -221,12 +248,14 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 	private void goPrevious() {
 		if (mAudioController.hasPrevious()) {
 			mAudioController.previous();
+			selectItem(--mCurrentlyPlaying);
 		}
 	}
 
 	private void goNext() {
 		if (mAudioController.hasNext()){
 			mAudioController.next();
+			selectItem(++mCurrentlyPlaying);
 		}
 	}
 
@@ -235,5 +264,34 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 			mAudioController.pause();
 		else if (mAudioController.hasMedia())
 			mAudioController.play();
+	}
+
+	private void selectNext() {
+		if (mSelectedItem >= mAdapter.getItemCount()-1)
+			return;
+		selectItem(++mSelectedItem);
+	}
+
+	private void selectPrevious() {
+		if (mSelectedItem < 1)
+			return;
+		selectItem(--mSelectedItem);
+	}
+
+	private void selectItem(int position){
+		mSelectedItem = position;
+		mRecyclerView.stopScroll();
+		mLayoutManager.scrollToPosition(position);
+		mRecyclerView.post(new Runnable() {
+			@Override
+			public void run() {
+				View v;
+				for (int i = 0 ; i< mAdapter.getItemCount() ; ++i){
+					v = mLayoutManager.findViewByPosition(i);
+					if (v != null)
+						v.setSelected( i == mSelectedItem);
+				}
+			}
+		});
 	}
 }

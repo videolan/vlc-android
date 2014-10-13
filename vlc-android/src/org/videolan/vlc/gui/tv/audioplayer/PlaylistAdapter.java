@@ -40,7 +40,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         public ViewHolder(View v) {
             super(v);
             mTitleTv = (TextView) v.findViewById(android.R.id.text1);
+            mTitleTv.setTextAppearance(v.getContext(), android.R.style.TextAppearance_DeviceDefault_Small);
             mArtistTv = (TextView) v.findViewById(android.R.id.text2);
+            mArtistTv.setTextAppearance(v.getContext(), android.R.style.TextAppearance_DeviceDefault_Small_Inverse);
         }
     }
 
