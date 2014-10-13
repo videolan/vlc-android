@@ -58,6 +58,8 @@
         <item name="ic_audio_player_dots">@drawable/dots_dark</item>
         <item name="ic_play">@drawable/ic_play</item>
         <item name="ic_pause">@drawable/ic_pause</item>
+        <item name="ic_play_for_header_play_pause">@drawable/ic_play_for_header_play_pause</item>
+        <item name="ic_pause_for_header_play_pause">@drawable/ic_pause_for_header_play_pause</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_menu_video">@drawable/ic_menu_video</item>
@@ -119,6 +121,8 @@
         <item name="ic_audio_player_dots">@drawable/dots</item>
         <item name="ic_play">@drawable/ic_play_w</item>
         <item name="ic_pause">@drawable/ic_pause_w</item>
+        <item name="ic_play_for_header_play_pause">@drawable/ic_play_for_header_play_pause_w</item>
+        <item name="ic_pause_for_header_play_pause">@drawable/ic_pause_for_header_play_pause_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_menu_video">@drawable/ic_menu_video_w</item>

@@ -76,7 +76,12 @@
             android:contentDescription="@string/pause"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_pause" />
+            android:src="?attr/ic_pause_for_header_play_pause"
+            android:nextFocusForward="@+id/header_play_pause"
+            android:nextFocusUp="@+id/ml_menu_search"
+            android:nextFocusDown="@id/header_play_pause"
+            android:nextFocusLeft="@id/header_play_pause"
+            android:nextFocusRight="@id/header_play_pause" />
 
         <View
             android:layout_width="10dp"
