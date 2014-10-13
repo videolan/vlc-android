@@ -11,7 +11,8 @@
 	    android:cacheColorHint="#0000"
 	    android:fastScrollEnabled="true"
 	    android:background="?attr/background_menu"
-	    android:nextFocusUp="@+id/ml_menu_search"
+	    android:nextFocusForward="@id/sidelist"
+	    android:nextFocusUp="@id/sidelist"
 	    android:nextFocusDown="@id/sidelist"
 	    android:nextFocusLeft="@id/sidelist"
 	    android:nextFocusRight="@id/sidelist" >

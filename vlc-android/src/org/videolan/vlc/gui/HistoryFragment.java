@@ -55,6 +55,15 @@ public class HistoryFragment extends ListFragment implements IRefreshable {
         Log.d(TAG, "HistoryFragment()");
     }
 
+    private void focusHelper(boolean idIsEmpty) {
+        View parent = View.inflate(getActivity(), R.layout.history_list,
+            null);
+        MainActivity main = (MainActivity)getActivity();
+        main.setMenuFocusDown(idIsEmpty, android.R.id.list);
+        main.setSearchAsFocusDown(idIsEmpty, parent,
+            android.R.id.list);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -63,6 +72,12 @@ public class HistoryFragment extends ListFragment implements IRefreshable {
         View v = inflater.inflate(R.layout.history_list, container, false);
         setListAdapter(mHistoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
+        listView.setNextFocusUpId(R.id.ml_menu_search);
+        listView.setNextFocusLeftId(android.R.id.list);
+        listView.setNextFocusRightId(android.R.id.list);
+        listView.setNextFocusForwardId(android.R.id.list);
+        focusHelper(mHistoryAdapter.getCount() == 0);
+        listView.requestFocus();
         registerForContextMenu(listView);
         return v;
     }
@@ -108,7 +123,10 @@ public class HistoryFragment extends ListFragment implements IRefreshable {
     @Override
     public void refresh() {
         Log.d(TAG, "Refreshing view!");
-        if( mHistoryAdapter != null )
+        if( mHistoryAdapter != null ) {
             mHistoryAdapter.refresh();
+            focusHelper(mHistoryAdapter.getCount() == 0);
+        } else
+            focusHelper(true);
     }
 }

@@ -6,11 +6,13 @@
         android:id="@+id/ml_menu_search"
         android:icon="@drawable/ic_menu_search"
         android:title="@string/searchable_hint"
+        android:nextFocusDown="@id/ml_menu_search"
         vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_open_mrl"
         android:icon="@drawable/ic_menu_goto"
         android:title="@string/open_mrl"
+        android:nextFocusDown="@id/ml_menu_open_mrl"
         vlc:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
@@ -29,11 +31,13 @@
         android:id="@+id/ml_menu_last_playlist"
         android:icon="@drawable/ic_menu_revert"
         android:title="@string/last_playlist"
+        android:nextFocusDown="@id/ml_menu_last_playlist"
         vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_refresh"
         android:icon="@drawable/ic_menu_refresh"
         android:title="@string/refresh"
+        android:nextFocusDown="@id/ml_menu_refresh"
         vlc:showAsAction="ifRoom" />
     <item
         android:id="@+id/ml_menu_equalizer"

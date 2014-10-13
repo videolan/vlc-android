@@ -415,6 +415,14 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         }
     }
 
+    private void focusHelper(boolean idIsEmpty) {
+        View parent = getView();
+		MainActivity main = (MainActivity)getActivity();
+        main.setMenuFocusDown(idIsEmpty, android.R.id.list);
+        main.setSearchAsFocusDown(idIsEmpty, parent,
+            android.R.id.list);
+    }
+
     private void updateList() {
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
@@ -447,7 +455,9 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
             mGridView.setSelection(mGVFirstVisiblePos);
             mGridView.requestFocus();
-        }
+            focusHelper(false);
+        } else
+            focusHelper(true);
     }
 
     @Override

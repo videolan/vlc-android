@@ -177,6 +177,13 @@ public class AudioBrowserFragment extends Fragment {
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
+    private void focusHelper(boolean idIsEmpty, int listId) {
+        View parent = getView();
+        MainActivity main = (MainActivity)getActivity();
+        main.setMenuFocusDown(false, R.id.header);
+        main.setSearchAsFocusDown(idIsEmpty, parent, listId);
+    }
+
     // Focus support. Start.
     View.OnKeyListener keyListener = new View.OnKeyListener() {
         @Override
@@ -227,6 +234,10 @@ public class AudioBrowserFragment extends Fragment {
 
                     // assigned in onSwitched following mHeader.scroll
                     mFlingViewPosition = newPosition;
+
+                    ((MainActivity)getActivity()).setSearchAsFocusDown(
+                        vList.getCount() == 0, getView(),
+                        lists[newPosition]);
                 }
             }
 
@@ -442,10 +453,13 @@ public class AudioBrowserFragment extends Fragment {
 
     private void updateLists() {
         List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+        int listId = MODE_TOTAL;
+		int i;
 
-        if (audioList.isEmpty())
+        if (audioList.isEmpty()){
             mEmptyView.setVisibility(View.VISIBLE);
-        else
+            listId = MODE_SONG;
+        } else
             mEmptyView.setVisibility(View.GONE);
 
         mSongsAdapter.clear();
@@ -454,39 +468,47 @@ public class AudioBrowserFragment extends Fragment {
         mGenresAdapter.clear();
 
         Collections.sort(audioList, MediaComparators.byName);
-        for (int i = 0; i < audioList.size(); i++) {
+        for (i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
         }
         mSongsAdapter.addScrollSections();
+        if ((listId == MODE_TOTAL) && (i > 0))
+            listId = MODE_SONG;
 
         Collections.sort(audioList, MediaComparators.byArtist);
-        for (int i = 0; i < audioList.size(); i++) {
+        for (i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mArtistsAdapter.add(media.getArtist(), null, media);
         }
         mArtistsAdapter.addLetterSeparators();
+        if (i > 0)
+            listId = MODE_ARTIST;
 
         Collections.sort(audioList, MediaComparators.byAlbum);
-        for (int i = 0; i < audioList.size(); i++) {
+        for (i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mAlbumsAdapter.add(media.getAlbum(), media.getArtist(), media);
         }
         mAlbumsAdapter.addLetterSeparators();
+        if ((listId == MODE_TOTAL) && (i > 0))
+            listId = MODE_ALBUM;
 
         Collections.sort(audioList, MediaComparators.byGenre);
-        for (int i = 0; i < audioList.size(); i++) {
+        for (i = 0; i < audioList.size(); i++) {
             Media media = audioList.get(i);
             mGenresAdapter.add(media.getGenre(), null, media);
         }
         mGenresAdapter.addLetterSeparators();
+        if ((listId == MODE_TOTAL) && (i>0))
+            listId = MODE_GENRE;
 
         mSongsAdapter.notifyDataSetChanged();
         mArtistsAdapter.notifyDataSetChanged();
         mAlbumsAdapter.notifyDataSetChanged();
         mGenresAdapter.notifyDataSetChanged();
         // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
-        int[] lists = { R.id.songs_list, R.id.artists_list, R.id.albums_list, R.id.genres_list };
+        int[] lists = { R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list };
         if(getView() != null) {
             for(int r : lists) {
                 ListView l = (ListView)getView().findViewById(r);
@@ -494,6 +516,7 @@ public class AudioBrowserFragment extends Fragment {
                 l.setFastScrollEnabled(true);
             }
         }
+        focusHelper(listId == MODE_TOTAL, lists[listId]);
     }
 
     AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener

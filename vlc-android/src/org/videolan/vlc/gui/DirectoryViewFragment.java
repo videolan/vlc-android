@@ -79,6 +79,14 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
         getActivity().registerReceiver(messageReceiver, filter);
     }
 
+    private void focusHelper(boolean idIsEmpty) {
+        View parent = View.inflate(getActivity(),
+            R.layout.directory_view, null);
+        MainActivity main = (MainActivity)getActivity();
+        main.setMenuFocusDown(idIsEmpty, android.R.id.list);
+        main.setSearchAsFocusDown(idIsEmpty, parent, android.R.id.list);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -87,6 +95,12 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
         View v = inflater.inflate(R.layout.directory_view, container, false);
         setListAdapter(mDirectoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
+        listView.setNextFocusUpId(R.id.ml_menu_search);
+        listView.setNextFocusLeftId(android.R.id.list);
+        listView.setNextFocusRightId(android.R.id.list);
+        listView.setNextFocusForwardId(android.R.id.list);
+        focusHelper(mDirectoryAdapter.getCount() == 0);
+        listView.requestFocus();
         listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
@@ -204,8 +218,11 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
 
     @Override
     public void refresh() {
-        if (mDirectoryAdapter != null)
+        if (mDirectoryAdapter != null) {
             mDirectoryAdapter.refresh();
+            focusHelper(mDirectoryAdapter.getCount() == 0);
+        } else
+            focusHelper(true);
     }
 
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {

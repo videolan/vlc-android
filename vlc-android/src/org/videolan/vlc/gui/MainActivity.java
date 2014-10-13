@@ -134,6 +134,8 @@ public class MainActivity extends ActionBarActivity {
 
     private Handler mHandler = new MainActivityHandler(this);
     private int mFocusedPrior = 0;
+    private int mActionBarIconId = -1;
+    Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -565,6 +567,7 @@ public class MainActivity extends ActionBarActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
         /* Note: on Android 3.0+ with an action bar this method
          * is called while the view is created. This can happen
          * any time after onCreate.
@@ -695,11 +698,97 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public void setMenuFocusDown(boolean idIsEmpty, int id) {
+        if (mMenu == null)
+            return;
+        //Save menu items ids for focus control
+        final int[] menu_controls = new int[mMenu.size()+1];
+        for (int i = 0 ; i < mMenu.size() ; i++){
+            menu_controls[i] = mMenu.getItem(i).getItemId();
+        }
+        menu_controls[mMenu.size()] = mActionBarIconId;
+        /*menu_controls = new int[]{R.id.ml_menu_search,
+            R.id.ml_menu_open_mrl, R.id.ml_menu_sortby,
+            R.id.ml_menu_last_playlist, R.id.ml_menu_refresh,
+            mActionBarIconId};*/
+		int pane = mSlidingPane.getState();
+        for(int r : menu_controls) {
+            View v = findViewById(r);
+            if (v != null) {
+                if (!idIsEmpty)
+                    v.setNextFocusDownId(id);
+                else {
+                    if (pane ==  mSlidingPane.STATE_CLOSED) {
+                        v.setNextFocusDownId(R.id.play_pause);
+                    } else if (pane == mSlidingPane.STATE_OPENED) {
+                        v.setNextFocusDownId(R.id.header_play_pause);
+                    } else if (pane ==
+                        mSlidingPane.STATE_OPENED_ENTIRELY) {
+                        v.setNextFocusDownId(r);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setSearchAsFocusDown(boolean idIsEmpty, View parentView,
+        int id) {
+        View playPause = findViewById(R.id.header_play_pause);
+        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
+
+        if (!idIsEmpty) {
+            View list = null;
+            int pane = mSlidingPane.getState();
+
+            if (parentView == null)
+                list = v_main.findViewById(id);
+            else
+			    list = parentView.findViewById(id);
+
+            if (list != null) {
+                if (pane == mSlidingPane.STATE_OPENED_ENTIRELY) {
+                    list.setNextFocusDownId(id);
+                } else if (pane == mSlidingPane.STATE_OPENED) {
+                    list.setNextFocusDownId(R.id.header_play_pause);
+                    playPause.setNextFocusUpId(id);
+                }
+            }
+        } else {
+           playPause.setNextFocusUpId(R.id.ml_menu_search);
+        }
+    }
+
     // Note. onKeyDown will not occur while moving within a list
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mFocusedPrior == 0)
+            setMenuFocusDown(true, 0);
         mFocusedPrior = getCurrentFocus().getId();
         return super.onKeyDown(keyCode, event);
+    }
+
+    // Note. onKeyDown will not occur while moving within a list
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+		View v = getCurrentFocus();
+        if ((mActionBarIconId == -1) &&
+            (v.getId() == -1)  &&
+            (v.getNextFocusDownId() == -1) &&
+            (v.getNextFocusUpId() == -1) &&
+            (v.getNextFocusLeftId() == -1) &&
+            (v.getNextFocusRightId() == -1) &&
+            (v.getNextFocusForwardId() == -1)) {
+            mActionBarIconId = Util.generateViewId();
+            v.setId(mActionBarIconId);
+            v.setNextFocusUpId(mActionBarIconId);
+            v.setNextFocusDownId(mActionBarIconId);
+            v.setNextFocusLeftId(mActionBarIconId);
+            v.setNextFocusRightId(R.id.ml_menu_search);
+            v.setNextFocusForwardId(mActionBarIconId);
+            findViewById(R.id.ml_menu_search).setNextFocusLeftId(
+                mActionBarIconId);
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     private void reloadPreferences() {
@@ -845,6 +934,10 @@ public class MainActivity extends ActionBarActivity {
             mSlidingPane.openPane();
         mAudioPlayerFilling.setVisibility(View.VISIBLE);
     }
+
+    public int  getSlidingPaneState() {
+			return mSlidingPane.getState();
+	}
 
     /**
      * Slide down the audio player.

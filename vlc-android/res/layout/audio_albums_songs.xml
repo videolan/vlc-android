@@ -35,6 +35,7 @@
                     android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
+                    android:nextFocusUp="@+id/ml_menu_search"
                     android:nextFocusDown="@id/albums"
                     android:nextFocusLeft="@id/albums"
                     android:nextFocusRight="@id/albums" />
@@ -48,6 +49,7 @@
                     android:paddingBottom="@dimen/listview_bottom_padding"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
+                    android:nextFocusUp="@+id/ml_menu_search"
                     android:nextFocusDown="@id/songs"
                     android:nextFocusLeft="@id/songs"
                     android:nextFocusRight="@id/songs" />

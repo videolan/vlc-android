@@ -3,7 +3,12 @@
  xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:nextFocusLeft="@+id/ml_menu_search"
+    android:nextFocusRight="@+id/ml_menu_search"
+    android:nextFocusUp="@+id/ml_menu_search"
+    android:nextFocusDown="@+id/ml_menu_search"
+    android:nextFocusForward="@+id/ml_menu_search">
 
     <org.videolan.vlc.widget.SlidingPaneLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
