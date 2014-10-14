@@ -28,9 +28,6 @@
 #define LOG_TAG "VLC/JNI/MediaList"
 #include "log.h"
 
-/** Unique Java VM instance, as defined in libvlcjni.c */
-extern JavaVM *myVm;
-
 struct stopped_monitor {
     pthread_mutex_t doneMutex;
     pthread_cond_t doneCondVar;

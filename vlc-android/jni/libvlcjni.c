@@ -115,7 +115,7 @@ static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
  * Note: It's okay to use a static variable for the VM pointer since there
  * can only be one instance of this shared library in a single VM
  */
-JavaVM *myVm;
+static JavaVM *myVm;
 
 static jobject eventHandlerInstance = NULL;
 
