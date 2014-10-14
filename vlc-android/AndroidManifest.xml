@@ -391,6 +391,7 @@
         <receiver android:name=".RemoteControlClientReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="org.videolan.vlc.remote.PlayPause" />
             </intent-filter>
         </receiver>
     </application>
