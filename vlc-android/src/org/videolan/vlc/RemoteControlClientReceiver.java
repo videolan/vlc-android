@@ -123,6 +123,10 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                 abortBroadcast();
             if(i != null)
                 context.sendBroadcast(i);
+        } else if (action.equals(AudioService.ACTION_REMOTE_PLAYPAUSE)){
+            intent = new Intent(context, AudioService.class);
+            intent.setAction(AudioService.ACTION_REMOTE_PLAYPAUSE);
+            context.startService(intent);
         }
     }
 }

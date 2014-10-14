@@ -205,7 +205,6 @@ public class AudioService extends Service {
         }
     }
 
-
     /**
      * Set up the remote control and tell the system we want to be the default receiver for the MEDIA buttons
      * @see http://android-developers.blogspot.fr/2010/06/allowing-applications-to-play-nicer.html
@@ -267,6 +266,11 @@ public class AudioService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null)
             return START_STICKY;
+        if(ACTION_REMOTE_PLAYPAUSE.equals(intent.getAction())){
+            if (hasCurrentMedia())
+                return START_STICKY;
+            else loadLastPlaylist();
+        }
         updateWidget(this);
         return super.onStartCommand(intent, flags, startId);
     }
