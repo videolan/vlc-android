@@ -246,7 +246,7 @@ void jni_detach_thread()
 
 int jni_get_env(JNIEnv **env)
 {
-    return (*myVm)->GetEnv(myVm, (void **)&env, VLC_JNI_VERSION) == JNI_OK ? 0 : -1;
+    return (*myVm)->GetEnv(myVm, (void **)env, VLC_JNI_VERSION) == JNI_OK ? 0 : -1;
 }
 
 // FIXME: use atomics
