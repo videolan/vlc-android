@@ -54,6 +54,11 @@
 
 #define VLC_JNI_VERSION JNI_VERSION_1_2
 
+#define THREAD_NAME "libvlcjni"
+int jni_attach_thread(JNIEnv **env, const char *thread_name);
+void jni_detach_thread();
+int jni_get_env(JNIEnv **env);
+
 static void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOptions)
 {
     int stringCount = (*env)->GetArrayLength(env, mediaOptions);
@@ -123,8 +128,8 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     if (eventHandlerInstance == NULL)
         return;
 
-    if ((*myVm)->GetEnv(myVm, (void**) &env, VLC_JNI_VERSION) < 0) {
-        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
+    if (jni_get_env(&env) < 0) {
+        if (jni_attach_thread(&env, THREAD_NAME) < 0)
             return;
         isAttached = true;
     }
@@ -199,7 +204,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
 end:
     (*env)->DeleteLocalRef(env, bundle);
     if (isAttached)
-        (*myVm)->DetachCurrentThread(myVm);
+        jni_detach_thread();
 }
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
@@ -217,6 +222,29 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
     pthread_mutex_destroy(&vout_android_lock);
     pthread_cond_destroy(&vout_android_surf_attached);
+}
+
+int jni_attach_thread(JNIEnv **env, const char *thread_name)
+{
+    JavaVMAttachArgs args;
+    jint result;
+
+    args.version = VLC_JNI_VERSION;
+    args.name = thread_name;
+    args.group = NULL;
+
+    result = (*myVm)->AttachCurrentThread(myVm, env, &args);
+    return result == JNI_OK ? 0 : -1;
+}
+
+void jni_detach_thread()
+{
+    (*myVm)->DetachCurrentThread(myVm);
+}
+
+int jni_get_env(JNIEnv **env)
+{
+    return (*myVm)->GetEnv(myVm, (void **)&env, VLC_JNI_VERSION) == JNI_OK ? 0 : -1;
 }
 
 // FIXME: use atomics

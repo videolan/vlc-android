@@ -25,8 +25,9 @@
 static struct sigaction old_actions[NSIG];
 static jobject j_libVLC;
 
-/** Unique Java VM instance, as defined in libvlcjni.c */
-extern JavaVM *myVm;
+#define THREAD_NAME "native_crash_handler"
+extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
+extern void jni_detach_thread();
 
 // Monitored signals.
 static const int monitored_signals[] = {
@@ -51,14 +52,14 @@ void sigaction_callback(int signal, siginfo_t *info, void *reserved)
 {
     // Call the Java LibVLC method that handle the crash.
     JNIEnv *env;
-    (*myVm)->AttachCurrentThread(myVm, &env, NULL);
+    jni_attach_thread(&env, THREAD_NAME);
 
     jclass cls = (*env)->GetObjectClass(env, j_libVLC);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "onNativeCrash", "()V");
     (*env)->CallVoidMethod(env, j_libVLC, methodId);
 
     (*env)->DeleteLocalRef(env, cls);
-    (*myVm)->DetachCurrentThread(myVm);
+    jni_detach_thread();
 
     // Call the old signal handler.
     old_actions[signal].sa_handler(signal);
