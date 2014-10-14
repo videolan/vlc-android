@@ -52,6 +52,8 @@
 #define NO_IOMX_DR ""
 #endif
 
+#define VLC_JNI_VERSION JNI_VERSION_1_2
+
 static void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray mediaOptions)
 {
     int stringCount = (*env)->GetArrayLength(env, mediaOptions);
@@ -121,7 +123,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     if (eventHandlerInstance == NULL)
         return;
 
-    if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
+    if ((*myVm)->GetEnv(myVm, (void**) &env, VLC_JNI_VERSION) < 0) {
         if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
             return;
         isAttached = true;
@@ -209,7 +211,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     pthread_cond_init(&vout_android_surf_attached, NULL);
 
     LOGD("JNI interface loaded.");
-    return JNI_VERSION_1_2;
+    return VLC_JNI_VERSION;
 }
 
 void JNI_OnUnload(JavaVM* vm, void* reserved) {
