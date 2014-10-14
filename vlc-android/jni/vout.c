@@ -23,8 +23,9 @@
 
 #include <jni.h>
 
-/** Unique Java VM instance, as defined in libvlcjni.c */
-extern JavaVM *myVm;
+#define THREAD_NAME "jni_vout"
+extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
+extern void jni_detach_thread();
 
 pthread_mutex_t vout_android_lock;
 pthread_cond_t vout_android_surf_attached;
@@ -65,14 +66,14 @@ void jni_EventHardwareAccelerationError()
         return;
 
     JNIEnv *env;
-    (*myVm)->AttachCurrentThread(myVm, &env, NULL);
+    jni_attach_thread(&env, THREAD_NAME);
 
     jclass cls = (*env)->GetObjectClass(env, vout_android_gui);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "eventHardwareAccelerationError", "()V");
     (*env)->CallVoidMethod(env, vout_android_gui, methodId);
 
     (*env)->DeleteLocalRef(env, cls);
-    (*myVm)->DetachCurrentThread(myVm);
+    jni_detach_thread();
 }
 
 void jni_SetAndroidSurfaceSizeEnv(JNIEnv *p_env, int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
@@ -92,10 +93,10 @@ void jni_SetAndroidSurfaceSize(int width, int height, int visible_width, int vis
 {
     JNIEnv *p_env;
 
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jni_attach_thread(&p_env, THREAD_NAME);
     jni_SetAndroidSurfaceSizeEnv(p_env, width, height, visible_width, visible_height, sar_num, sar_den);
 
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread();
 }
 
 bool jni_IsVideoPlayerActivityCreated() {

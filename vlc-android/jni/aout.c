@@ -42,8 +42,9 @@ typedef struct
     jbyteArray buffer;  /// Raw audio data to be played
 } aout_sys_t;
 
-/** Unique Java VM instance, as defined in libvlcjni.c */
-extern JavaVM *myVm;
+#define THREAD_NAME "jni_aout"
+extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
+extern void jni_detach_thread();
 
 int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels)
 {
@@ -60,7 +61,7 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
           *nb_channels, format, *rate);
 
     JNIEnv *p_env;
-    if ((*myVm)->AttachCurrentThread (myVm, &p_env, NULL) != 0)
+    if (jni_attach_thread (&p_env, THREAD_NAME) != 0)
     {
         LOGE("Could not attach the display thread to the JVM !");
         goto eattach;
@@ -141,11 +142,11 @@ int aout_open(void **opaque, char *format, unsigned *rate, unsigned *nb_channels
     // Get the play methodId
     p_sys->play = (*p_env)->GetMethodID (p_env, cls, "playAudio", "([BI)V");
     assert (p_sys->play != NULL);
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
     return 0;
 
 error:
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
 eattach:
     *opaque = NULL;
     free (p_sys);
@@ -165,7 +166,7 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
      * because it will be killed before aout_close is called.
      * aout_close will actually be called in an different thread!
      */
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jni_attach_thread (&p_env, THREAD_NAME);
 
     (*p_env)->SetByteArrayRegion (p_env, p_sys->buffer, 0,
                                   2 /*nb_channels*/ * count * sizeof (uint16_t),
@@ -186,7 +187,7 @@ void aout_play(void *opaque, const void *samples, unsigned count, int64_t pts)
                               FRAME_SIZE);
     // FIXME: check for errors
 
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
 }
 
 void aout_pause(void *opaque, int64_t pts)
@@ -196,7 +197,7 @@ void aout_pause(void *opaque, int64_t pts)
     assert(p_sys);
 
     JNIEnv *p_env;
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jni_attach_thread (&p_env, THREAD_NAME);
 
     // Call the pause function.
     jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
@@ -213,7 +214,7 @@ void aout_pause(void *opaque, int64_t pts)
         (*p_env)->ExceptionClear (p_env);
     }
 
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
 }
 
 void aout_close(void *opaque)
@@ -224,7 +225,7 @@ void aout_close(void *opaque)
     assert(p_sys->buffer);
 
     JNIEnv *p_env;
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jni_attach_thread (&p_env, THREAD_NAME);
 
     // Call the close function.
     jclass cls = (*p_env)->GetObjectClass (p_env, p_sys->j_libVlc);
@@ -242,17 +243,17 @@ void aout_close(void *opaque)
     }
 
     (*p_env)->DeleteGlobalRef (p_env, p_sys->buffer);
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
     free (p_sys);
 }
 
 int aout_get_native_sample_rate(void)
 {
     JNIEnv *p_env;
-    (*myVm)->AttachCurrentThread (myVm, &p_env, NULL);
+    jni_attach_thread (&p_env, THREAD_NAME);
     jclass cls = (*p_env)->FindClass (p_env, "android/media/AudioTrack");
     jmethodID method = (*p_env)->GetStaticMethodID (p_env, cls, "getNativeOutputSampleRate", "(I)I");
     int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
-    (*myVm)->DetachCurrentThread (myVm);
+    jni_detach_thread ();
     return sample_rate;
 }

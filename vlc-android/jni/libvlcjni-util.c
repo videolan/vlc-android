@@ -36,8 +36,10 @@ static jobject debugBufferInstance = NULL;
 // FIXME: use atomics
 static bool buffer_logging;
 
-/** Unique Java VM instance, as defined in libvlcjni.c */
-extern JavaVM *myVm;
+#define THREAD_NAME "libvlcjni-util"
+extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
+extern void jni_detach_thread();
+extern int jni_get_env(JNIEnv **env);
 
 jint getInt(JNIEnv *env, jobject thiz, const char* field) {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
@@ -151,8 +153,8 @@ static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
     bool isAttached = false;
     JNIEnv *env = NULL;
 
-    if ((*myVm)->GetEnv(myVm, (void**) &env, JNI_VERSION_1_2) < 0) {
-        if ((*myVm)->AttachCurrentThread(myVm, &env, NULL) < 0)
+    if (jni_get_env(&env) < 0) {
+        if (jni_attach_thread(&env, THREAD_NAME) < 0)
             return;
         isAttached = true;
     }
@@ -179,7 +181,7 @@ static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
     free(psz_msg);
 
     if (isAttached)
-        (*myVm)->DetachCurrentThread(myVm);
+        jni_detach_thread();
 }
 
 void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap)
