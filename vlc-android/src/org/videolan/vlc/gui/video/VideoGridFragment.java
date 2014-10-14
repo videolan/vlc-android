@@ -174,15 +174,19 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public void onResume() {
         super.onResume();
-        //Get & set times
-        HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
-        mVideoAdapter.setTimes(times);
-        mVideoAdapter.notifyDataSetChanged();
-        updateList();
+        final boolean refresh = mVideoAdapter.isEmpty();
+        if (refresh){
+            updateList();
+            //Get & set times
+            HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
+            mVideoAdapter.setTimes(times);
+            mVideoAdapter.notifyDataSetChanged();
+        }
         mMediaLibrary.addUpdateHandler(mHandler);
         mGridView.setSelection(mGVFirstVisiblePos);
         updateViewMode();
-        mAnimator.animate();
+        if (refresh)
+            mAnimator.animate();
 
         /* Start the thumbnailer */
         if (mThumbnailer != null)
