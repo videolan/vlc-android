@@ -9,6 +9,9 @@ Main Application:
  * Use statusbar in video playback after 4.2
  * Basic Keyboard control support
 
+Core:
+ * Support for Android-L for hardware decoding
+
 
 Changes between 0.9.8 and 0.9.9:
 --------------------------------
