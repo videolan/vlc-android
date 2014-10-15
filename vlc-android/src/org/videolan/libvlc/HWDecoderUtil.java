@@ -60,7 +60,6 @@ public class HWDecoderUtil {
         new DecoderBySOC ("ro.board.platform", Decoder.OMX, new  String[] {
                 "omap3",            // Omap 3
                 "rockchip", "rk29", // Rockchip RK29
-                "tegra",            // Tegra 2
                 "msm7630",          // QCOM S2
                 "s5pc",             // Exynos 3
                 "montblanc",        // Montblanc
@@ -74,6 +73,8 @@ public class HWDecoderUtil {
          */
         new DecoderBySOC ("ro.board.platform", Decoder.ALL, new  String[] {
                 "omap4",            // Omap 4
+                "tegra",            // Tegra 2 & 3
+                "tegra3",           // Tegra 3
                 "msm8660",          // QCOM S3
                 "exynos4",          // Exynos 4 (Samsung Galaxy S2/S3)
                 "exynos5",          // Exynos 5 (Samsung Galaxy S4)
