@@ -27,17 +27,6 @@
     <string name="ringtone_error"> ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸುವಾಗ ದೋಷ ಉಂಟಾಗಿದೆ </string>
     <string name="pause">ವಿರಾಮ</string>
     <string name="not_show_again">ಈ ಸಂದೇಶವನ್ನು ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
-    <string name="beta_warning">ಇದು  ಒಂದು ಬೀಟಾ ಆವೃತ್ತಿಯಾಗಿದೆ . ⏎
-⏎
-ಈ ಆವೃತ್ತಿ ಸ್ಥಿರ ಅಲ್ಲ! ⏎
-⏎
-ನೀವು ಏನು ಮಾಡುತ್ತಿರುವಿರಿ ಎಂದು ಗೊತ್ತಿರದ  ಹೊರತು, ಬಳಸಬೇಡಿ. ⏎
-⏎
-ಇದು ನಿಮ್ಮ ಮನೆಯ ತುಂಬಾ ಕಸವನ್ನು ಹರಡಬಹುದು ಮತ್ತು ಕಲಿಗಾಲದ ಪ್ರಳಯವನ್ನು  ಸೃಷ್ಟಿಸಬಹದು ⏎
-ನಿಮ್ಮ ಸ್ವಂತ ಅಪಾಯ  ಅರಿತು  ಇದನ್ನು ಬಳಸಿ. ⏎
-⏎
-ಆನಂದಿಸಿ  :)</string>
-    <string name="info_title">ವಿ ಎಲ್ ಸಿ ಬೀಟಾ</string>
     <string name="unknown_artist">ಅಪರಿಚಿತ ಕಲಾವಿದ</string>
     <string name="unknown_album">ಅಪರಿಚಿತ ಆಲ್ಬಮ್</string>
     <string name="unknown_genre">ಅಪರಿಚಿತ ಶೈಲಿ</string>
@@ -60,9 +49,7 @@
         <item quantity="other">%d  ದೃಶ್ಯಾವಳಿಗಳು </item>
     </plurals>
     <string name="internal_memory">ಆಂತರಿಕ ಸ್ಮರಣೆ</string>
-    <string name="parent_folder">ಮೂಲ ಕಡತಕೋಶಕ್ಕೆ ಹೋಗಿ 
-
-</string>
+    <string name="parent_folder">ಮೂಲ ಕಡತಕೋಶಕ್ಕೆ ಹೋಗಿ \n\n</string>
     <string name="audio">ಶ್ರಾವ್ಯ</string>
     <string name="video">ದೃಶ್ಯ</string>
     <string name="bookmarks">ಪುಟಗುರುತುಗಳು </string>
@@ -102,23 +89,8 @@
     <string name="track_video">ದೃಶ್ಯಾವಳಿ</string>
     <string name="track_text">ಉಪಶೀರ್ಷಿಕೆಗಳು</string>
     <string name="track_unknown">ಅಪರಿಚಿತ  ಹಾಡು </string>
-    <string name="track_codec_info">Codec: %1$s⏎
-</string>
-    <string name="track_language_info">ಭಾಷೆ:%1$s⏎
-</string>
     <string name="volume">ವಾಲ್ಯೂಮ್</string>
-    <string name="brightness">ಹೊಳಪು 
-</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d ಚಾನೆಲ್ಸ್ 
-</item>
-    </plurals>
-    <string name="track_samplerate_info">ಸ್ಯಾಂಪಲ್ ರೇಟ್ : %1$d Hz
-</string>
-    <string name="track_resolution_info">ರೆಸಲುಷನ್ : %1$dx%2$d
-</string>
-    <string name="track_framerate_info">ಫ್ರೇಮ್ ರೇಟ್ : %1$.3f
-</string>
+    <string name="brightness">ಹೊಳಪು \n</string>
     <string name="tools">ಉಪಕರಣಗಳು</string>
     <string name="playback_speed">ಪ್ಲೇಬ್ಯಾಕ್ ವೇಗ </string>
     <string name="sleep_title"> ಸ್ಲೀಪ್ ಟೈಮರ್</string>
@@ -133,11 +105,7 @@
     <string name="open_mrl_dialog_msg">ಜಾಲ  MRL ನಮೂದಿಸಿ : e.g. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ ಸಾಧನ ಪ್ರಸ್ತುತ ಆಂಡ್ರಾಯ್ಡ್ ™ ಗಾಗಿ VLC ಈ ಆವೃತ್ತಿಯ ಮೂಲಕ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ.</string>
     <string name="error_problem">ಕ್ಷಮಿಸಿ, Android ಗಾಗಿ VLC  ಲೋಡ್ ಮಾಡಲು ತೊಂದರೆಯಾಗಿ  ಮುಚ್ಚಬೇಕಾಗಿ ಬಂದಿತು .</string>
-    <string name="error_message_is">ದೋಷ ಸಂದೇಶ ( ಡಿಬಗ್ಗಿಂಗ್ ಮಾಡುವಾಗ ದಯವಿಟ್ಟು ಇದನ್ನು ಉಲ್ಲೇಖಿಸಿ ):
-</string>
     <string name="encountered_error_title">ಪ್ಲೇಬ್ಯಾಕ್ ದೋಷ</string>
-    <string name="encountered_error_message">VLC ಈ ಮಾಧ್ಯಮದೊಂದಿಗೆ  ಒಂದು ದೋಷವನ್ನು ಎದುರಿಸಿದೆ. ⏎
-ಮಾಧ್ಯಮ ಗ್ರಂಥಾಲಯದ ರಿಫ್ರೆಶ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಿ.</string>
     <string name="search">ಹುಡುಕು</string>
     <string name="search_history">ಹುಡುಕು ಇತಿಹಾಸ </string>
     <string name="hardware_acceleration_error_title">HW ವೇಗವರ್ಧನೆ ದೋಷ</string>
@@ -157,9 +125,6 @@
     <string name="add_custom_path_description">ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಹೆಚ್ಚುವರಿ ಐಚ್ಚಿಕ ಕಡತಕೋಶವನ್ನು ನಮೂದಿಸಿ :</string>
     <string name="remove_custom_path">ಐಚ್ಚಿಕ ಪಥವನ್ನು ತೆಗೆಯಿರಿ </string>
     <string name="hardware_acceleration">ಯಂತ್ರಾಂಶದ ವೇಗವರ್ಧಕ</string>
-    <string name="hardware_acceleration_summary">ನಿಷ್ಕ್ರಿಯ: ಉತ್ತಮ ಸ್ಥಿರತೆ.
-ಡಿಕೋಡಿಂಗ್: ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸಬಹುದು.
-ಪೂರ್ಣ: ಮತ್ತಷ್ಟು ಕಾರ್ಯಕ್ಷಮತೆಯನ್ನು ಸುಧಾರಿಸಬಹುದು.</string>
     <string name="hardware_acceleration_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
     <string name="automatic">ಸ್ವಯಂಚಾಲಿತ</string>
     <string name="screen_orientation">ದೃಶ್ಯ ಪರದೆಯ ದೃಷ್ಟಿಕೋನ</string>
@@ -173,17 +138,14 @@
     <string name="subtitle_text_encoding">ಉಪಶೀರ್ಷಿಕೆ ಪಠ್ಯ ಎನ್ಕೋಡಿಂಗ್</string>
     <string name="enable_brightness_gesture">ಹೊಳಪು ಸಂಜ್ಞೆ  ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string name="enable_brightness_gesture_summary">ವೀಡಿಯೋ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯದಲ್ಲಿ ಸಂಜ್ಞೆಯ ಮೂಲಕ ಹೊಳಪನ್ನು ನಿಯಂತ್ರಿಸಿ </string>
-    <string name="enable_headset_detection">ಹೆಡ್ಸೆಟ್ ಪತ್ತೆಮಾಡಿ</string>
-    <string name="enable_headset_detection_summary">ಹೆಡ್ಸೆಟ್ ತೆಗೆದ  ಮೇಲೆ ವಿರಾಮ; ಹೆಡ್ಸೆಟ್ ಅಳವಡಿಕೆಯ ನಂತರ ಮತ್ತೆ ಮುಂದುವರೆಸು </string>
     <string name="enable_jump_buttons">ಜಂಪ್ ಗುಂಡಿಗಳನ್ನು  ಸಕ್ರಿಯಗೊಳಿಸಿ </string>
     <string name="enable_jump_buttons_summary">ವೀಡಿಯೊ ಇಂಟರ್ಫೇಸ್ ನಲ್ಲಿ  ಹಿಂದಿನ ಮತ್ತು ಮುಂದೆ ಬಟನ್ಗಳನ್ನು ತೋರಿಸಿ</string>
+    <string name="enable_headset_detection">ಹೆಡ್ಸೆಟ್ ಪತ್ತೆಮಾಡಿ</string>
+    <string name="enable_headset_detection_summary">ಹೆಡ್ಸೆಟ್ ತೆಗೆದ  ಮೇಲೆ ವಿರಾಮ; ಹೆಡ್ಸೆಟ್ ಅಳವಡಿಕೆಯ ನಂತರ ಮತ್ತೆ ಮುಂದುವರೆಸು </string>
     <string name="enable_steal_remote_control">ವಿಶೇಷ ಹೆಡ್ಸೆಟ್ ರಿಮೋಟ್ ನಿಯಂತ್ರಣ</string>
     <string name="enable_steal_remote_control_summary"> ಘರ್ಷಣೆ ತಪ್ಪಿಸಲು ಇತರ ಅಪ್ಲಿಕೇಶನ್ಗಳಿಂದ ರಿಮೋಟ್ ನಿಯಂತ್ರಣವನ್ನು ವಶಪಡಿಸಿಕೊಳ್ಳಿ . ಇದು HTC ಫೋನ್ಗಳಲ್ಲಿ ಡಬಲ್ ಕ್ಲಿಕ್ ಮೇಲೆ ಡಯಲಿಂಗ್ ಅನ್ನು ತಡೆಯುತ್ತದೆ . </string>
     <string name="performance_prefs_category">ಕಾರ್ಯಕ್ಷಮತೆ</string>
     <string name="chroma_format">ದೃಶ್ಯ ವರ್ಣಶುದ್ಧತೆ ಒತ್ತಾಯಿಸಿ </string>
-    <string name="chroma_format_summary">RGB 32-bit: ಪೂರ್ವನಿಯೋಜಿತ ವರ್ಣಶುದ್ಧತೆ.  
-RGB 16-bit: ಉತ್ತಮ ಕಾರ್ಯಕ್ಷಮತೆ ಆದರೆ ಕಡಿಮೆ ಗುಣಮಟ್ಟ
-YUV:ಅತ್ಯುತ್ತಮ ಕಾರ್ಯಕ್ಷಮತೆ ಆದರೆ ಎಲ್ಲಾ ಸಾಧನಗಳಲ್ಲಿ ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ. ಆಂಡ್ರಾಯ್ಡ್ 2.3 ಮತ್ತು ನಂತರ ಮಾತ್ರ.</string>
     <string name="deblocking">ಡಿಬ್ಲಾಕಿಂಗ್  ಫಿಲ್ಟರ್ ಸಿದ್ಧತೆಗಳು </string>
     <string name="deblocking_summary">ಡಿಬ್ಲಾಕಿಂಗ್  ಫಿಲ್ಟರ್ ಸಿದ್ಧತೆಗಳನ್ನು ಬದಲಿಸಿ. ವಿಡಿಯೋ ಗುಣಮಟ್ಟ ಸುಧಾರಿಸಬಹುದು . ಕೇವಲ ಸುಧಾರಿತ ಬಳಕೆದಾರರಿಗೆ ಮಾತ್ರ .</string>
     <string name="deblocking_always">ಪೂರ್ಣ ಡಿಬ್ಲಾಕಿಂಗ್  (ಅತಿ ನಿಧಾನ)</string>
