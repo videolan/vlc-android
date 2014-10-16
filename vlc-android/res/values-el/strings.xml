@@ -25,22 +25,12 @@
     <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
     <string name="info">Πληροφορίες</string>
-    <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\'?</string>
+    <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
     <string name="pause">Παύση</string>
     <string name="not_show_again">Να μην ξαναεμφανιστεί αυτό το μήνυμα</string>
-    <string name="beta_warning">Αυτή είναι μια δεύτερη προσωρινή έκδοση.
-
-Αυτή η έκδοση ΔΕΝ ΕΙΝΑΙ ΣΤΑΘΕΡΗ!
-
-ΜΗΝ την χρησιμοποιήσετε, εκτός και αν ξέρετε τι κάνετε.
-
-Μπορεί να σκοτώσει τα γατάκια σας και να καταστρέψει το σπίτι σας.
-Χρησιμοποιήστε το με δική σας ευθύνη.
-
-Καλή διασκέδαση! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Άγνωστος καλλιτέχνης</string>
     <string name="unknown_album">Άγνωστο Άλμπουμ</string>
     <string name="unknown_genre">Άγνωστο Γένος</string>
@@ -87,8 +77,9 @@
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
     <string name="nosubdirectory">Κανένας υποκατάλογος</string>
+    <string name="directorynotfound">Η διαδρομή του φακέλου \'%1$s\' δεν βρέθηκε.</string>
     <string name="nohistory">Δεν έχετε ιστορικό αναπαραγωγής ακόμα.</string>
-    <string name="validation">Είστε σίγουρος?</string>
+    <string name="validation">Είστε σίγουρος;</string>
     <string name="cover_art">Τέχνη εξωφύλλου</string>
     <string name="shuffle">Ανακάτεμα </string>
     <string name="repeat">Επανάληψη κανένα/ένα/όλα</string>
@@ -109,24 +100,19 @@
     <string name="track_video">Κομμάτι βίντεο</string>
     <string name="track_text">Κομμάτι υποτίτλων</string>
     <string name="track_unknown">Άγνωστο κομμάτι</string>
-    <string name="track_codec_info">Codec: %1$s
-</string>
-    <string name="track_language_info">Γλώσσα: %1$s
-</string>
+    <string name="track_codec_info">Κωδικοποιητής: %1$s\n</string>
+    <string name="track_language_info">Γλώσσα: %1$s\n</string>
     <string name="volume">Ένταση</string>
+    <string name="sound_on">Ενεργοποίηση Ήχου</string>
+    <string name="sound_off">Απενεργοποίηση Ήχου</string>
     <string name="brightness">Φωτεινότητα</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 κανάλι
-</item>
-        <item quantity="other">%1$d κανάλια
-</item>
+        <item quantity="one">1 κανάλι\n</item>
+        <item quantity="other">%1$d κανάλια\n</item>
     </plurals>
-    <string name="track_samplerate_info">Ρυθμός δειγματοληψίας: %1$d Hz
-</string>
-    <string name="track_resolution_info">Ανάλυση: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Ρυθμός καρέ: %1$.3f
-</string>
+    <string name="track_samplerate_info">Ρυθμός δειγματοληψίας: %1$d Hz\n</string>
+    <string name="track_resolution_info">Ανάλυση: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Ρυθμός καρέ: %1$.3f\n</string>
     <string name="tools">Εργαλεία</string>
     <string name="playback_speed">Ταχύτητα αναπαραγωγής</string>
     <string name="sleep_title">Χρονοδιακόπτης ύπνου</string>
@@ -141,11 +127,9 @@
     <string name="open_mrl_dialog_msg">Εισαγάγετε δικτυακό MRL: πχ http://, mms:// ή rtsp://</string>
     <string name="error_not_compatible">Συγνώμη, αλλά η συσκευή σας αυτή τη στιγμή δεν υποστηρίζεται από την τρέχουσα έκδοση του VLC για Android™.</string>
     <string name="error_problem">Συγνώμη, το VLC για το Android είχε ένα πρόβλημα κατά τη φόρτωση και έπρεπε να κλείσει.</string>
-    <string name="error_message_is">Το μήνυμα σφάλματος είναι (παρακαλούμε αναφέρετε το κατά την επίλυση προβλημάτων):
-</string>
+    <string name="error_message_is">Το μήνυμα σφάλματος είναι (παρακαλούμε αναφέρετε το κατά την επίλυση προβλημάτων):\n\n</string>
     <string name="encountered_error_title">Σφάλμα στην αναπαραγωγή</string>
-    <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το μέσο.
-Παρακαλώ ανανεώστε τη βιβλιοθήκη μέσων.</string>
+    <string name="encountered_error_message">Το VLC αντιμετώπισε πρόβλημα με αυτό το μέσο.\n\nΠαρακαλώ ανανεώστε τη βιβλιοθήκη μέσων.</string>
     <string name="invalid_location">Η τοποθεσία %1$s δεν μπορεί να παιχτεί.</string>
     <string name="search">Εύρεση</string>
     <string name="search_history">Ιστορικό εύρεσης</string>
@@ -183,9 +167,7 @@
     <string name="add_custom_path_description">Καταχωρήστε πρόσθετους προσαρμοσμένους καταλόγους για σάρωση:</string>
     <string name="remove_custom_path">Αφαίρεση προσαρμοσμένης διαδρομής</string>
     <string name="hardware_acceleration">Επιτάχυνση υλικού</string>
-    <string name="hardware_acceleration_summary">Απενεργοποιημένο: καλύτερη σταθερότητα.
-Αποκωδικοποίηση: ίσως βελτιώσει την απόδοση.
-Πλήρης: ίσως βελτιώσει την απόδοση περαιτέρω.</string>
+    <string name="hardware_acceleration_summary">Απενεργοποιημένο: καλύτερη σταθερότητα.\n\nΑποκωδικοποίηση: ίσως βελτιώσει την απόδοση.\n\nΠλήρης: ίσως βελτιώσει την απόδοση περαιτέρω.</string>
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
     <string name="hardware_acceleration_decoding">Επιτάχυνση αποκωδικοποίησης</string>
     <string name="hardware_acceleration_full">Πλήρης επιτάχυνση</string>
@@ -204,24 +186,26 @@
     <string name="interface_prefs_screen">Διεπαφή</string>
     <string name="interface_secondary_display_category">Διεπαφή - Δευτερεύουσα Οθόνη</string>
     <string name="interface_secondary_display_category_summary">Επιλογές για όταν οι δευτερεύουσες οθόνες είναι συνδεμένες (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Κρατείστε την επιλογή για την επιτάχυνση υλικού</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Η επιτάχυνση υλικού μπορεί να μην δουλέψει</string>
     <string name="enable_clone_mode">Προτίμηση του κλώνου</string>
     <string name="enable_clone_mode_summary">Κλωνοποίηση της οθόνης της συσκευής χωρίς τηλεχειριστήριο.</string>
     <string name="interface_other_category">Διεπαφή - \'Αλλο</string>
     <string name="enable_brightness_gesture">Ενεργοποίηση χειρονομιών φωτεινότητας </string>
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
-    <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
-    <string name="enable_headset_detection_summary">Παύση κατά την αφαίρεση των ακουστικών˙ συνέχιση με την εισαγωγή των ακουστικών</string>
     <string name="enable_jump_buttons">Ενεργοποίηση πλήκτρων άλματος</string>
     <string name="enable_jump_buttons_summary">Εμφάνιση των πλήκτρων άλματος πίσω και μπροστά για την διασύνδεση βίντεο</string>
+    <string name="audio_title_alignment">Ευθυγράμμιση ηχητικού τίτλου</string>
+    <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
+    <string name="enable_headset_detection_summary">Παύση κατά την αφαίρεση των ακουστικών˙ συνέχιση με την εισαγωγή των ακουστικών</string>
     <string name="enable_steal_remote_control">Αποκλειστικός έλεγχος από απόσταση των ακουστικών</string>
     <string name="enable_steal_remote_control_summary">Αποφύγετε τις συγκρούσεις κλέβοντας τον απομακρυσμένο έλεγχο από άλλες εφαρμογές. Αυτό αποτρέπει την κλήση για το διπλό κλικ στα HTC τηλέφωνα.</string>
+    <string name="audio_title_alignment_default">Προεπιλογή</string>
+    <string name="audio_title_alignment_left">Αριστερά</string>
+    <string name="audio_title_alignment_centre">Κέντρο</string>
+    <string name="audio_title_alignment_right">Δεξιά</string>
+    <string name="audio_title_alignment_marquee">Μαρκίζα</string>
     <string name="performance_prefs_category">Απόδοση</string>
     <string name="chroma_format">Επιβολή βίντεο χρώματος</string>
-    <string name="chroma_format_summary">RGB 32-bit: προεπιλεγμένο χρώμα
-RGB 16-bit: καλύτερη απόδοση αλλά χειρότερη ποιότητα
-YUV: κάλλιστη απόδοση αλλά δεν δουλεύει σε όλες τις συσκευές. Android 2.3 και νεώτερο μόνο.</string>
+    <string name="chroma_format_summary">RGB 32-bit: προεπιλεγμένο χρώμα\n\nRGB 16-bit: καλύτερη απόδοση αλλά χειρότερη ποιότητα\n\nYUV: κάλλιστη απόδοση αλλά δεν δουλεύει σε όλες τις συσκευές. Android 2.3 και νεώτερο μόνο.</string>
     <string name="deblocking">Επιλογές απομπλοκάρισματος φίλτρου</string>
     <string name="deblocking_summary">Αλλάξτε τις ρυθμίσεις αποδέσμευσης φίλτρου. Θα μπορούσε να βελτιώσει την ποιότητα του βίντεο. Για προχωρημένους χρήστες μόνο.</string>
     <string name="deblocking_always">Πλήρες απομπλοκάρισμα (αργότερο)</string>
@@ -267,4 +251,6 @@ YUV: κάλλιστη απόδοση αλλά δεν δουλεύει σε όλ�
     <string name="restart_vlc">Επανεκκίνηση του VLC</string>
     <string name="send_log">Αποστολή του αρχείου καταγραφής</string>
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται...</string>
+    <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
+    <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
 </resources>
