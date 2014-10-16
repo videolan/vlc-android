@@ -149,9 +149,10 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 			Collections.sort(audioList, MediaComparators.byAlbum);
 			for (Media media : audioList){
 				if (mFilter == null 
-						|| (mType == FILTER_ARTIST && mFilter.equals(media.getArtist()))
-						|| (mType == FILTER_GENRE && mFilter.equals(media.getGenre())))
+						|| (mType == FILTER_ARTIST && mFilter.equals(media.getArtist().trim()))
+						|| (mType == FILTER_GENRE && mFilter.equals(media.getGenre().trim()))) {
 				add(media.getAlbum(), media.getArtist(), media);
+				}
 			}
 			//Customize title for artist/genre browsing
 			if (mType == FILTER_ARTIST){
@@ -195,12 +196,12 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 					intent = new Intent(mContext, VerticalGridActivity.class);
 					intent.putExtra(AUDIO_CATEGORY, getString(R.string.albums));
 					intent.putExtra(MEDIA_SECTION, FILTER_ARTIST);
-					intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getArtist());
+					intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getArtist().trim());
 				} else if (getString(R.string.genres).equals(mCategory)){
 					intent = new Intent(mContext, VerticalGridActivity.class);
 					intent.putExtra(AUDIO_CATEGORY, getString(R.string.albums));
 					intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
-					intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getGenre());
+					intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getGenre().trim());
 				} else {
 					ArrayList<String> locations = new ArrayList<String>();
 					for (Media media : listItem.mMediaList){
