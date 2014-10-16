@@ -29,14 +29,6 @@
     <string name="ringtone_error">เกิดข้อขัดข้องขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
     <string name="not_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
-    <string name="beta_warning">นี่คือรุ่นเบต้า
-
-ยังไม่ใช่รุ่นเสถียรหรือสมบูรณ์!
-
-แนะนำ! อย่าเพิ่งใช้งานแอพฯ นี้เป็นตัวหลัก เว้นแต่ว่าคุณจะนำไปทดสอบเท่านั้น
-
-ขอให้สนุกกับการใช้งานแอพฯ นี้! :)</string>
-    <string name="info_title">VLC เบต้า</string>
     <string name="unknown_artist">ไม่ทราบศิลปิน</string>
     <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
@@ -100,21 +92,8 @@
     <string name="track_video">ร่องวีดิทัศน์</string>
     <string name="track_text">ร่องบทบรรยาย</string>
     <string name="track_unknown">ไม่ทราบร่องข้อมูล</string>
-    <string name="track_codec_info">ตัวอ่าน-ลงรหัส: %1$s
-</string>
-    <string name="track_language_info">ภาษา: %1$s</string>
     <string name="volume">ระดับเสียง</string>
     <string name="brightness">ความสว่าง</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d ช่อง
-</item>
-    </plurals>
-    <string name="track_samplerate_info">อัตราตัวอย่างสุ่ม: %1$d Hz
-</string>
-    <string name="track_resolution_info">ความละเอียด: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">อัตราเฟรม: %1$.3f
-</string>
     <string name="tools">เครื่องมือ</string>
     <string name="playback_speed">ความเร็วการเล่น</string>
     <string name="sleep_title">พักเครื่อง</string>
@@ -129,11 +108,7 @@
     <string name="open_mrl_dialog_msg">เลือกเครือข่าย MRL: ตย. http://, mms:// หรือ rtsp://</string>
     <string name="error_not_compatible">ขออภัย เครื่องของคุณยังไม่รองรับ การใช้งานของ VLC สำหรับ Android™ รุ่นนี้</string>
     <string name="error_problem">ขออภัยด้วย ที่ VLC สำหรับ Andriod ปิดโปรแกรมไป อันเนื่องจากมีปัญหาในการโหลด</string>
-    <string name="error_message_is">ข้อขัดข้องคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้ เมื่อทำการดีบั๊ก):
-</string>
     <string name="encountered_error_title">การเล่นขัดข้อง</string>
-    <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อขัดข้อง
-โปรดเรียกข้อมูลคลังสื่อดูอีกที</string>
     <string name="invalid_location">ไม่สามารถเล่นยังตำแหน่ง %1$s ได้</string>
     <string name="search">ค้นหา</string>
     <string name="search_history">ประวัติการค้นหา</string>
@@ -180,20 +155,16 @@
     <string name="subtitle_text_encoding">การลงรหัสข้อความบทบรรยาย</string>
     <string name="extra_prefs_category">ค่าตั้งพิเศษอื่นๆ</string>
     <string name="interface_prefs_screen">ส่วนติดต่อ</string>
-    <string name="enable_secondary_display_hardware_acceleration">บันทึกค่าตั้งการเร่งความเร็วฮาร์ดแวร์</string>
     <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมแสงสว่างโดยการเลื่อน ในขณะที่กำลังเล่นวีดิทัศน์อยู่</string>
-    <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
-    <string name="enable_headset_detection_summary">หยุดชั่วคราวเมื่อถอดชุดหูฟังออก; ดำเนินการต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
     <string name="enable_jump_buttons">เปิดใช้งานปุ่มข้ามช่วงการเล่น</string>
     <string name="enable_jump_buttons_summary">แสดง ปุ่มย้อนการเล่น และ ปุ่มเร่งการเล่น ในส่วนติดต่อวีดิทัศน์</string>
+    <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
+    <string name="enable_headset_detection_summary">หยุดชั่วคราวเมื่อถอดชุดหูฟังออก; ดำเนินการต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
     <string name="enable_steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
     <string name="enable_steal_remote_control_summary">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
     <string name="performance_prefs_category">ประสิทธิภาพการทำงาน</string>
     <string name="chroma_format">บังคับค่าความสดสี</string>
-    <string name="chroma_format_summary">RGB 32-bit: ค่าความสดสีปริยาย
-RGB 16-bit: ประสิทธิภาพการทำงานดีขึ้น แต่ได้คุณภาพลดลง
-YUV: ประสิทธิภาพการทำงานดีสุด ซึ่งรองรับการใช้งานไม่ได้ทั่วทุกอุปกรณ์; เฉพาะแอนดรอยด์รุ่น 2.3 ขึ้นไป</string>
     <string name="deblocking">ค่าตั้งตัวผันค่าการดีบล็อค</string>
     <string name="deblocking_summary">เปลี่ยนค่าตั้งตัวผันค่าการดีบล็อค สามารถช่วยเพิ่มคุณภาพวีดิทัศน์ (เฉพาะผู้ใช้ชำนาญการ)</string>
     <string name="deblocking_always">การดีบล็อคเต็มที่ (ช้าสุด)</string>
