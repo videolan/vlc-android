@@ -26,8 +26,6 @@
     <string name="ringtone_error">ဖုန်းမြည်သံသတ်မှတ်နေစဉ်အမှားပြ။</string>
     <string name="pause">ရပ်တန့်</string>
     <string name="not_show_again">ယခုမှာကြားချက်ကိုနောက်တစ်ကြိမ်ထပ်မပြနှင့်။</string>
-    <string name="beta_warning">ယခုမှာဘီဒါပံုစံဖြစ်။⏎ ⏎ ယခုပံုစံမှာမတည်ငြိမ်သေး!⏎ ⏎ မသံုးစွဲနှင့်၊ ကိုယ်ဘာလုပ်နေသလဲသိမှသာလျှင်သံုးစွဲ။⏎ ⏎ သင့်ကြောင်ကလေးနှင့်အိမ်ကိုဖျက်ဆီးနိုင်။⏎ ကိုယ့်ဟာကိုအရဲစွန့်သံုး။⏎ ⏎ ပျော်ရွှင်ပါစေ! :)</string>
-    <string name="info_title">ဗီအယ်လ်စီဘီတာ</string>
     <string name="unknown_artist">အမည်မသိအနုပညာရှင်</string>
     <string name="unknown_album">အမည်မသိအယ်လဘမ်</string>
     <string name="unknown_genre">အမည်မသိအမျိုးအစား</string>
@@ -87,17 +85,8 @@
     <string name="track_video">ဗွီဒီယိုလမ်းကြော</string>
     <string name="track_text">စာတန်းထိုးများလမ်းကြော</string>
     <string name="track_unknown">အမည်မသိလမ်းကြော</string>
-    <string name="track_codec_info">အသံချုံချဲ့ : %1$s⏎</string>
-    <string name="track_language_info">ဘာသာစကား: %1$s⏎</string>
     <string name="volume">အသံပမာဏ</string>
     <string name="brightness">အရောင်တောက်ပခြင်း</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d လှိုင်းများ⏎
-</item>
-    </plurals>
-    <string name="track_samplerate_info">နမူနာနှုန်း: %1$d Hz⏎</string>
-    <string name="track_resolution_info">ပုံရိပ်ပြ: %1$dx%2$d⏎</string>
-    <string name="track_framerate_info">ဘောင်နှုန်း: %1$.3f⏎</string>
     <string name="tools">ကိရိယာများ</string>
     <string name="playback_speed">ပြန်ဖွင့်အမြန်နှုန်း</string>
     <string name="sleep_title">အိပ်ရန်အချိန်</string>
@@ -109,11 +98,7 @@
     <string name="open_mrl_dialog_msg">ကွန်ယက်အမ်အာအယ်ထည့်: ဥပမာ http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">စက်ရုပ်အတွက်ဗီအယ်စီယခုပံုစံမှာသင့်ပစ္စည်းကိုမထောက်ပံ့။</string>
     <string name="error_problem">စက်ရုပ်အတွက်ဗီအယ်စီတွင်ပြသနာတွေ့ပြီးပိတ်ရန်လိုအပ်။</string>
-    <string name="error_message_is">အမှားပြမှာကြားချက်မှာ (အမှားရှာပြင်နေစဉ်ဖော်ပြပါ):⏎
-</string>
     <string name="encountered_error_title">ပြန်ဖွင့်အမှားပြ</string>
-    <string name="encountered_error_message">ယခုမီဒီယာနှင့်ဗီအယ်လ်စီအမှားကြုံကြိုက်နေ။
-မီဒီယာတိုက်ကိုပြန်လည်နှိပ်ပါ။</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">ဗီအယ်လ်စီအတွက်စက်ရုပ်™</string>
@@ -144,7 +129,6 @@
     <string name="enable_steal_remote_control_summary">အခြားအပ်ပရိုဂရမ်များမှအဝေးထိန်းခိုးသံုးနေခြင်းကြောင့်ကွဲလွဲမှုရှောင်ကြဉ်။ ဟိတ်စ်တီစီဖုန်းများတွင်ကလစ်နှစ်ချက်နိုပ်ဖုန်းခေါ်ခြင်းကိုကာကွယ်။</string>
     <string name="performance_prefs_category">ဆောင်ရွက်ချက်</string>
     <string name="chroma_format">ဗီဒီယိုအရာင်အတင်းလုပ်</string>
-    <string name="chroma_format_summary">အာဂျီပီ၃၂-ဘစ်: မူလအရာင်⏎ အာဂျီပီ၁၆-ဘစ်: ပိုကောင်းသောဆောင်ရွက်ချက်သို့သော်နိမ့်သောအရည်အသွေး⏎ ဝိုင်ယူဗီ: အကောင်းဆံုးဆောင်ရွက်ချက်သို့သော်ပစ္စည်းအားလံုးတွင်အလုပ်မလုပ်။ စက်ရုပ်၂.၃နှင့်အမြင့်တွင်သာအလုပ်လုပ်။</string>
     <string name="enable_time_stretching_audio">အချိန်ဆွဲဆန့်ပြီးအသံ</string>
     <string name="enable_time_stretching_audio_summary">အသံအနိမ့်အမြင့်မပြောင်းလဲဘဲအသံကိုနှုန်းမြင့်ပြီးလျော့ (မြန်သောပစ္စည်းလိုအပ်)။</string>
     <string name="advanced_prefs_category">အဆင့်မြင့်</string>
