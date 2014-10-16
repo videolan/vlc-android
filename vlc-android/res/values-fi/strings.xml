@@ -30,17 +30,6 @@
     <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
     <string name="pause">Tauko</string>
     <string name="not_show_again">Älä näytä tätä viestiä enää.</string>
-    <string name="beta_warning">Tämä on beetaversio.
-
-Tämä versio EI OLE VAKAA!
-
-ÄLÄ KÄYTÄ, ellet tiedä mitä olet tekemässä.
-
-Se voi tappaa kissanpentusi ja tuhota kotisi.
-Käytä omalla vastuulla.
-
-Pidä hauskaa! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Tuntematon esittäjä</string>
     <string name="unknown_album">Tuntematon albumi</string>
     <string name="unknown_genre">Tuntematon genre</string>
@@ -109,23 +98,8 @@ Pidä hauskaa! :)</string>
     <string name="track_video">Videoraita</string>
     <string name="track_text">Tekstitysraita</string>
     <string name="track_unknown">Tunnistamaton raita</string>
-    <string name="track_codec_info">Koodekki: %1$s
-</string>
-    <string name="track_language_info">Kieli: %1$s
-</string>
     <string name="volume">Äänenvoimakkuus</string>
     <string name="brightness">Kirkkaus</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanava</item>
-        <item quantity="other">%1$d kanavaa
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Näytteenottotaajuus: %1$d Hz
-</string>
-    <string name="track_resolution_info">Tarkkuus: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Kehysnopeus: %1$.3f
-</string>
     <string name="tools">Työkalut</string>
     <string name="playback_speed">Toistonopeus</string>
     <string name="sleep_title">Uniajastin</string>
@@ -140,11 +114,7 @@ Pidä hauskaa! :)</string>
     <string name="open_mrl_dialog_msg">Syötä verkon MRL: esim. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Pahoittelemme, mutta laitteesi ei ole tällä hetkellä VLC for Android™-ohjelman tukema.</string>
     <string name="error_problem">Pahoittelemme, VLC for Android kohtasi ongelman ladatessa ja joutui lopettamaan.</string>
-    <string name="error_message_is">Virheen tuloste on (mainitsethan tämän debugatessa):
-</string>
     <string name="encountered_error_title">Toistovirhe</string>
-    <string name="encountered_error_message">VLC kohtasi virheen tämän median kanssa.
-Kokeilethan päivittää mediakirjastosi.</string>
     <string name="invalid_location">Kohdetta %1$s ei voida toistaa.</string>
     <string name="search">Etsi</string>
     <string name="search_history">Hakuhistoria</string>
@@ -182,9 +152,6 @@ Kokeilethan päivittää mediakirjastosi.</string>
     <string name="add_custom_path_description">Syötä lisähakemisto jonka haluat tutkia:</string>
     <string name="remove_custom_path">Poista mukautettu polku</string>
     <string name="hardware_acceleration">Laitteistokiihdytys</string>
-    <string name="hardware_acceleration_summary">Poistettu käytöstä: parempi vakaus.
-Purkukiihdytys: voi parantaa suorituskykyä.
-Täysi: voi parantaa suorituskykyä pidemmälle.</string>
     <string name="hardware_acceleration_disabled">Poistettu käytöstä</string>
     <string name="hardware_acceleration_decoding">Purkukiihdytys</string>
     <string name="hardware_acceleration_full">Täysi kiihdytys</string>
@@ -203,26 +170,19 @@ Täysi: voi parantaa suorituskykyä pidemmälle.</string>
     <string name="interface_prefs_screen">Käyttöliittymä</string>
     <string name="interface_secondary_display_category">Käyttöliittymä - Toinen näyttö</string>
     <string name="interface_secondary_display_category_summary">Asetukset kun toissijaiset näytöt on kytketty (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Pidä laitteistokiihdytyksen asetus</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Laitteistokiihdytys ei välttämättä toimi</string>
     <string name="enable_clone_mode">Käytä kloonia</string>
     <string name="enable_clone_mode_summary">Kloonaa laitteen näyttö ilman etähallintaa.</string>
     <string name="interface_other_category">Käyttöliittymä - Muut</string>
     <string name="enable_brightness_gesture">Ota käyttöön ele kirkkaudensäätöön</string>
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
-    <string name="enable_headset_detection">Tunnista kuulokkeet</string>
-    <string name="enable_headset_detection_summary">Tauota kuulokkeiden irroittamisen jälkeen; jatka kiinnittämisen jälkeen</string>
     <string name="enable_jump_buttons">Ota käyttöön liikkumispainikkeet</string>
     <string name="enable_jump_buttons_summary">Näytä taakse- ja eteepäin-painikkeet videorajapinnassa</string>
+    <string name="enable_headset_detection">Tunnista kuulokkeet</string>
+    <string name="enable_headset_detection_summary">Tauota kuulokkeiden irroittamisen jälkeen; jatka kiinnittämisen jälkeen</string>
     <string name="enable_steal_remote_control">Hieno kuulokkeiden etähallinta</string>
     <string name="enable_steal_remote_control_summary">Vältä konflikteja kaappaamalla etähallintakyky muilta ohjelmilta. Tämä estää soittamisen tuplanapautuksella HTC:n puhelimissa.</string>
     <string name="performance_prefs_category">Suoritusteho</string>
     <string name="chroma_format">Pakota videon chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: vakio chroma
-
-RGB 16-bit: parempi suorituskyky mutta huonompi laatu
-
-YUV: paras suorituskyky mutta ei toimi kaikilla laitteilla. Android 2.3 tai uudempi vaaditaan.</string>
     <string name="deblocking">Purkusuodattimen asetukset</string>
     <string name="deblocking_summary">Vaihda purkusuodattimen asetuksia. Tämä voi parantaa kuvanlaatua. Vain edistyneille käyttäjille.</string>
     <string name="deblocking_always">Täysi purku (hitain)</string>
