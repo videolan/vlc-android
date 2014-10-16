@@ -30,17 +30,6 @@
     <string name="ringtone_error">Tekkis tõrge helina määramisel.</string>
     <string name="pause">Paus</string>
     <string name="not_show_again">Ära seda teadet enam kuva.</string>
-    <string name="beta_warning">See on beetaversioon.
-
-See versioon ei ole STABIILNE!
-
-Ära kasuta, kui sa ei tea, mida teed.
-
-See võib surmata kassipoja, hävitada su maja ja algatada maiade apokalüpsise.
-Kasuta ainult omal vastutusel.
-
-Hoia kõva! :)</string>
-    <string name="info_title">VLC beeta</string>
     <string name="unknown_artist">Tundmatu esitaja</string>
     <string name="unknown_album">Tundmatu album</string>
     <string name="unknown_genre">Tundmatu stiil</string>
@@ -109,24 +98,8 @@ Hoia kõva! :)</string>
     <string name="track_video">Videorada</string>
     <string name="track_text">Subtiitrite rada</string>
     <string name="track_unknown">Tundmatu rada</string>
-    <string name="track_codec_info">Koodek: %1$s
-</string>
-    <string name="track_language_info">Keel: %1$s
-</string>
     <string name="volume">Helitugevus</string>
     <string name="brightness">Heledus</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanal
-</item>
-        <item quantity="other">%1$d kanalit
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Diskreetimissagedus: %1$d Hz
-</string>
-    <string name="track_resolution_info">Eraldusvõime: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Kaadrisagedus: %1$.3f
-</string>
     <string name="tools">Tööriistad</string>
     <string name="playback_speed">Taasesitamise kiirus</string>
     <string name="sleep_title">Unetaimer</string>
@@ -141,11 +114,7 @@ Hoia kõva! :)</string>
     <string name="open_mrl_dialog_msg">Sisesta võrgu MRL: nt. http://, mms:// või rtsp://</string>
     <string name="error_not_compatible">Kahjuks pole sinu seade selle VLC Androidi™ versiooni poolt hetkel toetatud.</string>
     <string name="error_problem">Kahjuks tekkis VLC Androidi versioonil laadimisel viga ja ta tuli sulgeda.</string>
-    <string name="error_message_is">Veateade on (palun maini seda silumisel):
-</string>
     <string name="encountered_error_title">Tõrge taasesitamisel</string>
-    <string name="encountered_error_message">VLC-l tekkis tõrge selle meedia esitamisel.
-Palun proovi meediakogu värskendamist.</string>
     <string name="invalid_location">Asukohta %1$s ei saa esitada.</string>
     <string name="search">Otsing</string>
     <string name="search_history">Otsingu ajalugu</string>
@@ -179,8 +148,6 @@ Palun proovi meediakogu värskendamist.</string>
     <string name="enable_black_theme_summary">Muuda kasutajaliite värvid sobivamaks halvema valgusega keskkonnas.</string>
     <string name="extra_prefs_category">Lisaseaded</string>
     <string name="interface_prefs_screen">Kasutajaliides</string>
-    <string name="enable_secondary_display_hardware_acceleration">Luba riistvaralise kiirenduse seade</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Riistvaraline kiirendus ei või töödata</string>
     <string name="interface_other_category">Kasutajaliides - Muu</string>
     <string name="enable_brightness_gesture">Võimalda heleduse žestid</string>
     <string name="enable_brightness_gesture_summary">Halda heledust video taasesitamise ajala žestide abil</string>
@@ -189,9 +156,6 @@ Palun proovi meediakogu värskendamist.</string>
     <string name="enable_steal_remote_control">Eksklusiivne peakomplekti pult</string>
     <string name="performance_prefs_category">Jõudlus</string>
     <string name="chroma_format">Sunnitud video värviformaat</string>
-    <string name="chroma_format_summary">RGB 32-bit: vaikimisi chroma
-RGB 16-bit: parem jõudlus, aga halvem kvaliteet
-YUY: parim jõudlus, aga ei tööta kõikidel seadetel. Android 2.3 ning hilisemad.</string>
     <string name="enable_frame_skip">Võimalda kaadrite vahelejätmist</string>
     <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
     <string name="enable_time_stretching_audio_summary">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
