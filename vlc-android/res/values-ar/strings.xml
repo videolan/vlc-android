@@ -34,17 +34,6 @@
     <string name="ringtone_error">حدث خطأ أثناء ضبطها للرّنين.</string>
     <string name="pause">ألبِث</string>
     <string name="not_show_again">لا تُظهر هذه الرّسالة مجددًا.</string>
-    <string name="beta_warning">هذه نسخة ثانوية.
-
-هذه النّسخة ليست مُستقرّة!
-
-لا تستعملها ما لم تعلم ما تفعل.
-
-يُمكن أن تقتل قطّتك أو تدمّر منزلك.
-استعملها على مسؤوليّتك.
-
-وقتًا مُمتِعًا! :)</string>
-    <string name="info_title">VLC النّسخة الثّانوية</string>
     <string name="unknown_artist">مؤدّ غير معروف</string>
     <string name="unknown_album">مجموعة غير معروفة</string>
     <string name="unknown_genre">أسلوب غير معروف</string>
@@ -133,32 +122,8 @@
     <string name="track_video">مقطع مرئي</string>
     <string name="track_text">مقطع التّرجمة</string>
     <string name="track_unknown">مقطع غير معروف</string>
-    <string name="track_codec_info">التّرميز: %1$s
-</string>
-    <string name="track_language_info">اللّغة: %1$s
-</string>
     <string name="volume">حجم الصّوت</string>
     <string name="brightness">السّطوع</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="zero">%1$d قنوات
-</item>
-        <item quantity="one">%1$d قنوات
-</item>
-        <item quantity="two">%1$d قنوات
-</item>
-        <item quantity="few">%1$d قنوات
-</item>
-        <item quantity="many">%1$d قنوات
-</item>
-        <item quantity="other">%1$d قنوات
-</item>
-    </plurals>
-    <string name="track_samplerate_info">تدفّق النّموذج: %1$d Hz
-</string>
-    <string name="track_resolution_info">الدّقة: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">التّدفق الإطاري: %1$.3f
-</string>
     <string name="tools">الأدوات</string>
     <string name="playback_speed">سرعة التّشغيل</string>
     <string name="sleep_title">مؤقّت النّوم</string>
@@ -173,11 +138,7 @@
     <string name="open_mrl_dialog_msg">أدخل MRL شبكي: مثل http://، mms:// أو rtsp://</string>
     <string name="error_not_compatible">عذرًا، جهازك غير مدعوم حاليًا بهذه الإصدارة من VLC للأندرويد™.</string>
     <string name="error_problem">عذرًا، حدثت مشكلة أثناء تحميل للأندرويد و يجب إغلاقه.</string>
-    <string name="error_message_is">رسالة الخطأ هي (يرجى ذكرها عند محاولة الإصلاح):
-</string>
     <string name="encountered_error_title">خطأ تشغيلي</string>
-    <string name="encountered_error_message">حدث خطأ مع هذا الوسيط في VLC.
-جرّب تحديث مكتبة الوسائط رجاءً.</string>
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="search">ابحث</string>
     <string name="search_history">تأريخ البحث</string>
@@ -212,10 +173,6 @@
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
     <string name="remove_custom_path">أزِل مسارًا مخصّصًا</string>
     <string name="hardware_acceleration">ترميز مُسرّع عتاديًا</string>
-    <string name="hardware_acceleration_summary">معطَّل : أحسن استقراراً.
-فكّ الترميز : قد يحسّن الأداء.
-كامل : قد يحسّن الأداء أكثر.
-</string>
     <string name="hardware_acceleration_disabled">تعطيل</string>
     <string name="hardware_acceleration_decoding">يجري فك ترميز التسريع</string>
     <string name="hardware_acceleration_full">تسريع كامل</string>
@@ -234,24 +191,19 @@
     <string name="interface_prefs_screen">الواجهة</string>
     <string name="interface_secondary_display_category">الواجهة - العرض الثانوي</string>
     <string name="interface_secondary_display_category_summary">وضع الإعدادات عند الربط بعارضات ثانوية (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">حافظ على إعدادات الترميز المُسرّع العتاديًا</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">قد لا يعمل الترميز المُسرّع العتاديًا</string>
     <string name="enable_clone_mode">خَيِّر المستنسَخ</string>
     <string name="enable_clone_mode_summary">استنسخْ عتاد الشاشة بدون التحكم عن بعد.</string>
     <string name="interface_other_category">الواجهة - أخرى</string>
     <string name="enable_brightness_gesture">مكّن إشارة السّطوع</string>
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
-    <string name="enable_headset_detection">افحص مجموعة الرأس</string>
-    <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
     <string name="enable_jump_buttons">فعّل أزرار القفز</string>
     <string name="enable_jump_buttons_summary">أظهِر أزرار التّقدّم و العودة في واجهة المرئيات</string>
+    <string name="enable_headset_detection">افحص مجموعة الرأس</string>
+    <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
     <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
     <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
     <string name="performance_prefs_category">الأداء</string>
     <string name="chroma_format">قوّ الصّفاء المرئي</string>
-    <string name="chroma_format_summary">RGB 32-bit: الصّفاء الافتراضي
-RGB 16-bit: أداء أفضل مع جودة أقل
-YUV: الأداء الأفضل لكن لا يعمل على جميع الأجهزة. أندرويد 2.3 و الأحدث فقط.</string>
     <string name="deblocking">إعدادات مُرشّح فك ضغط المرئيات</string>
     <string name="deblocking_summary">غيّر إعدادات مُرشّح فك ضغط المرئيات. حيث يُمكنه تحسين الجودة المرئية. للمُستخدمين المُتقدّمين فقط.</string>
     <string name="deblocking_always">فك ضغط مرئي كامل (الأبطأ)</string>
