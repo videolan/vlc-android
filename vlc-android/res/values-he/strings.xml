@@ -30,17 +30,7 @@
     <string name="ringtone_error">אירעה שגיאה בעת הגדרת הצלצול.</string>
     <string name="pause">השהיה</string>
     <string name="not_show_again">אין להציג הודעה זו שוב.</string>
-    <string name="beta_warning">זו גרסת בטא.
-
-גרסה זו אינה יציבה!
-
-אין להשתמש בה, אלא אם כן הסיכונים ברורים לך לחלוטין.
-
-גרסה זו עלולה לרצוח את החתלתול שלך, להשמיד את הבית שלך ולטפטף לך מים על ניר הטואלט בשירותים.
-השימוש הוא על אחריותך.
-
-יאללה בלגן! :)</string>
-    <string name="info_title">VLC בטא</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">אמן בלתי ידוע</string>
     <string name="unknown_album">אלבום בלתי ידוע</string>
     <string name="unknown_genre">סגנון בלתי ידוע</string>
@@ -87,6 +77,7 @@
     <string name="mediafiles">קובצי מדיה</string>
     <string name="notavailable">אינם זמינים</string>
     <string name="nosubdirectory">אין תיקיות משנה.</string>
+    <string name="directorynotfound">נתיב התיקייה \'%1$s\' לא נמצא.</string>
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
     <string name="validation">בטוח?</string>
     <string name="cover_art">האומנות על העטיפה</string>
@@ -109,24 +100,19 @@
     <string name="track_video">רצועת וידאו</string>
     <string name="track_text">רצועת כתוביות</string>
     <string name="track_unknown">רצועה בלתי ידועה</string>
-    <string name="track_codec_info">מקודד: %1$s
-</string>
-    <string name="track_language_info">שפה: %1$s
-</string>
+    <string name="track_codec_info">מפענח: %1$s\n</string>
+    <string name="track_language_info">שפה: %1$s\n</string>
     <string name="volume">עצמת שמע</string>
+    <string name="sound_on">שמע פעיל</string>
+    <string name="sound_off">שמע כבוי</string>
     <string name="brightness">בהירות</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">ערוץ אחד
-</item>
-        <item quantity="other">%1$d ערוצים
-</item>
+        <item quantity="one">ערוץ אחד\n</item>
+        <item quantity="other">%1$d ערוצים\n</item>
     </plurals>
-    <string name="track_samplerate_info">קצב דגימה: %1$d הרץ
-</string>
-    <string name="track_resolution_info">רזולוציה: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">קצב שקופיות: %1$.3f
-</string>
+    <string name="track_samplerate_info">קצב דגימה: %1$d הרץ\n</string>
+    <string name="track_resolution_info">רזולוציה: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">קצב שקופיות: %1$.3f\n</string>
     <string name="tools">כלים</string>
     <string name="playback_speed">מהירות הנגינה</string>
     <string name="sleep_title">לישון</string>
@@ -141,11 +127,8 @@
     <string name="open_mrl_dialog_msg">נא להזין קישור למדיה מוזרמת: לדוגמהhttp://, mms:// או rtsp://</string>
     <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC ל־Android™, עמך הסליחה.</string>
     <string name="error_problem">VLC לאנדרויד נתקבל בשגיאה והיה עליו להיסגר, עמך הסליחה.</string>
-    <string name="error_message_is">הודעת השגיאה היא (נא לציין אותה לצורך ניפוי שגיאות):
-</string>
+    <string name="error_message_is">הודעת השגיאה היא (נא לציין בעת ניפוי שגיאות):\n</string>
     <string name="encountered_error_title">שגיאת נגינה</string>
-    <string name="encountered_error_message">אירעה תקלה ב־VLC בעת ניגון המדיה.
-נא לנסות לרענן את ספריית המדיה.</string>
     <string name="invalid_location">לא ניתן לנגן את המיקום %1$s.</string>
     <string name="search">חיפוש</string>
     <string name="search_history">היסטוריית החיפוש</string>
@@ -183,9 +166,6 @@
     <string name="add_custom_path_description">נא להזין תיקיית מותאמת אישית נוספת לסריקה:</string>
     <string name="remove_custom_path">הסרת נתיב מותאם אישית</string>
     <string name="hardware_acceleration">האצת חומרה</string>
-    <string name="hardware_acceleration_summary">מנוטרל: יציבות משופרת.
-פענוח: עשוי לשפר את הביצועים.
-מלא: עשוי לשפר את הביצועים אף יותר.</string>
     <string name="hardware_acceleration_disabled">מנוטרל</string>
     <string name="hardware_acceleration_decoding">האצת פענוח</string>
     <string name="hardware_acceleration_full">האצה מלאה</string>
@@ -204,24 +184,25 @@
     <string name="interface_prefs_screen">מנשק</string>
     <string name="interface_secondary_display_category">מנשק - תצוגה משנית</string>
     <string name="interface_secondary_display_category_summary">הגדרות כאשר מחוברת תצוגה משנית (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">שמירה על הגדרות האצת החומרה</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">יתכן שהאצת חומרה לא תפעל</string>
     <string name="enable_clone_mode">העדפת שכפול</string>
     <string name="enable_clone_mode_summary">שכפול מסך ההתקן ללא שליטה מרחוק.</string>
     <string name="interface_other_category">מנשק - אחר</string>
     <string name="enable_brightness_gesture">הפעלת מחוות בהירות</string>
     <string name="enable_brightness_gesture_summary">ניתן לשלוט בבהירות באמצעות מחוות במהלך נגינת הווידאו</string>
-    <string name="enable_headset_detection">זיהוי ערכת שמע</string>
-    <string name="enable_headset_detection_summary">יש להשהות עם הסרת האוזניות, להמשיך עם חיבורן מחדש</string>
     <string name="enable_jump_buttons">הפעלת לחצני קפיצה</string>
     <string name="enable_jump_buttons_summary">הצגת לחצני קדימה ואחורה במנשק הווידאו</string>
+    <string name="audio_title_alignment">יישור כותרת אוטומטי</string>
+    <string name="enable_headset_detection">זיהוי ערכת שמע</string>
+    <string name="enable_headset_detection_summary">יש להשהות עם הסרת האוזניות, להמשיך עם חיבורן מחדש</string>
     <string name="enable_steal_remote_control">שלט רחוק ייעודי לאוזניות</string>
     <string name="enable_steal_remote_control_summary">המנעות מהתנגשות של גניבת השלט הרחוק מיישומים אחרים. אפשרות זו מונעת חיוג עקב לחיצה כפולה בטלפונים של HTC.</string>
+    <string name="audio_title_alignment_default">בררת מחדל</string>
+    <string name="audio_title_alignment_left">שמאל</string>
+    <string name="audio_title_alignment_centre">מרכז</string>
+    <string name="audio_title_alignment_right">ימין</string>
+    <string name="audio_title_alignment_marquee">נגללת</string>
     <string name="performance_prefs_category">ביצועים</string>
     <string name="chroma_format">אילוץ כרומה בווידאו</string>
-    <string name="chroma_format_summary">RGB 32-bit: הכרומה כבררת המחדל
-RGB 16-bit: ביצועים משופרים אך איכות מעט ירודה
-YUV: הביצועים הטובים ביותר אך לא יעבוד על חלק מההתקנים. אנדרויד 2.3 ומעלה בלבד.</string>
     <string name="enable_frame_skip">לאפשר דילוג תמונות</string>
     <string name="enable_frame_skip_summary">הקידוד מהיר יותר אך איכות הווידאו עלולה להיפגע.</string>
     <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
