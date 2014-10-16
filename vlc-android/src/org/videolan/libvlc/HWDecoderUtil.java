@@ -78,6 +78,7 @@ public class HWDecoderUtil {
                 "exynos4",          // Exynos 4 (Samsung Galaxy S2/S3)
                 "exynos5",          // Exynos 5 (Samsung Galaxy S4)
                 "rk30", "rk31",     // Rockchip RK3*
+                "mv88de3100",       // Marvell ARMADA 1500
         }),
         new DecoderBySOC ("ro.hardware", Decoder.ALL, new  String[] {
                 "mt65", "mt83",     // MTK
