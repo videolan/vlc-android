@@ -25,22 +25,11 @@
     <string name="remove">काढून टाका</string>
     <string name="set_song">रिंगटोन साठी सेट करा</string>
     <string name="info">माहिती</string>
-    <string name="confirm_delete">फाइल हटवा \'%1$s\'?</string>
-    <string name="ringtone_set">फाइल \'%1$s\' रिंगटोन म्हणून करण्यात आली.</string>
+    <string name="confirm_delete">\'%1$s\' फाइल नष्ट करावी?</string>
+    <string name="ringtone_set">\'%1$s\' ही फाइल रिंगटोन म्हणून सेट केली.</string>
     <string name="ringtone_error">रिंगटोन सेट करताना एक त्रुटी आली.</string>
     <string name="pause">विरामित करा</string>
     <string name="not_show_again">हा संदेश पुन्हा दाखवू नये.</string>
-    <string name="beta_warning">ही बीटा आवृत्ती आहे.
-
-ही आवृत्ती स्थिर नाही!
-
-आपण काय करत आहात हे तुम्हाला माहित असेपर्यंत वापरु नका.
-
-तुमचे मांजरीचे पिल्लू मरु शकते आणि घर नष्ट होऊ शकते.
-तुमच्या स्वतःच्या जबाबदारीवर वापरा.
-
-मजा करा! :)</string>
-    <string name="info_title">VLC बीटा</string>
     <string name="unknown_artist">अनामिक कलाकार</string>
     <string name="unknown_album">अनामिक अल्बम</string>
     <string name="unknown_genre">अनामिक जोन्र</string>
@@ -83,7 +72,7 @@
     <string name="directories">निर्देशिका</string>
     <string name="loading">लोड होत आहे</string>
     <string name="please_wait">कृपया प्रतीक्षा करा…</string>
-    <string name="nomedia"> मीडिया फायली नाही आढळल्या, आपल्या डिव्हाइसवर काही फायली स्थानांतरीत किंवा आपली प्राधान्ये समायोजित करा.</string>
+    <string name="nomedia"> मीडिया फायली नाही आढळल्या, आपल्या उपकरणावर काही फायली स्थानांतरीत करा किंवा आपली प्राधान्ये समायोजित करा.</string>
     <string name="mediafiles">मीडिया फाईल</string>
     <string name="notavailable">उपलब्ध नाही</string>
     <string name="nosubdirectory">उपनिर्देशिका नाहीत.</string>
@@ -109,25 +98,8 @@
     <string name="track_video">चित्रफीत ट्रॅक</string>
     <string name="track_text">उपशीर्षक ट्रॅक</string>
     <string name="track_unknown">अनामिक ट्रॅक</string>
-    <string name="track_codec_info">कोडेक: %1$s
-</string>
-    <string name="track_language_info">भाषा: %1$s
-</string>
     <string name="volume">आवाज तीव्रता</string>
     <string name="brightness">तेजस्वीपणा</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 वाहिनी
-
-</item>
-        <item quantity="other">%1$d वाहिन्या
-</item>
-    </plurals>
-    <string name="track_samplerate_info">सँपल दर: %1$d Hz
-</string>
-    <string name="track_resolution_info">रेझोलूशन: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">फ्रेम दर: %1$.3f
-</string>
     <string name="tools">साधने</string>
     <string name="playback_speed">प्लेबॅक वेग</string>
     <string name="sleep_title">स्लीप टाइमर</string>
@@ -142,31 +114,27 @@
     <string name="open_mrl_dialog_msg">नेटवर्क MRL प्रविष्ट करा: उदा. http://, mms:// किंवा rtsp://</string>
     <string name="error_not_compatible">माफ करा , तुमचे उपकरण VLC च्या Android™ च्या या आवृत्तीसोबत कार्यरत होवू शकत नाही.</string>
     <string name="error_problem">क्षमस्व, VLC लोड करतेवेळी काही समस्या होती त्यामुळे तो बंद करावा लागला.</string>
-    <string name="error_message_is">चूक संदेश असा आहे (कृपया डीबग करतेवेळी याचा उल्लेख करा):
-</string>
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
-    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.
-कृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
-    <string name="invalid_location">स्थान %1$s खेळला जाऊ शकत नाही.</string>
+    <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
     <string name="search">शोधा</string>
     <string name="search_history">शोध इतिहास</string>
-    <string name="hardware_acceleration_error_title">HW प्रवेग त्रुटी</string>
-    <string name="hardware_acceleration_error_message">एक त्रुटी हार्डवेअर प्रवेग आली. आपण ते अक्षम करा आणि पुन्हा प्रयत्न करू इच्छिता?</string>
+    <string name="hardware_acceleration_error_title">HW अॅक्सलरेशन त्रुटी</string>
+    <string name="hardware_acceleration_error_message">हार्डवेअर अॅक्सलरेशनसोबत एक त्रुटी आली. आपण ते निष्क्रिय करून पुन्हा प्रयत्न करू इच्छिता?</string>
     <!--Tips-->
     <string name="video_player_tips">व्हिडिओ प्लेअर टिपा:</string>
-    <string name="seek">शोधणे</string>
+    <string name="seek">पुढे/मागे जा</string>
     <string name="subtitles">उपशीर्षके</string>
     <string name="resize">आकार बदला</string>
     <string name="options">पर्याय</string>
-    <string name="lock">बंद</string>
-    <string name="ok_got_it">हे कळाले, हे काढा</string>
+    <string name="lock">लाॅक</string>
+    <string name="ok_got_it">समजले, बरखास्त करा</string>
     <string name="playlist_tips">प्लेलिस्ट टिपा</string>
     <string name="remove_song">गाणे काढा</string>
-    <string name="rearrange_order">पुनर्रचना ऑर्डर</string>
-    <string name="hold_to_seek">शोधण्यासाठी दाबून ठेवा</string>
+    <string name="rearrange_order">क्रम पुन्हा लावा</string>
+    <string name="hold_to_seek">पुढे/मागे जाण्यासाठी दाबून ठेवा</string>
     <string name="audio_player_tips">ऑडिओ प्लेयर टिपा</string>
-    <string name="previous_next_song">मागील / पुढील गाणे</string>
-    <string name="show_playlist">प्लेलिस्ट दर्शवा</string>
+    <string name="previous_next_song">मागील/पुढील गाणे</string>
+    <string name="show_playlist">प्लेलिस्ट दाखवा</string>
     <string name="hold_to_stop">थांबवण्यासाठी दाबून ठेवा</string>
     <!-- About -->
     <string name="app_name_full">Android™ साठी VLC</string>
@@ -184,12 +152,9 @@
     <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
     <string name="remove_custom_path">सानुकूल मार्ग काढून टाका</string>
     <string name="hardware_acceleration">हार्डवेअर अॅक्सलरेशन</string>
-    <string name="hardware_acceleration_summary">अक्षम: चांगले स्थिरता.
-डिकोड: कार्यप्रदर्शन सुधारू शकते.
-पूर्ण: पुढील कामगिरी सुधारू शकते.</string>
     <string name="hardware_acceleration_disabled">निष्क्रिय करा</string>
-    <string name="hardware_acceleration_decoding">डिकोड प्रवेग</string>
-    <string name="hardware_acceleration_full">पूर्ण प्रवेग</string>
+    <string name="hardware_acceleration_decoding">डिकोडिंग अॅक्सलरेशन</string>
+    <string name="hardware_acceleration_full">पूर्ण अॅक्सलरेशन</string>
     <string name="automatic">स्वयंचलित</string>
     <string name="screen_orientation">चित्रफीत पडद्याची अभिमुखता</string>
     <string name="screen_orientation_sensor">स्वयंचलित (सेन्सर)</string>
@@ -198,33 +163,26 @@
     <string name="screen_orientation_landscape">लॅन्डस्केप</string>
     <string name="screen_orientation_reverse_portrait">उलट पोर्ट्रेट</string>
     <string name="screen_orientation_reverse_landscape">उलट लॅन्डस्केप</string>
-    <string name="enable_black_theme">काळा थीम सक्षम</string>
-    <string name="enable_black_theme_summary">कमी प्रकाश वातावरणात चांगली सुविधेसाठी संवाद रंग बदला.</string>
+    <string name="enable_black_theme">काळी थीम सक्षम करा</string>
+    <string name="enable_black_theme_summary">कमी प्रकाश वातावरणात चांगल्या सुविधेसाठी इंटरफेसचे रंग बदला.</string>
     <string name="subtitle_text_encoding">उपशीर्षक मजकूर एनकोडिंग</string>
     <string name="extra_prefs_category">अतिरिक्त सेटिंग्ज</string>
     <string name="interface_prefs_screen">इंटरफेस</string>
-    <string name="interface_secondary_display_category">इंटरफेस - दुय्यम प्रदर्शन</string>
-    <string name="interface_secondary_display_category_summary">सेटिंग्ज जेंव्हा दुय्यम डिस्प्ले कनेक्ट (HDMI / Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">
-हार्डवेअर प्रवेग सेटिंग ठेवा.</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">हार्डवेअर प्रवेग कदाचित काम नाही करनार</string>
-    <string name="enable_clone_mode">क्लोन प्राधान्य</string>
-    <string name="enable_clone_mode_summary">साधन स्क्रीन क्लोन तयार दूरस्थ नियंत्रण शिवाय.</string>
+    <string name="interface_secondary_display_category">इंटरफेस - दुय्यम डिस्प्ले</string>
+    <string name="interface_secondary_display_category_summary">दुय्यम डिस्प्ले (HDMI Miracast) जोडलेले असतानाच्या सेटिंग्ज.</string>
+    <string name="enable_clone_mode">क्लोनला प्राधान्य</string>
+    <string name="enable_clone_mode_summary">दूरस्थ नियंत्रणाशिवाय उपकरणाचे स्क्रीन क्लोन करा.</string>
     <string name="interface_other_category">इंटरफेस - इतर</string>
     <string name="enable_brightness_gesture">तेजस्वीपणा जेस्चर सक्रीय करा</string>
     <string name="enable_brightness_gesture_summary">चित्रफीत प्लेबॅकच्या वेळी जेस्चरने तेजस्वीपणा नियंत्रित करा</string>
+    <string name="enable_jump_buttons">जंप बटणे सक्रीय करा</string>
+    <string name="enable_jump_buttons_summary">व्हिडिओ इंटरफेसवर मागे व पुढे बटण दाखवा</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
     <string name="enable_headset_detection_summary">हेडसेट काढल्यावर विराम घ्या; घातल्यावर पुन्हा आरंभ करा</string>
-    <string name="enable_jump_buttons">जंप बटणे सक्रीय करा</string>
-    <string name="enable_jump_buttons_summary">व्हिडिओ इंटरफेसवर मागास व पुढे बटण दर्शवा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
-    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.
-हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
+    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.\nहे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
     <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
-    <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा
-RGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता
-YUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
     <string name="deblocking">डीब्लॉकिंग फिल्टर सेटींग्स</string>
     <string name="deblocking_summary">डीब्लॉकिंग फिल्टर सेटींग्स बदला. चित्रफीत गुणवत्ता सुधारू शकते. फक्त प्रगत वापरकर्त्यांसाठी.</string>
     <string name="deblocking_always">पूर्ण डीब्लॉकिंग (सर्वात मंद)</string>
@@ -242,17 +200,17 @@ YUV: सर्वोत्तम कार्यप्रदर्शन पण 
     <string name="aout_audiotrack_java">AudioTrack (Java)</string>
     <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">चित्रफीत आउटपुट</string>
-    <string name="vout_summary">VLC आउटपुट व्हिडिओवर वापरणारे पद्धत बदला.</string>
+    <string name="vout_summary">VLC व्हिडिओ आऊटपुट करण्यासाठी वापरत असलेली पद्धत बदला.</string>
     <string name="vout_android_surface">Android पृष्ठभाग</string>
     <string name="clear_media_db">मीडिया डेटाबेस स्वच्छ करा</string>
     <string name="clear_history">शोध इतिहास नष्ट करा</string>
     <string name="media_db_cleared">मीडिया डेटाबेस स्वच्छ केला!</string>
     <string name="set_locale">स्थानिकता सेट करा</string>
     <string name="set_locale_detail">रिसेट करण्यासाठी रिकामे सोडा</string>
-    <string name="set_locale_popup">बंद अाणि पुनःअारंभ करा VLC प्रभावी बदलांसाठी.</string>
+    <string name="set_locale_popup">बदल लागू करण्यासाठी  VLC बंद करून पुन्हा चालू करा.</string>
     <string name="network_caching">नेटवर्क कॅशिंग मूल्य</string>
     <string name="network_caching_summary">नेटवर्क मीडिया बफर करण्यासाठी लागणारा वेळ (ms मध्ये). हार्डवेअर डिकोडिंग सोबत काम करत नाही. पूर्ववत करण्यासाठी रिक्त सोडा.</string>
-    <string name="developer_prefs_category">विकसक</string>
+    <string name="developer_prefs_category">डेव्हलपर</string>
     <string name="enable_verbose_mode">वर्बोस</string>
     <string name="enable_verbose_mode_summary">शब्दवडांबर वाढवा (लोगकॅट)</string>
     <string name="debug_logs">डीबग लॉग</string>
@@ -262,12 +220,12 @@ YUV: सर्वोत्तम कार्यप्रदर्शन पण 
     <string name="copy_to_clipboard">क्लिपबोर्ड मध्ये कॉपी करा</string>
     <string name="copied_to_clipboard">लॉग क्लिपबोर्ड मध्ये कॉपी केला.</string>
     <string name="quit">बाहेर पडून अनुप्रयोग पुन्हा चालू करा</string>
-    <string name="dump_logcat">logcat नोंद डंप</string>
-    <string name="dump_logcat_success">यशस्वीरित्या Logcat यात डंप केले %1$s!</string>
-    <string name="dump_logcat_failure">Logcat डंप करण्यात अयशस्वी.</string>
-    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आहे आणि VLC बंद करावे लागले.</string>
-    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून VLC सुधारणास आम्हाला मदत करा:</string>
-    <string name="restart_vlc">VLC पुनः प्रारंभ</string>
+    <string name="dump_logcat">logcat लाॅग डंप करा</string>
+    <string name="dump_logcat_success"> Logcat %1$s मध्ये यशस्वीरित्या डंप केले!</string>
+    <string name="dump_logcat_failure">Logcat डंप करण्यात अपयश.</string>
+    <string name="serious_crash">दुर्दैवाने, एक गंभीर त्रुटी आली आणि VLC बंद करावे लागले.</string>
+    <string name="help_us_send_log">खालील क्रॅश लॉग पाठवून VLC सुधारण्यात आम्हाला मदत करा:</string>
+    <string name="restart_vlc">VLC पुन्हा सुरू करा</string>
     <string name="send_log">लॉग पाठवा</string>
-    <string name="sending_log">लॉग पाठवत आहे ...</string>
+    <string name="sending_log">लॉग पाठवत आहे…</string>
 </resources>
