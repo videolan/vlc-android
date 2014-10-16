@@ -29,18 +29,6 @@
     <string name="ringtone_error">Ralat berlaku ketika menetapkan nada dering.</string>
     <string name="pause">Jeda</string>
     <string name="not_show_again">Jangan tunjuk mesej ini lagi.</string>
-    <string name="beta_warning">Ini adalah versi beta.
-
-Versi ini TIDAK STABIL!
-
-JANGAN guna, kecuali anda betul-betul tahu.
-
-Penggunaan perisian ini mungkin boleh membunuh kucing anda atau mebinasakan rumah anda.
-
-Gunakan atas risiko sendiri.
-
-Selamat Mencuba! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artis Tidak Diketahui</string>
     <string name="unknown_album">Album Tidak Diketahui</string>
     <string name="unknown_genre">Genre Tidak Diketahui</string>
@@ -104,22 +92,8 @@ Selamat Mencuba! :)</string>
     <string name="track_video">Trek video</string>
     <string name="track_text">Trek sarikata</string>
     <string name="track_unknown">Trek tidak diketahui</string>
-    <string name="track_codec_info">Kodeks: %1$s
-</string>
-    <string name="track_language_info">Bahasa: %1$s
-</string>
     <string name="volume">Volum</string>
     <string name="brightness">Kecerahan</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d saluran
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Kadar sampel: : %1$d Hz
-</string>
-    <string name="track_resolution_info">Resolusi: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Kadar bingkai: %1$.3f
-</string>
     <string name="tools">Alatan</string>
     <string name="playback_speed">Kelajuan mainbalik</string>
     <string name="sleep_title">Pemasa tidur</string>
@@ -134,11 +108,7 @@ Selamat Mencuba! :)</string>
     <string name="open_mrl_dialog_msg">Masukkan MRL rangkaian: cth. http://, mms:// atau rtsp://</string>
     <string name="error_not_compatible">Maaf, peranti anda belum lagi menyokong versi VLC untuk Android™ ini. </string>
     <string name="error_problem">Maaf, VLC untuk Android mengalami masalah memuatkan dan perlu ditutup.</string>
-    <string name="error_message_is">Ralat mesej adalah (sila sebutkan ini ketika menyahpijat):
-</string>
     <string name="encountered_error_title">Ralat mainbalik</string>
-    <string name="encountered_error_message">VLC mengalami ralat dengan media ini.
-Sila cuba segar semula pustaka media.</string>
     <string name="invalid_location">Lokasi %1$s tidak dapat dimainkan.</string>
     <string name="search">Gelintar</string>
     <string name="search_history">Gelintar sejarah</string>
@@ -176,9 +146,6 @@ Sila cuba segar semula pustaka media.</string>
     <string name="add_custom_path_description">Masukkan direktori suai tambahan untuk diimbas</string>
     <string name="remove_custom_path">Buang laluan suai</string>
     <string name="hardware_acceleration">Pemecutan Perkakasan</string>
-    <string name="hardware_acceleration_summary">Dilumpuhkan: kestablian lebih baik.
-Penyahkodan: mungkin tingkatkan prestasi.
-Penuh: mungkin tingkatkan lagi prestasi.</string>
     <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
     <string name="hardware_acceleration_decoding">Menyahkod pemecutan</string>
     <string name="hardware_acceleration_full">Pemecutan penuh</string>
@@ -197,24 +164,19 @@ Penuh: mungkin tingkatkan lagi prestasi.</string>
     <string name="interface_prefs_screen">Antaramuka</string>
     <string name="interface_secondary_display_category">Antaramuka - Paparan Kedua</string>
     <string name="interface_secondary_display_category_summary">Tetapkan bila paparan kedua bersambung (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Kekalkan tetapan pemecutan perkakasan</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Pemecutan perkakasan mungkin tidak berfungsi</string>
     <string name="enable_clone_mode">Utamakan klon</string>
     <string name="enable_clone_mode_summary">Klonkan skrin peranti tanpa kawalan jauh.</string>
     <string name="interface_other_category">Antaramuka - Lain</string>
     <string name="enable_brightness_gesture">Benarkan gerak isyarat kecerahan</string>
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
-    <string name="enable_headset_detection">Kesan set kepala</string>
-    <string name="enable_headset_detection_summary">Jeda ketika set kepala dibuang; sambung bila menyisip set kepala</string>
     <string name="enable_jump_buttons">Benarkan butang lompat</string>
     <string name="enable_jump_buttons_summary">Tunjuk butang undur dan maju pada antaramuka video</string>
+    <string name="enable_headset_detection">Kesan set kepala</string>
+    <string name="enable_headset_detection_summary">Jeda ketika set kepala dibuang; sambung bila menyisip set kepala</string>
     <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
     <string name="enable_steal_remote_control_summary">Jauhkan konflik dengan mencuri kawalan jauh daripada apl lain. Ini mengelakkan mendail apabila dwi-klik pada fon HTC.</string>
     <string name="performance_prefs_category">Prestasi</string>
     <string name="chroma_format">Paksa kroma video</string>
-    <string name="chroma_format_summary">RGB 32-bit: kroma lalai
-RGB 16-bit: prestasi lebih baik tetapi kurang kualiti
-YUV: prestasi terbaik tetapi tidak dapat berfungsi pada semua peranti. Android 2.3 dan terbaru sahaja.</string>
     <string name="deblocking">Tetapan penapis menyahsekat</string>
     <string name="deblocking_summary">Tukar tetapan penapis menyahsekat. Boleh meningkatkan kualiti video. Pengguna lanjutan sahaja.</string>
     <string name="deblocking_always">Menyahsekat penuh (paling perlahan)</string>
