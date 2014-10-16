@@ -31,17 +31,6 @@
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
     <string name="not_show_again">Neberodyti šio pranešimo.</string>
-    <string name="beta_warning">Tai tik bandomoji (beta) versija.
-
-Ji NĖRA STABILI!
-
-Jei nežinote, ką darote, NENAUDOKITE jos.
-
-Besinaudojant gali nutikti netikėčiausių dalykų.
-Atsakomybę prisiimate patys.
-
-Smagaus naudojimosi! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Nežinomas atlikėjas</string>
     <string name="unknown_album">Nežinomas albumas</string>
     <string name="unknown_genre">Nežinomas stilius</string>
@@ -115,26 +104,8 @@ Smagaus naudojimosi! :)</string>
     <string name="track_video">Vaizdo takelis</string>
     <string name="track_text">Subtitrų takelis</string>
     <string name="track_unknown">Nežinomas takelis</string>
-    <string name="track_codec_info">Kodavimas: %1$s
-</string>
-    <string name="track_language_info">Kalba: %1$s
-</string>
     <string name="volume">Garsumas</string>
     <string name="brightness">Ryškumas</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d kanalas
-</item>
-        <item quantity="few">%1$d kanalai
-</item>
-        <item quantity="other">%1$d kanalų
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Elementų dažnis: %1$d Hz
-</string>
-    <string name="track_resolution_info">Skiriamoji geba: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Kadrų dažnis: %1$.3f
-</string>
     <string name="tools">Įrankiai</string>
     <string name="playback_speed">Grojimo greitis</string>
     <string name="sleep_title">Išsijungimo laikmatis</string>
@@ -149,11 +120,7 @@ Smagaus naudojimosi! :)</string>
     <string name="open_mrl_dialog_msg">Įveskite adresą: pvz. http://, mms:// ar rtsp://</string>
     <string name="error_not_compatible">Atleiskite, tačiau ši Android™ sistemai skirta VLC versija nepalaiko jūsų įrenginio.</string>
     <string name="error_problem">Atleiskite, Android sistemai skirta VLC versijoje įvyko klaida.</string>
-    <string name="error_message_is">Klaida (ją nurodykite derinindami):
-</string>
     <string name="encountered_error_title">Grojimo klaida</string>
-    <string name="encountered_error_message">Atlikdama šį kūrinį, VLC susidūrė su klaida.
-Pabandykite atnaujinti fonoteką.</string>
     <string name="invalid_location">Negalime pagroti %1$s.</string>
     <string name="search">Paieška</string>
     <string name="search_history">Paieškos žurnalas</string>
@@ -188,9 +155,6 @@ Pabandykite atnaujinti fonoteką.</string>
     <string name="add_custom_path_description">Įtraukite papildomą žvalgytiną katalogą:</string>
     <string name="remove_custom_path">Šalinti papildomą kelią</string>
     <string name="hardware_acceleration">Aparatinis spartinimas</string>
-    <string name="hardware_acceleration_summary">Uždrausta: stabilesnis veikimas.
-Iškoduojant: gali padidinti našumą.
-Visiškas: gali dar labiau pagerinti našumą.</string>
     <string name="hardware_acceleration_disabled">Uždrausta</string>
     <string name="hardware_acceleration_decoding">Iškodavimo spartinimas</string>
     <string name="hardware_acceleration_full">Visiškas spartinimas</string>
@@ -209,24 +173,19 @@ Visiškas: gali dar labiau pagerinti našumą.</string>
     <string name="interface_prefs_screen">Sąsaja</string>
     <string name="interface_secondary_display_category">Sąsaja - antras ekranas</string>
     <string name="interface_secondary_display_category_summary">Nuostatos, naudotinos antrąjį ekraną prijungus (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Išlaikyti aparatinio spartinimo nuostatas</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Aparatinis spartinimas gali neveikti</string>
     <string name="enable_clone_mode">Pageidatinas klonavimas</string>
     <string name="enable_clone_mode_summary">Klonuoti įrenginio ekraną be nuotolinio valdymo.</string>
     <string name="interface_other_category">Sąsaja - kita</string>
     <string name="enable_brightness_gesture">Įgalinti ryškumo gestus</string>
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
-    <string name="enable_headset_detection">Aptikti ausines</string>
-    <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
     <string name="enable_jump_buttons">Įgalinti peršokimo mygtukus</string>
     <string name="enable_jump_buttons_summary">Vaizdo klipų leisti rodyti prasukimo atgal ir priekin mygtukus</string>
+    <string name="enable_headset_detection">Aptikti ausines</string>
+    <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
     <string name="enable_steal_remote_control">Išskirtinė nuotolinė ausinių kontrolė</string>
     <string name="enable_steal_remote_control_summary">Vengti konflikto, kuomet reaguojama į kitų programų nuotolinę kontrolę. Tai leidžia išvengti skambinimo dukart spustelėjus HTC telefonus.</string>
     <string name="performance_prefs_category">Našumas</string>
     <string name="chroma_format">Priverstinai naudoti konkretų spalvingumą</string>
-    <string name="chroma_format_summary">RGB, 32 bitų: nusmatytasis spalvingumas
-RGB, 16 bitų: greitesnis apdorojimas, bet prastesnė kokybė
-YUV: didžiausias našumas. Tik Android 2.3 ir vėlesnėse.</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
     <string name="deblocking_summary">Pakeisti išblokavimo filtrui taikomas nuostatas. Gali pagerinti vaizdo kokybę. Tik patyrusiems naudotojams.</string>
     <string name="deblocking_always">Visiškas išblokavimas (lėčiausias)</string>
