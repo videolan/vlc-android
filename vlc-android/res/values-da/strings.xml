@@ -30,17 +30,6 @@
     <string name="ringtone_error">Der opstod en fejl under angivelse af ringetone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Vis ikke denne besked igen.</string>
-    <string name="beta_warning">Dette er en beta-version.
-
-Denne version er IKKE STABIL!
-
-Anvend IKKE medmindre du véd hvad du foretager dig.
-
-Den kan slå din kattekilling ihjel eller ødelægge dit hus.
-Anvendes på eget ansvar.
-
-Sørg for at more dig! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Ukendt kunstner</string>
     <string name="unknown_album">Ukendt album</string>
     <string name="unknown_genre">Ukendt genre</string>
@@ -109,24 +98,8 @@ Sørg for at more dig! :)</string>
     <string name="track_video">Videospor</string>
     <string name="track_text">Undertekstspor</string>
     <string name="track_unknown">Ukendt spor</string>
-    <string name="track_codec_info">Kodning: %1$s
-</string>
-    <string name="track_language_info">Sprog: %1$s
-</string>
     <string name="volume">Lydstyrke</string>
     <string name="brightness">Lysstyrke</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanal
-</item>
-        <item quantity="other">%1$d kanaler
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Samplingfrekvens: %1$d Hz
-</string>
-    <string name="track_resolution_info">Opløsning: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Billedhastighed: %1$.3f
-</string>
     <string name="tools">Værktøjer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="sleep_title">Sleep-timer</string>
@@ -141,11 +114,7 @@ Sørg for at more dig! :)</string>
     <string name="open_mrl_dialog_msg">Angiv netværks-MRL: f.eks. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC for Android™.</string>
     <string name="error_problem">Beklager, VLC for Android havde problemer med indlæsningen og måtte lukke.</string>
-    <string name="error_message_is">Fejlbeskeden er (oplys venligst denne når der fejlsøges):
-</string>
     <string name="encountered_error_title">Afspilningsfejl</string>
-    <string name="encountered_error_message">VLC stødte på en fejl i dette medie.
-Prøv venligst at genopfriske mediebiblioteket.</string>
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
     <string name="search">Søg</string>
     <string name="search_history">Søg historik</string>
@@ -176,16 +145,13 @@ Prøv venligst at genopfriske mediebiblioteket.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
     <string name="vlc_authors">VLC-forfattere</string>
     <!-- Preferences -->
-    <string name="preferences">Præferencer</string>
+    <string name="preferences">Indstillinger</string>
     <string name="general_prefs_category">Generelt</string>
     <string name="directories_summary">Vælg mapper som skal indgå i mediebiblioteket</string>
     <string name="add_custom_path">Tilføj en brugerdefineret sti</string>
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="hardware_acceleration">Hardwareacceleration</string>
-    <string name="hardware_acceleration_summary">Slået fra: mere stabilitet.
-Afkodning: kan forbedre ydeevnen.
-Fuld: kan forbedre ydeevnen endnu mere.</string>
     <string name="hardware_acceleration_disabled">Slået fra</string>
     <string name="hardware_acceleration_decoding">Acceleration af afkodning</string>
     <string name="hardware_acceleration_full">Fuld acceleration</string>
@@ -204,24 +170,19 @@ Fuld: kan forbedre ydeevnen endnu mere.</string>
     <string name="interface_prefs_screen">Brugerflade</string>
     <string name="interface_secondary_display_category">Brugerflade - sekundær skærm</string>
     <string name="interface_secondary_display_category_summary">Indstillinger når sekundære skærme er sluttet til (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Bevar indstilling for hardwareacceleration</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Hardwareacceleration fungerer muligvis ikke</string>
     <string name="enable_clone_mode">Foretræk kloning</string>
     <string name="enable_clone_mode_summary">Klon enhedsskærmen uden fjernbetjening.</string>
     <string name="interface_other_category">Brugerflade - andet</string>
     <string name="enable_brightness_gesture">Slå lysstyrke-gestus til</string>
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
-    <string name="enable_headset_detection">Detektér hovedtelefoner</string>
-    <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
     <string name="enable_jump_buttons">Slå skip-knapper til</string>
     <string name="enable_jump_buttons_summary">Vis bagud- og forlæns-knapper på videobrugerfladen</string>
+    <string name="enable_headset_detection">Detektér hovedtelefoner</string>
+    <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
     <string name="enable_steal_remote_control">Fjernbetjen kun med headset</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="performance_prefs_category">Ydelse</string>
     <string name="chroma_format">Gennemtving kroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: standard kroma
-RGB 16-bit: højere ydelse, men lavere kvalitet
-YUV: bedste ydelse, men virker ikke på alle enheder - kun Android 2.3 eller højere.</string>
     <string name="deblocking">Indstillinger for filter til blokdeling</string>
     <string name="deblocking_summary">Tilpas indstillinger for filter til blokdeling. Dette kan forbedre videokvaliteten. Kun for avancerede brugere.</string>
     <string name="deblocking_always">Fuld blokdeling (langsomst)</string>
