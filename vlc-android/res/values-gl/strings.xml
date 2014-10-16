@@ -30,17 +30,6 @@
     <string name="ringtone_error">Produciuse un erro ao definir o ton de chamada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrar esta mensaxe de novo.</string>
-    <string name="beta_warning">Esta é unha versión beta.
-
-Esta versión NON é estábel!
-
-NON a use a menos que saiba o que está a facer.
-
-Pode matar o seu gato e destruír a súa casa.
-Úsea baixo a súa responsabilidade.
-
-Divírtase! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Artista descoñecido</string>
     <string name="unknown_album">Álbum descoñecido</string>
     <string name="unknown_genre">Xénero descoñecido</string>
@@ -109,24 +98,8 @@ Divírtase! :)</string>
     <string name="track_video">Pista de vídeo</string>
     <string name="track_text">Pistas de subtítulos</string>
     <string name="track_unknown">Pista descoñecida</string>
-    <string name="track_codec_info">Códec: %1$s
-</string>
-    <string name="track_language_info">Idioma: %1$s
-</string>
     <string name="volume">Volume</string>
     <string name="brightness">Brillo</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d canle
-</item>
-        <item quantity="other">%1$d canles
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Taxa de mostra: %1$d Hz
-</string>
-    <string name="track_resolution_info">Resolución: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Taxa de fotogramas: %1$.3f
-</string>
     <string name="tools">Ferramentas</string>
     <string name="playback_speed">Velocidade de reprodución</string>
     <string name="sleep_title">Temporizador para durmir</string>
@@ -141,11 +114,7 @@ Divírtase! :)</string>
     <string name="open_mrl_dialog_msg">Introduza un MRL de rede, por exemplo: http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.</string>
     <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
-    <string name="error_message_is">A mensaxe de erro é (por favor, menciónea para a depuración):
-</string>
     <string name="encountered_error_title">Erro de reprodución</string>
-    <string name="encountered_error_message">O VLC encontrou un erro con este medio.
-Probe a actualizar a biblioteca multimedia.</string>
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
     <string name="search">Buscar</string>
     <string name="search_history">Historial de busca</string>
@@ -172,9 +141,6 @@ Probe a actualizar a biblioteca multimedia.</string>
     <string name="add_custom_path_description">Introduza un directorio persoal adicional para escanear:</string>
     <string name="remove_custom_path">Eliminar o camiño persoal</string>
     <string name="hardware_acceleration">Aceleración de hardware</string>
-    <string name="hardware_acceleration_summary">Desactivada: máis estabilidade.
-Descodificación: pode mellorar o rendemento.
-Completa: pode mellorar máis aínda o rendemento.</string>
     <string name="hardware_acceleration_disabled">Desactivada</string>
     <string name="hardware_acceleration_decoding">Aceleración de descodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
@@ -193,22 +159,19 @@ Completa: pode mellorar máis aínda o rendemento.</string>
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category">Interface - Pantalla secundaria</string>
     <string name="interface_secondary_display_category_summary">Configuracións para cando haxa conectadas pantallas secundarias (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Manter a configuración de aceleración de hardware</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">É posíbel que non funcione a aceleración de hardware</string>
     <string name="enable_clone_mode">Preferir a clonación</string>
     <string name="enable_clone_mode_summary">Clonar a pantalla do dispositivo sen control remoto.</string>
     <string name="interface_other_category">Interface - Outras</string>
     <string name="enable_brightness_gesture">Activar o xesto para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
-    <string name="enable_headset_detection">Detectar os auriculares</string>
-    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares</string>
     <string name="enable_jump_buttons">Activar os botóns de salto</string>
     <string name="enable_jump_buttons_summary">Mostrar os botóns de avance e retroceso na interface de vídeo</string>
+    <string name="enable_headset_detection">Detectar os auriculares</string>
+    <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC.</string>
     <string name="performance_prefs_category">Rendemento</string>
     <string name="chroma_format">Forzar a crominancia</string>
-    <string name="chroma_format_summary">Non activar! Pode que non funcione con todos os dispositivos. Só para 2.3 e posteriores.</string>
     <string name="deblocking">Configuración do filtro antibloques</string>
     <string name="deblocking_summary">Modifique a configuración do filtro antibloques. Pode mellorar a calidade do vídeo. Só para usuarios avanzados.</string>
     <string name="deblocking_always">Filtro antibloques completo (o máis lento)</string>
