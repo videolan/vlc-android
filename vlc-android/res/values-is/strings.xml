@@ -25,19 +25,12 @@
     <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
     <string name="info">Upplýsingar</string>
+    <string name="confirm_delete">Eyða skránni \'%1$s\'?</string>
+    <string name="ringtone_set">Skráin \'%1$s\' var sett sem hringitónn.</string>
     <string name="ringtone_error">Upp kom villa þegar verið var að setja hringitón.</string>
     <string name="pause">Í bið</string>
     <string name="not_show_again">Ekki sýna þessi skilaboð aftur.</string>
-    <string name="beta_warning">Þetta er beta-útgáfa
-
-Þessi útgáfa gæti sálgað kettinum og rústað húsinu
-
-Ekki nota þetta nema að þú vitir hvað þú ert að gera
-
-Notist á eigin ábyrgð
-
-Skemmtu þér! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Óþekktur flytjandi</string>
     <string name="unknown_album">Óþekkt albúm</string>
     <string name="unknown_genre">Óþekkt tegund</string>
@@ -80,9 +73,11 @@ Skemmtu þér! :)</string>
     <string name="directories">Möppur</string>
     <string name="loading">Hleð inn</string>
     <string name="please_wait">Bíddu aðeins…</string>
+    <string name="nomedia">Engar margmiðlunarskrár fundust, færðu skrár yfir á tækið eða lagaðu stillingarnar þínar.</string>
     <string name="mediafiles">Margmiðlunarskrár</string>
     <string name="notavailable">Ekki tiltækt</string>
     <string name="nosubdirectory">Engar undirmöppur.</string>
+    <string name="directorynotfound">Skráaslóðin \'%1$s\' fannst ekki.</string>
     <string name="nohistory">Enginn afspilunarferill er til staðar.</string>
     <string name="validation">Ertu viss?</string>
     <string name="cover_art">Umslög</string>
@@ -105,24 +100,19 @@ Skemmtu þér! :)</string>
     <string name="track_video">Myndspor</string>
     <string name="track_text">Textaspor</string>
     <string name="track_unknown">Óþekkt spor</string>
-    <string name="track_codec_info">Kóðunarlykill: %1$s
-</string>
-    <string name="track_language_info">Tungumál: %1$s
-</string>
+    <string name="track_codec_info">Kóðunarlykill: %1$s\n</string>
+    <string name="track_language_info">Tungumál: %1$s\n</string>
     <string name="volume">Hljóðstyrkur</string>
+    <string name="sound_on">Hljóð kveikt</string>
+    <string name="sound_off">Hljóð slökkt</string>
     <string name="brightness">Birtustig</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 rás
-</item>
-        <item quantity="other">%1$d rásir
-</item>
+        <item quantity="one">1 rás\n</item>
+        <item quantity="other">%1$d rásir\n</item>
     </plurals>
-    <string name="track_samplerate_info">Safntíðni: %1$d Hz
-</string>
-    <string name="track_resolution_info">Upplausn: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Rammatíðni: %1$.3f
-</string>
+    <string name="track_samplerate_info">Söfnunartíðni: %1$d Hz\n</string>
+    <string name="track_resolution_info">Upplausn: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Rammatíðni: %1$.3f\n</string>
     <string name="tools">Áhöld</string>
     <string name="playback_speed">Afspilunarhraði</string>
     <string name="sleep_title">Vekjari</string>
@@ -137,32 +127,49 @@ Skemmtu þér! :)</string>
     <string name="open_mrl_dialog_msg">Settu inn MRL netslóð: t.d. http://, mms:// eða rtsp://</string>
     <string name="error_not_compatible">Því miður, tækið þitt er ekki ennþá stutt af þessari útgáfu VLC fyrir Android™.</string>
     <string name="error_problem">Því miður, VLC fyrir Android átti í vandræðum með að ræsast og varð því að hætta.</string>
-    <string name="error_message_is">Villumeldingin er (taktu þetta fram við aflúsun):
-</string>
+    <string name="error_message_is">Villumeldingin er (taktu þetta fram við aflúsun):\n</string>
     <string name="encountered_error_title">Afspilunarvilla</string>
-    <string name="encountered_error_message">VLC rakst á villu í þessum miðli.
-Reyndu að endurlesa margmiðlunarsafnið.</string>
+    <string name="encountered_error_message">VLC rakst á villu í þessum miðli.\nReyndu að endurlesa margmiðlunarsafnið.</string>
+    <string name="invalid_location">Ekki er hægt að spila staðsetninguna %1$s</string>
     <string name="search">Leita</string>
     <string name="search_history">Leita í ferilskrá</string>
     <string name="hardware_acceleration_error_title">Villa í vélbúnaðarhröðun</string>
+    <string name="hardware_acceleration_error_message">Villa kom upp í vélbúnaðarhröðun. Viltu gera hana óvirka og reyna aftur?</string>
     <!--Tips-->
+    <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
+    <string name="seek">Leita</string>
+    <string name="subtitles">Skjátextar</string>
+    <string name="resize">Breyta stærð</string>
+    <string name="options">Valkostir</string>
+    <string name="lock">Læsa</string>
+    <string name="ok_got_it">Náði því, afgreiða þetta</string>
+    <string name="playlist_tips">Ábendingar spilunarlista</string>
+    <string name="remove_song">Fjarlægja lag</string>
+    <string name="rearrange_order">Endurraða</string>
+    <string name="hold_to_seek">Halda til að leita</string>
+    <string name="audio_player_tips">Ábendingar hljóðspilara</string>
+    <string name="previous_next_song">Fyrra/Næsta lag</string>
+    <string name="show_playlist">Birta spilunarlista</string>
+    <string name="hold_to_stop">Halda til að stöðva</string>
     <!-- About -->
     <string name="app_name_full">VLC fyrir Android™</string>
     <string name="licence">Notkunarleyfi</string>
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
     <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta oppna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstrauma.</string>
-    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:
-</string>
+    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:\n</string>
     <string name="vlc_authors">Höfundar VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Kjörstillingar</string>
+    <string name="general_prefs_category">Almennt</string>
     <string name="directories_summary">Veldu möppur til að hafa með í margmiðlunarsafninu</string>
     <string name="add_custom_path">Bæta við sérsniðinni slóð</string>
     <string name="add_custom_path_description">Bæta við aukamöppu til að leita í:</string>
     <string name="remove_custom_path">Fjarlægja sérsniðna slóð</string>
     <string name="hardware_acceleration">Vélbúnaðarhröðun</string>
     <string name="hardware_acceleration_disabled">Óvirkt</string>
+    <string name="hardware_acceleration_decoding">Hröðun afkóðunar</string>
+    <string name="hardware_acceleration_full">Full hröðun</string>
     <string name="automatic">Sjálfvirkt</string>
     <string name="screen_orientation">Stefna myndspilunarglugga</string>
     <string name="screen_orientation_sensor">Sjálfvirkt (skynjari)</string>
@@ -172,18 +179,25 @@ Reyndu að endurlesa margmiðlunarsafnið.</string>
     <string name="screen_orientation_reverse_portrait">Speglað lóðrétt</string>
     <string name="screen_orientation_reverse_landscape">Speglað lárétt</string>
     <string name="enable_black_theme">Virkja svart þema</string>
+    <string name="enable_black_theme_summary">Skipta yfir í liti á viðmóti sem séu þægilegri í umhverfi með lítilli birtu.</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
+    <string name="extra_prefs_category">Aukastillingar</string>
+    <string name="interface_prefs_screen">Viðmót</string>
+    <string name="interface_secondary_display_category">Viðmót - Aukaskjár</string>
+    <string name="interface_other_category">Viðmót - Annað</string>
     <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
     <string name="enable_steal_remote_control">Sérstök fjarstýring heyrnartóla</string>
     <string name="enable_steal_remote_control_summary">Forðast árekstra við að stela fjarstýringu frá öðrum forritum. Þetta kemur í veg fyrir að hringt sé við tvíslátt á HTC-símum.</string>
+    <string name="audio_title_alignment_default">Sjálfgefið</string>
+    <string name="audio_title_alignment_left">Vinstri</string>
+    <string name="audio_title_alignment_centre">Miðja</string>
+    <string name="audio_title_alignment_right">Hægri</string>
+    <string name="audio_title_alignment_marquee">Útjaðar</string>
     <string name="performance_prefs_category">Afköst</string>
     <string name="chroma_format">Þvinga litgildi (chroma) myndmerkis</string>
-    <string name="chroma_format_summary">RGB 32-bita: sjálfgefin litgildi (chroma)
-RGB 16-bita: betri afköst en lélegri gæði
-YUV: bestu afköst en virkar ekki á öllum tækjum. Einungis Android 2.3 og síðar.</string>
     <string name="enable_frame_skip">Virkja rammasleppingu</string>
     <string name="enable_frame_skip_summary">Hraðari afkóðun en gæti minnkað gæði myndmerkis.</string>
     <string name="enable_time_stretching_audio">Tímaaðlögun hljóðs (time streching)</string>
@@ -202,6 +216,9 @@ YUV: bestu afköst en virkar ekki á öllum tækjum. Einungis Android 2.3 og sí
     <string name="media_db_cleared">Hreinsaði gagnagrunn yfir margmiðlunarefni!</string>
     <string name="set_locale">Setja staðfærslu</string>
     <string name="set_locale_detail">Skilja eftir autt til að frumstilla</string>
+    <string name="set_locale_popup">Hætta og endurræsa VLC svo breytingar taki gildi.</string>
+    <string name="network_caching">Gildi skyndiminnis fyrir net</string>
+    <string name="developer_prefs_category">Forritari</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
     <string name="enable_verbose_mode_summary"> Auktu magn upplýsinga (verbosity / logcat)</string>
     <string name="debug_logs">Aflúsunarannálar</string>
@@ -211,4 +228,7 @@ YUV: bestu afköst en virkar ekki á öllum tækjum. Einungis Android 2.3 og sí
     <string name="copy_to_clipboard">Afrita á klippispjald</string>
     <string name="copied_to_clipboard">Afritaði annál á klippispjald.</string>
     <string name="quit">Hætta og endurræsa forrit</string>
+    <string name="restart_vlc">Endurræsa VLC</string>
+    <string name="send_log">Senda annál</string>
+    <string name="sending_log">Sendi annál…</string>
 </resources>
