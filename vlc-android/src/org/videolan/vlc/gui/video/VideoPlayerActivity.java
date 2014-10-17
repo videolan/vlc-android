@@ -344,7 +344,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
-        mEnableJumpButtons = mSettings.getBoolean("enable_jump_buttons", false);
+        mEnableJumpButtons = mSettings.getBoolean("enable_jump_buttons", true);
         mPlayPause = (ImageButton) findViewById(R.id.player_overlay_play);
         mPlayPause.setOnClickListener(mPlayPauseListener);
         mBackward = (ImageButton) findViewById(R.id.player_overlay_backward);
@@ -1990,8 +1990,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if (!mIsLocked) {
                 setActionBarVisibility(true);
                 mPlayPause.setVisibility(View.VISIBLE);
-                mBackward.setVisibility(View.VISIBLE);
-                mForward.setVisibility(View.VISIBLE);
+                if (mEnableJumpButtons) {
+                    mBackward.setVisibility(View.VISIBLE);
+                    mForward.setVisibility(View.VISIBLE);
+                }
                 dimStatusBar(false);
             }
             mOverlayProgress.setVisibility(View.VISIBLE);

@@ -60,7 +60,7 @@
                     android:summary="@string/enable_brightness_gesture_summary"
                     android:title="@string/enable_brightness_gesture" />
                 <CheckBoxPreference
-                    android:defaultValue="false"
+                    android:defaultValue="true"
                     android:key="enable_jump_buttons"
                     android:summary="@string/enable_jump_buttons_summary"
                     android:title="@string/enable_jump_buttons" />
