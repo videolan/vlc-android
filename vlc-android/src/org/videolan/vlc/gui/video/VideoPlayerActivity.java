@@ -71,6 +71,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -116,6 +117,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -169,6 +171,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int FADE_OUT_INFO = 4;
     private boolean mDragging;
     private boolean mShowing;
+    ;
     private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
@@ -377,7 +380,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         mSize = (ImageButton) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
-
         mMenu = (ImageButton) findViewById(R.id.player_overlay_adv_function);
 
         try {
@@ -1996,6 +1998,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
                 mPlayPause.setVisibility(View.VISIBLE);
+                mBackward.setVisibility(View.VISIBLE);
+                mForward.setVisibility(View.VISIBLE);
                 mMenu.setVisibility(View.VISIBLE);
                 dimStatusBar(false);
             }
@@ -2024,6 +2028,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mBackward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mMenu.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
@@ -2037,6 +2043,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
+            mBackward.setVisibility(View.INVISIBLE);
+            mForward.setVisibility(View.INVISIBLE);
             mMenu.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
@@ -2115,8 +2123,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         // Update all view elements
         boolean isSeekable = mEnableJumpButtons && length > 0;
-        mBackward.setVisibility(isSeekable ? View.VISIBLE : View.GONE);
-        mForward.setVisibility(isSeekable ? View.VISIBLE : View.GONE);
+        mBackward.setVisibility(isSeekable && !mIsLocked ? View.VISIBLE : View.GONE);
+        mForward.setVisibility(isSeekable && !mIsLocked ? View.VISIBLE : View.GONE);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
         if (mSysTime != null)

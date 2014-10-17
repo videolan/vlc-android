@@ -5,4 +5,6 @@
     <dimen name="grid_card_title_text_size">16sp</dimen>
     <dimen name="grid_card_subtitle_text_size">12sp</dimen>
     <dimen name="grid_card_vertical_spacing">10dp</dimen>
+    <!-- Video Player -->
+    <dimen name="overlay_height">250dp</dimen>
 </resources>
