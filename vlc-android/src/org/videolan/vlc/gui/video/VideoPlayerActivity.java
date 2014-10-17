@@ -320,6 +320,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 }
             });
             mTitle = (TextView) view.findViewById(R.id.player_overlay_title);
+            mOverlayHeader = mSysTime = mBattery = null;
         } else {
             mOverlayHeader = findViewById(R.id.player_overlay_header);
             /* header */
@@ -676,7 +677,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         {
             String action = intent.getAction();
             if (action.equalsIgnoreCase(Intent.ACTION_BATTERY_CHANGED)) {
-                if (mOverlayUseStatusBar)
+                if (mBattery == null)
                     return;
                 int batteryLevel = intent.getIntExtra("level", 0);
                 if (batteryLevel >= 50)
@@ -1811,7 +1812,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             if (!mIsLocked) {
                 if (mOverlayUseStatusBar)
                     setActionBarVisibility(true);
-                else
+                else if (mOverlayHeader != null)
                     mOverlayHeader.setVisibility(View.VISIBLE);
                 mOverlayOption.setVisibility(View.VISIBLE);
                 mPlayPause.setVisibility(View.VISIBLE);
@@ -1839,7 +1840,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "remove View!");
             if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
             if (!fromUser && !mIsLocked) {
-                if (!mOverlayUseStatusBar)
+                if (mOverlayHeader != null)
                     mOverlayHeader.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayOption.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -1852,7 +1853,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             }
             if (mOverlayUseStatusBar)
                 setActionBarVisibility(false);
-            else
+            else if (mOverlayHeader != null)
                 mOverlayHeader.setVisibility(View.INVISIBLE);
             mOverlayOption.setVisibility(View.INVISIBLE);
             mOverlayProgress.setVisibility(View.INVISIBLE);
@@ -1931,7 +1932,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mForward.setVisibility(isSeekable ? View.VISIBLE : View.GONE);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
-        if (!mOverlayUseStatusBar)
+        if (mSysTime != null)
             mSysTime.setText(DateFormat.getTimeFormat(this).format(new Date(System.currentTimeMillis())));
         if (time >= 0) mTime.setText(Strings.millisToString(time));
         if (length >= 0) mLength.setText(mDisplayRemainingTime && length > 0
