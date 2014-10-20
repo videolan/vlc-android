@@ -317,8 +317,17 @@ fi
 # ANDROID NDK FIXUP (BLAME GOOGLE)
 config_undef ()
 {
+    previous_change=`stat -c "%y" config.h`
     sed -i 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+    # don't change modified date in order to don't trigger a full build
+    touch -d "$previous_change" config.h
 }
+
+# if config dependencies change, ./config.status --recheck
+# is run and overwrite previously hacked config.h. So call make Makefile here
+# and hack config.h after.
+
+make $MAKEFLAGS Makefile
 
 if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
     # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
@@ -330,6 +339,7 @@ if [ ${ANDROID_API} = "android-21" ] ; then
     # doesn't have any shm functions and/or symbols. */
     config_undef HAVE_SYS_SHM_H
 fi
+# END OF ANDROID NDK FIXUP
 
 echo "Building"
 make $MAKEFLAGS
