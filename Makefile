@@ -22,7 +22,7 @@ LIBVLC_LIBS = libvlcjni
 
 ifneq ($(HAVE_64),1)
 # Can't link with 32bits symbols.
-# Not a problem since MediaCodec should work on 64bits devices (android-L)
+# Not a problem since MediaCodec should work on 64bits devices (android-21)
 LIBVLC_LIBS += libiomx-ics libiomx-hc libiomx-gingerbread
 endif
 
