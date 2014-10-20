@@ -6,7 +6,7 @@
 	    android:divider="?attr/background_menu_divider"
 	    android:dividerHeight="0.2dp"
 	    android:layout_width="208dp"
-	    android:paddingTop="?attr/marginTopContent"
+	    android:paddingTop="?attr/actionBarSize"
 	    android:layout_gravity="start"
 	    android:cacheColorHint="#0000"
 	    android:fastScrollEnabled="true"

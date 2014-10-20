@@ -2,8 +2,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Theme.VLC.Player" parent="android:Theme.Holo">
         <item name="android:windowBackground">@color/black</item>
-        <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowActionBarOverlay">true</item>
 
         <item name="video_player_overlay">@color/transparent_gray</item>
         <item name="status_bar_overlay">@android:color/transparent</item>

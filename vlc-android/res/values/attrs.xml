@@ -15,6 +15,7 @@
     <attr name="video_player_overlay" format="reference|color" />
     <attr name="status_bar_overlay" format="reference|color" />
     <attr name="advanced_options_divider" format="reference|color" />
+    <attr name="advanced_options_background" format="reference|color" />
     <attr name="audio_browser_separator" format="reference|color" />
     <attr name="playlist_item_drag_shadow" format="reference|color" />
     <attr name="audio_player_header_time" format="reference|color" />

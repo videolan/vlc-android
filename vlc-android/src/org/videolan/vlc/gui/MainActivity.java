@@ -138,6 +138,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* Enable the indeterminate progress feature */
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         if (!LibVlcUtil.hasCompatibleCPU(this)) {
             Log.e(TAG, LibVlcUtil.getErrorMsg());
             Intent i = new Intent(this, CompatErrorActivity.class);
@@ -190,8 +192,6 @@ public class MainActivity extends ActionBarActivity {
 
         /*** Start initializing the UI ***/
 
-        /* Enable the indeterminate progress feature */
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
@@ -229,8 +229,6 @@ public class MainActivity extends ActionBarActivity {
         mRootContainer.setDrawerListener(mDrawerToggle);
         // set a custom shadow that overlays the main content when the drawer opens
         mRootContainer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -328,8 +326,8 @@ public class MainActivity extends ActionBarActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void prepareActionBar() {
         mActionBar = getSupportActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -954,10 +952,13 @@ public class MainActivity extends ActionBarActivity {
      * Slide up and down the audio player depending on its current state.
      */
     public void slideUpOrDownAudioPlayer() {
-        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
+        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED){
+            mActionBar.show();
             mSlidingPane.openPane();
-        else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED)
+        } else if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED){
+            mActionBar.hide();
             mSlidingPane.closePane();
+        }
     }
 
     /**
@@ -970,13 +971,14 @@ public class MainActivity extends ActionBarActivity {
 
     private final SlidingPaneLayout.PanelSlideListener mPanelSlideListener
         = new SlidingPaneLayout.PanelSlideListener() {
-
+        float previousOffset =  1.0f;
             @Override
             public void onPanelSlide(float slideOffset) {
-                if (slideOffset <= 0.1)
-                    getSupportActionBar().hide();
-                else
-                    getSupportActionBar().show();
+                if (slideOffset >= 0.1 && slideOffset > previousOffset && !mActionBar.isShowing())
+                    mActionBar.show();
+                else if (slideOffset <= 0.1 && slideOffset < previousOffset && mActionBar.isShowing())
+                    mActionBar.hide();
+                previousOffset = slideOffset;
             }
 
             @Override

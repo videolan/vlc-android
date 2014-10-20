@@ -4,6 +4,7 @@
     android:id="@+id/advanced_layout"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
+    android:background="?attr/advanced_options_background"
     android:orientation="vertical" >
 
     <org.videolan.vlc.gui.expandable.SpeedSelector

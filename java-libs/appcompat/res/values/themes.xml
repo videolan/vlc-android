@@ -26,175 +26,58 @@
          "Theme.Base" theme. -->
 
     <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
-    <style name="Theme.AppCompat" parent="Theme.Base.AppCompat">
-        <item name="isLightTheme">false</item>
-
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
-
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_dark</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_dark</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_dark
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_dark</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_dark</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.ActivityChooserView</item>
-
-    </style>
+    <style name="Theme.AppCompat" parent="Base.Theme.AppCompat" />
 
     <!-- Platform-independent theme providing an action bar in a light-themed activity. -->
-    <style name="Theme.AppCompat.Light" parent="Theme.Base.AppCompat.Light">
-        <item name="isLightTheme">true</item>
-
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.Light.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
-
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.Light.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.Light.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_light</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_light</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_light
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear_holo_light</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search_api_holo_light</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go_search_api_holo_light</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search_api_holo_light</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_light</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.Light.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.Light.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.Light.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_light</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.Light.ActivityChooserView
-        </item>
-
-    </style>
+    <style name="Theme.AppCompat.Light" parent="Base.Theme.AppCompat.Light" />
 
     <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
-    <style name="Theme.AppCompat.Light.DarkActionBar"
-           parent="Theme.Base.AppCompat.Light.DarkActionBar">
-        <item name="isLightTheme">true</item>
+    <style name="Theme.AppCompat.Light.DarkActionBar" parent="Base.Theme.AppCompat.Light.DarkActionBar" />
 
-        <!-- Required for use of support_simple_spinner_dropdown_item.xml -->
-        <item name="spinnerDropDownItemStyle">
-            @style/Widget.AppCompat.Light.DropDownItem.Spinner
-        </item>
-        <item name="dropdownListPreferredItemHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="searchResultListItemHeight">58dip</item>
+    <style name="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
-        <!-- Popup Menu styles -->
-        <item name="popupMenuStyle">@style/Widget.AppCompat.Light.PopupMenu</item>
-        <item name="textAppearanceLargePopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large
-        </item>
-        <item name="textAppearanceSmallPopupMenu">
-            @style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Small
-        </item>
-
-        <item name="listPopupWindowStyle">@style/Widget.AppCompat.ListPopupWindow</item>
-        <item name="dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
-
-        <!-- SearchView attributes -->
-        <item name="searchDropdownBackground">@drawable/abc_search_dropdown_dark</item>
-        <item name="searchViewTextField">@drawable/abc_textfield_searchview_holo_dark</item>
-        <item name="searchViewTextFieldRight">@drawable/abc_textfield_searchview_right_holo_dark
-        </item>
-        <item name="searchViewCloseIcon">@drawable/abc_ic_clear</item>
-        <item name="searchViewSearchIcon">@drawable/abc_ic_search</item>
-        <item name="searchViewGoIcon">@drawable/abc_ic_go</item>
-        <item name="searchViewVoiceIcon">@drawable/abc_ic_voice_search</item>
-        <item name="searchViewEditQuery">@drawable/abc_ic_commit_search_api_holo_dark</item>
-        <item name="searchViewEditQueryBackground">?attr/selectableItemBackground</item>
-        <item name="searchViewAutoCompleteTextView">
-            @style/Widget.AppCompat.AutoCompleteTextView</item>
-        <item name="textColorSearchUrl">@color/abc_search_url_text_holo</item>
-        <item name="textAppearanceSearchResultTitle">
-            @style/TextAppearance.AppCompat.SearchResult.Title
-        </item>
-        <item name="textAppearanceSearchResultSubtitle">
-            @style/TextAppearance.AppCompat.SearchResult.Subtitle
-        </item>
-
-        <item name="actionModeShareDrawable">@drawable/abc_ic_menu_share_holo_dark</item>
-
-        <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.ActivityChooserView
-        </item>
-
+    <style name="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.AppCompat.DialogWhenLarge"
-           parent="Theme.Base.AppCompat.DialogWhenLarge">
+           parent="Base.Theme.AppCompat.DialogWhenLarge">
     </style>
 
     <style name="Theme.AppCompat.Light.DialogWhenLarge"
-           parent="Theme.Base.AppCompat.Light.DialogWhenLarge">
+           parent="Base.Theme.AppCompat.Light.DialogWhenLarge">
     </style>
+
+    <style name="Theme.AppCompat.Dialog" parent="Base.Theme.AppCompat.Dialog" />
+
+    <style name="Theme.AppCompat.Light.Dialog" parent="Base.Theme.AppCompat.Light.Dialog" />
 
     <!-- Menu/item attributes -->
-    <style name="Theme.AppCompat.CompactMenu" parent="Theme.AppCompat.Base.CompactMenu">
+    <style name="Theme.AppCompat.CompactMenu"
+           parent="Base.Theme.AppCompat.CompactMenu">
     </style>
 
-    <style name="Theme.AppCompat.CompactMenu.Dialog"
-           parent="Theme.AppCompat.Base.CompactMenu.Dialog">
-    </style>
+    <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat" />
+
+    <!-- Theme overlay that replaces colors with their light versions but preserves
+         the value of colorAccent, colorPrimary and its variants. -->
+    <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light" />
+
+    <!-- Theme overlay that replaces colors with their dark versions but preserves
+         the value of colorAccent, colorPrimary and its variants. -->
+    <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark" />
+
+    <!-- Theme overlay that replaces the normal control color, which by default is the same as the
+         secondary text color, with the primary text color. -->
+    <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar" />
+
+    <!-- Theme overlay that replaces colors with their dark versions and replaces the normal
+         control color, which by default is the same as the secondary text color, with the primary
+         text color. -->
+    <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 </resources>
