@@ -81,7 +81,7 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --disable-sid \
                 --disable-gme \
                 --disable-tremor \
-                --disable-mad \
+                --enable-mad \
                 --disable-dca \
                 --disable-sdl-image \
                 --disable-zvbi \

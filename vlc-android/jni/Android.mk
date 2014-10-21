@@ -77,6 +77,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lfreetype -liconv -lass -lfribidi -lopus \
 	-lEGL -lGLESv2 -ljpeg \
 	-ldvdnav -ldvdread -ldvdcss \
+	-lmad \
 	$(CPP_STATIC)
 
 include $(BUILD_SHARED_LIBRARY)
