@@ -5,18 +5,8 @@ export ANDROID_HOME=$(ANDROID_SDK)
 ARCH = $(ANDROID_ABI)
 
 SRC=vlc-android
-JAVA_SOURCES=\
-	$(SRC)/src/org/videolan/vlc/*.java \
-	$(SRC)/src/org/videolan/vlc/util/*.java \
-	$(SRC)/src/org/videolan/vlc/gui/*.java \
-	$(SRC)/src/org/videolan/vlc/gui/expandable/*.java \
-	$(SRC)/src/org/videolan/vlc/gui/video/*.java \
-	$(SRC)/src/org/videolan/vlc/gui/audio/*.java \
-	$(SRC)/src/org/videolan/vlc/gui/audio/widget/*.java \
-	$(SRC)/src/org/videolan/vlc/interfaces/*.java \
-	$(SRC)/src/org/videolan/vlc/audio/*.java \
-	$(SRC)/src/org/videolan/vlc/widget/*.java \
-	$(SRC)/src/org/videolan/libvlc/*.java
+JAVA_SOURCES=$(shell find $(SRC)/src/org/videolan -name "*.java" -o -name "*.aidl")
+JAVA_SOURCES+=$(shell find $(SRC)/res -name "*.xml" -o -name "*.png") 
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 LIBVLC_LIBS = libvlcjni
 
