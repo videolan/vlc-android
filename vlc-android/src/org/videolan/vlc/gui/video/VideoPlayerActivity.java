@@ -195,6 +195,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * For uninterrupted switching between audio and video mode
      */
     private boolean mSwitchingView;
+    private boolean mHardwareAccelerationError;
     private boolean mEndReached;
     private boolean mCanSeek;
 
@@ -406,6 +407,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         startLoadingAnimation();
 
         mSwitchingView = false;
+        mHardwareAccelerationError = false;
         mEndReached = false;
 
         // Clear the resume time, since it is only used for resumes in external
@@ -1109,6 +1111,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void handleHardwareAccelerationError() {
+        mHardwareAccelerationError = true;
+        if (mSwitchingView)
+            return;
         mLibVLC.stop();
         AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -1150,6 +1155,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     private void switchToAudioMode() {
+        if (mHardwareAccelerationError)
+            return;
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
         if (getIntent().getAction() != null
