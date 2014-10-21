@@ -6,22 +6,6 @@
 
 set -e
 
-BUILD=
-FETCH=
-case "$1" in
-    --fetch)
-    FETCH=1
-    shift
-    ;;
-    --build)
-    BUILD=1
-    shift
-    ;;
-    *)
-    FETCH=1
-    BUILD=1
-    ;;
-esac
 
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
@@ -32,6 +16,35 @@ fi
 if [ -z "$ANDROID_ABI" ]; then
    echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, arm64-v8a, x86, x86_64 or mips."
    exit 1
+fi
+
+BUILD=0
+FETCH=0
+RELEASE=0
+JNI=0
+
+for i in ${@}; do
+    case "$i" in
+        --fetch)
+        FETCH=1
+        ;;
+        --build)
+        BUILD=1
+        ;;
+        release|--release)
+        RELEASE=1
+        ;;
+        jni|--jni)
+        JNI=1
+        ;;
+        *)
+        ;;
+    esac
+done
+
+if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
+    BUILD=1
+    FETCH=1
 fi
 
 # Set up ABI variables
@@ -274,13 +287,11 @@ cd contrib/contrib-android-${TARGET_TUPLE}
 [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
 # Release or not?
-if [ $# -ne 0 ] && [ "$1" = "release" ]; then
+if [ "$RELEASE" = 1 ]; then
     OPTS=""
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
-    RELEASE=1
 else
     OPTS="--enable-debug"
-    RELEASE=0
 fi
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
@@ -300,7 +311,7 @@ make $MAKEFLAGS
 ############
 cd ../.. && mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
 
-if [ $# -eq 1 ] && [ "$1" = "jni" ]; then
+if [ "$JNI" = 1 ]; then
     CLEAN="jniclean"
     TARGET="vlc-android/obj/local/${ANDROID_ABI}/libvlcjni.so"
 else
