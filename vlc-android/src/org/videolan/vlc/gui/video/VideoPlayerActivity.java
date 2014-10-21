@@ -703,35 +703,35 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     @TargetApi(12) //only active for Android 3.1+
     public boolean dispatchGenericMotionEvent(MotionEvent event){
 
-		InputDevice mInputDevice = event.getDevice();
+        InputDevice mInputDevice = event.getDevice();
 
-		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_X);
-		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Y);
-		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Z);
-		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_RZ);
+        float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_X);
+        float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_Y);
+        float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_Z);
+        float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_RZ);
 
-		if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
-			if (Math.abs(x) > 0.3){
-				seek(x > 0.0f ? 10000 : -10000);
-				mLastMove = System.currentTimeMillis();
-			} else if (Math.abs(y) > 0.3){
-				if (mIsFirstBrightnessGesture)
-					initBrightnessTouch();
-				changeBrightness(-y/10f);
-				mLastMove = System.currentTimeMillis();
-			} else if (Math.abs(rz) > 0.3){
-				mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-				int delta = -(int) ((rz / 7) * mAudioMax);
-				int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-				setAudioVolume(vol);
-				mLastMove = System.currentTimeMillis();
-			}
-		}
-		return true;
+        if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
+            if (Math.abs(x) > 0.3){
+                seek(x > 0.0f ? 10000 : -10000);
+                mLastMove = System.currentTimeMillis();
+            } else if (Math.abs(y) > 0.3){
+                if (mIsFirstBrightnessGesture)
+                    initBrightnessTouch();
+                changeBrightness(-y/10f);
+                mLastMove = System.currentTimeMillis();
+            } else if (Math.abs(rz) > 0.3){
+                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                int delta = -(int) ((rz / 7) * mAudioMax);
+                int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+                setAudioVolume(vol);
+                mLastMove = System.currentTimeMillis();
+            }
+        }
+        return true;
     }
 
     @Override
