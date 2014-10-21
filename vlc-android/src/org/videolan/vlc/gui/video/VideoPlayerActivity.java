@@ -181,6 +181,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime = false;
     private int mScreenOrientation;
+    private int mScreenOrientationLock;
     private ImageButton mAudioTrack;
     private ImageButton mSubtitle;
     private ImageButton mLock;
@@ -576,6 +577,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             // Listen for changes to media routes.
             mediaRouterAddCallback(true);
         }
+
+        if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+            setRequestedOrientation(mScreenOrientationLock);
     }
 
     /**
@@ -818,6 +822,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 setRequestedOrientation(14 /* SCREEN_ORIENTATION_LOCKED */);
             else
                 setRequestedOrientation(getScreenOrientation());
+            mScreenOrientationLock = getScreenOrientation();
         }
         showInfo(R.string.locked, 1000);
         mLock.setBackgroundResource(R.drawable.ic_locked);
