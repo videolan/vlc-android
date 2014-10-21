@@ -328,13 +328,13 @@ if [ "$JNI" = 1 ]; then
     TARGET="vlc-android/obj/local/${ANDROID_ABI}/libvlcjni.so"
 else
     CLEAN="distclean"
-    if [ ! -f config.h ]; then
-        echo "Bootstraping"
-        ../bootstrap
-        echo "Configuring"
-        ${ANDROID_PATH}/configure.sh $OPTS
-    fi
     TARGET=
+fi
+if [ ! -f config.h ]; then
+    echo "Bootstraping"
+    ../bootstrap
+    echo "Configuring"
+    ${ANDROID_PATH}/configure.sh $OPTS
 fi
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
