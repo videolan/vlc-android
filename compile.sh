@@ -18,6 +18,13 @@ if [ -z "$ANDROID_ABI" ]; then
    exit 1
 fi
 
+if [ -z "$NO_FPU" ];then
+    NO_FPU=0
+fi
+if [ -z "$NO_ARMV6" ];then
+    NO_ARMV6=0
+fi
+
 BUILD=0
 FETCH=0
 RELEASE=0
@@ -46,6 +53,11 @@ if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
     BUILD=1
     FETCH=1
 fi
+
+HAVE_ARM=0
+HAVE_X86=0
+HAVE_MIPS=0
+HAVE_64=0
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
@@ -423,20 +435,10 @@ EssentialsA
 echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >> env.sh
 
 # CPU flags
-if [ -n "${HAVE_ARM}" ]; then
-    echo "export HAVE_ARM=1" >> env.sh
-elif [ -n "${HAVE_X86}" ]; then
-    echo "export HAVE_X86=1" >> env.sh
-elif [ -n "${HAVE_MIPS}" ]; then
-    echo "export HAVE_MIPS=1" >> env.sh
-fi
+echo "export HAVE_ARM=${HAVE_ARM}" >> env.sh
+echo "export HAVE_X86=${HAVE_X86}" >> env.sh
+echo "export HAVE_MIPS=${HAVE_MIPS}" >> env.sh
 
-if [ -n "${NO_ARMV6}" ]; then
-    echo "export NO_ARMV6=1" >> env.sh
-fi
-if [ -n "${NO_FPU}" ]; then
-    echo "export NO_FPU=1" >> env.sh
-fi
-if [ -n "${HAVE_64}" ]; then
-    echo "export HAVE_64=1" >> env.sh
-fi
+echo "export NO_ARMV6=${NO_ARMV6}" >> env.sh
+echo "export NO_FPU=${NO_FPU}" >> env.sh
+echo "export HAVE_64=${HAVE_64}" >> env.sh
