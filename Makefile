@@ -46,15 +46,19 @@ VLC_APK=$(SRC)/bin/VLC-debug.apk
 NDK_DEBUG=1
 endif
 
-$(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
+define build_apk
 	@echo
-	@echo "=== Building $@ for $(ARCH) ==="
+	@echo "=== Building $(VLC_APK) for $(ARCH) ==="
 	@echo
 	date +"%Y-%m-%d" > $(SRC)/assets/builddate.txt
 	echo `id -u -n`@`hostname` > $(SRC)/assets/builder.txt
 	git rev-parse --short HEAD > $(SRC)/assets/revision.txt
 	./gen-env.sh $(SRC)
 	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) $(ANT_TARGET)
+endef
+
+$(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
+	$(call build_apk)
 
 VLC_MODULES=`./find_modules.sh $(VLC_BUILD_DIR)`
 
@@ -102,6 +106,9 @@ $(LIBVLCJNI): $(JNI_SOURCES) $(LIBVLCJNI_H) $(PRIVATE_LIBS)
 		NDK_DEBUG=$(NDK_DEBUG) \
 		TARGET_CFLAGS="$$VLC_EXTRA_CFLAGS" \
 		LIBVLC_LIBS="$(LIBVLC_LIBS)"
+
+apk:
+	$(call build_apk)
 
 apkclean:
 	rm -f $(VLC_APK)
