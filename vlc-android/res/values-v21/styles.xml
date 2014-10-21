@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
+        <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarSize">50dp</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="android:statusBarColor">@color/darkorange</item>
+    </style>
+</resources>
