@@ -25,26 +25,6 @@ if [ -z "$NO_ARMV6" ];then
     NO_ARMV6=0
 fi
 
-if [ `set -- ${ANDROID_ABI}; echo $#` -gt 1 ]; then
-    ANDROID_ABI_LIST="${ANDROID_ABI}"
-    echo "More than one ABI specified: ${ANDROID_ABI_LIST}"
-    for i in ${ANDROID_ABI_LIST}; do
-        echo "$i starts building"
-        ANDROID_NDK=$ANDROID_NDK ANDROID_SDK=$ANDROID_SDK \
-            NO_FPU=$NO_FPU NO_ARMV6=$NO_ARMV6 ANDROID_ABI=$i \
-            ./compile.sh $* --jni || { echo "$i build KO"; exit 1; }
-        mkdir -p obj/
-        cp -r vlc-android/libs/$i obj
-        echo "$i build OK"
-    done
-    for i in ${ANDROID_ABI_LIST}; do
-        cp -r obj/$i vlc-android/libs/
-        rm -rf obj/$i
-    done
-    make -b -j1 apk || exit 1
-    exit 0
-fi
-
 BUILD=0
 FETCH=0
 RELEASE=0
@@ -72,6 +52,26 @@ done
 if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
     BUILD=1
     FETCH=1
+fi
+
+if [ `set -- ${ANDROID_ABI}; echo $#` -gt 1 ]; then
+    ANDROID_ABI_LIST="${ANDROID_ABI}"
+    echo "More than one ABI specified: ${ANDROID_ABI_LIST}"
+    for i in ${ANDROID_ABI_LIST}; do
+        echo "$i starts building"
+        ANDROID_NDK=$ANDROID_NDK ANDROID_SDK=$ANDROID_SDK \
+            NO_FPU=$NO_FPU NO_ARMV6=$NO_ARMV6 ANDROID_ABI=$i \
+            ./compile.sh $* --jni || { echo "$i build KO"; exit 1; }
+        mkdir -p obj/
+        cp -r vlc-android/libs/$i obj
+        echo "$i build OK"
+    done
+    for i in ${ANDROID_ABI_LIST}; do
+        cp -r obj/$i vlc-android/libs/
+        rm -rf obj/$i
+    done
+    make -b -j1 RELEASE=$RELEASE apk || exit 1
+    exit 0
 fi
 
 HAVE_ARM=0
