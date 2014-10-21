@@ -1127,6 +1127,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 finish();
             }
         })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
+        })
         .setTitle(R.string.hardware_acceleration_error_title)
         .setMessage(R.string.hardware_acceleration_error_message)
         .create();
