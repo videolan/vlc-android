@@ -409,6 +409,8 @@ public class LibVLC {
              * Skip non-key (3) for all devices that don't meet anything above
              */
             LibVlcUtil.MachineSpecs m = LibVlcUtil.getMachineSpecs();
+            if (m == null)
+                return ret;
             if( (m.hasArmV6 && !(m.hasArmV7)) || m.hasMips )
                 ret = 4;
             else if(m.frequency >= 1200 && m.processors > 2)
