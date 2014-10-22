@@ -100,13 +100,11 @@ public class LibVlcUtil {
         // If already checked return cached result
         if(errorMsg != null || isCompatible) return isCompatible;
 
-        ApplicationInfo applicationInfo = context.getApplicationInfo();
-        String libBasePath;
-        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0)
-            libBasePath = "/system";
-        else
-            libBasePath = applicationInfo.dataDir;
-        ElfData elf = readLib(libBasePath + "/lib/libvlcjni.so");
+        final File lib = searchLibrary(context);
+        if (lib == null)
+            return true;
+
+        ElfData elf = readLib(lib);
         if(elf == null) {
             Log.e(TAG, "WARNING: Unable to read libvlcjni.so; cannot check device ABI!");
             Log.e(TAG, "WARNING: Cannot guarantee correct ABI for this build (may crash)!");
@@ -320,17 +318,44 @@ public class LibVlcUtil {
         boolean att_fpu;
     }
 
+    private static File searchLibrary(Context context) {
+        // Search for library path
+        String [] libraryPaths = null;
+        final ApplicationInfo applicationInfo = context.getApplicationInfo();
+
+        if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+            final String property = System.getProperty("java.library.path");
+            libraryPaths = property.split(":");
+        } else {
+            libraryPaths = new String[1];
+            if (isGingerbreadOrLater())
+                libraryPaths[0] = applicationInfo.nativeLibraryDir;
+            else
+                libraryPaths[0] = applicationInfo.dataDir + "/lib";
+        }
+        if (libraryPaths == null) {
+            Log.e(TAG, "can't find library path");
+            return null;
+        }
+
+        // Search for libvlcjni.so
+        File lib = null;
+        for (String libraryPath : libraryPaths) {
+            lib = new File(libraryPath, "libvlcjni.so");
+            if (lib.exists() && lib.canRead())
+                return lib;;
+        }
+        Log.e(TAG, "WARNING: Can't find shared library");
+        return null;
+    }
+
     /** '*' prefix means it's unsupported */
     private static String[] CPU_archs = {"*Pre-v4", "*v4", "*v4T",
                                          "v5T", "v5TE", "v5TEJ",
                                          "v6", "v6KZ", "v6T2", "v6K", "v7",
                                          "*v6-M", "*v6S-M", "*v7E-M", "*v8"};
 
-    private static ElfData readLib(String path) {
-        File file = new File(path);
-        if (!file.exists() || !file.canRead())
-            return null;
-
+    private static ElfData readLib(File file) {
         RandomAccessFile in = null;
         try {
             in = new RandomAccessFile(file, "r");
