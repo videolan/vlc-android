@@ -42,6 +42,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -1020,7 +1021,7 @@ public class MainActivity extends ActionBarActivity {
      * @param settingKey the setting key to check if the view must be displayed or not.
      */
     public void showTipViewIfNeeded(final int layoutId, final String settingKey) {
-        if (!mSettings.getBoolean(settingKey, false)) {
+        if (!mSettings.getBoolean(settingKey, false) && AndroidDevices.hasTsp()) {
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
             mRootContainer.addView(v,

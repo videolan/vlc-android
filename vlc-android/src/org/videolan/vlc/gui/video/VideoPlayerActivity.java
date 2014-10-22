@@ -451,7 +451,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                     : getScreenOrientation());
             // Tips
             mOverlayTips = findViewById(R.id.player_overlay_tips);
-            if(mSettings.getBoolean(PREF_TIPS_SHOWN, false))
+            if(!AndroidDevices.hasTsp() || mSettings.getBoolean(PREF_TIPS_SHOWN, false))
                 mOverlayTips.setVisibility(View.GONE);
             else {
                 mOverlayTips.bringToFront();

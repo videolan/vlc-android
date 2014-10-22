@@ -45,6 +45,7 @@ public class AndroidDevices {
     public final static String TAG = "VLC/Util/AndroidDevices";
 
     final static boolean hasNavBar;
+    final static boolean hasTsp;
 
     static {
         HashSet<String> devicesWithoutNavBar = new HashSet<String>();
@@ -54,6 +55,7 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One XL");
         hasNavBar = LibVlcUtil.isJellyBeanMR1OrLater() || (LibVlcUtil.isICSOrLater()
                 && !devicesWithoutNavBar.contains(android.os.Build.MODEL));
+        hasTsp = VLCApplication.getAppContext().getPackageManager().hasSystemFeature("android.hardware.touchscreen");
     }
 
     public static boolean hasExternalStorage() {
@@ -79,6 +81,10 @@ public class AndroidDevices {
         }else{
             return true;
         }
+    }
+
+    public static boolean hasTsp(){
+        return hasTsp;
     }
 
     public static String[] getStorageDirectories() {
