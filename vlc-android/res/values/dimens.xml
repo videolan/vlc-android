@@ -3,4 +3,10 @@
     <dimen name="widget_margin">10dp</dimen>
     <dimen name="audio_browser_item_size">50dp</dimen>
     <dimen name="listview_bottom_padding">50dp</dimen>
+    <dimen name="grid_card_width">160dp</dimen>
+    <dimen name="grid_card_height">160dp</dimen>
+    <dimen name="grid_card_thumb_height">100dp</dimen>
+    <dimen name="grid_card_title_text_size">12sp</dimen>
+    <dimen name="grid_card_subtitle_text_size">10sp</dimen>
+    <dimen name="grid_card_vertical_spacing">0dp</dimen>
 </resources>

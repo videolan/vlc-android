@@ -139,9 +139,9 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if (!mListMode)
-                v = inflater.inflate(R.layout.video_grid_item, parent, false);
+                v = inflater.inflate(R.layout.video_grid_card, parent, false);
             else
-                v = inflater.inflate(R.layout.video_list_item, parent, false);
+                v = inflater.inflate(R.layout.video_list_card, parent, false);
 
             holder = new ViewHolder();
             holder.layout = v.findViewById(R.id.layout_item);
@@ -203,7 +203,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         holder.subtitle.setText(text);
         holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
         holder.more.setVisibility(View.INVISIBLE);
-        holder.progress.setVisibility(View.GONE);
+        holder.progress.setVisibility(View.INVISIBLE);
     }
 
     private void fillVideoView(ViewHolder holder, Media media) {
@@ -219,7 +219,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.progress.setProgress((int) (lastTime / 1000));
         } else {
             text = Strings.millisToText(media.getLength());
-            holder.progress.setVisibility(View.GONE);
+            holder.progress.setVisibility(View.INVISIBLE);
         }
 
         if (media.getWidth() > 0 && media.getHeight() > 0) {

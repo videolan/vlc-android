@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="1sp" >
+
+    <RelativeLayout
+        android:id="@+id/ml_item_layout_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ml_item_thumbnail"
+            android:layout_width="120dip"
+            android:layout_height="75dip"
+            android:scaleType="fitCenter"
+        	android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:id="@+id/ml_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ml_item_thumbnail"
+            android:layout_toLeftOf="@+id/item_more"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingLeft="12dip"
+            android:textColor="?attr/list_title"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/ml_item_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ml_item_title"
+            android:layout_alignLeft="@id/ml_item_title"
+            android:paddingLeft="12dip"
+            android:textColor="?attr/list_subtitle"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/ml_item_progress"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/ml_item_thumbnail"
+            android:layout_marginRight="20dip"
+            android:layout_marginLeft="10dip"
+            android:paddingBottom="3dip"
+            android:focusable="false"
+            android:indeterminate="false"
+            android:maxHeight="3dip"
+            android:minHeight="3dip"
+            android:progressDrawable="@drawable/gridview_progressbar" />
+
+        <ImageView
+            android:id="@+id/item_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dip"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:src="@drawable/ic_more_vert_grey600_24dp" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

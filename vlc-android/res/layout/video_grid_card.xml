@@ -1,0 +1,73 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="1sp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_item"
+        android:layout_width="@dimen/grid_card_width"
+        android:layout_height="@dimen/grid_card_height"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/ml_item_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/grid_card_thumb_height"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/ml_item_title"
+            android:textSize="@dimen/grid_card_title_text_size"
+            android:textColor="?attr/list_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ml_item_thumbnail"
+            android:layout_toLeftOf="@+id/item_more"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2" />
+
+        <ImageView
+            android:id="@+id/item_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/ml_item_thumbnail"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="7dp"
+            android:clickable="true"
+            android:src="@drawable/ic_more_vert_grey600_24dp" />
+
+        <TextView
+            android:id="@+id/ml_item_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="3dp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:textSize="@dimen/grid_card_subtitle_text_size"
+            android:textColor="?attr/list_subtitle" />
+
+        <ProgressBar
+            android:id="@+id/ml_item_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:focusable="false"
+            android:indeterminate="false"
+            android:maxHeight="3dip"
+            android:minHeight="3dip"
+            android:progressDrawable="@drawable/gridview_progressbar" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
