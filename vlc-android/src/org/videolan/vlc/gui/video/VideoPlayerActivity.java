@@ -759,7 +759,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        showOverlay(OVERLAY_TIMEOUT);
+        showOverlay();
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
@@ -1713,11 +1713,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     };
 
     private final void doPlayPause() {
-        if (mLibVLC.isPlaying())
+        if (mLibVLC.isPlaying()){
             pause();
-        else
+            showOverlay(OVERLAY_INFINITE);
+        } else {
             play();
-        showOverlay();
+            showOverlay(OVERLAY_TIMEOUT);
+        }
     }
 
     /**
@@ -1870,7 +1872,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay the the default timeout
      */
     private void showOverlay() {
-        showOverlay(OVERLAY_TIMEOUT);
+        showOverlay(mLibVLC.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
