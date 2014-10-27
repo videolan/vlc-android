@@ -167,7 +167,7 @@ export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 ANDROID_PATH="`pwd`"
 
 # Fetch VLC source
-if [ ! -z "$FETCH" ]
+if [ "$FETCH" = 1 ]
 then
     # 1/ libvlc, libvlccore and its plugins
     TESTED_HASH=6e2f490
