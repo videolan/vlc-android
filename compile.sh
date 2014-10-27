@@ -366,11 +366,11 @@ config_undef ()
     touch -d "$previous_change" config.h
 }
 
-# if config dependencies change, ./config.status --recheck
-# is run and overwrite previously hacked config.h. So call make Makefile here
+# if config dependencies change, ./config.status
+# is run and overwrite previously hacked config.h. So call make config.h here
 # and hack config.h after.
 
-make $MAKEFLAGS Makefile
+make $MAKEFLAGS config.h
 
 if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
     # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
