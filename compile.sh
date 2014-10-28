@@ -202,7 +202,7 @@ else
     cd vlc
 fi
 
-if [ -z "$BUILD" ]
+if [ "$BUILD" = 0 ]
 then
     echo "Not building anything, please run $0 --build"
     exit 0
