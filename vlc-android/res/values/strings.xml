@@ -116,6 +116,8 @@
     <string name="sound_on">Sound On</string>
     <string name="sound_off">Sound Off</string>
     <string name="brightness">Brightness</string>
+    <string name="navmenu">navigation menu</string>
+    <string name="advanced">advanced options</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 channel\n</item>

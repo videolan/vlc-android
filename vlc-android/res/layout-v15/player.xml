@@ -37,8 +37,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" >
-
-	    <include layout="@layout/player_overlay_header" />
 	
 	    <include
 	        android:id="@+id/player_overlay_tips"
@@ -79,7 +77,7 @@
 	    <RelativeLayout
 	        android:id="@+id/progress_overlay"
 	        android:layout_width="@dimen/overlay_width"
-	        android:layout_height="@dimen/overlay_height"
+	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:layout_centerHorizontal="true"
 	        android:layout_marginBottom="@dimen/overlay_margin_bottom"
@@ -130,11 +128,20 @@
 	            android:id="@+id/media_controls"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:layout_below="@id/player_overlay_progress"
 	            android:layout_centerHorizontal="true"
 	            android:layout_centerVertical="true"
 	            android:layout_marginTop="@dimen/media_ctrl_margin_top"
 	            android:orientation="horizontal" >
 	
+	            <ImageButton
+	                android:id="@+id/lock_overlay_button"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_marginRight="@dimen/options_margin"
+	                android:layout_gravity="center_vertical"
+	                android:background="@drawable/ic_lock" />
+
 	            <ImageButton
 	                android:id="@+id/player_overlay_backward"
 	                android:layout_width="wrap_content"
@@ -149,8 +156,8 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:layout_gravity="center_vertical"
-	                android:layout_marginLeft="20dp"
-	                android:layout_marginRight="20dp"
+	                android:layout_marginLeft="@dimen/playpause_margin"
+	                android:layout_marginRight="@dimen/playpause_margin"
 	                android:clickable="true"
 	                android:onClick="onClick"
 	            	android:background="@drawable/ic_pause_circle"/>
@@ -163,68 +170,14 @@
 	                android:clickable="true"
 	                android:onClick="onClick"
 	                android:background="@drawable/ic_forward_normal_w" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/option_overlay"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_below="@+id/media_controls"
-	            android:layout_alignParentBottom="true"
-	            android:layout_alignParentRight="true"
-	            android:layout_alignParentEnd="true"
-	            android:orientation="horizontal"
-	            android:visibility="invisible" >
-	
-	            <ImageButton
-	                android:id="@+id/lock_overlay_button"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
-	                android:layout_gravity="center_vertical"
-	                android:background="@drawable/ic_lock" />
-	
-	            <ImageButton
-	                android:id="@+id/player_overlay_subtitle"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
-	                android:layout_gravity="center_vertical"
-	                android:background="@drawable/ic_subtitle_circle" />
-	
-	            <ImageButton
-	                android:id="@+id/player_overlay_audio"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
-	                android:layout_gravity="center_vertical"
-	                android:background="@drawable/ic_audio_circle" />
-	
-	            <ImageButton
-	                android:id="@+id/player_overlay_navmenu"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
-	                android:layout_gravity="center_vertical"
-	                android:background="@drawable/ic_navmenu_circle"
-	                android:visibility="visible" />
-	
+
 	            <ImageButton
 	                android:id="@+id/player_overlay_size"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
+	                android:layout_marginLeft="@dimen/options_margin"
 	                android:layout_gravity="center_vertical"
 	                android:background="@drawable/ic_crop_circle" />
-	
-	            <ImageButton
-	                android:id="@+id/player_overlay_adv_function"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginRight="@dimen/options_margin"
-	                android:layout_gravity="center_vertical"
-	                android:background="@drawable/dots"
-	                android:onClick="showAdvancedOptions" />
 	        </LinearLayout>
 	    </RelativeLayout>
     </RelativeLayout>

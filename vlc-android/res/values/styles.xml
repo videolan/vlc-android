@@ -158,10 +158,13 @@
     </style>
 
     <style name="Theme.VLC.Player" parent="Theme.AppCompat">
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="video_player_overlay">@color/transparent_gray</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="windowActionBarOverlay">true</item>
+        <!-- item name="video_player_overlay">@color/transparent_gray</item-->
+        <item name="video_player_overlay">@android:color/transparent</item>
+        <item name="status_bar_overlay">@android:color/transparent</item>
 
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>

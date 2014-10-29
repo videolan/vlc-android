@@ -62,13 +62,11 @@
             android:text="@string/please_wait"
             android:textSize="20sp" />
 
-        <include layout="@layout/player_remote_control_overlay_header" />
-
         <TextView
             android:id="@+id/player_overlay_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/player_overlay_header"
+            android:layout_below="@+id/player_overlay_loading_text"
             android:layout_centerHorizontal="true"
             android:padding="5dp"
             android:textColor="#ffffff"
@@ -89,54 +87,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_pause_circle_big_o" />
 
-            <RelativeLayout
-                android:id="@+id/option_overlay"
+            <ImageButton
+                android:id="@+id/player_overlay_size"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <LinearLayout
-                    android:id="@+id/option_nodvd_overlay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-
-                    <ImageButton
-                        android:id="@+id/player_overlay_subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_subtitle_circle_o" />
-
-                    <ImageButton
-                        android:id="@+id/player_overlay_audio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_audio_circle_o" />
-
-                    <ImageButton
-                        android:id="@+id/player_overlay_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_crop_circle_o" />
-
-                    <ImageButton
-                        android:id="@+id/player_overlay_adv_function"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_dots_circle_o"
-                        android:onClick="showAdvancedOptions" />
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/player_overlay_navmenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/option_nodvd_overlay"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/ic_navmenu_circle_o"
-                    android:visibility="gone" />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_crop_circle_o" />
         </LinearLayout>
 
         <RelativeLayout
