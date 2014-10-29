@@ -1994,6 +1994,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     mBackward.setVisibility(View.VISIBLE);
                     mForward.setVisibility(View.VISIBLE);
                 }
+                mSize.setVisibility(View.VISIBLE);
                 dimStatusBar(false);
             }
             mOverlayProgress.setVisibility(View.VISIBLE);
@@ -2030,6 +2031,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mPlayPause.setVisibility(View.INVISIBLE);
             mBackward.setVisibility(View.INVISIBLE);
             mForward.setVisibility(View.INVISIBLE);
+            mSize.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
