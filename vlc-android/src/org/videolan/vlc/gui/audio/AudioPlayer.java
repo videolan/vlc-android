@@ -483,12 +483,14 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
     public void show() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.showAudioPlayer();
+        if (activity != null)
+            activity.showAudioPlayer();
     }
 
     public void hide() {
         MainActivity activity = (MainActivity)getActivity();
-        activity.hideAudioPlayer();
+        if (activity != null)
+            activity.hideAudioPlayer();
     }
 
     /**
