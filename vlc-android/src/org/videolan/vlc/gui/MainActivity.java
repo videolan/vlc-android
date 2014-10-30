@@ -71,11 +71,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout.LayoutParams;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,9 +88,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.KeyEvent;
 
 public class MainActivity extends ActionBarActivity {
     public final static String TAG = "VLC/MainActivity";
@@ -896,14 +894,6 @@ public class MainActivity extends ActionBarActivity {
                 mRootContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                 removeTipViewIfDisplayed();
                 mAudioPlayer.showAudioPlayerTips();
-                /*
-                 * TODO proper resolution of this bug
-                 * Drawer listview disappears when audio player is displayed
-                 * Here we restore it, this is just a workaround...
-                 */
-                if (findViewById(R.id.sidelist) == null){
-                	mRootContainer.addView(mListView);
-                }
             }
 
             @Override
@@ -959,7 +949,11 @@ public class MainActivity extends ActionBarActivity {
      * Remove the current tip view if there is one displayed.
      */
     public void removeTipViewIfDisplayed() {
-        if (mRootContainer.getChildCount() > 1)
-            mRootContainer.removeViewAt(1);
+        if (mRootContainer.getChildCount() > 2){
+            for (int i = 0 ; i< mRootContainer.getChildCount() ; ++i){
+            if (mRootContainer.getChildAt(i).getId() == R.id.audio_tips)
+                mRootContainer.removeViewAt(i);
+            }
+        }
     }
 }
