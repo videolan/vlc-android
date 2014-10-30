@@ -310,7 +310,8 @@ cd contrib/contrib-android-${TARGET_TUPLE}
     --disable-faad2 \
     --disable-harfbuzz \
     --enable-iconv \
-    --disable-aribb24
+    --disable-aribb24 \
+    --disable-aribb25
 
 # TODO: mpeg2, theora
 
