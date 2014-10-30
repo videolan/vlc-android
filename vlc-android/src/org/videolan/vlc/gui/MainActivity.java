@@ -182,6 +182,10 @@ public class MainActivity extends ActionBarActivity {
             return;
         }
 
+        /* Load media items from database and storage */
+        if (mScanNeeded)
+            MediaLibrary.getInstance().loadMediaItems();
+
         super.onCreate(savedInstanceState);
 
         /*** Start initializing the UI ***/
@@ -337,10 +341,6 @@ public class MainActivity extends ActionBarActivity {
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
         if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
-
-        /* Load media items from database and storage */
-        if (mScanNeeded)
-            MediaLibrary.getInstance().loadMediaItems();
    }
 
     @Override
