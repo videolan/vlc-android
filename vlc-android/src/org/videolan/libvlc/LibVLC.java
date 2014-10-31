@@ -49,6 +49,12 @@ public class LibVLC {
     public static final int DEV_HW_DECODER_MEDIACODEC = 2;
     public static final int DEV_HW_DECODER_MEDIACODEC_DR = 3;
 
+    public static final int INPUT_NAV_ACTIVATE = 0;
+    public static final int INPUT_NAV_UP = 1;
+    public static final int INPUT_NAV_DOWN = 2;
+    public static final int INPUT_NAV_LEFT = 3;
+    public static final int INPUT_NAV_RIGHT = 4;
+
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
 
     private static LibVLC sInstance;
@@ -848,5 +854,6 @@ public class LibVLC {
     public native void setTitle(int title);
     public native int getChapterCountForTitle(int title);
     public native int getTitleCount();
+    public native void playerNavigate(int navigate);
 
 }

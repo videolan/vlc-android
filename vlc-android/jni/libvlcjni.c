@@ -621,3 +621,12 @@ jint Java_org_videolan_libvlc_LibVLC_getTitleCount(JNIEnv *env, jobject thiz)
         return libvlc_media_player_get_title_count(mp);
     return -1;
 }
+
+void Java_org_videolan_libvlc_LibVLC_playerNavigate(JNIEnv *env, jobject thiz, jint navigate)
+{
+    unsigned nav = navigate;
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        libvlc_media_player_navigate(mp, (unsigned) nav);
+}
+
