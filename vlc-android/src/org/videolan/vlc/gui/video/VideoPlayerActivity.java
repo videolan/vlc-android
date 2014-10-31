@@ -799,8 +799,41 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         case KeyEvent.KEYCODE_MEDIA_STOP:
             finish();
             return true;
+        case KeyEvent.KEYCODE_DPAD_UP:
+        case KeyEvent.KEYCODE_DPAD_DOWN:
+        case KeyEvent.KEYCODE_DPAD_LEFT:
+        case KeyEvent.KEYCODE_DPAD_RIGHT:
+        case KeyEvent.KEYCODE_DPAD_CENTER:
+        case KeyEvent.KEYCODE_ENTER:
+            if (mIsNavMenu)
+                return navigateDvdMenu(keyCode);
+            else
+                return super.onKeyDown(keyCode, event);
         default:
             return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    private boolean navigateDvdMenu(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+                mLibVLC.playerNavigate(LibVLC.INPUT_NAV_UP);
+                return true;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                mLibVLC.playerNavigate(LibVLC.INPUT_NAV_DOWN);
+                return true;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                mLibVLC.playerNavigate(LibVLC.INPUT_NAV_LEFT);
+                return true;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                mLibVLC.playerNavigate(LibVLC.INPUT_NAV_RIGHT);
+                return true;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+                mLibVLC.playerNavigate(LibVLC.INPUT_NAV_ACTIVATE);
+                return true;
+            default:
+                return false;
         }
     }
 
