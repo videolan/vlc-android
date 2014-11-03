@@ -86,6 +86,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -233,6 +234,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     // Brightness
     private boolean mIsFirstBrightnessGesture = true;
+    private float mRestoreAutoBrightness = -1f;
 
     // Tracks & Subtitles
     private Map<Integer,String> mAudioTracksList;
@@ -539,6 +541,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
             mPresentation.dismiss();
             mPresentation = null;
+        }
+        restoreBrightness();
+    }
+
+    @TargetApi(android.os.Build.VERSION_CODES.FROYO)
+    private void restoreBrightness() {
+        if (mRestoreAutoBrightness != -1f) {
+            int brightness = (int) (mRestoreAutoBrightness*255f);
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS,
+                    brightness);
+            Settings.System.putInt(getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS_MODE,
+                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
         }
     }
 
@@ -1494,14 +1510,23 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         }
     }
 
+    @TargetApi(android.os.Build.VERSION_CODES.FROYO)
     private void initBrightnessTouch() {
-        float brightnesstemp = 0.01f;
+        float brightnesstemp = 0.6f;
         // Initialize the layoutParams screen brightness
         try {
-            brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
+            if (LibVlcUtil.isFroyoOrLater() &&
+                    Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+                Settings.System.putInt(getContentResolver(),
+                        Settings.System.SCREEN_BRIGHTNESS_MODE,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+                mRestoreAutoBrightness = android.provider.Settings.System.getInt(getContentResolver(),
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
+            } else {
+                brightnesstemp = android.provider.Settings.System.getInt(getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f;
+            }
         } catch (SettingNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         WindowManager.LayoutParams lp = getWindow().getAttributes();
