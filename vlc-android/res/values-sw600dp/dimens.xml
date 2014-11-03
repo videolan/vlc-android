@@ -10,4 +10,5 @@
     <dimen name="options_margin">100dp</dimen>
     <dimen name="playpause_margin">20dp</dimen>
     <dimen name="media_ctrl_margin_top">30dp</dimen>
+    <dimen name="seekbar_padding_sides">20dp</dimen>
 </resources>
