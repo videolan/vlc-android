@@ -215,7 +215,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private int mAudioMax;
     private OnAudioFocusChangeListener mAudioFocusListener;
     private boolean mMute = false;
-    private int mVol, mVolSave;
+    private int mVolSave;
+    private float mVol;
 
     //Touch Events
     private static final int TOUCH_NONE = 0;
@@ -1383,6 +1384,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             // No volume/brightness action if coef < 2 or a secondary display is connected
             //TODO : Volume action when a secondary display is connected
             if (coef > 2 && mPresentation == null) {
+                mTouchY = event.getRawY();
+                mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
                 if (!mEnableBrightnessGesture || (int)mTouchX > (screen.widthPixels / 2)){
                     doVolumeTouch(y_changed);
@@ -1397,9 +1400,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 // Nexus), gestures can't be made without activating the UI.
                 if(AndroidDevices.hasNavBar())
                     showOverlay();
+            } else {
+                // Seek (Right or Left move)
+                doSeekTouch(coef, xgesturesize, false);
             }
-            // Seek (Right or Left move)
-            doSeekTouch(coef, xgesturesize, false);
             break;
 
         case MotionEvent.ACTION_UP:
@@ -1462,9 +1466,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private void doVolumeTouch(float y_changed) {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME)
             return;
-        int delta = -(int) ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
-        int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-        if (delta != 0) {
+        float delta = - ((y_changed * 2f / mSurfaceYDisplayRange) * mAudioMax);
+        mVol += delta;
+        int vol = (int) Math.min(Math.max(mVol, 0), mAudioMax);
+        if (delta != 0f) {
             setAudioVolume(vol);
         }
     }
@@ -1477,14 +1482,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     private void updateMute () {
         if (!mMute) {
-            mVolSave = mVol;
+            mVolSave = Float.floatToIntBits(mVol);
             mMute = true;
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
             showInfo(R.string.sound_off,1000);
         } else {
             mVol = mVolSave;
             mMute = false;
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mVol, 0);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Float.floatToIntBits(mVol), 0);
             showInfo(R.string.sound_on,1000);
         }
     }
@@ -1509,10 +1514,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_BRIGHTNESS)
             return;
         if (mIsFirstBrightnessGesture) initBrightnessTouch();
-        mTouchAction = TOUCH_BRIGHTNESS;
+            mTouchAction = TOUCH_BRIGHTNESS;
 
-        // Set delta : 0.07f is arbitrary for now, it possibly will change in the future
-        float delta = - y_changed / mSurfaceYDisplayRange * 0.07f;
+        // Set delta : 2f is arbitrary for now, it possibly will change in the future
+        float delta = - y_changed / mSurfaceYDisplayRange * 2f;
 
         changeBrightness(delta);
     }
