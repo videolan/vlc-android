@@ -726,6 +726,8 @@ public class AudioService extends Service {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             if (LibVlcUtil.isJellyBeanOrLater()) {
+                int pause = LibVlcUtil.isLolliPopOrLater() ? R.drawable.ic_pause : R.drawable.ic_pause_w;
+                int play = LibVlcUtil.isLolliPopOrLater() ? R.drawable.ic_play : R.drawable.ic_play_w;
                 Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
                 Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
                 Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
@@ -740,7 +742,7 @@ public class AudioService extends Service {
                     view.setImageViewBitmap(R.id.cover, cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
-                view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
+                view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? pause : play);
                 view.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view.setOnClickPendingIntent(R.id.forward, piForward);
                 view.setOnClickPendingIntent(R.id.stop, piStop);
@@ -752,13 +754,15 @@ public class AudioService extends Service {
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);
                 view_expanded.setTextViewText(R.id.album, album);
-                view_expanded.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
+                view_expanded.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? pause : play);
                 view_expanded.setOnClickPendingIntent(R.id.backward, piBackward);
                 view_expanded.setOnClickPendingIntent(R.id.play_pause, piPlay);
                 view_expanded.setOnClickPendingIntent(R.id.forward, piForward);
                 view_expanded.setOnClickPendingIntent(R.id.stop, piStop);
                 view_expanded.setOnClickPendingIntent(R.id.content, pendingIntent);
 
+                if (LibVlcUtil.isLolliPopOrLater())
+                    builder.setVisibility(Notification.VISIBILITY_PUBLIC);
                 notification = builder.build();
                 notification.contentView = view;
                 notification.bigContentView = view_expanded;
