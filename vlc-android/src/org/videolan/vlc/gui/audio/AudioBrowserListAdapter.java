@@ -454,7 +454,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             throw new IllegalArgumentException("Tested item must be a media item and not a separator.");
 
         if (position == mItems.size() - 1)
-            return false;
+            return true; //consider end of list as a separator. Nicer to display
         else if (mItems.get(position + 1).mIsSeparator )
             return true;
         else
