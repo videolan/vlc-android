@@ -772,15 +772,15 @@ public class MainActivity extends ActionBarActivity {
             (v.getNextFocusDownId() == -1) &&
             (v.getNextFocusUpId() == -1) &&
             (v.getNextFocusLeftId() == -1) &&
-            (v.getNextFocusRightId() == -1) &&
-            (v.getNextFocusForwardId() == -1)) {
+            (v.getNextFocusRightId() == -1)) {
             mActionBarIconId = Util.generateViewId();
             v.setId(mActionBarIconId);
             v.setNextFocusUpId(mActionBarIconId);
             v.setNextFocusDownId(mActionBarIconId);
             v.setNextFocusLeftId(mActionBarIconId);
             v.setNextFocusRightId(R.id.ml_menu_search);
-            v.setNextFocusForwardId(mActionBarIconId);
+            if (LibVlcUtil.isHoneycombOrLater())
+                v.setNextFocusForwardId(mActionBarIconId);
             findViewById(R.id.ml_menu_search).setNextFocusLeftId(
                 mActionBarIconId);
         }

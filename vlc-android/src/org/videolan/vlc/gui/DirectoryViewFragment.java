@@ -104,7 +104,8 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
         listView.setNextFocusUpId(R.id.ml_menu_search);
         listView.setNextFocusLeftId(android.R.id.list);
         listView.setNextFocusRightId(android.R.id.list);
-        listView.setNextFocusForwardId(android.R.id.list);
+        if (LibVlcUtil.isHoneycombOrLater())
+            listView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mDirectoryAdapter.getCount() == 0);
         listView.requestFocus();
         listView.setOnItemLongClickListener(new OnItemLongClickListener() {

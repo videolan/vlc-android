@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -75,7 +76,8 @@ public class HistoryFragment extends ListFragment implements IRefreshable {
         listView.setNextFocusUpId(R.id.ml_menu_search);
         listView.setNextFocusLeftId(android.R.id.list);
         listView.setNextFocusRightId(android.R.id.list);
-        listView.setNextFocusForwardId(android.R.id.list);
+        if (LibVlcUtil.isHoneycombOrLater())
+            listView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mHistoryAdapter.getCount() == 0);
         listView.requestFocus();
         registerForContextMenu(listView);
