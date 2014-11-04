@@ -65,7 +65,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -74,6 +73,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -222,8 +222,7 @@ public class MainActivity extends ActionBarActivity {
 
         /* Set up the sidebar click listener
          * no need to invalidate menu for now */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mRootContainer,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {};
+        mDrawerToggle = new ActionBarDrawerToggle(this, mRootContainer, R.string.drawer_open, R.string.drawer_close);
 
         // Set the drawer toggle as the DrawerListener
         mRootContainer.setDrawerListener(mDrawerToggle);
