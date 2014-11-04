@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/listview_bottom_padding"
-    android:clipToPadding="false" >
+    android:clipToPadding="false"
+    android:divider="?attr/background_menu_divider"
+    android:dividerHeight="0.1dp" >
 
 </ListView>

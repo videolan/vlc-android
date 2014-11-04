@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -32,14 +33,18 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -93,6 +98,7 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.directories);
 
         View v = inflater.inflate(R.layout.directory_view, container, false);
+        mDirectoryAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
         setListAdapter(mDirectoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
         listView.setNextFocusUpId(R.id.ml_menu_search);
@@ -237,5 +243,30 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
                 refresh();
             }
         }
+    };
+
+    DirectoryAdapter.ContextPopupMenuListener mContextPopupMenuListener
+        = new DirectoryAdapter.ContextPopupMenuListener() {
+
+            @Override
+            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            public void onPopupMenu(View anchor, final int position) {
+                if (!LibVlcUtil.isHoneycombOrLater()) {
+                    // Call the "classic" context menu
+                    anchor.performLongClick();
+                    return;
+                }
+                PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
+                popupMenu.getMenuInflater().inflate(R.menu.directory_view, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return onContextItemSelected(item);
+                    }
+                });
+                popupMenu.show();
+            }
+
     };
 }

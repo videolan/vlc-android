@@ -44,6 +44,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -51,6 +52,8 @@ import android.widget.TextView;
 
 public class DirectoryAdapter extends BaseAdapter {
     public final static String TAG = "VLC/DirectoryAdapter";
+
+    private ContextPopupMenuListener mContextPopupMenuListener;
 
     public static boolean acceptedPath(String f) {
         return Pattern.compile(Media.EXTENSIONS_REGEX, Pattern.CASE_INSENSITIVE).matcher(f).matches();
@@ -171,6 +174,7 @@ public class DirectoryAdapter extends BaseAdapter {
         TextView title;
         TextView text;
         ImageView icon;
+        ImageView more;
     }
 
     private void populateNode(DirectoryAdapter.Node n, String path) {
@@ -298,7 +302,7 @@ public class DirectoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         DirectoryAdapter.Node selectedNode = mCurrentNode.children.get(position);
         DirectoryViewHolder holder;
         View v = convertView;
@@ -315,6 +319,7 @@ public class DirectoryAdapter extends BaseAdapter {
             Util.setAlignModeByPref(mAlignMode, holder.title);
             holder.text = (TextView) v.findViewById(R.id.text);
             holder.icon = (ImageView) v.findViewById(R.id.dvi_icon);
+            holder.more = (ImageView) v.findViewById(R.id.item_more);
             v.setTag(holder);
         } else
             holder = (DirectoryViewHolder) v.getTag();
@@ -346,12 +351,28 @@ public class DirectoryAdapter extends BaseAdapter {
                         R.plurals.mediafiles_quantity, mediaFileCount,
                         mediaFileCount);
         }
-        holder.text.setText(holderText);
+        if (holderText.isEmpty())
+            holder.text.setVisibility(View.GONE);
+        else {
+            holder.text.setVisibility(View.VISIBLE);
+            holder.text.setText(holderText);
+        }
         if(selectedNode.isFile())
             holder.icon.setImageResource(R.drawable.icon);
         else
             holder.icon.setImageResource(R.drawable.ic_menu_folder);
 
+        if (isChildFile(position)) {
+            holder.more.setVisibility(View.VISIBLE);
+            holder.more.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mContextPopupMenuListener != null)
+                        mContextPopupMenuListener.onPopupMenu(v, position);
+                }
+            });
+        } else
+            holder.more.setVisibility(View.GONE);
         return v;
     }
 
@@ -480,5 +501,13 @@ public class DirectoryAdapter extends BaseAdapter {
             }
         }
         return file.getName();
+    }
+
+    public interface ContextPopupMenuListener {
+        void onPopupMenu(View anchor, final int position);
+    }
+
+    void setContextPopupMenuListener(ContextPopupMenuListener l) {
+        mContextPopupMenuListener = l;
     }
 }
