@@ -923,9 +923,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * @param text
      */
     private void showInfo(String text) {
+        mHandler.removeMessages(FADE_OUT_INFO);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
-        mHandler.removeMessages(FADE_OUT_INFO);
+        hideInfo();
     }
 
     /**
@@ -1571,7 +1572,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         public void onStopTrackingTouch(SeekBar seekBar) {
             mDragging = false;
             showOverlay();
-            hideInfo();
         }
 
         @Override
