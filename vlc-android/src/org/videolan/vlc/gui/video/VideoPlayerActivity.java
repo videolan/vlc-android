@@ -1887,8 +1887,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay
      */
     private void showOverlay(int timeout) {
-        if (mIsNavMenu)
+        if (mIsNavMenu){
+            mShowing = true;
             return;
+        }
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
