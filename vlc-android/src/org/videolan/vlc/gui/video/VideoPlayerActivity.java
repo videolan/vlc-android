@@ -1412,29 +1412,27 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 if (mEnableBrightnessGesture && (int)mTouchX < (screen.widthPixels / 2)){
                     doBrightnessTouch(y_changed);
                 }
-                // Extend the overlay for a little while, so that it doesn't
-                // disappear on the user if more adjustment is needed. This
-                // is because on devices with soft navigation (e.g. Galaxy
-                // Nexus), gestures can't be made without activating the UI.
-                if(AndroidDevices.hasNavBar())
-                    showOverlay();
             } else {
                 // Seek (Right or Left move)
                 doSeekTouch(coef, xgesturesize, false);
             }
+            if (mTouchAction != TOUCH_NONE && mOverlayTimeout != OVERLAY_INFINITE)
+                showOverlayTimeout(OVERLAY_INFINITE);
             break;
 
         case MotionEvent.ACTION_UP:
             // Mouse events for the core
             LibVLC.sendMouseEvent(MotionEvent.ACTION_UP, 0, xTouch, yTouch);
 
-            // Audio or Brightness
-            if ( mTouchAction == TOUCH_NONE) {
+            if (mTouchAction == TOUCH_NONE) {
                 if (!mShowing) {
                     showOverlay();
                 } else {
                     hideOverlay(true);
                 }
+            } else {
+                // We were in gesture mode, re-init the overlay timeout
+                showOverlay(true);
             }
             // Seek
             doSeekTouch(coef, xgesturesize, true);
@@ -1451,9 +1449,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK)
             return;
         mTouchAction = TOUCH_SEEK;
-
-        // Always show seekbar when searching
-        if (!mShowing) showOverlay();
 
         long length = mLibVLC.getLength();
         long time = mLibVLC.getTime();
@@ -1566,13 +1561,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
             mDragging = true;
-            showOverlay(OVERLAY_INFINITE);
+            showOverlayTimeout(OVERLAY_INFINITE);
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             mDragging = false;
-            showOverlay();
+            showOverlay(true);
         }
 
         @Override
@@ -1714,12 +1709,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     };
 
     private final void doPlayPause() {
-        if (mLibVLC.isPlaying()){
+        if (mLibVLC.isPlaying()) {
             pause();
-            showOverlay(OVERLAY_INFINITE);
+            showOverlayTimeout(OVERLAY_INFINITE);
         } else {
             play();
-            showOverlay(OVERLAY_TIMEOUT);
+            showOverlayTimeout(OVERLAY_TIMEOUT);
         }
     }
 
@@ -1870,10 +1865,20 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     };
 
     /**
-     * show overlay the the default timeout
+     * show overlay
+     * @param forceCheck: adjust the timeout in function of playing state
+     */
+    private void showOverlay(boolean forceCheck) {
+        if (forceCheck)
+            mOverlayTimeout = 0;
+        showOverlayTimeout(0);
+    }
+
+    /**
+     * show overlay with the previous timeout value
      */
     private void showOverlay() {
-        showOverlay(0);
+        showOverlay(false);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1887,7 +1892,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     /**
      * show overlay
      */
-    private void showOverlay(int timeout) {
+    private void showOverlayTimeout(int timeout) {
         if (timeout != 0)
             mOverlayTimeout = timeout;
         if (mOverlayTimeout == 0)
@@ -1924,6 +1929,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     private void hideOverlay(boolean fromUser) {
         if (mShowing) {
+            mHandler.removeMessages(FADE_OUT);
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
             if (mOverlayTips != null) mOverlayTips.setVisibility(View.INVISIBLE);
