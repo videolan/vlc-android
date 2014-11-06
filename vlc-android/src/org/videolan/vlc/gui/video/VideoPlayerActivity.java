@@ -79,6 +79,7 @@ import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaRouter;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -2101,6 +2102,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         String title = getResources().getString(R.string.title);
         boolean dontParse = false;
         boolean fromStart = false;
+        Uri data;
         String itemTitle = null;
         int itemPosition = -1; // Index in the media list as passed by AudioServer (used only for vout transition internally)
         long intentPosition = -1; // position passed in by intent (ms)
@@ -2108,33 +2110,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application 'content' */
-            if (getIntent().getData() != null
-                    && getIntent().getData().getScheme() != null
-                    && getIntent().getData().getScheme().equals("content")) {
+            data = getIntent().getData();
+            if (data != null
+                    && data.getScheme() != null
+                    && data.getScheme().equals("content")) {
 
-                // Media or MMS URI
-                if(getIntent().getData().getHost().equals("media")
-                        || getIntent().getData().getHost().equals("mms")) {
-                    try {
-                        Cursor cursor = getContentResolver().query(getIntent().getData(),
-                                new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
-                        if (cursor != null) {
-                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-                            if (cursor.moveToFirst())
-                                mLocation = LibVLC.PathToURI(cursor.getString(column_index));
-                            cursor.close();
-                        }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Couldn't read the file from media or MMS");
-                        encounteredError();
-                    }
-                }
 
                 // Mail-based apps - download the stream to a temporary file and play it
-                else if(getIntent().getData().getHost().equals("com.fsck.k9.attachmentprovider")
-                       || getIntent().getData().getHost().equals("gmail-ls")) {
+                if(data.getHost().equals("com.fsck.k9.attachmentprovider")
+                       || data.getHost().equals("gmail-ls")) {
                     try {
-                        Cursor cursor = getContentResolver().query(getIntent().getData(),
+                        Cursor cursor = getContentResolver().query(data,
                                 new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
                         if (cursor != null) {
                             cursor.moveToFirst();
@@ -2142,7 +2128,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                             cursor.close();
                             Log.i(TAG, "Getting file " + filename + " from content:// URI");
 
-                            InputStream is = getContentResolver().openInputStream(getIntent().getData());
+                            InputStream is = getContentResolver().openInputStream(data);
                             OutputStream os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
                             byte[] buffer = new byte[1024];
                             int bytesRead = 0;
@@ -2158,10 +2144,27 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         encounteredError();
                     }
                 }
-
-                // other content-based URI (probably file pickers)
+                // Media or MMS URI
                 else {
-                    mLocation = getIntent().getData().getPath();
+                    try {
+                        Cursor cursor = getContentResolver().query(data,
+                                new String[]{ MediaStore.Video.Media.DATA }, null, null, null);
+                        if (cursor != null) {
+                            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                            if (cursor.moveToFirst())
+                                mLocation = LibVLC.PathToURI(cursor.getString(column_index));
+                            cursor.close();
+                        }
+                        // other content-based URI (probably file pickers)
+                        else {
+                            mLocation = data.getPath();
+                        }
+                    } catch (Exception e) {
+                        mLocation = data.getPath();
+                        if (!mLocation.startsWith("file://"))
+                            mLocation = "file://"+mLocation;
+                        Log.e(TAG, "Couldn't read the file from media or MMS");
+                    }
                 }
             } /* External application */
             else if (getIntent().getDataString() != null) {
