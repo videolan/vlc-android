@@ -155,7 +155,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private View mOverlayProgress;
     private View mOverlayBackground;
     private static final int OVERLAY_TIMEOUT = 4000;
-    private static final int OVERLAY_INFINITE = 3600000;
+    private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_SIZE = 3;
@@ -1907,10 +1907,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mOverlayProgress.setVisibility(View.VISIBLE);
             if (mPresentation != null) mOverlayBackground.setVisibility(View.VISIBLE);
         }
-        Message msg = mHandler.obtainMessage(FADE_OUT);
         if (timeout != 0) {
             mHandler.removeMessages(FADE_OUT);
-            mHandler.sendMessageDelayed(msg, timeout);
+            if (timeout != OVERLAY_INFINITE)
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), timeout);
         }
         updateOverlayPausePlay();
     }
