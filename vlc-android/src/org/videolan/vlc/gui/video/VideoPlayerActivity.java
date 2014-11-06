@@ -191,6 +191,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -2;
+    private int mOverlayTimeout = 0;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -1872,7 +1873,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay the the default timeout
      */
     private void showOverlay() {
-        showOverlay(mLibVLC.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE);
+        showOverlay(0);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -1887,6 +1888,10 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      * show overlay
      */
     private void showOverlay(int timeout) {
+        if (timeout != 0)
+            mOverlayTimeout = timeout;
+        if (mOverlayTimeout == 0)
+            mOverlayTimeout = mLibVLC.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE;
         if (mIsNavMenu){
             mShowing = true;
             return;
@@ -1907,11 +1912,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mOverlayProgress.setVisibility(View.VISIBLE);
             if (mPresentation != null) mOverlayBackground.setVisibility(View.VISIBLE);
         }
-        if (timeout != 0) {
-            mHandler.removeMessages(FADE_OUT);
-            if (timeout != OVERLAY_INFINITE)
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), timeout);
-        }
+        mHandler.removeMessages(FADE_OUT);
+        if (mOverlayTimeout != OVERLAY_INFINITE)
+            mHandler.sendMessageDelayed(mHandler.obtainMessage(FADE_OUT), mOverlayTimeout);
         updateOverlayPausePlay();
     }
 
