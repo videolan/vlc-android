@@ -12,4 +12,4 @@
     android:padding="13dip"
     android:text="@string/title"
     android:textColor="?attr/list_menu"
-    android:textSize="20sp" />
+    android:textSize="16sp" />

@@ -13,6 +13,7 @@
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
     <style name="Theme.VLC.Apearance" parent="Theme.AppCompat.Light">
@@ -169,7 +170,11 @@
 
     <style name="ActionBar.OverflowButton">
         <item name="android:src">@drawable/ic_menu_overflow</item>
-        <item name="android:background">@drawable/abc_item_background_holo_light</item>
+        <item name="background">@drawable/abc_item_background_holo_light</item>
+    </style>
+
+    <style name="ActionBar.ArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
     </style>
 
     <!-- Advanced options menu styles -->

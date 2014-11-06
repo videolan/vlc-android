@@ -8,4 +8,21 @@
         <item name="status_bar_overlay">@android:color/transparent</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
+    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
+        <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarSize">50dp</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
+    </style>
+	<style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+	    <item name="android:fontFamily">sans-serif-light</item>
+	</style>
+
+	<style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+	    <item name="android:fontFamily">sans-serif-light</item>
+	</style>
 </resources>
