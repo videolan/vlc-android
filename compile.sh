@@ -131,7 +131,7 @@ case "$REL" in
         ANDROID_API=android-9
         CXXSTL="/"${GCCVER}
     ;;
-    7|8|*)
+    *)
         echo "You need the NDKv9 or later"
         exit 1
     ;;
