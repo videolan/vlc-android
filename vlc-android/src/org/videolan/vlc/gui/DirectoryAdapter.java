@@ -352,7 +352,7 @@ public class DirectoryAdapter extends BaseAdapter {
                         mediaFileCount);
         }
         if (holderText.isEmpty())
-            holder.text.setVisibility(View.GONE);
+            holder.text.setVisibility(View.INVISIBLE);
         else {
             holder.text.setVisibility(View.VISIBLE);
             holder.text.setText(holderText);

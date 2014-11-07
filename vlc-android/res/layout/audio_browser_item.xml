@@ -3,13 +3,13 @@
     android:id="@+id/layout_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/audio_browser_item_size"
-    	android:layout_marginBottom="10dp" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp" >
 
         <ImageView
             android:id="@+id/cover"
@@ -19,24 +19,23 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/cover"
             android:layout_toLeftOf="@+id/item_more"
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:layout_centerVertical="true"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:singleLine="true"
                 android:ellipsize="middle"
                 android:maxLines="1"
                 android:text="@string/title"
                 android:textColor="?attr/list_title"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/subtitle"
@@ -46,8 +45,7 @@
                 android:ellipsize="middle"
                 android:maxLines="1"
                 android:text="@string/artist"
-                android:textColor="?attr/list_subtitle"
-                android:textSize="14sp" />
+                android:textColor="?attr/list_subtitle" />
         </LinearLayout>
 
         <ImageView
