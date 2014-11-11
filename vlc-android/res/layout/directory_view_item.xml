@@ -3,8 +3,7 @@
     android:id="@+id/layout_item"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@android:color/white" >
+    android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/dvi_icon"

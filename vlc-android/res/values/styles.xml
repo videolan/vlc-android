@@ -77,6 +77,7 @@
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
     <style name="Theme.VLC.Apearance.Black" parent="Theme.AppCompat">
@@ -105,7 +106,8 @@
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
-        <item name="android:windowBackground">@color/black2</item>
+        <item name="android:windowBackground">@color/black3</item>
+        <item name="android:background">@color/black2</item>
 
         <item name="mini_player_top_shadow">@null</item>
         <item name="audio_playlist_shadow">@null</item>
@@ -131,7 +133,6 @@
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
         <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>
-        
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
 

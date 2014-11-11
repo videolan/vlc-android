@@ -18,6 +18,16 @@
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Apearance.Black">
+        <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="actionBarSize">50dp</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+        <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
+    </style>
 	<style name="RobotoTextViewStyle" parent="android:Widget.TextView">
 	    <item name="android:fontFamily">sans-serif-light</item>
 	</style>
