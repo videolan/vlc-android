@@ -4,9 +4,11 @@ export ANDROID_HOME=$(ANDROID_SDK)
 
 ARCH = $(ANDROID_ABI)
 
-SRC=vlc-android
-JAVA_SOURCES=$(shell find $(SRC)/src/org/videolan -name "*.java" -o -name "*.aidl")
-JAVA_SOURCES+=$(shell find $(SRC)/res -name "*.xml" -o -name "*.png") 
+SRC=libvlc
+APP_SRC=vlc-android
+JAVA_SOURCES=$(shell find $(APP_SRC)/src/org/videolan -name "*.java" -o -name "*.aidl")
+JAVA_SOURCES+=$(shell find $(SRC)/src/org/videolan -name "*.java" -o -name "*.aidl")
+JAVA_SOURCES+=$(shell find $(APP_SRC)/res -name "*.xml" -o -name "*.png") 
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 LIBVLC_LIBS = libvlcjni
 
@@ -38,11 +40,11 @@ endif
 
 ifeq ($(RELEASE),1)
 ANT_TARGET = release
-VLC_APK=$(SRC)/bin/VLC-release-unsigned.apk
+VLC_APK=$(APP_SRC)/bin/VLC-release-unsigned.apk
 NDK_DEBUG=0
 else
 ANT_TARGET = debug
-VLC_APK=$(SRC)/bin/VLC-debug.apk
+VLC_APK=$(APP_SRC)/bin/VLC-debug.apk
 NDK_DEBUG=1
 endif
 
@@ -50,11 +52,11 @@ define build_apk
 	@echo
 	@echo "=== Building $(VLC_APK) for $(ARCH) ==="
 	@echo
-	date +"%Y-%m-%d" > $(SRC)/assets/builddate.txt
-	echo `id -u -n`@`hostname` > $(SRC)/assets/builder.txt
-	git rev-parse --short HEAD > $(SRC)/assets/revision.txt
-	./gen-env.sh $(SRC)
-	$(VERBOSE)cd $(SRC) && ant $(ANT_OPTS) $(ANT_TARGET)
+	date +"%Y-%m-%d" > $(APP_SRC)/assets/builddate.txt
+	echo `id -u -n`@`hostname` > $(APP_SRC)/assets/builder.txt
+	git rev-parse --short HEAD > $(APP_SRC)/assets/revision.txt
+	./gen-env.sh $(APP_SRC)
+	$(VERBOSE)cd $(APP_SRC) && ant $(ANT_OPTS) $(ANT_TARGET)
 endef
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
@@ -114,11 +116,12 @@ apkclean:
 	rm -f $(VLC_APK)
 
 lightclean:
-	cd $(SRC) && rm -rf libs obj bin $(VLC_APK)
+	cd $(SRC) && rm -rf libs obj
+	cd $(APP_SRC) && rm -rf bin $(VLC_APK)
 	rm -f $(PRIVATE_LIBDIR)/*.so $(PRIVATE_LIBDIR)/*.c
 
 clean: lightclean
-	rm -rf $(SRC)/gen java-libs/*/gen java-libs/*/bin .sdk vlc-sdk/ vlc-sdk.7z
+	rm -rf $(APP_SRC)/gen java-libs/*/gen java-libs/*/bin .sdk vlc-sdk/ vlc-sdk.7z
 
 jniclean: lightclean
 	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H)
@@ -156,9 +159,9 @@ vlc-sdk.7z: .sdk
 
 .sdk:
 	mkdir -p vlc-sdk/libs
-	cd vlc-android; cp -r libs/* ../vlc-sdk/libs
+	cd libvlc; cp -r libs/* ../vlc-sdk/libs
 	mkdir -p vlc-sdk/src/org/videolan
-	cp -r vlc-android/src/org/videolan/libvlc vlc-sdk/src/org/videolan
+	cp -r libvlc/src/org/videolan/libvlc vlc-sdk/src/org/videolan
 	touch $@
 
 .PHONY: lightclean clean jniclean distclean distclean-run apkclean apkclean-run install run build-and-run

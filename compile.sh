@@ -2,7 +2,7 @@
 
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
 # Setup all that stuff correctly.
-# Get the latest Android SDK Platform or modify numbers in configure.sh and vlc-android/default.properties.
+# Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
 set -e
 
@@ -63,11 +63,11 @@ if [ `set -- ${ANDROID_ABI}; echo $#` -gt 1 ]; then
             NO_FPU=$NO_FPU NO_ARMV6=$NO_ARMV6 ANDROID_ABI=$i \
             ./compile.sh $* --jni || { echo "$i build KO"; exit 1; }
         mkdir -p obj/
-        cp -r vlc-android/libs/$i obj
+        cp -r libvlc/libs/$i obj
         echo "$i build OK"
     done
     for i in ${ANDROID_ABI_LIST}; do
-        cp -r obj/$i vlc-android/libs/
+        cp -r obj/$i libvlc/libs/
         rm -rf obj/$i
     done
     if [ "$JNI" = 0 ];then
@@ -348,7 +348,7 @@ cd ../.. && mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_
 
 if [ "$JNI" = 1 ]; then
     CLEAN="jniclean"
-    TARGET="vlc-android/obj/local/${ANDROID_ABI}/libvlcjni.so"
+    TARGET="libvlc/obj/local/${ANDROID_ABI}/libvlcjni.so"
 else
     CLEAN="distclean"
     TARGET=
