@@ -34,3 +34,4 @@ gradlew.bat
 build/
 vlc-android/build/
 java-libs/WheelView/build/
+libVLC/build/

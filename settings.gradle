@@ -1,2 +1,3 @@
 include ':java-libs/WheelView'
+include ':libvlc'
 include ':vlc-android'
