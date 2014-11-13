@@ -26,3 +26,11 @@ java-libs/appcompat/.project
 
 # Android Studio
 .idea
+
+#gradle
+gradle.properties
+gradlew.bat
+.gradle/
+build/
+vlc-android/build/
+java-libs/WheelView/build/

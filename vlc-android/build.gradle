@@ -1,0 +1,96 @@
+apply plugin: 'com.android.application'
+
+task buildDebug(type:Exec) {
+    /*
+    Properties set for Android Studio own shell.
+    when you run gradlew from cli, OS shell env variables will be used
+
+    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
+    properties in local.properties in the root folder, like this (for example):
+    sdk.dir=/home/<username>/SDK/android-sdk-linux
+    ndk.dir=/home/<username>/SDK/android-ndk-r10b
+     */
+    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+    }
+    workingDir '..'
+    commandLine './compile.sh'
+    args('jni')
+}
+task buildRelease(type:Exec) {
+    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+    }
+
+    workingDir '..'
+    commandLine './compile.sh'
+    args('jni', 'release')
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
+
+    sourceSets.main {
+        jni.srcDirs = [] //this prevents gradle to build native code with ndk, we have our own MakeFile for it.
+        jniLibs.srcDir 'libs' //that's were generated .so files are put.
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src']
+        aidl.srcDirs = ['src']
+        renderscript.srcDirs = ['src']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+    }
+
+    lintOptions {
+	  abortOnError false
+    }
+
+    defaultConfig {
+        applicationId "org.videolan.vlc"
+        minSdkVersion 7
+        targetSdkVersion 21
+    }
+
+     signingConfigs {
+
+        release {
+            /*
+            To set this properties, create file gradle.properties with these 3 props.
+            e.g.
+            keyStoreFile=/home/<username>/.android/debug.keystore
+            storealias=androiddebugkey
+            storepwd=android
+             */
+            storeFile file(keyStoreFile)
+            storePassword storepwd
+            keyAlias storealias
+            keyPassword storepwd
+        }
+    }
+
+    buildTypes {
+        release {
+            tasks.assembleRelease.dependsOn buildRelease
+            signingConfig signingConfigs.release
+        }
+        debug {
+            tasks.assembleDebug.dependsOn buildDebug
+        }
+    }
+}
+
+dependencies {
+    compile project(':java-libs/WheelView')
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:cardview-v7:21.0.0'
+}
