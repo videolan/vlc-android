@@ -70,7 +70,9 @@ if [ `set -- ${ANDROID_ABI}; echo $#` -gt 1 ]; then
         cp -r obj/$i vlc-android/libs/
         rm -rf obj/$i
     done
-    make -b -j1 RELEASE=$RELEASE apk || exit 1
+    if [ "$JNI" = 0 ];then
+      make -b -j1 RELEASE=$RELEASE apk || exit 1
+    fi
     exit 0
 fi
 
