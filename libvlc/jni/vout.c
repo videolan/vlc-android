@@ -76,7 +76,7 @@ void jni_EventHardwareAccelerationError()
     jni_detach_thread();
 }
 
-void jni_SetAndroidSurfaceSizeEnv(JNIEnv *p_env, int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
+static void jni_SetAndroidSurfaceSizeEnv(JNIEnv *p_env, int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
 {
     if (vout_android_gui == NULL)
         return;
