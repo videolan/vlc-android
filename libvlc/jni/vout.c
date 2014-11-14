@@ -29,7 +29,6 @@ extern void jni_detach_thread();
 
 pthread_mutex_t vout_android_lock;
 pthread_cond_t vout_android_surf_attached;
-static void *vout_android_surf = NULL;
 static void *vout_android_gui = NULL;
 static jobject vout_android_java_surf = NULL;
 static jobject vout_android_subtitles_surf = NULL;
@@ -40,13 +39,6 @@ void *jni_LockAndGetSubtitlesSurface() {
     while (vout_android_subtitles_surf == NULL)
         pthread_cond_wait(&vout_android_surf_attached, &vout_android_lock);
     return vout_android_subtitles_surf;
-}
-
-void *jni_LockAndGetAndroidSurface() {
-    pthread_mutex_lock(&vout_android_lock);
-    while (vout_android_surf == NULL)
-        pthread_cond_wait(&vout_android_surf_attached, &vout_android_lock);
-    return vout_android_surf;
 }
 
 jobject jni_LockAndGetAndroidJavaSurface() {
@@ -105,6 +97,45 @@ void jni_SetAndroidSurfaceSize(int width, int height, int visible_width, int vis
         jni_detach_thread();
 }
 
+void *jni_AndroidJavaSurfaceToNativeSurface(jobject *surf)
+{
+    JNIEnv *p_env;
+    jclass clz;
+    jfieldID fid;
+    void *native_surface = NULL;
+    bool isAttached = false;
+
+    if (jni_get_env(&p_env) < 0) {
+        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
+            return NULL;
+        isAttached = true;
+    }
+    clz = (*p_env)->GetObjectClass(p_env, surf);
+    fid = (*p_env)->GetFieldID(p_env, clz, "mSurface", "I");
+    if (fid == NULL) {
+        jthrowable exp = (*p_env)->ExceptionOccurred(p_env);
+        if (exp) {
+            (*p_env)->DeleteLocalRef(p_env, exp);
+            (*p_env)->ExceptionClear(p_env);
+        }
+        fid = (*p_env)->GetFieldID(p_env, clz, "mNativeSurface", "I");
+        if (fid == NULL) {
+            jthrowable exp = (*p_env)->ExceptionOccurred(p_env);
+            if (exp) {
+                (*p_env)->DeleteLocalRef(p_env, exp);
+                (*p_env)->ExceptionClear(p_env);
+            }
+        }
+    }
+    if (fid != NULL)
+        native_surface = (void*)(*p_env)->GetIntField(p_env, surf, fid);
+    (*p_env)->DeleteLocalRef(p_env, clz);
+
+    if (isAttached)
+        jni_detach_thread();
+    return native_surface;
+}
+
 bool jni_IsVideoPlayerActivityCreated() {
     pthread_mutex_lock(&vout_android_lock);
     bool result = vout_video_player_activity_created;
@@ -120,27 +151,7 @@ void Java_org_videolan_libvlc_LibVLC_eventVideoPlayerActivityCreated(JNIEnv *env
 
 void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui) {
     pthread_mutex_lock(&vout_android_lock);
-    jclass clz;
-    jfieldID fid;
 
-    clz = (*env)->FindClass(env, "org/videolan/libvlc/LibVlcUtil");
-    jmethodID methodId = (*env)->GetStaticMethodID(env, clz, "isGingerbreadOrLater", "()Z");
-    jboolean gingerbreadOrLater = (*env)->CallStaticBooleanMethod(env, clz, methodId);
-    // Android 2.2 and under don't have ANativeWindow_fromSurface
-    if(unlikely(!gingerbreadOrLater)) {
-        clz = (*env)->GetObjectClass(env, surf);
-        fid = (*env)->GetFieldID(env, clz, "mSurface", "I");
-        if (fid == NULL) {
-            jthrowable exp = (*env)->ExceptionOccurred(env);
-            if (exp) {
-                (*env)->DeleteLocalRef(env, exp);
-                (*env)->ExceptionClear(env);
-            }
-            fid = (*env)->GetFieldID(env, clz, "mNativeSurface", "I");
-        }
-        vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
-        (*env)->DeleteLocalRef(env, clz);
-    }
     if (vout_android_gui != NULL)
         (*env)->DeleteGlobalRef(env, vout_android_gui);
     if (vout_android_java_surf != NULL)
@@ -153,7 +164,6 @@ void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jo
 
 void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_lock(&vout_android_lock);
-    vout_android_surf = NULL;
     if (vout_android_gui != NULL)
         (*env)->DeleteGlobalRef(env, vout_android_gui);
     if (vout_android_java_surf != NULL)
