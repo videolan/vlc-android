@@ -15,12 +15,12 @@ LIBVLC_LIBS = libvlcjni
 ifneq ($(HAVE_64),1)
 # Can't link with 32bits symbols.
 # Not a problem since MediaCodec should work on 64bits devices (android-21)
-LIBVLC_LIBS += libiomx-ics libiomx-hc libiomx-gingerbread
+LIBVLC_LIBS += libiomx.14 libiomx.13 libiomx.10
 endif
 
 # The following iomx libs are used for DEBUG only.
 # (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
-#LIBVLC_LIBS += libiomx-kk libiomx-jbmr2
+#LIBVLC_LIBS += libiomx.19 libiomx.18
 
 LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS)))
 

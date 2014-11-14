@@ -115,15 +115,15 @@ public class LibVLC {
     static {
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
-                System.loadLibrary("iomx-gingerbread");
+                System.loadLibrary("iomx.10");
             else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
-                System.loadLibrary("iomx-hc");
+                System.loadLibrary("iomx.13");
             else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
-                System.loadLibrary("iomx-ics");
+                System.loadLibrary("iomx.14");
             else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                System.loadLibrary("iomx-jbmr2");
+                System.loadLibrary("iomx.18");
             else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
-                System.loadLibrary("iomx-kk");
+                System.loadLibrary("iomx.19");
         } catch (Throwable t) {
             // No need to warn if it isn't found, when we intentionally don't build these except for debug
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
