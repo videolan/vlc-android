@@ -88,11 +88,6 @@ LIBIOMX_SRC_FILES_COMMON := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LIBIOMX_INCLUDES_COMMON := $(VLC_SRC_DIR)/modules/codec/omxil
 LIBIOMX_LDLIBS_COMMON := -L$(ANDROID_LIBS) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
 LIBIOMX_CFLAGS_COMMON := -Wno-psabi
-# Once we always build this with a version of vlc that contains nativewindowpriv.c,
-# we can remove this condition
-ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c))
-LIBIOMX_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
-endif
 
 # no hwbuffer for gingerbread
 LIBIOMX_INCLUDES_10 := $(LIBIOMX_INCLUDES_COMMON) \
@@ -149,3 +144,22 @@ endef
 # call build_iomx for each libiomx-* in LIBVLC_LIBS
 $(foreach IOMX_MODULE,$(filter libiomx.%,$(LIBVLC_LIBS)), \
 	$(eval $(call build_iomx,$(IOMX_MODULE),$(subst libiomx.,,$(IOMX_MODULE)))))
+
+LIBANW_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
+# Once we always build this with a version of vlc that contains nativewindowpriv.c,
+# we can remove this condition
+ifneq (,$(wildcard $(LOCAL_PATH)/$(LIBANW_SRC_FILES_COMMON)))
+
+define build_anw
+include $(CLEAR_VARS)
+LOCAL_MODULE := $(1)
+LOCAL_SRC_FILES  := $(LIBANW_SRC_FILES_COMMON)
+LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
+LOCAL_LDLIBS     := -L$(ANDROID_LIBS) -llog -lhardware
+LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=$(2)
+include $(BUILD_SHARED_LIBRARY)
+endef
+
+$(foreach ANW_MODULE,$(filter libanw.%,$(LIBVLC_LIBS)), \
+    $(eval $(call build_anw,$(ANW_MODULE),$(subst libanw.,,$(ANW_MODULE)))))
+endif

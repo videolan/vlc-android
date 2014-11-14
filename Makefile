@@ -22,6 +22,8 @@ endif
 # (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
 #LIBVLC_LIBS += libiomx.19 libiomx.18
 
+LIBVLC_LIBS += libanw.13 libanw.14 libanw.18
+
 LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS)))
 
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h

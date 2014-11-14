@@ -113,6 +113,19 @@ public class LibVLC {
 
     /* Load library before object instantiation */
     static {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            try {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2)
+                    System.loadLibrary("anw.13");
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                    System.loadLibrary("anw.14");
+                else
+                    System.loadLibrary("anw.18");
+            } catch (Throwable t) {
+                Log.w(TAG, "Unable to load the anw library: " + t);
+            }
+        }
+
         try {
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1)
                 System.loadLibrary("iomx.10");
