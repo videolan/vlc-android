@@ -26,6 +26,7 @@
 #define THREAD_NAME "jni_vout"
 extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
 extern void jni_detach_thread();
+extern int jni_get_env(JNIEnv **env);
 
 pthread_mutex_t vout_android_lock;
 pthread_cond_t vout_android_surf_attached;
@@ -134,6 +135,28 @@ void *jni_AndroidJavaSurfaceToNativeSurface(jobject *surf)
     if (isAttached)
         jni_detach_thread();
     return native_surface;
+}
+
+int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *configured)
+{
+    JNIEnv *p_env;
+    bool isAttached = false;
+    int ret;
+
+    if (jni_get_env(&p_env) < 0) {
+        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
+            return -1;
+        isAttached = true;
+    }
+    jclass clz = (*p_env)->GetObjectClass (p_env, vout_android_gui);
+    jmethodID methodId = (*p_env)->GetMethodID (p_env, clz, "configureSurface", "(Landroid/view/Surface;III)I");
+    ret = (*p_env)->CallIntMethod (p_env, vout_android_gui, methodId, jsurf, width, height, hal);
+    if (ret >= 0 && configured)
+        *configured = ret == 1;
+
+    if (isAttached)
+        jni_detach_thread();
+    return ret == -1 ? -1 : 0;
 }
 
 bool jni_IsVideoPlayerActivityCreated() {

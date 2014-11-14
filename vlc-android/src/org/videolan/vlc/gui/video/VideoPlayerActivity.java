@@ -74,7 +74,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
@@ -84,6 +83,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -130,6 +130,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private SurfaceView mSubtitlesSurfaceView;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceHolder mSubtitlesSurfaceHolder;
+    private Surface mSurface = null;
+    private Surface mSubtitleSurface = null;
     private FrameLayout mSurfaceFrame;
     private MediaRouter mMediaRouter;
     private MediaRouter.SimpleCallback mMediaRouterCallback;
@@ -385,19 +387,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
-        String chroma = mSettings.getString("chroma_format", "");
-        if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
-            mSurfaceHolder.setFormat(ImageFormat.YV12);
-        } else if (chroma.equals("RV16")) {
-            mSurfaceHolder.setFormat(PixelFormat.RGB_565);
-        } else {
-            mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
-        }
 
         mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
         mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
-        mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+        mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
         if (mPresentation == null) {
             mSurfaceHolder.addCallback(mSurfaceCallback);
@@ -868,6 +862,42 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mHandler.sendMessage(msg);
     }
 
+    @Override
+    public int configureSurface(final Surface surface, final int width, final int height, final int hal) {
+        if (LibVlcUtil.isHoneycombOrLater() || surface == null)
+            return -1;
+        if (width * height == 0)
+            return 0;
+        Log.d(TAG, "configureSurface: " + width +"x"+height);
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mSurface == surface && mSurfaceHolder != null) {
+                    mSurfaceHolder.setFormat(hal);
+                    mSurfaceHolder.setFixedSize(width, height);
+                } else if (mSubtitleSurface == surface && mSubtitlesSurfaceHolder != null) {
+                    mSubtitlesSurfaceHolder.setFormat(hal);
+                    mSubtitlesSurfaceHolder.setFixedSize(width, height);
+                }
+
+                synchronized (surface) {
+                    surface.notifyAll();
+                }
+            }
+        });
+
+        try {
+            synchronized (surface) {
+                surface.wait();
+            }
+        } catch (InterruptedException e) {
+            return 0;
+        }
+        return 1;
+    }
+
     /**
      * Lock screen rotation
      */
@@ -1308,27 +1338,17 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         SurfaceView surface;
         SurfaceView subtitlesSurface;
-        SurfaceHolder surfaceHolder;
-        SurfaceHolder subtitlesSurfaceHolder;
         FrameLayout surfaceFrame;
 
         if (mPresentation == null) {
             surface = mSurfaceView;
             subtitlesSurface = mSubtitlesSurfaceView;
-            surfaceHolder = mSurfaceHolder;
-            subtitlesSurfaceHolder = mSubtitlesSurfaceHolder;
             surfaceFrame = mSurfaceFrame;
         } else {
             surface = mPresentation.mSurfaceView;
             subtitlesSurface = mPresentation.mSubtitlesSurfaceView;
-            surfaceHolder = mPresentation.mSurfaceHolder;
-            subtitlesSurfaceHolder = mPresentation.mSubtitlesSurfaceHolder;
             surfaceFrame = mPresentation.mSurfaceFrame;
         }
-
-        // force surface buffer size
-        surfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
-        subtitlesSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
 
         // set display size
         LayoutParams lp = surface.getLayoutParams();
@@ -1825,16 +1845,19 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final SurfaceHolder.Callback mSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(format == PixelFormat.RGBX_8888)
-                Log.d(TAG, "Pixel format is RGBX_8888");
-            else if(format == PixelFormat.RGB_565)
-                Log.d(TAG, "Pixel format is RGB_565");
-            else if(format == ImageFormat.YV12)
-                Log.d(TAG, "Pixel format is YV12");
-            else
-                Log.d(TAG, "Pixel format is other/unknown");
-            if(mLibVLC != null)
-                mLibVLC.attachSurface(holder.getSurface(), VideoPlayerActivity.this);
+            if(mLibVLC != null) {
+                final Surface newSurface = holder.getSurface();
+                if (mSurface != newSurface) {
+                    if (mSurface != null) {
+                        synchronized (mSurface) {
+                            mSurface.notifyAll();
+                        }
+                    }
+                    mSurface = newSurface;
+                    Log.d(TAG, "surfaceChanged: " + mSurface);
+                    mLibVLC.attachSurface(mSurface, VideoPlayerActivity.this);
+                }
+            }
         }
 
         @Override
@@ -1843,16 +1866,32 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            if(mLibVLC != null)
+            Log.d(TAG, "surfaceDestroyed");
+            if(mLibVLC != null) {
+                synchronized (mSurface) {
+                    mSurface.notifyAll();
+                }
+                mSurface = null;
                 mLibVLC.detachSurface();
+            }
         }
     };
 
     private final SurfaceHolder.Callback mSubtitlesSurfaceCallback = new Callback() {
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            if(mLibVLC != null)
-                mLibVLC.attachSubtitlesSurface(holder.getSurface());
+            if(mLibVLC != null) {
+                final Surface newSurface = holder.getSurface();
+                if (mSubtitleSurface != newSurface) {
+                    if (mSubtitleSurface != null) {
+                        synchronized (mSubtitleSurface) {
+                            mSubtitleSurface.notifyAll();
+                        }
+                    }
+                    mSubtitleSurface = newSurface;
+                    mLibVLC.attachSubtitlesSurface(mSubtitleSurface);
+                }
+            }
         }
 
         @Override
@@ -1861,8 +1900,13 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
-            if(mLibVLC != null)
+            if(mLibVLC != null) {
+                synchronized (mSubtitleSurface) {
+                    mSubtitleSurface.notifyAll();
+                }
+                mSubtitleSurface = null;
                 mLibVLC.detachSubtitlesSurface();
+            }
         }
     };
 
@@ -2474,14 +2518,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mSurfaceView = (SurfaceView) findViewById(R.id.remote_player_surface);
             mSurfaceHolder = mSurfaceView.getHolder();
             mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
-            String chroma = mSettings.getString("chroma_format", "");
-            if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
-                mSurfaceHolder.setFormat(ImageFormat.YV12);
-            } else if (chroma.equals("RV16")) {
-                mSurfaceHolder.setFormat(PixelFormat.RGB_565);
-            } else {
-                mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
-            }
 
             VideoPlayerActivity activity = (VideoPlayerActivity)getOwnerActivity();
             if (activity == null) {
@@ -2493,8 +2529,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
             mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
             mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
-            mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
             mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+            mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
             /* Only show the subtitles surface when using "Full Acceleration" mode */
