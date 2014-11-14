@@ -42,6 +42,7 @@
 
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
+#define VOUT_ANDROID_WINDOW  2
 
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
@@ -258,7 +259,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
 
     methodId = (*env)->GetMethodID(env, cls, "getVout", "()I");
-    bool use_opengles2 = (*env)->CallIntMethod(env, thiz, methodId) == VOUT_OPENGLES2;
+    int vout = (*env)->CallIntMethod(env, thiz, methodId);
 
     methodId = (*env)->GetMethodID(env, cls, "timeStretchingEnabled", "()Z");
     bool enable_time_stretch = (*env)->CallBooleanMethod(env, thiz, methodId);
@@ -300,7 +301,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     bool direct_rendering = (*env)->CallBooleanMethod(env, thiz, methodId);
     /* With the MediaCodec opaque mode we cannot use the OpenGL ES vout. */
     if (direct_rendering)
-        use_opengles2 = false;
+        vout = VOUT_ANDROID_WINDOW;
 
     methodId = (*env)->GetMethodID(env, cls, "getCachePath", "()Ljava/lang/String;");
     jstring cachePath = (*env)->CallObjectMethod(env, thiz, methodId);
@@ -334,7 +335,8 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
 
         /* Android video API is a mess */
-        use_opengles2 ? "--vout=gles2" : "--vout=androidsurface",
+        vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" :
+            (vout == VOUT_OPENGLES2 ? "--vout=gles2" : "--vout=androidsurface"),
         "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
         /* XXX: we can't recover from direct rendering failure */
         direct_rendering ? "" : "--no-mediacodec-dr",

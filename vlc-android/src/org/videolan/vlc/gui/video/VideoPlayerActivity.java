@@ -393,6 +393,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
+        if (mLibVLC.useCompatSurface())
+            mSubtitlesSurfaceView.setVisibility(View.GONE);
         if (mPresentation == null) {
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
@@ -430,9 +432,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 "Hardware acceleration mode: "
                         + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
-        /* Only show the subtitles surface when using "Full Acceleration" mode */
-        if (mLibVLC.isDirectRendering())
-            mSubtitlesSurfaceView.setVisibility(View.VISIBLE);
         // Signal to LibVLC that the videoPlayerActivity was created, thus the
         // SurfaceView is now available for MediaCodec direct rendering.
         mLibVLC.eventVideoPlayerActivityCreated(true);
@@ -1206,7 +1205,6 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mDisabledHardwareAcceleration = true;
                 mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
                 mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-                mSubtitlesSurfaceView.setVisibility(View.INVISIBLE);
                 loadMedia();
             }
         })
@@ -2533,10 +2531,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
-            /* Only show the subtitles surface when using "Full Acceleration" mode */
-            if (mLibVLC != null && mLibVLC.isDirectRendering())
-                mSubtitlesSurfaceView.setVisibility(View.VISIBLE);
-
+            if (mLibVLC.useCompatSurface())
+                mSubtitlesSurfaceView.setVisibility(View.GONE);
             Log.i(TAG, "Secondary display created");
         }
     }

@@ -37,6 +37,7 @@ public class LibVLC {
 
     public static final int VOUT_ANDROID_SURFACE = 0;
     public static final int VOUT_OPEGLES2 = 1;
+    public static final int VOUT_ANDROID_WINDOW = 2;
 
     public static final int HW_ACCELERATION_AUTOMATIC = -1;
     public static final int HW_ACCELERATION_DISABLED = 0;
@@ -56,6 +57,7 @@ public class LibVLC {
     public static final int INPUT_NAV_RIGHT = 4;
 
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
+    private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
 
     private static LibVLC sInstance;
 
@@ -343,6 +345,8 @@ public class LibVLC {
     }
 
     public boolean isDirectRendering() {
+        if (!HAS_WINDOW_VOUT)
+            return false;
         if (devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC) {
             return (this.devHardwareDecoder == DEV_HW_DECODER_OMX_DR ||
                     this.devHardwareDecoder == DEV_HW_DECODER_MEDIACODEC_DR);
@@ -407,6 +411,12 @@ public class LibVLC {
             this.vout = VOUT_ANDROID_SURFACE;
         else
             this.vout = vout;
+        if (this.vout == VOUT_ANDROID_SURFACE && HAS_WINDOW_VOUT)
+            this.vout = VOUT_ANDROID_WINDOW;
+    }
+
+    public boolean useCompatSurface() {
+        return this.vout != VOUT_ANDROID_WINDOW;
     }
 
     public boolean timeStretchingEnabled() {
