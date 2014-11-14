@@ -124,7 +124,7 @@ clean: lightclean
 	rm -rf $(APP_SRC)/gen java-libs/*/gen java-libs/*/bin .sdk vlc-sdk/ vlc-sdk.7z
 
 jniclean: lightclean
-	rm -f $(LIBVLCJNI) $(LIBVLCJNI_H)
+	rm -rf $(LIBVLCJNI) $(LIBVLCJNI_H) $(APP_SRC)/libs/
 
 distclean: clean jniclean
 
