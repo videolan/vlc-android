@@ -27,7 +27,7 @@ LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS))
 LIBVLCJNI_H=$(SRC)/jni/libvlcjni.h
 
 PRIVATE_LIBDIR=android-libs
-PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $(PRIVATE_LIBDIR)/libutils.so $(PRIVATE_LIBDIR)/libcutils.so $(PRIVATE_LIBDIR)/libbinder.so $(PRIVATE_LIBDIR)/libui.so
+PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $(PRIVATE_LIBDIR)/libutils.so $(PRIVATE_LIBDIR)/libcutils.so $(PRIVATE_LIBDIR)/libbinder.so $(PRIVATE_LIBDIR)/libui.so $(PRIVATE_LIBDIR)/libhardware.so
 
 ifneq ($(V),)
 ANT_OPTS += -v
