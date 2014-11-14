@@ -92,11 +92,17 @@ static void jni_SetAndroidSurfaceSizeEnv(JNIEnv *p_env, int width, int height, i
 void jni_SetAndroidSurfaceSize(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
 {
     JNIEnv *p_env;
+    bool isAttached = false;
 
-    jni_attach_thread(&p_env, THREAD_NAME);
+    if (jni_get_env(&p_env) < 0) {
+        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
+            return;
+        isAttached = true;
+    }
     jni_SetAndroidSurfaceSizeEnv(p_env, width, height, visible_width, visible_height, sar_num, sar_den);
 
-    jni_detach_thread();
+    if (isAttached)
+        jni_detach_thread();
 }
 
 bool jni_IsVideoPlayerActivityCreated() {
