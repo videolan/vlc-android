@@ -159,7 +159,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
-    private static final int SURFACE_SIZE = 3;
+    private static final int SURFACE_LAYOUT = 3;
     private static final int AUDIO_SERVICE_CONNECTION_SUCCESS = 5;
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
     private static final int FADE_OUT_INFO = 4;
@@ -299,7 +299,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         public void onSystemUiVisibilityChange(int visibility) {
                             if (visibility == mUiVisibility)
                                 return;
-                            setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
                             if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && !isFinishing()) {
                                 showOverlay();
                             }
@@ -848,12 +848,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        setSurfaceSize(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
     }
 
     @Override
-    public void setSurfaceSize(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den) {
+    public void setSurfaceLayout(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den) {
         if (width * height == 0)
             return;
 
@@ -864,7 +864,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         mVideoVisibleWidth  = visible_width;
         mSarNum = sar_num;
         mSarDen = sar_den;
-        Message msg = mHandler.obtainMessage(SURFACE_SIZE);
+        Message msg = mHandler.obtainMessage(SURFACE_LAYOUT);
         mHandler.sendMessage(msg);
     }
 
@@ -1108,8 +1108,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                         sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
                     break;
-                case SURFACE_SIZE:
-                    activity.changeSurfaceSize();
+                case SURFACE_LAYOUT:
+                    activity.changeSurfaceLayout();
                     break;
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
@@ -1222,7 +1222,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void changeSurfaceSize() {
+    private void changeSurfaceLayout() {
         int sw;
         int sh;
 
@@ -1784,7 +1784,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         } else {
             mCurrentSize = 0;
         }
-        changeSurfaceSize();
+        changeSurfaceLayout();
         switch (mCurrentSize) {
             case SURFACE_BEST_FIT:
                 showInfo(R.string.surface_best_fit, 1000);
