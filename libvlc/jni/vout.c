@@ -135,6 +135,10 @@ void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jo
         vout_android_surf = (void*)(*env)->GetIntField(env, surf, fid);
         (*env)->DeleteLocalRef(env, clz);
     }
+    if (vout_android_gui != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_gui);
+    if (vout_android_java_surf != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_java_surf);
     vout_android_gui = (*env)->NewGlobalRef(env, gui);
     vout_android_java_surf = (*env)->NewGlobalRef(env, surf);
     pthread_cond_signal(&vout_android_surf_attached);
@@ -155,6 +159,8 @@ void Java_org_videolan_libvlc_LibVLC_detachSurface(JNIEnv *env, jobject thiz) {
 
 void Java_org_videolan_libvlc_LibVLC_attachSubtitlesSurface(JNIEnv *env, jobject thiz, jobject surf) {
     pthread_mutex_lock(&vout_android_lock);
+    if (vout_android_subtitles_surf != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_subtitles_surf);
     vout_android_subtitles_surf = (*env)->NewGlobalRef(env, surf);
     pthread_cond_signal(&vout_android_surf_attached);
     pthread_mutex_unlock(&vout_android_lock);
@@ -162,7 +168,8 @@ void Java_org_videolan_libvlc_LibVLC_attachSubtitlesSurface(JNIEnv *env, jobject
 
 void Java_org_videolan_libvlc_LibVLC_detachSubtitlesSurface(JNIEnv *env, jobject thiz) {
     pthread_mutex_lock(&vout_android_lock);
-    (*env)->DeleteGlobalRef(env, vout_android_subtitles_surf);
+    if (vout_android_subtitles_surf != NULL)
+        (*env)->DeleteGlobalRef(env, vout_android_subtitles_surf);
     vout_android_subtitles_surf = NULL;
     pthread_mutex_unlock(&vout_android_lock);
 }
