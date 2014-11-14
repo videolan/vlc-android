@@ -126,8 +126,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     // external intent.
     private final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
 
-    private SurfaceView mSurface;
-    private SurfaceView mSubtitlesSurface;
+    private SurfaceView mSurfaceView;
+    private SurfaceView mSubtitlesSurfaceView;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceHolder mSubtitlesSurfaceHolder;
     private FrameLayout mSurfaceFrame;
@@ -382,8 +382,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             return;
         }
 
-        mSurface = (SurfaceView) findViewById(R.id.player_surface);
-        mSurfaceHolder = mSurface.getHolder();
+        mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
+        mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceFrame = (FrameLayout) findViewById(R.id.player_surface_frame);
         String chroma = mSettings.getString("chroma_format", "");
         if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
@@ -394,10 +394,11 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             mSurfaceHolder.setFormat(PixelFormat.RGBX_8888);
         }
 
-        mSubtitlesSurface = (SurfaceView) findViewById(R.id.subtitles_surface);
-        mSubtitlesSurfaceHolder = mSubtitlesSurface.getHolder();
+        mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.subtitles_surface);
+        mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
-        mSubtitlesSurface.setZOrderMediaOverlay(true);
+        mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
+
         if (mPresentation == null) {
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
@@ -437,7 +438,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         /* Only show the subtitles surface when using "Full Acceleration" mode */
         if (mLibVLC.isDirectRendering())
-            mSubtitlesSurface.setVisibility(View.VISIBLE);
+            mSubtitlesSurfaceView.setVisibility(View.VISIBLE);
         // Signal to LibVLC that the videoPlayerActivity was created, thus the
         // SurfaceView is now available for MediaCodec direct rendering.
         mLibVLC.eventVideoPlayerActivityCreated(true);
@@ -501,7 +502,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
          */
         mLibVLC.stop();
 
-        mSurface.setKeepScreenOn(false);
+        mSurfaceView.setKeepScreenOn(false);
 
         SharedPreferences.Editor editor = mSettings.edit();
         // Save position
@@ -1175,7 +1176,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
                 mDisabledHardwareAcceleration = true;
                 mPreviousHardwareAccelerationMode = mLibVLC.getHardwareAcceleration();
                 mLibVLC.setHardwareAcceleration(LibVLC.HW_ACCELERATION_DISABLED);
-                mSubtitlesSurface.setVisibility(View.INVISIBLE);
+                mSubtitlesSurfaceView.setVisibility(View.INVISIBLE);
                 loadMedia();
             }
         })
@@ -1312,14 +1313,14 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
         FrameLayout surfaceFrame;
 
         if (mPresentation == null) {
-            surface = mSurface;
-            subtitlesSurface = mSubtitlesSurface;
+            surface = mSurfaceView;
+            subtitlesSurface = mSubtitlesSurfaceView;
             surfaceHolder = mSurfaceHolder;
             subtitlesSurfaceHolder = mSubtitlesSurfaceHolder;
             surfaceFrame = mSurfaceFrame;
         } else {
-            surface = mPresentation.mSurface;
-            subtitlesSurface = mPresentation.mSubtitlesSurface;
+            surface = mPresentation.mSurfaceView;
+            subtitlesSurface = mPresentation.mSubtitlesSurfaceView;
             surfaceHolder = mPresentation.mSurfaceHolder;
             subtitlesSurfaceHolder = mPresentation.mSubtitlesSurfaceHolder;
             surfaceFrame = mPresentation.mSurfaceFrame;
@@ -1379,9 +1380,9 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
         /* Offset for Mouse Events */
         int[] offset = new int[2];
-        mSurface.getLocationOnScreen(offset);
-        int xTouch = Math.round((event.getRawX() - offset[0]) * mVideoWidth / mSurface.getWidth());
-        int yTouch = Math.round((event.getRawY() - offset[1]) * mVideoHeight / mSurface.getHeight());
+        mSurfaceView.getLocationOnScreen(offset);
+        int xTouch = Math.round((event.getRawX() - offset[0]) * mVideoWidth / mSurfaceView.getWidth());
+        int yTouch = Math.round((event.getRawY() - offset[1]) * mVideoHeight / mSurfaceView.getHeight());
 
         switch (event.getAction()) {
 
@@ -2081,7 +2082,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     private void play() {
         mLibVLC.play();
-        mSurface.setKeepScreenOn(true);
+        mSurfaceView.setKeepScreenOn(true);
     }
 
     /**
@@ -2089,7 +2090,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
      */
     private void pause() {
         mLibVLC.pause();
-        mSurface.setKeepScreenOn(false);
+        mSurfaceView.setKeepScreenOn(false);
     }
 
     /**
@@ -2202,7 +2203,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             itemPosition = getIntent().getExtras().getInt("itemPosition", -1);
         }
 
-        mSurface.setKeepScreenOn(true);
+        mSurfaceView.setKeepScreenOn(true);
 
         if(mLibVLC == null)
             return;
@@ -2445,8 +2446,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
     private final class SecondaryDisplay extends Presentation {
         public final static String TAG = "VLC/SecondaryDisplay";
 
-        private SurfaceView mSurface;
-        private SurfaceView mSubtitlesSurface;
+        private SurfaceView mSurfaceView;
+        private SurfaceView mSubtitlesSurfaceView;
         private SurfaceHolder mSurfaceHolder;
         private SurfaceHolder mSubtitlesSurfaceHolder;
         private FrameLayout mSurfaceFrame;
@@ -2470,8 +2471,8 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.player_remote);
 
-            mSurface = (SurfaceView) findViewById(R.id.remote_player_surface);
-            mSurfaceHolder = mSurface.getHolder();
+            mSurfaceView = (SurfaceView) findViewById(R.id.remote_player_surface);
+            mSurfaceHolder = mSurfaceView.getHolder();
             mSurfaceFrame = (FrameLayout) findViewById(R.id.remote_player_surface_frame);
             String chroma = mSettings.getString("chroma_format", "");
             if(LibVlcUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
@@ -2490,15 +2491,16 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
             mSurfaceHolder.addCallback(activity.mSurfaceCallback);
 
-            mSubtitlesSurface = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
-            mSubtitlesSurfaceHolder = mSubtitlesSurface.getHolder();
+            mSubtitlesSurfaceView = (SurfaceView) findViewById(R.id.remote_subtitles_surface);
+            mSubtitlesSurfaceHolder = mSubtitlesSurfaceView.getHolder();
             mSubtitlesSurfaceHolder.setFormat(PixelFormat.RGBA_8888);
-            mSubtitlesSurface.setZOrderMediaOverlay(true);
+            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
             mSubtitlesSurfaceHolder.addCallback(activity.mSubtitlesSurfaceCallback);
 
             /* Only show the subtitles surface when using "Full Acceleration" mode */
             if (mLibVLC != null && mLibVLC.isDirectRendering())
-                mSubtitlesSurface.setVisibility(View.VISIBLE);
+                mSubtitlesSurfaceView.setVisibility(View.VISIBLE);
+
             Log.i(TAG, "Secondary display created");
         }
     }
