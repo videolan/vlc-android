@@ -396,12 +396,12 @@ make $MAKEFLAGS
 echo "Building VLC for Android"
 cd ../../
 
-export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers-gingerbread
-export ANDROID_SYS_HEADERS_HC=${PWD}/android-headers-hc
-export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers-ics
-export ANDROID_SYS_HEADERS_JB=${PWD}/android-headers-jb
-export ANDROID_SYS_HEADERS_JBMR2=${PWD}/android-headers-jbmr2
-export ANDROID_SYS_HEADERS_KK=${PWD}/android-headers-kk
+export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers/android-headers-gingerbread
+export ANDROID_SYS_HEADERS_HC=${PWD}/android-headers/android-headers-hc
+export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers/android-headers-ics
+export ANDROID_SYS_HEADERS_JB=${PWD}/android-headers/android-headers-jb
+export ANDROID_SYS_HEADERS_JBMR2=${PWD}/android-headers/android-headers-jbmr2
+export ANDROID_SYS_HEADERS_KK=${PWD}/android-headers/android-headers-kk
 
 export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
