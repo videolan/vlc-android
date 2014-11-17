@@ -874,10 +874,12 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
             @Override
             public void run() {
                 if (mSurface == surface && mSurfaceHolder != null) {
-                    mSurfaceHolder.setFormat(hal);
+                    if (hal != 0)
+                        mSurfaceHolder.setFormat(hal);
                     mSurfaceHolder.setFixedSize(width, height);
                 } else if (mSubtitleSurface == surface && mSubtitlesSurfaceHolder != null) {
-                    mSubtitlesSurfaceHolder.setFormat(hal);
+                    if (hal != 0)
+                        mSubtitlesSurfaceHolder.setFormat(hal);
                     mSubtitlesSurfaceHolder.setFixedSize(width, height);
                 }
 
