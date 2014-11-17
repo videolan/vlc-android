@@ -351,7 +351,7 @@ public class DirectoryAdapter extends BaseAdapter {
                         R.plurals.mediafiles_quantity, mediaFileCount,
                         mediaFileCount);
         }
-        if (holderText.isEmpty())
+        if ("".equals(holderText))
             holder.text.setVisibility(View.INVISIBLE);
         else {
             holder.text.setVisibility(View.VISIBLE);
