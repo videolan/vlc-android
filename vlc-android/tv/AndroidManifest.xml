@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.videolan.vlc"
+    android:installLocation="auto"
+    android:versionCode="9999"
+    android:versionName="1.0.0-git" >
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Needed for audio search on TV -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.gamepad"
+        android:required="false" />
+
+    <application
+        android:name="org.videolan.vlc.VLCApplication"
+        android:debuggable="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:logo="@drawable/ic_logo_w"
+        android:theme="@style/Theme.VLC.NoTitleBar" >
+        <activity
+		    android:name="org.videolan.vlc.gui.tv.MainTvActivity"
+		    android:label="@string/app_name"
+		    android:theme="@style/Theme.Leanback">
+
+		    <intent-filter
+		        android:priority="5">
+		      <action android:name="android.intent.action.MAIN" />
+		      <category android:name="android.intent.category.LAUNCHER" />
+		      <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+		    </intent-filter>
+	  </activity>
+
+      <activity android:name="org.videolan.vlc.gui.tv.DetailsActivity"
+        android:exported="true"
+        android:theme="@style/Theme.Leanback"/>
+
+      <activity android:name="org.videolan.vlc.gui.tv.VerticalGridActivity"
+        android:exported="true"
+        android:theme="@style/Theme.Leanback"/>
+
+      <activity android:name="org.videolan.vlc.gui.tv.SearchActivity"
+        android:exported="true"
+        android:theme="@style/Theme.Leanback"/>
+
+      <activity android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
+        android:exported="true"
+        android:launchMode="singleInstance"
+        android:theme="@style/Theme.Leanback"/>
+
+        <activity android:name=".gui.CompatErrorActivity" />
+        <activity android:name=".gui.PreferencesActivity" />
+        <activity
+            android:name=".gui.BrowserActivity"
+            android:label="@string/mediafiles"
+            android:theme="@style/Theme.VLC.NoTitleBar" />
+        <activity android:name=".gui.DebugLogActivity" />
+        <activity
+            android:name=".gui.NativeCrashActivity"
+            android:process=":NativeCrashActivity"
+            android:stateNotNeeded="true"
+            android:theme="@style/Theme.VLC" />
+        <activity
+            android:name=".gui.video.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Theme.VLC.Player" >
+
+            <!-- This filter captures protocols without type info -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="rtmp" />
+                <data android:scheme="rtmpe" />
+                <data android:scheme="rtmps" />
+                <data android:scheme="rtp" />
+                <data android:scheme="rtsp" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsh" />
+                <data android:scheme="icyx" />
+                <data android:scheme="httplive" />
+                <data android:scheme="udp" />
+                <data android:scheme="vlc" />
+            </intent-filter>
+            <!-- This filter captures protocols with type info -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="video/*" />
+                <data android:mimeType="audio/*" />
+                <data android:scheme="rtmp" />
+                <data android:scheme="rtmpe" />
+                <data android:scheme="rtmps" />
+                <data android:scheme="rtp" />
+                <data android:scheme="rtsp" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsh" />
+                <data android:scheme="icyx" />
+                <data android:scheme="httplive" />
+                <data android:scheme="udp" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="" />
+                <data android:scheme="file" />
+                <data android:scheme="ftp" />
+                <data android:scheme="content" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="*/rmvb" />
+                <data android:mimeType="*/avi" />
+                <data android:mimeType="*/mkv" />
+                <data android:mimeType="application/3gpp*" />
+                <data android:mimeType="application/mp4" />
+                <data android:mimeType="application/mpeg*" />
+                <data android:mimeType="application/ogg" />
+                <data android:mimeType="application/sdp" />
+                <data android:mimeType="application/vnd.3gp*" />
+                <data android:mimeType="application/vnd.apple.mpegurl" />
+                <data android:mimeType="application/vnd.dvd*" />
+                <data android:mimeType="application/vnd.dolby*" />
+                <data android:mimeType="application/vnd.rn-realmedia*" />
+                <data android:mimeType="application/x-iso9660-image" />
+                <data android:mimeType="application/x-extension-mp4" />
+                <data android:mimeType="application/x-flac" />
+                <data android:mimeType="application/x-matroska" />
+                <data android:mimeType="application/x-mpegURL" />
+                <data android:mimeType="application/x-ogg" />
+                <data android:mimeType="application/x-quicktimeplayer" />
+                <data android:mimeType="application/x-shockwave-flash" />
+                <data android:mimeType="application/xspf+xml" />
+                <data android:mimeType="misc/ultravox" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="" />
+                <data android:scheme="file" />
+                <data android:scheme="ftp" />
+                <data android:scheme="content" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="*" />
+
+                <!-- video -->
+
+                <data android:pathPattern=".*\\.3g2" />
+                <data android:pathPattern=".*\\.3gp" />
+                <data android:pathPattern=".*\\.3gp2" />
+                <data android:pathPattern=".*\\.3gpp" />
+                <data android:pathPattern=".*\\.amv" />
+                <data android:pathPattern=".*\\.asf" />
+                <data android:pathPattern=".*\\.avi" />
+                <data android:pathPattern=".*\\.divx" />
+                <data android:pathPattern=".*\\.drc" />
+                <data android:pathPattern=".*\\.dv" />
+                <data android:pathPattern=".*\\.f4v" />
+                <data android:pathPattern=".*\\.flv" />
+                <data android:pathPattern=".*\\.gvi" />
+                <data android:pathPattern=".*\\.gxf" />
+                <data android:pathPattern=".*\\.ismv" />
+                <data android:pathPattern=".*\\.iso" />
+                <data android:pathPattern=".*\\.m1v" />
+                <data android:pathPattern=".*\\.m2v" />
+                <data android:pathPattern=".*\\.m2t" />
+                <data android:pathPattern=".*\\.m2ts" />
+                <!-- <data android:pathPattern=".*\\.m3u" /> -->
+                <data android:pathPattern=".*\\.m3u8" />
+                <data android:pathPattern=".*\\.mkv" />
+                <data android:pathPattern=".*\\.mov" />
+                <data android:pathPattern=".*\\.mp2" />
+                <data android:pathPattern=".*\\.mp2v" />
+                <data android:pathPattern=".*\\.mp4" />
+                <data android:pathPattern=".*\\.mp4v" />
+                <data android:pathPattern=".*\\.mpe" />
+                <data android:pathPattern=".*\\.mpeg" />
+                <data android:pathPattern=".*\\.mpeg1" />
+                <data android:pathPattern=".*\\.mpeg2" />
+                <data android:pathPattern=".*\\.mpeg4" />
+                <data android:pathPattern=".*\\.mpg" />
+                <data android:pathPattern=".*\\.mpv2" />
+                <data android:pathPattern=".*\\.mts" />
+                <data android:pathPattern=".*\\.mtv" />
+                <data android:pathPattern=".*\\.mxf" />
+                <data android:pathPattern=".*\\.mxg" />
+                <data android:pathPattern=".*\\.nsv" />
+                <data android:pathPattern=".*\\.nut" />
+                <data android:pathPattern=".*\\.nuv" />
+                <data android:pathPattern=".*\\.ogm" />
+                <data android:pathPattern=".*\\.ogv" />
+                <data android:pathPattern=".*\\.ogx" />
+                <data android:pathPattern=".*\\.ps" />
+                <data android:pathPattern=".*\\.rec" />
+                <data android:pathPattern=".*\\.rm" />
+                <data android:pathPattern=".*\\.rmvb" />
+                <data android:pathPattern=".*\\.tod" />
+                <data android:pathPattern=".*\\.ts" />
+                <data android:pathPattern=".*\\.tts" />
+                <data android:pathPattern=".*\\.vob" />
+                <data android:pathPattern=".*\\.vro" />
+                <data android:pathPattern=".*\\.webm" />
+                <data android:pathPattern=".*\\.wm" />
+                <data android:pathPattern=".*\\.wmv" />
+                <data android:pathPattern=".*\\.wtv" />
+                <data android:pathPattern=".*\\.xesc" />
+                <data android:pathPattern=".*\\.3G2" />
+                <data android:pathPattern=".*\\.3GP" />
+                <data android:pathPattern=".*\\.3GP2" />
+                <data android:pathPattern=".*\\.3GPP" />
+                <data android:pathPattern=".*\\.AMV" />
+                <data android:pathPattern=".*\\.ASF" />
+                <data android:pathPattern=".*\\.AVI" />
+                <data android:pathPattern=".*\\.DIVX" />
+                <data android:pathPattern=".*\\.DRC" />
+                <data android:pathPattern=".*\\.DV" />
+                <data android:pathPattern=".*\\.F4V" />
+                <data android:pathPattern=".*\\.FLV" />
+                <data android:pathPattern=".*\\.GVI" />
+                <data android:pathPattern=".*\\.GXF" />
+                <data android:pathPattern=".*\\.ISMV" />
+                <data android:pathPattern=".*\\.ISO" />
+                <data android:pathPattern=".*\\.M1V" />
+                <data android:pathPattern=".*\\.M2V" />
+                <data android:pathPattern=".*\\.M2T" />
+                <data android:pathPattern=".*\\.M2TS" />
+                <!-- <data android:pathPattern=".*\\.M3U" /> -->
+                <data android:pathPattern=".*\\.M3U8" />
+                <data android:pathPattern=".*\\.MKV" />
+                <data android:pathPattern=".*\\.MOV" />
+                <data android:pathPattern=".*\\.MP2" />
+                <data android:pathPattern=".*\\.MP2V" />
+                <data android:pathPattern=".*\\.MP4" />
+                <data android:pathPattern=".*\\.MP4V" />
+                <data android:pathPattern=".*\\.MPE" />
+                <data android:pathPattern=".*\\.MPEG" />
+                <data android:pathPattern=".*\\.MPEG1" />
+                <data android:pathPattern=".*\\.MPEG2" />
+                <data android:pathPattern=".*\\.MPEG4" />
+                <data android:pathPattern=".*\\.MPG" />
+                <data android:pathPattern=".*\\.MPV2" />
+                <data android:pathPattern=".*\\.MTS" />
+                <data android:pathPattern=".*\\.MTV" />
+                <data android:pathPattern=".*\\.MXF" />
+                <data android:pathPattern=".*\\.MXG" />
+                <data android:pathPattern=".*\\.NSV" />
+                <data android:pathPattern=".*\\.NUT" />
+                <data android:pathPattern=".*\\.NUV" />
+                <data android:pathPattern=".*\\.OGM" />
+                <data android:pathPattern=".*\\.OGV" />
+                <data android:pathPattern=".*\\.OGX" />
+                <data android:pathPattern=".*\\.PS" />
+                <data android:pathPattern=".*\\.REC" />
+                <data android:pathPattern=".*\\.RM" />
+                <data android:pathPattern=".*\\.RMVB" />
+                <data android:pathPattern=".*\\.TOD" />
+                <data android:pathPattern=".*\\.TS" />
+                <data android:pathPattern=".*\\.TTS" />
+                <data android:pathPattern=".*\\.VOB" />
+                <data android:pathPattern=".*\\.VRO" />
+                <data android:pathPattern=".*\\.WEBM" />
+                <data android:pathPattern=".*\\.WM" />
+                <data android:pathPattern=".*\\.WMV" />
+                <data android:pathPattern=".*\\.WTV" />
+                <data android:pathPattern=".*\\.XESC" />
+
+                <!-- audio -->
+
+                <data android:pathPattern=".*\\.3ga" />
+                <data android:pathPattern=".*\\.a52" />
+                <data android:pathPattern=".*\\.aac" />
+                <data android:pathPattern=".*\\.ac3" />
+                <data android:pathPattern=".*\\.adt" />
+                <data android:pathPattern=".*\\.adts" />
+                <data android:pathPattern=".*\\.aif" />
+                <data android:pathPattern=".*\\.aifc" />
+                <data android:pathPattern=".*\\.aiff" />
+                <data android:pathPattern=".*\\.amr" />
+                <data android:pathPattern=".*\\.aob" />
+                <data android:pathPattern=".*\\.ape" />
+                <data android:pathPattern=".*\\.awb" />
+                <data android:pathPattern=".*\\.caf" />
+                <data android:pathPattern=".*\\.dts" />
+                <data android:pathPattern=".*\\.flac" />
+                <data android:pathPattern=".*\\.it" />
+                <data android:pathPattern=".*\\.m4a" />
+                <data android:pathPattern=".*\\.m4b" />
+                <data android:pathPattern=".*\\.m4p" />
+                <data android:pathPattern=".*\\.mid" />
+                <data android:pathPattern=".*\\.mka" />
+                <data android:pathPattern=".*\\.mlp" />
+                <data android:pathPattern=".*\\.mod" />
+                <data android:pathPattern=".*\\.mpa" />
+                <data android:pathPattern=".*\\.mp1" />
+                <data android:pathPattern=".*\\.mp2" />
+                <data android:pathPattern=".*\\.mp3" />
+                <data android:pathPattern=".*\\.mpc" />
+                <data android:pathPattern=".*\\.mpga" />
+                <data android:pathPattern=".*\\.oga" />
+                <data android:pathPattern=".*\\.ogg" />
+                <data android:pathPattern=".*\\.oma" />
+                <data android:pathPattern=".*\\.opus" />
+                <data android:pathPattern=".*\\.ra" />
+                <data android:pathPattern=".*\\.ram" />
+                <data android:pathPattern=".*\\.rmi" />
+                <data android:pathPattern=".*\\.s3m" />
+                <data android:pathPattern=".*\\.spx" />
+                <data android:pathPattern=".*\\.tta" />
+                <data android:pathPattern=".*\\.voc" />
+                <data android:pathPattern=".*\\.vqf" />
+                <data android:pathPattern=".*\\.w64" />
+                <data android:pathPattern=".*\\.wav" />
+                <data android:pathPattern=".*\\.wma" />
+                <data android:pathPattern=".*\\.wv" />
+                <data android:pathPattern=".*\\.xa" />
+                <data android:pathPattern=".*\\.xm" />
+                <data android:pathPattern=".*\\.3GA" />
+                <data android:pathPattern=".*\\.A52" />
+                <data android:pathPattern=".*\\.AAC" />
+                <data android:pathPattern=".*\\.AC3" />
+                <data android:pathPattern=".*\\.ADT" />
+                <data android:pathPattern=".*\\.ADTS" />
+                <data android:pathPattern=".*\\.AIF" />
+                <data android:pathPattern=".*\\.AIFC" />
+                <data android:pathPattern=".*\\.AIFF" />
+                <data android:pathPattern=".*\\.AMR" />
+                <data android:pathPattern=".*\\.AOB" />
+                <data android:pathPattern=".*\\.APE" />
+                <data android:pathPattern=".*\\.AWB" />
+                <data android:pathPattern=".*\\.CAF" />
+                <data android:pathPattern=".*\\.DTS" />
+                <data android:pathPattern=".*\\.FLAC" />
+                <data android:pathPattern=".*\\.IT" />
+                <data android:pathPattern=".*\\.M4A" />
+                <data android:pathPattern=".*\\.M4B" />
+                <data android:pathPattern=".*\\.M4P" />
+                <data android:pathPattern=".*\\.MID" />
+                <data android:pathPattern=".*\\.MKA" />
+                <data android:pathPattern=".*\\.MLP" />
+                <data android:pathPattern=".*\\.MOD" />
+                <data android:pathPattern=".*\\.MPA" />
+                <data android:pathPattern=".*\\.MP1" />
+                <data android:pathPattern=".*\\.MP2" />
+                <data android:pathPattern=".*\\.MP3" />
+                <data android:pathPattern=".*\\.MPC" />
+                <data android:pathPattern=".*\\.MPGA" />
+                <data android:pathPattern=".*\\.OGA" />
+                <data android:pathPattern=".*\\.OGG" />
+                <data android:pathPattern=".*\\.OMA" />
+                <data android:pathPattern=".*\\.OPUS" />
+                <data android:pathPattern=".*\\.RA" />
+                <data android:pathPattern=".*\\.RAM" />
+                <data android:pathPattern=".*\\.RMI" />
+                <data android:pathPattern=".*\\.S3M" />
+                <data android:pathPattern=".*\\.SPX" />
+                <data android:pathPattern=".*\\.TTA" />
+                <data android:pathPattern=".*\\.VOC" />
+                <data android:pathPattern=".*\\.VQF" />
+                <data android:pathPattern=".*\\.W64" />
+                <data android:pathPattern=".*\\.WAV" />
+                <data android:pathPattern=".*\\.WMA" />
+                <data android:pathPattern=".*\\.WV" />
+                <data android:pathPattern=".*\\.XA" />
+                <data android:pathPattern=".*\\.XM" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="org.videolan.vlc.audio.AudioService" />
+
+        <receiver android:name=".PhoneStateReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".widget.VLCAppWidgetProvider"
+            android:exported="false"
+            android:label="VLC mini player" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vlcwidget" />
+        </receiver>
+    </application>
+
+</manifest>

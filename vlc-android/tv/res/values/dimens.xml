@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="tv_card_width">192dp</dimen>
+    <dimen name="tv_card_height">108dp</dimen>
+</resources>

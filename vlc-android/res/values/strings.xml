@@ -303,9 +303,6 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
-    <!-- Android TV -->
-    <string name="search_results">Search results</string>
-
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>

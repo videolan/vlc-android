@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 task buildDebug(type:Exec) {
     /*
     Properties set for Android Studio own shell.
@@ -39,16 +40,6 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.0.2"
 
-    sourceSets.main {
-        manifest.srcFile 'AndroidManifest.xml'
-        java.srcDirs = ['src']
-        resources.srcDirs = ['src']
-        aidl.srcDirs = ['src']
-        renderscript.srcDirs = ['src']
-        res.srcDirs = ['res']
-        assets.srcDirs = ['assets']
-    }
-
     lintOptions {
 	  abortOnError false
     }
@@ -78,12 +69,53 @@ android {
 
     buildTypes {
         release {
-            tasks.assembleRelease.dependsOn buildRelease
             signingConfig signingConfigs.release
+            tasks.assembleRelease.dependsOn buildRelease
         }
         debug {
             tasks.assembleDebug.dependsOn buildDebug
         }
+    }
+    productFlavors {
+        vanilla {
+            tasks.whenTaskAdded { task ->
+                if (task.name == 'assembleVanillaDebug') {
+                    task.dependsOn buildDebug
+                } else if (task.name == 'assembleVanillaRelease') {
+                    task.dependsOn buildRelease
+                }
+            }
+            applicationId "org.videolan.vlc"
+        }
+        tv {
+            tasks.whenTaskAdded { task ->
+                if (task.name == 'assembleTvDebug') {
+                    task.dependsOn buildDebug
+                } else if (task.name == 'assembleTvRelease') {
+                    task.dependsOn buildRelease
+                }
+            }
+            minSdkVersion 17
+        }
+    }
+
+    sourceSets.main {
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src']
+        aidl.srcDirs = ['src']
+        renderscript.srcDirs = ['src']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+    }
+    sourceSets.tv {
+        manifest.srcFile 'tv/AndroidManifest.xml'
+        java.srcDirs = ['tv/src']
+        resources.srcDirs = ['tv/src']
+        aidl.srcDirs = ['tv/src']
+        renderscript.srcDirs = ['tv/src']
+        res.srcDirs = ['tv/res']
+        assets.srcDirs = ['tv/assets']
     }
 }
 
@@ -92,4 +124,5 @@ dependencies {
     compile project(':libvlc')
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.android.support:cardview-v7:21.0.0'
+    tvCompile 'com.android.support:leanback-v17:21.0.0'
 }
