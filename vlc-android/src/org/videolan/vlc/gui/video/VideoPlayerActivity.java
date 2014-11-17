@@ -863,7 +863,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     @Override
     public int configureSurface(final Surface surface, final int width, final int height, final int hal) {
-        if (LibVlcUtil.isHoneycombOrLater() || surface == null)
+        if (LibVlcUtil.isICSOrLater() || surface == null)
             return -1;
         if (width * height == 0)
             return 0;
