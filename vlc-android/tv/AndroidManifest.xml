@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Needed for audio search on TV -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -36,49 +37,47 @@
         android:logo="@drawable/ic_logo_w"
         android:theme="@style/Theme.VLC.NoTitleBar" >
         <activity
-		    android:name="org.videolan.vlc.gui.tv.MainTvActivity"
-		    android:label="@string/app_name"
-		    android:theme="@style/Theme.Leanback">
+            android:name="org.videolan.vlc.gui.tv.MainTvActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Leanback" >
+            <intent-filter android:priority="5" >
+                <action android:name="android.intent.action.MAIN" />
 
-		    <intent-filter
-		        android:priority="5">
-		      <action android:name="android.intent.action.MAIN" />
-		      <category android:name="android.intent.category.LAUNCHER" />
-		      <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
-		    </intent-filter>
-	  </activity>
-
-      <activity android:name="org.videolan.vlc.gui.tv.DetailsActivity"
-        android:exported="true"
-        android:theme="@style/Theme.Leanback"/>
-
-      <activity android:name="org.videolan.vlc.gui.tv.VerticalGridActivity"
-        android:exported="true"
-        android:theme="@style/Theme.Leanback"/>
-
-      <activity android:name="org.videolan.vlc.gui.tv.SearchActivity"
-        android:exported="true"
-        android:theme="@style/Theme.Leanback"/>
-
-      <activity android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
-        android:exported="true"
-        android:launchMode="singleInstance"
-        android:theme="@style/Theme.Leanback"/>
-
-        <activity android:name=".gui.CompatErrorActivity" />
-        <activity android:name=".gui.PreferencesActivity" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".gui.BrowserActivity"
+            android:name="org.videolan.vlc.gui.tv.DetailsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name="org.videolan.vlc.gui.tv.VerticalGridActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name="org.videolan.vlc.gui.tv.SearchActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Leanback" />
+        <activity
+            android:name="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Leanback" />
+        <activity android:name="org.videolan.vlc.gui.CompatErrorActivity" />
+        <activity android:name="org.videolan.vlc.gui.PreferencesActivity" />
+        <activity
+            android:name="org.videolan.vlc.gui.BrowserActivity"
             android:label="@string/mediafiles"
             android:theme="@style/Theme.VLC.NoTitleBar" />
-        <activity android:name=".gui.DebugLogActivity" />
+        <activity android:name="org.videolan.vlc.gui.DebugLogActivity" />
         <activity
-            android:name=".gui.NativeCrashActivity"
+            android:name="org.videolan.vlc.gui.NativeCrashActivity"
             android:process=":NativeCrashActivity"
             android:stateNotNeeded="true"
             android:theme="@style/Theme.VLC" />
         <activity
-            android:name=".gui.video.VideoPlayerActivity"
+            android:name="org.videolan.vlc.gui.video.VideoPlayerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.VLC.Player" >
 
@@ -397,13 +396,13 @@
 
         <service android:name="org.videolan.vlc.audio.AudioService" />
 
-        <receiver android:name=".PhoneStateReceiver" >
+        <receiver android:name="org.videolan.vlc.PhoneStateReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".widget.VLCAppWidgetProvider"
+            android:name="org.videolan.vlc.widget.VLCAppWidgetProvider"
             android:exported="false"
             android:label="VLC mini player" >
             <intent-filter>
@@ -413,6 +412,20 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/vlcwidget" />
+        </receiver>
+
+        <service
+            android:name="org.videolan.vlc.gui.tv.RecommendationsService"
+            android:exported="false" >
+        </service>
+
+        <receiver
+            android:name="org.videolan.vlc.gui.tv.BootupReceiver"
+            android:enabled="true"
+            android:exported="true" >
+          <intent-filter>
+            <action android:name="android.intent.action.BOOT_COMPLETED"/>
+          </intent-filter>
         </receiver>
     </application>
 

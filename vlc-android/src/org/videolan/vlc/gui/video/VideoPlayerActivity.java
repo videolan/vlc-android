@@ -124,7 +124,7 @@ public class VideoPlayerActivity extends Activity implements IVideoPlayer {
 
     // Internal intent identifier to distinguish between internal launch and
     // external intent.
-    private final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
+    public final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
 
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurfaceView;
