@@ -236,6 +236,8 @@
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_jump_buttons">Enable jump buttons</string>
     <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
+    <string name="force_list_portrait">No grid in portrait mode</string>
+    <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>

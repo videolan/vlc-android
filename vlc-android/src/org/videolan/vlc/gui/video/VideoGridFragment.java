@@ -55,6 +55,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
@@ -211,8 +212,10 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             Log.w(TAG, "Unable to setup the view");
             return;
         }
-
         Resources res = getResources();
+        boolean listMode = res.getBoolean(R.bool.list_mode);
+        listMode |= res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false);
         // Compute the left/right padding dynamically
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
@@ -222,7 +225,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
                 sidePadding, mGridView.getPaddingBottom());
 
         // Select between grid or list
-            if (!res.getBoolean(R.bool.list_mode)) {
+            if (!listMode) {
             mGridView.setNumColumns(GridView.AUTO_FIT);
             mGridView.setStretchMode(GRID_STRETCH_MODE);
             mGridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.grid_card_width));
@@ -231,6 +234,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         } else {
             mGridView.setNumColumns(1);
             mGridView.setStretchMode(LIST_STRETCH_MODE);
+            mGridView.setVerticalSpacing(0);
             mVideoAdapter.setListMode(true);
         }
     }

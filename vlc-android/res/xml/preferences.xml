@@ -48,6 +48,11 @@
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/interface_other_category" >
                 <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="force_list_portrait"
+                    android:summary="@string/force_list_portrait_summary"
+                    android:title="@string/force_list_portrait" />
+                <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_brightness_gesture"
                     android:summary="@string/enable_brightness_gesture_summary"
