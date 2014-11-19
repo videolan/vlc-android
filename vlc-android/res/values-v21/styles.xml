@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
-        <item name="actionBarStyle">@style/ActionBar</item>
-        <item name="actionBarSize">50dp</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
+    <style name="Theme.VLC" parent="Theme.VLC.21"/>
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.21"/>
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.21"/>
+
+    <style name="Theme.VLC.21" parent="Theme.VLC.17">
         <item name="android:statusBarColor">@color/darkorange</item>
-        <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
-        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
-        <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
+    </style>
+    <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.17">
+        <item name="android:statusBarColor">@color/black3</item>
+    </style>
+    <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
+        <item name="android:navigationBarColor">?attr/video_player_overlay</item>
     </style>
 </resources>
