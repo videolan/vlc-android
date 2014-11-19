@@ -6,7 +6,7 @@
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.21"/>
 
     <style name="Theme.VLC.21" parent="Theme.VLC.17">
-        <item name="android:statusBarColor">@color/darkorange</item>
+        <item name="android:statusBarColor">@color/darkerorange</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.17">
         <item name="android:statusBarColor">@color/black3</item>
