@@ -88,35 +88,35 @@ LIBIOMX_INCLUDES_COMMON := $(VLC_SRC_DIR)/modules/codec/omxil
 
 # no hwbuffer for gingerbread
 LIBIOMX_INCLUDES_10 := $(LIBIOMX_INCLUDES_COMMON) \
-	$(ANDROID_SYS_HEADERS_GINGERBREAD)/frameworks/base/include \
-	$(ANDROID_SYS_HEADERS_GINGERBREAD)/system/core/include \
-	$(ANDROID_SYS_HEADERS_GINGERBREAD)/hardware/libhardware/include
+	$(ANDROID_SYS_HEADERS)/10/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS)/10/system/core/include \
+	$(ANDROID_SYS_HEADERS)/10/hardware/libhardware/include
 
 LIBIOMX_INCLUDES_13 := $(LIBIOMX_INCLUDES_COMMON) \
-	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/include \
-	$(ANDROID_SYS_HEADERS_HC)/frameworks/base/native/include \
-	$(ANDROID_SYS_HEADERS_HC)/system/core/include \
-	$(ANDROID_SYS_HEADERS_HC)/hardware/libhardware/include
+	$(ANDROID_SYS_HEADERS)/13/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS)/13/frameworks/base/native/include \
+	$(ANDROID_SYS_HEADERS)/13/system/core/include \
+	$(ANDROID_SYS_HEADERS)/13/hardware/libhardware/include
 
 LIBIOMX_INCLUDES_14 := $(LIBIOMX_INCLUDES_COMMON) \
-	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/include \
-	$(ANDROID_SYS_HEADERS_ICS)/frameworks/base/native/include \
-	$(ANDROID_SYS_HEADERS_ICS)/system/core/include \
-	$(ANDROID_SYS_HEADERS_ICS)/hardware/libhardware/include
+	$(ANDROID_SYS_HEADERS)/14/frameworks/base/include \
+	$(ANDROID_SYS_HEADERS)/14/frameworks/base/native/include \
+	$(ANDROID_SYS_HEADERS)/14/system/core/include \
+	$(ANDROID_SYS_HEADERS)/14/hardware/libhardware/include
 
 LIBIOMX_SRC_FILES_18 := $(LIBIOMX_SRC_FILES_COMMON) $(LIBIOMX_SRC_FILES_HWBUFFER)
 LIBIOMX_INCLUDES_18 := $(LIBIOMX_INCLUDES_COMMON) \
-	$(ANDROID_SYS_HEADERS_JBMR2)/frameworks/native/include \
-	$(ANDROID_SYS_HEADERS_JBMR2)/frameworks/av/include \
-	$(ANDROID_SYS_HEADERS_JBMR2)/system/core/include \
-	$(ANDROID_SYS_HEADERS_JBMR2)/hardware/libhardware/include
+	$(ANDROID_SYS_HEADERS)/18/frameworks/native/include \
+	$(ANDROID_SYS_HEADERS)/18/frameworks/av/include \
+	$(ANDROID_SYS_HEADERS)/18/system/core/include \
+	$(ANDROID_SYS_HEADERS)/18/hardware/libhardware/include
 
 LIBIOMX_SRC_FILES_19 := $(LIBIOMX_SRC_FILES_COMMON) $(LIBIOMX_SRC_FILES_HWBUFFER)
 LIBIOMX_INCLUDES_19 := $(LIBIOMX_INCLUDES_COMMON) \
-	$(ANDROID_SYS_HEADERS_KK)/frameworks/native/include \
-	$(ANDROID_SYS_HEADERS_KK)/frameworks/av/include \
-	$(ANDROID_SYS_HEADERS_KK)/system/core/include \
-	$(ANDROID_SYS_HEADERS_KK)/hardware/libhardware/include
+	$(ANDROID_SYS_HEADERS)/19/frameworks/native/include \
+	$(ANDROID_SYS_HEADERS)/19/frameworks/av/include \
+	$(ANDROID_SYS_HEADERS)/19/system/core/include \
+	$(ANDROID_SYS_HEADERS)/19/hardware/libhardware/include
 
 define build_iomx
 include $(CLEAR_VARS)

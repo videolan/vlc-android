@@ -396,12 +396,7 @@ make $MAKEFLAGS
 echo "Building VLC for Android"
 cd ../../
 
-export ANDROID_SYS_HEADERS_GINGERBREAD=${PWD}/android-headers/android-headers-gingerbread
-export ANDROID_SYS_HEADERS_HC=${PWD}/android-headers/android-headers-hc
-export ANDROID_SYS_HEADERS_ICS=${PWD}/android-headers/android-headers-ics
-export ANDROID_SYS_HEADERS_JB=${PWD}/android-headers/android-headers-jb
-export ANDROID_SYS_HEADERS_JBMR2=${PWD}/android-headers/android-headers-jbmr2
-export ANDROID_SYS_HEADERS_KK=${PWD}/android-headers/android-headers-kk
+export ANDROID_SYS_HEADERS=${PWD}/android-headers
 
 export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
@@ -441,12 +436,7 @@ export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export GCCVER=$GCCVER
 export CXXSTL=$CXXSTL
-export ANDROID_SYS_HEADERS_GINGERBREAD=$ANDROID_SYS_HEADERS_GINGERBREAD
-export ANDROID_SYS_HEADERS_HC=$ANDROID_SYS_HEADERS_HC
-export ANDROID_SYS_HEADERS_ICS=$ANDROID_SYS_HEADERS_ICS
-export ANDROID_SYS_HEADERS_JB=$ANDROID_SYS_HEADERS_JB
-export ANDROID_SYS_HEADERS_JBMR2=$ANDROID_SYS_HEADERS_JBMR2
-export ANDROID_SYS_HEADERS_KK=$ANDROID_SYS_HEADERS_KK
+export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
