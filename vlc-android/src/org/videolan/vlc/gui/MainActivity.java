@@ -60,6 +60,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -195,8 +196,13 @@ public class MainActivity extends ActionBarActivity {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
-        if (enableBlackTheme)
+        if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
+            //We need to manually change statusbar color, otherwise, it remains orange.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(Color.DKGRAY);
+            }
+        }
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         setContentView(v_main);
