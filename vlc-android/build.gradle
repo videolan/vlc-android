@@ -37,11 +37,12 @@ task buildRelease(type:Exec) {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     lintOptions {
 	  abortOnError false
+      disable 'MissingTranslation', 'ExtraTranslation'
     }
 
     defaultConfig {
@@ -120,7 +121,7 @@ android {
 }
 
 dependencies {
-    compile project(':java-libs/WheelView')
+    compile project(':WheelView')
     compile project(':libvlc')
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.android.support:cardview-v7:21.0.0'
