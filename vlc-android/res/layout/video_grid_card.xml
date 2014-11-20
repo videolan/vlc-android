@@ -26,32 +26,49 @@
             android:textSize="@dimen/grid_card_title_text_size"
             android:textColor="?attr/list_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/ml_item_thumbnail"
+            android:layout_above="@+id/ml_item_time"
             android:layout_toLeftOf="@+id/item_more"
             android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
             android:ellipsize="end"
-            android:gravity="center_horizontal"
             android:maxLines="2" />
 
         <ImageView
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ml_item_thumbnail"
-            android:layout_marginTop="10dp"
+            android:layout_above="@+id/ml_item_resolution"
             android:layout_marginRight="7dp"
+            android:scaleType="fitCenter"
             android:clickable="true"
             android:src="@drawable/ic_more_vert_grey600_24dp" />
 
         <TextView
-            android:id="@+id/ml_item_subtitle"
-            android:layout_width="fill_parent"
+            android:id="@+id/ml_item_time"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/ml_item_resolution"
+            android:gravity="left"
             android:layout_marginBottom="3dp"
-            android:gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            android:textSize="@dimen/grid_card_subtitle_text_size"
+            android:textColor="?attr/list_subtitle" />
+
+        <TextView
+            android:id="@+id/ml_item_resolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="5dp"
             android:singleLine="true"
             android:textSize="@dimen/grid_card_subtitle_text_size"
             android:textColor="?attr/list_subtitle" />

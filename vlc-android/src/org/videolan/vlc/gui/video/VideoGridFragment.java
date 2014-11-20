@@ -232,9 +232,12 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             mGridView.setVerticalSpacing(res.getDimensionPixelSize(R.dimen.grid_card_vertical_spacing));
             mVideoAdapter.setListMode(false);
         } else {
+            int padding = res.getDimensionPixelSize(R.dimen.listview_side_padding);
             mGridView.setNumColumns(1);
             mGridView.setStretchMode(LIST_STRETCH_MODE);
             mGridView.setVerticalSpacing(0);
+            mGridView.setHorizontalSpacing(0);
+            mGridView.setPadding(padding,0,padding,0);
             mVideoAdapter.setListMode(true);
         }
     }

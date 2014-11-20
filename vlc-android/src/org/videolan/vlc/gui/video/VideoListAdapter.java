@@ -147,7 +147,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
-            holder.subtitle = (TextView) v.findViewById(R.id.ml_item_subtitle);
+            holder.time = (TextView) v.findViewById(R.id.ml_item_time);
+            holder.resolution = (TextView) v.findViewById(R.id.ml_item_resolution);
             holder.progress = (ProgressBar) v.findViewById(R.id.ml_item_progress);
             holder.more = (ImageView) v.findViewById(R.id.item_more);
             holder.listmode = mListMode;
@@ -200,33 +201,34 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
 
-        holder.subtitle.setText(text);
+        holder.resolution.setText(text);
         holder.title.setText(media.getTitle() + "\u2026"); // ellipsis
-        holder.more.setVisibility(View.INVISIBLE);
+        holder.more.setVisibility(View.GONE);
         holder.progress.setVisibility(View.INVISIBLE);
     }
 
     private void fillVideoView(ViewHolder holder, Media media) {
         /* Time / Duration */
-        long lastTime = media.getTime();
-        String text;
-        if (lastTime > 0) {
-            text = String.format("%s / %s",
-                    Strings.millisToText(lastTime),
-                    Strings.millisToText(media.getLength()));
-            holder.progress.setVisibility(View.VISIBLE);
-            holder.progress.setMax((int) (media.getLength() / 1000));
-            holder.progress.setProgress((int) (lastTime / 1000));
-        } else {
-            text = Strings.millisToText(media.getLength());
-            holder.progress.setVisibility(View.INVISIBLE);
-        }
+        if (media.getLength() > 0) {
+            long lastTime = media.getTime();
+            String text;
+            if (lastTime > 0) {
+                text = String.format("%s / %s",
+                        Strings.millisToText(lastTime),
+                        Strings.millisToText(media.getLength()));
+                holder.progress.setVisibility(View.VISIBLE);
+                holder.progress.setMax((int) (media.getLength() / 1000));
+                holder.progress.setProgress((int) (lastTime / 1000));
+            } else {
+                text = Strings.millisToText(media.getLength());
+                holder.progress.setVisibility(View.INVISIBLE);
+            }
 
-        if (media.getWidth() > 0 && media.getHeight() > 0) {
-            text += String.format(" - %dx%d", media.getWidth(), media.getHeight());
-        }
-
-        holder.subtitle.setText(text);
+            holder.time.setText(text);
+        } else
+                holder.progress.setVisibility(View.INVISIBLE);
+        if (media.getWidth() > 0 && media.getHeight() > 0)
+            holder.resolution.setText(String.format("%dx%d", media.getWidth(), media.getHeight()));
         holder.title.setText(media.getTitle());
         holder.more.setVisibility(View.VISIBLE);
     }
@@ -236,7 +238,8 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         View layout;
         ImageView thumbnail;
         TextView title;
-        TextView subtitle;
+        TextView time;
+        TextView resolution;
         ImageView more;
         ProgressBar progress;
     }
