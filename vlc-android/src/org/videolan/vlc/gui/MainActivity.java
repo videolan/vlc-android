@@ -106,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
 
+    private Context mContext;
     private ActionBar mActionBar;
     private SidebarAdapter mSidebarAdapter;
     private AudioPlayer mAudioPlayer;
@@ -150,6 +151,7 @@ public class MainActivity extends ActionBarActivity {
             return;
         }
 
+        mContext = this;
         /* Get the current version from package */
         PackageInfo pinfo = null;
         try {
@@ -254,34 +256,42 @@ public class MainActivity extends ActionBarActivity {
                 if(entry == null || entry.id == null)
                     return;
 
+                if (entry.type == SidebarEntry.TYPE_FRAGMENT) {
                 /*
                  * Clear any backstack before switching tabs. This avoids
                  * activating an old backstack, when a user hits the back button
                  * to quit
                  */
-                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 /* Slide down the audio player */
-                slideDownAudioPlayer();
+                    slideDownAudioPlayer();
 
                 /* Switch the fragment */
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_placeholder, getFragment(entry.id), entry.id);
-                ft.commit();
-                mCurrentFragment = entry.id;
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_placeholder, getFragment(entry.id), entry.id);
+                    ft.commit();
+                    supportInvalidateOptionsMenu();
+                    mCurrentFragment = entry.id;
 
                 /*
                  * Set user visibility hints to work around weird Android
                  * behaviour of duplicate context menu events.
                  */
-                current.setUserVisibleHint(false);
-                getFragment(mCurrentFragment).setUserVisibleHint(true);
-                // HACK ALERT: Set underlying audio browser to be invisible too.
-                if(current.getTag().equals("tracks"))
-                    getFragment("audio").setUserVisibleHint(false);
+                    current.setUserVisibleHint(false);
+                    getFragment(mCurrentFragment).setUserVisibleHint(true);
+                    // HACK ALERT: Set underlying audio browser to be invisible too.
+                    if(current.getTag().equals("tracks"))
+                        getFragment("audio").setUserVisibleHint(false);
 
-                if (mFocusedPrior != 0)
-                    findViewById(R.id.ml_menu_search).requestFocus();
+                    if (mFocusedPrior != 0)
+                        findViewById(R.id.ml_menu_search).requestFocus();
+                    mRootContainer.closeDrawer(mListView);
+                } else if (entry.attributeID == R.attr.ic_menu_openmrl){
+                    onOpenMRL();
+                }else if (entry.attributeID == R.attr.ic_menu_preferences){
+                    startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                }
                 mRootContainer.closeDrawer(mListView);
             }
         });
@@ -594,7 +604,10 @@ public class MainActivity extends ActionBarActivity {
         // Enable the clear search history function for the search fragment.
         if (mCurrentFragment != null && mCurrentFragment.equals("search"))
             menu.findItem(R.id.search_clear_history).setVisible(true);
-        return true;
+
+        menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -637,11 +650,6 @@ public class MainActivity extends ActionBarActivity {
             case R.id.ml_menu_about:
                 showSecondaryFragment("about");
                 break;
-            // Preferences
-            case R.id.ml_menu_preferences:
-                intent = new Intent(this, PreferencesActivity.class);
-                startActivityForResult(intent, ACTIVITY_RESULT_PREFERENCES);
-                break;
             case R.id.ml_menu_equalizer:
                 showSecondaryFragment("equalizer");
                 break;
@@ -656,10 +664,6 @@ public class MainActivity extends ActionBarActivity {
             case R.id.ml_menu_last_playlist:
                 Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
                 sendBroadcast(i);
-                break;
-            // Open MRL
-            case R.id.ml_menu_open_mrl:
-                onOpenMRL();
                 break;
             case R.id.ml_menu_search:
                 onSearchRequested();

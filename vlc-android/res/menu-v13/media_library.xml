@@ -9,12 +9,6 @@
         android:nextFocusDown="@id/ml_menu_search"
         vlc:showAsAction="ifRoom" />
     <item
-        android:id="@+id/ml_menu_open_mrl"
-        android:icon="@drawable/ic_menu_goto"
-        android:title="@string/open_mrl"
-        android:nextFocusDown="@id/ml_menu_open_mrl"
-        vlc:showAsAction="ifRoom" />
-    <item
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sortby"
         android:id="@+id/ml_menu_sortby">
@@ -43,10 +37,6 @@
         android:id="@+id/ml_menu_equalizer"
         android:icon="@drawable/ic_menu_equalizer"
         android:title="@string/equalizer" />
-    <item
-        android:id="@+id/ml_menu_preferences"
-        android:icon="@drawable/ic_menu_preferences"
-        android:title="@string/preferences" />
     <item
         android:id="@+id/ml_menu_about"
         android:icon="@drawable/ic_menu_info"

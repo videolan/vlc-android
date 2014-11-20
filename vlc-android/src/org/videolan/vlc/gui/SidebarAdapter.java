@@ -46,14 +46,26 @@ public class SidebarAdapter extends BaseAdapter {
     public final static String TAG = "VLC/SidebarAdapter";
 
     static class SidebarEntry {
+        public static final  int TYPE_FRAGMENT = 0;
+        public static final  int TYPE_ACTION = 1;
+
+        public static final String ID_VIDEO = "video";
+        public static final String ID_AUDIO = "audio";
+        public static final String ID_DIRECTORIES = "directories";
+        public static final String ID_HISTORY = "history";
+        public static final String ID_MRL = "mrl";
+        public static final String ID_PREFERENCES = "preferences";
+
         String id;
         String name;
         int attributeID;
+        int type;
 
-        public SidebarEntry(String _id, int _name, int _attributeID) {
-            this.id = _id;
-            this.name = VLCApplication.getAppContext().getString(_name);
-            this.attributeID = _attributeID;
+        public SidebarEntry(String id, int name, int attributeID, int type) {
+            this.id = id;
+            this.name = VLCApplication.getAppContext().getString(name);
+            this.attributeID = attributeID;
+            this.type = type;
         }
     }
 
@@ -65,20 +77,17 @@ public class SidebarAdapter extends BaseAdapter {
     private String mCurrentFragmentId;
 
     static {
-        SidebarEntry entries2[] = {
-            new SidebarEntry( "video", R.string.video, R.attr.ic_menu_video ),
-            new SidebarEntry( "audio", R.string.audio, R.attr.ic_menu_audio ),
-            new SidebarEntry( "directories", R.string.directories, R.attr.ic_menu_folder ),
-            new SidebarEntry( "history", R.string.history, R.attr.ic_menu_history ),
-            //new SidebarEntry( "bookmarks", R.string.bookmarks, R.drawable.ic_bookmarks ),
-            //new SidebarEntry( "playlists", R.string.playlists, R.drawable.icon ),
-        };
-        entries = Arrays.asList(entries2);
-
+        entries = new ArrayList<SidebarEntry>();
+        entries.add(new SidebarEntry(SidebarEntry.ID_VIDEO, R.string.video, R.attr.ic_menu_video, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_AUDIO, R.string.audio, R.attr.ic_menu_audio, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_DIRECTORIES, R.string.directories, R.attr.ic_menu_folder, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_HISTORY, R.string.history, R.attr.ic_menu_history, SidebarEntry.TYPE_FRAGMENT));
         sidebarFragments = new ArrayList<String>();
-        for(SidebarEntry e : entries2) {
+        for(SidebarEntry e : entries) {
             sidebarFragments.add(e.id);
         }
+        entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_ACTION));
+        entries.add(new SidebarEntry(SidebarEntry.ID_PREFERENCES, R.string.preferences, R.attr.ic_menu_preferences, SidebarEntry.TYPE_ACTION));
     }
 
     public SidebarAdapter(Context context) {

@@ -48,6 +48,8 @@
     <attr name="ic_menu_audio" format="reference" />
     <attr name="ic_menu_folder" format="reference" />
     <attr name="ic_menu_history" format="reference" />
+    <attr name="ic_menu_openmrl" format="reference" />
+    <attr name="ic_menu_preferences" format="reference" />
     <attr name="ic_move_media" format="reference" />
     
     <attr name="mini_player_top_shadow" format="reference" />
