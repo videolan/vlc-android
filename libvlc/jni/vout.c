@@ -58,12 +58,17 @@ void jni_EventHardwareAccelerationError()
     JNIEnv *env;
     bool isAttached = false;
 
-    if (vout_android_gui == NULL)
+    pthread_mutex_lock(&vout_android_lock);
+    if (vout_android_gui == NULL) {
+        pthread_mutex_unlock(&vout_android_lock);
         return;
+    }
 
     if (jni_get_env(&env) < 0) {
-        if (jni_attach_thread(&env, THREAD_NAME) < 0)
+        if (jni_attach_thread(&env, THREAD_NAME) < 0) {
+            pthread_mutex_unlock(&vout_android_lock);
             return;
+        }
         isAttached = true;
     }
 
@@ -74,12 +79,16 @@ void jni_EventHardwareAccelerationError()
     (*env)->DeleteLocalRef(env, cls);
     if (isAttached)
         jni_detach_thread();
+    pthread_mutex_unlock(&vout_android_lock);
 }
 
 static void jni_SetSurfaceLayoutEnv(JNIEnv *p_env, int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
 {
-    if (vout_android_gui == NULL)
+    pthread_mutex_lock(&vout_android_lock);
+    if (vout_android_gui == NULL) {
+        pthread_mutex_unlock(&vout_android_lock);
         return;
+    }
 
     jclass cls = (*p_env)->GetObjectClass (p_env, vout_android_gui);
     jmethodID methodId = (*p_env)->GetMethodID (p_env, cls, "setSurfaceLayout", "(IIIIII)V");
@@ -87,6 +96,7 @@ static void jni_SetSurfaceLayoutEnv(JNIEnv *p_env, int width, int height, int vi
     (*p_env)->CallVoidMethod (p_env, vout_android_gui, methodId, width, height, visible_width, visible_height, sar_num, sar_den);
 
     (*p_env)->DeleteLocalRef(p_env, cls);
+    pthread_mutex_unlock(&vout_android_lock);
 }
 
 void jni_SetSurfaceLayout(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
@@ -150,9 +160,17 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
     bool isAttached = false;
     int ret;
 
+    pthread_mutex_lock(&vout_android_lock);
+    if (vout_android_gui == NULL) {
+        pthread_mutex_unlock(&vout_android_lock);
+        return -1;
+    }
+
     if (jni_get_env(&p_env) < 0) {
-        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
+        if (jni_attach_thread(&p_env, THREAD_NAME) < 0) {
+            pthread_mutex_unlock(&vout_android_lock);
             return -1;
+        }
         isAttached = true;
     }
     jclass clz = (*p_env)->GetObjectClass (p_env, vout_android_gui);
@@ -165,6 +183,7 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
 
     if (isAttached)
         jni_detach_thread();
+    pthread_mutex_unlock(&vout_android_lock);
     return ret == -1 ? -1 : 0;
 }
 
