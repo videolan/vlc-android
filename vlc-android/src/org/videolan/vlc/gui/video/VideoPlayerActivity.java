@@ -103,6 +103,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLayoutChangeListener;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -264,6 +265,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private boolean mHasMenu = false;
     private boolean mIsNavMenu = false;
 
+    private OnLayoutChangeListener mOnLayoutChangeListener;
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,7 +305,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                         public void onSystemUiVisibilityChange(int visibility) {
                             if (visibility == mUiVisibility)
                                 return;
-                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
                             if (visibility == View.SYSTEM_UI_FLAG_VISIBLE && !mShowing && !isFinishing()) {
                                 showOverlay();
                             }
@@ -528,6 +530,32 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         AudioServiceController.getInstance().unbindAudioService(this);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (!LibVlcUtil.isHoneycombOrLater())
+            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStart() {
+        if (LibVlcUtil.isHoneycombOrLater()) {
+            if (mOnLayoutChangeListener == null) {
+                mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right,
+                            int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom)
+                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+                    }
+                };
+            }
+            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
+        }
+        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+        super.onStart();
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onStop() {
@@ -540,6 +568,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mPresentation = null;
         }
         restoreBrightness();
+        if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
+            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
@@ -850,12 +880,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             default:
                 return false;
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-        super.onConfigurationChanged(newConfig);
     }
 
     @Override
