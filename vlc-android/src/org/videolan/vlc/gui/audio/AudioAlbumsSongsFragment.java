@@ -36,6 +36,7 @@ import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.FlingViewGroup;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
@@ -312,21 +313,33 @@ public class AudioAlbumsSongsFragment extends Fragment {
     }
 
     private void updateList() {
-        if (mediaList == null)
+        if (mediaList == null || getActivity() == null)
             return;
+
+        final Activity activity = getActivity();
 
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
-
-        Collections.sort(mediaList, MediaComparators.byAlbum);
-
-        for (int i = 0; i < mediaList.size(); ++i) {
-            Media media = mediaList.get(i);
-            mAlbumsAdapter.addSeparator(media.getArtist(), media);
-            mAlbumsAdapter.add(media.getAlbum(), null, media);
-            mSongsAdapter.addSeparator(media.getAlbum(), media);
-            mSongsAdapter.add(media.getTitle(), null, media);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Collections.sort(mediaList, MediaComparators.byAlbum);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < mediaList.size(); ++i) {
+                            Media media = mediaList.get(i);
+                            mAlbumsAdapter.addSeparator(media.getArtist(), media);
+                            mAlbumsAdapter.add(media.getAlbum(), null, media);
+                            mSongsAdapter.addSeparator(media.getAlbum(), media);
+                            mSongsAdapter.add(media.getTitle(), null, media);
+                        }
+                        mAlbumsAdapter.notifyDataSetChanged();
+                        mSongsAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
     }
 
     OnItemClickListener albumsListener = new OnItemClickListener() {

@@ -22,18 +22,22 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -49,6 +53,11 @@ import android.widget.TextView;
 public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndexer {
     public final static String TAG = "VLC/AudioBrowserListAdapter";
 
+    public final static int TYPE_ARTISTS = 0;
+    public final static int TYPE_ALBUMS = 1;
+    public final static int TYPE_SONGS = 2;
+    public final static int TYPE_GENRES = 3;
+
     // Key: the item title, value: ListItem of only media item (no separator).
     private Map<String, ListItem> mMediaItemMap;
     private Map<String, ListItem> mSeparatorItemMap;
@@ -59,7 +68,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     private int mAlignMode; // align mode from prefs
 
-    private Context mContext;
+    private Activity mContext;
 
     // The types of the item views: media and separator.
     private static final int VIEW_MEDIA = 0;
@@ -89,7 +98,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     }
 
-    public AudioBrowserListAdapter(Context context, int itemType) {
+    public AudioBrowserListAdapter(Activity context, int itemType) {
         mMediaItemMap = new HashMap<String, ListItem>();
         mSeparatorItemMap = new HashMap<String, ListItem>();
         mItems = new ArrayList<ListItem>();
@@ -113,7 +122,47 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             mMediaItemMap.put(title, item);
             mItems.add(item);
         }
-        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Media> mediaList, final int type) {
+        final LinkedList<Media> list = new LinkedList<Media>(mediaList);
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String title, subTitle;
+                for (Media media : list) {
+                    switch (type){
+                        case TYPE_ALBUMS:
+                            title = media.getAlbum();
+                            subTitle = media.getArtist();
+                            break;
+                        case TYPE_ARTISTS:
+                            title = media.getArtist();
+                            subTitle = null;
+                            break;
+                        case TYPE_GENRES:
+                            title = media.getGenre();
+                            subTitle = null;
+                            break;
+                        case TYPE_SONGS:
+                        default:
+                            title = media.getTitle();
+                            subTitle = media.getArtist();
+                    }
+                    if (title == null) return;
+                    title = title.trim();
+                    if (subTitle != null) subTitle = subTitle.trim();
+                    if (mMediaItemMap.containsKey(title))
+                        mMediaItemMap.get(title).mMediaList.add(media);
+                    else {
+                        ListItem item = new ListItem(title, subTitle, media, false);
+                        mMediaItemMap.put(title, item);
+                        mItems.add(item);
+                    }
+                }
+                addLetterSeparators();
+            }
+        });
     }
 
     public void addLetterSeparators() {

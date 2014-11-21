@@ -20,25 +20,8 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.VLCRunnable;
-import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.FlingViewGroup;
-import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
-import org.videolan.vlc.widget.HeaderScrollView;
-
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,6 +31,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,7 +48,24 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.view.KeyEvent;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.VLCRunnable;
+import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.FlingViewGroup;
+import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
+import org.videolan.vlc.widget.HeaderScrollView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AudioBrowserFragment extends Fragment {
     public final static String TAG = "VLC/AudioBrowserFragment";
@@ -173,15 +174,21 @@ public class AudioBrowserFragment extends Fragment {
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mHeader.highlightTab(-1, mFlingViewPosition);
         mHeader.scroll(mFlingViewPosition / 3.f);
-        updateLists();
+        if (!mMediaLibrary.isWorking())
+            updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
-    private void focusHelper(boolean idIsEmpty, int listId) {
-        View parent = getView();
-        MainActivity main = (MainActivity)getActivity();
-        main.setMenuFocusDown(false, R.id.header);
-        main.setSearchAsFocusDown(idIsEmpty, parent, listId);
+    private void focusHelper(final boolean idIsEmpty, final int listId) {
+        final View parent = getView();
+        final MainActivity main = (MainActivity)getActivity();
+        main.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                main.setMenuFocusDown(false, R.id.header);
+                main.setSearchAsFocusDown(idIsEmpty, parent, listId);
+            }
+        });
     }
 
     // Focus support. Start.
@@ -300,7 +307,7 @@ public class AudioBrowserFragment extends Fragment {
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
         }
-        if (pos == MODE_ARTIST || v.getId() == MODE_GENRE) {
+        if (pos == MODE_ARTIST || pos == MODE_GENRE) {
             MenuItem play = menu.findItem(R.id.audio_list_browser_play);
             play.setVisible(true);
         }
@@ -452,71 +459,53 @@ public class AudioBrowserFragment extends Fragment {
     };
 
     private void updateLists() {
-        List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
-        int listId = MODE_TOTAL;
-		int i;
-
-        if (audioList.isEmpty()){
-            mEmptyView.setVisibility(View.VISIBLE);
-            listId = MODE_SONG;
-        } else
-            mEmptyView.setVisibility(View.GONE);
-
+        final Activity context = getActivity();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
+        final List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+        if (audioList.isEmpty()){
+            mEmptyView.setVisibility(View.VISIBLE);
+            focusHelper(true, R.id.artists_list);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
 
-        Collections.sort(audioList, MediaComparators.byName);
-        for (i = 0; i < audioList.size(); i++) {
-            Media media = audioList.get(i);
-            mSongsAdapter.add(media.getTitle(), media.getArtist(), media);
-        }
-        mSongsAdapter.addScrollSections();
-        if ((listId == MODE_TOTAL) && (i > 0))
-            listId = MODE_SONG;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-        Collections.sort(audioList, MediaComparators.byArtist);
-        for (i = 0; i < audioList.size(); i++) {
-            Media media = audioList.get(i);
-            mArtistsAdapter.add(media.getArtist(), null, media);
-        }
-        mArtistsAdapter.addLetterSeparators();
-        if (i > 0)
-            listId = MODE_ARTIST;
+                    Collections.sort(audioList, MediaComparators.byArtist);
+                    mArtistsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_ARTISTS);
 
-        Collections.sort(audioList, MediaComparators.byAlbum);
-        for (i = 0; i < audioList.size(); i++) {
-            Media media = audioList.get(i);
-            mAlbumsAdapter.add(media.getAlbum(), media.getArtist(), media);
-        }
-        mAlbumsAdapter.addLetterSeparators();
-        if ((listId == MODE_TOTAL) && (i > 0))
-            listId = MODE_ALBUM;
+                    Collections.sort(audioList, MediaComparators.byName);
+                    mSongsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_SONGS);
 
-        Collections.sort(audioList, MediaComparators.byGenre);
-        for (i = 0; i < audioList.size(); i++) {
-            Media media = audioList.get(i);
-            mGenresAdapter.add(media.getGenre(), null, media);
-        }
-        mGenresAdapter.addLetterSeparators();
-        if ((listId == MODE_TOTAL) && (i>0))
-            listId = MODE_GENRE;
+                    Collections.sort(audioList, MediaComparators.byAlbum);
+                    mAlbumsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_ALBUMS);
 
-        mSongsAdapter.notifyDataSetChanged();
-        mArtistsAdapter.notifyDataSetChanged();
-        mAlbumsAdapter.notifyDataSetChanged();
-        mGenresAdapter.notifyDataSetChanged();
-        // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
-        int[] lists = { R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list };
-        if(getView() != null) {
-            for(int r : lists) {
-                ListView l = (ListView)getView().findViewById(r);
-                l.setFastScrollEnabled(false);
-                l.setFastScrollEnabled(true);
-            }
+                    Collections.sort(audioList, MediaComparators.byGenre);
+                    mGenresAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_GENRES);
+
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
+                            int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
+                            if (getView() != null) {
+                                ListView l;
+                                for (int r : lists) {
+                                    l = (ListView) getView().findViewById(r);
+                                    l.setFastScrollEnabled(false);
+                                    l.setFastScrollEnabled(true);
+                                }
+                            }
+                            focusHelper(false, R.id.artists_list);
+                        }
+                    });
+                }
+            }).start();
         }
-        focusHelper(listId == MODE_TOTAL, lists[listId]);
     }
 
     AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener
