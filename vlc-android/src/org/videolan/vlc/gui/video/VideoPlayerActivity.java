@@ -1301,6 +1301,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             sw = mPresentation.getWindow().getDecorView().getWidth();
             sh = mPresentation.getWindow().getDecorView().getHeight();
         }
+        if (mLibVLC != null)
+            mLibVLC.setWindowSize(sw, sh);
 
         double dw = sw, dh = sh;
         boolean isPortrait;

@@ -646,3 +646,23 @@ void Java_org_videolan_libvlc_LibVLC_playerNavigate(JNIEnv *env, jobject thiz, j
         libvlc_media_player_navigate(mp, (unsigned) nav);
 }
 
+// TODO: remove static variables
+static int i_window_width = 0;
+static int i_window_height = 0;
+
+void Java_org_videolan_libvlc_LibVLC_setWindowSize(JNIEnv *env, jobject thiz, jint width, jint height)
+{
+    pthread_mutex_lock(&vout_android_lock);
+    i_window_width = width;
+    i_window_height = height;
+    pthread_mutex_unlock(&vout_android_lock);
+}
+
+int jni_GetWindowSize(int *width, int *height)
+{
+    pthread_mutex_lock(&vout_android_lock);
+    *width = i_window_width;
+    *height = i_window_height;
+    pthread_mutex_unlock(&vout_android_lock);
+    return 0;
+}

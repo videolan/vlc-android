@@ -883,4 +883,5 @@ public class LibVLC {
 
     public native String getMeta(int meta);
 
+    public native int setWindowSize(int width, int height);
 }
