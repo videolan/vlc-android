@@ -182,6 +182,8 @@ public class AudioBrowserFragment extends Fragment {
     private void focusHelper(final boolean idIsEmpty, final int listId) {
         final View parent = getView();
         final MainActivity main = (MainActivity)getActivity();
+        if (main == null)
+            return;
         main.runOnUiThread(new Runnable() {
             @Override
             public void run() {
