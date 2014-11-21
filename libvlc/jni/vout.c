@@ -161,6 +161,8 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
     if (ret >= 0 && configured)
         *configured = ret == 1;
 
+    (*p_env)->DeleteLocalRef(p_env, clz);
+
     if (isAttached)
         jni_detach_thread();
     return ret == -1 ? -1 : 0;
