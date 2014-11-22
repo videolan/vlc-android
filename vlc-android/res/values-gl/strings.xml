@@ -30,6 +30,7 @@
     <string name="ringtone_error">Produciuse un erro ao definir o ton de chamada.</string>
     <string name="pause">Pausa</string>
     <string name="not_show_again">Non mostrar esta mensaxe de novo.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artista descoñecido</string>
     <string name="unknown_album">Álbum descoñecido</string>
     <string name="unknown_genre">Xénero descoñecido</string>
@@ -76,6 +77,7 @@
     <string name="mediafiles">Ficheiros multimedia</string>
     <string name="notavailable">non está dispoñíbel</string>
     <string name="nosubdirectory">Non hai subdirectorios.</string>
+    <string name="directorynotfound">Non foi posíbel localizar o camiño \'%1$s\'.</string>
     <string name="nohistory">Aínda non existe un historial de reprodución.</string>
     <string name="validation">Está seguro?</string>
     <string name="cover_art">Portada</string>
@@ -98,8 +100,15 @@
     <string name="track_video">Pista de vídeo</string>
     <string name="track_text">Pistas de subtítulos</string>
     <string name="track_unknown">Pista descoñecida</string>
+    <string name="track_codec_info">Códec: %1$s\n</string>
+    <string name="track_language_info">Idioma: %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="sound_on">Son activado</string>
+    <string name="sound_off">Son desactivado</string>
     <string name="brightness">Brillo</string>
+    <string name="track_samplerate_info">Taxa de mostra: %1$d Hz\n</string>
+    <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Taxa de fotogramas: %1$.3f\n</string>
     <string name="tools">Ferramentas</string>
     <string name="playback_speed">Velocidade de reprodución</string>
     <string name="sleep_title">Temporizador para durmir</string>
@@ -114,17 +123,30 @@
     <string name="open_mrl_dialog_msg">Introduza un MRL de rede, por exemplo: http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Sentímolo, mais o seu dispositivo aínda non é compatíbel con esta versión do VLC para Android™.</string>
     <string name="error_problem">Desculpe. O VLC para Android tivo un problema ao cargar e pechouse.</string>
+    <string name="error_message_is">A mensaxe de erro é (mencione isto para a depuración):\n</string>
     <string name="encountered_error_title">Erro de reprodución</string>
+    <string name="encountered_error_message">O VLC encontrou un erro con este medio.\nProbe a actualizar a biblioteca multimedia.</string>
     <string name="invalid_location">Non é posíbel reproducir a localización %1$s.</string>
     <string name="search">Buscar</string>
     <string name="search_history">Historial de busca</string>
     <string name="hardware_acceleration_error_title">Houbo un erro coa aceleración de hardware</string>
     <string name="hardware_acceleration_error_message">Houbo un erro coa aceleración de hardware. Quere desactivala e tentalo de novo?</string>
     <!--Tips-->
+    <string name="video_player_tips">Suxestións para o reprodutor de vídeo:</string>
+    <string name="seek">Buscar</string>
     <string name="subtitles">Subtítulos</string>
     <string name="resize">Redimensionar</string>
     <string name="options">Opcións</string>
     <string name="lock">Bloquear</string>
+    <string name="ok_got_it">Entendín; descartar isto</string>
+    <string name="playlist_tips">Suxestións para listas de reprodución</string>
+    <string name="remove_song">Eliminar canción</string>
+    <string name="rearrange_order">Arranxar de novo a orde</string>
+    <string name="hold_to_seek">Manter para buscar</string>
+    <string name="audio_player_tips">Suxestións para o reprodutor de vídeo</string>
+    <string name="previous_next_song">Canción anterior/seguinte</string>
+    <string name="show_playlist">Mostrar a lista de reprodución</string>
+    <string name="hold_to_stop">Manter para deter</string>
     <!-- About -->
     <string name="app_name_full">VLC para Android™</string>
     <string name="licence">Licenza</string>
@@ -141,6 +163,7 @@
     <string name="add_custom_path_description">Introduza un directorio persoal adicional para escanear:</string>
     <string name="remove_custom_path">Eliminar o camiño persoal</string>
     <string name="hardware_acceleration">Aceleración de hardware</string>
+    <string name="hardware_acceleration_summary">Desactivada: máis estabilidade.\nDescodificación: pode mellorar o rendemento.\nCompleta: pode mellorar máis aínda o rendemento.</string>
     <string name="hardware_acceleration_disabled">Desactivada</string>
     <string name="hardware_acceleration_decoding">Aceleración de descodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
@@ -166,12 +189,19 @@
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante os xestos durante a reprodución de vídeo</string>
     <string name="enable_jump_buttons">Activar os botóns de salto</string>
     <string name="enable_jump_buttons_summary">Mostrar os botóns de avance e retroceso na interface de vídeo</string>
+    <string name="audio_title_alignment">Aliñamento do título de audio</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
     <string name="enable_headset_detection_summary">Deter ao desconectar os auriculares. Continuar ao inserir os auriculares</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC.</string>
+    <string name="audio_title_alignment_default">Predeterminado</string>
+    <string name="audio_title_alignment_left">Esquerda</string>
+    <string name="audio_title_alignment_centre">Centrado</string>
+    <string name="audio_title_alignment_right">Dereita</string>
+    <string name="audio_title_alignment_marquee">Marquesiña</string>
     <string name="performance_prefs_category">Rendemento</string>
     <string name="chroma_format">Forzar a crominancia</string>
+    <string name="chroma_format_summary">RGB 32-bit: croma predeterminada\nRGB 16-bit: mellor rendemento, mais menos calidade\nYUV: mellor rendemento, mais non funciona en todos os dispositivos. Só en Android 2.3 e superior.</string>
     <string name="deblocking">Configuración do filtro antibloques</string>
     <string name="deblocking_summary">Modifique a configuración do filtro antibloques. Pode mellorar a calidade do vídeo. Só para usuarios avanzados.</string>
     <string name="deblocking_always">Filtro antibloques completo (o máis lento)</string>
@@ -217,4 +247,6 @@
     <string name="restart_vlc">Reiniciar o VLC</string>
     <string name="send_log">Enviar o informe</string>
     <string name="sending_log">Enviando o informe…</string>
+    <string name="drawer_open">Abrir a gabeta de navegación</string>
+    <string name="drawer_close">Pechar a gabeta de navegación</string>
 </resources>
