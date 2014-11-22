@@ -12,7 +12,7 @@
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat găsit</item>
         <item quantity="few">%d rezultate găsite</item>
-        <item quantity="other">%d rezultate găsite</item>
+        <item quantity="other">%d de rezultate găsite</item>
     </plurals>
     <string name="play">Redare</string>
     <string name="play_from_start">Redare de la început</string>
@@ -31,6 +31,7 @@
     <string name="ringtone_error">A apărut o eroare la setarea tonului de apel.</string>
     <string name="pause">Pauză</string>
     <string name="not_show_again">Acest mesaj nu se  va mai afişa.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artist necunoscut</string>
     <string name="unknown_album">Album necunoscut</string>
     <string name="unknown_genre">Gen necunoscut</string>
@@ -104,8 +105,15 @@
     <string name="track_video">Piesă video</string>
     <string name="track_text">Subtitrări piesă</string>
     <string name="track_unknown">Piesă necunoscută</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Limbă: %1$s\n</string>
     <string name="volume">Volum</string>
     <string name="brightness">Luminozitate</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="few">%1$d canale\n</item>
+        <item quantity="other">%1$d de canale\n</item>
+    </plurals>
     <string name="tools">Instrumente</string>
     <string name="playback_speed">Viteză de redare</string>
     <string name="sleep_title">Temporizator stare de repaus</string>
@@ -174,6 +182,10 @@
     <string name="enable_headset_detection_summary">Pauză la înlăturarea căștilor; continuă când căștile sunt conectate</string>
     <string name="enable_steal_remote_control">Control exclusiv asupra căștilor la distanță</string>
     <string name="enable_steal_remote_control_summary">Evită conflictele prin furarea controlului de la celelalte aplicații. Astfel se previne apelarea prin clic dublu pe telefoanele HTC.</string>
+    <string name="audio_title_alignment_default">Implicit</string>
+    <string name="audio_title_alignment_left">Stânga</string>
+    <string name="audio_title_alignment_centre">Centru</string>
+    <string name="audio_title_alignment_right">Dreapta</string>
     <string name="performance_prefs_category">Performanță</string>
     <string name="chroma_format">Forțează cromatica video</string>
     <string name="deblocking">Setările filtrului de deblocare.</string>
@@ -218,4 +230,6 @@
     <string name="dump_logcat_failure">Colectarea logcat a eșuat.</string>
     <string name="serious_crash">Din păcate, o eroare gravă a apărut și VLC-ul trebuie închis.</string>
     <string name="restart_vlc">Repornește VLC</string>
+    <string name="send_log">Trimite jurnalul</string>
+    <string name="sending_log">Se trimite jurnalul...</string>
 </resources>
