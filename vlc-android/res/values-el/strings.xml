@@ -233,7 +233,7 @@
     <string name="set_locale_popup">Κλείστε και κάντε επανεκκίνηση του VLC για να ισχύσουν οι αλλαγές.</string>
     <string name="network_caching">Τιμή αποθήκευσης σε κρυφή μνήμη</string>
     <string name="network_caching_summary">Το ποσό του χρόνου για να διαβαστούν δικτυακά μέσα (σε ms). Δεν λειτουργεί με την αποκωδικοποίηση υλικού. Αφήστε το κενό για επαναφορά.</string>
-    <string name="developer_prefs_category">Προγραμματιστής</string>
+    <string name="developer_prefs_category">Για προγραμματιστές</string>
     <string name="enable_verbose_mode">Πολύλογος</string>
     <string name="enable_verbose_mode_summary">Αυξήστε την πολυλογία (logcat)</string>
     <string name="debug_logs">Καταγραφές αποσφαλμάτωσης</string>
