@@ -31,6 +31,7 @@
     <string name="ringtone_error">Nepavyko nustatyti skambučio tono.</string>
     <string name="pause">Pristabdyti</string>
     <string name="not_show_again">Neberodyti šio pranešimo.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Nežinomas atlikėjas</string>
     <string name="unknown_album">Nežinomas albumas</string>
     <string name="unknown_genre">Nežinomas stilius</string>
@@ -82,6 +83,7 @@
     <string name="mediafiles">Kūriniai</string>
     <string name="notavailable">neprieinama</string>
     <string name="nosubdirectory">Pakatalogių nėra.</string>
+    <string name="directorynotfound">„%1$s“ aplanko neradome.</string>
     <string name="nohistory">Kol kas grojimo žurnalas tuščias.</string>
     <string name="validation">Tikrai?</string>
     <string name="cover_art">Viršelis</string>
@@ -104,8 +106,20 @@
     <string name="track_video">Vaizdo takelis</string>
     <string name="track_text">Subtitrų takelis</string>
     <string name="track_unknown">Nežinomas takelis</string>
+    <string name="track_codec_info">Kodavimo priemonė: %1$s\n</string>
+    <string name="track_language_info">Kalba: %1$s\n</string>
     <string name="volume">Garsumas</string>
+    <string name="sound_on">Garsas įjungtas</string>
+    <string name="sound_off">Nutildyta</string>
     <string name="brightness">Ryškumas</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 kanalas\n</item>
+        <item quantity="few">%1$d kanalai\n</item>
+        <item quantity="other">%1$d kanalai\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Elementų dažnis: %1$d Hz\n</string>
+    <string name="track_resolution_info">Skiriamoji geba: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Kadrų dažnis: %1$.3f\n</string>
     <string name="tools">Įrankiai</string>
     <string name="playback_speed">Grojimo greitis</string>
     <string name="sleep_title">Išsijungimo laikmatis</string>
@@ -120,7 +134,9 @@
     <string name="open_mrl_dialog_msg">Įveskite adresą: pvz. http://, mms:// ar rtsp://</string>
     <string name="error_not_compatible">Atleiskite, tačiau ši Android™ sistemai skirta VLC versija nepalaiko jūsų įrenginio.</string>
     <string name="error_problem">Atleiskite, Android sistemai skirta VLC versijoje įvyko klaida.</string>
+    <string name="error_message_is">Pranešimas apie klaidą (įtraukite jį siųsdami derinimo informaciją):\n</string>
     <string name="encountered_error_title">Grojimo klaida</string>
+    <string name="encountered_error_message">Grodama šį kūrinį VLC programa sutriko.\nPabandykite atnaujinti savo fonoteką.</string>
     <string name="invalid_location">Negalime pagroti %1$s.</string>
     <string name="search">Paieška</string>
     <string name="search_history">Paieškos žurnalas</string>
@@ -180,10 +196,16 @@
     <string name="enable_brightness_gesture_summary">Ryškumą valdyti grojant vaizdo kūrinį pagal gestus</string>
     <string name="enable_jump_buttons">Įgalinti peršokimo mygtukus</string>
     <string name="enable_jump_buttons_summary">Vaizdo klipų leisti rodyti prasukimo atgal ir priekin mygtukus</string>
+    <string name="audio_title_alignment">Muzikos kūrinio pavadinimo padėtis</string>
     <string name="enable_headset_detection">Aptikti ausines</string>
     <string name="enable_headset_detection_summary">Atjungus ausines – pristabdyti; prijungus ausines – tęsti</string>
     <string name="enable_steal_remote_control">Išskirtinė nuotolinė ausinių kontrolė</string>
     <string name="enable_steal_remote_control_summary">Vengti konflikto, kuomet reaguojama į kitų programų nuotolinę kontrolę. Tai leidžia išvengti skambinimo dukart spustelėjus HTC telefonus.</string>
+    <string name="audio_title_alignment_default">Numatyta</string>
+    <string name="audio_title_alignment_left">kairėje</string>
+    <string name="audio_title_alignment_centre">centre</string>
+    <string name="audio_title_alignment_right">dešinėje</string>
+    <string name="audio_title_alignment_marquee">ištempta</string>
     <string name="performance_prefs_category">Našumas</string>
     <string name="chroma_format">Priverstinai naudoti konkretų spalvingumą</string>
     <string name="deblocking">Išblokavimo filtro nuostatos</string>
