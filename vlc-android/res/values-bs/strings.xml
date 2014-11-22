@@ -174,6 +174,7 @@
     <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
     <string name="remove_custom_path">Ukloni prilagođen put</string>
     <string name="hardware_acceleration">Hardversko Ubrzanje</string>
+    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
     <string name="hardware_acceleration_disabled">Isključeno</string>
     <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
     <string name="hardware_acceleration_full">Puno ubrzanje</string>
@@ -199,6 +200,7 @@
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
     <string name="enable_jump_buttons">Omogući skok dugmad</string>
     <string name="enable_jump_buttons_summary">Pokaži nazad i naprijed dugmad na video okruženju</string>
+    <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
     <string name="enable_headset_detection">Pronađi slušalice</string>
     <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
@@ -207,8 +209,10 @@
     <string name="audio_title_alignment_left">Lijevo</string>
     <string name="audio_title_alignment_centre">Centar</string>
     <string name="audio_title_alignment_right">Desno</string>
+    <string name="audio_title_alignment_marquee">Pokretni tekst</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
+    <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
     <string name="deblocking_summary">Izmijeni postavke filtera za deblokiranje. Moguće poboljšanje kvalitete videa. Samo za napredne korisnike.</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>
@@ -254,4 +258,6 @@
     <string name="restart_vlc">Ponovo Pokreni VLC</string>
     <string name="send_log">Pošalji izvještaj</string>
     <string name="sending_log">Šaljem izvještaj...</string>
+    <string name="drawer_open">Otvori navigacijsku ladicu</string>
+    <string name="drawer_close">Zatvori navigacijsku ladicu</string>
 </resources>
