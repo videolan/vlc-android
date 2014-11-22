@@ -25,11 +25,12 @@
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Supprimer le fichier \'%1$s\'?</string>
-    <string name="ringtone_set">Le fichier \'%1$s\' a été défini comme sonnerie.</string>
+    <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
+    <string name="ringtone_set">Le fichier « %1$s » a été défini comme sonnerie.</string>
     <string name="ringtone_error">Impossible de définir une nouvelle sonnerie, une erreur est survenue.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Ne plus afficher ce message.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
@@ -76,6 +77,7 @@
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
     <string name="nosubdirectory">Pas de sous-dossiers</string>
+    <string name="directorynotfound">Dossier « %1$s » non trouvé.</string>
     <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Êtes-vous sûr ?</string>
     <string name="cover_art">Jaquette</string>
@@ -98,8 +100,19 @@
     <string name="track_video">Piste vidéo</string>
     <string name="track_text">Piste sous-titres</string>
     <string name="track_unknown">Piste inconnue</string>
+    <string name="track_codec_info">Codec : %1$s\n</string>
+    <string name="track_language_info">Langue : %1$s\n</string>
     <string name="volume">Volume</string>
+    <string name="sound_on">Son</string>
+    <string name="sound_off">Muet</string>
     <string name="brightness">Luminosité</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 canal\n</item>
+        <item quantity="other">%1$d canaux\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Fréquence d\'échantillonnage : %1$d Hz\n</string>
+    <string name="track_resolution_info">Résolution : %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Trames : %1$.3f\n</string>
     <string name="tools">Outils</string>
     <string name="playback_speed">Vitesse de lecture</string>
     <string name="sleep_title">Veille</string>
@@ -114,8 +127,10 @@
     <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
     <string name="error_problem">Désolé, VLC pour Android a rencontré un problème et a dû s\'arrêter.</string>
+    <string name="error_message_is">Le message d\'erreur est (à indiquer en mode debug):\n</string>
     <string name="encountered_error_title">Erreur de lecture</string>
-    <string name="invalid_location">L\'emplacement %1$s ne peut être lu.</string>
+    <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
+    <string name="invalid_location">L\'emplacement « %1$s » ne peut être lu.</string>
     <string name="search">Recherche</string>
     <string name="search_history">Historique de recherche</string>
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
@@ -132,8 +147,8 @@
     <string name="remove_song">Supprimer la chanson</string>
     <string name="rearrange_order">Modifier l\'ordre</string>
     <string name="hold_to_seek">Maintenir pour naviguer</string>
-    <string name="audio_player_tips">Conseils de lecteur audio</string>
-    <string name="previous_next_song">Chanson Précédente/Suivante</string>
+    <string name="audio_player_tips">Astuces de lecteur audio</string>
+    <string name="previous_next_song">Chanson précédente/suivante</string>
     <string name="show_playlist">Afficher la liste de lecture</string>
     <string name="hold_to_stop">Maintenir pour arrêter</string>
     <!-- About -->
@@ -152,6 +167,7 @@
     <string name="add_custom_path_description">Entrer un dossier additionnel à scanner :</string>
     <string name="remove_custom_path">Retirer le dossier</string>
     <string name="hardware_acceleration">Accélération matérielle</string>
+    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage: peut améliorer les performances.\nComplète: peut encore améliorer les performances.</string>
     <string name="hardware_acceleration_disabled">Désactivée</string>
     <string name="hardware_acceleration_decoding">Accélération au décodage</string>
     <string name="hardware_acceleration_full">Accélération complète</string>
@@ -177,12 +193,19 @@
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
     <string name="enable_jump_buttons">Activer les boutons de saut</string>
     <string name="enable_jump_buttons_summary">Activer les boutons de recherches avant et arrière dans l\'interface vidéo</string>
+    <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
     <string name="enable_steal_remote_control">Contrôle exclusif de la télécommande</string>
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
+    <string name="audio_title_alignment_default">Prédéfini(e)</string>
+    <string name="audio_title_alignment_left">Gauche</string>
+    <string name="audio_title_alignment_centre">Centre</string>
+    <string name="audio_title_alignment_right">Droite</string>
+    <string name="audio_title_alignment_marquee">Texte</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
+    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
     <string name="deblocking_always">Déblocage max (plus lent)</string>
@@ -228,4 +251,6 @@
     <string name="restart_vlc">Redémarrer VLC</string>
     <string name="send_log">Envoyer le rapport</string>
     <string name="sending_log">Envoi du rapport...</string>
+    <string name="drawer_open">Ouvrir le volet de navigation</string>
+    <string name="drawer_close">Fermer le volet de navigation</string>
 </resources>
