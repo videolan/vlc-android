@@ -25,11 +25,12 @@
     <string name="remove">Fjern</string>
     <string name="set_song">Anvend som ringetone</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Slet filen \'%1$s\'?</string>
+    <string name="confirm_delete">Slet filen \"%1$s\"?</string>
     <string name="ringtone_set">Filen \"%1$s\" blev angivet som ringetone.</string>
     <string name="ringtone_error">Der opstod en fejl under angivelse af ringetone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Vis ikke denne besked igen.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Ukendt kunstner</string>
     <string name="unknown_album">Ukendt album</string>
     <string name="unknown_genre">Ukendt genre</string>
@@ -38,7 +39,7 @@
         <item quantity="one">1 sang</item>
         <item quantity="other">%d sange</item>
     </plurals>
-    <string name="artists">Artister</string>
+    <string name="artists">Kunstnere</string>
     <string name="albums">Album</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -66,17 +67,18 @@
     <string name="genres">Genrer</string>
     <string name="playlists">Afspilningslister</string>
     <string name="title">Titel</string>
-    <string name="artist">Artist</string>
+    <string name="artist">Kunstner</string>
     <string name="album">Album</string>
     <string name="directory">Mappe</string>
     <string name="directories">Mapper</string>
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst …</string>
     <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
-    <string name="mediafiles">Medie-filer</string>
+    <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">ikke tilgængelig</string>
     <string name="nosubdirectory">Ingen undermapper.</string>
-    <string name="nohistory">Du har endnu ikke en afspilnings-historik.</string>
+    <string name="directorynotfound">Mappestien \"%1$s\" blev ikke fundet.</string>
+    <string name="nohistory">Du har endnu ikke en afspilningshistorik.</string>
     <string name="validation">Er du sikker?</string>
     <string name="cover_art">Omslag</string>
     <string name="shuffle">Bland</string>
@@ -98,8 +100,19 @@
     <string name="track_video">Videospor</string>
     <string name="track_text">Undertekstspor</string>
     <string name="track_unknown">Ukendt spor</string>
+    <string name="track_codec_info">Kodningsformat: %1$s\n</string>
+    <string name="track_language_info">Sprog: %1$s\n</string>
     <string name="volume">Lydstyrke</string>
+    <string name="sound_on">Lyd til</string>
+    <string name="sound_off">Lyd fra</string>
     <string name="brightness">Lysstyrke</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="other">%1$d kanaler\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Målingsfrekvens: %1$d Hz\n</string>
+    <string name="track_resolution_info">Opløsning: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Billedfrekvens: %1$.3f\n</string>
     <string name="tools">Værktøjer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="sleep_title">Sleep-timer</string>
@@ -114,7 +127,9 @@
     <string name="open_mrl_dialog_msg">Angiv netværks-MRL: f.eks. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC for Android™.</string>
     <string name="error_problem">Beklager, VLC for Android havde problemer med indlæsningen og måtte lukke.</string>
+    <string name="error_message_is">Fejlbeskeden er (nævn venligst denne ved fejlsøgning):\n</string>
     <string name="encountered_error_title">Afspilningsfejl</string>
+    <string name="encountered_error_message">VLC stødte på en fejl med dette medie.\nForsøg venligst at genopfriske mediebiblioteket.</string>
     <string name="invalid_location">Placeringen %1$s kan ikke afspilles.</string>
     <string name="search">Søg</string>
     <string name="search_history">Søg historik</string>
@@ -127,7 +142,7 @@
     <string name="resize">Tilpas størrelse</string>
     <string name="options">Indstillinger</string>
     <string name="lock">Lås</string>
-    <string name="ok_got_it">Forstået - afvis dette</string>
+    <string name="ok_got_it">Forstået - skjul beskeden</string>
     <string name="playlist_tips">Tips til spillelisten</string>
     <string name="remove_song">Fjern sang</string>
     <string name="rearrange_order">Skift rækkefølge</string>
@@ -143,7 +158,7 @@
     <string name="about">Om</string>
     <string name="about_text">VLC til Android™ er en portering af VLC-medieafspilleren, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
-    <string name="vlc_authors">VLC-forfattere</string>
+    <string name="vlc_authors">VLC-forfattere.</string>
     <!-- Preferences -->
     <string name="preferences">Indstillinger</string>
     <string name="general_prefs_category">Generelt</string>
@@ -152,6 +167,7 @@
     <string name="add_custom_path_description">Angiv endnu en brugerdefineret mappe, der skal gennemses:</string>
     <string name="remove_custom_path">Fjern brugerdefineret sti</string>
     <string name="hardware_acceleration">Hardwareacceleration</string>
+    <string name="hardware_acceleration_summary">Slået fra: bedre stabilitet.\nAfkodning: kan forbedre ydelsen.\nFuld: kan forbedre ydelsen yderligere.</string>
     <string name="hardware_acceleration_disabled">Slået fra</string>
     <string name="hardware_acceleration_decoding">Acceleration af afkodning</string>
     <string name="hardware_acceleration_full">Fuld acceleration</string>
@@ -177,12 +193,19 @@
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_jump_buttons">Slå skip-knapper til</string>
     <string name="enable_jump_buttons_summary">Vis bagud- og forlæns-knapper på videobrugerfladen</string>
+    <string name="audio_title_alignment">Justering af lydtitel</string>
     <string name="enable_headset_detection">Detektér hovedtelefoner</string>
     <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
     <string name="enable_steal_remote_control">Fjernbetjen kun med headset</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
+    <string name="audio_title_alignment_default">Standard</string>
+    <string name="audio_title_alignment_left">Venstre</string>
+    <string name="audio_title_alignment_centre">Midten</string>
+    <string name="audio_title_alignment_right">Højre</string>
+    <string name="audio_title_alignment_marquee">Lysavis</string>
     <string name="performance_prefs_category">Ydelse</string>
     <string name="chroma_format">Gennemtving kroma</string>
+    <string name="chroma_format_summary">RGB 32-bit: standard farveformat\nRGB 16-bit: højere ydelse, men lavere kvalitet\nYUV: bedste ydelse, men virker ikke på alle enheder. Kun Android 2.3 eller højere.</string>
     <string name="deblocking">Indstillinger for filter til blokdeling</string>
     <string name="deblocking_summary">Tilpas indstillinger for filter til blokdeling. Dette kan forbedre videokvaliteten. Kun for avancerede brugere.</string>
     <string name="deblocking_always">Fuld blokdeling (langsomst)</string>
@@ -228,4 +251,6 @@
     <string name="restart_vlc">Genstart VLC</string>
     <string name="send_log">Send loggen</string>
     <string name="sending_log">Sender loggen ...</string>
+    <string name="drawer_open">Åbn navigationsskuffen</string>
+    <string name="drawer_close">Luk navigationsskuffen</string>
 </resources>
