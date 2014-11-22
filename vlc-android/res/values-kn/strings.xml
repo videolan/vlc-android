@@ -120,6 +120,7 @@
     <string name="vlc_authors">VLC ಲೇಖಕರು.</string>
     <!-- Preferences -->
     <string name="preferences">ಆಯ್ಕೆಗಳು</string>
+    <string name="general_prefs_category">ಸಾಮಾನ್ಯ</string>
     <string name="directories_summary">ಮಾಧ್ಯಮ ಭಂಡಾರದಲ್ಲಿ  ಸೇರಿಸಲು ಕೋಶಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="add_custom_path">ಐಚ್ಚಿಕ ಪಥವನ್ನು ಸೇರಿಸಿ </string>
     <string name="add_custom_path_description">ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಹೆಚ್ಚುವರಿ ಐಚ್ಚಿಕ ಕಡತಕೋಶವನ್ನು ನಮೂದಿಸಿ :</string>
@@ -136,6 +137,7 @@
     <string name="screen_orientation_reverse_landscape"> ಹಿಮ್ಮುಖ ಭೂದೃಶ್ಯ</string>
     <string name="enable_black_theme">ಕಪ್ಪು ಥೀಮ್ ಸಕ್ರಿಯಗೊಳಿಸು</string>
     <string name="subtitle_text_encoding">ಉಪಶೀರ್ಷಿಕೆ ಪಠ್ಯ ಎನ್ಕೋಡಿಂಗ್</string>
+    <string name="extra_prefs_category">ಹೆಚ್ಚಿನ ಸಿದ್ಧತೆಗಳು</string>
     <string name="enable_brightness_gesture">ಹೊಳಪು ಸಂಜ್ಞೆ  ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
     <string name="enable_brightness_gesture_summary">ವೀಡಿಯೋ ಪ್ಲೇಬ್ಯಾಕ್ ಸಮಯದಲ್ಲಿ ಸಂಜ್ಞೆಯ ಮೂಲಕ ಹೊಳಪನ್ನು ನಿಯಂತ್ರಿಸಿ </string>
     <string name="enable_jump_buttons">ಜಂಪ್ ಗುಂಡಿಗಳನ್ನು  ಸಕ್ರಿಯಗೊಳಿಸಿ </string>
