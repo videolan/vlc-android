@@ -34,6 +34,7 @@
     <string name="ringtone_error">حدث خطأ أثناء ضبطها للرّنين.</string>
     <string name="pause">ألبِث</string>
     <string name="not_show_again">لا تُظهر هذه الرّسالة مجددًا.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">مؤدّ غير معروف</string>
     <string name="unknown_album">مجموعة غير معروفة</string>
     <string name="unknown_genre">أسلوب غير معروف</string>
@@ -100,6 +101,7 @@
     <string name="mediafiles">ملفات الوسائط</string>
     <string name="notavailable">غير مُتاح</string>
     <string name="nosubdirectory">ليست مجلدات ثانوية.</string>
+    <string name="directorynotfound">لم يعثر على دليل المجلد \'%1$s\'.</string>
     <string name="nohistory">لم تمتلك تأريخَ تشغيلٍ بعد.</string>
     <string name="validation">هل أنت متأكد؟</string>
     <string name="cover_art">الغطاء الفنّي</string>
@@ -122,8 +124,15 @@
     <string name="track_video">مقطع مرئي</string>
     <string name="track_text">مقطع التّرجمة</string>
     <string name="track_unknown">مقطع غير معروف</string>
+    <string name="track_codec_info">مرماز : %1$s\n</string>
+    <string name="track_language_info">اللغة : %1$s\n</string>
     <string name="volume">حجم الصّوت</string>
+    <string name="sound_on">الصوت مفعَّل</string>
+    <string name="sound_off">الصوت غير مفعَّل</string>
     <string name="brightness">السّطوع</string>
+    <string name="track_samplerate_info">معدل الاعتيان : %1$d Hz\n</string>
+    <string name="track_resolution_info">الميز : %1$dx%2$d\n</string>
+    <string name="track_framerate_info">معدل الإطار : %1$.3f\n</string>
     <string name="tools">الأدوات</string>
     <string name="playback_speed">سرعة التّشغيل</string>
     <string name="sleep_title">مؤقّت النّوم</string>
@@ -138,7 +147,9 @@
     <string name="open_mrl_dialog_msg">أدخل MRL شبكي: مثل http://، mms:// أو rtsp://</string>
     <string name="error_not_compatible">عذرًا، جهازك غير مدعوم حاليًا بهذه الإصدارة من VLC للأندرويد™.</string>
     <string name="error_problem">عذرًا، حدثت مشكلة أثناء تحميل للأندرويد و يجب إغلاقه.</string>
+    <string name="error_message_is">رسالة الخطأ هي (يُرجى ذكر هذا عند التنقيح) :\n</string>
     <string name="encountered_error_title">خطأ تشغيلي</string>
+    <string name="encountered_error_message">صادف VLC خطأ عند قراءة هذا الوسيط.\nيُرجى إعادة إنعاش مكتبة الوسائط.</string>
     <string name="invalid_location">لا يمكن قراءة الموقع %1$s .</string>
     <string name="search">ابحث</string>
     <string name="search_history">تأريخ البحث</string>
@@ -146,6 +157,7 @@
     <string name="hardware_acceleration_error_message">حدث خطأ في تسريع العتاد. هل تريد تعطيله والمحاولة مرة أخرى؟</string>
     <!--Tips-->
     <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
+    <string name="seek">سعي</string>
     <string name="subtitles">التّرجمات</string>
     <string name="resize">غيّر الحجم</string>
     <string name="options">خيارات</string>
@@ -154,7 +166,9 @@
     <string name="playlist_tips">نصائح حول قائمة التشغيل</string>
     <string name="remove_song">أزِل الأغنية</string>
     <string name="rearrange_order">أعِد الترتيب</string>
+    <string name="hold_to_seek">علِّق للسعي</string>
     <string name="audio_player_tips">نصائح حول قارئ الأصوات</string>
+    <string name="previous_next_song">الأغنية السابقة/اللاحقة</string>
     <string name="show_playlist">أظهِر قائمة التشغيل</string>
     <string name="hold_to_stop">أبقِ للتوقيف</string>
     <!-- About -->
@@ -173,6 +187,7 @@
     <string name="add_custom_path_description">أدخِل دليلًا مخصّصًا إضافيًا لرؤيته:</string>
     <string name="remove_custom_path">أزِل مسارًا مخصّصًا</string>
     <string name="hardware_acceleration">ترميز مُسرّع عتاديًا</string>
+    <string name="hardware_acceleration_summary">غير مفعَّل : ثبات أكثر./nفك الترميز : قد يرفع الأداء./nكامل : قد يرفع الأداء بشكل أفضل.</string>
     <string name="hardware_acceleration_disabled">تعطيل</string>
     <string name="hardware_acceleration_decoding">يجري فك ترميز التسريع</string>
     <string name="hardware_acceleration_full">تسريع كامل</string>
@@ -198,10 +213,16 @@
     <string name="enable_brightness_gesture_summary">تحكّم بالسّطوع بالإشارة أثناء التّشغيل المرئي</string>
     <string name="enable_jump_buttons">فعّل أزرار القفز</string>
     <string name="enable_jump_buttons_summary">أظهِر أزرار التّقدّم و العودة في واجهة المرئيات</string>
+    <string name="audio_title_alignment">محاذاة عنوان الصوت</string>
     <string name="enable_headset_detection">افحص مجموعة الرأس</string>
     <string name="enable_headset_detection_summary">ألبِث عند إزالة مجموعة الرّأس، و استمر عند إعادتها</string>
     <string name="enable_steal_remote_control">حصر التّحكم بمجموعة الرّأس عن بُعد</string>
     <string name="enable_steal_remote_control_summary">تجنّب التّعارضات التي قد تحدث عند التّحكم عن بُعد بتطبيقاتٍ أُخرى. يمنع هذا الطلب بالنّقر المزدوج المتوفر في هواتف HTC.</string>
+    <string name="audio_title_alignment_default">افتراضي</string>
+    <string name="audio_title_alignment_left">اليسار</string>
+    <string name="audio_title_alignment_centre">الوسط</string>
+    <string name="audio_title_alignment_right">اليمين</string>
+    <string name="audio_title_alignment_marquee">سُرادِق</string>
     <string name="performance_prefs_category">الأداء</string>
     <string name="chroma_format">قوّ الصّفاء المرئي</string>
     <string name="deblocking">إعدادات مُرشّح فك ضغط المرئيات</string>
@@ -249,4 +270,6 @@
     <string name="restart_vlc">أعد تشغيل VLC</string>
     <string name="send_log">أرسل السجل</string>
     <string name="sending_log">يجري إرسال التقرير...</string>
+    <string name="drawer_open">افتح ساحب التصفح</string>
+    <string name="drawer_close">أغلق ساحب التصفح</string>
 </resources>
