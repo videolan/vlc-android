@@ -198,6 +198,12 @@
     <string name="audio_title_alignment_marquee">Útjaðar</string>
     <string name="performance_prefs_category">Afköst</string>
     <string name="chroma_format">Þvinga litgildi (chroma) myndmerkis</string>
+    <string name="chroma_format_summary">RGB 32-bita: sjálfgefin litgildi (chroma)\n RGB 16-bita: betri afköst en lélegri gæði\n YUV: bestu afköst en virkar ekki á öllum tækjum. Einungis Android 2.3 og síðar.</string>
+    <string name="deblocking">Stillingar afblokkunarsíu</string>
+    <string name="deblocking_always">Full afblokkun (hraðast)</string>
+    <string name="deblocking_nonref">Miðlungs afblokkun</string>
+    <string name="deblocking_nonkey">Lítil afblokkun</string>
+    <string name="deblocking_all">Engin afblokkun (hraðast)</string>
     <string name="enable_frame_skip">Virkja rammasleppingu</string>
     <string name="enable_frame_skip_summary">Hraðari afkóðun en gæti minnkað gæði myndmerkis.</string>
     <string name="enable_time_stretching_audio">Tímaaðlögun hljóðs (time streching)</string>
