@@ -33,17 +33,14 @@ import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
-import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -54,7 +51,6 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
@@ -86,9 +82,6 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
 
     /* Constants used to switch from Grid to List and vice versa */
     //FIXME If you know a way to do this in pure XML please do it!
-    private static final int GRID_ITEM_WIDTH_DP = 156;
-    private static final int GRID_HORIZONTAL_SPACING_DP = 20;
-    private static final int GRID_VERTICAL_SPACING_DP = 20;
     private static final int GRID_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
     private static final int LIST_STRETCH_MODE = GridView.STRETCH_COLUMN_WIDTH;
 

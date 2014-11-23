@@ -38,7 +38,6 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;

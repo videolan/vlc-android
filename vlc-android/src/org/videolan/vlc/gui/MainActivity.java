@@ -100,7 +100,6 @@ public class MainActivity extends ActionBarActivity {
     protected static final String ACTION_SHOW_TEXTINFO = "org.videolan.vlc.gui.ShowTextInfo";
     public static final String ACTION_SHOW_PLAYER = "org.videolan.vlc.gui.ShowPlayer";
 
-    private static final String PREF_SHOW_INFO = "show_info";
     private static final String PREF_FIRST_RUN = "first_run";
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
@@ -630,8 +629,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Intent to start a new Activity
-        Intent intent;
         // Current fragment loaded
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
