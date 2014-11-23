@@ -57,6 +57,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -130,7 +131,11 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.video);
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        if (mGroup == null)
+            actionBar.setTitle(R.string.video);
+        else
+            actionBar.setTitle(mGroup);
 
         View v = inflater.inflate(R.layout.video_grid, container, false);
 
