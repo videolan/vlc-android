@@ -2028,21 +2028,24 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * Dim the status bar and/or navigation icons when needed on Android 3.x.
      * Hide it on Android 4.0 and later
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void dimStatusBar(boolean dim) {
-        if (!LibVlcUtil.isHoneycombOrLater() || !AndroidDevices.hasNavBar() || mIsNavMenu)
+        if (!LibVlcUtil.isHoneycombOrLater() || mIsNavMenu)
             return;
-        int layout = 0;
-        if (!AndroidDevices.hasCombBar() && LibVlcUtil.isJellyBeanOrLater())
-            layout = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        if (mOverlayUseStatusBar)
-            layout |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        int visibility = 0;
+        int navbar = 0;
 
-        int visibility = layout;
+        if (!AndroidDevices.hasCombBar() && LibVlcUtil.isJellyBeanOrLater()) {
+            visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        }
+        if (mOverlayUseStatusBar)
+            visibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
         if (dim) {
-            visibility |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
             if (!AndroidDevices.hasCombBar()) {
-                visibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+                navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 if (LibVlcUtil.isKitKatOrLater())
                     visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
                 if (mOverlayUseStatusBar)
@@ -2051,6 +2054,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         } else {
             visibility |= View.SYSTEM_UI_FLAG_VISIBLE;
         }
+
+        if (AndroidDevices.hasNavBar())
+            visibility |= navbar;
         getWindow().getDecorView().setSystemUiVisibility(visibility);
     }
 
