@@ -154,6 +154,7 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
                 setString(env, item, "Album", libvlc_media_get_meta(p_m, libvlc_meta_Album));
                 setString(env, item, "Genre", libvlc_media_get_meta(p_m, libvlc_meta_Genre));
                 setString(env, item, "ArtworkURL", libvlc_media_get_meta(p_m, libvlc_meta_ArtworkURL));
+                setString(env, item, "NowPlaying", libvlc_media_get_meta(p_m, libvlc_meta_NowPlaying));
                 continue;
             }
 
