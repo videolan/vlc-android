@@ -79,6 +79,11 @@ public class LibVlcUtil {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT;
     }
 
+    public static boolean isLolliPopOrLater()
+    {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+    }
+
     private static String errorMsg = null;
     private static boolean isCompatible = false;
     public static String getErrorMsg() {
