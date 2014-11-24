@@ -454,7 +454,8 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
     /* Connect the media event manager. */
     libvlc_event_manager_t *ev_media = libvlc_media_event_manager(p_md);
     static const libvlc_event_type_t mp_media_events[] = {
-        libvlc_MediaParsedChanged
+        libvlc_MediaParsedChanged,
+        libvlc_MediaMetaChanged,
     };
     for(int i = 0; i < (sizeof(mp_media_events) / sizeof(*mp_media_events)); i++)
         libvlc_event_attach(ev_media, mp_media_events[i], vlc_event_callback, myVm);
