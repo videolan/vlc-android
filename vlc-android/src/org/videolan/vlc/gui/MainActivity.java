@@ -676,6 +676,7 @@ public class MainActivity extends ActionBarActivity {
                 MediaDatabase.getInstance().clearSearchHistory();
                 break;
         }
+        mRootContainer.closeDrawer(mListView);
         return super.onOptionsItemSelected(item);
     }
 
