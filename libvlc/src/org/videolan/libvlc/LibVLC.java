@@ -881,4 +881,6 @@ public class LibVLC {
     public native int getTitleCount();
     public native void playerNavigate(int navigate);
 
+    public native String getMeta(int meta);
+
 }
