@@ -276,16 +276,19 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 	}
 
 	private void selectItem(final int position){
-        if (position >= mLayoutManager.getChildCount())
+        if (position >= mLocations.size())
             return;
-        mSelectedItem = position;
-		mRecyclerView.stopScroll();
-		mLayoutManager.scrollToPosition(position);
-		mRecyclerView.post(new Runnable() {
-			@Override
-			public void run() {
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (position > mLayoutManager.findLastCompletelyVisibleItemPosition()
+                        || position < mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
+                    mRecyclerView.stopScroll();
+                    mRecyclerView.smoothScrollToPosition(position);
+                }
                 mAdapter.setSelection(position);
-			}
-		});
+            }
+        });
+        mSelectedItem = position;
 	}
 }
