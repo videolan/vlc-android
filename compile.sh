@@ -363,10 +363,17 @@ fi
 # ANDROID NDK FIXUP (BLAME GOOGLE)
 config_undef ()
 {
-    previous_change=`stat -c "%y" config.h`
-    sed -i 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
-    # don't change modified date in order to don't trigger a full build
-    touch -d "$previous_change" config.h
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Darwin' ]]; then
+        previous_change=`stat -f "%Sm" -t "%y%m%d%H%M.%S" config.h`
+        sed -i '' 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+        touch -t "$previous_change" config.h
+    else
+        previous_change=`stat -c "%y" config.h`
+        sed -i 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+        # don't change modified date in order to don't trigger a full build
+        touch -d "$previous_change" config.h
+    fi
 }
 
 # if config dependencies change, ./config.status
