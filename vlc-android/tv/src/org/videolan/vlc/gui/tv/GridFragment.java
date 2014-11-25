@@ -47,7 +47,11 @@ import android.os.Handler;
 import android.support.v17.leanback.app.VerticalGridFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
 
 public class GridFragment extends VerticalGridFragment implements VideoBrowserInterface {
@@ -187,9 +191,10 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 		mAdapter.addAll(0, mMediaItemList);
 		setAdapter(mAdapter);
 
-		setOnItemClickedListener(new OnItemClickedListener() {
-			@Override
-			public void onItemClicked(Object item, Row row) {
+        setOnItemViewClickedListener(new OnItemViewClickedListener() {
+            @Override
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                                      RowPresenter.ViewHolder rowViewHolder, Row row) {
 				ListItem listItem = (ListItem) item;
 				Intent intent;
 				if (getString(R.string.artists).equals(mCategory)){
@@ -261,20 +266,14 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 
 		setAdapter(mAdapter);
 
-		/*setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(Object item, Row row) {
-				setTitle(((Media )item).getTitle());
-			}
-		});*/
-
-		setOnItemClickedListener(new OnItemClickedListener() {
-			@Override
-			public void onItemClicked(Object item, Row row) {
-				Media media = (Media) item;
-				TvUtil.openMedia(getActivity(), media, null);
-			}
-		});
+		setOnItemViewClickedListener(new OnItemViewClickedListener() {
+            @Override
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                                      RowPresenter.ViewHolder rowViewHolder, Row row) {
+                Media media = (Media) item;
+                TvUtil.openMedia(getActivity(), media, null);
+            }
+        });
 	}
 
 	public void await() throws InterruptedException, BrokenBarrierException {
