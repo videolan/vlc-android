@@ -111,6 +111,30 @@ public class Media implements Comparable<Media> {
     private String mTrackID;
     private String mArtworkURL;
 
+    public final static int libvlc_meta_Title       = 0;
+    public final static int libvlc_meta_Artist      = 1;
+    public final static int libvlc_meta_Genre       = 2;
+//    public final static int libvlc_meta_Copyright   = 3;
+    public final static int libvlc_meta_Album       = 4;
+//    public final static int libvlc_meta_TrackNumber = 5;
+//    public final static int libvlc_meta_Description = 6;
+//    public final static int libvlc_meta_Rating      = 7;
+//    public final static int libvlc_meta_Date        = 8;
+//    public final static int libvlc_meta_Setting     = 9;
+//    public final static int libvlc_meta_URL         = 10;
+//    public final static int libvlc_meta_Language    = 11;
+    public final static int libvlc_meta_NowPlaying  = 12;
+//    public final static int libvlc_meta_Publisher   = 13;
+//    public final static int libvlc_meta_EncodedBy   = 14;
+    public final static int libvlc_meta_ArtworkURL  = 15;
+//    public final static int libvlc_meta_TrackID     = 16;
+//    public final static int libvlc_meta_TrackTotal  = 17;
+//    public final static int libvlc_meta_Director    = 18;
+//    public final static int libvlc_meta_Season      = 19;
+//    public final static int libvlc_meta_Episode     = 20;
+//    public final static int libvlc_meta_ShowName    = 21;
+//    public final static int libvlc_meta_Actors      = 22;
+
     private final String mLocation;
     private String mFilename;
     private long mTime = 0;
@@ -271,8 +295,13 @@ public class Media implements Comparable<Media> {
         return mLocation;
     }
 
-    public void updateMeta() {
-
+    public void updateMeta(LibVLC libVLC) {
+        mTitle = libVLC.getMeta(libvlc_meta_Title);
+        mArtist = getValueWrapper(libVLC.getMeta(libvlc_meta_Artist), UnknownStringType.Artist);
+        mGenre = getValueWrapper(libVLC.getMeta(libvlc_meta_Genre), UnknownStringType.Genre);
+        mAlbum = getValueWrapper(libVLC.getMeta(libvlc_meta_Album), UnknownStringType.Album);
+        mNowPlaying = libVLC.getMeta(libvlc_meta_NowPlaying);
+        mArtworkURL = libVLC.getMeta(libvlc_meta_ArtworkURL);
     }
 
     public String getFileName() {
@@ -368,11 +397,19 @@ public class Media implements Comparable<Media> {
     }
 
     public String getSubtitle() {
-        return mType != TYPE_VIDEO ? mArtist + " - " + mAlbum : "";
+        return mType != TYPE_VIDEO ?
+                mNowPlaying != null ?
+                        mNowPlaying
+                        : mArtist + " - " + mAlbum
+                : "";
     }
 
     public String getArtist() {
         return mArtist;
+    }
+
+    public Boolean isArtistUnknown() {
+        return (mArtist.equals(getValueWrapper(null, UnknownStringType.Artist)));
     }
 
     public String getGenre() {
@@ -390,6 +427,10 @@ public class Media implements Comparable<Media> {
 
     public String getAlbum() {
         return mAlbum;
+    }
+
+    public Boolean isAlbumUnknown() {
+        return (mAlbum.equals(getValueWrapper(null, UnknownStringType.Album)));
     }
 
     public String getTrackNumber() {

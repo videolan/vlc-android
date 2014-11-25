@@ -524,6 +524,13 @@ public class AudioService extends Service {
                 case EventHandler.MediaPlayerTimeChanged:
                     // avoid useless error logs
                     break;
+                case EventHandler.MediaMetaChanged:
+                    service.getCurrentMedia().updateMeta(service.mLibVLC);
+                    service.setUpRemoteControlClient();
+                    service.executeUpdate();
+                    service.showNotification();
+                    service.updateRemoteControlClientMetadata();
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
@@ -711,6 +718,11 @@ public class AudioService extends Service {
             String artist = media.getArtist();
             String album = media.getAlbum();
             Notification notification;
+
+            if (media.isArtistUnknown() && media.isAlbumUnknown() && media.getNowPlaying() != null) {
+                artist = media.getNowPlaying();
+                album = "";
+            }
 
             // add notification to status bar
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
@@ -920,9 +932,15 @@ public class AudioService extends Service {
         Media media = getCurrentMedia();
         if (mRemoteControlClient != null && media != null) {
             MetadataEditor editor = mRemoteControlClient.editMetadata(true);
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, media.getAlbum());
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, media.getArtist());
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, media.getArtist());
+            if (media.getNowPlaying() != null) {
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, "");
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, "");
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, media.getNowPlaying());
+            } else {
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, media.getAlbum());
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, media.getArtist());
+            }
             editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, media.getGenre());
             editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
@@ -1022,7 +1040,9 @@ public class AudioService extends Service {
         @Override
         public String getArtist() throws RemoteException {
             if (hasCurrentMedia())
-                return getCurrentMedia().getArtist();
+                return getCurrentMedia().isArtistUnknown() && getCurrentMedia().getNowPlaying() != null ?
+                        getCurrentMedia().getNowPlaying()
+                        : getCurrentMedia().getArtist();
             else
                 return null;
         }
@@ -1368,7 +1388,9 @@ public class AudioService extends Service {
 
         if (hasCurrentMedia()) {
             i.putExtra("title", getCurrentMedia().getTitle());
-            i.putExtra("artist", getCurrentMedia().getArtist());
+            i.putExtra("artist", getCurrentMedia().isArtistUnknown() && getCurrentMedia().getNowPlaying() != null ?
+                    getCurrentMedia().getNowPlaying()
+                    : getCurrentMedia().getArtist());
         }
         else {
             i.putExtra("title", context.getString(R.string.widget_name));
