@@ -600,7 +600,7 @@ public class LibVLC {
             return;
         String[] options = mMediaList.getMediaOptions(position);
         mInternalMediaPlayerIndex = position;
-        playMRL(mLibVlcInstance, mrl, options);
+        playMRL(mrl, options);
     }
 
     /**
@@ -612,25 +612,7 @@ public class LibVLC {
         // index=-1 will return options from libvlc instance without relying on MediaList
         String[] options = mMediaList.getMediaOptions(-1);
         mInternalMediaPlayerIndex = 0;
-        playMRL(mLibVlcInstance, mrl, options);
-    }
-
-    public TrackInfo[] readTracksInfo(String mrl) {
-        return readTracksInfo(mLibVlcInstance, mrl);
-    }
-
-    /**
-     * Get a media thumbnail.
-     */
-    public byte[] getThumbnail(String mrl, int i_width, int i_height) {
-        return getThumbnail(mLibVlcInstance, mrl, i_width, i_height);
-    }
-
-    /**
-     * Return true if there is a video track in the file
-     */
-    public boolean hasVideoTrack(String mrl) throws java.io.IOException {
-        return hasVideoTrack(mLibVlcInstance, mrl);
+        playMRL(mrl, options);
     }
 
     /**
@@ -677,7 +659,7 @@ public class LibVLC {
     /**
      * Play an mrl
      */
-    private native void playMRL(long instance, String mrl, String[] mediaOptions);
+    private native void playMRL(String mrl, String[] mediaOptions);
 
     /**
      * Returns true if any media is playing
@@ -773,14 +755,14 @@ public class LibVLC {
      * Get a media thumbnail.
      * @return a bytearray with the RGBA thumbnail data inside.
      */
-    private native byte[] getThumbnail(long instance, String mrl, int i_width, int i_height);
+    public native byte[] getThumbnail(String mrl, int i_width, int i_height);
 
     /**
      * Return true if there is a video track in the file
      */
-    private native boolean hasVideoTrack(long instance, String mrl);
+    public native boolean hasVideoTrack(String mrl) throws java.io.IOException;
 
-    private native TrackInfo[] readTracksInfo(long instance, String mrl);
+    public native TrackInfo[] readTracksInfo(String mrl);
 
     public native TrackInfo[] readTracksInfoInternal();
 
@@ -884,4 +866,8 @@ public class LibVLC {
     public native String getMeta(int meta);
 
     public native int setWindowSize(int width, int height);
+
+    /* MediaList */
+    protected native void loadPlaylist(String mrl, ArrayList<String> items);
+    protected native int expandMedia(int position, ArrayList<String> children);
 }

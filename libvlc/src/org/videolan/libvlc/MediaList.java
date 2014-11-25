@@ -103,7 +103,7 @@ public class MediaList {
      */
     public int expandMedia(int position) {
         ArrayList<String> children = new ArrayList<String>();
-        int ret = expandMedia(mLibVLC, position, children);
+        int ret = mLibVLC.expandMedia(position, children);
         if(ret == 0) {
             mEventHandler.callback(EventHandler.CustomMediaListExpanding, new Bundle());
             this.remove(position);
@@ -114,17 +114,15 @@ public class MediaList {
         }
         return ret;
     }
-    private native int expandMedia(LibVLC libvlc_instance, int position, ArrayList<String> children);
 
     public void loadPlaylist(String mrl) {
         ArrayList<String> items = new ArrayList<String>();
-        loadPlaylist(mLibVLC, mrl, items);
+        mLibVLC.loadPlaylist(mrl, items);
         this.clear();
         for(String item : items) {
             this.add(item);
         }
     }
-    private native void loadPlaylist(LibVLC libvlc_instance, String mrl, ArrayList<String> items);
 
     public void insert(int position, String mrl) {
         insert(position, new Media(mLibVLC, mrl));

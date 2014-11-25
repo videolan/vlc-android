@@ -72,9 +72,9 @@ static void add_media_options(libvlc_media_t *p_md, JNIEnv *env, jobjectArray me
     }
 }
 
-libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
+libvlc_media_t *new_media(JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo)
 {
-    libvlc_instance_t *libvlc = (libvlc_instance_t*)(intptr_t)instance;
+    libvlc_instance_t *libvlc = getLibVlcInstance(env, thiz);
     jboolean isCopy;
     const char *psz_location = (*env)->GetStringUTFChars(env, fileLocation, &isCopy);
     libvlc_media_t *p_md = libvlc_media_new_location(libvlc, psz_location);
@@ -96,10 +96,16 @@ libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fil
     return p_md;
 }
 
+libvlc_instance_t *getLibVlcInstance(JNIEnv *env, jobject thiz)
+{
+    return (libvlc_instance_t*)(intptr_t)getLong(env, thiz, "mLibVlcInstance");
+}
+
 libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz)
 {
     return (libvlc_media_player_t*)(intptr_t)getLong(env, thiz, "mInternalMediaPlayerInstance");
 }
+
 
 static void releaseMediaPlayer(JNIEnv *env, jobject thiz)
 {
@@ -399,14 +405,16 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
     eventHandlerInstance = getEventHandlerReference(env, thiz, eventHandler);
 }
 
-void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong instance,
+void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz,
                                              jstring mrl, jobjectArray mediaOptions)
 {
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
+    libvlc_instance_t *p_instance = getLibVlcInstance(env, thiz);
+
     /* Create a media player playing environment */
-    libvlc_media_player_t *mp = libvlc_media_player_new((libvlc_instance_t*)(intptr_t)instance);
+    libvlc_media_player_t *mp = libvlc_media_player_new(p_instance);
     libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
 
@@ -444,7 +452,7 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz, jlong in
 
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, 0);
 
-    libvlc_media_t* p_md = libvlc_media_new_location((libvlc_instance_t*)(intptr_t)instance, p_mrl);
+    libvlc_media_t* p_md = libvlc_media_new_location(p_instance, p_mrl);
     /* media options */
     if (mediaOptions != NULL)
         add_media_options(p_md, env, mediaOptions);

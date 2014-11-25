@@ -139,10 +139,10 @@ static void thumbnailer_unlock(void *opaque, void *picture, void *const *pixels)
  * return null if the thumbail generation failed.
  **/
 jbyteArray Java_org_videolan_libvlc_LibVLC_getThumbnail(JNIEnv *env, jobject thiz,
-                                                        jlong instance, jstring filePath,
+                                                        jstring filePath,
                                                         const jint frameWidth, const jint frameHeight)
 {
-    libvlc_instance_t *libvlc = (libvlc_instance_t *)(intptr_t)instance;
+    libvlc_instance_t *libvlc = getLibVlcInstance(env, thiz);
     jbyteArray byteArray = NULL;
 
     /* Create the thumbnailer data structure */
@@ -161,7 +161,7 @@ jbyteArray Java_org_videolan_libvlc_LibVLC_getThumbnail(JNIEnv *env, jobject thi
     libvlc_media_player_t *mp = libvlc_media_player_new(libvlc);
     libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
 
-    libvlc_media_t *m = new_media(instance, env, thiz, filePath, true, false);
+    libvlc_media_t *m = new_media(env, thiz, filePath, true, false);
     if (m == NULL)
     {
         LOGE("Could not create the media to play!");

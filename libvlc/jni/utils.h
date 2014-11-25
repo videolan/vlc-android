@@ -21,7 +21,9 @@
 #ifndef LIBVLCJNI_UTILS_H
 #define LIBVLCJNI_UTILS_H
 
-libvlc_media_t *new_media(jlong instance, JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo);
+libvlc_media_t *new_media(JNIEnv *env, jobject thiz, jstring fileLocation, bool noOmx, bool noVideo);
+
+libvlc_instance_t *getLibVlcInstance(JNIEnv *env, jobject thiz);
 
 libvlc_media_player_t *getMediaPlayer(JNIEnv *env, jobject thiz);
 
