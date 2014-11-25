@@ -87,8 +87,7 @@ public class AndroidDevices {
         return hasTsp;
     }
 
-    public static String[] getStorageDirectories() {
-        String[] dirs = null;
+    public static ArrayList<String> getStorageDirectories() {
         BufferedReader bufReader = null;
         ArrayList<String> list = new ArrayList<String>();
         list.add(Environment.getExternalStorageDirectory().getPath());
@@ -127,11 +126,6 @@ public class AndroidDevices {
                 if (Strings.StartsWith(deviceWL, device) && (typeWL.contains(type) || Strings.StartsWith(mountWL, mountpoint)))
                     list.add(mountpoint);
             }
-
-            dirs = new String[list.size()];
-            for (int i = 0; i < list.size(); i++) {
-                dirs[i] = list.get(i);
-            }
         }
         catch (FileNotFoundException e) {}
         catch (IOException e) {}
@@ -143,12 +137,12 @@ public class AndroidDevices {
                 catch (IOException e) {}
             }
         }
-        return dirs;
+        return list;
     }
 
     public static String[] getMediaDirectories() {
         ArrayList<String> list = new ArrayList<String>();
-        list.addAll(Arrays.asList(getStorageDirectories()));
+        list.addAll(getStorageDirectories());
         list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
         return list.toArray(new String[list.size()]);
     }

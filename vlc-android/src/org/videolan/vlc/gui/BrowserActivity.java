@@ -98,7 +98,7 @@ public class BrowserActivity extends ListActivity {
 
     private void refreshRoots() {
         ArrayList<String> list = new ArrayList<String>();
-        list.addAll(Arrays.asList(AndroidDevices.getStorageDirectories()));
+        list.addAll(AndroidDevices.getStorageDirectories());
         list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
         mRoots = list.toArray(new String[list.size()]);
     }
@@ -117,7 +117,7 @@ public class BrowserActivity extends ListActivity {
         final File item = mAdapter.getItem(position);
         if (mCurrentDir != null
                 || item.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)
-                || Arrays.asList(AndroidDevices.getStorageDirectories()).contains(
+                || AndroidDevices.getStorageDirectories().contains(
                         item.getPath())) {
             return;
         }
