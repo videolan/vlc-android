@@ -105,7 +105,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		mRecyclerView.post(new Runnable() {
 			@Override
 			public void run() {
-				mLayoutManager.getChildAt(mSelectedItem).setSelected(true);
+				update();
 			}
 		});
 	};
