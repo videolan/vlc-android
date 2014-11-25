@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.videolan.vlc"
-    android:installLocation="auto"
-    android:versionCode="9999"
-    android:versionName="1.0.0-git" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.videolan.vlc">
 
     <uses-sdk
         android:minSdkVersion="17"
@@ -35,9 +33,11 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:logo="@drawable/ic_logo_w"
-        android:theme="@style/Theme.VLC.NoTitleBar" >
+        tools:replace="android:theme"
+        android:theme="@style/Theme.Leanback" >
         <activity
             android:name=".gui.MainActivity"
+            tools:node="replace"
             android:enabled="false"/>
         <activity
             android:name="org.videolan.vlc.gui.tv.MainTvActivity"
@@ -82,6 +82,7 @@
           </intent-filter>
         </receiver>
         <receiver android:name=".RemoteControlClientReceiver"
+            tools:node="replace"
             android:enabled="false"/>
     </application>
 
