@@ -117,15 +117,6 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
 		detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
 		mRowsAdapter.add(detailsOverview);
 
-		// Add a Related items row
-		ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(
-				new StringPresenter());
-		listRowAdapter.add("Media Item 1");
-		listRowAdapter.add("Media Item 2");
-		listRowAdapter.add("Media Item 3");
-		HeaderItem header = new HeaderItem(0, "Related Items", null);
-		mRowsAdapter.add(new ListRow(header, listRowAdapter));
-
 		setAdapter(mRowsAdapter);
 	}
 
