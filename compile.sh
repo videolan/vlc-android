@@ -314,7 +314,8 @@ cd contrib/contrib-android-${TARGET_TUPLE}
     --enable-iconv \
     --disable-aribb24 \
     --disable-aribb25 \
-    --disable-mpg123
+    --disable-mpg123 \
+    --enable-libdsm
 
 # TODO: mpeg2, theora
 
