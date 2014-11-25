@@ -32,6 +32,7 @@
     <!-- Media HUD -->
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:minWidth="500dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
@@ -39,7 +40,7 @@
         android:paddingLeft="30dip"
         android:paddingTop="10dip"
         android:paddingBottom="5dip"
-        android:alpha="0.8"
+        android:alpha="0.5"
         android:background="@android:color/black">
         <TextView
             android:id="@+id/media_title"
