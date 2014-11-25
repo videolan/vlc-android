@@ -26,17 +26,14 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.gui.tv.audioplayer.PlaylistAdapter.ViewHolder;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.AndroidDevices;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -46,11 +43,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer{
-	public static final String TAG = "AudioPlayerActivity";
+	public static final String TAG = "VLC/AudioPlayerActivity";
 
     private AudioServiceController mAudioController;
     private RecyclerView mRecyclerView;
-    private Adapter<ViewHolder> mAdapter;
+    private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private ArrayList<String> mLocations;
 
@@ -116,9 +113,9 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 	@Override
 	public void onConnectionSuccess() {
 		ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
-		if (!mLocations.isEmpty() && !mLocations.equals(medialocations))
-			mAudioController.load(mLocations, 0, true);
-		else {
+		if (!mLocations.isEmpty() && !mLocations.equals(medialocations)) {
+            mAudioController.load(mLocations, 0, true);
+        } else {
 			mLocations = medialocations;
 			update();
 			mAdapter = new PlaylistAdapter(mLocations);
@@ -144,6 +141,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 				mCover.setImageResource(R.drawable.background_cone);
 			else
 				mCover.setImageBitmap(cover);
+            selectItem(mLocations.indexOf(mAudioController.getCurrentMediaLocation()));
 		}
 	}
 
@@ -192,7 +190,6 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		}
 	}
 
-    @TargetApi(12) //only active for Android 3.1+
     public boolean dispatchGenericMotionEvent(MotionEvent event){
 
 		InputDevice mInputDevice = event.getDevice();
@@ -278,19 +275,16 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 		selectItem(--mSelectedItem);
 	}
 
-	private void selectItem(int position){
-		mSelectedItem = position;
+	private void selectItem(final int position){
+        if (position >= mLayoutManager.getChildCount())
+            return;
+        mSelectedItem = position;
 		mRecyclerView.stopScroll();
 		mLayoutManager.scrollToPosition(position);
 		mRecyclerView.post(new Runnable() {
 			@Override
 			public void run() {
-				View v;
-				for (int i = 0 ; i< mAdapter.getItemCount() ; ++i){
-					v = mLayoutManager.findViewByPosition(i);
-					if (v != null)
-						v.setSelected( i == mSelectedItem);
-				}
+                mAdapter.setSelection(position);
 			}
 		});
 	}

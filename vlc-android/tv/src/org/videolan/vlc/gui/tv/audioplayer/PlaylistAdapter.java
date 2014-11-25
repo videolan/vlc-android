@@ -19,20 +19,23 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.audioplayer;
 
-import java.util.ArrayList;
-
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaLibrary;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaLibrary;
+
+import java.util.ArrayList;
+
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
+	public static final String TAG = "VLC/PlaylistAdapter";
+
     private ArrayList<String> mDataset;
 	private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
+    private int mSelectedItem = -1;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTitleTv;
@@ -54,8 +57,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public PlaylistAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                               .inflate(android.R.layout.simple_list_item_2, parent, false);
+                               .inflate(android.R.layout.simple_list_item_activated_2, parent, false);
 
+        v.setClickable(true);
+        v.setFocusable(true);
+        v.setFocusableInTouchMode(true);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -65,10 +71,20 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         Media media = sMediaLibrary.getMediaItem(mDataset.get(position));
         holder.mTitleTv.setText(media.getTitle());
         holder.mArtistTv.setText(media.getArtist());
+        holder.itemView.setActivated(position == mSelectedItem);
     }
 
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    public void setSelection(int pos){
+        if (pos == mSelectedItem)
+            return;
+        int previous = mSelectedItem;
+        mSelectedItem = pos;
+        notifyItemChanged(previous);
+        notifyItemChanged(mSelectedItem);
     }
 }
