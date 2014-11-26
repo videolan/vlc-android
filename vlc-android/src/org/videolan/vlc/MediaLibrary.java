@@ -115,6 +115,17 @@ public class MediaLibrary {
         mUpdateHandler.remove(handler);
     }
 
+    public ArrayList<Media> searchMedia(String query, int type){
+        ArrayList<Media> mediaList = new ArrayList<Media>();
+        ArrayList<String> pathList = MediaDatabase.getInstance().searchMedia(query, type);
+        if (!pathList.isEmpty()){
+            for (String path : pathList) {
+                mediaList.add(getMediaItem(path));
+            }
+        }
+        return mediaList;
+    }
+
     public ArrayList<Media> getVideoItems() {
         ArrayList<Media> videoItems = new ArrayList<Media>();
         mItemListLock.readLock().lock();

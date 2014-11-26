@@ -343,6 +343,30 @@ public class MediaDatabase {
         return files;
     }
 
+    public synchronized ArrayList<String> searchMedia(String filter, int type){
+
+        ArrayList<String> mediaList = new ArrayList<String>();
+
+        String[] queryColumns = new String[]{MEDIA_LOCATION, MEDIA_TITLE, MEDIA_ALBUM, MEDIA_ARTIST, MEDIA_TYPE};
+        String queryString = MEDIA_TITLE+" LIKE ? OR "+MEDIA_ALBUM+" LIKE ? OR "+MEDIA_ARTIST+" LIKE ?";
+        String [] queryArgs;
+        if (type != Media.TYPE_ALL) {
+            queryString = "( " + queryString + " ) AND " + MEDIA_TYPE + "=?";
+            queryArgs = new String[]{"%"+filter+"%", "%"+filter+"%", "%"+filter+"%", String.valueOf(type)};
+        } else
+            queryArgs = new String[]{"%"+filter+"%", "%"+filter+"%", "%"+filter+"%"};
+
+        Cursor cursor = mDb.query(MEDIA_TABLE_NAME,
+                queryColumns, queryString, queryArgs, null, null, null, null);
+        if (cursor.moveToFirst()){
+            do {
+                mediaList.add(cursor.getString(0));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
+        return mediaList;
+    }
+
     public synchronized HashMap<String, Media> getMedias() {
 
         Cursor cursor;

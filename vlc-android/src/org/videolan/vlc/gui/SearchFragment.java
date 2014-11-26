@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
@@ -32,6 +31,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -55,6 +55,8 @@ public class SearchFragment extends ListFragment {
     private SearchHistoryAdapter mHistoryAdapter;
     private SearchResultAdapter mResultAdapter;
     private LinearLayout mListHeader;
+
+    final private Handler mHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,40 +101,27 @@ public class SearchFragment extends ListFragment {
         imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
-    private void search(CharSequence key, int type) {
-
-        // set result adapter to the list
+    private void search(final String key, final int type) {
         mResultAdapter.clear();
-        String[] keys = key.toString().split("\\s+");
-        ArrayList<Media> allItems = MediaLibrary.getInstance().getMediaItems();
-        int results = 0;
-        for (int i = 0; i < allItems.size(); i++) {
-            Media item = allItems.get(i);
-            if (type != Media.TYPE_ALL && type != item.getType())
-                continue;
-            boolean add = true;
-            String name = item.getTitle().toLowerCase(Locale.getDefault());
-            String MRL = item.getLocation().toLowerCase(Locale.getDefault());
-            for (int k = 0; k < keys.length; k++) {
-                String s = keys[k].toLowerCase(Locale.getDefault());
-                if (!(name.contains(s) || MRL.contains(s))) {
-                    add = false;
-                    break;
-                }
+        new Thread(new Runnable() {
+            public void run() {
+                final ArrayList<Media> mediaList = MediaLibrary.getInstance().searchMedia(key, type);
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        int count = mediaList.size();
+                        for (int i = 0 ; i < count ; ++i)
+                            mResultAdapter.add(mediaList.get(i));
+                        mResultAdapter.sort();
+
+                        String headerText = getResources().getQuantityString(R.plurals.search_found_results_quantity, mediaList.size(), mediaList.size());
+                        showListHeader(headerText);
+
+                        setListAdapter(mResultAdapter);
+                    }
+                });
             }
+        }).start();
 
-            if (add) {
-                mResultAdapter.add(item);
-                results++;
-            }
-
-        }
-        mResultAdapter.sort();
-
-        String headerText = getResources().getQuantityString(R.plurals.search_found_results_quantity, results, results);
-        showListHeader(headerText);
-
-        setListAdapter(mResultAdapter);
     }
 
     private void showListHeader(String text) {
@@ -169,7 +158,7 @@ public class SearchFragment extends ListFragment {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() > 0) {
-                search(s, Media.TYPE_ALL);
+                search(s.toString(), Media.TYPE_ALL);
             } else {
                 showSearchHistory();
             }
