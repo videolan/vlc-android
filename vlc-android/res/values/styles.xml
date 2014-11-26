@@ -67,8 +67,8 @@
         <item name="ic_menu_audio">@drawable/ic_menu_audio</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
         <item name="ic_menu_history">@drawable/ic_menu_history</item>
-        <item name="ic_menu_openmrl">@drawable/ic_menu_goto_wb</item>
-        <item name="ic_menu_preferences">@drawable/ic_menu_preferences_wb</item>
+        <item name="ic_menu_openmrl">@drawable/ic_menu_goto</item>
+        <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
         <item name="ic_move_media">@drawable/ic_move_media</item>
 
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
@@ -134,8 +134,8 @@
         <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
         <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
-        <item name="ic_menu_openmrl">@drawable/ic_menu_goto_wb</item>
-        <item name="ic_menu_preferences">@drawable/ic_menu_preferences_wb</item>
+        <item name="ic_menu_openmrl">@drawable/ic_menu_goto</item>
+        <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
@@ -176,7 +176,7 @@
     </style>
 
     <style name="ActionBar.OverflowButton">
-        <item name="android:src">@drawable/ic_menu_overflow</item>
+        <item name="android:src">@drawable/ic_menu_overflow_w</item>
         <item name="background">@drawable/abc_item_background_holo_light</item>
     </style>
 
