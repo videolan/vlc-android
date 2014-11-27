@@ -96,6 +96,7 @@ android {
                     task.dependsOn buildRelease
                 }
             }
+            applicationId "org.videolan.vlc.tv"
             minSdkVersion 17
         }
     }
