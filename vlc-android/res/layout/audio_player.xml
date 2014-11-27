@@ -52,8 +52,7 @@
             android:layout_weight="0"
             android:background="#00000000"
             android:focusable="true"
-            android:scaleType="fitXY"
-            android:src="?attr/ic_audio_player_dots" />
+            android:src="?attr/ic_audio_player_more" />
 
         <TextView
             android:id="@+id/header_time"

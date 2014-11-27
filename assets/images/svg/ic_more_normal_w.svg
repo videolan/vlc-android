@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_more_pressed.svg"
+   sodipodi:docname="ic_more_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="4.1786729"
+     inkscape:cx="-11.535613"
      inkscape:cy="25.530322"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,7 +65,7 @@
      transform="translate(0,-992.3622)">
     <path
        inkscape:connector-curvature="0"
-       style="color:#000000;fill:#777777;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="m 30,997.3622 c -3.186245,0 -5.769227,2.583 -5.769227,5.7693 0,3.1862 2.582982,5.7692 5.769227,5.7692 3.186247,0 5.769227,-2.583 5.769227,-5.7692 0,-3.1863 -2.58298,-5.7693 -5.769227,-5.7693 z m 0,19.2308 c -3.186245,0 -5.769227,2.583 -5.769227,5.7692 0,3.1863 2.582982,5.7693 5.769227,5.7693 3.186247,0 5.769227,-2.583 5.769227,-5.7693 0,-3.1862 -2.58298,-5.7692 -5.769227,-5.7692 z m 0,19.2307 c -3.186245,0 -5.769227,2.583 -5.769227,5.7693 0,3.1862 2.582982,5.7692 5.769227,5.7692 3.186247,0 5.769227,-2.583 5.769227,-5.7692 0,-3.1863 -2.58298,-5.7693 -5.769227,-5.7693 z"
        id="path6070" />
   </g>

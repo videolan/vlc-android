@@ -37,7 +37,7 @@
     <attr name="ic_repeat_one" format="reference" />
     <attr name="ic_shuffle_normal" format="reference" />
     <attr name="ic_shuffle_pressed" format="reference" />
-    <attr name="ic_audio_player_dots" format="reference" />
+    <attr name="ic_audio_player_more" format="reference" />
     <attr name="ic_play" format="reference" />
     <attr name="ic_pause" format="reference" />
     <attr name="ic_play_for_header_play_pause" format="reference" />

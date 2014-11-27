@@ -56,7 +56,7 @@
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
         <item name="ic_shuffle_normal">@drawable/ic_shuffle_normal</item>
         <item name="ic_shuffle_pressed">@drawable/ic_shuffle_pressed</item>
-        <item name="ic_audio_player_dots">@drawable/dots_dark</item>
+        <item name="ic_audio_player_more">@drawable/ic_more_normal</item>
         <item name="ic_play">@drawable/ic_play</item>
         <item name="ic_pause">@drawable/ic_pause</item>
         <item name="ic_play_for_header_play_pause">@drawable/ic_play_for_header_play_pause</item>
@@ -123,7 +123,7 @@
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
         <item name="ic_shuffle_normal">@drawable/ic_shuffle_normal_w</item>
         <item name="ic_shuffle_pressed">@drawable/ic_shuffle_pressed</item>
-        <item name="ic_audio_player_dots">@drawable/dots</item>
+        <item name="ic_audio_player_more">@drawable/ic_more_normal_w</item>
         <item name="ic_play">@drawable/ic_play_w</item>
         <item name="ic_pause">@drawable/ic_pause_w</item>
         <item name="ic_play_for_header_play_pause">@drawable/ic_play_for_header_play_pause_w</item>
@@ -134,8 +134,8 @@
         <item name="ic_menu_audio">@drawable/ic_menu_audio_w</item>
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
         <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
-        <item name="ic_menu_openmrl">@drawable/ic_menu_goto</item>
-        <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
+        <item name="ic_menu_openmrl">@drawable/ic_menu_goto_w</item>
+        <item name="ic_menu_preferences">@drawable/ic_menu_preferences_w</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>

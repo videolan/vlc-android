@@ -46,7 +46,7 @@
             android:layout_marginRight="7dp"
             android:scaleType="fitCenter"
             android:clickable="true"
-            android:src="@drawable/ic_more_vert_grey600_24dp" />
+            android:src="@drawable/ic_more" />
 
         <TextView
             android:id="@+id/ml_item_time"

@@ -199,7 +199,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/dots"
+                android:background="@drawable/ic_more_normal_w"
                 android:onClick="showAdvancedOptions" />
         </RelativeLayout>
     </RelativeLayout>
