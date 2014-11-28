@@ -42,6 +42,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
@@ -52,15 +53,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends ListFragment implements IRefreshable, ISortable {
+public class DirectoryViewFragment extends ListFragment implements IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public DirectoryViewFragment() { }
@@ -117,6 +120,19 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
                 } else {
                     return true; /* Terminate the automatic context menu */
                 }
+            }
+        });
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
             }
         });
 
@@ -230,6 +246,7 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
             focusHelper(mDirectoryAdapter.getCount() == 0);
         } else
             focusHelper(true);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
@@ -270,4 +287,9 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
             }
 
     };
+
+    @Override
+    public void onRefresh() {
+        refresh();
+    }
 }

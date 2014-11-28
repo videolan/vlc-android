@@ -53,6 +53,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
@@ -65,6 +66,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -72,7 +74,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-public class VideoGridFragment extends SherlockGridFragment implements ISortable, VideoBrowserInterface {
+public class VideoGridFragment extends SherlockGridFragment implements ISortable, VideoBrowserInterface, SwipeRefreshLayout.OnRefreshListener {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -96,6 +98,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
     private MediaLibrary mMediaLibrary;
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private AudioServiceController mAudioController;
 
@@ -136,7 +139,19 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
         mGridView = (GridView) v.findViewById(android.R.id.list);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+            }
+        });
         return v;
     }
 
@@ -380,6 +395,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
         }
 
     public void updateList() {
+        if (!mSwipeRefreshLayout.isRefreshing())
+            mSwipeRefreshLayout.setRefreshing(true);
         List<Media> itemList = mMediaLibrary.getVideoItems();
 
         if (mThumbnailer != null)
@@ -414,6 +431,7 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             focusHelper(false);
         } else
             focusHelper(true);
+        stopRefresh();
     }
 
     @Override
@@ -452,4 +470,13 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             }
         }
     };
+
+    public void stopRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        updateList();
+    }
 }

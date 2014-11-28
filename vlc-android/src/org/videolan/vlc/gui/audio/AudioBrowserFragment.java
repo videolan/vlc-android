@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -40,6 +41,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -67,10 +69,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AudioBrowserFragment extends Fragment {
+public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mFlingViewPosition = 0;
 
     private HeaderScrollView mHeader;
@@ -159,8 +162,28 @@ public class AudioBrowserFragment extends Fragment {
         registerForContextMenu(albumList);
         registerForContextMenu(genreList);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        songsList.setOnScrollListener(mScrollListener);
+        artistList.setOnScrollListener(mScrollListener);
+        albumList.setOnScrollListener(mScrollListener);
+        genreList.setOnScrollListener(mScrollListener);
+
         return v;
     }
+
+    AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener(){
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+            }
+    };
 
     @Override
     public void onPause() {
@@ -442,6 +465,11 @@ public class AudioBrowserFragment extends Fragment {
      */
     private Handler mHandler = new AudioBrowserHandler(this);
 
+    @Override
+    public void onRefresh() {
+        updateLists();
+    }
+
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
         public AudioBrowserHandler(AudioBrowserFragment owner) {
             super(owner);
@@ -503,6 +531,7 @@ public class AudioBrowserFragment extends Fragment {
                                 }
                             }
                             focusHelper(false, R.id.artists_list);
+                            mSwipeRefreshLayout.setRefreshing(false);
                         }
                     });
                 }

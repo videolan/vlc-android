@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingTop="20dip">
 
-    <GridView
-        android:id="@id/android:list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingTop="10dip"
-        android:paddingBottom="10dip"
-        android:clipToPadding="false"
-        android:scrollbarStyle="outsideInset"
-        android:numColumns="auto_fit"
-        android:fastScrollEnabled="true"
-        android:fadingEdge="none"
-        android:gravity="center"
-        android:nextFocusUp="@+id/ml_menu_search"
-        android:nextFocusDown="@id/android:list"
-        android:nextFocusLeft="@id/android:list"
-        android:nextFocusRight="@id/android:list" />
+    <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+        <GridView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dip"
+            android:paddingBottom="10dip"
+            android:clipToPadding="false"
+            android:scrollbarStyle="outsideInset"
+            android:numColumns="auto_fit"
+            android:fastScrollEnabled="true"
+            android:fadingEdge="none"
+            android:gravity="center"
+            android:nextFocusUp="@+id/ml_menu_search"
+            android:nextFocusDown="@id/android:list"
+            android:nextFocusLeft="@id/android:list"
+            android:nextFocusRight="@id/android:list" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@id/android:empty"

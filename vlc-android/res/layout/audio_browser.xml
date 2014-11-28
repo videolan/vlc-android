@@ -8,75 +8,75 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <org.videolan.vlc.widget.HeaderScrollView
-	        android:id="@+id/header"
-	        android:scrollbars="none"
-	        android:fadingEdge="none"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:background="@drawable/background_header_item"
-	        android:nextFocusUp="@+id/ml_menu_search"
-	        android:nextFocusDown="@id/header"
-	        android:nextFocusLeft="@id/header"
-	        android:nextFocusRight="@id/header" >
-	        <LinearLayout
-	            android:id="@+id/header_layout"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:orientation="horizontal"
+            android:id="@+id/header"
+            android:scrollbars="none"
+            android:fadingEdge="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_header_item"
+            android:nextFocusUp="@+id/ml_menu_search"
+            android:nextFocusDown="@id/header"
+            android:nextFocusLeft="@id/header"
+            android:nextFocusRight="@id/header" >
+            <LinearLayout
+                android:id="@+id/header_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingTop="5sp"
                 android:paddingBottom="5sp" >
                 <TextView
-	                android:text="@string/artists"
-	                android:textAllCaps="true"
-	                android:textSize="16sp"
-	                android:textColor="?attr/font_light"
-	                android:id="@+id/artists"
-	                android:layout_width="80sp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center_horizontal" />
-	            <TextView
-	                android:text="@string/albums"
-	                android:textAllCaps="true"
-	                android:textSize="16sp"
-	                android:textColor="?attr/font_light"
-	                android:id="@+id/albums"
-	                android:layout_width="80sp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center_horizontal" />
-	            <TextView
-	                android:text="@string/songs"
-	                android:textAllCaps="true"
-	                android:textSize="16sp"
-	                android:textColor="?attr/font_light"
-	                android:id="@+id/songs"
-	                android:layout_width="80sp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center_horizontal" />
-	            <TextView
-	                android:text="@string/genres"
-	                android:textAllCaps="true"
-	                android:textSize="16sp"
-	                android:textColor="?attr/font_light"
-	                android:id="@+id/genres"
-	                android:layout_width="80sp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center_horizontal" />
-	        </LinearLayout>
-	    </org.videolan.vlc.widget.HeaderScrollView>
-	    <View
-	        android:layout_width="20dip"
-	        android:layout_height="10dip"
-	        android:layout_alignBottom="@+id/header"
-	        android:layout_alignLeft="@+id/header"
-	        android:layout_alignTop="@+id/header"
-	        android:background="?attr/header_fadein_overlay" />
-	    <View
-	        android:layout_width="20dip"
-	        android:layout_height="10dip"
-	        android:layout_alignBottom="@+id/header"
-	        android:layout_alignRight="@+id/header"
-	        android:layout_alignTop="@+id/header"
-	        android:background="?attr/header_fadeout_overlay" />
+                    android:text="@string/artists"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/font_light"
+                    android:id="@+id/artists"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <TextView
+                    android:text="@string/albums"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/font_light"
+                    android:id="@+id/albums"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <TextView
+                    android:text="@string/songs"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/font_light"
+                    android:id="@+id/songs"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+                <TextView
+                    android:text="@string/genres"
+                    android:textAllCaps="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/font_light"
+                    android:id="@+id/genres"
+                    android:layout_width="80sp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal" />
+            </LinearLayout>
+        </org.videolan.vlc.widget.HeaderScrollView>
+        <View
+            android:layout_width="20dip"
+            android:layout_height="10dip"
+            android:layout_alignBottom="@+id/header"
+            android:layout_alignLeft="@+id/header"
+            android:layout_alignTop="@+id/header"
+            android:background="?attr/header_fadein_overlay" />
+        <View
+            android:layout_width="20dip"
+            android:layout_height="10dip"
+            android:layout_alignBottom="@+id/header"
+            android:layout_alignRight="@+id/header"
+            android:layout_alignTop="@+id/header"
+            android:background="?attr/header_fadeout_overlay" />
     </RelativeLayout>
 
     <TextView
@@ -88,66 +88,71 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
-    <org.videolan.vlc.widget.FlingViewGroup
-        android:id="@+id/content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <org.videolan.vlc.widget.FlingViewGroup
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@+id/artists_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:nextFocusUp="@id/header"
-            android:nextFocusDown="@id/header"
-            android:nextFocusLeft="@id/artists_list"
-            android:nextFocusRight="@+id/albums_list" />
-        <ListView
-            android:id="@+id/albums_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:nextFocusUp="@id/header"
-            android:nextFocusDown="@id/header"
-            android:nextFocusLeft="@id/artists_list"
-            android:nextFocusRight="@+id/songs_list" />
-       <ListView
-            android:id="@+id/songs_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:nextFocusUp="@id/header"
-            android:nextFocusDown="@id/header"
-            android:nextFocusLeft="@id/albums_list"
-            android:nextFocusRight="@+id/genres_list" />
-        <ListView
-            android:id="@+id/genres_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fastScrollEnabled="true"
-            android:paddingBottom="@dimen/listview_bottom_padding"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:nextFocusUp="@id/header"
-            android:nextFocusDown="@id/header"
-            android:nextFocusLeft="@id/songs_list"
-            android:nextFocusRight="@+id/genres_list" />
-    </org.videolan.vlc.widget.FlingViewGroup>
+            <ListView
+                android:id="@+id/artists_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:nextFocusUp="@id/header"
+                android:nextFocusDown="@id/header"
+                android:nextFocusLeft="@id/artists_list"
+                android:nextFocusRight="@+id/albums_list" />
+            <ListView
+                android:id="@+id/albums_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:nextFocusUp="@id/header"
+                android:nextFocusDown="@id/header"
+                android:nextFocusLeft="@id/artists_list"
+                android:nextFocusRight="@+id/songs_list" />
+            <ListView
+                android:id="@+id/songs_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:nextFocusUp="@id/header"
+                android:nextFocusDown="@id/header"
+                android:nextFocusLeft="@id/albums_list"
+                android:nextFocusRight="@+id/genres_list" />
+            <ListView
+                android:id="@+id/genres_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:nextFocusUp="@id/header"
+                android:nextFocusDown="@id/header"
+                android:nextFocusLeft="@id/songs_list"
+                android:nextFocusRight="@+id/genres_list" />
+        </org.videolan.vlc.widget.FlingViewGroup>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

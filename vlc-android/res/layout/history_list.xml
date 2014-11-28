@@ -4,22 +4,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ListView
-        android:id="@android:id/list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/listview_bottom_padding"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/listview_bottom_padding"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
 
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:paddingTop="30dip"
-        android:text="@string/nohistory"
-        android:textSize="20sp" />
-
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingTop="30dip"
+            android:text="@string/nohistory"
+            android:textSize="20sp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

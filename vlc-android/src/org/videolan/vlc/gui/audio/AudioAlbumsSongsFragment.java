@@ -42,6 +42,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -51,6 +52,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -63,7 +65,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-public class AudioAlbumsSongsFragment extends Fragment {
+public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -72,6 +74,7 @@ public class AudioAlbumsSongsFragment extends Fragment {
 
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public final static String EXTRA_NAME = "name";
     public final static String EXTRA_NAME2 = "name2";
@@ -167,7 +170,30 @@ public class AudioAlbumsSongsFragment extends Fragment {
             }
         });
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        songsList.setOnScrollListener(mScrollListener);
+        albumsList.setOnScrollListener(mScrollListener);
+
         return v;
+    }
+
+    AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener(){
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
+            }
+    };
+
+    @Override
+    public void onRefresh() {
+        updateList();
     }
 
     private static class DummyContentFactory implements TabHost.TabContentFactory {
@@ -336,6 +362,7 @@ public class AudioAlbumsSongsFragment extends Fragment {
                         }
                         mAlbumsAdapter.notifyDataSetChanged();
                         mSongsAdapter.notifyDataSetChanged();
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
             }
