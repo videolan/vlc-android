@@ -31,8 +31,7 @@
         android:id="@+id/ml_menu_refresh"
         android:icon="@drawable/ic_menu_refresh_wb"
         android:title="@string/refresh"
-        android:nextFocusDown="@id/ml_menu_refresh"
-        vlc:showAsAction="ifRoom" />
+        android:nextFocusDown="@id/ml_menu_refresh"/>
     <item
         android:id="@+id/ml_menu_equalizer"
         android:icon="@drawable/ic_menu_equalizer_wb"
