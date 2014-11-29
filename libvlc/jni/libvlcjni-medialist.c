@@ -75,14 +75,14 @@ static int expand_media_internal(JNIEnv *env, libvlc_instance_t* p_instance, job
     }
 }
 
-jint Java_org_videolan_libvlc_expandMedia(JNIEnv *env, jobject thiz, jint position, jobject children) {
+jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz, jint position, jobject children) {
     return (jint)expand_media_internal(env,
         getLibVlcInstance(env, thiz),
         children,
         (libvlc_media_t*)libvlc_media_player_get_media(getMediaPlayer(env, thiz)));
 }
 
-void Java_org_videolan_libvlc_loadPlaylist(JNIEnv *env, jobject thiz, jstring mrl, jobject items) {
+void Java_org_videolan_libvlc_LibVLC_loadPlaylist(JNIEnv *env, jobject thiz, jstring mrl, jobject items) {
     const char* p_mrl = (*env)->GetStringUTFChars(env, mrl, NULL);
     libvlc_instance_t *p_instance = getLibVlcInstance(env, thiz);
 
