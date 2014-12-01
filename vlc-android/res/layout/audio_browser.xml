@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="fill_parent">
         <org.videolan.vlc.widget.HeaderScrollView
             android:id="@+id/header"
             android:scrollbars="none"
@@ -77,12 +73,20 @@
             android:layout_alignRight="@+id/header"
             android:layout_alignTop="@+id/header"
             android:background="?attr/header_fadeout_overlay" />
-    </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:indeterminate="true"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/no_media"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
         android:gravity="center"
         android:text="@string/nomedia"
         android:textSize="20sp"
@@ -91,7 +95,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
         <org.videolan.vlc.widget.FlingViewGroup
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -155,4 +160,4 @@
                 android:nextFocusRight="@+id/genres_list" />
         </org.videolan.vlc.widget.FlingViewGroup>
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+</RelativeLayout>

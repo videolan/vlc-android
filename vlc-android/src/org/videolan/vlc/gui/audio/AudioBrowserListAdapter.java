@@ -215,7 +215,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 firstSeparator = false;
             }
         }
-        notifyDataSetChanged();
     }
 
     public void addSeparator(String title, Media media) {
@@ -228,7 +227,6 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             mSeparatorItemMap.put(title, item);
             mItems.add(item);
         }
-        notifyDataSetChanged();
     }
 
     /**

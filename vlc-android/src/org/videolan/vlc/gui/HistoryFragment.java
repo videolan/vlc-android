@@ -24,6 +24,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.IRefreshable;
 
 import android.os.Bundle;
@@ -41,11 +42,12 @@ import android.widget.AbsListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-public class HistoryFragment extends ListFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener {
+public class HistoryFragment extends ListFragment implements IBrowser, IRefreshable, SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean mReady = true;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() { }
@@ -150,5 +152,16 @@ public class HistoryFragment extends ListFragment implements IRefreshable, Swipe
     @Override
     public void onRefresh() {
         refresh();
+    }
+
+    @Override
+    public void setReadyToDisplay(boolean ready) {
+        mReady = ready;
+    }
+
+    @Override
+    public void display() {
+        refresh();
+        mReady = true;
     }
 }

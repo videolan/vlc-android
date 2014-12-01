@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,12 +49,14 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.ProgressBar;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
@@ -69,7 +70,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
@@ -84,6 +85,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
+    private View mLoading;
 
     private View mEmptyView;
 
@@ -92,6 +94,9 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
+
+    public final static int MSG_LOADING = 0;
+    private volatile boolean mReadyToDisplay = true;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -136,6 +141,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         mHeader.setOnKeyListener(keyListener);
 
         mEmptyView = v.findViewById(R.id.no_media);
+        mLoading = (ProgressBar) v.findViewById(R.id.loading_view);
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
         ListView artistList = (ListView)v.findViewById(R.id.artists_list);
@@ -470,6 +476,43 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         updateLists();
     }
 
+    @Override
+    public void setReadyToDisplay(boolean ready) {
+        if (mLoading != null && mLoading.getVisibility() == View.VISIBLE)
+            display();
+        else
+            mReadyToDisplay = ready;
+    }
+
+    @Override
+    public void display() {
+        mReadyToDisplay = true;
+        if (getActivity() != null)
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    mHandler.removeMessages(MSG_LOADING);
+                    mLoading.setVisibility(View.GONE);
+                    mArtistsAdapter.notifyDataSetChanged();
+                    mSongsAdapter.notifyDataSetChanged();
+                    mAlbumsAdapter.notifyDataSetChanged();
+                    mGenresAdapter.notifyDataSetChanged();
+
+                    // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
+                    int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
+                    if (getView() != null) {
+                        ListView l;
+                        for (int r : lists) {
+                            l = (ListView) getView().findViewById(r);
+                            l.setFastScrollEnabled(true);
+                        }
+                    }
+                    focusHelper(false, R.id.artists_list);
+                }
+            });
+    }
+
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {
         public AudioBrowserHandler(AudioBrowserFragment owner) {
             super(owner);
@@ -484,22 +527,26 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                 case MediaLibrary.MEDIA_ITEMS_UPDATED:
                     fragment.updateLists();
                     break;
+                case MSG_LOADING:
+                    if (!fragment.mReadyToDisplay)
+                        fragment.mLoading.setVisibility(View.VISIBLE);
             }
         }
     };
 
     private void updateLists() {
-        final Activity context = getActivity();
         mSongsAdapter.clear();
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
         final List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
         if (audioList.isEmpty()){
+            mSwipeRefreshLayout.setRefreshing(false);
             mEmptyView.setVisibility(View.VISIBLE);
             focusHelper(true, R.id.artists_list);
         } else {
             mEmptyView.setVisibility(View.GONE);
+            mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
             new Thread(new Runnable() {
                 @Override
@@ -517,23 +564,8 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                     Collections.sort(audioList, MediaComparators.byGenre);
                     mGenresAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_GENRES);
 
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
-                            int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
-                            if (getView() != null) {
-                                ListView l;
-                                for (int r : lists) {
-                                    l = (ListView) getView().findViewById(r);
-                                    l.setFastScrollEnabled(false);
-                                    l.setFastScrollEnabled(true);
-                                }
-                            }
-                            focusHelper(false, R.id.artists_list);
-                            mSwipeRefreshLayout.setRefreshing(false);
-                        }
-                    });
+                    if (mReadyToDisplay)
+                        display();
                 }
             }).start();
         }

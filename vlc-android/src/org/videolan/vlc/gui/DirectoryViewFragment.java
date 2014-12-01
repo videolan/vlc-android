@@ -28,6 +28,7 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
@@ -59,11 +60,12 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends ListFragment implements IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener {
+public class DirectoryViewFragment extends ListFragment implements IBrowser, IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean mReady = true;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public DirectoryViewFragment() { }
@@ -291,5 +293,16 @@ public class DirectoryViewFragment extends ListFragment implements IRefreshable,
     @Override
     public void onRefresh() {
         refresh();
+    }
+
+    @Override
+    public void setReadyToDisplay(boolean ready) {
+        mReady = ready;
+    }
+
+    @Override
+    public void display() {
+        refresh();
+        mReady = true;
     }
 }

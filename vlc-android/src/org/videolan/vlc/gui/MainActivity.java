@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.AndroidDevices;
@@ -229,7 +230,13 @@ public class MainActivity extends ActionBarActivity {
 
         /* Set up the sidebar click listener
          * no need to invalidate menu for now */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mRootContainer, R.string.drawer_open, R.string.drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mRootContainer, R.string.drawer_open, R.string.drawer_close){
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                ((IBrowser) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
+            }
+        };
 
         // Set the drawer toggle as the DrawerListener
         mRootContainer.setDrawerListener(mDrawerToggle);
@@ -267,8 +274,10 @@ public class MainActivity extends ActionBarActivity {
                     slideDownAudioPlayer();
 
                 /* Switch the fragment */
+                    Fragment fragment = getFragment(entry.id);
+                    ((IBrowser)fragment).setReadyToDisplay(false);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_placeholder, getFragment(entry.id), entry.id);
+                    ft.replace(R.id.fragment_placeholder, fragment, entry.id);
                     ft.commit();
                     supportInvalidateOptionsMenu();
                     mCurrentFragment = entry.id;
@@ -291,7 +300,6 @@ public class MainActivity extends ActionBarActivity {
                 }else if (entry.attributeID == R.attr.ic_menu_preferences){
                     startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 }
-                mRootContainer.closeDrawer(mListView);
             }
         });
 
