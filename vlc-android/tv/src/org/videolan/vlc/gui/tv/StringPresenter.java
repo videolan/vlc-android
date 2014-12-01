@@ -21,6 +21,7 @@ package org.videolan.vlc.gui.tv;
 
 import org.videolan.vlc.R;
 
+import android.content.res.Resources;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -38,7 +39,14 @@ public class StringPresenter extends Presenter {
     }
 
     public void onBindViewHolder(ViewHolder viewHolder, Object item) {
-        ((TextView) viewHolder.view).setText(item.toString());
+        Resources res = viewHolder.view.getContext().getResources();
+        TextView tv = (TextView) viewHolder.view;
+        tv.setText(item.toString());
+        if (res.getString(R.string.preferences).equals(item.toString())) {
+            tv.setBackground(res.getDrawable(R.drawable.ic_menu_preferences_big));
+        }
+        tv.setHeight(res.getDimensionPixelSize(R.dimen.tv_card_height));
+        tv.setWidth(res.getDimensionPixelSize(R.dimen.tv_card_width));
     }
 
     public void onUnbindViewHolder(ViewHolder viewHolder) {

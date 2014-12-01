@@ -28,6 +28,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.VLCInstance;
@@ -70,6 +71,12 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        if (!AndroidDevices.hasTsp()){
+            findPreference("screen_orientation").setEnabled(false);
+            findPreference("enable_black_theme").setEnabled(false);
+            findPreference("ui_category").setEnabled(false);
+        }
 
         // Directories
         Preference directoriesPref = findPreference("directories");

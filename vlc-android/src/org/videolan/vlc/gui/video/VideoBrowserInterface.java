@@ -8,6 +8,7 @@ public interface VideoBrowserInterface {
     public static final long HEADER_VIDEO = 0;
 	public static final long HEADER_MUSIC = 1;
 	public static final long HEADER_CATEGORIES = 2;
+	public static final long HEADER_MISC = 3;
 	public static final long FILTER_ARTIST = 3;
 	public static final long FILTER_GENRE = 4;
 

@@ -90,27 +90,34 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+        ViewHolder holder = ((ViewHolder) viewHolder);
+        holder.mCardView.getMainImageView().setAdjustViewBounds(true);
+        holder.mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
     	if (item instanceof Media) {
 	    	Media media = (Media) item;
-	        ((ViewHolder) viewHolder).mCardView.setTitleText(media.getTitle());
-	        ((ViewHolder) viewHolder).mCardView.setContentText(media.getDescription());
+            holder.mCardView.setTitleText(media.getTitle());
+            holder.mCardView.setContentText(media.getDescription());
 	        if (media.isPictureParsed())
-				((ViewHolder) viewHolder).updateCardViewImage(media.getLocation());
+                holder.updateCardViewImage(media.getLocation());
 			else
-				((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+                holder.updateCardViewImage(sDefaultCardImage);
     	} else if (item instanceof GridFragment.ListItem) {
 	    	GridFragment.ListItem listItem = (GridFragment.ListItem) item;
 	    	Media media = listItem.mMediaList.get(0);
-	        ((ViewHolder) viewHolder).mCardView.setTitleText(listItem.mTitle);
-	        ((ViewHolder) viewHolder).mCardView.setContentText(listItem.mSubTitle);
+            holder.mCardView.setTitleText(listItem.mTitle);
+            holder.mCardView.setContentText(listItem.mSubTitle);
 	        if (media.isPictureParsed())
-				((ViewHolder) viewHolder).updateCardViewImage(media.getLocation());
+                holder.updateCardViewImage(media.getLocation());
 			else
-				((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+                holder.updateCardViewImage(sDefaultCardImage);
     	} else if (item instanceof String){
-    		((ViewHolder) viewHolder).mCardView.setTitleText((String) item);
-    		((ViewHolder) viewHolder).updateCardViewImage(sDefaultCardImage);
+            Resources res = viewHolder.view.getContext().getResources();
+            holder.mCardView.setTitleText((String) item);
+            if (res.getString(R.string.preferences).equals(item.toString()))
+                holder.updateCardViewImage(res.getDrawable(
+                        R.drawable.ic_menu_preferences_big));
+                else
+                holder.updateCardViewImage(sDefaultCardImage);
     	}
     }
 

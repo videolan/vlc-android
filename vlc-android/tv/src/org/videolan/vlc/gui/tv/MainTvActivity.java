@@ -30,6 +30,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoBrowserInterface;
 import org.videolan.vlc.gui.video.VideoListHandler;
@@ -67,8 +68,8 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 	private Media mItemToUpdate;
 	ArrayObjectAdapter mRowsAdapter;
 	ArrayObjectAdapter mVideoAdapter;
-	ArrayObjectAdapter mAudioAdapter;
 	ArrayObjectAdapter mCategoriesAdapter;
+    ArrayObjectAdapter mOtherAdapter;
 	HashMap<String, Integer> mVideoIndex;
 	Drawable mDefaultBackground;
 	Activity mContext;
@@ -81,8 +82,10 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 				Intent intent = new Intent(mContext, VerticalGridActivity.class);
 				intent.putExtra(AUDIO_CATEGORY, category);
 				startActivity(intent);
-			} else
+			} else if (row.getId() == HEADER_VIDEO)
 				TvUtil.openMedia(mContext, (Media)item, row);
+            else if (row.getId() == HEADER_MISC)
+                startActivity(new Intent(mContext, PreferencesActivity.class));
 		}
 	};
 
@@ -244,29 +247,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 				mRowsAdapter.add(new ListRow(header, mVideoAdapter));
 			}
 
-			/*// update audio section
-			if (!audioList.isEmpty()) {
-				size = audioList.size();
-				if (NUM_ITEMS_PREVIEW < size)
-					size = NUM_ITEMS_PREVIEW;
-				mAudioAdapter = new ArrayObjectAdapter(new CardPresenter());
-				for (int i = 0 ; i < size ; ++i) {
-					item = audioList.get(i);
-					picture = AudioUtil.getCover(mContext, item, 320);
-					if (picture != null){
-						MediaDatabase.setPicture(item, picture);
-						picture = null;
-					}
-					mAudioAdapter.add(item);
-
-				}
-				// Empty item to launch grid activity
-				mAudioAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
-
-				HeaderItem header = new HeaderItem(HEADER_MUSIC, getString(R.string.audio), null);
-				mRowsAdapter.add(new ListRow(header, mAudioAdapter));
-			}*/
-
 			mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter());
 			mCategoriesAdapter.add(getString(R.string.artists));
 			mCategoriesAdapter.add(getString(R.string.albums));
@@ -274,6 +254,11 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 			mCategoriesAdapter.add(getString(R.string.songs));
 			HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
 			mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
+
+            mOtherAdapter = new ArrayObjectAdapter(new CardPresenter());
+            mOtherAdapter.add(getString(R.string.preferences));
+			header = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
+            mRowsAdapter.add(new ListRow(header, mOtherAdapter));
 
 			return null;
 		}

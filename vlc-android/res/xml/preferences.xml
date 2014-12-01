@@ -36,7 +36,9 @@
             android:title="@string/subtitle_text_encoding" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/extra_prefs_category" >
-        <PreferenceScreen android:title="@string/interface_prefs_screen" >
+        <PreferenceScreen
+            android:title="@string/interface_prefs_screen"
+            android:key="ui_category" >
             <PreferenceCategory android:title="@string/interface_secondary_display_category" >
                 <Preference android:summary="@string/interface_secondary_display_category_summary" />
 
