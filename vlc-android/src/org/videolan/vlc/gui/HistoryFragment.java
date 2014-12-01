@@ -156,12 +156,15 @@ public class HistoryFragment extends ListFragment implements IBrowser, IRefresha
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        mReady = ready;
+        if (ready && !mReady)
+            display();
+        else
+            mReady = ready;
     }
 
     @Override
     public void display() {
-        refresh();
         mReady = true;
+        refresh();
     }
 }

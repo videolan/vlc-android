@@ -297,12 +297,15 @@ public class DirectoryViewFragment extends ListFragment implements IBrowser, IRe
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        mReady = ready;
+        if (ready && !mReady)
+            display();
+        else
+            mReady = ready;
     }
 
     @Override
     public void display() {
-        refresh();
         mReady = true;
+        refresh();
     }
 }

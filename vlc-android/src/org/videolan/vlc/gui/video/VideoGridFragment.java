@@ -414,6 +414,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
                 @Override
                 public void run() {
                     if (mGroup != null || itemList.size() <= 10) {
+                        mVideoAdapter.setNotifyOnChange(false);
                         for (Media item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup)) {
                                 mVideoAdapter.add(item);
@@ -424,6 +425,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
                     }
                     else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
+                        mVideoAdapter.setNotifyOnChange(false);
                         for (MediaGroup item : groups) {
                             mVideoAdapter.add(item.getMedia());
                             if (mThumbnailer != null)
@@ -488,7 +490,10 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        mReady = ready;
+        if (ready && !mReady)
+            display();
+        else
+            mReady = ready;
     }
 
     @Override
@@ -497,13 +502,13 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mReady = true;
                     mVideoAdapter.sort();
                     mVideoAdapter.notifyDataSetChanged();
                     mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
                     mGridView.setSelection(mGVFirstVisiblePos);
                     mGridView.requestFocus();
                     focusHelper(false);
-                    mReady = true;
                 }
             });
     }
