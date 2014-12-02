@@ -6,6 +6,6 @@
         android:title="@string/navmenu" />
     <item
         android:id="@+id/pl_menu_adv"
-        android:icon="@drawable/dots"
+        android:icon="@drawable/ic_more"
         android:title="@string/advanced" />
 </menu>

@@ -107,7 +107,7 @@
         android:layout_alignTop="@+id/player_overlay_play"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/images_margin_sides"
-        android:src="@drawable/ic_crop_circle"
+        android:src="@drawable/ic_crop_circle_o"
         android:scaleType="center"
         android:focusable="true" />
 </RelativeLayout>
