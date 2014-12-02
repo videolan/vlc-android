@@ -11,6 +11,9 @@
         <item name="video_player_overlay">@color/transparent_gray</item>
         <item name="status_bar_overlay">@android:color/transparent</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
     </style>
 
     <style name="Theme.VLC.17" parent="Theme.VLC.Apearance">
@@ -28,7 +31,7 @@
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>

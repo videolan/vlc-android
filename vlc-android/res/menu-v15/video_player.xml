@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pl_menu_audiotrack"
+        android:icon="@drawable/ic_audio_circle"
+        android:title="@string/track_audio" />
+    <item
+        android:id="@+id/pl_menu_subtitle"
+        android:icon="@drawable/ic_subtitle_circle"
+        android:title="@string/subtitles" />
+    <item
+        android:id="@+id/pl_menu_nav"
+        android:icon="@drawable/ic_navmenu_circle"
+        android:title="@string/navmenu" />
+</menu>

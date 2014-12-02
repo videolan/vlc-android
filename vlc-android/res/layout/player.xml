@@ -41,12 +41,12 @@
             android:layout_height="match_parent"
             layout="@layout/player_tips" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/player_overlay_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_pause_circle"
+            android:src="@drawable/ic_pause_circle"
             android:visibility="invisible" />
 
         <ImageView
@@ -90,23 +90,24 @@
             android:paddingRight="5dp"
             android:visibility="invisible" >
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/lock_overlay_button"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/ic_lock" />
+                android:src="@drawable/ic_lock" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/player_overlay_backward"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toRightOf="@+id/lock_overlay_button"
-                android:background="@drawable/ic_backward_w" />
+                android:src="@drawable/ic_backward_w"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/player_overlay_time"
@@ -146,23 +147,24 @@
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/player_overlay_forward"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@+id/player_overlay_size"
-                android:background="@drawable/ic_forward_w" />
+                android:src="@drawable/ic_forward_w"
+                android:visibility="gone"/>
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/player_overlay_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_more_normal_w" />
+                android:src="@drawable/ic_crop_circle" />
         </RelativeLayout>
     </RelativeLayout>
 

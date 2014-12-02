@@ -70,7 +70,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -117,9 +116,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -181,17 +178,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private TextView mInfo;
     private ImageView mLoading;
     private TextView mLoadingText;
-    private ImageButton mPlayPause;
-    private ImageButton mBackward;
-    private ImageButton mForward;
-    private boolean mEnableJumpButtons;
+    private ImageView mPlayPause;
+    private ImageView mTracks;
+    private ImageView mAdvOptions;
     private boolean mEnableBrightnessGesture;
     private boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime = false;
     private int mScreenOrientation;
     private int mScreenOrientationLock;
-    private ImageButton mLock;
-    private ImageButton mSize;
+    private ImageView mLock;
+    private ImageView mSize;
     private boolean mIsLocked = false;
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -2;
@@ -344,18 +340,15 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation_value", "4" /*SCREEN_ORIENTATION_SENSOR*/));
 
-        mEnableJumpButtons = mSettings.getBoolean("enable_jump_buttons", true);
-        mPlayPause = (ImageButton) findViewById(R.id.player_overlay_play);
+        mPlayPause = (ImageView) findViewById(R.id.player_overlay_play);
         mPlayPause.setOnClickListener(mPlayPauseListener);
-        mBackward = (ImageButton) findViewById(R.id.player_overlay_backward);
-        mBackward.setOnClickListener(mBackwardListener);
-        mForward = (ImageButton) findViewById(R.id.player_overlay_forward);
-        mForward.setOnClickListener(mForwardListener);
 
-        mLock = (ImageButton) findViewById(R.id.lock_overlay_button);
+        mTracks = (ImageView) findViewById(R.id.player_overlay_tracks);
+        mAdvOptions = (ImageView) findViewById(R.id.player_overlay_adv_function);
+        mLock = (ImageView) findViewById(R.id.lock_overlay_button);
         mLock.setOnClickListener(mLockListener);
 
-        mSize = (ImageButton) findViewById(R.id.player_overlay_size);
+        mSize = (ImageView) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
 
         try {
@@ -462,14 +455,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         item.setVisible(mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && mLibVLC.getTitle() != 0);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
-        item = menu.findItem(R.id.pl_menu_adv);
-        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-        MenuItemCompat.setActionView(item, R.layout.adv_view);//we set this view as custom to have its coordinates to display popup at the right place.
-        MenuItemCompat.getActionView(item).setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                showAdvancedOptions(v);
-            }
-        });
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            item = menu.findItem(R.id.pl_menu_adv);
+            MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+            MenuItemCompat.setActionView(item, R.layout.adv_view);//we set this view as custom to have its coordinates to display popup at the right place.
+            MenuItemCompat.getActionView(item).setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    showAdvancedOptions(v);
+                }
+            });
+        }
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -560,6 +556,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         super.onConfigurationChanged(newConfig);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onStart() {
         if (LibVlcUtil.isHoneycombOrLater()) {
@@ -631,16 +628,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSwitchingView = false;
         AudioServiceController.getInstance().bindAudioService(this,
                 new AudioServiceController.AudioServiceConnectionListener() {
-            @Override
-            public void onConnectionSuccess() {
-                mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_SUCCESS);
-            }
+                    @Override
+                    public void onConnectionSuccess() {
+                        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_SUCCESS);
+                    }
 
-            @Override
-            public void onConnectionFailed() {
-                mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
-            }
-        });
+                    @Override
+                    public void onConnectionFailed() {
+                        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+                    }
+                });
 
         if (mMediaRouter != null) {
             // Listen for changes to media routes.
@@ -971,7 +968,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mScreenOrientationLock = getScreenOrientation();
         }
         showInfo(R.string.locked, 1000);
-        mLock.setBackgroundResource(R.drawable.ic_locked);
+        mLock.setImageResource(R.drawable.ic_locked);
         mTime.setEnabled(false);
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
@@ -986,7 +983,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
-        mLock.setBackgroundResource(R.drawable.ic_lock);
+        mLock.setImageResource(R.drawable.ic_lock);
         mTime.setEnabled(true);
         mSeekbar.setEnabled(true);
         mLength.setEnabled(true);
@@ -1636,7 +1633,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
         // Set Brightness
         getWindow().setAttributes(lp);
-        showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness*15),1000);
+        showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness * 15),1000);
 	}
 
     /**
@@ -1688,13 +1685,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             public void onClick(DialogInterface dialog, int listPosition) {
                 int trackID = -1;
                 // Reverse map search...
-                for(Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
-                    if(arrList[listPosition].equals(entry.getValue())) {
+                for (Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
+                    if (arrList[listPosition].equals(entry.getValue())) {
                         trackID = entry.getKey();
                         break;
                     }
                 }
-                if(trackID < 0) return;
+                if (trackID < 0) return;
 
                 MediaDatabase.getInstance().updateMedia(
                         mLocation,
@@ -1776,26 +1773,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             showOverlayTimeout(OVERLAY_TIMEOUT);
         }
     }
-
-    /**
-    *
-    */
-    private final OnClickListener mBackwardListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            seek(-10000);
-        }
-    };
-
-    /**
-    *
-    */
-    private final OnClickListener mForwardListener = new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            seek(10000);
-        }
-    };
 
     public void seek(int delta) {
         // unseekable stream
@@ -1990,10 +1967,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if (!mIsLocked) {
                 setActionBarVisibility(true);
                 mPlayPause.setVisibility(View.VISIBLE);
-                if (mEnableJumpButtons) {
-                    mBackward.setVisibility(View.VISIBLE);
-                    mForward.setVisibility(View.VISIBLE);
-                }
+                if (mTracks != null)
+                    mTracks.setVisibility(View.VISIBLE);
+                if (mAdvOptions !=null)
+                    mAdvOptions.setVisibility(View.VISIBLE);
                 mSize.setVisibility(View.VISIBLE);
                 dimStatusBar(false);
             }
@@ -2019,8 +1996,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if (!fromUser && !mIsLocked) {
                 mOverlayProgress.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mPlayPause.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                mBackward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-                mForward.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mTracks != null)
+                    mTracks.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
+                if (mAdvOptions !=null)
+                    mAdvOptions.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
             }
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -2029,8 +2008,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             setActionBarVisibility(false);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
-            mBackward.setVisibility(View.INVISIBLE);
-            mForward.setVisibility(View.INVISIBLE);
+            if (mTracks != null)
+                mTracks.setVisibility(View.INVISIBLE);
+            if (mAdvOptions !=null)
+                mAdvOptions.setVisibility(View.INVISIBLE);
             mSize.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
@@ -2083,10 +2064,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
 
         if (mPresentation == null)
-            mPlayPause.setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
+            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
                             : R.drawable.ic_play_circle);
         else
-            mPlayPause.setBackgroundResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
+            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
                             : R.drawable.ic_play_circle_big_o);
     }
 
@@ -2106,9 +2087,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
 
         // Update all view elements
-        boolean isSeekable = mEnableJumpButtons && length > 0;
-        mBackward.setVisibility(isSeekable && !mIsLocked ? View.VISIBLE : View.GONE);
-        mForward.setVisibility(isSeekable && !mIsLocked ? View.VISIBLE : View.GONE);
         mSeekbar.setMax(length);
         mSeekbar.setProgress(time);
         if (mSysTime != null)

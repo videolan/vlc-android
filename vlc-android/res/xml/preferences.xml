@@ -61,11 +61,6 @@
                     android:title="@string/enable_brightness_gesture" />
                 <CheckBoxPreference
                     android:defaultValue="true"
-                    android:key="enable_jump_buttons"
-                    android:summary="@string/enable_jump_buttons_summary"
-                    android:title="@string/enable_jump_buttons" />
-                <CheckBoxPreference
-                    android:defaultValue="true"
                     android:key="enable_headset_detection"
                     android:summary="@string/enable_headset_detection_summary"
                     android:title="@string/enable_headset_detection" />

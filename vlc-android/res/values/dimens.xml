@@ -13,16 +13,15 @@
     <dimen name="grid_card_vertical_spacing">0dp</dimen>
 
     <!-- Video Player -->
-    <dimen name="overlay_width">800dp</dimen>
-    <dimen name="overlay_margin_bottom">10dip</dimen>
-    <dimen name="overlay_padding_bottom">10dip</dimen>
+    <dimen name="overlay_padding_bottom">15dip</dimen>
     <dimen name="overlay_padding_top">20dip</dimen>
-    <dimen name="overlay_padding_sides">20dip</dimen>
+    <dimen name="overlay_padding_sides">5dp</dimen>
 
     <dimen name="seekbar_height">2dip</dimen>
-    <dimen name="seekbar_padding_sides">5dp</dimen>
+    <dimen name="seekbar_padding_sides">5dip</dimen>
+    <dimen name="images_margin_sides">10dp</dimen>
+    <dimen name="time_margin_sides">10dp</dimen>
+
 
     <dimen name="media_ctrl_margin_top">20dp</dimen>
-    <dimen name="options_margin">10dp</dimen>
-    <dimen name="playpause_margin">10dp</dimen>
 </resources>

@@ -6,9 +6,6 @@
     <dimen name="grid_card_subtitle_text_size">12sp</dimen>
     <dimen name="grid_card_vertical_spacing">10dp</dimen>
     <!-- Video Player -->
-    <dimen name="overlay_padding_sides">30dip</dimen>
-    <dimen name="options_margin">100dp</dimen>
-    <dimen name="playpause_margin">20dp</dimen>
     <dimen name="media_ctrl_margin_top">30dp</dimen>
-    <dimen name="seekbar_padding_sides">20dp</dimen>
+    <dimen name="images_margin_sides">50dp</dimen>
 </resources>

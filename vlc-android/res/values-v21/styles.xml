@@ -12,6 +12,9 @@
         <item name="android:statusBarColor">@color/black3</item>
     </style>
     <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
-        <item name="android:navigationBarColor">?attr/video_player_overlay</item>
+        <item name="android:windowTranslucentStatus">false</item>">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>
