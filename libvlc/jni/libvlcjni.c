@@ -262,7 +262,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     //only use OpenSLES if java side says we can
     jclass cls = (*env)->GetObjectClass(env, thiz);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
-    bool use_opensles = (*env)->CallIntMethod(env, thiz, methodId) == AOUT_OPENSLES;
+    int aout = (*env)->CallIntMethod(env, thiz, methodId);
 
     methodId = (*env)->GetMethodID(env, cls, "getVout", "()I");
     int vout = (*env)->CallIntMethod(env, thiz, methodId);
@@ -338,7 +338,8 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         (networkCaching > 0) ? networkCachingstr : "",
 
         /* Android audio API is a mess */
-        use_opensles ? "--aout=opensles" : "--aout=android_audiotrack",
+        aout == AOUT_OPENSLES ? "--aout=opensles" :
+            (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy"),
 
         /* Android video API is a mess */
         vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" :
