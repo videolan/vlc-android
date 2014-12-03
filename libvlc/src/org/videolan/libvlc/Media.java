@@ -177,10 +177,10 @@ public class Media implements Comparable<Media> {
                 mType = TYPE_AUDIO;
             } else if (track.Type == TrackInfo.TYPE_META) {
                 mLength = track.Length;
-                mTitle = track.Title;
-                mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist);
-                mAlbum = getValueWrapper(track.Album, UnknownStringType.Album);
-                mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre);
+                mTitle = track.Title.trim();
+                mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist).trim();
+                mAlbum = getValueWrapper(track.Album, UnknownStringType.Album).trim();
+                mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
                 mArtworkURL = track.ArtworkURL;
                 mNowPlaying = track.NowPlaying;
                 Log.d(TAG, "Title " + mTitle);
