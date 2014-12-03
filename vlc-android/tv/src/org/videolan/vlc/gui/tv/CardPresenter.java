@@ -99,6 +99,9 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setContentText(media.getDescription());
 	        if (media.isPictureParsed())
                 holder.updateCardViewImage(media.getLocation());
+            else if (media.getType() == Media.TYPE_GROUP)
+                holder.updateCardViewImage(holder.view.getContext().getResources().getDrawable(
+                        R.drawable.ic_video_collection_big));
 			else
                 holder.updateCardViewImage(sDefaultCardImage);
     	} else if (item instanceof GridFragment.ListItem) {
@@ -111,13 +114,25 @@ public class CardPresenter extends Presenter {
 			else
                 holder.updateCardViewImage(sDefaultCardImage);
     	} else if (item instanceof String){
-            Resources res = viewHolder.view.getContext().getResources();
+            Resources res = holder.view.getContext().getResources();
             holder.mCardView.setTitleText((String) item);
             if (res.getString(R.string.preferences).equals(item.toString()))
                 holder.updateCardViewImage(res.getDrawable(
                         R.drawable.ic_menu_preferences_big));
-                else
-                holder.updateCardViewImage(sDefaultCardImage);
+            else if (res.getString(R.string.artists).equals(item.toString()))
+                holder.updateCardViewImage(res.getDrawable(
+                        R.drawable.ic_artist_big));
+            else if (res.getString(R.string.albums).equals(item.toString()))
+                holder.updateCardViewImage(res.getDrawable(
+                        R.drawable.ic_album_big));
+            else if (res.getString(R.string.genres).equals(item.toString()))
+                holder.updateCardViewImage(res.getDrawable(
+                        R.drawable.ic_genre_big));
+            else if (res.getString(R.string.songs).equals(item.toString()))
+                holder.updateCardViewImage(res.getDrawable(
+                        R.drawable.ic_song_big));
+            else
+            holder.updateCardViewImage(sDefaultCardImage);
     	}
     }
 
