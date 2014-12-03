@@ -57,39 +57,39 @@ import android.view.View.OnClickListener;
 
 public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
-	private static final int NUM_ITEMS_PREVIEW = 5;
+    private static final int NUM_ITEMS_PREVIEW = 5;
 
-	public static final String TAG = "VLC/MainTvActivity";
+    public static final String TAG = "VLC/MainTvActivity";
 
-	protected BrowseFragment mBrowseFragment;
-	protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
-	private MediaLibrary mMediaLibrary;
-	private Thumbnailer mThumbnailer;
-	private Media mItemToUpdate;
-	ArrayObjectAdapter mRowsAdapter;
-	ArrayObjectAdapter mVideoAdapter;
-	ArrayObjectAdapter mCategoriesAdapter;
+    protected BrowseFragment mBrowseFragment;
+    protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
+    private MediaLibrary mMediaLibrary;
+    private Thumbnailer mThumbnailer;
+    private Media mItemToUpdate;
+    ArrayObjectAdapter mRowsAdapter;
+    ArrayObjectAdapter mVideoAdapter;
+    ArrayObjectAdapter mCategoriesAdapter;
     ArrayObjectAdapter mOtherAdapter;
-	HashMap<String, Integer> mVideoIndex;
-	Drawable mDefaultBackground;
-	Activity mContext;
+    HashMap<String, Integer> mVideoIndex;
+    Drawable mDefaultBackground;
+    Activity mContext;
 
-	OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
-		@Override
-		public void onItemClicked(Object item, Row row) {
-			if (row.getId() == HEADER_CATEGORIES){
-				String category = (String)item;
-				Intent intent = new Intent(mContext, VerticalGridActivity.class);
-				intent.putExtra(AUDIO_CATEGORY, category);
-				startActivity(intent);
-			} else if (row.getId() == HEADER_VIDEO)
-				TvUtil.openMedia(mContext, (Media)item, row);
+    OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
+        @Override
+        public void onItemClicked(Object item, Row row) {
+            if (row.getId() == HEADER_CATEGORIES){
+                String category = (String)item;
+                Intent intent = new Intent(mContext, VerticalGridActivity.class);
+                intent.putExtra(AUDIO_CATEGORY, category);
+                startActivity(intent);
+            } else if (row.getId() == HEADER_VIDEO)
+                TvUtil.openMedia(mContext, (Media)item, row);
             else if (row.getId() == HEADER_MISC)
                 startActivity(new Intent(mContext, PreferencesActivity.class));
-		}
-	};
+        }
+    };
 
-	OnClickListener mSearchClickedListenernew = new View.OnClickListener() {
+    OnClickListener mSearchClickedListenernew = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(mContext, SearchActivity.class);
@@ -97,72 +97,72 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         }
     };
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 		/*
 		 * skip browser and show directly Audio Player if a song is playing
 		 */
-		if (LibVLC.getExistingInstance() != null){
-			if (LibVLC.getExistingInstance().isPlaying()){
-				startActivity(new Intent(this, AudioPlayerActivity.class));
-				finish();
-				return;
-			}
-		}
-		mContext = this;
-		setContentView(R.layout.tv_main_fragment);
+        if (LibVLC.getExistingInstance() != null){
+            if (LibVLC.getExistingInstance().isPlaying()){
+                startActivity(new Intent(this, AudioPlayerActivity.class));
+                finish();
+                return;
+            }
+        }
+        mContext = this;
+        setContentView(R.layout.tv_main_fragment);
 
-		mMediaLibrary = MediaLibrary.getInstance();
-		mDefaultBackground = getResources().getDrawable(R.drawable.background);
-		final FragmentManager fragmentManager = getFragmentManager();
-		mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
-				R.id.browse_fragment);
+        mMediaLibrary = MediaLibrary.getInstance();
+        mDefaultBackground = getResources().getDrawable(R.drawable.background);
+        final FragmentManager fragmentManager = getFragmentManager();
+        mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
+                R.id.browse_fragment);
 
-		// Set display parameters for the BrowseFragment
-		mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
-		mBrowseFragment.setTitle(getString(R.string.app_name));
-		mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.cone));
+        // Set display parameters for the BrowseFragment
+        mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
+        mBrowseFragment.setTitle(getString(R.string.app_name));
+        mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.cone));
         // set search icon color
-		mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
+        mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
 
-		// add a listener for selected items
-		mBrowseFragment.setOnItemClickedListener(mItemClickListener);
+        // add a listener for selected items
+        mBrowseFragment.setOnItemClickedListener(mItemClickListener);
 
-		mBrowseFragment.setOnSearchClickedListener(mSearchClickedListenernew);
-		mMediaLibrary.loadMediaItems(this, true);
-		mThumbnailer = new Thumbnailer(this, getWindowManager().getDefaultDisplay());
-		BackgroundManager.getInstance(this).attach(getWindow());
-	}
+        mBrowseFragment.setOnSearchClickedListener(mSearchClickedListenernew);
+        mMediaLibrary.loadMediaItems(this, true);
+        mThumbnailer = new Thumbnailer(this, getWindowManager().getDefaultDisplay());
+        BackgroundManager.getInstance(this).attach(getWindow());
+    }
 
-	public void onResume() {
-		super.onResume();
-		mMediaLibrary.addUpdateHandler(mHandler);
-		if (mMediaLibrary.isWorking()) {
-			Util.actionScanStart();
-		}
+    public void onResume() {
+        super.onResume();
+        mMediaLibrary.addUpdateHandler(mHandler);
+        if (mMediaLibrary.isWorking()) {
+            Util.actionScanStart();
+        }
 
 		/* Start the thumbnailer */
-		if (mThumbnailer != null)
-			mThumbnailer.start(this);
-	}
+        if (mThumbnailer != null)
+            mThumbnailer.start(this);
+    }
 
-	public void onPause() {
-		super.onPause();
-		mMediaLibrary.removeUpdateHandler(mHandler);
+    public void onPause() {
+        super.onPause();
+        mMediaLibrary.removeUpdateHandler(mHandler);
 
 		/* Stop the thumbnailer */
-		if (mThumbnailer != null)
-			mThumbnailer.stop();
-	}
+        if (mThumbnailer != null)
+            mThumbnailer.stop();
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (mThumbnailer != null)
-			mThumbnailer.clearJobs();
-		mBarrier.reset();
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mThumbnailer != null)
+            mThumbnailer.clearJobs();
+        mBarrier.reset();
+    }
 
     protected void updateBackground(Drawable drawable) {
         BackgroundManager.getInstance(this).setDrawable(drawable);
@@ -172,100 +172,98 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         BackgroundManager.getInstance(this).setDrawable(mDefaultBackground);
     }
 
-	public void await() throws InterruptedException, BrokenBarrierException {
-		mBarrier.await();
-	}
+    public void await() throws InterruptedException, BrokenBarrierException {
+        mBarrier.await();
+    }
 
-	public void resetBarrier() {
-		mBarrier.reset();
-	}
+    public void resetBarrier() {
+        mBarrier.reset();
+    }
 
-	public void updateList() {
-		new AsyncUpdate().execute();
-	}
+    public void updateList() {
+        new AsyncUpdate().execute();
+    }
 
-	@Override
-	public void setItemToUpdate(Media item) {
-		mItemToUpdate = item;
-		mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
-	}
+    @Override
+    public void setItemToUpdate(Media item) {
+        mItemToUpdate = item;
+        mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
+    }
 
-	public void updateItem() {
-		mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
-		try {
-			mBarrier.await();
-		} catch (InterruptedException e) {
-		} catch (BrokenBarrierException e) {}
-	}
+    public void updateItem() {
+        mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+        try {
+            mBarrier.await();
+        } catch (InterruptedException e) {
+        } catch (BrokenBarrierException e) {}
+    }
 
-	private Handler mHandler = new VideoListHandler(this);
+    private Handler mHandler = new VideoListHandler(this);
 
-	public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
+    public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
 
-		public AsyncUpdate() { }
+        public AsyncUpdate() { }
 
-		@Override
-		protected void onPreExecute(){
-			mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-		}
-		@Override
-		protected Void doInBackground(Void... params) {
-			MediaDatabase mediaDatabase = MediaDatabase.getInstance();
-			ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
+        @Override
+        protected void onPreExecute(){
+            mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+            MediaDatabase mediaDatabase = MediaDatabase.getInstance();
+            ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
 //			ArrayList<Media> audioList = mMediaLibrary.getAudioItems();
-			int size;
-			Media item;
-			Bitmap picture;
+            int size;
+            Media item;
+            Bitmap picture;
 
-			// Update video section
-			if (!videoList.isEmpty()) {
-				size = videoList.size();
-				mVideoIndex = new HashMap<String, Integer>(size);
-				mVideoAdapter = new ArrayObjectAdapter(
-						new CardPresenter());
-				if (NUM_ITEMS_PREVIEW < size)
-					size = NUM_ITEMS_PREVIEW;
-				for (int i = 0 ; i < size ; ++i) {
-					item = videoList.get(i);
-					picture = mediaDatabase.getPicture(mContext, item.getLocation());
+            // Update video section
+            if (!videoList.isEmpty()) {
+                size = videoList.size();
+                mVideoIndex = new HashMap<String, Integer>(size);
+                mVideoAdapter = new ArrayObjectAdapter(
+                        new CardPresenter());
+                if (NUM_ITEMS_PREVIEW < size)
+                    size = NUM_ITEMS_PREVIEW;
+                for (int i = 0 ; i < size ; ++i) {
+                    item = videoList.get(i);
+                    picture = mediaDatabase.getPicture(mContext, item.getLocation());
 
-					mVideoAdapter.add(item);
-					mVideoIndex.put(item.getLocation(), i);
-					if (mThumbnailer != null){
-						if (picture== null) {
-							mThumbnailer.addJob(item);
-						} else {
-							MediaDatabase.setPicture(item, picture);
-							picture = null;
-						}
-					}
-				}
-				// Empty item to launch grid activity
-				mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+                    mVideoAdapter.add(item);
+                    mVideoIndex.put(item.getLocation(), i);
+                    if (mThumbnailer != null){
+                        if (picture== null) {
+                            mThumbnailer.addJob(item);
+                        }
 
-				HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
-				mRowsAdapter.add(new ListRow(header, mVideoAdapter));
-			}
+                    }
+                }
+                // Empty item to launch grid activity
+                mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
 
-			mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter());
-			mCategoriesAdapter.add(getString(R.string.artists));
-			mCategoriesAdapter.add(getString(R.string.albums));
-			mCategoriesAdapter.add(getString(R.string.genres));
-			mCategoriesAdapter.add(getString(R.string.songs));
-			HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
-			mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
+                HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
+                mRowsAdapter.add(new ListRow(header, mVideoAdapter));
+            }
+
+            mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter());
+            mCategoriesAdapter.add(getString(R.string.artists));
+            mCategoriesAdapter.add(getString(R.string.albums));
+            mCategoriesAdapter.add(getString(R.string.genres));
+            mCategoriesAdapter.add(getString(R.string.songs));
+            HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
+            mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter());
             mOtherAdapter.add(getString(R.string.preferences));
-			header = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
+            header = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
             mRowsAdapter.add(new ListRow(header, mOtherAdapter));
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		protected void onPostExecute(Void result) {
-			mBrowseFragment.setAdapter(mRowsAdapter);
-		}
-	}
+        @Override
+        protected void onPostExecute(Void result) {
+            mBrowseFragment.setAdapter(mRowsAdapter);
+        }
+    }
 }

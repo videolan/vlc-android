@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.audio.AudioUtil;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -35,7 +36,7 @@ import android.view.ViewGroup;
 
 public class CardPresenter extends Presenter {
 
-	private static final String TAG = "CardPresenter";
+    private static final String TAG = "CardPresenter";
 
     private static Context sContext;
     private static int CARD_WIDTH = 0;
@@ -56,16 +57,20 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected void updateCardViewImage(String mediaLocation) {
-			Bitmap picture = sMediaDatabase.getPicture(sContext, mediaLocation);
-			if (picture.getByteCount() > 4)
-				mCardView.setMainImage(new BitmapDrawable(sResources, picture));
-			else
-				updateCardViewImage(sDefaultCardImage);
+        protected void updateCardViewImage(Media media) {
+            Bitmap picture = null;
+            if (media.getType() == Media.TYPE_AUDIO)
+                picture = AudioUtil.getCover(sContext, media, 320);
+            else if (media.getType() == Media.TYPE_VIDEO)
+                picture = sMediaDatabase.getPicture(sContext, media.getLocation());
+            if (picture != null && picture.getByteCount() > 4)
+                mCardView.setMainImage(new BitmapDrawable(sResources, picture));
+            else
+                mCardView.setMainImage(sDefaultCardImage);
         }
 
         protected void updateCardViewImage(Drawable image) {
-        	mCardView.setMainImage(image);
+            mCardView.setMainImage(image);
         }
     }
 
@@ -75,11 +80,11 @@ public class CardPresenter extends Presenter {
         sResources = sContext.getResources();
         sDefaultCardImage = sContext.getResources().getDrawable(R.drawable.cone);
         if (CARD_WIDTH == 0) {
-			CARD_WIDTH = sResources.getDimensionPixelSize(
-					R.dimen.tv_card_width);
-			CARD_HEIGHT = sResources.getDimensionPixelSize(
-					R.dimen.tv_card_height);
-		}
+            CARD_WIDTH = sResources.getDimensionPixelSize(
+                    R.dimen.tv_card_width);
+            CARD_HEIGHT = sResources.getDimensionPixelSize(
+                    R.dimen.tv_card_height);
+        }
 
         ImageCardView cardView = new ImageCardView(sContext);
         cardView.setFocusable(true);
@@ -93,27 +98,25 @@ public class CardPresenter extends Presenter {
         ViewHolder holder = ((ViewHolder) viewHolder);
         holder.mCardView.getMainImageView().setAdjustViewBounds(true);
         holder.mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-    	if (item instanceof Media) {
-	    	Media media = (Media) item;
+        if (item instanceof Media) {
+            Media media = (Media) item;
             holder.mCardView.setTitleText(media.getTitle());
             holder.mCardView.setContentText(media.getDescription());
-	        if (media.isPictureParsed())
-                holder.updateCardViewImage(media.getLocation());
-            else if (media.getType() == Media.TYPE_GROUP)
+            if (media.getType() == Media.TYPE_GROUP)
                 holder.updateCardViewImage(holder.view.getContext().getResources().getDrawable(
                         R.drawable.ic_video_collection_big));
-			else
-                holder.updateCardViewImage(sDefaultCardImage);
-    	} else if (item instanceof GridFragment.ListItem) {
-	    	GridFragment.ListItem listItem = (GridFragment.ListItem) item;
-	    	Media media = listItem.mMediaList.get(0);
+            else
+                holder.updateCardViewImage(media);
+        } else if (item instanceof GridFragment.ListItem) {
+            GridFragment.ListItem listItem = (GridFragment.ListItem) item;
+            Media media = listItem.mMediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
-	        if (media.isPictureParsed())
-                holder.updateCardViewImage(media.getLocation());
-			else
+            if (media.isPictureParsed())
+                holder.updateCardViewImage(media);
+            else
                 holder.updateCardViewImage(sDefaultCardImage);
-    	} else if (item instanceof String){
+        } else if (item instanceof String){
             Resources res = holder.view.getContext().getResources();
             holder.mCardView.setTitleText((String) item);
             if (res.getString(R.string.preferences).equals(item.toString()))
@@ -132,8 +135,8 @@ public class CardPresenter extends Presenter {
                 holder.updateCardViewImage(res.getDrawable(
                         R.drawable.ic_song_big));
             else
-            holder.updateCardViewImage(sDefaultCardImage);
-    	}
+                holder.updateCardViewImage(sDefaultCardImage);
+        }
     }
 
     @Override
