@@ -117,6 +117,12 @@ LIBIOMX_INCLUDES_19 := $(LIBIOMX_INCLUDES_COMMON) \
 	$(ANDROID_SYS_HEADERS)/19/system/core/include \
 	$(ANDROID_SYS_HEADERS)/19/hardware/libhardware/include
 
+LIBIOMX_INCLUDES_21 := $(LIBIOMX_INCLUDES_COMMON) \
+	$(ANDROID_SYS_HEADERS)/21/frameworks/native/include \
+	$(ANDROID_SYS_HEADERS)/21/frameworks/av/include \
+	$(ANDROID_SYS_HEADERS)/21/system/core/include \
+	$(ANDROID_SYS_HEADERS)/21/hardware/libhardware/include
+
 define build_iomx
 include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)

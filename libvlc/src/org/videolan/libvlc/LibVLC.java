@@ -123,8 +123,10 @@ public class LibVLC {
                     System.loadLibrary("anw.13");
                 else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR1)
                     System.loadLibrary("anw.14");
-                else
+                else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH)
                     System.loadLibrary("anw.18");
+                else
+                    System.loadLibrary("anw.21");
             } catch (Throwable t) {
                 Log.w(TAG, "Unable to load the anw library: " + t);
             }
