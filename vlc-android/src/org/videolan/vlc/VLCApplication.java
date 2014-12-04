@@ -71,8 +71,8 @@ public class VLCApplication extends Application {
             Locale.setDefault(locale);
             Configuration config = new Configuration();
             config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
+            getResources().updateConfiguration(config,
+                    getResources().getDisplayMetrics());
         }
 
         instance = this;
@@ -107,7 +107,6 @@ public class VLCApplication extends Application {
      */
     public static Resources getAppResources()
     {
-        if(instance == null) return null;
         return instance.getResources();
     }
 }
