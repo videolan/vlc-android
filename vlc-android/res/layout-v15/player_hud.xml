@@ -20,7 +20,8 @@
         android:minHeight="@dimen/seekbar_height"
         android:layout_alignParentTop="true"
         android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/seekbar_thumb" />
+        android:thumb="@drawable/seekbar_thumb"
+        android:focusable="true"/>
 
     <TextView
         android:id="@+id/player_overlay_time"
@@ -55,7 +56,8 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/images_margin_sides"
         android:src="@drawable/ic_lock"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:focusable="true" />
 
     <ImageView
         android:id="@+id/player_overlay_tracks"
@@ -68,7 +70,8 @@
         android:layout_alignTop="@+id/player_overlay_play"
         android:clickable="true"
         android:src="@drawable/ic_subtitle_circle"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/player_overlay_play"
@@ -78,7 +81,8 @@
         android:layout_centerHorizontal="true"
         android:clickable="true"
         android:src="@drawable/ic_pause_circle"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/player_overlay_adv_function"
@@ -92,7 +96,8 @@
         android:clickable="true"
         android:onClick="showAdvancedOptions"
         android:src="@drawable/ic_more"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/player_overlay_size"
@@ -104,5 +109,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/images_margin_sides"
         android:src="@drawable/ic_crop_circle"
-        android:scaleType="center" />
+        android:scaleType="center"
+        android:focusable="true" />
 </RelativeLayout>
