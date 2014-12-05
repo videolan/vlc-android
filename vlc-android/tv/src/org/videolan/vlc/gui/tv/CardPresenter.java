@@ -112,10 +112,7 @@ public class CardPresenter extends Presenter {
             Media media = listItem.mMediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
-            if (media.isPictureParsed())
-                holder.updateCardViewImage(media);
-            else
-                holder.updateCardViewImage(sDefaultCardImage);
+            holder.updateCardViewImage(media);
         } else if (item instanceof String){
             Resources res = holder.view.getContext().getResources();
             holder.mCardView.setTitleText((String) item);

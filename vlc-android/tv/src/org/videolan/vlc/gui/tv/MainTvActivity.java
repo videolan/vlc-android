@@ -50,8 +50,11 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
-import android.support.v17.leanback.widget.OnItemClickedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -64,7 +67,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
     protected BrowseFragment mBrowseFragment;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private MediaLibrary mMediaLibrary;
-    private Thumbnailer mThumbnailer;
+    private static Thumbnailer sThumbnailer;
     private Media mItemToUpdate;
     ArrayObjectAdapter mRowsAdapter;
     ArrayObjectAdapter mVideoAdapter;
@@ -74,16 +77,16 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
     Drawable mDefaultBackground;
     Activity mContext;
 
-    OnItemClickedListener mItemClickListener = new OnItemClickedListener() {
+    OnItemViewClickedListener mItemClickListener = new OnItemViewClickedListener() {
         @Override
-        public void onItemClicked(Object item, Row row) {
+        public void onItemClicked(Presenter.ViewHolder viewHolder, Object o, RowPresenter.ViewHolder viewHolder2, Row row) {
             if (row.getId() == HEADER_CATEGORIES){
-                String category = (String)item;
+                String category = (String)o;
                 Intent intent = new Intent(mContext, VerticalGridActivity.class);
                 intent.putExtra(AUDIO_CATEGORY, category);
                 startActivity(intent);
             } else if (row.getId() == HEADER_VIDEO)
-                TvUtil.openMedia(mContext, (Media)item, row);
+                TvUtil.openMedia(mContext, (Media)o, row);
             else if (row.getId() == HEADER_MISC)
                 startActivity(new Intent(mContext, PreferencesActivity.class));
         }
@@ -127,24 +130,18 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
 
         // add a listener for selected items
-        mBrowseFragment.setOnItemClickedListener(mItemClickListener);
+        mBrowseFragment.setOnItemViewClickedListener(mItemClickListener);
 
         mBrowseFragment.setOnSearchClickedListener(mSearchClickedListenernew);
         mMediaLibrary.loadMediaItems(this, true);
-        mThumbnailer = new Thumbnailer(this, getWindowManager().getDefaultDisplay());
         BackgroundManager.getInstance(this).attach(getWindow());
     }
 
     public void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
-        if (mMediaLibrary.isWorking()) {
-            Util.actionScanStart();
-        }
-
-		/* Start the thumbnailer */
-        if (mThumbnailer != null)
-            mThumbnailer.start(this);
+        if (sThumbnailer != null)
+            sThumbnailer.setVideoBrowser(this);
     }
 
     public void onPause() {
@@ -152,16 +149,16 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         mMediaLibrary.removeUpdateHandler(mHandler);
 
 		/* Stop the thumbnailer */
-        if (mThumbnailer != null)
-            mThumbnailer.stop();
+        if (sThumbnailer != null)
+            sThumbnailer.setVideoBrowser(null);
+        mBarrier.reset();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mThumbnailer != null)
-            mThumbnailer.clearJobs();
-        mBarrier.reset();
+        if (sThumbnailer != null)
+            sThumbnailer.clearJobs();
     }
 
     protected void updateBackground(Drawable drawable) {
@@ -182,6 +179,27 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
     public void updateList() {
         new AsyncUpdate().execute();
+        checkThumbs();
+    }
+
+    @Override
+    public void showProgressBar() {
+        //TODO
+    }
+
+    @Override
+    public void hideProgressBar() {
+        //TODO
+    }
+
+    @Override
+    public void clearTextInfo() {
+        //TODO
+    }
+
+    @Override
+    public void sendTextInfo(String info, int progress, int max) {
+        Log.d(TAG, info);
     }
 
     @Override
@@ -191,11 +209,16 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
     }
 
     public void updateItem() {
-        mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+        if (mVideoAdapter != null && mVideoIndex != null && mItemToUpdate != null) {
+            if (mVideoIndex.containsKey(mItemToUpdate.getLocation())) {
+                mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(mItemToUpdate.getLocation()), 1);
+            }
+        }
         try {
             mBarrier.await();
         } catch (InterruptedException e) {
         } catch (BrokenBarrierException e) {}
+
     }
 
     private Handler mHandler = new VideoListHandler(this);
@@ -231,12 +254,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
 
                     mVideoAdapter.add(item);
                     mVideoIndex.put(item.getLocation(), i);
-                    if (mThumbnailer != null){
-                        if (picture== null) {
-                            mThumbnailer.addJob(item);
-                        }
-
-                    }
                 }
                 // Empty item to launch grid activity
                 mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
@@ -265,5 +282,30 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         protected void onPostExecute(Void result) {
             mBrowseFragment.setAdapter(mRowsAdapter);
         }
+    }
+
+    private void checkThumbs() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                sThumbnailer = new Thumbnailer(mContext, getWindowManager().getDefaultDisplay());
+                Bitmap picture;
+                ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
+                MediaDatabase mediaDatabase = MediaDatabase.getInstance();
+                if (sThumbnailer != null && videoList != null && !videoList.isEmpty()) {
+                    for (Media media : videoList){
+                        picture = mediaDatabase.getPicture(mContext, media.getLocation());
+                        if (picture== null)
+                            sThumbnailer.addJob(media);
+                    }
+                    if (sThumbnailer.getJobsCount() > 0)
+                        sThumbnailer.start((VideoBrowserInterface) mContext);
+                }
+            }
+        }).start();
+    }
+
+    public static Thumbnailer getThumbnailer(){
+        return sThumbnailer;
     }
 }
