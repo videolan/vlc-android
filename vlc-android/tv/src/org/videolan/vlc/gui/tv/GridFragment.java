@@ -91,7 +91,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
         VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
         gridPresenter.setNumberOfColumns(NUM_COLUMNS);
         setGridPresenter(gridPresenter);
-        mAdapter = new ArrayObjectAdapter(new CardPresenter());
+        mAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
         setAdapter(mAdapter);
     }
 

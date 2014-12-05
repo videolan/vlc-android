@@ -245,7 +245,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
                 size = videoList.size();
                 mVideoIndex = new HashMap<String, Integer>(size);
                 mVideoAdapter = new ArrayObjectAdapter(
-                        new CardPresenter());
+                        new CardPresenter(mContext));
                 if (NUM_ITEMS_PREVIEW < size)
                     size = NUM_ITEMS_PREVIEW;
                 for (int i = 0 ; i < size ; ++i) {
@@ -262,7 +262,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
                 mRowsAdapter.add(new ListRow(header, mVideoAdapter));
             }
 
-            mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter());
+            mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             mCategoriesAdapter.add(getString(R.string.artists));
             mCategoriesAdapter.add(getString(R.string.albums));
             mCategoriesAdapter.add(getString(R.string.genres));
@@ -270,7 +270,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
             HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
             mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
 
-            mOtherAdapter = new ArrayObjectAdapter(new CardPresenter());
+            mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             mOtherAdapter.add(getString(R.string.preferences));
             header = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
             mRowsAdapter.add(new ListRow(header, mOtherAdapter));

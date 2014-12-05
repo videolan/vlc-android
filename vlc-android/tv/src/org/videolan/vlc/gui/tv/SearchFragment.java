@@ -86,7 +86,7 @@ implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider 
 
     private void loadRows(String query, int type) {
         ArrayList<Media> mediaList = MediaLibrary.getInstance().searchMedia(query, type);
-        final ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
+        final ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter(mActivity));
         listRowAdapter.addAll(0, mediaList);
         mHandler.post(new Runnable() {
             @Override
