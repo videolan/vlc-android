@@ -32,7 +32,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.video.VideoBrowserInterface;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
@@ -104,6 +103,14 @@ public class Thumbnailer implements Runnable {
     }
 
     /**
+     * Gives the count of pending thumbnails
+     * @return totalCount
+     */
+    public int getJobsCount(){
+        return totalCount;
+    }
+
+    /**
      * Add a new id of the file browser item to create its thumbnail.
      * @param id the if of the file browser item.
      */
@@ -129,14 +136,17 @@ public class Thumbnailer implements Runnable {
         Log.d(TAG, "Thumbnailer started");
 
         while (!isStopping) {
-            mVideoBrowser.resetBarrier();
+            if (mVideoBrowser != null)
+                mVideoBrowser.resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
             boolean interrupted = false;
             while (mItems.size() == 0) {
                 try {
-                    MainActivity.hideProgressBar();
-                    MainActivity.clearTextInfo();
+                    if (mVideoBrowser != null) {
+                        mVideoBrowser.hideProgressBar();
+                        mVideoBrowser.clearTextInfo();
+                    }
                     totalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
@@ -153,17 +163,16 @@ public class Thumbnailer implements Runnable {
             Media item = mItems.poll();
             lock.unlock();
 
-            MainActivity.showProgressBar();
-
-            MainActivity.sendTextInfo(String.format("%s %s", mPrefix, item.getFileName()), count, total);
+            if (mVideoBrowser != null) {
+                mVideoBrowser.showProgressBar();
+                mVideoBrowser.sendTextInfo(String.format("%s %s", mPrefix, item.getFileName()), count, total);
+            }
             count++;
 
             int width = (int) (120 * mDensity);
             int height = (int) (75 * mDensity);
 
-            // Get the thumbnail.
-            Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-            //Log.i(TAG, "create new bitmap for: " + item.getName());
+            //Get bitmap
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);
 
             if (b == null) {// We were not able to create a thumbnail for this item, store a dummy
@@ -171,30 +180,41 @@ public class Thumbnailer implements Runnable {
                 continue;
             }
 
+            // Create the bitmap
+            Bitmap thumbnail = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+
             thumbnail.copyPixelsFromBuffer(ByteBuffer.wrap(b));
 
             Log.i(TAG, "Thumbnail created for " + item.getFileName());
 
             MediaDatabase.setPicture(item, thumbnail);
             // Post to the file browser the new item.
-            mVideoBrowser.setItemToUpdate(item);
+            if (mVideoBrowser != null) {
+                mVideoBrowser.setItemToUpdate(item);
 
-            // Wait for the file browser to process the change.
-            try {
-                mVideoBrowser.await();
-            } catch (InterruptedException e) {
-                Log.i(TAG, "interruption probably requested by stop()");
-                break;
-            } catch (BrokenBarrierException e) {
-                Log.e(TAG, "Unexpected BrokenBarrierException");
-                e.printStackTrace();
-                break;
+                // Wait for the file browser to process the change.
+                try {
+                    mVideoBrowser.await();
+                } catch (InterruptedException e) {
+                    Log.i(TAG, "interruption probably requested by stop()");
+                    break;
+                } catch (BrokenBarrierException e) {
+                    Log.e(TAG, "Unexpected BrokenBarrierException");
+                    e.printStackTrace();
+                    break;
+                }
             }
         }
         /* cleanup */
-        MainActivity.hideProgressBar();
-        MainActivity.clearTextInfo();
+        if (mVideoBrowser != null) {
+            mVideoBrowser.hideProgressBar();
+            mVideoBrowser.clearTextInfo();
+        }
         mVideoBrowser = null;
         Log.d(TAG, "Thumbnailer stopped");
+    }
+
+    public void setVideoBrowser(VideoBrowserInterface browser){
+        mVideoBrowser = browser;
     }
 }

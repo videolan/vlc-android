@@ -21,4 +21,8 @@ public interface VideoBrowserInterface {
 	public void await() throws InterruptedException, BrokenBarrierException;
 	public void updateItem();
 	public void updateList();
+    public void showProgressBar();
+    public void hideProgressBar();
+    public void clearTextInfo();
+    public void sendTextInfo(String info, int progress, int max);
 }
