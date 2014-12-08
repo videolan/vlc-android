@@ -228,6 +228,16 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     }
 
+    public void sortByAlbum(){
+        mItems.clear();
+        for (ListItem album : mSeparatorItemMap.values()){
+            mItems.add(album);
+            Collections.sort(album.mMediaList, MediaComparators.byTrackNumber);
+            for (Media media : album.mMediaList)
+                add(media.getTitle(), null, media);
+        }
+    }
+
     /**
      * Remove all the reference to a media in the list items.
      * Remove also all the list items that contain only this media.

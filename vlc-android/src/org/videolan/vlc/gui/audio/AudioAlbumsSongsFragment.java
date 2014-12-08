@@ -358,8 +358,8 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                             mAlbumsAdapter.addSeparator(media.getArtist(), media);
                             mAlbumsAdapter.add(media.getAlbum(), null, media);
                             mSongsAdapter.addSeparator(media.getAlbum(), media);
-                            mSongsAdapter.add(media.getTitle(), null, media);
                         }
+                        mSongsAdapter.sortByAlbum();
                         mAlbumsAdapter.notifyDataSetChanged();
                         mSongsAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
