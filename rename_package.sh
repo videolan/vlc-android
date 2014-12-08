@@ -3,6 +3,14 @@
 # Usage rename_package.sh <new_name> <ABI>
 #  new_name should be a string
 #  ABI should be an integer, between 0 and 4
+# ARMv7       = 0
+# ARMv6_NOFPU = 1
+# X86         = 2
+# ARMv6_FPU   = 3
+# MIPS        = 4
+# ARMv8       = 5
+# x86_64      = 6
+# MIPS64      = 7
 
 OLD_NAME=org.videolan.vlc
 NEW_NAME=org.videolan.vlc.$1
