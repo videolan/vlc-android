@@ -50,7 +50,8 @@ public class MediaGroup extends Media {
                 media.getHeight(),
                 media.getArtworkURL(),
                 media.getAudioTrack(),
-                media.getSpuTrack());
+                media.getSpuTrack(),
+                media.getTrackNumber());
         mMedia = media;
         mMedias = new ArrayList<Media>();
     }

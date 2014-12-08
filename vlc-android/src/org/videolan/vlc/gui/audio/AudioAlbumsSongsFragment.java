@@ -372,7 +372,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     OnItemClickListener albumsListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
+            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p, true);
             mAudioController.load(mediaLocation, 0);
         }
     };

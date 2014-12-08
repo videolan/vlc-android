@@ -72,6 +72,7 @@ public class MediaDatabase {
     private final String MEDIA_ARTWORKURL = "artwork_url";
     private final String MEDIA_AUDIOTRACK = "audio_track";
     private final String MEDIA_SPUTRACK = "spu_track";
+    private final String MEDIA_TRACKNUMBER = "track_number";
 
     private final String PLAYLIST_TABLE_NAME = "playlist_table";
     private final String PLAYLIST_NAME = "name";
@@ -89,7 +90,8 @@ public class MediaDatabase {
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
         MEDIA_TYPE, MEDIA_PICTURE, MEDIA_TITLE, MEDIA_ARTIST, MEDIA_GENRE, MEDIA_ALBUM,
-        MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_ARTWORKURL, MEDIA_AUDIOTRACK, MEDIA_SPUTRACK
+        MEDIA_WIDTH, MEDIA_HEIGHT, MEDIA_ARTWORKURL, MEDIA_AUDIOTRACK, MEDIA_SPUTRACK,
+        MEDIA_TRACKNUMBER
     }
 
     /**
@@ -160,15 +162,16 @@ public class MediaDatabase {
                     + MEDIA_LENGTH + " INTEGER, "
                     + MEDIA_TYPE + " INTEGER, "
                     + MEDIA_PICTURE + " BLOB, "
-                    + MEDIA_TITLE + " VARCHAR(200), "
-                    + MEDIA_ARTIST + " VARCHAR(200), "
-                    + MEDIA_GENRE + " VARCHAR(200), "
-                    + MEDIA_ALBUM + " VARCHAR(200), "
+                    + MEDIA_TITLE + " TEXT, "
+                    + MEDIA_ARTIST + " TEXT, "
+                    + MEDIA_GENRE + " TEXT, "
+                    + MEDIA_ALBUM + " TEXT, "
                     + MEDIA_WIDTH + " INTEGER, "
                     + MEDIA_HEIGHT + " INTEGER, "
-                    + MEDIA_ARTWORKURL + " VARCHAR(256), "
+                    + MEDIA_ARTWORKURL + " TEXT, "
                     + MEDIA_AUDIOTRACK + " INTEGER, "
-                    + MEDIA_SPUTRACK + " INTEGER"
+                    + MEDIA_SPUTRACK + " INTEGER, "
+                    + MEDIA_TRACKNUMBER + " INTEGER"
                     + ");";
             db.execSQL(query);
         }
@@ -454,6 +457,7 @@ public class MediaDatabase {
         values.put(MEDIA_ARTWORKURL, media.getArtworkURL());
         values.put(MEDIA_AUDIOTRACK, media.getAudioTrack());
         values.put(MEDIA_SPUTRACK, media.getSpuTrack());
+        values.put(MEDIA_TRACKNUMBER, media.getTrackNumber());
 
         mDb.replace(MEDIA_TABLE_NAME, "NULL", values);
 
@@ -540,7 +544,7 @@ public class MediaDatabase {
         do {
             count = 0;
             cursor = mDb.rawQuery(String.format(Locale.US,
-                    "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
+                    "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
                     MEDIA_TIME, //0 long
                     MEDIA_LENGTH, //1 long
                     MEDIA_TYPE, //2 int
@@ -551,16 +555,17 @@ public class MediaDatabase {
                     MEDIA_WIDTH, //7 int
                     MEDIA_HEIGHT, //8 int
                     MEDIA_ARTWORKURL, //9 string
-                    MEDIA_AUDIOTRACK, //10 string
-                    MEDIA_SPUTRACK, //11 string
-                    MEDIA_LOCATION, //12 string
+                    MEDIA_AUDIOTRACK, //10 int
+                    MEDIA_SPUTRACK, //11 int
+                    MEDIA_TRACKNUMBER, // 12 int
+                    MEDIA_LOCATION, //13 string
                     MEDIA_TABLE_NAME,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
             if (cursor.moveToFirst()) {
                 do {
-                    String location = cursor.getString(12);
+                    String location = cursor.getString(13);
                     Media media = new Media(location,
                             cursor.getLong(0),      // MEDIA_TIME
                             cursor.getLong(1),      // MEDIA_LENGTH
@@ -574,7 +579,8 @@ public class MediaDatabase {
                             cursor.getInt(8),       // MEDIA_HEIGHT
                             cursor.getString(9),    // MEDIA_ARTWORKURL
                             cursor.getInt(10),      // MEDIA_AUDIOTRACK
-                            cursor.getInt(11));     // MEDIA_SPUTRACK
+                            cursor.getInt(11),      // MEDIA_SPUTRACK
+                            cursor.getInt(12));  // MEDIA_TRACKNUMBER
                     medias.put(media.getLocation(), media);
 
                     count++;
@@ -642,8 +648,9 @@ public class MediaDatabase {
                         MEDIA_WIDTH, //7 int
                         MEDIA_HEIGHT, //8 int
                         MEDIA_ARTWORKURL, //9 string
-                        MEDIA_AUDIOTRACK, //10 string
-                        MEDIA_SPUTRACK //11 string
+                        MEDIA_AUDIOTRACK, //10 int
+                        MEDIA_SPUTRACK, //11 int
+                        MEDIA_TRACKNUMBER, //12 int
                 },
                 MEDIA_LOCATION + "=?",
                 new String[] { location },
@@ -666,7 +673,8 @@ public class MediaDatabase {
                     cursor.getInt(8),
                     cursor.getString(9),
                     cursor.getInt(10),
-                    cursor.getInt(11));
+                    cursor.getInt(11),
+                    cursor.getInt(12));
         }
         cursor.close();
         return media;

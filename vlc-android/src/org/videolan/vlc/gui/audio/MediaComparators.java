@@ -77,4 +77,13 @@ public class MediaComparators {
             return res;
         };
     };
+
+    public static final Comparator<Media> byTrackNumber = new Comparator<Media>() {
+        @Override
+        public int compare(Media m1, Media m2) {
+            if(m1.getTrackNumber() < m2.getTrackNumber()) return -1;
+            if(m1.getTrackNumber() > m2.getTrackNumber()) return 1;
+            else return 0;
+        }
+    };
 }

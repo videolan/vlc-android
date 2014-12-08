@@ -256,7 +256,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
                     mVideoIndex.put(item.getLocation(), i);
                 }
                 // Empty item to launch grid activity
-                mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0));
+                mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, 0, 0, null, 0, 0, 0));
 
                 HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
                 mRowsAdapter.add(new ListRow(header, mVideoAdapter));

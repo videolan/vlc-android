@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.Map;
 
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
 
@@ -37,7 +37,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -461,10 +460,16 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     }
 
     public ArrayList<String> getLocations(int position) {
+        return getLocations(position, false);
+    }
+
+    public ArrayList<String> getLocations(int position, boolean sortByTrackNumber) {
         // Return all the media locations of a list item list.
         ArrayList<String> locations = new ArrayList<String>();
         if (isEnabled(position)) {
             ArrayList<Media> mediaList = mItems.get(position).mMediaList;
+            if (sortByTrackNumber)
+                Collections.sort(mediaList, MediaComparators.byTrackNumber);
             for (int i = 0; i < mediaList.size(); ++i)
                 locations.add(mediaList.get(i).getLocation());
         }

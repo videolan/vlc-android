@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Locale;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class Media implements Comparable<Media> {
@@ -100,7 +101,7 @@ public class Media implements Comparable<Media> {
     private String mGenre;
     private String mCopyright;
     private String mAlbum;
-    private String mTrackNumber;
+    private int mTrackNumber;
     private String mDescription;
     private String mRating;
     private String mDate;
@@ -183,6 +184,12 @@ public class Media implements Comparable<Media> {
                 mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
                 mArtworkURL = track.ArtworkURL;
                 mNowPlaying = track.NowPlaying;
+                if (!TextUtils.isEmpty(track.TrackNumber)) {
+                    try {
+                        mTrackNumber = Integer.parseInt(track.TrackNumber);
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
                 Log.d(TAG, "Title " + mTitle);
                 Log.d(TAG, "Artist " + mArtist);
                 Log.d(TAG, "Genre " + mGenre);
@@ -206,7 +213,7 @@ public class Media implements Comparable<Media> {
 
     public Media(String location, long time, long length, int type,
             Bitmap picture, String title, String artist, String genre, String album,
-            int width, int height, String artworkURL, int audio, int spu) {
+            int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
         mLocation = location;
         mFilename = null;
         mTime = time;
@@ -223,6 +230,7 @@ public class Media implements Comparable<Media> {
         mGenre = getValueWrapper(genre, UnknownStringType.Genre);
         mAlbum = getValueWrapper(album, UnknownStringType.Album);
         mArtworkURL = artworkURL;
+        mTrackNumber = trackNumber;
     }
 
     private enum UnknownStringType { Artist , Genre, Album };
@@ -433,7 +441,7 @@ public class Media implements Comparable<Media> {
         return (mAlbum.equals(getValueWrapper(null, UnknownStringType.Album)));
     }
 
-    public String getTrackNumber() {
+    public int getTrackNumber() {
         return mTrackNumber;
     }
 

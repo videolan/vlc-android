@@ -308,7 +308,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     OnItemClickListener albumListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p);
+            ArrayList<String> mediaLocation = mAlbumsAdapter.getLocations(p, true);
             mAudioController.load(mediaLocation, 0);
         }
     };
@@ -413,7 +413,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                     medias = mArtistsAdapter.getLocations(groupPosition);
                     break;
                 case MODE_ALBUM:
-                    medias = mAlbumsAdapter.getLocations(groupPosition);
+                    medias = mAlbumsAdapter.getLocations(groupPosition, true);
                     break;
                 case MODE_GENRE:
                     medias = mGenresAdapter.getLocations(groupPosition);
