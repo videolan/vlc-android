@@ -112,9 +112,13 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
             holder.updateCardViewImage(media);
-        } else if (item instanceof String){
+        } else if (item instanceof SimpleCard){
+            SimpleCard card = (SimpleCard) item;
+            holder.mCardView.setTitleText(card.getName());
+            holder.updateCardViewImage(mRes.getDrawable(card.getImageId()));
+        }else if (item instanceof String){
             holder.mCardView.setTitleText((String) item);
-            holder.updateCardViewImage(getBitmap(mRes, item.toString()));
+            holder.updateCardViewImage(sDefaultCardImage);
         }
     }
 
@@ -127,18 +131,39 @@ public class CardPresenter extends Presenter {
         // TODO?
     }
 
-    private Drawable getBitmap(Resources res, String item){
-        if (res.getString(R.string.preferences).equals(item.toString()))
-            return res.getDrawable( R.drawable.ic_menu_preferences_big);
-        else if (res.getString(R.string.artists).equals(item.toString()))
-            return res.getDrawable(R.drawable.ic_artist_big);
-        else if (res.getString(R.string.albums).equals(item.toString()))
-            return res.getDrawable(R.drawable.ic_album_big);
-        else if (res.getString(R.string.genres).equals(item.toString()))
-            return res.getDrawable(R.drawable.ic_genre_big);
-        else if (res.getString(R.string.songs).equals(item.toString()))
-            return res.getDrawable(R.drawable.ic_song_big);
-        else
-            return sDefaultCardImage;
+    public static class SimpleCard {
+        int id;
+        int imageId;
+        String name;
+
+        SimpleCard(int id, String name, int imageId){
+            this.id = id;
+            this.name = name;
+            this.imageId = imageId;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getImageId() {
+            return imageId;
+        }
+
+        public void setImageId(int imageId) {
+            this.imageId = imageId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

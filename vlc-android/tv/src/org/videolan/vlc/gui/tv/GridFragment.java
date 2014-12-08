@@ -60,6 +60,11 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 
     private static final int NUM_COLUMNS = 5;
 
+    public static final int CATEGORY_ARTISTS = 1;
+    public static final int CATEGORY_ALBUMS = 2;
+    public static final int CATEGORY_GENRES = 3;
+    public static final int CATEGORY_SONGS = 4;
+
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     protected Media mItemToUpdate;
     private Map<String, ListItem> mMediaItemMap;
@@ -70,7 +75,8 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
     private static Thumbnailer sThumbnailer;
     HashMap<String, Integer> mMediaIndex;
     Context mContext;
-    String mCategory, mFilter;
+    String mFilter;
+    int mCategory;
     long mType = -1;
 
     @Override
@@ -79,11 +85,11 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
         mContext = getActivity();
         if (savedInstanceState != null){
             mType = savedInstanceState.getLong(MEDIA_SECTION);
-            mCategory = savedInstanceState.getString(AUDIO_CATEGORY);
+            mCategory = savedInstanceState.getInt(AUDIO_CATEGORY);
             mFilter = savedInstanceState.getString(AUDIO_FILTER);
         } else {
             mType = getActivity().getIntent().getLongExtra(MEDIA_SECTION, -1);
-            mCategory = getActivity().getIntent().getStringExtra(AUDIO_CATEGORY);
+            mCategory = getActivity().getIntent().getIntExtra(AUDIO_CATEGORY, 0);
             mFilter = getActivity().getIntent().getStringExtra(AUDIO_FILTER);
         }
         sThumbnailer = MainTvActivity.getThumbnailer();
@@ -123,7 +129,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putLong(MEDIA_SECTION, mType);
-        outState.putString(AUDIO_CATEGORY, mCategory);
+        outState.putInt(AUDIO_CATEGORY, mCategory);
     }
 
     public void await() throws InterruptedException, BrokenBarrierException {
@@ -267,7 +273,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
             ListItem item;
 
             List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
-            if (getString(R.string.artists).equals(mCategory)){
+            if (CATEGORY_ARTISTS == mCategory){
                 Collections.sort(audioList, MediaComparators.byArtist);
                 title = getString(R.string.artists);
                 for (Media media : audioList){
@@ -275,7 +281,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
                     if (item != null)
                         publishProgress(item);
                 }
-            } else if (getString(R.string.albums).equals(mCategory)){
+            } else if (CATEGORY_ALBUMS == mCategory){
                 title = getString(R.string.albums);
                 Collections.sort(audioList, MediaComparators.byAlbum);
                 for (Media media : audioList){
@@ -293,7 +299,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
                 } else if (mType == FILTER_GENRE){
                     title = title + " " + mMediaItemList.get(0).mMediaList.get(0).getGenre();
                 }
-            } else if (getString(R.string.genres).equals(mCategory)){
+            } else if (CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
                 Collections.sort(audioList, MediaComparators.byGenre);
                 for (Media media : audioList){
@@ -301,7 +307,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
                     if (item != null)
                         publishProgress(item);
                 }
-            } else if (getString(R.string.songs).equals(mCategory)){
+            } else if (CATEGORY_SONGS == mCategory){
                 title = getString(R.string.songs);
                 Collections.sort(audioList, MediaComparators.byName);
                 ListItem mediaItem;
@@ -330,18 +336,20 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
                                           RowPresenter.ViewHolder rowViewHolder, Row row) {
                     ListItem listItem = (ListItem) item;
                     Intent intent;
-                    if (getString(R.string.artists).equals(mCategory)) {
+                    if (CATEGORY_ARTISTS == mCategory) {
                         intent = new Intent(mContext, VerticalGridActivity.class);
-                        intent.putExtra(AUDIO_CATEGORY, getString(R.string.albums));
+                        intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
                         intent.putExtra(MEDIA_SECTION, FILTER_ARTIST);
                         intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getArtist().trim());
-                    } else if (getString(R.string.genres).equals(mCategory)) {
+                    } else if (CATEGORY_GENRES == mCategory) {
                         intent = new Intent(mContext, VerticalGridActivity.class);
-                        intent.putExtra(AUDIO_CATEGORY, getString(R.string.albums));
+                        intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
                         intent.putExtra(MEDIA_SECTION, FILTER_GENRE);
                         intent.putExtra(AUDIO_FILTER, listItem.mMediaList.get(0).getGenre().trim());
                     } else {
                         ArrayList<String> locations = new ArrayList<String>();
+                        if (CATEGORY_ALBUMS == mCategory)
+                            Collections.sort(listItem.mMediaList, MediaComparators.byTrackNumber);
                         for (Media media : listItem.mMediaList) {
                             locations.add(media.getLocation());
                         }

@@ -81,9 +81,9 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         @Override
         public void onItemClicked(Presenter.ViewHolder viewHolder, Object o, RowPresenter.ViewHolder viewHolder2, Row row) {
             if (row.getId() == HEADER_CATEGORIES){
-                String category = (String)o;
+                CardPresenter.SimpleCard card = (CardPresenter.SimpleCard)o;
                 Intent intent = new Intent(mContext, VerticalGridActivity.class);
-                intent.putExtra(AUDIO_CATEGORY, category);
+                intent.putExtra(AUDIO_CATEGORY, card.getId());
                 startActivity(intent);
             } else if (row.getId() == HEADER_VIDEO)
                 TvUtil.openMedia(mContext, (Media)o, row);
@@ -263,15 +263,15 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
             }
 
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            mCategoriesAdapter.add(getString(R.string.artists));
-            mCategoriesAdapter.add(getString(R.string.albums));
-            mCategoriesAdapter.add(getString(R.string.genres));
-            mCategoriesAdapter.add(getString(R.string.songs));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
             mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            mOtherAdapter.add(getString(R.string.preferences));
+            mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
             header = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
             mRowsAdapter.add(new ListRow(header, mOtherAdapter));
 
