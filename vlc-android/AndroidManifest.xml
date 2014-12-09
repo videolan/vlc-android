@@ -20,7 +20,6 @@
 
     <application
         android:name="org.videolan.vlc.VLCApplication"
-        android:debuggable="true"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:icon="@drawable/icon"
