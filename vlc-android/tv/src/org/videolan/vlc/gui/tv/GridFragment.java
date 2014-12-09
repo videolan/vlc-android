@@ -146,7 +146,8 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
     }
 
     public void updateItem() {
-        if (mAdapter != null && mMediaIndex.containsKey(mItemToUpdate.getLocation()))
+        if (mAdapter != null && mMediaIndex != null && mItemToUpdate != null
+                && mMediaIndex.containsKey(mItemToUpdate.getLocation()))
             mAdapter.notifyArrayItemRangeChanged(mMediaIndex.get(mItemToUpdate.getLocation()), 1);
         try {
             mBarrier.await();
