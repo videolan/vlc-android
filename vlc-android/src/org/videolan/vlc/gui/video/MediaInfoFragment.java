@@ -28,6 +28,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
@@ -113,18 +114,19 @@ public class MediaInfoFragment extends ListFragment {
             } catch (LibVlcException e) {
                 return;
             }
+            int videoHeight = mItem.getHeight();
+            int videoWidth = mItem.getWidth();
+            if (videoWidth == 0 || videoHeight == 0)
+                return;
 
             mTracks = mLibVlc.readTracksInfo(mItem.getLocation());
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             DisplayMetrics screen = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(screen);
-            int videoHeight = mItem.getHeight();
-            int videoWidth = mItem.getWidth();
             int width, height;
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 width = Math.min(screen.widthPixels, screen.heightPixels);
-                height = width * 9 / 16;
             } else {
                 width = screen.widthPixels /2 ;
             }
@@ -164,6 +166,8 @@ public class MediaInfoFragment extends ListFragment {
             if (track.Type != TrackInfo.TYPE_META)
                 mAdapter.add(track);
         }
+        if (mAdapter.isEmpty())
+            ((MainActivity)getActivity()).popSecondaryFragment();
     }
 
     private Handler mHandler = new MediaInfoHandler(this);

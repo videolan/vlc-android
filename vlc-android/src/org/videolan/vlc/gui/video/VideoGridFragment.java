@@ -26,8 +26,11 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.android.ui.SherlockGridFragment;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
@@ -97,6 +100,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
 
     private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
+    private LibVLC mLibVlc;
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -124,6 +128,9 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         FragmentActivity activity = getActivity();
         if (activity != null)
             mThumbnailer = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
+        try {
+            mLibVlc = LibVLC.getInstance();
+        } catch (LibVlcException e) {}
     }
 
     @Override
@@ -340,10 +347,18 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
 
     private void setContextMenuItems(Menu menu, Media media) {
         long lastTime = media.getTime();
-        if (lastTime > 0) {
-            MenuItem playFromStart = menu.findItem(R.id.video_list_play_from_start);
-            playFromStart.setVisible(true);
+        if (lastTime > 0)
+            menu.findItem(R.id.video_list_play_from_start).setVisible(true);
+
+        boolean hasInfo = false;
+        TrackInfo[] tracks = mLibVlc.readTracksInfo(media.getLocation());
+        for (TrackInfo track : tracks) {
+            if (track.Type != TrackInfo.TYPE_META) {
+                hasInfo = true;
+                break;
+            }
         }
+        menu.findItem(R.id.video_list_info).setVisible(hasInfo);
     }
 
     @Override
