@@ -5,21 +5,15 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     sourceSets {
-    main {
-	manifest.srcFile 'AndroidManifest.xml'
-	java.srcDirs = ['src']
-	resources.srcDirs = ['src']
-	aidl.srcDirs = ['src']
-	renderscript.srcDirs = ['src']
-	res.srcDirs = ['res']
-	assets.srcDirs = ['assets']
-    }
-    }
-
-    defaultConfig {
-        applicationId "kankan.wheel"
-        minSdkVersion 5
-        targetSdkVersion 7
+        main {
+        manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        resources.srcDirs = ['src']
+        aidl.srcDirs = ['src']
+        renderscript.srcDirs = ['src']
+        res.srcDirs = ['res']
+        assets.srcDirs = ['assets']
+        }
     }
 
     buildTypes {

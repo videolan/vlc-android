@@ -19,7 +19,6 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.videolan"
         minSdkVersion 7
         targetSdkVersion 21
     }
