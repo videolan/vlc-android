@@ -52,4 +52,5 @@ public class TrackInfo {
     public String ArtworkURL;
     public String NowPlaying;
     public String TrackNumber;
+    public String AlbumArtist;
 }

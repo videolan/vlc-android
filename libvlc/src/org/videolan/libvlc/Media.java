@@ -102,6 +102,7 @@ public class Media implements Comparable<Media> {
     private String mCopyright;
     private String mAlbum;
     private int mTrackNumber;
+    private String mAlbumArtist;
     private String mDescription;
     private String mRating;
     private String mDate;
@@ -182,6 +183,7 @@ public class Media implements Comparable<Media> {
                 mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist).trim();
                 mAlbum = getValueWrapper(track.Album, UnknownStringType.Album).trim();
                 mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
+                mAlbumArtist = getValueWrapper(track.AlbumArtist, UnknownStringType.AlbumArtist).trim();
                 mArtworkURL = track.ArtworkURL;
                 mNowPlaying = track.NowPlaying;
                 if (!TextUtils.isEmpty(track.TrackNumber)) {
@@ -212,7 +214,7 @@ public class Media implements Comparable<Media> {
     }
 
     public Media(String location, long time, long length, int type,
-            Bitmap picture, String title, String artist, String genre, String album,
+            Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
             int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
         mLocation = location;
         mFilename = null;
@@ -229,11 +231,12 @@ public class Media implements Comparable<Media> {
         mArtist = getValueWrapper(artist, UnknownStringType.Artist);
         mGenre = getValueWrapper(genre, UnknownStringType.Genre);
         mAlbum = getValueWrapper(album, UnknownStringType.Album);
+        mAlbumArtist = getValueWrapper(albumArtist, UnknownStringType.AlbumArtist);
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
     }
 
-    private enum UnknownStringType { Artist , Genre, Album };
+    private enum UnknownStringType { Artist , Genre, Album, AlbumArtist };
     /**
      * Uses introspection to read VLC l10n databases, so that we can sever the
      * hard-coded dependency gracefully for 3rd party libvlc apps while still
@@ -259,6 +262,9 @@ public class Media implements Comparable<Media> {
                 break;
             case Genre:
                 value = (Integer)stringClass.getField("unknown_genre").get(null);
+                break;
+            case AlbumArtist:
+                value = (Integer)stringClass.getField("unknown_artist").get(null);
                 break;
             case Artist:
             default:
@@ -412,8 +418,19 @@ public class Media implements Comparable<Media> {
                 : "";
     }
 
+    public String getReferenceArtist() {
+        if (isAlbumArtistUnknown())
+            return mArtist;
+        else
+            return mAlbumArtist;
+    }
+
     public String getArtist() {
         return mArtist;
+    }
+
+    public Boolean isAlbumArtistUnknown() {
+        return (mAlbumArtist.equals(getValueWrapper(null, UnknownStringType.AlbumArtist)));
     }
 
     public Boolean isArtistUnknown() {
@@ -435,6 +452,10 @@ public class Media implements Comparable<Media> {
 
     public String getAlbum() {
         return mAlbum;
+    }
+
+    public String getAlbumArtist() {
+        return mAlbumArtist;
     }
 
     public Boolean isAlbumUnknown() {

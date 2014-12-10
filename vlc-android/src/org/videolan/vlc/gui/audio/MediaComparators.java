@@ -61,7 +61,7 @@ public class MediaComparators {
     public static final Comparator<Media> byArtist = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getArtist(), m2.getArtist());
+            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getReferenceArtist(), m2.getReferenceArtist());
             if (res == 0)
                 res = byAlbum.compare(m1, m2);
             return res;

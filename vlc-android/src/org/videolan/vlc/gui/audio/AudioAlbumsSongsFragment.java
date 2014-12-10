@@ -355,7 +355,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                     public void run() {
                         for (int i = 0; i < mediaList.size(); ++i) {
                             Media media = mediaList.get(i);
-                            mAlbumsAdapter.addSeparator(media.getArtist(), media);
+                            mAlbumsAdapter.addSeparator(media.getReferenceArtist(), media);
                             mAlbumsAdapter.add(media.getAlbum(), null, media);
                             mSongsAdapter.addSeparator(media.getAlbum(), media);
                         }

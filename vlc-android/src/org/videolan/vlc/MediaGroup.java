@@ -46,6 +46,7 @@ public class MediaGroup extends Media {
                 media.getArtist(),
                 media.getGenre(),
                 media.getAlbum(),
+                media.getAlbumArtist(),
                 media.getWidth(),
                 media.getHeight(),
                 media.getArtworkURL(),

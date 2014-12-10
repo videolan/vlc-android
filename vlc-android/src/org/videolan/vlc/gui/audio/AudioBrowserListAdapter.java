@@ -133,10 +133,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                     switch (type){
                         case TYPE_ALBUMS:
                             title = media.getAlbum();
-                            subTitle = media.getArtist();
+                            subTitle = media.getReferenceArtist();
                             break;
                         case TYPE_ARTISTS:
-                            title = media.getArtist();
+                            title = media.getReferenceArtist();
                             subTitle = null;
                             break;
                         case TYPE_GENRES:
