@@ -298,7 +298,7 @@ cd contrib/contrib-android-${TARGET_TUPLE}
     --disable-sdl \
     --disable-SDL_image \
     --disable-fontconfig \
-    --disable-zvbi \
+    --enable-zvbi \
     --disable-kate \
     --disable-caca \
     --disable-gettext \
