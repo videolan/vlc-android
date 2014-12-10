@@ -153,19 +153,20 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             holder.listmode = mListMode;
             v.setTag(holder);
 
-            holder.more.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mFragment != null)
-                    mFragment.onContextPopupMenu(v, position);
-                }
-            });
 
             /* Set the layoutParams based on the values set in the video_grid_item.xml root element */
             v.setLayoutParams(new GridView.LayoutParams(v.getLayoutParams().width, v.getLayoutParams().height));
         } else {
             holder = (ViewHolder) v.getTag();
         }
+
+        holder.more.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mFragment != null)
+                    mFragment.onContextPopupMenu(v, position);
+            }
+        });
 
         Media media = getItem(position);
 
