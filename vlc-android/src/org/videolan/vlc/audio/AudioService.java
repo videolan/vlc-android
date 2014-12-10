@@ -67,6 +67,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
@@ -119,6 +120,7 @@ public class AudioService extends Service {
     private EventHandler mEventHandler;
     private OnAudioFocusChangeListener audioFocusListener;
     private boolean mDetectHeadset = true;
+    private boolean mPebbleEnabled;
     private PowerManager.WakeLock mWakeLock;
 
     private static boolean mWasPlayingAudio = false;
@@ -202,6 +204,12 @@ public class AudioService extends Service {
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
+        }
+        try {
+            getPackageManager().getPackageInfo("com.getpebble.android", PackageManager.GET_ACTIVITIES);
+            mPebbleEnabled = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            mPebbleEnabled = false;
         }
     }
 
@@ -948,6 +956,15 @@ public class AudioService extends Service {
             Bitmap cover = getCover();
             editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, ((cover != null) ? cover.copy(cover.getConfig(), false) : null));
             editor.apply();
+        }
+
+        //Send metadata to Pebble watch
+        if (mPebbleEnabled) {
+            final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
+            i.putExtra("artist", media.getArtist());
+            i.putExtra("album", media.getAlbum());
+            i.putExtra("track", media.getTitle());
+            sendBroadcast(i);
         }
     }
 
