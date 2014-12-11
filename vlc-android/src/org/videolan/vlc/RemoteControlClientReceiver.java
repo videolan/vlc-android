@@ -75,8 +75,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                 case KeyEvent.KEYCODE_HEADSETHOOK:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                     long time = SystemClock.uptimeMillis();
-                    switch (event.getAction())
-                    {
+                    switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
                             if (event.getRepeatCount() > 0)
                                 break;
@@ -95,16 +94,23 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                             else {
                                 if (mLibVLC.isPlaying())
                                     i = new Intent(AudioService.ACTION_REMOTE_PAUSE);
-                                else
-                                    i = new Intent(AudioService.ACTION_REMOTE_PLAY);
+                                else {
+                                    i = new Intent(context, AudioService.class);
+                                    i.setAction(AudioService.ACTION_REMOTE_PLAY);
+                                    context.startService(i);
+                                    mHeadsetUpTime = time;
+                                    return;
+                                }
                             }
                             mHeadsetUpTime = time;
                             break;
                     }
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
-                    i = new Intent(AudioService.ACTION_REMOTE_PLAY);
-                    break;
+                    i = new Intent(context, AudioService.class);
+                    i.setAction(AudioService.ACTION_REMOTE_PLAY);
+                    context.startService(i);
+                    return;
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     i = new Intent(AudioService.ACTION_REMOTE_PAUSE);
                     break;

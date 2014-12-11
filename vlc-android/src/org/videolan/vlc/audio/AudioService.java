@@ -277,7 +277,13 @@ public class AudioService extends Service {
         if(ACTION_REMOTE_PLAYPAUSE.equals(intent.getAction())){
             if (hasCurrentMedia())
                 return START_STICKY;
-            else loadLastPlaylist();
+            else
+                loadLastPlaylist();
+        } else if (ACTION_REMOTE_PLAY.equals(intent.getAction())) {
+            if (hasCurrentMedia())
+                play();
+            else
+                loadLastPlaylist();
         }
         updateWidget(this);
         return super.onStartCommand(intent, flags, startId);
