@@ -234,7 +234,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                ((IBrowser) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
+                if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof IBrowser)
+                    ((IBrowser) getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)).setReadyToDisplay(true);
             }
         };
 
