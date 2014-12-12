@@ -5,6 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:background="@color/grey1"
     tools:targetApi="jelly_bean" >
 
     <ImageView
