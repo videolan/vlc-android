@@ -7,5 +7,6 @@
     <dimen name="grid_card_vertical_spacing">10dp</dimen>
     <!-- Video Player -->
     <dimen name="media_ctrl_margin_top">30dp</dimen>
-    <dimen name="images_margin_sides">50dp</dimen>
+    <dimen name="images_margin_sides">60dp</dimen>
+    <dimen name="overlay_margin">10dp</dimen>
 </resources>

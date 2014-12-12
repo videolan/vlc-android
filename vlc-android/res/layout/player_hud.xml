@@ -10,7 +10,9 @@
     android:layout_centerHorizontal="true"
     android:paddingTop="@dimen/overlay_padding_top"
     android:paddingBottom="@dimen/overlay_padding_bottom"
-    android:layout_marginBottom="20dp">
+    android:layout_marginBottom="@dimen/overlay_margin"
+    android:layout_marginRight="2dp"
+    android:layout_marginLeft="2dp">
 
     <SeekBar
         android:id="@+id/player_overlay_seekbar"
@@ -19,6 +21,7 @@
         android:maxHeight="@dimen/seekbar_height"
         android:minHeight="@dimen/seekbar_height"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
         android:focusable="true"/>

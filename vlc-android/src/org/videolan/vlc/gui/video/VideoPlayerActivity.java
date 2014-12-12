@@ -73,6 +73,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaRouter;
@@ -167,7 +168,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int FADE_OUT_INFO = 4;
     private boolean mDragging;
     private boolean mShowing;
-    ;
     private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
@@ -325,6 +325,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         mOverlayProgress = findViewById(R.id.progress_overlay);
+        //Manually set opacity, because aplha tag is SDK 11+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
+            Drawable background = mOverlayProgress.getBackground();
+            background.setAlpha(140); //255 is max (visible)
+        }
         mOverlayBackground = findViewById(R.id.player_overlay_background);
 
         // Position and remaining time
