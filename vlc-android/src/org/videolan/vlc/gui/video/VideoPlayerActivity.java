@@ -326,7 +326,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         mOverlayProgress = findViewById(R.id.progress_overlay);
         //Manually set opacity, because aplha tag is SDK 11+
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1){
+        if (!LibVlcUtil.isHoneycombOrLater()){
             Drawable background = mOverlayProgress.getBackground();
             background.setAlpha(140); //255 is max (visible)
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="fill_parent" >
 
     <!--
      the double FrameLayout is necessary here to do cropping on the bottom right
@@ -34,55 +34,53 @@
     </FrameLayout>
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" >
-	
-	    <include
-	        android:id="@+id/player_overlay_tips"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        layout="@layout/player_tips" />
-	
-	    <ImageView
-	        android:id="@+id/player_overlay_loading"
-	        android:layout_width="80dp"
-	        android:layout_height="80dp"
-	        android:layout_centerHorizontal="true"
-	        android:layout_above="@+id/player_overlay_loading_text"
-	        android:src="@drawable/ic_cone_o" />
-	
-	    <TextView
-	        android:id="@+id/player_overlay_loading_text"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/player_overlay_info"
-	        android:layout_centerHorizontal="true"
-	        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
-	
-	    <TextView
-	        android:id="@+id/player_overlay_info"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/progress_overlay"
-	        android:layout_centerHorizontal="true"
-	        android:layout_gravity="center"
-	        android:background="@drawable/video_list_length_bg"
-	        android:padding="5dp"
-	        android:textColor="#ffffff"
-	        android:textSize="36sp"
-	        android:visibility="invisible" />
-	
-	    <!-- Media HUD -->
 
-	    <include layout="@layout/player_hud"/>
+        <include
+            android:id="@+id/player_overlay_tips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/player_tips" />
+
+        <ImageView
+            android:id="@+id/player_overlay_loading"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/player_overlay_loading_text"
+            android:src="@drawable/ic_cone_o" />
+
+        <TextView
+            android:id="@+id/player_overlay_loading_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/player_overlay_info"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
+
+        <TextView
+            android:id="@+id/player_overlay_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/progress_overlay"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:background="@drawable/video_list_length_bg"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:textSize="36sp"
+            android:visibility="invisible" />
+
+        <include layout="@layout/player_hud"/>
 
     </RelativeLayout>
 
     <!--<fragment-->
-        <!--android:name="org.videolan.vlc.gui.video.AdvancedOptionsFragment"-->
-        <!--android:layout_width="600dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentRight="true"/>-->
+    <!--android:name="org.videolan.vlc.gui.video.AdvancedOptionsFragment"-->
+    <!--android:layout_width="600dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_alignParentRight="true"/>-->
 
 </RelativeLayout>

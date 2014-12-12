@@ -3,16 +3,15 @@
     android:id="@+id/progress_overlay"
     android:layout_width="800dp"
     android:layout_height="wrap_content"
+    android:layout_centerInParent="@bool/center_hud"
     android:layout_alignParentBottom="true"
-    android:visibility="invisible" 
     android:alpha="0.55"
     android:background="@drawable/rounded_corners"
-    android:layout_centerHorizontal="true"
     android:paddingTop="@dimen/overlay_padding_top"
     android:paddingBottom="@dimen/overlay_padding_bottom"
     android:layout_marginBottom="@dimen/overlay_margin"
-    android:layout_marginRight="2dp"
-    android:layout_marginLeft="2dp">
+    android:layout_marginRight="@dimen/overlay_margin"
+    android:layout_marginLeft="@dimen/overlay_margin">
 
     <SeekBar
         android:id="@+id/player_overlay_seekbar"

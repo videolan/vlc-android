@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="list_mode">true</bool>
+    <bool name="center_hud">false</bool>
 </resources>
