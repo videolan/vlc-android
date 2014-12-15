@@ -57,9 +57,9 @@
         android:layout_alignTop="@+id/player_overlay_play"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/images_margin_sides"
-        android:src="@drawable/ic_lock"
+        android:src="@drawable/ic_lock_circle"
         android:scaleType="center"
-        android:focusable="true" />
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/player_overlay_tracks"
@@ -71,7 +71,7 @@
         android:layout_alignBottom="@+id/player_overlay_play"
         android:layout_alignTop="@+id/player_overlay_play"
         android:clickable="true"
-        android:src="@drawable/ic_subtitle_circle"
+        android:src="@drawable/ic_audiosub_circle"
         android:scaleType="center"
         android:focusable="true"/>
 
@@ -97,7 +97,7 @@
         android:layout_alignTop="@+id/player_overlay_play"
         android:clickable="true"
         android:onClick="showAdvancedOptions"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/ic_more_circle"
         android:scaleType="center"
         android:focusable="true"/>
 

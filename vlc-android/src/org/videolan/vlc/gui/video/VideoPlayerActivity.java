@@ -973,7 +973,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mScreenOrientationLock = getScreenOrientation();
         }
         showInfo(R.string.locked, 1000);
-        mLock.setImageResource(R.drawable.ic_locked);
+        mLock.setImageResource(R.drawable.ic_locked_circle);
         mTime.setEnabled(false);
         mSeekbar.setEnabled(false);
         mLength.setEnabled(false);
@@ -988,7 +988,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if(mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
         showInfo(R.string.unlocked, 1000);
-        mLock.setImageResource(R.drawable.ic_lock);
+        mLock.setImageResource(R.drawable.ic_lock_circle);
         mTime.setEnabled(true);
         mSeekbar.setEnabled(true);
         mLength.setEnabled(true);
