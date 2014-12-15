@@ -457,16 +457,24 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
     }
 
     @Override
-    public void showProgressBar() {}
+    public void showProgressBar() {
+        MainActivity.showProgressBar();
+    }
 
     @Override
-    public void hideProgressBar() {}
+    public void hideProgressBar() {
+        MainActivity.hideProgressBar();
+    }
 
     @Override
-    public void clearTextInfo() {}
+    public void clearTextInfo() {
+        MainActivity.clearTextInfo();
+    }
 
     @Override
-    public void sendTextInfo(String info, int progress, int max) { }
+    public void sendTextInfo(String info, int progress, int max) {
+        MainActivity.sendTextInfo(info, progress, max);
+    }
 
     @Override
     public void sortBy(int sortby) {
