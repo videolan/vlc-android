@@ -569,7 +569,7 @@ public class MediaDatabase {
 
             if (cursor.moveToFirst()) {
                 do {
-                    String location = cursor.getString(13);
+                    String location = cursor.getString(14);
                     Media media = new Media(location,
                             cursor.getLong(0),      // MEDIA_TIME
                             cursor.getLong(1),      // MEDIA_LENGTH
@@ -582,10 +582,10 @@ public class MediaDatabase {
                             cursor.getString(7),    // MEDIA_ALBUMARTIST
                             cursor.getInt(8),       // MEDIA_WIDTH
                             cursor.getInt(9),       // MEDIA_HEIGHT
-                            cursor.getString(10),    // MEDIA_ARTWORKURL
+                            cursor.getString(10),   // MEDIA_ARTWORKURL
                             cursor.getInt(11),      // MEDIA_AUDIOTRACK
                             cursor.getInt(12),      // MEDIA_SPUTRACK
-                            cursor.getInt(13));  // MEDIA_TRACKNUMBER
+                            cursor.getInt(13));     // MEDIA_TRACKNUMBER
                     medias.put(media.getLocation(), media);
 
                     count++;
