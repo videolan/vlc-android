@@ -473,7 +473,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void onRefresh() {
-        updateLists();
+        MediaLibrary.getInstance().loadMediaItems(getActivity(), true);
     }
 
     @Override
