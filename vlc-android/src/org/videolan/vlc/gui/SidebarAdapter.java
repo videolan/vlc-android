@@ -79,13 +79,13 @@ public class SidebarAdapter extends BaseAdapter {
         entries = new ArrayList<SidebarEntry>();
         entries.add(new SidebarEntry(SidebarEntry.ID_VIDEO, R.string.video, R.attr.ic_menu_video, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_AUDIO, R.string.audio, R.attr.ic_menu_audio, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_DIRECTORIES, R.string.directories, R.attr.ic_menu_folder, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_HISTORY, R.string.history, R.attr.ic_menu_history, SidebarEntry.TYPE_FRAGMENT));
         sidebarFragments = new ArrayList<String>();
         for(SidebarEntry e : entries) {
             sidebarFragments.add(e.id);
         }
-        entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_ACTION));
         entries.add(new SidebarEntry(SidebarEntry.ID_PREFERENCES, R.string.preferences, R.attr.ic_menu_preferences, SidebarEntry.TYPE_ACTION));
     }
 
@@ -148,14 +148,16 @@ public class SidebarAdapter extends BaseAdapter {
         }
 
         Fragment f;
-        if(id.equals("audio")) {
+        if(id.equals(SidebarEntry.ID_AUDIO)) {
             f = new AudioBrowserFragment();
-        } else if(id.equals("video")) {
+        } else if(id.equals(SidebarEntry.ID_VIDEO)) {
             f = new VideoGridFragment();
-        } else if(id.endsWith("directories")) {
+        } else if(id.endsWith(SidebarEntry.ID_DIRECTORIES)) {
             f = new DirectoryViewFragment();
-        } else if(id.equals("history")) {
+        } else if(id.equals(SidebarEntry.ID_HISTORY)) {
             f = new HistoryFragment();
+        } else if(id.equals(SidebarEntry.ID_MRL)) {
+            f = new MRLPanelFragment();
         }
         else {
             mCurrentFragmentId = prevFragmentId; // Restore the current fragment id.

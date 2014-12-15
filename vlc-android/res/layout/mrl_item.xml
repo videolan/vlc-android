@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="50dp">
+    <TextView
+        android:id="@+id/mrl_item_uri"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:clickable="true"
+        android:layout_toLeftOf="@+id/mrl_item_delete"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/mrl_item_delete"
+        android:layout_alignTop="@+id/mrl_item_delete"/>
+    <ImageButton
+        android:id="@+id/mrl_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_stat_vlc"/>
+</RelativeLayout>

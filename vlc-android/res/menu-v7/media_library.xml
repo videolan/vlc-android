@@ -3,6 +3,14 @@
     xmlns:vlc="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/ml_menu_clean"
+        android:icon="@drawable/ic_stat_vlc"
+        android:title="@string/clear_history"
+        android:nextFocusDown="@id/ml_menu_search"
+        android:visible="false"
+        vlc:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/ml_menu_search"
         android:icon="@drawable/ic_menu_search_wb"
         android:title="@string/searchable_hint"

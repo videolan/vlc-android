@@ -30,6 +30,8 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.VLCCallbackTask;
+import org.videolan.vlc.audio.AudioServiceController;
 
 import android.content.Context;
 import android.content.Intent;
@@ -162,5 +164,24 @@ public class Util {
         Intent intent = new Intent();
         intent.setAction(ACTION_SCAN_STOP);
         VLCApplication.getAppContext().sendBroadcast(intent);
+    }
+
+
+    public static void openStream(Context context, final String uri){
+        VLCCallbackTask task = new VLCCallbackTask(context){
+            @Override
+            public void run() {
+                AudioServiceController c = AudioServiceController.getInstance();
+
+                      /* Use the audio player by default. If a video track is
+                       * detected, then it will automatically switch to the video
+                       * player. This allows us to support more types of streams
+                       * (for example, RTSP and TS streaming) where ES can be
+                       * dynamically adapted rather than a simple scan.
+                       */
+                c.load(uri, false);
+            }
+        };
+        task.execute();
     }
 }

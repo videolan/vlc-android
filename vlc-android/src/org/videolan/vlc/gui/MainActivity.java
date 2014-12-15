@@ -30,7 +30,6 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
@@ -50,10 +49,8 @@ import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SlidingPaneLayout;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -76,7 +73,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -88,7 +84,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -276,7 +271,8 @@ public class MainActivity extends ActionBarActivity {
 
                 /* Switch the fragment */
                     Fragment fragment = getFragment(entry.id);
-                    ((IBrowser)fragment).setReadyToDisplay(false);
+                    if (fragment instanceof IBrowser)
+                        ((IBrowser)fragment).setReadyToDisplay(false);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_placeholder, fragment, entry.id);
                     ft.commit();
@@ -296,8 +292,6 @@ public class MainActivity extends ActionBarActivity {
                     if (mFocusedPrior != 0)
                         findViewById(R.id.ml_menu_search).requestFocus();
                     mRootContainer.closeDrawer(mListView);
-                } else if (entry.attributeID == R.attr.ic_menu_openmrl){
-                    onOpenMRL();
                 }else if (entry.attributeID == R.attr.ic_menu_preferences){
                     startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 }
@@ -613,6 +607,7 @@ public class MainActivity extends ActionBarActivity {
         if (mCurrentFragment != null && mCurrentFragment.equals("search"))
             menu.findItem(R.id.search_clear_history).setVisible(true);
 
+        menu.findItem(R.id.ml_menu_clean).setVisible(SidebarEntry.ID_MRL.equals(mCurrentFragment));
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
 
         return super.onPrepareOptionsMenu(menu);
@@ -688,6 +683,10 @@ public class MainActivity extends ActionBarActivity {
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;
                 }
+                break;
+            case R.id.ml_menu_clean:
+                if (getFragment(mCurrentFragment) instanceof MRLPanelFragment)
+                    ((MRLPanelFragment)getFragment(mCurrentFragment)).clearHistory();
                 break;
             case R.id.search_clear_history:
                 MediaDatabase.getInstance().clearSearchHistory();
@@ -896,46 +895,6 @@ public class MainActivity extends ActionBarActivity {
 
     public static void clearTextInfo() {
         sendTextInfo(null, 0, 100);
-    }
-
-    private void onOpenMRL() {
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-        b.setTitle(R.string.open_mrl_dialog_title);
-        b.setMessage(R.string.open_mrl_dialog_msg);
-        b.setView(input);
-        b.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int button) {
-
-                /* Start this in a new thread as to not block the UI thread */
-                VLCCallbackTask task = new VLCCallbackTask(MainActivity.this)
-                {
-                    @Override
-                    public void run() {
-                      AudioServiceController c = AudioServiceController.getInstance();
-                      String s = input.getText().toString();
-
-                      /* Use the audio player by default. If a video track is
-                       * detected, then it will automatically switch to the video
-                       * player. This allows us to support more types of streams
-                       * (for example, RTSP and TS streaming) where ES can be
-                       * dynamically adapted rather than a simple scan.
-                       */
-                      c.load(s, false);
-                    }
-                };
-                task.execute();
-            }
-        }
-        );
-        b.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                return;
-                }});
-        b.show();
     }
 
     /**

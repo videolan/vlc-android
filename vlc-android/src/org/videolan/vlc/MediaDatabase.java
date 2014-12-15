@@ -51,7 +51,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 10;
+    private final int DB_VERSION = 11;
     private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
@@ -87,6 +87,11 @@ public class MediaDatabase {
     private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
     private final String SEARCHHISTORY_DATE = "date";
     private final String SEARCHHISTORY_KEY = "key";
+
+    private final String MRL_TABLE_NAME = "mrl_table";
+    private final String MRL_DATE = "date";
+    private final String MRL_URI = "uri";
+    private final String MRL_TABLE_SIZE = "100";
 
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
@@ -195,6 +200,25 @@ public class MediaDatabase {
             db.execSQL(createPlaylistMediaTableQuery);
         }
 
+        private void createMRLTableQuery(SQLiteDatabase db) {
+            String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
+                    MRL_TABLE_NAME + " (" +
+                    MRL_URI + " TEXT PRIMARY KEY NOT NULL,"+
+                    MRL_DATE + " DATETIME NOT NULL"
+                    +");";
+            createMrlTableQuery += "CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
+                    MRL_TABLE_NAME+ "BEGIN "+
+                    "DELETE FROM "+MRL_TABLE_NAME+" where "+MRL_URI+" NOT IN (SELECT "+MRL_URI+
+                    " from "+MRL_TABLE_NAME+" ORDER BY insertion_date DESC LIMIT "+MRL_TABLE_SIZE+")"+
+                    "END";
+            db.execSQL(createMrlTableQuery);
+        }
+
+        public void dropMRLTableQuery(SQLiteDatabase db) {
+            String query = "DROP TABLE " + MRL_TABLE_NAME + ";";
+            db.execSQL(query);
+        }
+
         @Override
         public void onCreate(SQLiteDatabase db) {
 
@@ -220,6 +244,8 @@ public class MediaDatabase {
 
             // Create the searchhistory table
             db.execSQL(createSearchhistoryTabelQuery);
+
+            createMRLTableQuery(db);
         }
 
         @Override
@@ -236,6 +262,9 @@ public class MediaDatabase {
                     db.execSQL("DROP TABLE " + PLAYLIST_MEDIA_TABLE_NAME + ";");
                     db.execSQL("DROP TABLE " + PLAYLIST_TABLE_NAME + ";");
                     createPlaylistTablesQuery(db);
+                    break;
+                case 11:
+                    createMRLTableQuery(db);
                     break;
                 default:
                     break;
@@ -863,6 +892,44 @@ public class MediaDatabase {
 
     public synchronized void clearSearchHistory() {
         mDb.delete(SEARCHHISTORY_TABLE_NAME, null, null);
+    }
+
+    public synchronized void addMrlhistoryItem(String uri) {
+        // set the format to sql date time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        Date date = new Date();
+        ContentValues values = new ContentValues();
+        values.put(MRL_URI, uri);
+        values.put(MRL_DATE, dateFormat.format(date));
+
+        mDb.replace(MRL_TABLE_NAME, null, values);
+    }
+
+    public synchronized ArrayList<String> getMrlhistory() {
+        ArrayList<String> history = new ArrayList<String>();
+
+        Cursor cursor = mDb.query(MRL_TABLE_NAME,
+                new String[] { MRL_URI },
+                null, null, null, null,
+                MRL_DATE + " DESC",
+                MRL_TABLE_SIZE);
+
+        while (cursor.moveToNext()) {
+            history.add(cursor.getString(0));
+        }
+        cursor.close();
+
+        return history;
+    }
+
+    public synchronized void deleteMrlUri(String uri) {
+        ArrayList<String> history = new ArrayList<String>();
+        mDb.delete(MRL_TABLE_NAME, MRL_URI + "=?", new String[] { uri });
+
+    }
+
+    public synchronized void clearMrlHistory() {
+        mDb.delete(MRL_TABLE_NAME, null, null);
     }
 
     /**
