@@ -325,11 +325,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         mOverlayProgress = findViewById(R.id.progress_overlay);
-        //Manually set opacity, because aplha tag is SDK 11+
-        if (!LibVlcUtil.isHoneycombOrLater()){
-            Drawable background = mOverlayProgress.getBackground();
-            background.setAlpha(140); //255 is max (visible)
-        }
         mOverlayBackground = findViewById(R.id.player_overlay_background);
 
         // Position and remaining time

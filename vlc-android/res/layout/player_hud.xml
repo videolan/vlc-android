@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="@bool/center_hud"
     android:layout_alignParentBottom="true"
-    android:alpha="0.55"
     android:background="@drawable/rounded_corners"
     android:paddingTop="@dimen/overlay_padding_top"
     android:paddingBottom="@dimen/overlay_padding_bottom"
