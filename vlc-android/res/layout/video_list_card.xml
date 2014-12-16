@@ -82,7 +82,7 @@
             android:indeterminate="false"
             android:maxHeight="3dip"
             android:minHeight="3dip"
-            android:progressDrawable="@drawable/gridview_progressbar" />
+            android:progressDrawable="?attr/gridview_progressbar" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

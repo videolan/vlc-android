@@ -58,6 +58,7 @@
     <color name="grey900">#212121</color>
 
     <color name="grey50transparent">#dcfafafa</color>
+    <color name="grey400transparent">#80bdbdbd</color>
     <color name="grey900transparent">#80212121</color>
 
     <color name="blacktransparent">#b4000000</color>
