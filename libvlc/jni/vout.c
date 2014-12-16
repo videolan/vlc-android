@@ -115,7 +115,7 @@ void jni_SetSurfaceLayout(int width, int height, int visible_width, int visible_
         jni_detach_thread();
 }
 
-void *jni_AndroidJavaSurfaceToNativeSurface(jobject *surf)
+void *jni_AndroidJavaSurfaceToNativeSurface(jobject surf)
 {
     JNIEnv *p_env;
     jclass clz;
