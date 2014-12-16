@@ -19,7 +19,6 @@
     <dimen name="overlay_margin">2dp</dimen>
 
     <dimen name="seekbar_height">2dip</dimen>
-    <dimen name="seekbar_padding_sides">5dip</dimen>
     <dimen name="images_margin_sides">10dp</dimen>
     <dimen name="time_margin_sides">10dp</dimen>
 

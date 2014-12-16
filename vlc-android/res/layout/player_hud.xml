@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:maxHeight="@dimen/seekbar_height"
         android:minHeight="@dimen/seekbar_height"
+        android:paddingLeft="@dimen/time_margin_sides"
+        android:paddingRight="@dimen/time_margin_sides"
         android:layout_alignParentTop="true"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
@@ -28,8 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_seekbar"
-        android:layout_marginLeft="@dimen/time_margin_sides"
+        android:layout_alignLeft="@+id/player_overlay_seekbar"
         android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/time_margin_sides"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/darkorange"/>
 
@@ -39,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/player_overlay_seekbar"
         android:layout_marginRight="@dimen/time_margin_sides"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
 
