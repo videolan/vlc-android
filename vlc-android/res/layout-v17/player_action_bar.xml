@@ -12,7 +12,6 @@
         android:background="?attr/status_bar_overlay"
         android:text="@string/title"
         android:textColor="#ffffff"
-        android:layout_marginTop="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:textSize="15sp"
