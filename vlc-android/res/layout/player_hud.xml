@@ -19,7 +19,6 @@
         android:maxHeight="@dimen/seekbar_height"
         android:minHeight="@dimen/seekbar_height"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="5dp"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
         android:focusable="true"/>
@@ -31,7 +30,6 @@
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_marginLeft="@dimen/time_margin_sides"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/darkorange"/>
 
@@ -42,7 +40,6 @@
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/time_margin_sides"
-        android:layout_marginBottom="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
 
     <!-- Media control buttons -->
@@ -70,6 +67,7 @@
         android:layout_alignBottom="@+id/player_overlay_play"
         android:layout_alignTop="@+id/player_overlay_play"
         android:clickable="true"
+        android:onClick="onAudioSubClick"
         android:src="@drawable/ic_audiosub_circle"
         android:scaleType="center"
         android:focusable="true"/>

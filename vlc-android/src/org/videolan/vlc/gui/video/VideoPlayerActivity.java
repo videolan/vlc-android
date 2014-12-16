@@ -58,9 +58,11 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.Presentation;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -69,6 +71,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -91,6 +94,7 @@ import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.PopupMenu;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -121,6 +125,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer {
 
@@ -455,17 +460,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         item.setVisible(mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && mLibVLC.getTitle() != 0);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
-        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            item = menu.findItem(R.id.pl_menu_adv);
-            MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-            MenuItemCompat.setActionView(item, R.layout.adv_view);//we set this view as custom to have its coordinates to display popup at the right place.
-            MenuItemCompat.getActionView(item).setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    showAdvancedOptions(v);
-                }
-            });
-        }
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -689,6 +683,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 mLibVLC.addSubtitleTrack(file);
             }
         }
+
     }
 
     @Override
@@ -1665,6 +1660,57 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     };
 
+    public void onAudioSubClick(View anchor){
+        final Context context = this;
+        PopupMenu popupMenu = new PopupMenu(this, anchor);
+        popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
+        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mLibVLC.getAudioTracksCount() > 2);
+        popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mLibVLC.getSpuTracksCount() > 0);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.video_menu_audio_track) {
+                    selectAudioTrack();
+                    return true;
+                } else if (item.getItemId() == R.id.video_menu_subtitles) {
+                    selectSubtitles();
+                    return true;
+                } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
+                    Intent intent = new Intent("org.openintents.action.PICK_FILE");
+
+                    File file = new File(android.os.Environment.getExternalStorageDirectory().getPath());
+                    intent.setData(Uri.fromFile(file));
+
+                    // Set fancy title and button (optional)
+                    intent.putExtra("org.openintents.extra.TITLE", context.getString(R.string.subtitle_select));
+                    intent.putExtra("org.openintents.extra.BUTTON_TEXT", context.getString(R.string.open));
+
+                    if (getPackageManager()
+                            .queryIntentActivities(intent,
+                                    PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
+                        startActivityForResult(intent, CommonDialogs.INTENT_SPECIFIC);
+                    } else {
+                        // OI intent not found, trying anything
+                        Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
+                        intent2.setType("*/*");
+                        intent2.addCategory(Intent.CATEGORY_OPENABLE);
+                        try {
+                            startActivityForResult(intent2, CommonDialogs.INTENT_GENERIC);
+                        } catch(ActivityNotFoundException e) {
+                            Log.i(TAG, "No file picker found on system");
+                            Toast.makeText(context,
+                                    R.string.no_file_picker_found,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
+    }
+
     private void selectAudioTrack() {
     	if (mAudioTracksList == null) return;
 
@@ -2599,7 +2645,5 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             setESTracks();
         }
         supportInvalidateOptionsMenu();
-
-
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/video_menu_audio_track"
+        android:title="@string/track_audio" />
+    <item
+        android:id="@+id/video_menu_subtitles"
+        android:title="@string/subtitles" />
+    <item
+        android:id="@+id/video_menu_subtitles_picker"
+        android:title="@string/subtitle_select" />
+</menu>
