@@ -18,7 +18,8 @@
             android:layout_width="120dip"
             android:layout_height="75dip"
             android:layout_alignParentLeft="true"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:background="@color/grey300" />
 
         <TextView
             android:id="@+id/ml_item_title"

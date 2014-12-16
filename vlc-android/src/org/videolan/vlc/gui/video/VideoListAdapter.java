@@ -176,12 +176,10 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         if (thumbnail == null) {
             // missing thumbnail
             thumbnail = BitmapCache.GetFromResource(v, R.drawable.ic_cone_o);
-            holder.thumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
         else if (thumbnail.getWidth() == 1 && thumbnail.getHeight() == 1) {
             // dummy thumbnail
             thumbnail = BitmapCache.GetFromResource(v, R.drawable.ic_cone_o);
-            holder.thumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
         //FIXME Warning: the thumbnails are upscaled in the grid view!
         holder.thumbnail.setImageBitmap(thumbnail);

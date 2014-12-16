@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/grid_card_thumb_height"
             android:layout_alignParentTop="true"
-            android:scaleType="fitXY" />
+            android:background="@color/grey300"
+            android:scaleType="fitCenter" />
 
         <TextView
             android:id="@+id/ml_item_title"
