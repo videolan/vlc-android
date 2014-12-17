@@ -119,7 +119,8 @@
             android:minHeight="2dip"
             android:paddingLeft="0px"
             android:paddingRight="0px"
-            android:progressDrawable="@drawable/po_seekbar" />
+            android:progressDrawable="@drawable/po_seekbar"
+            android:splitTrack="false" />
     </LinearLayout>
 
 </LinearLayout>

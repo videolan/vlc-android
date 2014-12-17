@@ -139,6 +139,7 @@
             android:paddingLeft="16dip"
             android:paddingRight="16dip"
             android:progressDrawable="@drawable/po_seekbar"
+            android:splitTrack="false"
             android:thumb="@drawable/seekbar_thumb" />
 
         <TextView

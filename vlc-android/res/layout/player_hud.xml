@@ -23,6 +23,7 @@
         android:layout_alignParentTop="true"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
+        android:splitTrack="false"
         android:focusable="true"/>
 
     <TextView

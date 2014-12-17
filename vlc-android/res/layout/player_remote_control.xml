@@ -144,6 +144,7 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:progressDrawable="@drawable/po_seekbar"
+                android:splitTrack="false"
                 android:thumb="@drawable/seekbar_thumb" />
 
             <LinearLayout

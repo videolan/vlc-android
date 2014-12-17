@@ -28,7 +28,8 @@
         android:maxHeight="4dip"
         android:minHeight="4dip"
         android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/seekbar_thumb" />
+        android:thumb="@drawable/seekbar_thumb"
+        android:splitTrack="false"/>
 
     <HorizontalScrollView
         android:id="@+id/equalizer_scroll"
