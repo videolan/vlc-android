@@ -65,24 +65,24 @@
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/player_overlay_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_pause_circle_big_o" />
+                android:src="@drawable/ic_pause_circle_big_o" />
 
             <RelativeLayout
                 android:id="@+id/option_overlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/player_overlay_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 	                android:layout_centerHorizontal="true"
 	                android:gravity="center_vertical"
-                    android:background="@drawable/ic_crop_circle_o" />
+                    android:src="@drawable/ic_crop_circle_o" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -95,30 +95,30 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/lock_overlay_button"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_above="@+id/player_overlay_timebackward"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/ic_lock"
-                android:visibility="gone" />
+                android:src="@drawable/ic_lock_circle"/>
 
             <LinearLayout
                 android:id="@+id/player_overlay_timebackward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/player_overlay_backward"
                     android:layout_width="40dip"
                     android:layout_height="40dip"
                     android:layout_marginRight="5dp"
-                    android:background="@drawable/ic_backward_w" />
+                    android:src="@drawable/ic_backward_w" />
 
                 <TextView
                     android:id="@+id/player_overlay_time"
@@ -136,8 +136,7 @@
                 android:id="@+id/player_overlay_seekbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
+                android:layout_alignParentBottom="true"
                 android:layout_toLeftOf="@+id/player_overlay_lengthforward"
                 android:layout_toRightOf="@+id/player_overlay_timebackward"
                 android:maxHeight="10dp"
@@ -152,6 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -166,12 +166,12 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/player_overlay_forward"
                     android:layout_width="40dip"
                     android:layout_height="40dip"
                     android:layout_marginLeft="5dp"
-                    android:background="@drawable/ic_forward_w" />
+                    android:src="@drawable/ic_forward_w" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -179,8 +179,7 @@
             android:id="@+id/player_overlay_loading"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/player_overlay_header"
+            android:layout_centerInParent="true"
             android:src="@drawable/ic_cone_o" />
 
         <TextView
