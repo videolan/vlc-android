@@ -752,6 +752,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @TargetApi(12) //only active for Android 3.1+
     public boolean dispatchGenericMotionEvent(MotionEvent event){
+        //Check for a joystick event
+        if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) !=
+                InputDevice.SOURCE_JOYSTICK ||
+                event.getAction() != MotionEvent.ACTION_MOVE)
+            return false;
 
 		InputDevice mInputDevice = event.getDevice();
 
