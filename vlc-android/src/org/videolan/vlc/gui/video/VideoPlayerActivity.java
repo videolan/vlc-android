@@ -2100,8 +2100,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
 
         if (mPresentation == null)
-            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
-                            : R.drawable.ic_play_circle);
+            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_normal_o
+                            : R.drawable.ic_play_circle_normal_o);
         else
             mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
                             : R.drawable.ic_play_circle_big_o);
