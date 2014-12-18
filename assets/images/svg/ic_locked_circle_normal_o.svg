@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="24"
-   height="24"
+   width="20"
+   height="20"
    id="svg3428"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -25,14 +25,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="31.678384"
-     inkscape:cx="9.8077527"
-     inkscape:cy="8.1428925"
+     inkscape:cx="6.272219"
+     inkscape:cy="14.456346"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
@@ -59,21 +59,21 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1028.3622)">
+     transform="translate(0,-1032.3622)">
     <path
-       d="m 100,56.362183 a 10,10 0 1 1 -20,0 10,10 0 1 1 20,0 z"
+       d="m 100,56.362183 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522848 4.477153,-10 10,-10 5.522847,0 10,4.477152 10,10 z"
        sodipodi:ry="10"
        sodipodi:rx="10"
        sodipodi:cy="56.362183"
        sodipodi:cx="90"
        id="path6854"
-       style="color:#000000;fill:#eeeeee;fill-opacity:0.70588237;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:1"
+       style="color:#000000;fill:#eeeeee;fill-opacity:0.8509804;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        sodipodi:type="arc"
-       transform="matrix(-1,0,0,-1,102,1096.7244)" />
+       transform="matrix(-0.8,0,0,-0.8,82,1087.452)" />
     <path
        inkscape:connector-curvature="0"
        style="color:#000000;fill:#ff8800;fill-opacity:1;stroke:none;stroke-width:0.1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 12,1034.3622 c -1.65685,0 -3,1.3432 -3,3 l 0,1 0,2 c -0.55228,0 -1,0.4477 -1,1 l 0,4 c 0,0.5523 0.44772,1 1,1 l 6,0 c 0.55228,0 1,-0.4477 1,-1 l 0,-4 c 0,-0.5523 -0.44772,-1 -1,-1 l 0,-3 c 0,-1.6568 -1.34315,-3 -3,-3 z m 0,1 c 1.10457,0 2,0.8954 2,2 l 0,3 -4,0 0,-2 0,-1 c 0,-1.1046 0.89543,-2 2,-2 z"
+       d="m 10,1037.5622 c -1.32548,0 -2.4,1.0746 -2.4,2.4 l 0,0.8 0,1.6 c -0.441824,0 -0.8,0.3582 -0.8,0.8 l 0,3.2 c 0,0.4418 0.358176,0.8 0.8,0.8 l 4.8,0 c 0.441824,0 0.8,-0.3582 0.8,-0.8 l 0,-3.2 c 0,-0.4418 -0.358176,-0.8 -0.8,-0.8 l 0,-2.4 c 0,-1.3254 -1.07452,-2.4 -2.4,-2.4 z m 0,0.8 c 0.883656,0 1.6,0.7163 1.6,1.6 l 0,2.4 -3.2,0 0,-1.6 0,-0.8 c 0,-0.8837 0.716344,-1.6 1.6,-1.6 z"
        id="path6856" />
   </g>
 </svg>

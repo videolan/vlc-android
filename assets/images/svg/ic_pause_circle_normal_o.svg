@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="32"
-   height="32"
+   width="26"
+   height="26"
    id="svg3428"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -25,14 +25,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="-12.651133"
-     inkscape:cy="15.331543"
+     inkscape:cx="-5.1381232"
+     inkscape:cy="8.435293"
      inkscape:document-units="px"
      inkscape:current-layer="g5016"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="24"
      inkscape:window-maximized="1">
     <inkscape:grid
@@ -59,7 +59,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1020.3622)">
+     transform="translate(0,-1026.3622)">
     <g
        id="g5016"
        transform="translate(-5.9999997,-8)">
@@ -69,26 +69,26 @@
          sodipodi:rx="10"
          sodipodi:cy="56.362183"
          sodipodi:cx="90"
-         id="path6451"
-         style="color:#000000;fill:#ff8800;fill-opacity:0.70588236999999998;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:1"
+         id="path4304"
+         style="color:#000000;fill:#ff8800;fill-opacity:0.8509804;fill-rule:nonzero;stroke:none;stroke-width:0.10000000000000001;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
          sodipodi:type="arc"
-         transform="matrix(0,-1.4,1.4,0,-56.907056,1170.3622)" />
+         transform="matrix(0,-1.1,1.1,0,-42.998401,1146.3622)" />
       <rect
-         ry="0.8888889"
-         y="1036.3622"
-         x="16"
-         height="16"
-         width="4"
-         id="rect4294"
+         ry="0.61111104"
+         y="1041.8622"
+         x="14.285714"
+         height="11"
+         width="3.1428571"
+         id="rect4306"
          style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
       <rect
          style="color:#000000;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect4296"
-         width="4"
-         height="16"
-         x="24"
-         y="1036.3622"
-         ry="0.8888889" />
+         id="rect4308"
+         width="3.1428571"
+         height="11"
+         x="20.571428"
+         y="1041.8622"
+         ry="0.61111104" />
     </g>
   </g>
 </svg>
