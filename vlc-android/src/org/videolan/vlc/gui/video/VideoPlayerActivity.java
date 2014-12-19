@@ -447,16 +447,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public boolean onPrepareOptionsMenu(Menu menu){
-        MenuItem item;
-        item = menu.findItem(R.id.pl_menu_subtitle);
-        item.setVisible(mLibVLC.getSpuTracksCount() > 0);
-        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-
-        item = menu.findItem(R.id.pl_menu_audiotrack);
-        item.setVisible(mLibVLC.getAudioTracksCount() > 2);
-        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-
-        item = menu.findItem(R.id.pl_menu_nav);
+        MenuItem item = menu.findItem(R.id.pl_menu_nav);
         item.setVisible(mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && mLibVLC.getTitle() != 0);
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
 
@@ -465,12 +456,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-            case R.id.pl_menu_subtitle:
-                selectSubtitles();
-                return true;
-            case R.id.pl_menu_audiotrack:
-                selectAudioTrack();
-                return true;
             case R.id.pl_menu_nav:
                 showNavMenu();
                 return true;
