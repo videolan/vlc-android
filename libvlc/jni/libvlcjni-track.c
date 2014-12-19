@@ -132,6 +132,9 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
     libvlc_media_track_t **p_tracks;
 
     int i_nbTracks = libvlc_media_tracks_get(p_m, &p_tracks);
+    if (i_nbTracks == 0)
+        return NULL;
+
     jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks + 1, cls, NULL);
 
     unsigned i;
@@ -147,16 +150,25 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
             // use last track for metadata
             if (i == i_nbTracks)
             {
+#define SET_STRING_META(title, vlc_meta) do { \
+    char *psz_meta = libvlc_media_get_meta(p_m, vlc_meta); \
+    if (psz_meta) { \
+        setString(env, item, title, psz_meta); \
+        free(psz_meta); \
+    } \
+} while (0)
+
                 setInt(env, item, "Type", 3 /* TYPE_META */);
                 setLong(env, item, "Length", libvlc_media_get_duration(p_m));
-                setString(env, item, "Title", libvlc_media_get_meta(p_m, libvlc_meta_Title));
-                setString(env, item, "Artist", libvlc_media_get_meta(p_m, libvlc_meta_Artist));
-                setString(env, item, "Album", libvlc_media_get_meta(p_m, libvlc_meta_Album));
-                setString(env, item, "Genre", libvlc_media_get_meta(p_m, libvlc_meta_Genre));
-                setString(env, item, "ArtworkURL", libvlc_media_get_meta(p_m, libvlc_meta_ArtworkURL));
-                setString(env, item, "NowPlaying", libvlc_media_get_meta(p_m, libvlc_meta_NowPlaying));
-                setString(env, item, "TrackNumber", libvlc_media_get_meta(p_m, libvlc_meta_TrackNumber));
-                setString(env, item, "AlbumArtist", libvlc_media_get_meta(p_m, libvlc_meta_AlbumArtist));
+                SET_STRING_META("Title", libvlc_meta_Title);
+                SET_STRING_META("Artist", libvlc_meta_Artist);
+                SET_STRING_META("Album", libvlc_meta_Album);
+                SET_STRING_META("Genre", libvlc_meta_Genre);
+                SET_STRING_META("ArtworkURL", libvlc_meta_ArtworkURL);
+                SET_STRING_META("NowPlaying", libvlc_meta_NowPlaying);
+                SET_STRING_META("TrackNumber", libvlc_meta_TrackNumber);
+                SET_STRING_META("AlbumArtist", libvlc_meta_AlbumArtist);
+#undef SET_STRING_META
                 continue;
             }
 

@@ -606,6 +606,8 @@ jstring Java_org_videolan_libvlc_LibVLC_changeset(JNIEnv* env, jobject thiz)
 jstring Java_org_videolan_libvlc_LibVLC_getMeta(JNIEnv *env, jobject thiz, int meta)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    char *psz_meta;
+    jstring string = NULL;
     if (!mp)
         return NULL;
 
@@ -613,7 +615,12 @@ jstring Java_org_videolan_libvlc_LibVLC_getMeta(JNIEnv *env, jobject thiz, int m
     if (!p_mp)
         return NULL;
 
-    return (*env)->NewStringUTF(env, libvlc_media_get_meta(p_mp, meta));
+    psz_meta = libvlc_media_get_meta(p_mp, meta);
+    if (psz_meta) {
+        string = (*env)->NewStringUTF(env, psz_meta);
+        free(psz_meta);
+    }
+    return string;
 }
 
 jint Java_org_videolan_libvlc_LibVLC_getTitle(JNIEnv *env, jobject thiz)

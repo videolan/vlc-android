@@ -167,8 +167,14 @@ public class Media implements Comparable<Media> {
     }
 
     private void extractTrackInfo(TrackInfo[] tracks) {
-        if (tracks == null)
+        if (tracks == null) {
+            mTitle = null;
+            mArtist = getValueWrapper(null, UnknownStringType.Artist).trim();
+            mAlbum = getValueWrapper(null, UnknownStringType.Album).trim();
+            mGenre = getValueWrapper(null, UnknownStringType.Genre).trim();
+            mAlbumArtist = getValueWrapper(null, UnknownStringType.AlbumArtist).trim();
             return;
+        }
 
         for (TrackInfo track : tracks) {
             if (track.Type == TrackInfo.TYPE_VIDEO) {
@@ -179,7 +185,7 @@ public class Media implements Comparable<Media> {
                 mType = TYPE_AUDIO;
             } else if (track.Type == TrackInfo.TYPE_META) {
                 mLength = track.Length;
-                mTitle = track.Title.trim();
+                mTitle = track.Title != null ? track.Title.trim() : null;
                 mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist).trim();
                 mAlbum = getValueWrapper(track.Album, UnknownStringType.Album).trim();
                 mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
@@ -301,7 +307,7 @@ public class Media implements Comparable<Media> {
      */
     @Override
     public int compareTo(Media another) {
-        return mTitle.toUpperCase(Locale.getDefault()).compareTo(
+        return getTitle().toUpperCase(Locale.getDefault()).compareTo(
                 another.getTitle().toUpperCase(Locale.getDefault()));
     }
 
