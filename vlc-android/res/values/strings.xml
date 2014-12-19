@@ -297,6 +297,10 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="new_app">New Application available</string>
+    <string name="new_app_msg">VLC for Android Beta test has ended. From now, new versions will only be published for the new application.</string>
+    <string name="new_app_go">Go get it</string>
+
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
         <item>@string/hardware_acceleration_disabled</item>

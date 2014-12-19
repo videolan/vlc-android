@@ -320,6 +320,11 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+        if ("org.videolan.vlc.betav7neon".equals(getPackageName())) {
+            StartUpDialog newFragment = StartUpDialog.newInstance();
+            newFragment.show(getSupportFragmentManager(), "dialog");
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
