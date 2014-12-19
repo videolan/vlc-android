@@ -19,30 +19,8 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.gui.audio.MediaComparators;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.video.VideoBrowserInterface;
-import org.videolan.vlc.gui.video.VideoListHandler;
-import org.videolan.vlc.util.Util;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,7 +31,24 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
-import android.util.Log;
+
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.R;
+import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.gui.video.VideoListHandler;
+import org.videolan.vlc.util.Util;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class GridFragment extends VerticalGridFragment implements VideoBrowserInterface {
     private static final String TAG = "VLC/GridFragment";
@@ -98,15 +93,18 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
         gridPresenter.setNumberOfColumns(NUM_COLUMNS);
         setGridPresenter(gridPresenter);
         mAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
+        mAdapter.clear();
         setAdapter(mAdapter);
     }
 
     public void onResume() {
         super.onResume();
-        if (mType == HEADER_VIDEO) {
-            new AsyncVideoUpdate().execute();
-        } else {
-            new AsyncAudioUpdate().execute();
+        if (mAdapter.size() == 0) {
+            if (mType == HEADER_VIDEO) {
+                new AsyncVideoUpdate().execute();
+            } else {
+                new AsyncAudioUpdate().execute();
+            }
         }
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(this);
@@ -157,27 +155,20 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
 
     @Override
     public void updateList() {
+
     }
 
     @Override
-    public void showProgressBar() {
-        //TODO
-    }
+    public void showProgressBar() {}
 
     @Override
-    public void hideProgressBar() {
-        //TODO
-    }
+    public void hideProgressBar() {}
 
     @Override
-    public void clearTextInfo() {
-        //TODO
-    }
+    public void clearTextInfo() {}
 
     @Override
-    public void sendTextInfo(String info, int progress, int max) {
-        Log.d(TAG, info);
-    }
+    public void sendTextInfo(String info, int progress, int max) {}
 
     private Handler mHandler = new VideoListHandler(this);
 
@@ -235,7 +226,6 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
                 media = mMediaList.get(i);
                 mMediaIndex.put(media.getLocation(), i);
                 publishProgress(media);
-
             }
             return null;
         }
