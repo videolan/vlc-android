@@ -3,7 +3,6 @@
     android:id="@+id/progress_overlay"
     android:layout_width="800dp"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="@bool/center_hud"
     android:layout_alignParentBottom="true"
     android:background="@drawable/rounded_corners"
     android:paddingTop="@dimen/overlay_padding_top"

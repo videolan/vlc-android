@@ -122,6 +122,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -330,6 +331,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
         mBattery = (TextView) findViewById(R.id.player_overlay_battery);
         mOverlayProgress = findViewById(R.id.progress_overlay);
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams)mOverlayProgress.getLayoutParams();
+        if (AndroidDevices.isPhone() || !AndroidDevices.hasNavBar()) {
+            layoutParams.width = LayoutParams.MATCH_PARENT;
+        } else {
+            layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        }
+        mOverlayProgress.setLayoutParams(layoutParams);
         mOverlayBackground = findViewById(R.id.player_overlay_background);
 
         // Position and remaining time
