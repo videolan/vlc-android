@@ -25,6 +25,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.AndroidDevices;
