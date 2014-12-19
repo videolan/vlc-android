@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VerticalGridActivity.java
  *****************************************************************************
- * Copyright © 2012-2014 VLC authors and VideoLAN
+ * Copyright © 2012-2014 VLC authors, VideoLAN and VideoLabs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

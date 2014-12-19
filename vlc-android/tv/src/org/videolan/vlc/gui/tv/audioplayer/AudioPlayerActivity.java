@@ -1,7 +1,7 @@
 /*****************************************************************************
  * AudioPlayerActivity.java
  *****************************************************************************
- * Copyright © 2012-2014 VLC authors and VideoLAN
+ * Copyright © 2012-2014 VLC authors, VideoLAN and VideoLabs
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -208,7 +208,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 				seek(x > 0.0f ? 10000 : -10000);
 				mLastMove = System.currentTimeMillis();
 				return true;
-			} 
+			}
 			//TODO Will we change volume in app on TV ?
 			/*else if (Math.abs(rz) > 0.3){
 				mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
