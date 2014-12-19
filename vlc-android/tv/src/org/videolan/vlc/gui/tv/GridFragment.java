@@ -120,7 +120,7 @@ public class GridFragment extends VerticalGridFragment implements VideoBrowserIn
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
 
-		/* unregister from thumbnailer */
+        /* unregister from thumbnailer */
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(null);
         mBarrier.reset();

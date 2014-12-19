@@ -43,7 +43,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer{
-	public static final String TAG = "VLC/AudioPlayerActivity";
+    public static final String TAG = "VLC/AudioPlayerActivity";
 
     private AudioServiceController mAudioController;
     private RecyclerView mRecyclerView;
@@ -61,221 +61,207 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     private ImageView mPlayPauseButton, mCover;
     private ProgressBar mProgressBar;
 
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tv_audio_player);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tv_audio_player);
 
-		mLocations = getIntent().getStringArrayListExtra("locations");
-		mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
-		mLayoutManager = new LinearLayoutManager(this);
+        mLocations = getIntent().getStringArrayListExtra("locations");
+        mRecyclerView = (RecyclerView) findViewById(R.id.playlist);
+        mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-		if (mLocations == null)
-			mLocations = new ArrayList<String>();
-		else {
-			mAdapter = new PlaylistAdapter(mLocations);
-        	mRecyclerView.setAdapter(mAdapter);
-		}
+        if (mLocations == null)
+            mLocations = new ArrayList<String>();
+        else {
+            mAdapter = new PlaylistAdapter(mLocations);
+            mRecyclerView.setAdapter(mAdapter);
+        }
 
-		mAudioController = AudioServiceController.getInstance();
+        mAudioController = AudioServiceController.getInstance();
 
-		mTitleTv = (TextView)findViewById(R.id.media_title);
-		mArtistTv = (TextView)findViewById(R.id.media_artist);
-		mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
-		mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
-		mCover = (ImageView)findViewById(R.id.album_cover);
+        mTitleTv = (TextView)findViewById(R.id.media_title);
+        mArtistTv = (TextView)findViewById(R.id.media_artist);
+        mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
+        mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
+        mCover = (ImageView)findViewById(R.id.album_cover);
 
-	}
+    }
 
-	public void onStart(){
-		super.onStart();
-		mAudioController.bindAudioService(this, this);
-		mAudioController.addAudioPlayer(this);
-	}
+    public void onStart(){
+        super.onStart();
+        mAudioController.bindAudioService(this, this);
+        mAudioController.addAudioPlayer(this);
+    }
 
-	public void onStop(){
-		super.onStop();
-		mAudioController.removeAudioPlayer(this);
-		mAudioController.unbindAudioService(this);
-		mLocations.clear();
-	}
+    public void onStop(){
+        super.onStop();
+        mAudioController.removeAudioPlayer(this);
+        mAudioController.unbindAudioService(this);
+        mLocations.clear();
+    }
 
-	protected void onResume() {
-		super.onResume();
-		mRecyclerView.post(new Runnable() {
-			@Override
-			public void run() {
-				update();
-			}
-		});
-	};
+    protected void onResume() {
+        super.onResume();
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                update();
+            }
+        });
+    };
 
-	@Override
-	public void onConnectionSuccess() {
-		ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
-		if (!mLocations.isEmpty() && !mLocations.equals(medialocations)) {
+    @Override
+    public void onConnectionSuccess() {
+        ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
+        if (!mLocations.isEmpty() && !mLocations.equals(medialocations)) {
             mAudioController.load(mLocations, 0, true);
         } else {
-			mLocations = medialocations;
-			update();
-			mAdapter = new PlaylistAdapter(mLocations);
-			mRecyclerView.setAdapter(mAdapter);
-		}
-	}
+            mLocations = medialocations;
+            update();
+            mAdapter = new PlaylistAdapter(mLocations);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
 
-	@Override
-	public void onConnectionFailed() {}
+    @Override
+    public void onConnectionFailed() {}
 
-	@Override
-	public void update() {
-		mPlayPauseButton.setImageResource(mAudioController.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
-		if (mAudioController.hasMedia()) {
-			mTitleTv.setText(mAudioController.getTitle());
-			mArtistTv.setText(mAudioController.getArtist());
-			mProgressBar.setMax(mAudioController.getLength());
-			Media media = MediaLibrary.getInstance().getMediaItem(mAudioController.getCurrentMediaLocation());
-			Bitmap cover = AudioUtil.getCover(this, media, mCover.getWidth());
-			if (cover == null)
-				cover = mAudioController.getCover();
-			if (cover == null)
-				mCover.setImageResource(R.drawable.background_cone);
-			else
-				mCover.setImageBitmap(cover);
+    @Override
+    public void update() {
+        mPlayPauseButton.setImageResource(mAudioController.isPlaying() ? R.drawable.ic_pause : R.drawable.ic_play);
+        if (mAudioController.hasMedia()) {
+            mTitleTv.setText(mAudioController.getTitle());
+            mArtistTv.setText(mAudioController.getArtist());
+            mProgressBar.setMax(mAudioController.getLength());
+            Media media = MediaLibrary.getInstance().getMediaItem(mAudioController.getCurrentMediaLocation());
+            Bitmap cover = AudioUtil.getCover(this, media, mCover.getWidth());
+            if (cover == null)
+                cover = mAudioController.getCover();
+            if (cover == null)
+                mCover.setImageResource(R.drawable.background_cone);
+            else
+                mCover.setImageBitmap(cover);
             selectItem(mLocations.indexOf(mAudioController.getCurrentMediaLocation()));
-		}
-	}
+        }
+    }
 
-	@Override
-	public void updateProgress() {
-		mProgressBar.setProgress(mAudioController.getTime());
-	}
+    @Override
+    public void updateProgress() {
+        mProgressBar.setProgress(mAudioController.getTime());
+    }
 
-	public boolean onKeyDown(int keyCode, KeyEvent event){
-		switch (keyCode){
-		/*
-		 * Playback control
-		 */
-		case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-		case KeyEvent.KEYCODE_MEDIA_PLAY:
-		case KeyEvent.KEYCODE_MEDIA_PAUSE:
-		case KeyEvent.KEYCODE_SPACE:
-		case KeyEvent.KEYCODE_BUTTON_A:
-			togglePlayPause();
-			return true;
-		case KeyEvent.KEYCODE_F:
-		case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-		case KeyEvent.KEYCODE_BUTTON_R1:
-			goNext();
-			return true;
-		case KeyEvent.KEYCODE_R:
-		case KeyEvent.KEYCODE_MEDIA_REWIND:
-		case KeyEvent.KEYCODE_BUTTON_L1:
-			goPrevious();
-			return true;
-		/*
-		 * Playlist navigation
-		 */
-		case KeyEvent.KEYCODE_DPAD_UP:
-			selectPrevious();
-			return true;
-		case KeyEvent.KEYCODE_DPAD_DOWN:
-			selectNext();
-			return true;
-		case KeyEvent.KEYCODE_BUTTON_X:
-			mAudioController.playIndex(mSelectedItem);
-			mCurrentlyPlaying = mSelectedItem;
-			return true;
-		default:
-			return super.onKeyDown(keyCode, event);
-		}
-	}
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        switch (keyCode){
+            /*
+             * Playback control
+             */
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+            case KeyEvent.KEYCODE_SPACE:
+            case KeyEvent.KEYCODE_BUTTON_A:
+                togglePlayPause();
+                return true;
+            case KeyEvent.KEYCODE_F:
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+            case KeyEvent.KEYCODE_BUTTON_R1:
+                goNext();
+                return true;
+            case KeyEvent.KEYCODE_R:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+            case KeyEvent.KEYCODE_BUTTON_L1:
+                goPrevious();
+                return true;
+            /*
+             * Playlist navigation
+             */
+            case KeyEvent.KEYCODE_DPAD_UP:
+                selectPrevious();
+                return true;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                selectNext();
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_X:
+                mAudioController.playIndex(mSelectedItem);
+                mCurrentlyPlaying = mSelectedItem;
+                return true;
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
+    }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
 
-		InputDevice mInputDevice = event.getDevice();
+        InputDevice mInputDevice = event.getDevice();
 
-		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_X);
-//		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
-//				MotionEvent.AXIS_Y);
-//		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
-//				MotionEvent.AXIS_Z);
-//		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
-//				MotionEvent.AXIS_RZ);
+        float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_X);
 
-		if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
-			if (Math.abs(x) > 0.3){
-				seek(x > 0.0f ? 10000 : -10000);
-				mLastMove = System.currentTimeMillis();
-				return true;
-			}
-			//TODO Will we change volume in app on TV ?
-			/*else if (Math.abs(rz) > 0.3){
-				mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-				int delta = -(int) ((rz / 7) * mAudioMax);
-				int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-				setAudioVolume(vol);
-				mLastMove = System.currentTimeMillis();
-			}*/
-		}
-		return false;
+        if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
+            if (Math.abs(x) > 0.3){
+                seek(x > 0.0f ? 10000 : -10000);
+                mLastMove = System.currentTimeMillis();
+                return true;
+            }
+        }
+        return false;
     }
 
-	private void seek(int delta) {
-		int time = mAudioController.getTime()+delta;
-		if (time < 0 || time > mAudioController.getLength())
-			return;
-		mAudioController.setTime(time);
-	}
+    private void seek(int delta) {
+        int time = mAudioController.getTime()+delta;
+        if (time < 0 || time > mAudioController.getLength())
+            return;
+        mAudioController.setTime(time);
+    }
 
-	public void onClick(View v){
-		switch (v.getId()){
-		case R.id.button_play:
-			togglePlayPause();
-			break;
-		case R.id.button_next:
-			goNext();
-			break;
-		case R.id.button_previous:
-			goPrevious();
-			break;
-		}
-	}
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.button_play:
+                togglePlayPause();
+                break;
+            case R.id.button_next:
+                goNext();
+                break;
+            case R.id.button_previous:
+                goPrevious();
+                break;
+        }
+    }
 
-	private void goPrevious() {
-		if (mAudioController.hasPrevious()) {
-			mAudioController.previous();
-			selectItem(--mCurrentlyPlaying);
-		}
-	}
+    private void goPrevious() {
+        if (mAudioController.hasPrevious()) {
+            mAudioController.previous();
+            selectItem(--mCurrentlyPlaying);
+        }
+    }
 
-	private void goNext() {
-		if (mAudioController.hasNext()){
-			mAudioController.next();
-			selectItem(++mCurrentlyPlaying);
-		}
-	}
+    private void goNext() {
+        if (mAudioController.hasNext()){
+            mAudioController.next();
+            selectItem(++mCurrentlyPlaying);
+        }
+    }
 
-	private void togglePlayPause() {
-		if (mAudioController.isPlaying())
-			mAudioController.pause();
-		else if (mAudioController.hasMedia())
-			mAudioController.play();
-	}
+    private void togglePlayPause() {
+        if (mAudioController.isPlaying())
+            mAudioController.pause();
+        else if (mAudioController.hasMedia())
+            mAudioController.play();
+    }
 
-	private void selectNext() {
-		if (mSelectedItem >= mAdapter.getItemCount()-1)
-			return;
-		selectItem(++mSelectedItem);
-	}
+    private void selectNext() {
+        if (mSelectedItem >= mAdapter.getItemCount()-1)
+            return;
+        selectItem(++mSelectedItem);
+    }
 
-	private void selectPrevious() {
-		if (mSelectedItem < 1)
-			return;
-		selectItem(--mSelectedItem);
-	}
+    private void selectPrevious() {
+        if (mSelectedItem < 1)
+            return;
+        selectItem(--mSelectedItem);
+    }
 
-	private void selectItem(final int position){
+    private void selectItem(final int position){
         if (position >= mLocations.size())
             return;
         mRecyclerView.post(new Runnable() {
@@ -290,5 +276,5 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             }
         });
         mSelectedItem = position;
-	}
+    }
 }

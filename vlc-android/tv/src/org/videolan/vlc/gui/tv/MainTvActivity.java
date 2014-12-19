@@ -103,9 +103,9 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		/*
-		 * skip browser and show directly Audio Player if a song is playing
-		 */
+        /*
+         * skip browser and show directly Audio Player if a song is playing
+         */
         if (LibVLC.getExistingInstance() != null){
             if (LibVLC.getExistingInstance().isPlaying()){
                 startActivity(new Intent(this, AudioPlayerActivity.class));
@@ -148,7 +148,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
 
-		/* Stop the thumbnailer */
+        /* Stop the thumbnailer */
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(null);
         mBarrier.reset();
@@ -235,7 +235,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
         protected Void doInBackground(Void... params) {
             MediaDatabase mediaDatabase = MediaDatabase.getInstance();
             ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
-//			ArrayList<Media> audioList = mMediaLibrary.getAudioItems();
             int size;
             Media item;
             Bitmap picture;

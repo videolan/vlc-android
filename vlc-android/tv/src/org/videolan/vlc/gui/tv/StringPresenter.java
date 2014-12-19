@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class StringPresenter extends Presenter {
-	private static final String TAG = "StringPresenter";
+    private static final String TAG = "StringPresenter";
 
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         TextView textView = new TextView(parent.getContext());

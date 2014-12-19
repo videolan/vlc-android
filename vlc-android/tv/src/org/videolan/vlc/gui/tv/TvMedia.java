@@ -23,7 +23,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class TvMedia implements Parcelable {
-	private long id;
+    private long id;
     private String mediaUrl;
     private String title;
     private String description;
@@ -33,45 +33,45 @@ public class TvMedia implements Parcelable {
     private String cardImageUrl;
 
     public TvMedia(long id, String title, String description, String bgImageUrl, String cardImageUrl, String mediaUrl) {
-    	this.id = id;
-    	this.title = title;
-    	this.description = description; 
-    	this.bgImageUrl = bgImageUrl;
-    	this.cardImageUrl = cardImageUrl;
-    	this.mediaUrl = mediaUrl;
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.bgImageUrl = bgImageUrl;
+        this.cardImageUrl = cardImageUrl;
+        this.mediaUrl = mediaUrl;
     }
 
     public TvMedia(long id, String title, String description, int bgImageId, int cardImageId, String mediaUrl) {
-    	this.id = id;
-    	this.title = title;
-    	this.description = description;
-    	this.bgImageId = bgImageId;
-    	this.cardImageId = cardImageId;
-    	this.mediaUrl = mediaUrl;
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.bgImageId = bgImageId;
+        this.cardImageId = cardImageId;
+        this.mediaUrl = mediaUrl;
     }
 
     public long getId(){
-    	return id;
+        return id;
     }
-    
+
     public String getDescription(){
-    	return description;
+        return description;
     }
-    
+
     public String getBgImageUrl(){
-    	return bgImageUrl;
+        return bgImageUrl;
     }
-    
+
     public String getCardImageUrl(){
-    	return cardImageUrl;
+        return cardImageUrl;
     }
-    
+
     public String getVideoUrl(){
-    	return mediaUrl;
+        return mediaUrl;
     }
-    
+
     public String getTitle(){
-    	return title;
+        return title;
     }
 
     public int getBackgroundImageId() {
@@ -89,7 +89,7 @@ public class TvMedia implements Parcelable {
 //    }
 
     public int getCardImageId() {
-    	return cardImageId;
+        return cardImageId;
     }
 
 //    public URI getCardImageURI() {
@@ -112,44 +112,44 @@ public class TvMedia implements Parcelable {
                 '}';
     }
 
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int describeContents() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeLong(id);
-		dest.writeString(mediaUrl);
-		dest.writeString(title);
-		dest.writeString(description);
-		dest.writeInt(bgImageId);
-		dest.writeInt(cardImageId);
-		dest.writeString(bgImageUrl);
-		dest.writeString(cardImageUrl);
-	}
-	
-	public static final Parcelable.Creator<TvMedia> CREATOR
-	= new Parcelable.Creator<TvMedia>() {
-		public TvMedia createFromParcel(Parcel in) {
-			return new TvMedia(in);
-		}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(mediaUrl);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(bgImageId);
+        dest.writeInt(cardImageId);
+        dest.writeString(bgImageUrl);
+        dest.writeString(cardImageUrl);
+    }
 
-		public TvMedia[] newArray(int size) {
-			return new TvMedia[size];
-		}
-	};
+    public static final Parcelable.Creator<TvMedia> CREATOR
+            = new Parcelable.Creator<TvMedia>() {
+        public TvMedia createFromParcel(Parcel in) {
+            return new TvMedia(in);
+        }
 
-	private TvMedia(Parcel in) {
-		id = in.readLong();
-		mediaUrl = in.readString();
-		title = in.readString();
-		description = in.readString();
-		bgImageId = in.readInt();
-		cardImageId = in.readInt();
-		bgImageUrl = in.readString();
-		cardImageUrl = in.readString();
-	}
+        public TvMedia[] newArray(int size) {
+            return new TvMedia[size];
+        }
+    };
+
+    private TvMedia(Parcel in) {
+        id = in.readLong();
+        mediaUrl = in.readString();
+        title = in.readString();
+        description = in.readString();
+        bgImageId = in.readInt();
+        cardImageId = in.readInt();
+        bgImageUrl = in.readString();
+        cardImageUrl = in.readString();
+    }
 
 }

@@ -38,9 +38,9 @@ import android.support.v17.leanback.widget.Row;
 import android.text.TextUtils;
 
 public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
-implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider {
+        implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider {
 
-	private static final String TAG = "SearchFragment";
+    private static final String TAG = "SearchFragment";
 
     private ArrayObjectAdapter mRowsAdapter;
     private Handler mHandler = new Handler();

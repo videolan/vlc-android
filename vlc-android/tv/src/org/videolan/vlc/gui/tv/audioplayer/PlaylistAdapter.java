@@ -31,10 +31,10 @@ import org.videolan.vlc.MediaLibrary;
 import java.util.ArrayList;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
-	public static final String TAG = "VLC/PlaylistAdapter";
+    public static final String TAG = "VLC/PlaylistAdapter";
 
     private ArrayList<String> mDataset;
-	private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
+    private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
     private int mSelectedItem = -1;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -55,9 +55,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public PlaylistAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                         int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                               .inflate(android.R.layout.simple_list_item_activated_2, parent, false);
+                .inflate(android.R.layout.simple_list_item_activated_2, parent, false);
 
         v.setClickable(true);
         v.setFocusable(true);

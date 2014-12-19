@@ -47,85 +47,85 @@ import android.support.v17.leanback.widget.OnActionClickedListener;
 import android.util.Log;
 
 public class MediaItemDetailsFragment extends DetailsFragment implements AudioServiceController.AudioServiceConnectionListener {
-	private static final String TAG = "MediaItemDetailsFragment";
-	private static final int ID_PLAY = 1;
-	private static final int ID_LISTEN = 2;
-	private ArrayObjectAdapter mRowsAdapter;
+    private static final String TAG = "MediaItemDetailsFragment";
+    private static final int ID_PLAY = 1;
+    private static final int ID_LISTEN = 2;
+    private ArrayObjectAdapter mRowsAdapter;
     private AudioServiceController mAudioController;
     private AudioPlayer mAudioPlayer;
     private MediaItemDetails mMedia;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         mAudioController = AudioServiceController.getInstance();
-		buildDetails();
-	}
+        buildDetails();
+    }
 
-	public void onResume(){
-		super.onResume();
-	}
+    public void onResume(){
+        super.onResume();
+    }
 
-	public void onPause(){
-		super.onPause();
-		if (mAudioController.isPlaying()){
-			mAudioController.stop();
-			mAudioController.unbindAudioService(getActivity());
-		}
-	}
+    public void onPause(){
+        super.onPause();
+        if (mAudioController.isPlaying()){
+            mAudioController.stop();
+            mAudioController.unbindAudioService(getActivity());
+        }
+    }
 
-	private void buildDetails() {
-		Bundle extras = getActivity().getIntent().getExtras();
-		mMedia = extras.getParcelable("item");
-		ClassPresenterSelector selector = new ClassPresenterSelector();
-		// Attach your media item details presenter to the row presenter:
-		DetailsOverviewRowPresenter rowPresenter =
-				new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
+    private void buildDetails() {
+        Bundle extras = getActivity().getIntent().getExtras();
+        mMedia = extras.getParcelable("item");
+        ClassPresenterSelector selector = new ClassPresenterSelector();
+        // Attach your media item details presenter to the row presenter:
+        DetailsOverviewRowPresenter rowPresenter =
+                new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
-		rowPresenter.setBackgroundColor(getResources().getColor(R.color.darkorange));
-		rowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
+        rowPresenter.setBackgroundColor(getResources().getColor(R.color.darkorange));
+        rowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
 
-			@Override
-			public void onActionClicked(Action action) {
-				if (action.getId() == ID_LISTEN){
-					mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
-				} else if (action.getId() == ID_PLAY){
-					ArrayList<String> locations = new ArrayList<String>();
-					locations.add(mMedia.getLocation());
-					Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-					intent.putExtra("locations", locations);
-					startActivity(intent);
-				}
-			}
-		});
-		selector.addClassPresenter(DetailsOverviewRow.class, rowPresenter);
-		selector.addClassPresenter(ListRow.class,
-				new ListRowPresenter());
-		mRowsAdapter = new ArrayObjectAdapter(selector);
+            @Override
+            public void onActionClicked(Action action) {
+                if (action.getId() == ID_LISTEN){
+                    mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
+                } else if (action.getId() == ID_PLAY){
+                    ArrayList<String> locations = new ArrayList<String>();
+                    locations.add(mMedia.getLocation());
+                    Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
+                    intent.putExtra("locations", locations);
+                    startActivity(intent);
+                }
+            }
+        });
+        selector.addClassPresenter(DetailsOverviewRow.class, rowPresenter);
+        selector.addClassPresenter(ListRow.class,
+                new ListRowPresenter());
+        mRowsAdapter = new ArrayObjectAdapter(selector);
 
-		Resources res = getActivity().getResources();
-		DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
+        Resources res = getActivity().getResources();
+        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
 
-		// Add images and action buttons to the details view
-		Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
-		if (cover == null)
-			detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
-		else
-			detailsOverview.setImageBitmap(getActivity(), cover);
-		detailsOverview.addAction(new Action(ID_PLAY, "Play"));
-		detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
-		mRowsAdapter.add(detailsOverview);
+        // Add images and action buttons to the details view
+        Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
+        if (cover == null)
+            detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
+        else
+            detailsOverview.setImageBitmap(getActivity(), cover);
+        detailsOverview.addAction(new Action(ID_PLAY, "Play"));
+        detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
+        mRowsAdapter.add(detailsOverview);
 
-		setAdapter(mRowsAdapter);
-	}
+        setAdapter(mRowsAdapter);
+    }
 
-	@Override
-	public void onConnectionSuccess() {
+    @Override
+    public void onConnectionSuccess() {
         mAudioController.load(mMedia.getLocation(), true);
-	}
+    }
 
-	@Override
-	public void onConnectionFailed() {}
+    @Override
+    public void onConnectionFailed() {}
 
 }
