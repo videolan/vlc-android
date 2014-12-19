@@ -2057,7 +2057,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 mTracks.setVisibility(View.INVISIBLE);
             if (mAdvOptions !=null)
                 mAdvOptions.setVisibility(View.INVISIBLE);
-            mSize.setVisibility(View.INVISIBLE);
             mShowing = false;
             dimStatusBar(true);
         } else if (!fromUser) {
