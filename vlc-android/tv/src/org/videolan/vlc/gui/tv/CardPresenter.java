@@ -33,6 +33,7 @@ import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class CardPresenter extends Presenter {
 
@@ -89,14 +90,14 @@ public class CardPresenter extends Presenter {
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mRes.getColor(R.color.lb_details_overview_bg_color));
+        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+        cardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         return new ViewHolder(cardView);
     }
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
-        holder.mCardView.getMainImageView().setAdjustViewBounds(true);
-        holder.mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
         if (item instanceof Media) {
             Media media = (Media) item;
             holder.mCardView.setTitleText(media.getTitle());
