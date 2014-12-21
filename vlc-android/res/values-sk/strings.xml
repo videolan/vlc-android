@@ -260,4 +260,7 @@
     <string name="sending_log">Odosiela sa záznam...</string>
     <string name="drawer_open">Otvoriť vykresľovač navigovania</string>
     <string name="drawer_close">Zatvoriť vykresľovač navigovania</string>
+    <string name="new_app">Je dostupná nová aplikácia</string>
+    <string name="new_app_msg">Testovanie aplikácie VLC for Android beta bolo ukončené. Odteraz budú nové verzie publikované iba pre novú aplikáciu.</string>
+    <string name="new_app_go">Prejsť a získať</string>
 </resources>
