@@ -253,4 +253,7 @@
     <string name="sending_log">Fehlerbericht wird gesendet …</string>
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
+    <string name="new_app">Neue Anwendung verfügbar</string>
+    <string name="new_app_msg">Der VLC für Android Beta-Test wurde beendet. Ab jetzt werden neue Versionen nur für neue Anwendungen veröffentlicht.</string>
+    <string name="new_app_go">Los, holen Sie es sich</string>
 </resources>
