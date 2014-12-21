@@ -260,4 +260,7 @@
     <string name="sending_log">Відправка журналу...</string>
     <string name="drawer_open">Відкрити меню навігації</string>
     <string name="drawer_close">Закрити меню навігації</string>
+    <string name="new_app">Доступна нова програма</string>
+    <string name="new_app_msg">Бета-тестування VLC для Android вже завершилося. Від нині лише нові версії будуть виходити для цієї програми.</string>
+    <string name="new_app_go">Отримати її</string>
 </resources>
