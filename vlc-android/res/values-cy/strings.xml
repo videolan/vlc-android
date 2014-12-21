@@ -257,7 +257,7 @@
     <string name="copy_to_clipboard">Copïo i\'r clipfwrdd</string>
     <string name="copied_to_clipboard">Wedi\'i gopïo i\'r clipfwrdd.</string>
     <string name="quit">Diweddu ac ail-ddechrau\'r aplen</string>
-    <string name="dump_logcat">Gympio log logcat</string>
+    <string name="dump_logcat">Dympio log logcat</string>
     <string name="dump_logcat_success">Dympiwyd logcat i %1$s!</string>
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
     <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae VLC.</string>
@@ -267,4 +267,7 @@
     <string name="sending_log">Yn anfon y log…</string>
     <string name="drawer_open">Agor blwch llywio</string>
     <string name="drawer_close">Cau blwch llywio</string>
+    <string name="new_app">Aplen newydd ar gael</string>
+    <string name="new_app_msg">Mae profion VLC Android Beta wedi dod i ben. Gosodwch yr aplen VLC newydd i gadw i fyny a diweddariadau.</string>
+    <string name="new_app_go">Cael yr aplen newydd</string>
 </resources>
