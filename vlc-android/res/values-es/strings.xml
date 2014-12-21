@@ -253,4 +253,7 @@
     <string name="sending_log">Enviando las trazas...</string>
     <string name="drawer_open">Abrir navegación «drawer»</string>
     <string name="drawer_close">Cerrar navegación «drawer»</string>
+    <string name="new_app">Nueva aplicación disponible</string>
+    <string name="new_app_msg">Las pruebas de VLC para Android Beta han terminado. Desde ahora, las nuevas versiones solo se publicarán para la nueva aplicación.</string>
+    <string name="new_app_go">Obtenerla</string>
 </resources>
