@@ -31,6 +31,7 @@
     <string name="ringtone_error">Дошло је до грешке при постављању мелодије звона.</string>
     <string name="pause">Паузирај</string>
     <string name="not_show_again">Не приказуј поново</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Непознат извођач</string>
     <string name="unknown_album">Непознат албум</string>
     <string name="unknown_genre">Непознат жанр</string>
@@ -104,8 +105,12 @@
     <string name="track_video">Видео-запис</string>
     <string name="track_text">Запис титла</string>
     <string name="track_unknown">Непознати запис</string>
+    <string name="track_codec_info">Кодек: %1$s\n</string>
+    <string name="track_language_info">Језик: %1$s\n</string>
     <string name="volume">Јачина звука</string>
     <string name="brightness">Осветљење</string>
+    <string name="track_resolution_info">Резолуција: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Брзина кадрова: %1$.3f\n</string>
     <string name="tools">Алатке</string>
     <string name="playback_speed">Брзина репродукције</string>
     <string name="sleep_title">Аутом. гашење</string>
@@ -120,7 +125,9 @@
     <string name="open_mrl_dialog_msg">Отворите мрежну адресу са медијима (нпр. http://, mms:// или rtsp://).</string>
     <string name="error_not_compatible">Нажалост, ова верзија VLC-а за Android не подржава ваш уређај.</string>
     <string name="error_problem">Нажалост, VLC за Android је наишао на проблем и затворио се.</string>
+    <string name="error_message_is">Порука о грешци гласи (помените ово при отклањању грешака):\n</string>
     <string name="encountered_error_title">Грешка при репродукцији</string>
+    <string name="encountered_error_message">VLC је наишао на грешку у овом медију.\nПробајте да освежите медијску библиотеку.</string>
     <string name="invalid_location">Локацију %1$s није могуће пустити.</string>
     <string name="search">Претражи</string>
     <string name="search_history">Историја претраге</string>
@@ -187,6 +194,11 @@
     <string name="enable_headset_detection_summary">Паузирај по уклањању слушалица; настави по убацивању</string>
     <string name="enable_steal_remote_control">Искључиво даљинско управљање слушалицама</string>
     <string name="enable_steal_remote_control_summary">Избегавајте сукобе тако што ћете заузети контролу над другим апликацијама. Овим ћете спречити позивање двоструким додиром на HTC телефонима.</string>
+    <string name="audio_title_alignment_default">Подразумевано</string>
+    <string name="audio_title_alignment_left">Лево</string>
+    <string name="audio_title_alignment_centre">Центар</string>
+    <string name="audio_title_alignment_right">Десно</string>
+    <string name="audio_title_alignment_marquee">Натпис</string>
     <string name="performance_prefs_category">Перформансе</string>
     <string name="chroma_format">Наметни формат обојености</string>
     <string name="deblocking">Поставке филтера за деблокирање</string>
