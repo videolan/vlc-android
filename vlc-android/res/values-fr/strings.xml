@@ -187,12 +187,10 @@
     <string name="interface_secondary_display_category">Interface - Écran auxiliaire</string>
     <string name="interface_secondary_display_category_summary">Préférences lorsqu\'un écran auxiliaire est connecté (HDMI/Miracast).</string>
     <string name="enable_clone_mode">Préférer le mode clone</string>
-    <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécomande</string>
+    <string name="enable_clone_mode_summary">Cloner l\'écran et désactiver la télécommande</string>
     <string name="interface_other_category">Interface - Autres</string>
     <string name="enable_brightness_gesture">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
-    <string name="enable_jump_buttons">Activer les boutons de saut</string>
-    <string name="enable_jump_buttons_summary">Activer les boutons de recherches avant et arrière dans l\'interface vidéo</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
