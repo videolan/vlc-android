@@ -253,4 +253,7 @@
     <string name="sending_log">Log verzenden...</string>
     <string name="drawer_open">Navigatielade openen</string>
     <string name="drawer_close">Navigatielade sluiten</string>
+    <string name="new_app">Nieuwe toepassing beschikbaar</string>
+    <string name="new_app_msg">De test voor VLC voor Android bèta is geëindigd. Vanaf nu zullen alleen nieuwe versies gepubliceerd worden voor de nieuwe toepassing.</string>
+    <string name="new_app_go">Nu ophalen</string>
 </resources>
