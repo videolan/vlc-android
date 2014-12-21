@@ -119,7 +119,7 @@
     <string name="open_mrl_dialog_title">네트워크 스트림 열기</string>
     <string name="open_mrl_dialog_msg">네트워크 MRL 입력: 예 http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">죄송합니다. 현재 이 버전의  Android™ 용 VLC 는 당신의 장치를 지원하지 않습니다.\n\n오류 메시지 (디버깅때 말씀해 주세요):\n</string>
-    <string name="error_problem">죄송합니다, 안드로이드 VLC 로딩에 문제가 있어 닫아야 합니다.</string>
+    <string name="error_problem">죄송합니다, 안드로이드용 VLC 로딩에 문제가 있어 닫아야 합니다.</string>
     <string name="error_message_is">오류 메시지 (디버깅 때 언급해 주세요):\n</string>
     <string name="encountered_error_title">재생 오류</string>
     <string name="encountered_error_message">이 미디어에서 오류가 발생했습니다.\n미디어 라이브러리를 새로고침 해보세요.</string>
@@ -246,4 +246,7 @@
     <string name="sending_log">로그 전송 중...</string>
     <string name="drawer_open">탐색서랍 열기</string>
     <string name="drawer_close">탐색서랍 닫기</string>
+    <string name="new_app">새로운 어플리케이션 있음</string>
+    <string name="new_app_msg">안드로이드용 VLC 베타의 시험은 종료됐습니다. 지금부터 새 버전은 새 어플리케이션으로만 배포될 예정입니다.</string>
+    <string name="new_app_go">받으러 가기</string>
 </resources>
