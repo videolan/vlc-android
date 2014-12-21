@@ -168,7 +168,7 @@
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
     <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet.\nAvkodning: Kan förbättra prestanda.\nFull: Kan förbättra prestanda ytterligare.</string>
-    <string name="hardware_acceleration_disabled">Avaktiverad</string>
+    <string name="hardware_acceleration_disabled">Inaktiverad</string>
     <string name="hardware_acceleration_decoding">Avkodningsaccelerering</string>
     <string name="hardware_acceleration_full">Full accelerering</string>
     <string name="automatic">Automatisk</string>
@@ -253,4 +253,7 @@
     <string name="sending_log">Skickar loggen...</string>
     <string name="drawer_open">Öppna navigeringsmenyn</string>
     <string name="drawer_close">Stäng navigeringsmenyn</string>
+    <string name="new_app">Ny app tillgänglig</string>
+    <string name="new_app_msg">Betatestet av VLC för Android är slut. Från och med nu kommer nya versioner endast att publiceras för den nya appen.</string>
+    <string name="new_app_go">Hämta den</string>
 </resources>
