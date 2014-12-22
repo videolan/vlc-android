@@ -30,9 +30,8 @@ public class MediaGroup extends Media {
 
     public final static String TAG = "VLC/MediaGroup";
 
-    public final static int MIN_GROUP_LENGTH = 5;
+    public final static int MIN_GROUP_LENGTH = 6;
 
-    private Media mMedia;
     private ArrayList<Media> mMedias;
 
     public MediaGroup(Media media)
@@ -53,8 +52,8 @@ public class MediaGroup extends Media {
                 media.getAudioTrack(),
                 media.getSpuTrack(),
                 media.getTrackNumber());
-        mMedia = media;
         mMedias = new ArrayList<Media>();
+        mMedias.add(media);
     }
 
     public void add(Media media) {
@@ -62,11 +61,11 @@ public class MediaGroup extends Media {
     }
 
     public Media getMedia() {
-        return size() == 0 ? mMedia : this;
+        return mMedias.size() == 1 ? mMedias.get(0) : this;
     }
 
     public Media getFirstMedia() {
-        return size() == 0 ? mMedia : mMedias.get(0);
+        return mMedias.get(0);
     }
 
     public int size() {
@@ -74,11 +73,6 @@ public class MediaGroup extends Media {
     }
 
     public void merge(Media media, String title) {
-        if (size() == 0) {
-            if (mMedia != null)
-                mMedias.add(mMedia);
-            mMedia = null;
-        }
         mMedias.add(media);
         this.mTitle = title;
     }
@@ -93,8 +87,8 @@ public class MediaGroup extends Media {
     private static void insertInto(ArrayList<MediaGroup> groups, Media media)
     {
         for (MediaGroup mediaGroup : groups) {
-            CharSequence group = mediaGroup.getTitle();
-            CharSequence item = media.getTitle();
+            String group = mediaGroup.getTitle();
+            String item = media.getTitle();
 
             // find common prefix
             int commonLength = 0;
@@ -102,16 +96,16 @@ public class MediaGroup extends Media {
             while (commonLength < minLength && group.charAt(commonLength) == item.charAt(commonLength))
                 ++commonLength;
 
-            // same prefix name, just add
-            if (commonLength == group.length() && mediaGroup.size() > 0)
-                mediaGroup.add(media);
-            // not the same prefix, but close : merge
-            else if (commonLength > 0 && (commonLength < group.length() || mediaGroup.size() == 0) && commonLength > MIN_GROUP_LENGTH)
-                mediaGroup.merge(media, group.subSequence(0, commonLength).toString());
-            else
-                continue;
-
-            return;
+            if (commonLength >= MIN_GROUP_LENGTH) {
+                if (commonLength == group.length()) {
+                    // same prefix name, just add
+                    mediaGroup.add(media);
+                } else {
+                    // not the same prefix, but close : merge
+                    mediaGroup.merge(media, group.substring(0, commonLength));
+                }
+                return;
+            }
         }
 
         // does not match any group, so add one
