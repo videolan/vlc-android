@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MRLAdapter.java
  *****************************************************************************
- * Copyright Â© 2011-2014 VLC authors and VideoLAN
+ * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
