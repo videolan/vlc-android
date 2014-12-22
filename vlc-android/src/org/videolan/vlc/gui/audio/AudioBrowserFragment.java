@@ -49,7 +49,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.ProgressBar;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
@@ -85,7 +84,6 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
-    private View mLoading;
 
     private View mEmptyView;
 
@@ -141,7 +139,6 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         mHeader.setOnKeyListener(keyListener);
 
         mEmptyView = v.findViewById(R.id.no_media);
-        mLoading = (ProgressBar) v.findViewById(R.id.loading_view);
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
         ListView artistList = (ListView)v.findViewById(R.id.artists_list);
@@ -205,6 +202,8 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         mHeader.scroll(mFlingViewPosition / 3.f);
         if (!mMediaLibrary.isWorking())
             updateLists();
+        else
+            mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 
@@ -478,10 +477,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        if (mLoading != null && mLoading.getVisibility() == View.VISIBLE)
-            display();
-        else
-            mReadyToDisplay = ready;
+        mReadyToDisplay = ready;
     }
 
     @Override
@@ -491,9 +487,6 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    mHandler.removeMessages(MSG_LOADING);
-                    mLoading.setVisibility(View.GONE);
                     mArtistsAdapter.notifyDataSetChanged();
                     mSongsAdapter.notifyDataSetChanged();
                     mAlbumsAdapter.notifyDataSetChanged();
@@ -509,6 +502,8 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                         }
                     }
                     focusHelper(false, R.id.artists_list);
+                    mHandler.removeMessages(MSG_LOADING);
+                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             });
     }
@@ -528,8 +523,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                     fragment.updateLists();
                     break;
                 case MSG_LOADING:
-                    if (!fragment.mReadyToDisplay)
-                        fragment.mLoading.setVisibility(View.VISIBLE);
+                    fragment.mSwipeRefreshLayout.setRefreshing(true);
             }
         }
     };

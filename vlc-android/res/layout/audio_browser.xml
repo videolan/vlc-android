@@ -73,15 +73,6 @@
             android:layout_alignRight="@+id/header"
             android:layout_alignTop="@+id/header"
             android:background="?attr/header_fadeout_overlay" />
-
-    <ProgressBar
-        android:id="@+id/loading_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:indeterminate="true"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
     <TextView
         android:id="@+id/no_media"
         android:layout_width="fill_parent"
