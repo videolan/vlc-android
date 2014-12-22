@@ -72,6 +72,9 @@ android {
         release {
             signingConfig signingConfigs.release
             tasks.assembleRelease.dependsOn buildRelease
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard.cfg'
         }
         debug {
             tasks.assembleDebug.dependsOn buildDebug
