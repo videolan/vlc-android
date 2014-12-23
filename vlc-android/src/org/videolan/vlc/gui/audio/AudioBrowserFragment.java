@@ -55,9 +55,9 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
@@ -200,10 +200,11 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         mFlingViewGroup.setPosition(mFlingViewPosition);
         mHeader.highlightTab(-1, mFlingViewPosition);
         mHeader.scroll(mFlingViewPosition / 3.f);
-        if (!mMediaLibrary.isWorking())
-            updateLists();
-        else
+        if (mMediaLibrary.isWorking())
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
+        else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
+                mAlbumsAdapter.isEmpty() || mSongsAdapter.isEmpty())
+            updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
     }
 

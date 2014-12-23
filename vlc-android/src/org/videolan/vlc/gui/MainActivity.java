@@ -259,12 +259,6 @@ public class MainActivity extends ActionBarActivity {
                     return;
 
                 if (entry.type == SidebarEntry.TYPE_FRAGMENT) {
-                /*
-                 * Clear any backstack before switching tabs. This avoids
-                 * activating an old backstack, when a user hits the back button
-                 * to quit
-                 */
-                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 /* Slide down the audio player */
                     slideDownAudioPlayer();
@@ -275,6 +269,7 @@ public class MainActivity extends ActionBarActivity {
                         ((IBrowser)fragment).setReadyToDisplay(false);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.fragment_placeholder, fragment, entry.id);
+                    ft.addToBackStack(mCurrentFragment);
                     ft.commit();
                     supportInvalidateOptionsMenu();
                     mCurrentFragment = entry.id;
@@ -466,7 +461,7 @@ public class MainActivity extends ActionBarActivity {
 
         if (mCurrentFragment!= null) {
             // If it's the directory view, a "backpressed" action shows a parent.
-            if (mCurrentFragment.equals("directories")) {
+            if (mCurrentFragment.equals(SidebarEntry.ID_DIRECTORIES)) {
                 DirectoryViewFragment directoryView = (DirectoryViewFragment) getFragment(mCurrentFragment);
                 if (!directoryView.isRootDirectory()) {
                     directoryView.showParentDirectory();
@@ -480,12 +475,14 @@ public class MainActivity extends ActionBarActivity {
                 return;
             }
         }
-
-        super.onBackPressed();
+        finish();
     }
 
     private Fragment getFragment(String id)
     {
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(id);
+        if (frag != null)
+            return frag;
         return mSidebarAdapter.fetchFragment(id);
     }
 
