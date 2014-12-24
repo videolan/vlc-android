@@ -168,7 +168,7 @@ public class SidebarAdapter extends BaseAdapter {
         return f;
     }
 
-    private void setCurrentFragment(String id) {
+    public void setCurrentFragment(String id) {
         mCurrentFragmentId = id;
         this.notifyDataSetChanged();
     }

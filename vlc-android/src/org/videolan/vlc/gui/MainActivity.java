@@ -273,6 +273,7 @@ public class MainActivity extends ActionBarActivity {
                     ft.commit();
                     supportInvalidateOptionsMenu();
                     mCurrentFragment = entry.id;
+                    mSidebarAdapter.setCurrentFragment(mCurrentFragment);
 
                 /*
                  * Set user visibility hints to work around weird Android
