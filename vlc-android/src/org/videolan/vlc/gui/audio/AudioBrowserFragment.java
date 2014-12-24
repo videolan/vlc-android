@@ -524,7 +524,9 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                     fragment.updateLists();
                     break;
                 case MSG_LOADING:
-                    fragment.mSwipeRefreshLayout.setRefreshing(true);
+                    if (fragment.mArtistsAdapter.isEmpty() && fragment.mAlbumsAdapter.isEmpty() &&
+                            fragment.mSongsAdapter.isEmpty() && fragment.mGenresAdapter.isEmpty())
+                        fragment.mSwipeRefreshLayout.setRefreshing(true);
             }
         }
     };
