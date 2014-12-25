@@ -2053,6 +2053,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             setActionBarVisibility(false);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
+            mSize.setVisibility(View.INVISIBLE);
             if (mTracks != null)
                 mTracks.setVisibility(View.INVISIBLE);
             if (mAdvOptions !=null)
