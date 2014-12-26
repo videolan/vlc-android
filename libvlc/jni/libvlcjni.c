@@ -417,9 +417,9 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz,
     /* Create a media player playing environment */
     libvlc_media_player_t *mp = libvlc_media_player_new(p_instance);
     libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
-    jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz);
+    jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz); // freed in aout_close
 
-    //if AOUT_AUDIOTRACK_JAVA, we use amem
+    // If AOUT_AUDIOTRACK_JAVA, use amem
     jclass cls = (*env)->GetObjectClass(env, thiz);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
     if ( (*env)->CallIntMethod(env, thiz, methodId) == AOUT_AUDIOTRACK_JAVA )

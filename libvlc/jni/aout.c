@@ -243,6 +243,7 @@ void aout_close(void *opaque)
     }
 
     (*p_env)->DeleteGlobalRef (p_env, p_sys->buffer);
+    (*p_env)->DeleteGlobalRef (p_env, p_sys->j_libVlc);
     jni_detach_thread ();
     free (p_sys);
 }
