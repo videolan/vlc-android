@@ -68,6 +68,8 @@ import org.videolan.vlc.widget.HeaderScrollView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
@@ -80,10 +82,12 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
-    private AudioBrowserListAdapter mSongsAdapter;
+    List<Media> mAudioList;
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
+    private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
+    private ArrayList<AudioBrowserListAdapter> mAdaptersToNotify = new ArrayList<AudioBrowserListAdapter>();
 
     private View mEmptyView;
 
@@ -95,6 +99,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
 
     public final static int MSG_LOADING = 0;
     private volatile boolean mReadyToDisplay = true;
+    private volatile boolean mDisplaying = false;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -478,20 +483,27 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        mReadyToDisplay = ready;
+        if (mAdaptersToNotify == null || mAdaptersToNotify.isEmpty())
+            mReadyToDisplay = ready;
+        else
+            display();
     }
 
     @Override
     public void display() {
         mReadyToDisplay = true;
+        if (mAdaptersToNotify.isEmpty())
+            return;
+        mDisplaying = true;
         if (getActivity() != null)
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mArtistsAdapter.notifyDataSetChanged();
-                    mSongsAdapter.notifyDataSetChanged();
-                    mAlbumsAdapter.notifyDataSetChanged();
-                    mGenresAdapter.notifyDataSetChanged();
+                    synchronized (mAdaptersToNotify) {
+                        for (AudioBrowserListAdapter adapter : mAdaptersToNotify)
+                            adapter.notifyDataSetChanged();
+                        mAdaptersToNotify.clear();
+                    }
 
                     // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
                     int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
@@ -505,6 +517,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                     focusHelper(false, R.id.artists_list);
                     mHandler.removeMessages(MSG_LOADING);
                     mSwipeRefreshLayout.setRefreshing(false);
+                    mDisplaying = false;
                 }
             });
     }
@@ -536,8 +549,8 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
         mArtistsAdapter.clear();
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
-        final List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
-        if (audioList.isEmpty()){
+        mAudioList = MediaLibrary.getInstance().getAudioItems();
+        if (mAudioList.isEmpty()){
             mSwipeRefreshLayout.setRefreshing(false);
             mEmptyView.setVisibility(View.VISIBLE);
             focusHelper(true, R.id.artists_list);
@@ -545,28 +558,79 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
             mEmptyView.setVisibility(View.GONE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
-            new Thread(new Runnable() {
+            ExecutorService tpe = Executors.newSingleThreadExecutor();
+            ArrayList<Runnable> tasks = new ArrayList<Runnable>();
+            tasks.add(updateArtists);
+            tasks.add(updateAlbums);
+            tasks.add(updateSongs);
+            tasks.add(updateGenres);
+            //process the visible list first
+            tasks.add(0, tasks.remove(mFlingViewPosition));
+            tasks.add(new Runnable() {
                 @Override
                 public void run() {
-
-                    Collections.sort(audioList, MediaComparators.byArtist);
-                    mArtistsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_ARTISTS);
-
-                    Collections.sort(audioList, MediaComparators.byName);
-                    mSongsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_SONGS);
-
-                    Collections.sort(audioList, MediaComparators.byAlbum);
-                    mAlbumsAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_ALBUMS);
-
-                    Collections.sort(audioList, MediaComparators.byGenre);
-                    mGenresAdapter.addAll(audioList, AudioBrowserListAdapter.TYPE_GENRES);
-
-                    if (mReadyToDisplay)
-                        display();
+                    synchronized (mAdaptersToNotify) {
+                        if (!mAdaptersToNotify.isEmpty())
+                            display();
+                    }
                 }
-            }).start();
+            });
+            for (Runnable task : tasks)
+                tpe.submit(task);
         }
     }
+
+    Runnable updateArtists = new Runnable() {
+        @Override
+        public void run() {
+            Collections.sort(mAudioList, MediaComparators.byArtist);
+            mArtistsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_ARTISTS);
+            synchronized (mAdaptersToNotify) {
+                mAdaptersToNotify.add(mArtistsAdapter);
+            }
+            if (mReadyToDisplay && !mDisplaying)
+                display();
+        }
+    };
+
+    Runnable updateAlbums = new Runnable() {
+        @Override
+        public void run() {
+            Collections.sort(mAudioList, MediaComparators.byAlbum);
+            mAlbumsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_ALBUMS);
+            synchronized (mAdaptersToNotify) {
+                mAdaptersToNotify.add(mAlbumsAdapter);
+            }
+            if (mReadyToDisplay && !mDisplaying)
+                display();
+        }
+    };
+
+    Runnable updateSongs = new Runnable() {
+        @Override
+        public void run() {
+            Collections.sort(mAudioList, MediaComparators.byName);
+            mSongsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_SONGS);
+            synchronized (mAdaptersToNotify) {
+                mAdaptersToNotify.add(mSongsAdapter);
+            }
+            if (mReadyToDisplay && !mDisplaying)
+                display();
+        }
+    };
+
+    Runnable updateGenres = new Runnable() {
+        @Override
+        public void run() {
+            Collections.sort(mAudioList, MediaComparators.byGenre);
+            mGenresAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_GENRES);
+            synchronized (mAdaptersToNotify) {
+                mAdaptersToNotify.add(mGenresAdapter);
+            }
+            if (mReadyToDisplay && !mDisplaying)
+                display();
+        }
+    };
 
     AudioBrowserListAdapter.ContextPopupMenuListener mContextPopupMenuListener
         = new AudioBrowserListAdapter.ContextPopupMenuListener() {
