@@ -189,7 +189,7 @@ public class Media implements Comparable<Media> {
                 mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist).trim();
                 mAlbum = getValueWrapper(track.Album, UnknownStringType.Album).trim();
                 mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
-                mAlbumArtist = getValueWrapper(track.AlbumArtist, UnknownStringType.AlbumArtist).trim();
+                mAlbumArtist = track.AlbumArtist;
                 mArtworkURL = track.ArtworkURL;
                 mNowPlaying = track.NowPlaying;
                 if (!TextUtils.isEmpty(track.TrackNumber)) {
@@ -237,7 +237,7 @@ public class Media implements Comparable<Media> {
         mArtist = getValueWrapper(artist, UnknownStringType.Artist);
         mGenre = getValueWrapper(genre, UnknownStringType.Genre);
         mAlbum = getValueWrapper(album, UnknownStringType.Album);
-        mAlbumArtist = getValueWrapper(albumArtist, UnknownStringType.AlbumArtist);
+        mAlbumArtist = albumArtist;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
     }
@@ -425,18 +425,11 @@ public class Media implements Comparable<Media> {
     }
 
     public String getReferenceArtist() {
-        if (isAlbumArtistUnknown())
-            return mArtist;
-        else
-            return mAlbumArtist;
+        return mAlbumArtist == null ? mArtist : mAlbumArtist;
     }
 
     public String getArtist() {
         return mArtist;
-    }
-
-    public Boolean isAlbumArtistUnknown() {
-        return (mAlbumArtist.equals(getValueWrapper(null, UnknownStringType.AlbumArtist)));
     }
 
     public Boolean isArtistUnknown() {
