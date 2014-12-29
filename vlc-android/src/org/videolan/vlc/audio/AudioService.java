@@ -1322,6 +1322,7 @@ public class AudioService extends Service {
         @Override
         public void remove(int position) {
             mLibVLC.getMediaList().remove(position);
+            AudioService.this.saveMediaList();
         }
 
         @Override
