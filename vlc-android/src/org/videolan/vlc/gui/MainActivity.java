@@ -487,7 +487,7 @@ public class MainActivity extends ActionBarActivity {
         return mSidebarAdapter.fetchFragment(id);
     }
 
-    private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment) {
+    private static void ShowFragment(FragmentActivity activity, String tag, Fragment fragment, String previous) {
         if (fragment == null) {
             Log.e(TAG, "Cannot show a null fragment, ShowFragment("+tag+") aborted.");
             return;
@@ -508,7 +508,7 @@ public class MainActivity extends ActionBarActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_leave_left, R.anim.anim_enter_left, R.anim.anim_leave_right);
         ft.replace(R.id.fragment_placeholder, fragment, tag);
-        ft.addToBackStack(tag);
+        ft.addToBackStack(previous);
         ft.commit();
     }
 
@@ -562,7 +562,7 @@ public class MainActivity extends ActionBarActivity {
 
         mCurrentFragment = fragmentTag;
         Fragment frag = fetchSecondaryFragment(mCurrentFragment);
-        ShowFragment(this, mCurrentFragment, frag);
+        ShowFragment(this, mCurrentFragment, frag, mPreviousFragment);
         return frag;
     }
 
@@ -570,8 +570,7 @@ public class MainActivity extends ActionBarActivity {
      * Hide the current secondary fragment.
      */
     public void popSecondaryFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getSupportFragmentManager().popBackStackImmediate();
         mCurrentFragment = mPreviousFragment;
     }
 
