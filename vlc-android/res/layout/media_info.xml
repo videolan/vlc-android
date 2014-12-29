@@ -5,44 +5,63 @@
     android:background="@color/white"
     android:orientation="vertical" >
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/image_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="25dp"
-            android:scaleType="fitCenter" />
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="25dp"
+                android:scaleType="fitCenter" />
 
-        <ImageButton
-            android:id="@+id/play"
-            android:layout_width="50dip"
-            android:layout_height="50dip"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/ic_play_circle_big_o"
-            android:visibility="invisible" />
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="bottom|right"
+                android:layout_marginRight="10dip"
+                android:background="@drawable/ic_play_circle_big_o"
+                android:visibility="invisible" />
 
+            <TextView
+                android:id="@+id/length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:layout_marginLeft="10dip"
+                android:layout_marginBottom="25dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
+                android:visibility="invisible"  />
+        </FrameLayout>
         <TextView
-            android:id="@+id/length"
+            android:id="@+id/size_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:layout_marginLeft="10dip"
-            android:layout_marginBottom="25dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/white"
-            android:visibility="invisible"  />
-    </FrameLayout>
+            android:text="@string/file_size"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/image_container"/>
+        <TextView
+            android:id="@+id/size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_container"
+            android:layout_toRightOf="@+id/size_title"/>
+    </RelativeLayout>
 
     <ListView
         android:id="@id/android:list"

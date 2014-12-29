@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 
 import org.videolan.libvlc.LibVLC;
@@ -37,6 +38,7 @@ import org.videolan.vlc.util.WeakHandler;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -54,14 +56,18 @@ import android.widget.TextView;
 public class MediaInfoFragment extends ListFragment {
 
     public final static String TAG = "VLC/MediaInfoFragment";
+    LibVLC mLibVlc = null;
+
     private Media mItem;
     private Bitmap mImage;
     private TextView mLengthView;
+    private TextView mSizeView;
     private ImageButton mPlayButton;
     private TrackInfo[] mTracks;
     private MediaInfoAdapter mAdapter;
     private final static int NEW_IMAGE = 0;
     private final static int NEW_TEXT = 1;
+    private final static int NEW_SIZE = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class MediaInfoFragment extends ListFragment {
         View v = inflater.inflate(R.layout.media_info, container, false);
 
         mLengthView = (TextView) v.findViewById(R.id.length);
+        mSizeView = (TextView) v.findViewById(R.id.size_value);
         mPlayButton = (ImageButton) v.findViewById(R.id.play);
 
         mPlayButton.setOnClickListener(new OnClickListener() {
@@ -97,6 +104,7 @@ public class MediaInfoFragment extends ListFragment {
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
 
         new Thread(mLoadImage).start();
+        new Thread(mLoadSize).start();
     }
 
     public void setMediaLocation(String MRL) {
@@ -105,10 +113,18 @@ public class MediaInfoFragment extends ListFragment {
         mItem = MediaLibrary.getInstance().getMediaItem(MRL);
     }
 
+    Runnable mLoadSize = new Runnable() {
+        @Override
+        public void run() {
+            File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
+            long length = itemFile.length();
+            mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
+        }
+    };
+
     Runnable mLoadImage = new Runnable() {
         @Override
         public void run() {
-            LibVLC mLibVlc = null;
             try {
                 mLibVlc = VLCInstance.getLibVlcInstance();
             } catch (LibVlcException e) {
@@ -166,10 +182,15 @@ public class MediaInfoFragment extends ListFragment {
             if (track.Type != TrackInfo.TYPE_META)
                 mAdapter.add(track);
         }
-        if (mAdapter.isEmpty())
-            ((MainActivity)getActivity()).popSecondaryFragment();
+        if (mAdapter.isEmpty()) {
+            ((MainActivity) getActivity()).popSecondaryFragment();
+            return;
+        }
     }
 
+    private void updateSize(Long size){
+        mSizeView.setText(Strings.readableFileSize(size.longValue()));
+    }
     private Handler mHandler = new MediaInfoHandler(this);
 
     private static class MediaInfoHandler extends WeakHandler<MediaInfoFragment> {
@@ -179,15 +200,18 @@ public class MediaInfoFragment extends ListFragment {
 
         @Override
         public void handleMessage(Message msg) {
-            MediaInfoFragment activity = getOwner();
-            if(activity == null) return;
+            MediaInfoFragment fragment = getOwner();
+            if(fragment == null) return;
 
             switch (msg.what) {
                 case NEW_IMAGE:
-                    activity.updateImage();
+                    fragment.updateImage();
                     break;
                 case NEW_TEXT:
-                    activity.updateText();
+                    fragment.updateText();
+                    break;
+                case NEW_SIZE:
+                    fragment.updateSize((Long) msg.obj);
                     break;
             }
         };

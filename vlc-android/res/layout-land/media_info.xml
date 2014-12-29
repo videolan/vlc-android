@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:background="@color/white" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:background="@color/white" >
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <FrameLayout
-            android:layout_width="0dp"
+            android:id="@+id/image_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_alignParentTop="true">
 
             <ProgressBar
                 style="?android:attr/progressBarStyleLarge"
@@ -50,17 +52,29 @@
                 android:textColor="@color/white"
                 android:visibility="invisible"  />
         </FrameLayout>
-        <ListView
-            android:id="@id/android:list"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:cacheColorHint="#00000000"
-            android:clipToPadding="false"
-            android:divider="#00000000"
-            android:fastScrollEnabled="true"
-            android:listSelector="@android:color/transparent"
-            android:paddingBottom="@dimen/listview_bottom_padding" />
-</LinearLayout>
-
+        <TextView
+            android:id="@+id/size_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/file_size"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/image_container"/>
+        <TextView
+            android:id="@+id/size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_container"
+            android:layout_toRightOf="@+id/size_title"/>
+    </RelativeLayout>
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:clipToPadding="false"
+        android:divider="#00000000"
+        android:fastScrollEnabled="true"
+        android:listSelector="@android:color/transparent"
+        android:paddingBottom="@dimen/listview_bottom_padding" />
 </LinearLayout>
