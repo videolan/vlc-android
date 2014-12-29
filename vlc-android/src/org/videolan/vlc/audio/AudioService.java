@@ -1317,6 +1317,7 @@ public class AudioService extends Service {
         @Override
         public void moveItem(int positionStart, int positionEnd) throws RemoteException {
             mLibVLC.getMediaList().move(positionStart, positionEnd);
+            AudioService.this.saveMediaList();
         }
 
         @Override
@@ -1328,6 +1329,7 @@ public class AudioService extends Service {
         @Override
         public void removeLocation(String location) {
             mLibVLC.getMediaList().remove(location);
+            AudioService.this.saveMediaList();
         }
 
         @Override
