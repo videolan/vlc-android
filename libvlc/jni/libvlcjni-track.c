@@ -132,8 +132,6 @@ jobjectArray read_track_info_internal(JNIEnv *env, jobject thiz, libvlc_media_t*
     libvlc_media_track_t **p_tracks;
 
     int i_nbTracks = libvlc_media_tracks_get(p_m, &p_tracks);
-    if (i_nbTracks == 0)
-        return NULL;
 
     jobjectArray array = (*env)->NewObjectArray(env, i_nbTracks + 1, cls, NULL);
 
