@@ -26,6 +26,7 @@ java-libs/appcompat/.project
 
 # Android Studio
 .idea
+*.iml
 
 #gradle
 gradle.properties
