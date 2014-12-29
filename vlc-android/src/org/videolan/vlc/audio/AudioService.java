@@ -69,6 +69,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadataRetriever;
@@ -762,8 +763,7 @@ public class AudioService extends Service {
                 PendingIntent piStop = PendingIntent.getBroadcast(this, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification);
-                if (cover != null)
-                    view.setImageViewBitmap(R.id.cover, cover);
+                view.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
                 view.setImageViewResource(R.id.play_pause, mLibVLC.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
@@ -773,8 +773,7 @@ public class AudioService extends Service {
                 view.setOnClickPendingIntent(R.id.content, pendingIntent);
 
                 RemoteViews view_expanded = new RemoteViews(getPackageName(), R.layout.notification_expanded);
-                if (cover != null)
-                    view_expanded.setImageViewBitmap(R.id.cover, cover);
+                view_expanded.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);
                 view_expanded.setTextViewText(R.id.album, album);
@@ -792,7 +791,7 @@ public class AudioService extends Service {
                 notification.bigContentView = view_expanded;
             }
             else {
-                builder.setLargeIcon(cover)
+                builder.setLargeIcon(cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover)
                        .setContentTitle(title)
                         .setContentText(LibVlcUtil.isJellyBeanOrLater() ? artist
                                         : media.getSubtitle())
