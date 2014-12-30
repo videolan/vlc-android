@@ -134,6 +134,8 @@ public class Media implements Comparable<Media> {
 //    public final static int libvlc_meta_Episode     = 20;
 //    public final static int libvlc_meta_ShowName    = 21;
 //    public final static int libvlc_meta_Actors      = 22;
+//    public final static int libvlc_meta_AlbumArtist = 23;
+//    public final static int libvlc_meta_DiscNumber  = 24;
 
     private final String mLocation;
     private String mFilename;
