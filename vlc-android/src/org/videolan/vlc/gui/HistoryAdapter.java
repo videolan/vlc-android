@@ -27,6 +27,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.content.Context;
@@ -99,7 +100,7 @@ public class HistoryAdapter extends BaseAdapter {
 
         Log.d(TAG, "Loading media position " + position + " - " + m.getTitle());
         holder.title.setText(m.getTitle());
-        holderText = m.getSubtitle();
+        holderText = Util.getMediaSubtitle(VLCApplication.getAppContext(), m);
 
         holder.text.setText(holderText);
         Bitmap b = AudioUtil.getCover(VLCApplication.getAppContext(), m, 64);

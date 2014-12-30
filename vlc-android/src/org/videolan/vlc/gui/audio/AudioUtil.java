@@ -180,8 +180,8 @@ public class AudioUtil {
             return Uri.decode(artworkURL).replace("file://", "");
         } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
             // Decode if the album art is embedded in the file
-            String mArtist = media.getArtist();
-            String mAlbum = media.getAlbum();
+            String mArtist = Util.getMediaArtist(context, media);
+            String mAlbum = Util.getMediaAlbum(context, media);
 
             /* Parse decoded attachment */
             if( mArtist.length() == 0 || mAlbum.length() == 0 ||
@@ -237,7 +237,7 @@ public class AudioUtil {
 
         try {
             // try to load from cache
-            int hash = MurmurHash.hash32(media.getArtist()+media.getAlbum());
+            int hash = MurmurHash.hash32(Util.getMediaArtist(context, media)+Util.getMediaAlbum(context, media));
             cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
 
             // try to get the cover from the LRUCache first

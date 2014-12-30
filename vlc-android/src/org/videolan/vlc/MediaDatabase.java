@@ -51,7 +51,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 11;
+    private final int DB_VERSION = 12;
     private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
@@ -467,6 +467,13 @@ public class MediaDatabase {
         return true;
     }
 
+    private static void safePut(ContentValues values, String key, String value) {
+        if (value == null)
+            values.putNull(key);
+        else
+            values.put(key, value);
+    }
+
     /**
      * Add a new media to the database. The picture can only added by update.
      * @param media which you like to add to the database
@@ -480,10 +487,10 @@ public class MediaDatabase {
         values.put(MEDIA_LENGTH, media.getLength());
         values.put(MEDIA_TYPE, media.getType());
         values.put(MEDIA_TITLE, media.getTitle());
-        values.put(MEDIA_ARTIST, media.getArtist());
-        values.put(MEDIA_GENRE, media.getGenre());
-        values.put(MEDIA_ALBUM, media.getAlbum());
-        values.put(MEDIA_ALBUMARTIST, media.getAlbumArtist());
+        safePut(values, MEDIA_ARTIST, media.getArtist());
+        safePut(values, MEDIA_GENRE, media.getGenre());
+        safePut(values, MEDIA_ALBUM, media.getAlbum());
+        safePut(values, MEDIA_ALBUMARTIST, media.getAlbumArtist());
         values.put(MEDIA_WIDTH, media.getWidth());
         values.put(MEDIA_HEIGHT, media.getHeight());
         values.put(MEDIA_ARTWORKURL, media.getArtworkURL());

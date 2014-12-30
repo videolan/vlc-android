@@ -32,6 +32,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.FlingViewGroup;
 
@@ -355,9 +356,9 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                     public void run() {
                         for (int i = 0; i < mediaList.size(); ++i) {
                             Media media = mediaList.get(i);
-                            mAlbumsAdapter.addSeparator(media.getReferenceArtist(), media);
-                            mAlbumsAdapter.add(media.getAlbum(), null, media);
-                            mSongsAdapter.addSeparator(media.getAlbum(), media);
+                            mAlbumsAdapter.addSeparator(Util.getMediaReferenceArtist(activity, media), media);
+                            mAlbumsAdapter.add(Util.getMediaAlbum(activity, media), null, media);
+                            mSongsAdapter.addSeparator(Util.getMediaAlbum(activity, media), media);
                         }
                         mSongsAdapter.sortByAlbum();
                         mAlbumsAdapter.notifyDataSetChanged();

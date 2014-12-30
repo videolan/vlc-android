@@ -109,7 +109,7 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
 
         Media media = getItem(position);
         final String title = media.getTitle();
-        final String artist = media.getSubtitle();
+        final String artist = Util.getMediaSubtitle(mContext, media);
         final int pos = position;
         final View itemView = v;
 

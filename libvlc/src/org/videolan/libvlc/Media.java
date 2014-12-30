@@ -20,8 +20,6 @@
 
 package org.videolan.libvlc;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -169,10 +167,10 @@ public class Media implements Comparable<Media> {
     private void extractTrackInfo(TrackInfo[] tracks) {
         if (tracks == null) {
             mTitle = null;
-            mArtist = getValueWrapper(null, UnknownStringType.Artist).trim();
-            mAlbum = getValueWrapper(null, UnknownStringType.Album).trim();
-            mGenre = getValueWrapper(null, UnknownStringType.Genre).trim();
-            mAlbumArtist = getValueWrapper(null, UnknownStringType.AlbumArtist).trim();
+            mArtist = null;
+            mAlbum = null;
+            mGenre = null;
+            mAlbumArtist = null;
             return;
         }
 
@@ -186,10 +184,10 @@ public class Media implements Comparable<Media> {
             } else if (track.Type == TrackInfo.TYPE_META) {
                 mLength = track.Length;
                 mTitle = track.Title != null ? track.Title.trim() : null;
-                mArtist = getValueWrapper(track.Artist, UnknownStringType.Artist).trim();
-                mAlbum = getValueWrapper(track.Album, UnknownStringType.Album).trim();
-                mGenre = getValueWrapper(track.Genre, UnknownStringType.Genre).trim();
-                mAlbumArtist = track.AlbumArtist;
+                mArtist = track.Artist != null ? track.Artist.trim() : null;
+                mAlbum = track.Album != null ? track.Album.trim() : null;
+                mGenre = track.Genre != null ? track.Genre.trim() : null;
+                mAlbumArtist = track.AlbumArtist != null ? track.AlbumArtist.trim() : null;
                 mArtworkURL = track.ArtworkURL;
                 mNowPlaying = track.NowPlaying;
                 if (!TextUtils.isEmpty(track.TrackNumber)) {
@@ -234,72 +232,12 @@ public class Media implements Comparable<Media> {
         mHeight = height;
 
         mTitle = title;
-        mArtist = getValueWrapper(artist, UnknownStringType.Artist);
-        mGenre = getValueWrapper(genre, UnknownStringType.Genre);
-        mAlbum = getValueWrapper(album, UnknownStringType.Album);
+        mArtist = artist;
+        mGenre = genre;
+        mAlbum = album;
         mAlbumArtist = albumArtist;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
-    }
-
-    private enum UnknownStringType { Artist , Genre, Album, AlbumArtist };
-    /**
-     * Uses introspection to read VLC l10n databases, so that we can sever the
-     * hard-coded dependency gracefully for 3rd party libvlc apps while still
-     * maintaining good l10n in VLC for Android.
-     *
-     * @see org.videolan.vlc.util.Util#getValue(String, int)
-     *
-     * @param string The default string
-     * @param type Alias for R.string.xxx
-     * @return The default string if not empty or string from introspection
-     */
-    private static String getValueWrapper(String string, UnknownStringType type) {
-        if(string != null && string.length() > 0) return string;
-
-        try {
-            Class<?> stringClass = Class.forName("org.videolan.vlc.R$string");
-            Class<?> utilClass = Class.forName("org.videolan.vlc.Util");
-
-            Integer value;
-            switch(type) {
-            case Album:
-                value = (Integer)stringClass.getField("unknown_album").get(null);
-                break;
-            case Genre:
-                value = (Integer)stringClass.getField("unknown_genre").get(null);
-                break;
-            case AlbumArtist:
-                value = (Integer)stringClass.getField("unknown_artist").get(null);
-                break;
-            case Artist:
-            default:
-                value = (Integer)stringClass.getField("unknown_artist").get(null);
-                break;
-            }
-
-            Method getValueMethod = utilClass.getDeclaredMethod("getValue", String.class, Integer.TYPE);
-            // Util.getValue(string, R.string.xxx);
-            return (String) getValueMethod.invoke(null, string, value);
-        } catch (ClassNotFoundException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {
-        } catch (NoSuchFieldException e) {
-        } catch (NoSuchMethodException e) {
-        } catch (InvocationTargetException e) {
-        }
-
-        // VLC for Android translations not available (custom app perhaps)
-        // Use hardcoded English phrases.
-        switch(type) {
-        case Album:
-            return "Unknown Album";
-        case Genre:
-            return "Unknown Genre";
-        case Artist:
-        default:
-            return "Unknown Artist";
-        }
     }
 
     /**
@@ -317,9 +255,9 @@ public class Media implements Comparable<Media> {
 
     public void updateMeta(LibVLC libVLC) {
         mTitle = libVLC.getMeta(libvlc_meta_Title);
-        mArtist = getValueWrapper(libVLC.getMeta(libvlc_meta_Artist), UnknownStringType.Artist);
-        mGenre = getValueWrapper(libVLC.getMeta(libvlc_meta_Genre), UnknownStringType.Genre);
-        mAlbum = getValueWrapper(libVLC.getMeta(libvlc_meta_Album), UnknownStringType.Album);
+        mArtist = libVLC.getMeta(libvlc_meta_Artist);
+        mGenre = libVLC.getMeta(libvlc_meta_Genre);
+        mAlbum = libVLC.getMeta(libvlc_meta_Album);
         mNowPlaying = libVLC.getMeta(libvlc_meta_NowPlaying);
         mArtworkURL = libVLC.getMeta(libvlc_meta_ArtworkURL);
     }
@@ -416,14 +354,6 @@ public class Media implements Comparable<Media> {
         }
     }
 
-    public String getSubtitle() {
-        return mType != TYPE_VIDEO ?
-                mNowPlaying != null ?
-                        mNowPlaying
-                        : mArtist + " - " + mAlbum
-                : "";
-    }
-
     public String getReferenceArtist() {
         return mAlbumArtist == null ? mArtist : mAlbumArtist;
     }
@@ -433,13 +363,13 @@ public class Media implements Comparable<Media> {
     }
 
     public Boolean isArtistUnknown() {
-        return (mArtist.equals(getValueWrapper(null, UnknownStringType.Artist)));
+        return mArtist == null;
     }
 
     public String getGenre() {
-        if(getValueWrapper(null, UnknownStringType.Genre).equals(mGenre))
-            return mGenre;
-        else if( mGenre.length() > 1)/* Make genres case insensitive via normalisation */
+        if (mGenre == null)
+            return null;
+        else if (mGenre.length() > 1)/* Make genres case insensitive via normalisation */
             return Character.toUpperCase(mGenre.charAt(0)) + mGenre.substring(1).toLowerCase(Locale.getDefault());
         else
             return mGenre;
@@ -458,7 +388,7 @@ public class Media implements Comparable<Media> {
     }
 
     public Boolean isAlbumUnknown() {
-        return (mAlbum.equals(getValueWrapper(null, UnknownStringType.Album)));
+        return mAlbum == null;
     }
 
     public int getTrackNumber() {

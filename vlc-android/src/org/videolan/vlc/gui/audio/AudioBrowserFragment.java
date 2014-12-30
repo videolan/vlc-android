@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.FlingViewGroup;
@@ -305,7 +306,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
             MainActivity activity = (MainActivity)getActivity();
             AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             if (frag != null) {
-                frag.setMediaList(mediaList, mediaList.get(0).getArtist());
+                frag.setMediaList(mediaList, Util.getMediaArtist(activity, mediaList.get(0)));
             }
         }
     };
@@ -325,7 +326,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
             MainActivity activity = (MainActivity)getActivity();
             AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             if (frag != null) {
-                frag.setMediaList(mediaList, mediaList.get(0).getGenre());
+                frag.setMediaList(mediaList, Util.getMediaGenre(activity, mediaList.get(0)));
             }
         }
     };

@@ -54,6 +54,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -730,8 +731,8 @@ public class AudioService extends Service {
                 return;
             Bitmap cover = AudioUtil.getCover(this, media, 64);
             String title = media.getTitle();
-            String artist = media.getArtist();
-            String album = media.getAlbum();
+            String artist = Util.getMediaArtist(this, media);
+            String album = Util.getMediaAlbum(this, media);
             Notification notification;
 
             if (media.isArtistUnknown() && media.isAlbumUnknown() && media.getNowPlaying() != null) {
@@ -794,7 +795,7 @@ public class AudioService extends Service {
                 builder.setLargeIcon(cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover)
                        .setContentTitle(title)
                         .setContentText(LibVlcUtil.isJellyBeanOrLater() ? artist
-                                        : media.getSubtitle())
+                                        : Util.getMediaSubtitle(this, media))
                        .setContentInfo(album)
                        .setContentIntent(pendingIntent);
                 notification = builder.build();
@@ -949,10 +950,10 @@ public class AudioService extends Service {
                 editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, media.getNowPlaying());
             } else {
                 editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, "");
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, media.getAlbum());
-                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, media.getArtist());
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, Util.getMediaAlbum(this, media));
+                editor.putString(MediaMetadataRetriever.METADATA_KEY_ARTIST, Util.getMediaArtist(this, media));
             }
-            editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, media.getGenre());
+            editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, Util.getMediaGenre(this, media));
             editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
             // Copy the cover bitmap because the RemonteControlClient can recycle its artwork bitmap.
@@ -964,8 +965,8 @@ public class AudioService extends Service {
         //Send metadata to Pebble watch
         if (mPebbleEnabled) {
             final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
-            i.putExtra("artist", media.getArtist());
-            i.putExtra("album", media.getAlbum());
+            i.putExtra("artist", Util.getMediaArtist(this, media));
+            i.putExtra("album", Util.getMediaAlbum(this, media));
             i.putExtra("track", media.getTitle());
             sendBroadcast(i);
         }
@@ -1052,25 +1053,26 @@ public class AudioService extends Service {
         @Override
         public String getAlbum() throws RemoteException {
             if (hasCurrentMedia())
-                return getCurrentMedia().getAlbum();
+                return Util.getMediaAlbum(AudioService.this, getCurrentMedia());
             else
                 return null;
         }
 
         @Override
         public String getArtist() throws RemoteException {
-            if (hasCurrentMedia())
-                return getCurrentMedia().isArtistUnknown() && getCurrentMedia().getNowPlaying() != null ?
-                        getCurrentMedia().getNowPlaying()
-                        : getCurrentMedia().getArtist();
-            else
+            if (hasCurrentMedia()) {
+                final Media media = getCurrentMedia();
+                return media.isArtistUnknown() && media.getNowPlaying() != null ?
+                        media.getNowPlaying()
+                        : Util.getMediaArtist(AudioService.this, media);
+            } else
                 return null;
         }
 
         @Override
         public String getArtistPrev() throws RemoteException {
             if (mPrevIndex != -1)
-                return mLibVLC.getMediaList().getMedia(mPrevIndex).getArtist();
+                return Util.getMediaArtist(AudioService.this, mLibVLC.getMediaList().getMedia(mPrevIndex));
             else
                 return null;
         }
@@ -1078,7 +1080,7 @@ public class AudioService extends Service {
         @Override
         public String getArtistNext() throws RemoteException {
             if (mNextIndex != -1)
-                return mLibVLC.getMediaList().getMedia(mNextIndex).getArtist();
+                return Util.getMediaArtist(AudioService.this, mLibVLC.getMediaList().getMedia(mNextIndex));
             else
                 return null;
         }
@@ -1410,10 +1412,11 @@ public class AudioService extends Service {
         i.setAction(ACTION_WIDGET_UPDATE);
 
         if (hasCurrentMedia()) {
-            i.putExtra("title", getCurrentMedia().getTitle());
-            i.putExtra("artist", getCurrentMedia().isArtistUnknown() && getCurrentMedia().getNowPlaying() != null ?
-                    getCurrentMedia().getNowPlaying()
-                    : getCurrentMedia().getArtist());
+            final Media media = getCurrentMedia();
+            i.putExtra("title", media.getTitle());
+            i.putExtra("artist", media.isArtistUnknown() && media.getNowPlaying() != null ?
+                    media.getNowPlaying()
+                    : Util.getMediaArtist(this, media));
         }
         else {
             i.putExtra("title", context.getString(R.string.widget_name));

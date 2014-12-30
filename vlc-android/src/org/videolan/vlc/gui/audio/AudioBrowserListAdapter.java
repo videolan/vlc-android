@@ -132,23 +132,24 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 for (Media media : list) {
                     switch (type){
                         case TYPE_ALBUMS:
-                            title = media.getAlbum();
-                            subTitle = media.getReferenceArtist();
+                            title = Util.getMediaAlbum(mContext, media);
+                            subTitle = Util.getMediaReferenceArtist(mContext, media);
                             break;
                         case TYPE_ARTISTS:
-                            title = media.getReferenceArtist();
+                            title = Util.getMediaReferenceArtist(mContext, media);
                             subTitle = null;
                             break;
                         case TYPE_GENRES:
-                            title = media.getGenre();
+                            title = Util.getMediaGenre(mContext, media);
                             subTitle = null;
                             break;
                         case TYPE_SONGS:
                         default:
                             title = media.getTitle();
-                            subTitle = media.getArtist();
+                            subTitle = Util.getMediaArtist(mContext, media);
                     }
-                    if (title == null) return;
+                    if (title == null)
+                        continue;
                     title = title.trim();
                     if (subTitle != null) subTitle = subTitle.trim();
                     if (mMediaItemMap.containsKey(title))
