@@ -25,17 +25,27 @@ import org.videolan.libvlc.Media;
 
 public class MediaComparators {
 
+    private static int nullInsensitiveStringCompare(final String s1, final String s2) {
+        if (s1 == null ^ s2 == null)
+            return s1 == null ? -1 : 1;
+
+        if (s1 == null && s2 == null)
+            return 0;
+
+        return String.CASE_INSENSITIVE_ORDER.compare(s1, s2);
+    }
+
     public static final Comparator<Media> byName = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getTitle(), m2.getTitle());
+            return nullInsensitiveStringCompare(m1.getTitle(), m2.getTitle());
         };
     };
 
     public static final Comparator<Media> byMRL = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            return String.CASE_INSENSITIVE_ORDER.compare(m1.getLocation(), m2.getLocation());
+            return nullInsensitiveStringCompare(m1.getLocation(), m2.getLocation());
         };
     };
 
@@ -51,7 +61,7 @@ public class MediaComparators {
     public static final Comparator<Media> byAlbum = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getAlbum(), m2.getAlbum());
+            int res = nullInsensitiveStringCompare(m1.getAlbum(), m2.getAlbum());
             if (res == 0)
                 res = byMRL.compare(m1, m2);
             return res;
@@ -61,7 +71,7 @@ public class MediaComparators {
     public static final Comparator<Media> byArtist = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getReferenceArtist(), m2.getReferenceArtist());
+            int res = nullInsensitiveStringCompare(m1.getReferenceArtist(), m2.getReferenceArtist());
             if (res == 0)
                 res = byAlbum.compare(m1, m2);
             return res;
@@ -71,7 +81,7 @@ public class MediaComparators {
     public static final Comparator<Media> byGenre = new Comparator<Media>() {
         @Override
         public int compare(Media m1, Media m2) {
-            int res = String.CASE_INSENSITIVE_ORDER.compare(m1.getGenre(), m2.getGenre());
+            int res = nullInsensitiveStringCompare(m1.getGenre(), m2.getGenre());
             if (res == 0)
                 res = byArtist.compare(m1, m2);
             return res;
