@@ -27,7 +27,7 @@ import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class Media implements Comparable<Media> {
+public class Media {
     public final static String TAG = "VLC/LibVLC/Media";
 
     public final static HashSet<String> VIDEO_EXTENSIONS;
@@ -209,15 +209,6 @@ public class Media implements Comparable<Media> {
         mAlbumArtist = albumArtist;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
-    }
-
-    /**
-     * Compare the filenames to sort items
-     */
-    @Override
-    public int compareTo(Media another) {
-        return getTitle().toUpperCase(Locale.getDefault()).compareTo(
-                another.getTitle().toUpperCase(Locale.getDefault()));
     }
 
     public String getLocation() {
