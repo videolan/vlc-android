@@ -56,18 +56,18 @@ public class HistoryAdapter extends BaseAdapter {
             return;
         }
 
-        EventHandler em = mLibVLC.getPrimaryMediaList().getEventHandler();
+        EventHandler em = mLibVLC.getMediaList().getEventHandler();
         em.addHandler(new HistoryEventHandler(this));
     }
 
     @Override
     public int getCount() {
-        return mLibVLC.getPrimaryMediaList().size();
+        return mLibVLC.getMediaList().size();
     }
 
     @Override
     public Object getItem(int arg0) {
-        return mLibVLC.getPrimaryMediaList().getMRL(arg0);
+        return mLibVLC.getMediaList().getMRL(arg0);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class HistoryAdapter extends BaseAdapter {
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
 
         String holderText = "";
-        Media m = mLibVLC.getPrimaryMediaList().getMedia(position);
+        Media m = mLibVLC.getMediaList().getMedia(position);
         if (m == null )
             return v;
 

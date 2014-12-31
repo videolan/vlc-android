@@ -115,7 +115,6 @@ public class HistoryFragment extends ListFragment implements IBrowser, IRefresha
     private void playListIndex(int position) {
         AudioServiceController audioController = AudioServiceController.getInstance();
 
-        LibVLC.getExistingInstance().setMediaList();
         audioController.playIndex(position);
     }
 
@@ -132,7 +131,7 @@ public class HistoryFragment extends ListFragment implements IBrowser, IRefresha
             playListIndex(info.position);
             return true;
         } else if(id == R.id.history_view_delete) {
-            LibVLC.getExistingInstance().getPrimaryMediaList().remove(info.position);
+            LibVLC.getExistingInstance().getMediaList().remove(info.position);
             mHistoryAdapter.refresh();
             return true;
         }

@@ -2331,11 +2331,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             updateNavStatus();
         } else if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mLibVLC.setMediaList();
             mLibVLC.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mLibVLC.setMediaList();
             mLibVLC.getMediaList().add(new Media(mLibVLC, mLocation));
             savedIndexPosition = mLibVLC.getMediaList().size() - 1;
             mLibVLC.playIndex(savedIndexPosition);

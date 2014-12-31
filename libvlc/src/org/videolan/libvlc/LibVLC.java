@@ -68,7 +68,6 @@ public class LibVLC {
     private long mInternalMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
     private MediaList mMediaList; // Pointer to media list being followed
-    private MediaList mPrimaryList; // Primary/default media list; see getPrimaryMediaList()
 
     /** Buffer for VLC messages */
     private StringBuffer mDebugLogBuffer;
@@ -219,40 +218,6 @@ public class LibVLC {
      */
     public MediaList getMediaList() {
         return mMediaList;
-    }
-
-    /**
-     * Set the media list for LibVLC to follow.
-     *
-     * @param mediaList The media list object to follow
-     */
-    public void setMediaList(MediaList mediaList) {
-        mMediaList = mediaList;
-    }
-
-    /**
-     * Sets LibVLC to follow the default media list (see below)
-     */
-    public void setMediaList() {
-        mMediaList = mPrimaryList;
-    }
-
-    /**
-     * Gets the primary media list, or the "currently playing" list.
-     * Not to be confused with the media list pointer from above, which
-     * refers the the MediaList object that libVLC is currently following.
-     * This list is just one out of many lists that it can be pointed towards.
-     *
-     * This list will be used for lists of songs that are not user-defined.
-     * For example: selecting a song from the Songs list, or from the list
-     * displayed after selecting an album.
-     *
-     * It is loaded as the default list.
-     *
-     * @return The primary media list
-     */
-    public MediaList getPrimaryMediaList() {
-        return mPrimaryList;
     }
 
     /**
@@ -539,7 +504,7 @@ public class LibVLC {
             File cacheDir = context.getCacheDir();
             mCachePath = (cacheDir != null) ? cacheDir.getAbsolutePath() : null;
             nativeInit();
-            mMediaList = mPrimaryList = new MediaList(this);
+            mMediaList = new MediaList(this);
             setEventHandler(EventHandler.getInstance());
             mIsInitialized = true;
         }

@@ -1183,8 +1183,7 @@ public class AudioService extends Service {
             mEventHandler.addHandler(mVlcEventHandler);
 
             mLibVLC.getMediaList().getEventHandler().removeHandler(mListEventHandler);
-            mLibVLC.setMediaList();
-            mLibVLC.getPrimaryMediaList().clear();
+            mLibVLC.getMediaList().clear();
             MediaList mediaList = mLibVLC.getMediaList();
 
             mPrevious.clear();
