@@ -1201,7 +1201,9 @@ public class AudioService extends Service {
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
                     media = new Media(mLibVLC, location);
                 }
-                mediaList.add(media, noVideo);
+                if (noVideo)
+                    media.addFlags(Media.FLAG_NO_VIDEO);
+                mediaList.add(media);
             }
 
             if (mLibVLC.getMediaList().size() == 0) {

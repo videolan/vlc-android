@@ -30,29 +30,15 @@ import android.os.Bundle;
 public class MediaList {
     private static final String TAG = "VLC/LibVLC/MediaList";
 
-    /* Since the libvlc_media_t is not created until the media plays, we have
-     * to cache them here. */
-    private static class MediaHolder {
-        Media m;
-        boolean noVideo; // default false
-        boolean noHardwareAcceleration; // default false
-
-        public MediaHolder(Media media) {
-            m = media; noVideo = false; noHardwareAcceleration = false;
-        }
-        public MediaHolder(Media m_, boolean noVideo_, boolean noHardwareAcceleration_) {
-            m = m_; noVideo = noVideo_; noHardwareAcceleration = noHardwareAcceleration_;
-        }
-    }
 
     /* TODO: add locking */
-    private ArrayList<MediaHolder> mInternalList;
+    private ArrayList<Media> mInternalList;
     private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
     private EventHandler mEventHandler;
 
     public MediaList(LibVLC libVLC) {
         mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
-        mInternalList = new ArrayList<MediaHolder>();
+        mInternalList = new ArrayList<Media>();
         mLibVLC = libVLC;
     }
 
@@ -68,14 +54,7 @@ public class MediaList {
         add(new Media(mLibVLC, mrl));
     }
     public void add(Media media) {
-        add(media, false, false);
-    }
-    public void add(Media media, boolean noVideo) {
-        add(media, noVideo, false);
-    }
-    public void add(Media media, boolean noVideo, boolean noHardwareAcceleration) {
-        mInternalList.add(new MediaHolder(media, noVideo, noHardwareAcceleration));
-        signal_list_event(EventHandler.CustomMediaListItemAdded, mInternalList.size() - 1, media.getLocation());
+        mInternalList.add(media);
     }
 
     /**
@@ -84,7 +63,7 @@ public class MediaList {
     public void clear() {
         // Signal to observers of media being deleted.
         for(int i = 0; i < mInternalList.size(); i++) {
-            signal_list_event(EventHandler.CustomMediaListItemDeleted, i, mInternalList.get(i).m.getLocation());
+            signal_list_event(EventHandler.CustomMediaListItemDeleted, i, mInternalList.get(i).getLocation());
         }
         mInternalList.clear();
     }
@@ -128,7 +107,7 @@ public class MediaList {
         insert(position, new Media(mLibVLC, mrl));
     }
     public void insert(int position, Media media) {
-        mInternalList.add(position, new MediaHolder(media));
+        mInternalList.add(position, media);
         signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
     }
 
@@ -144,7 +123,7 @@ public class MediaList {
               && endPosition >= 0 && endPosition <= mInternalList.size()))
             throw new IndexOutOfBoundsException("Indexes out of range");
 
-        MediaHolder toMove = mInternalList.get(startPosition);
+        Media toMove = mInternalList.get(startPosition);
         mInternalList.remove(startPosition);
         if (startPosition >= endPosition)
             mInternalList.add(endPosition, toMove);
@@ -159,14 +138,14 @@ public class MediaList {
     public void remove(int position) {
         if (!isValid(position))
             return;
-        String uri = mInternalList.get(position).m.getLocation();
+        String uri = mInternalList.get(position).getLocation();
         mInternalList.remove(position);
         signal_list_event(EventHandler.CustomMediaListItemDeleted, position, uri);
     }
 
     public void remove(String location) {
         for (int i = 0; i < mInternalList.size(); ++i) {
-            String uri = mInternalList.get(i).m.getLocation();
+            String uri = mInternalList.get(i).getLocation();
             if (uri.equals(location)) {
                 mInternalList.remove(i);
                 signal_list_event(EventHandler.CustomMediaListItemDeleted, i, uri);
@@ -182,7 +161,7 @@ public class MediaList {
     public Media getMedia(int position) {
         if (!isValid(position))
             return null;
-        return mInternalList.get(position).m;
+        return mInternalList.get(position);
     }
 
     /**
@@ -192,19 +171,7 @@ public class MediaList {
     public String getMRL(int position) {
         if (!isValid(position))
             return null;
-        return mInternalList.get(position).m.getLocation();
-    }
-
-    public String[] getMediaOptions(int position) {
-        boolean noHardwareAcceleration = false;
-        boolean noVideo = false;
-        if (isValid(position))
-        {
-            noHardwareAcceleration = mInternalList.get(position).noHardwareAcceleration;
-            noVideo = mInternalList.get(position).noVideo;
-        }
-
-        return mLibVLC.getMediaOptions(noHardwareAcceleration, noVideo);
+        return mInternalList.get(position).getLocation();
     }
 
     public EventHandler getEventHandler() {
