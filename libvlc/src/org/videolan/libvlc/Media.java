@@ -62,6 +62,9 @@ public class Media {
     public final static int TYPE_AUDIO = 1;
     public final static int TYPE_GROUP = 2;
 
+    public final static int FLAG_NO_VIDEO   = 0x01;
+    public final static int FLAG_NO_HWACCEL = 0x02;
+
     /** Metadata from libvlc_media */
     protected String mTitle;
     private String mArtist;
@@ -117,6 +120,7 @@ public class Media {
     private int mHeight = 0;
     private Bitmap mPicture;
     private boolean mIsPictureParsed;
+    private int mFlags = 0;
 
     /**
      * Create a new Media
@@ -392,5 +396,15 @@ public class Media {
 
     public String getArtworkURL() {
         return mArtworkURL;
+    }
+
+    public void addFlags(int flags) {
+        mFlags |= flags;
+    }
+    public void setFlags(int flags) {
+        mFlags = flags;
+    }
+    public int getFlags() {
+        return mFlags;
     }
 }

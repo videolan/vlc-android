@@ -352,6 +352,17 @@ public class LibVLC {
         return options.toArray(new String[options.size()]);
     }
 
+    public String[] getMediaOptions(Media media) {
+        boolean noHardwareAcceleration = false;
+        boolean noVideo = false;
+        if (media != null) {
+            final int flags = media.getFlags();
+            noHardwareAcceleration = (flags & Media.FLAG_NO_HWACCEL) != 0;
+            noVideo = (flags & Media.FLAG_NO_VIDEO) != 0;
+        }
+        return getMediaOptions(noHardwareAcceleration, noVideo); 
+    }
+
     public String getSubtitlesEncoding() {
         return subtitlesEncoding;
     }
