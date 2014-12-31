@@ -42,17 +42,6 @@ public class MediaList {
         mLibVLC = libVLC;
     }
 
-    /**
-     * Adds a media URI to the media list.
-     *
-     * @param mrl
-     *            The MRL to add. Must be a location and not a path.
-     *            {@link LibVLC#PathToURI(String)} can be used to convert a path
-     *            to a MRL.
-     */
-    public void add(String mrl) {
-        add(new Media(mLibVLC, mrl));
-    }
     public void add(Media media) {
         mInternalList.add(media);
     }
@@ -92,15 +81,6 @@ public class MediaList {
             mEventHandler.callback(EventHandler.CustomMediaListExpandingEnd, new Bundle());
         }
         return ret;
-    }
-
-    public void loadPlaylist(String mrl) {
-        ArrayList<String> items = new ArrayList<String>();
-        mLibVLC.loadPlaylist(mrl, items);
-        this.clear();
-        for(String item : items) {
-            this.add(item);
-        }
     }
 
     public void insert(int position, String mrl) {
