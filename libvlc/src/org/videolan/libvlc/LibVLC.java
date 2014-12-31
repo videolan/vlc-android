@@ -849,5 +849,5 @@ public class LibVLC {
 
     /* MediaList */
     protected native void loadPlaylist(String mrl, ArrayList<String> items);
-    protected native int expandMedia(int position, ArrayList<String> children);
+    protected native int expandMedia(ArrayList<String> children);
 }

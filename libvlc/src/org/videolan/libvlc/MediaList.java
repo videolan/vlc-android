@@ -71,7 +71,7 @@ public class MediaList {
      */
     public int expandMedia(int position) {
         ArrayList<String> children = new ArrayList<String>();
-        int ret = mLibVLC.expandMedia(position, children);
+        int ret = mLibVLC.expandMedia(children);
         if(ret == 0) {
             mEventHandler.callback(EventHandler.CustomMediaListExpanding, new Bundle());
             this.remove(position);

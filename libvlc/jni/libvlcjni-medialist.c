@@ -75,7 +75,7 @@ static int expand_media_internal(JNIEnv *env, libvlc_instance_t* p_instance, job
     }
 }
 
-jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz, jint position, jobject children) {
+jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz, jobject children) {
     return (jint)expand_media_internal(env,
         getLibVlcInstance(env, thiz),
         children,
