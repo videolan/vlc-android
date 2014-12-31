@@ -153,13 +153,16 @@ public class AudioUtil {
     }
 
     private static String getCoverFromMediaStore(Context context, Media media) {
+        final String album = media.getAlbum();
+        if (album == null)
+            return null;
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
         Cursor cursor = contentResolver.query(uri, new String[] {
                        MediaStore.Audio.Albums.ALBUM,
                        MediaStore.Audio.Albums.ALBUM_ART },
                        MediaStore.Audio.Albums.ALBUM + " LIKE ?",
-                       new String[] { media.getAlbum() }, null);
+                       new String[] { album }, null);
         if (cursor == null) {
             // do nothing
         } else if (!cursor.moveToFirst()) {
