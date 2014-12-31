@@ -61,6 +61,25 @@ public class MediaLibrary {
     private boolean mRestart = false;
     protected Thread mLoadingThread;
 
+    public final static HashSet<String> FOLDER_BLACKLIST;
+    static {
+        final String[] folder_blacklist = {
+                "/alarms",
+                "/notifications",
+                "/ringtones",
+                "/media/alarms",
+                "/media/notifications",
+                "/media/ringtones",
+                "/media/audio/alarms",
+                "/media/audio/notifications",
+                "/media/audio/ringtones",
+                "/Android/data/" };
+
+        FOLDER_BLACKLIST = new HashSet<String>();
+        for (String item : folder_blacklist)
+            FOLDER_BLACKLIST.add(android.os.Environment.getExternalStorageDirectory().getPath() + item);
+    }
+
     private MediaLibrary() {
         mInstance = this;
         mItemList = new ArrayList<Media>();
@@ -370,7 +389,7 @@ public class MediaLibrary {
         public boolean accept(File f) {
             boolean accepted = false;
             if (!f.isHidden()) {
-                if (f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH))) {
+                if (f.isDirectory() && !FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH))) {
                     accepted = true;
                 } else {
                     String fileName = f.getName().toLowerCase(Locale.ENGLISH);

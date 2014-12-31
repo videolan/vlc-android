@@ -56,7 +56,23 @@ public class DirectoryAdapter extends BaseAdapter {
     private ContextPopupMenuListener mContextPopupMenuListener;
 
     public static boolean acceptedPath(String f) {
-        return Pattern.compile(Media.EXTENSIONS_REGEX, Pattern.CASE_INSENSITIVE).matcher(f).matches();
+        final StringBuilder sb = new StringBuilder();
+        sb.append(".+(\\.)((?i)(");
+        boolean first = true;
+        for (String ext : Media.VIDEO_EXTENSIONS) {
+            if (!first)
+                sb.append('|');
+            else
+                first = false;
+            sb.append(ext.substring(1));
+        }
+        for (String ext : Media.AUDIO_EXTENSIONS) {
+            sb.append('|');
+            sb.append(ext.substring(1));
+        }
+        sb.append("))");
+
+        return Pattern.compile(sb.toString(), Pattern.CASE_INSENSITIVE).matcher(f).matches();
     }
 
     /**

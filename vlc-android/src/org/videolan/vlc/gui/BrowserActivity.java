@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Stack;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
@@ -284,7 +284,7 @@ public class BrowserActivity extends ListActivity {
 
         @Override
         public boolean accept(File f) {
-            return f.isDirectory() && !Media.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH));
+            return f.isDirectory() && !MediaLibrary.FOLDER_BLACKLIST.contains(f.getPath().toLowerCase(Locale.ENGLISH));
         }
     }
 

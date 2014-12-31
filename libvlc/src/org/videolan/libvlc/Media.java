@@ -32,11 +32,9 @@ public class Media implements Comparable<Media> {
 
     public final static HashSet<String> VIDEO_EXTENSIONS;
     public final static HashSet<String> AUDIO_EXTENSIONS;
-    public final static String EXTENSIONS_REGEX;
-    public final static HashSet<String> FOLDER_BLACKLIST;
 
     static {
-        String[] video_extensions = {
+        final String[] video_extensions = {
                 ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".drc", ".dv",
                 ".f4v", ".flv", ".gvi", ".gxf", ".ismv", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts",
                 ".m4v", ".mkv", ".mov", ".mp2", ".mp2v", ".mp4", ".mp4v", ".mpe", ".mpeg",
@@ -44,24 +42,12 @@ public class Media implements Comparable<Media> {
                 ".nsv", ".nut", ".nuv", ".ogm", ".ogv", ".ogx", ".ps", ".rec", ".rm", ".rmvb",
                 ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wm", ".wmv", ".wtv", ".xesc" };
 
-        String[] audio_extensions = {
+        final String[] audio_extensions = {
                 ".3ga", ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr",
                 ".aob", ".ape", ".awb", ".caf", ".dts", ".flac", ".it", ".m4a", ".m4b", ".m4p",
                 ".mid", ".mka", ".mlp", ".mod", ".mpa", ".mp1", ".mp2", ".mp3", ".mpc", ".mpga",
                 ".oga", ".ogg", ".oma", ".opus", ".ra", ".ram", ".rmi", ".s3m", ".spx", ".tta",
                 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
-
-        String[] folder_blacklist = {
-                "/alarms",
-                "/notifications",
-                "/ringtones",
-                "/media/alarms",
-                "/media/notifications",
-                "/media/ringtones",
-                "/media/audio/alarms",
-                "/media/audio/notifications",
-                "/media/audio/ringtones",
-                "/Android/data/" };
 
         VIDEO_EXTENSIONS = new HashSet<String>();
         for (String item : video_extensions)
@@ -69,23 +55,6 @@ public class Media implements Comparable<Media> {
         AUDIO_EXTENSIONS = new HashSet<String>();
         for (String item : audio_extensions)
             AUDIO_EXTENSIONS.add(item);
-
-        StringBuilder sb = new StringBuilder(115);
-        sb.append(".+(\\.)((?i)(");
-        sb.append(video_extensions[0].substring(1));
-        for(int i = 1; i < video_extensions.length; i++) {
-            sb.append('|');
-            sb.append(video_extensions[i].substring(1));
-        }
-        for(int i = 0; i < audio_extensions.length; i++) {
-            sb.append('|');
-            sb.append(audio_extensions[i].substring(1));
-        }
-        sb.append("))");
-        EXTENSIONS_REGEX = sb.toString();
-        FOLDER_BLACKLIST = new HashSet<String>();
-        for (String item : folder_blacklist)
-            FOLDER_BLACKLIST.add(android.os.Environment.getExternalStorageDirectory().getPath() + item);
     }
 
     public final static int TYPE_ALL = -1;
