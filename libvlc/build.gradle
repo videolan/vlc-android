@@ -1,5 +1,41 @@
 apply plugin: 'com.android.library'
 
+task buildDebug(type:Exec) {
+    /*
+    Properties set for Android Studio own shell.
+    when you run gradlew from cli, OS shell env variables will be used
+
+    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
+    properties in local.properties in the root folder, like this (for example):
+    sdk.dir=/home/<username>/SDK/android-sdk-linux
+    ndk.dir=/home/<username>/SDK/android-ndk-r10b
+     */
+    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+    }
+    workingDir '..'
+    commandLine './compile.sh'
+    args('jni')
+}
+
+task buildRelease(type:Exec) {
+    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+    }
+
+    workingDir '..'
+    commandLine './compile.sh'
+    args('jni', 'release')
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -21,6 +57,14 @@ android {
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 21
+
+        tasks.whenTaskAdded { task ->
+            if (task.name == 'bundleDebug') {
+                task.dependsOn buildDebug
+            } else if (task.name == 'bundleRelease') {
+                task.dependsOn buildRelease
+            }
+        }
     }
 
     buildTypes {
