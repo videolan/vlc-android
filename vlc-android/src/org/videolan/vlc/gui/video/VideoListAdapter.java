@@ -73,13 +73,18 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     }
 
     public void setTimes(HashMap<String, Long> times) {
+        boolean notify = false;
         // update times
         for (int i = 0; i < getCount(); ++i) {
             Media media = getItem(i);
             Long time = times.get(media.getLocation());
-            if (time != null)
+            if (time != null) {
                 media.setTime(time);
+                notify = true;
+            }
         }
+        if (notify)
+            notifyDataSetChanged();
     }
 
     public void sortBy(int sortby) {

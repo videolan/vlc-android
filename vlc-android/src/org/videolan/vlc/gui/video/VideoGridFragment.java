@@ -20,30 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-
-import org.videolan.android.ui.SherlockGridFragment;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.TrackInfo;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaGroup;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.Thumbnailer;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.interfaces.IBrowser;
-import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCRunnable;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -56,6 +32,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -71,6 +48,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -78,7 +56,30 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
-public class VideoGridFragment extends SherlockGridFragment implements IBrowser, ISortable, VideoBrowserInterface, SwipeRefreshLayout.OnRefreshListener {
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.TrackInfo;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaGroup;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.R;
+import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.interfaces.IBrowser;
+import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCRunnable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
+public class VideoGridFragment extends Fragment implements IBrowser, ISortable, VideoBrowserInterface, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     public final static String TAG = "VLC/VideoListFragment";
 
@@ -94,6 +95,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
     protected LinearLayout mLayoutFlipperLoading;
     protected GridView mGridView;
     protected TextView mTextViewNomedia;
+    protected View mViewNomedia;
     protected Media mItemToUpdate;
     protected String mGroup;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
@@ -122,7 +124,6 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
 
         mVideoAdapter = new VideoListAdapter(getActivity(), this);
         mMediaLibrary = MediaLibrary.getInstance();
-        setListAdapter(mVideoAdapter);
 
         /* Load the thumbnailer */
         FragmentActivity activity = getActivity();
@@ -134,8 +135,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         if (mGroup == null)
             actionBar.setTitle(R.string.video);
@@ -147,6 +147,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         // init the information for the scan (1/2)
         mLayoutFlipperLoading = (LinearLayout) v.findViewById(R.id.layout_flipper_loading);
         mTextViewNomedia = (TextView) v.findViewById(R.id.textview_nomedia);
+        mViewNomedia = v.findViewById(android.R.id.empty);
         mGridView = (GridView) v.findViewById(android.R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
@@ -156,18 +157,21 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
             }
         });
+        mGridView.setAdapter(mVideoAdapter);
+        mGridView.setOnItemClickListener(this);
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        registerForContextMenu(getGridView());
+        registerForContextMenu(mGridView);
 
         // init the information for the scan (2/2)
         IntentFilter filter = new IntentFilter();
@@ -179,7 +183,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         	Util.actionScanStart();
         }
 
-        mAnimator = new VideoGridAnimator(getGridView());
+        mAnimator = new VideoGridAnimator(mGridView);
     }
 
     @Override
@@ -200,10 +204,11 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         final boolean refresh = mVideoAdapter.isEmpty();
         if (refresh)
             updateList();
+        else
+            mViewNomedia.setVisibility(View.GONE);
         //Get & set times
         HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
         mVideoAdapter.setTimes(times);
-        mVideoAdapter.notifyDataSetChanged();
         mGridView.setSelection(mGVFirstVisiblePos);
         updateViewMode();
         if (refresh)
@@ -247,7 +252,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
                 sidePadding, mGridView.getPaddingBottom());
 
         // Select between grid or list
-            if (!listMode) {
+        if (!listMode) {
             mGridView.setNumColumns(GridView.AUTO_FIT);
             mGridView.setStretchMode(GRID_STRETCH_MODE);
             mGridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.grid_card_width));
@@ -275,8 +280,8 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
     }
 
     @Override
-    public void onGridItemClick(GridView l, View v, int position, long id) {
-        Media media = (Media) getListAdapter().getItem(position);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Media media = mVideoAdapter.getItem(position);
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
             VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
@@ -286,7 +291,6 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
         }
         else
             playVideo(media, false);
-        super.onGridItemClick(l, v, position, id);
     }
 
     protected void playVideo(Media media, boolean fromStart) {
@@ -537,6 +541,7 @@ public class VideoGridFragment extends SherlockGridFragment implements IBrowser,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mViewNomedia.setVisibility(mVideoAdapter.getCount()>0 ? View.GONE : View.VISIBLE);
                     mReady = true;
                     mVideoAdapter.sort();
                     mVideoAdapter.notifyDataSetChanged();
