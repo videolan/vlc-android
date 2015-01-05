@@ -91,6 +91,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -99,6 +100,7 @@ import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -128,7 +130,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer {
+public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener {
 
 	public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -148,6 +150,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private SecondaryDisplay mPresentation;
     private LibVLC mLibVLC;
     private String mLocation;
+    private GestureDetectorCompat mDetector;
 
     private static final int SURFACE_BEST_FIT = 0;
     private static final int SURFACE_FIT_HORIZONTAL = 1;
@@ -448,6 +451,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             setRequestedOrientation(getScreenOrientation());
 
         updateNavStatus();
+        mDetector = new GestureDetectorCompat(this, mGestureListener);
+        mDetector.setOnDoubleTapListener(this);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -1092,6 +1098,22 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      */
     private final Handler eventHandler = new VideoPlayerEventHandler(this);
 
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        doPlayPause();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        return false;
+    }
+
     private static class VideoPlayerEventHandler extends WeakHandler<VideoPlayerActivity> {
         public VideoPlayerEventHandler(VideoPlayerActivity owner) {
             super(owner);
@@ -1428,6 +1450,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (mDetector.onTouchEvent(event))
+            return true;
         if (mIsLocked) {
             // locked, only handle show/hide & ignore all actions
             if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -2643,4 +2667,32 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
         supportInvalidateOptionsMenu();
     }
+
+    private GestureDetector.OnGestureListener mGestureListener = new GestureDetector.OnGestureListener() {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {}
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {}
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            return false;
+        }
+    };
 }
