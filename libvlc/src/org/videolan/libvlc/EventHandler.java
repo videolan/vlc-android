@@ -88,8 +88,6 @@ public class EventHandler {
     //public static final int VlmMediaInstanceStatusEnd       = 0x609;
     //public static final int VlmMediaInstanceStatusError     = 0x60a;
 
-    public static final int CustomMediaListExpanding          = 0x2000;
-    public static final int CustomMediaListExpandingEnd       = 0x2001;
     public static final int CustomMediaListItemAdded          = 0x2002;
     public static final int CustomMediaListItemDeleted        = 0x2003;
     public static final int CustomMediaListItemMoved          = 0x2004;

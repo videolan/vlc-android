@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.interfaces;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.libvlc.Media;
 
 interface IAudioService {
     void play();
@@ -34,6 +35,7 @@ interface IAudioService {
     void moveItem(int positionStart, int positionEnd);
     void remove(int position);
     void removeLocation(String location);
+    List<Media> getMedias();
     List<String> getMediaLocations();
     String getCurrentMediaLocation();
     boolean isPlaying();

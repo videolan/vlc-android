@@ -30,7 +30,6 @@ import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.vlc.interfaces.MediaParcelable;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -70,8 +69,8 @@ public class AudioServiceController implements IAudioPlayerControl {
         }
 
         @Override
-        public void onMediaPlayedAdded(MediaParcelable mp, int index) throws RemoteException {
-            updateMediaPlayedAdded(mp.media, index);
+        public void onMediaPlayedAdded(Media media, int index) throws RemoteException {
+            updateMediaPlayedAdded(media, index);
         }
 
         @Override
@@ -335,6 +334,11 @@ public class AudioServiceController implements IAudioPlayerControl {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "removeLocation",
                 new Class<?>[] { String.class },
                 new Object[] { location } );
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Media> getMedias() {
+        return remoteProcedureCall(mAudioServiceBinder, List.class, null, "getMedias", null, null);
     }
 
     @SuppressWarnings("unchecked")

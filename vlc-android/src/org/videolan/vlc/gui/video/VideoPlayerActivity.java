@@ -44,6 +44,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.MediaListPlayer;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -149,6 +150,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private MediaRouter.SimpleCallback mMediaRouterCallback;
     private SecondaryDisplay mPresentation;
     private LibVLC mLibVLC;
+    private MediaListPlayer mMediaListPlayer;
     private String mLocation;
     private GestureDetectorCompat mDetector;
 
@@ -374,6 +376,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             Log.d(TAG, "LibVLC initialisation failed");
             return;
         }
+        mMediaListPlayer = new MediaListPlayer(mLibVLC);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
@@ -1235,7 +1238,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void endReached() {
-        if(mLibVLC.getMediaList().expandMedia(savedIndexPosition) == 0) {
+        if(mMediaListPlayer.expand(savedIndexPosition) == 0) {
             Log.d(TAG, "Found a video playlist, expanding it");
             eventHandler.postDelayed(new Runnable() {
                 @Override
@@ -2345,7 +2348,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             savedIndexPosition = itemPosition;
             if(!mLibVLC.isPlaying()) {
                 // AudioService-transitioned playback for item after sleep and resume
-                mLibVLC.playIndex(savedIndexPosition);
+                mMediaListPlayer.playIndex(savedIndexPosition);
                 dontParse = false;
             }
             else {
@@ -2355,12 +2358,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             updateNavStatus();
         } else if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mLibVLC.playIndex(savedIndexPosition);
+            mMediaListPlayer.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mLibVLC.getMediaList().add(new Media(mLibVLC, mLocation));
-            savedIndexPosition = mLibVLC.getMediaList().size() - 1;
-            mLibVLC.playIndex(savedIndexPosition);
+            mMediaListPlayer.getMediaList().add(new Media(mLibVLC, mLocation));
+            savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
+            mMediaListPlayer.playIndex(savedIndexPosition);
         }
         mCanSeek = false;
 

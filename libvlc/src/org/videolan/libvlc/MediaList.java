@@ -61,28 +61,6 @@ public class MediaList {
         return position >= 0 && position < mInternalList.size();
     }
 
-    /**
-     * This function checks the currently playing media for subitems at the given
-     * position, and if any exist, it will expand them at the same position
-     * and replace the current media.
-     *
-     * @param position The position to expand
-     * @return -1 if no subitems were found, 0 if subitems were expanded
-     */
-    public int expandMedia(int position) {
-        ArrayList<String> children = new ArrayList<String>();
-        int ret = mLibVLC.expandMedia(children);
-        if(ret == 0) {
-            mEventHandler.callback(EventHandler.CustomMediaListExpanding, new Bundle());
-            this.remove(position);
-            for(String mrl : children) {
-                this.insert(position, mrl);
-            }
-            mEventHandler.callback(EventHandler.CustomMediaListExpandingEnd, new Bundle());
-        }
-        return ret;
-    }
-
     public void insert(int position, String mrl) {
         insert(position, new Media(mLibVLC, mrl));
     }
