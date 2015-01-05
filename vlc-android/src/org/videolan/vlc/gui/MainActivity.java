@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
         if (mFirstRun) {
             Editor editor = mSettings.edit();
             editor.putInt(PREF_FIRST_RUN, mVersionNumber);
-            editor.commit();
+            Util.commitPreferences(editor);
         }
 
         try {
@@ -423,7 +423,7 @@ public class MainActivity extends ActionBarActivity {
         /* Save the tab status in pref */
         SharedPreferences.Editor editor = getSharedPreferences("MainActivity", MODE_PRIVATE).edit();
         editor.putString("fragment", mCurrentFragment);
-        editor.commit();
+        Util.commitPreferences(editor);
 
         mAudioController.removeAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().unbindAudioService(this);
@@ -1004,10 +1004,9 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     removeTipViewIfDisplayed();
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                    Editor editor = settings.edit();
+                    Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
                     editor.putBoolean(settingKey, true);
-                    editor.commit();
+                    Util.commitPreferences(editor);
                 }
             });
         }

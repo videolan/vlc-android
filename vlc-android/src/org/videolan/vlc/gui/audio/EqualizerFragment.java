@@ -25,6 +25,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.Preferences;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.EqualizerBar;
 
@@ -173,12 +174,11 @@ public class EqualizerFragment extends Fragment {
         preamp.setOnSeekBarChangeListener(null);
         bands_layout.removeAllViews();
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).edit();
         editor.putBoolean("equalizer_enabled", button.isChecked());
         Preferences.putFloatArray(editor, "equalizer_values", equalizer);
         editor.putInt("equalizer_preset", equalizer_presets.getSelectedItemPosition());
-        editor.commit();
+        Util.commitPreferences(editor);
     }
 
     private final OnItemSelectedListener mPresetListener = new OnItemSelectedListener() {

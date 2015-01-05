@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -414,7 +415,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         // Paused flag - per session too, like the subs list.
         editor.remove(PreferencesActivity.VIDEO_PAUSED);
-        editor.commit();
+        Util.commitPreferences(editor);
 
         IntentFilter filter = new IntentFilter();
         if (mBattery != null)
@@ -548,7 +549,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
-        editor.commit();
+        Util.commitPreferences(editor);
         AudioServiceController.getInstance().unbindAudioService(this);
     }
 
@@ -2391,7 +2392,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 Editor editor = mSettings.edit();
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                editor.commit();
+                Util.commitPreferences(editor);
                 if(rTime > 0)
                     mLibVLC.setTime(rTime);
 
@@ -2659,7 +2660,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mOverlayTips.setVisibility(View.GONE);
         Editor editor = mSettings.edit();
         editor.putBoolean(PREF_TIPS_SHOWN, true);
-        editor.commit();
+        Util.commitPreferences(editor);
     }
 
     private void updateNavStatus() {

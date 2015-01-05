@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Logcat;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import android.app.AlertDialog;
@@ -101,7 +102,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString("screen_orientation_value", (String)newValue);
-                editor.commit();
+                Util.commitPreferences(editor);
                 return true;
             }
         });
@@ -276,7 +277,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     editor.putInt("network_caching_value", 0);
                     editor.putString("network_caching", "0");
                 }
-                editor.commit();
+                Util.commitPreferences(editor);
                 return true;
             }
         });
