@@ -19,8 +19,11 @@
  *****************************************************************************/
 
 package org.videolan.vlc.interfaces;
+import org.videolan.libvlc.Media;
 
 interface IAudioServiceCallback {
     void update();
     void updateProgress();
+    void onMediaPlayedAdded(in Media media, int index);
+    void onMediaPlayedRemoved(int index);
 }

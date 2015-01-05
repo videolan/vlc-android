@@ -20,19 +20,17 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import org.videolan.libvlc.EventHandler;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
+import java.util.ArrayList;
+
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WeakHandler;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,33 +39,35 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HistoryAdapter extends BaseAdapter {
+public class HistoryAdapter extends BaseAdapter implements AudioServiceController.MediaPlayedListener {
     public final static String TAG = "VLC/HistoryAdapter";
 
     private LayoutInflater mInflater;
-    private LibVLC mLibVLC;
+    private final AudioServiceController mAudioController;
+    private final ArrayList<Media> mMediaList;
 
     public HistoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
-        try {
-            mLibVLC = LibVLC.getInstance();
-        } catch (LibVlcException e) {
-            Log.d(TAG, "LibVlcException encountered in HistoryAdapter", e);
-            return;
-        }
 
-        EventHandler em = mLibVLC.getMediaList().getEventHandler();
-        em.addHandler(new HistoryEventHandler(this));
+        mAudioController = AudioServiceController.getInstance();
+
+        mMediaList = new ArrayList<Media>();
+
+        mAudioController.addMediaPlayedListener(this);
+    }
+
+    public void release () {
+        mAudioController.removeMediaPlayedListener(this);
     }
 
     @Override
     public int getCount() {
-        return mLibVLC.getMediaList().size();
+        return mMediaList.size();
     }
 
     @Override
     public Object getItem(int arg0) {
-        return mLibVLC.getMediaList().getMRL(arg0);
+        return mMediaList.get(arg0).getLocation();
     }
 
     @Override
@@ -94,7 +94,7 @@ public class HistoryAdapter extends BaseAdapter {
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
 
         String holderText = "";
-        Media m = mLibVLC.getMediaList().getMedia(position);
+        Media m = mMediaList.get(position);
         if (m == null )
             return v;
 
@@ -112,49 +112,19 @@ public class HistoryAdapter extends BaseAdapter {
         return v;
     }
 
-    /**
-     * The media list changed.
-     *
-     * @param added Set to true if the media list was added to
-     * @param uri The URI added/removed
-     * @param index The index added/removed at
-     */
-    public void updateEvent(Boolean added, String uri, int index) {
-        if(added) {
-            Log.v(TAG, "Added index " + index + ": " + uri);
-        } else {
-            Log.v(TAG, "Removed index " + index + ": " + uri);
-        }
+    public void remove(int position) {
+        mAudioController.remove(position);
+    }
+
+    @Override
+    public void onMediaPlayedAdded(Media media, int index) {
+        mMediaList.add(index, media);
         notifyDataSetChanged();
     }
 
-    public void refresh() {
-        this.notifyDataSetChanged();
+    @Override
+    public void onMediaPlayedRemoved(int index) {
+        mMediaList.remove(index);
+        notifyDataSetChanged();
     }
-
-    /**
-     *  Handle changes to the media list
-     */
-    private static class HistoryEventHandler extends WeakHandler<HistoryAdapter> {
-        public HistoryEventHandler(HistoryAdapter owner) {
-            super(owner);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            HistoryAdapter adapater = getOwner();
-            if(adapater == null) return;
-
-            String item_uri = msg.getData().getString("item_uri");
-            int item_index = msg.getData().getInt("item_index");
-            switch (msg.getData().getInt("event")) {
-                case EventHandler.CustomMediaListItemAdded:
-                    adapater.updateEvent(true, item_uri, item_index);
-                    break;
-                case EventHandler.CustomMediaListItemDeleted:
-                    adapater.updateEvent(false, item_uri, item_index);
-                    break;
-            }
-        }
-    };
 }

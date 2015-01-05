@@ -678,6 +678,17 @@ public class AudioService extends Service {
         }
     }
 
+    private void executeOnMediaPlayedAdded() {
+        final Media media = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
+        for (IAudioServiceCallback callback : mCallback.keySet()) {
+            try {
+                callback.onMediaPlayedAdded(new MediaParcelable(media), 0);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Return the current media.
      *

@@ -25,10 +25,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.interfaces.MediaParcelable;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -49,6 +51,13 @@ public class AudioServiceController implements IAudioPlayerControl {
     private IAudioService mAudioServiceBinder;
     private ServiceConnection mAudioServiceConnection;
     private final ArrayList<IAudioPlayer> mAudioPlayer;
+    private final ArrayList<MediaPlayedListener> mMediaPlayedListener;
+
+    public interface MediaPlayedListener {
+        public void onMediaPlayedAdded(Media media, int index);
+        public void onMediaPlayedRemoved(int index);
+    }
+
     private final IAudioServiceCallback mCallback = new IAudioServiceCallback.Stub() {
         @Override
         public void update() throws RemoteException {
@@ -59,10 +68,21 @@ public class AudioServiceController implements IAudioPlayerControl {
         public void updateProgress() throws RemoteException {
             updateProgressAudioPlayer();
         }
+
+        @Override
+        public void onMediaPlayedAdded(MediaParcelable mp, int index) throws RemoteException {
+            updateMediaPlayedAdded(mp.media, index);
+        }
+
+        @Override
+        public void onMediaPlayedRemoved(int index) throws RemoteException {
+            updateMediaPlayedRemoved(index);
+        }
     };
 
     private AudioServiceController() {
         mAudioPlayer = new ArrayList<IAudioPlayer>();
+        mMediaPlayedListener = new ArrayList<MediaPlayedListener>();
     }
 
     public static AudioServiceController getInstance() {
@@ -169,6 +189,24 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     /**
+     * Add a MediaPlayedListener
+     * @param li
+     */
+    public void addMediaPlayedListener(MediaPlayedListener li) {
+        if (!mMediaPlayedListener.contains(li))
+            mMediaPlayedListener.add(li);
+    }
+
+    /**
+     * Remove MediaPlayedListener from list
+     * @param li
+     */
+    public void removeMediaPlayedListener(MediaPlayedListener li) {
+        if (mMediaPlayedListener.contains(li))
+            mMediaPlayedListener.remove(li);
+    }
+
+    /**
      * Add a AudioPlayer
      * @param ap
      */
@@ -200,6 +238,18 @@ public class AudioServiceController implements IAudioPlayerControl {
     private void updateProgressAudioPlayer() {
         for (IAudioPlayer player : mAudioPlayer)
             player.updateProgress();
+    }
+
+    private void updateMediaPlayedAdded(Media media, int index) {
+        for (MediaPlayedListener listener : mMediaPlayedListener) {
+            listener.onMediaPlayedAdded(media, index);
+        }
+    }
+
+    private void updateMediaPlayedRemoved(int index) {
+        for (MediaPlayedListener listener : mMediaPlayedListener) {
+            listener.onMediaPlayedRemoved(index);
+        }
     }
 
     /**
