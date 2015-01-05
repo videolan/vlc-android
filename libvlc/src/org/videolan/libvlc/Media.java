@@ -24,10 +24,12 @@ import java.util.HashSet;
 import java.util.Locale;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class Media {
+public class Media implements Parcelable {
     public final static String TAG = "VLC/LibVLC/Media";
 
     public final static HashSet<String> VIDEO_EXTENSIONS;
@@ -192,10 +194,9 @@ public class Media {
         }
     }
 
-    public Media(String location, long time, long length, int type,
-            Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-            int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
-        mLocation = location;
+    private void init(long time, long length, int type,
+                      Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                      int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
         mFilename = null;
         mTime = time;
         mAudioTrack = audio;
@@ -213,6 +214,33 @@ public class Media {
         mAlbumArtist = albumArtist;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
+    }
+
+    public Media(String location, long time, long length, int type,
+                 Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                 int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
+        mLocation = location;
+        init(time, length, type, picture, title, artist, genre, album, albumArtist,
+             width, height, artworkURL, audio, spu, trackNumber);
+    }
+
+    public Media(Parcel in) {
+        mLocation = in.readString();
+        init(in.readLong(),
+             in.readLong(),
+             in.readInt(),
+             (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
+             in.readString(),
+             in.readString(),
+             in.readString(),
+             in.readString(),
+             in.readString(),
+             in.readInt(),
+             in.readInt(),
+             in.readString(),
+             in.readInt(),
+             in.readInt(),
+             in.readInt());
     }
 
     public String getLocation() {
@@ -407,4 +435,38 @@ public class Media {
     public int getFlags() {
         return mFlags;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(getLocation());
+        dest.writeLong(getTime());
+        dest.writeLong(getLength());
+        dest.writeInt(getType());
+        dest.writeParcelable(getPicture(), flags);
+        dest.writeValue(getTitle());
+        dest.writeValue(getArtist());
+        dest.writeValue(getGenre());
+        dest.writeValue(getAlbum());
+        dest.writeValue(getAlbumArtist());
+        dest.writeInt(getWidth());
+        dest.writeInt(getHeight());
+        dest.writeValue(getArtworkURL());
+        dest.writeInt(getAudioTrack());
+        dest.writeInt(getSpuTrack());
+        dest.writeInt(getTrackNumber());
+    }
+
+    public static final Parcelable.Creator<Media> CREATOR = new Parcelable.Creator<Media>() {
+        public Media createFromParcel(Parcel in) {
+            return new Media(in);
+        }
+        public Media[] newArray(int size) {
+            return new Media[size];
+        }
+    };
 }
