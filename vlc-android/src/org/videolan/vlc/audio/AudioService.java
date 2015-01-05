@@ -33,6 +33,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -76,6 +77,7 @@ import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaMetadataRetriever;
 import android.media.RemoteControlClient;
 import android.media.RemoteControlClient.MetadataEditor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,6 +88,7 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -1005,6 +1008,7 @@ public class AudioService extends Service {
 
     private void setRepeatType(int t) {
         mRepeating = RepeatType.values()[t];
+        saveCurrentMedia();
         determinePrevAndNextIndices();
     }
 
@@ -1460,93 +1464,41 @@ public class AudioService extends Service {
     }
 
     private synchronized void loadLastPlaylist() {
-        if (!AndroidDevices.hasExternalStorage())
-            return;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String currentMedia = prefs.getString("current_media", "");
+        String[] locations = prefs.getString("media_list", "").split(" ");
 
-        String line;
-        FileInputStream input = null;
-        BufferedReader br = null;
-        int rowCount = 0;
+        List<String> mediaPathList = new ArrayList<String>(locations.length);
+        for (int i = 0 ; i < locations.length ; ++i)
+            mediaPathList.add(Uri.decode(locations[i]));
 
-        int position = 0;
-        String currentMedia;
-        List<String> mediaPathList = new ArrayList<String>();
-
+        mShuffling = prefs.getBoolean("shuffling", false);
+        mRepeating = RepeatType.values()[prefs.getInt("repeating", RepeatType.None.ordinal())];
+        int position = Math.max(0, mediaPathList.indexOf(currentMedia));
+        // load playlist
         try {
-            // read CurrentMedia
-            input = new FileInputStream(AudioUtil.CACHE_DIR + "/" + "CurrentMedia.txt");
-            br = new BufferedReader(new InputStreamReader(input));
-            currentMedia = br.readLine();
-            mShuffling = "1".equals(br.readLine());
-            br.close(); br = null;
-            input.close();
-
-            // read MediaList
-            input = new FileInputStream(AudioUtil.CACHE_DIR + "/" + "MediaList.txt");
-            br = new BufferedReader(new InputStreamReader(input));
-            while ((line = br.readLine()) != null) {
-                mediaPathList.add(line);
-                if (line.equals(currentMedia))
-                    position = rowCount;
-                rowCount++;
-            }
-
-            // load playlist
             mInterface.load(mediaPathList, position, false);
-        } catch (Exception e) {
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
-        finally {
-            try {
-                if (br!= null) br.close();
-                if (input != null) input.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     private synchronized void saveCurrentMedia() {
-        if (!AndroidDevices.hasExternalStorage())
-            return;
-
-        FileOutputStream output;
-        BufferedWriter bw;
-
-        try {
-            output = new FileOutputStream(AudioUtil.CACHE_DIR + "/" + "CurrentMedia.txt");
-            bw = new BufferedWriter(new OutputStreamWriter(output));
-            bw.write(mLibVLC.getMediaList().getMRL(mCurrentIndex));
-            bw.write('\n');
-            bw.write(mShuffling ? "1" : "0");
-            bw.write('\n');
-            bw.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString("current_media", mLibVLC.getMediaList().getMRL(mCurrentIndex));
+        editor.putBoolean("shuffling", mShuffling);
+        editor.putInt("repeating", mRepeating.ordinal());
+        Util.commitPreferences(editor);
     }
 
     private synchronized void saveMediaList() {
-        if (!AndroidDevices.hasExternalStorage())
-            return;
-
-        FileOutputStream output;
-        BufferedWriter bw;
-
-        try {
-            output = new FileOutputStream(AudioUtil.CACHE_DIR + "/" + "MediaList.txt");
-            bw = new BufferedWriter(new OutputStreamWriter(output));
-            for (int i = 0; i < mLibVLC.getMediaList().size(); i++) {
-                bw.write(mLibVLC.getMediaList().getMRL(i));
-                bw.write('\n');
-            }
-            bw.close();
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String locations = "";
+        for (int i = 0; i < mLibVLC.getMediaList().size(); i++)
+            locations += " "+ Uri.encode(mLibVLC.getMediaList().getMRL(i));
+        //We save a concatenated String because putStringSet is APIv11.
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putString("media_list", locations.trim());
+        Util.commitPreferences(editor);
     }
 
     private boolean validateLocation(String location)
