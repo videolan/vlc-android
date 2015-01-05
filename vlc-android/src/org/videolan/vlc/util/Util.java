@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -34,8 +35,10 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.audio.AudioServiceController;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
@@ -236,5 +239,13 @@ public class Util {
             return media.getNowPlaying() != null
                         ? media.getNowPlaying()
                         : getMediaArtist(ctx, media) + " - " + getMediaAlbum(ctx, media);
+    }
+
+    @TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
+    public static void commitPreferences(SharedPreferences.Editor editor){
+        if (LibVlcUtil.isGingerbreadOrLater())
+            editor.apply();
+        else
+            editor.commit();
     }
 }
