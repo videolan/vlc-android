@@ -412,6 +412,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         // only (like desktop VLC). We don't want the custom subtitle files
         // to persist forever with this video.
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
+        // Paused flag - per session too, like the subs list.
+        editor.remove(PreferencesActivity.VIDEO_PAUSED);
         editor.commit();
 
         IntentFilter filter = new IntentFilter();
@@ -495,6 +497,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
         }
 
+        Boolean isPaused = !mLibVLC.isPlaying();
+
         long time = mLibVLC.getTime();
         long length = mLibVLC.getLength();
         //remove saved position if in the last 5 seconds
@@ -527,6 +531,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
             }
         }
+        if(isPaused)
+            Log.d(TAG, "Video paused - saving flag");
+        editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, isPaused);
+
         // Save selected subtitles
         String subtitleList_serialized = null;
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -2389,6 +2397,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
                 if(intentPosition > 0)
                     mLibVLC.setTime(intentPosition);
+            }
+
+            // Paused flag
+            boolean wasPaused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
+            if(wasPaused) {
+                Log.d(TAG, "Video was previously paused, resuming in paused mode");
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLibVLC.pause();
+                    }}, 500);
             }
 
             // Get possible subtitles
