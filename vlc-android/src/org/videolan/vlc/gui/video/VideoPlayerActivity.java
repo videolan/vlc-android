@@ -411,7 +411,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
         // Also clear the subs list, because it is supposed to be per session
-        // only (like desktop VLC). We don't want the customs subtitle file
+        // only (like desktop VLC). We don't want the custom subtitle files
         // to persist forever with this video.
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         editor.commit();
