@@ -249,6 +249,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             @Override
             public void onItemRemoved(int position) {
                 mAudioController.remove(position);
+                update();
             }
         });
         registerForContextMenu(mSongsList);
@@ -352,6 +353,8 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_pressed));
             break;
         }
+
+        mShuffle.setVisibility(mSongsListAdapter.getCount() > 2 ? View.VISIBLE : View.INVISIBLE);
         if (mAudioController.hasNext())
             mNext.setVisibility(ImageButton.VISIBLE);
         else
