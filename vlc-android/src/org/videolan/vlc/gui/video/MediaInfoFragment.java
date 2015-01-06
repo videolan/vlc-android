@@ -25,6 +25,7 @@ import java.nio.ByteBuffer;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
 import org.videolan.vlc.MediaLibrary;
@@ -32,6 +33,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -62,12 +64,16 @@ public class MediaInfoFragment extends ListFragment {
     private Bitmap mImage;
     private TextView mLengthView;
     private TextView mSizeView;
+    private TextView mPathView;
     private ImageButton mPlayButton;
+    private TextView mDelete;
     private TrackInfo[] mTracks;
     private MediaInfoAdapter mAdapter;
     private final static int NEW_IMAGE = 0;
     private final static int NEW_TEXT = 1;
     private final static int NEW_SIZE = 2;
+    private final static int HIDE_DELETE = 3;
+    private final static int EXIT = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,8 +82,13 @@ public class MediaInfoFragment extends ListFragment {
 
         mLengthView = (TextView) v.findViewById(R.id.length);
         mSizeView = (TextView) v.findViewById(R.id.size_value);
+        mPathView = (TextView) v.findViewById(R.id.info_path);
         mPlayButton = (ImageButton) v.findViewById(R.id.play);
+        mDelete = (TextView) v.findViewById(R.id.info_delete);
+        if (!LibVlcUtil.isICSOrLater())
+            mDelete.setText(getString(R.string.delete).toUpperCase());
 
+        mPathView.setText(Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +96,22 @@ public class MediaInfoFragment extends ListFragment {
             }
         });
 
+        mDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItem != null) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            boolean deleted = Util.deleteFile(getActivity(), mItem.getLocation());
+                            if (deleted) {
+                                mHandler.obtainMessage(EXIT).sendToTarget();
+                            }
+                        }
+                    }).start();
+                }
+            }
+        });
         mAdapter = new MediaInfoAdapter(getActivity());
         setListAdapter(mAdapter);
 
@@ -104,7 +131,7 @@ public class MediaInfoFragment extends ListFragment {
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
 
         new Thread(mLoadImage).start();
-        new Thread(mLoadSize).start();
+        new Thread(mCheckFile).start();
     }
 
     public void setMediaLocation(String MRL) {
@@ -113,10 +140,12 @@ public class MediaInfoFragment extends ListFragment {
         mItem = MediaLibrary.getInstance().getMediaItem(MRL);
     }
 
-    Runnable mLoadSize = new Runnable() {
+    Runnable mCheckFile = new Runnable() {
         @Override
         public void run() {
             File itemFile = new File(Uri.decode(mItem.getLocation().substring(5)));
+            if (!itemFile.canWrite())
+                mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
             long length = itemFile.length();
             mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
         }
@@ -212,6 +241,14 @@ public class MediaInfoFragment extends ListFragment {
                     break;
                 case NEW_SIZE:
                     fragment.updateSize((Long) msg.obj);
+                    break;
+                case HIDE_DELETE:
+                    fragment.mDelete.setClickable(false);
+                    fragment.mDelete.setVisibility(View.GONE);
+                    break;
+                case EXIT:
+                    ((MainActivity) fragment.getActivity()).popSecondaryFragment();
+                    MediaLibrary.getInstance().loadMediaItems(fragment.getActivity(), true);
                     break;
             }
         };

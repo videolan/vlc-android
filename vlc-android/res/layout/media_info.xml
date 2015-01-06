@@ -48,19 +48,36 @@
                 android:visibility="invisible"  />
         </FrameLayout>
         <TextView
+            android:id="@+id/info_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/image_container"/>
+        <TextView
             android:id="@+id/size_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/file_size"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:layout_below="@+id/image_container"/>
+            android:layout_below="@+id/info_path"/>
         <TextView
             android:id="@+id/size_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_container"
+            android:layout_below="@+id/info_path"
             android:layout_toRightOf="@+id/size_title"/>
+        <TextView
+            android:id="@+id/info_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info_path"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:text="@string/delete"
+            android:textColor="@color/blue"
+            android:textAllCaps="true"/>
     </RelativeLayout>
 
     <ListView
