@@ -21,6 +21,7 @@
 package org.videolan.vlc.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,10 +37,13 @@ import org.videolan.vlc.VLCCallbackTask;
 import org.videolan.vlc.audio.AudioServiceController;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -247,5 +251,25 @@ public class Util {
             editor.apply();
         else
             editor.commit();
+    }
+
+    public static boolean deleteFile (Context context, String path){
+        boolean deleted = false;
+        if (path.startsWith("file://"))
+            path = path.substring(5);
+        else
+            return deleted;
+        if (LibVlcUtil.isHoneycombOrLater()){
+            ContentResolver cr = context.getContentResolver();
+            String[] selectionArgs = { path };
+            deleted = cr.delete(MediaStore.Files.getContentUri("external"),
+                    MediaStore.MediaColumns.DATA + "=?", selectionArgs) > 0;
+        }
+        if (!deleted){
+            File file = new File(Uri.decode(path));
+            if (file.exists())
+                deleted = file.delete();
+        }
+        return deleted;
     }
 }
