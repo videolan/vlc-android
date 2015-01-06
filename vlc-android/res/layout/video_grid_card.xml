@@ -40,11 +40,11 @@
         <ImageView
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/ml_item_thumbnail"
             android:layout_above="@+id/ml_item_resolution"
-            android:layout_marginRight="7dp"
+            android:layout_marginTop="5dp"
             android:scaleType="fitCenter"
             android:clickable="true"
             android:src="@drawable/ic_more" />
