@@ -59,22 +59,16 @@ public class CommonDialogs {
     public static AlertDialog deleteMedia(final Context context,
                                           final String addressMedia,
                                           final VLCRunnable runnable) {
-        URI adressMediaUri = null;
-        try {
-            adressMediaUri = new URI (addressMedia);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        final File fileMedia = new File(adressMediaUri);
+        final String name = Uri.decode(addressMedia.substring(addressMedia.lastIndexOf('/')+1));
 
         return confirmDialog(
                 context,
                 context.getResources().getString(R.string.confirm_delete,
-                        fileMedia.getName()),
+                        name),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        fileMedia.delete();
+                        Util.deleteFile(context, addressMedia);
                         if (runnable != null)
                             runnable.run();
                     }
