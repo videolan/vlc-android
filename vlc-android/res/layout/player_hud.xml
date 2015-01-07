@@ -51,71 +51,61 @@
         android:textSize="16sp" />
 
     <!-- Media control buttons -->
-
-    <ImageView
-        android:id="@+id/lock_overlay_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_overlay_length"
-        android:layout_alignBottom="@+id/player_overlay_play"
-        android:layout_alignTop="@+id/player_overlay_play"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/images_margin_sides"
-        android:src="@drawable/ic_lock_circle"
-        android:scaleType="center"
-        android:focusable="true"/>
-
-    <ImageView
-        android:id="@+id/player_overlay_tracks"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_length"
-        android:layout_toRightOf="@+id/lock_overlay_button"
-        android:layout_toLeftOf="@+id/player_overlay_play"
-        android:layout_alignBottom="@+id/player_overlay_play"
-        android:layout_alignTop="@+id/player_overlay_play"
-        android:clickable="true"
-        android:onClick="onAudioSubClick"
-        android:src="@drawable/ic_audiosub_circle"
-        android:scaleType="center"
-        android:focusable="true"/>
-
-    <ImageView
-        android:id="@+id/player_overlay_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_overlay_length"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:src="@drawable/ic_pause_circle_normal_o"
-        android:scaleType="center"
-        android:focusable="true"/>
-
-    <ImageView
-        android:id="@+id/player_overlay_adv_function"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_overlay_length"
-        android:layout_toRightOf="@+id/player_overlay_play"
-        android:layout_toLeftOf="@+id/player_overlay_size"
-        android:layout_alignBottom="@+id/player_overlay_play"
-        android:layout_alignTop="@+id/player_overlay_play"
-        android:clickable="true"
-        android:onClick="showAdvancedOptions"
-        android:src="@drawable/ic_more_circle"
-        android:scaleType="center"
-        android:focusable="true"/>
-
-    <ImageView
-        android:id="@+id/player_overlay_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/player_overlay_length"
-        android:layout_alignBottom="@+id/player_overlay_play"
-        android:layout_alignTop="@+id/player_overlay_play"
-        android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/images_margin_sides"
-        android:src="@drawable/ic_crop_circle_o"
-        android:scaleType="center"
-        android:focusable="true" />
+        android:layout_marginLeft="@dimen/images_margin_sides"
+        android:weightSum="5">
+        <ImageView
+            android:id="@+id/lock_overlay_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_lock_circle"
+            android:scaleType="center"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/player_overlay_tracks"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="onAudioSubClick"
+            android:src="@drawable/ic_audiosub_circle"
+            android:scaleType="center"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/player_overlay_play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:src="@drawable/ic_pause_circle_normal_o"
+            android:scaleType="center"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/player_overlay_adv_function"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="showAdvancedOptions"
+            android:src="@drawable/ic_more_circle"
+            android:scaleType="center"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/player_overlay_size"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_crop_circle_o"
+            android:scaleType="center"
+            android:focusable="true" />
+    </LinearLayout>
 </RelativeLayout>
