@@ -18,6 +18,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
@@ -46,12 +47,6 @@
 
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
-
-#ifdef HAVE_IOMX_DR
-#define NO_IOMX_DR "--no-omxil-dr"
-#else
-#define NO_IOMX_DR ""
-#endif
 
 #define VLC_JNI_VERSION JNI_VERSION_1_2
 
@@ -317,42 +312,51 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
     }
 
-    /* Don't add any invalid options, otherwise it causes LibVLC to crash */
-    const char *argv[] = {
-        /* CPU intensive plugin, setting for slow devices */
-        enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch",
+#define MAX_ARGV 18
+    const char *argv[MAX_ARGV];
+    int argc = 0;
 
-        /* avcodec speed settings for slow devices */
-        //"--avcodec-fast", // non-spec-compliant speedup tricks
-        "--avcodec-skiploopfilter", deblockstr,
-        "--avcodec-skip-frame", enable_frame_skip ? "2" : "0",
-        "--avcodec-skip-idct", enable_frame_skip ? "2" : "0",
+    /* CPU intensive plugin, setting for slow devices */
+    argv[argc++] = enable_time_stretch ? "--audio-time-stretch" : "--no-audio-time-stretch";
+    /* avcodec-skiploopfilter */
+    argv[argc++] = "--avcodec-skiploopfilter";
+    argv[argc++] = deblockstr;
+    /* avcodec-skip-frame */
+    argv[argc++] = "--avcodec-skip-frame";
+    argv[argc++] = enable_frame_skip ? "2" : "0";
+    /* avcodec-skip-idct */
+    argv[argc++] = "--avcodec-skip-idct";
+    argv[argc++] = enable_frame_skip ? "2" : "0";
+    /* Remove me when UTF-8 is enforced by law */
+    argv[argc++] = "--subsdec-encoding";
+    argv[argc++] = subsencodingstr;
+    /* Enable statistics */
+    argv[argc++] = "--stats";
+    /* XXX: why can't the default be fine ? #7792 */
+    if (networkCaching > 0)
+        argv[argc++] = networkCachingstr;
+    /* Android audio API */
+    argv[argc++] = aout == AOUT_OPENSLES ? "--aout=opensles" :
+        (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy");
+    /* Android video API  */
+    argv[argc++] = vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" :
+        (vout == VOUT_OPENGLES2 ? "--vout=gles2" : "--vout=androidsurface");
+    /* chroma */
+    argv[argc++] = "--androidsurface-chroma";
+    argv[argc++] = chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32";
+    /* direct rendering */
+    if (!direct_rendering) {
+        argv[argc++] = "--no-mediacodec-dr";
+#ifdef HAVE_IOMX_DR
+        argv[argc++] = "--no-omxil-dr";
+#endif
+    }
+    /* Reconnect on lost HTTP streams, e.g. network change */
+    if (enable_http_reconnect)
+        argv[argc++] = "--http-reconnect";
 
-        /* Remove me when UTF-8 is enforced by law */
-        "--subsdec-encoding", subsencodingstr,
-
-        /* Enable statistics */
-        "--stats",
-
-        /* XXX: why can't the default be fine ? #7792 */
-        (networkCaching > 0) ? networkCachingstr : "",
-
-        /* Android audio API is a mess */
-        aout == AOUT_OPENSLES ? "--aout=opensles" :
-            (aout == AOUT_AUDIOTRACK ? "--aout=android_audiotrack" : "--aout=dummy"),
-
-        /* Android video API is a mess */
-        vout == VOUT_ANDROID_WINDOW ? "--vout=androidwindow" :
-            (vout == VOUT_OPENGLES2 ? "--vout=gles2" : "--vout=androidsurface"),
-        "--androidsurface-chroma", chromastr != NULL && chromastr[0] != 0 ? chromastr : "RV32",
-        /* XXX: we can't recover from direct rendering failure */
-        direct_rendering ? "" : "--no-mediacodec-dr",
-        direct_rendering ? "" : NO_IOMX_DR,
-
-        /* Reconnect on lost HTTP streams, e.g. network change */
-        enable_http_reconnect ? "--http-reconnect" : "",
-    };
-    libvlc_instance_t *instance = libvlc_new(sizeof(argv) / sizeof(*argv), argv);
+    assert(MAX_ARGV >= argc);
+    libvlc_instance_t *instance = libvlc_new(argc, argv);
 
     setLong(env, thiz, "mLibVlcInstance", (jlong)(intptr_t) instance);
 
