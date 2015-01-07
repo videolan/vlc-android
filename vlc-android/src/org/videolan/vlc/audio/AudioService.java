@@ -842,6 +842,7 @@ public class AudioService extends Service {
         if (mNextIndex == -1) {
             // No subitems; play the next item.
             int size = mLibVLC.getMediaList().size();
+            mShuffling &= size > 2;
 
             // Repeating once doesn't change the index
             if (mRepeating == RepeatType.Once) {
@@ -1280,11 +1281,18 @@ public class AudioService extends Service {
         @Override
         public void remove(int position) {
             mLibVLC.getMediaList().remove(position);
+
+            AudioService.this.saveMediaList();
+            determinePrevAndNextIndices();
+            executeUpdate();
         }
 
         @Override
         public void removeLocation(String location) {
             mLibVLC.getMediaList().remove(location);
+            AudioService.this.saveMediaList();
+            determinePrevAndNextIndices();
+            executeUpdate();
         }
 
         @Override
