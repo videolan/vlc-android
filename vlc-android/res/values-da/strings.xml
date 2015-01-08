@@ -125,8 +125,8 @@
     <string name="open_mrl">Åbn MRL</string>
     <string name="open_mrl_dialog_title">Åbn netværksstrøm</string>
     <string name="open_mrl_dialog_msg">Angiv netværks-MRL: f.eks. http://, mms:// eller rtsp://</string>
-    <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC for Android™.</string>
-    <string name="error_problem">Beklager, VLC for Android havde problemer med indlæsningen og måtte lukke.</string>
+    <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC til Android™.</string>
+    <string name="error_problem">Beklager, VLC til Android havde problemer med indlæsningen og måtte lukke.</string>
     <string name="error_message_is">Fejlbeskeden er (nævn venligst denne ved fejlsøgning):\n</string>
     <string name="encountered_error_title">Afspilningsfejl</string>
     <string name="encountered_error_message">VLC stødte på en fejl med dette medie.\nForsøg venligst at genopfriske mediebiblioteket.</string>
@@ -145,7 +145,7 @@
     <string name="ok_got_it">Forstået - skjul beskeden</string>
     <string name="playlist_tips">Tips til spillelisten</string>
     <string name="remove_song">Fjern sang</string>
-    <string name="rearrange_order">Skift rækkefølge</string>
+    <string name="rearrange_order">Tilpas rækkefølgen</string>
     <string name="hold_to_seek">Hold for søgning</string>
     <string name="audio_player_tips">Tips til lydafspilning</string>
     <string name="previous_next_song">Forrige/næste sang</string>
@@ -176,10 +176,10 @@
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Låst ved start</string>
     <string name="screen_orientation_portrait">Portræt</string>
-    <string name="screen_orientation_landscape">Liggende</string>
-    <string name="screen_orientation_reverse_portrait">Vend portræt om</string>
-    <string name="screen_orientation_reverse_landscape">Drej liggende rundt</string>
-    <string name="enable_black_theme">Aktivér sort tema</string>
+    <string name="screen_orientation_landscape">Landskab</string>
+    <string name="screen_orientation_reverse_portrait">Vend portrættet om</string>
+    <string name="screen_orientation_reverse_landscape">Vend landskabet om</string>
+    <string name="enable_black_theme">Slå sort tema til</string>
     <string name="enable_black_theme_summary">Skift farverne på brugerfladen for bedre komfort i miljøer med svag belysning.</string>
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="extra_prefs_category">Ekstra indstillinger</string>
@@ -253,4 +253,7 @@
     <string name="sending_log">Sender loggen ...</string>
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
+    <string name="new_app">Et nyt program er tilgængeligt</string>
+    <string name="new_app_msg">Betatesten af VLC til Android er afsluttet. Fremover vil nye versioner blive udgivet for de nye programmer.</string>
+    <string name="new_app_go">Hent det</string>
 </resources>
