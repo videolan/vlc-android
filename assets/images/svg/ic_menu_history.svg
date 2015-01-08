@@ -9,11 +9,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130"
-   height="130"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="ic_menu_history.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,17 +27,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="48.246774"
-     inkscape:cy="74.339893"
+     inkscape:zoom="5.6"
+     inkscape:cx="64.961862"
+     inkscape:cy="37.477627"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
-     inkscape:window-maximized="1" />
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2992"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -46,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,11 +62,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-922.36218)">
+     transform="translate(0,-1028.3622)">
     <path
-       style="fill:#777777;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       d="m 65.000002,942.36218 c -24.852727,0 -45.000012,20.14719 -45.000012,45.00001 0,24.85281 20.147285,45.00001 45.000012,45.00001 24.852847,0 45.000008,-20.1472 45.000008,-45.00001 0,-24.85282 -20.147161,-45.00001 -45.000008,-45.00001 z m 0,12.85715 c 17.752205,0 32.142847,14.39085 32.142847,32.14286 0,17.75201 -14.390642,32.14281 -32.142847,32.14281 -17.751845,0 -32.142729,-14.3908 -32.142849,-32.14281 0,-17.75201 14.391004,-32.14286 32.142849,-32.14286 z m 0,6.42857 c -1.77504,0 -5.142721,2.08195 -5.142841,3.85714 l 0,21.85715 c 0,0.22191 0.066,0.43377 0.16068,0.64285 -0.0132,0.62372 0.1152,1.16117 0.48216,1.5268 l 11.732163,11.73206 c 1.25628,1.2544 5.092921,0.3314 6.348362,-0.9241 1.2552,-1.25519 2.18052,-5.09419 0.924,-6.34815 l -9.361683,-9.36161 0,-19.125 c 0,-1.77519 -3.367561,-3.85714 -5.142841,-3.85714 z"
-       id="path5877"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       id="path2990"
+       d="m 12,1031.3622 c -4.970563,0 -9,4.0294 -9,9 l -2,0 2,2 0.3125,0.3125 0.6875,0.6875 1.25,-1.25 0.75,-0.75 1,-1 -2,0 c 0,-3.866 3.134007,-7 7,-7 3.865993,0 7,3.134 7,7 0,3.866 -3.134007,7 -7,7 -2.197004,0 -4.131408,-1.0095 -5.40625,-2.5937 l -1.4375,1.4375 c 1.646865,1.9325 4.102495,3.1562 6.84375,3.1562 4.970563,0 9,-4.0294 9,-9 0,-4.9706 -4.029437,-9 -9,-9 z m -1,4 0,4 0,0.5938 0,0.8125 2.40625,2.4062 1.4375,-1.4062 -1.84375,-1.8438 0,-4.5625 -2,0 z"
+       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
   </g>
 </svg>
