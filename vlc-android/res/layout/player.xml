@@ -76,10 +76,4 @@
 
     </RelativeLayout>
 
-    <!--<fragment-->
-    <!--android:name="org.videolan.vlc.gui.video.AdvancedOptionsFragment"-->
-    <!--android:layout_width="600dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_alignParentRight="true"/>-->
-
 </RelativeLayout>

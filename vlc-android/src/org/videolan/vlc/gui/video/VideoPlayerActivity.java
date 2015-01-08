@@ -91,6 +91,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -2519,7 +2520,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public void showAdvancedOptions(View v) {
-        CommonDialogs.advancedOptions(this, v, MenuType.Video);
+        FragmentManager fm = getSupportFragmentManager();
+        AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
+        advOptionsDialog.show(fm, "fragment_adv_options");
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

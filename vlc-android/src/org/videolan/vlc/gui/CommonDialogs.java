@@ -111,56 +111,15 @@ public class CommonDialogs {
             }
         }
 
-        TextView add_subtitle = (TextView)dialog.findViewById(R.id.add_subtitle);
         LinearLayout equalizer = (LinearLayout)dialog.findViewById(R.id.equalizer);
-        if(t == MenuType.Video) {
-            add_subtitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent("org.openintents.action.PICK_FILE");
-
-                    File file = new File(android.os.Environment.getExternalStorageDirectory().getPath());
-                    intent.setData(Uri.fromFile(file));
-
-                    // Set fancy title and button (optional)
-                    intent.putExtra("org.openintents.extra.TITLE", context.getString(R.string.subtitle_select));
-                    intent.putExtra("org.openintents.extra.BUTTON_TEXT", context.getString(R.string.open));
-
-                    if (context
-                            .getPackageManager()
-                            .queryIntentActivities(intent,
-                                    PackageManager.MATCH_DEFAULT_ONLY).size() > 0) {
-                        ((Activity)context).startActivityForResult(intent, INTENT_SPECIFIC);
-                    } else {
-                        // OI intent not found, trying anything
-                        Intent intent2 = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent2.setType("*/*");
-                        intent2.addCategory(Intent.CATEGORY_OPENABLE);
-                        try {
-                            ((Activity)context).startActivityForResult(intent2, INTENT_GENERIC);
-                        } catch(ActivityNotFoundException e) {
-                            Log.i(TAG, "No file picker found on system");
-                            Toast.makeText(context,
-                                    R.string.no_file_picker_found,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    dialog.dismiss();
-                }
-            });
-            equalizer.setVisibility(View.GONE);
-        } else {
-            final MainActivity activity = (MainActivity)context;
-            equalizer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    activity.showSecondaryFragment("equalizer");
-                    dialog.dismiss();
-                }
-            });
-            add_subtitle.setVisibility(View.GONE);
-        }
+        final MainActivity activity = (MainActivity)context;
+        equalizer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.showSecondaryFragment("equalizer");
+                dialog.dismiss();
+            }
+        });
 
         // show dialog
         dialog.show();

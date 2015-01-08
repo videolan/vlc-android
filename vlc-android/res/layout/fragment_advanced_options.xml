@@ -2,24 +2,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.8"
-    android:background="@color/black"
-    android:paddingTop="?attr/actionBarSize"
-    tools:context="org.videolan.vlc.gui.video.AdvancedOptionsFragment">
+    android:padding="20dp"
+    tools:context="org.videolan.vlc.gui.video.AdvOptionsDialog">
 
     <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/playback_speed_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_speed_normal_w"/>
     <TextView
-        android:id="@+id/tv1"
+        android:id="@+id/playback_speed_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/playback_speed_seek"
+        android:layout_toRightOf="@+id/playback_speed_icon"
+        android:text="@string/playback_speed"
+        android:gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/playback_speed_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/playback_speed_title"
+        android:text="1.00x"
+        android:gravity="bottom"
+        android:layout_alignBottom="@+id/seek_beginning"
+        android:layout_below="@+id/playback_speed_title"/>
+    <SeekBar
+        android:id="@+id/playback_speed_seek"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="test" />
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:maxHeight="@dimen/seekbar_height"
+        android:minHeight="@dimen/seekbar_height"
+        android:max="200"
+        android:progress="100"
+        android:indeterminate="false"
+        android:layout_toRightOf="@+id/playback_speed_title"
+        android:layout_toLeftOf="@+id/playback_speed_reset"
+        android:progressDrawable="@drawable/po_seekbar"
+        android:thumb="@drawable/seekbar_thumb"/>
+
+        <TextView
+            android:id="@+id/seek_beginning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playback_speed_seek"
+            android:layout_alignLeft="@+id/playback_speed_seek"
+            android:text="0.25" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playback_speed_seek"
+            android:layout_toRightOf="@+id/seek_beginning"
+            android:layout_toLeftOf="@+id/seek_end"
+            android:gravity="center_horizontal"
+            android:text="1.00" />
+
+        <TextView
+            android:id="@+id/seek_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playback_speed_seek"
+            android:layout_alignRight="@+id/playback_speed_seek"
+            android:text="4.00" />
+    <Button
+        android:id="@+id/playback_speed_reset"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/tv1"
-        android:textColor="@color/white"
-        android:text="test 2" />
+        android:layout_alignParentRight="true"
+        android:text="1x"/>
+    <!-- Sleep Timer-->
+    <ImageView
+        android:id="@+id/sleep_timer_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_sleep_normal_w"/>
+    <TextView
+        android:id="@+id/sleep_timer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/sleep_timer_icon"
+        android:text="@string/sleep_title" />
+    <TextView
+        android:id="@+id/sleep_timer_value"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/sleep_timer_title"
+        android:layout_alignLeft="@+id/seek_beginning"
+        android:text="none_set"
+        android:clickable="true"/>
+    <TextView
+        android:id="@+id/sleep_timer_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/sleep_timer_value"
+        android:text="@string/sleep_cancel"
+        android:clickable="true"/>
+    <!-- Jump to position -->
+    <ImageView
+        android:id="@+id/jump_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_toLeftOf="@+id/jump_title"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_jumpto_normal_w" />
+    <TextView
+        android:id="@+id/jump_title"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/playback_speed_value"
+        android:layout_marginTop="10dp"
+        android:layout_alignRight="@+id/playback_speed_reset"
+        android:text="@string/jump_to_time" />
 
 </RelativeLayout>

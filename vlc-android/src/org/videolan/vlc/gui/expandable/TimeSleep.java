@@ -45,7 +45,6 @@ public class TimeSleep extends ExpandableLayout {
 
     private final WheelView mHourWheel;
     private final WheelView mMinWheel;
-    private static Calendar mTime = null;
 
     public TimeSleep(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -65,9 +64,9 @@ public class TimeSleep extends ExpandableLayout {
         okButton.setOnClickListener(mOnOkListener);
         cancelButton.setOnClickListener(mOnCancelListener);
 
-        if (mTime != null && mTime.before(Calendar.getInstance()))
-            mTime = null;
-        Calendar c = mTime != null ? mTime : Calendar.getInstance();
+        if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
+            VLCApplication.sPlayerSleepTime = null;
+        Calendar c = VLCApplication.sPlayerSleepTime != null ? VLCApplication.sPlayerSleepTime : Calendar.getInstance();
         mHourWheel.setCurrentItem(c.get(Calendar.HOUR_OF_DAY));
         mMinWheel.setCurrentItem(c.get(Calendar.MINUTE));
         setText();
@@ -98,7 +97,7 @@ public class TimeSleep extends ExpandableLayout {
     };
 
     private void setText() {
-        setText(mTime != null ? DateFormat.getTimeFormat(getContext()).format(mTime.getTime()) : null);
+        setText(VLCApplication.sPlayerSleepTime != null ? DateFormat.getTimeFormat(getContext()).format(VLCApplication.sPlayerSleepTime.getTime()) : null);
     }
 
     public static void setSleep(Context context, Calendar time) {
@@ -114,7 +113,7 @@ public class TimeSleep extends ExpandableLayout {
             alarmMgr.cancel(sleepPendingIntent);
             Log.i(TAG, "Sleep cancelled");
         }
-        mTime = time;
+        VLCApplication.sPlayerSleepTime = time;
     }
 
     public static void cancelSleep(Context context) {

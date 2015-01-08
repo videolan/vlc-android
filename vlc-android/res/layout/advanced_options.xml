@@ -37,15 +37,6 @@
         android:background="?attr/advanced_options_divider"
         tools:ignore="PxUsage" />
 
-    <TextView
-        android:id="@+id/add_subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/background_item"
-        android:text="@string/subtitle_label"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <LinearLayout
         android:id="@+id/equalizer"
         android:layout_width="match_parent"

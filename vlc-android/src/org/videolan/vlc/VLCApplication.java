@@ -19,6 +19,7 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import java.util.Calendar;
 import java.util.Locale;
 
 import org.videolan.vlc.gui.audio.AudioUtil;
@@ -39,6 +40,8 @@ public class VLCApplication extends Application {
     public final static String SLEEP_INTENT = "org.videolan.vlc.SleepIntent";
     public final static String INCOMING_CALL_INTENT = "org.videolan.vlc.IncomingCallIntent";
     public final static String CALL_ENDED_INTENT = "org.videolan.vlc.CallEndedIntent";
+
+    public static Calendar sPlayerSleepTime = null;
 
     @Override
     public void onCreate() {
