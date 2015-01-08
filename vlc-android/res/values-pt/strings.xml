@@ -253,4 +253,5 @@
     <string name="sending_log">A enviar o registo...</string>
     <string name="drawer_open">Abrir menu de navegação</string>
     <string name="drawer_close">Fechar menu de navegação</string>
+    <string name="new_app">Nova Aplicação disponível</string>
 </resources>
