@@ -267,4 +267,7 @@
     <string name="sending_log">Адпраўка часапісу...</string>
     <string name="drawer_open">Адкрыць панэль навігацыі</string>
     <string name="drawer_close">Закрыць панэль навігацыі</string>
+    <string name="new_app">Даступна новая праграма</string>
+    <string name="new_app_msg">Фаза бэта-тэставання VLC скончылася. Усе наступныя абнаўленні будуць публікавацца для новай праграмы.</string>
+    <string name="new_app_go">Атрымаць</string>
 </resources>
