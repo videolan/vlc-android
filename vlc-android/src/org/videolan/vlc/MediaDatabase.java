@@ -42,6 +42,7 @@ import android.database.sqlite.SQLiteFullException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.util.Log;
 
 public class MediaDatabase {
@@ -206,11 +207,14 @@ public class MediaDatabase {
                     MRL_URI + " TEXT PRIMARY KEY NOT NULL,"+
                     MRL_DATE + " DATETIME NOT NULL"
                     +");";
-            createMrlTableQuery += "CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
-                    MRL_TABLE_NAME+ "BEGIN "+
-                    "DELETE FROM "+MRL_TABLE_NAME+" where "+MRL_URI+" NOT IN (SELECT "+MRL_URI+
-                    " from "+MRL_TABLE_NAME+" ORDER BY insertion_date DESC LIMIT "+MRL_TABLE_SIZE+")"+
-                    "END";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB &&
+                    Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                createMrlTableQuery += "CREATE TRIGGER mrl_history_trigger AFTER INSERT ON " +
+                        MRL_TABLE_NAME + "BEGIN " +
+                        "DELETE FROM " + MRL_TABLE_NAME + " where " + MRL_URI + " NOT IN (SELECT " + MRL_URI +
+                        " from " + MRL_TABLE_NAME + " ORDER BY insertion_date DESC LIMIT " + MRL_TABLE_SIZE + ")" +
+                        "END";
+            }
             db.execSQL(createMrlTableQuery);
         }
 
