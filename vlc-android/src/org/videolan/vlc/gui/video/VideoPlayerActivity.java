@@ -499,7 +499,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
         }
 
-        Boolean isPaused = !mLibVLC.isPlaying();
+        boolean isPaused = !mLibVLC.isPlaying();
 
         long time = mLibVLC.getTime();
         long length = mLibVLC.getLength();
