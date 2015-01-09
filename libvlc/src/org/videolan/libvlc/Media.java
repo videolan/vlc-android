@@ -34,6 +34,7 @@ public class Media implements Parcelable {
 
     public final static HashSet<String> VIDEO_EXTENSIONS;
     public final static HashSet<String> AUDIO_EXTENSIONS;
+    public final static HashSet<String> SUBTITLES_EXTENSIONS;
 
     static {
         final String[] video_extensions = {
@@ -51,12 +52,20 @@ public class Media implements Parcelable {
                 ".oga", ".ogg", ".oma", ".opus", ".ra", ".ram", ".rmi", ".s3m", ".spx", ".tta",
                 ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
 
+        final String[] subtitles_extensions = {
+                "idx", "sub",  "srt", "ssa", "ass",  "smi", "utf", "utf8", "utf-8",
+                "rt",   "aqt", "txt", "usf", "jss",  "cdg", "psb", "mpsub","mpl2",
+                "pjs", "dks", "stl", "vtt" };
+
         VIDEO_EXTENSIONS = new HashSet<String>();
         for (String item : video_extensions)
             VIDEO_EXTENSIONS.add(item);
         AUDIO_EXTENSIONS = new HashSet<String>();
         for (String item : audio_extensions)
             AUDIO_EXTENSIONS.add(item);
+        SUBTITLES_EXTENSIONS = new HashSet<String>();
+        for (String item : subtitles_extensions)
+            SUBTITLES_EXTENSIONS.add(item);
     }
 
     public final static int TYPE_ALL = -1;

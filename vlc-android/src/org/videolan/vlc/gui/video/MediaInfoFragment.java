@@ -67,6 +67,7 @@ public class MediaInfoFragment extends ListFragment {
     private TextView mPathView;
     private ImageButton mPlayButton;
     private TextView mDelete;
+    private ImageView mSubtitles;
     private TrackInfo[] mTracks;
     private MediaInfoAdapter mAdapter;
     private final static int NEW_IMAGE = 0;
@@ -74,6 +75,7 @@ public class MediaInfoFragment extends ListFragment {
     private final static int NEW_SIZE = 2;
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
+    private final static int SHOW_SUBTITLES = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class MediaInfoFragment extends ListFragment {
         mPathView = (TextView) v.findViewById(R.id.info_path);
         mPlayButton = (ImageButton) v.findViewById(R.id.play);
         mDelete = (TextView) v.findViewById(R.id.info_delete);
+        mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
         if (!LibVlcUtil.isICSOrLater())
             mDelete.setText(getString(R.string.delete).toUpperCase());
 
@@ -148,8 +151,25 @@ public class MediaInfoFragment extends ListFragment {
                 mHandler.obtainMessage(HIDE_DELETE).sendToTarget();
             long length = itemFile.length();
             mHandler.obtainMessage(NEW_SIZE, Long.valueOf(length)).sendToTarget();
+            checkSubtitles(itemFile);
         }
     };
+
+    private void checkSubtitles(File itemFile) {
+        String extension, filename, videoName = Uri.decode(itemFile.getName());
+        videoName = videoName.substring(0, videoName.lastIndexOf('.'));
+        String[] files = itemFile.getParentFile().list();
+        for (int i = 0; i<files.length ; ++i){
+            filename = Uri.decode(files[i]);
+            extension = filename.substring(filename.lastIndexOf('.')+1);
+            if (!Media.SUBTITLES_EXTENSIONS.contains(extension))
+                continue;
+            if (filename.startsWith(videoName)) {
+                mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
+                return;
+            }
+        }
+    }
 
     Runnable mLoadImage = new Runnable() {
         @Override
@@ -159,12 +179,12 @@ public class MediaInfoFragment extends ListFragment {
             } catch (LibVlcException e) {
                 return;
             }
+            mTracks = mLibVlc.readTracksInfo(mItem.getLocation());
             int videoHeight = mItem.getHeight();
             int videoWidth = mItem.getWidth();
             if (videoWidth == 0 || videoHeight == 0)
                 return;
 
-            mTracks = mLibVlc.readTracksInfo(mItem.getLocation());
             mHandler.sendEmptyMessage(NEW_TEXT);
 
             DisplayMetrics screen = new DisplayMetrics();
@@ -207,14 +227,20 @@ public class MediaInfoFragment extends ListFragment {
     }
 
     private void updateText() {
+        boolean hasSubs = false;
         for (TrackInfo track : mTracks) {
-            if (track.Type != TrackInfo.TYPE_META)
+            if (track.Type != TrackInfo.TYPE_META) {
                 mAdapter.add(track);
+                if (track.Type == TrackInfo.TYPE_TEXT)
+                    hasSubs = true;
+            }
         }
         if (mAdapter.isEmpty()) {
             ((MainActivity) getActivity()).popSecondaryFragment();
             return;
         }
+        if (hasSubs)
+            mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();
     }
 
     private void updateSize(Long size){
@@ -249,6 +275,9 @@ public class MediaInfoFragment extends ListFragment {
                 case EXIT:
                     ((MainActivity) fragment.getActivity()).popSecondaryFragment();
                     MediaLibrary.getInstance().loadMediaItems(fragment.getActivity(), true);
+                    break;
+                case SHOW_SUBTITLES:
+                    fragment.mSubtitles.setVisibility(View.VISIBLE);
                     break;
             }
         };

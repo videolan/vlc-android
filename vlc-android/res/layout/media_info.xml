@@ -51,6 +51,8 @@
             android:id="@+id/info_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:layout_below="@+id/image_container"/>
         <TextView
@@ -67,6 +69,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/info_path"
             android:layout_toRightOf="@+id/size_title"/>
+        <ImageView
+            android:id="@+id/info_subtitles"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/info_path"
+            android:layout_toRightOf="@+id/size_value"
+            android:src="@drawable/ic_subtitle_circle_normal_o"
+            android:visibility="invisible"/>
         <TextView
             android:id="@+id/info_delete"
             android:layout_width="wrap_content"
