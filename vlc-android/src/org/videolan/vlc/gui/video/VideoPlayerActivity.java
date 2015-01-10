@@ -262,6 +262,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private boolean mDisabledHardwareAcceleration = false;
     private int mPreviousHardwareAccelerationMode;
 
+    /**
+     * Flag to indicate whether the media should be paused once loaded
+     * (e.g. lock screen, or to restore the pause state)
+     */
+    private boolean mPauseOnLoaded = false;
+
     // Tips
     private View mOverlayTips;
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
@@ -631,6 +637,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onResume() {
         super.onResume();
         mSwitchingView = false;
+        mPauseOnLoaded = false;
         AudioServiceController.getInstance().bindAudioService(this,
                 new AudioServiceController.AudioServiceConnectionListener() {
                     @Override
@@ -669,23 +676,18 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void startPlayback() {
-        loadMedia();
-
         /*
-         * if the activity has been paused by pressing the power button,
+         * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
-         * But onResume will also be called, even if vlc-android is still in the background.
-         * To workaround that, pause playback if the lockscreen is displayed
+         * But onResume will also be called, even if vlc-android is still in
+         * the background.
+         * To workaround this, pause playback if the lockscreen is displayed.
          */
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mLibVLC != null && mLibVLC.isPlaying()) {
-                    KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
-                    if (km.inKeyguardRestrictedInputMode())
-                        mLibVLC.pause();
-                }
-            }}, 500);
+        KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
+        if(km.inKeyguardRestrictedInputMode())
+            mPauseOnLoaded = true;
+
+        loadMedia();
 
         // Add any selected subtitle file from the file picker
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -1153,6 +1155,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
+                    // Handle pause flag
+                    if(activity.mPauseOnLoaded) {
+                        activity.mPauseOnLoaded = false;
+                        activity.mLibVLC.pause();
+                        activity.setOverlayProgress();
+                    }
                     activity.stopLoadingAnimation();
                     activity.showOverlay();
                     /** FIXME: update the track list when it changes during the
@@ -2410,11 +2418,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             boolean wasPaused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
             if(wasPaused) {
                 Log.d(TAG, "Video was previously paused, resuming in paused mode");
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mLibVLC.pause();
-                    }}, 500);
+                mPauseOnLoaded = true;
             }
 
             // Get possible subtitles
