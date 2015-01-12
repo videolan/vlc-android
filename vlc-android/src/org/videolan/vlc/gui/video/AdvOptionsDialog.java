@@ -28,6 +28,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,7 +74,9 @@ public class AdvOptionsDialog extends DialogFragment{
 
     private ImageView mJumpIcon;
     private TextView mJumpTitle;
+
     private static AdvOptionsDialog sInstance;
+    private int mTextColor;
 
     public AdvOptionsDialog() {}
 
@@ -113,9 +117,14 @@ public class AdvOptionsDialog extends DialogFragment{
         mJumpIcon.setOnClickListener(mJumpListener);
         mJumpTitle.setOnClickListener(mJumpListener);
 
+        mReset.setOnFocusChangeListener(mFocusListener);
+        mSleepTime.setOnFocusChangeListener(mFocusListener);
+        mSleepCancel.setOnFocusChangeListener(mFocusListener);
+        mJumpTitle.setOnFocusChangeListener(mFocusListener);
 
         getDialog().setCancelable(true);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
+        mTextColor = mSleepTitle.getCurrentTextColor();
         return root;
     }
 
@@ -158,6 +167,15 @@ public class AdvOptionsDialog extends DialogFragment{
         @Override
         public void onClick(View v) {
             showTimePicker(TimePickerDialogFragment.ACTION_JUMP);
+        }
+    };
+
+    View.OnFocusChangeListener mFocusListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (v instanceof TextView)
+                ((TextView) v).setTextColor(v.hasFocus() ?
+                        sInstance.getResources().getColor(R.color.darkorange) : mTextColor);
         }
     };
 

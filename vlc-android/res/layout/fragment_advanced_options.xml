@@ -42,7 +42,9 @@
         android:layout_toRightOf="@+id/playback_speed_title"
         android:layout_toLeftOf="@+id/playback_speed_reset"
         android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/seekbar_thumb"/>
+        android:splitTrack="false"
+        android:thumb="@drawable/seekbar_thumb"
+        android:focusable="true"/>
 
         <TextView
             android:id="@+id/seek_beginning"
@@ -73,7 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="1x"/>
+        android:text="1x"
+        android:focusable="true" />
     <!-- Sleep Timer-->
     <ImageView
         android:id="@+id/sleep_timer_icon"
@@ -101,7 +104,8 @@
         android:layout_toRightOf="@+id/sleep_timer_title"
         android:layout_alignLeft="@+id/seek_beginning"
         android:text="none_set"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:focusable="true"/>
     <TextView
         android:id="@+id/sleep_timer_cancel"
         android:layout_width="wrap_content"
@@ -112,7 +116,8 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/sleep_timer_value"
         android:text="@string/sleep_cancel"
-        android:clickable="true"/>
+        android:clickable="true"
+        android:focusable="true"/>
     <!-- Jump to position -->
     <ImageView
         android:id="@+id/jump_icon"
@@ -130,6 +135,8 @@
         android:layout_below="@+id/playback_speed_value"
         android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/playback_speed_reset"
-        android:text="@string/jump_to_time" />
+        android:text="@string/jump_to_time"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </RelativeLayout>
