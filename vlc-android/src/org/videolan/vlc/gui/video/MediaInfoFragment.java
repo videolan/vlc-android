@@ -156,9 +156,20 @@ public class MediaInfoFragment extends ListFragment {
     };
 
     private void checkSubtitles(File itemFile) {
-        String extension, filename, videoName = Uri.decode(itemFile.getName());
+        String extension, filename, videoName = Uri.decode(itemFile.getName()), parentPath = Uri.decode(itemFile.getParent());
         videoName = videoName.substring(0, videoName.lastIndexOf('.'));
+        String[] subFolders = {"/Subtitles", "/subtitles", "/Subs", "/subs"};
         String[] files = itemFile.getParentFile().list();
+        for (int i = 0 ; i < subFolders.length ; ++i){
+            File subFolder = new File(parentPath+subFolders[i]);
+            if (!subFolder.exists())
+                continue;
+            String[] subFiles = subFolder.list();
+            String[] newFiles = new String[files.length+subFiles.length];
+            System.arraycopy(subFiles, 0, newFiles, 0, subFiles.length);
+            System.arraycopy(files, 0, newFiles, subFiles.length, files.length);
+            files = newFiles;
+        }
         for (int i = 0; i<files.length ; ++i){
             filename = Uri.decode(files[i]);
             extension = filename.substring(filename.lastIndexOf('.')+1);
