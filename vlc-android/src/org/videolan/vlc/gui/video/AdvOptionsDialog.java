@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -49,6 +50,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.JumpToTimeFragment;
 import org.videolan.vlc.gui.TimePickerDialogFragment;
 import org.videolan.vlc.util.Strings;
 
@@ -125,6 +127,7 @@ public class AdvOptionsDialog extends DialogFragment{
         getDialog().setCancelable(true);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
+
         return root;
     }
 
@@ -152,6 +155,7 @@ public class AdvOptionsDialog extends DialogFragment{
         @Override
         public void onClick(View v) {
             showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);
+            dismiss();
         }
     };
 
@@ -166,7 +170,10 @@ public class AdvOptionsDialog extends DialogFragment{
     View.OnClickListener mJumpListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            showTimePicker(TimePickerDialogFragment.ACTION_JUMP);
+            DialogFragment newFragment = new JumpToTimeFragment();
+            newFragment.show(getActivity().getSupportFragmentManager(), "jump");
+            dismiss();
+//            showTimePicker(TimePickerDialogFragment.ACTION_JUMP);
         }
     };
 
