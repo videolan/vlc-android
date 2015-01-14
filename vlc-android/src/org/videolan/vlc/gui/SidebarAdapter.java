@@ -86,7 +86,7 @@ public class SidebarAdapter extends BaseAdapter {
         for(SidebarEntry e : entries) {
             sidebarFragments.add(e.id);
         }
-        entries.add(new SidebarEntry(SidebarEntry.ID_PREFERENCES, R.string.preferences, R.attr.ic_menu_preferences, SidebarEntry.TYPE_ACTION));
+//        entries.add(new SidebarEntry(SidebarEntry.ID_PREFERENCES, R.string.preferences, R.attr.ic_menu_preferences, SidebarEntry.TYPE_ACTION));
     }
 
     public SidebarAdapter(Context context) {

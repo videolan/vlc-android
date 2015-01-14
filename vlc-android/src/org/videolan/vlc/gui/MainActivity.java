@@ -110,6 +110,7 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout mRootContainer;
     private ListView mListView;
     private ActionBarDrawerToggle mDrawerToggle;
+    private View mSideMenu;
 
     private View mInfoLayout;
     private ProgressBar mInfoProgress;
@@ -207,6 +208,7 @@ public class MainActivity extends ActionBarActivity {
         mSlidingPane = (SlidingPaneLayout) v_main.findViewById(R.id.pane);
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
 
+        mSideMenu = v_main.findViewById(R.id.side_menu);
         mListView = (ListView)v_main.findViewById(R.id.sidelist);
         mListView.setFooterDividersEnabled(true);
         mSidebarAdapter = new SidebarAdapter(this);
@@ -250,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
                 if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
                     if (mFocusedPrior != 0)
                         findViewById(R.id.ml_menu_search).requestFocus();
-                    mRootContainer.closeDrawer(mListView);
+                    mRootContainer.closeDrawer(mSideMenu);
                     return;
                 }
 
@@ -287,7 +289,7 @@ public class MainActivity extends ActionBarActivity {
 
                     if (mFocusedPrior != 0)
                         findViewById(R.id.ml_menu_search).requestFocus();
-                    mRootContainer.closeDrawer(mListView);
+                    mRootContainer.closeDrawer(mSideMenu);
                 }else if (entry.attributeID == R.attr.ic_menu_preferences){
                     startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 }
@@ -311,7 +313,7 @@ public class MainActivity extends ActionBarActivity {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mRootContainer.openDrawer(mListView);
+                    mRootContainer.openDrawer(mSideMenu);
                 }
             }, 500);
         }
@@ -448,11 +450,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if(mRootContainer.isDrawerOpen(mListView)) {
+        if(mRootContainer.isDrawerOpen(mSideMenu)) {
             /* Close the menu first */
             if (mFocusedPrior != 0)
                 findViewById(R.id.ml_menu_search).requestFocus();
-            mRootContainer.closeDrawer(mListView);
+            mRootContainer.closeDrawer(mSideMenu);
             return;
         }
 
@@ -689,7 +691,7 @@ public class MainActivity extends ActionBarActivity {
                 MediaDatabase.getInstance().clearSearchHistory();
                 break;
         }
-        mRootContainer.closeDrawer(mListView);
+        mRootContainer.closeDrawer(mSideMenu);
         return super.onOptionsItemSelected(item);
     }
 
@@ -1021,6 +1023,15 @@ public class MainActivity extends ActionBarActivity {
             if (mRootContainer.getChildAt(i).getId() == R.id.audio_tips)
                 mRootContainer.removeViewAt(i);
             }
+        }
+    }
+
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.settings:
+            case R.id.settings_icon:
+                startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                break;
         }
     }
 }
