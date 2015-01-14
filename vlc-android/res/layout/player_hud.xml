@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="true"
-            android:src="@drawable/ic_pause_circle_normal_o"
+            android:src="@drawable/ic_pause_circle"
             android:scaleType="center"
             android:focusable="true"/>
 
