@@ -74,7 +74,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         if (mLocations == null)
             mLocations = new ArrayList<String>();
         else {
-            mAdapter = new PlaylistAdapter(mLocations);
+            mAdapter = new PlaylistAdapter(this, mLocations);
             mRecyclerView.setAdapter(mAdapter);
         }
 
@@ -119,7 +119,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         } else {
             mLocations = medialocations;
             update();
-            mAdapter = new PlaylistAdapter(mLocations);
+            mAdapter = new PlaylistAdapter(this, mLocations);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -160,7 +160,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
             case KeyEvent.KEYCODE_SPACE:
-            case KeyEvent.KEYCODE_BUTTON_A:
+            case KeyEvent.KEYCODE_BUTTON_B:
                 togglePlayPause();
                 return true;
             case KeyEvent.KEYCODE_F:
@@ -178,17 +178,26 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
              */
             case KeyEvent.KEYCODE_DPAD_UP:
                 selectPrevious();
+                mRecyclerView.requestFocus();
                 return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 selectNext();
+                mRecyclerView.requestFocus();
                 return true;
-            case KeyEvent.KEYCODE_BUTTON_X:
-                mAudioController.playIndex(mSelectedItem);
-                mCurrentlyPlaying = mSelectedItem;
-                return true;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                if (mRecyclerView.hasFocus()) {
+                    playSelection();
+                    return true;
+                } else
+                return false;
             default:
                 return super.onKeyDown(keyCode, event);
         }
+    }
+
+    public void playSelection() {
+        mAudioController.playIndex(mSelectedItem);
+        mCurrentlyPlaying = mSelectedItem;
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){

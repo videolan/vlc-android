@@ -30,9 +30,10 @@ import org.videolan.vlc.MediaLibrary;
 
 import java.util.ArrayList;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements View.OnClickListener {
     public static final String TAG = "VLC/PlaylistAdapter";
 
+    private AudioPlayerActivity mAudioPlayerActivity;
     private ArrayList<String> mDataset;
     private static MediaLibrary sMediaLibrary = MediaLibrary.getInstance();
     private int mSelectedItem = -1;
@@ -49,8 +50,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    public PlaylistAdapter(ArrayList<String> myDataset) {
+    public PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, ArrayList<String> myDataset) {
         mDataset = myDataset;
+        mAudioPlayerActivity = audioPlayerActivity;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         holder.mTitleTv.setText(media.getTitle());
         holder.mArtistTv.setText(media.getArtist());
         holder.itemView.setActivated(position == mSelectedItem);
+        holder.itemView.setOnClickListener(this);
     }
 
     @Override
@@ -86,5 +89,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         mSelectedItem = pos;
         notifyItemChanged(previous);
         notifyItemChanged(mSelectedItem);
+    }
+
+    @Override
+    public void onClick(View v){
+        mAudioPlayerActivity.playSelection();
     }
 }

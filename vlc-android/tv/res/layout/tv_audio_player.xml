@@ -26,7 +26,8 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:nextFocusLeft="@+id/button_next" />
     </LinearLayout>
 
     <!-- Media HUD -->
@@ -80,7 +81,10 @@
 	            android:layout_height="wrap_content"
 	            android:src="@drawable/ic_previous"
 	            android:clickable="true"
-	            android:onClick="onClick"/>
+	            android:onClick="onClick"
+                android:nextFocusRight="@+id/button_play"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 	        <ImageView
 	            android:id="@+id/button_play"
 	            android:layout_width="wrap_content"
@@ -89,14 +93,22 @@
 	            android:layout_marginRight="10dp"
 	            android:src="@drawable/ic_play"
 	            android:clickable="true"
-	            android:onClick="onClick"/>
+	            android:onClick="onClick"
+                android:nextFocusRight="@+id/button_next"
+                android:nextFocusLeft="@id/button_previous"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 	        <ImageView
 	            android:id="@+id/button_next"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:src="@drawable/ic_next"
 	            android:clickable="true"
-	            android:onClick="onClick"/>
+	            android:onClick="onClick"
+                android:nextFocusRight="@id/playlist"
+                android:nextFocusLeft="@id/button_play"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 	        </LinearLayout>
     </RelativeLayout>
 
