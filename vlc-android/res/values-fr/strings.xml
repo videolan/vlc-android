@@ -251,4 +251,5 @@
     <string name="sending_log">Envoi du rapport...</string>
     <string name="drawer_open">Ouvrir le volet de navigation</string>
     <string name="drawer_close">Fermer le volet de navigation</string>
+    <string name="new_app">Nouvelle Application disponible</string>
 </resources>
