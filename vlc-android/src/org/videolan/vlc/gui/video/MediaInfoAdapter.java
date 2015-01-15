@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.gui.video;
 
-import org.videolan.libvlc.TrackInfo;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.R;
 
 import android.content.Context;
@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
+public class MediaInfoAdapter extends ArrayAdapter<Media.Track> {
 
     public MediaInfoAdapter(Context context) {
         super(context, 0);
@@ -51,23 +51,23 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
         } else
             holder = (ViewHolder) v.getTag();
 
-        TrackInfo track = getItem(position);
+        Media.Track track = getItem(position);
         String title;
         StringBuilder textBuilder = new StringBuilder(1024);
         Resources res = getContext().getResources();
-        switch (track.Type)
+        switch (track.type)
         {
-            case TrackInfo.TYPE_AUDIO:
+            case Media.Track.Type.Audio:
                 title = res.getString(R.string.track_audio);
                 appendCommon(textBuilder, res, track);
-                appendAudio(textBuilder, res, track);
+                appendAudio(textBuilder, res, (Media.AudioTrack)track);
                 break;
-            case TrackInfo.TYPE_VIDEO:
+            case Media.Track.Type.Video:
                 title = res.getString(R.string.track_video);
                 appendCommon(textBuilder, res, track);
-                appendVideo(textBuilder, res, track);
+                appendVideo(textBuilder, res, (Media.VideoTrack) track);
                 break;
-            case TrackInfo.TYPE_TEXT:
+            case Media.Track.Type.Text:
                 title = res.getString(R.string.track_text);
                 appendCommon(textBuilder, res, track);
                 break;
@@ -81,22 +81,23 @@ public class MediaInfoAdapter extends ArrayAdapter<TrackInfo> {
         return v;
     }
 
-    private void appendCommon(StringBuilder textBuilder, Resources res, TrackInfo track) {
-        textBuilder.append(res.getString(R.string.track_codec_info, track.Codec));
-        if (track.Language != null && !track.Language.equalsIgnoreCase("und"))
-            textBuilder.append(res.getString(R.string.track_language_info, track.Language));
+    private void appendCommon(StringBuilder textBuilder, Resources res, Media.Track track) {
+        textBuilder.append(res.getString(R.string.track_codec_info, track.codec));
+        if (track.language != null && !track.language.equalsIgnoreCase("und"))
+            textBuilder.append(res.getString(R.string.track_language_info, track.language));
     }
 
-    private void appendAudio(StringBuilder textBuilder, Resources res, TrackInfo track) {
-        textBuilder.append(res.getQuantityString(R.plurals.track_channels_info_quantity, track.Channels, track.Channels));
-        textBuilder.append(res.getString(R.string.track_samplerate_info, track.Samplerate));
+    private void appendAudio(StringBuilder textBuilder, Resources res, Media.AudioTrack track) {
+        textBuilder.append(res.getQuantityString(R.plurals.track_channels_info_quantity, track.channels, track.channels));
+        textBuilder.append(res.getString(R.string.track_samplerate_info, track.rate));
     }
 
-    private void appendVideo(StringBuilder textBuilder, Resources res, TrackInfo track) {
-        if( track.Width != 0 && track.Height != 0 )
-            textBuilder.append(res.getString(R.string.track_resolution_info, track.Width, track.Height));
-        if( !Float.isNaN(track.Framerate) )
-            textBuilder.append(res.getString(R.string.track_framerate_info, track.Framerate));
+    private void appendVideo(StringBuilder textBuilder, Resources res, Media.VideoTrack track) {
+        final double framerate = track.frameRateNum / (double) track.frameRateDen;
+        if( track.width != 0 && track.height != 0 )
+            textBuilder.append(res.getString(R.string.track_resolution_info, track.width, track.height));
+        if( !Double.isNaN(framerate) )
+            textBuilder.append(res.getString(R.string.track_framerate_info, framerate));
     }
 
     static class ViewHolder {
