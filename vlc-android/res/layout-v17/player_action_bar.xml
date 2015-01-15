@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/tv_overscan_vertical"
         android:layout_gravity="top"
         android:background="?attr/status_bar_overlay"
         android:text="@string/title"

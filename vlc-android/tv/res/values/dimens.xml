@@ -1,4 +1,6 @@
 <resources>
     <dimen name="tv_card_width">192dp</dimen>
     <dimen name="tv_card_height">108dp</dimen>
+    <dimen name="tv_overscan_vertical">27dp</dimen>
+    <dimen name="tv_overscan_horizontal">48dp</dimen>
 </resources>

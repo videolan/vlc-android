@@ -35,6 +35,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/tv_overscan_vertical"
+        android:layout_marginLeft="@dimen/tv_overscan_horizontal"
+        android:layout_marginRight="@dimen/tv_overscan_horizontal"
         android:fitsSystemWindows="true" >
 
         <include
