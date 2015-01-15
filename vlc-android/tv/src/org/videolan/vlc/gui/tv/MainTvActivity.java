@@ -239,7 +239,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
             ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
             int size;
             Media item;
-            Bitmap picture;
 
             // Update video section
             if (!videoList.isEmpty()) {
@@ -251,7 +250,6 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
                     size = NUM_ITEMS_PREVIEW;
                 for (int i = 0 ; i < size ; ++i) {
                     item = videoList.get(i);
-                    picture = mediaDatabase.getPicture(mContext, item.getLocation());
 
                     mVideoAdapter.add(item);
                     mVideoIndex.put(item.getLocation(), i);
