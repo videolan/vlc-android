@@ -97,7 +97,7 @@ public class EventHandler {
     private ArrayList<Handler> mEventHandler;
     private static EventHandler mInstance;
 
-    public EventHandler() {
+    EventHandler() {
         mEventHandler = new ArrayList<Handler>();
     }
 

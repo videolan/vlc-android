@@ -22,22 +22,28 @@ package org.videolan.vlc;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
-
-import android.os.Bundle;
 
 public class MediaWrapperList {
     private static final String TAG = "VLC/MediaWrapperList";
 
+    public interface EventListener {
+        public void onItemAdded(int index, String mrl);
+        public void onItemRemoved(int index, String mrl);
+        public void onItemMoved(int indexBefore, int indexAfter, String mrl);
+    }
+
+    private static final int EVENT_ADDED = 0;
+    private static final int EVENT_REMOVED = 1;
+    private static final int EVENT_MOVED = 2;
 
     /* TODO: add locking */
     private ArrayList<MediaWrapper> mInternalList;
     private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
-    private EventHandler mEventHandler;
+    private ArrayList<EventListener> mEventListenerList;
 
     public MediaWrapperList(LibVLC libVLC) {
-        mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
+        mEventListenerList = new ArrayList<EventListener>();
         mInternalList = new ArrayList<MediaWrapper>();
         mLibVLC = libVLC;
     }
@@ -46,14 +52,38 @@ public class MediaWrapperList {
         mInternalList.add(media);
     }
 
+    public synchronized void addEventListener(EventListener listener) {
+        if (!mEventListenerList.contains(listener))
+            mEventListenerList.add(listener);
+    }
+
+    public synchronized void removeEventListener(EventListener listener) {
+        mEventListenerList.remove(listener);
+    }
+
+    private synchronized void signalEventListeners(int event, int arg1, int arg2, String mrl) {
+        for (EventListener listener : mEventListenerList) {
+            switch (event) {
+            case EVENT_ADDED:
+                listener.onItemAdded(arg1, mrl);
+                break;
+            case EVENT_REMOVED:
+                listener.onItemRemoved(arg1, mrl);
+                break;
+            case EVENT_MOVED:
+                listener.onItemMoved(arg1, arg2, mrl);
+                break;
+            }
+        }
+    }
+
     /**
      * Clear the media list. (remove all media)
      */
     public void clear() {
         // Signal to observers of media being deleted.
-        for(int i = 0; i < mInternalList.size(); i++) {
-            signal_list_event(EventHandler.CustomMediaListItemDeleted, i, mInternalList.get(i).getLocation());
-        }
+        for(int i = 0; i < mInternalList.size(); i++)
+            signalEventListeners(EVENT_REMOVED, i, -1, mInternalList.get(i).getLocation());
         mInternalList.clear();
     }
 
@@ -66,7 +96,7 @@ public class MediaWrapperList {
     }
     public void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);
-        signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
+        signalEventListeners(EVENT_ADDED, position, -1, media.getLocation());
     }
 
     /**
@@ -87,10 +117,7 @@ public class MediaWrapperList {
             mInternalList.add(endPosition, toMove);
         else
             mInternalList.add(endPosition - 1, toMove);
-        Bundle b = new Bundle();
-        b.putInt("index_before", startPosition);
-        b.putInt("index_after", endPosition);
-        mEventHandler.callback(EventHandler.CustomMediaListItemMoved, b);
+        signalEventListeners(EVENT_MOVED, startPosition, endPosition, toMove.getLocation());
     }
 
     public void remove(int position) {
@@ -98,7 +125,7 @@ public class MediaWrapperList {
             return;
         String uri = mInternalList.get(position).getLocation();
         mInternalList.remove(position);
-        signal_list_event(EventHandler.CustomMediaListItemDeleted, position, uri);
+        signalEventListeners(EVENT_REMOVED, position, -1, uri);
     }
 
     public void remove(String location) {
@@ -106,7 +133,7 @@ public class MediaWrapperList {
             String uri = mInternalList.get(i).getLocation();
             if (uri.equals(location)) {
                 mInternalList.remove(i);
-                signal_list_event(EventHandler.CustomMediaListItemDeleted, i, uri);
+                signalEventListeners(EVENT_REMOVED, i, -1, uri);
                 i--;
             }
         }
@@ -132,10 +159,6 @@ public class MediaWrapperList {
         return mInternalList.get(position).getLocation();
     }
 
-    public EventHandler getEventHandler() {
-        return mEventHandler;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -148,12 +171,5 @@ public class MediaWrapperList {
         }
         sb.append("}");
         return sb.toString();
-    }
-
-    private void signal_list_event(int event, int position, String uri) {
-        Bundle b = new Bundle();
-        b.putString("item_uri", uri);
-        b.putInt("item_index", position);
-        mEventHandler.callback(event, b);
     }
 }
