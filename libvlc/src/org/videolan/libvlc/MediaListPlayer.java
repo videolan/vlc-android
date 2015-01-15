@@ -49,7 +49,7 @@ public class MediaListPlayer {
             return;
 
         final Media media = mMediaList.getMedia(position);
-        String[] options = mLibVLC.getMediaOptions(media);
+        String[] options = mLibVLC.getMediaOptions(media != null ? media.getFlags() : 0);
         mPlayerIndex = position;
         mLibVLC.playMRL(mrl, options);
     }

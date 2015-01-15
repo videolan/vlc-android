@@ -73,9 +73,6 @@ public class Media implements Parcelable {
     public final static int TYPE_AUDIO = 1;
     public final static int TYPE_GROUP = 2;
 
-    public final static int FLAG_NO_VIDEO   = 0x01;
-    public final static int FLAG_NO_HWACCEL = 0x02;
-
     /** Metadata from libvlc_media */
     protected String mTitle;
     private String mArtist;

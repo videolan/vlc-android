@@ -56,6 +56,9 @@ public class LibVLC {
     public static final int INPUT_NAV_LEFT = 3;
     public static final int INPUT_NAV_RIGHT = 4;
 
+    public final static int MEDIA_NO_VIDEO   = 0x01;
+    public final static int MEDIA_NO_HWACCEL = 0x02;
+
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
     private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
 
@@ -340,14 +343,9 @@ public class LibVLC {
         return options.toArray(new String[options.size()]);
     }
 
-    public String[] getMediaOptions(Media media) {
-        boolean noHardwareAcceleration = false;
-        boolean noVideo = false;
-        if (media != null) {
-            final int flags = media.getFlags();
-            noHardwareAcceleration = (flags & Media.FLAG_NO_HWACCEL) != 0;
-            noVideo = (flags & Media.FLAG_NO_VIDEO) != 0;
-        }
+    public String[] getMediaOptions(int flags) {
+        final boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
+        final boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
         return getMediaOptions(noHardwareAcceleration, noVideo); 
     }
 

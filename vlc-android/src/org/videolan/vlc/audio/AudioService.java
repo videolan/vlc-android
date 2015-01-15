@@ -1224,7 +1224,7 @@ public class AudioService extends Service {
                     media = new Media(mLibVLC, location);
                 }
                 if (noVideo)
-                    media.addFlags(Media.FLAG_NO_VIDEO);
+                    media.addFlags(LibVLC.MEDIA_NO_VIDEO);
                 mediaList.add(media);
             }
 
