@@ -786,6 +786,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
 		InputDevice mInputDevice = event.getDevice();
 
+        float dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
+        float dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
+        if (Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
+            return false;
+
 		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
 				MotionEvent.AXIS_X);
 		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
@@ -833,11 +838,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         case KeyEvent.KEYCODE_BUTTON_L1:
             seek(-10000);
             return true;
+        case KeyEvent.KEYCODE_BUTTON_A:
+            if (mOverlayProgress.getVisibility() == View.VISIBLE)
+                return false;
         case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
         case KeyEvent.KEYCODE_MEDIA_PLAY:
         case KeyEvent.KEYCODE_MEDIA_PAUSE:
         case KeyEvent.KEYCODE_SPACE:
-        case KeyEvent.KEYCODE_BUTTON_A:
             if (mIsNavMenu)
                 return navigateDvdMenu(keyCode);
             else
