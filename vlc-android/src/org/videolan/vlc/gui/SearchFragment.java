@@ -22,7 +22,7 @@ package org.videolan.vlc.gui;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -105,7 +105,7 @@ public class SearchFragment extends ListFragment {
         mResultAdapter.clear();
         new Thread(new Runnable() {
             public void run() {
-                final ArrayList<Media> mediaList = MediaLibrary.getInstance().searchMedia(key, type);
+                final ArrayList<MediaWrapper> mediaList = MediaLibrary.getInstance().searchMedia(key, type);
                 mHandler.post(new Runnable() {
                     public void run() {
                         int count = mediaList.size();
@@ -158,7 +158,7 @@ public class SearchFragment extends ListFragment {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() > 0) {
-                search(s.toString(), Media.TYPE_ALL);
+                search(s.toString(), MediaWrapper.TYPE_ALL);
             } else {
                 showSearchHistory();
             }
@@ -198,15 +198,15 @@ public class SearchFragment extends ListFragment {
             db.addSearchhistoryItem(mSearchText.getText().toString());
 
             // open media in the player
-            Media item = (Media) getListView().getItemAtPosition(position);
+            MediaWrapper item = (MediaWrapper) getListView().getItemAtPosition(position);
             if (item != null) {
-                if (item.getType() == Media.TYPE_VIDEO) {
+                if (item.getType() == MediaWrapper.TYPE_VIDEO) {
                     VideoPlayerActivity.start(getActivity(), item.getLocation());
                 } else {
                     ArrayList<String> arr = new ArrayList<String>();
                     for (int i = 0; i < getListAdapter().getCount(); i++) {
-                        Media audioItem = (Media) getListAdapter().getItem(i);
-                        if (audioItem.getType() == Media.TYPE_AUDIO)
+                        MediaWrapper audioItem = (MediaWrapper) getListAdapter().getItem(i);
+                        if (audioItem.getType() == MediaWrapper.TYPE_AUDIO)
                             arr.add(audioItem.getLocation());
                     }
                     AudioServiceController.getInstance().load(arr, arr.indexOf(item.getLocation()));

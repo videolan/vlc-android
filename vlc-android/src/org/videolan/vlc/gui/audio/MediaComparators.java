@@ -21,7 +21,7 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.Comparator;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 
 public class MediaComparators {
 
@@ -35,32 +35,32 @@ public class MediaComparators {
         return String.CASE_INSENSITIVE_ORDER.compare(s1, s2);
     }
 
-    public static final Comparator<Media> byName = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byName = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             return nullInsensitiveStringCompare(m1.getTitle(), m2.getTitle());
         };
     };
 
-    public static final Comparator<Media> byMRL = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byMRL = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             return nullInsensitiveStringCompare(m1.getLocation(), m2.getLocation());
         };
     };
 
-    public static final Comparator<Media> byLength = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byLength = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             if(m1.getLength() > m2.getLength()) return -1;
             if(m1.getLength() < m2.getLength()) return 1;
             else return 0;
         };
     };
 
-    public static final Comparator<Media> byAlbum = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byAlbum = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             int res = nullInsensitiveStringCompare(m1.getAlbum(), m2.getAlbum());
             if (res == 0)
                 res = byMRL.compare(m1, m2);
@@ -68,9 +68,9 @@ public class MediaComparators {
         };
     };
 
-    public static final Comparator<Media> byArtist = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byArtist = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             int res = nullInsensitiveStringCompare(m1.getReferenceArtist(), m2.getReferenceArtist());
             if (res == 0)
                 res = byAlbum.compare(m1, m2);
@@ -78,9 +78,9 @@ public class MediaComparators {
         };
     };
 
-    public static final Comparator<Media> byGenre = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byGenre = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             int res = nullInsensitiveStringCompare(m1.getGenre(), m2.getGenre());
             if (res == 0)
                 res = byArtist.compare(m1, m2);
@@ -88,9 +88,9 @@ public class MediaComparators {
         };
     };
 
-    public static final Comparator<Media> byTrackNumber = new Comparator<Media>() {
+    public static final Comparator<MediaWrapper> byTrackNumber = new Comparator<MediaWrapper>() {
         @Override
-        public int compare(Media m1, Media m2) {
+        public int compare(MediaWrapper m1, MediaWrapper m2) {
             if(m1.getTrackNumber() < m2.getTrackNumber()) return -1;
             if(m1.getTrackNumber() > m2.getTrackNumber()) return 1;
             else return 0;

@@ -1,5 +1,5 @@
 /*****************************************************************************
- * MediaListPlayer.java
+ * MediaWrapperListPlayer.java
  *****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -18,23 +18,25 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.vlc;
 
 import java.util.ArrayList;
 
+import org.videolan.libvlc.LibVLC;
 
-public class MediaListPlayer {
+
+public class MediaWrapperListPlayer {
 
     private int mPlayerIndex = 0;
     final private LibVLC mLibVLC;
-    final private MediaList mMediaList;
+    final private MediaWrapperList mMediaList;
 
-    public MediaListPlayer(LibVLC libVLC) {
+    public MediaWrapperListPlayer(LibVLC libVLC) {
         mLibVLC = libVLC;
-        mMediaList = new MediaList(libVLC);
+        mMediaList = new MediaWrapperList(libVLC);
     }
 
-    public MediaList getMediaList() {
+    public MediaWrapperList getMediaList() {
         return mMediaList;
     }
 
@@ -48,7 +50,7 @@ public class MediaListPlayer {
         if (mrl == null)
             return;
 
-        final Media media = mMediaList.getMedia(position);
+        final MediaWrapper media = mMediaList.getMedia(position);
         String[] options = mLibVLC.getMediaOptions(media != null ? media.getFlags() : 0);
         mPlayerIndex = position;
         mLibVLC.playMRL(mrl, options);

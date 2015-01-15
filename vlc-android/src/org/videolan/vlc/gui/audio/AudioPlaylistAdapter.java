@@ -23,7 +23,7 @@ package org.videolan.vlc.gui.audio;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
@@ -44,9 +44,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
+public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
 
-    private ArrayList<Media> mMediaList;
+    private ArrayList<MediaWrapper> mMediaList;
     private int mCurrentIndex;
     private Context mContext;
     private int mAlignMode;
@@ -54,20 +54,20 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
     public AudioPlaylistAdapter(Context context) {
         super(context, 0);
         mContext = context;
-        mMediaList = new ArrayList<Media>();
+        mMediaList = new ArrayList<MediaWrapper>();
         mCurrentIndex = -1;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
     @Override
-    public void add(Media m) {
+    public void add(MediaWrapper m) {
         mMediaList.add(m);
         super.add(m);
     }
 
     @Override
-    public void remove(Media m) {
+    public void remove(MediaWrapper m) {
         mMediaList.remove(m);
         super.remove(m);
     }
@@ -107,7 +107,7 @@ public class AudioPlaylistAdapter extends ArrayAdapter<Media> {
         holder.layoutFooter.setVisibility(LinearLayout.VISIBLE);
         holder.itemGroup.scrollTo(1);
 
-        Media media = getItem(position);
+        MediaWrapper media = getItem(position);
         final String title = media.getTitle();
         final String artist = Util.getMediaSubtitle(mContext, media);
         final int pos = position;

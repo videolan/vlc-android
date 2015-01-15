@@ -51,7 +51,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
@@ -83,7 +83,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
-    List<Media> mAudioList;
+    List<MediaWrapper> mAudioList;
     private AudioBrowserListAdapter mArtistsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mSongsAdapter;
@@ -302,7 +302,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     OnItemClickListener artistListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<Media> mediaList = mArtistsAdapter.getMedia(p);
+            ArrayList<MediaWrapper> mediaList = mArtistsAdapter.getMedia(p);
             MainActivity activity = (MainActivity)getActivity();
             AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             if (frag != null) {
@@ -322,7 +322,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     OnItemClickListener genreListListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            ArrayList<Media> mediaList = mGenresAdapter.getMedia(p);
+            ArrayList<MediaWrapper> mediaList = mGenresAdapter.getMedia(p);
             MainActivity activity = (MainActivity)getActivity();
             AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
             if (frag != null) {
@@ -389,7 +389,7 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
-                            Media media = listItem.mMediaList.get(0);
+                            MediaWrapper media = listItem.mMediaList.get(0);
                             mMediaLibrary.getMediaItems().remove(media);
                             mAudioController.removeLocation(media.getLocation());
                             updateLists();

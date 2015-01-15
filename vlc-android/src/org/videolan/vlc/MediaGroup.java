@@ -23,23 +23,22 @@ package org.videolan.vlc;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.util.BitmapUtil;
 
-public class MediaGroup extends Media {
+public class MediaGroup extends MediaWrapper {
 
     public final static String TAG = "VLC/MediaGroup";
 
     public final static int MIN_GROUP_LENGTH = 6;
 
-    private ArrayList<Media> mMedias;
+    private ArrayList<MediaWrapper> mMedias;
 
-    public MediaGroup(Media media)
+    public MediaGroup(MediaWrapper media)
     {
         super(media.getLocation(),
                 media.getTime(),
                 media.getLength(),
-                Media.TYPE_GROUP,
+                MediaWrapper.TYPE_GROUP,
                 BitmapUtil.getPictureFromCache(media),
                 media.getTitle(),
                 media.getArtist(),
@@ -52,19 +51,19 @@ public class MediaGroup extends Media {
                 media.getAudioTrack(),
                 media.getSpuTrack(),
                 media.getTrackNumber());
-        mMedias = new ArrayList<Media>();
+        mMedias = new ArrayList<MediaWrapper>();
         mMedias.add(media);
     }
 
-    public void add(Media media) {
+    public void add(MediaWrapper media) {
         mMedias.add(media);
     }
 
-    public Media getMedia() {
+    public MediaWrapper getMedia() {
         return mMedias.size() == 1 ? mMedias.get(0) : this;
     }
 
-    public Media getFirstMedia() {
+    public MediaWrapper getFirstMedia() {
         return mMedias.get(0);
     }
 
@@ -72,19 +71,19 @@ public class MediaGroup extends Media {
         return mMedias.size();
     }
 
-    public void merge(Media media, String title) {
+    public void merge(MediaWrapper media, String title) {
         mMedias.add(media);
         this.mTitle = title;
     }
 
-    public static List<MediaGroup> group(List<Media> mediaList) {
+    public static List<MediaGroup> group(List<MediaWrapper> mediaList) {
         ArrayList<MediaGroup> groups = new ArrayList<MediaGroup>();
-        for (Media media : mediaList)
+        for (MediaWrapper media : mediaList)
             insertInto(groups, media);
         return groups;
     }
 
-    private static void insertInto(ArrayList<MediaGroup> groups, Media media)
+    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media)
     {
         for (MediaGroup mediaGroup : groups) {
             String group = mediaGroup.getTitle();

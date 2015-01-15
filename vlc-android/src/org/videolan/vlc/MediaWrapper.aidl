@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Media.aidl
+ * MediaWrapper.aidl
  *****************************************************************************
  * Copyright © 2015 VLC authors and VideoLAN
  *
@@ -18,6 +18,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.vlc;
 
-parcelable Media;
+parcelable MediaWrapper;

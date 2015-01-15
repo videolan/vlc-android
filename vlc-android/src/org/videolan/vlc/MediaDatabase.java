@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import org.videolan.libvlc.Media;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -478,7 +476,7 @@ public class MediaDatabase {
      * Add a new media to the database. The picture can only added by update.
      * @param media which you like to add to the database
      */
-    public synchronized void addMedia(Media media) {
+    public synchronized void addMedia(MediaWrapper media) {
 
         ContentValues values = new ContentValues();
 
@@ -556,7 +554,7 @@ public class MediaDatabase {
         String[] queryColumns = new String[]{MEDIA_LOCATION, MEDIA_TITLE, MEDIA_ALBUM, MEDIA_ARTIST, MEDIA_TYPE};
         String queryString = MEDIA_TITLE+" LIKE ? OR "+MEDIA_ALBUM+" LIKE ? OR "+MEDIA_ARTIST+" LIKE ?";
         String [] queryArgs;
-        if (type != Media.TYPE_ALL) {
+        if (type != MediaWrapper.TYPE_ALL) {
             queryString = "( " + queryString + " ) AND " + MEDIA_TYPE + "=?";
             queryArgs = new String[]{"%"+filter+"%", "%"+filter+"%", "%"+filter+"%", String.valueOf(type)};
         } else
@@ -573,10 +571,10 @@ public class MediaDatabase {
         return mediaList;
     }
 
-    public synchronized HashMap<String, Media> getMedias() {
+    public synchronized HashMap<String, MediaWrapper> getMedias() {
 
         Cursor cursor;
-        HashMap<String, Media> medias = new HashMap<String, Media>();
+        HashMap<String, MediaWrapper> medias = new HashMap<String, MediaWrapper>();
         int chunk_count = 0;
         int count = 0;
 
@@ -606,7 +604,7 @@ public class MediaDatabase {
             if (cursor.moveToFirst()) {
                 do {
                     String location = cursor.getString(14);
-                    Media media = new Media(location,
+                    MediaWrapper media = new MediaWrapper(location,
                             cursor.getLong(0),      // MEDIA_TIME
                             cursor.getLong(1),      // MEDIA_LENGTH
                             cursor.getInt(2),       // MEDIA_TYPE
@@ -650,7 +648,7 @@ public class MediaDatabase {
                     MEDIA_TIME, //1 long
                     MEDIA_TABLE_NAME,
                     MEDIA_TYPE,
-                    Media.TYPE_VIDEO,
+                    MediaWrapper.TYPE_VIDEO,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
@@ -670,10 +668,10 @@ public class MediaDatabase {
         return times;
     }
 
-    public synchronized Media getMedia(String location) {
+    public synchronized MediaWrapper getMedia(String location) {
 
         Cursor cursor;
-        Media media = null;
+        MediaWrapper media = null;
 
         try {
             cursor = mDb.query(
@@ -702,7 +700,7 @@ public class MediaDatabase {
             return null;
         }
         if (cursor.moveToFirst()) {
-            media = new Media(location,
+            media = new MediaWrapper(location,
                     cursor.getLong(0),
                     cursor.getLong(1),
                     cursor.getInt(2),
@@ -946,7 +944,7 @@ public class MediaDatabase {
         mDb.delete(MEDIA_TABLE_NAME, null, null);
     }
 
-    public static void setPicture(Media m, Bitmap p) {
+    public static void setPicture(MediaWrapper m, Bitmap p) {
         Log.d(TAG, "Setting new picture for " + m.getTitle());
         try {
             getInstance().updateMedia(

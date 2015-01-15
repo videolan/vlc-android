@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
 import org.videolan.vlc.util.Util;
@@ -84,11 +84,11 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     class ListItem {
         public String mTitle;
         public String mSubTitle;
-        public ArrayList<Media> mMediaList;
+        public ArrayList<MediaWrapper> mMediaList;
         public boolean mIsSeparator;
 
-        public ListItem(String title, String subTitle, Media media, boolean isSeparator) {
-            mMediaList = new ArrayList<Media>();
+        public ListItem(String title, String subTitle, MediaWrapper media, boolean isSeparator) {
+            mMediaList = new ArrayList<MediaWrapper>();
             if (media != null)
                 mMediaList.add(media);
             mTitle = title;
@@ -110,7 +110,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
     }
 
-    public void add(String title, String subTitle, Media media) {
+    public void add(String title, String subTitle, MediaWrapper media) {
         if(title == null) return;
         title = title.trim();
         if(subTitle != null) subTitle = subTitle.trim();
@@ -123,13 +123,13 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     }
 
-    public void addAll(List<Media> mediaList, final int type) {
-        final LinkedList<Media> list = new LinkedList<Media>(mediaList);
+    public void addAll(List<MediaWrapper> mediaList, final int type) {
+        final LinkedList<MediaWrapper> list = new LinkedList<MediaWrapper>(mediaList);
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 String title, subTitle;
-                for (Media media : list) {
+                for (MediaWrapper media : list) {
                     switch (type){
                         case TYPE_ALBUMS:
                             title = Util.getMediaAlbum(mContext, media);
@@ -217,7 +217,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         }
     }
 
-    public void addSeparator(String title, Media media) {
+    public void addSeparator(String title, MediaWrapper media) {
         if(title == null) return;
         title = title.trim();
         if (mSeparatorItemMap.containsKey(title))
@@ -234,7 +234,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         for (ListItem album : mSeparatorItemMap.values()){
             mItems.add(album);
             Collections.sort(album.mMediaList, MediaComparators.byTrackNumber);
-            for (Media media : album.mMediaList)
+            for (MediaWrapper media : album.mMediaList)
                 add(media.getTitle(), null, media);
         }
     }
@@ -244,7 +244,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
      * Remove also all the list items that contain only this media.
      * @param media the media to remove
      */
-    public void removeMedia(Media media) {
+    public void removeMedia(MediaWrapper media) {
         for (int i = 0; i < mItems.size(); ++i) {
             ListItem item = mItems.get(i);
             if (item.mMediaList == null)
@@ -312,7 +312,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         RelativeLayout.LayoutParams paramsCover;
         if (mItemType == ITEM_WITH_COVER) {
-            Media media = mItems.get(position).mMediaList.get(0);
+            MediaWrapper media = mItems.get(position).mMediaList.get(0);
             Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
             if (cover == null)
                 cover = BitmapCache.GetFromResource(v, R.drawable.icon);
@@ -462,9 +462,9 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         return sections.toArray();
     }
 
-    public ArrayList<Media> getMedia(int position) {
+    public ArrayList<MediaWrapper> getMedia(int position) {
         // Return all the media of a list item list.
-        ArrayList<Media> mediaList = new ArrayList<Media>();
+        ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
         if (!mItems.get(position).mIsSeparator)
             mediaList.addAll(mItems.get(position).mMediaList);
         return mediaList;
@@ -478,7 +478,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         // Return all the media locations of a list item list.
         ArrayList<String> locations = new ArrayList<String>();
         if (isEnabled(position)) {
-            ArrayList<Media> mediaList = mItems.get(position).mMediaList;
+            ArrayList<MediaWrapper> mediaList = mItems.get(position).mMediaList;
             if (sortByTrackNumber)
                 Collections.sort(mediaList, MediaComparators.byTrackNumber);
             for (int i = 0; i < mediaList.size(); ++i)
@@ -503,7 +503,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                 if(position == i && !mItems.get(i).mMediaList.isEmpty())
                     outputPosition = outputList.size();
 
-                for(Media k : mItems.get(i).mMediaList) {
+                for(MediaWrapper k : mItems.get(i).mMediaList) {
                     outputList.add(k.getLocation());
                 }
             }

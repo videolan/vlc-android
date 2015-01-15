@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
@@ -81,7 +81,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     public final static String EXTRA_NAME2 = "name2";
     public final static String EXTRA_MODE = "mode";
 
-    private ArrayList<Media> mediaList;
+    private ArrayList<MediaWrapper> mediaList;
     private String mTitle;
 
     TabHost mTabHost;
@@ -91,7 +91,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioAlbumsSongsFragment() { }
 
-    public void setMediaList(ArrayList<Media> mediaList, String title) {
+    public void setMediaList(ArrayList<MediaWrapper> mediaList, String title) {
         this.mediaList = mediaList;
         mTitle = title;
     }
@@ -296,7 +296,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
-                            Media media = listItem.mMediaList.get(0);
+                            MediaWrapper media = listItem.mMediaList.get(0);
                             mMediaLibrary.getMediaItems().remove(media);
                             mSongsAdapter.removeMedia(media);
                             mAlbumsAdapter.removeMedia(media);
@@ -355,7 +355,7 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
                     @Override
                     public void run() {
                         for (int i = 0; i < mediaList.size(); ++i) {
-                            Media media = mediaList.get(i);
+                            MediaWrapper media = mediaList.get(i);
                             mAlbumsAdapter.addSeparator(Util.getMediaReferenceArtist(activity, media), media);
                             mAlbumsAdapter.add(Util.getMediaAlbum(activity, media), null, media);
                             mSongsAdapter.addSeparator(Util.getMediaAlbum(activity, media), media);

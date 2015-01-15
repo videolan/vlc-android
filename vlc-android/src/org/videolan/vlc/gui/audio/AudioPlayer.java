@@ -25,7 +25,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.audio.RepeatType;
@@ -389,12 +389,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer {
 
         mSongsListAdapter.clear();
 
-        final List<Media> audioList = mAudioController.getMedias();
+        final List<MediaWrapper> audioList = mAudioController.getMedias();
         final String currentItem = mAudioController.getCurrentMediaLocation();
 
         if (audioList != null) {
             for (int i = 0; i < audioList.size(); i++) {
-                final Media media = audioList.get(i);
+                final MediaWrapper media = audioList.get(i);
                 if (currentItem != null && currentItem.equals(media.getLocation()))
                     currentIndex = i;
                 mSongsListAdapter.add(media);

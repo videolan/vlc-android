@@ -1,7 +1,7 @@
 /*****************************************************************************
- * Media.java
+ * MediaWrapper.java
  *****************************************************************************
- * Copyright © 2011-2013 VLC authors and VideoLAN
+ * Copyright © 2011-2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -18,11 +18,14 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.vlc;
 
 import java.util.Locale;
 
 import org.videolan.libvlc.util.Extensions;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.TrackInfo;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -30,8 +33,8 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class Media implements Parcelable {
-    public final static String TAG = "VLC/LibVLC/Media";
+public class MediaWrapper implements Parcelable {
+    public final static String TAG = "VLC/MediaWrapper";
 
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
@@ -100,7 +103,7 @@ public class Media implements Parcelable {
      * @param libVLC A pointer to the libVLC instance. Should not be NULL
      * @param URI The URI of the media.
      */
-    public Media(LibVLC libVLC, String URI) {
+    public MediaWrapper(LibVLC libVLC, String URI) {
         if(libVLC == null)
             throw new NullPointerException("libVLC was null");
 
@@ -187,7 +190,7 @@ public class Media implements Parcelable {
         mTrackNumber = trackNumber;
     }
 
-    public Media(String location, long time, long length, int type,
+    public MediaWrapper(String location, long time, long length, int type,
                  Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                  int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
         mLocation = location;
@@ -195,7 +198,7 @@ public class Media implements Parcelable {
              width, height, artworkURL, audio, spu, trackNumber);
     }
 
-    public Media(Parcel in) {
+    public MediaWrapper(Parcel in) {
         mLocation = in.readString();
         init(in.readLong(),
              in.readLong(),
@@ -279,7 +282,7 @@ public class Media implements Parcelable {
      * Returns the raw picture object. Likely to be NULL in VLC for Android
      * due to lazy-loading.
      *
-     * Use {@link org.videolan.vlc.util.Bitmap#getPictureFromCache(Media)} instead.
+     * Use {@link org.videolan.vlc.util.Bitmap#getPictureFromCache(MediaWrapper)} instead.
      *
      * @return The raw picture or NULL
      */
@@ -290,7 +293,7 @@ public class Media implements Parcelable {
     /**
      * Sets the raw picture object.
      *
-     * In VLC for Android, use {@link org.videolan.vlc.MediaDatabase#setPicture(Media, Bitmap)} instead.
+     * In VLC for Android, use {@link org.videolan.vlc.MediaDatabase#setPicture(MediaWrapper, Bitmap)} instead.
      *
      * @param p
      */
@@ -432,12 +435,12 @@ public class Media implements Parcelable {
         dest.writeInt(getTrackNumber());
     }
 
-    public static final Parcelable.Creator<Media> CREATOR = new Parcelable.Creator<Media>() {
-        public Media createFromParcel(Parcel in) {
-            return new Media(in);
+    public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
+        public MediaWrapper createFromParcel(Parcel in) {
+            return new MediaWrapper(in);
         }
-        public Media[] newArray(int size) {
-            return new Media[size];
+        public MediaWrapper[] newArray(int size) {
+            return new MediaWrapper[size];
         }
     };
 }

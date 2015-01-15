@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.util;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.VLCApplication;
 
@@ -79,7 +79,7 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    public static Bitmap getPictureFromCache(Media media)
+    public static Bitmap getPictureFromCache(MediaWrapper media)
     {
         // mPicture is not null only if passed through
         // the ctor which is deprecated by now.

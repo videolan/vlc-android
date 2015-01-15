@@ -1,7 +1,7 @@
 /*****************************************************************************
- * MediaList.java
+ * MediaWrapperList.java
  *****************************************************************************
- * Copyright © 2013 VLC authors and VideoLAN
+ * Copyright © 2013-2015 VLC authors and VideoLAN
  * Copyright © 2013 Edward Wang
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -18,31 +18,31 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
-package org.videolan.libvlc;
+package org.videolan.vlc;
 
 import java.util.ArrayList;
 
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.LibVLC;
+
 import android.os.Bundle;
 
-/**
- * Java/JNI wrapper for the libvlc_media_list_t structure.
- */
-public class MediaList {
-    private static final String TAG = "VLC/LibVLC/MediaList";
+public class MediaWrapperList {
+    private static final String TAG = "VLC/MediaWrapperList";
 
 
     /* TODO: add locking */
-    private ArrayList<Media> mInternalList;
+    private ArrayList<MediaWrapper> mInternalList;
     private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
     private EventHandler mEventHandler;
 
-    public MediaList(LibVLC libVLC) {
+    public MediaWrapperList(LibVLC libVLC) {
         mEventHandler = new EventHandler(); // used in init() below to fire events at the correct targets
-        mInternalList = new ArrayList<Media>();
+        mInternalList = new ArrayList<MediaWrapper>();
         mLibVLC = libVLC;
     }
 
-    public void add(Media media) {
+    public void add(MediaWrapper media) {
         mInternalList.add(media);
     }
 
@@ -62,9 +62,9 @@ public class MediaList {
     }
 
     public void insert(int position, String mrl) {
-        insert(position, new Media(mLibVLC, mrl));
+        insert(position, new MediaWrapper(mLibVLC, mrl));
     }
-    public void insert(int position, Media media) {
+    public void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);
         signal_list_event(EventHandler.CustomMediaListItemAdded, position, media.getLocation());
     }
@@ -81,7 +81,7 @@ public class MediaList {
               && endPosition >= 0 && endPosition <= mInternalList.size()))
             throw new IndexOutOfBoundsException("Indexes out of range");
 
-        Media toMove = mInternalList.get(startPosition);
+        MediaWrapper toMove = mInternalList.get(startPosition);
         mInternalList.remove(startPosition);
         if (startPosition >= endPosition)
             mInternalList.add(endPosition, toMove);
@@ -116,7 +116,7 @@ public class MediaList {
         return mInternalList.size();
     }
 
-    public Media getMedia(int position) {
+    public MediaWrapper getMedia(int position) {
         if (!isValid(position))
             return null;
         return mInternalList.get(position);

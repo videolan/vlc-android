@@ -59,8 +59,8 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
@@ -96,7 +96,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
     protected GridView mGridView;
     protected TextView mTextViewNomedia;
     protected View mViewNomedia;
-    protected Media mItemToUpdate;
+    protected MediaWrapper mItemToUpdate;
     protected String mGroup;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
 
@@ -281,7 +281,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Media media = mVideoAdapter.getItem(position);
+        MediaWrapper media = mVideoAdapter.getItem(position);
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
             VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
@@ -293,16 +293,16 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
             playVideo(media, false);
     }
 
-    protected void playVideo(Media media, boolean fromStart) {
+    protected void playVideo(MediaWrapper media, boolean fromStart) {
         VideoPlayerActivity.start(getActivity(), media.getLocation(), fromStart);
     }
 
-    protected void playAudio(Media media) {
+    protected void playAudio(MediaWrapper media) {
         mAudioController.load(media.getLocation(), true);
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
-        Media media = mVideoAdapter.getItem(position);
+        MediaWrapper media = mVideoAdapter.getItem(position);
         switch (menu.getItemId())
         {
         case R.id.video_list_play_from_start:
@@ -325,7 +325,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
                     new VLCRunnable(media) {
                         @Override
                         public void run(Object o) {
-                            Media media = (Media) o;
+                            MediaWrapper media = (MediaWrapper) o;
                             mMediaLibrary.getMediaItems().remove(media);
                             mVideoAdapter.remove(media);
                             mAudioController.removeLocation(media.getLocation());
@@ -341,7 +341,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         // Do not show the menu of media group.
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
-        Media media = mVideoAdapter.getItem(info.position);
+        MediaWrapper media = mVideoAdapter.getItem(info.position);
         if (media instanceof MediaGroup)
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
@@ -349,7 +349,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
         setContextMenuItems(menu, media);
     }
 
-    private void setContextMenuItems(Menu menu, Media media) {
+    private void setContextMenuItems(Menu menu, MediaWrapper media) {
         long lastTime = media.getTime();
         if (lastTime > 0)
             menu.findItem(R.id.video_list_play_from_start).setVisible(true);
@@ -383,7 +383,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
 
         PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
         popupMenu.getMenuInflater().inflate(R.menu.video_list, popupMenu.getMenu());
-        Media media = mVideoAdapter.getItem(position);
+        MediaWrapper media = mVideoAdapter.getItem(position);
         setContextMenuItems(popupMenu.getMenu(), media);
         popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
@@ -418,7 +418,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
     public void updateList() {
         if (!mSwipeRefreshLayout.isRefreshing())
             mSwipeRefreshLayout.setRefreshing(true);
-        final List<Media> itemList = mMediaLibrary.getVideoItems();
+        final List<MediaWrapper> itemList = mMediaLibrary.getVideoItems();
 
         if (mThumbnailer != null)
             mThumbnailer.clearJobs();
@@ -434,7 +434,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
                 public void run() {
                     if (mGroup != null || itemList.size() <= 10) {
                         mVideoAdapter.setNotifyOnChange(false);
-                        for (Media item : itemList) {
+                        for (MediaWrapper item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup)) {
                                 mVideoAdapter.add(item);
                                 if (mThumbnailer != null)
@@ -485,7 +485,7 @@ public class VideoGridFragment extends Fragment implements IBrowser, ISortable, 
         mVideoAdapter.sortBy(sortby);
     }
 
-    public void setItemToUpdate(Media item) {
+    public void setItemToUpdate(MediaWrapper item) {
         mItemToUpdate = item;
         mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
     }

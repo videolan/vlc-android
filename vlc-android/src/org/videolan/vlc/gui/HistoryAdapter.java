@@ -22,7 +22,7 @@ package org.videolan.vlc.gui;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
@@ -44,14 +44,14 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
 
     private LayoutInflater mInflater;
     private final AudioServiceController mAudioController;
-    private final ArrayList<Media> mMediaList;
+    private final ArrayList<MediaWrapper> mMediaList;
 
     public HistoryAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
 
         mAudioController = AudioServiceController.getInstance();
 
-        mMediaList = new ArrayList<Media>();
+        mMediaList = new ArrayList<MediaWrapper>();
 
         mAudioController.addMediaPlayedListener(this);
     }
@@ -94,7 +94,7 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
             holder = (DirectoryAdapter.DirectoryViewHolder) v.getTag();
 
         String holderText = "";
-        Media m = mMediaList.get(position);
+        MediaWrapper m = mMediaList.get(position);
         if (m == null )
             return v;
 
@@ -117,7 +117,7 @@ public class HistoryAdapter extends BaseAdapter implements AudioServiceControlle
     }
 
     @Override
-    public void onMediaPlayedAdded(Media media, int index) {
+    public void onMediaPlayedAdded(MediaWrapper media, int index) {
         mMediaList.add(index, media);
         notifyDataSetChanged();
     }

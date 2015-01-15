@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.interfaces.IAudioPlayerControl;
 import org.videolan.vlc.interfaces.IAudioService;
@@ -53,7 +53,7 @@ public class AudioServiceController implements IAudioPlayerControl {
     private final ArrayList<MediaPlayedListener> mMediaPlayedListener;
 
     public interface MediaPlayedListener {
-        public void onMediaPlayedAdded(Media media, int index);
+        public void onMediaPlayedAdded(MediaWrapper media, int index);
         public void onMediaPlayedRemoved(int index);
     }
 
@@ -69,7 +69,7 @@ public class AudioServiceController implements IAudioPlayerControl {
         }
 
         @Override
-        public void onMediaPlayedAdded(Media media, int index) throws RemoteException {
+        public void onMediaPlayedAdded(MediaWrapper media, int index) throws RemoteException {
             updateMediaPlayedAdded(media, index);
         }
 
@@ -239,7 +239,7 @@ public class AudioServiceController implements IAudioPlayerControl {
             player.updateProgress();
     }
 
-    private void updateMediaPlayedAdded(Media media, int index) {
+    private void updateMediaPlayedAdded(MediaWrapper media, int index) {
         for (MediaPlayedListener listener : mMediaPlayedListener) {
             listener.onMediaPlayedAdded(media, index);
         }
@@ -337,7 +337,7 @@ public class AudioServiceController implements IAudioPlayerControl {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Media> getMedias() {
+    public List<MediaWrapper> getMedias() {
         return remoteProcedureCall(mAudioServiceBinder, List.class, null, "getMedias", null, null);
     }
 

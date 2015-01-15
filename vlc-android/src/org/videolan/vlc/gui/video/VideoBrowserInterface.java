@@ -22,7 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import java.util.concurrent.BrokenBarrierException;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 
 public interface VideoBrowserInterface {
     public static final long HEADER_VIDEO = 0;
@@ -37,7 +37,7 @@ public interface VideoBrowserInterface {
 	public static final String AUDIO_FILTER = "filter";
 
 	public void resetBarrier();
-	public void setItemToUpdate(Media item);
+	public void setItemToUpdate(MediaWrapper item);
 	public void await() throws InterruptedException, BrokenBarrierException;
 	public void updateItem();
 	public void updateList();

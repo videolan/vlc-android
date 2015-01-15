@@ -796,6 +796,5 @@ public class LibVLC {
     public native int setWindowSize(int width, int height);
 
     /* MediaList */
-    protected native void loadPlaylist(String mrl, ArrayList<String> items);
-    protected native int expandMedia(ArrayList<String> children);
+    public native int expandMedia(ArrayList<String> children);
 }

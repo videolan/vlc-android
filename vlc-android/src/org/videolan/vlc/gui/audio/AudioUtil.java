@@ -31,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
@@ -74,7 +74,7 @@ public class AudioUtil {
      */
     public static String PLAYLIST_DIR = null;
 
-    public static void setRingtone(Media song, Context context){
+    public static void setRingtone(MediaWrapper song, Context context){
         File newringtone = LibVlcUtil.URItoFile(song.getLocation());
         if(newringtone == null || (newringtone != null && !newringtone.exists())) {
             Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
@@ -152,7 +152,7 @@ public class AudioUtil {
             dir.delete();
     }
 
-    private static String getCoverFromMediaStore(Context context, Media media) {
+    private static String getCoverFromMediaStore(Context context, MediaWrapper media) {
         final String album = media.getAlbum();
         if (album == null)
             return null;
@@ -177,7 +177,7 @@ public class AudioUtil {
         return null;
     }
 
-    private static String getCoverFromVlc(Context context, Media media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private static String getCoverFromVlc(Context context, MediaWrapper media) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         String artworkURL = media.getArtworkURL();
         if (artworkURL != null && artworkURL.startsWith("file://")) {
             return Uri.decode(artworkURL).replace("file://", "");
@@ -212,7 +212,7 @@ public class AudioUtil {
         return null;
     }
 
-    private static String getCoverFromFolder(Context context, Media media) {
+    private static String getCoverFromFolder(Context context, MediaWrapper media) {
         File f = LibVlcUtil.URItoFile(media.getLocation());
         if (f != null && f.getParentFile() != null && f.getParentFile().listFiles() != null)
             for (File s : f.getParentFile().listFiles()) {
@@ -224,7 +224,7 @@ public class AudioUtil {
     }
 
     @SuppressLint("NewApi")
-    public synchronized static Bitmap getCover(Context context, Media media, int width) {
+    public synchronized static Bitmap getCover(Context context, MediaWrapper media, int width) {
         String coverPath = null;
         Bitmap cover = null;
         String cachePath = null;

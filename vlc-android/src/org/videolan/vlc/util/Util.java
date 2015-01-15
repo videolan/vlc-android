@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -103,10 +103,10 @@ public class Util {
      * @param mrl MRL of the media
      * @return A media object from the media library or newly created
      */
-    public static Media getOrCreateMedia(LibVLC libVLC, String mrl) {
-        Media mlItem = MediaLibrary.getInstance().getMediaItem(mrl);
+    public static MediaWrapper getOrCreateMedia(LibVLC libVLC, String mrl) {
+        MediaWrapper mlItem = MediaLibrary.getInstance().getMediaItem(mrl);
         if(mlItem == null)
-            mlItem = new Media(libVLC, mrl);
+            mlItem = new MediaWrapper(libVLC, mrl);
         return mlItem;
     }
 
@@ -210,34 +210,34 @@ public class Util {
         }
     }
 
-    public static String getMediaArtist(Context ctx, Media media) {
+    public static String getMediaArtist(Context ctx, MediaWrapper media) {
         final String artist = media.getArtist();
         return artist != null ? artist : getMediaString(ctx, R.string.unknown_artist);
     }
 
-    public static String getMediaReferenceArtist(Context ctx, Media media) {
+    public static String getMediaReferenceArtist(Context ctx, MediaWrapper media) {
         final String artist = media.getReferenceArtist();
         return artist != null ? artist : getMediaString(ctx, R.string.unknown_artist);
     }
 
-    public static String getMediaAlbumArtist(Context ctx, Media media) {
+    public static String getMediaAlbumArtist(Context ctx, MediaWrapper media) {
         final String albumArtist = media.getAlbumArtist();
         return albumArtist != null ? albumArtist : getMediaString(ctx, R.string.unknown_artist);
     }
 
-    public static String getMediaAlbum(Context ctx, Media media) {
+    public static String getMediaAlbum(Context ctx, MediaWrapper media) {
         final String album = media.getAlbum();
         return album != null ? album : getMediaString(ctx, R.string.unknown_album);
 
     }
 
-    public static String getMediaGenre(Context ctx, Media media) {
+    public static String getMediaGenre(Context ctx, MediaWrapper media) {
         final String genre = media.getGenre();
         return genre != null ? genre : getMediaString(ctx, R.string.unknown_genre);
     }
 
-    public static String getMediaSubtitle(Context ctx, Media media) {
-        if (media.getType() == Media.TYPE_VIDEO)
+    public static String getMediaSubtitle(Context ctx, MediaWrapper media) {
+        if (media.getType() == MediaWrapper.TYPE_VIDEO)
             return "";
         else
             return media.getNowPlaying() != null

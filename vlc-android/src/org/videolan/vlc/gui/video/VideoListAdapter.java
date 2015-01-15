@@ -24,7 +24,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.BitmapCache;
@@ -45,8 +45,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class VideoListAdapter extends ArrayAdapter<Media>
-                                 implements Comparator<Media> {
+public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
+                                 implements Comparator<MediaWrapper> {
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
@@ -64,7 +64,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
 
     public final static String TAG = "VLC/MediaLibraryAdapter";
 
-    public synchronized void update(Media item) {
+    public synchronized void update(MediaWrapper item) {
         int position = getPosition(item);
         if (position != -1) {
             remove(item);
@@ -76,7 +76,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         boolean notify = false;
         // update times
         for (int i = 0; i < getCount(); ++i) {
-            Media media = getItem(i);
+            MediaWrapper media = getItem(i);
             Long time = times.get(media.getLocation());
             if (time != null) {
                 media.setTime(time);
@@ -118,7 +118,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
     }
 
     @Override
-    public int compare(Media item1, Media item2) {
+    public int compare(MediaWrapper item1, MediaWrapper item2) {
         int compare = 0;
         switch (mSortBy) {
             case SORT_BY_TITLE:
@@ -174,7 +174,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
             }
         });
 
-        Media media = getItem(position);
+        MediaWrapper media = getItem(position);
 
         /* Thumbnail */
         Bitmap thumbnail = BitmapUtil.getPictureFromCache(media);
@@ -202,7 +202,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         return v;
     }
 
-    private void fillGroupView(ViewHolder holder, Media media) {
+    private void fillGroupView(ViewHolder holder, MediaWrapper media) {
         MediaGroup mediaGroup = (MediaGroup) media;
         int size = mediaGroup.size();
         String text = getContext().getResources().getQuantityString(R.plurals.videos_quantity, size, size);
@@ -213,7 +213,7 @@ public class VideoListAdapter extends ArrayAdapter<Media>
         holder.progress.setVisibility(View.INVISIBLE);
     }
 
-    private void fillVideoView(ViewHolder holder, Media media) {
+    private void fillVideoView(ViewHolder holder, MediaWrapper media) {
         /* Time / Duration */
         if (media.getLength() > 0) {
             long lastTime = media.getTime();

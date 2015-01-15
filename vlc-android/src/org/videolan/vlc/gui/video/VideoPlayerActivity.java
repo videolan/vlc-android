@@ -43,9 +43,9 @@ import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaListPlayer;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapperListPlayer;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioServiceController;
@@ -150,7 +150,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private MediaRouter.SimpleCallback mMediaRouterCallback;
     private SecondaryDisplay mPresentation;
     private LibVLC mLibVLC;
-    private MediaListPlayer mMediaListPlayer;
+    private MediaWrapperListPlayer mMediaListPlayer;
     private String mLocation;
     private GestureDetectorCompat mDetector;
 
@@ -376,7 +376,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             Log.d(TAG, "LibVLC initialisation failed");
             return;
         }
-        mMediaListPlayer = new MediaListPlayer(mLibVLC);
+        mMediaListPlayer = new MediaWrapperListPlayer(mLibVLC);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
@@ -2166,7 +2166,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         int time = (int) mLibVLC.getTime();
         int length = (int) mLibVLC.getLength();
         if (length == 0) {
-            Media media = MediaDatabase.getInstance().getMedia(mLocation);
+            MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if (media != null)
                 length = (int) media.getLength();
         }
@@ -2374,7 +2374,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mMediaListPlayer.playIndex(savedIndexPosition);
         } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mMediaListPlayer.getMediaList().add(new Media(mLibVLC, mLocation));
+            mMediaListPlayer.getMediaList().add(new MediaWrapper(mLibVLC, mLocation));
             savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
             mMediaListPlayer.playIndex(savedIndexPosition);
         }
@@ -2382,7 +2382,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         if (mLocation != null && mLocation.length() > 0 && !dontParse) {
             // restore last position
-            Media media = MediaDatabase.getInstance().getMedia(mLocation);
+            MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)
