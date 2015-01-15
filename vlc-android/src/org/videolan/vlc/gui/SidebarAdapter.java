@@ -27,6 +27,7 @@ import java.util.List;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.Util;
 
@@ -50,6 +51,7 @@ public class SidebarAdapter extends BaseAdapter {
 
         public static final String ID_VIDEO = "video";
         public static final String ID_AUDIO = "audio";
+        public static final String ID_NETWORK = "network";
         public static final String ID_DIRECTORIES = "directories";
         public static final String ID_HISTORY = "history";
         public static final String ID_MRL = "mrl";
@@ -79,6 +81,7 @@ public class SidebarAdapter extends BaseAdapter {
         entries = new ArrayList<SidebarEntry>();
         entries.add(new SidebarEntry(SidebarEntry.ID_VIDEO, R.string.video, R.attr.ic_menu_video, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_AUDIO, R.string.audio, R.attr.ic_menu_audio, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_NETWORK, R.string.network_browsing, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_DIRECTORIES, R.string.directories, R.attr.ic_menu_folder, SidebarEntry.TYPE_FRAGMENT));
 //        entries.add(new SidebarEntry(SidebarEntry.ID_HISTORY, R.string.history, R.attr.ic_menu_history, SidebarEntry.TYPE_FRAGMENT));
@@ -158,6 +161,8 @@ public class SidebarAdapter extends BaseAdapter {
             f = new HistoryFragment();
         } else if(id.equals(SidebarEntry.ID_MRL)) {
             f = new MRLPanelFragment();
+        } else if(id.equals(SidebarEntry.ID_NETWORK)) {
+            f = new NetworkFragment();
         }
         else {
             mCurrentFragmentId = prevFragmentId; // Restore the current fragment id.

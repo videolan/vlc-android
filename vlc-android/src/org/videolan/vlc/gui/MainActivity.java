@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
+import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
@@ -416,6 +417,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     directoryView.showParentDirectory();
                     return;
                 }
+            } else if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK)){
+                NetworkFragment networkFragment = (NetworkFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.fragment_placeholder);
+                if (!networkFragment.isRootDirectory()) {
+                    networkFragment.goBack();
+                    return;
+                }
             }
 
             // If it's the albums songs fragment, we leave it.
@@ -716,7 +724,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (mFocusedPrior == 0)
             setMenuFocusDown(true, 0);
-        mFocusedPrior = getCurrentFocus().getId();
+        if (getCurrentFocus() != null)
+            mFocusedPrior = getCurrentFocus().getId();
         return super.onKeyDown(keyCode, event);
     }
 

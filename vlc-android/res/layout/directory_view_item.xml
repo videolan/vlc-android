@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:text="@string/artist"
             android:textColor="?attr/list_subtitle"/>
     </LinearLayout>
 

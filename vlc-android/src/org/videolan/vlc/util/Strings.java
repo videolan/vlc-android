@@ -109,6 +109,16 @@ public class Strings {
         if(size <= 0) return "0";
         final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
-    return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
-}
+        return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    public static String getName(String path){
+        if (path == null)
+            return "";
+        int index = path.lastIndexOf('/');
+        if (index> -1)
+            return path.substring(index+1);
+        else
+        return path;
+    }
 }
