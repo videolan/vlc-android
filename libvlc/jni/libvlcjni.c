@@ -48,6 +48,8 @@
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
 
+struct fields fields;
+
 #define VLC_JNI_VERSION JNI_VERSION_1_2
 
 #define THREAD_NAME "libvlcjni"
@@ -211,19 +213,76 @@ end:
 
 jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
+    JNIEnv* env = NULL;
     // Keep a reference on the Java VM.
     myVm = vm;
 
+    if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
+        return -1;
     pthread_mutex_init(&vout_android_lock, NULL);
     pthread_cond_init(&vout_android_surf_attached, NULL);
+
+#define GET_CLASS(clazz, str) do { \
+    (clazz) = (*env)->FindClass(env, (str)); \
+    if (!(clazz)) { \
+        LOGE("FindClass(%s) failed", (str)); \
+        return -1; \
+    } \
+    (clazz) = (jclass) (*env)->NewGlobalRef(env, (clazz)); \
+    if (!(clazz)) { \
+        LOGE("NewGlobalRef(%s) failed", (str)); \
+        return -1; \
+    } \
+} while (0)
+
+#define GET_ID(get, id, clazz, str, args) do { \
+    (id) = (*env)->get(env, (clazz), (str), (args)); \
+    if (!(id)) { \
+        LOGE(#get"(%s) failed", (str)); \
+        return -1; \
+    } \
+} while (0)
+
+    GET_CLASS(fields.IllegalStateException.clazz,
+              "java/lang/IllegalStateException");
+    GET_CLASS(fields.IllegalArgumentException.clazz,
+              "java/lang/IllegalArgumentException");
+    GET_CLASS(fields.String.clazz,
+              "java/lang/String");
+    GET_CLASS(fields.VLCObject.clazz,
+              "org/videolan/libvlc/VLCObject");
+
+    GET_ID(GetFieldID,
+           fields.VLCObject.mInstanceID,
+           fields.VLCObject.clazz,
+           "mInstance", "J");
+
+    GET_ID(GetMethodID,
+           fields.VLCObject.dispatchEventFromNativeID,
+           fields.VLCObject.clazz,
+           "dispatchEventFromNative", "(IJJ)V");
+
+#undef GET_CLASS
+#undef GET_ID
 
     LOGD("JNI interface loaded.");
     return VLC_JNI_VERSION;
 }
 
-void JNI_OnUnload(JavaVM* vm, void* reserved) {
+void JNI_OnUnload(JavaVM* vm, void* reserved)
+{
+    JNIEnv* env = NULL;
+
     pthread_mutex_destroy(&vout_android_lock);
     pthread_cond_destroy(&vout_android_surf_attached);
+
+    if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
+        return;
+
+    (*env)->DeleteGlobalRef(env, fields.IllegalStateException.clazz);
+    (*env)->DeleteGlobalRef(env, fields.IllegalArgumentException.clazz);
+    (*env)->DeleteGlobalRef(env, fields.String.clazz);
+    (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
 }
 
 int jni_attach_thread(JNIEnv **env, const char *thread_name)
