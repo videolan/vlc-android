@@ -710,10 +710,6 @@ public class LibVLC {
      */
     public native boolean hasVideoTrack(String mrl) throws java.io.IOException;
 
-    public native TrackInfo[] readTracksInfo(String mrl);
-
-    public native TrackInfo[] readTracksInfoInternal();
-
     public native int getAudioTracksCount();
 
     public native Map<Integer,String> getAudioTrackDescription();
