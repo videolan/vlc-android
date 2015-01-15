@@ -140,6 +140,8 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
     public void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
+        if (!mMediaLibrary.isWorking())
+            updateList();
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(this);
     }
