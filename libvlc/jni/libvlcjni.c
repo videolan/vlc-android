@@ -709,6 +709,7 @@ jstring Java_org_videolan_libvlc_LibVLC_getMeta(JNIEnv *env, jobject thiz, int m
         string = (*env)->NewStringUTF(env, psz_meta);
         free(psz_meta);
     }
+    libvlc_media_release(p_mp);
     return string;
 }
 
@@ -784,10 +785,17 @@ static int expand_media_internal(JNIEnv *env, libvlc_instance_t* p_instance, job
 }
 
 jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz, jobject children) {
-    return (jint)expand_media_internal(env,
+    jint ret;
+    libvlc_media_t *p_md = libvlc_media_player_get_media(getMediaPlayer(env, thiz));
+
+    if (!p_md)
+        return -1;
+    ret = (jint)expand_media_internal(env,
         getLibVlcInstance(env, thiz),
         children,
-        (libvlc_media_t*)libvlc_media_player_get_media(getMediaPlayer(env, thiz)));
+        p_md);
+    libvlc_media_release(p_md);
+    return ret;
 }
 
 // TODO: remove static variables
