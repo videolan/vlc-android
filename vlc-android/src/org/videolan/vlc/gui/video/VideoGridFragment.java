@@ -58,7 +58,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.TrackInfo;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
@@ -349,19 +349,17 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         setContextMenuItems(menu, media);
     }
 
-    private void setContextMenuItems(Menu menu, MediaWrapper media) {
-        long lastTime = media.getTime();
+    private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {
+        long lastTime = mediaWrapper.getTime();
         if (lastTime > 0)
             menu.findItem(R.id.video_list_play_from_start).setVisible(true);
 
         boolean hasInfo = false;
-        TrackInfo[] tracks = mLibVlc.readTracksInfo(media.getLocation());
-        for (TrackInfo track : tracks) {
-            if (track.Type != TrackInfo.TYPE_META) {
-                hasInfo = true;
-                break;
-            }
-        }
+        final Media media = new Media(mLibVlc, mediaWrapper.getLocation());
+        media.parse();
+        media.release();
+        if (media.getMeta(Media.Meta.Title) != null)
+            hasInfo = true;
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
     }
 
