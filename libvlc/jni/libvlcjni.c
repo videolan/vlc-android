@@ -666,6 +666,45 @@ void Java_org_videolan_libvlc_LibVLC_playerNavigate(JNIEnv *env, jobject thiz, j
         libvlc_media_player_navigate(mp, (unsigned) nav);
 }
 
+static int expand_media_internal(JNIEnv *env, libvlc_instance_t* p_instance, jobject arrayList, libvlc_media_t* p_md) {
+    if(!p_md) {
+        return -1;
+    }
+    libvlc_media_list_t* p_subitems = libvlc_media_subitems(p_md);
+    libvlc_media_release(p_md);
+    if(p_subitems) {
+        // Expand any subitems if needed
+        int subitem_count = libvlc_media_list_count(p_subitems);
+        if(subitem_count > 0) {
+            LOGD("Found %d subitems, expanding", subitem_count);
+            jclass arrayListClass; jmethodID methodAdd;
+            arrayListGetIDs(env, &arrayListClass, &methodAdd, NULL);
+
+            for(int i = subitem_count - 1; i >= 0; i--) {
+                libvlc_media_t* p_subitem = libvlc_media_list_item_at_index(p_subitems, i);
+                char* p_subitem_uri = libvlc_media_get_mrl(p_subitem);
+                arrayListStringAdd(env, arrayListClass, methodAdd, arrayList, p_subitem_uri);
+                free(p_subitem_uri);
+            }
+        }
+        libvlc_media_list_release(p_subitems);
+        if(subitem_count > 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    } else {
+        return -1;
+    }
+}
+
+jint Java_org_videolan_libvlc_LibVLC_expandMedia(JNIEnv *env, jobject thiz, jobject children) {
+    return (jint)expand_media_internal(env,
+        getLibVlcInstance(env, thiz),
+        children,
+        (libvlc_media_t*)libvlc_media_player_get_media(getMediaPlayer(env, thiz)));
+}
+
 // TODO: remove static variables
 static int i_window_width = 0;
 static int i_window_height = 0;
