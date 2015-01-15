@@ -251,6 +251,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "java/lang/String");
     GET_CLASS(fields.VLCObject.clazz,
               "org/videolan/libvlc/VLCObject");
+    GET_CLASS(fields.Media.clazz,
+              "org/videolan/libvlc/Media");
+    GET_CLASS(fields.Media.Track.clazz,
+              "org/videolan/libvlc/Media$Track");
 
     GET_ID(GetFieldID,
            fields.VLCObject.mInstanceID,
@@ -261,6 +265,27 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.VLCObject.dispatchEventFromNativeID,
            fields.VLCObject.clazz,
            "dispatchEventFromNative", "(IJJ)V");
+
+    GET_ID(GetStaticMethodID,
+           fields.Media.createAudioTrackFromNativeID,
+           fields.Media.clazz,
+           "createAudioTrackFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;II)"
+           "Lorg/videolan/libvlc/Media$Track;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Media.createVideoTrackFromNativeID,
+           fields.Media.clazz,
+           "createVideoTrackFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;IIIIII)"
+           "Lorg/videolan/libvlc/Media$Track;");
+
+    GET_ID(GetStaticMethodID,
+           fields.Media.createSubtitleTrackFromNativeID,
+           fields.Media.clazz,
+           "createSubtitleTrackFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;IIIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)"
+           "Lorg/videolan/libvlc/Media$Track;");
 
 #undef GET_CLASS
 #undef GET_ID
@@ -283,6 +308,7 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
     (*env)->DeleteGlobalRef(env, fields.IllegalArgumentException.clazz);
     (*env)->DeleteGlobalRef(env, fields.String.clazz);
     (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
+    (*env)->DeleteGlobalRef(env, fields.Media.clazz);
 }
 
 int jni_attach_thread(JNIEnv **env, const char *thread_name)

@@ -36,6 +36,16 @@ struct fields {
         jfieldID mInstanceID;
         jmethodID dispatchEventFromNativeID;
     } VLCObject;
+    struct {
+        struct {
+            jclass clazz;
+        } Track;
+
+        jclass clazz;
+        jmethodID createAudioTrackFromNativeID;
+        jmethodID createVideoTrackFromNativeID;
+        jmethodID createSubtitleTrackFromNativeID;
+    } Media;
 };
 
 extern struct fields fields;
