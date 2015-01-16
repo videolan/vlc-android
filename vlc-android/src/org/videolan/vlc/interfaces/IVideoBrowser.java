@@ -18,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.vlc.gui.video;
+package org.videolan.vlc.interfaces;
 
 import java.util.concurrent.BrokenBarrierException;
 
 import org.videolan.vlc.MediaWrapper;
 
-public interface VideoBrowserInterface {
+public interface IVideoBrowser {
     public static final long HEADER_VIDEO = 0;
 	public static final long HEADER_MUSIC = 1;
 	public static final long HEADER_CATEGORIES = 2;

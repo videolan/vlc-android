@@ -38,7 +38,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
 import org.videolan.vlc.util.Util;
 
@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-public class GridFragment extends VerticalGridFragment implements VideoBrowserInterface {
+public class GridFragment extends VerticalGridFragment implements IVideoBrowser {
     private static final String TAG = "VLC/GridFragment";
 
     private static final int NUM_COLUMNS = 5;

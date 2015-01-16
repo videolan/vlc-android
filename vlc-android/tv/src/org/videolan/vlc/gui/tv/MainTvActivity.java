@@ -32,9 +32,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
-import org.videolan.vlc.util.Util;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -58,7 +57,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class MainTvActivity extends Activity implements VideoBrowserInterface {
+public class MainTvActivity extends Activity implements IVideoBrowser {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -298,7 +297,7 @@ public class MainTvActivity extends Activity implements VideoBrowserInterface {
                             sThumbnailer.addJob(media);
                     }
                     if (sThumbnailer.getJobsCount() > 0)
-                        sThumbnailer.start((VideoBrowserInterface) mContext);
+                        sThumbnailer.start((IVideoBrowser) mContext);
                 }
             }
         }).start();

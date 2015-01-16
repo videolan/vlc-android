@@ -28,7 +28,6 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
@@ -42,7 +41,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
@@ -60,10 +58,11 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends ListFragment implements IBrowser, IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener {
+public class DirectoryViewFragment extends BrowserFragment implements IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
+    private ListView mListView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private boolean mReady = true;
 
@@ -98,13 +97,16 @@ public class DirectoryViewFragment extends ListFragment implements IBrowser, IRe
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.directories);
 
         View v = inflater.inflate(R.layout.directory_view, container, false);
+        mListView = (ListView) v.findViewById(android.R.id.list);
+        mListView.setOnItemClickListener(this);
         mDirectoryAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
-        setListAdapter(mDirectoryAdapter);
+        mListView.setAdapter(mDirectoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
         listView.setNextFocusUpId(R.id.ml_menu_search);
         listView.setNextFocusLeftId(android.R.id.list);
@@ -198,13 +200,14 @@ public class DirectoryViewFragment extends ListFragment implements IBrowser, IRe
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int p, long id) {
-        int success = mDirectoryAdapter.browse(p);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int success = mDirectoryAdapter.browse(position);
 
         if(success < 0) /* Clicked on a media file */
-            openMediaFile(p);
+            openMediaFile(position);
         else
-            setSelection(success);
+            mListView.setSelection(success);
+
     }
 
     public boolean isRootDirectory () {
@@ -215,7 +218,7 @@ public class DirectoryViewFragment extends ListFragment implements IBrowser, IRe
         int success = mDirectoryAdapter.browse("..");
 
         if(success >= 0)
-            setSelection(success);
+            mListView.setSelection(success);
     };
 
     private void openMediaFile(int p) {

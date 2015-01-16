@@ -23,9 +23,10 @@ package org.videolan.vlc.gui;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.IRefreshable;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,13 +39,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
-public class HistoryFragment extends ListFragment implements IBrowser, IRefreshable, SwipeRefreshLayout.OnRefreshListener {
+public class HistoryFragment extends BrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;
+    private ListView mListView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private boolean mReady = true;
 
@@ -61,19 +64,22 @@ public class HistoryFragment extends ListFragment implements IBrowser, IRefresha
     private void focusHelper(boolean idIsEmpty) {
         View parent = View.inflate(getActivity(), R.layout.history_list,
             null);
+        mListView = (ListView) parent.findViewById(android.R.id.list);
+        mListView.setOnItemClickListener(this);
         MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
         main.setSearchAsFocusDown(idIsEmpty, parent,
-            android.R.id.list);
+                android.R.id.list);
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.history);
 
         View v = inflater.inflate(R.layout.history_list, container, false);
-        setListAdapter(mHistoryAdapter);
+        mListView.setAdapter(mHistoryAdapter);
         final ListView listView = (ListView)v.findViewById(android.R.id.list);
         listView.setNextFocusUpId(R.id.ml_menu_search);
         listView.setNextFocusLeftId(android.R.id.list);
@@ -113,8 +119,8 @@ public class HistoryFragment extends ListFragment implements IBrowser, IRefresha
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int p, long id) {
-        playListIndex(p);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        playListIndex(position);
     }
 
     private void playListIndex(int position) {

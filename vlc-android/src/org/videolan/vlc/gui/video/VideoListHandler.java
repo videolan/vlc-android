@@ -1,21 +1,22 @@
 package org.videolan.vlc.gui.video;
 
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.os.Message;
 
-public class VideoListHandler extends WeakHandler<VideoBrowserInterface> {
+public class VideoListHandler extends WeakHandler<IVideoBrowser> {
 	public static final int UPDATE_ITEM = 0;
     public static final int MEDIA_ITEMS_UPDATED = 100;
 
-	public VideoListHandler(VideoBrowserInterface owner) {
+	public VideoListHandler(IVideoBrowser owner) {
 		super(owner);
 	}
 
 	@Override
 	public void handleMessage(Message msg) {
-		VideoBrowserInterface owner = getOwner();
+		IVideoBrowser owner = getOwner();
 		if(owner == null) return;
 
 		switch (msg.what) {

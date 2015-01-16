@@ -26,7 +26,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
@@ -55,9 +54,9 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
@@ -72,7 +71,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, IBrowser {
+public class AudioBrowserFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
@@ -99,7 +98,6 @@ public class AudioBrowserFragment extends Fragment implements SwipeRefreshLayout
     public final static int MODE_GENRE = 3;
 
     public final static int MSG_LOADING = 0;
-    private volatile boolean mReadyToDisplay = true;
     private volatile boolean mDisplaying = false;
 
     /* All subclasses of Fragment must include a public empty constructor. */

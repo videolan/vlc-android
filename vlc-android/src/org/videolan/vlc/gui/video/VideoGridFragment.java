@@ -32,7 +32,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -67,10 +66,11 @@ import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 
@@ -79,7 +79,7 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-public class VideoGridFragment extends Fragment implements IBrowser, ISortable, VideoBrowserInterface, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class VideoGridFragment extends BrowserFragment implements ISortable, IVideoBrowser, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     public final static String TAG = "VLC/VideoListFragment";
 

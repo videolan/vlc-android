@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
-import org.videolan.vlc.gui.video.VideoBrowserInterface;
+import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -45,7 +45,7 @@ import android.view.Display;
 public class Thumbnailer implements Runnable {
     public final static String TAG = "VLC/Thumbnailer";
 
-    private VideoBrowserInterface mVideoBrowser;
+    private IVideoBrowser mVideoBrowser;
 
     private final Queue<MediaWrapper> mItems = new LinkedList<MediaWrapper>();
 
@@ -66,7 +66,7 @@ public class Thumbnailer implements Runnable {
         mPrefix = context.getResources().getString(R.string.thumbnail);
     }
 
-    public void start(VideoBrowserInterface videoBrowser) {
+    public void start(IVideoBrowser videoBrowser) {
         if (mLibVlc == null) {
             try {
                 mLibVlc = VLCInstance.getLibVlcInstance();
@@ -213,7 +213,7 @@ public class Thumbnailer implements Runnable {
         Log.d(TAG, "Thumbnailer stopped");
     }
 
-    public void setVideoBrowser(VideoBrowserInterface browser){
+    public void setVideoBrowser(IVideoBrowser browser){
         mVideoBrowser = browser;
     }
 }
