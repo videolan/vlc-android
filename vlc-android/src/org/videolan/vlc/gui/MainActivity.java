@@ -1015,16 +1015,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             mCurrentFragment = entry.id;
             mSidebarAdapter.setCurrentFragment(mCurrentFragment);
 
-                /*
-                 * Set user visibility hints to work around weird Android
-                 * behaviour of duplicate context menu events. TODO
-                 */
-            current.setUserVisibleHint(false);
-            getFragment(mCurrentFragment).setUserVisibleHint(true);
-            // HACK ALERT: Set underlying audio browser to be invisible too.
-            if(current.getTag().equals("tracks"))
-                getFragment("audio").setUserVisibleHint(false);
-
             if (mFocusedPrior != 0)
                 findViewById(R.id.ml_menu_search).requestFocus();
             mRootContainer.closeDrawer(mSideMenu);
