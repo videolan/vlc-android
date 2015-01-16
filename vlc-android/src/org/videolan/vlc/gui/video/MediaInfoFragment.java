@@ -28,6 +28,7 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.TrackInfo;
+import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
@@ -173,7 +174,7 @@ public class MediaInfoFragment extends ListFragment {
         for (int i = 0; i<files.length ; ++i){
             filename = Uri.decode(files[i]);
             extension = filename.substring(filename.lastIndexOf('.')+1);
-            if (!Media.SUBTITLES_EXTENSIONS.contains(extension))
+            if (!Extensions.SUBTITLES.contains(extension))
                 continue;
             if (filename.startsWith(videoName)) {
                 mHandler.obtainMessage(SHOW_SUBTITLES).sendToTarget();

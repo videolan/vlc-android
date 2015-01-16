@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
@@ -59,14 +60,14 @@ public class DirectoryAdapter extends BaseAdapter {
         final StringBuilder sb = new StringBuilder();
         sb.append(".+(\\.)((?i)(");
         boolean first = true;
-        for (String ext : Media.VIDEO_EXTENSIONS) {
+        for (String ext : Extensions.VIDEO) {
             if (!first)
                 sb.append('|');
             else
                 first = false;
             sb.append(ext.substring(1));
         }
-        for (String ext : Media.AUDIO_EXTENSIONS) {
+        for (String ext : Extensions.AUDIO) {
             sb.append('|');
             sb.append(ext.substring(1));
         }

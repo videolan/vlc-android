@@ -20,8 +20,9 @@
 
 package org.videolan.libvlc;
 
-import java.util.HashSet;
 import java.util.Locale;
+
+import org.videolan.libvlc.util.Extensions;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -31,42 +32,6 @@ import android.util.Log;
 
 public class Media implements Parcelable {
     public final static String TAG = "VLC/LibVLC/Media";
-
-    public final static HashSet<String> VIDEO_EXTENSIONS;
-    public final static HashSet<String> AUDIO_EXTENSIONS;
-    public final static HashSet<String> SUBTITLES_EXTENSIONS;
-
-    static {
-        final String[] video_extensions = {
-                ".3g2", ".3gp", ".3gp2", ".3gpp", ".amv", ".asf", ".avi", ".divx", ".drc", ".dv",
-                ".f4v", ".flv", ".gvi", ".gxf", ".ismv", ".iso", ".m1v", ".m2v", ".m2t", ".m2ts",
-                ".m4v", ".mkv", ".mov", ".mp2", ".mp2v", ".mp4", ".mp4v", ".mpe", ".mpeg",
-                ".mpeg1", ".mpeg2", ".mpeg4", ".mpg", ".mpv2", ".mts", ".mtv", ".mxf", ".mxg",
-                ".nsv", ".nut", ".nuv", ".ogm", ".ogv", ".ogx", ".ps", ".rec", ".rm", ".rmvb",
-                ".tod", ".ts", ".tts", ".vob", ".vro", ".webm", ".wm", ".wmv", ".wtv", ".xesc" };
-
-        final String[] audio_extensions = {
-                ".3ga", ".a52", ".aac", ".ac3", ".adt", ".adts", ".aif", ".aifc", ".aiff", ".amr",
-                ".aob", ".ape", ".awb", ".caf", ".dts", ".flac", ".it", ".m4a", ".m4b", ".m4p",
-                ".mid", ".mka", ".mlp", ".mod", ".mpa", ".mp1", ".mp2", ".mp3", ".mpc", ".mpga",
-                ".oga", ".ogg", ".oma", ".opus", ".ra", ".ram", ".rmi", ".s3m", ".spx", ".tta",
-                ".voc", ".vqf", ".w64", ".wav", ".wma", ".wv", ".xa", ".xm" };
-
-        final String[] subtitles_extensions = {
-                "idx", "sub",  "srt", "ssa", "ass",  "smi", "utf", "utf8", "utf-8",
-                "rt",   "aqt", "txt", "usf", "jss",  "cdg", "psb", "mpsub","mpl2",
-                "pjs", "dks", "stl", "vtt" };
-
-        VIDEO_EXTENSIONS = new HashSet<String>();
-        for (String item : video_extensions)
-            VIDEO_EXTENSIONS.add(item);
-        AUDIO_EXTENSIONS = new HashSet<String>();
-        for (String item : audio_extensions)
-            AUDIO_EXTENSIONS.add(item);
-        SUBTITLES_EXTENSIONS = new HashSet<String>();
-        for (String item : subtitles_extensions)
-            SUBTITLES_EXTENSIONS.add(item);
-    }
 
     public final static int TYPE_ALL = -1;
     public final static int TYPE_VIDEO = 0;
@@ -191,9 +156,9 @@ public class Media implements Parcelable {
             int dotIndex = mLocation.lastIndexOf(".");
             if (dotIndex != -1) {
                 String fileExt = mLocation.substring(dotIndex).toLowerCase(Locale.ENGLISH);
-                if( Media.VIDEO_EXTENSIONS.contains(fileExt) ) {
+                if( Extensions.VIDEO.contains(fileExt) ) {
                     mType = TYPE_VIDEO;
-                } else if (Media.AUDIO_EXTENSIONS.contains(fileExt)) {
+                } else if (Extensions.AUDIO.contains(fileExt)) {
                     mType = TYPE_AUDIO;
                 }
             }

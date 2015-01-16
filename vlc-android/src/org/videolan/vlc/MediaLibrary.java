@@ -36,6 +36,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
@@ -396,8 +397,8 @@ public class MediaLibrary {
                     int dotIndex = fileName.lastIndexOf(".");
                     if (dotIndex != -1) {
                         String fileExt = fileName.substring(dotIndex);
-                        accepted = Media.AUDIO_EXTENSIONS.contains(fileExt) ||
-                                   Media.VIDEO_EXTENSIONS.contains(fileExt);
+                        accepted = Extensions.AUDIO.contains(fileExt) ||
+                                   Extensions.VIDEO.contains(fileExt);
                     }
                 }
             }
