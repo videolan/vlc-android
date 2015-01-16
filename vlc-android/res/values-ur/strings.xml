@@ -27,17 +27,6 @@
     <string name="ringtone_error">رنگ ٹون مقرر کرتے ہوئے ایک خرابی واقع ہوئی ہے۔</string>
     <string name="pause">روکيں</string>
     <string name="not_show_again">اس پیغام کو دوبارہ نہ دکھائیں ـ</string>
-    <string name="beta_warning">یہ ایک \'بیٹا\' ورژن ہے
-
-يہ ورژن مستحکم نہیں ہے
-
-جب تک آپ جانتے نہيں کہ آپ کيا کرنا چاہتے ہيں، آپ اسے استعمال نہ کريں ـ
-
-یہ شايد آپ کی بلی کے بچے کو قتل، آپ کے گھر کو تباہ يا \'ماين\' قوم والى قيامت لا سکتا ہے.
-اس کے استعمال کى ذمہ داری آپ کى اپنی ہے
-
-مزہ لیں :) ـ</string>
-    <string name="info_title">وى ـ ايل ـ سى بِیٹا ورژن</string>
     <string name="unknown_artist">نامعلوم آرٹِسٹ</string>
     <string name="unknown_album">نا معلوم مرقع</string>
     <string name="unknown_genre">نامعلوم نوع</string>
@@ -101,30 +90,8 @@
     <string name="track_video">ویڈیو ٹریک</string>
     <string name="track_text">ذیلی عنوان کا ٹريک</string>
     <string name="track_unknown">نامعلوم ٹریک</string>
-    <string name="track_codec_info">کوڈیک:  %1$s
-
-</string>
-    <string name="track_language_info">زبان: %1$s
-
-</string>
     <string name="volume">آواز کی بُلندی</string>
     <string name="brightness">چمک</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 چينل⏎
-</item>
-        <item quantity="other">%1$d چينلز⏎
-</item>
-    </plurals>
-    <string name="track_samplerate_info">سامپل ريٹ: %1$d Hz
-
-
-</string>
-    <string name="track_resolution_info">ريزولوشن: %1$dx%2$d
-
-</string>
-    <string name="track_framerate_info">فريم ريٹ: %1$.3f
-
-</string>
     <string name="tools">ٹُولز</string>
     <string name="playback_speed">پلے بیک کى رفتار</string>
     <string name="sleep_title">سو جانے کا وقت</string>
@@ -139,12 +106,7 @@
     <string name="open_mrl_dialog_msg">نیٹ ورک ايم ـ آر ـ آيل ـ درج کریں: مثال کے طور پر http://, mms://, rtsp://, و‍غيرہ</string>
     <string name="error_not_compatible">ہم معذرت خواہ ہیں، اينذرائڈ کے ليے وى ـ ايل ـ سى ـ کا يہ ورژن فى الحال آپ کے آلہ پر کام نہيں کرتا ـ</string>
     <string name="error_problem">ہم معذرت خواہ ہیں ، اينڈرائيڈ کيليے وى ـ ايل ـ سى ـ کو لوڈ کرتے ہوئے ايک مسئلہ پيش آگيا تھا جس کى وجہ سے اسے بند کرنا پڑا ہے ـ</string>
-    <string name="error_message_is">خرابی کا پیغام ہے (برائے مہربانى ڈى بگنگ کرتے ہوئے اس کا حوالہ ديں):
-
-</string>
     <string name="encountered_error_title">پلے بیک ايرر</string>
-    <string name="encountered_error_message">وی۔ايل۔سی کو اس میڈیا کے ساتھ ایک خرابی کا سامنا کرنا پڑا.
-براہ مہربانی میڈیا لائبریری کو تازہ کرنے کی کوشش کریں.</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">اينذرائڈ کے ليے وى ـ ايل ـ سى ـ</string>
@@ -176,9 +138,6 @@
     <string name="enable_steal_remote_control_summary">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ ايچ ـ ٹى - سى - فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
     <string name="performance_prefs_category">کارکردگی</string>
     <string name="chroma_format">فورسِ وڈیوکروما</string>
-    <string name="chroma_format_summary">آر۔جی۔بی32۔ بٹ: ڈیفالٹ کروما
-آر۔جی۔بی 16۔ بٹ: بہتر کارکردگی لیکن کم معیار
-وائے۔ يو ۔ وی: بہترین کارکردگی ہے لیکن تمام ڈیوائسِز پر کام نہیں کرتا ہے. صرف اينڈرائڈ 2.3 اور بعد کيليے ہے.</string>
     <string name="deblocking">نہ روکنے والے فلٹر کی سیٹنگ</string>
     <string name="deblocking_summary">نہ روکنے والے فلٹر کی سیٹنگ کیجئے۔یہ ویڈیو کے معیار کو بہتر کرے گا۔صرف ماہر استعمال کنندہ کے لئے</string>
     <string name="deblocking_always">مکمل آزادی(سست ترین)</string>

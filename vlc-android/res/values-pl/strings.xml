@@ -31,17 +31,7 @@
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
     <string name="not_show_again">Nie pokazuj tego komunikatu ponownie.</string>
-    <string name="beta_warning">To jest wersja beta.
-
-Ta wersja JEST NIE STABILNA!
-
-NIE używaj jej, dopóki wiesz co robisz.
-
-W przeciwnym razie, może ona zabić twojego kota i zniszczyć twój dom.
-Używaj jej na własne ryzyko.
-
-Życzymy miłej zabawy! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Nieznany wykonawca</string>
     <string name="unknown_album">Nieznany album</string>
     <string name="unknown_genre">Nieznany gatunek</string>
@@ -93,6 +83,7 @@ Używaj jej na własne ryzyko.
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
     <string name="nosubdirectory">Brak podkatalogów.</string>
+    <string name="directorynotfound">Nie znaleziono ścieżki katalogu \'%1$s\'.</string>
     <string name="nohistory">Nie posiadasz jeszcze historii odtwarzania.</string>
     <string name="validation">Czy jesteś pewny?</string>
     <string name="cover_art">Okładka</string>
@@ -115,26 +106,20 @@ Używaj jej na własne ryzyko.
     <string name="track_video">Ścieżka wideo</string>
     <string name="track_text">Ścieżka napisów</string>
     <string name="track_unknown">Nieznana ścieżka</string>
-    <string name="track_codec_info">Kodek: %1$s
-</string>
-    <string name="track_language_info">Język: %1$s
-</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Język: %1$s\n</string>
     <string name="volume">Głośność</string>
+    <string name="sound_on">Dźwięk włączony</string>
+    <string name="sound_off">Dźwięk wyłączony</string>
     <string name="brightness">Jasność</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanał
-</item>
-        <item quantity="few">%1$d kanały
-</item>
-        <item quantity="other">%1$d kanałów
-</item>
+        <item quantity="one">1 kanał\n</item>
+        <item quantity="few">%1$d kanały\n</item>
+        <item quantity="other">%1$d kanałów\n</item>
     </plurals>
-    <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz
-</string>
-    <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Liczba klatek: %1$.3f
-</string>
+    <string name="track_samplerate_info">Częstotliwość próbkowania: %1$d Hz\n</string>
+    <string name="track_resolution_info">Rozdzielczość: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Liczba klatek: %1$.3f\n\n</string>
     <string name="tools">Narzędzia</string>
     <string name="playback_speed">Prędkość odtwarzania</string>
     <string name="sleep_title">Wyłącznik czasowy</string>
@@ -149,11 +134,9 @@ Używaj jej na własne ryzyko.
     <string name="open_mrl_dialog_msg">Podaj adres sieciowy: np. http://, mms:// lub rtsp://</string>
     <string name="error_not_compatible">Przykro nam, ale twoje urządzenie nie jest obecnie obsługiwane przez tę wersję VLC dla Androida™.</string>
     <string name="error_problem">Przepraszamy, ale VLC dla Androida miał problem przy ładowaniu i został zamknięty.</string>
-    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):
-</string>
+    <string name="error_message_is">Komunikat błędu (prosimy wspomnieć podczas debugowania):\n</string>
     <string name="encountered_error_title">Błąd odtwarzania</string>
-    <string name="encountered_error_message">VLC napotkał błąd tego nośnika.
-Spróbuj odświeżyć bibliotekę multimediów.</string>
+    <string name="encountered_error_message">VLC napotkał błąd tego nośnika.\nSpróbuj odświeżyć bibliotekę multimediów.</string>
     <string name="invalid_location">Pozycja %1$s nie może zostać odtworzona.</string>
     <string name="search">Szukaj</string>
     <string name="search_history">Historia wyszukiwania</string>
@@ -191,9 +174,7 @@ Spróbuj odświeżyć bibliotekę multimediów.</string>
     <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
     <string name="remove_custom_path">Usuń własną ścieżkę</string>
     <string name="hardware_acceleration">Przyspieszenie sprzętowe</string>
-    <string name="hardware_acceleration_summary">Wyłączona: lepsza stabilność.
-Dekodowanie: może poprawić wydajność.
-Pełna: może dodatkowo zwiększyć wydajność.</string>
+    <string name="hardware_acceleration_summary">Wyłączona: lepsza stabilność.\nDekodowanie: może poprawić wydajność.\nPełna: może dodatkowo zwiększyć wydajność.</string>
     <string name="hardware_acceleration_disabled">Wyłączona</string>
     <string name="hardware_acceleration_decoding">Akceleracja dekodowania</string>
     <string name="hardware_acceleration_full">Pełna akceleracja</string>
@@ -212,24 +193,26 @@ Pełna: może dodatkowo zwiększyć wydajność.</string>
     <string name="interface_prefs_screen">Interfejs</string>
     <string name="interface_secondary_display_category">Interfejs - drugi wyświetlacz</string>
     <string name="interface_secondary_display_category_summary">Ustawienia w przypadku połączonego drugiego wyświetlacza (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Zachowaj ustawienie akceleracji</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Akceleracja sprzętowa może nie działać</string>
     <string name="enable_clone_mode">Włącz powielanie</string>
     <string name="enable_clone_mode_summary">Powiel wyświetlacz urządzenia bez pilota.</string>
     <string name="interface_other_category">Interfejs - inne</string>
     <string name="enable_brightness_gesture">Włącz gesty jasności</string>
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
-    <string name="enable_headset_detection">Wykrywanie słuchawek</string>
-    <string name="enable_headset_detection_summary">Pauzuj przy usunięciu słuchawek, wznów po ponownym włożeniu słuchawek</string>
     <string name="enable_jump_buttons">Włącz przyciski przeskoku</string>
     <string name="enable_jump_buttons_summary">Pokaż przyciski do przodu i do tyłu w interfejsie wideo</string>
+    <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
+    <string name="enable_headset_detection">Wykrywanie słuchawek</string>
+    <string name="enable_headset_detection_summary">Pauzuj przy usunięciu słuchawek, wznów po ponownym włożeniu słuchawek</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
     <string name="enable_steal_remote_control_summary">Unikanie konfliktów poprzez zapożyczenie pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach firmy HTC.</string>
+    <string name="audio_title_alignment_default">Domyślnie</string>
+    <string name="audio_title_alignment_left">Lewy</string>
+    <string name="audio_title_alignment_centre">Środkowy</string>
+    <string name="audio_title_alignment_right">Prawy</string>
+    <string name="audio_title_alignment_marquee">Przewijający się tekst</string>
     <string name="performance_prefs_category">Wydajność</string>
     <string name="chroma_format">Wymuś chromę</string>
-    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma
-RGB 16-bit: lepsza wydajność, ale niższa jakość
-YUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach. Tylko dla Androida 2.3 i nowszych.</string>
+    <string name="chroma_format_summary">RGB 32-bit: domyślna chroma\nRGB 16-bit: lepsza wydajność, ale niższa jakość\nYUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach. Tylko dla Androida 2.3 i nowszych.</string>
     <string name="deblocking">Ustawienia filtru usuwania bloków</string>
     <string name="deblocking_summary">Zmiana ustawienia filtru usuwania bloków. Może poprawić jakość obrazu. Tylko dla zaawansowanych użytkowników.</string>
     <string name="deblocking_always">Pełny filtr usuwania bloków (najwolniej)</string>
@@ -275,4 +258,6 @@ YUV: najlepsza wydajność, ale nie działa na wszystkich urządzeniach. Tylko d
     <string name="restart_vlc">Uruchom ponownie VLC</string>
     <string name="send_log">Wyślij dziennik</string>
     <string name="sending_log">Wysyłanie dziennika…</string>
+    <string name="drawer_open">Otwórz listwę nawigacyjną</string>
+    <string name="drawer_close">Zamknij listwę nawigacyjną</string>
 </resources>

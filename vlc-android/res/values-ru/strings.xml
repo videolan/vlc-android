@@ -31,17 +31,7 @@
     <string name="ringtone_error">При попытке сменить мелодию звонка произошла ошибка.</string>
     <string name="pause">Пауза</string>
     <string name="not_show_again">Больше не выводить это сообщение.</string>
-    <string name="beta_warning">Это бета-версия программы.
-
-Она НЕ СТАБИЛЬНА!
-
-НЕ используйте её, если не уверены в своих действиях.
-
-Она может убить вашу зверушку и разрушить ваше жилище.
-Используйте её на свой страх и риск.
-
-Удачи! :)</string>
-    <string name="info_title">VLC (бета)</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Неизвестный исполнитель</string>
     <string name="unknown_album">Неизвестный альбом</string>
     <string name="unknown_genre">Неизвестный жанр</string>
@@ -93,6 +83,7 @@
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Нет подкаталогов.</string>
+    <string name="directorynotfound">Каталог \'%1$s\' не найден.</string>
     <string name="nohistory">История воспроизведения пуста.</string>
     <string name="validation">Вы уверены?</string>
     <string name="cover_art">Обложка</string>
@@ -115,26 +106,20 @@
     <string name="track_video">Видеодорожка</string>
     <string name="track_text">Дорожка субтитров</string>
     <string name="track_unknown">Неизвестная дорожка</string>
-    <string name="track_codec_info">Кодек: %1$s
-</string>
-    <string name="track_language_info">Язык: %1$s
-</string>
+    <string name="track_codec_info">Кодек: %1$s\n</string>
+    <string name="track_language_info">Язык: %1$s\n</string>
     <string name="volume">Громкость</string>
+    <string name="sound_on">Звук вкл.</string>
+    <string name="sound_off">Звук выкл.</string>
     <string name="brightness">Яркость</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">Каналов: 1
-</item>
-        <item quantity="few">Каналов: %1$d
-</item>
-        <item quantity="other">Каналов: %1$d
-</item>
+        <item quantity="one">Каналов: 1\n</item>
+        <item quantity="few">Каналов: %1$d\n</item>
+        <item quantity="other">Каналов: %1$d\n</item>
     </plurals>
-    <string name="track_samplerate_info">Частота дискр.: %1$d Гц
-</string>
-    <string name="track_resolution_info">Разрешение: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Частота кадров: %1$.3f
-</string>
+    <string name="track_samplerate_info">Частота дискр.: %1$d Гц\n</string>
+    <string name="track_resolution_info">Разрешение: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Частота кадров: %1$.3f\n</string>
     <string name="tools">Инструменты</string>
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="sleep_title">Таймер сна</string>
@@ -149,11 +134,9 @@
     <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
     <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
     <string name="error_problem">К сожалению, VLC для Android не смог загрузиться и его пришлось закрыть.</string>
-    <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):
-</string>
+    <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n\n</string>
     <string name="encountered_error_title">Ошибка воспроизведения</string>
-    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.
-Попытайтесь обновить медиатеку.</string>
+    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\n\nПопробуйте обновить медиатеку.</string>
     <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
@@ -191,9 +174,7 @@
     <string name="add_custom_path_description">Включить в сканирование дополнительный каталог:</string>
     <string name="remove_custom_path">Удалить дополнительный путь</string>
     <string name="hardware_acceleration">Аппаратное ускорение</string>
-    <string name="hardware_acceleration_summary">Отключено: наибольшая стабильность.
-Декодирование: может увеличить быстродействие.
-Полное: позволяет достичь макс. быстродействия.</string>
+    <string name="hardware_acceleration_summary">Отключено: наибольшая стабильность.\n\nДекодирование: может увеличить быстродействие.\n\nПолное: позволяет достичь макс. быстродействия.</string>
     <string name="hardware_acceleration_disabled">Отключено</string>
     <string name="hardware_acceleration_decoding">Ускорение декодирования</string>
     <string name="hardware_acceleration_full">Полное ускорение</string>
@@ -212,24 +193,26 @@
     <string name="interface_prefs_screen">Интерфейс</string>
     <string name="interface_secondary_display_category">Интерфейс — вторичный дисплей</string>
     <string name="interface_secondary_display_category_summary">Параметры при подключении вторичного дисплея (HDMI/Miracast)</string>
-    <string name="enable_secondary_display_hardware_acceleration">Сохранить режим аппаратного ускорения</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Аппаратное ускорение может не работать</string>
     <string name="enable_clone_mode">Клонирование</string>
     <string name="enable_clone_mode_summary">Клонировать экран устройства без удалённого управления.</string>
     <string name="interface_other_category">Интерфейс — Другое</string>
     <string name="enable_brightness_gesture">Изменение яркости жестом</string>
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
-    <string name="enable_headset_detection">Отслеживание гарнитуры</string>
-    <string name="enable_headset_detection_summary">Пауза при отключении гарнитуры; продолжение при подключении</string>
     <string name="enable_jump_buttons">Включить кнопки перехода</string>
     <string name="enable_jump_buttons_summary">Показывать в интерфейсе видео кнопки перехода назад и вперёд</string>
+    <string name="audio_title_alignment">Расположение заголовка аудио</string>
+    <string name="enable_headset_detection">Отслеживание гарнитуры</string>
+    <string name="enable_headset_detection_summary">Пауза при отключении гарнитуры; продолжение при подключении</string>
     <string name="enable_steal_remote_control">Захват управления с гарнитуры</string>
     <string name="enable_steal_remote_control_summary">Предотвращает конфликты, перехватывая удалённое управление у других приложений. Помогает избежать набора номера при двойном щелчке на аппаратах HTC.</string>
+    <string name="audio_title_alignment_default">по умолчанию</string>
+    <string name="audio_title_alignment_left">слева</string>
+    <string name="audio_title_alignment_centre">по центру</string>
+    <string name="audio_title_alignment_right">справа</string>
+    <string name="audio_title_alignment_marquee">бегущая строка</string>
     <string name="performance_prefs_category">Производительность</string>
     <string name="chroma_format">Принудительный формат цветности</string>
-    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию
-RGB 16 бит: выше скорость, но ниже качество
-YUV: максимальная скорость, но работает на на всех устройствах; поддерживает только Android 2.3 и новее.</string>
+    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\n\nRGB 16 бит: выше скорость, но ниже качество\n\nYUV: максимальная скорость, но работает на на всех устройствах; поддерживает только Android 2.3 и новее.</string>
     <string name="deblocking">Параметры устранения блочности</string>
     <string name="deblocking_summary">Устранение блочности может улучшить качество видео. Предназначено только для опытных пользователей.</string>
     <string name="deblocking_always">Полное устранение (самое медленное)</string>
@@ -275,4 +258,6 @@ YUV: максимальная скорость, но работает на на 
     <string name="restart_vlc">Перезапустить VLC</string>
     <string name="send_log">Отправить протокол</string>
     <string name="sending_log">Отправка протокола...</string>
+    <string name="drawer_open">Открыть панель навигации</string>
+    <string name="drawer_close">Закрыть панель навигации</string>
 </resources>

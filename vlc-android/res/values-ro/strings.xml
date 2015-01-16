@@ -12,7 +12,7 @@
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d rezultat găsit</item>
         <item quantity="few">%d rezultate găsite</item>
-        <item quantity="other">%d rezultate găsite</item>
+        <item quantity="other">%d de rezultate găsite</item>
     </plurals>
     <string name="play">Redare</string>
     <string name="play_from_start">Redare de la început</string>
@@ -31,17 +31,7 @@
     <string name="ringtone_error">A apărut o eroare la setarea tonului de apel.</string>
     <string name="pause">Pauză</string>
     <string name="not_show_again">Acest mesaj nu se  va mai afişa.</string>
-    <string name="beta_warning">Aceasta este o versiune beta.
-
-Această versiune NU ESTE STABILĂ!
-
-NU o folosiţi dacă nu știţi ce faceţi.
-
-Ar putea să vă omoare pisica și să vă distrugă casa.
-Folosiţi-o pe propriul risc.
-
-Distracție plăcută! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artist necunoscut</string>
     <string name="unknown_album">Album necunoscut</string>
     <string name="unknown_genre">Gen necunoscut</string>
@@ -115,30 +105,15 @@ Distracție plăcută! :)</string>
     <string name="track_video">Piesă video</string>
     <string name="track_text">Subtitrări piesă</string>
     <string name="track_unknown">Piesă necunoscută</string>
-    <string name="track_codec_info">Codec: %1$s
-</string>
-    <string name="track_language_info">Limba: %1$s 
-</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Limbă: %1$s\n</string>
     <string name="volume">Volum</string>
     <string name="brightness">Luminozitate</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 canal
-
-
-</item>
-        <item quantity="few">%1$d canale
-
-</item>
-        <item quantity="other">%1$d canale
-
-</item>
+        <item quantity="one">1 canal\n</item>
+        <item quantity="few">%1$d canale\n</item>
+        <item quantity="other">%1$d de canale\n</item>
     </plurals>
-    <string name="track_samplerate_info">Rată de eșantionare: %1$d Hz
-</string>
-    <string name="track_resolution_info">Rezoluție: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Frecvență de cadre: %1$.3f
-</string>
     <string name="tools">Instrumente</string>
     <string name="playback_speed">Viteză de redare</string>
     <string name="sleep_title">Temporizator stare de repaus</string>
@@ -153,11 +128,7 @@ Distracție plăcută! :)</string>
     <string name="open_mrl_dialog_msg">Introduceți adresa MRL: ex. http://, mms:// sau rtsp://</string>
     <string name="error_not_compatible">Ne pare rău, dispozitivul tău nu este momentan suportat de această versiune de VLC pentru Android™.</string>
     <string name="error_problem">Ne pare rău, VLC pentru Android a întâmpinat o problemă la încărcare, și a fost închis.</string>
-    <string name="error_message_is">Mesajul erorii este (vă rugăm să-l menţionaţi la depanare): 
-</string>
     <string name="encountered_error_title">Eroare de redare</string>
-    <string name="encountered_error_message">VLC a întâmpinat o eroare cu acest fișier media.
-Te rog încearcă să reîmprospătezi biblioteca media.</string>
     <string name="invalid_location">Locaţia %1$s nu poate fi redată.</string>
     <string name="search">Căutare</string>
     <string name="search_history">Istoric căutare</string>
@@ -185,9 +156,6 @@ Te rog încearcă să reîmprospătezi biblioteca media.</string>
     <string name="add_custom_path_description">Introduceţi un alt dosar pentru a fi scanat:</string>
     <string name="remove_custom_path">Eliminare cale personalizată</string>
     <string name="hardware_acceleration">Accelerare hardware</string>
-    <string name="hardware_acceleration_summary">Dezactivat: stabilitate mai bună.
-La decodificare: poate îmbunătăți performanța.
-Deplină: poate îmbunătăți performanța chiar mai mult.</string>
     <string name="hardware_acceleration_disabled">Dezactivat</string>
     <string name="hardware_acceleration_decoding">Accelerare Decodare</string>
     <string name="hardware_acceleration_full">Accelerare completă</string>
@@ -205,21 +173,21 @@ Deplină: poate îmbunătăți performanța chiar mai mult.</string>
     <string name="extra_prefs_category">Extra Configurări</string>
     <string name="interface_prefs_screen">Interfață</string>
     <string name="interface_secondary_display_category">Interfață - Display secundar</string>
-    <string name="enable_secondary_display_hardware_acceleration">Reține setările de accelerare grafica</string>
     <string name="interface_other_category">Interfață - Altele</string>
     <string name="enable_brightness_gesture">Activează gesturile pentru luminozitate</string>
     <string name="enable_brightness_gesture_summary">Controlează luminozitatea prin gesturi în timpul redării video</string>
-    <string name="enable_headset_detection">Detectează căștile</string>
-    <string name="enable_headset_detection_summary">Pauză la înlăturarea căștilor; continuă când căștile sunt conectate</string>
     <string name="enable_jump_buttons">Activează butoanele pentru sărit</string>
     <string name="enable_jump_buttons_summary">Arată butoanele pentru înainte și înapoi în interfața video</string>
+    <string name="enable_headset_detection">Detectează căștile</string>
+    <string name="enable_headset_detection_summary">Pauză la înlăturarea căștilor; continuă când căștile sunt conectate</string>
     <string name="enable_steal_remote_control">Control exclusiv asupra căștilor la distanță</string>
     <string name="enable_steal_remote_control_summary">Evită conflictele prin furarea controlului de la celelalte aplicații. Astfel se previne apelarea prin clic dublu pe telefoanele HTC.</string>
+    <string name="audio_title_alignment_default">Implicit</string>
+    <string name="audio_title_alignment_left">Stânga</string>
+    <string name="audio_title_alignment_centre">Centru</string>
+    <string name="audio_title_alignment_right">Dreapta</string>
     <string name="performance_prefs_category">Performanță</string>
     <string name="chroma_format">Forțează cromatica video</string>
-    <string name="chroma_format_summary">RGB 32-biți: adâncime a culorii implicită
-RGB 16-biți: performanță mai bună dar calitate inferioară
-YUV: cea mai bună performanță dar nu funcționează pe toate dispozitivele. Doar pentru Android 2.3 sau mai nou.</string>
     <string name="deblocking">Setările filtrului de deblocare.</string>
     <string name="deblocking_summary">Modifică setările pentru filtrul de deblocare. Poate îmbunătăți calitatea video. Doar pentru utilizatori avansați.</string>
     <string name="deblocking_always">Deblocare completă (cel mai lent)</string>
@@ -262,4 +230,6 @@ YUV: cea mai bună performanță dar nu funcționează pe toate dispozitivele. D
     <string name="dump_logcat_failure">Colectarea logcat a eșuat.</string>
     <string name="serious_crash">Din păcate, o eroare gravă a apărut și VLC-ul trebuie închis.</string>
     <string name="restart_vlc">Repornește VLC</string>
+    <string name="send_log">Trimite jurnalul</string>
+    <string name="sending_log">Se trimite jurnalul...</string>
 </resources>

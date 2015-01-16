@@ -30,17 +30,7 @@
     <string name="ringtone_error">Zil sesi ayarlanırken bir hata oluştu.</string>
     <string name="pause">Duraklat</string>
     <string name="not_show_again">Bu iletiyi bir daha gösterme</string>
-    <string name="beta_warning">Kullandığınız bir deneme (Beta) sürümüdür.
-
-Bu sürüm kararlı DEĞİLDİR!
-
-Ne yaptığınızı bildiğinizden emin değilseniz kullanmayın.
-
-Kedinizi öldürebilir ve evinizi yıkabilir.
-Kullanımdan doğacak riskler size aittir.
-
-İyi Eğlenceler! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Bilinmeyen Sanatçı</string>
     <string name="unknown_album">Bilinmeyen Albüm</string>
     <string name="unknown_genre">Bilinmeyen Tür</string>
@@ -87,6 +77,7 @@ Kullanımdan doğacak riskler size aittir.
     <string name="mediafiles">Ortam dosyaları</string>
     <string name="notavailable">kullanılamaz</string>
     <string name="nosubdirectory">Alt klasör yok.</string>
+    <string name="directorynotfound">\'%1$s\' klasör yolu bulunamadı.</string>
     <string name="nohistory">Henüz oynatma geçmişiniz yok.</string>
     <string name="validation">Emin misiniz?</string>
     <string name="cover_art">Kapak resmi</string>
@@ -109,24 +100,19 @@ Kullanımdan doğacak riskler size aittir.
     <string name="track_video">Görüntü izi</string>
     <string name="track_text">Alt yazı izi</string>
     <string name="track_unknown">Bilinmeyen iz</string>
-    <string name="track_codec_info">Kodek: %1$s
-</string>
-    <string name="track_language_info">Dil: %1$s
-</string>
+    <string name="track_codec_info">Kodlayıcı/Çözücü: %1$s\n</string>
+    <string name="track_language_info">Dil: %1$s\n</string>
     <string name="volume">Ses Düzeyi</string>
+    <string name="sound_on">Ses Açık</string>
+    <string name="sound_off">Ses Kapalı</string>
     <string name="brightness">Parlaklık</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d kanal
-</item>
-        <item quantity="other">%1$d kanal
-</item>
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="other">%1$d kanal\n</item>
     </plurals>
-    <string name="track_samplerate_info">Örnekleme hızı: %1$d Hz
-</string>
-    <string name="track_resolution_info">Çözünürlük: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Kare hızı: %1$.3f
-</string>
+    <string name="track_samplerate_info">Örnekleme hızı: %1$d Hz\n</string>
+    <string name="track_resolution_info">Çözünürlük: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Kare hızı: %1$.3f\n</string>
     <string name="tools">Araçlar</string>
     <string name="playback_speed">Oynatma hızı</string>
     <string name="sleep_title">Uyku zamanlayıcı</string>
@@ -139,15 +125,11 @@ Kullanımdan doğacak riskler size aittir.
     <string name="open_mrl">MRL Aç</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
     <string name="open_mrl_dialog_msg">Ağ MRL yazın: örneğin http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.
-
-Hata iletisi (hata ayıklama raporunda bu iletiyi belirtin):
-</string>
+    <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
     <string name="error_problem">Android için VLC yüklenirken bir sorun çıktı ve kapatılması gerekti.</string>
-    <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):</string>
+    <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):\n</string>
     <string name="encountered_error_title">Oynatım hatası</string>
-    <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.
-Lütfen ortam kitaplığını yenilemeyi deneyin.</string>
+    <string name="encountered_error_message">VLC bu ortamı kullanırken bir sorun çıktı.\nLütfen ortam kitaplığını yenilemeyi deneyin.</string>
     <string name="invalid_location">%1$s konumu oynatılamadı.</string>
     <string name="search">Arama</string>
     <string name="search_history">Arama geçmişi</string>
@@ -185,9 +167,7 @@ Lütfen ortam kitaplığını yenilemeyi deneyin.</string>
     <string name="add_custom_path_description">Taranacak özel klasörü yazın:</string>
     <string name="remove_custom_path">Özel klasörü sil</string>
     <string name="hardware_acceleration">Donanım Hızlandırma</string>
-    <string name="hardware_acceleration_summary">Devre dışı: daha iyi kararlılık.
-Kod çözme: başarımı arttırabilir.
-Tam: başarımı daha çok arttırabilir.</string>
+    <string name="hardware_acceleration_summary">Devre dışı: daha iyi kararlılık.\nKod çözme: başarımı arttırabilir.\nTam: başarımı daha çok arttırabilir.</string>
     <string name="hardware_acceleration_disabled">Devre Dışı</string>
     <string name="hardware_acceleration_decoding">Kod çözme hızlandırması</string>
     <string name="hardware_acceleration_full">Tam hızlandırma</string>
@@ -206,24 +186,26 @@ Tam: başarımı daha çok arttırabilir.</string>
     <string name="interface_prefs_screen">Arayüz</string>
     <string name="interface_secondary_display_category">Arayüz - İkinci Ekran</string>
     <string name="interface_secondary_display_category_summary">İkinci bir ekranın bağlandığı durumda (HDMI/Miracast) ayarlar.</string>
-    <string name="enable_secondary_display_hardware_acceleration">Donanım hızlandırması ayarı korunsun</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Donanım hızlandırması çalışmayabilir</string>
     <string name="enable_clone_mode">Yineleme yeğlensin</string>
     <string name="enable_clone_mode_summary">İkinci bir ekran bağlandığında uzaktan kumandayı kullanmadan aygıt ekranı ikinci ekrana yinelenir.</string>
     <string name="interface_other_category">Arayüz - Diğer</string>
     <string name="enable_brightness_gesture">Parlaklık el hareketi kullanılsın</string>
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
-    <string name="enable_headset_detection">Kulaklık algılansın</string>
-    <string name="enable_headset_detection_summary">Kulaklık çıkarıldığında duraklasın; takıldığında sürdürülsün</string>
     <string name="enable_jump_buttons">Atlama düğmeleri kullanılsın</string>
     <string name="enable_jump_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri düğmeleri görüntülenir</string>
+    <string name="audio_title_alignment">Ses başlığının hizası</string>
+    <string name="enable_headset_detection">Kulaklık algılansın</string>
+    <string name="enable_headset_detection_summary">Kulaklık çıkarıldığında duraklasın; takıldığında sürdürülsün</string>
     <string name="enable_steal_remote_control">Özel kulaklık kumandası</string>
     <string name="enable_steal_remote_control_summary">Uzaktan kumandanın başka uygulamalar tarafından kullanılması önlenir. Böylece HTC telefonlardaki çift tıklandığında arama özelliği engellenir.</string>
+    <string name="audio_title_alignment_default">Varsayılan</string>
+    <string name="audio_title_alignment_left">Solda</string>
+    <string name="audio_title_alignment_centre">Ortada</string>
+    <string name="audio_title_alignment_right">Sağda</string>
+    <string name="audio_title_alignment_marquee">Marka</string>
     <string name="performance_prefs_category">Başarım</string>
     <string name="chroma_format">Dayatılacak renk doygunluğu</string>
-    <string name="chroma_format_summary">RGB 32-bit: varsayılan renk doygunluğu
-RGB 16-bit: daha iyi başarım, daha düşük kalite
-YUV: en iyi başarım, tüm aygıtlarda çalışmaz. Yalnız Android 2.3 ve sonrası.</string>
+    <string name="chroma_format_summary">RGB 32-bit: varsayılan renk-uzayı\nRGB 16-bit: daha iyi başarım ama düşük kalite\nYUV: en iyi başarım ama tüm cihazlarda çalışmaz. Yalnız Android 2.3 ve sonrası için.</string>
     <string name="deblocking">Engel kaldırma süzgeci ayarları</string>
     <string name="deblocking_summary">Engel kaldırma süzgeci ayarları görüntü kalitesini iyileştirebilir. Deneyimli kullanıcıların değiştirmesi önerilir.</string>
     <string name="deblocking_always">Tam engel kaldırma (en yavaş)</string>
@@ -269,4 +251,6 @@ YUV: en iyi başarım, tüm aygıtlarda çalışmaz. Yalnız Android 2.3 ve sonr
     <string name="restart_vlc">VLC yazılımını yeniden başlatın</string>
     <string name="send_log">Günlüğü gönderin</string>
     <string name="sending_log">Günlük gönderiliyor...</string>
+    <string name="drawer_open">Gezinme çekmecesini açın</string>
+    <string name="drawer_close">Gezinme çekmecesini kapatın</string>
 </resources>

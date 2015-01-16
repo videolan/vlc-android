@@ -31,17 +31,7 @@
     <string name="ringtone_error">Dogodila se greška tokom postavljanja zvona.</string>
     <string name="pause">Pauziraj</string>
     <string name="not_show_again">Ne prikazuj ovu poruku ponovo.</string>
-    <string name="beta_warning">Ovo je beta verzija.
-
-Ova verzija NIJE STABILNA!
-
-NE KORISTITE, osim ako ne znate šta radite.
-
-Postoji mogućnost da ubije vaše mačke i uništi vašu kuću.
-Koristite na svoj rizik.
-
-Uživajte! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Nepoznat Izvođač</string>
     <string name="unknown_album">Nepoznat Album</string>
     <string name="unknown_genre">Nepoznat Žanr</string>
@@ -93,6 +83,7 @@ Uživajte! :)</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nije dostupno</string>
     <string name="nosubdirectory">Nema poddirektorija.</string>
+    <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Nemate historiju reproduciranja.</string>
     <string name="validation">Da li ste sigurni?</string>
     <string name="cover_art">Omot</string>
@@ -115,23 +106,20 @@ Uživajte! :)</string>
     <string name="track_video">Trag videa</string>
     <string name="track_text">Trag podtitlova</string>
     <string name="track_unknown">Nepoznat trag</string>
-    <string name="track_codec_info">Kodek: %1$s
-</string>
-    <string name="track_language_info">Jezik: %1$s
-</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Jezik: %1$s\n</string>
     <string name="volume">Glasnoća</string>
+    <string name="sound_on">Zvuk Uključen</string>
+    <string name="sound_off">Zvuk Isključen</string>
     <string name="brightness">Svjetlost</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 kanal</item>
-        <item quantity="few">%1$d kanala</item>
-        <item quantity="other">%1$d kanali</item>
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="few">%1$d kanala\n</item>
+        <item quantity="other">%1$d kanali\n</item>
     </plurals>
-    <string name="track_samplerate_info">Brzina stope: %1$d Hz
-</string>
-    <string name="track_resolution_info">Rezolucija: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Brzina prikaza: %1$.3f
-</string>
+    <string name="track_samplerate_info">Brzina stope: %1$d Hz\n</string>
+    <string name="track_resolution_info">Rezolucija: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Brzina prikaza: %1$.3f\n</string>
     <string name="tools">Alati</string>
     <string name="playback_speed">Brzina reproduciranja</string>
     <string name="sleep_title">Brojač za spavanje</string>
@@ -146,11 +134,9 @@ Uživajte! :)</string>
     <string name="open_mrl_dialog_msg">Unesi mrežni MRL: npr. http://, mms:// ili rtsp://</string>
     <string name="error_not_compatible">Izvinite, vaš uređaj trenutno nije podržan od ove verzije VLC-a za Android™.</string>
     <string name="error_problem">Izvinite, VLC za Android je imao problem s učitavanjem i morao se zatvoriti.</string>
-    <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):
-</string>
+    <string name="error_message_is">Poruka s greškom je (molimo napomenite ovo tokom otkrivanja grešaka):\n</string>
     <string name="encountered_error_title">Greška reproduciranja</string>
-    <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.
-Molimo pokušajte osvježiti medijsku biblioteku.</string>
+    <string name="encountered_error_message">VLC je naišao na grešku sa ovim medijem.\nMolimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može producirati.</string>
     <string name="search">Pretraga</string>
     <string name="search_history">Historija pretraživanja</string>
@@ -188,9 +174,7 @@ Molimo pokušajte osvježiti medijsku biblioteku.</string>
     <string name="add_custom_path_description">Unesi dodatni prilagođen direktorij za skeniranje:</string>
     <string name="remove_custom_path">Ukloni prilagođen put</string>
     <string name="hardware_acceleration">Hardversko Ubrzanje</string>
-    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.
-Dekodiranje: može poboljšati performansu.
-Puno: može dalje poboljšati dalje performansu.</string>
+    <string name="hardware_acceleration_summary">Isključeno: bolja stabilnost.\nDekodiranje: može poboljšati performansu.\nPuno: može dalje poboljšati dalje performansu.</string>
     <string name="hardware_acceleration_disabled">Isključeno</string>
     <string name="hardware_acceleration_decoding">Ubrzanje dekodiranja</string>
     <string name="hardware_acceleration_full">Puno ubrzanje</string>
@@ -209,24 +193,26 @@ Puno: može dalje poboljšati dalje performansu.</string>
     <string name="interface_prefs_screen">Interfejs</string>
     <string name="interface_secondary_display_category">Interfejs - Sekundarni Ekran</string>
     <string name="interface_secondary_display_category_summary">Postavke kada su sekundardni ekrani povezani (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Sačuvaj postavku hardverskog ubrzanja</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Hardversko ubrzanje možda neće raditi</string>
     <string name="enable_clone_mode">Preferiraj kloniranje</string>
     <string name="enable_clone_mode_summary">Kloniraj prikaz uređaja bez daljinskog upravljača</string>
     <string name="interface_other_category">Interfejs - Drugo</string>
     <string name="enable_brightness_gesture">Uključi svjetlosnu gesturu</string>
     <string name="enable_brightness_gesture_summary">Kontrolišite svjetlost sa gesturom tokom video reprodukcije</string>
-    <string name="enable_headset_detection">Pronađi slušalice</string>
-    <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
     <string name="enable_jump_buttons">Omogući skok dugmad</string>
     <string name="enable_jump_buttons_summary">Pokaži nazad i naprijed dugmad na video okruženju</string>
+    <string name="audio_title_alignment">Poravnanje naslova zvuka</string>
+    <string name="enable_headset_detection">Pronađi slušalice</string>
+    <string name="enable_headset_detection_summary">Pauziraj kada se odspoje slušalice; nastavi kada se spoje slušalice</string>
     <string name="enable_steal_remote_control">Ekskluzivno daljinsko upravljanje za slušalice</string>
     <string name="enable_steal_remote_control_summary">Izbjegavaj konflikt preuzimanja daljinskog upravljanja od drugih aplikacija. Ovo sprječava pozivanje na dupli klik kod HTC telefona.</string>
+    <string name="audio_title_alignment_default">Zadano</string>
+    <string name="audio_title_alignment_left">Lijevo</string>
+    <string name="audio_title_alignment_centre">Centar</string>
+    <string name="audio_title_alignment_right">Desno</string>
+    <string name="audio_title_alignment_marquee">Pokretni tekst</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadani krom
-RGB 16-bit: bolja performansa ali slabiji kvalitet
-YUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije samo.</string>
+    <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
     <string name="deblocking_summary">Izmijeni postavke filtera za deblokiranje. Moguće poboljšanje kvalitete videa. Samo za napredne korisnike.</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>
@@ -272,4 +258,6 @@ YUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije s
     <string name="restart_vlc">Ponovo Pokreni VLC</string>
     <string name="send_log">Pošalji izvještaj</string>
     <string name="sending_log">Šaljem izvještaj...</string>
+    <string name="drawer_open">Otvori navigacijsku ladicu</string>
+    <string name="drawer_close">Zatvori navigacijsku ladicu</string>
 </resources>

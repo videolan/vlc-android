@@ -30,8 +30,6 @@
     <string name="ringtone_error">रिङटोनको रुपमा स्थापित गर्ने क्रममा त्रुटि भयो ।</string>
     <string name="pause">पौज गर्नुहोस</string>
     <string name="not_show_again">यो शन्देस फेरी नदेखाउनुहोला।</string>
-    <string name="beta_warning">यो बेटा संस्करण हो।यो संस्करण स्थीर छैन।के गर्दै छु, थाहा नपाई यसको प्रयोग नगर्नु होला।यसले तपाईको बिरालो मार्न र घर सखाप पार्न सक्छ।आफ्नै जोखिममा प्रयोग गर्नुहोस ।रमाईलो होस! :)</string>
-    <string name="info_title">भिएलसी बेटा</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
     <string name="unknown_album">अज्ञात एलबम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
@@ -100,19 +98,8 @@
     <string name="track_video">भिडियो ट्रयाक</string>
     <string name="track_text">उपशिर्षक ट्रयाक</string>
     <string name="track_unknown">अज्ञात ट्रयाक</string>
-    <string name="track_codec_info">कोडेक: %1$s\n</string>
-    <string name="track_language_info">भासा: %1$s\n</string>
     <string name="volume">ध्वनि मात्रा</string>
     <string name="brightness">चमक</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">१ च्यानल</item>
-        <item quantity="other">%1 $d च्यानलहरु</item>
-    </plurals>
-    <string name="track_samplerate_info">सेम्पल दर:%1$d Hz\n</string>
-    <string name="track_resolution_info">रिजोल्युसन: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">फ्रेम दर: %1$.3f
-</string>
     <string name="tools">अैाजारहरु</string>
     <string name="playback_speed">बजाउने गति</string>
     <string name="sleep_title">बन्दहुने समय</string>

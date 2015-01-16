@@ -32,12 +32,7 @@
     <string name="ringtone_error">Roedd gwall wrth osod y sain canu.</string>
     <string name="pause">Oedi</string>
     <string name="not_show_again">Peidio dangos y neges eto</string>
-    <string name="beta_warning">Fersiwn beta yw hwn. Dyw\'r fersiwn hwn DDIM YN SEFYDLOG!
-
-Gall niweidio\'ch cath a dinistrio\'ch tŷ, felly defnyddiwch dim ond os ydych yn gwybod beth rydych yn gwneud. 
-
-Mwynhewch! :)</string>
-    <string name="info_title">VLC Beta</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artist Anhysbys</string>
     <string name="unknown_album">Albwm Anhysbys</string>
     <string name="unknown_genre">Genre Anhysbys</string>
@@ -94,6 +89,7 @@ Mwynhewch! :)</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">ddim ar gael</string>
     <string name="nosubdirectory">Dim is-gyfeiriaduron.</string>
+    <string name="directorynotfound">Methwyd dod o hyd i\'r cyfeiriadur \'%1$s\'.</string>
     <string name="nohistory">Does dim hanes chwarae eto.</string>
     <string name="validation">Wyt yn sicr?</string>
     <string name="cover_art">Dyluniad clawr</string>
@@ -116,28 +112,21 @@ Mwynhewch! :)</string>
     <string name="track_video">Trac fideo</string>
     <string name="track_text">Trac isdeitlau</string>
     <string name="track_unknown">Trac anhysbys</string>
-    <string name="track_codec_info">Codec: %1$s
-</string>
-    <string name="track_language_info">Iaith: %1$s
-</string>
+    <string name="track_codec_info">Codec: %1$s\n</string>
+    <string name="track_language_info">Iaith: %1$s\n</string>
     <string name="volume">Sain</string>
+    <string name="sound_on">Sain Ar</string>
+    <string name="sound_off">Sain Ffwrdd</string>
     <string name="brightness">Disgleirdeb</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d sianel
-</item>
-        <item quantity="two">%1$d sianel
-</item>
-        <item quantity="many">%1$d sianel
-</item>
-        <item quantity="other">%1$d sianel
-</item>
+        <item quantity="one">1 sianel\n</item>
+        <item quantity="two">%1$d sianel\n</item>
+        <item quantity="many">%1$d sianel\n</item>
+        <item quantity="other">%1$d sianel\n</item>
     </plurals>
-    <string name="track_samplerate_info">Cyfradd sampl: %1$d Hz
-</string>
-    <string name="track_resolution_info">Cydraniad: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Cyfradd fframiau: %1$.3f
-</string>
+    <string name="track_samplerate_info">Didradd sampl: %1$d Hz\n</string>
+    <string name="track_resolution_info">Cymhareb agwedd: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Fframiau: %1$.3f\n</string>
     <string name="tools">Offer</string>
     <string name="playback_speed">Cyflymder chwarae</string>
     <string name="sleep_title">Amserydd cwsg</string>
@@ -152,11 +141,9 @@ Mwynhewch! :)</string>
     <string name="open_mrl_dialog_msg">Rhowch MRL y cyfrwng: e.e. http://, mms:// neu rtsp://</string>
     <string name="error_not_compatible">Nid yw\'r fersiwn hon o VLC ar gyfer Android™ yn gweithio ar eich dyfais chi ar hyn o\'r bryd.</string>
     <string name="error_problem">Roedd problem wrth llwytho VLC ar gyfer Android™ a buodd rhaid ei gau.</string>
-    <string name="error_message_is">Neges y gwall yw (rhowch hyn wrth ddadfygio, os gwelwch yn dda):
-</string>
+    <string name="error_message_is">Y neges gwall yw (cofiwch grybwyll hwn wrth ddadfygio):\n</string>
     <string name="encountered_error_title">Gwall chwarae</string>
-    <string name="encountered_error_message">Roedd gwall wrth geisio chwarae\'r cyfrwng hwn.
-Ceisia ail-lwytho\'r llyfrgell cyfryngau.</string>
+    <string name="encountered_error_message">Cafodd VLC wall gyda\'r cyfrwng hwn.\nCeisiwch ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="invalid_location">Ni all chwarae\'r lleoliad %1$s.</string>
     <string name="search">Chwilio</string>
     <string name="search_history">Hanes chwilio</string>
@@ -194,9 +181,7 @@ Ceisia ail-lwytho\'r llyfrgell cyfryngau.</string>
     <string name="add_custom_path_description">Rhowch gyfeiriadur ychwanegol i\'w sganio:</string>
     <string name="remove_custom_path">Tynnu llwybr penodol</string>
     <string name="hardware_acceleration">Cyflymiad Caledwedd</string>
-    <string name="hardware_acceleration_summary">Analluogwyd: gwell sefydlogrwydd
-Datgodio: gwell perfformiad o bosib
-Llawn: perfformiad gwell fyth o bosib</string>
+    <string name="hardware_acceleration_summary">Analluogwyd: gwell sefydlogrwydd\nDatgodio: gwell perfformiad o bosib.\nLlawn: perfformiad gwell fyth o bosib</string>
     <string name="hardware_acceleration_disabled">Analluogwyd</string>
     <string name="hardware_acceleration_decoding">Cyflymiad datgodio</string>
     <string name="hardware_acceleration_full">Cyflymiad llawn</string>
@@ -215,24 +200,26 @@ Llawn: perfformiad gwell fyth o bosib</string>
     <string name="interface_prefs_screen">Rhyngwyneb</string>
     <string name="interface_secondary_display_category">Rhyngwyneb - Ail Ddangosydd</string>
     <string name="interface_secondary_display_category_summary">Gosodiadau pan mae ail ddangosyddion wedi\'u cysylltu (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Cadw gosodiad cyflymiad caledwedd</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Mae\'n bosib na fydd cyflymiad caledwedd yn gweithio</string>
     <string name="enable_clone_mode">Ffafrio clôn</string>
     <string name="enable_clone_mode_summary">Clonio sgrin y ddyfais heb remote control.</string>
     <string name="interface_other_category">Rhyngwyneb - Arall</string>
     <string name="enable_brightness_gesture">Newid disgleirdeb gan cyffwrdd</string>
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
-    <string name="enable_headset_detection">Canfod clustffonau</string>
-    <string name="enable_headset_detection_summary">Oedi pan ddatgysylltir clustffonau; chwarae pan gysylltir clustffonau</string>
     <string name="enable_jump_buttons">Galluogi botymau neidio</string>
     <string name="enable_jump_buttons_summary">Dangos botymau neidio nôl ac ymlaen yn y rhyngwyneb fideo</string>
+    <string name="audio_title_alignment">Aliniad teitl sain</string>
+    <string name="enable_headset_detection">Canfod clustffonau</string>
+    <string name="enable_headset_detection_summary">Oedi pan ddatgysylltir clustffonau; chwarae pan gysylltir clustffonau</string>
     <string name="enable_steal_remote_control">Rheolaeth diwifr i\'r clustffonau yn unig</string>
     <string name="enable_steal_remote_control_summary">Osgoi gwrthdaro gan atal aplenni eraill rhag cael rheolaeth ddiwifr (Ar ffonau clic-dwbl HTC, mae hyn yn rhwystro deialu.)</string>
+    <string name="audio_title_alignment_default"> Rhagosodedig</string>
+    <string name="audio_title_alignment_left">Chwith</string>
+    <string name="audio_title_alignment_centre">Canol</string>
+    <string name="audio_title_alignment_right">Dde</string>
+    <string name="audio_title_alignment_marquee">Pabell fawr</string>
     <string name="performance_prefs_category">Perfformiad</string>
     <string name="chroma_format">Gorfodi lliw fideo</string>
-    <string name="chroma_format_summary">RGB 32-did: Lliwiau rhagosodedig
-RGB 16-did: Gwell perfformiad; ansawdd salach
-YUV: Perfformiad gorau; dim yn gweithio ar bob dyfais; Android 2.3 a\'n uwch yn unig</string>
+    <string name="chroma_format_summary">RGB 32-did: lliw rhagosodedig\nRGB 16-did: gwell perfformiad ond ansawdd is\nYUV: perfformiad gorau ond ddim yn gweithio ar pob dyfais - Android 2.3 a\'n uwch yn unig</string>
     <string name="deblocking">Gosodiadau\'r hidlydd dadflocio</string>
     <string name="deblocking_summary">Newid gosodiadau\'r hidlydd dadflocio. Gall wella ansawdd fideo. Defnyddwyr profiadol yn unig.</string>
     <string name="deblocking_always">Datflocio llawn (arafaf)</string>
@@ -278,4 +265,6 @@ YUV: Perfformiad gorau; dim yn gweithio ar bob dyfais; Android 2.3 a\'n uwch yn 
     <string name="restart_vlc">Ail-ddechrau VLC</string>
     <string name="send_log">Anfon y log</string>
     <string name="sending_log">Yn anfon y log…</string>
+    <string name="drawer_open">Agor blwch llywio</string>
+    <string name="drawer_close">Cau blwch llywio</string>
 </resources>

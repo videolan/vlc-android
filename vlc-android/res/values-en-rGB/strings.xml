@@ -30,17 +30,6 @@
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Don\'t show this message again.</string>
-    <string name="beta_warning">This is a beta version.
-
-This version is NOT STABLE!
-
-Do NOT use, unless you know what you are doing.
-
-It might kill your kitten and destroy your house.
-Use it at your own risk.
-
-Have Fun! :)</string>
-    <string name="info_title">VLC Beta</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
     <string name="unknown_genre">Unknown Genre</string>
@@ -109,24 +98,8 @@ Have Fun! :)</string>
     <string name="track_video">Video track</string>
     <string name="track_text">Subtitles track</string>
     <string name="track_unknown">Unknown track</string>
-    <string name="track_codec_info">Codec: %1$s
-</string>
-    <string name="track_language_info">Language: %1$s
-</string>
     <string name="volume">Volume</string>
     <string name="brightness">Brightness</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 channel
-</item>
-        <item quantity="other">%1$d channels
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Sample rate: %1$d Hz
-</string>
-    <string name="track_resolution_info">Resolution: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Frame rate: %1$.3f
-</string>
     <string name="tools">Tools</string>
     <string name="playback_speed">Playback speed</string>
     <string name="sleep_title">Sleep timer</string>
@@ -141,11 +114,7 @@ Have Fun! :)</string>
     <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Sorry, your device is currently not supported by this version of VLC for Android™.</string>
     <string name="error_problem">Sorry, VLC for Android had a problem loading and had to close.</string>
-    <string name="error_message_is">The error message is (please mention this when debugging):
-</string>
     <string name="encountered_error_title">Playback error</string>
-    <string name="encountered_error_message">VLC encountered an error with this media.
-Please try refreshing the media library.</string>
     <string name="invalid_location">The location %1$s cannot be played.</string>
     <string name="search">Search</string>
     <string name="search_history">Search history</string>
@@ -175,9 +144,6 @@ Please try refreshing the media library.</string>
     <string name="add_custom_path_description">Enter additional custom directory to scan:</string>
     <string name="remove_custom_path">Remove custom path</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
-    <string name="hardware_acceleration_summary">Disabled: better stability.
-Decoding: may improve performance.
-Full: may improve performance further.</string>
     <string name="hardware_acceleration_disabled">Disabled</string>
     <string name="hardware_acceleration_decoding">Decoding acceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
@@ -196,24 +162,19 @@ Full: may improve performance further.</string>
     <string name="interface_prefs_screen">Interface</string>
     <string name="interface_secondary_display_category">Interface - Secondary Display</string>
     <string name="interface_secondary_display_category_summary">Settings when secondary displays are connected (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Keep hardware acceleration setting</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Hardware acceleration might not work</string>
     <string name="enable_clone_mode">Prefer clone</string>
     <string name="enable_clone_mode_summary">Clone the device screen without remote control.</string>
     <string name="interface_other_category">Interface - Other</string>
     <string name="enable_brightness_gesture">Enable brightness gesture</string>
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
-    <string name="enable_headset_detection">Detect headset</string>
-    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
     <string name="enable_jump_buttons">Enable jump buttons</string>
     <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
+    <string name="enable_headset_detection">Detect headset</string>
+    <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>
     <string name="enable_steal_remote_control_summary">Avoid conflicts by stealing the remote control from other apps. This prevents dialing on double click on HTC phones.</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Force video chroma</string>
-    <string name="chroma_format_summary">RGB 32-bit: default chroma
-RGB 16-bit: better performance but lower quality
-YUV: best performance but does not work on all devices. Android 2.3 and later only.</string>
     <string name="deblocking">Deblocking filter settings</string>
     <string name="deblocking_summary">Change the deblocking filter settings. Could improve video quality. Advanced users only.</string>
     <string name="deblocking_always">Full deblocking (slowest)</string>

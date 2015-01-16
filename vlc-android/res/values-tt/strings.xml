@@ -29,17 +29,6 @@
     <string name="ringtone_error">Кыңгырау көен үзгәрткәндә хата килеп чыкты.</string>
     <string name="pause">Тыналыш</string>
     <string name="not_show_again">Башка бу хәбәрне чыгармаска.</string>
-    <string name="beta_warning">Бу кушымтаның бета-юрамасы.
-
-Ул тотрыклы түгел!
-
-Нәрсә эшләгәнне аңламаганда аны кулланмагыз.
-
-Ул сезнең җанварыгызны үтерә һәм торакны җимерә ала.
-Аны тәвәккәлләнеп кулланыгыз.
-
-Уңышлар! :)</string>
-    <string name="info_title">VLC (бета)</string>
     <string name="unknown_artist">Билгесез башкаручы</string>
     <string name="unknown_album">Билгесез альбом</string>
     <string name="unknown_genre">Билгесез жанр</string>
@@ -103,22 +92,8 @@
     <string name="track_video">Видео юл</string>
     <string name="track_text">Субтитрлар юлы</string>
     <string name="track_unknown">Билгесез юл</string>
-    <string name="track_codec_info">Кодек: %1$s
-</string>
-    <string name="track_language_info">Тел: %1$s
-</string>
     <string name="volume">Тавыш көче</string>
     <string name="brightness">Яктылык</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d канал
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Дискр. ешлыгы: %1$d Гц
-</string>
-    <string name="track_resolution_info">Мөмкинлек: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Кадрлар ешлыгы: %1$.3f
-</string>
     <string name="tools">Кораллар</string>
     <string name="playback_speed">Уйнату тизлеге</string>
     <string name="sleep_title">Йокы таймеры</string>
@@ -133,11 +108,7 @@
     <string name="open_mrl_dialog_msg">Челтәр MRL адресы: http://, mms:// яки rtsp://</string>
     <string name="error_not_compatible">Кызганыч, бу Android™ өчен VLC юрамасы сезнең җиһазда эшләми.</string>
     <string name="error_problem">Кызганычка каршы, VLC Android өчен кабызыла алмады һәм аны ябарга туры килде.</string>
-    <string name="error_message_is">Хата турында хәбәр (ул көйләүдә сезгә файдалы булачак):
-</string>
     <string name="encountered_error_title">Уйнатуда хата</string>
-    <string name="encountered_error_message">Бу медиа чыганакны уйнатканда хата килеп чыкты.
-Медиаханәне яңартып карагыз.</string>
     <string name="invalid_location">%1$s уйнатып булмый.</string>
     <string name="search">Эзләргә</string>
     <string name="search_history">Тарихта эзләргә</string>
@@ -175,9 +146,6 @@
     <string name="add_custom_path_description">Өстәмә каталог тикшерүен кабызырга:</string>
     <string name="remove_custom_path">Өстәмә юлны бетерергә</string>
     <string name="hardware_acceleration">Аппаратлы тизләтелү</string>
-    <string name="hardware_acceleration_summary">Сүндерелгән: иң яхшы тотрыклылык.
-Декодлау: тиз башкаруны арттыра ала.
-Тулы: макс. тиз башкаруны җитәргә мөмкинлек бирә.</string>
     <string name="hardware_acceleration_disabled">Cүндерелгән</string>
     <string name="hardware_acceleration_decoding">Декодлау тизләнеше</string>
     <string name="hardware_acceleration_full">Тулы тизләнеш</string>
@@ -196,24 +164,19 @@
     <string name="interface_prefs_screen">Интерфейс</string>
     <string name="interface_secondary_display_category">Интерфейс - өстәмә дисплей</string>
     <string name="interface_secondary_display_category_summary">Өстәмә дисплейлар тоташканда көйләүләр (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Аппаратлы тизләнеш көйләүләрен тотыгыз</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Аппаратлы тизләнеш эшли алмый</string>
     <string name="enable_clone_mode">Күчермә яхшырак</string>
     <string name="enable_clone_mode_summary">Ерактан идарә итү пультсыз җиһаз экранына күчермә ясарга</string>
     <string name="interface_other_category">Интерфейс - Башкалар</string>
     <string name="enable_brightness_gesture">Ишарә белән яктылыкны үзгәртергә</string>
     <string name="enable_brightness_gesture_summary">Видео уйнатканда яктылык белән ишарә ярдәмендә идарә итү</string>
-    <string name="enable_headset_detection">Гарнитураны күзәтү</string>
-    <string name="enable_headset_detection_summary">Гарнитураны сүндергәндә тыналыш; тоташтырганда дәвам итү</string>
     <string name="enable_jump_buttons">Күчү төймәләрен кабызырга</string>
     <string name="enable_jump_buttons_summary">Видео интерфейсында артка һәм алга күчү төймәләрен күрсәтергә</string>
+    <string name="enable_headset_detection">Гарнитураны күзәтү</string>
+    <string name="enable_headset_detection_summary">Гарнитураны сүндергәндә тыналыш; тоташтырганда дәвам итү</string>
     <string name="enable_steal_remote_control">Гарнитурадан идарәне эләктерү</string>
     <string name="enable_steal_remote_control_summary">Башка кушымталарның ерак идарәсен эләктереп, низагларны булдырмый. HTC җиһазларында ике чиртү вакытында номер җыюын булдырмаска булыша.</string>
     <string name="performance_prefs_category">Җитештерүчәнлек</string>
     <string name="chroma_format">Мәҗбүри төслек форматы</string>
-    <string name="chroma_format_summary">RGB 32 бит: килешү буенча формат
-RGB 16 бит: тизлек югарырак, ләкин сыйфат түбәнрәк
-YUV: максималь тизлек, ләкин барлык җиһазларда да эшләми; Android 2.3 һәм яңаракларны гына куллана.</string>
     <string name="deblocking">Чыгырлык бетерү шартлары</string>
     <string name="deblocking_summary">Чыгырлыкны бетерү видео сыйфатын яхшырта ала. Тәҗрибәле кулланучылар өчен генә.</string>
     <string name="deblocking_always">Тулы бушату (иң әкрен)</string>

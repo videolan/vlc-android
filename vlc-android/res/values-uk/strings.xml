@@ -31,17 +31,7 @@
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
     <string name="not_show_again">„Не показувати це повідомлення знову“.</string>
-    <string name="beta_warning">Це бета-версія.
-
-Ця версія НЕ Є СТАБІЛЬНОЮ!
-
-НЕ використовуйте її, якщо не розумієте того, що робите.
-
-Інакше ваше кошеня може вмерти, будинок буде знищено, і почнеться апокаліпсис, передбачений майя.
-Використовуйте на свій ризик.
-
-Насолоджуйтеся! :)</string>
-    <string name="info_title">VLC бета</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Невідомий виконавець</string>
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
@@ -93,6 +83,7 @@
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Немає підкаталогів.</string>
+    <string name="directorynotfound">Не знайдено шлях до каталогу \'%1$s\'.</string>
     <string name="nohistory">У вас ще немає історії відтворення.</string>
     <string name="validation">Ви впевнені?</string>
     <string name="cover_art">Обкладинка</string>
@@ -115,26 +106,20 @@
     <string name="track_video">Відеодоріжка</string>
     <string name="track_text">Доріжка субтитрів</string>
     <string name="track_unknown">Невідома доріжка</string>
-    <string name="track_codec_info">Кодек: %1$s
-</string>
-    <string name="track_language_info">Мова: %1$s
-</string>
+    <string name="track_codec_info">Кодек: %1$s\n</string>
+    <string name="track_language_info">Мова: %1$s\n</string>
     <string name="volume">Гучність</string>
+    <string name="sound_on">Звук увімкн.</string>
+    <string name="sound_off">Звук вимкн.</string>
     <string name="brightness">Яскравість</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d канал
-</item>
-        <item quantity="few">%1$d канали
-</item>
-        <item quantity="other">%1$d каналів
-</item>
+        <item quantity="one">1 канал\n</item>
+        <item quantity="few">%1$d канали\n</item>
+        <item quantity="other">%1$d каналів\n</item>
     </plurals>
-    <string name="track_samplerate_info">Частота дискретизації: %1$d Гц
-</string>
-    <string name="track_resolution_info">Роздільна здатність: %1$d×%2$d
-</string>
-    <string name="track_framerate_info">Частота кадрів: %1$.3f
-</string>
+    <string name="track_samplerate_info">Частота дискретизації: %1$d Hz\n</string>
+    <string name="track_resolution_info">Роздільна здатність: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Частота кадрів: %1$.3f\n</string>
     <string name="tools">Інструменти</string>
     <string name="playback_speed">Швидкість відтворення</string>
     <string name="sleep_title">Таймер сну</string>
@@ -149,11 +134,9 @@
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
     <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
     <string name="error_problem">На жаль, VLC для Android мав проблему при завантаженні і він закрився.</string>
-    <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):
-</string>
+    <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n\n</string>
     <string name="encountered_error_title">Помилка відтворення</string>
-    <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.
-Будь ласка, спробуйте оновити медіабібліотеку.</string>
+    <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
     <string name="search">Пошук</string>
     <string name="search_history">Історія пошуку</string>
@@ -191,9 +174,7 @@
     <string name="add_custom_path_description">Введіть свій каталог для сканування:</string>
     <string name="remove_custom_path">Видалити свій шлях</string>
     <string name="hardware_acceleration">Апаратне прискорення</string>
-    <string name="hardware_acceleration_summary">Вимкнено: краща стабільність.
-Програмне: може поліпшити швидкодію.
-Повне: згодом може поліпшити швидкодію.</string>
+    <string name="hardware_acceleration_summary">Вимкнено: краща стабільність.\nПрограмне: може поліпшити швидкодію.\nПовне: згодом може поліпшити швидкодію.</string>
     <string name="hardware_acceleration_disabled">Вимкнено</string>
     <string name="hardware_acceleration_decoding">Програмне прискорення</string>
     <string name="hardware_acceleration_full">Повне прискорення</string>
@@ -212,24 +193,26 @@
     <string name="interface_prefs_screen">Інтерфейс</string>
     <string name="interface_secondary_display_category">Інтерфейс - Додатковий дисплей</string>
     <string name="interface_secondary_display_category_summary">Установки при під\'єднанні додаткових дисплеїв (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">Зберегти установку апаратного прискорення</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Апаратне прискорення може не працювати</string>
     <string name="enable_clone_mode">Переважно клонувати</string>
     <string name="enable_clone_mode_summary">Клонувати екран пристрою без дистанційного керування</string>
     <string name="interface_other_category">Інтерфейс - Інше</string>
     <string name="enable_brightness_gesture">Увімкнути жест яскравості</string>
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
-    <string name="enable_headset_detection">Виявляти гарнітуру</string>
-    <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
     <string name="enable_jump_buttons">Увімкнути кнопки переходів</string>
     <string name="enable_jump_buttons_summary">Показувати кнопки переходу вперед і назад на відеоінтерфейсі</string>
+    <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
+    <string name="enable_headset_detection">Виявляти гарнітуру</string>
+    <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
     <string name="enable_steal_remote_control">Виняткове віддалене управління гарнітурою</string>
     <string name="enable_steal_remote_control_summary">Уникає конфліктів через перехоплення віддаленого управління іншими програмами. Це запобігає дзвінкам при подвійному натисканні на HTC телефонах.</string>
+    <string name="audio_title_alignment_default">Типово</string>
+    <string name="audio_title_alignment_left">Лівий</string>
+    <string name="audio_title_alignment_centre">По центру</string>
+    <string name="audio_title_alignment_right">Правий</string>
+    <string name="audio_title_alignment_marquee">Рухливий текст</string>
     <string name="performance_prefs_category">Швидкодія</string>
     <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
-    <string name="chroma_format_summary">RGB 32-бітна: типова насиченість кольору
-RGB 16-бітна: краща швидкодія, але гірша якість
-YUV: найкраща швидкодія, але не працює на всіх пристроях. Android 2.3 та новіші лише.</string>
+    <string name="chroma_format_summary">RGB 32-бітна: типова насиченість кольору\nRGB 16-бітна: краща швидкодія, але гірша якість\nYUV: найкраща швидкодія, але не працює на всіх пристроях. Лише Android 2.3 та новіші.</string>
     <string name="deblocking">Налаштування фільтру деблокування</string>
     <string name="deblocking_summary">Змінює налаштування фільтру деблокування. Може покращити якість відео. Лише для досвідчених користувачів.</string>
     <string name="deblocking_always">Повне деблокування (найповільніше)</string>
@@ -275,4 +258,6 @@ YUV: найкраща швидкодія, але не працює на всіх
     <string name="restart_vlc">Перезапустити VLC</string>
     <string name="send_log">Надіслати журнал</string>
     <string name="sending_log">Відправка журналу...</string>
+    <string name="drawer_open">Відкрити меню навігації</string>
+    <string name="drawer_close">Закрити меню навігації</string>
 </resources>

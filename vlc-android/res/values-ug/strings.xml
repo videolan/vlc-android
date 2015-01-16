@@ -26,8 +26,6 @@
     <string name="ringtone_error">قوڭغۇراق ئاۋازىغا تەڭشىگەندە خاتالىق كۆرۈلدى.</string>
     <string name="pause">ۋاقىتلىق توختا</string>
     <string name="not_show_again">بۇ ئۇچۇرنى قايتا كۆرسەتمە.</string>
-    <string name="beta_warning">بۇ سىناق نەشرى. بۇ نەشرى *ئانچە مۇقىم ئەمەس*! ئەگەر نېمە ئىش قىلىۋاتقانلىقىڭىزنى بىلمىسىڭىز، بۇنى *ئىشلەتمەڭ*. ئۇ مۈشۈكۈڭىزنى ئۆلتۈرۈپ، ئۆيىڭىزنى چۇۋۇۋېتىشى مۇمكىن. ئەگەر ئىشلەتسىڭىز، مەسئۇلىيتىگە ئۆزىڭىز ئىگە. ئىشلىتىپ خۇشال بولۇڭ! :)</string>
-    <string name="info_title">VLC سىناق</string>
     <string name="unknown_artist">يوچۇن سەنئەتكار</string>
     <string name="unknown_album">يوچۇن توپلام</string>
     <string name="unknown_genre">يوچۇن ئېقىم</string>
@@ -90,22 +88,8 @@
     <string name="track_video">سىن يولى</string>
     <string name="track_text">كىنو خەت يولى</string>
     <string name="track_unknown">يوچۇن يول</string>
-    <string name="track_codec_info">كودلىغۇچ: %1$s
-</string>
-    <string name="track_language_info">تىل: %1$s
-</string>
     <string name="volume">ئاۋاز مىقدارى</string>
     <string name="brightness">يورۇقلۇق</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d قانال
-</item>
-    </plurals>
-    <string name="track_samplerate_info">نۇسخا ئېلىش نىسبىتى: %1$d Hz
-</string>
-    <string name="track_resolution_info">ئېنىقلىقى: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">كاندۇك نىسبىتى: %1$.3f
-</string>
     <string name="tools">قوراللار</string>
     <string name="playback_speed">تەكرار چېلىش سۈرئىتى</string>
     <string name="sleep_title">ئۇخلىتىش سانىغۇچ</string>
@@ -120,10 +104,7 @@
     <string name="open_mrl_dialog_msg">تور MRL نى كىرگۈزۈڭ: مەسىلەن: http://, mms:// ياكى rtsp://</string>
     <string name="error_not_compatible">كەچۈرۈڭ، بۇ نەشرىدىكى VLC for Android™ ئۈسكۈنىڭىزنى قوللىمايدۇ.</string>
     <string name="error_problem">كەچۈرۈڭ، VLC for Android نى يۈكلىيەلمىدى، تاقاش زۆرۈر.</string>
-    <string name="error_message_is">خاتالىق ئۇچۇرى (مەسىلىنى تەكشۈرۈپ تۈزىتىشكە ياردەملەشكەندە بۇ مەزمۇنلارنى تەمىنلەڭ)
-</string>
     <string name="encountered_error_title">تەكرار چېلىش خاتالىقى</string>
-    <string name="encountered_error_message">VLC بۇ سىننى قويۇۋاتقاندا مەسىلىگە يولۇقتى. سىن ئامبىرىنى يېڭىلاپ سىناپ بېقىڭ.</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">VLC for Android™</string>
@@ -149,15 +130,14 @@
     <string name="screen_orientation_reverse_landscape">يانتۇ ئۆرۈ</string>
     <string name="enable_brightness_gesture">يورۇقلۇق قول ئىشارىتىنى قوزغات</string>
     <string name="enable_brightness_gesture_summary">سىن قويۇۋاتقاندا قول ئىشارىتى بىلەن يورۇقلۇقنى تىزگىنلىگىلى بولىدۇ</string>
-    <string name="enable_headset_detection">قۇلاقلىق بايقاشنى قوزغات</string>
-    <string name="enable_headset_detection_summary">قۇلاقلىقنى چىقىرىۋەتكەندە ۋاقىتلىق توختىتىدۇ؛ قىستۇرغاندا چېلىشنى داۋاملاشتۇرىدۇ</string>
     <string name="enable_jump_buttons">ئاتلاش توپچىنى قوزدات</string>
     <string name="enable_jump_buttons_summary">سىن كۆرۈنۈشىدە تېز ئالدىغا ۋە تېز كەينىگە توپچىنى كۆرسىتىدۇ</string>
+    <string name="enable_headset_detection">قۇلاقلىق بايقاشنى قوزغات</string>
+    <string name="enable_headset_detection_summary">قۇلاقلىقنى چىقىرىۋەتكەندە ۋاقىتلىق توختىتىدۇ؛ قىستۇرغاندا چېلىشنى داۋاملاشتۇرىدۇ</string>
     <string name="enable_steal_remote_control">مۇستەقىل قۇلاقلىق يىراقتىن تىزگىنى</string>
     <string name="enable_steal_remote_control_summary">باشقا ئەپلەرنىڭ يىراقتىن تىزگىنلىشىنى توسۇپ توقۇنۇش كېلىپ چىقىشنىڭ ئالدىنى ئالىدۇ. بەلكىم HTC تېلېفوننىڭ قوش چېكىپ نومۇر بۇراش ئىقتىدارى ئىشلىمەسلىكى مۇمكىن.</string>
     <string name="performance_prefs_category">ئۈنۈم</string>
     <string name="chroma_format">مەجبۇرىي سىن رەڭ تۈسى</string>
-    <string name="chroma_format_summary">RGB 32-bit: كۆڭۈلدىكى رەڭ تۈسى RGB 16-bit: ئۈنۈمى سەل يۇقىرى ئەمما سۈپىتى سەل تۆۋەن، YUV: ئۈنۈمى ئەڭ يۇقىرى ئەمما ھەممە ئۈسكۈنىلەردە ئىشلەتكىلى بولۇشى ناتايىن. پەقەت Android 2.3 ۋە ئۇنىڭدىن يۇقىرى سىستېمىدىلا ئىشلەيدۇ.</string>
     <string name="deblocking">بۆلەك چىقىرىۋېتىش سۈزگۈچ تەڭشەكلىرى</string>
     <string name="deblocking_summary">بۆلەك چىقىرىۋېتىش سۈزگۈچىنىڭ تەڭشەكلىرىنى ئۆزگەرتىدۇ. سىن سۈپىتىنى ياخشىلىيالايدۇ. پەقەت ئالىي ئىشلەتكۈچىلەرنىڭ ئىشلىتىشىگە ئۈچۈنلا.</string>
     <string name="deblocking_always">بۆلەكنى پۈتۈنلەي چىقىرىۋېتىش (ئەڭ ئاستا)</string>

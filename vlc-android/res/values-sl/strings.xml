@@ -32,17 +32,6 @@
     <string name="ringtone_error">Pri nastavljanju zvonjenja je prišlo do napake.</string>
     <string name="pause">Prekini</string>
     <string name="not_show_again">Tega sporočila ne pokaži več.</string>
-    <string name="beta_warning">To je beta različica.
-
-Ta različica NI STABILNA!
-
-Uporabljajte samo v primeru, da veste kaj delate.
-
-Lahko umori vašega hrčka in uniči vašo hišo.
-Uporabljajte na lastno odgovornost.
-
-Zabavajte se! :)</string>
-    <string name="info_title">VLC beta</string>
     <string name="unknown_artist">Neznan izvajalec</string>
     <string name="unknown_album">Neznan album</string>
     <string name="unknown_genre">Neznana zvrst</string>
@@ -121,28 +110,8 @@ Zabavajte se! :)</string>
     <string name="track_video">Video posnetek</string>
     <string name="track_text">Podnapisi</string>
     <string name="track_unknown">Neznan posnetek</string>
-    <string name="track_codec_info">Kodec: %1$s
-</string>
-    <string name="track_language_info">Jezik: %1$s
-</string>
     <string name="volume">Glasnost</string>
     <string name="brightness">Svetlost</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">%1$d kanal
-</item>
-        <item quantity="two">%1$d kanala
-</item>
-        <item quantity="few">%1$d kanali
-</item>
-        <item quantity="other">%1$d kanalov
-</item>
-    </plurals>
-    <string name="track_samplerate_info">Mera vzorčenja: %1$d Hz
-</string>
-    <string name="track_resolution_info">Ločljivost: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">Hitrost predvajanja: %1$.3f⏎
-</string>
     <string name="tools">Orodja</string>
     <string name="playback_speed">Hitrost predvajanja</string>
     <string name="sleep_title">Časovnik mirovanja</string>
@@ -157,11 +126,7 @@ Zabavajte se! :)</string>
     <string name="open_mrl_dialog_msg">Vnesite MRL omrežja: npr. http://, mms:// ali rtsp://</string>
     <string name="error_not_compatible">Oprostite, ta različica VLC za Android™ trenutno ne podpira vaše naprave.</string>
     <string name="error_problem">Oprostite, pri nalaganju je prišlo do napake, zato se je moral VLC za Android zapreti.</string>
-    <string name="error_message_is">Sporočilo napake je (prosimo omenite pri razhroščevanju):
-</string>
     <string name="encountered_error_title">Napaka pri predvajanju</string>
-    <string name="encountered_error_message">VLC je odkril napako na tej predstavni vsebini.
-Prosimo poskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="invalid_location">Lokacije %1$s ni mogoče predvajati.</string>
     <string name="search">Poišči</string>
     <string name="search_history">Zgodovina iskanja</string>
@@ -195,9 +160,6 @@ Prosimo poskusite osvežiti knjižnico predstavnih vsebin.</string>
     <string name="add_custom_path_description">Vnesite dodatno mapo za skeniranje:</string>
     <string name="remove_custom_path">Odstrani pot po meri</string>
     <string name="hardware_acceleration">Strojno pospeševanje</string>
-    <string name="hardware_acceleration_summary">Onemogočeno: večja stabilnost.
-Dekodiranje: lahko izboljša delovanje.
-Polno: lahko še bolj izboljša delovanje.</string>
     <string name="hardware_acceleration_disabled">Onemogočeno</string>
     <string name="hardware_acceleration_decoding">Pospeševanje dekodiranja</string>
     <string name="hardware_acceleration_full">Polno pospeševanje</string>
@@ -215,22 +177,17 @@ Polno: lahko še bolj izboljša delovanje.</string>
     <string name="extra_prefs_category">Dodatne nastavitve</string>
     <string name="interface_prefs_screen">Vmesnik</string>
     <string name="interface_secondary_display_category">Vmesnik - drugotni zaslon</string>
-    <string name="enable_secondary_display_hardware_acceleration">Ohrani nastavitev strojnega pospeševanja</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">Strojno pospeševanje morda ne bo delovalo</string>
     <string name="interface_other_category">Vmesnik - drugo</string>
     <string name="enable_brightness_gesture">Omogoči gesto za svetlost</string>
     <string name="enable_brightness_gesture_summary">Nastavite svetlost z gesto med predvajanjem videa</string>
-    <string name="enable_headset_detection">Zaznaj slušalke</string>
-    <string name="enable_headset_detection_summary">Prekini ob odklopu slušalk; Nadaljuj ob priklopu slušalk</string>
     <string name="enable_jump_buttons">Omogoči gumbe za skok</string>
     <string name="enable_jump_buttons_summary">Pokaži gumba naprej in nazaj v vmesniku za video</string>
+    <string name="enable_headset_detection">Zaznaj slušalke</string>
+    <string name="enable_headset_detection_summary">Prekini ob odklopu slušalk; Nadaljuj ob priklopu slušalk</string>
     <string name="enable_steal_remote_control">Ekskluziven daljinski nadzor slušalk</string>
     <string name="enable_steal_remote_control_summary">Izognite se konfliktom z odvzemom daljinskega nadzora drugim napravam. To prepreči klicanje z dvoklikom na HTC telefonih.</string>
     <string name="performance_prefs_category">Zmogljivost</string>
     <string name="chroma_format">Vsili kromo videa</string>
-    <string name="chroma_format_summary">RGB, 32-bitni: privzeta kroma
-RGB, 16-bitni: boljše delovanje ob nižji kakovosti
-YUV: najboljše, vendar ne deluje na vseh napravah. Android 2.3 ali sodobnejši.</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
     <string name="deblocking_summary">Spremenite nastavitve filtra za odstranjevanje kock. Lahko poveča kvaliteto videa. Samo za napredne uporabnike.</string>
     <string name="deblocking_always">Polno odstranjevanje kock (najpočasnejše)</string>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">	
-ঠিক আছে</string>
-    <string name="cancel">	
-রদ করা</string>
-    <string name="other">	
-অন্য</string>
+    <string name="ok">	\nঠিক আছে</string>
+    <string name="cancel">	\nরদ করা</string>
+    <string name="other">	\nঅন্য</string>
     <string name="sortby">সাজান…</string>
     <string name="sortby_name">নাম</string>
     <string name="sortby_length">দৈর্ঘ্য</string>
@@ -27,8 +24,6 @@
     <string name="info">তথ্য</string>
     <string name="pause">বিরতি</string>
     <string name="not_show_again">এই বার্তাটি কি পুনরায় দেখায় না।</string>
-    <string name="beta_warning">এইটি একটি বেটা সংস্করণ। এই সংস্করণটি না স্থির! না কি ব্যবহার করে, যদি না আপনি জানে যার আপনি করছে। এইটি আপনার kitten হত্যা করতে পারে, আপনার বাড়ি ধ্বংস করুন এবং mayan apocalypse শুরু করুন। আপনার নিজের ঝুঁকিতে এইটি ব্যবহার করুন। আনন্দ করুন!:)</string>
-    <string name="info_title">VLC বেটা</string>
     <string name="unknown_artist">অজানা শিল্পী</string>
     <string name="unknown_album">অজানা এলবাম</string>
     <string name="unknown_genre">অজানা জেনার</string>
@@ -85,22 +80,8 @@
     <string name="track_video">ভিডিও ট্র্যাক</string>
     <string name="track_text">সাবটাইটেল ট্র্যাক</string>
     <string name="track_unknown">অজানা ট্র্যাক</string>
-    <string name="track_codec_info">কোডেক: %1$s
-</string>
-    <string name="track_language_info">ভাষা: %1$s
-</string>
     <string name="volume">আয়তন</string>
     <string name="brightness">উজ্জ্বলতা</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 চ্যানেল</item>
-        <item quantity="other">%1$d চ্যানেল</item>
-    </plurals>
-    <string name="track_samplerate_info">নমুনা হার: %1$d Hz
-</string>
-    <string name="track_resolution_info">রিসোলিউশন: %1$dx%2$d
-</string>
-    <string name="track_framerate_info">ফ্রেম রেট: %1$.3f
-</string>
     <string name="tools">সরঞ্জাম</string>
     <string name="playback_speed">প্লেব্যাক গতি</string>
     <string name="open">খোলা</string>
@@ -109,7 +90,6 @@
     <string name="open_mrl_dialog_msg">নেটওযারক MRL লিখন: যেমন এখানে http://, mms:// বা  rtsp://</string>
     <string name="error_not_compatible">দুঃখিত, আপনার ডিভাইস Android™এর জন্য VLCএর এই সংস্করণটির দ্বারা বর্তমানে সমর্থন করা হয় না।</string>
     <string name="error_problem">দুঃখিত, Android এর জন্য VLC একটি সমস্যা লোড হয় এবং বন্ধ ছিল.</string>
-    <string name="error_message_is">ত্রুটি বার্তাটি (দয়া করে এই যখন ডিবাগিং উল্লেখ):</string>
     <!--Tips-->
     <!-- About -->
     <string name="app_name_full">Android এর জন্য VLC ™</string>

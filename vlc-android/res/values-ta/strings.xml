@@ -30,8 +30,7 @@
     <string name="ringtone_error">அழைப்போசையை அமைக்கும்போது பிழை ஏற்பட்டது.</string>
     <string name="pause">இடைநிறுத்தம்</string>
     <string name="not_show_again">இச்செய்தியை மறுமுறைக் காட்டாதே.</string>
-    <string name="beta_warning">இது ஒரு பீட்டா பதிப்பு.\n\nஇப்பதிப்பு நிலையற்றது!\n\nதெரிந்து பயன்படுத்தவும்.\n\nஇது உங்கள் பூனைக் குட்டியை கொன்று வீட்டை நாசம் செய்துவிடும்.\nஆபத்து அறிந்து பயன்படுத்துங்கள்.\n\nதூள் கிளப்புங்க! :)</string>
-    <string name="info_title">VLC பீட்டா</string>
+    <string name="info_title">விஎல்சி</string>
     <string name="unknown_artist">தெரியாத கலைஞர்</string>
     <string name="unknown_album">தெரியாத தொகுப்பு</string>
     <string name="unknown_genre">தெரியாத வகை</string>
@@ -78,6 +77,7 @@
     <string name="mediafiles">ஊடகக் கோப்புகள்</string>
     <string name="notavailable">இல்லை</string>
     <string name="nosubdirectory">கிளை அடைவுகள் இல்லை.</string>
+    <string name="directorynotfound">\'%1$s\' அடைவுப் பாதைக் காணப்படவில்லை.</string>
     <string name="nohistory">வரலாறு ஏதுமில்லை.</string>
     <string name="validation">கண்டிப்பாக?</string>
     <string name="cover_art">அட்டைப் படம்</string>
@@ -100,13 +100,15 @@
     <string name="track_video">காணொளி தடம்</string>
     <string name="track_text">துணைத்தலைப்புகள் தடம்</string>
     <string name="track_unknown">தெரியாத தடம்</string>
-    <string name="track_codec_info">குறியாக்கம்: %1$s\n</string>
+    <string name="track_codec_info">கோடக்: %1$s\n</string>
     <string name="track_language_info">மொழி: %1$s\n</string>
     <string name="volume">ஒலியளவு</string>
+    <string name="sound_on">ஒலியைச் செயல்படுத்து</string>
+    <string name="sound_off">ஒலியை அணை</string>
     <string name="brightness">வெளிச்சம்</string>
     <plurals name="track_channels_info_quantity">
-        <item quantity="one">1 அலைவரிசை\n</item>
-        <item quantity="other">%1$d அலைவரிசைகள்\n</item>
+        <item quantity="one">1 வழித்தடம்\n</item>
+        <item quantity="other">%1$d வழித்தடங்கள்\n</item>
     </plurals>
     <string name="track_samplerate_info">மாதிரி விகிதம்: %1$d Hz\n</string>
     <string name="track_resolution_info">தெளிதிறன்: %1$dx%2$d\n</string>
@@ -127,7 +129,7 @@
     <string name="error_problem">மன்னிக்கவும், ஆண்ட்ராய்டிற்கான VLC ஐ ஏற்றுவதில் பிரச்சனை எனவே மூடவும.</string>
     <string name="error_message_is">பிரிச்சனைக்கான விவரம் (வழுநீக்கத்தின் போது இதைக் குறிப்பிடவும்):\n</string>
     <string name="encountered_error_title">இயக்க பிழை</string>
-    <string name="encountered_error_message">இவ்வூடகத்தில் VLC பிழைக் கண்டுள்ளது.\nஊடகத் தொகுப்பைப் புதுப்பித்து முயற்சிக்கவும்.</string>
+    <string name="encountered_error_message">இவ்வூடகத்தில் விஎல்சி பிழைக் கண்டுள்ளது.\nஊடகத் தொகுப்பைப் புதுப்பித்து முயற்சிக்கவும்.</string>
     <string name="invalid_location">%1$s இவ்விடத்தை இயக்க முடியாது.</string>
     <string name="search">தேடு</string>
     <string name="search_history">தேடல் வரலாறு</string>
@@ -165,7 +167,7 @@
     <string name="add_custom_path_description">வருடித் தேட கூடுதல் தனிப் பாதையைச் சேர் :</string>
     <string name="remove_custom_path">தனிப் பாதையை நீக்கு</string>
     <string name="hardware_acceleration">வன்பொருள் முடுக்கம்</string>
-    <string name="hardware_acceleration_summary">முடங்கியது: நல்ல நிலைத்தன்மை.\குறிவிலக்கம்: செயல் திறனைக் கூட்டலாம்.\nமுழுமை: செயல் திறனை இன்னமும் கூட்டலாம்.</string>
+    <string name="hardware_acceleration_summary">முடங்கியது: நல்ல நிலைத்தன்மை.\nகுறிவிலக்கம்: செயல் திறனைக் கூட்டலாம்.\nமுழுமை: செயல் திறனை இன்னமும் கூட்டலாம்.</string>
     <string name="hardware_acceleration_disabled">முடங்கியது</string>
     <string name="hardware_acceleration_decoding">குறிவிலக்க முடுக்கம்</string>
     <string name="hardware_acceleration_full">முழு முடுக்கம்</string>
@@ -184,22 +186,26 @@
     <string name="interface_prefs_screen">இடைமுகம்</string>
     <string name="interface_secondary_display_category">இடைமுகம் - துணைக் காட்சி</string>
     <string name="interface_secondary_display_category_summary">துணைக் காட்சிகள் இணைக்கப்படும் பொதுள்ள அமைவுகள் (HDMI/Miracast).</string>
-    <string name="enable_secondary_display_hardware_acceleration">வன்பொருள் முடுக்க அமைவை வைத்திரு</string>
-    <string name="enable_secondary_display_hardware_acceleration_summary">வன்பொருள் முடுக்கம் வேலைச் செய்யாமல் இருக்கலாம்</string>
     <string name="enable_clone_mode">குளோனை விரும்பு</string>
     <string name="enable_clone_mode_summary">தொலைநிலை கட்டுபாடில்லாமலே திரைகளை நகலெடு.</string>
     <string name="interface_other_category">இடைமுகப்பு - பிற</string>
     <string name="enable_brightness_gesture">வெளிச்ச சைகையை செயல்படுத்து</string>
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
-    <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
-    <string name="enable_headset_detection_summary">தலைப்பொறி நீக்கப்படும்போது இடைநிறுத்தம் செய்யவும்; தலைப்பொறி சொருகும்போது தொடரவும்</string>
     <string name="enable_jump_buttons">தாவல் பொத்தான்களை செயல்படுத்து</string>
     <string name="enable_jump_buttons_summary">காணொளி இடைமுகத்தில் பின்னால் முன்னால் பொத்தான்களை காண்பி</string>
+    <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
+    <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
+    <string name="enable_headset_detection_summary">தலைப்பொறி நீக்கப்படும்போது இடைநிறுத்தம் செய்யவும்; தலைப்பொறி சொருகும்போது தொடரவும்</string>
     <string name="enable_steal_remote_control">பிரத்தியேக தலைப்பொறி தொலைநிலை கட்டுப்பாடு</string>
     <string name="enable_steal_remote_control_summary">தொலைநிலை கட்டுப்பாட்டை பிற பயன்பாடுகள் திருடுவதை தடுப்பதன் மூலம் மோதல்களை தவிர்க்கலாம். இது HTC பேசிகளில் இரட்டை சொடுக்கல் மூலம் எண்கள் அழைத்தலை தடுக்க முடியும்.</string>
+    <string name="audio_title_alignment_default">முன்னிருப்பு</string>
+    <string name="audio_title_alignment_left">இடது</string>
+    <string name="audio_title_alignment_centre">நடுவில்</string>
+    <string name="audio_title_alignment_right">வலது</string>
+    <string name="audio_title_alignment_marquee">மார்க்யூ</string>
     <string name="performance_prefs_category">செயல்திறன்</string>
     <string name="chroma_format">காணொளி கிரோமாவிற்கு கட்டாயப்படுத்து</string>
-    <string name="chroma_format_summary">RGB 32-பிட்: முன்னிருப்பு கிரோமா\nRGB 16-பிட்: நல்ல செயல்திறன் ஆனால் குறைந்த தரம்\nYUV: நல்ல செயல்திறன் ஆனால் எல்லா சாதனங்களிலும் வேலைச் செய்யாது. ஆண்ட்ராய்டு 2.3+ பதிப்புகளில் மட்டுமே.</string>
+    <string name="chroma_format_summary">RGB 32-பிட்: முன்னிருப்பு குரோமா\nRGB 16-பிட்: நல்ல செயல்திறன் ஆனால் குறைந்த தரம்\nYUV: நல்ல செயல்திறன் ஆனால் எல்லா சாதனங்களிலும் வேலைச் செய்யாது. ஆண்ட்ராய்டு 2.3+ பதிப்புகளில் மட்டுமே.</string>
     <string name="deblocking">பிரித்தெடுத்தல் வடிப்பி அமைவுகள்</string>
     <string name="deblocking_summary">பிரித்தெடுத்தல் வடிப்பி அமைவுகள் மாற்றுதல். காணொளி தரத்தை கூட்ட முடியும். அறிவாளி பயனர்களுக்கு மட்டும்.</string>
     <string name="deblocking_always">முழு பிரித்தெடுத்தல் (மெதுவான)</string>
@@ -245,4 +251,6 @@
     <string name="restart_vlc">VLC மீள்துவக்கு</string>
     <string name="send_log">பதிவை அனுப்பு</string>
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
+    <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
+    <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
 </resources>
