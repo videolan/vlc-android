@@ -473,3 +473,35 @@ jint Java_org_videolan_libvlc_LibVLC_addSubtitleTrack(JNIEnv *env, jobject thiz,
         return -1;
     }
 }
+
+jint Java_org_videolan_libvlc_LibVLC_setAudioDelay(JNIEnv *env, jobject thiz, jlong delay)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_audio_set_delay(mp, (int64_t) delay);
+    return -1;
+}
+
+jlong Java_org_videolan_libvlc_LibVLC_getAudioDelay(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jlong) libvlc_audio_get_delay(mp);
+    return 0;
+}
+
+jint Java_org_videolan_libvlc_LibVLC_setSpuDelay(JNIEnv *env, jobject thiz, jlong delay)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_video_set_spu_delay(mp, (int64_t) delay);
+    return -1;
+}
+
+jlong Java_org_videolan_libvlc_LibVLC_getSpuDelay(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return (jlong) libvlc_video_get_spu_delay(mp);
+    return 0;
+}

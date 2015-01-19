@@ -736,6 +736,14 @@ public class LibVLC {
 
     public native int getSpuTracksCount();
 
+    public native int setAudioDelay(long delay);
+
+    public native int getAudioDelay();
+
+    public native int setSpuDelay(long delay);
+
+    public native int getSpuDelay();
+
     public static native String nativeToURI(String path);
     
     public native static void sendMouseEvent( int action, int button, int x, int y);
