@@ -282,7 +282,7 @@ public class MediaWrapper implements Parcelable {
      * Returns the raw picture object. Likely to be NULL in VLC for Android
      * due to lazy-loading.
      *
-     * Use {@link org.videolan.vlc.util.Bitmap#getPictureFromCache(MediaWrapper)} instead.
+     * Use {@link org.videolan.vlc.util.BitmapUtil#getPictureFromCache(MediaWrapper)} instead.
      *
      * @return The raw picture or NULL
      */
