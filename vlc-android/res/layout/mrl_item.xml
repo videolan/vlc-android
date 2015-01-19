@@ -8,14 +8,14 @@
         android:paddingLeft="10dp"
         android:clickable="true"
         android:layout_toLeftOf="@+id/mrl_item_delete"
-        android:gravity="center_vertical"
-        android:layout_alignBottom="@+id/mrl_item_delete"
-        android:layout_alignTop="@+id/mrl_item_delete"/>
-    <ImageButton
+        android:gravity="center_vertical"/>
+    <ImageView
         android:id="@+id/mrl_item_delete"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_stat_vlc"/>
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_trash_small_normal"
+        android:clickable="true"
+        android:paddingRight="5dp"/>
 </RelativeLayout>
