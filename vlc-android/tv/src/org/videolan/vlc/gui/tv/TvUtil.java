@@ -19,7 +19,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.app.Activity;
@@ -30,16 +30,16 @@ import android.support.v17.leanback.widget.Row;
 public class TvUtil {
 
 
-    public static void openMedia(Activity activity, Media media, Row row){
-        if (media.getType() == Media.TYPE_VIDEO){
-            VideoPlayerActivity.start(activity, media.getLocation(), false);
-        } else if (media.getType() == Media.TYPE_AUDIO){
+    public static void openMedia(Activity activity, MediaWrapper MediaWrapper, Row row){
+        if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO){
+            VideoPlayerActivity.start(activity, MediaWrapper.getLocation(), false);
+        } else if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO){
             Intent intent = new Intent(activity,
                     DetailsActivity.class);
             // pass the item information
-            intent.putExtra("item", (Parcelable)new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
+            intent.putExtra("item", (Parcelable)new MediaItemDetails(MediaWrapper.getTitle(), MediaWrapper.getArtist(), MediaWrapper.getAlbum(), MediaWrapper.getLocation()));
             activity.startActivity(intent);
-        } else if (media.getType() == Media.TYPE_GROUP){
+        } else if (MediaWrapper.getType() == MediaWrapper.TYPE_GROUP){
             Intent intent = new Intent(activity, VerticalGridActivity.class);
             intent.putExtra("id", row.getId());
             activity.startActivity(intent);

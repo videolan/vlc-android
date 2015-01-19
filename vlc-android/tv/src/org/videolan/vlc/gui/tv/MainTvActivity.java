@@ -25,9 +25,9 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.PreferencesActivity;
@@ -67,7 +67,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private MediaLibrary mMediaLibrary;
     private static Thumbnailer sThumbnailer;
-    private Media mItemToUpdate;
+    private MediaWrapper mItemToUpdate;
     ArrayObjectAdapter mRowsAdapter;
     ArrayObjectAdapter mVideoAdapter;
     ArrayObjectAdapter mCategoriesAdapter;
@@ -85,7 +85,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
                 intent.putExtra(AUDIO_CATEGORY, card.getId());
                 startActivity(intent);
             } else if (row.getId() == HEADER_VIDEO)
-                TvUtil.openMedia(mContext, (Media)o, row);
+                TvUtil.openMedia(mContext, (MediaWrapper)o, row);
             else if (row.getId() == HEADER_MISC)
                 startActivity(new Intent(mContext, PreferencesActivity.class));
         }
@@ -204,7 +204,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
     }
 
     @Override
-    public void setItemToUpdate(Media item) {
+    public void setItemToUpdate(MediaWrapper item) {
         mItemToUpdate = item;
         mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
     }
@@ -235,9 +235,9 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
         @Override
         protected Void doInBackground(Void... params) {
             MediaDatabase mediaDatabase = MediaDatabase.getInstance();
-            ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
+            ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
             int size;
-            Media item;
+            MediaWrapper item;
 
             // Update video section
             if (!videoList.isEmpty()) {
@@ -254,7 +254,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
                     mVideoIndex.put(item.getLocation(), i);
                 }
                 // Empty item to launch grid activity
-                mVideoAdapter.add(new Media(null, 0, 0, Media.TYPE_GROUP, null, "Browse more", null, null, null, null, 0, 0, null, 0, 0, 0));
+                mVideoAdapter.add(new MediaWrapper(null, 0, 0, MediaWrapper.TYPE_GROUP, null, "Browse more", null, null, null, null, 0, 0, null, 0, 0, 0));
 
                 HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
                 mRowsAdapter.add(new ListRow(header, mVideoAdapter));
@@ -288,13 +288,13 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
             public void run() {
                 sThumbnailer = new Thumbnailer(mContext, getWindowManager().getDefaultDisplay());
                 Bitmap picture;
-                ArrayList<Media> videoList = mMediaLibrary.getVideoItems();
+                ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
                 MediaDatabase mediaDatabase = MediaDatabase.getInstance();
                 if (sThumbnailer != null && videoList != null && !videoList.isEmpty()) {
-                    for (Media media : videoList){
-                        picture = mediaDatabase.getPicture(mContext, media.getLocation());
+                    for (MediaWrapper MediaWrapper : videoList){
+                        picture = mediaDatabase.getPicture(mContext, MediaWrapper.getLocation());
                         if (picture== null)
-                            sThumbnailer.addJob(media);
+                            sThumbnailer.addJob(MediaWrapper);
                     }
                     if (sThumbnailer.getJobsCount() > 0)
                         sThumbnailer.start((IVideoBrowser) mContext);

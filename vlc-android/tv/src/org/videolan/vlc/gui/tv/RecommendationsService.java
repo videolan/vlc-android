@@ -32,9 +32,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.WeakHandler;
@@ -76,7 +76,7 @@ public class RecommendationsService extends IntentService {
             MediaLibrary.getInstance().addUpdateHandler(mHandler);
         }
     }
-    private static Notification buildRecommendation(Context context, Media movie)
+    private static Notification buildRecommendation(Context context, MediaWrapper movie)
             throws IOException {
 
         if (sNotificationManager == null) {
@@ -111,12 +111,12 @@ public class RecommendationsService extends IntentService {
         return notification;
     }
 
-    private static PendingIntent buildPendingIntent(Media media) {
+    private static PendingIntent buildPendingIntent(MediaWrapper MediaWrapper) {
 
         Intent intent = new Intent(sContext, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
-        intent.putExtra("itemLocation", media.getLocation());
-        intent.putExtra("itemTitle", media.getTitle());
+        intent.putExtra("itemLocation", MediaWrapper.getLocation());
+        intent.putExtra("itemTitle", MediaWrapper.getTitle());
         intent.putExtra("dontParse", false);
         intent.putExtra("fromStart", false);
         intent.putExtra("itemPosition", -1);
@@ -139,13 +139,13 @@ public class RecommendationsService extends IntentService {
 
         @Override
         public void handleMessage(Message msg) {
-            ArrayList<Media> videoList = MediaLibrary.getInstance().getVideoItems();
-            ArrayList<Media> videos = new ArrayList<Media>(videoList.size());
+            ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
+            ArrayList<MediaWrapper> videos = new ArrayList<MediaWrapper>(videoList.size());
             Bitmap pic;
-            for (Media media : videoList){
-                pic = sMediaDatabase.getPicture(sContext, media.getLocation());
-                if (pic != null && pic.getByteCount() > 4 && media.getTime() == 0) {
-                    videos.add(media);
+            for (MediaWrapper MediaWrapper : videoList){
+                pic = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
+                if (pic != null && pic.getByteCount() > 4 && MediaWrapper.getTime() == 0) {
+                    videos.add(MediaWrapper);
                 }
             }
             if (!videos.isEmpty())

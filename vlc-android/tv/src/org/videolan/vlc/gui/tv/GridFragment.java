@@ -32,8 +32,8 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.audio.MediaComparators;
@@ -61,10 +61,10 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
     public static final int CATEGORY_SONGS = 4;
 
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
-    protected Media mItemToUpdate;
+    protected MediaWrapper mItemToUpdate;
     private Map<String, ListItem> mMediaItemMap;
     private ArrayList<ListItem> mMediaItemList;
-    ArrayList<Media> mMediaList = null;
+    ArrayList<MediaWrapper> mMediaList = null;
     private ArrayObjectAdapter mAdapter;
     private MediaLibrary mMediaLibrary;
     private static Thumbnailer sThumbnailer;
@@ -138,7 +138,7 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
         mBarrier.reset();
     }
     @Override
-    public void setItemToUpdate(Media item) {
+    public void setItemToUpdate(MediaWrapper item) {
         mItemToUpdate = item;
         mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
     }
@@ -172,31 +172,31 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
 
     private Handler mHandler = new VideoListHandler(this);
 
-    // An item of the list: a media or a separator.
+    // An item of the list: a MediaWrapper or a separator.
     public class ListItem {
         public String mTitle;
         public String mSubTitle;
-        public ArrayList<Media> mMediaList;
+        public ArrayList<MediaWrapper> mMediaList;
         public boolean mIsSeparator;
 
-        public ListItem(String title, String subTitle, Media media, boolean isSeparator) {
-            mMediaList = new ArrayList<Media>();
-            if (media != null)
-                mMediaList.add(media);
+        public ListItem(String title, String subTitle, MediaWrapper MediaWrapper, boolean isSeparator) {
+            mMediaList = new ArrayList<MediaWrapper>();
+            if (MediaWrapper != null)
+                mMediaList.add(MediaWrapper);
             mTitle = title;
             mSubTitle = subTitle;
             mIsSeparator = isSeparator;
         }
     }
 
-    public ListItem add(String title, String subTitle, Media media) {
+    public ListItem add(String title, String subTitle, MediaWrapper MediaWrapper) {
         if(title == null) return null;
         title = title.trim();
         if(subTitle != null) subTitle = subTitle.trim();
         if (mMediaItemMap.containsKey(title))
-            mMediaItemMap.get(title).mMediaList.add(media);
+            mMediaItemMap.get(title).mMediaList.add(MediaWrapper);
         else {
-            ListItem item = new ListItem(title, subTitle, media, false);
+            ListItem item = new ListItem(title, subTitle, MediaWrapper, false);
             mMediaItemMap.put(title, item);
             mMediaItemList.add(item);
             return item;
@@ -204,7 +204,7 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
         return null;
     }
 
-    public class AsyncVideoUpdate extends AsyncTask<Void, Media, Void> {
+    public class AsyncVideoUpdate extends AsyncTask<Void, MediaWrapper, Void> {
 
         public AsyncVideoUpdate() {}
 
@@ -216,21 +216,21 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
         @Override
         protected Void doInBackground(Void... params) {
             int size;
-            Media media;
+            MediaWrapper MediaWrapper;
 
             mMediaList = mMediaLibrary.getVideoItems();
             size = mMediaList == null ? 0 : mMediaList.size();
             mMediaIndex = new HashMap<String, Integer>(size);
 
             for (int i = 0 ; i < size ; ++i){
-                media = mMediaList.get(i);
-                mMediaIndex.put(media.getLocation(), i);
-                publishProgress(media);
+                MediaWrapper = mMediaList.get(i);
+                mMediaIndex.put(MediaWrapper.getLocation(), i);
+                publishProgress(MediaWrapper);
             }
             return null;
         }
 
-        protected void onProgressUpdate(Media... medias){
+        protected void onProgressUpdate(MediaWrapper... medias){
             mAdapter.add(medias[0]);
         }
 
@@ -240,7 +240,7 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
                 @Override
                 public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                           RowPresenter.ViewHolder rowViewHolder, Row row) {
-                    TvUtil.openMedia(getActivity(), (Media) item, null);
+                    TvUtil.openMedia(getActivity(), (MediaWrapper) item, null);
                 }
             });
         }
@@ -263,23 +263,23 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
             String title;
             ListItem item;
 
-            List<Media> audioList = MediaLibrary.getInstance().getAudioItems();
+            List<MediaWrapper> audioList = MediaLibrary.getInstance().getAudioItems();
             if (CATEGORY_ARTISTS == mCategory){
                 Collections.sort(audioList, MediaComparators.byArtist);
                 title = getString(R.string.artists);
-                for (Media media : audioList){
-                    item = add(media.getArtist(), null, media);
+                for (MediaWrapper MediaWrapper : audioList){
+                    item = add(MediaWrapper.getArtist(), null, MediaWrapper);
                     if (item != null)
                         publishProgress(item);
                 }
             } else if (CATEGORY_ALBUMS == mCategory){
                 title = getString(R.string.albums);
                 Collections.sort(audioList, MediaComparators.byAlbum);
-                for (Media media : audioList){
+                for (MediaWrapper MediaWrapper : audioList){
                     if (mFilter == null
-                            || (mType == FILTER_ARTIST && mFilter.equals(media.getArtist()))
-                            || (mType == FILTER_GENRE && mFilter.equals(media.getGenre()))) {
-                        item = add(media.getAlbum(), media.getArtist(), media);
+                            || (mType == FILTER_ARTIST && mFilter.equals(MediaWrapper.getArtist()))
+                            || (mType == FILTER_GENRE && mFilter.equals(MediaWrapper.getGenre()))) {
+                        item = add(MediaWrapper.getAlbum(), MediaWrapper.getArtist(), MediaWrapper);
                         if (item != null)
                             publishProgress(item);
                     }
@@ -293,8 +293,8 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
             } else if (CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
                 Collections.sort(audioList, MediaComparators.byGenre);
-                for (Media media : audioList){
-                    item = add(media.getGenre(), null, media);
+                for (MediaWrapper MediaWrapper : audioList){
+                    item = add(MediaWrapper.getGenre(), null, MediaWrapper);
                     if (item != null)
                         publishProgress(item);
                 }
@@ -302,8 +302,8 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
                 title = getString(R.string.songs);
                 Collections.sort(audioList, MediaComparators.byName);
                 ListItem mediaItem;
-                for (Media media : audioList){
-                    mediaItem = new ListItem(media.getTitle(), media.getArtist(), media, false);
+                for (MediaWrapper MediaWrapper : audioList){
+                    mediaItem = new ListItem(MediaWrapper.getTitle(), MediaWrapper.getArtist(), MediaWrapper, false);
                     mMediaItemMap.put(title, mediaItem);
                     mMediaItemList.add(mediaItem);
                     publishProgress(mediaItem);
@@ -341,8 +341,8 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
                         ArrayList<String> locations = new ArrayList<String>();
                         if (CATEGORY_ALBUMS == mCategory)
                             Collections.sort(listItem.mMediaList, MediaComparators.byTrackNumber);
-                        for (Media media : listItem.mMediaList) {
-                            locations.add(media.getLocation());
+                        for (MediaWrapper MediaWrapper : listItem.mMediaList) {
+                            locations.add(MediaWrapper.getLocation());
                         }
                         intent = new Intent(mContext, AudioPlayerActivity.class);
                         intent.putExtra("locations", locations);

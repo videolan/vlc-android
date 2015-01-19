@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 
 import java.util.ArrayList;
 
@@ -70,9 +70,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Media media = sMediaLibrary.getMediaItem(mDataset.get(position));
-        holder.mTitleTv.setText(media.getTitle());
-        holder.mArtistTv.setText(media.getArtist());
+        MediaWrapper MediaWrapper = sMediaLibrary.getMediaItem(mDataset.get(position));
+        holder.mTitleTv.setText(MediaWrapper.getTitle());
+        holder.mArtistTv.setText(MediaWrapper.getArtist());
         holder.itemView.setActivated(position == mSelectedItem);
         holder.itemView.setOnClickListener(this);
     }

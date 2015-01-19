@@ -19,8 +19,8 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioUtil;
 
@@ -66,12 +66,12 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected void updateCardViewImage(Media media) {
+        protected void updateCardViewImage(MediaWrapper MediaWrapper) {
             Bitmap picture = null;
-            if (media.getType() == Media.TYPE_AUDIO)
-                picture = AudioUtil.getCover(sContext, media, 320);
-            else if (media.getType() == Media.TYPE_VIDEO)
-                picture = sMediaDatabase.getPicture(sContext, media.getLocation());
+            if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO)
+                picture = AudioUtil.getCover(sContext, MediaWrapper, 320);
+            else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO)
+                picture = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
             if (picture != null && picture.getByteCount() > 4)
                 mCardView.setMainImage(new BitmapDrawable(mRes, picture));
             else
@@ -98,21 +98,21 @@ public class CardPresenter extends Presenter {
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
-        if (item instanceof Media) {
-            Media media = (Media) item;
-            holder.mCardView.setTitleText(media.getTitle());
-            holder.mCardView.setContentText(media.getDescription());
-            if (media.getType() == Media.TYPE_GROUP)
+        if (item instanceof MediaWrapper) {
+            MediaWrapper MediaWrapper = (MediaWrapper) item;
+            holder.mCardView.setTitleText(MediaWrapper.getTitle());
+            holder.mCardView.setContentText(MediaWrapper.getDescription());
+            if (MediaWrapper.getType() == MediaWrapper.TYPE_GROUP)
                 holder.updateCardViewImage(mRes.getDrawable(
                         R.drawable.ic_video_collection_big));
             else
-                holder.updateCardViewImage(media);
+                holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof GridFragment.ListItem) {
             GridFragment.ListItem listItem = (GridFragment.ListItem) item;
-            Media media = listItem.mMediaList.get(0);
+            MediaWrapper MediaWrapper = listItem.mMediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
-            holder.updateCardViewImage(media);
+            holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof SimpleCard){
             SimpleCard card = (SimpleCard) item;
             holder.mCardView.setTitleText(card.getName());

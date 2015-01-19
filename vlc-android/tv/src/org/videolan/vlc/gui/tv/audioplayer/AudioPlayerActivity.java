@@ -21,8 +21,8 @@ package org.videolan.vlc.gui.tv.audioplayer;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.DividerItemDecoration;
@@ -134,8 +134,8 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             mTitleTv.setText(mAudioController.getTitle());
             mArtistTv.setText(mAudioController.getArtist());
             mProgressBar.setMax(mAudioController.getLength());
-            Media media = MediaLibrary.getInstance().getMediaItem(mAudioController.getCurrentMediaLocation());
-            Bitmap cover = AudioUtil.getCover(this, media, mCover.getWidth());
+            MediaWrapper MediaWrapper = MediaLibrary.getInstance().getMediaItem(mAudioController.getCurrentMediaLocation());
+            Bitmap cover = AudioUtil.getCover(this, MediaWrapper, mCover.getWidth());
             if (cover == null)
                 cover = mAudioController.getCover();
             if (cover == null)

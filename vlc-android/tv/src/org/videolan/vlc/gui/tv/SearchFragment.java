@@ -21,8 +21,8 @@ package org.videolan.vlc.gui.tv;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 
 import android.app.Activity;
@@ -67,7 +67,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         mRowsAdapter.clear();
         if (!TextUtils.isEmpty(words) && words.length() > 2) {
             mDelayedLoad.setSearchQuery(words);
-            mDelayedLoad.setSearchType(Media.TYPE_ALL);
+            mDelayedLoad.setSearchType(MediaWrapper.TYPE_ALL);
             new Thread(mDelayedLoad).start();
         }
     }
@@ -85,7 +85,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
     }
 
     private void loadRows(String query, int type) {
-        ArrayList<Media> mediaList = MediaLibrary.getInstance().searchMedia(query, type);
+        ArrayList<MediaWrapper> mediaList = MediaLibrary.getInstance().searchMedia(query, type);
         final ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter(mActivity));
         listRowAdapter.addAll(0, mediaList);
         mHandler.post(new Runnable() {
@@ -102,8 +102,8 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         return new OnItemClickedListener() {
             @Override
             public void onItemClicked(Object item, Row row) {
-                if (item instanceof Media) {
-                    TvUtil.openMedia(mActivity, (Media) item, row);
+                if (item instanceof MediaWrapper) {
+                    TvUtil.openMedia(mActivity, (MediaWrapper) item, row);
                 }
             }
         };
