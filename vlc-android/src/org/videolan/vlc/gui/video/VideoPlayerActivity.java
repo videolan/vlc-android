@@ -2085,7 +2085,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     mTracks.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 if (mAdvOptions !=null)
                     mAdvOptions.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
-            }
+            } else
+                mSize.setVisibility(View.INVISIBLE);
             if (mPresentation != null) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
@@ -2093,7 +2094,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             setActionBarVisibility(false);
             mOverlayProgress.setVisibility(View.INVISIBLE);
             mPlayPause.setVisibility(View.INVISIBLE);
-            mSize.setVisibility(View.INVISIBLE);
             if (mTracks != null)
                 mTracks.setVisibility(View.INVISIBLE);
             if (mAdvOptions !=null)
