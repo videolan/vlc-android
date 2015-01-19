@@ -38,7 +38,7 @@
             android:layout_margin="10dp"
             android:clickable="true"
             android:onClick="onClick"
-            android:src="@drawable/ic_menu_preferences"/>
+            android:src="?attr/ic_menu_preferences"/>
 
         <TextView
             android:id="@+id/settings"
