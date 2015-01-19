@@ -22,41 +22,33 @@
 package org.videolan.vlc.gui.video;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.JumpToTimeFragment;
+import org.videolan.vlc.gui.PickTimeFragment;
 import org.videolan.vlc.gui.TimePickerDialogFragment;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Calendar;
 
-public class AdvOptionsDialog extends DialogFragment{
+public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final int SPEED_TEXT = 0;
@@ -77,6 +69,10 @@ public class AdvOptionsDialog extends DialogFragment{
     private ImageView mJumpIcon;
     private TextView mJumpTitle;
 
+    private TextView mAudioDelay;
+    private TextView mSpuDelay;
+
+    private LibVLC mLibVLC;
     private static AdvOptionsDialog sInstance;
     private int mTextColor;
 
@@ -108,21 +104,29 @@ public class AdvOptionsDialog extends DialogFragment{
         mSleepTime = (TextView) root.findViewById(R.id.sleep_timer_value);
         mSleepCancel = (TextView) root.findViewById(R.id.sleep_timer_cancel);
 
-        mSleepIcon.setOnClickListener(mSleepListener);
-        mSleepTitle.setOnClickListener(mSleepListener);
-        mSleepTime.setOnClickListener(mSleepListener);
-        mSleepCancel.setOnClickListener(mSleepCancelListener);
+        mSleepIcon.setOnClickListener(this);
+        mSleepTitle.setOnClickListener(this);
+        mSleepTime.setOnClickListener(this);
+        mSleepCancel.setOnClickListener(this);
 
         mJumpIcon = (ImageView) root.findViewById(R.id.jump_icon);
         mJumpTitle = (TextView) root.findViewById(R.id.jump_title);
 
-        mJumpIcon.setOnClickListener(mJumpListener);
-        mJumpTitle.setOnClickListener(mJumpListener);
+        mAudioDelay = (TextView) root.findViewById(R.id.audio_delay);
+        mSpuDelay = (TextView) root.findViewById(R.id.spu_delay);
+
+        mJumpIcon.setOnClickListener(this);
+        mJumpTitle.setOnClickListener(this);
+
+        mAudioDelay.setOnClickListener(this);
+        mSpuDelay.setOnClickListener(this);
 
         mReset.setOnFocusChangeListener(mFocusListener);
         mSleepTime.setOnFocusChangeListener(mFocusListener);
         mSleepCancel.setOnFocusChangeListener(mFocusListener);
         mJumpTitle.setOnFocusChangeListener(mFocusListener);
+        mAudioDelay.setOnFocusChangeListener(mFocusListener);
+        mSpuDelay.setOnFocusChangeListener(mFocusListener);
 
         getDialog().setCancelable(true);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
@@ -151,31 +155,14 @@ public class AdvOptionsDialog extends DialogFragment{
         }
     };
 
-    View.OnClickListener mSleepListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);
-            dismiss();
-        }
-    };
-
-    View.OnClickListener mSleepCancelListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            setSleep(v.getContext(), null);
-            mHandler.sendEmptyMessage(TOGGLE_CANCEL);
-        }
-    };
-
-    View.OnClickListener mJumpListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            DialogFragment newFragment = new JumpToTimeFragment();
-            newFragment.show(getActivity().getSupportFragmentManager(), "jump");
-            dismiss();
-//            showTimePicker(TimePickerDialogFragment.ACTION_JUMP);
-        }
-    };
+    private void showTimePickerFragment(int action) {
+        DialogFragment newFragment = new PickTimeFragment();
+        Bundle args = new Bundle();
+        args.putInt(PickTimeFragment.ACTION, action);
+        newFragment.setArguments(args);
+        newFragment.show(getActivity().getSupportFragmentManager(), "time");
+        dismiss();
+    }
 
     View.OnFocusChangeListener mFocusListener = new View.OnFocusChangeListener() {
         @Override
@@ -194,6 +181,7 @@ public class AdvOptionsDialog extends DialogFragment{
         newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
         mHandler.sendEmptyMessage(RESET_RETRY);
         mHandler.sendMessageDelayed(mHandler.obtainMessage(DIALOG_LISTENER, newFragment), 100);
+        dismiss();
     }
 
     public static void setSleep(Context context, Calendar time) {
@@ -248,8 +236,32 @@ public class AdvOptionsDialog extends DialogFragment{
                 case RESET_RETRY:
                     retry = true;
                     break;
-
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.audio_delay:
+                showTimePickerFragment(PickTimeFragment.ACTION_AUDIO_DELAY);
+                break;
+            case R.id.spu_delay:
+                showTimePickerFragment(PickTimeFragment.ACTION_SPU_DELAY);
+                break;
+            case R.id.jump_icon:
+            case R.id.jump_title:
+                showTimePickerFragment(PickTimeFragment.ACTION_JUMP_TO_TIME);
+                break;
+            case R.id.sleep_timer_icon:
+            case R.id.sleep_timer_title:
+            case R.id.sleep_timer_value:
+                showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);
+                break;
+            case R.id.sleep_timer_cancel:
+                setSleep(v.getContext(), null);
+                mHandler.sendEmptyMessage(TOGGLE_CANCEL);
+                break;
+        }
+    }
 }

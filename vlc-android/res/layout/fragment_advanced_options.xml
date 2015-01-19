@@ -174,5 +174,25 @@
             android:focusable="true"
             android:gravity="center_vertical"
             android:text="@string/jump_to_time" />
+
+        <TextView
+            android:id="@+id/audio_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="Audio delay" />
+
+        <TextView
+            android:id="@+id/spu_delay"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:text="Subtitles delay" />
     </LinearLayout>
 </LinearLayout>

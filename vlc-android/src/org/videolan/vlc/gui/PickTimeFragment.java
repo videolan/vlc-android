@@ -24,6 +24,7 @@ package org.videolan.vlc.gui;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,14 +37,23 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
 
-public class JumpToTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
+public class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
+
+    public final static String TAG = "VLC/PickTimeFragment";
+
+    public static String ACTION = "action";
+    public static int ACTION_JUMP_TO_TIME = 0;
+    public static int ACTION_SPU_DELAY = 1;
+    public static int ACTION_AUDIO_DELAY = 2;
+    private int mAction = -1;
 
     private static long HOURS_IN_MILLIS = 60*60*1000;
     private static long MINUTES_IN_MILLIS = 60*1000;
 
     LibVLC mLibVLC = null;
     EditText mHours, mMinutes, mSeconds;
-    public JumpToTimeFragment(){}
+
+    public PickTimeFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,30 +63,47 @@ public class JumpToTimeFragment extends DialogFragment implements DialogInterfac
         } catch (LibVlcException e) {
             getDialog().dismiss();
         }
+        mAction = getArguments().getInt(ACTION);
         View view = inflater.inflate(R.layout.jump_to_time, container);
-        mHours = (EditText) view.findViewById(R.id.jump_hours);
+        ((TextView)view.findViewById(R.id.jump_dialog_title)).setText(getTitle());
         mMinutes = (EditText) view.findViewById(R.id.jump_minutes);
         mSeconds = (EditText) view.findViewById(R.id.jump_seconds);
-        if (mLibVLC.getLength() < HOURS_IN_MILLIS) {
-            view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
-            view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
-        }
 
-        mHours.setOnFocusChangeListener(this);
         mMinutes.setOnFocusChangeListener(this);
         mSeconds.setOnFocusChangeListener(this);
 
-        mHours.setOnEditorActionListener(this);
         mMinutes.setOnEditorActionListener(this);
         mSeconds.setOnEditorActionListener(this);
 
-        view.findViewById(R.id.jump_hours_up).setOnClickListener(this);
-        view.findViewById(R.id.jump_hours_down).setOnClickListener(this);
+        if (mAction == ACTION_JUMP_TO_TIME) {
+            if (mLibVLC.getLength() > HOURS_IN_MILLIS) {
+                mHours = (EditText) view.findViewById(R.id.jump_hours);
+                mHours.setOnFocusChangeListener(this);
+                mHours.setOnEditorActionListener(this);
+                view.findViewById(R.id.jump_hours_up).setOnClickListener(this);
+                view.findViewById(R.id.jump_hours_down).setOnClickListener(this);
+            } else {
+                view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
+                view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
+            }
+            view.findViewById(R.id.jump_go).setOnClickListener(this);
+        } else {
+            view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
+            view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
+            view.findViewById(R.id.jump_go).setVisibility(View.GONE);
+            long delay = 0l;
+            if (mAction == ACTION_AUDIO_DELAY)
+                delay = mLibVLC.getAudioDelay();
+            else if (mAction == ACTION_SPU_DELAY)
+                delay = mLibVLC.getSpuDelay();
+            if (delay != 0f)
+                initTime(delay);
+        }
+
         view.findViewById(R.id.jump_minutes_up).setOnClickListener(this);
         view.findViewById(R.id.jump_minutes_down).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_up).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_down).setOnClickListener(this);
-        view.findViewById(R.id.jump_go).setOnClickListener(this);
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(this);
@@ -124,7 +151,7 @@ public class JumpToTimeFragment extends DialogFragment implements DialogInterfac
                 updateValue(-1, R.id.jump_seconds);
                 break;
             case R.id.jump_go:
-                go();
+                jumpToTime();
                 break;
         }
     }
@@ -132,17 +159,17 @@ public class JumpToTimeFragment extends DialogFragment implements DialogInterfac
     private void updateViews(int keyCode){
         int delta = keyCode == KeyEvent.KEYCODE_DPAD_UP ? 1 : -1;
         int id = 0;
-        if (mHours.hasFocus())
-            id = mHours.getId();
+        if (mSeconds.hasFocus())
+            id = mSeconds.getId();
         else if  (mMinutes.hasFocus())
             id = mMinutes.getId();
-         else if (mSeconds.hasFocus())
-            id = mSeconds.getId();
+        else if (mHours != null && mHours.hasFocus())
+            id = mHours.getId();
         updateValue(delta, id);
     }
 
     private void updateValue(int delta, int resId) {
-        int max = 59;
+        int max = 59, min = -59;
         long length = mLibVLC.getLength();
         EditText edit = null;
         switch(resId){
@@ -153,29 +180,42 @@ public class JumpToTimeFragment extends DialogFragment implements DialogInterfac
                 break;
             case R.id.jump_minutes:
                 edit = mMinutes;
-                length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
-                if (length < 59 * MINUTES_IN_MILLIS)
-                    max = (int) (length/MINUTES_IN_MILLIS);
+                if (mAction == ACTION_JUMP_TO_TIME) {
+                    if (mHours != null)
+                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
+                    if (length < 59 * MINUTES_IN_MILLIS)
+                        max = (int) (length / MINUTES_IN_MILLIS);
+                    min = 0;
+                }
                 break;
             case R.id.jump_seconds:
-                length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
-                length -= Long.decode(mMinutes.getText().toString()).longValue() * MINUTES_IN_MILLIS;
-                if (length < 59000)
-                    max = (int) (length/1000);
+                if (mAction == ACTION_JUMP_TO_TIME) {
+                    if (mHours != null)
+                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
+                    length -= Long.decode(mMinutes.getText().toString()).longValue() * MINUTES_IN_MILLIS;
+                    if (length < 59000)
+                        max = (int) (length / 1000);
+                    min = 0;
+                }
                 edit = mSeconds;
         }
         if (edit != null) {
             int value = Integer.parseInt(edit.getText().toString()) + delta;
-            if (value < 0)
+            if (value < min)
                 value = max;
             else if (value > max)
-                value = 0;
+                value = min;
             edit.setText(String.format("%02d", value));
+
+            if (mAction == ACTION_AUDIO_DELAY)
+                setAudioDelay();
+            else if (mAction == ACTION_SPU_DELAY)
+                setSpuDelay();
         }
     }
 
-    private void go() {
-        long hours = Long.parseLong(mHours.getText().toString());
+    private void jumpToTime() {
+        long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) : 0l;
         long minutes = Long.parseLong(mMinutes.getText().toString());
         long seconds = Long.parseLong(mSeconds.getText().toString());
         LibVLC.getExistingInstance().setTime((hours * HOURS_IN_MILLIS +
@@ -184,9 +224,39 @@ public class JumpToTimeFragment extends DialogFragment implements DialogInterfac
         dismiss();
     }
 
+    private void setSpuDelay(){
+        long minutes = Long.parseLong(mMinutes.getText().toString());
+        long seconds = Long.parseLong(mSeconds.getText().toString());
+        mLibVLC.setSpuDelay(minutes * MINUTES_IN_MILLIS + seconds * 1000);
+        Log.d(TAG, "setting spu delay to: " + (minutes * MINUTES_IN_MILLIS + seconds * 1000));
+    }
+
+    private void setAudioDelay(){
+        long minutes = Long.parseLong(mMinutes.getText().toString());
+        long seconds = Long.parseLong(mSeconds.getText().toString());
+        mLibVLC.setAudioDelay(minutes * MINUTES_IN_MILLIS + seconds * 1000);
+        Log.d(TAG, "setting audio delay to: "+(minutes * MINUTES_IN_MILLIS + seconds * 1000));
+    }
+
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        go();
+        jumpToTime();
         return true;
+    }
+
+    private void initTime(long delay) {
+        long minutes = delay / MINUTES_IN_MILLIS;
+        long seconds = (delay - minutes * MINUTES_IN_MILLIS)/ 1000;
+        mMinutes.setText(String.format("%02d", minutes));
+        mSeconds.setText(String.format("%02d", seconds));
+    }
+
+    private int getTitle() {
+        if (mAction == ACTION_AUDIO_DELAY)
+            return R.string.audio_delay;
+        else if (mAction == ACTION_SPU_DELAY)
+            return R.string.spu_delay;
+        else
+            return R.string.jump_to_time;
     }
 }
