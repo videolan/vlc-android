@@ -63,8 +63,6 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
 
     private DirectoryAdapter mDirectoryAdapter;
     private ListView mListView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean mReady = true;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public DirectoryViewFragment() { }
@@ -300,15 +298,15 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReady)
+        if (ready && !mReadyToDisplay)
             display();
         else
-            mReady = ready;
+            mReadyToDisplay = ready;
     }
 
     @Override
     public void display() {
-        mReady = true;
+        mReadyToDisplay = true;
         refresh();
     }
 }

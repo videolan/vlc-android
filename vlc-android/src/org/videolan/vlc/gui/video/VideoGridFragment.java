@@ -105,7 +105,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     private LibVLC mLibVlc;
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private AudioServiceController mAudioController;
     private boolean mReady = true;

@@ -29,6 +29,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
@@ -66,7 +67,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
@@ -75,7 +76,6 @@ public class AudioAlbumsSongsFragment extends Fragment implements SwipeRefreshLa
 
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mAlbumsAdapter;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public final static String EXTRA_NAME = "name";
     public final static String EXTRA_NAME2 = "name2";

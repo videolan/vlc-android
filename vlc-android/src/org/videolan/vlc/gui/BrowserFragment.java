@@ -23,9 +23,11 @@
 package org.videolan.vlc.gui;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 public class BrowserFragment extends Fragment {
 
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
 
     protected void setReadyToDisplay(boolean ready){}

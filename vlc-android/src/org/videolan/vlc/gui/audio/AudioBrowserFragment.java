@@ -75,7 +75,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private FlingViewGroup mFlingViewGroup;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private int mFlingViewPosition = 0;
 
     private HeaderScrollView mHeader;

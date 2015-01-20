@@ -28,7 +28,6 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
@@ -48,8 +47,6 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
 
     private HistoryAdapter mHistoryAdapter;
     private ListView mListView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private boolean mReady = true;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() { }
@@ -64,8 +61,6 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
     private void focusHelper(boolean idIsEmpty) {
         View parent = View.inflate(getActivity(), R.layout.history_list,
             null);
-        mListView = (ListView) parent.findViewById(android.R.id.list);
-        mListView.setOnItemClickListener(this);
         MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
         main.setSearchAsFocusDown(idIsEmpty, parent,
@@ -79,23 +74,24 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.history);
 
         View v = inflater.inflate(R.layout.history_list, container, false);
+        mListView = (ListView)v.findViewById(android.R.id.list);
+        mListView.setOnItemClickListener(this);
         mListView.setAdapter(mHistoryAdapter);
-        final ListView listView = (ListView)v.findViewById(android.R.id.list);
-        listView.setNextFocusUpId(R.id.ml_menu_search);
-        listView.setNextFocusLeftId(android.R.id.list);
-        listView.setNextFocusRightId(android.R.id.list);
+        mListView.setNextFocusUpId(R.id.ml_menu_search);
+        mListView.setNextFocusLeftId(android.R.id.list);
+        mListView.setNextFocusRightId(android.R.id.list);
         if (LibVlcUtil.isHoneycombOrLater())
-            listView.setNextFocusForwardId(android.R.id.list);
+            mListView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mHistoryAdapter.getCount() == 0);
-        listView.requestFocus();
-        registerForContextMenu(listView);
+        mListView.requestFocus();
+        registerForContextMenu(mListView);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
         mSwipeRefreshLayout.setColorSchemeColors(R.color.darkerorange/*, R.attr.colorPrimary, R.attr.colorPrimaryDark*/);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {}
             @Override
@@ -165,15 +161,15 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
 
     @Override
     public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReady)
+        if (ready && !mReadyToDisplay)
             display();
         else
-            mReady = ready;
+            mReadyToDisplay = ready;
     }
 
     @Override
     public void display() {
-        mReady = true;
+        mReadyToDisplay = true;
         refresh();
     }
 }
