@@ -43,6 +43,7 @@ public class MediaWrapper implements Parcelable {
     public final static int TYPE_AUDIO = 1;
     public final static int TYPE_GROUP = 2;
     public final static int TYPE_DIR = 3;
+    public final static int TYPE_SUBTITLE = 4;
 
     protected String mTitle;
     private String mArtist;
@@ -130,6 +131,8 @@ public class MediaWrapper implements Parcelable {
                     mType = TYPE_VIDEO;
                 } else if (Extensions.AUDIO.contains(fileExt)) {
                     mType = TYPE_AUDIO;
+                } else if (Extensions.SUBTITLES.contains(fileExt)) {
+                    mType = TYPE_SUBTITLE;
                 }
             }
             if (mType == TYPE_ALL) {

@@ -105,7 +105,18 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
     }
 
     public void sortList(){
-        Collections.sort(mMediaList, MediaComparators.byName);
+        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
+        for (MediaWrapper media : mMediaList){
+            if (media.getType() == MediaWrapper.TYPE_DIR)
+                dirs.add(media);
+            else
+                files.add(media);
+        }
+        Collections.sort(dirs, MediaComparators.byName);
+        Collections.sort(files, MediaComparators.byName);
+        mMediaList.clear();
+        mMediaList.addAll(dirs);
+        mMediaList.addAll(files);
         notifyDataSetChanged();
     }
 }
