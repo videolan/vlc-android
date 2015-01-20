@@ -42,6 +42,7 @@ public class MediaWrapper implements Parcelable {
     public final static int TYPE_VIDEO = 0;
     public final static int TYPE_AUDIO = 1;
     public final static int TYPE_GROUP = 2;
+    public final static int TYPE_DIR = 3;
 
     protected String mTitle;
     private String mArtist;
@@ -128,6 +129,13 @@ public class MediaWrapper implements Parcelable {
                 } else if (Extensions.AUDIO.contains(fileExt)) {
                     mType = TYPE_AUDIO;
                 }
+            }
+            if (mType == TYPE_ALL) {
+                /*
+                 * TODO: add something in libvlc to retrieve media type
+                 * In the meantime, assume media is a directory.
+                 */
+                mType = TYPE_DIR;
             }
         }
         updateMeta(media);
