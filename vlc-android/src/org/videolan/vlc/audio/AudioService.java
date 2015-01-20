@@ -20,20 +20,12 @@
 
 package org.videolan.vlc.audio;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -56,7 +48,6 @@ import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -90,7 +81,6 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
