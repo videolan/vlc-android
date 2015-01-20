@@ -181,6 +181,14 @@ public class Util {
     }
 
 
+    public static void openMedia(Context context, final MediaWrapper media){
+        String mrl = Uri.decode(media.getLocation());
+        if (media.getType() == MediaWrapper.TYPE_VIDEO)
+            VideoPlayerActivity.start(context, mrl, media.getTitle());
+        else if (media.getType() == MediaWrapper.TYPE_AUDIO)
+            openStream(context, mrl);
+    }
+
     public static void openStream(Context context, final String uri){
         VideoPlayerActivity.start(context, uri);
     }

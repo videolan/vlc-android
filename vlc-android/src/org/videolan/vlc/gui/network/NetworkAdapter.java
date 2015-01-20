@@ -21,6 +21,7 @@
  */
 package org.videolan.vlc.gui.network;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,11 +61,14 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         final MediaWrapper media = getItem(position);
         holder.title.setText(media.getTitle());
         holder.text.setVisibility(View.GONE);
-        holder.icon.setImageResource(R.drawable.ic_menu_folder);
+        holder.icon.setImageResource(getIconResId(media));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.browse(media);
+                if (media.getType() == MediaWrapper.TYPE_DIR)
+                    fragment.browse(media);
+                else
+                    Util.openMedia(v.getContext(), media);
             }
         });
     }
@@ -104,6 +109,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         return mMediaList.get(position);
     }
 
+
     public void sortList(){
         ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
         for (MediaWrapper media : mMediaList){
@@ -118,5 +124,20 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         mMediaList.addAll(dirs);
         mMediaList.addAll(files);
         notifyDataSetChanged();
+    }
+
+    private int getIconResId(MediaWrapper media) {
+        switch (media.getType()){
+            case MediaWrapper.TYPE_AUDIO:
+                return R.drawable.ic_menu_audio;
+            case MediaWrapper.TYPE_DIR:
+                return R.drawable.ic_menu_folder;
+            case MediaWrapper.TYPE_VIDEO:
+                return R.drawable.ic_menu_video;
+            case MediaWrapper.TYPE_SUBTITLE:
+                return R.drawable.ic_subtitle_circle_normal;
+            default:
+                return R.drawable.ic_cone_o;
+        }
     }
 }
