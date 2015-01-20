@@ -173,7 +173,7 @@ public class MediaInfoFragment extends ListFragment {
         }
         for (int i = 0; i<files.length ; ++i){
             filename = Uri.decode(files[i]);
-            extension = filename.substring(filename.lastIndexOf('.')+1);
+            extension = filename.substring(filename.lastIndexOf('.'));
             if (!Extensions.SUBTITLES.contains(extension))
                 continue;
             if (filename.startsWith(videoName)) {
