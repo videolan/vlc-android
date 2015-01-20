@@ -47,8 +47,9 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
     public static int ACTION_AUDIO_DELAY = 2;
     private int mAction = -1;
 
-    private static long HOURS_IN_MILLIS = 60*60*1000;
-    private static long MINUTES_IN_MILLIS = 60*1000;
+    private static long SECONDS_IN_MICROS = 1000000;
+    private static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
+    private static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
 
     LibVLC mLibVLC = null;
     EditText mHours, mMinutes, mSeconds;
@@ -76,7 +77,7 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         mSeconds.setOnEditorActionListener(this);
 
         if (mAction == ACTION_JUMP_TO_TIME) {
-            if (mLibVLC.getLength() > HOURS_IN_MILLIS) {
+            if (mLibVLC.getLength() > HOURS_IN_MICROS) {
                 mHours = (EditText) view.findViewById(R.id.jump_hours);
                 mHours.setOnFocusChangeListener(this);
                 mHours.setOnEditorActionListener(this);
@@ -125,6 +126,10 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 updateViews(keyCode);
                 return true;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                dismiss();
         }
         return false;
     }
@@ -175,26 +180,26 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         switch(resId){
             case R.id.jump_hours:
                 edit = mHours;
-                if (length < 59 * HOURS_IN_MILLIS)
-                    max = (int) (length/HOURS_IN_MILLIS);
+                if (length < 59 * HOURS_IN_MICROS)
+                    max = (int) (length/ HOURS_IN_MICROS);
                 break;
             case R.id.jump_minutes:
                 edit = mMinutes;
                 if (mAction == ACTION_JUMP_TO_TIME) {
                     if (mHours != null)
-                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
-                    if (length < 59 * MINUTES_IN_MILLIS)
-                        max = (int) (length / MINUTES_IN_MILLIS);
+                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MICROS;
+                    if (length < 59 * MINUTES_IN_MICROS)
+                        max = (int) (length / MINUTES_IN_MICROS);
                     min = 0;
                 }
                 break;
             case R.id.jump_seconds:
                 if (mAction == ACTION_JUMP_TO_TIME) {
                     if (mHours != null)
-                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MILLIS;
-                    length -= Long.decode(mMinutes.getText().toString()).longValue() * MINUTES_IN_MILLIS;
+                        length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MICROS;
+                    length -= Long.decode(mMinutes.getText().toString()).longValue() * MINUTES_IN_MICROS;
                     if (length < 59000)
-                        max = (int) (length / 1000);
+                        max = (int) (length / SECONDS_IN_MICROS);
                     min = 0;
                 }
                 edit = mSeconds;
@@ -218,24 +223,24 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) : 0l;
         long minutes = Long.parseLong(mMinutes.getText().toString());
         long seconds = Long.parseLong(mSeconds.getText().toString());
-        LibVLC.getExistingInstance().setTime((hours * HOURS_IN_MILLIS +
-                           minutes * MINUTES_IN_MILLIS +
-                           seconds * 1000));
+        LibVLC.getExistingInstance().setTime((hours * HOURS_IN_MICROS +
+                           minutes * MINUTES_IN_MICROS +
+                           seconds * SECONDS_IN_MICROS));
         dismiss();
     }
 
     private void setSpuDelay(){
         long minutes = Long.parseLong(mMinutes.getText().toString());
         long seconds = Long.parseLong(mSeconds.getText().toString());
-        mLibVLC.setSpuDelay(minutes * MINUTES_IN_MILLIS + seconds * 1000);
-        Log.d(TAG, "setting spu delay to: " + (minutes * MINUTES_IN_MILLIS + seconds * 1000));
+        mLibVLC.setSpuDelay(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS);
+        Log.d(TAG, "setting spu delay to: " + (minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS));
     }
 
     private void setAudioDelay(){
         long minutes = Long.parseLong(mMinutes.getText().toString());
         long seconds = Long.parseLong(mSeconds.getText().toString());
-        mLibVLC.setAudioDelay(minutes * MINUTES_IN_MILLIS + seconds * 1000);
-        Log.d(TAG, "setting audio delay to: "+(minutes * MINUTES_IN_MILLIS + seconds * 1000));
+        mLibVLC.setAudioDelay(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS);
+        Log.d(TAG, "setting audio delay to: "+(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS));
     }
 
     @Override
@@ -245,8 +250,8 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
     }
 
     private void initTime(long delay) {
-        long minutes = delay / MINUTES_IN_MILLIS;
-        long seconds = (delay - minutes * MINUTES_IN_MILLIS)/ 1000;
+        long minutes = delay / MINUTES_IN_MICROS;
+        long seconds = (delay - minutes * MINUTES_IN_MICROS)/ SECONDS_IN_MICROS;
         mMinutes.setText(String.format("%02d", minutes));
         mSeconds.setText(String.format("%02d", seconds));
     }
