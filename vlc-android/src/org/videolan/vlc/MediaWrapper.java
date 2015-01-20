@@ -104,17 +104,19 @@ public class MediaWrapper implements Parcelable {
 
         mType = TYPE_ALL;
 
-        for (int i = 0; i < media.getTrackCount(); ++i) {
-            final Media.Track track = media.getTrack(i);
-            if (track == null)
-                continue;
-            if (track.type == Media.Track.Type.Video) {
-                final Media.VideoTrack videoTrack = (VideoTrack) track;
-                mType = TYPE_VIDEO;
-                mWidth = videoTrack.width;
-                mHeight = videoTrack.height;
-            } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio){
-                mType = TYPE_AUDIO;
+        if (media.isParsed()) {
+            for (int i = 0; i < media.getTrackCount(); ++i) {
+                final Media.Track track = media.getTrack(i);
+                if (track == null)
+                    continue;
+                if (track.type == Media.Track.Type.Video) {
+                    final Media.VideoTrack videoTrack = (VideoTrack) track;
+                    mType = TYPE_VIDEO;
+                    mWidth = videoTrack.width;
+                    mHeight = videoTrack.height;
+                } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio){
+                    mType = TYPE_AUDIO;
+                }
             }
         }
         if (mType == TYPE_ALL) {
@@ -190,6 +192,8 @@ public class MediaWrapper implements Parcelable {
     }
 
     public void updateMeta(Media media) {
+        if (!media.isParsed())
+            return;
         mTitle = getMetaId(media, Meta.Title, true);
         mArtist = getMetaId(media, Meta.Artist, true);
         mAlbum = getMetaId(media, Meta.Album, true);
