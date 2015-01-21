@@ -721,28 +721,27 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         start(context, location, null, -1, false, false);
     }
 
-    public static void start(Context context, String location, Boolean fromStart) {
-        start(context, location, null, -1, false, fromStart);
+    public static void start(Context context, String location, boolean fromStart) {
+        start(context, location, null, -1, fromStart, false);
     }
 
-    public static void start(Context context, String location, String title, Boolean dontParse) {
-        start(context, location, title, -1, dontParse, false);
+    public static void start(Context context, String location, String title) {
+        start(context, location, title, -1, false, false);
     }
 
-    public static void start(Context context, String location, String title, int position, Boolean dontParse) {
-        start(context, location, title, position, dontParse, false);
+    public static void start(Context context, String location, String title, int position) {
+        start(context, location, title, position, false, false);
     }
 
-    public static void start(Context context, String location, String title, int position, Boolean dontParse, Boolean fromStart) {
+    public static void start(Context context, String location, String title, int position, boolean fromStart, boolean newTask) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra("itemLocation", location);
         intent.putExtra("itemTitle", title);
-        intent.putExtra("dontParse", dontParse);
         intent.putExtra("fromStart", fromStart);
         intent.putExtra("itemPosition", position);
 
-        if (dontParse)
+        if (newTask)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(intent);
@@ -2240,7 +2239,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private void loadMedia() {
         mLocation = null;
         String title = getResources().getString(R.string.title);
-        boolean dontParse = false;
         boolean fromStart = false;
         Uri data;
         String itemTitle = null;
@@ -2337,7 +2335,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 && getIntent().getExtras() != null) {
             mLocation = getIntent().getExtras().getString("itemLocation");
             itemTitle = getIntent().getExtras().getString("itemTitle");
-            dontParse = getIntent().getExtras().getBoolean("dontParse");
             fromStart = getIntent().getExtras().getBoolean("fromStart");
             itemPosition = getIntent().getExtras().getInt("itemPosition", -1);
         }
@@ -2363,32 +2360,19 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
 
         /* Start / resume playback */
-        if(dontParse && itemPosition >= 0) {
-            // Provided externally from AudioService
-            Log.d(TAG, "Continuing playback from AudioService at index " + itemPosition);
-            savedIndexPosition = itemPosition;
-            if(!mLibVLC.isPlaying()) {
-                // AudioService-transitioned playback for item after sleep and resume
-                mMediaListPlayer.playIndex(savedIndexPosition);
-                dontParse = false;
-            }
-            else {
-                stopLoadingAnimation();
-                showOverlay();
-            }
-            updateNavStatus();
-        } else if (savedIndexPosition > -1) {
+        if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mMediaListPlayer.playIndex(savedIndexPosition);
-        } else if (mLocation != null && mLocation.length() > 0 && !dontParse) {
+        } else if (mLocation != null && mLocation.length() > 0) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
+            mMediaListPlayer.getMediaList().clear();
             mMediaListPlayer.getMediaList().add(new MediaWrapper(mLibVLC, mLocation));
             savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
             mMediaListPlayer.playIndex(savedIndexPosition);
         }
         mCanSeek = false;
 
-        if (mLocation != null && mLocation.length() > 0 && !dontParse) {
+        if (mLocation != null && mLocation.length() > 0) {
             // restore last position
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if(media != null) {

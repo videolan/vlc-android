@@ -515,11 +515,6 @@ public class AudioService extends Service {
                     if (service.mWakeLock.isHeld())
                         service.mWakeLock.release();
                     break;
-                case EventHandler.MediaPlayerVout:
-                    if(msg.getData().getInt("data") > 0) {
-                        service.handleVout();
-                    }
-                    break;
                 case EventHandler.MediaPlayerPositionChanged:
                     float pos = msg.getData().getFloat("data");
                     service.updateWidgetPosition(service, pos);
@@ -610,22 +605,6 @@ public class AudioService extends Service {
             executeUpdate();
         }
     };
-
-    private void handleVout() {
-        if (!hasCurrentMedia())
-            return;
-        Log.i(TAG, "Obtained video track");
-        String title = getCurrentMedia().getTitle();
-        String MRL = mMediaListPlayer.getMediaList().getMRL(mCurrentIndex);
-        int index = mCurrentIndex;
-        mCurrentIndex = -1;
-        mEventHandler.removeHandler(mVlcEventHandler);
-        // Preserve playback when switching to video
-        hideNotification(false);
-
-        // Switch to the video player & don't lose the currently playing stream
-        VideoPlayerActivity.start(VLCApplication.getAppContext(), MRL, title, index, true);
-    }
 
     private void executeUpdate() {
         executeUpdate(true);
