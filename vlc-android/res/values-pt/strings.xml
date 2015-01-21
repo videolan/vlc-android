@@ -254,4 +254,6 @@
     <string name="drawer_open">Abrir menu de navegação</string>
     <string name="drawer_close">Fechar menu de navegação</string>
     <string name="new_app">Nova Aplicação disponível</string>
+    <string name="new_app_msg">O teste do VLC for Android Beta terminou. A partir de agora, só serão publicadas novas versões para a nova aplicação.</string>
+    <string name="new_app_go">Obtenha-o agora</string>
 </resources>
