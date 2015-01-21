@@ -160,57 +160,57 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                         mItems.add(item);
                     }
                 }
-                addLetterSeparators();
+                calculateSections(type);
             }
         });
-    }
-
-    public void addLetterSeparators() {
-        calculateSections(true);
-    }
-
-    public void addScrollSections() {
-        calculateSections(false);
     }
 
     /**
      * Calculate sections of the list
      *
-     * @param addSeparators True to add GUI-level separators, false to just populate the cache
+     * @param type Type of the audio file sort.
      */
-    private void calculateSections(boolean addSeparators) {
+    private void calculateSections(int type) {
         char prevFirstChar = 'a';
         boolean firstSeparator = true;
 
         for (int i = 0; i < mItems.size(); ++i) {
             String title = mItems.get(i).mTitle;
+            String unknown;
+            switch (type){
+                case TYPE_ALBUMS:
+                    unknown = mContext.getString(R.string.unknown_album);
+                    break;
+                case TYPE_GENRES:
+                    unknown = mContext.getString(R.string.unknown_genre);
+                    break;
+                case TYPE_ARTISTS:
+                    unknown = mContext.getString(R.string.unknown_artist);
+                    break;
+                default:
+                    unknown = null;
+            }
             char firstChar;
-            if(title.length() > 0)
+            if(title.length() > 0 && (unknown == null || !unknown.equals(title)))
                 firstChar = title.toUpperCase(Locale.ENGLISH).charAt(0);
             else
                 firstChar = '#'; // Blank / spaces-only song title.
 
             if (Character.isLetter(firstChar)) {
                 if (firstSeparator || firstChar != prevFirstChar) {
-                    if(addSeparators) {
-                        ListItem item = new ListItem(String.valueOf(firstChar), null, null, true);
-                        mItems.add(i, item);
-                        mSections.put(i, String.valueOf(firstChar));
-                        i++;
-                    } else
-                        mSections.put(i, String.valueOf(firstChar));
+                    ListItem item = new ListItem(String.valueOf(firstChar), null, null, true);
+                    mItems.add(i, item);
+                    mSections.put(i, String.valueOf(firstChar));
+                    i++;
                     prevFirstChar = firstChar;
                     firstSeparator = false;
                 }
             }
             else if (firstSeparator) {
-                if(addSeparators) {
-                    ListItem item = new ListItem("#", null, null, true);
-                    mItems.add(i, item);
-                    mSections.put(i, "#");
-                    i++;
-                } else
-                    mSections.put(i, "#");
+                ListItem item = new ListItem("#", null, null, true);
+                mItems.add(i, item);
+                mSections.put(i, "#");
+                i++;
                 prevFirstChar = firstChar;
                 firstSeparator = false;
             }
