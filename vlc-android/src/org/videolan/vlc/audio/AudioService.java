@@ -539,6 +539,8 @@ public class AudioService extends Service {
                     // avoid useless error logs
                     break;
                 case EventHandler.MediaMetaChanged:
+                    if (!service.hasCurrentMedia())
+                        break;
                     service.getCurrentMedia().updateMeta(service.mLibVLC);
                     service.setUpRemoteControlClient();
                     service.executeUpdate();
