@@ -167,6 +167,7 @@
     <string name="add_custom_path_description">Bæta við aukamöppu til að leita í:</string>
     <string name="remove_custom_path">Fjarlægja sérsniðna slóð</string>
     <string name="hardware_acceleration">Vélbúnaðarhröðun</string>
+    <string name="hardware_acceleration_summary">Óvirkt: betri stöðugleiki.\nAfkóðun: gæti bætt afköst.\nFullt: gæti bætt afköst enn frekar.</string>
     <string name="hardware_acceleration_disabled">Óvirkt</string>
     <string name="hardware_acceleration_decoding">Hröðun afkóðunar</string>
     <string name="hardware_acceleration_full">Full hröðun</string>
@@ -184,9 +185,13 @@
     <string name="extra_prefs_category">Aukastillingar</string>
     <string name="interface_prefs_screen">Viðmót</string>
     <string name="interface_secondary_display_category">Viðmót - Aukaskjár</string>
+    <string name="interface_secondary_display_category_summary">Stillingar þegar aukaskjáir eru tengdir (HDMI/Miracast).</string>
     <string name="interface_other_category">Viðmót - Annað</string>
     <string name="enable_brightness_gesture">Virkja hreyfingu fyrir birtustig</string>
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
+    <string name="enable_jump_buttons">Virkja hopp-hnappa</string>
+    <string name="enable_jump_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
+    <string name="audio_title_alignment">Jöfnun titils fyrir hljóð</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Setja í bið þegar heyrnartól eru fjarlægð; halda áfram þegar þeim er stungið í samband</string>
     <string name="enable_steal_remote_control">Sérstök fjarstýring heyrnartóla</string>
@@ -234,7 +239,17 @@
     <string name="copy_to_clipboard">Afrita á klippispjald</string>
     <string name="copied_to_clipboard">Afritaði annál á klippispjald.</string>
     <string name="quit">Hætta og endurræsa forrit</string>
+    <string name="dump_logcat">Demba logcat annál</string>
+    <string name="dump_logcat_success">Tókst að demba logcat í %1$s!</string>
+    <string name="dump_logcat_failure">Mistókst að demba logcat.</string>
+    <string name="serious_crash">Því miður kom upp alvarleg villa og loka varð VLC.</string>
+    <string name="help_us_send_log">Hjálpaðu okkur við að bæta VLC með því að senda inn eftirfarandi hrunskýrslu:</string>
     <string name="restart_vlc">Endurræsa VLC</string>
     <string name="send_log">Senda annál</string>
     <string name="sending_log">Sendi annál…</string>
+    <string name="drawer_open">Opna hliðarvalmynd</string>
+    <string name="drawer_close">Loka hliðarvalmynd</string>
+    <string name="new_app">Ný útgáfa forrits tiltæk</string>
+    <string name="new_app_msg">Prófunum á VLC fyrir Android Beta er lokið. Héðan í frá verða einungis gefnar út nýjar útgáfur fyrir nýja forritið.</string>
+    <string name="new_app_go">Sækja það</string>
 </resources>
