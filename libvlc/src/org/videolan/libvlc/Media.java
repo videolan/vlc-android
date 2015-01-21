@@ -357,7 +357,7 @@ public final class Media extends VLCObject {
      * Returns true if the media is parsed
      */
     public synchronized boolean isParsed() {
-        return (mState & PARSE_STATUS_PARSED) != 0;
+        return (mParseStatus & PARSE_STATUS_PARSED) != 0;
     }
 
     /**
