@@ -53,6 +53,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.directory_view_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
+        vh.more.setVisibility(View.GONE);
         return vh;
     }
 
@@ -82,12 +83,14 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         public TextView title;
         public TextView text;
         public ImageView icon;
+        public ImageView more;
 
         public ViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.title);
             text = (TextView) v.findViewById(R.id.text);
             icon = (ImageView) v.findViewById(R.id.dvi_icon);
+            more = (ImageView) v.findViewById(R.id.item_more);
         }
     }
 
