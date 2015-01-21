@@ -237,12 +237,12 @@ public class Util {
     }
 
     public static String getMediaSubtitle(Context ctx, MediaWrapper media) {
-        if (media.getType() == MediaWrapper.TYPE_VIDEO)
-            return "";
-        else
+        if (media.getType() == MediaWrapper.TYPE_AUDIO)
             return media.getNowPlaying() != null
                         ? media.getNowPlaying()
                         : getMediaArtist(ctx, media) + " - " + getMediaAlbum(ctx, media);
+        else
+            return "";
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
