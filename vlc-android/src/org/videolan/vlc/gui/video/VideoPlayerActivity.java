@@ -382,7 +382,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             Log.d(TAG, "LibVLC initialisation failed");
             return;
         }
-        mMediaListPlayer = new MediaWrapperListPlayer(mLibVLC);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mLibVLC);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();

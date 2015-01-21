@@ -160,7 +160,7 @@ public class AudioService extends Service {
         } catch (LibVlcException e) {
             e.printStackTrace();
         }
-        mMediaListPlayer = new MediaWrapperListPlayer(mLibVLC);
+        mMediaListPlayer = MediaWrapperListPlayer.getInstance(mLibVLC);
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
         mCurrentIndex = -1;

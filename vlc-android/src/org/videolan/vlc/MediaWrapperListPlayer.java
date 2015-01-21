@@ -31,6 +31,14 @@ public class MediaWrapperListPlayer {
     final private LibVLC mLibVLC;
     final private MediaWrapperList mMediaList;
 
+    private static MediaWrapperListPlayer sMediaWrapperListPlayer = null;
+
+    public static synchronized MediaWrapperListPlayer getInstance(LibVLC libVLC) {
+        if (sMediaWrapperListPlayer == null)
+            sMediaWrapperListPlayer = new MediaWrapperListPlayer(libVLC);
+        return sMediaWrapperListPlayer;
+    }
+
     public MediaWrapperListPlayer(LibVLC libVLC) {
         mLibVLC = libVLC;
         mMediaList = new MediaWrapperList(libVLC);
