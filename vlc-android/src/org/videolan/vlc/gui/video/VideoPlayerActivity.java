@@ -2440,20 +2440,22 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
              }
 
             // Get the title
-            try {
-                title = URLDecoder.decode(mLocation, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-            } catch (IllegalArgumentException e) {
+            if (itemTitle == null) {
+                try {
+                    title = URLDecoder.decode(mLocation, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                } catch (IllegalArgumentException e) {
+                }
+                if (title.startsWith("file:")) {
+                    title = new File(title).getName();
+                    int dotIndex = title.lastIndexOf('.');
+                    if (dotIndex != -1)
+                        title = title.substring(0, dotIndex);
+                }
             }
-            if (title.startsWith("file:")) {
-                title = new File(title).getName();
-                int dotIndex = title.lastIndexOf('.');
-                if (dotIndex != -1)
-                    title = title.substring(0, dotIndex);
-            }
-        } else if(itemTitle != null) {
-            title = itemTitle;
         }
+        if (itemTitle != null)
+            title = itemTitle;
         mTitle.setText(title);
     }
 
