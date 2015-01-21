@@ -517,33 +517,31 @@ public class SlidingPaneLayout extends ViewGroup {
             return false;
         }
 
+        float x,y;
         switch (action) {
-        case MotionEvent.ACTION_DOWN: {
-            mIsUnableToDrag = false;
-            final float x = ev.getX();
-            final float y = ev.getY();
-            mInitialMotionX = x;
-            mInitialMotionY = y;
-            break;
-        }
-
-        case MotionEvent.ACTION_MOVE: {
-            final float x = ev.getX();
-            final float y = ev.getY();
-            final float adx = Math.abs(x - mInitialMotionX);
-            final float ady = Math.abs(y - mInitialMotionY);
-            final int slop = mDragHelper.getTouchSlop();
-            if (ady > slop && adx > ady) {
-                mDragHelper.cancel();
-                mIsUnableToDrag = true;
-                return false;
-            }
-        }
+            case MotionEvent.ACTION_DOWN:
+                mIsUnableToDrag = false;
+                x = ev.getX();
+                y = ev.getY();
+                mInitialMotionX = x;
+                mInitialMotionY = y;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                x = ev.getX();
+                y = ev.getY();
+                final float adx = Math.abs(x - mInitialMotionX);
+                final float ady = Math.abs(y - mInitialMotionY);
+                final int slop = mDragHelper.getTouchSlop();
+                if (ady > slop && adx > ady) {
+                    mDragHelper.cancel();
+                    mIsUnableToDrag = true;
+                    return false;
+                }
         }
 
         final boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev)
                 // Intercept touch events only in the overhang area.
-                && ev.getY() <= mSlideOffset * mSlideRange + mOverhangSize;
+                && (ev.getY() <= mSlideOffset * mSlideRange + mOverhangSize && mState != STATE_OPENED_ENTIRELY);
 
         return interceptForDrag;
     }
