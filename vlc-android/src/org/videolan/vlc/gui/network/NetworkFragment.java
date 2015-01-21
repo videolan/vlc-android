@@ -48,8 +48,8 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private static final String TAG = "VLC/NetworkFragment";
 
     public static final String SMB_ROOT = "smb";
-    public static final String MRL_KEY = "key_mrl";
-    public static final String LIST_KEY = "key_list";
+    public static final String KEY_MRL = "key_mrl";
+    public static final String KEY_POSITION = "key_list";
 
     private NetworkFragmentHandler mHandler;
     private MediaBrowser mMediaBrowser;
@@ -58,6 +58,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private NetworkAdapter madapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String mMrl;
+    private int savedPosition = -1;
     private boolean mRoot;
     LibVLC mLibVLC = LibVLC.getExistingInstance();
 
@@ -66,19 +67,19 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){
-            mMrl = bundle.getString(MRL_KEY);
+            mMrl = bundle.getString(KEY_MRL);
         }
         if (mMrl == null)
             mMrl = SMB_ROOT;
         mRoot = SMB_ROOT.equals(mMrl);
         mHandler = new NetworkFragmentHandler(this);
+        madapter = new NetworkAdapter(this);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.network_browsing);
         View v = inflater.inflate(R.layout.network_browser, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.network_list);
-        madapter = new NetworkAdapter(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -91,15 +92,23 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         return v;
     }
 
+    public void onStop(){
+        super.onStop();
+        savedPosition = mRecyclerView.getScrollY();
+    }
     public void onStart(){
         super.onStart();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        refresh();
+        if (madapter.isEmpty())
+            refresh();
+        else if (savedPosition > 0)
+            mRecyclerView.scrollTo(0, savedPosition);
     }
 
     public void onSaveInstanceState(Bundle outState){
-        outState.putString(MRL_KEY, mMrl);
+        outState.putString(KEY_MRL, mMrl);
+        outState.putInt(KEY_POSITION, mRecyclerView.getScrollY());
         super.onSaveInstanceState(outState);
     }
 
@@ -115,7 +124,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = new NetworkFragment();
         Bundle args = new Bundle();
-        args.putString(MRL_KEY, media.getLocation());
+        args.putString(KEY_MRL, media.getLocation());
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         ft.addToBackStack(mMrl);
@@ -136,6 +145,9 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     public void onBrowseEnd() {
         madapter.sortList();
         mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
+        int position = getArguments().getInt(KEY_POSITION);
+        if (position > 0)
+            mRecyclerView.scrollTo(0, position);
     }
 
     @Override

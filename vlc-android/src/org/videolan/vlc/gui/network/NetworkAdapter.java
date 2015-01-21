@@ -96,6 +96,10 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         notifyDataSetChanged();
     }
 
+    public boolean isEmpty(){
+        return mMediaList.isEmpty();
+    }
+
     public void addItem(Media media, boolean update){
         MediaWrapper mediaWrapper = new MediaWrapper(media);
         if (mediaWrapper.getTitle().startsWith("."))
