@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/player_tips_audio"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_subtitle_circle" />
+                android:background="@drawable/ic_audiosub_circle_normal_o" />
 
             <TextView
                 style="@style/TipsFontStyle.Small"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/player_tips_size"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_audio_circle" />
+                android:background="@drawable/ic_audiosub_circle_normal_o" />
 
             <TextView
                 style="@style/TipsFontStyle.Small"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/ic_crop_circle" />
+                android:background="@drawable/ic_crop_circle_normal_o" />
 
             <TextView
                 style="@style/TipsFontStyle.Small"
@@ -141,7 +141,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/ic_lock" />
+                android:background="@drawable/ic_lock_circle" />
 
             <ImageView
                 android:layout_width="wrap_content"
