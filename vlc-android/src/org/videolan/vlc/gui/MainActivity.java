@@ -560,6 +560,18 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         if (mCurrentFragment != null && mCurrentFragment.equals("search"))
             menu.findItem(R.id.search_clear_history).setVisible(true);
 
+        boolean networkSave = current instanceof NetworkFragment && !((NetworkFragment)current).isRootDirectory();
+        if (networkSave) {
+            MenuItem item = menu.findItem(R.id.ml_menu_save);
+            item.setVisible(true);
+            String mrl = ((NetworkFragment)current).mMrl;
+            item.setIcon(MediaDatabase.getInstance().networkFavExists(mrl) ?
+                    R.drawable.abc_btn_check_to_on_mtrl_015 :
+                    R.drawable.abc_btn_check_to_on_mtrl_000);
+
+        }
+        else
+            menu.findItem(R.id.ml_menu_save).setVisible(false);
         menu.findItem(R.id.ml_menu_clean).setVisible(SidebarEntry.ID_MRL.equals(mCurrentFragment));
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
 
@@ -639,6 +651,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 break;
             case R.id.search_clear_history:
                 MediaDatabase.getInstance().clearSearchHistory();
+                break;
+            case R.id.ml_menu_save:
+                ((NetworkFragment)current).toggleFavorite();
+                item.setIcon(R.drawable.abc_btn_check_to_on_mtrl_015);
                 break;
         }
         mRootContainer.closeDrawer(mSideMenu);
@@ -1021,7 +1037,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             ft.replace(R.id.fragment_placeholder, fragment, entry.id);
             ft.addToBackStack(mCurrentFragment);
             ft.commit();
-            supportInvalidateOptionsMenu();
             mCurrentFragment = entry.id;
             mSidebarAdapter.setCurrentFragment(mCurrentFragment);
 

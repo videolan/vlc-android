@@ -38,10 +38,13 @@ import org.videolan.vlc.util.Util;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHolder> {
+public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "VLC/NetworkAdapter";
 
-    ArrayList<MediaWrapper> mMediaList = new ArrayList<MediaWrapper>();
+    private static final int TYPE_MEDIA = 0;
+    private static final int TYPE_SEPARATOR = 1;
+
+    ArrayList<Object> mMediaList = new ArrayList<Object>();
     NetworkFragment fragment;
 
     public NetworkAdapter(NetworkFragment fragment){
@@ -49,29 +52,43 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.directory_view_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        vh.more.setVisibility(View.GONE);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh;
+        View v;
+        if (viewType == TYPE_MEDIA) {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.directory_view_item, parent, false);
+            vh = new MediaViewHolder(v);
+        } else {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.browser_item_separator, parent, false);
+            vh = new SeparatorViewHolder(v);
+        }
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final MediaWrapper media = getItem(position);
-        holder.title.setText(media.getTitle());
-        holder.text.setVisibility(View.GONE);
-        holder.icon.setImageResource(getIconResId(media));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (media.getType() == MediaWrapper.TYPE_DIR)
-                    fragment.browse(media);
-                else
-                    Util.openMedia(v.getContext(), media);
-            }
-        });
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof MediaViewHolder) {
+            MediaViewHolder vh = (MediaViewHolder) holder;
+            final MediaWrapper media = (MediaWrapper) getItem(position);
+            vh.title.setText(media.getTitle());
+            vh.text.setVisibility(View.GONE);
+            vh.icon.setImageResource(getIconResId(media));
+            vh.more.setVisibility(View.GONE);
+            vh.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (media.getType() == MediaWrapper.TYPE_DIR)
+                        fragment.browse(media);
+                    else
+                        Util.openMedia(v.getContext(), media);
+                }
+            });
+        } else {
+            SeparatorViewHolder vh = (SeparatorViewHolder) holder;
+            vh.title.setText(getItem(position).toString());
+        }
     }
 
     @Override
@@ -79,18 +96,27 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         return mMediaList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class MediaViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
         public TextView text;
         public ImageView icon;
         public ImageView more;
 
-        public ViewHolder(View v) {
+        public MediaViewHolder(View v) {
             super(v);
             title = (TextView) v.findViewById(R.id.title);
             text = (TextView) v.findViewById(R.id.text);
             icon = (ImageView) v.findViewById(R.id.dvi_icon);
             more = (ImageView) v.findViewById(R.id.item_more);
+        }
+    }
+
+    public static class SeparatorViewHolder extends RecyclerView.ViewHolder {
+        public TextView title;
+
+        public SeparatorViewHolder(View v) {
+            super(v);
+            title = (TextView) v.findViewById(R.id.separator_title);
         }
     }
 
@@ -103,27 +129,49 @@ public class NetworkAdapter extends  RecyclerView.Adapter<NetworkAdapter.ViewHol
         return mMediaList.isEmpty();
     }
 
-    public void addItem(Media media, boolean update){
+    public void addItem(Media media, boolean root, boolean first){
         MediaWrapper mediaWrapper = new MediaWrapper(media);
-        if (mediaWrapper.getTitle().startsWith("."))
-            return;
-        mMediaList.add(mediaWrapper);
-        if (update)
-            notifyItemInserted(mMediaList.size()-1);
+        addItem(mediaWrapper, root, first);
+
     }
 
-    public MediaWrapper getItem(int position){
+    public void addItem(Object item, boolean root, boolean first){
+        int position = first ? 0 : mMediaList.size();
+        if (item instanceof MediaWrapper && ((MediaWrapper)item).getTitle().startsWith("."))
+            return;
+        else if (item instanceof Media)
+            item = new MediaWrapper((Media) item);
+
+        mMediaList.add(position, item);
+        if (root)
+            notifyItemInserted(position);
+    }
+
+    public void removeItem(int position){
+        mMediaList.remove(position);
+    }
+
+    public Object getItem(int position){
         return mMediaList.get(position);
     }
 
+    public int getItemViewType(int position){
+        if (getItem(position) instanceof  MediaWrapper)
+            return TYPE_MEDIA;
+        else
+            return TYPE_SEPARATOR;
+    }
 
     public void sortList(){
         ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
-        for (MediaWrapper media : mMediaList){
-            if (media.getType() == MediaWrapper.TYPE_DIR)
-                dirs.add(media);
-            else
-                files.add(media);
+        for (Object item : mMediaList){
+            if (item instanceof MediaWrapper) {
+                MediaWrapper media = (MediaWrapper) item;
+                if (media.getType() == MediaWrapper.TYPE_DIR)
+                    dirs.add(media);
+                else
+                    files.add(media);
+            }
         }
         Collections.sort(dirs, MediaComparators.byName);
         Collections.sort(files, MediaComparators.byName);

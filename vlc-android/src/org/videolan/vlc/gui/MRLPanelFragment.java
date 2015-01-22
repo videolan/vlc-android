@@ -70,6 +70,11 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
         return v;
     }
 
+    public void onStart(){
+        super.onStart();
+        getActivity().supportInvalidateOptionsMenu();
+    }
+
     private void updateHistory() {
         mHistory = MediaDatabase.getInstance().getMrlhistory();
         mAdapter.setList(mHistory);

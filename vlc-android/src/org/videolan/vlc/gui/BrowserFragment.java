@@ -32,4 +32,9 @@ public class BrowserFragment extends Fragment {
 
     protected void setReadyToDisplay(boolean ready){}
     protected void display(){}
+
+    public void onStart(){
+        super.onStart();
+        getActivity().supportInvalidateOptionsMenu();
+    }
 }

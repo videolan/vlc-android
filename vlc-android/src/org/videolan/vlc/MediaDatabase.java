@@ -40,6 +40,7 @@ import android.database.sqlite.SQLiteFullException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 
 public class MediaDatabase {
@@ -49,7 +50,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 12;
+    private final int DB_VERSION = 13;
     private final int CHUNK_SIZE = 50;
 
     private final String DIR_TABLE_NAME = "directories_table";
@@ -90,6 +91,9 @@ public class MediaDatabase {
     private final String MRL_DATE = "date";
     private final String MRL_URI = "uri";
     private final String MRL_TABLE_SIZE = "100";
+
+    private final String NETWORK_FAV_TABLE_NAME = "fav_table";
+    private final String NETWORK_FAV_URI = "uri";
 
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
@@ -217,6 +221,18 @@ public class MediaDatabase {
             db.execSQL(query);
         }
 
+        private void createNetworkFavTableQuery(SQLiteDatabase db) {
+            String createMrlTableQuery = "CREATE TABLE IF NOT EXISTS " +
+                    NETWORK_FAV_TABLE_NAME + " (" +
+                    MRL_URI + " TEXT PRIMARY KEY NOT NULL);";
+            db.execSQL(createMrlTableQuery);
+        }
+
+        public void dropNetworkFavTableQuery(SQLiteDatabase db) {
+            String query = "DROP TABLE " + NETWORK_FAV_TABLE_NAME + ";";
+            db.execSQL(query);
+        }
+
         @Override
         public void onCreate(SQLiteDatabase db) {
 
@@ -244,6 +260,8 @@ public class MediaDatabase {
             db.execSQL(createSearchhistoryTabelQuery);
 
             createMRLTableQuery(db);
+
+            createNetworkFavTableQuery(db);
         }
 
         @Override
@@ -263,6 +281,9 @@ public class MediaDatabase {
                     break;
                 case 11:
                     createMRLTableQuery(db);
+                    break;
+                case 13:
+                    createNetworkFavTableQuery(db);
                     break;
                 default:
                     break;
@@ -937,6 +958,49 @@ public class MediaDatabase {
         mDb.delete(MRL_TABLE_NAME, null, null);
     }
 
+
+    public synchronized void addNetworkFavItem(String mrl) {
+        ContentValues values = new ContentValues();
+        values.put(NETWORK_FAV_URI, Uri.encode(mrl));
+
+        mDb.replace(NETWORK_FAV_TABLE_NAME, null, values);
+    }
+
+    public synchronized boolean networkFavExists(String mrl) {
+        Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
+                new String[] { NETWORK_FAV_URI },
+                NETWORK_FAV_URI + "=?",
+                new String[] { Uri.encode(mrl) },
+                null, null, null);
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
+    }
+
+    public synchronized ArrayList<String> getAllNetworkFav() {
+        ArrayList<String> favs = new ArrayList<String>();
+
+        Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
+                new String[] { NETWORK_FAV_URI },
+                null, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            favs.add(Uri.decode(cursor.getString(0)));
+        }
+        cursor.close();
+
+        return favs;
+    }
+
+    public synchronized void deleteNetworkFav(String uri) {
+        ArrayList<String> history = new ArrayList<String>();
+        mDb.delete(NETWORK_FAV_TABLE_NAME, NETWORK_FAV_URI + "=?", new String[] { Uri.encode(uri) });
+
+    }
+
+    public synchronized void clearNetworkFavTable() {
+        mDb.delete(NETWORK_FAV_TABLE_NAME, null, null);
+    }
     /**
      * Empty the database for debugging purposes
      */

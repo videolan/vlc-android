@@ -36,12 +36,15 @@ import android.view.ViewGroup;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.WeakHandler;
+
+import java.util.ArrayList;
 
 
 public class NetworkFragment extends BrowserFragment implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -55,10 +58,10 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private MediaBrowser mMediaBrowser;
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private NetworkAdapter madapter;
+    private NetworkAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String mMrl;
-    private int savedPosition = -1;
+    public String mMrl;
+    private int savedPosition = -1, mFavorites = 0;
     private boolean mRoot;
     LibVLC mLibVLC = LibVLC.getExistingInstance();
 
@@ -73,7 +76,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             mMrl = SMB_ROOT;
         mRoot = SMB_ROOT.equals(mMrl);
         mHandler = new NetworkFragmentHandler(this);
-        madapter = new NetworkAdapter(this);
+        mAdapter = new NetworkAdapter(this);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -83,7 +86,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(madapter);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnScrollListener(mScrollListener);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
@@ -100,10 +103,13 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         super.onStart();
         if (mMediaBrowser == null)
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (madapter.isEmpty())
+        if (mAdapter.isEmpty()) {
             refresh();
-        else if (savedPosition > 0)
-            mRecyclerView.scrollTo(0, savedPosition);
+        } else {
+            updateFavorites();
+            if (savedPosition > 0)
+                mRecyclerView.scrollTo(0, savedPosition);
+        }
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -133,7 +139,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     @Override
     public void onMediaAdded(int index, Media media) {
-        madapter.addItem(media, mRoot);
+        mAdapter.addItem(media, mRoot, true);
         if (mRoot)
             mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
     }
@@ -143,7 +149,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     @Override
     public void onBrowseEnd() {
-        madapter.sortList();
+        mAdapter.sortList();
         mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
         int position = getArguments().getInt(KEY_POSITION);
         if (position > 0)
@@ -171,9 +177,49 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     @Override
     public void refresh() {
-        madapter.clear();
+        mAdapter.clear();
+        if (mRoot){
+            ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+            if (!favs.isEmpty()) {
+                mFavorites = favs.size();
+                for (String fav : favs) {
+                    mAdapter.addItem(new MediaWrapper(mLibVLC, fav), false, true);
+                    mAdapter.notifyDataSetChanged();
+                }
+                mAdapter.addItem("Network favorites", false, true);
+            }
+        }
         mMediaBrowser.browse(mMrl);
         mHandler.sendEmptyMessageDelayed(NetworkFragmentHandler.MSG_SHOW_LOADING, 300);
+    }
+
+    private void updateFavorites(){
+        ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+        int newSize = favs.size(), totalSize = mAdapter.getItemCount();
+
+        if (newSize == 0 && mFavorites == 0)
+            return;
+        for (int i = 1 ; i <= mFavorites ; ++i){ //remove former favorites
+            mAdapter.removeItem(totalSize-i);
+        }
+        if (newSize == 0)
+            mAdapter.removeItem(totalSize-mFavorites-1); //also remove separator if no more fav
+        else {
+            if (mFavorites == 0)
+                mAdapter.addItem("Network favorites", false, false); //add header if needed
+            for (String fav : favs)
+                mAdapter.addItem(new MediaWrapper(mLibVLC, fav), false, false); //add new favorites
+        }
+        mFavorites = newSize; //update count
+    }
+
+    public void toggleFavorite() {
+        MediaDatabase db = MediaDatabase.getInstance();
+        if (db.networkFavExists(mMrl))
+            db.deleteNetworkFav(mMrl);
+        else
+            db.addNetworkFavItem(mMrl);
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     private static class NetworkFragmentHandler extends WeakHandler<NetworkFragment> {
