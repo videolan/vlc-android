@@ -76,7 +76,7 @@
             android:layout_marginLeft="10dp"
             android:layout_below="@+id/info_path"
             android:layout_toRightOf="@+id/size_value"
-            android:src="@drawable/ic_subtitle_circle_normal_o"
+            android:src="@drawable/ic_audiosub_circle_normal_o"
             android:visibility="invisible"/>
         <TextView
             android:id="@+id/info_delete"
