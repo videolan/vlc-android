@@ -935,37 +935,50 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mHandler.sendMessage(msg);
     }
 
+    private static class ConfigureSurfaceHolder {
+        private final Surface surface;
+        private boolean configured;
+
+        private ConfigureSurfaceHolder(Surface surface) {
+            this.surface = surface;
+        }
+    }
+
     @Override
-    public int configureSurface(final Surface surface, final int width, final int height, final int hal) {
+    public int configureSurface(Surface surface, final int width, final int height, final int hal) {
         if (LibVlcUtil.isICSOrLater() || surface == null)
             return -1;
         if (width * height == 0)
             return 0;
         Log.d(TAG, "configureSurface: " + width +"x"+height);
 
+        final ConfigureSurfaceHolder holder = new ConfigureSurfaceHolder(surface);
+
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
-                if (mSurface == surface && mSurfaceHolder != null) {
+                if (mSurface == holder.surface && mSurfaceHolder != null) {
                     if (hal != 0)
                         mSurfaceHolder.setFormat(hal);
                     mSurfaceHolder.setFixedSize(width, height);
-                } else if (mSubtitleSurface == surface && mSubtitlesSurfaceHolder != null) {
+                } else if (mSubtitleSurface == holder.surface && mSubtitlesSurfaceHolder != null) {
                     if (hal != 0)
                         mSubtitlesSurfaceHolder.setFormat(hal);
                     mSubtitlesSurfaceHolder.setFixedSize(width, height);
                 }
 
-                synchronized (surface) {
-                    surface.notifyAll();
+                synchronized (holder) {
+                    holder.configured = true;
+                    holder.notifyAll();
                 }
             }
         });
 
         try {
-            synchronized (surface) {
-                surface.wait();
+            synchronized (holder) {
+                while (!holder.configured)
+                    holder.wait();
             }
         } catch (InterruptedException e) {
             return 0;
