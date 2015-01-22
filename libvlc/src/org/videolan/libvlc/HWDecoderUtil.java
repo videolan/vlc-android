@@ -93,18 +93,25 @@ public class HWDecoderUtil {
      * (Always return Dec.ALL after Android 4.3)
      */
     public static Decoder getDecoderFromDevice() {
+        /*
+         * Always try MediaCodec after JellyBean MR2,
+         * Try OMX or MediaCodec after HoneyComb depending on device properties.
+         * Otherwise, use software decoder by default.
+         */
         if (LibVlcUtil.isJellyBeanMR2OrLater())
             return Decoder.ALL;
-        for (DecoderBySOC decBySOC : sDecoderBySOCList) {
-            String prop = sSystemPropertyMap.get(decBySOC.key);
-            if (prop == null) {
-                prop = getSystemProperty(decBySOC.key, "none");
-                sSystemPropertyMap.put(decBySOC.key, prop);
-            }
-            if (prop != null) {
-                for (String decProp: decBySOC.list)
-                    if (prop.contains(decProp))
-                        return decBySOC.dec;
+        else if (LibVlcUtil.isHoneycombOrLater()) {
+            for (DecoderBySOC decBySOC : sDecoderBySOCList) {
+                String prop = sSystemPropertyMap.get(decBySOC.key);
+                if (prop == null) {
+                    prop = getSystemProperty(decBySOC.key, "none");
+                    sSystemPropertyMap.put(decBySOC.key, prop);
+                }
+                if (prop != null) {
+                    for (String decProp: decBySOC.list)
+                        if (prop.contains(decProp))
+                            return decBySOC.dec;
+                }
             }
         }
         return Decoder.UNKNOWN;
