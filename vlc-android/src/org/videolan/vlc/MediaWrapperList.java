@@ -39,13 +39,11 @@ public class MediaWrapperList {
 
     /* TODO: add locking */
     private ArrayList<MediaWrapper> mInternalList;
-    private LibVLC mLibVLC; // Used to create new objects that require a libvlc instance
     private ArrayList<EventListener> mEventListenerList;
 
     public MediaWrapperList(LibVLC libVLC) {
         mEventListenerList = new ArrayList<EventListener>();
         mInternalList = new ArrayList<MediaWrapper>();
-        mLibVLC = libVLC;
     }
 
     public void add(MediaWrapper media) {
@@ -92,7 +90,7 @@ public class MediaWrapperList {
     }
 
     public void insert(int position, String mrl) {
-        insert(position, new MediaWrapper(mLibVLC, mrl));
+        insert(position, new MediaWrapper(mrl));
     }
     public void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);

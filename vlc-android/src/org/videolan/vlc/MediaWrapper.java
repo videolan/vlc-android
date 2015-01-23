@@ -74,21 +74,16 @@ public class MediaWrapper implements Parcelable {
     private boolean mIsPictureParsed;
     private int mFlags = 0;
 
-
     /**
      * Create a new MediaWrapper
-     * @param libVLC A pointer to the libVLC instance. Should not be NULL
-     * @param URI The URI of the media.
+     * @param mrl Should not be null.
      */
-    public MediaWrapper(LibVLC libVLC, String mrl) {
-        if(libVLC == null)
-            throw new NullPointerException("libVLC was null");
+    public MediaWrapper(String mrl) {
+        if (mrl == null)
+            throw new NullPointerException("mrl was null");
 
-        final Media media = new Media(libVLC, mrl);
-        media.parse();
-        media.release();
-        mLocation = media.getMrl();
-        init(media);
+        mLocation = mrl;
+        init(null);
     }
 
     /**

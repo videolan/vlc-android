@@ -36,6 +36,7 @@ import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapperList;
@@ -1169,19 +1170,22 @@ public class AudioService extends Service {
             MediaDatabase db = MediaDatabase.getInstance();
             for (int i = 0; i < mediaPathList.size(); i++) {
                 String location = mediaPathList.get(i);
-                MediaWrapper media = db.getMedia(location);
-                if(media == null) {
+                MediaWrapper mediaWrapper = db.getMedia(location);
+                if(mediaWrapper == null) {
                     if(!validateLocation(location)) {
                         Log.w(TAG, "Invalid location " + location);
                         showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                         continue;
                     }
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    media = new MediaWrapper(mLibVLC, location);
+                    final Media media = new Media(mLibVLC, location);
+                    media.parse(); // FIXME: parse should be done asynchronously
+                    media.release();
+                    mediaWrapper = new MediaWrapper(media);
                 }
                 if (noVideo)
-                    media.addFlags(LibVLC.MEDIA_NO_VIDEO);
-                mediaList.add(media);
+                    mediaWrapper.addFlags(LibVLC.MEDIA_NO_VIDEO);
+                mediaList.add(mediaWrapper);
             }
 
             if (mMediaListPlayer.getMediaList().size() == 0) {
@@ -1278,16 +1282,19 @@ public class AudioService extends Service {
             MediaDatabase db = MediaDatabase.getInstance();
             for (int i = 0; i < mediaLocationList.size(); i++) {
                 String location = mediaLocationList.get(i);
-                MediaWrapper media = db.getMedia(location);
-                if(media == null) {
+                MediaWrapper mediaWrapper = db.getMedia(location);
+                if(mediaWrapper == null) {
                     if (!validateLocation(location)) {
                         showToast(getResources().getString(R.string.invalid_location, location), Toast.LENGTH_SHORT);
                         continue;
                     }
                     Log.v(TAG, "Creating on-the-fly Media object for " + location);
-                    media = new MediaWrapper(mLibVLC, location);
+                    final Media media = new Media(mLibVLC, location);
+                    media.parse(); // FIXME: parse should'nt be done asynchronously
+                    media.release();
+                    mediaWrapper = new MediaWrapper(media);
                 }
-                mMediaListPlayer.getMediaList().add(media);
+                mMediaListPlayer.getMediaList().add(mediaWrapper);
             }
             AudioService.this.saveMediaList();
             determinePrevAndNextIndices();

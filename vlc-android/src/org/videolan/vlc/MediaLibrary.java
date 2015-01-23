@@ -35,6 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.AndroidDevices;
@@ -319,11 +320,14 @@ public class MediaLibrary {
                     } else {
                         mItemListLock.writeLock().lock();
                         // create new media item
-                        MediaWrapper m = new MediaWrapper(libVlcInstance, fileURI);
-                        mItemList.add(m);
+                        final Media media = new Media(libVlcInstance, fileURI);
+                        media.parse();
+                        media.release();
+                        MediaWrapper mw = new MediaWrapper(media);
+                        mItemList.add(mw);
                         // Add this item to database
                         MediaDatabase db = MediaDatabase.getInstance();
-                        db.addMedia(m);
+                        db.addMedia(mw);
                         mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {

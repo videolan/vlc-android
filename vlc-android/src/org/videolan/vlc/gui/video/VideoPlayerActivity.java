@@ -43,6 +43,7 @@ import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapperListPlayer;
@@ -2379,7 +2380,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         } else if (mLocation != null && mLocation.length() > 0) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mMediaListPlayer.getMediaList().clear();
-            mMediaListPlayer.getMediaList().add(new MediaWrapper(mLibVLC, mLocation));
+            final Media media = new Media(mLibVLC, mLocation);
+            media.parse(); // FIXME: parse should'nt be done asynchronously
+            media.release();
+            mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
             savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
             mMediaListPlayer.playIndex(savedIndexPosition);
         }

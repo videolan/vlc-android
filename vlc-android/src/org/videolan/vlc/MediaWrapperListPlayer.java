@@ -23,6 +23,7 @@ package org.videolan.vlc;
 import java.util.ArrayList;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.Media;
 
 
 public class MediaWrapperListPlayer {
@@ -86,7 +87,10 @@ public class MediaWrapperListPlayer {
        if(ret == 0) {
            mMediaList.remove(mPlayerIndex);
            for(String mrl : children) {
-               mMediaList.insert(mPlayerIndex, mrl);
+               final Media media = new Media(mLibVLC, mrl);
+               media.parse(); // FIXME: parse should be done asynchronously
+               media.release();
+               mMediaList.insert(mPlayerIndex, new MediaWrapper(media));
            }
        }
        return ret;

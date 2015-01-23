@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -106,8 +107,12 @@ public class Util {
      */
     public static MediaWrapper getOrCreateMedia(LibVLC libVLC, String mrl) {
         MediaWrapper mlItem = MediaLibrary.getInstance().getMediaItem(mrl);
-        if(mlItem == null)
-            mlItem = new MediaWrapper(libVLC, mrl);
+        if(mlItem == null) {
+            final Media media = new Media(libVLC, mrl);
+            media.parse(); // FIXME: parse should'nt be done asynchronously
+            media.release();
+            mlItem = new MediaWrapper(media);
+        }
         return mlItem;
     }
 
