@@ -42,6 +42,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -80,7 +82,6 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.network_browsing);
         View v = inflater.inflate(R.layout.network_browser, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.network_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -116,6 +117,13 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         outState.putString(KEY_MRL, mMrl);
         outState.putInt(KEY_POSITION, mRecyclerView.getScrollY());
         super.onSaveInstanceState(outState);
+    }
+
+    public String getTitle(){
+        if (mRoot)
+            return getString(R.string.network_browsing);
+        else
+            return Strings.getName(mMrl);
     }
 
     public boolean isRootDirectory(){

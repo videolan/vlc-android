@@ -122,9 +122,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.audio);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.audio_browser, container, false);
 
@@ -518,6 +516,11 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                     mDisplaying = false;
                 }
             });
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.audio);
     }
 
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {

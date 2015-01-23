@@ -96,9 +96,7 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.directories);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View v = inflater.inflate(R.layout.directory_view, container, false);
         mListView = (ListView) v.findViewById(android.R.id.list);
@@ -308,5 +306,10 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
     public void display() {
         mReadyToDisplay = true;
         refresh();
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.directories);
     }
 }

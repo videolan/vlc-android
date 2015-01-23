@@ -69,9 +69,7 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
 
     @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.history);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View v = inflater.inflate(R.layout.history_list, container, false);
         mListView = (ListView)v.findViewById(android.R.id.list);
@@ -171,5 +169,10 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
     public void display() {
         mReadyToDisplay = true;
         refresh();
+    }
+
+    @Override
+    protected String getTitle() {
+        return getString(R.string.history);
     }
 }

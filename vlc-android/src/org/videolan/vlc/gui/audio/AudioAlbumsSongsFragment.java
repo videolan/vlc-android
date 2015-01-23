@@ -117,7 +117,6 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mTitle);
 
         View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 
@@ -195,6 +194,11 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
     @Override
     public void onRefresh() {
         updateList();
+    }
+
+    @Override
+    protected String getTitle() {
+        return mTitle;
     }
 
     private static class DummyContentFactory implements TabHost.TabContentFactory {

@@ -34,8 +34,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -59,10 +57,10 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaGroup;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.audio.AudioServiceController;
@@ -132,14 +130,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             mLibVlc = LibVLC.getInstance();
         } catch (LibVlcException e) {}
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
-        if (mGroup == null)
-            actionBar.setTitle(R.string.video);
-        else
-            actionBar.setTitle(mGroup);
 
         View v = inflater.inflate(R.layout.video_grid, container, false);
 
@@ -177,7 +169,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         filter.addAction(Util.ACTION_SCAN_START);
         filter.addAction(Util.ACTION_SCAN_STOP);
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
-        Log.i(TAG,"mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
+        Log.i(TAG, "mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
         if (mMediaLibrary.isWorking()) {
         	Util.actionScanStart();
         }
@@ -231,6 +223,13 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             mThumbnailer.clearJobs();
         mBarrier.reset();
         mVideoAdapter.clear();
+    }
+
+    protected String getTitle(){
+        if (mGroup == null)
+            return getString(R.string.video);
+        else
+            return mGroup;
     }
 
     private void updateViewMode() {

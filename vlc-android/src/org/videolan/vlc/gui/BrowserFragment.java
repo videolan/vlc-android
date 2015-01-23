@@ -24,8 +24,9 @@ package org.videolan.vlc.gui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 
-public class BrowserFragment extends Fragment {
+public abstract class BrowserFragment extends Fragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected volatile boolean mReadyToDisplay = true;
@@ -33,8 +34,10 @@ public class BrowserFragment extends Fragment {
     protected void setReadyToDisplay(boolean ready){}
     protected void display(){}
 
+    protected abstract String getTitle();
     public void onStart(){
         super.onStart();
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
         getActivity().supportInvalidateOptionsMenu();
     }
 }
