@@ -19,40 +19,40 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  * ***************************************************************************
  */
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.dialogs;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
 
-public class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
+public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
 
     public final static String TAG = "VLC/PickTimeFragment";
 
-    public static String ACTION = "action";
-    public static int ACTION_JUMP_TO_TIME = 0;
-    public static int ACTION_SPU_DELAY = 1;
-    public static int ACTION_AUDIO_DELAY = 2;
-    private int mAction = -1;
+    public static final int ACTION_JUMP_TO_TIME = 0;
+    public static final int ACTION_SPU_DELAY = 1;
+    public static final int ACTION_AUDIO_DELAY = 2;
+    protected int mTextColor;
 
-    private static long SECONDS_IN_MICROS = 1000000;
-    private static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
-    private static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
+    protected static long MILLIS_IN_MICROS = 1000;
+    protected static long SECONDS_IN_MICROS = 1000 * MILLIS_IN_MICROS;
+    protected static long MINUTES_IN_MICROS = 60*SECONDS_IN_MICROS;
+    protected static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
 
-    LibVLC mLibVLC = null;
-    EditText mHours, mMinutes, mSeconds;
+    protected LibVLC mLibVLC = null;
+    protected TextView mHours, mMinutes, mSeconds, mMillis;
+    protected Button mActionButton, mSign;
 
     public PickTimeFragment(){}
 
@@ -64,11 +64,14 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         } catch (LibVlcException e) {
             getDialog().dismiss();
         }
-        mAction = getArguments().getInt(ACTION);
         View view = inflater.inflate(R.layout.jump_to_time, container);
         ((TextView)view.findViewById(R.id.jump_dialog_title)).setText(getTitle());
-        mMinutes = (EditText) view.findViewById(R.id.jump_minutes);
-        mSeconds = (EditText) view.findViewById(R.id.jump_seconds);
+        mHours = (TextView) view.findViewById(R.id.jump_hours);
+        mMinutes = (TextView) view.findViewById(R.id.jump_minutes);
+        mSeconds = (TextView) view.findViewById(R.id.jump_seconds);
+        mMillis = (TextView) view.findViewById(R.id.jump_millis);
+        mActionButton = (Button) view.findViewById(R.id.jump_go);
+        mSign = (Button) view.findViewById(R.id.jump_sign);
 
         mMinutes.setOnFocusChangeListener(this);
         mSeconds.setOnFocusChangeListener(this);
@@ -76,30 +79,9 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         mMinutes.setOnEditorActionListener(this);
         mSeconds.setOnEditorActionListener(this);
 
-        if (mAction == ACTION_JUMP_TO_TIME) {
-            if (mLibVLC.getLength() > HOURS_IN_MICROS) {
-                mHours = (EditText) view.findViewById(R.id.jump_hours);
-                mHours.setOnFocusChangeListener(this);
-                mHours.setOnEditorActionListener(this);
-                view.findViewById(R.id.jump_hours_up).setOnClickListener(this);
-                view.findViewById(R.id.jump_hours_down).setOnClickListener(this);
-            } else {
-                view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
-                view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
-            }
-            view.findViewById(R.id.jump_go).setOnClickListener(this);
-        } else {
-            view.findViewById(R.id.jump_hours_text).setVisibility(View.GONE);
-            view.findViewById(R.id.jump_hours_container).setVisibility(View.GONE);
-            view.findViewById(R.id.jump_go).setVisibility(View.GONE);
-            long delay = 0l;
-            if (mAction == ACTION_AUDIO_DELAY)
-                delay = mLibVLC.getAudioDelay();
-            else if (mAction == ACTION_SPU_DELAY)
-                delay = mLibVLC.getSpuDelay();
-            if (delay != 0f)
-                initTime(delay);
-        }
+        mActionButton.setOnClickListener(this);
+
+        mTextColor = mMinutes.getCurrentTextColor();
 
         view.findViewById(R.id.jump_minutes_up).setOnClickListener(this);
         view.findViewById(R.id.jump_minutes_down).setOnClickListener(this);
@@ -115,7 +97,7 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        ((EditText)v).setSelection(((EditText)v).getText().length());
+        ((TextView)v).setTextColor(hasFocus ? getResources().getColor(R.color.darkorange) : mTextColor);
     }
 
     @Override
@@ -127,10 +109,10 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 updateViews(keyCode);
                 return true;
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-            case KeyEvent.KEYCODE_ENTER:
-            case KeyEvent.KEYCODE_NUMPAD_ENTER:
-                dismiss();
+//            case KeyEvent.KEYCODE_DPAD_CENTER:
+//            case KeyEvent.KEYCODE_ENTER:
+//            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+//                executeAction();
         }
         return false;
     }
@@ -156,28 +138,49 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
             case R.id.jump_seconds_down:
                 updateValue(-1, R.id.jump_seconds);
                 break;
+            case R.id.jump_millis_up:
+                updateValue(50, R.id.jump_millis);
+                break;
+            case R.id.jump_millis_down:
+                updateValue(-50, R.id.jump_millis);
+                break;
             case R.id.jump_go:
-                jumpToTime();
+                buttonAction();
+                break;
+            case R.id.jump_sign:
+                toggleSign();
+                executeAction();
                 break;
         }
+    }
+
+    private void toggleSign() {
+        if (mSign.getText().equals("+"))
+            mSign.setText("-");
+        else
+            mSign.setText("+");
     }
 
     private void updateViews(int keyCode){
         int delta = keyCode == KeyEvent.KEYCODE_DPAD_UP ? 1 : -1;
         int id = 0;
-        if (mSeconds.hasFocus())
+        if (mMillis.hasFocus()) {
+            id = mMillis.getId();
+            delta = keyCode == KeyEvent.KEYCODE_DPAD_UP ? 50 : -50;
+        } else if (mSeconds.hasFocus())
             id = mSeconds.getId();
         else if  (mMinutes.hasFocus())
             id = mMinutes.getId();
-        else if (mHours != null && mHours.hasFocus())
+        else if (mHours.hasFocus())
             id = mHours.getId();
         updateValue(delta, id);
     }
 
     private void updateValue(int delta, int resId) {
-        int max = 59, min = -59;
-        long length = mLibVLC.getLength();
-        EditText edit = null;
+        int max = 59;
+        String format = "%02d";
+        long length = mLibVLC.getLength() * 1000; //work in µSeconds
+        TextView edit = null;
         switch(resId){
             case R.id.jump_hours:
                 edit = mHours;
@@ -186,83 +189,68 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
                 break;
             case R.id.jump_minutes:
                 edit = mMinutes;
-                if (mAction == ACTION_JUMP_TO_TIME) {
+                if (this instanceof JumpToTimeDialog) {
                     if (mHours != null)
                         length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MICROS;
                     if (length < 59 * MINUTES_IN_MICROS)
                         max = (int) (length / MINUTES_IN_MICROS);
-                    min = 0;
                 }
                 break;
             case R.id.jump_seconds:
-                if (mAction == ACTION_JUMP_TO_TIME) {
+                edit = mSeconds;
+                if (this instanceof JumpToTimeDialog) {
                     if (mHours != null)
                         length -= Long.decode(mHours.getText().toString()).longValue() * HOURS_IN_MICROS;
                     length -= Long.decode(mMinutes.getText().toString()).longValue() * MINUTES_IN_MICROS;
                     if (length < 59000)
                         max = (int) (length / SECONDS_IN_MICROS);
-                    min = 0;
                 }
-                edit = mSeconds;
+                break;
+            case R.id.jump_millis:
+                edit = mMillis;
+                max = 999;
+                format = "%03d";
+                break;
         }
         if (edit != null) {
             int value = Integer.parseInt(edit.getText().toString()) + delta;
-            if (value < min)
+            if (value < 0)
                 value = max;
             else if (value > max)
-                value = min;
-            edit.setText(String.format("%02d", value));
+                value = 0;
+            edit.setText(String.format(format, value));
 
-            if (mAction == ACTION_AUDIO_DELAY)
-                setAudioDelay();
-            else if (mAction == ACTION_SPU_DELAY)
-                setSpuDelay();
+            if (this instanceof AudioDelayDialog || this instanceof SubsDelayDialog)
+                executeAction();
         }
-    }
-
-    private void jumpToTime() {
-        long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) : 0l;
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        LibVLC.getExistingInstance().setTime((hours * HOURS_IN_MICROS +
-                           minutes * MINUTES_IN_MICROS +
-                           seconds * SECONDS_IN_MICROS));
-        dismiss();
-    }
-
-    private void setSpuDelay(){
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        mLibVLC.setSpuDelay(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS);
-        Log.d(TAG, "setting spu delay to: " + (minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS));
-    }
-
-    private void setAudioDelay(){
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        mLibVLC.setAudioDelay(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS);
-        Log.d(TAG, "setting audio delay to: "+(minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS));
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        jumpToTime();
+        executeAction();
         return true;
     }
 
-    private void initTime(long delay) {
-        long minutes = delay / MINUTES_IN_MICROS;
-        long seconds = (delay - minutes * MINUTES_IN_MICROS)/ SECONDS_IN_MICROS;
+    protected void initTime(long delay) {
+        if (delay < 0l){
+            delay = -delay;
+            mSign.setText("-");
+        } else
+            mSign.setText("+");
+        long minutes = 0;
+        long seconds = 0;
+        long millis = 0;
+        if (delay != 0) {
+            minutes = delay / MINUTES_IN_MICROS;
+            seconds = (delay - minutes * MINUTES_IN_MICROS)/ SECONDS_IN_MICROS;
+            millis = (delay - minutes * MINUTES_IN_MICROS - seconds * SECONDS_IN_MICROS)/ MILLIS_IN_MICROS;
+        }
         mMinutes.setText(String.format("%02d", minutes));
         mSeconds.setText(String.format("%02d", seconds));
+        mMillis.setText(String.format("%03d", millis));
     }
 
-    private int getTitle() {
-        if (mAction == ACTION_AUDIO_DELAY)
-            return R.string.audio_delay;
-        else if (mAction == ACTION_SPU_DELAY)
-            return R.string.spu_delay;
-        else
-            return R.string.jump_to_time;
-    }
+    abstract protected int getTitle();
+    abstract protected void executeAction();
+    abstract protected void buttonAction();
 }

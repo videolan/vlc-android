@@ -42,12 +42,17 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.PickTimeFragment;
-import org.videolan.vlc.gui.TimePickerDialogFragment;
+import org.videolan.vlc.gui.dialogs.AudioDelayDialog;
+import org.videolan.vlc.gui.dialogs.JumpToTimeDialog;
+import org.videolan.vlc.gui.dialogs.PickTimeFragment;
+import org.videolan.vlc.gui.dialogs.SubsDelayDialog;
+import org.videolan.vlc.gui.dialogs.TimePickerDialogFragment;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Calendar;
+
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.*;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener {
 
@@ -161,10 +166,20 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     };
 
     private void showTimePickerFragment(int action) {
-        DialogFragment newFragment = new PickTimeFragment();
-        Bundle args = new Bundle();
-        args.putInt(PickTimeFragment.ACTION, action);
-        newFragment.setArguments(args);
+        DialogFragment newFragment;
+        switch (action){
+            case PickTimeFragment.ACTION_AUDIO_DELAY:
+                newFragment = new AudioDelayDialog();
+                break;
+            case PickTimeFragment.ACTION_SPU_DELAY:
+                newFragment = new SubsDelayDialog();
+                break;
+            case PickTimeFragment.ACTION_JUMP_TO_TIME:
+                newFragment = new JumpToTimeDialog();
+                break;
+            default:
+                return;
+        }
         newFragment.show(getActivity().getSupportFragmentManager(), "time");
         dismiss();
     }
@@ -249,14 +264,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.audio_delay:
-                showTimePickerFragment(PickTimeFragment.ACTION_AUDIO_DELAY);
+                showTimePickerFragment(ACTION_AUDIO_DELAY);
                 break;
             case R.id.spu_delay:
-                showTimePickerFragment(PickTimeFragment.ACTION_SPU_DELAY);
+                showTimePickerFragment(ACTION_SPU_DELAY);
                 break;
             case R.id.jump_icon:
             case R.id.jump_title:
-                showTimePickerFragment(PickTimeFragment.ACTION_JUMP_TO_TIME);
+                showTimePickerFragment(ACTION_JUMP_TO_TIME);
                 break;
             case R.id.sleep_timer_icon:
             case R.id.sleep_timer_title:

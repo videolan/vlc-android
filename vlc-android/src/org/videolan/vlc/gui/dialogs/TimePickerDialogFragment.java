@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  * ***************************************************************************
  */
-package org.videolan.vlc.gui;
+package org.videolan.vlc.gui.dialogs;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

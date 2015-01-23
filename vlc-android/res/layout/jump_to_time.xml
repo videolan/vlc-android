@@ -14,26 +14,37 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/jump_dialog_title">
+        android:layout_below="@+id/jump_dialog_title"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:id="@+id/jump_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:nextFocusRight="@+id/jump_hours"
+            android:text="+"
+            android:visibility="gone"/>
         <LinearLayout
             android:id="@+id/jump_hours_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/jump_sign"
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/jump_hours_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/arrow_up_float"/>
-            <EditText
+            <TextView
                 android:id="@+id/jump_hours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:layout_margin="5dp"
                 android:maxLength="2"
                 android:text="00"
                 android:focusable="true"
-                android:nextFocusRight="@+id/jump_minutes"/>
+                android:nextFocusRight="@+id/jump_minutes"
+                android:nextFocusLeft="@+id/jump_sign"/>
             <ImageView
                 android:id="@+id/jump_hours_down"
                 android:layout_width="match_parent"
@@ -62,13 +73,13 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:src="@android:drawable/arrow_up_float"/>
-            <EditText
+            <TextView
                 android:id="@+id/jump_minutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:nextFocusLeft="@+id/jump_hours"
                 android:nextFocusRight="@+id/jump_seconds"
-                android:inputType="number"
                 android:maxLength="2"
                 android:text="00"
                 android:focusable="true"/>
@@ -100,18 +111,19 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:src="@android:drawable/arrow_up_float"/>
-            <EditText
+            <TextView
                 android:id="@+id/jump_seconds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:nextFocusLeft="@+id/jump_minutes"
-                android:nextFocusRight="@+id/jump_go"
-                android:inputType="number"
+                android:nextFocusRight="@+id/jump_millis"
                 android:maxLength="2"
                 android:text="00"
+                android:textColor="@color/darkorange"
                 android:focusable="true">
                     <requestFocus />
-            </EditText>
+            </TextView>
             <ImageView
                 android:id="@+id/jump_seconds_down"
                 android:layout_width="match_parent"
@@ -119,13 +131,62 @@
                 android:focusable="true"
                 android:src="@android:drawable/arrow_down_float"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/jump_seconds_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/jump_seconds_container"
+            android:layout_alignTop="@+id/jump_seconds_container"
+            android:layout_alignBottom="@+id/jump_seconds_container"
+            android:gravity="center_vertical"
+            android:text="s"/>
+        <LinearLayout
+            android:id="@+id/jump_millis_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/jump_seconds_text"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ImageView
+                android:id="@+id/jump_millis_up"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:src="@android:drawable/arrow_up_float"/>
+            <TextView
+                android:id="@+id/jump_millis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:nextFocusLeft="@+id/jump_seconds"
+                android:nextFocusRight="@+id/jump_go"
+                android:maxLength="3"
+                android:text="000"
+                android:focusable="true"/>
+            <ImageView
+                android:id="@+id/jump_millis_down"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:src="@android:drawable/arrow_down_float"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/jump_millis_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/jump_millis_container"
+            android:layout_alignTop="@+id/jump_millis_container"
+            android:layout_alignBottom="@+id/jump_millis_container"
+            android:gravity="center_vertical"
+            android:text="ms"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/jump_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:nextFocusLeft="@+id/jump_seconds"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/jump_seconds_container"
+            android:layout_toRightOf="@+id/jump_millis_text"
             android:text="@android:string/ok"/>
     </RelativeLayout>
 </RelativeLayout>
