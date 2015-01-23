@@ -306,7 +306,7 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="network_browsing">Network browsing</string>
+    <string name="network_browsing">Local Network</string>
 
     <string name="file_size">File size:</string>
     <string name="file_other">Close navigation drawer</string>
