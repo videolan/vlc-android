@@ -242,9 +242,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         aoutPref.setEntries(aoutEntriesId);
         aoutPref.setEntryValues(aoutEntriesIdValues);
         if (aoutPref.getValue() == null)
-            aoutPref.setValue(LibVlcUtil.isGingerbreadOrLater()
-                    ? "2"/*AOUT_OPENSLES*/
-                            : "0"/*AOUT_AUDIOTRACK_JAVA*/);
+            aoutPref.setValue("0"/*AOUT_AUDIOTRACK_JAVA*/);
         // Video output
         ListPreference voutPref = (ListPreference) findPreference("vout");
         int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
