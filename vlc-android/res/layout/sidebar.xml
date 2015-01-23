@@ -14,7 +14,7 @@
             android:dividerHeight="0.2dp"
             android:paddingTop="?attr/actionBarSize"
             android:cacheColorHint="#0000"
-            android:layout_above="@+id/sidebar_separator"
+            android:layout_above="@+id/sidebar_separator_about"
             android:nextFocusForward="@id/sidelist"
             android:nextFocusUp="@id/sidelist"
             android:nextFocusDown="@id/sidelist"
@@ -23,7 +23,41 @@
         </ListView>
 
         <View
-            android:id="@+id/sidebar_separator"
+            android:id="@+id/sidebar_separator_about"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/about"
+            android:background="?attr/playlist_item_footer" />
+
+        <ImageView
+            android:id="@+id/about_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_above="@+id/sidebar_separator_settings"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:src="@drawable/ic_cone_o"/>
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_toRightOf="@+id/about_icon"
+            android:layout_above="@+id/sidebar_separator_settings"
+            android:gravity="left|center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:text="@string/about"
+            android:textColor="?attr/list_menu"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"/>
+
+        <View
+            android:id="@+id/sidebar_separator_settings"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@+id/settings"

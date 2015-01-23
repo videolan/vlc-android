@@ -45,10 +45,6 @@
         android:icon="@drawable/ic_menu_equalizer"
         android:title="@string/equalizer" />
     <item
-        android:id="@+id/ml_menu_about"
-        android:icon="@drawable/ic_menu_info"
-        android:title="@string/about" />
-    <item
         android:title="@string/clear_history"
         android:visible="false"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"

@@ -592,10 +592,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     ? VideoListAdapter.SORT_BY_TITLE
                     : VideoListAdapter.SORT_BY_LENGTH);
                 break;
-            // About
-            case R.id.ml_menu_about:
-                showSecondaryFragment("about");
-                break;
             case R.id.ml_menu_equalizer:
                 showSecondaryFragment("equalizer");
                 break;
@@ -979,7 +975,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             case R.id.settings_icon:
                 startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 break;
+            case R.id.about:
+            case R.id.about_icon:
+                showSecondaryFragment("about");
+                break;
         }
+        mRootContainer.closeDrawer(mSideMenu);
     }
 
     @Override
