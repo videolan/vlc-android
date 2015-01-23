@@ -61,7 +61,7 @@ public class MediaWrapper implements Parcelable {
     private String mTrackID;
     private String mArtworkURL;
 
-    private String mLocation;
+    private final String mLocation;
     private String mFilename;
     private long mTime = 0;
     private int mAudioTrack = -1;
@@ -87,20 +87,24 @@ public class MediaWrapper implements Parcelable {
         final Media media = new Media(libVLC, mrl);
         media.parse();
         media.release();
+        mLocation = media.getMrl();
         init(media);
     }
 
     /**
      * Create a new MediaWrapper
-     * @param media should be parsed
+     * @param media should be parsed and not NULL
      */
     public MediaWrapper(Media media) {
+        if (media == null)
+            throw new NullPointerException("media was null");
+
+        mLocation = media.getMrl();
         init(media);
     }
 
     private void init(Media media) {
 
-        mLocation = media.getMrl();
         mLength = media.getDuration();
 
         mType = TYPE_ALL;
