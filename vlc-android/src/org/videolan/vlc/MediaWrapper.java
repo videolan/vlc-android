@@ -104,26 +104,29 @@ public class MediaWrapper implements Parcelable {
     }
 
     private void init(Media media) {
-
-        mLength = media.getDuration();
-
         mType = TYPE_ALL;
 
-        if (media.isParsed()) {
-            for (int i = 0; i < media.getTrackCount(); ++i) {
-                final Media.Track track = media.getTrack(i);
-                if (track == null)
-                    continue;
-                if (track.type == Media.Track.Type.Video) {
-                    final Media.VideoTrack videoTrack = (VideoTrack) track;
-                    mType = TYPE_VIDEO;
-                    mWidth = videoTrack.width;
-                    mHeight = videoTrack.height;
-                } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio){
-                    mType = TYPE_AUDIO;
+        if (media != null) {
+            if (media.isParsed()) {
+                mLength = media.getDuration();
+
+                for (int i = 0; i < media.getTrackCount(); ++i) {
+                    final Media.Track track = media.getTrack(i);
+                    if (track == null)
+                        continue;
+                    if (track.type == Media.Track.Type.Video) {
+                        final Media.VideoTrack videoTrack = (VideoTrack) track;
+                        mType = TYPE_VIDEO;
+                        mWidth = videoTrack.width;
+                        mHeight = videoTrack.height;
+                    } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio){
+                        mType = TYPE_AUDIO;
+                    }
                 }
             }
+            updateMeta(media);
         }
+
         if (mType == TYPE_ALL) {
             int dotIndex = mLocation.lastIndexOf(".");
             if (dotIndex != -1) {
@@ -142,7 +145,6 @@ public class MediaWrapper implements Parcelable {
                 mType = TYPE_DIR;
             }
         }
-        updateMeta(media);
     }
 
     private void init(long time, long length, int type,
