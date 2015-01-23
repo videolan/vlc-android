@@ -109,6 +109,7 @@ public class PickTimeFragment extends DialogFragment implements DialogInterface.
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(this);
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners);
         return view;
     }
 

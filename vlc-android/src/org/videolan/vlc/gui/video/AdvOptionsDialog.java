@@ -83,7 +83,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sInstance = this;
-        setStyle(STYLE_NO_FRAME, R.style.Base_Theme_AppCompat_Dialog);
+        setStyle(STYLE_NO_FRAME, R.style.Theme_VLC_TransparentDialog);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
     }
