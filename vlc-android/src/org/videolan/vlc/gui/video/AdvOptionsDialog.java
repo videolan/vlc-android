@@ -44,6 +44,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PickTimeFragment;
 import org.videolan.vlc.gui.TimePickerDialogFragment;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
 import java.util.Calendar;
@@ -104,10 +105,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mSleepTime = (TextView) root.findViewById(R.id.sleep_timer_value);
         mSleepCancel = (TextView) root.findViewById(R.id.sleep_timer_cancel);
 
-        mSleepIcon.setOnClickListener(this);
-        mSleepTitle.setOnClickListener(this);
-        mSleepTime.setOnClickListener(this);
-        mSleepCancel.setOnClickListener(this);
+        if (AndroidDevices.hasTsp()) {
+            mSleepIcon.setOnClickListener(this);
+            mSleepTitle.setOnClickListener(this);
+            mSleepTime.setOnClickListener(this);
+            mSleepCancel.setOnClickListener(this);
+        } else {
+            root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
+        }
 
         mJumpIcon = (ImageView) root.findViewById(R.id.jump_icon);
         mJumpTitle = (TextView) root.findViewById(R.id.jump_title);

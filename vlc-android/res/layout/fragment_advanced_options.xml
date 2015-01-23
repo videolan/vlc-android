@@ -113,6 +113,7 @@
     <!-- Sleep Timer -->
 
     <LinearLayout
+        android:id="@+id/sleep_timer_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
