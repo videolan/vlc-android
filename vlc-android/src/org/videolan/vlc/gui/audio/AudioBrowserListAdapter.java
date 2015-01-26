@@ -82,10 +82,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     // An item of the list: a media or a separator.
     class ListItem {
-        public String mTitle;
-        public String mSubTitle;
-        public ArrayList<MediaWrapper> mMediaList;
-        public boolean mIsSeparator;
+        final public String mTitle;
+        final public String mSubTitle;
+        final public ArrayList<MediaWrapper> mMediaList;
+        final public boolean mIsSeparator;
 
         public ListItem(String title, String subTitle, MediaWrapper media, boolean isSeparator) {
             mMediaList = new ArrayList<MediaWrapper>();
