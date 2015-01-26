@@ -113,12 +113,13 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public void add(String title, String subTitle, MediaWrapper media) {
         if(title == null) return;
         title = title.trim();
+        final String titleKey = title.toLowerCase();
         if(subTitle != null) subTitle = subTitle.trim();
-        if (mMediaItemMap.containsKey(title))
-            mMediaItemMap.get(title).mMediaList.add(media);
+        if (mMediaItemMap.containsKey(titleKey))
+            mMediaItemMap.get(titleKey).mMediaList.add(media);
         else {
             ListItem item = new ListItem(title, subTitle, media, false);
-            mMediaItemMap.put(title, item);
+            mMediaItemMap.put(titleKey, item);
             mItems.add(item);
         }
     }
@@ -210,11 +211,12 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public void addSeparator(String title, MediaWrapper media) {
         if(title == null) return;
         title = title.trim();
-        if (mSeparatorItemMap.containsKey(title))
-            mSeparatorItemMap.get(title).mMediaList.add(media);
+        final String titleKey = title.toLowerCase();
+        if (mSeparatorItemMap.containsKey(titleKey))
+            mSeparatorItemMap.get(titleKey).mMediaList.add(media);
         else {
             ListItem item = new ListItem(title, null, media, true);
-            mSeparatorItemMap.put(title, item);
+            mSeparatorItemMap.put(titleKey, item);
             mItems.add(item);
         }
     }
