@@ -148,17 +148,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                             title = media.getTitle();
                             subTitle = Util.getMediaArtist(mContext, media);
                     }
-                    if (title == null)
-                        continue;
-                    title = title.trim();
-                    if (subTitle != null) subTitle = subTitle.trim();
-                    if (mMediaItemMap.containsKey(title))
-                        mMediaItemMap.get(title).mMediaList.add(media);
-                    else {
-                        ListItem item = new ListItem(title, subTitle, media, false);
-                        mMediaItemMap.put(title, item);
-                        mItems.add(item);
-                    }
+                    add(title, subTitle, media);
                 }
                 calculateSections(type);
             }
