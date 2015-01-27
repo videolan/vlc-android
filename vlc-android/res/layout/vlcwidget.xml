@@ -87,7 +87,7 @@
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_stop_w" />
+                    android:src="@drawable/ic_close_w" />
 
                 <ImageButton
                     android:id="@+id/forward"
