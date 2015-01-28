@@ -9,7 +9,7 @@
     android:drawableLeft="@drawable/icon"
     android:drawablePadding="5dip"
     android:gravity="left|center_vertical"
-    android:padding="13dip"
+    android:padding="10dip"
     android:text="@string/title"
     android:textColor="?attr/list_menu"
     android:textSize="16sp" />
