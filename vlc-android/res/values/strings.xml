@@ -138,9 +138,9 @@
     <string name="no_file_picker_found">No file picker was found on the system.</string>
 
     <string name="open">Open</string>
-    <string name="open_mrl">Open MRL</string>
+    <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Open network stream</string>
-    <string name="open_mrl_dialog_msg">Enter network MRL: e.g. http://, mms:// or rtsp://</string>
+    <string name="open_mrl_dialog_msg">Enter network address: e.g. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">Sorry, your device is currently not supported by this version of VLC for Android™.</string>
     <string name="error_problem">Sorry, VLC for Android had a problem loading and had to close.</string>
     <string name="error_message_is">The error message is (please mention this when debugging):\n</string>
