@@ -38,7 +38,7 @@
             android:layout_margin="10dp"
             android:clickable="true"
             android:onClick="onClick"
-            android:src="@drawable/ic_cone_o"/>
+            android:src="?attr/ic_menu_cone"/>
 
         <TextView
             android:id="@+id/about"
