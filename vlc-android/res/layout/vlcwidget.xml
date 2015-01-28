@@ -73,30 +73,30 @@
                     android:id="@+id/play_pause"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginRight="5dp"
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_play_w" />
 
                 <ImageButton
-                    android:id="@+id/stop"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="13dp"
-                    android:background="#00ffffff"
-                    android:clickable="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_close_w" />
-
-                <ImageButton
                     android:id="@+id/forward"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="13dp"
                     android:background="#00ffffff"
                     android:clickable="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_next_w" />
+
+                <ImageButton
+                    android:id="@+id/stop"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="26dp"
+                    android:background="#00ffffff"
+                    android:clickable="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_close_w" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
