@@ -191,7 +191,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             if (!favs.isEmpty()) {
                 mFavorites = favs.size();
                 for (String fav : favs) {
-                    mAdapter.addItem(new MediaWrapper(mLibVLC, fav), false, true);
+                    mAdapter.addItem(new MediaWrapper(fav), false, true);
                     mAdapter.notifyDataSetChanged();
                 }
                 mAdapter.addItem("Network favorites", false, true);
@@ -216,7 +216,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             if (mFavorites == 0)
                 mAdapter.addItem("Network favorites", false, false); //add header if needed
             for (String fav : favs)
-                mAdapter.addItem(new MediaWrapper(mLibVLC, fav), false, false); //add new favorites
+                mAdapter.addItem(new MediaWrapper(fav), false, false); //add new favorites
         }
         mFavorites = newSize; //update count
     }
