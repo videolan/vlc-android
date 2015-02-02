@@ -32,6 +32,11 @@ import org.videolan.vlc.R;
 
 public class JumpToTimeDialog extends PickTimeFragment {
 
+    public JumpToTimeDialog(){
+        super();
+        mLiveAction = false;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,21 +52,14 @@ public class AudioDelayDialog extends PickTimeFragment {
 
         mActionButton.setText(android.R.string.cancel);
         long delay = mLibVLC.getAudioDelay();
-        initTime(delay);
-
+        if (delay != 0f)
+            initTime(delay);
         return view;
     }
 
     @Override
     protected void executeAction(){
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        long millis = Long.parseLong(mMillis.getText().toString());
-        long delay = minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS + millis * MILLIS_IN_MICROS;
-        if (mSign.getText().equals("-"))
-            delay = -delay;
-        mLibVLC.setAudioDelay(delay);
-        Log.d(TAG, "setting audio delay to: " + delay);
+        mLibVLC.setAudioDelay(getTime());
     }
 
     @Override

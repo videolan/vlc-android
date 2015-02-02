@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,14 +63,7 @@ public class SubsDelayDialog extends PickTimeFragment {
 
     @Override
     protected void executeAction(){
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        long millis = Long.parseLong(mMillis.getText().toString());
-        long delay = minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS + millis * MILLIS_IN_MICROS;
-        if (mSign.getText().equals("-"))
-            delay = -delay;
-        mLibVLC.setSpuDelay(delay);
-        Log.d(TAG, "setting spu delay to: " + delay);
+        mLibVLC.setSpuDelay(getTime());
     }
 
     @Override
