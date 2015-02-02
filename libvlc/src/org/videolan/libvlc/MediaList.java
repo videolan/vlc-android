@@ -26,6 +26,12 @@ public final class MediaList extends VLCObject {
     private final static String TAG = "LibVLC/MediaList";
 
     public static class Event extends VLCObject.Event {
+        /**
+         * The media can be already released. If it's released, cached attributes are still
+         * available (like media.getMrl()).
+         * You should call {@link Media#retain()} and check the return value
+         * before calling media native methods.
+         */
         public final Media media;
         public final int index;
 
@@ -74,22 +80,25 @@ public final class MediaList extends VLCObject {
         init();
     }
 
-    private synchronized void insertMedia(int index) {
+    private synchronized Media insertMedia(int index) {
         mCount++;
 
         for (int i = mCount - 1; i >= index; --i)
             mMediaArray.put(i + 1, mMediaArray.valueAt(i));
-        mMediaArray.put(index, new Media(this, index));
+        final Media media = new Media(this, index);
+        mMediaArray.put(index, media);
+        return media;
     }
 
-    private synchronized void removeMedia(int index) {
+    private synchronized Media removeMedia(int index) {
         mCount--;
-        Media media = mMediaArray.get(index);
+        final Media media = mMediaArray.get(index);
         if (media != null)
             media.release();
         for (int i = index; i < mCount; ++i) {
             mMediaArray.put(i, mMediaArray.valueAt(i + 1));
         }
+        return media;
     }
 
     @Override
@@ -99,15 +108,15 @@ public final class MediaList extends VLCObject {
         case Events.MediaListItemAdded:
             index = (int) arg1;
             if (index != -1) {
-                insertMedia(index);
-                return new Event(eventType, mMediaArray.get(index), index);
+                final Media media = insertMedia(index);
+                return new Event(eventType, media, index);
             } else
                 return null;
         case Events.MediaListItemDeleted:
             index = (int) arg1;
             if (index != -1) {
-                removeMedia(index);
-                return new Event(eventType, null, index);
+                final Media media = removeMedia(index);
+                return new Event(eventType, media, index);
             } else
                 return null;
         case Events.MediaListEndReached:
