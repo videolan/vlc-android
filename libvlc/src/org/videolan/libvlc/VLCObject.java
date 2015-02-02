@@ -136,10 +136,14 @@ public abstract class VLCObject {
 
     /**
      * Increment internal ref count of the native object.
+     * @return true if media is retained
      */
-    public synchronized final void retain() {
-        if (mNativeRefCount > 0)
+    public synchronized final boolean retain() {
+        if (mNativeRefCount > 0) {
             mNativeRefCount++;
+            return true;
+        } else
+            return false;
     }
 
     /**
