@@ -190,7 +190,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
             case MediaWrapper.TYPE_VIDEO:
                 return R.drawable.ic_menu_video;
             case MediaWrapper.TYPE_SUBTITLE:
-                return R.drawable.ic_subtitle_circle_normal;
+                return R.drawable.ic_audiosub_circle_normal_o;
             default:
                 return R.drawable.ic_cone_o;
         }
