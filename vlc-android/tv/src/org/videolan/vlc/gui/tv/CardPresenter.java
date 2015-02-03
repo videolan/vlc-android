@@ -49,7 +49,7 @@ public class CardPresenter extends Presenter {
     public CardPresenter(Context context){
         sContext = context;
         mRes = sContext.getResources();
-        sDefaultCardImage = mRes.getDrawable(R.drawable.cone);
+        sDefaultCardImage = mRes.getDrawable(R.drawable.background_cone);
         CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_card_width);
         CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_card_height);
     }
@@ -91,7 +91,6 @@ public class CardPresenter extends Presenter {
         cardView.setFocusableInTouchMode(true);
         cardView.setBackgroundColor(mRes.getColor(R.color.lb_details_overview_bg_color));
         cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-        cardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
         return new ViewHolder(cardView);
     }
 
@@ -99,6 +98,7 @@ public class CardPresenter extends Presenter {
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
+            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             MediaWrapper MediaWrapper = (MediaWrapper) item;
             holder.mCardView.setTitleText(MediaWrapper.getTitle());
             holder.mCardView.setContentText(MediaWrapper.getDescription());
@@ -108,16 +108,19 @@ public class CardPresenter extends Presenter {
             else
                 holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof GridFragment.ListItem) {
+            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             GridFragment.ListItem listItem = (GridFragment.ListItem) item;
             MediaWrapper MediaWrapper = listItem.mMediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
             holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof SimpleCard){
+            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             SimpleCard card = (SimpleCard) item;
             holder.mCardView.setTitleText(card.getName());
             holder.updateCardViewImage(mRes.getDrawable(card.getImageId()));
         }else if (item instanceof String){
+            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             holder.mCardView.setTitleText((String) item);
             holder.updateCardViewImage(sDefaultCardImage);
         }
