@@ -118,7 +118,7 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
 {
     vlcjni_object *p_obj = data;
     java_event jevent;
-   
+
     jevent.type = -1;
     jevent.arg1 = jevent.arg2 = 0;
 
@@ -128,7 +128,7 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     if (!p_obj->p_owner->p_java_event_thread)
     {
         p_obj->p_owner->p_java_event_thread =
-            JavaEventThread_create(p_obj->p_owner->thiz);
+            JavaEventThread_create(p_obj->p_owner->thiz, true);
         if (!p_obj->p_owner->p_java_event_thread)
             return;
     }

@@ -43,6 +43,7 @@ typedef TAILQ_HEAD(, event_queue_elm) EVENT_QUEUE;
 
 struct java_event_thread {
     bool b_run;
+    bool b_sync;
     pthread_mutex_t lock;
     pthread_cond_t cond;
     pthread_t thread;
@@ -79,7 +80,6 @@ JavaEventThread_thread(void *data)
             continue;
 
         p_jevent = &event_elm->event;
-        TAILQ_REMOVE(&p_java_event_thread->queue, event_elm, next);
 
         pthread_mutex_unlock(&p_java_event_thread->lock);
 
@@ -87,9 +87,11 @@ JavaEventThread_thread(void *data)
                                fields.VLCObject.dispatchEventFromNativeID,
                                p_jevent->type, p_jevent->arg1, p_jevent->arg2);
 
-        free(event_elm);
-
         pthread_mutex_lock(&p_java_event_thread->lock);
+
+        free(event_elm);
+        TAILQ_REMOVE(&p_java_event_thread->queue, event_elm, next);
+        pthread_cond_signal(&p_java_event_thread->cond);
     }
 end:
     p_java_event_thread->b_run = false;
@@ -110,7 +112,7 @@ end:
 }
 
 java_event_thread *
-JavaEventThread_create(jweak jobj)
+JavaEventThread_create(jweak jobj, bool b_sync)
 {
     java_event_thread *p_java_event_thread = calloc(1, sizeof(java_event_thread));
     if (!p_java_event_thread)
@@ -122,6 +124,7 @@ JavaEventThread_create(jweak jobj)
 
     p_java_event_thread->jobj = jobj;
     p_java_event_thread->b_run = true;
+    p_java_event_thread->b_sync = b_sync;
     pthread_create(&p_java_event_thread->thread, NULL,
                    JavaEventThread_thread, p_java_event_thread);
 
@@ -161,8 +164,19 @@ JavaEventThread_add(java_event_thread *p_java_event_thread,
         goto error;
     event_elm->event = *p_java_event;
 
-    TAILQ_INSERT_TAIL(&p_java_event_thread->queue, event_elm, next);
+    if (p_java_event_thread->b_sync)
+        TAILQ_INSERT_HEAD(&p_java_event_thread->queue, event_elm, next);
+    else
+        TAILQ_INSERT_TAIL(&p_java_event_thread->queue, event_elm, next);
     pthread_cond_signal(&p_java_event_thread->cond);
+
+    if (p_java_event_thread->b_sync) {
+        while (p_java_event_thread->b_run &&
+               (event_elm == TAILQ_FIRST(&p_java_event_thread->queue)))
+            pthread_cond_wait(&p_java_event_thread->cond,
+                              &p_java_event_thread->lock);
+    }
+
     pthread_mutex_unlock(&p_java_event_thread->lock);
     return 0;
 error:
