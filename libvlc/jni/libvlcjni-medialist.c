@@ -18,7 +18,19 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#include <pthread.h>
+
 #include "libvlcjni-vlcobject.h"
+
+#define MEDIAS_INIT_SIZE 32
+
+struct vlcjni_object_sys
+{
+    pthread_mutex_t lock;
+    libvlc_media_t **pp_medias;
+    unsigned int i_medias_size;
+    unsigned int i_medias_max;
+};
 
 static const libvlc_event_type_t ml_events[] = {
     libvlc_MediaListItemAdded,
@@ -29,17 +41,98 @@ static const libvlc_event_type_t ml_events[] = {
     -1,
 };
 
+static int
+MediaList_add_media(vlcjni_object *p_obj, int index, libvlc_media_t *p_m)
+{
+    vlcjni_object_sys *p_sys = p_obj->p_sys;
+    unsigned int i_new_medias_size;
+
+    pthread_mutex_lock(&p_sys->lock);
+
+    i_new_medias_size = p_sys->i_medias_size + 1;
+
+    // realloc
+    if (i_new_medias_size > p_sys->i_medias_max)
+    {
+        libvlc_media_t *pp_new_medias;
+        unsigned int i_new_medias_max = p_sys->i_medias_max + MEDIAS_INIT_SIZE;
+
+        pp_new_medias = realloc(p_sys->pp_medias,
+                                i_new_medias_max * sizeof(libvlc_media_t *));
+        if (!pp_new_medias)
+        {
+            pthread_mutex_unlock(&p_sys->lock);
+            return -1;
+        }
+        p_sys->i_medias_max = i_new_medias_max;
+        p_sys->pp_medias = pp_new_medias;
+    }
+
+    // move in case of insert
+    if (index != p_sys->i_medias_size)
+    {
+        memmove(&p_sys->pp_medias[index + 1],
+                &p_sys->pp_medias[index],
+                p_sys->i_medias_size - index * sizeof(libvlc_media_t *));
+    }
+    p_sys->pp_medias[index] = p_m;
+    p_sys->i_medias_size = i_new_medias_size;
+
+    pthread_mutex_unlock(&p_sys->lock);
+    return 0;
+}
+
+static void
+MediaList_remove_media(vlcjni_object *p_obj, int index, libvlc_media_t *p_md)
+{
+    vlcjni_object_sys *p_sys = p_obj->p_sys;
+
+    pthread_mutex_lock(&p_sys->lock);
+    if (index < p_sys->i_medias_size - 1)
+    {
+        memmove(&p_sys->pp_medias[index],
+                &p_sys->pp_medias[index + 1],
+                (p_sys->i_medias_size - index - 1) * sizeof(libvlc_media_t *));
+    }
+    p_sys->i_medias_size--;
+    pthread_mutex_unlock(&p_sys->lock);
+}
+
+libvlc_media_t *
+MediaList_get_media(vlcjni_object *p_obj, int index)
+{
+    vlcjni_object_sys *p_sys = p_obj->p_sys;
+    libvlc_media_t *p_m = NULL;
+
+    pthread_mutex_lock(&p_sys->lock);
+    if (index >= 0 && index < p_sys->i_medias_size)
+    {
+        p_m = p_sys->pp_medias[index];
+        libvlc_media_retain(p_m);
+    }
+    pthread_mutex_unlock(&p_sys->lock);
+    return p_m;
+}
+
 static bool
 MediaList_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
                    java_event *p_java_event)
 {
+    int index;
     switch (p_ev->type)
     {
         case libvlc_MediaListItemAdded:
-            p_java_event->arg1 = p_ev->u.media_list_item_added.index;
+            index = p_ev->u.media_list_item_added.index;
+            if (MediaList_add_media(p_obj, index,
+                                    p_ev->u.media_list_item_added.item) == -1)
+                return false;
+            p_java_event->arg1 = index;
             break;
         case libvlc_MediaListItemDeleted:
-            p_java_event->arg1 = p_ev->u.media_list_item_deleted.index;
+            index = p_ev->u.media_list_item_deleted.index;
+            MediaList_remove_media(p_obj, index,
+                                   p_ev->u.media_list_item_deleted.item);
+            p_java_event->arg1 = index;
             break;
     }
     p_java_event->type = p_ev->type;
@@ -49,12 +142,17 @@ MediaList_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
 static void
 MediaList_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 {
-    if (!p_obj->u.p_ml)
+    p_obj->p_sys = calloc(1, sizeof(vlcjni_object_sys));
+
+    if (!p_obj->u.p_ml || !p_obj->p_sys)
     {
+        free(p_obj->p_sys);
         VLCJniObject_release(env, thiz, p_obj);
         throw_IllegalStateException(env, "can't create MediaList instance");
         return;
     }
+    pthread_mutex_init(&p_obj->p_sys->lock, NULL);
+
     VLCJniObject_attachEvents(p_obj, MediaList_event_cb,
                               libvlc_media_list_event_manager(p_obj->u.p_ml),
                               ml_events);
@@ -139,6 +237,10 @@ Java_org_videolan_libvlc_MediaList_nativeRelease(JNIEnv *env, jobject thiz)
         return;
 
     libvlc_media_list_release(p_obj->u.p_ml);
+
+    pthread_mutex_destroy(&p_obj->p_sys->lock);
+    free(p_obj->p_sys->pp_medias);
+    free(p_obj->p_sys);
 
     VLCJniObject_release(env, thiz, p_obj);
 }

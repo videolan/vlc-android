@@ -23,6 +23,8 @@
 
 #include "libvlcjni-vlcobject.h"
 
+libvlc_media_t *MediaList_get_media(vlcjni_object *p_obj, int index);
+
 #define META_MAX 25
 
 struct vlcjni_object_sys
@@ -168,9 +170,7 @@ Java_org_videolan_libvlc_Media_nativeNewFromMediaList(JNIEnv *env, jobject thiz,
         return;
     }
 
-    libvlc_media_list_lock(p_ml_obj->u.p_ml);
-    p_obj->u.p_m = libvlc_media_list_item_at_index(p_ml_obj->u.p_ml, index);
-    libvlc_media_list_unlock(p_ml_obj->u.p_ml);
+    p_obj->u.p_m = MediaList_get_media(p_ml_obj, index);
 
     Media_nativeNewCommon(env, thiz, p_obj);
 }
