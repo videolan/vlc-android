@@ -176,6 +176,7 @@ public abstract class VLCObject {
 
     /**
      * Set an event listener.
+     * Events are sent via the android main thread.
      *
      * @param listener see {@link EventListener}
      */
