@@ -53,16 +53,21 @@ struct java_event_thread {
 static void *
 JavaEventThread_thread(void *data)
 {
-    JNIEnv *env;
+    JNIEnv *env = NULL;
+    event_queue_elm *event_elm, *event_elm_next;
     java_event_thread *p_java_event_thread = data;
 
+
     if (jni_attach_thread(&env, THREAD_NAME) < 0)
-        return NULL;
+    {
+        pthread_mutex_lock(&p_java_event_thread->lock);
+        goto end;
+    }
 
     pthread_mutex_lock(&p_java_event_thread->lock);
+
     while (p_java_event_thread->b_run)
     {
-        event_queue_elm *event_elm;
         java_event *p_jevent;
 
         while (p_java_event_thread->b_run &&
@@ -86,9 +91,20 @@ JavaEventThread_thread(void *data)
 
         pthread_mutex_lock(&p_java_event_thread->lock);
     }
+end:
+    p_java_event_thread->b_run = false;
+
+    for (event_elm = TAILQ_FIRST(&p_java_event_thread->queue);
+         event_elm != NULL; event_elm = event_elm_next)
+    {
+        event_elm_next = TAILQ_NEXT(event_elm, next);
+        TAILQ_REMOVE(&p_java_event_thread->queue, event_elm, next);
+        free(event_elm);
+    }
     pthread_mutex_unlock(&p_java_event_thread->lock);
 
-    jni_detach_thread();
+    if (env)
+        jni_detach_thread();
 
     return NULL;
 }
@@ -115,18 +131,9 @@ JavaEventThread_create(jweak jobj)
 void
 JavaEventThread_destroy(java_event_thread *p_java_event_thread)
 {
-    event_queue_elm *event_elm, *event_elm_next;
-
     pthread_mutex_lock(&p_java_event_thread->lock);
     p_java_event_thread->b_run = false;
 
-    for (event_elm = TAILQ_FIRST(&p_java_event_thread->queue);
-         event_elm != NULL; event_elm = event_elm_next)
-    {
-        event_elm_next = TAILQ_NEXT(event_elm, next);
-        TAILQ_REMOVE(&p_java_event_thread->queue, event_elm, next);
-        free(event_elm);
-    }
     pthread_cond_signal(&p_java_event_thread->cond);
     pthread_mutex_unlock(&p_java_event_thread->lock);
 
@@ -138,17 +145,27 @@ JavaEventThread_destroy(java_event_thread *p_java_event_thread)
     free(p_java_event_thread);
 }
 
-void
+int
 JavaEventThread_add(java_event_thread *p_java_event_thread,
                     java_event *p_java_event)
 {
-    event_queue_elm *event_elm = calloc(1, sizeof(event_queue_elm));
-    if (!event_elm)
-        return;
-    event_elm->event = *p_java_event;
+    event_queue_elm *event_elm;
 
     pthread_mutex_lock(&p_java_event_thread->lock);
+
+    if (!p_java_event_thread->b_run)
+        goto error;
+
+    event_elm = calloc(1, sizeof(event_queue_elm));
+    if (!event_elm)
+        goto error;
+    event_elm->event = *p_java_event;
+
     TAILQ_INSERT_TAIL(&p_java_event_thread->queue, event_elm, next);
     pthread_cond_signal(&p_java_event_thread->cond);
     pthread_mutex_unlock(&p_java_event_thread->lock);
+    return 0;
+error:
+    pthread_mutex_unlock(&p_java_event_thread->lock);
+    return -1;
 }

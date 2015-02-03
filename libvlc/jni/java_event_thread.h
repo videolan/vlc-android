@@ -37,7 +37,7 @@ struct java_event
 
 java_event_thread *JavaEventThread_create(jweak jobj);
 void JavaEventThread_destroy(java_event_thread *p_java_event_thread);
-void JavaEventThread_add(java_event_thread *p_java_event_thread,
+int  JavaEventThread_add(java_event_thread *p_java_event_thread,
                          java_event *p_java_event);
 
 #endif // JAVA_EVENT_THREAD_H
