@@ -24,6 +24,18 @@ public final class Media extends VLCObject {
     private final static String TAG = "LibVLC/Media";
 
     /**
+     * libvlc_media_type_t
+     */
+    public static class Type {
+        public static final int Unknown = 0;
+        public static final int File = 1;
+        public static final int Directory = 2;
+        public static final int Disc = 3;
+        public static final int Stream = 4;
+        public static final int Playlist = 5;
+    }
+
+    /**
      * see libvlc_meta_t
      */
     public static class Meta {
@@ -207,6 +219,7 @@ public final class Media extends VLCObject {
     private Track mNativeTracks[] = null;
     private long mDuration;
     private int mState = State.NothingSpecial;
+    private int mType = Type.Unknown;
 
     /**
      * Create a Media from libVLC and a mrl.
@@ -217,6 +230,7 @@ public final class Media extends VLCObject {
     public Media(LibVLC libVLC, String mrl) {
         nativeNewFromMrl(libVLC, mrl);
         mMrl = nativeGetMrl();
+        mType = nativeGetType();
     }
 
     /**
@@ -230,6 +244,7 @@ public final class Media extends VLCObject {
         nativeNewFromMediaList(ml, index);
         mMrl = nativeGetMrl();
         mNativeMetas = nativeGetMetas();
+        mType = nativeGetType();
     }
 
     @Override
@@ -299,6 +314,7 @@ public final class Media extends VLCObject {
                 throw new IllegalStateException("native metas size doesn't match");
             mDuration = nativeGetDuration();
             mState = nativeGetState();
+            mType = nativeGetType();
         }
     }
 
@@ -362,6 +378,15 @@ public final class Media extends VLCObject {
     }
 
     /**
+     * Get the type of the media
+     *
+     * @see {@link Type}
+     */
+    public synchronized int getType() {
+        return mType;
+    }
+
+    /**
      * Get the Track count.
      */
     public synchronized int getTrackCount() {
@@ -414,4 +439,5 @@ public final class Media extends VLCObject {
     private native String[] nativeGetMetas();
     private native Track[] nativeGetTracks();
     private native long nativeGetDuration();
+    private native int nativeGetType();
 }

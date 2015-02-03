@@ -460,3 +460,17 @@ Java_org_videolan_libvlc_Media_nativeGetDuration(JNIEnv *env, jobject thiz)
 
     return libvlc_media_get_duration(p_obj->u.p_m);
 }
+
+jint
+Java_org_videolan_libvlc_Media_nativeGetType(JNIEnv *env, jobject thiz)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+
+    if (!p_obj)
+    {
+        throw_IllegalStateException(env, "can't get Media instance");
+        return 0;
+    }
+
+    return libvlc_media_get_type(p_obj->u.p_m);
+}
