@@ -49,6 +49,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -249,6 +250,11 @@ public class BrowserActivity extends ListActivity {
                     return true;
                 }
             }
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+            CheckBox cb = (CheckBox) getListView().getSelectedView().findViewById(R.id.browser_item_selected);
+            if (cb != null)
+                cb.toggle();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
