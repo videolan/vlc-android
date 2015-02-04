@@ -137,9 +137,8 @@ git checkout -B android ${TESTED_HASH}
 EOF
             exit 1
         fi
+        cd ..
     fi
-else
-    cd vlc
 fi
 
 if [ "$BUILD" = 0 ]

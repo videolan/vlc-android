@@ -87,6 +87,7 @@ fi
 ###############
 
 echo "ABI:        $ANDROID_ABI"
+echo "SYSROOT:    $SYSROOT"
 if [ ! -z "$NO_FPU" ]; then
 echo "FPU:        NO"
 fi
@@ -191,6 +192,10 @@ fi
 
 echo "CFLAGS:            ${CFLAGS}"
 echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
+
+####################################################################################################
+
+cd vlc
 
 ###########################
 # Build buildsystem tools #
