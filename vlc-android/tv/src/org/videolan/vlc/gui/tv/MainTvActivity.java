@@ -31,8 +31,10 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.gui.tv.browser.GridFragment;
+import org.videolan.vlc.gui.tv.browser.MusicFragment;
+import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
 
@@ -62,6 +64,13 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
+    public static final long HEADER_VIDEO = 0;
+    public static final long HEADER_CATEGORIES = 1;
+    public static final long HEADER_NETWORK = 2;
+    public static final long HEADER_MISC = 3;
+
+    public static final String BROWSER_TYPE = "browser_type";
+
     public static final String TAG = "VLC/MainTvActivity";
 
     protected BrowseFragment mBrowseFragment;
@@ -84,7 +93,8 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
             if (row.getId() == HEADER_CATEGORIES){
                 CardPresenter.SimpleCard card = (CardPresenter.SimpleCard)o;
                 Intent intent = new Intent(mContext, VerticalGridActivity.class);
-                intent.putExtra(AUDIO_CATEGORY, card.getId());
+                intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
+                intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
                 startActivity(intent);
             } else if (row.getId() == HEADER_VIDEO)
                 TvUtil.openMedia(mContext, o, row);
@@ -266,10 +276,10 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
             }
 
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
-            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
-            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
-            mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
             mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
 

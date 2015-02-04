@@ -21,6 +21,7 @@ package org.videolan.vlc.gui.tv;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.gui.network.NetworkFragment;
+import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.Strings;
@@ -47,13 +48,13 @@ public class TvUtil {
                 activity.startActivity(intent);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
-                intent.putExtra("id", IVideoBrowser.HEADER_NETWORK);
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
                 intent.putExtra(NetworkFragment.KEY_MRL, mediaWrapper.getLocation());
                 activity.startActivity(intent);
             }
         } else if (item instanceof CardPresenter.SimpleCard){
             Intent intent = new Intent(activity, VerticalGridActivity.class);
-            intent.putExtra("id", row.getId());
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, row.getId());
             activity.startActivity(intent);
         }
     }

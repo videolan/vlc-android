@@ -54,7 +54,7 @@
             android:exported="true"
             android:theme="@style/Theme.Leanback" />
         <activity
-            android:name="org.videolan.vlc.gui.tv.VerticalGridActivity"
+            android:name=".gui.tv.browser.VerticalGridActivity"
             android:exported="true"
             android:theme="@style/Theme.Leanback" />
         <activity

@@ -23,6 +23,8 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.tv.browser.GridFragment;
+import org.videolan.vlc.gui.tv.browser.MusicFragment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -114,10 +116,10 @@ public class CardPresenter extends Presenter {
                         R.drawable.ic_video_collection_big));
             else
                 holder.updateCardViewImage(MediaWrapper);
-        } else if (item instanceof GridFragment.ListItem) {
+        } else if (item instanceof MusicFragment.ListItem) {
             holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-            GridFragment.ListItem listItem = (GridFragment.ListItem) item;
-            MediaWrapper MediaWrapper = listItem.mMediaList.get(0);
+            MusicFragment.ListItem listItem = (MusicFragment.ListItem) item;
+            MediaWrapper MediaWrapper = listItem.mediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
             holder.updateCardViewImage(MediaWrapper);
