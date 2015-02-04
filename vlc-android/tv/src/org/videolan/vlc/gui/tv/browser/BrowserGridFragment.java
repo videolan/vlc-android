@@ -69,7 +69,10 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                     } catch (LibVlcException e) {}
                 if (mMediaBrowser != null) {
                     mMediaList = new ArrayList<>();
-                    mMediaBrowser.browse(mMrl != null ? mMrl : NetworkFragment.SMB_ROOT);
+                    if (mMrl != null)
+                        mMediaBrowser.browse(mMrl);
+                    else
+                        mMediaBrowser.discoverNetworkShares();
                 }
             }
             setOnItemViewClickedListener(mClickListener);
@@ -89,7 +92,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     }
 
     @Override
-    public void onMediaRemoved(int index) {}
+    public void onMediaRemoved(int index, Media media) {}
 
     @Override
     public void onBrowseEnd() {

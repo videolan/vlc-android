@@ -153,7 +153,9 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     }
 
     @Override
-    public void onMediaRemoved(int index) {}
+    public void onMediaRemoved(int index, Media media) {
+        //TODO
+    }
 
     @Override
     public void onBrowseEnd() {
@@ -197,7 +199,10 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
                 mAdapter.addItem("Network favorites", false, true);
             }
         }
-        mMediaBrowser.browse(mMrl);
+        if (mRoot)
+            mMediaBrowser.discoverNetworkShares();
+        else
+            mMediaBrowser.browse(mMrl);
         mHandler.sendEmptyMessageDelayed(NetworkFragmentHandler.MSG_SHOW_LOADING, 300);
     }
 
