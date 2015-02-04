@@ -266,8 +266,8 @@ cd contrib/contrib-android-${TARGET_TUPLE}
 
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
 echo "EXTRA_LDFLAGS= ${EXTRA_LDFLAGS}" >> config.mak
-export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
-export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"
+export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"                   # Makefile
+export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"                 # Makefile
 
 make fetch
 # We already have zlib available

@@ -148,17 +148,6 @@ then
     exit 0
 fi
 
-# Make in //
-if [ -z "$MAKEFLAGS" ]; then
-    UNAMES=$(uname -s)
-    MAKEFLAGS=
-    if which nproc >/dev/null; then
-        MAKEFLAGS=-j`nproc`
-    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
-        MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
-    fi
-fi
-
 ############
 # Make VLC #
 ############
@@ -179,10 +168,9 @@ else
     TARGET=
 fi
 
-export ANDROID_SYS_HEADERS=${PWD}/android-headers
-
-export ANDROID_LIBS=${PWD}/android-libs
-export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
+export ANDROID_SYS_HEADERS=${PWD}/android-headers           # Android.mk
+export ANDROID_LIBS=${PWD}/android-libs                     # Android.mk
+export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}      # Android.mk
 
 make $CLEAN
 make -j1 TARGET_TUPLE=$TARGET_TUPLE SYSROOT=$SYSROOT GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
@@ -213,11 +201,12 @@ echo "# Re-run 'sh compile.sh' to update this file." >> env.sh
 
 # The essentials
 cat <<EssentialsA >> env.sh
-export ANDROID_API=$ANDROID_API
-export ANDROID_ABI=$ANDROID_ABI
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
+export ANDROID_ABI=$ANDROID_ABI
+export ANDROID_API=$ANDROID_API
 export GCCVER=$GCCVER
+export SYSROOT=$SYSROOT
 export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
