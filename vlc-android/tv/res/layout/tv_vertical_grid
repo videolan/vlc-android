@@ -1,6 +1,10 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="org.videolan.vlc.gui.tv.GridFragment"
-    android:id="@+id/vertical_grid_fragment"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_fragment_placeholder"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent">
+    <fragment
+        android:name="org.videolan.vlc.gui.tv.GridFragment"
+        android:id="@+id/vertical_grid_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</FrameLayout>

@@ -27,6 +27,7 @@ import org.videolan.vlc.gui.audio.AudioUtil;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v17.leanback.widget.ImageCardView;
@@ -68,10 +69,16 @@ public class CardPresenter extends Presenter {
 
         protected void updateCardViewImage(MediaWrapper MediaWrapper) {
             Bitmap picture = null;
-            if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO)
+            if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 picture = AudioUtil.getCover(sContext, MediaWrapper, 320);
-            else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO)
+                if (picture == null)
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_song_big);
+            }else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
                 picture = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
+                if (picture == null)
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_video_collection_big);
+            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR)
+                picture = BitmapFactory.decodeResource(mRes, R.drawable.background_cone);
             if (picture != null && picture.getByteCount() > 4)
                 mCardView.setMainImage(new BitmapDrawable(mRes, picture));
             else

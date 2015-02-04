@@ -31,6 +31,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
@@ -71,6 +72,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
     ArrayObjectAdapter mRowsAdapter;
     ArrayObjectAdapter mVideoAdapter;
     ArrayObjectAdapter mCategoriesAdapter;
+    ArrayObjectAdapter mNetworkAdapter;
     ArrayObjectAdapter mOtherAdapter;
     HashMap<String, Integer> mVideoIndex;
     Drawable mDefaultBackground;
@@ -85,9 +87,12 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
                 intent.putExtra(AUDIO_CATEGORY, card.getId());
                 startActivity(intent);
             } else if (row.getId() == HEADER_VIDEO)
-                TvUtil.openMedia(mContext, (MediaWrapper)o, row);
+                TvUtil.openMedia(mContext, o, row);
             else if (row.getId() == HEADER_MISC)
                 startActivity(new Intent(mContext, PreferencesActivity.class));
+            else if (row.getId() == HEADER_NETWORK){
+                    TvUtil.openMedia(mContext, o, row);
+            }
         }
     };
 
@@ -254,7 +259,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
                     mVideoIndex.put(item.getLocation(), i);
                 }
                 // Empty item to launch grid activity
-                mVideoAdapter.add(new MediaWrapper(null, 0, 0, MediaWrapper.TYPE_GROUP, null, "Browse more", null, null, null, null, 0, 0, null, 0, 0, 0));
+                mVideoAdapter.add(new CardPresenter.SimpleCard(0, "Browse more", R.drawable.ic_video_collection_big));
 
                 HeaderItem header = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
                 mRowsAdapter.add(new ListRow(header, mVideoAdapter));
@@ -267,6 +272,18 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(GridFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
             HeaderItem header = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
             mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
+
+            mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
+            mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_goto));
+            ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+            if (!favs.isEmpty()) {
+                for (String fav : favs) {
+                    mNetworkAdapter.add(new MediaWrapper(fav));
+                }
+            }
+            header = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing), null);
+            mRowsAdapter.add(new ListRow(header, mNetworkAdapter));
+
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));

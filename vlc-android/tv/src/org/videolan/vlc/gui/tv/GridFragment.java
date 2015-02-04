@@ -31,12 +31,22 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
 import org.videolan.vlc.gui.audio.MediaComparators;
+import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
@@ -50,7 +60,7 @@ import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-public class GridFragment extends VerticalGridFragment implements IVideoBrowser {
+public class GridFragment extends VerticalGridFragment implements IVideoBrowser, MediaBrowser.EventListener {
     private static final String TAG = "VLC/GridFragment";
 
     private static final int NUM_COLUMNS = 5;
@@ -61,6 +71,8 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
     public static final int CATEGORY_SONGS = 4;
 
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
+    private MediaBrowser mMediaBrowser;
+    public String mMrl;
     protected MediaWrapper mItemToUpdate;
     private Map<String, ListItem> mMediaItemMap;
     private ArrayList<ListItem> mMediaItemList;
@@ -73,6 +85,12 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
     String mFilter;
     int mCategory;
     long mType = -1;
+    private View.OnClickListener mSearchClickedListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            toggleFavorite(mMrl);
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,10 +100,12 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
             mType = savedInstanceState.getLong(MEDIA_SECTION);
             mCategory = savedInstanceState.getInt(AUDIO_CATEGORY);
             mFilter = savedInstanceState.getString(AUDIO_FILTER);
+            mMrl = savedInstanceState.getString(NetworkFragment.KEY_MRL);
         } else {
             mType = getActivity().getIntent().getLongExtra(MEDIA_SECTION, -1);
             mCategory = getActivity().getIntent().getIntExtra(AUDIO_CATEGORY, 0);
             mFilter = getActivity().getIntent().getStringExtra(AUDIO_FILTER);
+            mMrl = getActivity().getIntent().getStringExtra(NetworkFragment.KEY_MRL);
         }
         sThumbnailer = MainTvActivity.getThumbnailer();
         mMediaLibrary = MediaLibrary.getInstance();
@@ -102,6 +122,19 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
         if (mAdapter.size() == 0) {
             if (mType == HEADER_VIDEO) {
                 new AsyncVideoUpdate().execute();
+            } else if(mType == HEADER_NETWORK){
+                if (mAdapter.size() == 0) {
+                    if (mMediaBrowser == null)
+                        try {
+                            mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
+                        } catch (LibVlcException e) {}
+                    if (mMediaBrowser != null) {
+                        mMediaList = new ArrayList<>();
+                        mMediaBrowser.browse(mMrl != null ? mMrl : NetworkFragment.SMB_ROOT);
+                    }
+                }
+                setOnItemViewClickedListener(mClickListener);
+                setOnSearchClickedListener(mSearchClickedListener);
             } else {
                 new AsyncAudioUpdate().execute();
             }
@@ -124,19 +157,34 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
         mBarrier.reset();
     }
 
+     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, 0, 0, "Add to favorite");
+    }
+
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getItemId() == 0){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            toggleFavorite(mMediaList.get(info.position).getLocation());
+            return true;
+        }
+        return false;
+    }
+
+    public void toggleFavorite(String mrl) {
+        MediaDatabase db = MediaDatabase.getInstance();
+        if (db.networkFavExists(mrl))
+            db.deleteNetworkFav(mrl);
+        else
+            db.addNetworkFavItem(mrl);
+    }
+
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putLong(MEDIA_SECTION, mType);
         outState.putInt(AUDIO_CATEGORY, mCategory);
     }
 
-    public void await() throws InterruptedException, BrokenBarrierException {
-        mBarrier.await();
-    }
-
-    public void resetBarrier() {
-        mBarrier.reset();
-    }
     @Override
     public void setItemToUpdate(MediaWrapper item) {
         mItemToUpdate = item;
@@ -154,23 +202,48 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
     }
 
     @Override
-    public void updateList() {
-
-    }
-
-    @Override
-    public void showProgressBar() {}
-
-    @Override
-    public void hideProgressBar() {}
-
-    @Override
-    public void clearTextInfo() {}
-
-    @Override
     public void sendTextInfo(String info, int progress, int max) {}
 
     private Handler mHandler = new VideoListHandler(this);
+
+    @Override
+    public void onMediaAdded(int index, Media media) {
+        mMediaList.add(new MediaWrapper(media));
+
+        if (mMrl == null) { // we are at root level
+            mAdapter.clear();
+            mAdapter.addAll(0, mMediaList); //FIXME adding 1 by 1 doesn't work
+        }
+    }
+
+    @Override
+    public void onMediaRemoved(int index) {}
+
+    @Override
+    public void onBrowseEnd() {
+        sortList();
+    }
+
+    public void sortList(){
+        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
+        for (Object item : mMediaList){
+            if (item instanceof MediaWrapper) {
+                MediaWrapper media = (MediaWrapper) item;
+                if (media.getType() == MediaWrapper.TYPE_DIR)
+                    dirs.add(media);
+                else
+                    files.add(media);
+            }
+        }
+        Collections.sort(dirs, MediaComparators.byName);
+        Collections.sort(files, MediaComparators.byName);
+        mMediaList.clear();
+        mMediaList.addAll(dirs);
+        mMediaList.addAll(files);
+        mAdapter.clear();
+        mAdapter.addAll(0, mMediaList);
+        mAdapter.notifyArrayItemRangeChanged(0, mMediaList.size());
+    }
 
     // An item of the list: a MediaWrapper or a separator.
     public class ListItem {
@@ -236,15 +309,17 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
 
         @Override
         protected void onPostExecute(Void result) {
-            setOnItemViewClickedListener(new OnItemViewClickedListener() {
+            setOnItemViewClickedListener(mClickListener);
+        }
+    }
+
+    OnItemViewClickedListener mClickListener = new OnItemViewClickedListener() {
                 @Override
                 public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                           RowPresenter.ViewHolder rowViewHolder, Row row) {
-                    TvUtil.openMedia(getActivity(), (MediaWrapper) item, null);
+                    TvUtil.openMedia(getActivity(), item, null);
                 }
-            });
-        }
-    }
+            };
 
     public class AsyncAudioUpdate extends AsyncTask<Void, ListItem, String> {
 
@@ -351,5 +426,25 @@ public class GridFragment extends VerticalGridFragment implements IVideoBrowser 
                 }
             });
         }
+    }
+
+    @Override
+    public void updateList() {}
+
+    @Override
+    public void showProgressBar() {}
+
+    @Override
+    public void hideProgressBar() {}
+
+    @Override
+    public void clearTextInfo() {}
+
+    public void await() throws InterruptedException, BrokenBarrierException {
+        mBarrier.await();
+    }
+
+    public void resetBarrier() {
+        mBarrier.reset();
     }
 }
