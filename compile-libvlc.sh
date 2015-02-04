@@ -193,6 +193,7 @@ which autopoint >/dev/null || make $MAKEFLAGS .gettext
 export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 make $MAKEFLAGS
 
+cd ../../
 
 ###################
 # BUILD DIRECTORY #

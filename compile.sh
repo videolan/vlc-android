@@ -238,7 +238,6 @@ cd ../..
 ############
 # Make VLC #
 ############
-cd ../..
 echo "Configuring"
 ${ANDROID_PATH}/compile-libvlc.sh $*
 
