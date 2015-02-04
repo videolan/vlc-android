@@ -184,7 +184,7 @@
     <string name="hold_to_stop">Hold to stop</string>
 
     <!-- About -->
-    <string name="app_name_full">VLC for Android™</string>
+    <string name="app_name_full">VLC for Android</string>
     <string name="licence">License</string>
     <string name="revision">Revision</string>
     <string name="about">About</string>
