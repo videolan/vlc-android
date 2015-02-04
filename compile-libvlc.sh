@@ -12,6 +12,12 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
+if [ -z "$SYSROOT" ]; then
+    echo "Please set the right SYSROOT"
+    exit 1
+fi
+
+
 for i in ${@}; do
     case "$i" in
         release|--release)
