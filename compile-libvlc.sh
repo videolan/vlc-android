@@ -113,3 +113,38 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --disable-x264 \
                 --disable-schroedinger --disable-dirac \
                 $*
+
+# ANDROID NDK FIXUP (BLAME GOOGLE)
+config_undef ()
+{
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Darwin' ]]; then
+        previous_change=`stat -f "%Sm" -t "%y%m%d%H%M.%S" config.h`
+        sed -i '' 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+        touch -t "$previous_change" config.h
+    else
+        previous_change=`stat -c "%y" config.h`
+        sed -i 's,#define '$1' 1,/\* #undef '$1' \*/,' config.h
+        # don't change modified date in order to don't trigger a full build
+        touch -d "$previous_change" config.h
+    fi
+}
+
+# if config dependencies change, ./config.status
+# is run and overwrite previously hacked config.h. So call make config.h here
+# and hack config.h after.
+
+make $MAKEFLAGS config.h
+
+if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
+    # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
+    # intel devices has nanf. Assume they don't have it.
+    config_undef HAVE_NANF
+fi
+if [ ${ANDROID_API} = "android-21" ] ; then
+    # android-21 has empty sys/shm.h headers that triggers shm detection but it
+    # doesn't have any shm functions and/or symbols. */
+    config_undef HAVE_SYS_SHM_H
+fi
+# END OF ANDROID NDK FIXUP
+
