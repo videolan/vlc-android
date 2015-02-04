@@ -99,7 +99,6 @@ case "$REL" in
             GCCVER=4.8
             ANDROID_API=android-9
         fi
-        CXXSTL="/"${GCCVER}
     ;;
     *)
         echo "You need the NDKv10 or later"
@@ -108,7 +107,6 @@ case "$REL" in
 esac
 
 export GCCVER
-export CXXSTL
 export ANDROID_API
 
 # XXX : important!
@@ -215,7 +213,7 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
 
 make $CLEAN
-make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH CXXSTL=$CXXSTL RELEASE=$RELEASE $TARGET
+make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
 
 #
 # Exporting a environment script with all the necessary variables
@@ -248,7 +246,6 @@ export ANDROID_ABI=$ANDROID_ABI
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export GCCVER=$GCCVER
-export CXXSTL=$CXXSTL
 export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
