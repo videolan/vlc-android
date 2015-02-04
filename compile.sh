@@ -6,7 +6,6 @@
 
 set -e
 
-
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
    echo "They must point to your NDK and SDK directories.\n"
@@ -124,17 +123,8 @@ case "$REL" in
         fi
         CXXSTL="/"${GCCVER}
     ;;
-    9*)
-        if [ "${HAVE_64}" = 1 ];then
-            echo "You need the NDKv10 or later for 64 bits build"
-            exit 1
-        fi
-        GCCVER=4.8
-        ANDROID_API=android-9
-        CXXSTL="/"${GCCVER}
-    ;;
     *)
-        echo "You need the NDKv9 or later"
+        echo "You need the NDKv10 or later"
         exit 1
     ;;
 esac
