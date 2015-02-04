@@ -420,3 +420,4 @@ fi
 echo "Building"
 make $MAKEFLAGS
 
+cd ../..
