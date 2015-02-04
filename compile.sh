@@ -103,6 +103,8 @@ esac
 
 export GCCVER
 export ANDROID_API
+SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
+
 
 # XXX : important!
 [ ${ANDROID_ABI} = "armeabi" ] && cat << EOF
@@ -118,7 +120,7 @@ export TARGET_TUPLE
 export PATH_HOST
 export HAVE_ARM
 export HAVE_64
-export PLATFORM_SHORT_ARCH
+export SYSROOT
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
@@ -206,7 +208,7 @@ export ANDROID_LIBS=${PWD}/android-libs
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}
 
 make $CLEAN
-make -j1 TARGET_TUPLE=$TARGET_TUPLE PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
+make -j1 TARGET_TUPLE=$TARGET_TUPLE SYSROOT=$SYSROOT GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
 
 #
 # Exporting a environment script with all the necessary variables
@@ -244,7 +246,6 @@ export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
 export PATH_HOST=$PATH_HOST
-export PLATFORM_SHORT_ARCH=$PLATFORM_SHORT_ARCH
 export RELEASE=$RELEASE
 EssentialsA
 

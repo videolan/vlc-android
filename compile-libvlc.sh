@@ -26,27 +26,22 @@ done
 if [ ${ANDROID_ABI} = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
-    PLATFORM_SHORT_ARCH="x86"
 elif [ ${ANDROID_ABI} = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
     PATH_HOST="x86_64"
     HAVE_64=1
-    PLATFORM_SHORT_ARCH="x86_64"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
-    PLATFORM_SHORT_ARCH="mips"
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
     HAVE_64=1
-    PLATFORM_SHORT_ARCH="arm64"
 else
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
-    PLATFORM_SHORT_ARCH="arm"
 fi
 
 
@@ -138,7 +133,6 @@ fi
 CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}"
 
-SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
