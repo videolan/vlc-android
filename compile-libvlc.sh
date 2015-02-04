@@ -12,12 +12,6 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
-# ANDROID_API must be previously set by compile.sh or env.sh
-if [ -z "$ANDROID_API" ];then
-    echo "ANDROID_API not set, call ./compile.sh first"
-    exit 1
-fi
-
 for i in ${@}; do
     case "$i" in
         release|--release)
@@ -57,6 +51,27 @@ else
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 fi
+
+
+# try to detect NDK version
+REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
+case "$REL" in
+    10*)
+        if [ "${HAVE_64}" = 1 ];then
+            GCCVER=4.9
+            ANDROID_API=android-21
+        else
+            GCCVER=4.8
+            ANDROID_API=android-9
+        fi
+        CXXSTL="/"${GCCVER}
+    ;;
+    *)
+        echo "You need the NDKv10 or later"
+        exit 1
+    ;;
+esac
+
 
 # Make in //
 if [ -z "$MAKEFLAGS" ]; then
@@ -109,6 +124,75 @@ if [ ! -f config.h ]; then
     echo "Bootstraping"
     ./bootstrap
 fi
+
+############
+# Contribs #
+############
+echo "Building the contribs"
+mkdir -p contrib/contrib-android-${TARGET_TUPLE}
+
+gen_pc_file() {
+    echo "Generating $1 pkg-config file"
+    echo "Name: $1
+Description: $1
+Version: $2
+Libs: -l$1
+Cflags:" > contrib/${TARGET_TUPLE}/lib/pkgconfig/`echo $1|tr 'A-Z' 'a-z'`.pc
+}
+
+mkdir -p contrib/${TARGET_TUPLE}/lib/pkgconfig
+gen_pc_file EGL 1.1
+gen_pc_file GLESv2 2
+
+cd contrib/contrib-android-${TARGET_TUPLE}
+../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
+    --enable-dvdread \
+    --enable-dvdnav \
+    --disable-dca \
+    --disable-goom \
+    --disable-chromaprint \
+    --disable-lua \
+    --disable-schroedinger \
+    --disable-sdl \
+    --disable-SDL_image \
+    --disable-fontconfig \
+    --enable-zvbi \
+    --disable-kate \
+    --disable-caca \
+    --disable-gettext \
+    --disable-mpcdec \
+    --disable-upnp \
+    --disable-gme \
+    --disable-tremor \
+    --enable-vorbis \
+    --disable-sidplay2 \
+    --disable-samplerate \
+    --disable-faad2 \
+    --disable-harfbuzz \
+    --enable-iconv \
+    --disable-aribb24 \
+    --disable-aribb25 \
+    --disable-mpg123 \
+    --enable-libdsm
+
+# TODO: mpeg2, theora
+
+# Some libraries have arm assembly which won't build in thumb mode
+# We append -marm to the CFLAGS of these libs to disable thumb mode
+[ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
+
+echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
+echo "EXTRA_LDFLAGS= ${EXTRA_LDFLAGS}" >> config.mak
+export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
+export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"
+
+make fetch
+# We already have zlib available
+[ -e .zlib ] || (mkdir -p zlib; touch .zlib)
+which autopoint >/dev/null || make $MAKEFLAGS .gettext
+export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
+make $MAKEFLAGS
+
 
 ###################
 # BUILD DIRECTORY #
