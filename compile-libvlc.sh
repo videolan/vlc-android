@@ -38,7 +38,7 @@ if [ ${ANDROID_ABI} == "armeabi-nofpu" ];then
     ANDROID_ABI="armeabi"
 fi
 if [ ${ANDROID_ABI} == "armeabi-v5" ];then
-    NO_ARMV6=0
+    ARMV5=1
     NO_FPU=0
     ANDROID_ABI="armeabi"
 fi
@@ -84,7 +84,7 @@ echo "ABI:        $ANDROID_ABI"
 if [ ! -z "$NO_FPU" ]; then
 echo "FPU:        NO"
 fi
-if [ ! -z "$NO_ARMV6" ]; then
+if [ ! -z "$ARMV5" ]; then
 echo "ARMv5:       YES"
 fi
 
@@ -132,7 +132,7 @@ if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
 elif [ ${ANDROID_ABI} = "armeabi" ] ; then
-    if [ -n "${NO_ARMV6}" ]; then
+    if [ -n "${ARMV5}" ]; then
         EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
     else
         if [ -n "${NO_FPU}" ]; then
