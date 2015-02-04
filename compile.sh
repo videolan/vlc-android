@@ -245,7 +245,7 @@ ${ANDROID_PATH}/compile-libvlc.sh $*
 # VLC android UI and specific code
 ####################################
 echo "Building VLC for Android"
-cd ../../
+cd ../
 
 if [ "$JNI" = 1 ]; then
     CLEAN="jniclean"
