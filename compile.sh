@@ -55,7 +55,6 @@ fi
 
 HAVE_ARM=0
 HAVE_X86=0
-HAVE_MIPS=0
 HAVE_64=0
 
 # Set up ABI variables
@@ -73,7 +72,6 @@ elif [ ${ANDROID_ABI} = "x86_64" ] ; then
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
-    HAVE_MIPS=1
     PLATFORM_SHORT_ARCH="mips"
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
@@ -123,7 +121,6 @@ export TARGET_TUPLE
 export PATH_HOST
 export HAVE_ARM
 export HAVE_X86
-export HAVE_MIPS
 export HAVE_64
 export PLATFORM_SHORT_ARCH
 
@@ -261,7 +258,6 @@ echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >
 # CPU flags
 echo "export HAVE_ARM=${HAVE_ARM}" >> env.sh
 echo "export HAVE_X86=${HAVE_X86}" >> env.sh
-echo "export HAVE_MIPS=${HAVE_MIPS}" >> env.sh
 
 echo "export NO_ARMV6=${NO_ARMV6}" >> env.sh
 echo "export NO_FPU=${NO_FPU}" >> env.sh

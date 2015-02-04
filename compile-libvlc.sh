@@ -37,7 +37,6 @@ elif [ ${ANDROID_ABI} = "x86_64" ] ; then
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
-    HAVE_MIPS=1
     PLATFORM_SHORT_ARCH="mips"
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
