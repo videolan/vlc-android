@@ -46,7 +46,6 @@ if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
     FETCH=1
 fi
 
-HAVE_ARM=0
 HAVE_64=0
 
 # Set up ABI variables
@@ -66,13 +65,11 @@ elif [ ${ANDROID_ABI} = "mips" ] ; then
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
     PATH_HOST=$TARGET_TUPLE
-    HAVE_ARM=1
     HAVE_64=1
     PLATFORM_SHORT_ARCH="arm64"
 else
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
-    HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 fi
 
@@ -94,16 +91,13 @@ case "$REL" in
     ;;
 esac
 
-export GCCVER
-export ANDROID_API
+export GCCVER            # Android.mk
+export ANDROID_API       # Android.mk for -21
+
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
-
-
-export TARGET_TUPLE
-export PATH_HOST
-export HAVE_ARM
-export HAVE_64
-export SYSROOT
+export SYSROOT           # Makefile for android-libs
+export TARGET_TUPLE      # Makefile for android-libs
+export HAVE_64           # Makefile for libiomx.so.*
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
@@ -228,7 +222,6 @@ export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
-export PATH_HOST=$PATH_HOST
 export RELEASE=$RELEASE
 EssentialsA
 
@@ -236,7 +229,4 @@ EssentialsA
 echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >> env.sh
 
 # CPU flags
-echo "export HAVE_ARM=${HAVE_ARM}" >> env.sh
-
-echo "export NO_ARMV6=${NO_ARMV6}" >> env.sh
 echo "export HAVE_64=${HAVE_64}" >> env.sh
