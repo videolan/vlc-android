@@ -193,6 +193,9 @@ fi
 echo "CFLAGS:            ${CFLAGS}"
 echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
 
+
+ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
+export PATH=$ANDROID_BIN:$PATH
 ####################################################################################################
 
 cd vlc
@@ -299,7 +302,6 @@ mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
 # CONFIGURE #
 #############
 
-ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
 CPPFLAGS="$CPPFLAGS" \
