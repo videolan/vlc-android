@@ -304,6 +304,7 @@ mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
 
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
+if [ ! -e config.h ]; then
 CPPFLAGS="$CPPFLAGS" \
 CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS} ${EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
@@ -395,7 +396,7 @@ config_undef ()
     fi
 }
 
-# if config dependencies change, ./config.status
+# if config dependencies change, ./config.status
 # is run and overwrite previously hacked config.h. So call make config.h here
 # and hack config.h after.
 
@@ -413,6 +414,8 @@ if [ ${ANDROID_API} = "android-21" ] ; then
 fi
 # END OF ANDROID NDK FIXUP
 
+fi
+
 ############
 # BUILDING #
 ############
@@ -421,3 +424,7 @@ echo "Building"
 make $MAKEFLAGS
 
 cd ../..
+
+
+######################################################################################
+
