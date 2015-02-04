@@ -1,6 +1,9 @@
 #!/bin/sh
 
-RELEASE=0
+
+#############
+# ARGUMENTS #
+#############
 
 if [ -z "$ANDROID_NDK" ]; then
     echo "Please set the ANDROID_NDK environment variable with its path."
@@ -21,7 +24,7 @@ if [ -z "$SYSROOT" ]; then
     exit 1
 fi
 
-
+RELEASE=0
 for i in ${@}; do
     case "$i" in
         release|--release)
@@ -33,6 +36,10 @@ for i in ${@}; do
 done
 
 
+#########
+# FLAGS #
+#########
+# ARMv5 and ARMv6-nofpu are not really ABIs
 if [ ${ANDROID_ABI} == "armeabi-nofpu" ];then
     NO_FPU=0
     ANDROID_ABI="armeabi"
@@ -48,7 +55,6 @@ $ export ANDROID_ABI="armeabi-nofpu"
 For an ARMv5 device:
 $ export ANDROID_ABI="armeabi-v5"
 EOF
-
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
@@ -76,9 +82,9 @@ else
     HAVE_ARM=1
 fi
 
-######
-# DISPLAY
-######
+###############
+# DISPLAY ABI #
+###############
 
 echo "ABI:        $ANDROID_ABI"
 if [ ! -z "$NO_FPU" ]; then
@@ -118,14 +124,15 @@ if [ -z "$MAKEFLAGS" ]; then
     fi
 fi
 
-VLC_SOURCEDIR=..
-
+##########
+# CFLAGS #
+##########
 CFLAGS="-g -O2 -fstrict-aliasing -funsafe-math-optimizations"
 if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
     CFLAGS="${CFLAGS} -mlong-calls"
 fi
 
-# Setup CFLAGS
+# Setup CFLAGS per ABI
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
@@ -298,8 +305,8 @@ NM="${CROSS_COMPILE}nm" \
 STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
 AR="${CROSS_COMPILE}ar" \
-PKG_CONFIG_LIBDIR=$VLC_SOURCEDIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
-sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS \
+PKG_CONFIG_LIBDIR=../contrib/$TARGET_TUPLE/lib/pkgconfig \
+sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS \
                 --disable-nls \
                 --enable-live555 --enable-realrtsp \
                 --enable-avformat \
