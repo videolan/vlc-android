@@ -227,14 +227,6 @@ if [ -z "$MAKEFLAGS" ]; then
     fi
 fi
 
-# Build buildsystem tools
-export PATH=`pwd`/extras/tools/build/bin:$PATH
-echo "Building tools"
-cd extras/tools
-./bootstrap
-make $MAKEFLAGS
-cd ../..
-
 ############
 # Make VLC #
 ############

@@ -115,12 +115,21 @@ else
     OPTS="--enable-debug"
 fi
 
+###########################
+# Build buildsystem tools #
+###########################
+export PATH=`pwd`/extras/tools/build/bin:$PATH
+echo "Building tools"
+cd extras/tools
+./bootstrap
+make $MAKEFLAGS
+cd ../..
 
 #############
 # BOOTSTRAP #
 #############
 
-if [ ! -f config.h ]; then
+if [ ! -f configure ]; then
     echo "Bootstraping"
     ./bootstrap
 fi
