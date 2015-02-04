@@ -53,28 +53,6 @@ if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
     FETCH=1
 fi
 
-if [ `set -- ${ANDROID_ABI}; echo $#` -gt 1 ]; then
-    ANDROID_ABI_LIST="${ANDROID_ABI}"
-    echo "More than one ABI specified: ${ANDROID_ABI_LIST}"
-    for i in ${ANDROID_ABI_LIST}; do
-        echo "$i starts building"
-        ANDROID_NDK=$ANDROID_NDK ANDROID_SDK=$ANDROID_SDK \
-            NO_FPU=$NO_FPU NO_ARMV6=$NO_ARMV6 ANDROID_ABI=$i \
-            ./compile.sh $* --jni || { echo "$i build KO"; exit 1; }
-        mkdir -p obj/
-        cp -r libvlc/libs/$i obj
-        echo "$i build OK"
-    done
-    for i in ${ANDROID_ABI_LIST}; do
-        cp -r obj/$i libvlc/libs/
-        rm -rf obj/$i
-    done
-    if [ "$JNI" = 0 ];then
-      make -b -j1 RELEASE=$RELEASE apk || exit 1
-    fi
-    exit 0
-fi
-
 HAVE_ARM=0
 HAVE_X86=0
 HAVE_MIPS=0
