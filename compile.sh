@@ -178,44 +178,6 @@ then
     exit 0
 fi
 
-# Setup CFLAGS
-if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
-    EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
-elif [ ${ANDROID_ABI} = "armeabi" ] ; then
-    if [ -n "${NO_ARMV6}" ]; then
-        EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
-    else
-        if [ -n "${NO_FPU}" ]; then
-            EXTRA_CFLAGS="-march=armv6j -mtune=arm1136j-s -msoft-float"
-        else
-            EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
-        fi
-    fi
-elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
-    EXTRA_CFLAGS=""
-elif [ ${ANDROID_ABI} = "x86" ] ; then
-    EXTRA_CFLAGS="-march=pentium -m32"
-elif [ ${ANDROID_ABI} = "x86_64" ] ; then
-    EXTRA_CFLAGS=""
-elif [ ${ANDROID_ABI} = "mips" ] ; then
-    EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
-    # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
-    # instruction and emulate it, so we select -mhard-float.
-    # See http://www.linux-mips.org/wiki/Floating_point#The_Linux_kernel_and_floating_point
-else
-    echo "Unknown ABI. Die, die, die!"
-    exit 2
-fi
-
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
-
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/include"
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI}/include"
-
-# Setup LDFLAGS
-EXTRA_LDFLAGS="-L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++${CXXSTL}/libs/${ANDROID_ABI} -lgnustl_static"
-
 # Make in //
 if [ -z "$MAKEFLAGS" ]; then
     UNAMES=$(uname -s)
