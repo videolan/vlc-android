@@ -20,7 +20,10 @@
 package org.videolan.vlc.gui.tv;
 
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.interfaces.IVideoBrowser;
+import org.videolan.vlc.util.Strings;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,16 +33,25 @@ import android.support.v17.leanback.widget.Row;
 public class TvUtil {
 
 
-    public static void openMedia(Activity activity, MediaWrapper MediaWrapper, Row row){
-        if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO){
-            VideoPlayerActivity.start(activity, MediaWrapper.getLocation(), false);
-        } else if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO){
-            Intent intent = new Intent(activity,
-                    DetailsActivity.class);
-            // pass the item information
-            intent.putExtra("item", (Parcelable)new MediaItemDetails(MediaWrapper.getTitle(), MediaWrapper.getArtist(), MediaWrapper.getAlbum(), MediaWrapper.getLocation()));
-            activity.startActivity(intent);
-        } else if (MediaWrapper.getType() == MediaWrapper.TYPE_GROUP){
+    public static void openMedia(Activity activity, Object item , Row row){
+        if (item instanceof MediaWrapper) {
+            MediaWrapper mediaWrapper = (MediaWrapper) item;
+            if (mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
+                String title = mediaWrapper.getTitle();
+                VideoPlayerActivity.start(activity, mediaWrapper.getLocation(), Strings.getMediaTitle(mediaWrapper));
+            } else if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
+                Intent intent = new Intent(activity,
+                        DetailsActivity.class);
+                // pass the item information
+                intent.putExtra("item", (Parcelable) new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation()));
+                activity.startActivity(intent);
+            } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
+                Intent intent = new Intent(activity, VerticalGridActivity.class);
+                intent.putExtra("id", IVideoBrowser.HEADER_NETWORK);
+                intent.putExtra(NetworkFragment.KEY_MRL, mediaWrapper.getLocation());
+                activity.startActivity(intent);
+            }
+        } else if (item instanceof CardPresenter.SimpleCard){
             Intent intent = new Intent(activity, VerticalGridActivity.class);
             intent.putExtra("id", row.getId());
             activity.startActivity(intent);

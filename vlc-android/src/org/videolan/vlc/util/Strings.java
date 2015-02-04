@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.util;
 
+import org.videolan.vlc.MediaWrapper;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -120,5 +122,12 @@ public class Strings {
             return path.substring(index+1);
         else
         return path;
+    }
+
+    public static String getMediaTitle(MediaWrapper mediaWrapper){
+        String title = mediaWrapper.getTitle();
+        if (title == null)
+            title = getName(mediaWrapper.getLocation());
+        return title;
     }
 }
