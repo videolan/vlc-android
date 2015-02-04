@@ -132,6 +132,7 @@ if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
     CFLAGS="${CFLAGS} -mlong-calls"
 fi
 
+EXTRA_CFLAGS=""
 # Setup CFLAGS per ABI
 if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
@@ -146,12 +147,8 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
             EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
         fi
     fi
-elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
-    EXTRA_CFLAGS=""
 elif [ ${ANDROID_ABI} = "x86" ] ; then
     EXTRA_CFLAGS="-march=pentium -m32"
-elif [ ${ANDROID_ABI} = "x86_64" ] ; then
-    EXTRA_CFLAGS=""
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
@@ -162,14 +159,15 @@ else
     exit 2
 fi
 
-EXTRA_CFLAGS="${EXTRA_CFLAGS} -O2"
-
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include"
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 
-# Setup LDFLAGS
-EXTRA_LDFLAGS="-L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI} -lgnustl_static"
+CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 
+#################
+# Setup LDFLAGS #
+#################
+EXTRA_LDFLAGS="-L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI} -lgnustl_static"
 
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
 
@@ -180,7 +178,6 @@ if [ -n "$HAVE_ARM" ]; then
     fi
 fi
 
-CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}/include"
 LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI}"
 
 # Release or not?
@@ -192,7 +189,8 @@ else
 fi
 
 
-echo "CFLAGS:      ${EXTRA_CFLAGS}"
+echo "CFLAGS:            ${CFLAGS}"
+echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
 
 ###########################
 # Build buildsystem tools #
@@ -275,10 +273,14 @@ export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"                   # Makefile
 export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"                 # Makefile
 
 make fetch
-# We already have zlib available
+
+# We already have zlib available in the NDK
 [ -e .zlib ] || (mkdir -p zlib; touch .zlib)
+# gettext
 which autopoint >/dev/null || make $MAKEFLAGS .gettext
+#export the PATH
 export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
+# Make
 make $MAKEFLAGS
 
 cd ../../
