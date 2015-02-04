@@ -105,7 +105,7 @@ export GCCVER
 export ANDROID_API
 
 # XXX : important!
-[ "$HAVE_ARM" = 1 ] && cat << EOF
+[ ${ANDROID_ABI} = "armeabi" ] && cat << EOF
 For an ARMv6 device without FPU:
 $ export NO_FPU=1
 For an ARMv5 device:
