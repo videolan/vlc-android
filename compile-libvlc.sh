@@ -296,7 +296,8 @@ cd ../../
 ###################
 # BUILD DIRECTORY #
 ###################
-mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
+VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
+mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
 #############
 # CONFIGURE #
@@ -304,7 +305,7 @@ mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
 
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
-if [ ! -e config.h ]; then
+if [ ! -e ./config.h ]; then
 CPPFLAGS="$CPPFLAGS" \
 CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS} ${EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
