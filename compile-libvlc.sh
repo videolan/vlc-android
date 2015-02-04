@@ -1,5 +1,7 @@
 #!/bin/sh
 
+RELEASE=0
+
 if [ -z "$ANDROID_NDK" ]; then
     echo "Please set the ANDROID_NDK environment variable with its path."
     exit 1
@@ -14,6 +16,57 @@ fi
 if [ -z "$ANDROID_API" ];then
     echo "ANDROID_API not set, call ./compile.sh first"
     exit 1
+fi
+
+for i in ${@}; do
+    case "$i" in
+        release|--release)
+        RELEASE=1
+        ;;
+        *)
+        ;;
+    esac
+done
+
+# Set up ABI variables
+if [ ${ANDROID_ABI} = "x86" ] ; then
+    TARGET_TUPLE="i686-linux-android"
+    PATH_HOST="x86"
+    HAVE_X86=1
+    PLATFORM_SHORT_ARCH="x86"
+elif [ ${ANDROID_ABI} = "x86_64" ] ; then
+    TARGET_TUPLE="x86_64-linux-android"
+    PATH_HOST="x86_64"
+    HAVE_X86=1
+    HAVE_64=1
+    PLATFORM_SHORT_ARCH="x86_64"
+elif [ ${ANDROID_ABI} = "mips" ] ; then
+    TARGET_TUPLE="mipsel-linux-android"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_MIPS=1
+    PLATFORM_SHORT_ARCH="mips"
+elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
+    TARGET_TUPLE="aarch64-linux-android"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_ARM=1
+    HAVE_64=1
+    PLATFORM_SHORT_ARCH="arm64"
+else
+    TARGET_TUPLE="arm-linux-androideabi"
+    PATH_HOST=$TARGET_TUPLE
+    HAVE_ARM=1
+    PLATFORM_SHORT_ARCH="arm"
+fi
+
+# Make in //
+if [ -z "$MAKEFLAGS" ]; then
+    UNAMES=$(uname -s)
+    MAKEFLAGS=
+    if which nproc >/dev/null; then
+        MAKEFLAGS=-j`nproc`
+    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
+        MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
+    fi
 fi
 
 VLC_SOURCEDIR=..
@@ -39,8 +92,35 @@ SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
 CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
+# Release or not?
+if [ "$RELEASE" = 1 ]; then
+    OPTS=""
+    EXTRA_CFLAGS=" -DNDEBUG "
+else
+    OPTS="--enable-debug"
+fi
+
+
+#############
+# BOOTSTRAP #
+#############
+
+if [ ! -f config.h ]; then
+    echo "Bootstraping"
+    ./bootstrap
+fi
+
+###################
+# BUILD DIRECTORY #
+###################
+mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
+
+#############
+# CONFIGURE #
+#############
+
 CPPFLAGS="$CPPFLAGS" \
-CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS}" \
+CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS} ${EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
 LDFLAGS="$LDFLAGS" \
 CC="${CROSS_COMPILE}gcc --sysroot=${SYSROOT}" \
@@ -112,7 +192,7 @@ sh $VLC_SOURCEDIR/configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $E
                 --disable-faad \
                 --disable-x264 \
                 --disable-schroedinger --disable-dirac \
-                $*
+                $OPTS
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
 config_undef ()
@@ -147,4 +227,11 @@ if [ ${ANDROID_API} = "android-21" ] ; then
     config_undef HAVE_SYS_SHM_H
 fi
 # END OF ANDROID NDK FIXUP
+
+############
+# BUILDING #
+############
+
+echo "Building"
+make $MAKEFLAGS
 

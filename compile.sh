@@ -313,14 +313,6 @@ cd contrib/contrib-android-${TARGET_TUPLE}
 # We append -marm to the CFLAGS of these libs to disable thumb mode
 [ ${ANDROID_ABI} = "armeabi-v7a" ] && echo "NOTHUMB := -marm" >> config.mak
 
-# Release or not?
-if [ "$RELEASE" = 1 ]; then
-    OPTS=""
-    EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
-else
-    OPTS="--enable-debug"
-fi
-
 echo "EXTRA_CFLAGS= -g ${EXTRA_CFLAGS}" >> config.mak
 echo "EXTRA_LDFLAGS= ${EXTRA_LDFLAGS}" >> config.mak
 export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"
@@ -336,7 +328,15 @@ make $MAKEFLAGS
 ############
 # Make VLC #
 ############
-cd ../.. && mkdir -p build-android-${TARGET_TUPLE} && cd build-android-${TARGET_TUPLE}
+cd ../..
+echo "Configuring"
+${ANDROID_PATH}/compile-libvlc.sh $*
+
+####################################
+# VLC android UI and specific code
+####################################
+echo "Building VLC for Android"
+cd ../../
 
 if [ "$JNI" = 1 ]; then
     CLEAN="jniclean"
@@ -345,21 +345,6 @@ else
     CLEAN="distclean"
     TARGET=
 fi
-if [ ! -f config.h ]; then
-    echo "Bootstraping"
-    ../bootstrap
-    echo "Configuring"
-    ${ANDROID_PATH}/compile-libvlc.sh $OPTS
-fi
-
-echo "Building"
-make $MAKEFLAGS
-
-####################################
-# VLC android UI and specific code
-####################################
-echo "Building VLC for Android"
-cd ../../
 
 export ANDROID_SYS_HEADERS=${PWD}/android-headers
 
