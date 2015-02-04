@@ -349,7 +349,7 @@ if [ ! -f config.h ]; then
     echo "Bootstraping"
     ../bootstrap
     echo "Configuring"
-    ${ANDROID_PATH}/configure.sh $OPTS
+    ${ANDROID_PATH}/compile-libvlc.sh $OPTS
 fi
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
