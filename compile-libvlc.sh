@@ -26,12 +26,10 @@ done
 if [ ${ANDROID_ABI} = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
-    HAVE_X86=1
     PLATFORM_SHORT_ARCH="x86"
 elif [ ${ANDROID_ABI} = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
     PATH_HOST="x86_64"
-    HAVE_X86=1
     HAVE_64=1
     PLATFORM_SHORT_ARCH="x86_64"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
