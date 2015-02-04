@@ -63,10 +63,9 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         super.onResume();
         if (mAdapter.size() == 0) {
             if (mAdapter.size() == 0) {
-                if (mMediaBrowser == null)
-                    try {
-                        mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
-                    } catch (LibVlcException e) {}
+                try {
+                    mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
+                } catch (LibVlcException e) {}
                 if (mMediaBrowser != null) {
                     mMediaList = new ArrayList<>();
                     if (mMrl != null)
@@ -81,6 +80,10 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         }
     }
 
+    public void onPause(){
+        super.onPause();
+        mMediaBrowser.release();
+    }
     @Override
     public void onMediaAdded(int index, Media media) {
         mMediaList.add(new MediaWrapper(media));

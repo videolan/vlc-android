@@ -98,12 +98,12 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     public void onStop(){
         super.onStop();
+        mMediaBrowser.release();
         savedPosition = mRecyclerView.getScrollY();
     }
     public void onStart(){
         super.onStart();
-        if (mMediaBrowser == null)
-            mMediaBrowser = new MediaBrowser(mLibVLC, this);
+        mMediaBrowser = new MediaBrowser(mLibVLC, this);
         if (mAdapter.isEmpty()) {
             refresh();
         } else {
