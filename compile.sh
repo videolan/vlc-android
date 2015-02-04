@@ -13,15 +13,8 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-   echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, arm64-v8a, x86, x86_64 or mips."
+   echo "Please set ANDROID_ABI to your architecture."
    exit 1
-fi
-
-if [ -z "$NO_FPU" ];then
-    NO_FPU=0
-fi
-if [ -z "$NO_ARMV6" ];then
-    NO_ARMV6=0
 fi
 
 BUILD=0
@@ -105,16 +98,6 @@ export GCCVER
 export ANDROID_API
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 
-
-# XXX : important!
-[ ${ANDROID_ABI} = "armeabi" ] && cat << EOF
-For an ARMv6 device without FPU:
-$ export NO_FPU=1
-For an ARMv5 device:
-$ export NO_ARMV6=1
-
-If you plan to use a release build, run 'compile.sh release'
-EOF
 
 export TARGET_TUPLE
 export PATH_HOST
@@ -256,5 +239,4 @@ echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >
 echo "export HAVE_ARM=${HAVE_ARM}" >> env.sh
 
 echo "export NO_ARMV6=${NO_ARMV6}" >> env.sh
-echo "export NO_FPU=${NO_FPU}" >> env.sh
 echo "export HAVE_64=${HAVE_64}" >> env.sh

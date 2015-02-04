@@ -8,7 +8,11 @@ if [ -z "$ANDROID_NDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-    echo "Please set ANDROID_ABI to your architecture: armeabi-v7a, armeabi, arm64-v8a, x86, x86_64 or mips."
+    echo "Please set ANDROID_ABI to your architecture:
+    ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu
+    ARM64:   arm64-v8a
+    X86:     x86, x86_64
+    MIPS:    mips, mips64."
     exit 1
 fi
 
@@ -27,6 +31,24 @@ for i in ${@}; do
         ;;
     esac
 done
+
+
+if [ ${ANDROID_ABI} == "armeabi-nofpu" ];then
+    NO_FPU=0
+    ANDROID_ABI="armeabi"
+fi
+if [ ${ANDROID_ABI} == "armeabi-v5" ];then
+    NO_ARMV6=0
+    NO_FPU=0
+    ANDROID_ABI="armeabi"
+fi
+[ ${ANDROID_ABI} = "armeabi" ] && cat << EOF
+For an ARMv6 device without FPU:
+$ export ANDROID_ABI="armeabi-nofpu"
+For an ARMv5 device:
+$ export ANDROID_ABI="armeabi-v5"
+EOF
+
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
@@ -54,6 +76,19 @@ else
     HAVE_ARM=1
 fi
 
+######
+# DISPLAY
+######
+
+echo "ABI:        $ANDROID_ABI"
+if [ ! -z "$NO_FPU" ]; then
+echo "FPU:        NO"
+fi
+if [ ! -z "$NO_ARMV6" ]; then
+echo "ARMv5:       YES"
+fi
+
+exit 1
 
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
