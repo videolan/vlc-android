@@ -24,6 +24,7 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
@@ -42,13 +43,6 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     private MediaBrowser mMediaBrowser;
     public String mMrl;
     ArrayList<MediaWrapper> mMediaList = null;
-
-    private View.OnClickListener mSearchClickedListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            toggleFavorite(mMrl);
-        }
-    };
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +69,6 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
                 }
             }
             setOnItemViewClickedListener(mClickListener);
-            if (mMrl != null)
-                setOnSearchClickedListener(mSearchClickedListener);
         }
     }
 
@@ -123,11 +115,21 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         mAdapter.notifyArrayItemRangeChanged(0, mMediaList.size());
     }
 
+    public void toggleFavorite() {
+        if (mMrl != null)
+            toggleFavorite(mMrl);
+    }
+
     public void toggleFavorite(String mrl) {
         MediaDatabase db = MediaDatabase.getInstance();
-        if (db.networkFavExists(mrl))
+        String text;
+        if (db.networkFavExists(mrl)) {
             db.deleteNetworkFav(mrl);
-        else
+            text = "Removed from favorites";
+        } else {
             db.addNetworkFavItem(mrl);
+            text = "Saved to favorites";
+        }
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 }

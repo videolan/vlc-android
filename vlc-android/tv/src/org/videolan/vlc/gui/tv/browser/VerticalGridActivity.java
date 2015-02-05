@@ -19,16 +19,16 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.network.NetworkFragment;
-import org.videolan.vlc.gui.tv.MainTvActivity;
-
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.KeyEvent;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.tv.MainTvActivity;
 
 public class VerticalGridActivity extends Activity {
 
+    GridFragment mFragment;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -36,19 +36,26 @@ public class VerticalGridActivity extends Activity {
         setContentView(R.layout.tv_vertical_grid);
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
-        GridFragment fragment;
         if (type == MainTvActivity.HEADER_VIDEO)
-                fragment = new VideoGridFragment();
+                mFragment = new VideoGridFragment();
         else if (type == MainTvActivity.HEADER_CATEGORIES)
-                fragment = new MusicFragment();
+                mFragment = new MusicFragment();
         else if (type == MainTvActivity.HEADER_NETWORK)
-                fragment = new BrowserGridFragment();
+                mFragment = new BrowserGridFragment();
         else {
             finish();
             return;
         }
         getFragmentManager().beginTransaction()
-                .add(R.id.tv_fragment_placeholder, fragment)
+                .add(R.id.tv_fragment_placeholder, mFragment)
                 .commit();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (mFragment instanceof BrowserGridFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y)) {
+            ((BrowserGridFragment)mFragment).toggleFavorite();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
