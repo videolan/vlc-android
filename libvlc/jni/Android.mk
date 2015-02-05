@@ -61,7 +61,7 @@ endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
 endif
-ifneq (,$(wildcard $(LOCAL_PATH)/../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c))
+ifneq (,$(wildcard $(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c))
 	LOCAL_CFLAGS += -DHAVE_IOMX_DR
 endif
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
@@ -155,7 +155,7 @@ endif
 define build_iomx
 include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)
-LOCAL_SRC_FILES  := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
+LOCAL_SRC_FILES  := $(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
 LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
 LOCAL_CFLAGS     := -Wno-psabi -DAPP_PLATFORM=$(2)
@@ -171,7 +171,7 @@ $(foreach IOMX_MODULE, $(LIBIOMX_LIBS), \
 #######
 # ANW #
 #######
-LIBANW_SRC_FILES_COMMON += ../$(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
+LIBANW_SRC_FILES_COMMON += $(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
 # Once we always build this with a version of vlc that contains nativewindowpriv.c,
 # we can remove this condition
 ifneq (,$(wildcard $(LOCAL_PATH)/$(LIBANW_SRC_FILES_COMMON)))
