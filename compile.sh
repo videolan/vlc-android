@@ -79,10 +79,8 @@ case "$REL" in
     10*)
         if [ "${HAVE_64}" = 1 ];then
             GCCVER=4.9
-            ANDROID_API=android-21
         else
             GCCVER=4.8
-            ANDROID_API=android-9
         fi
     ;;
     *)
@@ -90,8 +88,6 @@ case "$REL" in
         exit 1
     ;;
 esac
-
-export ANDROID_API       # Android.mk for -21
 
 export TARGET_TUPLE      # Makefile for android-libs
 export HAVE_64           # Makefile for libiomx.so.*
@@ -196,7 +192,6 @@ cat <<EssentialsA >> env.sh
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
-export ANDROID_API=$ANDROID_API
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
 export RELEASE=$RELEASE

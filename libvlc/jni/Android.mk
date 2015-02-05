@@ -10,7 +10,7 @@ LOCAL_SRC_FILES += libvlcjni-vlcobject.c
 LOCAL_SRC_FILES += java_event_thread.c
 LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c
 LOCAL_SRC_FILES += aout.c vout.c native_crash_handler.c thumbnailer.c
-ifneq ($(ANDROID_API),android-21)
+ifneq ($(APP_PLATFORM),android-21)
 # compat functions not needed after android-21
 LOCAL_SRC_FILES += compat/pthread-condattr.c compat/pthread-rwlocks.c
 LOCAL_SRC_FILES += compat/pthread-once.c compat/eventfd.c compat/sem.c compat/pipe2.c
@@ -158,7 +158,7 @@ LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := ../$(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
 LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
-LOCAL_CFLAGS     := -Wno-psabi -DANDROID_API=$(2)
+LOCAL_CFLAGS     := -Wno-psabi -DAPP_PLATFORM=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
@@ -182,7 +182,7 @@ LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(LIBANW_SRC_FILES_COMMON)
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
 LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR) -llog -lhardware
-LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=$(2)
+LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DAPP_PLATFORM=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
