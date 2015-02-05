@@ -89,8 +89,8 @@ JavaEventThread_thread(void *data)
 
         pthread_mutex_lock(&p_java_event_thread->lock);
 
-        free(event_elm);
         TAILQ_REMOVE(&p_java_event_thread->queue, event_elm, next);
+        free(event_elm);
         pthread_cond_signal(&p_java_event_thread->cond);
     }
 end:
