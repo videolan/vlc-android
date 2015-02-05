@@ -163,7 +163,6 @@ else
     TARGET=
 fi
 
-export ANDROID_SYS_HEADERS=${PWD}/android-headers           # Android.mk
 export ANDROID_LIBS=${PWD}/android-libs                     # Android.mk
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}      # Android.mk
 
@@ -199,7 +198,6 @@ export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
 export ANDROID_API=$ANDROID_API
-export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
