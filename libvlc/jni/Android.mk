@@ -49,7 +49,7 @@ LOCAL_SRC_FILES += compat/wchar/wmemset.c
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
-ARCH=$(ANDROID_ABI)
+ARCH=$(APP_ABI)
 
 LOCAL_CFLAGS := -std=gnu99
 ifeq ($(ARCH), armeabi)
