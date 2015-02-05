@@ -12,6 +12,25 @@ checkfail()
     fi
 }
 
+RELEASE=0
+while [ $# -gt 0 ]; do
+    case $1 in
+        help|--help)
+            echo "Use -a to set the ARCH"
+            echo "Use --release to build in release mode"
+            exit 1
+            ;;
+        a|-a)
+            ANDROID_ABI=$2
+            shift
+            ;;
+        release|--release)
+            RELEASE=1
+            ;;
+    esac
+    shift
+done
+
 #############
 # ARGUMENTS #
 #############
@@ -21,25 +40,14 @@ if [ -z "$ANDROID_NDK" ]; then
 fi
 
 if [ -z "$ANDROID_ABI" ]; then
-    echo "Please set ANDROID_ABI to your architecture:
+    echo "Please pass the ANDROID ABI to the correct architecture, using
+                compile-libvlc.sh -a ARCH
     ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu
     ARM64:   arm64-v8a
     X86:     x86, x86_64
     MIPS:    mips, mips64."
     exit 1
 fi
-
-RELEASE=0
-for i in ${@}; do
-    case "$i" in
-        release|--release)
-        RELEASE=1
-        ;;
-        *)
-        ;;
-    esac
-done
-
 
 #########
 # FLAGS #
