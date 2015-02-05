@@ -258,7 +258,8 @@ gen_pc_file EGL 1.1
 gen_pc_file GLESv2 2
 
 cd contrib/contrib-android-${TARGET_TUPLE}
-../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
+
+ANDROID_API=${ANDROID_API} ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
     --enable-dvdread \
     --enable-dvdnav \
     --disable-dca \
