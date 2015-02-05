@@ -2,9 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.videolan.vlc"
     android:installLocation="auto"
-    android:versionCode="11000"
+    android:versionCode="001010000"
     android:versionName="1.1.0-git" >
-
+    <!--
+         versionCode scheme is T MM NN RR AA
+         T: Target/Flavour (0 for Android, 1 for ATV, 2 for Chrome?)
+         MM: Major version from 00 to 99
+         NN: Minor version from 00 to 99
+         RR: Micro/Revision version from 00 to 99
+         AA: ABI from 0 to 99
+         0 is dev
+         1 is ARMv5
+         2 is ARMv6-nofpu
+         3 is ARMv6-fpu
+         4 is ARMv7-A
+         5 is x86
+         6 is MIPS
+         7 is ARMv8
+         8 is x86_64
+         9 is MIPS64
+    -->
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="21" />
