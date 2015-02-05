@@ -2,7 +2,7 @@
 /vlc/
 
 # Android .so
-/android-libs/*.so
+/android-libs/**/*.so
 
 # Local configuration
 local.properties
@@ -31,6 +31,8 @@ java-libs/appcompat/.project
 #gradle
 gradle.properties
 gradlew.bat
+gradlew
+gradle/wrapper/
 .gradle/
 build/
 vlc-android/build/
