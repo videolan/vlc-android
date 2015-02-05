@@ -34,6 +34,24 @@ if [ -z "$ANDROID_ABI" ]; then
    ANDROID_ABI="armeabi-v7a"
 fi
 
+##########
+# GRADLE #
+##########
+if [ ! -d "gradle/wrapper" ]; then
+    GRADLE_VERSION=2.2.1
+    GRADLE_URL=http://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
+    wget ${GRADLE_URL}
+    unzip gradle-${GRADLE_VERSION}-all.zip
+    cd gradle-${GRADLE_VERSION}
+    ./bin/gradle wrapper
+    ./gradlew -version
+    cd ..
+    mkdir -p gradle
+    mv gradle-${GRADLE_VERSION}/gradle/wrapper/ gradle
+    mv gradle-${GRADLE_VERSION}/gradlew .
+    rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
+fi
+
 # Fetch VLC source
 # 1/ libvlc, libvlccore and its plugins
 TESTED_HASH=18e445a
