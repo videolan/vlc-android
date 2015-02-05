@@ -50,22 +50,17 @@ HAVE_64=0
 
 # Set up ABI variables
 if [ ${ANDROID_ABI} = "x86" ] ; then
-    TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
 elif [ ${ANDROID_ABI} = "x86_64" ] ; then
-    TARGET_TUPLE="x86_64-linux-android"
     PATH_HOST="x86_64"
     HAVE_64=1
 elif [ ${ANDROID_ABI} = "mips" ] ; then
-    TARGET_TUPLE="mipsel-linux-android"
-    PATH_HOST=$TARGET_TUPLE
+    PATH_HOST="mipsel-linux-android"
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
-    TARGET_TUPLE="aarch64-linux-android"
-    PATH_HOST=$TARGET_TUPLE
+    PATH_HOST="aarch64-linux-android"
     HAVE_64=1
 else
-    TARGET_TUPLE="arm-linux-androideabi"
-    PATH_HOST=$TARGET_TUPLE
+    PATH_HOST="arm-linux-androideabi"
 fi
 
 # try to detect NDK version
@@ -84,7 +79,6 @@ case "$REL" in
     ;;
 esac
 
-export TARGET_TUPLE      # Makefile for android-libs
 export HAVE_64           # Makefile for libiomx.so.*
 
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
@@ -154,7 +148,7 @@ else
     TARGET=
 fi
 
-make -j1 TARGET_TUPLE=$TARGET_TUPLE RELEASE=$RELEASE $TARGET
+make -j1 RELEASE=$RELEASE $TARGET
 
 #
 # Exporting a environment script with all the necessary variables
@@ -185,7 +179,6 @@ cat <<EssentialsA >> env.sh
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
-export TARGET_TUPLE=$TARGET_TUPLE
 export RELEASE=$RELEASE
 EssentialsA
 
