@@ -30,11 +30,6 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
-if [ -z "$SYSROOT" ]; then
-    echo "Please set the right SYSROOT"
-    exit 1
-fi
-
 RELEASE=0
 for i in ${@}; do
     case "$i" in
@@ -92,6 +87,8 @@ else
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
 fi
+
+SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 
 ###############
 # DISPLAY ABI #
@@ -491,4 +488,5 @@ $ANDROID_NDK/ndk-build -C libvlc \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
+    SYSROOT=${SYSROOT} \
     NDK_PROJECT_PATH=jni
