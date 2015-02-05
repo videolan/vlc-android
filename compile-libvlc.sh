@@ -15,7 +15,6 @@ checkfail()
 #############
 # ARGUMENTS #
 #############
-
 if [ -z "$ANDROID_NDK" ]; then
     echo "Please set the ANDROID_NDK environment variable with its path."
     exit 1
@@ -114,6 +113,11 @@ esac
 
 SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
 SRC_DIR=$PWD
+# Add the NDK toolchain to the PATH, needed both for contribs and for building
+# stub libraries
+NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
+export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
+
 
 ###############
 # DISPLAY ABI #
@@ -128,7 +132,7 @@ fi
 if [ ! -z "$ARMV5" ]; then
 echo "ARMv5:       YES"
 fi
-
+echo "PATH:       $PATH"
 
 # Make in //
 if [ -z "$MAKEFLAGS" ]; then
