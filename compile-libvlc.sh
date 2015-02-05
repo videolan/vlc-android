@@ -88,22 +88,6 @@ else
     HAVE_ARM=1
 fi
 
-SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
-SRC_DIR=$PWD
-
-###############
-# DISPLAY ABI #
-###############
-
-echo "ABI:        $ANDROID_ABI"
-echo "SYSROOT:    $SYSROOT"
-if [ ! -z "$NO_FPU" ]; then
-echo "FPU:        NO"
-fi
-if [ ! -z "$ARMV5" ]; then
-echo "ARMv5:       YES"
-fi
-
 # try to detect NDK version
 REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
 case "$REL" in
@@ -121,6 +105,23 @@ case "$REL" in
         exit 1
     ;;
 esac
+
+SYSROOT=$ANDROID_NDK/platforms/$ANDROID_API/arch-$PLATFORM_SHORT_ARCH
+SRC_DIR=$PWD
+
+###############
+# DISPLAY ABI #
+###############
+
+echo "ABI:        $ANDROID_ABI"
+echo "API:        $ANDROID_API"
+echo "SYSROOT:    $SYSROOT"
+if [ ! -z "$NO_FPU" ]; then
+echo "FPU:        NO"
+fi
+if [ ! -z "$ARMV5" ]; then
+echo "ARMv5:       YES"
+fi
 
 
 # Make in //
