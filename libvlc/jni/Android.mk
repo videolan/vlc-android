@@ -179,9 +179,6 @@ $(foreach IOMX_MODULE, $(LIBIOMX_LIBS), \
 # ANW #
 #######
 LIBANW_SRC_FILES_COMMON += $(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c
-# Once we always build this with a version of vlc that contains nativewindowpriv.c,
-# we can remove this condition
-ifneq (,$(wildcard $(LOCAL_PATH)/$(LIBANW_SRC_FILES_COMMON)))
 
 define build_anw
 include $(CLEAR_VARS)
@@ -198,4 +195,3 @@ LIBANW_LIBS += libanw.10 libanw.13 libanw.14 libanw.18 libanw.21
 
 $(foreach ANW_MODULE,$(LIBANW_LIBS), \
     $(eval $(call build_anw,$(ANW_MODULE),$(subst libanw.,,$(ANW_MODULE)))))
-endif
