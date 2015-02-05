@@ -155,10 +155,10 @@ fi
 
 EXTRA_CFLAGS=""
 # Setup CFLAGS per ABI
-if [ ${ANDROID_ABI} = "armeabi-v7a" ] ; then
+if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="-mfpu=vfpv3-d16 -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
-elif [ ${ANDROID_ABI} = "armeabi" ] ; then
+elif [ "${ANDROID_ABI}" = "armeabi" ] ; then
     if [ -n "${ARMV5}" ]; then
         EXTRA_CFLAGS="-march=armv5te -mtune=arm9tdmi -msoft-float"
     else
@@ -168,9 +168,9 @@ elif [ ${ANDROID_ABI} = "armeabi" ] ; then
             EXTRA_CFLAGS="-mfpu=vfp -mcpu=arm1136jf-s -mfloat-abi=softfp"
         fi
     fi
-elif [ ${ANDROID_ABI} = "x86" ] ; then
+elif [ "${ANDROID_ABI}" = "x86" ] ; then
     EXTRA_CFLAGS="-march=pentium -m32"
-elif [ ${ANDROID_ABI} = "mips" ] ; then
+elif [ "${ANDROID_ABI}" = "mips" ] ; then
     EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
     # instruction and emulate it, so we select -mhard-float.
