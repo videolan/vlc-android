@@ -15,11 +15,11 @@ task buildDebug(type:Exec) {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
         environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+        environment 'ANDROID_ABI', properties.getProperty('abi')
     }
     workingDir '..'
-    commandLine './compile.sh'
-    args('jni')
+    commandLine './compile-libvlc.sh'
+//    args('jni')
 }
 
 task buildRelease(type:Exec) {
@@ -28,12 +28,12 @@ task buildRelease(type:Exec) {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
         environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', 'armeabi-v7a x86'
+        environment 'ANDROID_ABI', properties.getProperty('abi')
     }
 
     workingDir '..'
-    commandLine './compile.sh'
-    args('jni', 'release')
+    commandLine './compile-libvlc.sh'
+//    args('jni', 'release')
 }
 
 android {
