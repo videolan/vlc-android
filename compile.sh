@@ -79,8 +79,6 @@ case "$REL" in
     ;;
 esac
 
-export HAVE_64           # Makefile for libiomx.so.*
-
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
 NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
@@ -184,6 +182,3 @@ EssentialsA
 
 # PATH
 echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >> env.sh
-
-# CPU flags
-echo "export HAVE_64=${HAVE_64}" >> env.sh

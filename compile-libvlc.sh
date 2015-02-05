@@ -499,4 +499,5 @@ $ANDROID_NDK/ndk-build -C libvlc \
     APP_ABI=${ANDROID_ABI} \
     SYSROOT=${SYSROOT} \
     TARGET_TUPLE=$TARGET_TUPLE \
+    HAVE_64=${HAVE_64} \
     NDK_PROJECT_PATH=jni V=1
