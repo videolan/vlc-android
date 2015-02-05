@@ -170,7 +170,6 @@ export ANDROID_SYS_HEADERS=${PWD}/android-headers           # Android.mk
 export ANDROID_LIBS=${PWD}/android-libs                     # Android.mk
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}      # Android.mk
 
-make $CLEAN
 make -j1 TARGET_TUPLE=$TARGET_TUPLE SYSROOT=$SYSROOT GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
 
 #
