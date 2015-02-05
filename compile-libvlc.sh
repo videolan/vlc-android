@@ -1,5 +1,16 @@
 #!/bin/sh
 
+#############
+# FUNCTIONS #
+#############
+
+checkfail()
+{
+    if [ ! $? -eq 0 ];then
+        echo "$1"
+        exit 1
+    fi
+}
 
 #############
 # ARGUMENTS #
@@ -207,7 +218,9 @@ export PATH=`pwd`/extras/tools/build/bin:$PATH
 echo "Building tools"
 cd extras/tools
 ./bootstrap
+checkfail "buildsystem tools: bootstrap failed"
 make $MAKEFLAGS
+checkfail "buildsystem tools: make"
 cd ../..
 
 #############
@@ -217,6 +230,7 @@ cd ../..
 if [ ! -f configure ]; then
     echo "Bootstraping"
     ./bootstrap
+    checkfail "vlc: bootstrap failed"
 fi
 
 ############
@@ -268,6 +282,7 @@ cd contrib/contrib-android-${TARGET_TUPLE}
     --disable-aribb25 \
     --disable-mpg123 \
     --enable-libdsm
+checkfail "contribs: bootstrap failed"
 
 # TODO: mpeg2, theora
 
@@ -281,6 +296,7 @@ export VLC_EXTRA_CFLAGS="${EXTRA_CFLAGS}"                   # Makefile
 export VLC_EXTRA_LDFLAGS="${EXTRA_LDFLAGS}"                 # Makefile
 
 make fetch
+checkfail "contribs: make fetch failed"
 
 # We already have zlib available in the NDK
 [ -e .zlib ] || (mkdir -p zlib; touch .zlib)
@@ -290,6 +306,7 @@ which autopoint >/dev/null || make $MAKEFLAGS .gettext
 export PATH="$PATH:$PWD/../$TARGET_TUPLE/bin"
 # Make
 make $MAKEFLAGS
+checkfail "contribs: make failed"
 
 cd ../../
 
@@ -380,6 +397,7 @@ sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS 
                 --disable-x264 \
                 --disable-schroedinger --disable-dirac \
                 $OPTS
+checkfail "vlc: configure failed"
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
 config_undef ()
@@ -402,6 +420,7 @@ config_undef ()
 # and hack config.h after.
 
 make $MAKEFLAGS config.h
+checkfail "vlc: make config.h failed"
 
 if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
     # NDK x86 libm.so has nanf symbol but no nanf definition, we don't known if
@@ -423,6 +442,7 @@ fi
 
 echo "Building"
 make $MAKEFLAGS
+checkfail "vlc: make failed"
 
 cd ../..
 
