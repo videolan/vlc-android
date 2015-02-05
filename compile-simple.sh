@@ -52,8 +52,22 @@ if [ ! -d "gradle/wrapper" ]; then
     rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
 fi
 
-# Fetch VLC source
-# 1/ libvlc, libvlccore and its plugins
+####################
+# Configure gradle #
+####################
+if [ ! -f gradle.properties ]; then
+    echo keyStoreFile=$HOME/.android/debug.keystore > gradle.properties
+    echo storealias=androiddebugkey >> gradle.properties
+    echo storepwd=android >> gradle.properties
+fi
+if [ ! -f local.properties ]; then
+    echo sdk.dir=$ANDROID_SDK > local.properties
+    echo ndk.dir=$ANDROID_NDK >> local.properties
+fi
+
+####################
+# Fetch VLC source #
+####################
 TESTED_HASH=18e445a
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
@@ -82,3 +96,8 @@ if [ "$RELEASE" = 1 ]; then
 fi
 
 ./compile-libvlc.sh $OPTS
+
+##################
+# Compile the UI #
+##################
+./gradlew tasks
