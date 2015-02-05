@@ -159,8 +159,6 @@ else
     TARGET=
 fi
 
-export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}      # Android.mk
-
 make -j1 TARGET_TUPLE=$TARGET_TUPLE RELEASE=$RELEASE $TARGET
 
 #
@@ -192,7 +190,6 @@ cat <<EssentialsA >> env.sh
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
-export VLC_BUILD_DIR=$VLC_BUILD_DIR
 export TARGET_TUPLE=$TARGET_TUPLE
 export RELEASE=$RELEASE
 EssentialsA
