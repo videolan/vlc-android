@@ -52,25 +52,20 @@ HAVE_64=0
 if [ ${ANDROID_ABI} = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
-    PLATFORM_SHORT_ARCH="x86"
 elif [ ${ANDROID_ABI} = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
     PATH_HOST="x86_64"
     HAVE_64=1
-    PLATFORM_SHORT_ARCH="x86_64"
 elif [ ${ANDROID_ABI} = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
-    PLATFORM_SHORT_ARCH="mips"
 elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
     PATH_HOST=$TARGET_TUPLE
     HAVE_64=1
-    PLATFORM_SHORT_ARCH="arm64"
 else
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
-    PLATFORM_SHORT_ARCH="arm"
 fi
 
 # try to detect NDK version
