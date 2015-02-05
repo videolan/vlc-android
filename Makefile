@@ -12,23 +12,6 @@ JAVA_SOURCES+=$(shell find $(APP_SRC)/res -name "*.xml" -o -name "*.png")
 JNI_SOURCES=$(SRC)/jni/*.c $(SRC)/jni/*.h
 LIBVLC_LIBS = libvlcjni
 
-ifneq ($(HAVE_64),1)
-# Can't link with 32bits symbols.
-# Not a problem since MediaCodec should work on 64bits devices (android-21)
-LIBVLC_LIBS += libiomx.14 libiomx.13 libiomx.10
-endif
-
-# The following iomx libs are used for DEBUG only.
-# (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
-#LIBVLC_LIBS += libiomx.19 libiomx.18
-
-LIBVLC_LIBS += libanw.10 libanw.13 libanw.14 libanw.18 libanw.21
-
-LIBVLCJNI= $(addprefix $(SRC)/obj/local/$(ARCH)/,$(addsuffix .so,$(LIBVLC_LIBS)))
-
-PRIVATE_LIBDIR=android-libs
-PRIVATE_LIBS=$(PRIVATE_LIBDIR)/libstagefright.so $(PRIVATE_LIBDIR)/libmedia.so $(PRIVATE_LIBDIR)/libutils.so $(PRIVATE_LIBDIR)/libcutils.so $(PRIVATE_LIBDIR)/libbinder.so $(PRIVATE_LIBDIR)/libui.so $(PRIVATE_LIBDIR)/libhardware.so
-
 ANT_OPTS += -v
 VERBOSE =
 GEN =
@@ -56,13 +39,6 @@ endef
 
 $(VLC_APK): $(LIBVLCJNI) $(JAVA_SOURCES)
 	$(call build_apk)
-
-$(PRIVATE_LIBDIR)/%.so: $(PRIVATE_LIBDIR)/%.c
-	$(GEN)$(TARGET_TUPLE)-gcc $< -shared -o $@ --sysroot=$(SYSROOT)
-
-$(PRIVATE_LIBDIR)/%.c: $(PRIVATE_LIBDIR)/%.symbols
-	$(VERBOSE)rm -f $@
-	$(GEN)for s in `cat $<`; do echo "void $$s() {}" >> $@; done
 
 apk:
 	$(call build_apk)
