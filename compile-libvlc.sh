@@ -46,16 +46,16 @@ done
 # FLAGS #
 #########
 # ARMv5 and ARMv6-nofpu are not really ABIs
-if [ ${ANDROID_ABI} == "armeabi-nofpu" ];then
+if [ "${ANDROID_ABI}" = "armeabi-nofpu" ];then
     NO_FPU=0
     ANDROID_ABI="armeabi"
 fi
-if [ ${ANDROID_ABI} == "armeabi-v5" ];then
+if [ "${ANDROID_ABI}" = "armeabi-v5" ];then
     ARMV5=1
     NO_FPU=0
     ANDROID_ABI="armeabi"
 fi
-[ ${ANDROID_ABI} = "armeabi" ] && cat << EOF
+[ "${ANDROID_ABI}" = "armeabi" ] && cat << EOF
 For an ARMv6 device without FPU:
 $ export ANDROID_ABI="armeabi-nofpu"
 For an ARMv5 device:
@@ -63,25 +63,25 @@ $ export ANDROID_ABI="armeabi-v5"
 EOF
 
 # Set up ABI variables
-if [ ${ANDROID_ABI} = "x86" ] ; then
+if [ "${ANDROID_ABI}" = "x86" ] ; then
     TARGET_TUPLE="i686-linux-android"
     PATH_HOST="x86"
     PLATFORM_SHORT_ARCH="x86"
-elif [ ${ANDROID_ABI} = "x86_64" ] ; then
+elif [ "${ANDROID_ABI}" = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
     PATH_HOST="x86_64"
     PLATFORM_SHORT_ARCH="x86_64"
     HAVE_64=1
-elif [ ${ANDROID_ABI} = "mips" ] ; then
+elif [ "${ANDROID_ABI}" = "mips" ] ; then
     TARGET_TUPLE="mipsel-linux-android"
     PATH_HOST=$TARGET_TUPLE
     PLATFORM_SHORT_ARCH="mips"
-elif [ ${ANDROID_ABI} = "mips64" ] ; then
+elif [ "${ANDROID_ABI}" = "mips64" ] ; then
     TARGET_TUPLE="mips64el-linux-android"
     PATH_HOST=$TARGET_TUPLE
     PLATFORM_SHORT_ARCH="mips64"
     HAVE_64=1
-elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
+elif [ "${ANDROID_ABI}" = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
