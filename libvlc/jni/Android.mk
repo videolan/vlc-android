@@ -90,13 +90,20 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 # PRIVATE LIBS #
 ################
 
-ANDROID_PRIVATE_LIBS=$(ANDROID_PRIVATE_LIBDIR)/libstagefright.so $(ANDROID_PRIVATE_LIBDIR)/libmedia.so $(ANDROID_PRIVATE_LIBDIR)/libutils.so $(ANDROID_PRIVATE_LIBDIR)/libcutils.so $(ANDROID_PRIVATE_LIBDIR)/libbinder.so $(ANDROID_PRIVATE_LIBDIR)/libui.so $(ANDROID_PRIVATE_LIBDIR)/libhardware.so
+ANDROID_PRIVATE_LIBS=$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libstagefright.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libmedia.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libutils.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libcutils.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libbinder.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libui.so \
+					 $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/libhardware.so
 
-$(ANDROID_PRIVATE_LIBDIR)/%.so: $(ANDROID_PRIVATE_LIBDIR)/%.c
+$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/%.so: $(ANDROID_PRIVATE_LIBDIR)/%.c
+	mkdir -p $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)
 	$(GEN)$(TARGET_TUPLE)-gcc $< -shared -o $@ --sysroot=$(SYSROOT)
 
 $(ANDROID_PRIVATE_LIBDIR)/%.c: $(ANDROID_PRIVATE_LIBDIR)/%.symbols
-	$(VERBOSE)rm -f $@
+	$(VERBOSE)rm -f $@ && touch $@
 	$(GEN)for s in `cat $<`; do echo "void $$s() {}" >> $@; done
 
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
@@ -157,7 +164,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
-LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
+LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
 LOCAL_CFLAGS     := -Wno-psabi -DAPP_PLATFORM=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
@@ -181,7 +188,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(LIBANW_SRC_FILES_COMMON)
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
-LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR) -llog -lhardware
+LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE) -llog -lhardware
 LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DAPP_PLATFORM=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
