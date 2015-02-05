@@ -191,7 +191,8 @@ $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
 
-LIBANW_LIBS += libanw.10 libanw.13 libanw.14 libanw.18 libanw.21
+LIBANW_LIBS += libanw.10 libanw.13 libanw.14
+#libanw.18 libanw.21
 
 $(foreach ANW_MODULE,$(LIBANW_LIBS), \
     $(eval $(call build_anw,$(ANW_MODULE),$(subst libanw.,,$(ANW_MODULE)))))
