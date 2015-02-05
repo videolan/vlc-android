@@ -91,7 +91,6 @@ case "$REL" in
     ;;
 esac
 
-export GCCVER            # Android.mk
 export ANDROID_API       # Android.mk for -21
 
 export TARGET_TUPLE      # Makefile for android-libs
@@ -168,7 +167,7 @@ export ANDROID_SYS_HEADERS=${PWD}/android-headers           # Android.mk
 export ANDROID_LIBS=${PWD}/android-libs                     # Android.mk
 export VLC_BUILD_DIR=vlc/build-android-${TARGET_TUPLE}      # Android.mk
 
-make -j1 TARGET_TUPLE=$TARGET_TUPLE GCCVER=$GCCVER RELEASE=$RELEASE $TARGET
+make -j1 TARGET_TUPLE=$TARGET_TUPLE RELEASE=$RELEASE $TARGET
 
 #
 # Exporting a environment script with all the necessary variables
@@ -200,7 +199,6 @@ export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
 export ANDROID_API=$ANDROID_API
-export GCCVER=$GCCVER
 export ANDROID_SYS_HEADERS=$ANDROID_SYS_HEADERS
 export ANDROID_LIBS=$ANDROID_LIBS
 export VLC_BUILD_DIR=$VLC_BUILD_DIR

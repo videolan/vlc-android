@@ -51,8 +51,6 @@ LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
 ARCH=$(ANDROID_ABI)
 
-CPP_STATIC=$(ANDROID_NDK)/sources/cxx-stl/gnu-libstdc++/$(GCCVER)/libs/$(ARCH)/libgnustl_static.a
-
 LOCAL_CFLAGS := -std=gnu99
 ifeq ($(ARCH), armeabi)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI
@@ -86,7 +84,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-ldsm -ltasn1 \
 	-lmad \
 	-lzvbi \
-	$(CPP_STATIC)
+	$(EXTRA_LDFLAGS)
 
 ################
 # PRIVATE LIBS #
