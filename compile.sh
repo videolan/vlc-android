@@ -177,7 +177,6 @@ cat <<EssentialsA >> env.sh
 export ANDROID_SDK=$ANDROID_SDK
 export ANDROID_NDK=$ANDROID_NDK
 export ANDROID_ABI=$ANDROID_ABI
-export RELEASE=$RELEASE
 EssentialsA
 
 # PATH
