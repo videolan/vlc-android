@@ -11,6 +11,24 @@ if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
    exit 1
 fi
 
+while [ $# -gt 0 ]; do
+    case $1 in
+        help|--help)
+            echo "Use -a to set the ARCH"
+            echo "Use --release to build in release mode"
+            exit 1
+            ;;
+        a|-a)
+            ANDROID_ABI=$2
+            shift
+            ;;
+        release|--release)
+            RELEASE=1
+            ;;
+    esac
+    shift
+done
+
 if [ -z "$ANDROID_ABI" ]; then
    echo "*** No ANDROID_ABI defined architecture: using ARMv7"
    ANDROID_ABI="armeabi-v7a"
@@ -40,4 +58,9 @@ fi
 # Make VLC #
 ############
 echo "Configuring"
-./compile-libvlc.sh $*
+OPTS="-a ${ANDROID_ABI}"
+if [ "$RELEASE" = 1 ]; then
+    OPTS+=" release"
+fi
+
+./compile-libvlc.sh $OPTS
