@@ -134,4 +134,8 @@ fi
 # Compile the UI #
 ##################
 
-./gradlew tasks
+if [ "$RELEASE" = 1 ]; then
+    ./gradlew assembleVanillaRelease
+else
+    ./gradlew assembleVanillaDebug
+fi
