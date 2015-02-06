@@ -34,17 +34,38 @@ if [ -z "$ANDROID_ABI" ]; then
    ANDROID_ABI="armeabi-v7a"
 fi
 
+#############
+# FUNCTIONS #
+#############
+
+checkfail()
+{
+    if [ ! $? -eq 0 ];then
+        echo "$1"
+        exit 1
+    fi
+}
+
 ##########
 # GRADLE #
 ##########
+
 if [ ! -d "gradle/wrapper" ]; then
     GRADLE_VERSION=2.2.1
     GRADLE_URL=http://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
     wget ${GRADLE_URL}
+    checkfail "gradle: download failed"
+
     unzip gradle-${GRADLE_VERSION}-all.zip
+    checkfail "gradle: unzip failed"
+
     cd gradle-${GRADLE_VERSION}
+
     ./bin/gradle wrapper
+    checkfail "gradle: wrapper failed"
+
     ./gradlew -version
+    checkfail "gradle: wrapper failed"
     cd ..
     mkdir -p gradle
     mv gradle-${GRADLE_VERSION}/gradle/wrapper/ gradle
@@ -74,6 +95,7 @@ TESTED_HASH=18e445a
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
+    checkfail "vlc source: git clone failed"
 else
     echo "VLC source found"
     cd vlc
