@@ -177,11 +177,11 @@ PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
 if [ "$RUN" = 1 ]; then
     export PATH=${ANDROID_SDK}/platform-tools/:$PATH
     adb wait-for-device
-    adb uninstall org.videolan.vlc
     if [ "$RELEASE" = 1 ]; then
         adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-release.apk
+        adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
     else
         adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-debug.apk
+        adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.gui.MainActivity
     fi
-    adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
 fi
