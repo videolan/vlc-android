@@ -36,9 +36,14 @@ android {
             storepwd=android
              */
             storeFile file(keyStoreFile)
-            storePassword storepwd
             keyAlias storealias
-            keyPassword storepwd
+            if (System.getenv('PASSWORD_KEYSTORE') != null){
+                storePassword = System.getenv('PASSWORD_KEYSTORE')
+                keyPassword = System.getenv('PASSWORD_KEYSTORE')
+            } else {
+                storePassword storepwd
+                keyPassword storepwd
+            }
         }
     }
 
