@@ -108,7 +108,8 @@
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/advanced_prefs_category" >
-            <PreferenceCategory android:title="@string/advanced_prefs_category" >
+            <PreferenceCategory android:key="advanced_prefs_group"
+                                android:title="@string/advanced_prefs_category" >
                 <ListPreference
                     android:key="aout"
                     android:summary="@string/aout_summary"

@@ -31,9 +31,8 @@ import android.view.Surface;
 
 public class LibVLC {
     private static final String TAG = "VLC/LibVLC";
-    public static final int AOUT_AUDIOTRACK_JAVA = 0;
-    public static final int AOUT_AUDIOTRACK = 1;
-    public static final int AOUT_OPENSLES = 2;
+    public static final int AOUT_AUDIOTRACK = 0;
+    public static final int AOUT_OPENSLES = 1;
 
     public static final int VOUT_ANDROID_SURFACE = 0;
     public static final int VOUT_OPEGLES2 = 1;
@@ -73,8 +72,6 @@ public class LibVLC {
     private StringBuffer mDebugLogBuffer;
     private boolean mIsBufferingLog = false;
 
-    private AudioOutput mAout;
-
     /** Keep screen bright */
     //private WakeLock mWakeLock;
 
@@ -84,7 +81,7 @@ public class LibVLC {
     private String codecList = DEFAULT_CODEC_LIST;
     private String devCodecList = null;
     private String subtitlesEncoding = "";
-    private int aout = LibVlcUtil.isGingerbreadOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+    private int aout = AOUT_AUDIOTRACK;
     private int vout = VOUT_ANDROID_SURFACE;
     private boolean timeStretching = false;
     private int deblocking = -1;
@@ -196,7 +193,6 @@ public class LibVLC {
      * It is private because this class is a singleton.
      */
     private LibVLC() {
-        mAout = new AudioOutput();
     }
 
     /**
@@ -363,10 +359,10 @@ public class LibVLC {
     }
 
     public void setAout(int aout) {
-        if (aout < 0)
-            this.aout = LibVlcUtil.isICSOrLater() ? AOUT_OPENSLES : AOUT_AUDIOTRACK_JAVA;
+        if (aout == AOUT_OPENSLES && LibVlcUtil.isICSOrLater())
+            this.aout = AOUT_OPENSLES;
         else
-            this.aout = aout;
+            this.aout = AOUT_AUDIOTRACK;
     }
 
     public int getVout() {
@@ -516,41 +512,6 @@ public class LibVLC {
         nativeDestroy();
         detachEventHandler();
         mIsInitialized = false;
-    }
-
-    /**
-     * Open the Java audio output.
-     * This function is called by the native code
-     */
-    public void initAout(int sampleRateInHz, int channels, int samples) {
-        Log.d(TAG, "Opening the java audio output");
-        mAout.init(sampleRateInHz, channels, samples);
-    }
-
-    /**
-     * Play an audio buffer taken from the native code
-     * This function is called by the native code
-     */
-    public void playAudio(byte[] audioData, int bufferSize) {
-        mAout.playBuffer(audioData, bufferSize);
-    }
-
-    /**
-     * Pause the Java audio output
-     * This function is called by the native code
-     */
-    public void pauseAout() {
-        Log.d(TAG, "Pausing the java audio output");
-        mAout.pause();
-    }
-
-    /**
-     * Close the Java audio output
-     * This function is called by the native code
-     */
-    public void closeAout() {
-        Log.d(TAG, "Closing the java audio output");
-        mAout.release();
     }
 
     /**

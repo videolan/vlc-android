@@ -36,7 +36,6 @@
 #include <android/api-level.h>
 
 #include "libvlcjni.h"
-#include "aout.h"
 #include "vout.h"
 #include "utils.h"
 #include "native_crash_handler.h"
@@ -44,6 +43,9 @@
 #define VOUT_ANDROID_SURFACE 0
 #define VOUT_OPENGLES2       1
 #define VOUT_ANDROID_WINDOW  2
+
+#define AOUT_AUDIOTRACK      0
+#define AOUT_OPENSLES        1
 
 #define LOG_TAG "VLC/JNI/main"
 #include "log.h"
@@ -498,6 +500,7 @@ void Java_org_videolan_libvlc_LibVLC_setEventHandler(JNIEnv *env, jobject thiz, 
 void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz,
                                              jstring mrl, jobjectArray mediaOptions)
 {
+    jclass cls;
     /* Release previous media player, if any */
     releaseMediaPlayer(env, thiz);
 
@@ -507,16 +510,6 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz,
     libvlc_media_player_t *mp = libvlc_media_player_new(p_instance);
     libvlc_media_player_set_video_title_display(mp, libvlc_position_disable, 0);
     jobject myJavaLibVLC = (*env)->NewGlobalRef(env, thiz); // freed in aout_close
-
-    // If AOUT_AUDIOTRACK_JAVA, use amem
-    jclass cls = (*env)->GetObjectClass(env, thiz);
-    jmethodID methodId = (*env)->GetMethodID(env, cls, "getAout", "()I");
-    if ( (*env)->CallIntMethod(env, thiz, methodId) == AOUT_AUDIOTRACK_JAVA )
-    {
-        libvlc_audio_set_callbacks(mp, aout_play, aout_pause, NULL, NULL, NULL,
-                                   (void*) myJavaLibVLC);
-        libvlc_audio_set_format_callbacks(mp, aout_open, aout_close);
-    }
 
     /* Connect the event manager */
     libvlc_event_manager_t *ev = libvlc_media_player_event_manager(mp);
@@ -817,4 +810,16 @@ int jni_GetWindowSize(int *width, int *height)
     *height = i_window_height;
     pthread_mutex_unlock(&vout_android_lock);
     return 0;
+}
+
+/* used by opensles module */
+int aout_get_native_sample_rate(void)
+{
+    JNIEnv *p_env;
+    jni_attach_thread (&p_env, THREAD_NAME);
+    jclass cls = (*p_env)->FindClass (p_env, "android/media/AudioTrack");
+    jmethodID method = (*p_env)->GetStaticMethodID (p_env, cls, "getNativeOutputSampleRate", "(I)I");
+    int sample_rate = (*p_env)->CallStaticIntMethod (p_env, cls, method, 3); // AudioManager.STREAM_MUSIC
+    jni_detach_thread ();
+    return sample_rate;
 }

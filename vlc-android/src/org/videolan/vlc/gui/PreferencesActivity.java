@@ -51,6 +51,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.text.format.DateFormat;
@@ -237,12 +238,25 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
-        int aoutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.aouts : R.array.aouts_froyo;
-        int aoutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.aouts_values : R.array.aouts_values_froyo;
-        aoutPref.setEntries(aoutEntriesId);
-        aoutPref.setEntryValues(aoutEntriesIdValues);
-        if (aoutPref.getValue() == null)
-            aoutPref.setValue("0"/*AOUT_AUDIOTRACK_JAVA*/);
+        if (LibVlcUtil.isICSOrLater()) {
+            int aoutEntriesId = R.array.aouts;
+            int aoutEntriesIdValues = R.array.aouts_values;
+            aoutPref.setEntries(aoutEntriesId);
+            aoutPref.setEntryValues(aoutEntriesIdValues);
+            final String value = aoutPref.getValue();
+            if (value == null)
+                aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
+            else {
+                /* number of entries decreased, handle old values */
+                final int intValue = Integer.parseInt(value);
+                if (intValue != LibVLC.AOUT_AUDIOTRACK && intValue != LibVLC.AOUT_OPENSLES)
+                    aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
+            }
+        } else {
+            /* only audiotrack before ics */
+            PreferenceGroup group = (PreferenceGroup) findPreference("advanced_prefs_group");
+            group.removePreference(aoutPref);
+        }
         // Video output
         ListPreference voutPref = (ListPreference) findPreference("vout");
         int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
