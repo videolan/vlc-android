@@ -61,9 +61,7 @@ endif
 ifeq ($(ARCH), armeabi-v7a)
 	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
 endif
-ifneq (,$(wildcard $(VLC_SRC_DIR)/modules/video_output/android/nativewindowpriv.c))
 	LOCAL_CFLAGS += -DHAVE_IOMX_DR
-endif
 LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	$(VLC_MODULES) \
 	$(VLC_BUILD_DIR)/lib/.libs/libvlc.a \
