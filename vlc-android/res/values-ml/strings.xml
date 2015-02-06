@@ -120,9 +120,6 @@
     <string name="enable_time_stretching_audio">സമയം-നീട്ടിയ ഓഡിയോ</string>
     <string name="advanced_prefs_category">കൂടുതല്‍</string>
     <string name="aout">ഓഡിയോ ഔട്ട്പുട്ട്</string>
-    <string name="aout_audiotrack">ഓഡിയോ ട്രാക്ക് (നേറ്റീവ്)</string>
-    <string name="aout_audiotrack_java">ഓഡിയോ ട്രാക്ക് (ജാവ)</string>
-    <string name="aout_opensles">ഓപ്പണ്‍SL ES</string>
     <string name="clear_media_db">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റുക</string>
     <string name="clear_history">അന്വേഷണ ചരിത്രം നീക്കുക</string>
     <string name="media_db_cleared">മീഡിയ വിവരശേഖരം തുടച്ചുമാറ്റിയിരിക്കുന്നു!</string>

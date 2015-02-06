@@ -103,9 +103,6 @@
     <string name="enable_time_stretching_audio">સમય ફેલાયેલા ઓડિયો સક્ષમ કરો</string>
     <string name="advanced_prefs_category">ઉન્નત</string>
     <string name="aout">ઓડિયો આઉટપુટ</string>
-    <string name="aout_audiotrack">ઓડીઓ ટ્રેક (મૂળ)</string>
-    <string name="aout_audiotrack_java">ઓડીઓ ટ્રેક(Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">સાફ કરો મીડિયા ડેટાબેઝ</string>
     <string name="clear_history">શોધ ઇતિહાસ સાફ કરો </string>
     <string name="media_db_cleared">મીડિયા ડેટાબેઝ સાફ!</string>

@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">Gelişmiş</string>
     <string name="aout">Ses çıkışı</string>
     <string name="aout_summary">VLC tarafından kullanılan ses üretme yöntemini değiştirir.</string>
-    <string name="aout_audiotrack">AudioTrack (doğal)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Görüntü çıkışı</string>
     <string name="vout_summary">VLC tarafından kullanılan görüntü çıkışı yöntemini değiştirir.</string>
     <string name="vout_android_surface">Android yüzeyi</string>

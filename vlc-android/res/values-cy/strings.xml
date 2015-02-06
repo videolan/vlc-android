@@ -233,9 +233,6 @@
     <string name="advanced_prefs_category">Uwch</string>
     <string name="aout">Allbwn sain</string>
     <string name="aout_summary">Newid y dull mae VLC yn ei ddefnyddio i allbynnu sain</string>
-    <string name="aout_audiotrack">AudioTrack (brodorol)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Allbwn fideo</string>
     <string name="vout_summary">Newidiwch y dull mae VLC yn allbwn sain.</string>
     <string name="vout_android_surface">Arwyneb Android</string>

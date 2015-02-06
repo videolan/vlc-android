@@ -212,9 +212,6 @@
     <string name="advanced_prefs_category">고급</string>
     <string name="aout">오디오 출력</string>
     <string name="aout_summary">VLC가 오디오 출력을 위해 사용하는 방식을 변경합니다.</string>
-    <string name="aout_audiotrack">AudioTrack (기본)</string>
-    <string name="aout_audiotrack_java">AudioTrack (자바)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">비디오 출력</string>
     <string name="vout_summary">VLC가 비디오 출력을 위해 사용하는 방식을 변경합니다.</string>
     <string name="vout_android_surface">안드로이드 Surface</string>

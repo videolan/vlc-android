@@ -212,9 +212,6 @@
     <string name="advanced_prefs_category">高级</string>
     <string name="aout">音频输出</string>
     <string name="aout_summary">更改 VLC 输出音频的方式。</string>
-    <string name="aout_audiotrack">AudioTrack 类 (原生)</string>
-    <string name="aout_audiotrack_java">AudioTrack 类 (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">视频输出</string>
     <string name="vout_summary">更改 VLC 输出视频所采用的方式。</string>
     <string name="vout_android_surface">Android 表面</string>

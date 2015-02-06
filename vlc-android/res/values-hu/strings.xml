@@ -191,9 +191,6 @@
     <string name="advanced_prefs_category">Speciális</string>
     <string name="aout">Hangkimenet</string>
     <string name="aout_summary">Változtasd meg a VLC hangkimenetét</string>
-    <string name="aout_audiotrack">AudioTrack (natív)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videókimenet</string>
     <string name="vout_summary">Változtasd meg a VLC videókimenetét.</string>
     <string name="vout_android_surface">Android felület</string>

@@ -107,9 +107,6 @@
     <string name="enable_time_stretching_audio">সময় প্রসারিত করছে অডিও সক্ষম করুন</string>
     <string name="advanced_prefs_category">নিশুতি</string>
     <string name="aout">অডিও আউটপুট</string>
-    <string name="aout_audiotrack">AudioTrack (নেটিভ)</string>
-    <string name="aout_audiotrack_java">AudioTrack (জাভা)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">সাফ মিডিয়া ডাটাবেস</string>
     <string name="clear_history">অনুসন্ধানের ইতিহাস সাফ করুন</string>
     <string name="media_db_cleared">মিডিয়া ডাটাবেস সাফ!</string>

@@ -102,7 +102,4 @@
     <string name="enable_verbose_mode">వెర్బోస్</string>
     <string name="enable_verbose_mode_summary">వెర్బోసిటీని పెంచు (logcat)</string>
     <string name="aout">ఆడియో అవుట్‌పుట్</string>
-    <string name="aout_audiotrack">AudioTrack (మాతృక)</string>
-    <string name="aout_audiotrack_java">AudioTrack (జావా)</string>
-    <string name="aout_opensles">OpenSL ES</string>
 </resources>

@@ -233,9 +233,6 @@
     <string name="advanced_prefs_category">Дадаткова</string>
     <string name="aout">Аўдыявывад</string>
     <string name="aout_summary">Змяніць спосаб вываду аўдыё</string>
-    <string name="aout_audiotrack">AudioTrack (натыўны)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Вывад відэа</string>
     <string name="vout_summary">Змяніць спосаб вываду відэа</string>
     <string name="vout_android_surface">Android surface</string>

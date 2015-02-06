@@ -190,9 +190,6 @@
     <string name="advanced_debugging">Napredno otklanjanje pogrešaka</string>
     <string name="aout">Izlaz zvuka</string>
     <string name="aout_summary">Promijeni metodu koju VLC koristi za izlaz zvuka.</string>
-    <string name="aout_audiotrack">AudioTrack (izvorni)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="enable_verbose_mode">Opširno</string>
     <string name="enable_verbose_mode_summary">Povećaj opširnost (LogCat)</string>
     <string name="set_locale">Lokalizacija</string>
