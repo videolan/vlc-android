@@ -16,6 +16,7 @@ while [ $# -gt 0 ]; do
         help|--help)
             echo "Use -a to set the ARCH"
             echo "Use --release to build in release mode"
+            echo "Use -s to set your keystore file"
             exit 1
             ;;
         a|-a)
@@ -25,6 +26,9 @@ while [ $# -gt 0 ]; do
         release|--release)
             RELEASE=1
             ;;
+        -s|--signature)
+            KEYSTORE_FILE=$2
+            shift
     esac
     shift
 done
@@ -32,6 +36,10 @@ done
 if [ -z "$ANDROID_ABI" ]; then
    echo "*** No ANDROID_ABI defined architecture: using ARMv7"
    ANDROID_ABI="armeabi-v7a"
+fi
+
+if [ -z "$KEYSTORE_FILE"]; then
+    KEYSTORE_FILE="$HOME/.android/debug.keystore"
 fi
 
 #############
@@ -78,7 +86,7 @@ fi
 ####################
 
 if [ ! -f gradle.properties ]; then
-    echo keyStoreFile=$HOME/.android/debug.keystore > gradle.properties
+    echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
     echo storealias=androiddebugkey >> gradle.properties
     echo storepwd=android >> gradle.properties
 fi
