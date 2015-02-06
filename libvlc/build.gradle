@@ -11,29 +11,22 @@ task buildDebug(type:Exec) {
     ndk.dir=/home/<username>/SDK/android-ndk-r10b
      */
     if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
-        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', properties.getProperty('abi')
+        environment 'ANDROID_NDK', ndk
+        environment 'ANDROID_SDK', sdk
     }
     workingDir '..'
     commandLine './compile-libvlc.sh'
-//    args('jni')
 }
 
 task buildRelease(type:Exec) {
     if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
-        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', properties.getProperty('abi')
+        environment 'ANDROID_NDK', ndk
+        environment 'ANDROID_SDK', sdk
     }
 
     workingDir '..'
     commandLine './compile-libvlc.sh'
-//    args('jni', 'release')
+    args('--release')
 }
 
 android {

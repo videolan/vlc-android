@@ -89,10 +89,8 @@ if [ ! -f gradle.properties ]; then
     echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
     echo storealias=androiddebugkey >> gradle.properties
     echo storepwd=android >> gradle.properties
-fi
-if [ ! -f local.properties ]; then
-    echo sdk.dir=$ANDROID_SDK > local.properties
-    echo ndk.dir=$ANDROID_NDK >> local.properties
+    echo sdk=$ANDROID_SDK >> gradle.properties
+    echo ndk=$ANDROID_NDK >> gradle.properties
 fi
 
 ####################
