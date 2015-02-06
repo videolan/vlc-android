@@ -12,6 +12,10 @@ checkfail()
     fi
 }
 
+#############
+# ARGUMENTS #
+#############
+
 RELEASE=0
 while [ $# -gt 0 ]; do
     case $1 in
@@ -31,9 +35,6 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-#############
-# ARGUMENTS #
-#############
 if [ -z "$ANDROID_NDK" ]; then
     echo "Please set the ANDROID_NDK environment variable with its path."
     exit 1
@@ -52,6 +53,7 @@ fi
 #########
 # FLAGS #
 #########
+
 # ARMv5 and ARMv6-nofpu are not really ABIs
 if [ "${ANDROID_ABI}" = "armeabi-nofpu" ];then
     NO_FPU=0
@@ -126,7 +128,6 @@ SRC_DIR=$PWD
 NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
-
 ###############
 # DISPLAY ABI #
 ###############
@@ -156,6 +157,7 @@ fi
 ##########
 # CFLAGS #
 ##########
+
 CFLAGS="-g -O2 -fstrict-aliasing -funsafe-math-optimizations"
 if [ -n "$HAVE_ARM" -a ! -n "$HAVE_64" ]; then
     CFLAGS="${CFLAGS} -mlong-calls"
@@ -196,6 +198,7 @@ CPPFLAGS="-I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include -I${A
 #################
 # Setup LDFLAGS #
 #################
+
 EXTRA_LDFLAGS="-L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/${ANDROID_ABI} -lgnustl_static"
 
 LDFLAGS="-Wl,-Bdynamic,-dynamic-linker=/system/bin/linker -Wl,--no-undefined"
@@ -224,13 +227,14 @@ echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
 
 ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
 export PATH=$ANDROID_BIN:$PATH
-####################################################################################################
+################################################################################
 
 cd vlc
 
 ###########################
 # Build buildsystem tools #
 ###########################
+
 export PATH=`pwd`/extras/tools/build/bin:$PATH
 echo "Building tools"
 cd extras/tools
@@ -253,6 +257,7 @@ fi
 ############
 # Contribs #
 ############
+
 echo "Building the contribs"
 mkdir -p contrib/contrib-android-${TARGET_TUPLE}
 
@@ -332,6 +337,7 @@ cd ../../
 ###################
 # BUILD DIRECTORY #
 ###################
+
 VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
@@ -466,13 +472,14 @@ checkfail "vlc: make failed"
 cd $SRC_DIR
 
 
-######################################################################################
-# libvlcJNI
-######################################################################################
+################################################################################
+# libvlcJNI                                                                    #
+################################################################################
 
 ##################
 # libVLC modules #
 ##################
+
 echo "Generating static module list"
 VLC_MODULES=`./find_modules.sh vlc/$VLC_BUILD_DIR`
 

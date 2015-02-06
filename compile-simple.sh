@@ -55,6 +55,7 @@ fi
 ####################
 # Configure gradle #
 ####################
+
 if [ ! -f gradle.properties ]; then
     echo keyStoreFile=$HOME/.android/debug.keystore > gradle.properties
     echo storealias=androiddebugkey >> gradle.properties
@@ -68,6 +69,7 @@ fi
 ####################
 # Fetch VLC source #
 ####################
+
 TESTED_HASH=18e445a
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
@@ -89,6 +91,7 @@ fi
 ############
 # Make VLC #
 ############
+
 echo "Configuring"
 OPTS="-a ${ANDROID_ABI}"
 if [ "$RELEASE" = 1 ]; then
@@ -100,4 +103,5 @@ fi
 ##################
 # Compile the UI #
 ##################
+
 ./gradlew tasks
