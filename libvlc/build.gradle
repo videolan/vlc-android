@@ -22,7 +22,6 @@ task buildDebugARM(type:Exec) {
     commandLine './compile-libvlc.sh'
     args('-a', "armeabi-v7a")
 }
-
 task buildDebugx86(type:Exec) {
     if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
         Properties properties = new Properties()
@@ -43,7 +42,7 @@ android {
     sourceSets {
     main {
         jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
-        jniLibs.srcDir 'libs' // Where generated .so files are placed.
+        jniLibs.srcDir 'jni/libs' // Where generated .so files are placed.
         manifest.srcFile 'AndroidManifest.xml'
         java.srcDirs = ['src']
         resources.srcDirs = ['src']
