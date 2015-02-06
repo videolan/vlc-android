@@ -23,12 +23,17 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
-        release|--release)
+        -r|release|--release)
             RELEASE=1
             ;;
         -s|--signature)
             KEYSTORE_FILE=$2
             shift
+            ;;
+        -p|--password)
+            PASSWORD_KEYSTORE=$2
+            shift
+            ;;
     esac
     shift
 done
@@ -38,8 +43,17 @@ if [ -z "$ANDROID_ABI" ]; then
    ANDROID_ABI="armeabi-v7a"
 fi
 
-if [ -z "$KEYSTORE_FILE"]; then
+if [ -z "$KEYSTORE_FILE" ]; then
     KEYSTORE_FILE="$HOME/.android/debug.keystore"
+    PASSWORD_KEYSTORE="android"
+    STOREALIAS="androiddebugkey"
+else
+    if [ -z "$PASSWORD_KEYSTORE" ]; then
+        echo "No password"
+        exit 1
+    fi
+    rm -f gradle.properties
+    STOREALIAS="vlc"
 fi
 
 #############
@@ -87,8 +101,8 @@ fi
 
 if [ ! -f gradle.properties ]; then
     echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
-    echo storealias=androiddebugkey >> gradle.properties
-    echo storepwd=android >> gradle.properties
+    echo storealias=$STOREALIAS >> gradle.properties
+    echo storepwd=$PASSWORD_KEYSTORE >> gradle.properties
 fi
 if [ ! -f local.properties ]; then
     echo sdk.dir=$ANDROID_SDK > local.properties
