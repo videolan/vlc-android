@@ -16,7 +16,6 @@ task buildDebugARM(type:Exec) {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
         environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', properties.getProperty('abi')
     }
     workingDir '..'
     commandLine './compile-libvlc.sh'
@@ -28,7 +27,6 @@ task buildDebugx86(type:Exec) {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
         environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-        environment 'ANDROID_ABI', properties.getProperty('abi')
     }
     workingDir '..'
     commandLine './compile-libvlc.sh'
