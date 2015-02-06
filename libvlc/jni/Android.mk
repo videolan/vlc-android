@@ -86,6 +86,9 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-lzvbi \
 	$(EXTRA_LDFLAGS)
 
+$(TARGET_OUT)/$(LOCAL_MODULE).so: $(ANDROID_PRIVATE_LIBS)
+include $(BUILD_SHARED_LIBRARY)
+
 ################
 # PRIVATE LIBS #
 ################
@@ -105,9 +108,6 @@ $(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE)/%.so: $(ANDROID_PRIVATE_LIBDIR)/%.c
 $(ANDROID_PRIVATE_LIBDIR)/%.c: $(ANDROID_PRIVATE_LIBDIR)/%.symbols
 	$(VERBOSE)rm -f $@ && touch $@
 	$(GEN)for s in `cat $<`; do echo "void $$s() {}" >> $@; done
-
-$(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
-include $(BUILD_SHARED_LIBRARY)
 
 ###########
 # libiOMX #
