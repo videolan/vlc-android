@@ -88,6 +88,16 @@ if [ ! -d "gradle/wrapper" ]; then
     rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
 fi
 
+###############################
+# Install Gradle dependencies
+###############################
+if [ ! -z "$BUILD_TOOLS" ]; then
+    SUPPORT=`$ANDROID_SDK/tools/android list sdk -u --all  | grep -i support | cut -d'-' -f1 | xargs | sed 's/ /,/g'`
+    echo "y" | $ANDROID_SDK/tools/android update sdk --no-ui --all --filter $SUPPORT
+    BUILDTOOLS=`$ANDROID_SDK/tools/android list sdk -u --all  | grep -i 21.1.1 | cut -d'-' -f1`
+    echo "y" | $ANDROID_SDK/tools/android update sdk --no-ui --all --filter $BUILDTOOLS
+fi
+
 ####################
 # Configure gradle #
 ####################
