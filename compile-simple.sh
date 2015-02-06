@@ -34,6 +34,9 @@ while [ $# -gt 0 ]; do
             PASSWORD_KEYSTORE=$2
             shift
             ;;
+        run)
+            RUN=1
+            ;;
     esac
     shift
 done
@@ -152,4 +155,19 @@ if [ "$RELEASE" = 1 ]; then
     ./gradlew assembleVanillaRelease
 else
     ./gradlew assembleVanillaDebug
+fi
+
+#######
+# RUN #
+#######
+if [ "$RUN" = 1 ]; then
+    export PATH=${ANDROID_SDK}/platform-tools/:$PATH
+    adb wait-for-device
+    adb uninstall org.videolan.vlc
+    if [ "$RELEASE" = 1 ]; then
+        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-release.apk
+    else
+        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-debug.apk
+    fi
+    adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
 fi
