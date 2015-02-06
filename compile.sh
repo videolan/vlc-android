@@ -1,183 +1,173 @@
 #! /bin/sh
+set -e
 
 # Read the Android Wiki http://wiki.videolan.org/AndroidCompile
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
-set -e
-
 if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
-   echo "You must define ANDROID_NDK, ANDROID_SDK and ANDROID_ABI before starting."
+   echo "You must define ANDROID_NDK, ANDROID_SDK before starting."
    echo "They must point to your NDK and SDK directories.\n"
    exit 1
 fi
 
-if [ -z "$ANDROID_ABI" ]; then
-   echo "Please set ANDROID_ABI to your architecture."
-   exit 1
-fi
-
-BUILD=0
-FETCH=0
-RELEASE=0
-JNI=0
-
-for i in ${@}; do
-    case "$i" in
-        --fetch)
-        FETCH=1
-        ;;
-        --build)
-        BUILD=1
-        ;;
-        release|--release)
-        RELEASE=1
-        ;;
-        jni|--jni)
-        JNI=1
-        ;;
-        *)
-        ;;
+while [ $# -gt 0 ]; do
+    case $1 in
+        help|--help)
+            echo "Use -a to set the ARCH"
+            echo "Use --release to build in release mode"
+            echo "Use -s to set your keystore file"
+            exit 1
+            ;;
+        a|-a)
+            ANDROID_ABI=$2
+            shift
+            ;;
+        -r|release|--release)
+            RELEASE=1
+            ;;
+        -s|--signature)
+            KEYSTORE_FILE=$2
+            shift
+            ;;
+        -p|--password)
+            PASSWORD_KEYSTORE=$2
+            shift
+            ;;
+        run)
+            RUN=1
+            ;;
     esac
+    shift
 done
 
-if [ "$BUILD" = 0 -a "$FETCH" = 0 ];then
-    BUILD=1
-    FETCH=1
+if [ -z "$ANDROID_ABI" ]; then
+   echo "*** No ANDROID_ABI defined architecture: using ARMv7"
+   ANDROID_ABI="armeabi-v7a"
 fi
 
-HAVE_64=0
-
-# Set up ABI variables
-if [ ${ANDROID_ABI} = "x86" ] ; then
-    PATH_HOST="x86"
-elif [ ${ANDROID_ABI} = "x86_64" ] ; then
-    PATH_HOST="x86_64"
-    HAVE_64=1
-elif [ ${ANDROID_ABI} = "mips" ] ; then
-    PATH_HOST="mipsel-linux-android"
-elif [ ${ANDROID_ABI} = "arm64-v8a" ] ; then
-    PATH_HOST="aarch64-linux-android"
-    HAVE_64=1
+if [ -z "$KEYSTORE_FILE" ]; then
+    KEYSTORE_FILE="$HOME/.android/debug.keystore"
+    PASSWORD_KEYSTORE="android"
+    STOREALIAS="androiddebugkey"
 else
-    PATH_HOST="arm-linux-androideabi"
-fi
-
-# try to detect NDK version
-REL=$(grep -o '^r[0-9]*.*' $ANDROID_NDK/RELEASE.TXT 2>/dev/null|cut -b2-)
-case "$REL" in
-    10*)
-        if [ "${HAVE_64}" = 1 ];then
-            GCCVER=4.9
-        else
-            GCCVER=4.8
-        fi
-    ;;
-    *)
-        echo "You need the NDKv10 or later"
+    if [ -z "$PASSWORD_KEYSTORE" ]; then
+        echo "No password"
         exit 1
-    ;;
-esac
-
-# Add the NDK toolchain to the PATH, needed both for contribs and for building
-# stub libraries
-NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
-export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
-
-ANDROID_PATH="`pwd`"
-
-# Fetch VLC source
-if [ "$FETCH" = 1 ]
-then
-    # 1/ libvlc, libvlccore and its plugins
-    TESTED_HASH=18e445a
-    if [ ! -d "vlc" ]; then
-        echo "VLC source not found, cloning"
-        git clone git://git.videolan.org/vlc.git vlc
-        cd vlc
-        git checkout -B android ${TESTED_HASH}
-    else
-        echo "VLC source found"
-        cd vlc
-        if ! git cat-file -e ${TESTED_HASH}; then
-            cat << EOF
-***
-*** Error: Your vlc checkout does not contain the latest tested commit ***
-***
-
-Please update your source with something like:
-
-cd vlc
-git reset --hard origin
-git pull origin master
-git checkout -B android ${TESTED_HASH}
-
-*** : This will delete any changes you made to the current branch ***
-
-EOF
-            exit 1
-        fi
-        cd ..
     fi
+    rm -f gradle.properties
+    STOREALIAS="vlc"
 fi
 
-if [ "$BUILD" = 0 ]
-then
-    echo "Not building anything, please run $0 --build"
-    exit 0
+#############
+# FUNCTIONS #
+#############
+
+checkfail()
+{
+    if [ ! $? -eq 0 ];then
+        echo "$1"
+        exit 1
+    fi
+}
+
+##########
+# GRADLE #
+##########
+
+if [ ! -d "gradle/wrapper" ]; then
+    GRADLE_VERSION=2.2.1
+    GRADLE_URL=http://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
+    wget ${GRADLE_URL}
+    checkfail "gradle: download failed"
+
+    unzip gradle-${GRADLE_VERSION}-all.zip
+    checkfail "gradle: unzip failed"
+
+    cd gradle-${GRADLE_VERSION}
+
+    ./bin/gradle wrapper
+    checkfail "gradle: wrapper failed"
+
+    ./gradlew -version
+    checkfail "gradle: wrapper failed"
+    cd ..
+    mkdir -p gradle
+    mv gradle-${GRADLE_VERSION}/gradle/wrapper/ gradle
+    mv gradle-${GRADLE_VERSION}/gradlew .
+    rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
+fi
+
+####################
+# Configure gradle #
+####################
+
+if [ ! -f gradle.properties ]; then
+    echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
+    echo storealias=$STOREALIAS >> gradle.properties
+    echo storepwd=$PASSWORD_KEYSTORE >> gradle.properties
+fi
+if [ ! -f local.properties ]; then
+    echo sdk.dir=$ANDROID_SDK > local.properties
+    echo ndk.dir=$ANDROID_NDK >> local.properties
+fi
+
+####################
+# Fetch VLC source #
+####################
+
+TESTED_HASH=18e445a
+if [ ! -d "vlc" ]; then
+    echo "VLC source not found, cloning"
+    git clone git://git.videolan.org/vlc.git vlc
+    checkfail "vlc source: git clone failed"
+else
+    echo "VLC source found"
+    cd vlc
+    if ! git cat-file -e ${TESTED_HASH}; then
+        cat << EOF
+***
+*** Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}
+***
+EOF
+        exit 1
+    fi
+    cd ..
 fi
 
 ############
 # Make VLC #
 ############
+
 echo "Configuring"
-${ANDROID_PATH}/compile-libvlc.sh $*
-
-####################################
-# VLC android UI and specific code
-####################################
-echo "Building VLC for Android"
-
-if [ "$JNI" = 1 ]; then
-    CLEAN="jniclean"
-    TARGET="libvlc/obj/local/${ANDROID_ABI}/libvlcjni.so"
-else
-    CLEAN="distclean"
-    TARGET=
+OPTS="-a ${ANDROID_ABI}"
+if [ "$RELEASE" = 1 ]; then
+    OPTS+=" release"
 fi
 
-make -j1 RELEASE=$RELEASE $TARGET
+./compile-libvlc.sh $OPTS
 
-#
-# Exporting a environment script with all the necessary variables
-#
-echo "Generating environment script."
-cat <<EOF
-This is a script that will export many of the variables used in this
-script. It will allow you to compile parts of the build without having
-to rebuild the entire build (e.g. recompile only the Java part).
+##################
+# Compile the UI #
+##################
 
-To use it, include the script into your shell, like this:
-    source env.sh
+if [ "$RELEASE" = 1 ]; then
+    ./gradlew assembleVanillaRelease
+else
+    ./gradlew assembleVanillaDebug
+fi
 
-Now, you can use this command to build the Java portion:
-    make -e
-
-The file will be automatically regenerated by compile.sh, so if you change
-your NDK/SDK locations or any build configurations, just re-run this
-script (sh compile.sh) and it will automatically update the file.
-
-EOF
-
-echo "# This file was automatically generated by compile.sh" > env.sh
-echo "# Re-run 'sh compile.sh' to update this file." >> env.sh
-
-# The essentials
-cat <<EssentialsA >> env.sh
-export ANDROID_SDK=$ANDROID_SDK
-export ANDROID_NDK=$ANDROID_NDK
-export ANDROID_ABI=$ANDROID_ABI
-EssentialsA
-
-# PATH
-echo "export PATH=$NDK_TOOLCHAIN_PATH:\${ANDROID_SDK}/platform-tools:\${PATH}" >> env.sh
+#######
+# RUN #
+#######
+if [ "$RUN" = 1 ]; then
+    export PATH=${ANDROID_SDK}/platform-tools/:$PATH
+    adb wait-for-device
+    adb uninstall org.videolan.vlc
+    if [ "$RELEASE" = 1 ]; then
+        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-release.apk
+    else
+        adb install -r vlc-android/build/outputs/apk/vlc-android-vanilla-debug.apk
+    fi
+    adb shell am start -n org.videolan.vlc/org.videolan.vlc.gui.MainActivity
+fi
