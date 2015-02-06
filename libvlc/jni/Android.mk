@@ -165,7 +165,7 @@ LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(VLC_SRC_DIR)/modules/codec/omxil/iomx.cpp
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
 LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE) -lgcc -lstagefright -lmedia -lutils -lbinder -llog -lcutils -lui
-LOCAL_CFLAGS     := -Wno-psabi -DAPP_PLATFORM=$(2)
+LOCAL_CFLAGS     := -Wno-psabi -DANDROID_API=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
@@ -186,13 +186,12 @@ LOCAL_MODULE := $(1)
 LOCAL_SRC_FILES  := $(LIBANW_SRC_FILES_COMMON)
 LOCAL_C_INCLUDES := $(LIBIOMX_INCLUDES_$(2))
 LOCAL_LDLIBS     := -L$(ANDROID_PRIVATE_LIBDIR)/$(TARGET_TUPLE) -llog -lhardware
-LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DAPP_PLATFORM=$(2)
+LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
 
-LIBANW_LIBS += libanw.10 libanw.13 libanw.14
-#libanw.18 libanw.21
+LIBANW_LIBS += libanw.10 libanw.13 libanw.14 libanw.18 libanw.21
 
 $(foreach ANW_MODULE,$(LIBANW_LIBS), \
     $(eval $(call build_anw,$(ANW_MODULE),$(subst libanw.,,$(ANW_MODULE)))))
