@@ -162,9 +162,6 @@
     <string name="advanced_prefs_category">Laiendatud</string>
     <string name="aout">Audioväljund</string>
     <string name="aout_summary">Muuda meetod mida VLC kasutab audio väljundiks.</string>
-    <string name="aout_audiotrack">AudioTrack (native)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videoväljund</string>
     <string name="vout_android_surface">Android surface</string>
     <string name="clear_media_db">Puhasta meedia andmebaas</string>

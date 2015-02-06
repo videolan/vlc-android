@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">Avansert</string>
     <string name="aout">Lyd ut</string>
     <string name="aout_summary">Endre metoden VLC bruker for lydutgang.</string>
-    <string name="aout_audiotrack">AudioTrack (opprinnelig)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videoutgang</string>
     <string name="vout_summary">Endre metoden VLC bruker for videoutgang.</string>
     <string name="vout_android_surface">Android brukerflate</string>

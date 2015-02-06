@@ -134,9 +134,6 @@
     <string name="advanced_prefs_category">အဆင့်မြင့်</string>
     <string name="aout">အသံပေးပို့</string>
     <string name="aout_summary">ဗီအလ်စီသံုး၍အသံထုတ်ရန်အခြားနည်းလမ်းသို့ပြောင်းလဲ။</string>
-    <string name="aout_audiotrack">အသံတေးသံလမ်းကြော (စက်တွင်းရှိ)</string>
-    <string name="aout_audiotrack_java">အသံတေးသံလမ်းကြော (ဂျားဗား)</string>
-    <string name="aout_opensles">အိုးပန်းအက်စ်အယ် အီးအက်စ်</string>
     <string name="clear_media_db">မီဒီယာအချက်အလက်အစုရှင်းလင်း</string>
     <string name="clear_history">ရှာဖွေသမိုင်းဖယ်ရှား</string>
     <string name="media_db_cleared">မီဒီယာအချက်အလက်အစုရှင်းလင်းပြီး!</string>

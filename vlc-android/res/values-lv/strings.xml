@@ -195,9 +195,6 @@
     <string name="advanced_prefs_category">Uzlabots</string>
     <string name="aout">Audio izeja</string>
     <string name="aout_summary">Mainīt metodi, ko VLC izmanto, lai izvadītu audio.</string>
-    <string name="aout_audiotrack">AudioTreks (dzimtā)</string>
-    <string name="aout_audiotrack_java">AudioTreks (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Video izeja</string>
     <string name="vout_summary">Mainīt metodi, ko VLC izmanto, lai izvadītu video.</string>
     <string name="vout_android_surface">Android virsma</string>

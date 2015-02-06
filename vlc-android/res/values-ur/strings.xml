@@ -151,9 +151,6 @@
     <string name="advanced_prefs_category">ماہرانہ انداز</string>
     <string name="aout">آڈیو آؤٹ پٹ</string>
     <string name="aout_summary">VLC کی ٓڈيو کے آواز دینے کے طریقے کو تبدیل کریں</string>
-    <string name="aout_audiotrack">آڈیو ٹريک (مقامى)</string>
-    <string name="aout_audiotrack_java">آڈیو ٹريک (جاوا)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">میڈیا ڈیٹا بیس کو خالى کريں</string>
     <string name="clear_history">تلاش کرنے کا ریکارڈ ختم کريں</string>
     <string name="media_db_cleared">ميڈيا ڈیٹابيس خالى کر ديا گيا ہے!</string>

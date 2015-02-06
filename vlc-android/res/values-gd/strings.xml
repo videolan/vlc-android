@@ -207,9 +207,6 @@
     <string name="advanced_prefs_category">Adhartach</string>
     <string name="aout">Às-chur fuaime</string>
     <string name="aout_summary">Atharraich mar a chuireas VLC a-mach fuaime.</string>
-    <string name="aout_audiotrack">AudioTrack (tùsail)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Às-chur a\' video</string>
     <string name="vout_summary">Atharraich mar a chuireas VLC a-mach video.</string>
     <string name="vout_android_surface">Uachdar Android</string>

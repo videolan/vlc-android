@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">Víðkað</string>
     <string name="aout">Ljóðúttak</string>
     <string name="aout_summary">Skift hvussu VLC brúkar ljóðúttak.</string>
-    <string name="aout_audiotrack">AudioTrack (upprunaligt)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videoúttak</string>
     <string name="vout_summary">Skift hvussu VLC brúkar videoúttak.</string>
     <string name="vout_android_surface">Android vatnskorpa</string>

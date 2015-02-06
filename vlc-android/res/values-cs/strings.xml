@@ -226,9 +226,6 @@
     <string name="advanced_prefs_category">Pokročilé</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_summary">Změnit metodu pro výstup zvuku používanou VLC.</string>
-    <string name="aout_audiotrack">AudioTrack (původní)</string>
-    <string name="aout_audiotrack_java">AudioTrack (java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Výstup videa</string>
     <string name="vout_summary">Změnit metodu pro výstup videa používanou VLC.</string>
     <string name="vout_android_surface">Povrch Android</string>

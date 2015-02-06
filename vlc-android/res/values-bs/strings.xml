@@ -226,9 +226,6 @@
     <string name="advanced_prefs_category">Napredno</string>
     <string name="aout">Izlaz zvuka</string>
     <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
-    <string name="aout_audiotrack">AudioTrack (izvorno)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Video izlaz</string>
     <string name="vout_summary">Izmijeni metodu koju VLC koristi za izlaz videa.</string>
     <string name="vout_android_surface">Android površina</string>

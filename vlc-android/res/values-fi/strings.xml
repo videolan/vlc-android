@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">Edistykselliset</string>
     <string name="aout">Ääniulostulo</string>
     <string name="aout_summary">Vaihda menetelmää, jota VLC käyttää äänen ulosantiin.</string>
-    <string name="aout_audiotrack">AudioTrack (natiivi)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videoulostulo</string>
     <string name="vout_summary">Vaihda menetelmää, jota VLC käyttää videoulosantia varten.</string>
     <string name="vout_android_surface">Android-alusta</string>

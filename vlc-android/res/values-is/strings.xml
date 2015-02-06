@@ -216,9 +216,6 @@
     <string name="advanced_prefs_category">Nánar</string>
     <string name="aout">Hljóðúttak</string>
     <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
-    <string name="aout_audiotrack">AudioTrack (innbyggt)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Myndmerkissúttak</string>
     <string name="vout_summary">Breyttu aðferðinni sem VLC notar til að senda út myndmerki.</string>
     <string name="vout_android_surface">Android surface</string>

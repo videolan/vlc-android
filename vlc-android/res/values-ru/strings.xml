@@ -226,9 +226,6 @@
     <string name="advanced_prefs_category">Расширенные</string>
     <string name="aout">Вывод звука</string>
     <string name="aout_summary">Выберите режим вывода звука в VLC</string>
-    <string name="aout_audiotrack">AudioTrack (нативный код)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Вывод видео</string>
     <string name="vout_summary">Выберите режим вывода видео в VLC</string>
     <string name="vout_android_surface">Буфер Android Surface</string>

@@ -181,9 +181,6 @@
     <string name="advanced_prefs_category">ಉನ್ನತ </string>
     <string name="aout"> ಶ್ರವ್ಯ ಔಟ್ಪುಟ್</string>
     <string name="aout_summary">VLC  ಆಡಿಯೊ  ಔಟ್ಪುಟ್ ಮಾಡುವ  ವಿಧಾನವನ್ನು ಬದಲಿಸಿ.</string>
-    <string name="aout_audiotrack">AudioTrack (ಸ್ಥಳೀಯ)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ದೃಶ್ಯ ಔಟ್ಪುಟ್</string>
     <string name="vout_summary">VLC ವಿಡಿಯೋ ಉತ್ಪಾದನೆ  ಮಾಡಲು ಬಳಸುವ ವಿಧಾನ ಬದಲಿಸಿ.</string>
     <string name="vout_android_surface">ಆಂಡ್ರಾಯ್ಡ್ ಸರ್ಫೇಸ್ </string>

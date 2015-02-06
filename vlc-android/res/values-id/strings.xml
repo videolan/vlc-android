@@ -188,9 +188,6 @@
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah metode yang digunakan untuk menghasilkan output audio.</string>
-    <string name="aout_audiotrack">AudioTrack (native)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Output video</string>
     <string name="vout_summary">Ubah metode yang digunakan untuk menghasilkan output video.</string>
     <string name="vout_android_surface">Permukaan Android</string>

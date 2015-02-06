@@ -178,9 +178,6 @@
     <string name="advanced_prefs_category">සංකීර්ණ</string>
     <string name="aout">ශ්‍රව්‍ය ප්‍රතිදානය</string>
     <string name="aout_summary">ප්‍රතිදාන ශ්‍රව්‍ය සඳහා VLC භාවිතා කරන ක්‍රමය වෙනස් කරන්න.</string>
-    <string name="aout_audiotrack">ශ්‍රව්‍යපථය (සහජ)</string>
-    <string name="aout_audiotrack_java">ශ්‍රව්‍යපථය (ජාවා)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">විදෘශ්‍ය ප්‍රතිදානය</string>
     <string name="vout_summary">ප්‍රතිදාන විදෘශ්‍ය සඳහා VLC භාවිතා කරන ක්‍රමය වෙනස් කරන්න.</string>
     <string name="vout_android_surface">ඇන්ඩ්‍රොයිඩ් මුහුණත</string>

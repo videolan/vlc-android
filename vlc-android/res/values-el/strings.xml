@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">Για προχωρημένους</string>
     <string name="aout">Έξοδος ήχου</string>
     <string name="aout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή ήχου.</string>
-    <string name="aout_audiotrack">AudioTrack (ντόπια)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Έξοδος βίντεο</string>
     <string name="vout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή βίντεο.</string>
     <string name="vout_android_surface">Android surface</string>

@@ -219,9 +219,6 @@
     <string name="advanced_prefs_category">प्रगत</string>
     <string name="aout">ध्वनी आउटपुट</string>
     <string name="aout_summary">ध्वनी आउटपुटसाठी VLC जी पद्धत वापरते ती बदला.</string>
-    <string name="aout_audiotrack">AudioTrack (native)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">चित्रफीत आउटपुट</string>
     <string name="vout_summary">VLC व्हिडिओ आऊटपुट करण्यासाठी वापरत असलेली पद्धत बदला.</string>
     <string name="vout_android_surface">Android पृष्ठभाग</string>

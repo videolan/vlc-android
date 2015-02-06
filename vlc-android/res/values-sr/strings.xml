@@ -214,9 +214,6 @@
     <string name="advanced_prefs_category">Напредно</string>
     <string name="aout">Звучни излаз</string>
     <string name="aout_summary">Промените метод који користи VLC да произведе звук.</string>
-    <string name="aout_audiotrack">AudioTrack (основно)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Приказ видеа</string>
     <string name="vout_summary">Промени начин који ВЛЦ користи да прикаже видео</string>
     <string name="vout_android_surface">Површина Android-а</string>
