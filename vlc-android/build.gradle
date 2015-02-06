@@ -13,6 +13,16 @@ android {
         applicationId "org.videolan.vlc"
         minSdkVersion 7
         targetSdkVersion 21
+
+        //Set the build ABI according to build types
+        tasks.whenTaskAdded { task ->
+            if (task.name.startsWith('assemble')) {
+                if (task.name.endsWith('Debug'))
+                    task.dependsOn(":libvlc:buildDebugARM")
+                else if (task.name.endsWith('Debugx86'))
+                    task.dependsOn(":libvlc:buildDebugx86")
+            }
+        }
     }
 
      signingConfigs {
@@ -39,9 +49,7 @@ android {
             shrinkResources true
             proguardFile 'proguard.cfg'
         }
-        debug {
-            debuggable true
-        }
+        debugx86.initWith(debug)
     }
     productFlavors {
         vanilla {

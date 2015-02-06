@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
-task buildDebug(type:Exec) {
+
+task buildDebugARM(type:Exec) {
     /*
     Properties set for Android Studio own shell.
     when you run gradlew from cli, OS shell env variables will be used
@@ -16,17 +17,17 @@ task buildDebug(type:Exec) {
     }
     workingDir '..'
     commandLine './compile-libvlc.sh'
+    args('-a', "armeabi-v7a")
 }
 
-task buildRelease(type:Exec) {
+task buildDebugx86(type:Exec) {
     if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
         environment 'ANDROID_NDK', ndk
         environment 'ANDROID_SDK', sdk
     }
-
     workingDir '..'
     commandLine './compile-libvlc.sh'
-    args('--release')
+    args('-a', "x86")
 }
 
 android {
@@ -50,14 +51,6 @@ android {
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 21
-
-        tasks.whenTaskAdded { task ->
-            if (task.name == 'bundleDebug') {
-                task.dependsOn buildDebug
-            } else if (task.name == 'bundleRelease') {
-                task.dependsOn buildRelease
-            }
-        }
     }
 
     buildTypes {
