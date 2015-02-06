@@ -23,6 +23,9 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
+        -t)
+            ANDROID_TV=1
+            ;;
         -r|release|--release)
             RELEASE=1
             ;;
@@ -152,10 +155,20 @@ fi
 ##################
 
 if [ "$RELEASE" = 1 ]; then
-    ./gradlew assembleVanillaRelease
+    if [ "$ANDROID_TV" = 1 ]; then
+        TARGET="assembleTvRelease"
+    else
+        TARGET="assembleVanillaRelease"
+    fi
 else
-    ./gradlew assembleVanillaDebug
+    if [ "$ANDROID_TV" = 1 ]; then
+        TARGET="assembleTvDebug"
+    else
+        TARGET="assembleVanillaDebug"
+    fi
 fi
+
+./gradlew $TARGET
 
 #######
 # RUN #
