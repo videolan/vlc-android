@@ -54,6 +54,9 @@ android {
             shrinkResources true
             proguardFile 'proguard.cfg'
         }
+        debug {
+            applicationIdSuffix ".debug"
+        }
         debugx86.initWith(debug)
     }
     productFlavors {
