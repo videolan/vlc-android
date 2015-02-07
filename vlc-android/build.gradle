@@ -5,7 +5,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     lintOptions {
-	  abortOnError false
+      abortOnError false
       disable 'MissingTranslation', 'ExtraTranslation'
     }
 
