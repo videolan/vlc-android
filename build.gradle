@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -12,6 +13,7 @@ allprojects {
     repositories {
         jcenter()
     }
+    apply plugin: 'android-sdk-manager'
 }
 
 ext {
