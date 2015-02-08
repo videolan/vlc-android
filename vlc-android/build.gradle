@@ -5,8 +5,8 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     lintOptions {
-      abortOnError false
-      disable 'MissingTranslation', 'ExtraTranslation'
+        abortOnError false
+        disable 'MissingTranslation', 'ExtraTranslation'
     }
 
     defaultConfig {
@@ -25,7 +25,7 @@ android {
         }
     }
 
-     signingConfigs {
+    signingConfigs {
 
         release {
             /*
