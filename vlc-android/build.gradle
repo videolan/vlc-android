@@ -64,7 +64,7 @@ android {
             applicationId "org.videolan.vlc"
         }
         tv {
-            applicationId "org.videolan.vlc.tv"
+            applicationId "org.videolan.vlc"
             minSdkVersion 17
         }
     }
