@@ -5,19 +5,18 @@ set -e
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
-if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
-   echo "You must define ANDROID_NDK, ANDROID_SDK before starting."
-   echo "They must point to your NDK and SDK directories.\n"
-   exit 1
-fi
-
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
-            echo "Use -a to set the ARCH"
+            echo "Use -a to set the ARCH:"
+            echo "  ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu"
+            echo "  ARM64:   arm64-v8a"
+            echo "  X86:     x86, x86_64"
+            echo "  MIPS:    mips, mips64."
             echo "Use --release to build in release mode"
-            echo "Use -s to set your keystore file"
-            exit 1
+            echo "Use -s to set your keystore file and -p for the password"
+            echo "Use -t to get an AndroidTv build"
+            exit 0
             ;;
         a|-a)
             ANDROID_ABI=$2
@@ -43,6 +42,12 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
+
+if [ -z "$ANDROID_NDK" -o -z "$ANDROID_SDK" ]; then
+   echo "You must define ANDROID_NDK, ANDROID_SDK before starting."
+   echo "They must point to your NDK and SDK directories.\n"
+   exit 1
+fi
 
 if [ -z "$ANDROID_ABI" ]; then
    echo "*** No ANDROID_ABI defined architecture: using ARMv7"
