@@ -4,6 +4,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    flavorDimensions "target", "abi"
+
     lintOptions {
         abortOnError false
         disable 'MissingTranslation', 'ExtraTranslation'
@@ -57,16 +59,69 @@ android {
         debug {
             applicationIdSuffix ".debug"
         }
-        debugx86.initWith(debug)
     }
     productFlavors {
         vanilla {
-            applicationId "org.videolan.vlc"
+            flavorDimension "target"
+            versionCode = 0
         }
         tv {
-            applicationId "org.videolan.vlc"
             minSdkVersion 17
+            flavorDimension "target"
+            versionCode = 1
         }
+        chrome {
+            minSdkVersion 19
+            flavorDimension "target"
+            versionCode = 2
+        }
+        ARMv5 {
+            flavorDimension "abi"
+            versionCode = 1
+        }
+        ARMv6nofpu {
+            flavorDimension "abi"
+            versionCode = 2
+        }
+        ARMv6fpu {
+            flavorDimension "abi"
+            versionCode = 3
+        }
+        ARMv7 {
+            flavorDimension "abi"
+            versionCode = 4
+        }
+        x86 {
+            flavorDimension "abi"
+            versionCode = 5
+        }
+        MIPS {
+            flavorDimension "abi"
+            versionCode = 6
+        }
+        ARMv8 {
+            flavorDimension "abi"
+            versionCode = 7
+        }
+        x86_64 {
+            flavorDimension "abi"
+            versionCode = 8
+        }
+        MIPS64 {
+            flavorDimension "abi"
+            versionCode = 9
+        }
+    }
+
+    // make per-variant version code
+    applicationVariants.all { variant ->
+        def manifestParser = new com.android.builder.core.DefaultManifestParser()
+        // get the version code of each flavor
+        def targetVersion = variant.productFlavors.get(0).versionCode
+        def abiVersion = variant.productFlavors.get(1).versionCode
+
+        // set the composite code
+        variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + abiVersion
     }
 
     sourceSets.main {
