@@ -318,20 +318,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         }
 
         /**
-         * Let's see if Android recreated anything for us in the bundle.
-         * Prevent duplicate creation of fragments, since mSidebarAdapter might
-         * have been purged (losing state) when this activity was killed.
-         */
-        for(int i = 0; i < SidebarAdapter.entries.size(); i++) {
-            String fragmentTag = SidebarAdapter.entries.get(i).id;
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
-            if(fragment != null) {
-                Log.d(TAG, "Restoring automatically recreated fragment \"" + fragmentTag + "\"");
-                mSidebarAdapter.restoreFragment(fragmentTag, fragment);
-            }
-        }
-
-        /**
          * Restore the last view.
          *
          * Replace:
