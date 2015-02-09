@@ -122,6 +122,13 @@ android {
 
         // set the composite code
         variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + abiVersion
+
+        //Custom APK name
+        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
+        variant.outputs.each { output ->
+            def outputName = "VLC-"+vlcVersion+"-"+variant.productFlavors.get(1).name+".apk"
+            output.outputFile = new File(output.outputFile.parentFile, outputName);
+        }
     }
 
     sourceSets.main {
