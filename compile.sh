@@ -112,7 +112,7 @@ fi
 if [ ! -f gradle.properties ]; then
     echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
     echo storealias=$STOREALIAS >> gradle.properties
-    if [ -z PASSWORD_KEYSTORE ]; then
+    if [ -z "$PASSWORD_KEYSTORE" ]; then
         echo storepwd=android >> gradle.properties
     fi
 fi
