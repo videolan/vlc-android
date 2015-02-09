@@ -155,6 +155,64 @@ VLC_CONFIGURE_ARGS="\
     --disable-schroedinger --disable-dirac \
 "
 
+########################
+# VLC MODULE BLACKLIST #
+########################
+
+VLC_MODULE_BLACKLIST="
+    addons.*
+    stats
+    access_(bd|shm|imem)
+    oldrc
+    real
+    hotkeys
+    gestures
+    sap
+    dynamicoverlay
+    rss
+    ball
+    audiobargraph_[av]
+    clone
+    mosaic
+    osdmenu
+    puzzle
+    mediadirs
+    t140
+    ripple
+    motion
+    sharpen
+    grain
+    posterize
+    mirror
+    wall
+    scene
+    blendbench
+    psychedelic
+    alphamask
+    netsync
+    audioscrobbler
+    motiondetect
+    motionblur
+    export
+    smf
+    podcast
+    bluescreen
+    erase
+    stream_filter_record
+    speex_resampler
+    remoteosd
+    magnify
+    gradient
+    .*tospdif
+    dtstofloat32
+    logger
+    visual
+    fb
+    aout_file
+    yuv
+    .dummy
+"
+
 #########
 # FLAGS #
 #########
@@ -491,7 +549,17 @@ cd $SRC_DIR
 ##################
 
 echo "Generating static module list"
-VLC_MODULES=`./find_modules.sh vlc/$VLC_BUILD_DIR`
+blacklist_regexp=
+for i in ${VLC_MODULE_BLACKLIST}
+do
+    if [ -z "${blacklist_regexp}" ]
+    then
+        blacklist_regexp="${i}"
+    else
+        blacklist_regexp="${blacklist_regexp}|${i}"
+    fi
+done
+VLC_MODULES=`find vlc/$VLC_BUILD_DIR/modules -name 'lib*plugin.a' | grep -vE "lib(${blacklist_regexp})_plugin.a" | tr '\n' ' '`
 
 DEFINITION="";
 BUILTINS="const void *vlc_static_modules[] = {\n";
