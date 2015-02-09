@@ -50,6 +50,111 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
+###########################
+# VLC BOOTSTRAP ARGUMENTS #
+###########################
+
+VLC_BOOTSTRAP_ARGS="\
+    --disable-disc \
+    --disable-sout \
+    --enable-dvdread \
+    --enable-dvdnav \
+    --disable-dca \
+    --disable-goom \
+    --disable-chromaprint \
+    --disable-lua \
+    --disable-schroedinger \
+    --disable-sdl \
+    --disable-SDL_image \
+    --disable-fontconfig \
+    --enable-zvbi \
+    --disable-kate \
+    --disable-caca \
+    --disable-gettext \
+    --disable-mpcdec \
+    --disable-upnp \
+    --disable-gme \
+    --disable-tremor \
+    --enable-vorbis \
+    --disable-sidplay2 \
+    --disable-samplerate \
+    --disable-faad2 \
+    --disable-harfbuzz \
+    --enable-iconv \
+    --disable-aribb24 \
+    --disable-aribb25 \
+    --disable-mpg123 \
+    --enable-libdsm \
+"
+
+###########################
+# VLC CONFIGURE ARGUMENTS #
+###########################
+
+VLC_CONFIGURE_ARGS="\
+    --disable-nls \
+    --enable-live555 --enable-realrtsp \
+    --enable-avformat \
+    --enable-swscale \
+    --enable-avcodec \
+    --enable-opus \
+    --enable-opensles \
+    --enable-android-surface \
+    --enable-mkv \
+    --enable-taglib \
+    --enable-dvbpsi \
+    --disable-vlc --disable-shared \
+    --disable-update-check \
+    --disable-vlm \
+    --disable-dbus \
+    --disable-lua \
+    --disable-vcd \
+    --disable-v4l2 \
+    --disable-gnomevfs \
+    --enable-dvdread \
+    --enable-dvdnav \
+    --disable-bluray \
+    --disable-linsys \
+    --disable-decklink \
+    --disable-libva \
+    --disable-dv1394 \
+    --disable-mod \
+    --disable-sid \
+    --disable-gme \
+    --disable-tremor \
+    --enable-mad \
+    --disable-dca \
+    --disable-sdl-image \
+    --enable-zvbi \
+    --disable-fluidsynth \
+    --disable-jack \
+    --disable-pulse \
+    --disable-alsa \
+    --disable-samplerate \
+    --disable-sdl \
+    --disable-xcb \
+    --disable-atmo \
+    --disable-qt \
+    --disable-skins2 \
+    --disable-mtp \
+    --disable-notify \
+    --enable-libass \
+    --disable-svg \
+    --disable-udev \
+    --enable-libxml2 \
+    --disable-caca \
+    --disable-glx \
+    --enable-egl \
+    --enable-gles2 \
+    --disable-goom \
+    --disable-projectm \
+    --disable-sout \
+    --enable-vorbis \
+    --disable-faad \
+    --disable-x264 \
+    --disable-schroedinger --disable-dirac \
+"
+
 #########
 # FLAGS #
 #########
@@ -273,35 +378,7 @@ gen_pc_file GLESv2 2
 cd contrib/contrib-android-${TARGET_TUPLE}
 
 ANDROID_ABI=${ANDROID_ABI} ANDROID_API=${ANDROID_API} \
-    ../bootstrap --host=${TARGET_TUPLE} --disable-disc --disable-sout \
-    --enable-dvdread \
-    --enable-dvdnav \
-    --disable-dca \
-    --disable-goom \
-    --disable-chromaprint \
-    --disable-lua \
-    --disable-schroedinger \
-    --disable-sdl \
-    --disable-SDL_image \
-    --disable-fontconfig \
-    --enable-zvbi \
-    --disable-kate \
-    --disable-caca \
-    --disable-gettext \
-    --disable-mpcdec \
-    --disable-upnp \
-    --disable-gme \
-    --disable-tremor \
-    --enable-vorbis \
-    --disable-sidplay2 \
-    --disable-samplerate \
-    --disable-faad2 \
-    --disable-harfbuzz \
-    --enable-iconv \
-    --disable-aribb24 \
-    --disable-aribb25 \
-    --disable-mpg123 \
-    --enable-libdsm
+    ../bootstrap --host=${TARGET_TUPLE} ${VLC_BOOTSTRAP_ARGS}
 checkfail "contribs: bootstrap failed"
 
 # TODO: mpeg2, theora
@@ -353,69 +430,8 @@ STRIP="${CROSS_COMPILE}strip" \
 RANLIB="${CROSS_COMPILE}ranlib" \
 AR="${CROSS_COMPILE}ar" \
 PKG_CONFIG_LIBDIR=../contrib/$TARGET_TUPLE/lib/pkgconfig \
-sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux $EXTRA_PARAMS \
-                --disable-nls \
-                --enable-live555 --enable-realrtsp \
-                --enable-avformat \
-                --enable-swscale \
-                --enable-avcodec \
-                --enable-opus \
-                --enable-opensles \
-                --enable-android-surface \
-                --enable-mkv \
-                --enable-taglib \
-                --enable-dvbpsi \
-                --disable-vlc --disable-shared \
-                --disable-update-check \
-                --disable-vlm \
-                --disable-dbus \
-                --disable-lua \
-                --disable-vcd \
-                --disable-v4l2 \
-                --disable-gnomevfs \
-                --enable-dvdread \
-                --enable-dvdnav \
-                --disable-bluray \
-                --disable-linsys \
-                --disable-decklink \
-                --disable-libva \
-                --disable-dv1394 \
-                --disable-mod \
-                --disable-sid \
-                --disable-gme \
-                --disable-tremor \
-                --enable-mad \
-                --disable-dca \
-                --disable-sdl-image \
-                --enable-zvbi \
-                --disable-fluidsynth \
-                --disable-jack \
-                --disable-pulse \
-                --disable-alsa \
-                --disable-samplerate \
-                --disable-sdl \
-                --disable-xcb \
-                --disable-atmo \
-                --disable-qt \
-                --disable-skins2 \
-                --disable-mtp \
-                --disable-notify \
-                --enable-libass \
-                --disable-svg \
-                --disable-udev \
-                --enable-libxml2 \
-                --disable-caca \
-                --disable-glx \
-                --enable-egl \
-                --enable-gles2 \
-                --disable-goom \
-                --disable-projectm \
-                --disable-sout \
-                --enable-vorbis \
-                --disable-faad \
-                --disable-x264 \
-                --disable-schroedinger --disable-dirac \
-                $OPTS
+sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
+                ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
 checkfail "vlc: configure failed"
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
