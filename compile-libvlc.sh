@@ -126,6 +126,7 @@ SRC_DIR=$PWD
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
 NDK_TOOLCHAIN_PATH=`echo ${ANDROID_NDK}/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin`
+CROSS_COMPILE=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
 export PATH=${NDK_TOOLCHAIN_PATH}:${PATH}
 
 ###############
@@ -223,11 +224,6 @@ fi
 
 echo "CFLAGS:            ${CFLAGS}"
 echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
-
-
-ANDROID_BIN=`echo $ANDROID_NDK/toolchains/${PATH_HOST}-${GCCVER}/prebuilt/\`uname|tr A-Z a-z\`-*/bin/`
-export PATH=$ANDROID_BIN:$PATH
-################################################################################
 
 cd vlc
 
@@ -344,8 +340,6 @@ mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 #############
 # CONFIGURE #
 #############
-
-CROSS_COMPILE=${ANDROID_BIN}/${TARGET_TUPLE}-
 
 if [ ! -e ./config.h ]; then
 CPPFLAGS="$CPPFLAGS" \
