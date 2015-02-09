@@ -1,7 +1,7 @@
 /*****************************************************************************
  * DebugLogActivity.java
  *****************************************************************************
- * Copyright © 2013 VLC authors and VideoLAN
+ * Copyright © 2013-2015 VLC authors and VideoLAN
  * Copyright © 2013 Edward Wang
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,85 +20,171 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.VLCInstance;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DebugLogActivity extends Activity {
+public class DebugLogActivity extends Activity implements DebugLogService.Client.Callback {
     public final static String TAG = "VLC/DebugLogActivity";
+    private DebugLogService.Client mClient = null;
+    private Button mStartButton = null;
+    private Button mStopButton = null;
+    private Button mCopyButton = null;
+    private Button mClearButton = null;
+    private Button mSaveButton = null;
+    private ListView mLogView;
+    private ArrayList<String> mLogList = null;
+    private ArrayAdapter<String> mLogAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_log);
 
-        final LibVLC instance;
-        try {
-            instance = VLCInstance.getLibVlcInstance();
-        } catch (LibVlcException e) { return; }
+        mStartButton = (Button)findViewById(R.id.start_log);
+        mStopButton = (Button)findViewById(R.id.stop_log);
+        mLogView = (ListView) findViewById(R.id.log_list);
+        mCopyButton = (Button)findViewById(R.id.copy_to_clipboard);
+        mClearButton = (Button)findViewById(R.id.clear_log);
+        mSaveButton = (Button)findViewById(R.id.save_to_file);
 
-        final Button startLog = (Button)findViewById(R.id.start_log);
-        final Button stopLog = (Button)findViewById(R.id.stop_log);
+        mClient = new DebugLogService.Client(this, this);
 
-        startLog.setEnabled(! instance.isDebugBuffering());
-        stopLog.setEnabled(instance.isDebugBuffering());
+        mStartButton.setEnabled(false);
+        mStopButton.setEnabled(false);
+        setOptionsButtonsEnabled(false);
 
-        startLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instance.startDebugBuffer();
-                startLog.setEnabled(false);
-                stopLog.setEnabled(true);
-            }
-        });
+        mStartButton.setOnClickListener(mStartClickListener);
+        mStopButton.setOnClickListener(mStopClickListener);
+        mClearButton.setOnClickListener(mClearClickListener);
+        mSaveButton.setOnClickListener(mSaveClickListener);
 
-        stopLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instance.stopDebugBuffer();
-                stopLog.setEnabled(false);
-                startLog.setEnabled(true);
-            }
-        });
-
-        Button clearLog = (Button)findViewById(R.id.clear_log);
-        clearLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                instance.clearBuffer();
-                updateTextView(instance);
-            }
-        });
-
-        updateTextView(instance);
-
-        Button copyToClipboard = (Button)findViewById(R.id.copy_to_clipboard);
-        copyToClipboard.setEnabled(((TextView)findViewById(R.id.textview)).getText().length() > 0);
-        copyToClipboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                copyTextToClipboard();
-                Toast.makeText(DebugLogActivity.this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
-            }
-        });
+        mCopyButton.setOnClickListener(mCopyClickListener);
     }
+
+    @Override
+    protected void onDestroy() {
+        mClient.release();
+        super.onDestroy();
+    }
+
+    private View.OnClickListener mStartClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mStartButton.setEnabled(false);
+            mStopButton.setEnabled(false);
+            mClient.start();
+        }
+    };
+
+    private View.OnClickListener mStopClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mStartButton.setEnabled(false);
+            mStopButton.setEnabled(false);
+            mClient.stop();
+        }
+    };
+
+    private void setOptionsButtonsEnabled(boolean enabled) {
+        mClearButton.setEnabled(enabled);
+        mCopyButton.setEnabled(enabled);
+        mSaveButton.setEnabled(enabled);
+    }
+
+    private View.OnClickListener mClearClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mClient.clear();
+            if (mLogList != null) {
+                mLogList.clear();
+                mLogAdapter.notifyDataSetChanged();
+            }
+            setOptionsButtonsEnabled(false);
+        }
+    };
+
+    private View.OnClickListener mSaveClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mClient.save();
+        }
+    };
 
     @SuppressWarnings("deprecation")
-    private void copyTextToClipboard() {
-        android.text.ClipboardManager clipboard = (android.text.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-        clipboard.setText(((TextView)findViewById(R.id.textview)).getText());
+    private View.OnClickListener mCopyClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final StringBuffer buffer = new StringBuffer();
+            for (String line : mLogList)
+                buffer.append(line+"\n");
+
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+            clipboard.setText(buffer);
+
+            Toast.makeText(DebugLogActivity.this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    public void onStarted(List<String> logList) {
+        mStartButton.setEnabled(false);
+        mStopButton.setEnabled(true);
+        if (logList.size() > 0)
+            setOptionsButtonsEnabled(true);
+        mLogList = new ArrayList<String>(logList);
+        mLogAdapter = new ArrayAdapter<String>(this, R.layout.debug_log_item, mLogList);
+        mLogView.setAdapter(mLogAdapter);
+        mLogView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        if (mLogList.size() > 0)
+            mLogView.setSelection(mLogList.size() - 1);
     }
 
-    private void updateTextView(final LibVLC instance) {
-        TextView textView = (TextView)findViewById(R.id.textview);
-        textView.setText(instance.getBufferContent());
+    @Override
+    public void onStopped() {
+        mStartButton.setEnabled(true);
+        mStopButton.setEnabled(false);
+    }
+
+    @Override
+    public void onLog(String msg) {
+        if (mLogList != null) {
+            mLogList.add(msg);
+            mLogAdapter.notifyDataSetChanged();
+            setOptionsButtonsEnabled(true);
+        }
+    }
+
+    @Override
+    public void onSaved(boolean success, String path) {
+        if (success) {
+            Toast.makeText(
+                    this,
+                    String.format(
+                            VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
+                            path), Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            Toast.makeText(this,
+                    R.string.dump_logcat_failure,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -290,6 +290,8 @@
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>
     <string name="clear_log">Clear log</string>
+    <string name="log_service_title">VLC logs recording</string>
+    <string name="log_service_text">Open the log console</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="copied_to_clipboard">Copied log to clipboard.</string>
     <string name="quit">Quit and restart application</string>

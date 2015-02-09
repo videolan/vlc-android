@@ -61,7 +61,12 @@
             android:name=".gui.BrowserActivity"
             android:label="@string/mediafiles"
             android:theme="@style/Theme.VLC.NoTitleBar" />
-        <activity android:name=".gui.DebugLogActivity" />
+
+        <activity android:name=".gui.DebugLogActivity"
+                  android:launchMode="singleTop" />
+        <service android:name=".gui.DebugLogService"
+                 android:process=":logger" />
+
         <activity
             android:name=".gui.NativeCrashActivity"
             android:process=":NativeCrashActivity"
