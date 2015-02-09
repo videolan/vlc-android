@@ -159,20 +159,36 @@ fi
 ##################
 # Compile the UI #
 ##################
-
+PLATFORM="Vanilla"
+BUILDTYPE="Debug"
 if [ "$RELEASE" = 1 ]; then
-    if [ "$ANDROID_TV" = 1 ]; then
-        TARGET="assembleTvRelease"
-    else
-        TARGET="assembleVanillaRelease"
-    fi
-else
-    if [ "$ANDROID_TV" = 1 ]; then
-        TARGET="assembleTvDebug"
-    else
-        TARGET="assembleVanillaDebug"
-    fi
+    BUILDTYPE="Release"
 fi
+if [ "$ANDROID_TV" = 1 ]; then
+    PLATFORM="Tv"
+fi
+
+if [ "$ANDROID_ABI" = "armeabi-v5" ]; then
+    GRADLE_ABI="ARMv5"
+elif [ "$ANDROID_ABI" = "armeabi" ]; then
+    GRADLE_ABI="ARMv6fpu"
+elif [ "$ANDROID_ABI" = "armeabi-nofpu" ]; then
+    GRADLE_ABI="ARMv6nofpu"
+elif [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
+    GRADLE_ABI="ARMv7"
+elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
+    GRADLE_ABI="ARMv8"
+elif [ "$ANDROID_ABI" = "x86" ]; then
+    GRADLE_ABI="x86"
+elif [ "$ANDROID_ABI" = "x86_64" ]; then
+    GRADLE_ABI="x86_64"
+elif [ "$ANDROID_ABI" = "mips" ]; then
+    GRADLE_ABI="MIPS"
+elif [ "$ANDROID_ABI" = "mips64" ]; then
+    GRADLE_ABI="MIPS64"
+fi
+
+TARGET="assemble${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
 
 PASSWORD_KEYSTORE="$PASSWORD_KEYSTORE" ./gradlew $TARGET
 
