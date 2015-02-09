@@ -68,10 +68,6 @@ public class LibVLC {
     /** libvlc_media_player pointer */
     private long mInternalMediaPlayerInstance = 0; // Read-only, reserved for JNI
 
-    /** Buffer for VLC messages */
-    private StringBuffer mDebugLogBuffer;
-    private boolean mIsBufferingLog = false;
-
     /** Keep screen bright */
     //private WakeLock mWakeLock;
 
@@ -488,7 +484,6 @@ public class LibVLC {
      */
     public void init(Context context) throws LibVlcException {
         Log.v(TAG, "Initializing LibVLC");
-        mDebugLogBuffer = new StringBuffer();
         if (!mIsInitialized) {
             if(!LibVlcUtil.hasCompatibleCPU(context)) {
                 Log.e(TAG, LibVlcUtil.getErrorMsg());
@@ -548,23 +543,6 @@ public class LibVLC {
      * @note mLibVlcInstance should be 0 after a call to destroy()
      */
     private native void nativeDestroy();
-
-    /**
-     * Start buffering to the mDebugLogBuffer.
-     */
-    public native void startDebugBuffer();
-    public native void stopDebugBuffer();
-    public String getBufferContent() {
-        return mDebugLogBuffer.toString();
-    }
-
-    public void clearBuffer() {
-        mDebugLogBuffer.setLength(0);
-    }
-
-    public boolean isDebugBuffering() {
-        return mIsBufferingLog;
-    }
 
     /**
      * Play an mrl

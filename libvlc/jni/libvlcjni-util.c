@@ -31,11 +31,6 @@
 #define LOG_TAG "VLC/JNI/Util"
 #include "log.h"
 
-static jobject debugBufferInstance = NULL;
-
-// FIXME: use atomics
-static bool buffer_logging;
-
 #define THREAD_NAME "libvlcjni-util"
 extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
 extern void jni_detach_thread();
@@ -146,114 +141,6 @@ jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler
     }
 
     return (*env)->NewGlobalRef(env, eventHandler);
-}
-
-static void debug_buffer_log(void *data, int level, const char *fmt, va_list ap)
-{
-    bool isAttached = false;
-    JNIEnv *env = NULL;
-
-    if (jni_get_env(&env) < 0) {
-        if (jni_attach_thread(&env, THREAD_NAME) < 0)
-            return;
-        isAttached = true;
-    }
-
-    /* Prepare message string */
-    char* psz_fmt_newline = malloc(strlen(fmt) + 2);
-    if(!psz_fmt_newline)
-        return;
-    strcpy(psz_fmt_newline, fmt);
-    strcat(psz_fmt_newline, "\n");
-    char* psz_msg = NULL;
-    int res = vasprintf(&psz_msg, psz_fmt_newline, ap);
-    free(psz_fmt_newline);
-    if(res < 0)
-        return;
-
-    jobject buffer = debugBufferInstance;
-    jclass buffer_class = (*env)->FindClass(env, "java/lang/StringBuffer");
-    jmethodID bufferAppendID = (*env)->GetMethodID(env, buffer_class, "append", "(Ljava/lang/String;)Ljava/lang/StringBuffer;");
-
-    jstring message = (*env)->NewStringUTF(env, psz_msg);
-    (*env)->CallObjectMethod(env, buffer, bufferAppendID, message);
-    (*env)->DeleteLocalRef(env, message);
-    free(psz_msg);
-
-    if (isAttached)
-        jni_detach_thread();
-}
-
-void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap)
-{
-    bool *verbose = data;
-
-    static const uint8_t priority[5] = {
-        [LIBVLC_DEBUG]   = ANDROID_LOG_DEBUG,
-        [1 /* ??? */]    = ANDROID_LOG_DEBUG,
-        [LIBVLC_NOTICE]  = ANDROID_LOG_INFO,
-        [LIBVLC_WARNING] = ANDROID_LOG_WARN,
-        [LIBVLC_ERROR]   = ANDROID_LOG_ERROR,
-    };
-
-    int prio = ANDROID_LOG_DEBUG;
-    if (level >= LIBVLC_DEBUG && level <= LIBVLC_ERROR)
-        prio = priority[level];
-
-    /* Quit if we are not doing anything */
-    if(!buffer_logging && (!(*verbose) && prio < ANDROID_LOG_ERROR))
-        return;
-
-    /* Add emitting module & type */
-    char* fmt2 = NULL;
-    if(asprintf(&fmt2, "%s %s: %s", ctx->psz_module, ctx->psz_object_type, fmt) < 0)
-        return;
-
-    if (buffer_logging) {
-        va_list aq;
-        va_copy(aq, ap);
-        debug_buffer_log(data, level, fmt2, aq);
-        va_end(aq);
-    }
-
-    __android_log_vprint(prio, "VLC", fmt2, ap);
-    free(fmt2);
-}
-
-void Java_org_videolan_libvlc_LibVLC_startDebugBuffer(JNIEnv *env, jobject thiz)
-{
-    jclass libVLC_class = (*env)->FindClass(env, "org/videolan/libvlc/LibVLC");
-    jmethodID getInstance = (*env)->GetStaticMethodID(env, libVLC_class, "getInstance", "()Lorg/videolan/libvlc/LibVLC;");
-    jobject libvlcj = (*env)->CallStaticObjectMethod(env, libVLC_class, getInstance);
-
-    jfieldID bufferID = (*env)->GetFieldID(env, libVLC_class, "mDebugLogBuffer", "Ljava/lang/StringBuffer;");
-    jobject buffer = (*env)->GetObjectField(env, libvlcj, bufferID);
-
-    debugBufferInstance = (*env)->NewGlobalRef(env, buffer);
-    (*env)->DeleteLocalRef(env, buffer);
-
-    jfieldID buffer_flag = (*env)->GetFieldID(env, libVLC_class, "mIsBufferingLog", "Z");
-    (*env)->SetBooleanField(env, libvlcj, buffer_flag, JNI_TRUE);
-
-    (*env)->DeleteLocalRef(env, libVLC_class);
-    (*env)->DeleteLocalRef(env, libvlcj);
-    buffer_logging = true;
-}
-
-void Java_org_videolan_libvlc_LibVLC_stopDebugBuffer(JNIEnv *env, jobject thiz)
-{
-    buffer_logging = false;
-    jclass libVLC_class = (*env)->FindClass(env, "org/videolan/libvlc/LibVLC");
-    jmethodID getInstance = (*env)->GetStaticMethodID(env, libVLC_class, "getInstance", "()Lorg/videolan/libvlc/LibVLC;");
-    jobject libvlcj = (*env)->CallStaticObjectMethod(env, libVLC_class, getInstance);
-
-    (*env)->DeleteGlobalRef(env, debugBufferInstance);
-
-    jfieldID buffer_flag = (*env)->GetFieldID(env, libVLC_class, "mIsBufferingLog", "Z");
-    (*env)->SetBooleanField(env, libvlcj, buffer_flag, JNI_FALSE);
-
-    (*env)->DeleteLocalRef(env, libVLC_class);
-    (*env)->DeleteLocalRef(env, libvlcj);
 }
 
 jstring Java_org_videolan_libvlc_LibVLC_nativeToURI(JNIEnv *env, jobject thiz, jstring path)

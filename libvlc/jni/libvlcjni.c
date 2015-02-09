@@ -458,8 +458,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 
     LOGI("LibVLC initialized: %p", instance);
 
-    libvlc_log_set(instance, debug_log, &verbosity);
-
     init_native_crash_handler(env, thiz);
 }
 
@@ -473,7 +471,6 @@ void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
         return; // Already destroyed
 
     libvlc_instance_t *instance = (libvlc_instance_t*)(intptr_t) libVlcInstance;
-    libvlc_log_unset(instance);
     libvlc_release(instance);
 
     setLong(env, thiz, "mLibVlcInstance", 0);

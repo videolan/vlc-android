@@ -74,6 +74,4 @@ void arrayListStringAdd(JNIEnv *env, jclass class, jmethodID methodID, jobject a
 
 jobject getEventHandlerReference(JNIEnv *env, jobject thiz, jobject eventHandler);
 
-void debug_log(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list ap);
-
 #endif // LIBVLCJNI_UTILS_H
