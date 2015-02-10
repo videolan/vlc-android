@@ -54,7 +54,7 @@ MediaList_add_media(vlcjni_object *p_obj, int index, libvlc_media_t *p_m)
     // realloc
     if (i_new_medias_size > p_sys->i_medias_max)
     {
-        libvlc_media_t *pp_new_medias;
+        libvlc_media_t **pp_new_medias;
         unsigned int i_new_medias_max = p_sys->i_medias_max + MEDIAS_INIT_SIZE;
 
         pp_new_medias = realloc(p_sys->pp_medias,
