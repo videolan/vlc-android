@@ -125,7 +125,7 @@ fi
 # Fetch VLC source #
 ####################
 
-TESTED_HASH=18e445a
+TESTED_HASH=3375a55
 if [ ! -d "vlc" ]; then
     echo "VLC source not found, cloning"
     git clone git://git.videolan.org/vlc.git vlc
