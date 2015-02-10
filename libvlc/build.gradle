@@ -1,38 +1,5 @@
 apply plugin: 'com.android.library'
 
-
-task buildDebugARM(type:Exec) {
-    /*
-    Properties set for Android Studio own shell.
-    when you run gradlew from cli, OS shell env variables will be used
-
-    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
-    properties in local.properties in the root folder, like this (for example):
-    sdk.dir=/home/<username>/SDK/android-sdk-linux
-    ndk.dir=/home/<username>/SDK/android-ndk-r10b
-     */
-    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
-        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-    }
-    workingDir '..'
-    commandLine './compile-libvlc.sh'
-    args('-a', "armeabi-v7a")
-}
-task buildDebugx86(type:Exec) {
-    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
-        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-    }
-    workingDir '..'
-    commandLine './compile-libvlc.sh'
-    args('-a', "x86")
-}
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -62,4 +29,54 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+}
+
+class BuildNative extends Exec {}
+
+tasks.withType(BuildNative){
+    /*
+    Properties set for Android Studio own shell.
+    when you run gradlew from cli, OS shell env variables will be used
+
+    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
+    properties in local.properties in the root folder, like this (for example):
+    sdk.dir=/home/<username>/SDK/android-sdk-linux
+    ndk.dir=/home/<username>/SDK/android-ndk-r10b
+     */
+    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+    }
+    workingDir '..'
+    commandLine './compile-libvlc.sh'
+}
+
+task buildDebugARMv5(type:BuildNative) {
+    args('-a', "armeabi-v5")
+}
+task buildDebugARMv6(type:BuildNative) {
+    args('-a', "armeabi")
+}
+task buildDebugARMv6_nofpu(type:BuildNative) {
+    args('-a', "armeabi-nofpu")
+}
+task buildDebugARMv7(type:BuildNative) {
+    args('-a', "armeabi-v7a")
+}
+task buildDebugARM64(type:BuildNative) {
+    args('-a', "armeabi-v8a")
+}
+task buildDebugx86(type:BuildNative) {
+    args('-a', "x86")
+}
+task buildDebugx86_64(type:BuildNative) {
+    args('-a', "x86_64")
+}
+task buildDebugMIPS(type:BuildNative) {
+    args('-a', "mips")
+}
+task buildDebugMIPS64(type:BuildNative) {
+    args('-a', "mips64")
 }
