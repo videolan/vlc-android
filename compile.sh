@@ -7,7 +7,7 @@ set -e
 
 while [ $# -gt 0 ]; do
     case $1 in
-        help|--help)
+        help|--help|-h)
             echo "Use -a to set the ARCH:"
             echo "  ARM:     armeabi-v7a, armeabi, armeabi-v5, armeabi-nofpu"
             echo "  ARM64:   arm64-v8a"
