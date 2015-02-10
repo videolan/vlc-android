@@ -16,6 +16,9 @@ android {
         minSdkVersion 7
         targetSdkVersion 21
 
+        resValue "string", "build_time", buildTime()
+        resValue "string", "build_host", hostName()
+
         //Set the build ABI according to build types
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('assemble')) {
@@ -172,4 +175,12 @@ dependencies {
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     tvCompile 'com.android.support:leanback-v17:21.0.+'
+}
+
+def buildTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+def hostName() {
+    return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
 }
