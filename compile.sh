@@ -152,7 +152,7 @@ fi
 echo "Configuring"
 OPTS="-a ${ANDROID_ABI}"
 if [ "$RELEASE" = 1 ]; then
-    OPTS+=" release"
+    OPTS="$OPTS release"
 fi
 
 ./compile-libvlc.sh $OPTS
