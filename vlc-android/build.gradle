@@ -18,6 +18,7 @@ android {
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
+        resValue "string", "build_revision", revision()
 
         //Set the build ABI according to build types
         tasks.whenTaskAdded { task ->
@@ -183,4 +184,13 @@ def buildTime() {
 
 def hostName() {
     return System.getProperty("user.name") + "@" + InetAddress.localHost.hostName
+}
+
+def revision() {
+    def code = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = code
+    }
+    return code.toString()
 }
