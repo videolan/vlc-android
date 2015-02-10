@@ -90,6 +90,7 @@ if [ ! -d "gradle/wrapper" ]; then
     mkdir -p gradle
     mv gradle-${GRADLE_VERSION}/gradle/wrapper/ gradle
     mv gradle-${GRADLE_VERSION}/gradlew .
+    chmod +x gradlew
     rm -rf gradle-${GRADLE_VERSION}-all.zip gradle-${GRADLE_VERSION}
 fi
 
