@@ -35,6 +35,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,7 +132,7 @@ public class SidebarAdapter extends BaseAdapter {
             textView.setCompoundDrawables(img, null, null, null);
         }
         // Set in bold the current item.
-        if (mCurrentFragmentId.equals(sidebarEntry.id))
+        if (TextUtils.equals(mCurrentFragmentId,sidebarEntry.id))
             textView.setTypeface(null, Typeface.BOLD);
         else
             textView.setTypeface(null, Typeface.NORMAL);

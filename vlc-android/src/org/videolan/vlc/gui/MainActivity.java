@@ -214,6 +214,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         mSidebarAdapter = new SidebarAdapter(this);
         mListView.setAdapter(mSidebarAdapter);
 
+        if (savedInstanceState != null){
+            mCurrentFragment = savedInstanceState.getString("current");
+            if (mCurrentFragment != null)
+                mSidebarAdapter.setCurrentFragment(mCurrentFragment);
+        }
+
 
         /* Initialize UI variables */
         mInfoLayout = v_main.findViewById(R.id.info_layout);
@@ -363,6 +369,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         mAudioController.removeAudioPlayer(mAudioPlayer);
         AudioServiceController.getInstance().unbindAudioService(this);
         mFocusedPrior = 0;
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("current", mCurrentFragment);
     }
 
     @Override
