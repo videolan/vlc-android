@@ -229,9 +229,9 @@ if [ "${ANDROID_ABI}" = "armeabi-v5" ];then
 fi
 [ "${ANDROID_ABI}" = "armeabi" ] && cat << EOF
 For an ARMv6 device without FPU:
-$ export ANDROID_ABI="armeabi-nofpu"
+use "-a armeabi-nofpu"
 For an ARMv5 device:
-$ export ANDROID_ABI="armeabi-v5"
+use "-a armeabi-v5"
 EOF
 
 # Set up ABI variables
