@@ -20,29 +20,30 @@ android {
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
 
-        //Set the build ABI according to build types
-        tasks.whenTaskAdded { task ->
-            if (task.name.startsWith('assemble')) {
-                if (task.name.endsWith('ARMv5Debug'))
-                    task.dependsOn(":libvlc:buildDebugARMv5")
-                else if (task.name.endsWith('ARMv6fpuDebug'))
-                    task.dependsOn(":libvlc:buildDebugARMv6")
-                else if (task.name.endsWith('ARMv6nofpuDebug'))
-                    task.dependsOn(":libvlc:buildDebugARMv6_nofpu")
-                else if (task.name.endsWith('ARMv7Debug'))
-                    task.dependsOn(":libvlc:buildDebugARMv7")
-                else if (task.name.endsWith('ARMv8Debug'))
-                    task.dependsOn(":libvlc:buildDebugARM64")
-                else if (task.name.endsWith('X86Debug'))
-                    task.dependsOn(":libvlc:buildDebugx86")
-                else if (task.name.endsWith('X86_64Debug'))
-                    task.dependsOn(":libvlc:buildDebugx86_64")
-                else if (task.name.endsWith('MIPSDebug'))
-                    task.dependsOn(":libvlc:buildDebugMIPS")
-                else if (task.name.endsWith('MIPS64Debug'))
-                    task.dependsOn(":libvlc:buildDebugMIPS64")
+        //Set the build ABI according to build types only if not launched from compile.sh
+        if (System.getenv('PASSWORD_KEYSTORE') == null)
+            tasks.whenTaskAdded { task ->
+                if (task.name.startsWith('assemble')) {
+                    if (task.name.endsWith('ARMv5Debug'))
+                        task.dependsOn(":libvlc:buildDebugARMv5")
+                    else if (task.name.endsWith('ARMv6fpuDebug'))
+                        task.dependsOn(":libvlc:buildDebugARMv6")
+                    else if (task.name.endsWith('ARMv6nofpuDebug'))
+                        task.dependsOn(":libvlc:buildDebugARMv6_nofpu")
+                    else if (task.name.endsWith('ARMv7Debug'))
+                        task.dependsOn(":libvlc:buildDebugARMv7")
+                    else if (task.name.endsWith('ARMv8Debug'))
+                        task.dependsOn(":libvlc:buildDebugARM64")
+                    else if (task.name.endsWith('X86Debug'))
+                        task.dependsOn(":libvlc:buildDebugx86")
+                    else if (task.name.endsWith('X86_64Debug'))
+                        task.dependsOn(":libvlc:buildDebugx86_64")
+                    else if (task.name.endsWith('MIPSDebug'))
+                        task.dependsOn(":libvlc:buildDebugMIPS")
+                    else if (task.name.endsWith('MIPS64Debug'))
+                        task.dependsOn(":libvlc:buildDebugMIPS64")
+                }
             }
-        }
     }
 
     signingConfigs {
@@ -57,7 +58,7 @@ android {
              */
             storeFile file(keyStoreFile)
             keyAlias storealias
-            if (System.getenv('PASSWORD_KEYSTORE') != null){
+            if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
                 storePassword = System.getenv('PASSWORD_KEYSTORE')
                 keyPassword = System.getenv('PASSWORD_KEYSTORE')
             } else {
