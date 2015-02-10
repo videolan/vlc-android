@@ -164,11 +164,6 @@
                 <PreferenceScreen
                     android:key="debug_logs"
                     android:title="@string/debug_logs" />
-
-                <Preference
-                    android:enabled="true"
-                    android:key="dump_logcat"
-                    android:title="@string/dump_logcat" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
