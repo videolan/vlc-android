@@ -63,7 +63,7 @@ public class AboutFragment extends Fragment {
         mFlingViewGroup = (FlingViewGroup) v.findViewById(R.id.fling_view_group);
 
         WebView t = (WebView)v.findViewById(R.id.webview);
-        String revision = Util.readAsset("revision.txt", "Unknown revision");
+        String revision = getString(R.string.build_revision);
         t.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
 
         TextView link = (TextView) v.findViewById(R.id.main_link);
