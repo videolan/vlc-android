@@ -34,6 +34,8 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
@@ -166,5 +168,19 @@ public class AndroidDevices {
             }
         }
         return 0;
+    }
+
+    public static boolean hasLANConnection(){
+        boolean networkEnabled = false;
+        ConnectivityManager connectivity = (ConnectivityManager)(VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (connectivity != null) {
+            NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected() &&
+                    (networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
+                networkEnabled = true;
+            }
+        }
+        return networkEnabled;
+
     }
 }
