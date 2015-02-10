@@ -347,9 +347,6 @@ int jni_get_env(JNIEnv **env)
     return (*myVm)->GetEnv(myVm, (void **)env, VLC_JNI_VERSION) == JNI_OK ? 0 : -1;
 }
 
-// FIXME: use atomics
-static bool verbosity;
-
 void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
 {
     //only use OpenSLES if java side says we can
@@ -394,7 +391,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     LOGD("Subtitle encoding set to \"%s\"", subsencodingstr);
 
     methodId = (*env)->GetMethodID(env, cls, "isVerboseMode", "()Z");
-    verbosity = (*env)->CallBooleanMethod(env, thiz, methodId);
+    bool b_verbose = (*env)->CallBooleanMethod(env, thiz, methodId);
 
     methodId = (*env)->GetMethodID(env, cls, "isDirectRendering", "()Z");
     bool direct_rendering = (*env)->CallBooleanMethod(env, thiz, methodId);
@@ -410,7 +407,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
     }
 
-#define MAX_ARGV 18
+#define MAX_ARGV 19
     const char *argv[MAX_ARGV];
     int argc = 0;
 
@@ -449,6 +446,8 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         argv[argc++] = "--no-omxil-dr";
 #endif
     }
+    argv[argc++] = b_verbose ? "-vvv" : "-vv";
+
     /* Reconnect on lost HTTP streams, e.g. network change */
     if (enable_http_reconnect)
         argv[argc++] = "--http-reconnect";
