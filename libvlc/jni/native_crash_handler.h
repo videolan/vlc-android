@@ -23,7 +23,7 @@
 
 #include <jni.h>
 
-void init_native_crash_handler(JNIEnv *env, jobject j_libVLC_local);
-void destroy_native_crash_handler(JNIEnv *env);
+void init_native_crash_handler();
+void destroy_native_crash_handler();
 
 #endif // LIBVLCJNI_NATIVE_CRASH_HANDLER_H

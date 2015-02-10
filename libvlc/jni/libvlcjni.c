@@ -251,12 +251,19 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
               "java/lang/IllegalArgumentException");
     GET_CLASS(fields.String.clazz,
               "java/lang/String");
+    GET_CLASS(fields.LibVLC.clazz,
+              "org/videolan/libvlc/LibVLC");
     GET_CLASS(fields.VLCObject.clazz,
               "org/videolan/libvlc/VLCObject");
     GET_CLASS(fields.Media.clazz,
               "org/videolan/libvlc/Media");
     GET_CLASS(fields.Media.Track.clazz,
               "org/videolan/libvlc/Media$Track");
+
+    GET_ID(GetStaticMethodID,
+           fields.LibVLC.onNativeCrashID,
+           fields.LibVLC.clazz,
+           "onNativeCrash", "()V");
 
     GET_ID(GetFieldID,
            fields.VLCObject.mInstanceID,
@@ -292,6 +299,8 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 #undef GET_CLASS
 #undef GET_ID
 
+    init_native_crash_handler();
+
     LOGD("JNI interface loaded.");
     return VLC_JNI_VERSION;
 }
@@ -302,6 +311,8 @@ void JNI_OnUnload(JavaVM* vm, void* reserved)
 
     pthread_mutex_destroy(&vout_android_lock);
     pthread_cond_destroy(&vout_android_surf_attached);
+
+    destroy_native_crash_handler();
 
     if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
         return;
@@ -457,14 +468,10 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
     }
 
     LOGI("LibVLC initialized: %p", instance);
-
-    init_native_crash_handler(env, thiz);
 }
 
 void Java_org_videolan_libvlc_LibVLC_nativeDestroy(JNIEnv *env, jobject thiz)
 {
-    destroy_native_crash_handler(env);
-
     releaseMediaPlayer(env, thiz);
     jlong libVlcInstance = getLong(env, thiz, "mLibVlcInstance");
     if (!libVlcInstance)

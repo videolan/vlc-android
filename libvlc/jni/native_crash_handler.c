@@ -18,16 +18,18 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
+#include <stdbool.h>
 #include <signal.h>
 
 #include "native_crash_handler.h"
+#include "utils.h"
 
 static struct sigaction old_actions[NSIG];
-static jobject j_libVLC;
 
 #define THREAD_NAME "native_crash_handler"
 extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
 extern void jni_detach_thread();
+extern int jni_get_env(JNIEnv **env);
 
 // Monitored signals.
 static const int monitored_signals[] = {
@@ -50,25 +52,28 @@ static const int monitored_signals[] = {
  */
 void sigaction_callback(int signal, siginfo_t *info, void *reserved)
 {
-    // Call the Java LibVLC method that handle the crash.
     JNIEnv *env;
-    jni_attach_thread(&env, THREAD_NAME);
+    bool b_attached = false;
 
-    jclass cls = (*env)->GetObjectClass(env, j_libVLC);
-    jmethodID methodId = (*env)->GetMethodID(env, cls, "onNativeCrash", "()V");
-    (*env)->CallVoidMethod(env, j_libVLC, methodId);
+    if (jni_get_env(&env) < 0) {
+        if (jni_attach_thread(&env, THREAD_NAME) < 0)
+            return;
+        b_attached = true;
+    }
 
-    (*env)->DeleteLocalRef(env, cls);
-    jni_detach_thread();
+    // Call the Java LibVLC method that handle the crash.
+    (*env)->CallStaticVoidMethod(env, fields.LibVLC.clazz,
+                                 fields.LibVLC.onNativeCrashID);
 
     // Call the old signal handler.
     old_actions[signal].sa_handler(signal);
+    if (b_attached)
+        jni_detach_thread();
 }
 
 
-void init_native_crash_handler(JNIEnv *env, jobject j_libVLC_local)
+void init_native_crash_handler()
 {
-    j_libVLC = (*env)->NewGlobalRef(env, j_libVLC_local);
     struct sigaction handler;
     memset(&handler, 0, sizeof(struct sigaction));
 
@@ -84,7 +89,7 @@ void init_native_crash_handler(JNIEnv *env, jobject j_libVLC_local)
 }
 
 
-void destroy_native_crash_handler(JNIEnv *env)
+void destroy_native_crash_handler()
 {
     // Uninstall the signal handlers and restore their old actions.
     for (unsigned i = 0; i < sizeof(monitored_signals) / sizeof(int); ++i)
@@ -92,6 +97,4 @@ void destroy_native_crash_handler(JNIEnv *env)
         const int s = monitored_signals[i];
         sigaction(s, &old_actions[s], NULL);
     }
-
-    (*env)->DeleteGlobalRef(env, j_libVLC);
 }

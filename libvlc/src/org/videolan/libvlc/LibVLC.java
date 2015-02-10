@@ -92,7 +92,7 @@ public class LibVLC {
     private String mCachePath = "";
 
     /** Native crash handler */
-    private OnNativeCrashListener mOnNativeCrashListener;
+    private static OnNativeCrashListener sOnNativeCrashListener;
 
     /** Check in libVLC already initialized otherwise crash */
     private boolean mIsInitialized = false;
@@ -716,13 +716,13 @@ public class LibVLC {
         public void onNativeCrash();
     }
 
-    public void setOnNativeCrashListener(OnNativeCrashListener l) {
-        mOnNativeCrashListener = l;
+    public static void setOnNativeCrashListener(OnNativeCrashListener l) {
+        sOnNativeCrashListener = l;
     }
 
-    private void onNativeCrash() {
-        if (mOnNativeCrashListener != null)
-            mOnNativeCrashListener.onNativeCrash();
+    private static void onNativeCrash() {
+        if (sOnNativeCrashListener != null)
+            sOnNativeCrashListener.onNativeCrash();
     }
 
     public String getCachePath() {

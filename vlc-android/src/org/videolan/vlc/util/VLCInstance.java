@@ -45,7 +45,7 @@ public class VLCInstance {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             VLCInstance.updateLibVlcSettings(pref);
             instance.init(context);
-            instance.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
+            LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
                     Intent i = new Intent(context, NativeCrashActivity.class);

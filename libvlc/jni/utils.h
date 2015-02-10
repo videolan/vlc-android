@@ -21,6 +21,10 @@
 #ifndef LIBVLCJNI_UTILS_H
 #define LIBVLCJNI_UTILS_H
 
+#include <vlc/vlc.h>
+#include <vlc/libvlc_media.h>
+#include <vlc/libvlc_media_list.h>
+
 struct fields {
     struct {
         jclass clazz;
@@ -31,6 +35,10 @@ struct fields {
     struct {
         jclass clazz;
     } String;
+    struct {
+        jclass clazz;
+        jmethodID onNativeCrashID;
+    } LibVLC;
     struct {
         jclass clazz;
         jfieldID mInstanceID;
