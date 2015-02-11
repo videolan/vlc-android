@@ -15,7 +15,6 @@ ifneq ($(APP_PLATFORM),android-21)
 LOCAL_SRC_FILES += compat/pthread-condattr.c compat/pthread-rwlocks.c
 LOCAL_SRC_FILES += compat/pthread-once.c compat/eventfd.c compat/sem.c compat/pipe2.c
 LOCAL_SRC_FILES += compat/localtime.c
-endif
 LOCAL_SRC_FILES += compat/wchar/wcpcpy.c
 LOCAL_SRC_FILES += compat/wchar/wcpncpy.c
 LOCAL_SRC_FILES += compat/wchar/wcscasecmp.c
@@ -46,7 +45,7 @@ LOCAL_SRC_FILES += compat/wchar/wmemcmp.c
 LOCAL_SRC_FILES += compat/wchar/wmemcpy.c
 LOCAL_SRC_FILES += compat/wchar/wmemmove.c
 LOCAL_SRC_FILES += compat/wchar/wmemset.c
-
+endif
 
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
 
