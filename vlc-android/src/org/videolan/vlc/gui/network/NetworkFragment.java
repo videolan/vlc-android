@@ -66,7 +66,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private NetworkAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     TextView mEmptyView;
     public String mMrl;
     private int savedPosition = -1, mFavorites = 0;
@@ -79,6 +79,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             bundle = getArguments();
         if (bundle != null){
             mMrl = bundle.getString(KEY_MRL);
+            savedPosition = bundle.getInt(KEY_POSITION);
         }
         if (mMrl == null)
             mMrl = SMB_ROOT;
@@ -114,13 +115,12 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         getActivity().registerReceiver(networkReceiver, filter);
-        if (updateEmptyView()) {
-            updateDisplay();
-        }
     }
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
-        outState.putInt(KEY_POSITION, mRecyclerView.getScrollY());
+        if (mRecyclerView != null) {
+            outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -167,13 +167,15 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     public void onBrowseEnd() {
         mAdapter.sortList();
         mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
-        int position = getArguments().getInt(KEY_POSITION);
-        if (position > 0)
-            mRecyclerView.scrollTo(0, position);
+        if (savedPosition > 0) {
+            mLayoutManager.scrollToPositionWithOffset(savedPosition, 0);
+            savedPosition = 0;
+        }
     }
 
     @Override
     public void onRefresh() {
+        savedPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
         refresh();
     }
 
@@ -224,14 +226,12 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     }
 
     private void updateDisplay(){
-        mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (mAdapter.isEmpty()) {
+        if (mMediaBrowser == null)
+            mMediaBrowser = new MediaBrowser(mLibVLC, this);
+        if (mAdapter.isEmpty())
             refresh();
-        } else {
+        else
             updateFavorites();
-            if (savedPosition > 0)
-                mRecyclerView.scrollTo(0, savedPosition);
-        }
     }
 
     @Override
@@ -306,6 +306,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             }
         }
     }
+
     private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
