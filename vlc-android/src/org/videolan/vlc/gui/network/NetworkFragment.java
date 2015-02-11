@@ -230,7 +230,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             mMediaBrowser = new MediaBrowser(mLibVLC, this);
         if (mAdapter.isEmpty())
             refresh();
-        else
+        else if (mRoot)
             updateFavorites();
     }
 
