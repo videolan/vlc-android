@@ -21,17 +21,22 @@
  */
 package org.videolan.vlc.gui.network;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -42,8 +47,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -62,6 +67,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private NetworkAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    TextView mEmptyView;
     public String mMrl;
     private int savedPosition = -1, mFavorites = 0;
     private boolean mRoot;
@@ -84,6 +90,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.network_browser, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.network_list);
+        mEmptyView = (TextView) v.findViewById(android.R.id.empty);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -103,16 +110,14 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     }
     public void onStart(){
         super.onStart();
-        mMediaBrowser = new MediaBrowser(mLibVLC, this);
-        if (mAdapter.isEmpty()) {
-            refresh();
-        } else {
-            updateFavorites();
-            if (savedPosition > 0)
-                mRecyclerView.scrollTo(0, savedPosition);
+
+        //Handle network connection state
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(networkReceiver, filter);
+        if (updateEmptyView()) {
+            updateDisplay();
         }
     }
-
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putInt(KEY_POSITION, mRecyclerView.getScrollY());
@@ -148,6 +153,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     @Override
     public void onMediaAdded(int index, Media media) {
         mAdapter.addItem(media, mRoot, true);
+        updateEmptyView();
         if (mRoot)
             mHandler.sendEmptyMessage(NetworkFragmentHandler.MSG_HIDE_LOADING);
     }
@@ -184,6 +190,49 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             mSwipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
         }
     };
+
+    /**
+     * Update views visibility and emptiness info
+     *
+     * @return True if content needs can be refreshed
+     */
+    private boolean updateEmptyView(){
+        if (AndroidDevices.hasLANConnection()){
+            if (mAdapter.isEmpty()){
+                mEmptyView.setText(mRoot ? R.string.network_shares_discovery : R.string.network_empty);
+                mEmptyView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setEnabled(false);
+            } else {
+                if (mEmptyView.getVisibility() == View.VISIBLE) {
+                    mEmptyView.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mSwipeRefreshLayout.setEnabled(true);
+                }
+            }
+            return true;
+        } else {
+            if (mEmptyView.getVisibility() == View.GONE){
+                mEmptyView.setText(R.string.network_connection_needed);
+                mEmptyView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setEnabled(false);
+            }
+            return false;
+        }
+
+    }
+
+    private void updateDisplay(){
+        mMediaBrowser = new MediaBrowser(mLibVLC, this);
+        if (mAdapter.isEmpty()) {
+            refresh();
+        } else {
+            updateFavorites();
+            if (savedPosition > 0)
+                mRecyclerView.scrollTo(0, savedPosition);
+        }
+    }
 
     @Override
     public void refresh() {
@@ -257,4 +306,13 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             }
         }
     }
+    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action))
+                if (updateEmptyView())
+                    updateDisplay();
+        }
+    };
 }
