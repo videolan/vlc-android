@@ -224,16 +224,18 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     pthread_mutex_init(&vout_android_lock, NULL);
     pthread_cond_init(&vout_android_surf_attached, NULL);
 
-#define GET_CLASS(clazz, str) do { \
+#define GET_CLASS(clazz, str, b_globlal) do { \
     (clazz) = (*env)->FindClass(env, (str)); \
     if (!(clazz)) { \
         LOGE("FindClass(%s) failed", (str)); \
         return -1; \
     } \
-    (clazz) = (jclass) (*env)->NewGlobalRef(env, (clazz)); \
-    if (!(clazz)) { \
-        LOGE("NewGlobalRef(%s) failed", (str)); \
-        return -1; \
+    if (b_globlal) { \
+        (clazz) = (jclass) (*env)->NewGlobalRef(env, (clazz)); \
+        if (!(clazz)) { \
+            LOGE("NewGlobalRef(%s) failed", (str)); \
+            return -1; \
+        } \
     } \
 } while (0)
 
@@ -245,20 +247,28 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     } \
 } while (0)
 
+    jclass Version_clazz;
+    jfieldID SDK_INT_fieldID;
+
+    GET_CLASS(Version_clazz, "android/os/Build$VERSION", false);
+    GET_ID(GetStaticFieldID, SDK_INT_fieldID, Version_clazz, "SDK_INT", "I");
+    fields.SDK_INT = (*env)->GetStaticIntField(env, Version_clazz,
+                                               SDK_INT_fieldID);
+
     GET_CLASS(fields.IllegalStateException.clazz,
-              "java/lang/IllegalStateException");
+              "java/lang/IllegalStateException", true);
     GET_CLASS(fields.IllegalArgumentException.clazz,
-              "java/lang/IllegalArgumentException");
+              "java/lang/IllegalArgumentException", true);
     GET_CLASS(fields.String.clazz,
-              "java/lang/String");
+              "java/lang/String", true);
     GET_CLASS(fields.LibVLC.clazz,
-              "org/videolan/libvlc/LibVLC");
+              "org/videolan/libvlc/LibVLC", true);
     GET_CLASS(fields.VLCObject.clazz,
-              "org/videolan/libvlc/VLCObject");
+              "org/videolan/libvlc/VLCObject", true);
     GET_CLASS(fields.Media.clazz,
-              "org/videolan/libvlc/Media");
+              "org/videolan/libvlc/Media", true);
     GET_CLASS(fields.Media.Track.clazz,
-              "org/videolan/libvlc/Media$Track");
+              "org/videolan/libvlc/Media$Track", true);
 
     GET_ID(GetStaticMethodID,
            fields.LibVLC.onNativeCrashID,
@@ -274,6 +284,23 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            fields.VLCObject.dispatchEventFromNativeID,
            fields.VLCObject.clazz,
            "dispatchEventFromNative", "(IJJ)V");
+
+    if (fields.SDK_INT <= 7)
+    {
+        LOGE("fields.SDK_INT is less than 7: using compat WeakReference");
+        GET_ID(GetMethodID,
+               fields.VLCObject.getWeakReferenceID,
+               fields.VLCObject.clazz,
+               "getWeakReference", "()Ljava/lang/Object;");
+        GET_ID(GetStaticMethodID,
+               fields.VLCObject.dispatchEventFromWeakNativeID,
+               fields.VLCObject.clazz,
+               "dispatchEventFromWeakNative", "(Ljava/lang/Object;IJJ)V");
+    } else
+    {
+        fields.VLCObject.getWeakReferenceID = NULL;
+        fields.VLCObject.dispatchEventFromWeakNativeID = NULL;
+    }
 
     GET_ID(GetStaticMethodID,
            fields.Media.createAudioTrackFromNativeID,

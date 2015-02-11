@@ -26,6 +26,7 @@
 #include <vlc/libvlc_media_list.h>
 
 struct fields {
+    jint SDK_INT;
     struct {
         jclass clazz;
     } IllegalStateException;
@@ -43,6 +44,8 @@ struct fields {
         jclass clazz;
         jfieldID mInstanceID;
         jmethodID dispatchEventFromNativeID;
+        jmethodID getWeakReferenceID;
+        jmethodID dispatchEventFromWeakNativeID;
     } VLCObject;
     struct {
         struct {

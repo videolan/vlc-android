@@ -27,7 +27,8 @@
 
 struct vlcjni_object_owner
 {
-    jweak thiz;
+    jweak weak;
+    jobject weakCompat;
 
     libvlc_event_manager_t *p_event_manager;
     const int *p_events;
@@ -73,8 +74,18 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
     p_obj->p_libvlc = p_libvlc;
     libvlc_retain(p_libvlc);
 
-    p_obj->p_owner->thiz = (*env)->NewWeakGlobalRef(env, thiz);
-    if (!p_obj->p_owner->thiz)
+    if (fields.VLCObject.getWeakReferenceID)
+    {
+        jobject weakCompat = (*env)->CallObjectMethod(env, thiz,
+                                           fields.VLCObject.getWeakReferenceID);
+        if (weakCompat)
+        {
+            p_obj->p_owner->weakCompat = (*env)->NewGlobalRef(env, weakCompat);
+            (*env)->DeleteLocalRef(env, weakCompat);
+        }
+    } else
+        p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
+    if (!p_obj->p_owner->weak && !p_obj->p_owner->weakCompat)
         goto error;
 
     VLCJniObject_setInstance(env, thiz, p_obj);
@@ -104,8 +115,13 @@ VLCJniObject_release(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
         if (p_obj->p_libvlc)
             libvlc_release(p_obj->p_libvlc);
 
-        if (p_obj->p_owner && p_obj->p_owner->thiz)
-            (*env)->DeleteWeakGlobalRef(env, p_obj->p_owner->thiz);
+        if (p_obj->p_owner)
+        {
+            if (p_obj->p_owner->weak)
+                (*env)->DeleteWeakGlobalRef(env, p_obj->p_owner->weak);
+            else if (p_obj->p_owner->weakCompat)
+                (*env)->DeleteGlobalRef(env, p_obj->p_owner->weakCompat);
+        }
 
         free(p_obj->p_owner);
         free(p_obj);
@@ -128,7 +144,8 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     if (!p_obj->p_owner->p_java_event_thread)
     {
         p_obj->p_owner->p_java_event_thread =
-            JavaEventThread_create(p_obj->p_owner->thiz, true);
+            JavaEventThread_create(p_obj->p_owner->weak,
+                                   p_obj->p_owner->weakCompat, true);
         if (!p_obj->p_owner->p_java_event_thread)
             return;
     }

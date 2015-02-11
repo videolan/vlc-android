@@ -48,7 +48,8 @@ struct java_event_thread {
     pthread_cond_t cond;
     pthread_t thread;
     EVENT_QUEUE queue;
-    jweak jobj;
+    jweak jweak;
+    jobject jweakCompat;
 };
 
 static void *
@@ -83,9 +84,15 @@ JavaEventThread_thread(void *data)
 
         pthread_mutex_unlock(&p_java_event_thread->lock);
 
-        (*env)->CallVoidMethod(env, p_java_event_thread->jobj,
-                               fields.VLCObject.dispatchEventFromNativeID,
-                               p_jevent->type, p_jevent->arg1, p_jevent->arg2);
+        if (p_java_event_thread->jweak)
+            (*env)->CallVoidMethod(env, p_java_event_thread->jweak,
+                                   fields.VLCObject.dispatchEventFromNativeID,
+                                   p_jevent->type, p_jevent->arg1, p_jevent->arg2);
+        else
+            (*env)->CallStaticVoidMethod(env, fields.VLCObject.clazz,
+                                         fields.VLCObject.dispatchEventFromWeakNativeID,
+                                         p_java_event_thread->jweakCompat,
+                                         p_jevent->type, p_jevent->arg1, p_jevent->arg2);
 
         pthread_mutex_lock(&p_java_event_thread->lock);
 
@@ -112,9 +119,14 @@ end:
 }
 
 java_event_thread *
-JavaEventThread_create(jweak jobj, bool b_sync)
+JavaEventThread_create(jweak jweak, jobject jweakCompat, bool b_sync)
 {
-    java_event_thread *p_java_event_thread = calloc(1, sizeof(java_event_thread));
+    java_event_thread *p_java_event_thread;
+
+    if (!jweak && !jweakCompat)
+        return NULL;
+
+    p_java_event_thread = calloc(1, sizeof(java_event_thread));
     if (!p_java_event_thread)
         return NULL;
 
@@ -122,7 +134,8 @@ JavaEventThread_create(jweak jobj, bool b_sync)
     pthread_cond_init(&p_java_event_thread->cond, NULL);
     TAILQ_INIT(&p_java_event_thread->queue);
 
-    p_java_event_thread->jobj = jobj;
+    p_java_event_thread->jweak = jweak;
+    p_java_event_thread->jweakCompat = jweakCompat;
     p_java_event_thread->b_run = true;
     p_java_event_thread->b_sync = b_sync;
     pthread_create(&p_java_event_thread->thread, NULL,
