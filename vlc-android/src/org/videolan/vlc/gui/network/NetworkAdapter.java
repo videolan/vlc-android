@@ -184,15 +184,15 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
     private int getIconResId(MediaWrapper media) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
-                return R.drawable.ic_menu_audio;
+                return R.drawable.ic_browser_audio_normal;
             case MediaWrapper.TYPE_DIR:
                 return R.drawable.ic_menu_network;
             case MediaWrapper.TYPE_VIDEO:
-                return R.drawable.ic_menu_video;
+                return R.drawable.ic_browser_video_normal;
             case MediaWrapper.TYPE_SUBTITLE:
-                return R.drawable.ic_audiosub_circle_normal_o;
+                return R.drawable.ic_browser_subtitle_normal;
             default:
-                return R.drawable.ic_cone_o;
+                return R.drawable.ic_menu_cone;
         }
     }
 }
