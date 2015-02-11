@@ -259,11 +259,14 @@ elif [ "${ANDROID_ABI}" = "arm64-v8a" ] ; then
     HAVE_ARM=1
     HAVE_64=1
     PLATFORM_SHORT_ARCH="arm64"
-else
+elif [ "${ANDROID_ABI}" = "armeabi-v7a" -o "${ANDROID_ABI}" = "armeabi" ] ; then
     TARGET_TUPLE="arm-linux-androideabi"
     PATH_HOST=$TARGET_TUPLE
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
+else
+    echo "Unknown ABI: '${ANDROID_ABI}'. Die, die, die!"
+    exit 2
 fi
 
 # try to detect NDK version
@@ -349,9 +352,6 @@ elif [ "${ANDROID_ABI}" = "mips" ] ; then
     # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
     # instruction and emulate it, so we select -mhard-float.
     # See http://www.linux-mips.org/wiki/Floating_point#The_Linux_kernel_and_floating_point
-else
-    echo "Unknown ABI. Die, die, die!"
-    exit 2
 fi
 
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -I${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/include"
