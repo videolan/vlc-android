@@ -68,6 +68,7 @@
         <item name="ic_menu_folder">@drawable/ic_menu_folder</item>
         <item name="ic_menu_history">@drawable/ic_menu_history</item>
         <item name="ic_menu_openmrl">@drawable/ic_menu_goto</item>
+        <item name="ic_menu_network">@drawable/ic_menu_network</item>
         <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
         <item name="ic_menu_cone">@drawable/ic_menu_cone</item>
         <item name="ic_move_media">@drawable/ic_move_media</item>
@@ -136,6 +137,7 @@
         <item name="ic_menu_folder">@drawable/ic_menu_folder_w</item>
         <item name="ic_menu_history">@drawable/ic_menu_history_w</item>
         <item name="ic_menu_openmrl">@drawable/ic_menu_goto_w</item>
+        <item name="ic_menu_network">@drawable/ic_menu_network_w</item>
         <item name="ic_menu_preferences">@drawable/ic_menu_preferences_w</item>
         <item name="ic_menu_cone">@drawable/ic_menu_cone_w</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>

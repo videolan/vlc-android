@@ -186,7 +186,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
             case MediaWrapper.TYPE_AUDIO:
                 return R.drawable.ic_menu_audio;
             case MediaWrapper.TYPE_DIR:
-                return R.drawable.ic_menu_folder;
+                return R.drawable.ic_menu_network;
             case MediaWrapper.TYPE_VIDEO:
                 return R.drawable.ic_menu_video;
             case MediaWrapper.TYPE_SUBTITLE:

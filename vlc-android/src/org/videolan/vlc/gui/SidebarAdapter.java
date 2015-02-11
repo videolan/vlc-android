@@ -82,9 +82,9 @@ public class SidebarAdapter extends BaseAdapter {
         entries = new ArrayList<SidebarEntry>();
         entries.add(new SidebarEntry(SidebarEntry.ID_VIDEO, R.string.video, R.attr.ic_menu_video, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_AUDIO, R.string.audio, R.attr.ic_menu_audio, SidebarEntry.TYPE_FRAGMENT));
-        entries.add(new SidebarEntry(SidebarEntry.ID_NETWORK, R.string.network_browsing, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
-        entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
         entries.add(new SidebarEntry(SidebarEntry.ID_DIRECTORIES, R.string.directories, R.attr.ic_menu_folder, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_NETWORK, R.string.network_browsing, R.attr.ic_menu_network, SidebarEntry.TYPE_FRAGMENT));
+        entries.add(new SidebarEntry(SidebarEntry.ID_MRL, R.string.open_mrl, R.attr.ic_menu_openmrl, SidebarEntry.TYPE_FRAGMENT));
 //        entries.add(new SidebarEntry(SidebarEntry.ID_HISTORY, R.string.history, R.attr.ic_menu_history, SidebarEntry.TYPE_FRAGMENT));
         sidebarFragments = new ArrayList<String>();
         for(SidebarEntry e : entries) {
