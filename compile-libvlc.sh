@@ -491,6 +491,7 @@ PKG_CONFIG_LIBDIR=../contrib/$TARGET_TUPLE/lib/pkgconfig \
 sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
                 ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
 checkfail "vlc: configure failed"
+fi
 
 # ANDROID NDK FIXUP (BLAME GOOGLE)
 config_undef ()
@@ -526,8 +527,6 @@ if [ ${ANDROID_API} = "android-21" ] ; then
     config_undef HAVE_SYS_SHM_H
 fi
 # END OF ANDROID NDK FIXUP
-
-fi
 
 ############
 # BUILDING #
