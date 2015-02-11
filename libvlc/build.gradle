@@ -66,7 +66,7 @@ task buildDebugARMv7(type:BuildNative) {
     args('-a', "armeabi-v7a")
 }
 task buildDebugARM64(type:BuildNative) {
-    args('-a', "armeabi-v8a")
+    args('-a', "arm64-v8a")
 }
 task buildDebugx86(type:BuildNative) {
     args('-a', "x86")
