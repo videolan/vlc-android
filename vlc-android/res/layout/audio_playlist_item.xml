@@ -23,7 +23,6 @@
                 android:id="@+id/item_expansion"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:visibility="gone" >
 
@@ -44,7 +43,6 @@
                 android:id="@+id/layout_item"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp" >
 

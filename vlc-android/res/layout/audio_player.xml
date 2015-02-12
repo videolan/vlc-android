@@ -22,7 +22,6 @@
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="60dip"
-        android:layout_weight="0"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
