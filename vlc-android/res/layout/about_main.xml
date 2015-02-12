@@ -92,7 +92,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="@string/compiled_by"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/main_compiled"
@@ -101,7 +101,7 @@
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text=""
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

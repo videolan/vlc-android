@@ -77,7 +77,7 @@
                         android:ellipsize="middle"
                         android:text="@string/artist"
                         android:textColor="?attr/list_subtitle"
-                        android:textSize="11sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <View

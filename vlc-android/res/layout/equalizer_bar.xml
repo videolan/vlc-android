@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="16 kHz"
         tools:ignore="HardcodedText" />
 
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="0.0 Db"
         tools:ignore="HardcodedText" />
 
