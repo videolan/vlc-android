@@ -81,8 +81,8 @@
             android:paddingBottom="3dip"
             android:focusable="false"
             android:indeterminate="false"
-            android:maxHeight="3dip"
-            android:minHeight="3dip"
+            android:maxHeight="2dip"
+            android:minHeight="2dip"
             android:progressDrawable="?attr/gridview_progressbar" />
     </RelativeLayout>
 
