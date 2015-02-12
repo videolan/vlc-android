@@ -103,15 +103,14 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         mListView.setOnItemClickListener(this);
         mDirectoryAdapter.setContextPopupMenuListener(mContextPopupMenuListener);
         mListView.setAdapter(mDirectoryAdapter);
-        final ListView listView = (ListView)v.findViewById(android.R.id.list);
-        listView.setNextFocusUpId(R.id.ml_menu_search);
-        listView.setNextFocusLeftId(android.R.id.list);
-        listView.setNextFocusRightId(android.R.id.list);
+        mListView.setNextFocusUpId(R.id.ml_menu_search);
+        mListView.setNextFocusLeftId(android.R.id.list);
+        mListView.setNextFocusRightId(android.R.id.list);
         if (LibVlcUtil.isHoneycombOrLater())
-            listView.setNextFocusForwardId(android.R.id.list);
+            mListView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mDirectoryAdapter.getCount() == 0);
-        listView.requestFocus();
-        listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+        mListView.requestFocus();
+        mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long id) {
@@ -127,7 +126,7 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {}
             @Override
@@ -136,7 +135,7 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
             }
         });
 
-        registerForContextMenu(listView);
+        registerForContextMenu(mListView);
         return v;
     }
 
