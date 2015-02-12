@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
@@ -90,7 +91,7 @@ public class MediaInfoFragment extends ListFragment {
         mDelete = (TextView) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
         if (!LibVlcUtil.isICSOrLater())
-            mDelete.setText(getString(R.string.delete).toUpperCase());
+            mDelete.setText(getString(R.string.delete).toUpperCase(Locale.getDefault()));
 
         mPathView.setText(Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
