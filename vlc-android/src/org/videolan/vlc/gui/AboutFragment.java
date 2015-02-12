@@ -24,6 +24,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.FlingViewGroup;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -149,6 +150,7 @@ public class AboutFragment extends Fragment {
         tabHost.addTab(tabSpec);
     }
 
+    @SuppressLint("InflateParams")
     private View getNewTabIndicator(Context context, String title) {
         View v = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
         TextView tv = (TextView) v.findViewById(R.id.textView);

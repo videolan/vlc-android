@@ -194,14 +194,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         applyTheme();
 
-        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
-        setContentView(v_main);
+        setContentView(R.layout.main);
 
-        mSlidingPane = (SlidingPaneLayout) v_main.findViewById(R.id.pane);
+        mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
 
-        mSideMenu = v_main.findViewById(R.id.side_menu);
-        mListView = (ListView)v_main.findViewById(R.id.sidelist);
+        mSideMenu = findViewById(R.id.side_menu);
+        mListView = (ListView)findViewById(R.id.sidelist);
         mListView.setFooterDividersEnabled(true);
         mSidebarAdapter = new SidebarAdapter(this);
         mListView.setAdapter(mSidebarAdapter);
@@ -214,11 +213,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 
         /* Initialize UI variables */
-        mInfoLayout = v_main.findViewById(R.id.info_layout);
-        mInfoProgress = (ProgressBar) v_main.findViewById(R.id.info_progress);
-        mInfoText = (TextView) v_main.findViewById(R.id.info_text);
-        mAudioPlayerFilling = v_main.findViewById(R.id.audio_player_filling);
-        mRootContainer = (DrawerLayout) v_main.findViewById(R.id.root_container);
+        mInfoLayout = findViewById(R.id.info_layout);
+        mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
+        mInfoText = (TextView) findViewById(R.id.info_text);
+        mAudioPlayerFilling = findViewById(R.id.audio_player_filling);
+        mRootContainer = (DrawerLayout) findViewById(R.id.root_container);
 
         /* Set up the action bar */
         prepareActionBar();
@@ -710,17 +709,15 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         }
     }
 
-    public void setSearchAsFocusDown(boolean idIsEmpty, View parentView,
-        int id) {
+    public void setSearchAsFocusDown(boolean idIsEmpty, View parentView, int id) {
         View playPause = findViewById(R.id.header_play_pause);
-        View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
 
         if (!idIsEmpty) {
             View list = null;
             int pane = mSlidingPane.getState();
 
             if (parentView == null)
-                list = v_main.findViewById(id);
+                list = findViewById(id);
             else
 			    list = parentView.findViewById(id);
 

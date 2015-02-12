@@ -37,6 +37,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.FlingViewGroup;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -221,6 +222,7 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
         tabHost.addTab(tabSpec);
     }
 
+    @SuppressLint("InflateParams")
     private View getNewTabIndicator(Context context, String title) {
         View v = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
         TextView tv = (TextView) v.findViewById(R.id.textView);
