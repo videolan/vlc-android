@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* Enable the indeterminate progress feature */
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         if (!LibVlcUtil.hasCompatibleCPU(this)) {
             Log.e(TAG, LibVlcUtil.getErrorMsg());
             Intent i = new Intent(this, CompatErrorActivity.class);
