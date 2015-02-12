@@ -380,8 +380,10 @@ LDFLAGS="$LDFLAGS -L${ANDROID_NDK}/sources/cxx-stl/gnu-libstdc++/${GCCVER}/libs/
 if [ "$RELEASE" = 1 ]; then
     OPTS=""
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -DNDEBUG "
+    NDK_DEBUG=0
 else
     OPTS="--enable-debug"
+    NDK_DEBUG=1
 fi
 
 
@@ -597,4 +599,5 @@ $ANDROID_NDK/ndk-build -C libvlc \
     SYSROOT=${SYSROOT} \
     TARGET_TUPLE=$TARGET_TUPLE \
     HAVE_64=${HAVE_64} \
-    NDK_PROJECT_PATH=jni
+    NDK_PROJECT_PATH=jni \
+    NDK_DEBUG=${NDK_DEBUG}
