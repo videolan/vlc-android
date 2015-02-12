@@ -33,9 +33,11 @@ import java.util.StringTokenizer;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.VLCApplication;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
@@ -149,6 +151,7 @@ public class AndroidDevices {
         return list.toArray(new String[list.size()]);
     }
 
+    @TargetApi(VERSION_CODES.HONEYCOMB_MR1)
     public static float getCenteredAxis(MotionEvent event,
             InputDevice device, int axis) {
         final InputDevice.MotionRange range =

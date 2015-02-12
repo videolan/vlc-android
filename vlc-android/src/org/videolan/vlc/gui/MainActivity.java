@@ -192,15 +192,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         /*** Start initializing the UI ***/
 
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
-        if (enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black);
-            //We need to manually change statusbar color, otherwise, it remains orange.
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(Color.DKGRAY);
-            }
-        }
+        applyTheme();
 
         View v_main = LayoutInflater.from(this).inflate(R.layout.main, null);
         setContentView(v_main);
@@ -281,6 +273,19 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         /* Reload the latest preferences */
         reloadPreferences();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void applyTheme() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
+        if (enableBlackTheme) {
+            setTheme(R.style.Theme_VLC_Black);
+            //We need to manually change statusbar color, otherwise, it remains orange.
+            if (LibVlcUtil.isLolliPopOrLater()) {
+                getWindow().setStatusBarColor(Color.DKGRAY);
+            }
+        }
     }
 
 

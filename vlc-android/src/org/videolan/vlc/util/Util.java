@@ -45,6 +45,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
@@ -253,6 +254,7 @@ public class Util {
             editor.commit();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static boolean deleteFile (Context context, String path){
         boolean deleted = false;
         if (path.startsWith("file://"))
