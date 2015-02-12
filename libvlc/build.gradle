@@ -31,6 +31,14 @@ android {
     }
 }
 
+/*
+ * Include GDB files into apk
+ */
+afterEvaluate {
+    Sync packageTask = project.getTasks().findByName("packageReleaseJniLibs")
+    packageTask.include(['**/gdbserver', '**/gdb.setup'])
+}
+
 class BuildNative extends Exec {}
 
 tasks.withType(BuildNative){
