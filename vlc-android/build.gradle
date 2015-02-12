@@ -13,8 +13,6 @@ android {
 
     defaultConfig {
         applicationId "org.videolan.vlc"
-        minSdkVersion 7
-        targetSdkVersion 21
 
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
