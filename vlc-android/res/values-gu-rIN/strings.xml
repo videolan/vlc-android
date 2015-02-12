@@ -27,8 +27,7 @@
     <string name="unknown_genre">અજ્ઞાત શૈલી</string>
     <string name="songs">ગીતો</string>
     <plurals name="songs_quantity">
-        <item quantity="one">એક: 1 ગીત
-</item>
+        <item quantity="one">એક: 1 ગીત \n </item>
         <item quantity="other">અન્ય:  ગીતો \n </item>
     </plurals>
     <string name="artists">આર્ટિસ્ટ</string>
@@ -69,14 +68,11 @@
     <string name="track_video">વીડીઓ ટ્રેક</string>
     <string name="track_text">સબટાઇટલ ટ્રેક</string>
     <string name="track_unknown">અજ્ઞાત ટ્રેક</string>
-    <string name="track_codec_info">
- કોડેક:% 1 $ s
-</string>
-    <string name="track_language_info">
- ભાષા:% 1 $ s </string>
+    <string name="track_codec_info">કોડેક: %1$s\n</string>
+    <string name="track_language_info">ભાષા:%1$s\n</string>
     <string name="volume">અવાજ</string>
     <string name="brightness">બ્રાઈટનેસ</string>
-    <string name="track_samplerate_info">નમૂના દર:% 1 $ d Hz ⏎</string>
+    <string name="track_samplerate_info">નમૂના દર:%1$d Hz ⏎\n\n</string>
     <string name="track_resolution_info">રિસોલ્યુશન: %1$dx%2$d \n </string>
     <string name="playback_speed">પ્લેબૅક ઝડપ</string>
     <string name="open">ખોલો</string>
