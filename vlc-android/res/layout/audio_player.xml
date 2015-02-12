@@ -103,8 +103,7 @@
         <org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher
             android:id="@+id/cover_media_switcher"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
+            android:layout_height="fill_parent"/>
     </ViewSwitcher>
 
     <LinearLayout
