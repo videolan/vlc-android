@@ -206,7 +206,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
-        if (LibVlcUtil.isICSOrLater()) {
+        if (LibVlcUtil.isGingerbreadOrLater()) {
             int aoutEntriesId = R.array.aouts;
             int aoutEntriesIdValues = R.array.aouts_values;
             aoutPref.setEntries(aoutEntriesId);
@@ -221,7 +221,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
             }
         } else {
-            /* only audiotrack before ics */
+            /* only audiotrack before gingerbread */
             PreferenceGroup group = (PreferenceGroup) findPreference("advanced_prefs_group");
             group.removePreference(aoutPref);
         }
