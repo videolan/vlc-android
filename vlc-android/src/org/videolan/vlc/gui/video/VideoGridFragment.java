@@ -268,16 +268,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
-            newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            updateViewMode();
-        }
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MediaWrapper media = mVideoAdapter.getItem(position);
         if (media instanceof MediaGroup) {

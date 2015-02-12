@@ -20,34 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.AudioService;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
-import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
-import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
-import org.videolan.vlc.gui.network.NetworkFragment;
-import org.videolan.vlc.gui.video.MediaInfoFragment;
-import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.gui.video.VideoListAdapter;
-import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.SlidingPaneLayout;
-
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -57,7 +29,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -87,6 +58,34 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.audio.AudioService;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
+import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
+import org.videolan.vlc.gui.audio.AudioPlayer;
+import org.videolan.vlc.gui.audio.EqualizerFragment;
+import org.videolan.vlc.gui.network.NetworkFragment;
+import org.videolan.vlc.gui.video.MediaInfoFragment;
+import org.videolan.vlc.gui.video.VideoGridFragment;
+import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.interfaces.ISortable;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.SlidingPaneLayout;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener {
     public final static String TAG = "VLC/MainActivity";
@@ -577,12 +576,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
 
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
