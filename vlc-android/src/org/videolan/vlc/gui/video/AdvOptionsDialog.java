@@ -67,12 +67,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private SeekBar mSeek;
     private Button mReset;
 
-    private ImageView mSleepIcon;
     private TextView mSleepTitle;
     private TextView mSleepTime;
     private TextView mSleepCancel;
 
-    private ImageView mJumpIcon;
     private TextView mJumpTitle;
 
     private TextView mAudioDelay;
@@ -105,13 +103,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mSeek.setOnSeekBarChangeListener(mSeekBarListener);
         mReset.setOnClickListener(mResetListener);
 
-        mSleepIcon = (ImageView) root.findViewById(R.id.sleep_timer_icon);
         mSleepTitle = (TextView) root.findViewById(R.id.sleep_timer_title);
         mSleepTime = (TextView) root.findViewById(R.id.sleep_timer_value);
         mSleepCancel = (TextView) root.findViewById(R.id.sleep_timer_cancel);
 
         if (AndroidDevices.hasTsp()) {
-            mSleepIcon.setOnClickListener(this);
             mSleepTitle.setOnClickListener(this);
             mSleepTime.setOnClickListener(this);
             mSleepCancel.setOnClickListener(this);
@@ -119,13 +115,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
         }
 
-        mJumpIcon = (ImageView) root.findViewById(R.id.jump_icon);
         mJumpTitle = (TextView) root.findViewById(R.id.jump_title);
 
         mAudioDelay = (TextView) root.findViewById(R.id.audio_delay);
         mSpuDelay = (TextView) root.findViewById(R.id.spu_delay);
 
-        mJumpIcon.setOnClickListener(this);
         mJumpTitle.setOnClickListener(this);
 
         mAudioDelay.setOnClickListener(this);
@@ -269,11 +263,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case R.id.spu_delay:
                 showTimePickerFragment(ACTION_SPU_DELAY);
                 break;
-            case R.id.jump_icon:
             case R.id.jump_title:
                 showTimePickerFragment(ACTION_JUMP_TO_TIME);
                 break;
-            case R.id.sleep_timer_icon:
             case R.id.sleep_timer_title:
             case R.id.sleep_timer_value:
                 showTimePicker(TimePickerDialogFragment.ACTION_SLEEP);

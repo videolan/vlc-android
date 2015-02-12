@@ -116,18 +116,14 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/sleep_timer_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_sleep_normal_w" />
-
         <TextView
             android:id="@+id/sleep_timer_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/sleep_title" />
+            android:gravity="center_vertical"
+            android:text="@string/sleep_title"
+            android:drawableLeft="@drawable/ic_sleep_normal_w"/>
 
         <TextView
             android:id="@+id/sleep_timer_value"
@@ -152,27 +148,15 @@
     </LinearLayout>
 
     <!-- Jump to position -->
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/jump_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/jump_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_jumpto_normal_w" />
-
-        <TextView
-            android:id="@+id/jump_title"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:text="@string/jump_to_time" />
-    </LinearLayout>
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:text="@string/jump_to_time"
+        android:drawableLeft="@drawable/ic_jumpto_normal_w"/>
 
     <!-- Tracks delay -->
     <LinearLayout
