@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/transparent_gray"
     android:clickable="true"
-    android:onClick="onClickOverlayTips" >
+    android:onClick="onClickOverlayTips">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:weightSum="4" >
+        android:weightSum="4">
 
         <TextView
             style="@style/TipsFontStyle"
@@ -18,30 +18,61 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="bottom"
+            android:gravity="center"
             android:text="@string/video_player_tips"
             android:textSize="18sp" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:paddingTop="15dp"
             android:orientation="horizontal"
-            android:weightSum="2" >
+            android:weightSum="3">
 
             <TextView
                 style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
                 android:gravity="center"
                 android:text="@string/brightness" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TipsFontStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableBottom="@drawable/ic_gesture_swipe_horizontally"
+                    android:gravity="center"
+                    android:text="@string/seek" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/button_oval"
+                    android:clickable="true"
+                    android:onClick="onClickDismissTips"
+                    android:text="@string/ok_got_it"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <TextView
                 style="@style/TipsFontStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableBottom="@drawable/ic_gesture_swipe_vertically"
@@ -49,142 +80,114 @@
                 android:text="@string/volume" />
         </LinearLayout>
 
-        <TextView
-            style="@style/TipsFontStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|top"
-            android:drawableBottom="@drawable/ic_gesture_swipe_horizontally"
-            android:gravity="center"
-            android:text="@string/seek" />
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" >
+        android:layout_width="800dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/overlay_margin"
+        android:layout_marginLeft="@dimen/overlay_margin"
+        android:layout_marginRight="@dimen/overlay_margin"
+        android:paddingBottom="@dimen/overlay_padding_bottom"
+        android:paddingTop="@dimen/overlay_padding_top">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/player_tips_progress"
-            android:layout_alignParentRight="true" >
-
-            <ImageView
-                android:id="@+id/player_tips_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/player_tips_audio"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ic_audiosub_circle_normal_o" />
-
-            <TextView
-                style="@style/TipsFontStyle.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/player_tips_subtitle"
-                android:layout_marginTop="-6dp"
-                android:paddingRight="5dp"
-                android:text="@string/subtitles" />
-
-            <ImageView
-                android:id="@+id/player_tips_audio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/player_tips_size"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ic_audiosub_circle_normal_o" />
-
-            <TextView
-                style="@style/TipsFontStyle.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/player_tips_audio"
-                android:layout_marginTop="-6dp"
-                android:paddingRight="5dp"
-                android:text="@string/track_audio" />
-
-            <ImageView
-                android:id="@+id/player_tips_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/ic_crop_circle_normal_o" />
-
-            <TextView
-                style="@style/TipsFontStyle.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/player_tips_size"
-                android:layout_marginTop="-6dp"
-                android:paddingRight="5dp"
-                android:text="@string/resize" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/player_tips_progress"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:id="@+id/media_buttons_tips"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="?attr/video_player_overlay"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+            android:layout_marginLeft="@dimen/images_margin_sides"
+            android:layout_marginRight="@dimen/images_margin_sides"
+            android:weightSum="5">
 
             <ImageView
-                android:id="@+id/player_tips_lock"
-                android:layout_width="40dip"
-                android:layout_height="40dip"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/ic_lock_circle" />
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:src="@drawable/ic_lock_circle" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:src="@drawable/ic_audiosub_circle" />
+
+            <ImageView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/ic_more_normal_w"
-                android:onClick="showAdvancedOptions" />
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:src="@drawable/ic_pause_circle" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:src="@drawable/ic_more_circle" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:src="@drawable/ic_crop_circle_o" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/media_buttons_tips"
+            android:layout_marginLeft="@dimen/images_margin_sides"
+            android:layout_marginRight="@dimen/images_margin_sides"
+            android:weightSum="5">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/player_tips_lock"
-                android:background="@drawable/button_oval"
-                android:clickable="true"
-                android:onClick="onClickDismissTips"
-                android:text="@string/ok_got_it"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="22sp" />
-        </RelativeLayout>
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="@string/lock" />
 
-        <TextView
-            style="@style/TipsFontStyle.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/player_tips_progress"
-            android:layout_marginTop="-6dp"
-            android:paddingRight="5dp"
-            android:text="@string/options" />
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="@string/audio_sub" />
 
-        <TextView
-            style="@style/TipsFontStyle.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignTop="@+id/player_tips_progress"
-            android:layout_marginTop="-6dp"
-            android:paddingLeft="5dp"
-            android:text="@string/lock" />
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="@string/play" />
+
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="@string/options" />
+
+            <TextView
+                style="@style/TipsFontStyle.Small"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:text="@string/resize" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -168,10 +168,11 @@
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
     <string name="subtitles">Subtitles</string>
+    <string name="audio_sub">Audio tracks\nand subtitles</string>
     <string name="resize">Resize</string>
     <string name="options">Options</string>
     <string name="lock">Lock</string>
-    <string name="ok_got_it">Got it, dismiss this</string>
+    <string name="ok_got_it">Got it, dismiss&#160;this</string>
 
     <string name="playlist_tips">Playlist tips</string>
     <string name="remove_song">Remove song</string>
