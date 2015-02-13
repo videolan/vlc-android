@@ -43,7 +43,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer{
+public class AudioPlayerActivity extends Activity implements AudioServiceController.AudioServiceConnectionListener, IAudioPlayer, View.OnFocusChangeListener {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     private AudioServiceController mAudioController;
@@ -55,8 +55,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
     private long mLastMove;
-    private int mSelectedItem = 0;
-    private int mCurrentlyPlaying;
+    private int mCurrentlyPlaying, mPositionSaved = 0;
 
     private TextView mTitleTv, mArtistTv;
     private ImageView mPlayPauseButton, mCover;
@@ -85,7 +84,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
         mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
         mCover = (ImageView)findViewById(R.id.album_cover);
-
+        findViewById(R.id.button_next).setOnFocusChangeListener(this);
     }
 
     public void onStart(){
@@ -196,8 +195,8 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     }
 
     public void playSelection() {
-        mAudioController.playIndex(mSelectedItem);
-        mCurrentlyPlaying = mSelectedItem;
+        mAudioController.playIndex(mAdapter.getmSelectedItem());
+        mCurrentlyPlaying = mAdapter.getmSelectedItem();
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
@@ -260,15 +259,15 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     }
 
     private void selectNext() {
-        if (mSelectedItem >= mAdapter.getItemCount()-1)
+        if (mAdapter.getmSelectedItem() >= mAdapter.getItemCount()-1)
             return;
-        selectItem(++mSelectedItem);
+        selectItem(mAdapter.getmSelectedItem()+1);
     }
 
     private void selectPrevious() {
-        if (mSelectedItem < 1)
+        if (mAdapter.getmSelectedItem() < 1)
             return;
-        selectItem(--mSelectedItem);
+        selectItem(mAdapter.getmSelectedItem()-1);
     }
 
     private void selectItem(final int position){
@@ -277,14 +276,23 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
-                if (position > mLayoutManager.findLastCompletelyVisibleItemPosition()
-                        || position < mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
+                if (position != -1 && (position > mLayoutManager.findLastCompletelyVisibleItemPosition()
+                        || position < mLayoutManager.findFirstCompletelyVisibleItemPosition())) {
                     mRecyclerView.stopScroll();
                     mRecyclerView.smoothScrollToPosition(position);
                 }
                 mAdapter.setSelection(position);
             }
         });
-        mSelectedItem = position;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            if (mAdapter.getmSelectedItem() != -1)
+                mPositionSaved = mAdapter.getmSelectedItem();
+            selectItem(-1);
+        } else if (!mPlayPauseButton.hasFocus())
+            selectItem(mPositionSaved);
     }
 }

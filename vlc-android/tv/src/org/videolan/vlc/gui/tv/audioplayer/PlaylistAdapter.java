@@ -32,7 +32,7 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements View.OnClickListener {
+public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements View.OnClickListener{
     public static final String TAG = "VLC/PlaylistAdapter";
 
     private AudioPlayerActivity mAudioPlayerActivity;
@@ -86,13 +86,20 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         return mDataset.size();
     }
 
-    public void setSelection(int pos){
+    public int getmSelectedItem(){
+        return mSelectedItem;
+    }
+
+    public void setSelection(int pos) {
         if (pos == mSelectedItem)
             return;
         int previous = mSelectedItem;
         mSelectedItem = pos;
-        notifyItemChanged(previous);
-        notifyItemChanged(mSelectedItem);
+        if (previous != -1)
+            notifyItemChanged(previous);
+        if (pos != -1){
+            notifyItemChanged(mSelectedItem);
+        }
     }
 
     @Override
