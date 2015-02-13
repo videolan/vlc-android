@@ -72,10 +72,10 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         if (mLocations == null)
             mLocations = new ArrayList<String>();
-        else {
-            mAdapter = new PlaylistAdapter(this, mLocations);
-            mRecyclerView.setAdapter(mAdapter);
-        }
+        if (getIntent().getData() != null)
+            mLocations.add(getIntent().getDataString());
+        mAdapter = new PlaylistAdapter(this, mLocations);
+        mRecyclerView.setAdapter(mAdapter);
 
         mAudioController = AudioServiceController.getInstance();
 
