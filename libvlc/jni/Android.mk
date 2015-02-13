@@ -82,6 +82,7 @@ LOCAL_LDLIBS := -L$(VLC_CONTRIB)/lib \
 	-ldsm -ltasn1 \
 	-lmad \
 	-lzvbi \
+	-lssh2 \
 	$(EXTRA_LDFLAGS)
 
 $(TARGET_OUT)/$(LOCAL_MODULE).so: $(ANDROID_PRIVATE_LIBS)
