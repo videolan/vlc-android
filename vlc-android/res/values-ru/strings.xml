@@ -226,6 +226,9 @@
     <string name="advanced_prefs_category">Расширенные</string>
     <string name="aout">Вывод звука</string>
     <string name="aout_summary">Выберите режим вывода звука в VLC</string>
+    <string name="aout_audiotrack">AudioTrack (нативный код)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Вывод видео</string>
     <string name="vout_summary">Выберите режим вывода видео в VLC</string>
     <string name="vout_android_surface">Буфер Android Surface</string>
@@ -257,4 +260,7 @@
     <string name="sending_log">Отправка протокола...</string>
     <string name="drawer_open">Открыть панель навигации</string>
     <string name="drawer_close">Закрыть панель навигации</string>
+    <string name="new_app">Вышло новое приложение</string>
+    <string name="new_app_msg">Бета-тестирование VLC для Android завершено. Отныне будет производиться обновление только нового приложения.</string>
+    <string name="new_app_go">Установить его</string>
 </resources>
