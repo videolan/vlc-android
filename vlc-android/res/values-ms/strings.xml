@@ -212,6 +212,9 @@
     <string name="advanced_prefs_category">Lanjutan</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
+    <string name="aout_audiotrack">TrekAudio (tabii)</string>
+    <string name="aout_audiotrack_java">TrekAudio (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Output video</string>
     <string name="vout_summary">Ubah kaedah yang VLC gunakan untuk video outout.</string>
     <string name="vout_android_surface">Permukaan Android</string>
@@ -243,4 +246,7 @@
     <string name="sending_log">Menghantar log...</string>
     <string name="drawer_open">Buka laci navigasi</string>
     <string name="drawer_close">Tutup laci navigasi</string>
+    <string name="new_app">Aplikasi baharu tersedia</string>
+    <string name="new_app_msg">VLC untuk pengujian Android Beta telah tamat. Buat masa ini, versi baharu hanay akan dikeluarkan untuk aplikasi baharu.</string>
+    <string name="new_app_go">Pergi dapatkannya</string>
 </resources>
