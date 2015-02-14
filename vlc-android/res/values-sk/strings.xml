@@ -226,6 +226,9 @@
     <string name="advanced_prefs_category">Pokročilé</string>
     <string name="aout">Zvukový výstup</string>
     <string name="aout_summary">Zmeniť spôsob, ktorý používa VLC pre výstup zvuku.</string>
+    <string name="aout_audiotrack">AudioTrack (natívne)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Výstup videa</string>
     <string name="vout_summary">Zmeňte metódu, ktorú progrma VLC používa pre výstup videa.</string>
     <string name="vout_android_surface">Android surface</string>
@@ -257,4 +260,7 @@
     <string name="sending_log">Odosiela sa záznam...</string>
     <string name="drawer_open">Otvoriť vykresľovač navigovania</string>
     <string name="drawer_close">Zatvoriť vykresľovač navigovania</string>
+    <string name="new_app">Je dostupná nová aplikácia</string>
+    <string name="new_app_msg">Testovanie aplikácie VLC for Android beta bolo ukončené. Odteraz budú nové verzie publikované iba pre novú aplikáciu.</string>
+    <string name="new_app_go">Prejsť a získať</string>
 </resources>
