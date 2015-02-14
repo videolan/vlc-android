@@ -29,7 +29,7 @@
     <string name="remove">أزِل</string>
     <string name="set_song">اضبطها للرّنين</string>
     <string name="info">معلومات</string>
-    <string name="confirm_delete">احذف الملف \'%1$s\' ؟</string>
+    <string name="confirm_delete">احذف الملف \'%1$s\'؟</string>
     <string name="ringtone_set">لقد اعتُمد الملف \'%1$s\' كرنَّة الهاتف. </string>
     <string name="ringtone_error">حدث خطأ أثناء ضبطها للرّنين.</string>
     <string name="pause">ألبِث</string>
@@ -130,6 +130,14 @@
     <string name="sound_on">الصوت مفعَّل</string>
     <string name="sound_off">الصوت غير مفعَّل</string>
     <string name="brightness">السّطوع</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="zero">%1$d قناة\n</item>
+        <item quantity="one">1 قناة\n</item>
+        <item quantity="two">%1$d قنوات\n</item>
+        <item quantity="few">%1$d قنوات\n</item>
+        <item quantity="many">%1$d قناة\n</item>
+        <item quantity="other">%1$d قناة\n</item>
+    </plurals>
     <string name="track_samplerate_info">معدل الاعتيان : %1$d Hz\n</string>
     <string name="track_resolution_info">الميز : %1$dx%2$d\n</string>
     <string name="track_framerate_info">معدل الإطار : %1$.3f\n</string>
@@ -273,4 +281,7 @@
     <string name="sending_log">يجري إرسال التقرير...</string>
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
+    <string name="new_app">هناك تطبيق جديد</string>
+    <string name="new_app_msg">انتهت المرحلة التجريبية (بيتا) لتطبيق VLC. من الآن فصاعداً ستتوفر إصدارات جديدة من التطبيق الجديد فقط.</string>
+    <string name="new_app_go">احصل عليه</string>
 </resources>
