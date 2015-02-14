@@ -190,6 +190,9 @@
     <string name="advanced_prefs_category">Өстәмә</string>
     <string name="aout">Тавыш чыгару</string>
     <string name="aout_summary">VLC да тавыш чыгару рәвешен сайлагыз</string>
+    <string name="aout_audiotrack">AudioTrack (табигый код)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Видео чыгару</string>
     <string name="vout_summary">VLC да видео чыгару рәвешен сайлагыз</string>
     <string name="vout_android_surface">Android Surface буферы</string>
