@@ -30,6 +30,7 @@
     <string name="ringtone_error">Hiba történt a csengőhang beállítása közben.</string>
     <string name="pause">Szünet</string>
     <string name="not_show_again">Ne mutasd újra ezt az üzenetet.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Ismeretlen előadó</string>
     <string name="unknown_album">Ismeretlen album</string>
     <string name="unknown_genre">Ismeretlen műfaj</string>
@@ -98,8 +99,14 @@
     <string name="track_video">Videosáv</string>
     <string name="track_text">Feliratsáv</string>
     <string name="track_unknown">Ismeretlen sáv</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Nyelv: %1$s\n</string>
     <string name="volume">Hangerő</string>
+    <string name="sound_on">Hang be</string>
+    <string name="sound_off">Hang ki</string>
     <string name="brightness">Fényerő</string>
+    <string name="track_samplerate_info">Mintavételi frekvencia: %1$d Hz\n\n</string>
+    <string name="track_resolution_info">Felbontás: %1$dx%2$d\n\n</string>
     <string name="tools">Eszközök</string>
     <string name="playback_speed">Lejátszás sebessége</string>
     <string name="sleep_title">Elalváskapcsoló</string>
@@ -129,6 +136,7 @@
     <string name="ok_got_it">Megvan, figyelmen kívül hagyás</string>
     <string name="playlist_tips">Lejátszási lista tippek</string>
     <string name="remove_song">Szám eltávolítása</string>
+    <string name="rearrange_order">Sorrend átrendezése</string>
     <string name="audio_player_tips">Zenelejátszó tippek</string>
     <string name="previous_next_song">Előző/következő szám</string>
     <string name="show_playlist">Lejátszólista megjelenítése</string>
@@ -176,6 +184,8 @@
     <string name="enable_headset_detection_summary">Fejhallgató eltávolításakor szünet; visszahelyezésekor folytatás</string>
     <string name="enable_steal_remote_control">Kizárólagosan vezérelje a fejhallgatót</string>
     <string name="enable_steal_remote_control_summary">A fejhallgató vezérlőit ne használhassák más alkalmazások. Ezzel megakadályozható a tárcsázás duplakattintáskor HTC telefonokon.</string>
+    <string name="audio_title_alignment_left">Bal</string>
+    <string name="audio_title_alignment_right">Jobb</string>
     <string name="performance_prefs_category">Teljesítmény</string>
     <string name="chroma_format">Videó színesség kényszerítése</string>
     <string name="deblocking">Blokkszűrő beállítások</string>
@@ -191,6 +201,9 @@
     <string name="advanced_prefs_category">Speciális</string>
     <string name="aout">Hangkimenet</string>
     <string name="aout_summary">Változtasd meg a VLC hangkimenetét</string>
+    <string name="aout_audiotrack">AudioTrack (natív)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videókimenet</string>
     <string name="vout_summary">Változtasd meg a VLC videókimenetét.</string>
     <string name="vout_android_surface">Android felület</string>
