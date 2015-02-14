@@ -219,6 +219,9 @@
     <string name="advanced_prefs_category">Erweitert</string>
     <string name="aout">Audioausgabe</string>
     <string name="aout_summary">Die Methode ändern, die VLC zur Tonausgabe benutzt.</string>
+    <string name="aout_audiotrack">AudioTrack (nativ)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Videoausgabe</string>
     <string name="vout_summary">Die Methode ändern, die VLC zur Video-Ausgabe benutzt.</string>
     <string name="vout_android_surface">Android-Oberfläche </string>
@@ -250,4 +253,7 @@
     <string name="sending_log">Fehlerbericht wird gesendet …</string>
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
+    <string name="new_app">Neue Anwendung verfügbar</string>
+    <string name="new_app_msg">Der VLC für Android Beta-Test wurde beendet. Ab jetzt werden neue Versionen nur für neue Anwendungen veröffentlicht.</string>
+    <string name="new_app_go">Los, holen Sie es sich</string>
 </resources>
