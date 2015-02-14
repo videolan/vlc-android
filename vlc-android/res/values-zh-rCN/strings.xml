@@ -212,6 +212,9 @@
     <string name="advanced_prefs_category">高级</string>
     <string name="aout">音频输出</string>
     <string name="aout_summary">更改 VLC 输出音频的方式。</string>
+    <string name="aout_audiotrack">AudioTrack 类 (原生)</string>
+    <string name="aout_audiotrack_java">AudioTrack 类 (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">视频输出</string>
     <string name="vout_summary">更改 VLC 输出视频所采用的方式。</string>
     <string name="vout_android_surface">Android 表面</string>
@@ -243,4 +246,7 @@
     <string name="sending_log">正在发送日志…</string>
     <string name="drawer_open">打开导航栏</string>
     <string name="drawer_close">关闭导航栏</string>
+    <string name="new_app">正式版应用发布啦</string>
+    <string name="new_app_msg">VLC for Android Beta 的测试使命已经完成。从现在开始，新版本将只通过正式版渠道发布。您正在使用的测试版将不再更新。</string>
+    <string name="new_app_go">去下载正式版</string>
 </resources>
