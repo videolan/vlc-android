@@ -219,6 +219,9 @@
     <string name="advanced_prefs_category">Geavanceerd</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_summary">Verander de audio-uitvoermethode die VLC gebruikt.</string>
+    <string name="aout_audiotrack">AudioTrack (native)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Video-uitvoer</string>
     <string name="vout_summary">Verander de video-uitvoermethode die VLC gebruikt.</string>
     <string name="vout_android_surface">Android surface</string>
@@ -250,4 +253,7 @@
     <string name="sending_log">Log verzenden...</string>
     <string name="drawer_open">Navigatielade openen</string>
     <string name="drawer_close">Navigatielade sluiten</string>
+    <string name="new_app">Nieuwe toepassing beschikbaar</string>
+    <string name="new_app_msg">De test voor VLC voor Android bèta is geëindigd. Vanaf nu zullen alleen nieuwe versies gepubliceerd worden voor de nieuwe toepassing.</string>
+    <string name="new_app_go">Nu ophalen</string>
 </resources>
