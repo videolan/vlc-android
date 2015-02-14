@@ -24,9 +24,12 @@
     <string name="remove">ತೆಗೆದುಹಾಕು</string>
     <string name="set_song">ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸಿ </string>
     <string name="info">ಮಾಹಿತಿ</string>
+    <string name="confirm_delete">\'%1$s\' ಕಡತವನ್ನು ಅಲಿಸಲೇ?</string>
+    <string name="ringtone_set">\'%1$s\' ಕಡತವನ್ನು ರಿಂಗ್ಟೋನ್ ಆಗಿ ಸೆಟ್ ಮಾಡಲಾಗಿದೆ</string>
     <string name="ringtone_error"> ಕರೆಧ್ವನಿಯಂತೆ ಹೊಂದಿಸುವಾಗ ದೋಷ ಉಂಟಾಗಿದೆ </string>
     <string name="pause">ವಿರಾಮ</string>
     <string name="not_show_again">ಈ ಸಂದೇಶವನ್ನು ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
+    <string name="info_title">ವಿಎಲ್ಸಿ</string>
     <string name="unknown_artist">ಅಪರಿಚಿತ ಕಲಾವಿದ</string>
     <string name="unknown_album">ಅಪರಿಚಿತ ಆಲ್ಬಮ್</string>
     <string name="unknown_genre">ಅಪರಿಚಿತ ಶೈಲಿ</string>
@@ -64,9 +67,11 @@
     <string name="directories">ಕಡತಕೋಶಗಳು  </string>
     <string name="loading">ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ </string>
     <string name="please_wait">ತುಸು ನಿರೀಕ್ಷಿಸಿ ○○○</string>
+    <string name="nomedia">ಯಾವುದೇ ಮಾಧ್ಯಮ ಕಡತ ಸಿಕ್ಕಿಲ್ಲ, ದಯವಿಟ್ಟು ಕೆಲವು ಕಡತವನ್ನು ನಿಮ್ಮ ಸಾಧನಕ್ಕೆ ವರ್ಗಾವಣೆ ಮಾಡಿ ಅಥವಾ ನಿಮ್ಮ ಆಧ್ಯತೆಯನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="mediafiles">ಮಾಧ್ಯಮ ಕಡತಗಳು</string>
     <string name="notavailable">ಲಭ್ಯವಿಲ್ಲ</string>
     <string name="nosubdirectory">ಉಪಕಡತಕೋಶಗಳು ಇಲ್ಲ .</string>
+    <string name="directorynotfound">\'%1$s\' ಕೋಶದ ಮಾರ್ಗವು ಕಂಡುಬಂದಿಲ್ಲ.</string>
     <string name="nohistory">ನೀವು ಇನ್ನೂ ಯಾವುದೇ ಪ್ಲೇಬ್ಯಾಕ್ ಇತಿಹಾಸವನ್ನು ಹೊಂದಿಲ್ಲ .</string>
     <string name="validation">ನೀವು ಖಚಿತವಾಗಿವಿರುವಿರಾ? </string>
     <string name="cover_art">ಮುಖಪುಟ ಕಲೆ</string>
@@ -89,8 +94,17 @@
     <string name="track_video">ದೃಶ್ಯಾವಳಿ</string>
     <string name="track_text">ಉಪಶೀರ್ಷಿಕೆಗಳು</string>
     <string name="track_unknown">ಅಪರಿಚಿತ  ಹಾಡು </string>
+    <string name="track_codec_info">ಕೋಡೆಕ್: %1$s\n</string>
+    <string name="track_language_info">ಭಾಷೆ: %1$s\n</string>
     <string name="volume">ವಾಲ್ಯೂಮ್</string>
+    <string name="sound_on">ಧ್ವನಿ ಸಕ್ರಿಯ</string>
+    <string name="sound_off">ಧ್ವನಿ ನಿಷ್ಕ್ರಿಯ</string>
     <string name="brightness">ಹೊಳಪು \n</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="other">%1$d ಚಾನೆಲ್ಸ್\n</item>
+    </plurals>
+    <string name="track_samplerate_info">ಮಾದರಿ ದರ: %1$d Hz\n</string>
+    <string name="track_resolution_info">ದೃಶ್ಯ ಸಾಂದ್ರತೆ: %1$dx%2$d\n</string>
     <string name="tools">ಉಪಕರಣಗಳು</string>
     <string name="playback_speed">ಪ್ಲೇಬ್ಯಾಕ್ ವೇಗ </string>
     <string name="sleep_title"> ಸ್ಲೀಪ್ ಟೈಮರ್</string>
@@ -110,6 +124,11 @@
     <string name="search_history">ಹುಡುಕು ಇತಿಹಾಸ </string>
     <string name="hardware_acceleration_error_title">HW ವೇಗವರ್ಧನೆ ದೋಷ</string>
     <!--Tips-->
+    <string name="seek">ಹುಡುಕು</string>
+    <string name="subtitles">ಉಪಶೀರ್ಷಿಕೆಗಳು</string>
+    <string name="resize">ಮರುಗಾತ್ರಗೊಳಿಸಿ</string>
+    <string name="options">ಆಯ್ಕೆಗಳು</string>
+    <string name="lock">ಬೀಗ</string>
     <!-- About -->
     <string name="app_name_full">VLC  Android™ ಆವೃತ್ತಿ </string>
     <string name="licence">ಪರವಾನಗೆ</string>
@@ -146,6 +165,7 @@
     <string name="enable_headset_detection_summary">ಹೆಡ್ಸೆಟ್ ತೆಗೆದ  ಮೇಲೆ ವಿರಾಮ; ಹೆಡ್ಸೆಟ್ ಅಳವಡಿಕೆಯ ನಂತರ ಮತ್ತೆ ಮುಂದುವರೆಸು </string>
     <string name="enable_steal_remote_control">ವಿಶೇಷ ಹೆಡ್ಸೆಟ್ ರಿಮೋಟ್ ನಿಯಂತ್ರಣ</string>
     <string name="enable_steal_remote_control_summary"> ಘರ್ಷಣೆ ತಪ್ಪಿಸಲು ಇತರ ಅಪ್ಲಿಕೇಶನ್ಗಳಿಂದ ರಿಮೋಟ್ ನಿಯಂತ್ರಣವನ್ನು ವಶಪಡಿಸಿಕೊಳ್ಳಿ . ಇದು HTC ಫೋನ್ಗಳಲ್ಲಿ ಡಬಲ್ ಕ್ಲಿಕ್ ಮೇಲೆ ಡಯಲಿಂಗ್ ಅನ್ನು ತಡೆಯುತ್ತದೆ . </string>
+    <string name="audio_title_alignment_left">ಎಡ</string>
     <string name="performance_prefs_category">ಕಾರ್ಯಕ್ಷಮತೆ</string>
     <string name="chroma_format">ದೃಶ್ಯ ವರ್ಣಶುದ್ಧತೆ ಒತ್ತಾಯಿಸಿ </string>
     <string name="deblocking">ಡಿಬ್ಲಾಕಿಂಗ್  ಫಿಲ್ಟರ್ ಸಿದ್ಧತೆಗಳು </string>
