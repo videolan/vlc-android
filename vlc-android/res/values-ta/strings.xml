@@ -253,4 +253,7 @@
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
     <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
+    <string name="new_app">புதிய பயன்பாடு உள்ளது</string>
+    <string name="new_app_msg">VLC இன் ஆண்ட்ராய்டு பீட்டா சோதனை முடிந்தது. இப்போதிலிருந்து புதிய பயன்பாடுக்கு மட்டுமே புதிய பதிப்புகள் வெளியாக்கப்படும்.</string>
+    <string name="new_app_go">சென்று அதைப் பெறுங்கள்</string>
 </resources>
