@@ -221,6 +221,9 @@
     <string name="advanced_prefs_category">Sudėtingesnės</string>
     <string name="aout">Garso išvedimas</string>
     <string name="aout_summary">Keisti VLC garso išvedimo būdą.</string>
+    <string name="aout_audiotrack">AudioTrack (gimtoji)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Vaizdo išvedimas</string>
     <string name="vout_summary">Keisti VLC vaizdo išvedimo būdą.</string>
     <string name="vout_android_surface">Android paviršius</string>
