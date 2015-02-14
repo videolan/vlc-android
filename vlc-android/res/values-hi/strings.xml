@@ -153,6 +153,9 @@
     <string name="advanced_prefs_category">उन्नत</string>
     <string name="aout">ऑडियो आउटपुट</string>
     <string name="aout_summary">VLC आउटपुट ऑडियो कि विधि बदलें.</string>
+    <string name="aout_audiotrack">AudioTrack(मूल)</string>
+    <string name="aout_audiotrack_java">AudioTrack (जावा)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
     <string name="clear_history">खोज के इतिहास को हटायें</string>
     <string name="media_db_cleared">मीडिया डेटाबेस को खली कर दिया गया हैं!</string>
