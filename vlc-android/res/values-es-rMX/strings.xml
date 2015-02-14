@@ -253,4 +253,7 @@
     <string name="sending_log">Enviando el registro...</string>
     <string name="drawer_open">Abrir caja de navegacion</string>
     <string name="drawer_close">Cerrar caja de navegacion</string>
+    <string name="new_app">Nueva aplicación disponible</string>
+    <string name="new_app_msg">La Beta de VLC para Android ha finalizado. Desde ahora, nuevas versiones sólo serán publicadas para la nueva aplicación.</string>
+    <string name="new_app_go">Ve a conseguirlo</string>
 </resources>
