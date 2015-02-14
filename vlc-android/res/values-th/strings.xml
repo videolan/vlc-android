@@ -178,6 +178,9 @@
     <string name="advanced_prefs_category">ขั้นสูง</string>
     <string name="aout">การส่งเสียง</string>
     <string name="aout_summary">เปลี่ยนวิธีการส่งเสียงของ VLC</string>
+    <string name="aout_audiotrack">AudioTrack (เนทีฟ)</string>
+    <string name="aout_audiotrack_java">AudioTrack (จาวา)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ส่วนแสดงวีดิทัศน์</string>
     <string name="vout_summary">เปลี่ยนวิธีการที่ VLC ใช้ในการแสดงผลภาพวีดิทัศน์</string>
     <string name="vout_android_surface">Android surface</string>
