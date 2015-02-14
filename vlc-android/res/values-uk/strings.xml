@@ -226,6 +226,9 @@
     <string name="advanced_prefs_category">Додатково</string>
     <string name="aout">Вивід звуку</string>
     <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
+    <string name="aout_audiotrack">AudioTrack (вбудована)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Вивід відео</string>
     <string name="vout_summary">Змінює метод, який VLC використовує для виведення відео.</string>
     <string name="vout_android_surface">Android поверхня</string>
@@ -257,4 +260,7 @@
     <string name="sending_log">Відправка журналу...</string>
     <string name="drawer_open">Відкрити меню навігації</string>
     <string name="drawer_close">Закрити меню навігації</string>
+    <string name="new_app">Доступна нова програма</string>
+    <string name="new_app_msg">Бета-тестування VLC для Android вже завершилося. Від нині лише нові версії будуть виходити для цієї програми.</string>
+    <string name="new_app_go">Отримати її</string>
 </resources>
