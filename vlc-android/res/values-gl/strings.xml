@@ -215,6 +215,9 @@
     <string name="advanced_prefs_category">Avanzadas</string>
     <string name="aout">Saída de audio</string>
     <string name="aout_summary">Mudar o método que usa o VLC para a saída de audio.</string>
+    <string name="aout_audiotrack">AudioTrack (nativo)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Saída de vídeo</string>
     <string name="vout_summary">Mudar o método que usa o VLC para a saída de vídeo.</string>
     <string name="vout_android_surface">Surface de Android</string>
