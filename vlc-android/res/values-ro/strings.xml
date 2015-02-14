@@ -201,6 +201,9 @@
     <string name="advanced_prefs_category">Avansat</string>
     <string name="aout">Ieșire audio</string>
     <string name="aout_summary">Schimbă metoda folosită de VLC pentru a reda audio.</string>
+    <string name="aout_audiotrack">AudioTrack (nativ)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Ieșire video</string>
     <string name="vout_summary">Schimbă metoda folosită de VLC pentru a reda video.</string>
     <string name="vout_android_surface">Android surface</string>
