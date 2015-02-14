@@ -233,6 +233,9 @@
     <string name="advanced_prefs_category">Дадаткова</string>
     <string name="aout">Аўдыявывад</string>
     <string name="aout_summary">Змяніць спосаб вываду аўдыё</string>
+    <string name="aout_audiotrack">AudioTrack (натыўны)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Вывад відэа</string>
     <string name="vout_summary">Змяніць спосаб вываду відэа</string>
     <string name="vout_android_surface">Android surface</string>
@@ -264,4 +267,7 @@
     <string name="sending_log">Адпраўка часапісу...</string>
     <string name="drawer_open">Адкрыць панэль навігацыі</string>
     <string name="drawer_close">Закрыць панэль навігацыі</string>
+    <string name="new_app">Даступна новая праграма</string>
+    <string name="new_app_msg">Фаза бэта-тэставання VLC скончылася. Усе наступныя абнаўленні будуць публікавацца для новай праграмы.</string>
+    <string name="new_app_go">Атрымаць</string>
 </resources>
