@@ -210,6 +210,9 @@
     <string name="advanced_prefs_category">מתקדם</string>
     <string name="aout">פלט שמע</string>
     <string name="aout_summary">שינוי השיטה בה נעשה שימוש ב־VLC לפלט שמע.</string>
+    <string name="aout_audiotrack">AudioTrack (native)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">פלט וידאו</string>
     <string name="vout_summary">החלפת השיטה בה נעשה שימוש ב־VLC לצורך הצגת פלט וידאו.</string>
     <string name="vout_android_surface">משטח אנדרויד</string>
@@ -239,4 +242,7 @@
     <string name="restart_vlc">הפעלת VLC מחדש</string>
     <string name="send_log">שליחת הדוח</string>
     <string name="sending_log">הדוח נשלח…</string>
+    <string name="drawer_open">פתיחת מגירת הניווט</string>
+    <string name="drawer_close">סגירת מגירת הניווט</string>
+    <string name="new_app">יישום חדש זמין</string>
 </resources>
