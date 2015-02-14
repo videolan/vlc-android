@@ -219,6 +219,9 @@
     <string name="advanced_prefs_category">அறிவாளி</string>
     <string name="aout">ஒலி வெளியீடு</string>
     <string name="aout_summary">ஒலியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
+    <string name="aout_audiotrack">ஒலித்தடம் (தன்னகம்)</string>
+    <string name="aout_audiotrack_java">ஒலித்தடம் (ஜாவா)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">காணொளி வெளியீடு</string>
     <string name="vout_summary">காணொளியை வெளியிட VLC பயன்படுத்தும் முறையை மாற்று.</string>
     <string name="vout_android_surface">ஆண்ட்ராய்டு மேற்பரப்பு</string>
@@ -250,4 +253,7 @@
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
     <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
+    <string name="new_app">புதிய பயன்பாடு உள்ளது</string>
+    <string name="new_app_msg">VLC இன் ஆண்ட்ராய்டு பீட்டா சோதனை முடிந்தது. இப்போதிலிருந்து புதிய பயன்பாடுக்கு மட்டுமே புதிய பதிப்புகள் வெளியாக்கப்படும்.</string>
+    <string name="new_app_go">சென்று அதைப் பெறுங்கள்</string>
 </resources>
