@@ -212,6 +212,9 @@
     <string name="advanced_prefs_category">拡張設定</string>
     <string name="aout">オーディオ出力</string>
     <string name="aout_summary">オーディオ出力に使用するメソッドを変更します。</string>
+    <string name="aout_audiotrack">オーディオトラック (ネイティブ)</string>
+    <string name="aout_audiotrack_java">オーディオトラック (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ビデオ出力</string>
     <string name="vout_summary">ビデオ出力に使用するメソッドを変更します。</string>
     <string name="vout_android_surface">Androidの外観</string>
@@ -243,4 +246,7 @@
     <string name="sending_log">ログを送信中...</string>
     <string name="drawer_open">ナビゲーションドロワーを開く</string>
     <string name="drawer_close">ナビゲーションドロワーを閉じる</string>
+    <string name="new_app">新しいアプリケーションが利用可能です。</string>
+    <string name="new_app_msg">VLC doe Androidのベータテストが終了しました。これより新しいバージョンが新しいアプリケーションとして公開されます。</string>
+    <string name="new_app_go">それを入手</string>
 </resources>
