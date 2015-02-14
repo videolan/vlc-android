@@ -219,6 +219,9 @@
     <string name="advanced_prefs_category">Για προχωρημένους</string>
     <string name="aout">Έξοδος ήχου</string>
     <string name="aout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή ήχου.</string>
+    <string name="aout_audiotrack">AudioTrack (ντόπια)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Έξοδος βίντεο</string>
     <string name="vout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή βίντεο.</string>
     <string name="vout_android_surface">Android surface</string>
@@ -250,4 +253,7 @@
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται...</string>
     <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
+    <string name="new_app">Νέα εφαρμογή είναι διαθέσιμη</string>
+    <string name="new_app_msg">Τα τεστ της Beta έκδοσης του VLC για Android έχουν τελειώσει. Από εδώ και πέρα, οι νέες εκδόσεις θα δημοσιεύονται μόνο για τη νέα εφαρμογή.</string>
+    <string name="new_app_go">Πάρτε το</string>
 </resources>
