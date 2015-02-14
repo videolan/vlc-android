@@ -127,11 +127,11 @@
     <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
     <string name="error_problem">Désolé, VLC pour Android a rencontré un problème et a dû s\'arrêter.</string>
-    <string name="error_message_is">Le message d\'erreur est (à indiquer en mode debug):\n</string>
+    <string name="error_message_is">Le message d\'erreur est (à indiquer en mode debug) :\n</string>
     <string name="encountered_error_title">Erreur de lecture</string>
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
     <string name="invalid_location">L\'emplacement « %1$s » ne peut être lu.</string>
-    <string name="search">Recherche</string>
+    <string name="search">Rechercher</string>
     <string name="search_history">Historique de recherche</string>
     <string name="hardware_acceleration_error_title">Erreur d\'accélération matérielle</string>
     <string name="hardware_acceleration_error_message">L\'accélération matérielle a rencontré un problème. Souhaitez-vous la désactiver et essayer à nouveau ?</string>
@@ -147,7 +147,7 @@
     <string name="remove_song">Supprimer la chanson</string>
     <string name="rearrange_order">Modifier l\'ordre</string>
     <string name="hold_to_seek">Maintenir pour naviguer</string>
-    <string name="audio_player_tips">Astuces de lecteur audio</string>
+    <string name="audio_player_tips">Astuces du lecteur audio</string>
     <string name="previous_next_song">Chanson précédente/suivante</string>
     <string name="show_playlist">Afficher la liste de lecture</string>
     <string name="hold_to_stop">Maintenir pour arrêter</string>
@@ -167,7 +167,7 @@
     <string name="add_custom_path_description">Entrer un dossier additionnel à scanner :</string>
     <string name="remove_custom_path">Retirer le dossier</string>
     <string name="hardware_acceleration">Accélération matérielle</string>
-    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage: peut améliorer les performances.\nComplète: peut encore améliorer les performances.</string>
+    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage : peut améliorer les performances.\nComplète : peut encore améliorer les performances.</string>
     <string name="hardware_acceleration_disabled">Désactivée</string>
     <string name="hardware_acceleration_decoding">Accélération au décodage</string>
     <string name="hardware_acceleration_full">Accélération complète</string>
@@ -180,7 +180,7 @@
     <string name="screen_orientation_reverse_portrait">Portrait inversé</string>
     <string name="screen_orientation_reverse_landscape">Paysage inversé</string>
     <string name="enable_black_theme">Activer le thème sombre</string>
-    <string name="enable_black_theme_summary">Change les couleurs de l\'interface pour un meilleur confort dans les environnement sous éclairés.</string>
+    <string name="enable_black_theme_summary">Change les couleurs de l\'interface pour un meilleur confort dans les environnement sous-éclairés.</string>
     <string name="subtitle_text_encoding">Encodage du texte des sous-titres</string>
     <string name="extra_prefs_category">Réglages supplémentaires</string>
     <string name="interface_prefs_screen">Interface</string>
@@ -191,6 +191,8 @@
     <string name="interface_other_category">Interface - Autres</string>
     <string name="enable_brightness_gesture">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
+    <string name="enable_jump_buttons">Activer les boutons de saut</string>
+    <string name="enable_jump_buttons_summary">Afficher les boutons précédent et suivant sur l\'interface vidéo</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
@@ -251,5 +253,7 @@
     <string name="sending_log">Envoi du rapport...</string>
     <string name="drawer_open">Ouvrir le volet de navigation</string>
     <string name="drawer_close">Fermer le volet de navigation</string>
-    <string name="new_app">Nouvelle Application disponible</string>
+    <string name="new_app">Nouvelle application disponible</string>
+    <string name="new_app_msg">Le test de VLC pour Android beta est désormais terminé. À partir de maintenant, les nouvelles versions seront uniquement publiées pour la nouvelle application.</string>
+    <string name="new_app_go">Téléchargez la !</string>
 </resources>
