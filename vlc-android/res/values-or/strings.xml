@@ -135,6 +135,9 @@
     <string name="enable_time_stretching_audio">ଅଡ଼ିଓର ସମୟ ପ୍ରସାରଣ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="advanced_prefs_category">ଉନ୍ନତ</string>
     <string name="aout">ଅଡ଼ିଓ ଆଉଟପୁଟ୍</string>
+    <string name="aout_audiotrack">ଅଡ଼ିଓ ଟ୍ରାକ୍ (ମୂଳ)</string>
+    <string name="aout_audiotrack_java">ଅଡ଼ିଓ ଟ୍ରାକ୍ (ଜାଭା)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">ମିଡ଼ିଆ ଡାଟାବେସ୍ ଖାଲି କରନ୍ତୁ</string>
     <string name="clear_history">ଖୋଜିବା ଇତିହାସକୁ ଖାଲି କରନ୍ତୁ</string>
     <string name="media_db_cleared">ମିଡ଼ିଆ ଡାଟାବେସ୍ ଖାଲି କରିଦିଆଗଲା!</string>
