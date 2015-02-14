@@ -175,6 +175,9 @@
     <string name="advanced_prefs_category">Aurreratua</string>
     <string name="aout">Audio-irteera</string>
     <string name="aout_summary">Aldatu VLCk irteera-audiorako erabiltzen duen metodoa.</string>
+    <string name="aout_audiotrack">AudioTrack (natiboa)</string>
+    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Bideo-irteera</string>
     <string name="vout_summary">Aldatu VLCk erabiltzen duen bideo-irteeraren modua.</string>
     <string name="vout_android_surface">Android surface</string>
