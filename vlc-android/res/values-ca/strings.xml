@@ -197,6 +197,9 @@
     <string name="advanced_prefs_category">Avançat</string>
     <string name="aout">Sortida d\'àudio</string>
     <string name="aout_summary">Canvia el mètode que VLC utilitza per a la sortida d\'àudio</string>
+    <string name="aout_audiotrack">Pista d\'àudio (natiu)</string>
+    <string name="aout_audiotrack_java">Pista d\'àudio (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Sortida de vídeo</string>
     <string name="vout_summary">Canvia el mètode que fa servir el VLC per a la sortida de vídeo.</string>
     <string name="vout_android_surface">Superfície de l\'Android</string>
