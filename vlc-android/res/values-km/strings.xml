@@ -181,6 +181,9 @@
     <string name="advanced_prefs_category">កម្រិត​ខ្ពស់</string>
     <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
     <string name="aout_summary">ប្ដូរ​វិធីសាស្ត្រ​ដែល​ VLC ប្រើ​ដើម្បី​​បង្ហាញ​លទ្ធផល​អូឌីយ៉ូ។</string>
+    <string name="aout_audiotrack">បទ​អូឌីយ៉ូ (ដើម)</string>
+    <string name="aout_audiotrack_java">បទ​អូឌីយ៉ូ (Java)</string>
+    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ការ​បង្ហាញ​វីដេអូ</string>
     <string name="vout_summary">ប្ដូរ​វិធី​ដែល VLC ប្រើ​ដើម្បី​បង្ហាញ​វីដេអូ។</string>
     <string name="vout_android_surface">ផ្ទៃ​របស់ Android</string>
