@@ -190,6 +190,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private TextView mInfo;
     private ImageView mLoading;
     private TextView mLoadingText;
+    private ImageView mTipsBackground;
     private ImageView mPlayPause;
     private ImageView mTracks;
     private ImageView mAdvOptions;
@@ -407,6 +408,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
         mLoadingText = (TextView) findViewById(R.id.player_overlay_loading_text);
+        if (mPresentation != null)
+            mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
         startLoadingAnimation();
 
         mSwitchingView = false;
@@ -2168,13 +2171,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private void updateOverlayPausePlay() {
         if (mLibVLC == null)
             return;
-
-        if (mPresentation == null)
-            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
-                            : R.drawable.ic_play_circle);
-        else
-            mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle_big_o
-                            : R.drawable.ic_play_circle_big_o);
+        mPlayPause.setImageResource(mLibVLC.isPlaying() ? R.drawable.ic_pause_circle
+                : R.drawable.ic_play_circle);
     }
 
     /**
@@ -2665,6 +2663,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
         mLoadingText.setVisibility(View.GONE);
+        if (mPresentation != null) {
+            mTipsBackground.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onClickOverlayTips(View v) {

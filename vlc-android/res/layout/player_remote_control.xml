@@ -51,146 +51,37 @@
             android:visibility="invisible" />
 
         <ImageView
+            android:id="@+id/player_remote_tips_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/background_cone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/player_overlay_info"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/player_overlay_play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pause_circle_big_o" />
-
-            <RelativeLayout
-                android:id="@+id/option_overlay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:id="@+id/player_overlay_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-	                android:layout_centerHorizontal="true"
-	                android:gravity="center_vertical"
-                    android:src="@drawable/ic_crop_circle_o" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:layout_centerInParent="true"
+            android:src="@drawable/background_cone"
+            android:visibility="invisible" />
 
         <RelativeLayout
-            android:id="@+id/progress_overlay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/progress_overlay" >
 
             <ImageView
-                android:id="@+id/lock_overlay_button"
+                android:id="@+id/player_overlay_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_above="@+id/player_overlay_timebackward"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_lock_circle"/>
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_cone_o"
+                android:top="40dp" />
 
-            <LinearLayout
-                android:id="@+id/player_overlay_timebackward"
+            <TextView
+                android:id="@+id/player_overlay_loading_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:id="@+id/player_overlay_backward"
-                    android:layout_width="40dip"
-                    android:layout_height="40dip"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_backward_w" />
-
-                <TextView
-                    android:id="@+id/player_overlay_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:clickable="true"
-                    android:text="@string/time_0"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <SeekBar
-                android:id="@+id/player_overlay_seekbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toLeftOf="@+id/player_overlay_lengthforward"
-                android:layout_toRightOf="@+id/player_overlay_timebackward"
-                android:maxHeight="10dp"
-                android:minHeight="10dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:progressDrawable="@drawable/po_seekbar"
-                android:splitTrack="false"
-                android:thumb="@drawable/seekbar_thumb" />
-
-            <LinearLayout
-                android:id="@+id/player_overlay_lengthforward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/player_overlay_length"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:clickable="true"
-                    android:text="@string/time_0"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/player_overlay_forward"
-                    android:layout_width="40dip"
-                    android:layout_height="40dip"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/ic_forward_w" />
-            </LinearLayout>
+                android:layout_below="@+id/player_overlay_loading"
+                android:layout_centerHorizontal="true"
+                android:text="@string/please_wait"
+                android:textSize="20sp" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/player_overlay_loading"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_cone_o" />
-
-        <TextView
-            android:id="@+id/player_overlay_loading_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/player_overlay_loading"
-            android:text="@string/please_wait"
-            android:textSize="20sp" />
+        <include layout="@layout/player_hud" />
 
     </RelativeLayout>
 
