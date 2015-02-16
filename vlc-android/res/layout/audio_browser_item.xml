@@ -8,8 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp" >
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" >
 
         <ImageView
             android:id="@+id/cover"
