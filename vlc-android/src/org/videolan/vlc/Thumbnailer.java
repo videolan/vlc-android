@@ -98,9 +98,12 @@ public class Thumbnailer implements Runnable {
      */
     public void clearJobs() {
         lock.lock();
-        mItems.clear();
-        totalCount = 0;
-        lock.unlock();
+        try {
+            mItems.clear();
+            totalCount = 0;
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
@@ -111,10 +114,13 @@ public class Thumbnailer implements Runnable {
         if(BitmapUtil.getPictureFromCache(item) != null || item.isPictureParsed())
             return;
         lock.lock();
-        mItems.add(item);
-        totalCount++;
-        notEmpty.signal();
-        lock.unlock();
+        try {
+            mItems.add(item);
+            totalCount++;
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
         Log.i(TAG, "Job added!");
     }
 
