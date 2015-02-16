@@ -81,7 +81,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     private ContextPopupMenuListener mContextPopupMenuListener;
 
     // An item of the list: a media or a separator.
-    class ListItem {
+    static class ListItem {
         final public String mTitle;
         final public String mSubTitle;
         final public ArrayList<MediaWrapper> mMediaList;

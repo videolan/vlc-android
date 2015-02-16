@@ -287,7 +287,7 @@ public class BrowserActivity extends ListActivity {
     /**
      * Filter: accept only directories
      */
-    private class DirFilter implements FileFilter {
+    static private class DirFilter implements FileFilter {
 
         @Override
         public boolean accept(File f) {
