@@ -895,6 +895,8 @@ public class AudioService extends Service {
 
         int size = mMediaListPlayer.getMediaList().size();
         if (size == 0 || mCurrentIndex < 0 || mCurrentIndex >= size) {
+            if (mCurrentIndex < 0)
+                saveCurrentMedia();
             Log.w(TAG, "Warning: invalid next index, aborted !");
             stop();
             return;
@@ -1481,7 +1483,7 @@ public class AudioService extends Service {
 
     private synchronized void saveCurrentMedia() {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("current_media", mMediaListPlayer.getMediaList().getMRL(mCurrentIndex));
+        editor.putString("current_media", mMediaListPlayer.getMediaList().getMRL(Math.max(mCurrentIndex, 0)));
         editor.putBoolean("shuffling", mShuffling);
         editor.putInt("repeating", mRepeating.ordinal());
         Util.commitPreferences(editor);
