@@ -23,6 +23,7 @@ package org.videolan.vlc.gui;
 import java.util.Comparator;
 
 import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.gui.audio.MediaComparators;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -31,8 +32,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SearchResultAdapter extends ArrayAdapter<MediaWrapper>
-        implements Comparator<MediaWrapper> {
+public class SearchResultAdapter extends ArrayAdapter<MediaWrapper> {
 
     public SearchResultAdapter(Context context) {
         super(context, 0);
@@ -57,13 +57,8 @@ public class SearchResultAdapter extends ArrayAdapter<MediaWrapper>
         return view;
     }
 
-    @Override
-    public int compare(MediaWrapper object1, MediaWrapper object2) {
-        return object1.getTitle().compareToIgnoreCase(object2.getTitle());
-    }
-
     public void sort() {
-        super.sort(this);
+        super.sort(MediaComparators.byName);
     }
 
     static class ViewHolder {
