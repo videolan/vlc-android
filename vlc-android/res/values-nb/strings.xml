@@ -253,4 +253,6 @@
     <string name="sending_log">Sender inn loggen...</string>
     <string name="drawer_open">Åpne navigasjonsskuff</string>
     <string name="drawer_close">Lukk navigasjonsskuff</string>
+    <string name="new_app">Ny applikasjon tiljengelig</string>
+    <string name="new_app_msg">Beta-test av VLC for Android er over. Fra nå vil nye versjoner kun publiseres for den nye applikasjonen.</string>
 </resources>
