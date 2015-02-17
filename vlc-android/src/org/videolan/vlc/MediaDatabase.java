@@ -49,51 +49,51 @@ public class MediaDatabase {
     private static MediaDatabase instance;
 
     private SQLiteDatabase mDb;
-    private final String DB_NAME = "vlc_database";
-    private final int DB_VERSION = 13;
-    private final int CHUNK_SIZE = 50;
+    private static final String DB_NAME = "vlc_database";
+    private static final int DB_VERSION = 13;
+    private static final int CHUNK_SIZE = 50;
 
-    private final String DIR_TABLE_NAME = "directories_table";
-    private final String DIR_ROW_PATH = "path";
+    private static final String DIR_TABLE_NAME = "directories_table";
+    private static final String DIR_ROW_PATH = "path";
 
-    private final String MEDIA_TABLE_NAME = "media_table";
-    private final String MEDIA_LOCATION = "location";
-    private final String MEDIA_TIME = "time";
-    private final String MEDIA_LENGTH = "length";
-    private final String MEDIA_TYPE = "type";
-    private final String MEDIA_PICTURE = "picture";
-    private final String MEDIA_TITLE = "title";
-    private final String MEDIA_ARTIST = "artist";
-    private final String MEDIA_GENRE = "genre";
-    private final String MEDIA_ALBUM = "album";
-    private final String MEDIA_ALBUMARTIST = "albumartist";
-    private final String MEDIA_WIDTH = "width";
-    private final String MEDIA_HEIGHT = "height";
-    private final String MEDIA_ARTWORKURL = "artwork_url";
-    private final String MEDIA_AUDIOTRACK = "audio_track";
-    private final String MEDIA_SPUTRACK = "spu_track";
-    private final String MEDIA_TRACKNUMBER = "track_number";
+    private static final String MEDIA_TABLE_NAME = "media_table";
+    private static final String MEDIA_LOCATION = "location";
+    private static final String MEDIA_TIME = "time";
+    private static final String MEDIA_LENGTH = "length";
+    private static final String MEDIA_TYPE = "type";
+    private static final String MEDIA_PICTURE = "picture";
+    private static final String MEDIA_TITLE = "title";
+    private static final String MEDIA_ARTIST = "artist";
+    private static final String MEDIA_GENRE = "genre";
+    private static final String MEDIA_ALBUM = "album";
+    private static final String MEDIA_ALBUMARTIST = "albumartist";
+    private static final String MEDIA_WIDTH = "width";
+    private static final String MEDIA_HEIGHT = "height";
+    private static final String MEDIA_ARTWORKURL = "artwork_url";
+    private static final String MEDIA_AUDIOTRACK = "audio_track";
+    private static final String MEDIA_SPUTRACK = "spu_track";
+    private static final String MEDIA_TRACKNUMBER = "track_number";
 
-    private final String PLAYLIST_TABLE_NAME = "playlist_table";
-    private final String PLAYLIST_NAME = "name";
+    private static final String PLAYLIST_TABLE_NAME = "playlist_table";
+    private static final String PLAYLIST_NAME = "name";
 
-    private final String PLAYLIST_MEDIA_TABLE_NAME = "playlist_media_table";
-    private final String PLAYLIST_MEDIA_ID = "id";
-    private final String PLAYLIST_MEDIA_PLAYLISTNAME = "playlist_name";
-    private final String PLAYLIST_MEDIA_MEDIALOCATION = "media_location";
-    private final String PLAYLIST_MEDIA_ORDER = "playlist_order";
+    private static final String PLAYLIST_MEDIA_TABLE_NAME = "playlist_media_table";
+    private static final String PLAYLIST_MEDIA_ID = "id";
+    private static final String PLAYLIST_MEDIA_PLAYLISTNAME = "playlist_name";
+    private static final String PLAYLIST_MEDIA_MEDIALOCATION = "media_location";
+    private static final String PLAYLIST_MEDIA_ORDER = "playlist_order";
 
-    private final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
-    private final String SEARCHHISTORY_DATE = "date";
-    private final String SEARCHHISTORY_KEY = "key";
+    private static final String SEARCHHISTORY_TABLE_NAME = "searchhistory_table";
+    private static final String SEARCHHISTORY_DATE = "date";
+    private static final String SEARCHHISTORY_KEY = "key";
 
-    private final String MRL_TABLE_NAME = "mrl_table";
-    private final String MRL_DATE = "date";
-    private final String MRL_URI = "uri";
-    private final String MRL_TABLE_SIZE = "100";
+    private static final String MRL_TABLE_NAME = "mrl_table";
+    private static final String MRL_DATE = "date";
+    private static final String MRL_URI = "uri";
+    private static final String MRL_TABLE_SIZE = "100";
 
-    private final String NETWORK_FAV_TABLE_NAME = "fav_table";
-    private final String NETWORK_FAV_URI = "uri";
+    private static final String NETWORK_FAV_TABLE_NAME = "fav_table";
+    private static final String NETWORK_FAV_URI = "uri";
 
     public enum mediaColumn {
         MEDIA_TABLE_NAME, MEDIA_PATH, MEDIA_TIME, MEDIA_LENGTH,
@@ -120,7 +120,7 @@ public class MediaDatabase {
         return instance;
     }
 
-    private class DatabaseHelper extends SQLiteOpenHelper {
+    private static class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
             super(context, DB_NAME, null, DB_VERSION);
