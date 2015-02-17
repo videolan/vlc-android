@@ -1490,12 +1490,12 @@ public class AudioService extends Service {
     }
 
     private synchronized void saveMediaList() {
-        String locations = "";
+        StringBuilder locations = new StringBuilder();
         for (int i = 0; i < mMediaListPlayer.getMediaList().size(); i++)
-            locations += " "+ Uri.encode(mMediaListPlayer.getMediaList().getMRL(i));
+            locations.append(" ").append(Uri.encode(mMediaListPlayer.getMediaList().getMRL(i)));
         //We save a concatenated String because putStringSet is APIv11.
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putString("media_list", locations.trim());
+        editor.putString("media_list", locations.toString().trim());
         Util.commitPreferences(editor);
     }
 
