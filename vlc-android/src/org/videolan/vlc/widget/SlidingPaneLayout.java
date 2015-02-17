@@ -331,7 +331,6 @@ public class SlidingPaneLayout extends ViewGroup {
                 if (heightMode == MeasureSpec.AT_MOST) {
                     heightMode = MeasureSpec.EXACTLY;
                 } else if (heightMode == MeasureSpec.UNSPECIFIED) {
-                    heightMode = MeasureSpec.EXACTLY;
                     heightMode = 300;
                 }
             } else {
@@ -343,7 +342,6 @@ public class SlidingPaneLayout extends ViewGroup {
                 // TODO Better communication with tools of this bogus state.
                 // It will crash on a real device.
                 if (widthMode == MeasureSpec.UNSPECIFIED) {
-                    widthMode = MeasureSpec.AT_MOST;
                     widthMode = 300;
                 }
             } else {
