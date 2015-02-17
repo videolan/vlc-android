@@ -722,28 +722,23 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public static void start(Context context, String location) {
-        start(context, location, null, -1, false, false);
+        start(context, location, null, false, false);
     }
 
     public static void start(Context context, String location, boolean fromStart) {
-        start(context, location, null, -1, fromStart, false);
+        start(context, location, null, fromStart, false);
     }
 
     public static void start(Context context, String location, String title) {
-        start(context, location, title, -1, false, false);
+        start(context, location, title, false, false);
     }
 
-    public static void start(Context context, String location, String title, int position) {
-        start(context, location, title, position, false, false);
-    }
-
-    public static void start(Context context, String location, String title, int position, boolean fromStart, boolean newTask) {
+    public static void start(Context context, String location, String title, boolean fromStart, boolean newTask) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra("itemLocation", location);
         intent.putExtra("itemTitle", title);
         intent.putExtra("fromStart", fromStart);
-        intent.putExtra("itemPosition", position);
 
         if (newTask)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -2236,7 +2231,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         boolean fromStart = false;
         Uri data;
         String itemTitle = null;
-        int itemPosition = -1; // Index in the media list as passed by AudioServer (used only for vout transition internally)
         long intentPosition = -1; // position passed in by intent (ms)
 
         if (getIntent().getAction() != null
