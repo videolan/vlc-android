@@ -200,7 +200,6 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     }
 
     protected void initTime(long delay) {
-//        long delayToDisplay;
         if (delay < 0l){
             if ( mSign.getVisibility() == View.VISIBLE) {
                 delay = -delay;
@@ -210,7 +209,6 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
             }
         } else {
             mSign.setText("+");
-            delay = delay;
         }
         long minutes = 0;
         long seconds = 0;
