@@ -167,9 +167,8 @@ public class LibVLC {
                 /* First call */
                 sInstance = new LibVLC();
             }
+            return sInstance;
         }
-
-        return sInstance;
     }
 
     /**
