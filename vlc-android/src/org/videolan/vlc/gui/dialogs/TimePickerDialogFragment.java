@@ -89,7 +89,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
                 AdvOptionsDialog.setSleep(view.getContext(), sleepTime);
                 break;
             case ACTION_JUMP:
-                long time = (long)((hourOfDay*60+minute)*60000);
+                long time = ( hourOfDay * 60l + minute ) * 60000l;
                 LibVLC.getExistingInstance().setTime(time);
                 break;
         }
