@@ -30,7 +30,7 @@
         <item name="playlist_item_footer">@color/grey2</item>
         <item name="background_menu_divider">@color/background_menu_divider</item>
         <item name="background_menu">@color/background_menu</item>
-        <item name="background_player">@color/background_player</item>
+        <item name="background_player">@color/grey100</item>
         <item name="background_playlist">@color/background_playlist</item>
         <item name="background_header">@color/background_menu</item>
         <item name="audio_browser_separator">@color/darkorange</item>
@@ -98,7 +98,7 @@
         <item name="playlist_item_footer">@color/grey1</item>
         <item name="background_menu_divider">@color/grey1</item>
         <item name="background_menu">@color/black2</item>
-        <item name="background_player">@color/black1</item>
+        <item name="background_player">@color/grey850</item>
         <item name="background_playlist">@color/black2</item>
         <item name="background_header">@color/black3</item>
         <item name="audio_browser_separator">@color/darkorange</item>

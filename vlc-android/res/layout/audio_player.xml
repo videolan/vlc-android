@@ -23,12 +23,14 @@
         android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:gravity="center_vertical"
+        android:background="?attr/background_player"
         android:orientation="horizontal" >
 
         <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
             android:id="@+id/audio_media_switcher"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="#00000000"
             android:layout_weight="1" />
 
         <ImageButton
@@ -62,6 +64,7 @@
             android:clickable="true"
             android:text="@string/time_0"
             android:textColor="?attr/audio_player_header_time"
+            android:background="#00000000"
             android:textSize="18sp" />
 
         <ImageButton
@@ -82,7 +85,8 @@
 
         <View
             android:layout_width="10dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#00000000" />
     </LinearLayout>
 
     <ViewSwitcher

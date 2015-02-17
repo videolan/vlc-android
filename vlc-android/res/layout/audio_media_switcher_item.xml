@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingTop="5dp"
+    android:background="#00000000"
     android:orientation="horizontal" >
 
     <ImageView
@@ -10,6 +11,7 @@
         android:layout_width="50dip"
         android:layout_height="50dip"
         android:paddingLeft="10dip"
+        android:background="#00000000"
         android:visibility="gone" />
 
     <LinearLayout
@@ -17,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingLeft="10dip" >
+        android:paddingLeft="10dip"
+        android:background="#00000000" >
 
         <TextView
             android:id="@+id/title"
@@ -27,6 +30,7 @@
             android:ellipsize="middle"
             android:text="@string/title"
             android:textColor="?attr/font_default"
+            android:background="#00000000"
             android:textSize="16sp" />
 
         <TextView
@@ -37,6 +41,7 @@
             android:ellipsize="middle"
             android:text="@string/artist"
             android:textColor="?attr/font_light"
+            android:background="#00000000"
             android:textSize="14sp" />
     </LinearLayout>
 
