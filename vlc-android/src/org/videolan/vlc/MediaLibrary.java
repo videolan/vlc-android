@@ -349,6 +349,9 @@ public class MediaLibrary {
                     }
                     DBManager.removeMedias(existingMedias.keySet());
 
+                    /*
+                     * In case of file matching path of a folder from another removable storage
+                     */
                     for (File file : DBManager.getMediaDirs())
                         if (!file.isDirectory())
                             DBManager.removeDir(file.getAbsolutePath());
