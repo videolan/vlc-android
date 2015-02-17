@@ -45,24 +45,26 @@ public class Logcat implements Runnable {
     @Override
     public void run() {
         final String[] args = { "logcat", "-v", "time" };
-
+        InputStreamReader input = null;
+        BufferedReader br = null;
         try {
             synchronized (this) {
                 if (!mRun)
                     return;
                 mProcess = Runtime.getRuntime().exec(args);
             }
-            InputStreamReader input = new InputStreamReader(
+            input = new InputStreamReader(
                     mProcess.getInputStream());
-            BufferedReader br = new BufferedReader(input);
+            br = new BufferedReader(input);
             String line;
 
             while ((line = br.readLine()) != null)
                 mCallback.onLog(line);
 
-            br.close();
-            input.close();
         } catch (IOException e) {
+        } finally {
+            Util.close(input);
+            Util.close(br);
         }
     }
 
