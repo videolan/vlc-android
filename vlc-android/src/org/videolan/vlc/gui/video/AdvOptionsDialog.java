@@ -76,7 +76,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private TextView mAudioDelay;
     private TextView mSpuDelay;
 
-    private LibVLC mLibVLC;
     private static AdvOptionsDialog sInstance;
     private int mTextColor;
 
