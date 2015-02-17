@@ -420,7 +420,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             } else if (mCurrentFragment.equals(SidebarEntry.ID_NETWORK)){
                 NetworkFragment networkFragment = (NetworkFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.fragment_placeholder);
-                if (!networkFragment.isRootDirectory()) {
+                if (networkFragment !=null && !networkFragment.isRootDirectory()) {
                     networkFragment.goBack();
                     return;
                 }
@@ -647,6 +647,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 MediaDatabase.getInstance().clearSearchHistory();
                 break;
             case R.id.ml_menu_save:
+                if (current == null)
+                    break;
                 ((NetworkFragment)current).toggleFavorite();
                 item.setIcon(R.drawable.abc_btn_check_to_on_mtrl_015);
                 break;
@@ -742,6 +744,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 		View v = getCurrentFocus();
+        if (v == null)
+            return super.onKeyUp(keyCode, event);
         if ((mActionBarIconId == -1) &&
             (v.getId() == -1)  &&
             (v.getNextFocusDownId() == -1) &&
