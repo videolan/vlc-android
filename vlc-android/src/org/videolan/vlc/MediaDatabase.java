@@ -950,9 +950,7 @@ public class MediaDatabase {
     }
 
     public synchronized void deleteMrlUri(String uri) {
-        ArrayList<String> history = new ArrayList<String>();
         mDb.delete(MRL_TABLE_NAME, MRL_URI + "=?", new String[] { uri });
-
     }
 
     public synchronized void clearMrlHistory() {
@@ -963,7 +961,6 @@ public class MediaDatabase {
     public synchronized void addNetworkFavItem(String mrl) {
         ContentValues values = new ContentValues();
         values.put(NETWORK_FAV_URI, Uri.encode(mrl));
-
         mDb.replace(NETWORK_FAV_TABLE_NAME, null, values);
     }
 
@@ -994,9 +991,7 @@ public class MediaDatabase {
     }
 
     public synchronized void deleteNetworkFav(String uri) {
-        ArrayList<String> history = new ArrayList<String>();
         mDb.delete(NETWORK_FAV_TABLE_NAME, NETWORK_FAV_URI + "=?", new String[] { Uri.encode(uri) });
-
     }
 
     public synchronized void clearNetworkFavTable() {
