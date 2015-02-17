@@ -942,7 +942,7 @@ public class AudioService extends Service {
         }
 
         //Send metadata to Pebble watch
-        if (mPebbleEnabled) {
+        if (media != null && mPebbleEnabled) {
             final Intent i = new Intent("com.getpebble.action.NOW_PLAYING");
             i.putExtra("artist", Util.getMediaArtist(this, media));
             i.putExtra("album", Util.getMediaAlbum(this, media));
