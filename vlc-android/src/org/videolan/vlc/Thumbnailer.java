@@ -109,7 +109,11 @@ public class Thumbnailer implements Runnable {
      * @return totalCount
      */
     public int getJobsCount(){
-        return totalCount;
+        int count;
+        lock.lock();
+        count = totalCount;
+        lock.unlock();
+        return count;
     }
 
     /**
