@@ -441,6 +441,7 @@ public class MediaDatabase {
             mDb.update(PLAYLIST_MEDIA_TABLE_NAME, cv, PLAYLIST_MEDIA_ID + "=?",
                     new String[] { c.getString(c.getColumnIndex(PLAYLIST_MEDIA_ID)) });
         }
+        c.close();
     }
 
     /**
