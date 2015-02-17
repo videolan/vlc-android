@@ -68,6 +68,8 @@ import org.videolan.vlc.widget.HeaderScrollView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -86,7 +88,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
-    private ArrayList<AudioBrowserListAdapter> mAdaptersToNotify = new ArrayList<AudioBrowserListAdapter>();
+    private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<>();
 
     private View mEmptyView;
 
@@ -495,11 +497,9 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    synchronized (mAdaptersToNotify) {
-                        for (AudioBrowserListAdapter adapter : mAdaptersToNotify)
-                            adapter.notifyDataSetChanged();
-                        mAdaptersToNotify.clear();
-                    }
+                    for (AudioBrowserListAdapter adapter : mAdaptersToNotify)
+                        adapter.notifyDataSetChanged();
+                    mAdaptersToNotify.clear();
 
                     // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
                     int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
@@ -570,10 +570,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             tasks.add(new Runnable() {
                 @Override
                 public void run() {
-                    synchronized (mAdaptersToNotify) {
-                        if (!mAdaptersToNotify.isEmpty())
-                            display();
-                    }
+                    if (!mAdaptersToNotify.isEmpty())
+                        display();
                 }
             });
             for (Runnable task : tasks)
@@ -586,9 +584,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         public void run() {
             Collections.sort(mAudioList, MediaComparators.byArtist);
             mArtistsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_ARTISTS);
-            synchronized (mAdaptersToNotify) {
-                mAdaptersToNotify.add(mArtistsAdapter);
-            }
+            mAdaptersToNotify.add(mArtistsAdapter);
             if (mReadyToDisplay && !mDisplaying)
                 display();
         }
@@ -599,9 +595,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         public void run() {
             Collections.sort(mAudioList, MediaComparators.byAlbum);
             mAlbumsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_ALBUMS);
-            synchronized (mAdaptersToNotify) {
-                mAdaptersToNotify.add(mAlbumsAdapter);
-            }
+            mAdaptersToNotify.add(mAlbumsAdapter);
             if (mReadyToDisplay && !mDisplaying)
                 display();
         }
@@ -612,9 +606,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         public void run() {
             Collections.sort(mAudioList, MediaComparators.byName);
             mSongsAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_SONGS);
-            synchronized (mAdaptersToNotify) {
-                mAdaptersToNotify.add(mSongsAdapter);
-            }
+            mAdaptersToNotify.add(mSongsAdapter);
             if (mReadyToDisplay && !mDisplaying)
                 display();
         }
@@ -625,9 +617,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         public void run() {
             Collections.sort(mAudioList, MediaComparators.byGenre);
             mGenresAdapter.addAll(mAudioList, AudioBrowserListAdapter.TYPE_GENRES);
-            synchronized (mAdaptersToNotify) {
-                mAdaptersToNotify.add(mGenresAdapter);
-            }
+            mAdaptersToNotify.add(mGenresAdapter);
             if (mReadyToDisplay && !mDisplaying)
                 display();
         }
