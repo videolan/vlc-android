@@ -159,10 +159,11 @@ public class LibVlcUtil {
             hasArmV7 = true;
             is64bits = true;
         }
-
+        FileReader fileReader = null;
+        BufferedReader br = null;
         try {
-            FileReader fileReader = new FileReader("/proc/cpuinfo");
-            BufferedReader br = new BufferedReader(fileReader);
+            fileReader = new FileReader("/proc/cpuinfo");
+            br = new BufferedReader(fileReader);
             String line;
             while((line = br.readLine()) != null) {
                 if(!hasArmV7 && line.contains("AArch64")) {
@@ -200,12 +201,22 @@ public class LibVlcUtil {
                     }
                 }
             }
-            fileReader.close();
         } catch(IOException ex){
             ex.printStackTrace();
             errorMsg = "IOException whilst reading cpuinfo flags";
             isCompatible = false;
             return false;
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {}
+            }
+            if (fileReader != null) {
+                try {
+                    fileReader.close();
+                } catch (IOException e) {}
+            }
         }
         if(processors == 0)
             processors = 1; // possibly borked cpuinfo?
@@ -253,11 +264,12 @@ public class LibVlcUtil {
         }
 
         float frequency = -1;
-        FileReader fileReader = null;
+        fileReader = null;
+        br = null;
         String line = "";
         try {
             fileReader = new FileReader("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
-            BufferedReader br = new BufferedReader(fileReader);
+            br = new BufferedReader(fileReader);
             line = br.readLine();
             frequency = Float.parseFloat(line) / 1000.f; /* Convert to MHz */
         } catch(IOException ex) {
@@ -266,6 +278,11 @@ public class LibVlcUtil {
             Log.w(TAG, "Could not parse maximum CPU frequency!");
             Log.w(TAG, "Failed to parse: " + line);
         } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {}
+            }
             if (fileReader != null) {
                 try {
                     fileReader.close();
