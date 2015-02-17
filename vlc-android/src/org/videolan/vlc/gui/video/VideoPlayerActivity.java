@@ -2267,6 +2267,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 // Mail-based apps - download the stream to a temporary file and play it
                 if(data.getHost().equals("com.fsck.k9.attachmentprovider")
                        || data.getHost().equals("gmail-ls")) {
+                    InputStream is = null;
+                    OutputStream os = null;
                     try {
                         Cursor cursor = getContentResolver().query(data,
                                 new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
@@ -2276,20 +2278,21 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                             cursor.close();
                             Log.i(TAG, "Getting file " + filename + " from content:// URI");
 
-                            InputStream is = getContentResolver().openInputStream(data);
-                            OutputStream os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
+                            is = getContentResolver().openInputStream(data);
+                            os = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
                             byte[] buffer = new byte[1024];
                             int bytesRead = 0;
                             while((bytesRead = is.read(buffer)) >= 0) {
                                 os.write(buffer, 0, bytesRead);
                             }
-                            os.close();
-                            is.close();
                             mLocation = LibVLC.PathToURI(Environment.getExternalStorageDirectory().getPath() + "/Download/" + filename);
                         }
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");
                         encounteredError();
+                    } finally {
+                        Util.close(is);
+                        Util.close(os);
                     }
                 }
                 // Media or MMS URI
