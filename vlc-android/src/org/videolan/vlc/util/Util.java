@@ -21,6 +21,7 @@
 package org.videolan.vlc.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,9 +79,11 @@ public class Util {
     }
 
     public static String readAsset(String assetName, String defaultS) {
+        InputStream is = null;
+        BufferedReader r = null;
         try {
-            InputStream is = VLCApplication.getAppResources().getAssets().open(assetName);
-            BufferedReader r = new BufferedReader(new InputStreamReader(is, "UTF8"));
+            is = VLCApplication.getAppResources().getAssets().open(assetName);
+            r = new BufferedReader(new InputStreamReader(is, "UTF8"));
             StringBuilder sb = new StringBuilder();
             String line = r.readLine();
             if(line != null) {
@@ -95,6 +98,9 @@ public class Util {
             return sb.toString();
         } catch (IOException e) {
             return defaultS;
+        } finally {
+            close(is);
+            close(r);
         }
     }
 
@@ -273,5 +279,12 @@ public class Util {
                 deleted = file.delete();
         }
         return deleted;
+    }
+
+    public static void close(Closeable closeable) {
+        try {
+            closeable.close();
+        } catch (IOException e) {}
+        catch (NullPointerException e) {}
     }
 }
