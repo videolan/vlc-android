@@ -800,8 +800,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 				MotionEvent.AXIS_X);
 		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
 				MotionEvent.AXIS_Y);
-		float z = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Z);
 		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
 				MotionEvent.AXIS_RZ);
 
@@ -2348,7 +2346,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mLocation = getIntent().getExtras().getString("itemLocation");
             itemTitle = getIntent().getExtras().getString("itemTitle");
             fromStart = getIntent().getExtras().getBoolean("fromStart");
-            itemPosition = getIntent().getExtras().getInt("itemPosition", -1);
         }
 
         mSurfaceView.setKeepScreenOn(true);
