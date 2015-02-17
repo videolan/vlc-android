@@ -295,9 +295,7 @@ public class AudioUtil {
         } catch (Exception e) {
             Log.e(TAG, "writeBitmap failed : "+ e.getMessage());
         } finally {
-            if (out != null) {
-                out.close();
-            }
+            Util.close(out);
         }
     }
 

@@ -134,12 +134,7 @@ public class AndroidDevices {
         catch (FileNotFoundException e) {}
         catch (IOException e) {}
         finally {
-            if (bufReader != null) {
-                try {
-                    bufReader.close();
-                }
-                catch (IOException e) {}
-            }
+            Util.close(bufReader);
         }
         return list;
     }

@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Logcat;
+import org.videolan.vlc.util.Util;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -191,16 +192,9 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         } catch (IOException ioe) {
             saved = false;
         } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-                if (output != null)
-                    output.close();
-                if (fos != null)
-                    fos.close();
-            } catch (IOException e) {
-                saved = false;
-            }
+            saved &= Util.close(bw);
+            saved &= Util.close(output);
+            saved &= Util.close(fos);
         }
         synchronized (this) {
             mSaveThread = null;

@@ -132,10 +132,10 @@ public class Logcat implements Runnable {
             }
         }catch(Exception e) {}
         finally {
-            bw.close();
-            output.close();
-            br.close();
-            input.close();
+            Util.close(bw);
+            Util.close(output);
+            Util.close(br);
+            Util.close(input);
         }
     }
 
@@ -158,8 +158,8 @@ public class Logcat implements Runnable {
         while ((line = br.readLine()) != null)
             log.append(line + "\n");
 
-        br.close();
-        input.close();
+        Util.close(br);
+        Util.close(input);
 
         return log.toString();
     }

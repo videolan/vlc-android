@@ -281,10 +281,13 @@ public class Util {
         return deleted;
     }
 
-    public static void close(Closeable closeable) {
+    public static boolean close(Closeable closeable) {
         try {
             closeable.close();
-        } catch (IOException e) {}
-        catch (NullPointerException e) {}
+            return true;
+        } catch (IOException e) {
+            return false;
+        } catch (NullPointerException e) {
+            return false;}
     }
 }

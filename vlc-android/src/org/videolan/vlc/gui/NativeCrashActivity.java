@@ -131,9 +131,9 @@ public class NativeCrashActivity extends Activity {
             ByteArrayOutputStream os = new ByteArrayOutputStream(string.length());
             GZIPOutputStream gos = new GZIPOutputStream(os);
             gos.write(string.getBytes());
-            gos.close();
+            Util.close(gos);
             byte[] compressed = os.toByteArray();
-            os.close();
+            Util.close(os);
             return compressed;
         }
 

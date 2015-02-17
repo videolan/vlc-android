@@ -31,6 +31,7 @@ import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import org.videolan.vlc.util.Logcat;
+import org.videolan.vlc.util.Util;
 
 import android.os.Environment;
 import android.text.format.DateFormat;
@@ -97,12 +98,8 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            try {
-                bw.close();
-                output.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Util.close(bw);
+            Util.close(output);
         }
     }
 
