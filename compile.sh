@@ -16,6 +16,7 @@ while [ $# -gt 0 ]; do
             echo "Use --release to build in release mode"
             echo "Use -s to set your keystore file and -p for the password"
             echo "Use -t to get an AndroidTv build"
+            echo "Use -c to get a ChromeOS build"
             exit 0
             ;;
         a|-a)
@@ -24,6 +25,9 @@ while [ $# -gt 0 ]; do
             ;;
         -t)
             ANDROID_TV=1
+            ;;
+        -c)
+            CHROME_OS=1
             ;;
         -r|release|--release)
             RELEASE=1
@@ -167,6 +171,8 @@ if [ "$RELEASE" = 1 ]; then
 fi
 if [ "$ANDROID_TV" = 1 ]; then
     PLATFORM="Tv"
+elif [ "$CHROME_OS" = 1 ]; then
+    PLATFORM="Chrome"
 fi
 
 if [ "$ANDROID_ABI" = "armeabi-v5" ]; then
