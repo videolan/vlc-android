@@ -292,7 +292,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         private final ServiceConnection mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                synchronized (this) {
+                synchronized (Client.this) {
                     mIDebugLogService = IDebugLogService.Stub.asInterface(service);
                     try {
                         mIDebugLogService.registerCallback(mICallback);
