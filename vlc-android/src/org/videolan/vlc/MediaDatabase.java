@@ -587,8 +587,8 @@ public class MediaDatabase {
             do {
                 mediaList.add(cursor.getString(0));
             }while (cursor.moveToNext());
-            cursor.close();
         }
+        cursor.close();
         return mediaList;
     }
 
