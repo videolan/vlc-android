@@ -167,9 +167,14 @@ public class MediaInfoFragment extends ListFragment {
             if (!subFolder.exists())
                 continue;
             String[] subFiles = subFolder.list();
-            String[] newFiles = new String[files.length+subFiles.length];
-            System.arraycopy(subFiles, 0, newFiles, 0, subFiles.length);
-            System.arraycopy(files, 0, newFiles, subFiles.length, files.length);
+            int subFilesLength = 0;
+            String[] newFiles = new String[0];
+            if (subFiles != null) {
+                subFilesLength = subFiles.length;
+                newFiles = new String[files.length+subFilesLength];
+                System.arraycopy(subFiles, 0, newFiles, 0, subFilesLength);
+            }
+            System.arraycopy(files, 0, newFiles, subFilesLength, files.length);
             files = newFiles;
         }
         for (int i = 0; i<files.length ; ++i){
