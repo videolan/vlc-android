@@ -793,7 +793,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         float dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
         float dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
-        if (Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
+        if (mInputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
             return false;
 
 		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
