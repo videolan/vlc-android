@@ -2590,7 +2590,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     };
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private final class SecondaryDisplay extends Presentation {
+    private static final class SecondaryDisplay extends Presentation {
         public final static String TAG = "VLC/SecondaryDisplay";
 
         private SurfaceView mSurfaceView;
