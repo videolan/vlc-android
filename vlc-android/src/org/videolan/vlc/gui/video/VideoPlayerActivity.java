@@ -1969,11 +1969,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(mLibVLC != null) {
                 final Surface newSurface = holder.getSurface();
                 if (mSurface != newSurface) {
-                    if (mSurface != null) {
-                        synchronized (mSurface) {
-                            mSurface.notifyAll();
-                        }
-                    }
                     mSurface = newSurface;
                     Log.d(TAG, "surfaceChanged: " + mSurface);
                     mLibVLC.attachSurface(mSurface, VideoPlayerActivity.this);
@@ -1989,9 +1984,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         public void surfaceDestroyed(SurfaceHolder holder) {
             Log.d(TAG, "surfaceDestroyed");
             if(mLibVLC != null) {
-                synchronized (mSurface) {
-                    mSurface.notifyAll();
-                }
                 mSurface = null;
                 mLibVLC.detachSurface();
             }
@@ -2004,11 +1996,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(mLibVLC != null) {
                 final Surface newSurface = holder.getSurface();
                 if (mSubtitleSurface != newSurface) {
-                    if (mSubtitleSurface != null) {
-                        synchronized (mSubtitleSurface) {
-                            mSubtitleSurface.notifyAll();
-                        }
-                    }
                     mSubtitleSurface = newSurface;
                     mLibVLC.attachSubtitlesSurface(mSubtitleSurface);
                 }
@@ -2022,9 +2009,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         @Override
         public void surfaceDestroyed(SurfaceHolder holder) {
             if(mLibVLC != null) {
-                synchronized (mSubtitleSurface) {
-                    mSubtitleSurface.notifyAll();
-                }
                 mSubtitleSurface = null;
                 mLibVLC.detachSubtitlesSurface();
             }
