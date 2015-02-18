@@ -293,7 +293,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
             mRowsAdapter.add(new ListRow(header, mCategoriesAdapter));
 
             mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
-            mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_goto));
+            mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
             ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
             if (!favs.isEmpty()) {
                 for (String fav : favs) {
