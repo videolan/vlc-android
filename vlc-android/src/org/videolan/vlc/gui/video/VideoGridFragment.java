@@ -244,7 +244,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         // Compute the left/right padding dynamically
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        int sidePadding = (int) (outMetrics.widthPixels / 100. * Math.pow(outMetrics.density, 3) / 2.);
+        int sidePadding = (int) ((float)outMetrics.widthPixels / 100f * (float)Math.pow(outMetrics.density, 3) / 2f);
         sidePadding = Math.max(0, Math.min(100, sidePadding));
         mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
                 sidePadding, mGridView.getPaddingBottom());
