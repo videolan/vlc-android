@@ -1623,6 +1623,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     private void setAudioVolume(int vol) {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+
+        /* Since android 4.3, the safe volume warning dialog is displayed only with the FLAG_SHOW_UI flag.
+         * We don't want to always show the default UI volume, so show it only when volume is not set. */
+        int newVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (vol != newVol)
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+
         mTouchAction = TOUCH_VOLUME;
         showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
     }
