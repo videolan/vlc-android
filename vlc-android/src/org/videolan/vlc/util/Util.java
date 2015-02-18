@@ -282,12 +282,15 @@ public class Util {
     }
 
     public static boolean close(Closeable closeable) {
-        try {
-            closeable.close();
-            return true;
-        } catch (IOException e) {
-            return false;
-        } catch (NullPointerException e) {
-            return false;}
+        if (closeable != null) {
+            try {
+                closeable.close();
+                return true;
+            } catch (IOException e) {
+                return false;
+            }
+        } else {
+                return false;
+        }
     }
 }
