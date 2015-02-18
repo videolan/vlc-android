@@ -149,6 +149,7 @@ public class Thumbnailer implements Runnable {
                 mVideoBrowser.resetBarrier();
             lock.lock();
             // Get the id of the file browser item to create its thumbnail.
+            boolean interrupted = false;
             while (mItems.size() == 0) {
                 try {
                     if (mVideoBrowser != null) {
@@ -158,10 +159,14 @@ public class Thumbnailer implements Runnable {
                     totalCount = 0;
                     notEmpty.await();
                 } catch (InterruptedException e) {
-                    lock.unlock();
+                    interrupted = true;
                     Log.i(TAG, "interruption probably requested by stop()");
                     break;
                 }
+            }
+            if (interrupted) {
+                lock.unlock();
+                break;
             }
             total = totalCount;
             MediaWrapper item = mItems.poll();
