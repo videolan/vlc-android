@@ -52,7 +52,6 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
     private static final int ID_LISTEN = 2;
     private ArrayObjectAdapter mRowsAdapter;
     private AudioServiceController mAudioController;
-    private AudioPlayer mAudioPlayer;
     private MediaItemDetails mMedia;
 
     @Override
