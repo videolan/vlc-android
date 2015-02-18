@@ -249,7 +249,6 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
         }
         @Override
         protected Void doInBackground(Void... params) {
-            MediaDatabase mediaDatabase = MediaDatabase.getInstance();
             ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
             int size;
             MediaWrapper item;
