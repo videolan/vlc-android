@@ -162,6 +162,7 @@ public class MediaInfoFragment extends ListFragment {
         videoName = videoName.substring(0, videoName.lastIndexOf('.'));
         String[] subFolders = {"/Subtitles", "/subtitles", "/Subs", "/subs"};
         String[] files = itemFile.getParentFile().list();
+        int filesLength = files == null ? 0 : files.length;
         for (int i = 0 ; i < subFolders.length ; ++i){
             File subFolder = new File(parentPath+subFolders[i]);
             if (!subFolder.exists())
@@ -171,13 +172,15 @@ public class MediaInfoFragment extends ListFragment {
             String[] newFiles = new String[0];
             if (subFiles != null) {
                 subFilesLength = subFiles.length;
-                newFiles = new String[files.length+subFilesLength];
+                newFiles = new String[filesLength+subFilesLength];
                 System.arraycopy(subFiles, 0, newFiles, 0, subFilesLength);
             }
-            System.arraycopy(files, 0, newFiles, subFilesLength, files.length);
+            if (files != null)
+                System.arraycopy(files, 0, newFiles, subFilesLength, filesLength);
             files = newFiles;
+            filesLength = files == null ? 0 : files.length;
         }
-        for (int i = 0; i<files.length ; ++i){
+        for (int i = 0; i<filesLength ; ++i){
             filename = Uri.decode(files[i]);
             int index = filename.lastIndexOf('.');
             if (index <= 0)
