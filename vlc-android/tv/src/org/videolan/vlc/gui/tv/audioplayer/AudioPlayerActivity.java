@@ -201,9 +201,12 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
 
-        InputDevice mInputDevice = event.getDevice();
+        InputDevice inputDevice = event.getDevice();
 
-        float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
+        if (inputDevice == null)
+            return false;
+
+        float x = AndroidDevices.getCenteredAxis(event, inputDevice,
                 MotionEvent.AXIS_X);
 
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
