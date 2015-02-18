@@ -178,7 +178,7 @@ public class MediaInfoFragment extends ListFragment {
             if (files != null)
                 System.arraycopy(files, 0, newFiles, subFilesLength, filesLength);
             files = newFiles;
-            filesLength = files == null ? 0 : files.length;
+            filesLength = files.length;
         }
         for (int i = 0; i<filesLength ; ++i){
             filename = Uri.decode(files[i]);
