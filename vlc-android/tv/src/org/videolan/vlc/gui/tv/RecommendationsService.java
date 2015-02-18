@@ -72,7 +72,6 @@ public class RecommendationsService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            final String action = intent.getAction();
             MediaLibrary.getInstance().addUpdateHandler(mHandler);
         }
     }
@@ -84,7 +83,6 @@ public class RecommendationsService extends IntentService {
                     sContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
-        Bundle extras = new Bundle();
 //        if (mBackgroundUri != movie.getBackgroundUri()) {
 //            extras.putString(EXTRA_BACKGROUND_IMAGE_URL, movie.getBackgroundUri());
 //        }
@@ -102,7 +100,6 @@ public class RecommendationsService extends IntentService {
                         .setLargeIcon(sMediaDatabase.getPicture(sContext, movie.getLocation()))
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(buildPendingIntent(movie))
-//                        .setExtras(extras))
         ).build();
 
         // post the recommendation to the NotificationManager
