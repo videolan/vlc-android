@@ -129,10 +129,12 @@ public class BrowserActivity extends ListActivity {
             public boolean onMenuItemClick(MenuItem arg0) {
                 // remove any checkmarks of the custom item
                 final MediaDatabase dbManager = MediaDatabase.getInstance();
-                for(File f : dbManager.getMediaDirs()) {
-                    final String path = f.getPath();
-                    if(path.startsWith(item.getPath()))
-                        dbManager.removeDir(path);
+                synchronized (dbManager) {
+                    for(File f : dbManager.getMediaDirs()) {
+                        final String path = f.getPath();
+                        if(path.startsWith(item.getPath()))
+                            dbManager.removeDir(path);
+                    }
                 }
                 CustomDirectories.removeCustomDirectory(item.getPath());
                 refresh();
