@@ -134,7 +134,7 @@ import android.widget.Toast;
 
 public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener {
 
-	public final static String TAG = "VLC/VideoPlayerActivity";
+    public final static String TAG = "VLC/VideoPlayerActivity";
 
     // Internal intent identifier to distinguish between internal launch and
     // external intent.
@@ -784,42 +784,42 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 event.getAction() != MotionEvent.ACTION_MOVE)
             return false;
 
-		InputDevice mInputDevice = event.getDevice();
+        InputDevice mInputDevice = event.getDevice();
 
         float dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
         float dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
         if (mInputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
             return false;
 
-		float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_X);
-		float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_Y);
-		float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
-				MotionEvent.AXIS_RZ);
+        float x = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_X);
+        float y = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_Y);
+        float rz = AndroidDevices.getCenteredAxis(event, mInputDevice,
+                MotionEvent.AXIS_RZ);
 
-		if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
-			if (Math.abs(x) > 0.3){
-				if (AndroidDevices.hasTsp()) {
+        if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
+            if (Math.abs(x) > 0.3){
+                if (AndroidDevices.hasTsp()) {
                     seek(x > 0.0f ? 10000 : -10000);
                 } else
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT);
-			} else if (Math.abs(y) > 0.3){
-				if (AndroidDevices.hasTsp()) {
+            } else if (Math.abs(y) > 0.3){
+                if (AndroidDevices.hasTsp()) {
                     if (mIsFirstBrightnessGesture)
                         initBrightnessTouch();
                     changeBrightness(-y / 10f);
                 } else
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_UP : KeyEvent.KEYCODE_DPAD_DOWN);
-			} else if (Math.abs(rz) > 0.3){
-				mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-				int delta = -(int) ((rz / 7) * mAudioMax);
-				int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
-				setAudioVolume(vol);
-			}
+            } else if (Math.abs(rz) > 0.3){
+                mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                int delta = -(int) ((rz / 7) * mAudioMax);
+                int vol = (int) Math.min(Math.max(mVol + delta, 0), mAudioMax);
+                setAudioVolume(vol);
+            }
             mLastMove = System.currentTimeMillis();
-		}
-		return true;
+        }
+        return true;
     }
 
     @Override
@@ -1621,11 +1621,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
-	private void setAudioVolume(int vol) {
-		mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
-		mTouchAction = TOUCH_VOLUME;
-		showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
-	}
+    private void setAudioVolume(int vol) {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+        mTouchAction = TOUCH_VOLUME;
+        showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
+    }
 
     private void updateMute () {
         if (!mMute) {
@@ -1678,14 +1678,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         changeBrightness(delta);
     }
 
-	private void changeBrightness(float delta) {
-		// Estimate and adjust Brightness
+    private void changeBrightness(float delta) {
+        // Estimate and adjust Brightness
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
         // Set Brightness
         getWindow().setAttributes(lp);
         showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness * 15),1000);
-	}
+    }
 
     /**
      * handle changes of the seekbar (slicer)
@@ -1768,7 +1768,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void selectAudioTrack() {
-    	if (mAudioTracksList == null) return;
+        if (mAudioTracksList == null) return;
 
         final String[] arrList = new String[mAudioTracksList.size()];
         int i = 0;
