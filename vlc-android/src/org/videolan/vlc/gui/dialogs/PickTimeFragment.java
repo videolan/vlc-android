@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
 
 public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
@@ -60,11 +59,7 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        try {
-            mLibVLC = LibVLC.getInstance();
-        } catch (LibVlcException e) {
-            getDialog().dismiss();
-        }
+        mLibVLC = LibVLC.getInstance();
         View view = inflater.inflate(R.layout.jump_to_time, container);
         ((TextView)view.findViewById(R.id.jump_dialog_title)).setText(getTitle());
         mHours = (TextView) view.findViewById(R.id.jump_hours);

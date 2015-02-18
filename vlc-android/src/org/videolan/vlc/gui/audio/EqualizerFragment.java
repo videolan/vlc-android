@@ -40,13 +40,11 @@ import android.widget.Spinner;
 import android.widget.ToggleButton;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.Preferences;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.EqualizerBar;
 
 public class EqualizerFragment extends Fragment {
@@ -91,18 +89,13 @@ public class EqualizerFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         float[] bands = null;
         String[] presets = null;
-        try {
-            libVlc = VLCInstance.getLibVlcInstance();
-            bands = libVlc.getBands();
-            presets = libVlc.getPresets();
-            if (equalizer == null)
-                equalizer = Preferences.getFloatArray(preferences, "equalizer_values");
-            if (equalizer == null)
-                equalizer = new float[bands.length + 1];
-        } catch (LibVlcException e) {
-            e.printStackTrace();
-            return;
-        }
+        libVlc = LibVLC.getInstance();
+        bands = libVlc.getBands();
+        presets = libVlc.getPresets();
+        if (equalizer == null)
+            equalizer = Preferences.getFloatArray(preferences, "equalizer_values");
+        if (equalizer == null)
+            equalizer = new float[bands.length + 1];
 
         // on/off
         button.setChecked(libVlc.getEqualizer() != null);

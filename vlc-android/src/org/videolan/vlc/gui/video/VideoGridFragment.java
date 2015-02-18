@@ -126,9 +126,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         FragmentActivity activity = getActivity();
         if (activity != null)
             mThumbnailer = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
-        try {
-            mLibVlc = LibVLC.getInstance();
-        } catch (LibVlcException e) {}
+        mLibVlc = LibVLC.getInstance();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

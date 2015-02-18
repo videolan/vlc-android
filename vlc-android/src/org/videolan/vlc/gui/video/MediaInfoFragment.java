@@ -25,7 +25,6 @@ import java.nio.ByteBuffer;
 import java.util.Locale;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
@@ -36,7 +35,6 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import android.content.res.Configuration;
@@ -198,11 +196,7 @@ public class MediaInfoFragment extends ListFragment {
     Runnable mLoadImage = new Runnable() {
         @Override
         public void run() {
-            try {
-                mLibVlc = VLCInstance.getLibVlcInstance();
-            } catch (LibVlcException e) {
-                return;
-            }
+            mLibVlc = LibVLC.getInstance();
             mMedia = new Media(mLibVlc, mItem.getLocation());
             mMedia.parse();
             mMedia.release();

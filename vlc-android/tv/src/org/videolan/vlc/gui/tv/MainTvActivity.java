@@ -25,18 +25,20 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.Thumbnailer;
+import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.tv.browser.GridFragment;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.gui.video.VideoListHandler;
+import org.videolan.vlc.util.VLCInstance;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -120,12 +122,20 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if (LibVLC.getExistingInstance() != null){
-            if (LibVLC.getExistingInstance().isPlaying()){
-                startActivity(new Intent(this, AudioPlayerActivity.class));
-                finish();
-                return;
+        try {
+            if (VLCInstance.getLibVlcInstance() != null){
+                if (LibVLC.getExistingInstance().isPlaying()){
+                    startActivity(new Intent(this, AudioPlayerActivity.class));
+                    finish();
+                    return;
+                }
             }
+        } catch (LibVlcException e) {
+            Intent i = new Intent(this, CompatErrorActivity.class);
+            startActivity(i);
+            finish();
+            super.onCreate(savedInstanceState);
+            return;
         }
         mContext = this;
         setContentView(R.layout.tv_main_fragment);

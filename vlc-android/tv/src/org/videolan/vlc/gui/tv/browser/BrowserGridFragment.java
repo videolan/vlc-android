@@ -57,9 +57,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         super.onResume();
         if (mAdapter.size() == 0) {
             if (mAdapter.size() == 0) {
-                try {
-                    mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
-                } catch (LibVlcException e) {}
+                mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
                 if (mMediaBrowser != null) {
                     mMediaList = new ArrayList<>();
                     if (mMrl != null)

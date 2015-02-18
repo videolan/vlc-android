@@ -159,9 +159,8 @@ public class LibVLC {
      * thumbnail and get information e.g. on the MediaLibraryActivity
      *
      * @return libVLC instance
-     * @throws LibVlcException
      */
-    public static LibVLC getInstance() throws LibVlcException {
+    public static LibVLC getInstance() {
         synchronized (LibVLC.class) {
             if (sInstance == null) {
                 /* First call */
