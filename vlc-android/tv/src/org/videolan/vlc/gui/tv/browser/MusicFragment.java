@@ -199,7 +199,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
         }
     }
 
-    public class ListItem {
+    public static class ListItem {
         public String mTitle;
         public String mSubTitle;
         public ArrayList<MediaWrapper> mediaList;
