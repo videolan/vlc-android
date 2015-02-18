@@ -63,7 +63,7 @@ public class VerticalSeekBar extends SeekBar {
     }
 
     @Override
-    public synchronized void setProgress(int progress) {
+    public void setProgress(int progress) {
         super.setProgress(progress);
         onSizeChanged(getWidth(), getHeight(), 0, 0);
     }
@@ -99,11 +99,8 @@ public class VerticalSeekBar extends SeekBar {
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (mIsMovingThumb) {
-                    synchronized (this) {
-                        final int max = getMax();
-                        final int progress = max - (int) (max* event.getY() / getHeight());
-                        setProgress(progress);
-                    }
+                    final int max = getMax();
+                    setProgress(max - (int) (max* event.getY() / getHeight()));
                     handled = true;
                 }
                 break;
