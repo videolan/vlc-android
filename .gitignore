@@ -4,6 +4,9 @@
 # Android .so
 /android-libs/**/*.so
 
+# tmp dir used by gdb.sh
+.gdb
+
 # Local configuration
 local.properties
 env.sh
