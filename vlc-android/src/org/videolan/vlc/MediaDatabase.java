@@ -456,7 +456,7 @@ public class MediaDatabase {
                 PLAYLIST_MEDIA_ORDER + "=?",
                 new String[] { playlistName, Integer.toString(position) });
 
-        playlistShiftItems(playlistName, position+1, -1);
+        playlistShiftItems(playlistName, position + 1, -1);
     }
 
     /**
@@ -847,6 +847,20 @@ public class MediaDatabase {
      */
     public synchronized void removeDir(String path) {
         mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "=?", new String[] { path });
+    }
+
+    /**
+     * Delete all matching directories from directories table
+     *
+     * @param path
+     */
+    public synchronized void recursiveRemoveDir(String path) {
+        for(File f : getMediaDirs()) {
+            final String dirPath = f.getPath();
+            if(dirPath.startsWith(path))
+                mDb.delete(DIR_TABLE_NAME, DIR_ROW_PATH + "=?", new String[] { dirPath });
+        }
+
     }
 
     /**
