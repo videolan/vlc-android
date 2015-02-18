@@ -271,7 +271,8 @@ public class LibVlcUtil {
             fileReader = new FileReader("/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq");
             br = new BufferedReader(fileReader);
             line = br.readLine();
-            frequency = Float.parseFloat(line) / 1000.f; /* Convert to MHz */
+            if (line != null)
+                frequency = Float.parseFloat(line) / 1000.f; /* Convert to MHz */
         } catch(IOException ex) {
             Log.w(TAG, "Could not find maximum CPU frequency!");
         } catch(NumberFormatException e) {
