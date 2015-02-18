@@ -158,6 +158,9 @@ OPTS="-a ${ANDROID_ABI}"
 if [ "$RELEASE" = 1 ]; then
     OPTS="$OPTS release"
 fi
+if [ "$CHROME_OS" = 1 ]; then
+    OPTS="$OPTS -c"
+fi
 
 ./compile-libvlc.sh $OPTS
 

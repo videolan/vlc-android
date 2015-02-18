@@ -28,6 +28,9 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
+        -c)
+            CHROME_OS=1
+            ;;
         release|--release)
             RELEASE=1
             ;;
@@ -471,7 +474,13 @@ cd ../../
 # BUILD DIRECTORY #
 ###################
 
-VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
+if [ "${CHROME_OS}" = "1" ];then
+    VLC_BUILD_DIR=build-chrome-${TARGET_TUPLE}
+    export ac_cv_func_eventfd=no
+    export ac_cv_header_sys_eventfd_h=no
+else
+    VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
+fi
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
 #############
