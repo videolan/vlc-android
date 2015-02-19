@@ -1132,8 +1132,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        doPlayPause();
-        return true;
+        if (!mIsLocked) {
+            doPlayPause();
+            return true;
+        }
+        return false;
     }
 
     @Override
