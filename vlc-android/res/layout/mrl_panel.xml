@@ -9,11 +9,14 @@
         android:layout_margin="10dp"
         android:hint="@string/open_mrl_dialog_msg"
         android:inputType="textUri"
+        android:maxLines="2"
         android:imeOptions="actionGo"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mrl_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_below="@+id/mrl_edit"/>
 
 </RelativeLayout>
