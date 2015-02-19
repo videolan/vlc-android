@@ -52,9 +52,9 @@ public class Logcat implements Runnable {
                 if (!mRun)
                     return;
                 mProcess = Runtime.getRuntime().exec(args);
+                input = new InputStreamReader(
+                        mProcess.getInputStream());
             }
-            input = new InputStreamReader(
-                    mProcess.getInputStream());
             br = new BufferedReader(input);
             String line;
 
