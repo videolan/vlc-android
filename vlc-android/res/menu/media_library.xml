@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/ml_menu_save"
-        android:icon="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:icon="@drawable/ic_menu_bookmark_outline_w"
         android:title="@string/clear_history"
         android:nextFocusDown="@+id/ml_menu_search"
         android:visible="false"

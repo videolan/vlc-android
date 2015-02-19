@@ -566,8 +566,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             item.setVisible(true);
             String mrl = ((NetworkFragment)current).mMrl;
             item.setIcon(MediaDatabase.getInstance().networkFavExists(mrl) ?
-                    R.drawable.abc_btn_check_to_on_mtrl_015 :
-                    R.drawable.abc_btn_check_to_on_mtrl_000);
+                    R.drawable.ic_menu_bookmark_w :
+                    R.drawable.ic_menu_bookmark_outline_w);
 
         }
         else
@@ -650,7 +650,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 if (current == null)
                     break;
                 ((NetworkFragment)current).toggleFavorite();
-                item.setIcon(R.drawable.abc_btn_check_to_on_mtrl_015);
+                item.setIcon(R.drawable.ic_menu_bookmark_w);
                 break;
         }
         mRootContainer.closeDrawer(mSideMenu);
