@@ -192,7 +192,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
             case MediaWrapper.TYPE_SUBTITLE:
                 return R.drawable.ic_browser_subtitle_normal;
             default:
-                return R.drawable.ic_menu_cone;
+                return R.drawable.ic_browser_unknown_normal;
         }
     }
 }
