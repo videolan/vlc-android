@@ -30,6 +30,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -347,6 +348,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         if (media.getMeta(Media.Meta.Title) != null)
             hasInfo = true;
         menu.findItem(R.id.video_list_info).setVisible(hasInfo);
+        menu.findItem(R.id.video_list_delete).setVisible(!LibVlcUtil.isLolliPopOrLater() ||
+                mediaWrapper.getLocation().startsWith("file://"+ Environment.getExternalStorageDirectory().getPath()));
     }
 
     @Override
