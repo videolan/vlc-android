@@ -86,8 +86,10 @@ public class CardPresenter extends Presenter {
             } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
-            } else
-                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+            } else {
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_unknown_big_normal);
+            }
             if (picture != null && picture.getByteCount() > 4)
                 mCardView.setMainImage(new BitmapDrawable(mRes, picture));
             else
