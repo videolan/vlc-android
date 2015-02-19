@@ -73,14 +73,21 @@ public class CardPresenter extends Presenter {
             Bitmap picture = null;
             if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
                 picture = AudioUtil.getCover(sContext, MediaWrapper, 320);
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_song_big);
-            }else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
+                if (picture == null) {
+                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
+                }
+            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
                 picture = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
-                if (picture == null)
-                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_video_collection_big);
-            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR)
-                picture = BitmapFactory.decodeResource(mRes, R.drawable.background_cone);
+                if (picture == null){
+                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+                    picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
+                }
+            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+                picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
+            } else
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             if (picture != null && picture.getByteCount() > 4)
                 mCardView.setMainImage(new BitmapDrawable(mRes, picture));
             else
@@ -88,6 +95,7 @@ public class CardPresenter extends Presenter {
         }
 
         protected void updateCardViewImage(Drawable image) {
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             mCardView.setMainImage(image);
         }
     }
@@ -107,7 +115,6 @@ public class CardPresenter extends Presenter {
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
-            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             MediaWrapper MediaWrapper = (MediaWrapper) item;
             holder.mCardView.setTitleText(MediaWrapper.getTitle());
             holder.mCardView.setContentText(MediaWrapper.getDescription());
@@ -117,19 +124,16 @@ public class CardPresenter extends Presenter {
             else
                 holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof MusicFragment.ListItem) {
-            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
             MusicFragment.ListItem listItem = (MusicFragment.ListItem) item;
             MediaWrapper MediaWrapper = listItem.mediaList.get(0);
             holder.mCardView.setTitleText(listItem.mTitle);
             holder.mCardView.setContentText(listItem.mSubTitle);
             holder.updateCardViewImage(MediaWrapper);
         } else if (item instanceof SimpleCard){
-            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             SimpleCard card = (SimpleCard) item;
             holder.mCardView.setTitleText(card.getName());
             holder.updateCardViewImage(mRes.getDrawable(card.getImageId()));
         }else if (item instanceof String){
-            holder.mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             holder.mCardView.setTitleText((String) item);
             holder.updateCardViewImage(sDefaultCardImage);
         }
