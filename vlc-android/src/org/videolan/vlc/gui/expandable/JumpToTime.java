@@ -68,7 +68,7 @@ public class JumpToTime extends ExpandableLayout {
         int seconds = c.get(Calendar.SECOND);
         boolean isCyclic = false;
         mHourWheel.setCyclic(isCyclic);
-        mHourWheel.setViewAdapter(new NumericWheelAdapter(context, 0, isCyclic ? 23 : hours, "%02d"));
+        mHourWheel.setViewAdapter(new NumericWheelAdapter(context, 0, hours, "%02d"));
         mMinWheel.setCyclic(isCyclic = isCyclic || hours > 0);
         mMinWheel.setViewAdapter(new NumericWheelAdapter(context, 0, isCyclic ? 59 : minutes, "%02d"));
         mSecWheel.setCyclic(isCyclic = isCyclic || minutes > 0);
