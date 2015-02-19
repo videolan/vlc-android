@@ -52,6 +52,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -344,6 +345,8 @@ public class VideoGridFragment extends SherlockGridFragment implements ISortable
             MenuItem playFromStart = menu.findItem(R.id.video_list_play_from_start);
             playFromStart.setVisible(true);
         }
+        menu.findItem(R.id.video_list_delete).setVisible(!LibVlcUtil.isLolliPopOrLater() ||
+                media.getLocation().startsWith("file://"+ Environment.getExternalStorageDirectory().getPath()));
     }
 
     @Override
