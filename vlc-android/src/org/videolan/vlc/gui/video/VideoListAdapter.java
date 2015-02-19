@@ -149,7 +149,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 v = inflater.inflate(R.layout.video_list_card, parent, false);
 
             holder = new ViewHolder();
-            holder.layout = v.findViewById(R.id.layout_item);
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
             holder.title = (TextView) v.findViewById(R.id.ml_item_title);
             holder.time = (TextView) v.findViewById(R.id.ml_item_time);
@@ -241,7 +240,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     static class ViewHolder {
         boolean listmode;
-        View layout;
         ImageView thumbnail;
         TextView title;
         TextView time;
