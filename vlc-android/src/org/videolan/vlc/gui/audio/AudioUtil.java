@@ -144,8 +144,10 @@ public class AudioUtil {
     private static void deleteContent(File dir, boolean deleteDir) {
         if (dir.isDirectory()) {
             File[] files = dir.listFiles();
-            for (File file : files) {
-                deleteContent(file, true);
+            if (files != null && files.length > 0) {
+                for (File file : files) {
+                    deleteContent(file, true);
+                }
             }
         }
         if (deleteDir)
