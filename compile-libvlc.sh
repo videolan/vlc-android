@@ -600,15 +600,17 @@ VLC_SRC_DIR="$SRC_DIR/vlc"
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 
-if [ "${HAVE_64}" != 1 ];then
-# Can't link with 32bits symbols.
-# Not a problem since MediaCodec should work on 64bits devices (android-21)
-LIBIOMX_LIBS="libiomx.14 libiomx.13 libiomx.10"
-fi
-# (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
-#LIBIOMX_LIBS="${LIBIOMX_LIBS }libiomx.19 libiomx.18"
+if [ "${CHROME_OS}" != "1" ];then
+    if [ "${HAVE_64}" != 1 ];then
+    # Can't link with 32bits symbols.
+    # Not a problem since MediaCodec should work on 64bits devices (android-21)
+    LIBIOMX_LIBS="libiomx.14 libiomx.13 libiomx.10"
+    fi
+    # (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
+    #LIBIOMX_LIBS="${LIBIOMX_LIBS }libiomx.19 libiomx.18"
 
-LIBANW_LIBS="libanw.10 libanw.13 libanw.14 libanw.18 libanw.21"
+    LIBANW_LIBS="libanw.10 libanw.13 libanw.14 libanw.18 libanw.21"
+fi
 
 echo "Building NDK"
 
