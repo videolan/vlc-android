@@ -600,6 +600,16 @@ VLC_SRC_DIR="$SRC_DIR/vlc"
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 
+if [ "${HAVE_64}" != 1 ];then
+# Can't link with 32bits symbols.
+# Not a problem since MediaCodec should work on 64bits devices (android-21)
+LIBIOMX_LIBS="libiomx.14 libiomx.13 libiomx.10"
+fi
+# (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
+#LIBIOMX_LIBS="${LIBIOMX_LIBS }libiomx.19 libiomx.18"
+
+LIBANW_LIBS="libanw.10 libanw.13 libanw.14 libanw.18 libanw.21"
+
 echo "Building NDK"
 
 $ANDROID_NDK/ndk-build -C libvlc \
@@ -611,6 +621,8 @@ $ANDROID_NDK/ndk-build -C libvlc \
     TARGET_CFLAGS="$VLC_EXTRA_CFLAGS" \
     EXTRA_LDFLAGS="$EXTRA_LDFLAGS" \
     LIBVLC_LIBS="$LIBVLC_LIBS" \
+    LIBIOMX_LIBS="$LIBIOMX_LIBS" \
+    LIBANW_LIBS="$LIBANW_LIBS" \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \

@@ -150,14 +150,6 @@ LIBIOMX_INCLUDES_21 := $(LIBIOMX_INCLUDES_COMMON) \
 	$(ANDROID_SYS_HEADERS)/21/system/core/include \
 	$(ANDROID_SYS_HEADERS)/21/hardware/libhardware/include
 
-ifneq ($(HAVE_64),1)
-# Can't link with 32bits symbols.
-# Not a problem since MediaCodec should work on 64bits devices (android-21)
-LIBIOMX_LIBS += libiomx.14 libiomx.13 libiomx.10
-endif
-# (after android Jelly Bean, we prefer to use MediaCodec instead of iomx)
-#LIBIOMX_LIBS += libiomx.19 libiomx.18
-
 define build_iomx
 include $(CLEAR_VARS)
 LOCAL_MODULE := $(1)
@@ -189,8 +181,6 @@ LOCAL_CFLAGS     := $(LIBIOMX_CFLAGS_COMMON) -DANDROID_API=$(2)
 $(TARGET_OUT)/$(1).so: $(ANDROID_PRIVATE_LIBS)
 include $(BUILD_SHARED_LIBRARY)
 endef
-
-LIBANW_LIBS += libanw.10 libanw.13 libanw.14 libanw.18 libanw.21
 
 $(foreach ANW_MODULE,$(LIBANW_LIBS), \
     $(eval $(call build_anw,$(ANW_MODULE),$(subst libanw.,,$(ANW_MODULE)))))
