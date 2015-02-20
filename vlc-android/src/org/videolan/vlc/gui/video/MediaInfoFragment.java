@@ -55,6 +55,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class MediaInfoFragment extends ListFragment {
     private TextView mSizeView;
     private TextView mPathView;
     private ImageButton mPlayButton;
-    private TextView mDelete;
+    private Button mDelete;
     private ImageView mSubtitles;
     private Media mMedia;
     private MediaInfoAdapter mAdapter;
@@ -91,7 +92,7 @@ public class MediaInfoFragment extends ListFragment {
         mSizeView = (TextView) v.findViewById(R.id.size_value);
         mPathView = (TextView) v.findViewById(R.id.info_path);
         mPlayButton = (ImageButton) v.findViewById(R.id.play);
-        mDelete = (TextView) v.findViewById(R.id.info_delete);
+        mDelete = (Button) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
         if (!LibVlcUtil.isICSOrLater())
             mDelete.setText(getString(R.string.delete).toUpperCase(Locale.getDefault()));

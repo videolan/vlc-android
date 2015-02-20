@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:baselineAligned="false"
@@ -86,7 +87,7 @@
             android:layout_toRightOf="@+id/size_value"
             android:src="@drawable/ic_audiosub_circle_normal_o"
             android:visibility="invisible"/>
-        <TextView
+        <Button
             android:id="@+id/info_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +96,9 @@
             android:clickable="true"
             android:text="@string/delete"
             android:textColor="@color/blue"
-            android:textAllCaps="true"/>
+            android:textAllCaps="true"
+            tools:targetApi="11"
+            style="?android:attr/borderlessButtonStyle"/>
     </RelativeLayout>
     <ListView
         android:id="@id/android:list"
