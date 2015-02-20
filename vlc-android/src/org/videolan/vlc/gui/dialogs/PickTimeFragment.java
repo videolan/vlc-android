@@ -51,8 +51,8 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected static long HOURS_IN_MICROS = 60*MINUTES_IN_MICROS;
 
     protected LibVLC mLibVLC = null;
-    protected TextView mHours, mMinutes, mSeconds, mMillis;
-    protected Button mActionButton, mSign;
+    protected TextView mHours, mMinutes, mSeconds, mMillis, mSign;
+    protected Button mActionButton;
 
     public PickTimeFragment(){}
 
@@ -67,7 +67,7 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
         mSeconds = (TextView) view.findViewById(R.id.jump_seconds);
         mMillis = (TextView) view.findViewById(R.id.jump_millis);
         mActionButton = (Button) view.findViewById(R.id.jump_go);
-        mSign = (Button) view.findViewById(R.id.jump_sign);
+        mSign = (TextView) view.findViewById(R.id.jump_sign);
 
         mMinutes.setOnFocusChangeListener(this);
         mSeconds.setOnFocusChangeListener(this);
