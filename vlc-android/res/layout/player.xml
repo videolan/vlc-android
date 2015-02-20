@@ -76,6 +76,23 @@
             android:textColor="#ffffff"
             android:textSize="36sp"
             android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/player_delay_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/progress_overlay"
+            android:layout_alignParentRight="true"
+            android:src="@android:drawable/btn_minus"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/player_delay_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@+id/player_delay_minus"
+            android:layout_alignParentRight="true"
+            android:src="@android:drawable/btn_plus"
+            android:visibility="invisible"/>
 
         <include layout="@layout/player_hud"/>
 

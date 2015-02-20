@@ -21,6 +21,7 @@
  */
 package org.videolan.vlc.gui.video;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -47,6 +48,7 @@ import org.videolan.vlc.gui.dialogs.JumpToTimeDialog;
 import org.videolan.vlc.gui.dialogs.PickTimeFragment;
 import org.videolan.vlc.gui.dialogs.SubsDelayDialog;
 import org.videolan.vlc.gui.dialogs.TimePickerDialogFragment;
+import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 
@@ -79,6 +81,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static AdvOptionsDialog sInstance;
     private int mTextColor;
 
+    private IDelayController mDelayController;
     public AdvOptionsDialog() {}
 
     @Override
@@ -88,6 +91,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         setStyle(STYLE_NO_FRAME, R.style.Theme_VLC_TransparentDialog);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mDelayController = (IDelayController) activity;
     }
 
     @Override
@@ -159,21 +168,35 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     };
 
     private void showTimePickerFragment(int action) {
-        DialogFragment newFragment;
-        switch (action){
-            case PickTimeFragment.ACTION_AUDIO_DELAY:
-                newFragment = new AudioDelayDialog();
-                break;
-            case PickTimeFragment.ACTION_SPU_DELAY:
-                newFragment = new SubsDelayDialog();
-                break;
-            case PickTimeFragment.ACTION_JUMP_TO_TIME:
-                newFragment = new JumpToTimeDialog();
-                break;
-            default:
-                return;
+        DialogFragment newFragment = null;
+        if (AndroidDevices.hasTsp()) {
+            switch (action){
+                case PickTimeFragment.ACTION_AUDIO_DELAY:
+                    mDelayController.showAudioDelaySetting();
+                    break;
+                case PickTimeFragment.ACTION_SPU_DELAY:
+                    mDelayController.showSubsDelaySetting();
+                    break;
+                case PickTimeFragment.ACTION_JUMP_TO_TIME:
+                    newFragment = new JumpToTimeDialog();
+                    break;
+                default:
+                    return;
+            }
+        } else {
+            switch (action){
+                case PickTimeFragment.ACTION_AUDIO_DELAY:
+                    newFragment = new AudioDelayDialog();
+                    break;
+                case PickTimeFragment.ACTION_SPU_DELAY:
+                    newFragment = new SubsDelayDialog();
+                    break;
+                default:
+                    return;
+            }
         }
-        newFragment.show(getActivity().getSupportFragmentManager(), "time");
+        if (newFragment != null)
+            newFragment.show(getActivity().getSupportFragmentManager(), "time");
         dismiss();
     }
 

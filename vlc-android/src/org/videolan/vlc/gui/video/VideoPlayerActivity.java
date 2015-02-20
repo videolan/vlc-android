@@ -20,46 +20,6 @@
 
 package org.videolan.vlc.gui.video;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.StreamCorruptedException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-
-import org.videolan.libvlc.EventHandler;
-import org.videolan.libvlc.IVideoPlayer;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapperListPlayer;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.CommonDialogs.MenuType;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.PreferencesActivity;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.KeyguardManager;
@@ -132,7 +92,47 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener {
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.IVideoPlayer;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapperListPlayer;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.PreferencesActivity;
+import org.videolan.vlc.interfaces.IDelayController;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WeakHandler;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.StreamCorruptedException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlayer, GestureDetector.OnDoubleTapListener, IDelayController {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -180,6 +180,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int FADE_OUT_INFO = 4;
     private boolean mDragging;
     private boolean mShowing;
+    private DelayState mDelay = DelayState.OFF;
     private int mUiVisibility = -1;
     private SeekBar mSeekbar;
     private TextView mTitle;
@@ -194,6 +195,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private ImageView mPlayPause;
     private ImageView mTracks;
     private ImageView mAdvOptions;
+    private ImageView mDelayPlus;
+    private ImageView mDelayMinus;
     private boolean mEnableBrightnessGesture;
     private boolean mEnableCloneMode;
     private boolean mDisplayRemainingTime = false;
@@ -377,6 +380,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         mSize = (ImageView) findViewById(R.id.player_overlay_size);
         mSize.setOnClickListener(mSizeListener);
+
+        mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
+        mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
         try {
             mLibVLC = VLCInstance.getLibVlcInstance();
@@ -930,6 +936,77 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSarDen = sar_den;
         Message msg = mHandler.obtainMessage(SURFACE_LAYOUT);
         mHandler.sendMessage(msg);
+    }
+
+    @Override
+    public void showAudioDelaySetting() {
+        mDelay = DelayState.AUDIO;
+        showDelayControls();
+    }
+
+    @Override
+    public void showSubsDelaySetting() {
+        mDelay = DelayState.SUBS;
+        showDelayControls();
+    }
+
+    public void showDelayControls(){
+        mDelayMinus.setOnClickListener(mAudioDelayListener);
+        mDelayPlus.setOnClickListener(mAudioDelayListener);
+        mDelayMinus.setVisibility(View.VISIBLE);
+        mDelayPlus.setVisibility(View.VISIBLE);
+        mInfo.setVisibility(View.VISIBLE);
+        String text = "";
+        if (mDelay == DelayState.AUDIO)
+            text += mLibVLC.getAudioDelay()/1000l;
+        else if (mDelay == DelayState.SUBS)
+            text += mLibVLC.getSpuDelay()/1000l;
+        else
+            text += "0";
+        text += " ms";
+        mInfo.setText(text);
+    }
+    @Override
+    public void endDelaySetting() {
+        mDelay = DelayState.OFF;
+        mDelayMinus.setOnClickListener(null);
+        mDelayPlus.setOnClickListener(null);
+        mDelayMinus.setVisibility(View.INVISIBLE);
+        mDelayPlus.setVisibility(View.INVISIBLE);
+        mInfo.setVisibility(View.INVISIBLE);
+        mInfo.setText("");
+    }
+
+    private OnClickListener mAudioDelayListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.player_delay_minus:
+                    if (mDelay == DelayState.AUDIO)
+                        delayAudio(-50000);
+                    else if (mDelay == DelayState.SUBS)
+                        delaySubs(-50000);
+                    break;
+                case R.id.player_delay_plus:
+                    if (mDelay == DelayState.AUDIO)
+                        delayAudio(50000);
+                    else if (mDelay == DelayState.SUBS)
+                        delaySubs(50000);
+                    break;
+            }
+        }
+    };
+
+    public void delayAudio(long delta){
+        long delay = mLibVLC.getAudioDelay()+delta;
+        mLibVLC.setAudioDelay(delay);
+        mInfo.setText((delay/1000l)+" ms");
+    }
+
+    public void delaySubs(long delta){
+        long delay = mLibVLC.getSpuDelay()+delta;
+        mLibVLC.setSpuDelay(delay);
+        mInfo.setText((delay/1000l)+" ms");
     }
 
     private static class ConfigureSurfaceHolder {
@@ -1486,6 +1563,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (mDelay != DelayState.OFF){
+            endDelaySetting();
+            return true;
+        }
         if (mDetector.onTouchEvent(event))
             return true;
         if (mIsLocked) {
