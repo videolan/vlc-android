@@ -22,7 +22,11 @@ package org.videolan.vlc.gui.video;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
@@ -76,6 +80,7 @@ public class MediaInfoFragment extends ListFragment {
     private final static int HIDE_DELETE = 3;
     private final static int EXIT = 4;
     private final static int SHOW_SUBTITLES = 5;
+    ExecutorService threadPoolExecutor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,8 +138,14 @@ public class MediaInfoFragment extends ListFragment {
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(mItem.getTitle());
         mLengthView.setText(Strings.millisToString(mItem.getLength()));
 
-        new Thread(mLoadImage).start();
-        new Thread(mCheckFile).start();
+        threadPoolExecutor = Executors.newFixedThreadPool(2);
+        threadPoolExecutor.submit(mCheckFile);
+        threadPoolExecutor.submit(mLoadImage);
+    }
+
+    public void onStop(){
+        super.onStop();
+        threadPoolExecutor.shutdownNow();
     }
 
     public void setMediaLocation(String MRL) {
@@ -225,6 +236,9 @@ public class MediaInfoFragment extends ListFragment {
             if (b == null) // We were not able to create a thumbnail for this item.
                 return;
 
+            if (Thread.interrupted()) {
+                return;
+            }
             mImage.copyPixelsFromBuffer(ByteBuffer.wrap(b));
             mImage = BitmapUtil.cropBorders(mImage, width, height);
 
