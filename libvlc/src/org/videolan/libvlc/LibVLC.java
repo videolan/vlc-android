@@ -672,11 +672,11 @@ public class LibVLC {
 
     public native int setAudioDelay(long delay);
 
-    public native int getAudioDelay();
+    public native long getAudioDelay();
 
     public native int setSpuDelay(long delay);
 
-    public native int getSpuDelay();
+    public native long getSpuDelay();
 
     public static native String nativeToURI(String path);
     
