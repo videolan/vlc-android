@@ -1,6 +1,42 @@
 Changes between 1.0.2 and 1.1.0:
 --------------------------------
 
+Main Application:
+ * New design for Material/Lollipop
+ * Port to 5.0 new APIs
+ * Rewrite of most views
+ * Gamepad controller support for navigation
+ * Async load of fragments and search
+ * Option to show videos as list in portrait
+ * Suport pull to refresh
+ * Tracknumber & AlbumArtist tags support for audio files
+ * Handle nowplaying for streams
+ * Set Audio & Subs delay
+
+TV:
+ * Port for Android TV
+ * Video + Audio browsing, settings
+ * Recommandations
+
+Core:
+ * Rewrite of the NativeWindow output
+ * Support of direct rendering and GPU 0-copy
+ * New rendering of subtitles
+ * New audio output based on AudioTrack
+ * Support all the new ABIs
+
+Fixes:
+ * Fix parsing of metadata with space
+ * Fix popup context menu loaded for wrong files
+ * More than 60 bugs fixed
+
+Build:
+ * Move to Gradle
+ * Prepare compilation for Android, Android TV, Chrome
+ * Simpler multi-ABI compilation
+
+Translations:
+ * Update of all the translations
 
 
 Changes between 1.0.0 and 1.0.1:
