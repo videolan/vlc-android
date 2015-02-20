@@ -3,7 +3,7 @@
     package="org.videolan.vlc"
     android:installLocation="auto"
     android:versionCode="01010000"
-    android:versionName="1.1.0-git" >
+    android:versionName="1.1.0" >
     <!--
          versionCode scheme is T M NN RR AA
          T: Target/Flavour (0 for Android, 1 for ATV, 2 for Chrome?)

@@ -1,5 +1,26 @@
-Changes between 0.9.9 and 1.0.0-git:
+Changes between 1.0.2 and 1.1.0:
 --------------------------------
+
+
+
+Changes between 1.0.0 and 1.0.1:
+--------------------------------
+
+Main Application:
+ * Fix popup context menu loaded for the wrong items
+
+
+Changes between 0.9.10 and 1.0.0:
+---------------------------------
+
+Main Application:
+ * Minimum Lollipop support
+ * Support remotes for DVD navigation
+ * Immersive mode from Kitkat and on
+ * Fix crashes
+
+Translations:
+ * Update of all the translations
 
 
 Changes between 0.9.8 and 0.9.9:
