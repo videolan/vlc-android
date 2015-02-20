@@ -77,7 +77,7 @@ checkfail()
 if [ ! -d "gradle/wrapper" ]; then
     GRADLE_VERSION=2.2.1
     GRADLE_URL=http://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-all.zip
-    wget ${GRADLE_URL}
+    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
     checkfail "gradle: download failed"
 
     unzip gradle-${GRADLE_VERSION}-all.zip
