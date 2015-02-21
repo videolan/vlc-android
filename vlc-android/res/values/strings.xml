@@ -108,7 +108,7 @@
     <string name="refresh">Refresh</string>
     <string name="track_audio">Audio track</string>
     <string name="track_video">Video track</string>
-    <string name="track_text">Subtitles track</string>
+    <string name="track_text">Subtitle track</string>
     <string name="track_unknown">Unknown track</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
     <string name="track_language_info">Language: %1$s\n</string>
@@ -313,11 +313,11 @@
     <string name="file_size">File size:</string>
     <string name="file_other">Close navigation drawer</string>
 
-    <string name="audio_delay">Audio Delay</string>
-    <string name="spu_delay">Subtitles Delay</string>
+    <string name="audio_delay">Audio delay</string>
+    <string name="spu_delay">Subtitle delay</string>
     <string name="network_shares_discovery">Looking for network shares...</string>
-    <string name="network_empty">This directory is empty</string>
-    <string name="network_connection_needed">Sorry, no connection to local network.</string>
+    <string name="network_empty">This directory is empty.</string>
+    <string name="network_connection_needed">No connection to local network.</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
