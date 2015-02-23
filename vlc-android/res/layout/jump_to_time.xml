@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:src="@android:drawable/arrow_up_float"/>
-            <TextView
+            <EditText
                 android:id="@+id/jump_hours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,6 +47,8 @@
                 android:text="00"
                 android:textSize="20sp"
                 android:focusable="true"
+                android:background="@android:color/transparent"
+                android:inputType="number"
                 android:nextFocusRight="@+id/jump_minutes"
                 android:nextFocusLeft="@+id/jump_sign"/>
             <ImageView
@@ -80,16 +82,18 @@
                 android:layout_marginBottom="5dp"
                 android:focusable="true"
                 android:src="@android:drawable/arrow_up_float"/>
-            <TextView
+            <EditText
                 android:id="@+id/jump_minutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:nextFocusLeft="@+id/jump_hours"
                 android:nextFocusRight="@+id/jump_seconds"
+                android:inputType="number"
                 android:maxLength="2"
                 android:text="00"
                 android:textSize="20sp"
+                android:background="@android:color/transparent"
                 android:focusable="true"/>
             <ImageView
                 android:id="@+id/jump_minutes_down"
@@ -122,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:src="@android:drawable/arrow_up_float"/>
-            <TextView
+            <EditText
                 android:id="@+id/jump_seconds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,9 +137,11 @@
                 android:text="00"
                 android:textSize="20sp"
                 android:textColor="@color/darkorange"
+                android:background="@android:color/transparent"
+                android:inputType="number"
                 android:focusable="true">
                     <requestFocus />
-            </TextView>
+            </EditText>
             <ImageView
                 android:id="@+id/jump_seconds_down"
                 android:layout_width="match_parent"
@@ -168,7 +174,7 @@
                 android:layout_marginBottom="5dp"
                 android:focusable="true"
                 android:src="@android:drawable/arrow_up_float"/>
-            <TextView
+            <EditText
                 android:id="@+id/jump_millis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -177,6 +183,8 @@
                 android:nextFocusRight="@+id/jump_go"
                 android:maxLength="3"
                 android:text="000"
+                android:background="@android:color/transparent"
+                android:inputType="number"
                 android:textSize="20sp"
                 android:focusable="true"/>
             <ImageView

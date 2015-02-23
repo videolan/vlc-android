@@ -43,12 +43,11 @@ public class AudioDelayDialog extends PickTimeFragment {
         mMillis.setOnFocusChangeListener(this);
         mMillis.setOnEditorActionListener(this);
 
-        mMinutes.setNextFocusLeftId(R.id.jump_sign);
+        mMinutes.setNextFocusLeftId(R.id.jump_go);
         mActionButton.setNextFocusLeftId(R.id.jump_millis);
         mSign.setNextFocusRightId(R.id.jump_minutes);
 
         mSign.setVisibility(View.VISIBLE);
-        mSign.setOnClickListener(this);
 
         mActionButton.setText(android.R.string.cancel);
         long delay = mLibVLC.getAudioDelay();

@@ -243,7 +243,8 @@
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             tools:node="replace"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|keyboard"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.VLC.Player" >
 
             <!-- This filter captures protocols without type info -->

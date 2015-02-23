@@ -51,9 +51,8 @@ public class SubsDelayDialog extends PickTimeFragment {
 
         mActionButton.setText(android.R.string.cancel);
 
-        mMinutes.setNextFocusLeftId(R.id.jump_sign);
+        mMinutes.setNextFocusLeftId(R.id.jump_go);
         mActionButton.setNextFocusLeftId(R.id.jump_millis);
-        mSign.setNextFocusRightId(R.id.jump_minutes);
 
         long delay = mLibVLC.getSpuDelay();
         if (delay != 0f)
