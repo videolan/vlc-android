@@ -135,14 +135,15 @@ android {
     applicationVariants.all { variant ->
         def manifestParser = new com.android.builder.core.DefaultManifestParser()
         // get the version code of each flavor
+        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
         def targetVersion = variant.productFlavors.get(0).versionCode
         def abiVersion = variant.productFlavors.get(1).versionCode
 
         // set the composite code
         variant.mergedFlavor.versionCode = targetVersion * 10000000 + manifestParser.getVersionCode(android.sourceSets.main.manifest.srcFile) + abiVersion
+        variant.mergedFlavor.versionName = vlcVersion
 
         //Custom APK name
-        def vlcVersion = manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
         variant.outputs.each { output ->
             def outputName = "VLC-"+vlcVersion+"-"+variant.productFlavors.get(1).name+".apk"
             output.outputFile = new File(output.outputFile.parentFile, outputName);
