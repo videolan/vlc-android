@@ -16,7 +16,7 @@
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
-    <style name="Theme.VLC.Apearance" parent="Theme.AppCompat.Light">
+    <style name="Theme.VLC.Apearance" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
 
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
@@ -86,7 +86,7 @@
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
-    <style name="Theme.VLC.Apearance.Black" parent="Theme.AppCompat">
+    <style name="Theme.VLC.Apearance.Black" parent="Theme.AppCompat.NoActionBar">
         <item name="marginTopContent">50dp</item>
 
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>

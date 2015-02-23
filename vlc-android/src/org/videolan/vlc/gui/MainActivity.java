@@ -42,6 +42,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -186,6 +187,9 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         /*** Start initializing the UI ***/
 
         setContentView(R.layout.main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
         mSlidingPane.setPanelSlideListener(mPanelSlideListener);
