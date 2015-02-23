@@ -20,9 +20,6 @@
 
 package org.videolan.vlc.widget;
 
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.R;
-
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -34,6 +31,10 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
 
 public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
@@ -76,7 +77,7 @@ public class VLCAppWidgetProvider extends AppWidgetProvider {
             return;
         }
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.vlcwidget);
+        RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.vlcwidget);
         boolean partial = LibVlcUtil.isHoneycombOrLater();
 
         if (ACTION_WIDGET_INIT.equals(action) || !partial) {

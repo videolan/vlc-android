@@ -20,39 +20,6 @@
 
 package org.videolan.vlc.audio;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Stack;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.videolan.libvlc.EventHandler;
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.libvlc.Media;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaDatabase;
-import org.videolan.vlc.MediaWrapperList;
-import org.videolan.vlc.MediaWrapperListPlayer;
-import org.videolan.vlc.R;
-import org.videolan.vlc.RemoteControlClientReceiver;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.audio.AudioUtil;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.interfaces.IAudioService;
-import org.videolan.vlc.interfaces.IAudioServiceCallback;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
-import org.videolan.vlc.util.WeakHandler;
-
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -85,6 +52,39 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import org.videolan.libvlc.EventHandler;
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.libvlc.Media;
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.MediaWrapperList;
+import org.videolan.vlc.MediaWrapperListPlayer;
+import org.videolan.vlc.R;
+import org.videolan.vlc.RemoteControlClientReceiver;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.interfaces.IAudioService;
+import org.videolan.vlc.interfaces.IAudioServiceCallback;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WeakHandler;
+
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import java.util.Stack;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AudioService extends Service {
 
@@ -169,7 +169,7 @@ public class AudioService extends Service {
         mNextIndex = -1;
         mPrevious = new Stack<Integer>();
         mEventHandler = EventHandler.getInstance();
-        mRemoteControlClientReceiverComponent = new ComponentName(getPackageName(),
+        mRemoteControlClientReceiverComponent = new ComponentName(BuildConfig.APPLICATION_ID,
                 RemoteControlClientReceiver.class.getName());
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
@@ -732,7 +732,7 @@ public class AudioService extends Service {
                 PendingIntent piForward = PendingIntent.getBroadcast(this, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
                 PendingIntent piStop = PendingIntent.getBroadcast(this, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification);
+                RemoteViews view = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.notification);
                 view.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
                 view.setTextViewText(R.id.songName, title);
                 view.setTextViewText(R.id.artist, artist);
@@ -742,7 +742,7 @@ public class AudioService extends Service {
                 view.setOnClickPendingIntent(R.id.stop, piStop);
                 view.setOnClickPendingIntent(R.id.content, pendingIntent);
 
-                RemoteViews view_expanded = new RemoteViews(getPackageName(), R.layout.notification_expanded);
+                RemoteViews view_expanded = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.notification_expanded);
                 view_expanded.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
                 view_expanded.setTextViewText(R.id.songName, title);
                 view_expanded.setTextViewText(R.id.artist, artist);

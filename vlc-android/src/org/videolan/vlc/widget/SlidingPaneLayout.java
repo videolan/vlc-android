@@ -23,12 +23,6 @@ package org.videolan.vlc.widget;
  * and a simplified to fit the needs of the VLC Android app.
  */
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import org.videolan.vlc.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -50,6 +44,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
+
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 
 public class SlidingPaneLayout extends ViewGroup {
@@ -1125,7 +1126,7 @@ public class SlidingPaneLayout extends ViewGroup {
             dest.setBoundsInScreen(rect);
 
             dest.setVisibleToUser(src.isVisibleToUser());
-            dest.setPackageName(src.getPackageName());
+            dest.setPackageName(BuildConfig.APPLICATION_ID);
             dest.setClassName(src.getClassName());
             dest.setContentDescription(src.getContentDescription());
 

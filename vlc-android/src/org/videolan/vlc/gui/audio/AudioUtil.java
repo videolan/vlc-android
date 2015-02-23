@@ -19,26 +19,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.audio;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.MurmurHash;
-import org.videolan.vlc.util.Util;
-
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -53,6 +33,27 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.BitmapCache;
+import org.videolan.vlc.util.MurmurHash;
+import org.videolan.vlc.util.Util;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
@@ -121,7 +122,7 @@ public class AudioUtil {
         if (LibVlcUtil.isFroyoOrLater() && AndroidDevices.hasExternalStorage() && context.getExternalCacheDir() != null)
             CACHE_DIR = context.getExternalCacheDir().getPath();
         else
-            CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + context.getPackageName() + "/cache";
+            CACHE_DIR = Environment.getExternalStorageDirectory().getPath() + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
         ART_DIR = CACHE_DIR + "/art/";
         COVER_DIR = CACHE_DIR + "/covers/";
         PLAYLIST_DIR = CACHE_DIR + "/playlists/";

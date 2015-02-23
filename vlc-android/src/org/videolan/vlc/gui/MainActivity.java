@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,6 +59,7 @@ import android.widget.TextView;
 
 import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -148,14 +147,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         mContext = this;
         /* Get the current version from package */
-        PackageInfo pinfo = null;
-        try {
-            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (NameNotFoundException e) {
-            Log.e(TAG, "package info not found.");
-        }
-        if (pinfo != null)
-            mVersionNumber = pinfo.versionCode;
+        mVersionNumber = BuildConfig.VERSION_CODE;
 
         /* Get settings */
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);

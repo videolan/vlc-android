@@ -20,22 +20,16 @@
 
 package org.videolan.vlc.gui;
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.widget.FlingViewGroup;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
@@ -45,6 +39,11 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+
+import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.widget.FlingViewGroup;
 
 public class AboutFragment extends Fragment {
     public final static String TAG = "VLC/AboutActivity";
@@ -56,7 +55,7 @@ public class AboutFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("VLC " + getVersion(getActivity()));
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("VLC " + BuildConfig.VERSION_NAME);
 
         View v = inflater.inflate(R.layout.about, container, false);
 
@@ -156,17 +155,5 @@ public class AboutFragment extends Fragment {
         TextView tv = (TextView) v.findViewById(R.id.textView);
         tv.setText(title);
         return v;
-    }
-
-    public static String getVersion(Context ctx) {
-        String versionName = "";
-        PackageInfo packageInfo;
-        try {
-            packageInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-            versionName = "v" + packageInfo.versionName;
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionName;
     }
 }
