@@ -105,6 +105,10 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 updateViews(keyCode);
                 return true;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_NUMPAD_ENTER:
+                executeAction();
         }
         return false;
     }
