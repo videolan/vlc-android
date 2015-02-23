@@ -36,7 +36,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -54,7 +53,9 @@ import org.videolan.vlc.util.Strings;
 
 import java.util.Calendar;
 
-import static org.videolan.vlc.gui.dialogs.PickTimeFragment.*;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_AUDIO_DELAY;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_JUMP_TO_TIME;
+import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SPU_DELAY;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener {
 
@@ -190,6 +191,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     break;
                 case PickTimeFragment.ACTION_SPU_DELAY:
                     newFragment = new SubsDelayDialog();
+                    break;
+                case PickTimeFragment.ACTION_JUMP_TO_TIME:
+                    newFragment = new JumpToTimeDialog();
                     break;
                 default:
                     return;
