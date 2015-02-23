@@ -53,13 +53,15 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected LibVLC mLibVLC = null;
     protected TextView mHours, mMinutes, mSeconds, mMillis, mSign;
     protected Button mActionButton;
+    protected long max = -1;
 
-    public PickTimeFragment(){}
+    public PickTimeFragment(){
+        mLibVLC = LibVLC.getInstance();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mLibVLC = LibVLC.getInstance();
         View view = inflater.inflate(R.layout.jump_to_time, container);
         ((TextView)view.findViewById(R.id.jump_dialog_title)).setText(getTitle());
         mHours = (TextView) view.findViewById(R.id.jump_hours);
@@ -187,7 +189,9 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
             case R.id.jump_millis:
                 slide = delta * MILLIS_IN_MICROS;
         }
-        initTime(getTime() + slide);
+        slide += getTime();
+        if (max == -1 || slide <= max)
+            initTime(slide);
         if (mLiveAction)
             executeAction();
     }

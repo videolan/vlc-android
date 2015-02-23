@@ -35,6 +35,7 @@ public class JumpToTimeDialog extends PickTimeFragment {
     public JumpToTimeDialog(){
         super();
         mLiveAction = false;
+        max = mLibVLC.getLength() * 1000l;
     }
 
     @Override
