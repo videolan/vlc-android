@@ -244,7 +244,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int TOUCH_SEEK = 3;
     private int mTouchAction;
     private int mSurfaceYDisplayRange;
-    private float mTouchY, mTouchX;
+    private float mInitTouchY, mTouchY, mTouchX;
 
     //stick event
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -1637,6 +1637,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
         float xgesturesize = ((x_changed / screen.xdpi) * 2.54f);
+        float delta_y = Math.max(1f,((mInitTouchY - event.getRawY()) / screen.xdpi + 0.5f)*2f);
 
         /* Offset for Mouse Events */
         int[] offset = new int[2];
@@ -1648,7 +1649,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         case MotionEvent.ACTION_DOWN:
             // Audio
-            mTouchY = event.getRawY();
+            mTouchY = mInitTouchY = event.getRawY();
             mVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
             mTouchAction = TOUCH_NONE;
             // Seek
@@ -1663,7 +1664,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
             // No volume/brightness action if coef < 2 or a secondary display is connected
             //TODO : Volume action when a secondary display is connected
-            if (coef > 2 && mPresentation == null) {
+            if (mTouchAction != TOUCH_SEEK && coef > 2 && mPresentation == null) {
                 mTouchY = event.getRawY();
                 mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
@@ -1676,7 +1677,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 }
             } else {
                 // Seek (Right or Left move)
-                doSeekTouch(coef, xgesturesize, false);
+                doSeekTouch(Math.round(delta_y), xgesturesize, false);
             }
             if (mTouchAction != TOUCH_NONE && mOverlayTimeout != OVERLAY_INFINITE)
                 showOverlayTimeout(OVERLAY_INFINITE);
@@ -1698,7 +1699,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
             // Seek
             if (mTouchAction == TOUCH_SEEK)
-                doSeekTouch(coef, xgesturesize, true);
+                doSeekTouch(Math.round(delta_y), xgesturesize, true);
             mTouchX = -1f;
             mTouchY = -1f;
             break;
@@ -1706,9 +1707,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         return mTouchAction != TOUCH_NONE;
     }
 
-    private void doSeekTouch(float coef, float gesturesize, boolean seek) {
+    private void doSeekTouch(int coef, float gesturesize, boolean seek) {
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (coef > 0.5 || Math.abs(gesturesize) < 1 || !mCanSeek)
+        if (Math.abs(gesturesize) < 1 || !mCanSeek)
             return;
 
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK)
@@ -1719,7 +1720,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         long time = mLibVLC.getTime();
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
-        int jump = (int) (Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000));
+        int jump = (int) ((Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000)) / coef);
 
         // Adjust the jump
         if ((jump > 0) && ((time + jump) > length))
@@ -1733,10 +1734,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         if (length > 0)
             //Show the jump's size
-            showInfo(String.format("%s%s (%s)",
+            showInfo(String.format("%s%s (%s) x%d",
                     jump >= 0 ? "+" : "",
                     Strings.millisToString(jump),
-                    Strings.millisToString(time + jump)), 1000);
+                    Strings.millisToString(time + jump), coef), 1000);
         else
             showInfo(R.string.unseekable_stream, 1000);
     }
