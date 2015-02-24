@@ -40,6 +40,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.AudioDelayDialog;
@@ -131,15 +132,19 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         mJumpTitle.setOnClickListener(this);
 
-        mAudioDelay.setOnClickListener(this);
         mSpuDelay.setOnClickListener(this);
 
         mReset.setOnFocusChangeListener(mFocusListener);
         mSleepTime.setOnFocusChangeListener(mFocusListener);
         mSleepCancel.setOnFocusChangeListener(mFocusListener);
         mJumpTitle.setOnFocusChangeListener(mFocusListener);
-        mAudioDelay.setOnFocusChangeListener(mFocusListener);
         mSpuDelay.setOnFocusChangeListener(mFocusListener);
+        if (BuildConfig.DEBUG) { //Hide audio delay option for now, it is not usable yet.
+            mAudioDelay.setOnClickListener(this);
+            mAudioDelay.setOnFocusChangeListener(mFocusListener);
+        } else {
+            mAudioDelay.setVisibility(View.GONE);
+        }
 
         getDialog().setCancelable(true);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
