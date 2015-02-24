@@ -185,8 +185,6 @@ elif [ "$ANDROID_ABI" = "armeabi" ]; then
     GRADLE_ABI="ARMv6fpu"
 elif [ "$ANDROID_ABI" = "armeabi-nofpu" ]; then
     GRADLE_ABI="ARMv6nofpu"
-elif [ "$ANDROID_ABI" = "armeabi-v7a" ]; then
-    GRADLE_ABI="ARMv7"
 elif [ "$ANDROID_ABI" = "arm64-v8a" ]; then
     GRADLE_ABI="ARMv8"
 elif [ "$ANDROID_ABI" = "x86" ]; then
@@ -197,6 +195,8 @@ elif [ "$ANDROID_ABI" = "mips" ]; then
     GRADLE_ABI="MIPS"
 elif [ "$ANDROID_ABI" = "mips64" ]; then
     GRADLE_ABI="MIPS64"
+else
+    GRADLE_ABI="ARMv7"
 fi
 
 TARGET="assemble${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
