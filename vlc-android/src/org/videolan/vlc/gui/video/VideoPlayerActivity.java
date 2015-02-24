@@ -175,9 +175,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_LAYOUT = 3;
+    private static final int FADE_OUT_INFO = 4;
     private static final int AUDIO_SERVICE_CONNECTION_SUCCESS = 5;
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
-    private static final int FADE_OUT_INFO = 4;
+    private static final int END_DELAY_STATE = 7;
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -892,9 +893,20 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 return navigateDvdMenu(keyCode);
             else
                 return super.onKeyDown(keyCode, event);
-        default:
-            return super.onKeyDown(keyCode, event);
+        case KeyEvent.KEYCODE_J:
+            delayAudio(-50000l);
+            break;
+        case KeyEvent.KEYCODE_K:
+            delayAudio(50000l);
+            break;
+        case KeyEvent.KEYCODE_G:
+            delaySubs(-50000l);
+            break;
+        case KeyEvent.KEYCODE_H:
+            delaySubs(50000l);
+            break;
         }
+        return super.onKeyDown(keyCode, event);
     }
 
     private boolean navigateDvdMenu(int keyCode) {
@@ -955,17 +967,24 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mDelayPlus.setOnClickListener(mAudioDelayListener);
         mDelayMinus.setVisibility(View.VISIBLE);
         mDelayPlus.setVisibility(View.VISIBLE);
+        initDelayInfo();
+    }
+
+    private void initDelayInfo() {
         mInfo.setVisibility(View.VISIBLE);
         String text = "";
-        if (mDelay == DelayState.AUDIO)
-            text += mLibVLC.getAudioDelay()/1000l;
-        else if (mDelay == DelayState.SUBS)
-            text += mLibVLC.getSpuDelay()/1000l;
-        else
+        if (mDelay == DelayState.AUDIO) {
+            text += getString(R.string.audio_delay)+"\n";
+            text += mLibVLC.getAudioDelay() / 1000l;
+        } else if (mDelay == DelayState.SUBS) {
+            text += getString(R.string.spu_delay)+"\n";
+            text += mLibVLC.getSpuDelay() / 1000l;
+        } else
             text += "0";
         text += " ms";
         mInfo.setText(text);
     }
+
     @Override
     public void endDelaySetting() {
         mDelay = DelayState.OFF;
@@ -975,6 +994,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mDelayPlus.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
+        mHandler.removeMessages(END_DELAY_STATE);
     }
 
     private OnClickListener mAudioDelayListener = new OnClickListener() {
@@ -1000,13 +1020,26 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     public void delayAudio(long delta){
         long delay = mLibVLC.getAudioDelay()+delta;
         mLibVLC.setAudioDelay(delay);
-        mInfo.setText((delay/1000l)+" ms");
+        mInfo.setText(getString(R.string.audio_delay)+"\n"+(delay/1000l)+" ms");
+        if (mDelay == DelayState.OFF) {
+            mDelay = DelayState.AUDIO;
+            initDelayInfo();
+        }
+        mHandler.removeMessages(END_DELAY_STATE);
+        mHandler.sendEmptyMessageDelayed(END_DELAY_STATE, 2000);
     }
 
     public void delaySubs(long delta){
+        Log.d(TAG, "delaySubs "+delta);
         long delay = mLibVLC.getSpuDelay()+delta;
         mLibVLC.setSpuDelay(delay);
-        mInfo.setText((delay/1000l)+" ms");
+        mInfo.setText(getString(R.string.spu_delay)+"\n"+(delay/1000l)+" ms");
+        if (mDelay == DelayState.OFF) {
+            mDelay = DelayState.SUBS;
+            initDelayInfo();
+        }
+        mHandler.removeMessages(END_DELAY_STATE);
+        mHandler.sendEmptyMessageDelayed(END_DELAY_STATE, 2000);
     }
 
     private static class ConfigureSurfaceHolder {
@@ -1339,6 +1372,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 case AUDIO_SERVICE_CONNECTION_FAILED:
                     activity.finish();
                     break;
+                case END_DELAY_STATE:
+                    activity.endDelaySetting();
             }
         }
     };

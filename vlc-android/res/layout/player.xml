@@ -73,6 +73,7 @@
             android:layout_gravity="center"
             android:background="@drawable/video_list_length_bg"
             android:padding="5dp"
+            android:gravity="center_horizontal"
             android:textColor="#ffffff"
             android:textSize="36sp"
             android:visibility="invisible" />
