@@ -855,12 +855,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             else
                 doPlayPause();
             return true;
-        case KeyEvent.KEYCODE_V:
         case KeyEvent.KEYCODE_O:
         case KeyEvent.KEYCODE_BUTTON_Y:
             showAdvancedOptions(mAdvOptions);
             return true;
         case KeyEvent.KEYCODE_B:
+            selectAudioTrack();
+            break;
+        case KeyEvent.KEYCODE_V:
         case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
         case KeyEvent.KEYCODE_BUTTON_B:
             onAudioSubClick(mTracks);
