@@ -1587,8 +1587,15 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (mSurfaceYDisplayRange == 0)
             mSurfaceYDisplayRange = Math.min(screen.widthPixels, screen.heightPixels);
 
-        float y_changed = event.getRawY() - mTouchY;
-        float x_changed = event.getRawX() - mTouchX;
+        float x_changed, y_changed;
+        if (mTouchX != -1 && mTouchY != -1) {
+            y_changed = event.getRawY() - mTouchY;
+            x_changed = event.getRawX() - mTouchX;
+        } else {
+            x_changed = 0f;
+            y_changed = 0f;
+        }
+
 
         // coef is the gradient's move to determine a neutral zone
         float coef = Math.abs (y_changed / x_changed);
@@ -1653,7 +1660,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 showOverlay(true);
             }
             // Seek
-            doSeekTouch(coef, xgesturesize, true);
+            if (mTouchAction == TOUCH_SEEK)
+                doSeekTouch(coef, xgesturesize, true);
+            mTouchX = -1f;
+            mTouchY = -1f;
             break;
         }
         return mTouchAction != TOUCH_NONE;
