@@ -27,16 +27,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -48,6 +47,8 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+
+import com.android.widget.SlidingTabLayout;
 
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaLibrary;
@@ -61,7 +62,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -95,18 +95,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
 
     public final static int MSG_LOADING = 0;
     private volatile boolean mDisplaying = false;
-    private ActionBar.TabListener mTabListener = new ActionBar.TabListener() {
-        @Override
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            mViewPager.setCurrentItem(tab.getPosition());
-        }
-
-        @Override
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
-
-        @Override
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
-    };
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -156,8 +144,9 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
         mViewPager.setAdapter(new AudioPagerAdapter(lists));
+
+        mViewPager.setOnTouchListener(mSwipeFilter);
         mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.darkorange));
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
 
@@ -629,5 +618,21 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 popupMenu.show();
             }
 
+    };
+
+    /*
+     * Disable Swipe Refresh while scrolling horizontally
+     */
+    private View.OnTouchListener mSwipeFilter = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            mSwipeRefreshLayout.setEnabled(false);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_UP:
+                    mSwipeRefreshLayout.setEnabled(true);
+                    break;
+            }
+            return false;
+        }
     };
 }
