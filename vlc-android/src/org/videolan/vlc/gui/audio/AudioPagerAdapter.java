@@ -35,9 +35,11 @@ import java.util.ArrayList;
 public class AudioPagerAdapter extends PagerAdapter {
 
     private ArrayList<ListView> mLists;
+    private String[] mTitles;
 
-    public AudioPagerAdapter(ArrayList<ListView> lists){
+    public AudioPagerAdapter(ArrayList<ListView> lists, String[] titles){
         mLists = lists;
+        mTitles = titles;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class AudioPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view.equals(object);
+        return view == object;
     }
 
     @Override
@@ -65,18 +67,9 @@ public class AudioPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Context context = mLists.get(0).getContext();
-        switch (position){
-            case AudioBrowserFragment.MODE_ARTIST:
-                return context.getString(R.string.artists);
-            case AudioBrowserFragment.MODE_ALBUM:
-                return context.getString(R.string.albums);
-            case AudioBrowserFragment.MODE_SONG:
-                return context.getString(R.string.songs);
-            case AudioBrowserFragment.MODE_GENRE:
-                return context.getString(R.string.genres);
-            default:
-                return "";
-        }
+        if (position < 0 || position >= mTitles.length)
+            return "";
+        else
+            return mTitles[position];
     }
 }

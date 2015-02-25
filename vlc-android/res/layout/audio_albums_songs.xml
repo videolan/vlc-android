@@ -1,64 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabhost"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabcontent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-        <TabWidget
-            android:id="@android:id/tabs"
+    <com.android.widget.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sliding_tabs">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/background_header" >
-        </TabWidget>
+            android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-            <android.support.v4.widget.SwipeRefreshLayout
-                android:id="@+id/swipeLayout"
+        <ListView
+                android:id="@+id/albums"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <org.videolan.vlc.widget.FlingViewGroup
-                    android:id="@+id/fling_view_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:nextFocusUp="@+id/ml_menu_search"
+                android:nextFocusDown="@id/albums"
+                android:nextFocusLeft="@id/albums"
+                android:nextFocusRight="@id/albums" />
 
-                    <ListView
-                        android:id="@+id/albums"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:fastScrollEnabled="true"
-                        android:paddingBottom="@dimen/listview_bottom_padding"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:nextFocusUp="@+id/ml_menu_search"
-                        android:nextFocusDown="@id/albums"
-                        android:nextFocusLeft="@id/albums"
-                        android:nextFocusRight="@id/albums" />
+            <ListView
+                android:id="@+id/songs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:nextFocusUp="@+id/ml_menu_search"
+                android:nextFocusDown="@id/songs"
+                android:nextFocusLeft="@id/songs"
+                android:nextFocusRight="@id/songs" />
+        </android.support.v4.view.ViewPager>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-                    <ListView
-                        android:id="@+id/songs"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:fastScrollEnabled="true"
-                        android:paddingBottom="@dimen/listview_bottom_padding"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:nextFocusUp="@+id/ml_menu_search"
-                        android:nextFocusDown="@id/songs"
-                        android:nextFocusLeft="@id/songs"
-                        android:nextFocusRight="@id/songs" />
-                </org.videolan.vlc.widget.FlingViewGroup>
-            </android.support.v4.widget.SwipeRefreshLayout>
-        </FrameLayout>
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_below="@+id/sliding_tabs"
+        android:background="@drawable/bottom_shadow" />
+</RelativeLayout>
 
-</TabHost>
