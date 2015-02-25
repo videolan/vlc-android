@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -86,6 +87,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private ViewPager mViewPager;
     private SlidingTabLayout mSlidingTabLayout;
     private View mEmptyView;
+    private ArrayList<View> mLists;
 
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
@@ -136,16 +138,16 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         genreList.setAdapter(mGenresAdapter);
 
 
-        ArrayList<View> lists = new ArrayList<>();
-        lists.add(artistList);
-        lists.add(albumList);
-        lists.add(songsList);
-        lists.add(genreList);
+        mLists = new ArrayList<>();
+        mLists.add(artistList);
+        mLists.add(albumList);
+        mLists.add(songsList);
+        mLists.add(genreList);
         String[] titles = new String[] {getString(R.string.artists), getString(R.string.albums),
                 getString(R.string.songs), getString(R.string.genres)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
-        mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
+        mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
@@ -205,6 +207,13 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 mAlbumsAdapter.isEmpty() || mSongsAdapter.isEmpty())
             updateLists();
         mMediaLibrary.addUpdateHandler(mHandler);
+        final ListView current = (ListView)mLists.get(mViewPager.getCurrentItem());
+        current.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setEnabled(current.getFirstVisiblePosition() == 0);
+            }
+        });
     }
 
     private void focusHelper(final boolean idIsEmpty, final int listId) {
