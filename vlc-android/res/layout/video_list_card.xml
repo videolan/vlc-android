@@ -11,7 +11,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="75dip"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="?attr/background_default" >
 
         <ImageView
             android:id="@+id/ml_item_thumbnail"
@@ -19,7 +20,7 @@
             android:layout_height="75dip"
             android:layout_alignParentLeft="true"
             android:scaleType="fitCenter"
-            android:background="@color/grey300" />
+            android:background="?attr/background_default_darker" />
 
         <TextView
             android:id="@+id/ml_item_title"

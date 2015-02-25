@@ -12,14 +12,15 @@
         android:layout_width="@dimen/grid_card_width"
         android:layout_height="@dimen/grid_card_height"
         android:gravity="center_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="?attr/background_default">
 
         <ImageView
             android:id="@+id/ml_item_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="@dimen/grid_card_thumb_height"
             android:layout_alignParentTop="true"
-            android:background="@color/grey300"
+            android:background="?attr/background_default_darker"
             android:scaleType="fitCenter" />
 
         <TextView
