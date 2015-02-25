@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,6 +61,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.SlidingTabLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,6 +84,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<>();
 
     private ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
     private View mEmptyView;
 
     public final static int MODE_ARTIST = 0;
@@ -153,6 +156,10 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
         mViewPager.setAdapter(new AudioPagerAdapter(lists));
+        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.darkorange));
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setViewPager(mViewPager);
 
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
@@ -526,8 +533,10 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         if (mAudioList.isEmpty()){
             mSwipeRefreshLayout.setRefreshing(false);
             mEmptyView.setVisibility(View.VISIBLE);
+            mSlidingTabLayout.setVisibility(View.GONE);
             focusHelper(true, R.id.artists_list);
         } else {
+            mSlidingTabLayout.setVisibility(View.VISIBLE);
             mEmptyView.setVisibility(View.GONE);
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 

@@ -13,8 +13,7 @@
         android:nextFocusRight="@+id/ml_menu_search"
         android:nextFocusUp="@+id/ml_menu_search"
         android:nextFocusDown="@+id/ml_menu_search"
-        android:nextFocusForward="@+id/ml_menu_search"
-        android:fitsSystemWindows="true">
+        android:nextFocusForward="@+id/ml_menu_search">
 
         <org.videolan.vlc.widget.SlidingPaneLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
