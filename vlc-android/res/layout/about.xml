@@ -1,43 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabcontent"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center|fill_vertical"
-    android:orientation="vertical"
-    android:weightSum="1" >
+    android:layout_height="fill_parent" >
 
-    <TabHost
-        android:id="@android:id/tabhost"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+    <com.android.widget.SlidingTabLayout
+        android:id="@+id/sliding_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sliding_tabs">
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/background_header" />
+            <include layout="@layout/about_main" />
+            <include layout="@layout/about_licence" />
+        </android.support.v4.view.ViewPager>
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-
-                <org.videolan.vlc.widget.FlingViewGroup
-                    android:id="@+id/fling_view_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <include layout="@layout/about_main" />
-
-                    <include layout="@layout/about_licence" />
-                </org.videolan.vlc.widget.FlingViewGroup>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_below="@+id/sliding_tabs"
+        android:background="@drawable/bottom_shadow" />
+</RelativeLayout>

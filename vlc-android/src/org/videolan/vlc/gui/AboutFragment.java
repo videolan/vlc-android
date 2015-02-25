@@ -24,6 +24,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -40,18 +41,25 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.android.widget.SlidingTabLayout;
+
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.audio.AudioPagerAdapter;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.FlingViewGroup;
+
+import java.util.ArrayList;
 
 public class AboutFragment extends Fragment {
     public final static String TAG = "VLC/AboutActivity";
 
-    private TabHost mTabHost;
-    FlingViewGroup mFlingViewGroup;
-    private int mCurrentTab = 0;
+    public final static int MODE_ABOUT = 0;
+    public final static int MODE_LICENCE = 1;
+    public final static int MODE_TOTAL = 2; // Number of audio browser modes
 
+    private ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,9 +67,7 @@ public class AboutFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.about, container, false);
 
-        mTabHost = (TabHost) v.findViewById(android.R.id.tabhost);
-        mFlingViewGroup = (FlingViewGroup) v.findViewById(R.id.fling_view_group);
-
+        View aboutMain = v.findViewById(R.id.about_main);
         WebView t = (WebView)v.findViewById(R.id.webview);
         String revision = getString(R.string.build_revision);
         t.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!",revision), "text/html", "UTF8");
@@ -90,41 +96,17 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        mTabHost.setup();
+        ArrayList<View> lists = new ArrayList<>();
+        lists.add(aboutMain);
+        lists.add(t);
+        String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};
+        mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
+        mViewPager.setAdapter(new AudioPagerAdapter(lists, titles));
 
-        addNewTab(mTabHost, "about", getResources().getString(R.string.about));
-        addNewTab(mTabHost, "licence", getResources().getString(R.string.licence));
-
-        mTabHost.setCurrentTab(mCurrentTab);
-        mFlingViewGroup.snapToScreen(mCurrentTab);
-
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                mCurrentTab = mTabHost.getCurrentTab();
-                mFlingViewGroup.smoothScrollTo(mCurrentTab);
-            }
-        });
-
-        mFlingViewGroup.setOnViewSwitchedListener(new FlingViewGroup.ViewSwitchListener() {
-            @Override
-            public void onSwitching(float progress) { }
-            @Override
-            public void onSwitched(int position) {
-                mTabHost.setCurrentTab(position);
-            }
-            @Override
-            public void onTouchDown() {}
-            @Override
-            public void onTouchUp() {}
-            @Override
-            public void onTouchClick() {}
-            @Override
-            public void onBackSwitched() {
-                MainActivity activity = (MainActivity)getActivity();
-                activity.popSecondaryFragment();
-            }
-        });
+        mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setDistributeEvenly(true);
+        mSlidingTabLayout.setViewPager(mViewPager);
 
         return v;
     }

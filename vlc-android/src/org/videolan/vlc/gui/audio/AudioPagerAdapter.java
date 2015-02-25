@@ -34,10 +34,10 @@ import java.util.ArrayList;
 
 public class AudioPagerAdapter extends PagerAdapter {
 
-    private ArrayList<ListView> mLists;
+    private ArrayList<View> mLists;
     private String[] mTitles;
 
-    public AudioPagerAdapter(ArrayList<ListView> lists, String[] titles){
+    public AudioPagerAdapter(ArrayList<View> lists, String[] titles){
         mLists = lists;
         mTitles = titles;
     }

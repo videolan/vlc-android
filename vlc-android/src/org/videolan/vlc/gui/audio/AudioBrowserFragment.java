@@ -136,7 +136,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         genreList.setAdapter(mGenresAdapter);
 
 
-        ArrayList<ListView> lists = new ArrayList<>();
+        ArrayList<View> lists = new ArrayList<>();
         lists.add(artistList);
         lists.add(albumList);
         lists.add(songsList);
