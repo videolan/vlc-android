@@ -189,6 +189,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         setContentView(R.layout.main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
 
         mSlidingPane = (SlidingPaneLayout) findViewById(R.id.pane);
