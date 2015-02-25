@@ -26,18 +26,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -50,8 +49,8 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.BrowserFragment;
@@ -61,14 +60,10 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.widget.FlingViewGroup;
-import org.videolan.vlc.widget.FlingViewGroup.ViewSwitchListener;
-import org.videolan.vlc.widget.HeaderScrollView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -76,10 +71,6 @@ import java.util.concurrent.Executors;
 public class AudioBrowserFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
-    private FlingViewGroup mFlingViewGroup;
-    private int mFlingViewPosition = 0;
-
-    private HeaderScrollView mHeader;
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
 
@@ -90,16 +81,29 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private AudioBrowserListAdapter mGenresAdapter;
     private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<>();
 
+    private ViewPager mViewPager;
     private View mEmptyView;
 
-    public final static int MODE_TOTAL = 4; // Number of audio browser modes
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
     public final static int MODE_SONG = 2;
     public final static int MODE_GENRE = 3;
+    public final static int MODE_TOTAL = 4; // Number of audio browser modes
 
     public final static int MSG_LOADING = 0;
     private volatile boolean mDisplaying = false;
+    private ActionBar.TabListener mTabListener = new ActionBar.TabListener() {
+        @Override
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            mViewPager.setCurrentItem(tab.getPosition());
+        }
+
+        @Override
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+
+        @Override
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+    };
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public AudioBrowserFragment() { }
@@ -128,19 +132,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
 
         View v = inflater.inflate(R.layout.audio_browser, container, false);
 
-        mFlingViewGroup = (FlingViewGroup)v.findViewById(R.id.content);
-        mFlingViewGroup.setOnViewSwitchedListener(mViewSwitchListener);
-
-        mHeader = (HeaderScrollView)v.findViewById(R.id.header);
-        mHeader.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent e) {
-                // prevent the user from scrolling the header
-                return true;
-            }
-        });
-        mHeader.setOnKeyListener(keyListener);
-
         mEmptyView = v.findViewById(R.id.no_media);
 
         ListView songsList = (ListView)v.findViewById(R.id.songs_list);
@@ -153,15 +144,25 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
 
+
+        ArrayList<ListView> lists = new ArrayList<>();
+        lists.add(artistList);
+        lists.add(albumList);
+        lists.add(songsList);
+        lists.add(genreList);
+        mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
+        mViewPager.setAdapter(new AudioPagerAdapter(lists));
+
         songsList.setOnItemClickListener(songListener);
         artistList.setOnItemClickListener(artistListListener);
         albumList.setOnItemClickListener(albumListListener);
         genreList.setOnItemClickListener(genreListListener);
 
-        artistList.setOnKeyListener(keyListener);
-        albumList.setOnKeyListener(keyListener);
-        songsList.setOnKeyListener(keyListener);
-        genreList.setOnKeyListener(keyListener);
+//        artistList.setOnKeyListener(keyListener);
+//        albumList.setOnKeyListener(keyListener);
+//        songsList.setOnKeyListener(keyListener);
+//        genreList.setOnKeyListener(keyListener);
 
         registerForContextMenu(songsList);
         registerForContextMenu(artistList);
@@ -200,9 +201,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     @Override
     public void onResume() {
         super.onResume();
-        mFlingViewGroup.setPosition(mFlingViewPosition);
-        mHeader.highlightTab(-1, mFlingViewPosition);
-        mHeader.scroll(mFlingViewPosition / 3.f);
         if (mMediaLibrary.isWorking())
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
         else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
@@ -225,67 +223,67 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         });
     }
 
-    // Focus support. Start.
-    View.OnKeyListener keyListener = new View.OnKeyListener() {
-        @Override
-        public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-            /* Qualify key action to prevent redundant event
-             * handling.
-             *
-             * ACTION_DOWN occurs before focus change and
-             * may be used to find if change originated from the
-             * header or if the header must be updated explicitely with
-             * a call to mHeader.scroll(...).
-             */
-            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                int newPosition = mFlingViewPosition;
-
-                switch (event.getKeyCode()) {
-                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-                        if (newPosition < (MODE_TOTAL - 1))
-                            newPosition++;
-                        break;
-                    case KeyEvent.KEYCODE_DPAD_LEFT:
-                        if (newPosition > 0)
-                            newPosition--;
-                        break;
-                    case KeyEvent.KEYCODE_DPAD_DOWN:
-                        mFlingViewPosition = 0xFF;
-                        break;
-                    default:
-                        return false;
-                }
-
-                if (newPosition != mFlingViewPosition) {
-                    int[] lists = { R.id.artists_list, R.id.albums_list,
-                        R.id.songs_list, R.id.genres_list };
-                    ListView vList = (ListView)v.getRootView().
-                        findViewById(lists[newPosition]);
-
-                    if (!mHeader.isFocused())
-                        mHeader.scroll(newPosition / 3.f);
-
-                    if (vList.getCount() == 0)
-                        mHeader.setNextFocusDownId(R.id.header);
-                    else
-                        mHeader.setNextFocusDownId(lists[newPosition]);
-
-                    mFlingViewGroup.scrollTo(newPosition);
-
-                    // assigned in onSwitched following mHeader.scroll
-                    mFlingViewPosition = newPosition;
-
-                    ((MainActivity)getActivity()).setSearchAsFocusDown(
-                        vList.getCount() == 0, getView(),
-                        lists[newPosition]);
-                }
-            }
-
-            // clean up with MainActivity
-            return false;
-        }
-    };
+//    // Focus support. Start.
+//    View.OnKeyListener keyListener = new View.OnKeyListener() {
+//        @Override
+//        public boolean onKey(View v, int keyCode, KeyEvent event) {
+//
+//            /* Qualify key action to prevent redundant event
+//             * handling.
+//             *
+//             * ACTION_DOWN occurs before focus change and
+//             * may be used to find if change originated from the
+//             * header or if the header must be updated explicitely with
+//             * a call to mHeader.scroll(...).
+//             */
+//            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+//                int newPosition = mFlingViewPosition;
+//
+//                switch (event.getKeyCode()) {
+//                    case KeyEvent.KEYCODE_DPAD_RIGHT:
+//                        if (newPosition < (MODE_TOTAL - 1))
+//                            newPosition++;
+//                        break;
+//                    case KeyEvent.KEYCODE_DPAD_LEFT:
+//                        if (newPosition > 0)
+//                            newPosition--;
+//                        break;
+//                    case KeyEvent.KEYCODE_DPAD_DOWN:
+//                        mFlingViewPosition = 0xFF;
+//                        break;
+//                    default:
+//                        return false;
+//                }
+//
+//                if (newPosition != mFlingViewPosition) {
+//                    int[] lists = { R.id.artists_list, R.id.albums_list,
+//                        R.id.songs_list, R.id.genres_list };
+//                    ListView vList = (ListView)v.getRootView().
+//                        findViewById(lists[newPosition]);
+//
+//                    if (!mHeader.isFocused())
+//                        mHeader.scroll(newPosition / 3.f);
+//
+//                    if (vList.getCount() == 0)
+//                        mHeader.setNextFocusDownId(R.id.header);
+//                    else
+//                        mHeader.setNextFocusDownId(lists[newPosition]);
+//
+//                    mFlingViewGroup.scrollTo(newPosition);
+//
+//                    // assigned in onSwitched following mHeader.scroll
+//                    mFlingViewPosition = newPosition;
+//
+//                    ((MainActivity)getActivity()).setSearchAsFocusDown(
+//                        vList.getCount() == 0, getView(),
+//                        lists[newPosition]);
+//                }
+//            }
+//
+//            // clean up with MainActivity
+//            return false;
+//        }
+//    };
     // Focus support. End.
 
     OnItemClickListener songListener = new OnItemClickListener() {
@@ -336,7 +334,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     }
 
     private void setContextMenuItems(Menu menu, View v) {
-        final int pos = mFlingViewGroup.getPosition();
+        final int pos = mViewPager.getCurrentItem();
         if (pos != MODE_SONG) {
             menu.setGroupVisible(R.id.songs_view_only, false);
             menu.setGroupVisible(R.id.phone_only, false);
@@ -407,7 +405,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         }
         else {
             startPosition = 0;
-            switch (mFlingViewGroup.getPosition())
+            switch (mViewPager.getCurrentItem())
             {
                 case MODE_SONG:
                     medias = mSongsAdapter.getLocations(groupPosition);
@@ -442,32 +440,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         mAlbumsAdapter.clear();
         mGenresAdapter.clear();
     }
-
-    private final ViewSwitchListener mViewSwitchListener = new ViewSwitchListener() {
-
-        @Override
-        public void onSwitching(float progress) {
-            mHeader.scroll(progress);
-        }
-
-        @Override
-        public void onSwitched(int position) {
-            mHeader.highlightTab(mFlingViewPosition, position);
-            mFlingViewPosition = position;
-        }
-
-        @Override
-        public void onTouchDown() {}
-
-        @Override
-        public void onTouchUp() {}
-
-        @Override
-        public void onTouchClick() {}
-
-        @Override
-        public void onBackSwitched() {}
-    };
 
     /**
      * Handle changes on the list
@@ -566,7 +538,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             tasks.add(updateSongs);
             tasks.add(updateGenres);
             //process the visible list first
-            tasks.add(0, tasks.remove(mFlingViewPosition));
+            tasks.add(0, tasks.remove(mViewPager.getCurrentItem()));
             tasks.add(new Runnable() {
                 @Override
                 public void run() {
