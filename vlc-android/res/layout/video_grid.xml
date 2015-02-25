@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dip">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"
@@ -12,7 +11,7 @@
             android:id="@id/android:list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="10dip"
+            android:paddingTop="20dip"
             android:paddingBottom="10dip"
             android:clipToPadding="false"
             android:scrollbarStyle="outsideInset"
@@ -30,6 +29,7 @@
         android:id="@id/android:empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:paddingTop="20dip"
         android:orientation="vertical" >
 
         <TextView
@@ -95,4 +95,10 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bottom_shadow" />
 </FrameLayout>

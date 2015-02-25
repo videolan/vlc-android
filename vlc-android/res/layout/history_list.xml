@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
@@ -13,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:paddingTop="10dp"
             android:paddingBottom="@dimen/listview_bottom_padding"
             android:paddingLeft="20dp"
             android:paddingRight="20dp" />
@@ -26,4 +26,10 @@
             android:text="@string/nohistory"
             android:textSize="20sp" />
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bottom_shadow" />
+</FrameLayout>

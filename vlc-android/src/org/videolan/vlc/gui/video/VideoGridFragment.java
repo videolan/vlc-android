@@ -243,27 +243,27 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         // Compute the left/right padding dynamically
         DisplayMetrics outMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
-        int sidePadding = (int) ((float)outMetrics.widthPixels / 100f * (float)Math.pow(outMetrics.density, 3) / 2f);
-        sidePadding = Math.max(0, Math.min(100, sidePadding));
-        mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
-                sidePadding, mGridView.getPaddingBottom());
+        int sidePadding;
 
         // Select between grid or list
         if (!listMode) {
+            sidePadding = (int) ((float)outMetrics.widthPixels / 100f * (float)Math.pow(outMetrics.density, 3) / 2f);
             mGridView.setNumColumns(GridView.AUTO_FIT);
             mGridView.setStretchMode(GRID_STRETCH_MODE);
             mGridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.grid_card_width));
             mGridView.setVerticalSpacing(res.getDimensionPixelSize(R.dimen.grid_card_vertical_spacing));
             mVideoAdapter.setListMode(false);
         } else {
-            int padding = res.getDimensionPixelSize(R.dimen.listview_side_padding);
+            sidePadding = res.getDimensionPixelSize(R.dimen.listview_side_padding);
             mGridView.setNumColumns(1);
             mGridView.setStretchMode(LIST_STRETCH_MODE);
             mGridView.setVerticalSpacing(0);
             mGridView.setHorizontalSpacing(0);
-            mGridView.setPadding(padding,0,padding,0);
             mVideoAdapter.setListMode(true);
         }
+        sidePadding = Math.max(0, Math.min(100, sidePadding));
+        mGridView.setPadding(sidePadding, mGridView.getPaddingTop(),
+                sidePadding, mGridView.getPaddingBottom());
     }
 
     @Override
