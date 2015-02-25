@@ -178,12 +178,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         if (mScanNeeded)
             MediaLibrary.getInstance().loadMediaItems();
 
+        /* Theme must be applied before super.onCreate */
+        applyTheme();
+
         super.onCreate(savedInstanceState);
 
         /*** Start initializing the UI ***/
-
-
-        applyTheme();
 
         setContentView(R.layout.main);
 
