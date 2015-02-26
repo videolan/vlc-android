@@ -9,7 +9,7 @@ Main Application:
  * Async load of fragments and search
  * Option to show videos as list in portrait
  * Suport pull to refresh
- * Tracknumber & AlbumArtist tags support for audio files
+ * Tracknumber, DiscNumber & AlbumArtist tags support for audio files
  * Handle nowplaying for streams
  * Set Audio & Subs delay
 
