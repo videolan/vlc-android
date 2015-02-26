@@ -51,6 +51,7 @@ public class MediaWrapper implements Parcelable {
     private String mCopyright;
     private String mAlbum;
     private int mTrackNumber;
+    private int mDiscNumber;
     private String mAlbumArtist;
     private String mDescription;
     private String mRating;
@@ -147,7 +148,7 @@ public class MediaWrapper implements Parcelable {
 
     private void init(long time, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                      int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
+                      int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber) {
         mFilename = null;
         mTime = time;
         mAudioTrack = audio;
@@ -165,33 +166,15 @@ public class MediaWrapper implements Parcelable {
         mAlbumArtist = albumArtist;
         mArtworkURL = artworkURL;
         mTrackNumber = trackNumber;
+        mDiscNumber = discNumber;
     }
 
     public MediaWrapper(String location, long time, long length, int type,
                  Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                 int width, int height, String artworkURL, int audio, int spu, int trackNumber) {
+                 int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber) {
         mLocation = location;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
-             width, height, artworkURL, audio, spu, trackNumber);
-    }
-
-    public MediaWrapper(Parcel in) {
-        mLocation = in.readString();
-        init(in.readLong(),
-             in.readLong(),
-             in.readInt(),
-             (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
-             in.readString(),
-             in.readString(),
-             in.readString(),
-             in.readString(),
-             in.readString(),
-             in.readInt(),
-             in.readInt(),
-             in.readString(),
-             in.readInt(),
-             in.readInt(),
-             in.readInt());
+             width, height, artworkURL, audio, spu, trackNumber, discNumber);
     }
 
     public String getLocation() {
@@ -217,8 +200,13 @@ public class MediaWrapper implements Parcelable {
         if (!TextUtils.isEmpty(trackNumber)) {
             try {
                 mTrackNumber = Integer.parseInt(trackNumber);
-            } catch (NumberFormatException ignored) {
-            }
+            } catch (NumberFormatException ignored) {}
+        }
+        final String discNumber = getMetaId(media, Meta.DiscNumber, false);
+        if (!TextUtils.isEmpty(discNumber)) {
+            try {
+                mDiscNumber = Integer.parseInt(discNumber);
+            } catch (NumberFormatException ignored) {}
         }
         Log.d(TAG, "Title " + mTitle);
         Log.d(TAG, "Artist " + mArtist);
@@ -237,7 +225,6 @@ public class MediaWrapper implements Parcelable {
         mAlbumArtist = libVLC.getMeta(Meta.AlbumArtist);
         mNowPlaying = libVLC.getMeta(Meta.NowPlaying);
         mArtworkURL = libVLC.getMeta(Meta.ArtworkURL);
-
     }
 
     public String getFileName() {
@@ -373,6 +360,10 @@ public class MediaWrapper implements Parcelable {
         return mTrackNumber;
     }
 
+    public int getDiscNumber() {
+        return mDiscNumber;
+    }
+
     public String getDescription() {
         return mDescription;
     }
@@ -424,6 +415,26 @@ public class MediaWrapper implements Parcelable {
         return 0;
     }
 
+    public MediaWrapper(Parcel in) {
+        mLocation = in.readString();
+        init(in.readLong(),
+                in.readLong(),
+                in.readInt(),
+                (Bitmap) in.readParcelable(Bitmap.class.getClassLoader()),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readString(),
+                in.readInt(),
+                in.readInt(),
+                in.readString(),
+                in.readInt(),
+                in.readInt(),
+                in.readInt(),
+                in.readInt());
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(getLocation());
@@ -442,6 +453,7 @@ public class MediaWrapper implements Parcelable {
         dest.writeInt(getAudioTrack());
         dest.writeInt(getSpuTrack());
         dest.writeInt(getTrackNumber());
+        dest.writeInt(getDiscNumber());
     }
 
     public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {

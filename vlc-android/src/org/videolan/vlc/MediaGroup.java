@@ -50,7 +50,8 @@ public class MediaGroup extends MediaWrapper {
                 media.getArtworkURL(),
                 media.getAudioTrack(),
                 media.getSpuTrack(),
-                media.getTrackNumber());
+                media.getTrackNumber(),
+                media.getDiscNumber());
         mMedias = new ArrayList<MediaWrapper>();
         mMedias.add(media);
     }

@@ -91,6 +91,8 @@ public class MediaComparators {
     public static final Comparator<MediaWrapper> byTrackNumber = new Comparator<MediaWrapper>() {
         @Override
         public int compare(MediaWrapper m1, MediaWrapper m2) {
+            if(m1.getDiscNumber() < m2.getDiscNumber()) return -1;
+            if(m1.getDiscNumber() > m2.getDiscNumber()) return 1;
             if(m1.getTrackNumber() < m2.getTrackNumber()) return -1;
             if(m1.getTrackNumber() > m2.getTrackNumber()) return 1;
             else return 0;
