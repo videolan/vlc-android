@@ -268,10 +268,9 @@ public class MediaDatabase {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion < DB_VERSION && newVersion == DB_VERSION) {
-                dropMediaTableQuery(db);
-                createMediaTableQuery(db);
-            }
+            dropMediaTableQuery(db);
+            createMediaTableQuery(db);
+
             // Upgrade incrementally from oldVersion to newVersion
             for(int i = oldVersion+1; i <= newVersion; i++) {
                 switch(i) {
