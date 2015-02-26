@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,8 +36,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.android.widget.SlidingTabLayout;
@@ -47,7 +44,6 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioPagerAdapter;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.widget.FlingViewGroup;
 
 import java.util.ArrayList;
 
@@ -108,34 +104,6 @@ public class AboutFragment extends Fragment {
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
 
-        return v;
-    }
-
-    private static class DummyContentFactory implements TabHost.TabContentFactory {
-        private final Context mContext;
-        public DummyContentFactory(Context ctx) {
-            mContext = ctx;
-        }
-        @Override
-        public View createTabContent(String tag) {
-            View dummy = new View(mContext);
-            return dummy;
-        }
-    }
-
-    private void addNewTab(TabHost tabHost, String tag, String title) {
-        DummyContentFactory dcf = new DummyContentFactory(tabHost.getContext());
-        TabSpec tabSpec = tabHost.newTabSpec(tag);
-        tabSpec.setIndicator(getNewTabIndicator(tabHost.getContext(), title));
-        tabSpec.setContent(dcf);
-        tabHost.addTab(tabSpec);
-    }
-
-    @SuppressLint("InflateParams")
-    private View getNewTabIndicator(Context context, String title) {
-        View v = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
-        TextView tv = (TextView) v.findViewById(R.id.textView);
-        tv.setText(title);
         return v;
     }
 }

@@ -20,34 +20,13 @@
 
 package org.videolan.vlc.gui.audio;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.videolan.libvlc.LibVlcUtil;
-import org.videolan.vlc.MediaWrapper;
-import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.R;
-import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.BrowserFragment;
-import org.videolan.vlc.gui.CommonDialogs;
-import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCRunnable;
-import org.videolan.vlc.widget.FlingViewGroup;
-
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -66,11 +45,23 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 
 import com.android.widget.SlidingTabLayout;
+
+import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.gui.BrowserFragment;
+import org.videolan.vlc.gui.CommonDialogs;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCRunnable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -181,34 +172,6 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
     @Override
     protected String getTitle() {
         return mTitle;
-    }
-
-    private static class DummyContentFactory implements TabHost.TabContentFactory {
-        private final Context mContext;
-        public DummyContentFactory(Context ctx) {
-            mContext = ctx;
-        }
-        @Override
-        public View createTabContent(String tag) {
-            View dummy = new View(mContext);
-            return dummy;
-        }
-    }
-
-    private void addNewTab(TabHost tabHost, String tag, String title) {
-        DummyContentFactory dcf = new DummyContentFactory(tabHost.getContext());
-        TabSpec tabSpec = tabHost.newTabSpec(tag);
-        tabSpec.setIndicator(getNewTabIndicator(tabHost.getContext(), title));
-        tabSpec.setContent(dcf);
-        tabHost.addTab(tabSpec);
-    }
-
-    @SuppressLint("InflateParams")
-    private View getNewTabIndicator(Context context, String title) {
-        View v = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
-        TextView tv = (TextView) v.findViewById(R.id.textView);
-        tv.setText(title);
-        return v;
     }
 
     @Override
@@ -398,8 +361,6 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
         }
 
     };
-
-
 
     /*
      * Disable Swipe Refresh while scrolling horizontally
