@@ -82,7 +82,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private AudioBrowserListAdapter mAlbumsAdapter;
     private AudioBrowserListAdapter mSongsAdapter;
     private AudioBrowserListAdapter mGenresAdapter;
-    private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<AudioBrowserListAdapter> mAdaptersToNotify = new ConcurrentLinkedQueue<AudioBrowserListAdapter>();
 
     private ViewPager mViewPager;
     private SlidingTabLayout mSlidingTabLayout;
@@ -138,7 +138,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         genreList.setAdapter(mGenresAdapter);
 
 
-        mLists = new ArrayList<>();
+        mLists = new ArrayList<View>();
         mLists.add(artistList);
         mLists.add(albumList);
         mLists.add(songsList);

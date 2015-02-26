@@ -121,7 +121,7 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
         ListView albumsList = (ListView) v.findViewById(R.id.albums);
         ListView songsList = (ListView) v.findViewById(R.id.songs);
 
-        ArrayList<View> lists = new ArrayList<>();
+        ArrayList<View> lists = new ArrayList<View>();
         lists.add(albumsList);
         lists.add(songsList);
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};

@@ -92,7 +92,7 @@ public class AboutFragment extends Fragment {
             }
         });
 
-        ArrayList<View> lists = new ArrayList<>();
+        ArrayList<View> lists = new ArrayList<View>();
         lists.add(aboutMain);
         lists.add(t);
         String[] titles = new String[] {getString(R.string.about), getString(R.string.licence)};
