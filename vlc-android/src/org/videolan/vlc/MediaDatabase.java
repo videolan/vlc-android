@@ -50,7 +50,7 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private static final String DB_NAME = "vlc_database";
-    private static final int DB_VERSION = 14;
+    private static final int DB_VERSION = 15;
     private static final int CHUNK_SIZE = 50;
 
     private static final String DIR_TABLE_NAME = "directories_table";
@@ -606,46 +606,46 @@ public class MediaDatabase {
             count = 0;
             cursor = mDb.rawQuery(String.format(Locale.US,
                     "SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s FROM %s LIMIT %d OFFSET %d",
-                    MEDIA_TIME, //0 long
-                    MEDIA_LENGTH, //1 long
-                    MEDIA_TYPE, //2 int
-                    MEDIA_TITLE, //3 string
-                    MEDIA_ARTIST, //4 string
-                    MEDIA_GENRE, //5 string
-                    MEDIA_ALBUM, //6 string
-                    MEDIA_ALBUMARTIST, //7 string
-                    MEDIA_WIDTH, //8 int
-                    MEDIA_HEIGHT, //9 int
-                    MEDIA_ARTWORKURL, //10 string
-                    MEDIA_AUDIOTRACK, //11 int
-                    MEDIA_SPUTRACK, //12 int
-                    MEDIA_TRACKNUMBER, // 13 int
-                    MEDIA_DISCNUMBER, //14 int
-                    MEDIA_LOCATION, //15 string
+                    MEDIA_LOCATION, //0 string
+                    MEDIA_TIME, //1 long
+                    MEDIA_LENGTH, //2 long
+                    MEDIA_TYPE, //3 int
+                    MEDIA_TITLE, //4 string
+                    MEDIA_ARTIST, //5 string
+                    MEDIA_GENRE, //6 string
+                    MEDIA_ALBUM, //7 string
+                    MEDIA_ALBUMARTIST, //8 string
+                    MEDIA_WIDTH, //9 int
+                    MEDIA_HEIGHT, //10 int
+                    MEDIA_ARTWORKURL, //11 string
+                    MEDIA_AUDIOTRACK, //12 int
+                    MEDIA_SPUTRACK, //13 int
+                    MEDIA_TRACKNUMBER, // 14 int
+                    MEDIA_DISCNUMBER, //15 int
                     MEDIA_TABLE_NAME,
                     CHUNK_SIZE,
                     chunk_count * CHUNK_SIZE), null);
 
             if (cursor.moveToFirst()) {
                 do {
-                    String location = cursor.getString(14);
+                    String location = cursor.getString(0);
                     MediaWrapper media = new MediaWrapper(location,
-                            cursor.getLong(0),      // MEDIA_TIME
-                            cursor.getLong(1),      // MEDIA_LENGTH
-                            cursor.getInt(2),       // MEDIA_TYPE
+                            cursor.getLong(1),      // MEDIA_TIME
+                            cursor.getLong(2),      // MEDIA_LENGTH
+                            cursor.getInt(3),       // MEDIA_TYPE
                             null,                   // MEDIA_PICTURE
-                            cursor.getString(3),    // MEDIA_TITLE
-                            cursor.getString(4),    // MEDIA_ARTIST
-                            cursor.getString(5),    // MEDIA_GENRE
-                            cursor.getString(6),    // MEDIA_ALBUM
-                            cursor.getString(7),    // MEDIA_ALBUMARTIST
-                            cursor.getInt(8),       // MEDIA_WIDTH
-                            cursor.getInt(9),       // MEDIA_HEIGHT
-                            cursor.getString(10),   // MEDIA_ARTWORKURL
-                            cursor.getInt(11),      // MEDIA_AUDIOTRACK
-                            cursor.getInt(12),      // MEDIA_SPUTRACK
-                            cursor.getInt(13),      // MEDIA_TRACKNUMBER
-                            cursor.getInt(14));     // MEDIA_DISCNUMBER
+                            cursor.getString(4),    // MEDIA_TITLE
+                            cursor.getString(5),    // MEDIA_ARTIST
+                            cursor.getString(6),    // MEDIA_GENRE
+                            cursor.getString(7),    // MEDIA_ALBUM
+                            cursor.getString(8),    // MEDIA_ALBUMARTIST
+                            cursor.getInt(9),       // MEDIA_WIDTH
+                            cursor.getInt(10),       // MEDIA_HEIGHT
+                            cursor.getString(11),   // MEDIA_ARTWORKURL
+                            cursor.getInt(12),      // MEDIA_AUDIOTRACK
+                            cursor.getInt(13),      // MEDIA_SPUTRACK
+                            cursor.getInt(14),      // MEDIA_TRACKNUMBER
+                            cursor.getInt(15));     // MEDIA_DISCNUMBER
                     medias.put(media.getLocation(), media);
 
                     count++;
