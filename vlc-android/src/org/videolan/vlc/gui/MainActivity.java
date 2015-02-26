@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     private int mVersionNumber = -1;
     private boolean mFirstRun = false;
-    private boolean mScanNeeded = true;
+    private boolean mScanNeeded = false;
 
     private Handler mHandler = new MainActivityHandler(this);
     private int mFocusedPrior = 0;
@@ -176,8 +176,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         }
 
         /* Load media items from database and storage */
-        if (mScanNeeded)
-            MediaLibrary.getInstance().loadMediaItems();
+        MediaLibrary.getInstance().loadMediaItems();
 
         /* Theme must be applied before super.onCreate */
         applyTheme();
@@ -307,6 +306,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         /* FIXME: this is used to avoid having MainActivity twice in the backstack */
         if (getIntent().hasExtra(AudioService.START_FROM_NOTIFICATION))
             getIntent().removeExtra(AudioService.START_FROM_NOTIFICATION);
+
+
+        /* Load media items from database and storage */
+        if (mScanNeeded)
+            MediaLibrary.getInstance().loadMediaItems();
    }
 
     @Override
