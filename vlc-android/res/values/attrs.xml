@@ -7,6 +7,7 @@
     <attr name="playlist_item_footer" format="reference|color" />
     <attr name="background_default" format="reference|color" />
     <attr name="background_default_darker" format="reference|color" />
+    <attr name="background_actionbar" format="reference|color" />
     <attr name="background_menu_divider" format="reference|color" />
     <attr name="background_menu" format="reference|color" />
     <attr name="background_header" format="reference|color" />
@@ -14,6 +15,8 @@
     <attr name="background_playlist" format="reference|color" />
     <attr name="font_default" format="reference|color" />
     <attr name="font_light" format="reference|color" />
+    <attr name="font_actionbar" format="reference|color" />
+    <attr name="font_actionbar_selected" format="reference|color" />
     <attr name="video_player_overlay" format="reference|color" />
     <attr name="status_bar_overlay" format="reference|color" />
     <attr name="advanced_options_divider" format="reference|color" />

@@ -12,5 +12,4 @@
     android:typeface="normal"
     android:textSize="12sp"
     android:textStyle="bold"
-    android:textColor="@android:color/white"
-    android:textAllCaps="true" />
+    android:textColor="?attr/font_actionbar" />

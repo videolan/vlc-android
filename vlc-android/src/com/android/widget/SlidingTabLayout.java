@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -71,7 +72,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private boolean mDistributeEvenly;
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
-    private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
     private final SlidingTabStrip mTabStrip;
     public SlidingTabLayout(Context context) {
         this(context, null);
@@ -85,7 +85,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         setHorizontalScrollBarEnabled(false);
         int hpadding = getResources().getDimensionPixelSize(R.dimen.tab_layout_horizontal_padding);
         setPadding(hpadding, 0, hpadding, 0);
-        setBackgroundColor(getResources().getColor(org.videolan.vlc.R.color.darkorange));
+        setBackgroundColor(getResources().getColor(Util.getResourceFromAttribute(context, org.videolan.vlc.R.attr.background_actionbar)));
         // Make sure that the Tab Strips fills this View
         setFillViewport(true);
         mTitleOffset = (int) (TITLE_OFFSET_DIPS * getResources().getDisplayMetrics().density);
@@ -187,6 +187,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
             tabTitleView.setText(adapter.getPageTitle(i).toString().toUpperCase());
+            tabTitleView.setTypeface(Typeface.DEFAULT_BOLD);
             tabView.setOnClickListener(tabClickListener);
             String desc = mContentDescriptions.get(i, null);
             if (desc != null) {
@@ -195,6 +196,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             mTabStrip.addView(tabView);
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
+                tabTitleView.setTextColor(getResources().getColor(Util.getResourceFromAttribute(getContext(), R.attr.font_actionbar_selected)));
             }
         }
     }
@@ -274,4 +276,28 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
     }
+    private ViewPager.OnPageChangeListener mViewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            for (int i = 0; i < mTabStrip.getChildCount(); i++) {
+                if (mTabStrip.getChildAt(i) instanceof TextView) {
+                    int color = (i == position)
+                            ? getResources().getColor(Util.getResourceFromAttribute(getContext(), R.attr.font_actionbar_selected))
+                            : getResources().getColor(Util.getResourceFromAttribute(getContext(), R.attr.font_actionbar));
+                    ((TextView) mTabStrip.getChildAt(i)).setTextColor(color);
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
 }
