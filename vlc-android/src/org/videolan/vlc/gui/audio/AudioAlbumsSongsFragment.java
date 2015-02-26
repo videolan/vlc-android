@@ -131,6 +131,7 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
 
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
 

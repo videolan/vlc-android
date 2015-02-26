@@ -58,7 +58,6 @@ class SlidingTabStrip extends LinearLayout {
         mBottomBorderPaint.setColor(mDefaultBottomBorderColor);
         mSelectedIndicatorThickness = (int) (SELECTED_INDICATOR_THICKNESS_DIPS * density);
         mSelectedIndicatorPaint = new Paint();
-        setBackgroundColor(getResources().getColor(org.videolan.vlc.R.color.darkorange));
     }
     void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {
         mCustomTabColorizer = customTabColorizer;

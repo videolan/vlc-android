@@ -146,11 +146,12 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         String[] titles = new String[] {getString(R.string.artists), getString(R.string.albums),
                 getString(R.string.songs), getString(R.string.genres)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
-        mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
+        mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
 

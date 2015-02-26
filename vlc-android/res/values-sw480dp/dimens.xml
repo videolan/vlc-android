@@ -3,4 +3,5 @@
     <dimen name="media_ctrl_margin_top">30dp</dimen>
     <dimen name="images_margin_sides">60dp</dimen>
     <dimen name="overlay_margin">5dp</dimen>
+    <dimen name="tab_layout_horizontal_padding">20dp</dimen>
 </resources>

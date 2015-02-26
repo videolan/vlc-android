@@ -11,6 +11,7 @@
     <dimen name="grid_card_title_text_size">12sp</dimen>
     <dimen name="grid_card_subtitle_text_size">10sp</dimen>
     <dimen name="grid_card_vertical_spacing">0dp</dimen>
+    <dimen name="tab_layout_horizontal_padding">5dp</dimen>
 
     <!-- Video Player -->
     <dimen name="overlay_padding_bottom">15dip</dimen>

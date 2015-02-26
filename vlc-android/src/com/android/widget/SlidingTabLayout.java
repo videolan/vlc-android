@@ -31,6 +31,9 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.videolan.vlc.R;
+
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
@@ -80,6 +83,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
         super(context, attrs, defStyle);
         // Disable the Scroll Bar
         setHorizontalScrollBarEnabled(false);
+        int hpadding = getResources().getDimensionPixelSize(R.dimen.tab_layout_horizontal_padding);
+        setPadding(hpadding, 0, hpadding, 0);
+        setBackgroundColor(getResources().getColor(org.videolan.vlc.R.color.darkorange));
         // Make sure that the Tab Strips fills this View
         setFillViewport(true);
         mTitleOffset = (int) (TITLE_OFFSET_DIPS * getResources().getDisplayMetrics().density);
@@ -151,10 +157,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setTypeface(Typeface.DEFAULT_BOLD);
         textView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        TypedValue outValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-                outValue, true);
-        textView.setBackgroundResource(outValue.resourceId);
         textView.setTextColor(Color.WHITE);
         int hpadding = (int) (TAB_VIEW_HORIZONTAL_PADDING_DIPS * getResources().getDisplayMetrics().density);
         int vpadding = (int) (TAB_VIEW_VERTICAL_PADDING_DIPS * getResources().getDisplayMetrics().density);

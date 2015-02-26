@@ -1,14 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@drawable/tab_indicator"
-        android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:textAllCaps="true" />
-
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_title"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:gravity="center"
+    android:singleLine="true"
+    android:ellipsize="end"
+    android:typeface="normal"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:textColor="@android:color/white"
+    android:textAllCaps="true" />
