@@ -28,13 +28,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AudioPagerAdapter extends PagerAdapter {
 
-    private ArrayList<View> mLists;
+    private List<View> mLists;
     private String[] mTitles;
 
-    public AudioPagerAdapter(ArrayList<View> lists, String[] titles){
+    public AudioPagerAdapter(List<View> lists, String[] titles){
         mLists = lists;
         mTitles = titles;
     }

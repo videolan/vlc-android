@@ -65,6 +65,7 @@ import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -87,7 +88,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     private ViewPager mViewPager;
     private SlidingTabLayout mSlidingTabLayout;
     private View mEmptyView;
-    private ArrayList<View> mLists;
+    private List<View> mLists;
 
     public final static int MODE_ARTIST = 0;
     public final static int MODE_ALBUM = 1;
@@ -137,12 +138,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         albumList.setAdapter(mAlbumsAdapter);
         genreList.setAdapter(mGenresAdapter);
 
-
-        mLists = new ArrayList<View>();
-        mLists.add(artistList);
-        mLists.add(albumList);
-        mLists.add(songsList);
-        mLists.add(genreList);
+        mLists = Arrays.asList((View)artistList, albumList, songsList, genreList);
         String[] titles = new String[] {getString(R.string.artists), getString(R.string.albums),
                 getString(R.string.songs), getString(R.string.genres)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);

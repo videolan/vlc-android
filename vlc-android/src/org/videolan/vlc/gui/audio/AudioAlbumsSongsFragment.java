@@ -60,6 +60,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -121,9 +122,7 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
         ListView albumsList = (ListView) v.findViewById(R.id.albums);
         ListView songsList = (ListView) v.findViewById(R.id.songs);
 
-        ArrayList<View> lists = new ArrayList<View>();
-        lists.add(albumsList);
-        lists.add(songsList);
+        List<View> lists = Arrays.asList((View)albumsList, songsList);
         String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(MODE_TOTAL-1);
