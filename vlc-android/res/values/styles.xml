@@ -196,7 +196,7 @@
 
     <style name="ActionBar.OverflowButton">
         <item name="android:src">@drawable/ic_menu_overflow_w</item>
-        <item name="background">@drawable/abc_item_background_holo_light</item>
+        <item name="android:padding">5dp</item>
     </style>
 
     <style name="ActionBar.ArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
