@@ -201,7 +201,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         mVideoAdapter.setTimes(times);
         mGridView.setSelection(mGVFirstVisiblePos);
         updateViewMode();
-        if (refresh)
+        if (mGroup == null && refresh)
             mAnimator.animate();
 
         /* Start the thumbnailer */
