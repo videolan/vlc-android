@@ -137,6 +137,15 @@ public class Util {
     }
 
     /**
+     * Get a color id from an attribute id.
+     * @param context
+     * @param attrId
+     * @return the color id
+     */
+    public static int getColorFromAttribute(Context context, int attrId) {
+        return VLCApplication.getAppResources().getColor(getResourceFromAttribute(context, attrId));
+    }
+    /**
      * Set the alignment mode of the specified TextView with the desired align
      * mode from preferences.
      *
