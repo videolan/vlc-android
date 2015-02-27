@@ -420,9 +420,9 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
                 @Override
                 public void run() {
                     if (mGroup != null || itemList.size() <= 10) {
-                        mVideoAdapter.setNotifyOnChange(false);
                         for (MediaWrapper item : itemList) {
                             if (mGroup == null || item.getTitle().startsWith(mGroup)) {
+                                mVideoAdapter.setNotifyOnChange(false);
                                 mVideoAdapter.add(item);
                                 if (mThumbnailer != null)
                                     mThumbnailer.addJob(item);
@@ -431,8 +431,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
                     }
                     else {
                         List<MediaGroup> groups = MediaGroup.group(itemList);
-                        mVideoAdapter.setNotifyOnChange(false);
                         for (MediaGroup item : groups) {
+                            mVideoAdapter.setNotifyOnChange(false);
                             mVideoAdapter.add(item.getMedia());
                             if (mThumbnailer != null)
                                 mThumbnailer.addJob(item);
