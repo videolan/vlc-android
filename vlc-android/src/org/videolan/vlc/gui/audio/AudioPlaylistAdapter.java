@@ -31,6 +31,7 @@ import org.videolan.vlc.widget.AudioPlaylistItemViewGroup;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.database.DataSetObserver;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -182,5 +183,11 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
         LinearLayout layoutItem;
         View layoutFooter;
         AudioPlaylistItemViewGroup itemGroup;
+    }
+
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        if (observer != null)
+            super.unregisterDataSetObserver(observer);
     }
 }

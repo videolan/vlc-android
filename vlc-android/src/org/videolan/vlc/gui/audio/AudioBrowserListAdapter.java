@@ -36,6 +36,7 @@ import org.videolan.vlc.util.Util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.util.SparseArray;
@@ -522,5 +523,11 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
     void setContextPopupMenuListener(ContextPopupMenuListener l) {
         mContextPopupMenuListener = l;
+    }
+
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        if (observer != null)
+            super.unregisterDataSetObserver(observer);
     }
 }

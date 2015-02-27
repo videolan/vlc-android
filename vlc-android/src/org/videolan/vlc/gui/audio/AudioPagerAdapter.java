@@ -22,13 +22,10 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
-import org.videolan.vlc.R;
 
 import java.util.ArrayList;
 
@@ -71,5 +68,11 @@ public class AudioPagerAdapter extends PagerAdapter {
             return "";
         else
             return mTitles[position];
+    }
+
+    @Override
+    public void unregisterDataSetObserver(DataSetObserver observer) {
+        if (observer != null)
+            super.unregisterDataSetObserver(observer);
     }
 }
