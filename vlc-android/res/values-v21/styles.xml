@@ -7,9 +7,11 @@
 
     <style name="Theme.VLC.21" parent="Theme.VLC.17">
         <item name="android:statusBarColor">@color/darkerorange</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle.Light</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.17">
         <item name="android:statusBarColor">@color/black3</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
     <style name="Theme.VLC.Player.21" parent="Theme.VLC.Player.19">
         <item name="android:windowTranslucentStatus">false</item>">
@@ -17,4 +19,12 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="PopupMenuStyle.Light" parent="@style/Widget.AppCompat.Light.PopupMenu">
+        <item name="android:overlapAnchor">true</item>
+    </style>
+    <style name="PopupMenuStyle" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:overlapAnchor">true</item>
+    </style>
+
 </resources>
