@@ -185,7 +185,6 @@
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
-        <item name="background">@drawable/actionbar_background</item>
         <item name="titleTextStyle">@style/ActionBar.Text</item>
     </style>
 
