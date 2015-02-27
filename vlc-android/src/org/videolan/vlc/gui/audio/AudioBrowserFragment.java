@@ -32,6 +32,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -156,10 +157,10 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         albumList.setOnItemClickListener(albumListListener);
         genreList.setOnItemClickListener(genreListListener);
 
-//        artistList.setOnKeyListener(keyListener);
-//        albumList.setOnKeyListener(keyListener);
-//        songsList.setOnKeyListener(keyListener);
-//        genreList.setOnKeyListener(keyListener);
+        artistList.setOnKeyListener(keyListener);
+        albumList.setOnKeyListener(keyListener);
+        songsList.setOnKeyListener(keyListener);
+        genreList.setOnKeyListener(keyListener);
 
         registerForContextMenu(songsList);
         registerForContextMenu(artistList);
@@ -227,67 +228,45 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         });
     }
 
-//    // Focus support. Start.
-//    View.OnKeyListener keyListener = new View.OnKeyListener() {
-//        @Override
-//        public boolean onKey(View v, int keyCode, KeyEvent event) {
-//
-//            /* Qualify key action to prevent redundant event
-//             * handling.
-//             *
-//             * ACTION_DOWN occurs before focus change and
-//             * may be used to find if change originated from the
-//             * header or if the header must be updated explicitely with
-//             * a call to mHeader.scroll(...).
-//             */
-//            if (event.getAction() == KeyEvent.ACTION_DOWN) {
-//                int newPosition = mFlingViewPosition;
-//
-//                switch (event.getKeyCode()) {
-//                    case KeyEvent.KEYCODE_DPAD_RIGHT:
-//                        if (newPosition < (MODE_TOTAL - 1))
-//                            newPosition++;
-//                        break;
-//                    case KeyEvent.KEYCODE_DPAD_LEFT:
-//                        if (newPosition > 0)
-//                            newPosition--;
-//                        break;
-//                    case KeyEvent.KEYCODE_DPAD_DOWN:
-//                        mFlingViewPosition = 0xFF;
-//                        break;
-//                    default:
-//                        return false;
-//                }
-//
-//                if (newPosition != mFlingViewPosition) {
-//                    int[] lists = { R.id.artists_list, R.id.albums_list,
-//                        R.id.songs_list, R.id.genres_list };
-//                    ListView vList = (ListView)v.getRootView().
-//                        findViewById(lists[newPosition]);
-//
-//                    if (!mHeader.isFocused())
-//                        mHeader.scroll(newPosition / 3.f);
-//
-//                    if (vList.getCount() == 0)
-//                        mHeader.setNextFocusDownId(R.id.header);
-//                    else
-//                        mHeader.setNextFocusDownId(lists[newPosition]);
-//
-//                    mFlingViewGroup.scrollTo(newPosition);
-//
-//                    // assigned in onSwitched following mHeader.scroll
-//                    mFlingViewPosition = newPosition;
-//
-//                    ((MainActivity)getActivity()).setSearchAsFocusDown(
-//                        vList.getCount() == 0, getView(),
-//                        lists[newPosition]);
-//                }
-//            }
-//
-//            // clean up with MainActivity
-//            return false;
-//        }
-//    };
+    // Focus support. Start.
+    View.OnKeyListener keyListener = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+            /* Qualify key action to prevent redundant event
+             * handling.
+             */
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                int newPosition = mViewPager.getCurrentItem();
+
+                switch (event.getKeyCode()) {
+                    case KeyEvent.KEYCODE_DPAD_RIGHT:
+                        if (newPosition < (MODE_TOTAL - 1))
+                            newPosition++;
+                        break;
+                    case KeyEvent.KEYCODE_DPAD_LEFT:
+                        if (newPosition > 0)
+                            newPosition--;
+                        break;
+                    default:
+                        return false;
+                }
+
+                if (newPosition != mViewPager.getCurrentItem()) {
+                    ListView vList = (ListView) mLists.get(newPosition);
+
+                    mViewPager.setCurrentItem(newPosition);
+
+                    ((MainActivity)getActivity()).setSearchAsFocusDown(
+                            vList.getCount() == 0, getView(),
+                            vList.getId());
+                }
+            }
+
+            // clean up with MainActivity
+            return false;
+        }
+    };
     // Focus support. End.
 
     OnItemClickListener songListener = new OnItemClickListener() {
@@ -538,7 +517,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
             ExecutorService tpe = Executors.newSingleThreadExecutor();
-            List<Runnable> tasks = Arrays.asList(updateArtists, updateAlbums, updateSongs, updateGenres);
+            ArrayList<Runnable> tasks = new ArrayList<>(Arrays.asList(updateArtists,
+                    updateAlbums, updateSongs, updateGenres));
 
             //process the visible list first
             tasks.add(0, tasks.remove(mViewPager.getCurrentItem()));
