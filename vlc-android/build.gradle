@@ -145,7 +145,10 @@ android {
 
         //Custom APK name
         variant.outputs.each { output ->
-            def outputName = "VLC-"+vlcVersion+"-"+variant.productFlavors.get(1).name+".apk"
+            def outputName = "VLC-Android-"
+            if (!variant.productFlavors.get(0).name.equals("vanilla"))
+                outputName += variant.productFlavors.get(0).name.toUpperCase()+"-"
+            outputName += vlcVersion+"-"+variant.productFlavors.get(1).name+".apk"
             output.outputFile = new File(output.outputFile.parentFile, outputName);
         }
     }
