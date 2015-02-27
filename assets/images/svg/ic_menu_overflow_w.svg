@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="90"
-   height="90"
+   width="16"
+   height="16"
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_menu_overflow.svg"
+   sodipodi:docname="ic_menu_overflow_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -27,17 +27,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="-3.5674542"
-     inkscape:cy="41.864017"
+     inkscape:zoom="44.8"
+     inkscape:cx="10.205326"
+     inkscape:cy="10.181622"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3956"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -46,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,11 +62,41 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-962.36218)">
-    <path
-       inkscape:connector-curvature="0"
-       style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 45.000001,976.36218 c -3.950951,0 -7.153848,3.20288 -7.153848,7.15384 0,3.95095 3.202897,7.15386 7.153848,7.15386 3.95095,0 7.153846,-3.20291 7.153846,-7.15386 0,-3.95096 -3.202896,-7.15384 -7.153846,-7.15384 z m 0,23.84612 c -3.950951,0 -7.153848,3.2029 -7.153848,7.1539 0,3.9509 3.202897,7.1538 7.153848,7.1538 3.95095,0 7.153846,-3.2029 7.153846,-7.1538 0,-3.951 -3.202896,-7.1539 -7.153846,-7.1539 z m 0,23.8462 c -3.950951,0 -7.153848,3.2029 -7.153848,7.1539 0,3.9509 3.202897,7.1538 7.153848,7.1538 3.95095,0 7.153846,-3.2029 7.153846,-7.1538 0,-3.951 -3.202896,-7.1539 -7.153846,-7.1539 z"
-       id="path6083" />
+     transform="translate(0,-1036.3622)">
+    <g
+       id="g3046"
+       style="fill:#fafafa;fill-opacity:1"
+       transform="translate(-3,0)">
+      <path
+         transform="translate(0,1036.3622)"
+         d="m 12,5 c 0,0.5522847 -0.447715,1 -1,1 -0.552285,0 -1,-0.4477153 -1,-1 0,-0.5522847 0.447715,-1 1,-1 0.552285,0 1,0.4477153 1,1 z"
+         sodipodi:ry="1"
+         sodipodi:rx="1"
+         sodipodi:cy="5"
+         sodipodi:cx="11"
+         id="path3040"
+         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0,1036.3622)"
+         d="m 12,8 c 0,0.5522847 -0.447715,1 -1,1 -0.552285,0 -1,-0.4477153 -1,-1 0,-0.5522847 0.447715,-1 1,-1 0.552285,0 1,0.4477153 1,1 z"
+         sodipodi:ry="1"
+         sodipodi:rx="1"
+         sodipodi:cy="8"
+         sodipodi:cx="11"
+         id="path3042"
+         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0,1036.3622)"
+         d="m 12,11 c 0,0.552285 -0.447715,1 -1,1 -0.552285,0 -1,-0.447715 -1,-1 0,-0.552285 0.447715,-1 1,-1 0.552285,0 1,0.447715 1,1 z"
+         sodipodi:ry="1"
+         sodipodi:rx="1"
+         sodipodi:cy="11"
+         sodipodi:cx="11"
+         id="path3044"
+         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         sodipodi:type="arc" />
+    </g>
   </g>
 </svg>
