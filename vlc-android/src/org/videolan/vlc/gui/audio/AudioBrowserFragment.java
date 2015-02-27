@@ -538,11 +538,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
             ExecutorService tpe = Executors.newSingleThreadExecutor();
-            ArrayList<Runnable> tasks = new ArrayList<Runnable>();
-            tasks.add(updateArtists);
-            tasks.add(updateAlbums);
-            tasks.add(updateSongs);
-            tasks.add(updateGenres);
+            List<Runnable> tasks = Arrays.asList(updateArtists, updateAlbums, updateSongs, updateGenres);
+
             //process the visible list first
             tasks.add(0, tasks.remove(mViewPager.getCurrentItem()));
             tasks.add(new Runnable() {
