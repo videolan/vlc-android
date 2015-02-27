@@ -95,10 +95,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/shadow"
-        android:layout_width="match_parent"
-        android:layout_height="9dp"
-        android:layout_marginTop="6dp"
-        android:background="@drawable/bottom_shadow" />
+    <include layout="@layout/shadow_top" />
 </FrameLayout>

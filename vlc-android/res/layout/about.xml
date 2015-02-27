@@ -19,9 +19,8 @@
             <include layout="@layout/about_licence" />
         </android.support.v4.view.ViewPager>
 
-    <View
+    <include layout="@layout/shadow_top"
         android:layout_width="match_parent"
         android:layout_height="9dp"
-        android:layout_below="@+id/sliding_tabs"
-        android:background="@drawable/bottom_shadow" />
+        android:layout_below="@+id/sliding_tabs" />
 </RelativeLayout>
