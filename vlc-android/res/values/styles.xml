@@ -32,7 +32,8 @@
         <item name="background_default_darker">@color/grey100</item>
         <item name="background_actionbar">@color/darkorange</item>
         <item name="background_menu_divider">@color/background_menu_divider</item>
-        <item name="background_menu">@color/background_menu</item>
+        <item name="background_menu">@color/grey200</item>
+        <item name="background_menu_selected">@color/grey300</item>
         <item name="background_player">@color/grey100</item>
         <item name="background_playlist">@color/background_playlist</item>
         <item name="background_header">@color/background_menu</item>
@@ -106,6 +107,7 @@
         <item name="background_actionbar">@color/grey875</item>
         <item name="background_menu_divider">@color/grey1</item>
         <item name="background_menu">@color/grey850</item>
+        <item name="background_menu_selected">@color/grey800</item>
         <item name="background_player">@color/grey850</item>
         <item name="background_playlist">@color/black2</item>
         <item name="background_header">@color/black3</item>

@@ -134,11 +134,14 @@ public class SidebarAdapter extends BaseAdapter {
             img.setBounds(0, 0, dp_32, dp_32);
             textView.setCompoundDrawables(img, null, null, null);
         }
-        // Set in bold the current item.
-        if (TextUtils.equals(mCurrentFragmentId,sidebarEntry.id))
+        // Set in selected the current item.
+        if (TextUtils.equals(mCurrentFragmentId,sidebarEntry.id)) {
             textView.setTypeface(null, Typeface.BOLD);
-        else
+            v.setBackgroundColor(Util.getColorFromAttribute(mContext, R.attr.background_menu_selected));
+        } else {
             textView.setTypeface(null, Typeface.NORMAL);
+            v.setBackgroundColor(Util.getColorFromAttribute(mContext, R.attr.background_menu));
+        }
 
         return v;
     }
