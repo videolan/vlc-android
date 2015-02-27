@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_trash_normal.svg"
+   sodipodi:docname="ic_trash_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,16 +28,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-25.874279"
+     inkscape:cx="8.3221496"
      inkscape:cy="18.590584"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
-     inkscape:window-x="0"
+     inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3758" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -46,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -57,8 +61,9 @@
      transform="translate(0,-1028.3622)">
     <path
        style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 10,1031.3622 c -0.7396,0 -1.37271,0.4031 -1.71875,1 l -3.28125,0 0,2 14,0 0,-2 -3.28125,0 c -0.34604,-0.5969 -0.97915,-1 -1.71875,-1 l -4,0 z m -4,4 0,12 c 0,1.108 0.892,2 2,2 l 8,0 c 1.108,0 2,-0.892 2,-2 l 0,-12 -12,0 z"
-       id="rect6956"
-       inkscape:connector-curvature="0" />
+       d="m 10,1032.3622 c -0.7395998,0 -1.3727098,0.4031 -1.7187498,1 l -2.2812504,-0.013 0,2 12.0000002,0 0,-2 -2.28125,0.013 c -0.34604,-0.5969 -0.97915,-1 -1.71875,-1 z m -3.0000002,4 0,10 c 0,1.108 0.8920004,2 2.0000004,2 l 5.9999998,0 c 1.108,0 2,-0.892 2,-2 l 0,-10 z"
+       id="rect6956-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccccccsscsssscc" />
   </g>
 </svg>
