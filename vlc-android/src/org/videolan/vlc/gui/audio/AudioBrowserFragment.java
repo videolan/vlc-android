@@ -517,7 +517,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
 
             ExecutorService tpe = Executors.newSingleThreadExecutor();
-            ArrayList<Runnable> tasks = new ArrayList<>(Arrays.asList(updateArtists,
+            ArrayList<Runnable> tasks = new ArrayList<Runnable>(Arrays.asList(updateArtists,
                     updateAlbums, updateSongs, updateGenres));
 
             //process the visible list first
