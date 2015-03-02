@@ -41,7 +41,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable.ConstantState;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.CheckBoxPreference;
@@ -54,8 +56,15 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -149,19 +158,19 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         new AlertDialog.Builder(PreferencesActivity.this)
-                        .setTitle(R.string.clear_history)
-                        .setMessage(R.string.validation)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                .setTitle(R.string.clear_history)
+                                .setMessage(R.string.validation)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                MediaDatabase db = MediaDatabase.getInstance();
-                                db.clearSearchHistory();
-                            }
-                        })
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        MediaDatabase db = MediaDatabase.getInstance();
+                                        db.clearSearchHistory();
+                                    }
+                                })
 
-                        .setNegativeButton(android.R.string.cancel, null).show();
+                                .setNegativeButton(android.R.string.cancel, null).show();
                         return true;
                     }
                 });
@@ -265,6 +274,47 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         /*** SharedPreferences Listener to apply changes ***/
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        Toolbar bar;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            LinearLayout root = (LinearLayout) getListView().getParent().getParent().getParent();
+            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
+            root.addView(bar, 0); // insert at top
+        } else {
+            ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+            ListView content = (ListView) root.getChildAt(0);
+
+            root.removeAllViews();
+
+            bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.toolbar, root, false);
+            root.addView(bar);
+
+            int height;
+            TypedValue tv = new TypedValue();
+            if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+                height = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            }else{
+                height = bar.getHeight();
+            }
+
+            content.setPadding(0, height, 0, 0);
+
+            root.addView(content);
+        }
+        bar.setTitle(R.string.preferences);
+        bar.setTitleTextColor(Util.getColorFromAttribute(this, R.attr.font_actionbar_selected));
+
+        bar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

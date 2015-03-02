@@ -83,9 +83,5 @@
         <include layout="@layout/sidebar"/>
     </android.support.v4.widget.DrawerLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/main_toolbar"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:background="?attr/background_actionbar" />
+    <include layout="@layout/toolbar"/>
 </FrameLayout>

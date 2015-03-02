@@ -57,7 +57,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".gui.CompatErrorActivity" />
-        <activity android:name=".gui.PreferencesActivity" />
+        <activity android:name=".gui.PreferencesActivity"
+            android:theme="@style/Theme.VLC" />
         <activity
             android:name=".gui.BrowserActivity"
             android:label="@string/mediafiles"
