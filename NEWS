@@ -1,3 +1,14 @@
+Changes between 1.1.1 and 1.1.2:
+--------------------------------
+
+Main Application:
+ * Fix fast scrolling pulling refresh
+ * Fix settings toolbar to look Material
+
+TV:
+ * Fix gamepad requirement
+
+
 Changes between 1.1.0 and 1.1.1:
 --------------------------------
 
