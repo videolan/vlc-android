@@ -182,12 +182,17 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
 
     AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener(){
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                boolean enabled = scrollState == SCROLL_STATE_IDLE;
+                if (enabled) {
+                    enabled = view.getFirstVisiblePosition() == 0;
+                    enabled &= view.getChildAt(0).getTop() == 0;
+                }
+                mSwipeRefreshLayout.setEnabled(enabled);
+            }
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                 int totalItemCount) {
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0);
-            }
+                                 int totalItemCount) {}
     };
 
     @Override
