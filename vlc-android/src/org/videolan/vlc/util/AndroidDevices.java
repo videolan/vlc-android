@@ -96,7 +96,7 @@ public class AndroidDevices {
         ArrayList<String> list = new ArrayList<String>();
         list.add(Environment.getExternalStorageDirectory().getPath());
 
-        List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4");
+        List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
         List<String> typeBL = Arrays.asList("tmpfs");
         String[] mountWL = { "/mnt", "/Removable" };
         String[] mountBL = {
