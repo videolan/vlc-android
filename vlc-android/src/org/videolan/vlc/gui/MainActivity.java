@@ -733,6 +733,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     // Note. onKeyDown will not occur while moving within a list
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
+        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
+                (Build.VERSION.SDK_INT <= 16) &&
+                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
+            return true;
+        }
         if (mFocusedPrior == 0)
             setMenuFocusDown(true, 0);
         if (getCurrentFocus() != null)
@@ -744,6 +750,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        //Filter for LG devices, see https://code.google.com/p/android/issues/detail?id=78154
+        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
+                (Build.VERSION.SDK_INT <= 16) &&
+                (Build.MANUFACTURER.compareTo("LGE") == 0)) {
+            openOptionsMenu();
+            return true;
+        }
 		View v = getCurrentFocus();
         if (v == null)
             return super.onKeyUp(keyCode, event);
