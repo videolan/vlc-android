@@ -398,10 +398,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     @Override
     public void onBackPressed() {
-        if(mRootContainer.isDrawerOpen(mSideMenu)) {
             /* Close the menu first */
-            if (mFocusedPrior != 0)
-                findViewById(R.id.ml_menu_search).requestFocus();
+        if(mRootContainer.isDrawerOpen(mSideMenu)) {
+            View search = findViewById(R.id.ml_menu_search);
+            if (mFocusedPrior != 0 && search != null)
+                search.requestFocus();
             mRootContainer.closeDrawer(mSideMenu);
             return;
         }
