@@ -307,7 +307,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             root.addView(content);
         }
         bar.setTitle(R.string.preferences);
-        bar.setTitleTextColor(Util.getColorFromAttribute(this, R.attr.font_actionbar_selected));
 
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
