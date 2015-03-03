@@ -21,12 +21,14 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,10 +40,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -63,6 +67,7 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
@@ -87,7 +92,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchView.OnQueryTextListener {
     public final static String TAG = "VLC/MainActivity";
 
     protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.gui.ShowProgressBar";
@@ -132,6 +137,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private int mFocusedPrior = 0;
     private int mActionBarIconId = -1;
     Menu mMenu;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -485,8 +491,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             f = new EqualizerFragment();
         } else if(id.equals("about")) {
             f = new AboutFragment();
-        } else if(id.equals("search")) {
-            f = new SearchFragment();
         } else if(id.equals("mediaInfo")) {
             f = new MediaInfoFragment();
         } else if(id.equals("videoGroupList")) {
@@ -532,6 +536,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     /** Create menu from XML
      */
+    @TargetApi(Build.VERSION_CODES.FROYO)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
@@ -541,6 +546,16 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
          */
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.media_library, menu);
+
+        if (LibVlcUtil.isFroyoOrLater()) {
+            SearchManager searchManager =
+                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
+            mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            mSearchView.setOnQueryTextListener(this);
+            mSearchView.setSuggestionsAdapter(new SearchSuggestionsAdapter(this, null));
+        } else
+            menu.findItem(R.id.ml_menu_search).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -556,9 +571,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             menu.findItem(R.id.ml_menu_sortby).setEnabled(true);
             menu.findItem(R.id.ml_menu_sortby).setVisible(true);
         }
-        // Enable the clear search history function for the search fragment.
-        if (mCurrentFragment != null && mCurrentFragment.equals("search"))
-            menu.findItem(R.id.search_clear_history).setVisible(true);
 
         boolean networkSave = current instanceof NetworkFragment && !((NetworkFragment)current).isRootDirectory();
         if (networkSave) {
@@ -575,15 +587,9 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         menu.findItem(R.id.ml_menu_clean).setVisible(SidebarEntry.ID_MRL.equals(mCurrentFragment));
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
 
-        return super.onPrepareOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onSearchRequested() {
-        if (mCurrentFragment != null && mCurrentFragment.equals("search"))
-            ((SearchFragment)fetchSecondaryFragment("search")).onSearchKeyPressed();
-        showSecondaryFragment("search");
-        return true;
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     /**
@@ -621,9 +627,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
                 sendBroadcast(i);
                 break;
-            case R.id.ml_menu_search:
-                onSearchRequested();
-                break;
             case android.R.id.home:
                 // Slide down the audio player.
                 if (slideDownAudioPlayer())
@@ -642,9 +645,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             case R.id.ml_menu_clean:
                 if (getFragment(mCurrentFragment) instanceof MRLPanelFragment)
                     ((MRLPanelFragment)getFragment(mCurrentFragment)).clearHistory();
-                break;
-            case R.id.search_clear_history:
-                MediaDatabase.getInstance().clearSearchHistory();
                 break;
             case R.id.ml_menu_save:
                 if (current == null)
@@ -784,14 +784,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         mCurrentFragment = sharedPrefs.getString("fragment", "video");
     }
 
-    /**
-     * onClick event from xml
-     * @param view
-     */
-    public void searchClick(View view) {
-        onSearchRequested();
-    }
-
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -829,6 +821,20 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             }
         }
     };
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.length() < 3)
+            return false;
+        Cursor cursor = MediaDatabase.getInstance().queryMedia(newText, MediaWrapper.TYPE_ALL);
+        mSearchView.getSuggestionsAdapter().changeCursor(cursor);
+        return true;
+    }
 
     private static class MainActivityHandler extends WeakHandler<MainActivity> {
         public MainActivityHandler(MainActivity owner) {
@@ -877,6 +883,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
      * Show the audio player.
      */
     public void showAudioPlayer() {
+        mActionBar.collapseActionView();
         // Open the pane only if is entirely opened.
         if (mSlidingPane.getState() == mSlidingPane.STATE_OPENED_ENTIRELY)
             mSlidingPane.openPane();

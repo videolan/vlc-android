@@ -20,9 +20,10 @@
     <item
         android:id="@+id/ml_menu_search"
         android:icon="@drawable/ic_menu_search"
+        vlc:actionViewClass="android.support.v7.widget.SearchView"
         android:title="@string/searchable_hint"
         android:nextFocusDown="@id/ml_menu_search"
-        vlc:showAsAction="ifRoom" />
+        vlc:showAsAction="always|collapseActionView"/>
     <item
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sortby"

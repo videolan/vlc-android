@@ -318,6 +318,7 @@
     <string name="network_shares_discovery">Looking for network shares...</string>
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
+    <string name="search_hint">Search media</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
