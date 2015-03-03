@@ -1949,6 +1949,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void selectSubtitles() {
+        if (mSubtitleTracksList == null)
+                mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
         final String[] arrList = new String[mSubtitleTracksList.size()];
         int i = 0;
         int listPosition = 0;
@@ -1973,7 +1975,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                         break;
                     }
                 }
-                if(trackID < -1) return;
+                if (trackID < -1) return;
 
                 MediaDatabase.getInstance().updateMedia(
                         mLocation,
