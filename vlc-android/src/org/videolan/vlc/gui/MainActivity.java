@@ -685,7 +685,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             R.id.ml_menu_open_mrl, R.id.ml_menu_sortby,
             R.id.ml_menu_last_playlist, R.id.ml_menu_refresh,
             mActionBarIconId};*/
-		int pane = mSlidingPane.getState();
+        int pane = mSlidingPane.getState();
         for(int r : menu_controls) {
             View v = findViewById(r);
             if (v != null) {
@@ -715,7 +715,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             if (parentView == null)
                 list = findViewById(id);
             else
-			    list = parentView.findViewById(id);
+                list = parentView.findViewById(id);
 
             if (list != null) {
                 if (pane == mSlidingPane.STATE_OPENED_ENTIRELY) {
@@ -757,7 +757,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             openOptionsMenu();
             return true;
         }
-		View v = getCurrentFocus();
+        View v = getCurrentFocus();
         if (v == null)
             return super.onKeyUp(keyCode, event);
         if ((mActionBarIconId == -1) &&
@@ -885,8 +885,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
 
     public int  getSlidingPaneState() {
-			return mSlidingPane.getState();
-	}
+            return mSlidingPane.getState();
+    }
 
     /**
      * Slide down the audio player.
@@ -970,7 +970,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             View v = LayoutInflater.from(this).inflate(layoutId, null);
             mRootContainer.addView(v,
                     new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
-                    		DrawerLayout.LayoutParams.MATCH_PARENT));
+                            DrawerLayout.LayoutParams.MATCH_PARENT));
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
