@@ -3,6 +3,7 @@ Changes between 1.1.2 and 1.1.3-git:
 
 Main Application:
  * Fix LG bug with menu button
+ * Fix rare NPE for Samsung devices 
 
 Changes between 1.1.1 and 1.1.2:
 --------------------------------

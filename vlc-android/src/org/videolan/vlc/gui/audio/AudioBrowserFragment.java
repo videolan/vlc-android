@@ -186,7 +186,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 boolean enabled = scrollState == SCROLL_STATE_IDLE;
                 if (enabled) {
                     enabled = view.getFirstVisiblePosition() == 0;
-                    enabled &= view.getChildAt(0).getTop() == 0;
+                    if (view.getChildAt(0) != null)
+                        enabled &= view.getChildAt(0).getTop() == 0;
                 }
                 mSwipeRefreshLayout.setEnabled(enabled);
             }
