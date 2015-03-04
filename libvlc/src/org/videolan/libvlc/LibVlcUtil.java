@@ -129,10 +129,10 @@ public class LibVlcUtil {
         final boolean elfHasMips = elf.e_machine == EM_MIPS;
         final boolean elfIs64bits = elf.is64bits;
 
-        Log.i(TAG, "machine = " + (elfHasArm ? "arm" : elfHasX86 ? "x86" : "mips") + ", " +
+        Log.i(TAG, "ELF ABI = " + (elfHasArm ? "arm" : elfHasX86 ? "x86" : "mips") + ", " +
                                   (elfIs64bits ? "64bits" : "32bits"));
-        Log.i(TAG, "arch = " + elf.att_arch);
-        Log.i(TAG, "fpu = " + elf.att_fpu);
+        Log.i(TAG, "ELF arch = " + elf.att_arch);
+        Log.i(TAG, "ELF fpu = " + elf.att_fpu);
         boolean hasNeon = false, hasFpu = false, hasArmV6 = false,
                 hasArmV7 = false, hasMips = false, hasX86 = false, is64bits = false;
         float bogoMIPS = -1;
