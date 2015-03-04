@@ -617,10 +617,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
-                if(current != null && current instanceof IRefreshable)
-                    ((IRefreshable) current).refresh();
-                else
-                    MediaLibrary.getInstance().loadMediaItems(this, true);
+                if (!MediaLibrary.getInstance().isWorking()) {
+                    if(current != null && current instanceof IRefreshable)
+                        ((IRefreshable) current).refresh();
+                    else
+                        MediaLibrary.getInstance().loadMediaItems(this, true);
+                }
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
