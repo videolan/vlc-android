@@ -53,9 +53,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -92,7 +94,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchView.OnQueryTextListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchView.OnQueryTextListener, SearchSuggestionsAdapter.SuggestionDisplay {
     public final static String TAG = "VLC/MainActivity";
 
     protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.gui.ShowProgressBar";
@@ -855,6 +857,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             }
         }
     };
+
+    public void hideKeyboard(){
+        ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                getWindow().getDecorView().getRootView().getWindowToken(), 0);
+    }
 
     public static void showProgressBar() {
         Intent intent = new Intent();

@@ -26,6 +26,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,9 +42,15 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
     public final static String TAG = "VLC/SearchSuggestionsAdapter";
 
     MediaLibrary mMediaLibrary = MediaLibrary.getInstance();
+    SuggestionDisplay activity;
+
+    public interface SuggestionDisplay {
+        public void hideKeyboard();
+    }
 
     public SearchSuggestionsAdapter(Context context, Cursor cursor){
         super(context, cursor, false);
+        activity = (SuggestionDisplay) context;
     }
 
     @Override
@@ -54,17 +61,23 @@ public class SearchSuggestionsAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, final Context context, final Cursor cursor) {
-        final int position = cursor.getPosition();
+    public void bindView(View view, final Context context, Cursor cursor) {
+        final String location = cursor.getString(cursor.getColumnIndex(MediaDatabase.MEDIA_LOCATION));
         TextView tv = (TextView) view.findViewById(android.R.id.text1);
         tv.setText(cursor.getString(cursor.getColumnIndex(MediaDatabase.MEDIA_TITLE)));
         tv.setBackgroundColor(Util.getColorFromAttribute(context, R.attr.background_menu));
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cursor.moveToPosition(position);
-                MediaWrapper media = mMediaLibrary.getMediaItem(cursor.getString(cursor.getColumnIndex(MediaDatabase.MEDIA_LOCATION)));
-                Util.openMedia(context, media);
+                Util.openMedia(context, mMediaLibrary.getMediaItem(location));
+            }
+        });
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                    activity.hideKeyboard();
+                return false;
             }
         });
     }
