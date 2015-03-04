@@ -97,7 +97,7 @@ public class MediaInfoFragment extends ListFragment {
         if (!LibVlcUtil.isICSOrLater())
             mDelete.setText(getString(R.string.delete).toUpperCase(Locale.getDefault()));
 
-        mPathView.setText(Uri.decode(mItem.getLocation().substring(7)));
+        mPathView.setText(mItem == null ? "" : Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
