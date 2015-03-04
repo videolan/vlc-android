@@ -263,7 +263,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     @Override
     @Nullable
     public MediaWrapper getItem(int position) {
-        if (position < getCount() && position > 0)
+        if (position < getCount() && position >= 0)
             return super.getItem(position);
         else
             return null;
