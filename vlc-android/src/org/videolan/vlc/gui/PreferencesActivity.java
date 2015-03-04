@@ -287,6 +287,8 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             root.addView(bar, 0); // insert at top
         } else {
             ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+            if (!(root.getChildAt(0) instanceof ListView))
+                return;
             ListView content = (ListView) root.getChildAt(0);
 
             root.removeAllViews();
