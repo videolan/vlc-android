@@ -35,6 +35,7 @@ import org.videolan.vlc.util.Util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -257,5 +258,14 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     public boolean isListMode() {
         return mListMode;
+    }
+
+    @Override
+    @Nullable
+    public MediaWrapper getItem(int position) {
+        if (position < getCount() && position > 0)
+            return super.getItem(position);
+        else
+            return null;
     }
 }

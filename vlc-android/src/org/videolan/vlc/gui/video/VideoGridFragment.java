@@ -269,6 +269,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MediaWrapper media = mVideoAdapter.getItem(position);
+        if (media == null)
+            return;
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
             VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
@@ -290,6 +292,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
         MediaWrapper media = mVideoAdapter.getItem(position);
+        if (media == null)
+            return false;
         switch (menu.getItemId())
         {
         case R.id.video_list_play_from_start:
@@ -329,7 +333,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         // Do not show the menu of media group.
         AdapterContextMenuInfo info = (AdapterContextMenuInfo)menuInfo;
         MediaWrapper media = mVideoAdapter.getItem(info.position);
-        if (media instanceof MediaGroup)
+        if (media == null || media instanceof MediaGroup)
             return;
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.video_list, menu);
@@ -371,6 +375,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
         popupMenu.getMenuInflater().inflate(R.menu.video_list, popupMenu.getMenu());
         MediaWrapper media = mVideoAdapter.getItem(position);
+        if (media == null)
+            return;
         setContextMenuItems(popupMenu.getMenu(), media);
         popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
             @Override
