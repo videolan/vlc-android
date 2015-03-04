@@ -62,6 +62,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
          */
         int getIndicatorColor(int position);
     }
+
+    public interface OnTabChangedListener {
+        public void tabChanged(int position);
+    }
+
     private static final int TITLE_OFFSET_DIPS = 24;
     private static final int TAB_VIEW_HORIZONTAL_PADDING_DIPS = 5;
     private static final int TAB_VIEW_VERTICAL_PADDING_DIPS = 10;
@@ -71,6 +76,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private int mTabViewTextViewId;
     private boolean mDistributeEvenly;
     private ViewPager mViewPager;
+    private OnTabChangedListener tabChangedListener;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private final SlidingTabStrip mTabStrip;
     public SlidingTabLayout(Context context) {
@@ -276,6 +282,11 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
     }
+
+    public void setOnTabChangedListener(OnTabChangedListener listener) {
+        tabChangedListener = listener;
+    }
+
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -284,6 +295,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         @Override
         public void onPageSelected(int position) {
+            if (tabChangedListener != null)
+                tabChangedListener.tabChanged(position);
             for (int i = 0; i < mTabStrip.getChildCount(); i++) {
                 if (mTabStrip.getChildAt(i) instanceof TextView) {
                     int color = (i == position)
