@@ -399,9 +399,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     public void onBackPressed() {
             /* Close the menu first */
         if(mRootContainer.isDrawerOpen(mSideMenu)) {
-            View search = findViewById(R.id.ml_menu_search);
-            if (mFocusedPrior != 0 && search != null)
-                search.requestFocus();
+            if (mFocusedPrior != 0)
+                requestFocusOnSearch();
             mRootContainer.closeDrawer(mSideMenu);
             return;
         }
@@ -1025,7 +1024,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         if(current == null || (entry != null && current.getTag().equals(entry.id))) { /* Already selected */
             if (mFocusedPrior != 0)
-                findViewById(R.id.ml_menu_search).requestFocus();
+                requestFocusOnSearch();
             mRootContainer.closeDrawer(mSideMenu);
             return;
         }
@@ -1051,10 +1050,16 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             mSidebarAdapter.setCurrentFragment(mCurrentFragment);
 
             if (mFocusedPrior != 0)
-                findViewById(R.id.ml_menu_search).requestFocus();
+                requestFocusOnSearch();
             mRootContainer.closeDrawer(mSideMenu);
         }else if (entry.attributeID == R.attr.ic_menu_preferences){
             startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
         }
+    }
+
+    private void requestFocusOnSearch() {
+        View search = findViewById(R.id.ml_menu_search);
+        if (search != null)
+            search.requestFocus();
     }
 }
