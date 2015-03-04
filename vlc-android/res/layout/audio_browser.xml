@@ -93,4 +93,13 @@
         android:layout_width="match_parent"
         android:layout_height="9dp"
         android:layout_below="@+id/sliding_tabs" />
+
+    <ImageView
+        android:id="@+id/fab_play_shuffle_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_fab_shuffle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"/>
 </RelativeLayout>
