@@ -14,7 +14,7 @@
         android:layout_above="@+id/sidebar_separator_settings"
         android:nextFocusForward="@id/sidelist"
         android:nextFocusUp="@id/sidelist"
-        android:nextFocusDown="@id/sidelist"
+        android:nextFocusDown="@+id/settings"
         android:nextFocusLeft="@id/sidelist"
         android:nextFocusRight="@id/sidelist" >
     </ListView>
@@ -51,10 +51,13 @@
         android:layout_marginBottom="10dp"
         android:clickable="true"
         android:onClick="onClick"
+        android:focusable="true"
         android:text="@string/preferences"
         android:textColor="?attr/list_menu"
         android:textSize="16sp"
-        android:fontFamily="sans-serif"/>
+        android:fontFamily="sans-serif"
+        android:nextFocusUp="@id/sidelist"
+        android:nextFocusDown="@+id/about"/>
 
     <ImageView
         android:id="@+id/about_icon"
@@ -80,10 +83,13 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
+        android:focusable="true"
         android:onClick="onClick"
         android:text="@string/about"
         android:textColor="?attr/list_menu"
         android:textSize="16sp"
-        android:fontFamily="sans-serif"/>
+        android:fontFamily="sans-serif"
+        android:nextFocusUp="@id/settings"
+        android:nextFocusDown="@id/about"/>
 </RelativeLayout>
 

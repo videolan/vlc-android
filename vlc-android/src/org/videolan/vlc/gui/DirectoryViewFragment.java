@@ -84,6 +84,7 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         filter.addAction(Intent.ACTION_MEDIA_EJECT);
         filter.addDataScheme("file");
         getActivity().registerReceiver(messageReceiver, filter);
+        focusHelper(mDirectoryAdapter.isEmpty());
     }
 
     private void focusHelper(boolean idIsEmpty) {

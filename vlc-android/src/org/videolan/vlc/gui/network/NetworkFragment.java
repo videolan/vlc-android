@@ -46,6 +46,7 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.DividerItemDecoration;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
@@ -172,6 +173,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
             mLayoutManager.scrollToPositionWithOffset(savedPosition, 0);
             savedPosition = 0;
         }
+        focusHelper(mAdapter.isEmpty());
     }
 
     @Override
@@ -317,4 +319,12 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
                     updateDisplay();
         }
     };
+
+    private void focusHelper(boolean idIsEmpty) {
+        View parent = View.inflate(getActivity(),
+            R.layout.directory_view, null);
+        MainActivity main = (MainActivity)getActivity();
+        main.setMenuFocusDown(idIsEmpty, R.id.network_list);
+        main.setSearchAsFocusDown(idIsEmpty, parent, R.id.network_list);
+    }
 }

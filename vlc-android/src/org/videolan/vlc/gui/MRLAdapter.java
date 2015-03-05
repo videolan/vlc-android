@@ -87,4 +87,8 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     public int getItemCount() {
         return mDataset.size();
     }
+
+    public boolean isEmpty(){
+        return getItemCount() == 0;
+    }
 }

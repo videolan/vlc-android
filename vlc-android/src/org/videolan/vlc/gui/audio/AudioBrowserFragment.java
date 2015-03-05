@@ -221,6 +221,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
                 mAlbumsAdapter.isEmpty() || mSongsAdapter.isEmpty())
             updateLists();
+        else
+            focusHelper(false, mLists.get(mViewPager.getCurrentItem()).getId());
         mMediaLibrary.addUpdateHandler(mHandler);
         final ListView current = (ListView)mLists.get(mViewPager.getCurrentItem());
         current.post(new Runnable() {
@@ -491,13 +493,9 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                     mAdaptersToNotify.clear();
 
                     // Refresh the fast scroll data, since SectionIndexer doesn't respect notifyDataSetChanged
-                    int[] lists = {R.id.artists_list, R.id.albums_list, R.id.songs_list, R.id.genres_list};
                     if (getView() != null) {
-                        ListView l;
-                        for (int r : lists) {
-                            l = (ListView) getView().findViewById(r);
-                            l.setFastScrollEnabled(true);
-                        }
+                        for (View v : mLists)
+                            ((ListView)v).setFastScrollEnabled(true);
                     }
                     focusHelper(false, R.id.artists_list);
                     mHandler.removeMessages(MSG_LOADING);

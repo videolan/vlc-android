@@ -101,6 +101,12 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        focusHelper(mHistoryAdapter.isEmpty());
+    }
+
+    @Override
     public void onDestroy() {
         mHistoryAdapter.release();
         super.onDestroy();

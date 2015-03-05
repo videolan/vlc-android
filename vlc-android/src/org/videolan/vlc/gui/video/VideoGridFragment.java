@@ -194,8 +194,10 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         final boolean refresh = mVideoAdapter.isEmpty();
         if (refresh)
             updateList();
-        else
+        else {
             mViewNomedia.setVisibility(View.GONE);
+            focusHelper(false);
+        }
         //Get & set times
         HashMap<String, Long> times = MediaDatabase.getInstance().getVideoTimes(getActivity());
         mVideoAdapter.setTimes(times);
