@@ -63,7 +63,6 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         mAdapter = new MRLAdapter(mHistory);
         mRecyclerView.setAdapter(mAdapter);
 
