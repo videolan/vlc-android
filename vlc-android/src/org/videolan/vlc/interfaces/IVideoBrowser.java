@@ -1,38 +1,38 @@
 /*****************************************************************************
- * videobrowserinterface.java
+ * IVideoBrowser.java
  *****************************************************************************
- * copyright © 2014-2015 vlc authors and videolan
+ * Copyright © 2014-2015 VLC authors and VideoLAN
  *
- * this program is free software; you can redistribute it and/or modify
- * it under the terms of the gnu general public license as published by
- * the free software foundation; either version 2 of the license, or
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * this program is distributed in the hope that it will be useful,
- * but without any warranty; without even the implied warranty of
- * merchantability or fitness for a particular purpose.  see the
- * gnu general public license for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * you should have received a copy of the gnu general public license
- * along with this program; if not, write to the free software
- * foundation, inc., 51 franklin street, fifth floor, boston ma 02110-1301, usa.
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
 package org.videolan.vlc.interfaces;
 
-import java.util.concurrent.brokenbarrierexception;
+import java.util.concurrent.BrokenBarrierException;
 
-import org.videolan.vlc.mediawrapper;
+import org.videolan.vlc.MediaWrapper;
 
-public interface ivideobrowser {
+public interface IVideoBrowser {
 
-    public void resetbarrier();
-    public void setitemtoupdate(mediawrapper item);
-    public void await() throws interruptedexception, brokenbarrierexception;
-    public void updateitem();
-    public void updatelist();
-    public void showprogressbar();
-    public void hideprogressbar();
-    public void cleartextinfo();
-    public void sendtextinfo(string info, int progress, int max);
+    public void resetBarrier();
+    public void setItemToUpdate(MediaWrapper item);
+    public void await() throws InterruptedException, BrokenBarrierException;
+    public void updateItem();
+    public void updateList();
+    public void showProgressBar();
+    public void hideProgressBar();
+    public void clearTextInfo();
+    public void sendTextInfo(String info, int progress, int max);
 }
