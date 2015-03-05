@@ -234,7 +234,8 @@ public class MediaDatabase {
                     MRL_URI + " TEXT PRIMARY KEY NOT NULL,"+
                     MRL_DATE + " DATETIME NOT NULL"
                     +");";
-            createMrlTableQuery += " CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
+            db.execSQL(createMrlTableQuery);
+            createMrlTableQuery = " CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
                     MRL_TABLE_NAME+ " BEGIN "+
                     " DELETE FROM "+MRL_TABLE_NAME+" where "+MRL_URI+" NOT IN (SELECT "+MRL_URI+
                     " from "+MRL_TABLE_NAME+" ORDER BY insertion_date DESC LIMIT "+MRL_TABLE_SIZE+");"+
@@ -310,6 +311,9 @@ public class MediaDatabase {
                 case 13:
                     createNetworkFavTableQuery(db);
                     break;
+                    case 17:
+                        dropMRLTableQuery(db);
+                        createMRLTableQuery(db);
                 default:
                     break;
                 }
