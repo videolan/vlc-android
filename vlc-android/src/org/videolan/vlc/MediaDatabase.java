@@ -238,7 +238,7 @@ public class MediaDatabase {
             createMrlTableQuery = " CREATE TRIGGER mrl_history_trigger AFTER INSERT ON "+
                     MRL_TABLE_NAME+ " BEGIN "+
                     " DELETE FROM "+MRL_TABLE_NAME+" where "+MRL_URI+" NOT IN (SELECT "+MRL_URI+
-                    " from "+MRL_TABLE_NAME+" ORDER BY insertion_date DESC LIMIT "+MRL_TABLE_SIZE+");"+
+                    " from "+MRL_TABLE_NAME+" ORDER BY "+MRL_DATE+" DESC LIMIT "+MRL_TABLE_SIZE+");"+
                     " END";
             db.execSQL(createMrlTableQuery);
         }
