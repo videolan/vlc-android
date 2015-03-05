@@ -134,12 +134,20 @@ JavaEventThread_create(jweak jweak, jobject jweakCompat, bool b_sync)
     pthread_cond_init(&p_java_event_thread->cond, NULL);
     TAILQ_INIT(&p_java_event_thread->queue);
 
+    pthread_mutex_lock(&p_java_event_thread->lock);
     p_java_event_thread->jweak = jweak;
     p_java_event_thread->jweakCompat = jweakCompat;
     p_java_event_thread->b_run = true;
     p_java_event_thread->b_sync = b_sync;
-    pthread_create(&p_java_event_thread->thread, NULL,
-                   JavaEventThread_thread, p_java_event_thread);
+    if (pthread_create(&p_java_event_thread->thread, NULL,
+                       JavaEventThread_thread, p_java_event_thread) != 0)
+    {
+        p_java_event_thread->b_run = false;
+        pthread_mutex_unlock(&p_java_event_thread->lock);
+        JavaEventThread_destroy(p_java_event_thread);
+        p_java_event_thread = NULL;
+    } else
+        pthread_mutex_unlock(&p_java_event_thread->lock);
 
     return p_java_event_thread;
 }
@@ -148,12 +156,14 @@ void
 JavaEventThread_destroy(java_event_thread *p_java_event_thread)
 {
     pthread_mutex_lock(&p_java_event_thread->lock);
-    p_java_event_thread->b_run = false;
-
-    pthread_cond_signal(&p_java_event_thread->cond);
-    pthread_mutex_unlock(&p_java_event_thread->lock);
-
-    pthread_join(p_java_event_thread->thread, NULL);
+    if (p_java_event_thread->b_run)
+    {
+        p_java_event_thread->b_run = false;
+        pthread_cond_signal(&p_java_event_thread->cond);
+        pthread_mutex_unlock(&p_java_event_thread->lock);
+        pthread_join(p_java_event_thread->thread, NULL);
+    } else
+        pthread_mutex_unlock(&p_java_event_thread->lock);
 
     pthread_mutex_destroy(&p_java_event_thread->lock);
     pthread_cond_destroy(&p_java_event_thread->cond);
