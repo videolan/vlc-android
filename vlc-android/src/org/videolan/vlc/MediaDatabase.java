@@ -50,13 +50,14 @@ public class MediaDatabase {
 
     private SQLiteDatabase mDb;
     private static final String DB_NAME = "vlc_database";
-    private static final int DB_VERSION = 16;
+    private static final int DB_VERSION = 17;
     private static final int CHUNK_SIZE = 50;
 
     private static final String DIR_TABLE_NAME = "directories_table";
     private static final String DIR_ROW_PATH = "path";
 
     private static final String MEDIA_TABLE_NAME = "media_table";
+    private static final String MEDIA_VIRTUAL_TABLE_NAME = "media_table_fts";
     public static final String MEDIA_LOCATION = "_id"; //standard key for primary key, needed for search suggestions
     private static final String MEDIA_TIME = "time";
     private static final String MEDIA_LENGTH = "length";
@@ -184,6 +185,29 @@ public class MediaDatabase {
                     + MEDIA_TRACKNUMBER + " INTEGER, "
                     + MEDIA_DISCNUMBER + " INTEGER"
                     + ");";
+            db.execSQL(query);
+            db.execSQL("PRAGMA recursive_triggers='ON'"); //Needed for delete trigger
+            query = "CREATE VIRTUAL TABLE "
+                    + MEDIA_VIRTUAL_TABLE_NAME + " USING FTS3 ("
+                    + MEDIA_LOCATION + ", "
+                    + MEDIA_TITLE + ", "
+                    + MEDIA_ARTIST + ", "
+                    + MEDIA_GENRE + ", "
+                    + MEDIA_ALBUM + ", "
+                    + MEDIA_ALBUMARTIST
+                    + ");";
+            db.execSQL(query);
+            query = " CREATE TRIGGER media_insert_trigger AFTER INSERT ON "+
+                    MEDIA_TABLE_NAME+ " BEGIN "+
+                        "INSERT INTO "+MEDIA_VIRTUAL_TABLE_NAME+" ("+MEDIA_LOCATION+", "+MEDIA_TITLE+
+                        ", "+MEDIA_ARTIST+", "+MEDIA_GENRE+", "+MEDIA_ALBUM+", "+MEDIA_ALBUMARTIST+" )"+
+                        " VALUES (new."+MEDIA_LOCATION+", new."+MEDIA_TITLE+", new."+MEDIA_ARTIST+
+                        ", new."+MEDIA_GENRE+", new."+MEDIA_ALBUM+", new."+MEDIA_ALBUMARTIST+
+                        "); END;";
+            db.execSQL(query);
+            query = " CREATE TRIGGER media_delete_trigger AFTER DELETE ON "+MEDIA_TABLE_NAME+ " BEGIN "+
+                        "DELETE FROM "+MEDIA_VIRTUAL_TABLE_NAME+" WHERE "+MEDIA_LOCATION+" = old."+MEDIA_LOCATION+";"+
+                        " END;";
             db.execSQL(query);
         }
 
@@ -571,27 +595,20 @@ public class MediaDatabase {
         return files;
     }
 
-    public synchronized Cursor queryMedia(String query, int type){
-        String[] queryColumns = new String[]{MEDIA_LOCATION, MEDIA_TITLE, MEDIA_ALBUM, MEDIA_ARTIST, MEDIA_TYPE};
-        String queryString = MEDIA_TITLE+" LIKE ? OR "+MEDIA_ALBUM+" LIKE ? OR "+MEDIA_ARTIST+" LIKE ?";
-        String [] queryArgs;
-        if (type != MediaWrapper.TYPE_ALL) {
-            queryString = "( " + queryString + " ) AND " + MEDIA_TYPE + "=?";
-            queryArgs = new String[]{"%"+query+"%", "%"+query+"%", "%"+query+"%", String.valueOf(type)};
-        } else
-            queryArgs = new String[]{"%"+query+"%", "%"+query+"%", "%"+query+"%"};
-
-        return mDb.query(MEDIA_TABLE_NAME, queryColumns, queryString, queryArgs, null, null, null, null);
+    public synchronized Cursor queryMedia(String query){
+        String[] queryColumns = new String[]{MEDIA_LOCATION, MEDIA_TITLE};
+        return mDb.query(MEDIA_VIRTUAL_TABLE_NAME, queryColumns, MEDIA_VIRTUAL_TABLE_NAME+" MATCH ?",
+                new String[]{query + "*"}, null, null, null, null);
     }
 
-    public synchronized ArrayList<String> searchMedia(String filter, int type){
+    public synchronized ArrayList<String> searchMedia(String filter){
 
         ArrayList<String> mediaList = new ArrayList<String>();
-        Cursor cursor = queryMedia(filter, type);
+        Cursor cursor = queryMedia(filter);
         if (cursor.moveToFirst()){
             do {
                 mediaList.add(cursor.getString(0));
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return mediaList;

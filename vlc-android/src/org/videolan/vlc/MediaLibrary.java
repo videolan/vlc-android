@@ -134,9 +134,9 @@ public class MediaLibrary {
         mUpdateHandler.remove(handler);
     }
 
-    public ArrayList<MediaWrapper> searchMedia(String query, int type){
+    public ArrayList<MediaWrapper> searchMedia(String query){
         ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>();
-        ArrayList<String> pathList = MediaDatabase.getInstance().searchMedia(query, type);
+        ArrayList<String> pathList = MediaDatabase.getInstance().searchMedia(query);
         if (!pathList.isEmpty()){
             for (String path : pathList) {
                 mediaList.add(getMediaItem(path));
