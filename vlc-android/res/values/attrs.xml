@@ -59,6 +59,7 @@
     <attr name="ic_menu_preferences" format="reference" />
     <attr name="ic_menu_cone" format="reference" />
     <attr name="ic_move_media" format="reference" />
+    <attr name="ic_trash_small_normal" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
 
     <attr name="mini_player_top_shadow" format="reference" />

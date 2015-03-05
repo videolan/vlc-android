@@ -8,24 +8,26 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/background_default">
         <TextView
             android:id="@+id/mrl_item_uri"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/mrl_item_delete"
+            android:clickable="true"
+            android:ellipsize="middle"
+            android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:ellipsize="middle"
-            android:clickable="true"
-            android:layout_toLeftOf="@+id/mrl_item_delete"
-            android:gravity="center_vertical"/>
+            android:textColor="?attr/font_default" />
         <ImageView
             android:id="@+id/mrl_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_trash_small_normal"
+            android:src="?attr/ic_trash_small_normal"
             android:clickable="true"
             android:paddingRight="5dp"/>
     </RelativeLayout>

@@ -78,6 +78,7 @@
         <item name="ic_menu_preferences">@drawable/ic_menu_preferences</item>
         <item name="ic_menu_cone">@drawable/ic_menu_cone</item>
         <item name="ic_move_media">@drawable/ic_move_media</item>
+        <item name="ic_trash_small_normal">@drawable/ic_trash_small_normal</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
@@ -152,6 +153,7 @@
         <item name="ic_menu_preferences">@drawable/ic_menu_preferences_w</item>
         <item name="ic_menu_cone">@drawable/ic_menu_cone_w</item>
         <item name="ic_move_media">@drawable/ic_move_media_w</item>
+        <item name="ic_trash_small_normal">@drawable/ic_trash_small_normal_w</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
