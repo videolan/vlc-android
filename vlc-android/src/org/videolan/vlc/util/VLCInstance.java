@@ -81,10 +81,10 @@ public class VLCInstance {
         }
         int vout;
         try {
-        	vout = Integer.parseInt(pref.getString("vout", "-1"));
+            vout = Integer.parseInt(pref.getString("vout", "-1"));
         }
         catch (NumberFormatException nfe) {
-        	vout = -1;
+            vout = -1;
         }
         int deblocking;
         try {

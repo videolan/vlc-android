@@ -170,7 +170,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
         Log.i(TAG, "mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
         if (mMediaLibrary.isWorking()) {
-        	Util.actionScanStart();
+            Util.actionScanStart();
         }
 
         mAnimator = new VideoGridAnimator(mGridView);
