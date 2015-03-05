@@ -15,7 +15,15 @@
             android:id="@+id/speed_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="200" />
+            android:focusable="true"
+            android:indeterminate="false"
+            android:max="200"
+            android:maxHeight="@dimen/seekbar_height"
+            android:minHeight="@dimen/seekbar_height"
+            android:progress="100"
+            android:progressDrawable="@drawable/po_seekbar"
+            android:splitTrack="false"
+            android:thumb="@drawable/seekbar_thumb" />
 
         <RelativeLayout
             android:id="@+id/relative_layout"
