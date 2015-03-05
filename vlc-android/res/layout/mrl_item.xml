@@ -14,6 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:ellipsize="middle"
             android:clickable="true"
             android:layout_toLeftOf="@+id/mrl_item_delete"
             android:gravity="center_vertical"/>
