@@ -41,7 +41,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -53,7 +52,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -69,7 +67,6 @@ import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
-import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
@@ -88,6 +85,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.HackyDrawerLayout;
 import org.videolan.vlc.widget.SlidingPaneLayout;
 
 import java.util.Arrays;
@@ -113,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private AudioPlayer mAudioPlayer;
     private AudioServiceController mAudioController;
     private SlidingPaneLayout mSlidingPane;
-    private DrawerLayout mRootContainer;
+    private HackyDrawerLayout mRootContainer;
     private ListView mListView;
     private ActionBarDrawerToggle mDrawerToggle;
     private View mSideMenu;
@@ -219,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         mInfoProgress = (ProgressBar) findViewById(R.id.info_progress);
         mInfoText = (TextView) findViewById(R.id.info_text);
         mAudioPlayerFilling = findViewById(R.id.audio_player_filling);
-        mRootContainer = (DrawerLayout) findViewById(R.id.root_container);
+        mRootContainer = (HackyDrawerLayout) findViewById(R.id.root_container);
 
         /* Set up the action bar */
         prepareActionBar();
@@ -954,7 +952,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 if (resId != 0)
                     mSlidingPane.setShadowResource(resId);
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true);
-                mRootContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
                 removeTipViewIfDisplayed();
                 mAudioPlayer.showAudioPlayerTips();
             }
@@ -962,13 +960,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             @Override
             public void onPanelOpenedEntirely() {
                 mSlidingPane.setShadowDrawable(null);
-                mRootContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
             }
 
             @Override
             public void onPanelClosed() {
                 mAudioPlayer.setHeaderVisibilities(true, true, false, false, false);
-                mRootContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mAudioPlayer.showPlaylistTips();
             }
 
@@ -984,8 +982,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             removeTipViewIfDisplayed();
             View v = LayoutInflater.from(this).inflate(layoutId, null);
             mRootContainer.addView(v,
-                    new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT,
-                            DrawerLayout.LayoutParams.MATCH_PARENT));
+                    new HackyDrawerLayout.LayoutParams(HackyDrawerLayout.LayoutParams.MATCH_PARENT,
+                            HackyDrawerLayout.LayoutParams.MATCH_PARENT));
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
