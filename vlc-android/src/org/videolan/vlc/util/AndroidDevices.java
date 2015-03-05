@@ -98,7 +98,7 @@ public class AndroidDevices {
 
         List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
         List<String> typeBL = Arrays.asList("tmpfs");
-        String[] mountWL = { "/mnt", "/Removable" };
+        String[] mountWL = { "/mnt", "/Removable", "/storage" };
         String[] mountBL = {
                 "/mnt/secure",
                 "/mnt/shell",
@@ -110,7 +110,7 @@ public class AndroidDevices {
         String[] deviceWL = {
                 "/dev/block/vold",
                 "/dev/fuse",
-                "/mnt/media_rw/extSdCard" };
+                "/mnt/media_rw" };
 
         try {
             bufReader = new BufferedReader(new FileReader("/proc/mounts"));
