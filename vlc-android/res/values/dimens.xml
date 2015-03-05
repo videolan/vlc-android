@@ -27,4 +27,8 @@
     <dimen name="media_ctrl_margin_top">20dp</dimen>
     <dimen name="tv_overscan_vertical">0dp</dimen>
     <dimen name="tv_overscan_horizontal">0dp</dimen>
+
+    <!-- Default -->
+    <dimen name="default_margin">16dp</dimen>
+
 </resources>

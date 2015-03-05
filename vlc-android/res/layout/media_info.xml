@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="36dp"
                 android:scaleType="fitCenter" />
 
             <ImageButton
@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:layout_marginRight="10dip"
-                android:background="@drawable/ic_play_circle"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_fab_play"
                 android:visibility="invisible" />
 
             <TextView
@@ -41,26 +41,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
-                android:layout_marginLeft="10dip"
-                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginBottom="36dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white"
+                android:text="length"
                 android:visibility="invisible"  />
         </FrameLayout>
         <TextView
             android:id="@+id/info_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginBottom="5dp"
+            android:text="info_path"
             android:layout_below="@+id/image_container"/>
         <TextView
             android:id="@+id/size_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/file_size"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginRight="5dp"
             android:layout_below="@+id/info_path"/>
         <TextView
@@ -78,19 +79,16 @@
             android:layout_toRightOf="@+id/size_value"
             android:src="@drawable/ic_audiosub_circle_normal_o"
             android:visibility="invisible"/>
-        <Button
+        <ImageButton
             android:id="@+id/info_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/default_margin"
             android:layout_below="@+id/info_path"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
             android:clickable="true"
-            android:text="@string/delete"
-            android:textColor="@color/blue"
-            android:textAllCaps="true"
-            tools:targetApi="11"
-            style="?android:attr/borderlessButtonStyle"/>
+            android:background="?attr/ic_trash_small_normal"
+            tools:targetApi="11"/>
     </RelativeLayout>
 
     <ListView

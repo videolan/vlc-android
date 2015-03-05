@@ -71,7 +71,7 @@ public class MediaInfoFragment extends ListFragment {
     private TextView mSizeView;
     private TextView mPathView;
     private ImageButton mPlayButton;
-    private Button mDelete;
+    private ImageButton mDelete;
     private ImageView mSubtitles;
     private Media mMedia;
     private MediaInfoAdapter mAdapter;
@@ -92,10 +92,8 @@ public class MediaInfoFragment extends ListFragment {
         mSizeView = (TextView) v.findViewById(R.id.size_value);
         mPathView = (TextView) v.findViewById(R.id.info_path);
         mPlayButton = (ImageButton) v.findViewById(R.id.play);
-        mDelete = (Button) v.findViewById(R.id.info_delete);
+        mDelete = (ImageButton) v.findViewById(R.id.info_delete);
         mSubtitles = (ImageView) v.findViewById(R.id.info_subtitles);
-        if (!LibVlcUtil.isICSOrLater())
-            mDelete.setText(getString(R.string.delete).toUpperCase(Locale.getDefault()));
 
         mPathView.setText(mItem == null ? "" : Uri.decode(mItem.getLocation().substring(7)));
         mPlayButton.setOnClickListener(new OnClickListener() {
