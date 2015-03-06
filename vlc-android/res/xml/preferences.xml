@@ -114,10 +114,10 @@
                     android:key="aout"
                     android:summary="@string/aout_summary"
                     android:title="@string/aout" />
-                <ListPreference
-                    android:key="vout"
-                    android:summary="@string/vout_summary"
-                    android:title="@string/vout" />
+                <!--<ListPreference-->
+                    <!--android:key="vout"-->
+                    <!--android:summary="@string/vout_summary"-->
+                    <!--android:title="@string/vout" />-->
 
                 <Preference
                     android:enabled="true"

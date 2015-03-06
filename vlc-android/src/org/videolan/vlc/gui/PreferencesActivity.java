@@ -236,13 +236,14 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
             group.removePreference(aoutPref);
         }
         // Video output
-        ListPreference voutPref = (ListPreference) findPreference("vout");
-        int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
-        int voutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
-        voutPref.setEntries(voutEntriesId);
-        voutPref.setEntryValues(voutEntriesIdValues);
-        if (voutPref.getValue() == null)
-            voutPref.setValue("0" /* VOUT_ANDROID_SURFACE */);
+//        FIXME : This setting is disable until OpenGL it's fixed
+//        ListPreference voutPref = (ListPreference) findPreference("vout");
+//        int voutEntriesId = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts : R.array.vouts_froyo;
+//        int voutEntriesIdValues = LibVlcUtil.isGingerbreadOrLater() ? R.array.vouts_values : R.array.vouts_values_froyo;
+//        voutPref.setEntries(voutEntriesId);
+//        voutPref.setEntryValues(voutEntriesIdValues);
+//        if (voutPref.getValue() == null)
+//            voutPref.setValue("0"  VOUT_ANDROID_SURFACE );
         // Set locale
         EditTextPreference setLocalePref = (EditTextPreference) findPreference("set_locale");
         setLocalePref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
