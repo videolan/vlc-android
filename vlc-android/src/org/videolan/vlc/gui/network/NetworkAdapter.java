@@ -68,10 +68,10 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MediaViewHolder) {
             MediaViewHolder vh = (MediaViewHolder) holder;
-            final MediaWrapper media = (MediaWrapper) getItem(position);
+            MediaWrapper media = (MediaWrapper) getItem(position);
             vh.title.setText(media.getTitle());
             vh.text.setVisibility(View.GONE);
             vh.icon.setImageResource(getIconResId(media));
@@ -79,10 +79,11 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (media.getType() == MediaWrapper.TYPE_DIR)
-                        fragment.browse(media);
+                    MediaWrapper mw = (MediaWrapper) getItem(holder.getPosition());
+                    if (mw.getType() == MediaWrapper.TYPE_DIR)
+                        fragment.browse(mw);
                     else
-                        Util.openMedia(v.getContext(), media);
+                        Util.openMedia(v.getContext(), mw);
                 }
             });
         } else {
@@ -149,6 +150,7 @@ public class NetworkAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void removeItem(int position){
         mMediaList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public Object getItem(int position){

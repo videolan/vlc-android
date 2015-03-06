@@ -23,7 +23,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,7 +59,7 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final String uri = mDataset.get(position);
         holder.uriTv.setText(uri);
         holder.uriTv.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +71,10 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaDatabase.getInstance().deleteMrlUri(uri);
-                mDataset.remove(position);
-                notifyDataSetChanged(); //because position is not updated
+                int pos = holder.getPosition();
+                MediaDatabase.getInstance().deleteMrlUri(mDataset.get(pos));
+                mDataset.remove(pos);
+                notifyItemRemoved(pos);
             }
         });
     }

@@ -162,7 +162,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     @Override
     public void onMediaRemoved(int index, Media media) {
-        //TODO
+        mAdapter.removeItem(index);
     }
 
     @Override
