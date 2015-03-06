@@ -18,11 +18,13 @@
 
     <style name="Theme.VLC.Apearance" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="android:expandableListViewStyle">@style/Theme.VLC.List</item>
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
+
 
         <item name="item_common_pressed">@color/item_common_pressed</item>
         <item name="item_common_selected">@color/item_common_selected</item>
@@ -93,6 +95,7 @@
 
     <style name="Theme.VLC.Apearance.Black" parent="Theme.AppCompat.NoActionBar">
         <item name="marginTopContent">50dp</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
 
         <item name="android:listViewStyle">@style/Theme.VLC.List</item>
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>

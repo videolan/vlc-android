@@ -7,5 +7,6 @@
     android:layout_height="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="?attr/toolbar_popup_style"
     android:background="?attr/background_actionbar"
     app:navigationIcon="?attr/homeAsUpIndicator"/>
