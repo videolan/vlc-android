@@ -27,7 +27,7 @@
         <item name="item_common_pressed">@color/item_common_pressed</item>
         <item name="item_common_selected">@color/item_common_selected</item>
         <item name="item_footer">@color/item_footer</item>
-        <item name="playlist_item_footer">@color/grey2</item>
+        <item name="playlist_item_footer">@color/item_footer</item>
         <item name="background_default">@color/grey50</item>
         <item name="background_default_darker">@color/grey100</item>
         <item name="background_actionbar">@color/darkorange</item>

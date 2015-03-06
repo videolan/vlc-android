@@ -23,7 +23,6 @@
         android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:gravity="center_vertical"
-        android:background="?attr/background_player"
         android:orientation="horizontal" >
 
         <org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher
@@ -93,8 +92,7 @@
         android:id="@+id/view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="?attr/background_playlist" >
+        android:layout_weight="1" >
 
         <org.videolan.vlc.gui.audio.AudioPlaylistView
             android:id="@+id/songs_list"
