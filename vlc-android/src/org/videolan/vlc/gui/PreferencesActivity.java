@@ -34,6 +34,7 @@ import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -81,6 +82,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* Theme must be applied before super.onCreate */
+        applyTheme();
+
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
@@ -146,6 +150,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         setResult(RESULT_RESTART);
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
                         return true;
                     }
                 });
@@ -274,6 +281,19 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         /*** SharedPreferences Listener to apply changes ***/
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void applyTheme() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
+        if (enableBlackTheme) {
+            setTheme(R.style.Theme_VLC_Black);
+            //We need to manually change statusbar color, otherwise, it remains orange.
+            if (LibVlcUtil.isLolliPopOrLater()) {
+                getWindow().setStatusBarColor(Color.DKGRAY);
+            }
+        }
     }
 
     @Override
