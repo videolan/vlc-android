@@ -24,17 +24,14 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.BitmapCache;
-import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -42,11 +39,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable.ConstantState;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -58,7 +53,6 @@ import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -283,16 +277,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
         sharedPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void applyTheme() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
         if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
-            //We need to manually change statusbar color, otherwise, it remains orange.
-            if (LibVlcUtil.isLolliPopOrLater()) {
-                getWindow().setStatusBarColor(Color.DKGRAY);
-            }
         }
     }
 
