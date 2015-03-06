@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_floating_play.svg"
+   sodipodi:docname="ic_fab_play.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -36,12 +36,12 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.5677083"
-     inkscape:cx="-88.623077"
-     inkscape:cy="50.80504"
+     inkscape:zoom="18.270833"
+     inkscape:cx="-11.34182"
+     inkscape:cy="21.656208"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
      inkscape:window-x="0"
@@ -81,7 +81,7 @@
        sodipodi:cy="56.362183"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       d="m 100,56.362183 a 10,10 0 1 1 -20,0 10,10 0 1 1 20,0 z" />
+       d="m 100,56.362183 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522848 4.477153,-10 10,-10 5.522847,0 10,4.477152 10,10 z" />
     <path
        d="m 100,56.362183 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522848 4.477153,-10 10,-10 5.522847,0 10,4.477152 10,10 z"
        sodipodi:ry="10"
