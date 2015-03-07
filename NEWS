@@ -1,9 +1,20 @@
-Changes between 1.1.2 and 1.1.3-git:
+Changes between 1.1.2 and 1.1.3:
 --------------------------------
 
+Core:
+ * Improve audiotrack performance and quality
+
 Main Application:
+ * SearchView in Material, new search look and performance
+ * New FAB to play all the songs
+ * Rework information panel
+ * Ellipsize long URLs in stream panel
+ * Improve dark theme
+ * Fix Moto G SD cards detection
  * Fix LG bug with menu button
- * Fix rare NPE for Samsung devices 
+ * Fix rare NPE for Samsung devices
+ * Fix numerous NPE and crashes
+
 
 Changes between 1.1.1 and 1.1.2:
 --------------------------------
