@@ -142,9 +142,6 @@
     <string name="enable_time_stretching_audio">Anejbud n wakud n imesli</string>
     <string name="advanced_prefs_category">Anaẓi</string>
     <string name="aout">Imesli n tuffɣa</string>
-    <string name="aout_audiotrack">AudioTrack (native)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">Vidyu n tuffɣa</string>
     <string name="vout_summary">Beddel tarayt n VLC i tuffɣa n vidyu.</string>
     <string name="vout_android_surface">Tajuma n Android </string>
