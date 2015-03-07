@@ -246,7 +246,4 @@
     <string name="sending_log">Sendi annál…</string>
     <string name="drawer_open">Opna hliðarvalmynd</string>
     <string name="drawer_close">Loka hliðarvalmynd</string>
-    <string name="new_app">Ný útgáfa forrits tiltæk</string>
-    <string name="new_app_msg">Prófunum á VLC fyrir Android Beta er lokið. Héðan í frá verða einungis gefnar út nýjar útgáfur fyrir nýja forritið.</string>
-    <string name="new_app_go">Sækja það</string>
 </resources>
