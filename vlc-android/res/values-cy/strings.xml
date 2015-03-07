@@ -264,7 +264,4 @@
     <string name="sending_log">Yn anfon y log…</string>
     <string name="drawer_open">Agor blwch llywio</string>
     <string name="drawer_close">Cau blwch llywio</string>
-    <string name="new_app">Aplen newydd ar gael</string>
-    <string name="new_app_msg">Mae profion VLC Android Beta wedi dod i ben. Gosodwch yr aplen VLC newydd i gadw i fyny a diweddariadau.</string>
-    <string name="new_app_go">Cael yr aplen newydd</string>
 </resources>
