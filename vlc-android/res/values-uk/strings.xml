@@ -112,6 +112,8 @@
     <string name="sound_on">Звук увімкн.</string>
     <string name="sound_off">Звук вимкн.</string>
     <string name="brightness">Яскравість</string>
+    <string name="navmenu">меню навігації</string>
+    <string name="advanced">додаткові параметри</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 канал\n</item>
         <item quantity="few">%1$d канали\n</item>
@@ -146,6 +148,7 @@
     <string name="video_player_tips">Поради для відеопрогравача:</string>
     <string name="seek">Шукати</string>
     <string name="subtitles">Субтитри</string>
+    <string name="audio_sub">звукові доріжки\n\nта субтитри</string>
     <string name="resize">Змінити розміри</string>
     <string name="options">Параметри</string>
     <string name="lock">Блокувати</string>
@@ -178,6 +181,12 @@
     <string name="hardware_acceleration_disabled">Вимкнено</string>
     <string name="hardware_acceleration_decoding">Програмне прискорення</string>
     <string name="hardware_acceleration_full">Повне прискорення</string>
+    <string name="dev_hardware_decoder">Розширений апаратний декодер</string>
+    <string name="dev_hardware_decoder_summary">Примусовий апаратний декодер, тільки для досвідчених користувачів</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">медіакодек</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">медіакодек-dr</string>
     <string name="automatic">Автоматично</string>
     <string name="screen_orientation">Орієнтація екрану</string>
     <string name="screen_orientation_sensor">Автоматична (датчик)</string>
@@ -200,6 +209,8 @@
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_jump_buttons">Увімкнути кнопки переходів</string>
     <string name="enable_jump_buttons_summary">Показувати кнопки переходу вперед і назад на відеоінтерфейсі</string>
+    <string name="force_list_portrait">Немає сітки у портретному режимі</string>
+    <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
     <string name="audio_title_alignment">Вирівнювання заголовків аудіо</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
     <string name="enable_headset_detection_summary">Пауза при вийманні гарнітури; відновлення при підключенні гарнітури</string>
@@ -244,6 +255,8 @@
     <string name="start_logging">Почати запис у журнал</string>
     <string name="stop_logging">Зупинити запис у журнал</string>
     <string name="clear_log">Очистити журнал</string>
+    <string name="log_service_title">запис журналів VLC</string>
+    <string name="log_service_text">Відкрити консоль журналу</string>
     <string name="copy_to_clipboard">Копіювати у буфер обміну</string>
     <string name="copied_to_clipboard">Скопійовано журнал у буфер обміну.</string>
     <string name="quit">Вийти і перезапустити програму</string>
@@ -257,7 +270,13 @@
     <string name="sending_log">Відправка журналу...</string>
     <string name="drawer_open">Відкрити меню навігації</string>
     <string name="drawer_close">Закрити меню навігації</string>
-    <string name="new_app">Доступна нова програма</string>
-    <string name="new_app_msg">Бета-тестування VLC для Android вже завершилося. Від нині лише нові версії будуть виходити для цієї програми.</string>
-    <string name="new_app_go">Отримати її</string>
+    <string name="network_browsing">Локальна мережа</string>
+    <string name="file_size">Розмір файлу:</string>
+    <string name="file_other">Закрити меню навігації</string>
+    <string name="audio_delay">Затримка звуку</string>
+    <string name="spu_delay">Затримка субтитрів</string>
+    <string name="network_shares_discovery">Пошук мережних дисків…</string>
+    <string name="network_empty">Цей каталог - порожній.</string>
+    <string name="network_connection_needed">Немає з\'єднання до локальної мережі</string>
+    <string name="search_hint">Пошук медіа</string>
 </resources>
