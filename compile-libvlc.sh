@@ -485,7 +485,7 @@ mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 # CONFIGURE #
 #############
 
-if [ ! -e ./config.h ]; then
+if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 if [ "${CHROME_OS}" = "1" ];then
     # chrome OS doesn't have eventfd
     export ac_cv_func_eventfd=no
