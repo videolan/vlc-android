@@ -250,7 +250,4 @@
     <string name="sending_log">Skickar loggen...</string>
     <string name="drawer_open">Öppna navigeringsmenyn</string>
     <string name="drawer_close">Stäng navigeringsmenyn</string>
-    <string name="new_app">Ny app tillgänglig</string>
-    <string name="new_app_msg">Betatestet av VLC för Android är slut. Från och med nu kommer nya versioner endast att publiceras för den nya appen.</string>
-    <string name="new_app_go">Hämta den</string>
 </resources>
