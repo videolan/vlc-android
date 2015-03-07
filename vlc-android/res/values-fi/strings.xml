@@ -253,4 +253,7 @@
     <string name="sending_log">Lähetetään lokitiedostoa...</string>
     <string name="drawer_open">Avaa navigointilaatikko</string>
     <string name="drawer_close">Sulje navigointilaatikko</string>
+    <string name="new_app">Uusi ohjelma saatavilla</string>
+    <string name="new_app_msg">VLC Android:n betatesti on päättynyt. Tästä eteenpäin julkaistaan vain uusia versioita ohjelmasta.</string>
+    <string name="new_app_go">Mene ja hanki se</string>
 </resources>
