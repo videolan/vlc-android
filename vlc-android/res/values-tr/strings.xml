@@ -250,7 +250,4 @@
     <string name="sending_log">Günlük gönderiliyor...</string>
     <string name="drawer_open">Gezinme çekmecesini açın</string>
     <string name="drawer_close">Gezinme çekmecesini kapatın</string>
-    <string name="new_app">Yeni Bir Uygulama Yayınlanmış</string>
-    <string name="new_app_msg">Android için VLC Beta sınaması sona erdi. Bundan sonra yeni sürümler yalnız yeni uygulama için yayınlanacak.</string>
-    <string name="new_app_go">Gidip yükleyin</string>
 </resources>
