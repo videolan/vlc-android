@@ -163,9 +163,6 @@
     <string name="enable_time_stretching_audio">Habilitar espansión de tiempu d\'audio</string>
     <string name="advanced_prefs_category">Avanzaes</string>
     <string name="aout">Salida d\'audio</string>
-    <string name="aout_audiotrack">AudioTrack (nativu)</string>
-    <string name="aout_audiotrack_java">AudioTrack (Java)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="clear_media_db">Llimpiar base de datos de medios</string>
     <string name="clear_history">Llimpiar historial de gueta</string>
     <string name="media_db_cleared">Llimpióse la base de datos de medios!</string>
