@@ -150,7 +150,7 @@
     <string name="audio_player_tips">Audiowiedergabetipps</string>
     <string name="previous_next_song">Vorheriges/Nächstes Lied</string>
     <string name="show_playlist">Wiedergabeliste anzeigen</string>
-    <string name="hold_to_stop">Zum Stoppen gedrückt halten</string>
+    <string name="hold_to_stop">Zum Anhalten gedrückt halten</string>
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
     <string name="licence">Lizenz</string>
@@ -173,14 +173,14 @@
     <string name="hardware_acceleration_full">Volle Beschleunigung</string>
     <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Bildschirmausrichtung</string>
-    <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
+    <string name="screen_orientation_sensor">Sensorausrichtung</string>
     <string name="screen_orientation_start_lock">Beim Start gesperrt</string>
     <string name="screen_orientation_portrait">Hochformat</string>
     <string name="screen_orientation_landscape">Querformat</string>
     <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
     <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
     <string name="enable_black_theme">Schwarzes Design aktivieren</string>
-    <string name="enable_black_theme_summary">Ändert die Schnittstellen-Farben für eine bessere Annehmlichkeit in lichtschwachen Umgebungen.</string>
+    <string name="enable_black_theme_summary">Die Schnittstellenfarben ändern, um eine bessere Annehmlichkeit in lichtschwachen Umgebungen zu erreichen.</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="extra_prefs_category">Extra-Einstellungen</string>
     <string name="interface_prefs_screen">Schnittstelle</string>
@@ -212,7 +212,7 @@
     <string name="deblocking_nonref">Mittlere Entblockung</string>
     <string name="deblocking_nonkey">Niedrige Entblockung</string>
     <string name="deblocking_all">Keine Entblockung (am schnellsten)</string>
-    <string name="enable_frame_skip">Frame überspringen aktivieren</string>
+    <string name="enable_frame_skip">Bildsprung aktivieren</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
     <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern  (erfordert ein schnelles Gerät).</string>
@@ -238,7 +238,7 @@
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Protokolls erhöhen (Logcat)</string>
     <string name="debug_logs">Fehlerprotokolle</string>
     <string name="start_logging">Protokollierung starten</string>
-    <string name="stop_logging">Protokollierung stoppen</string>
+    <string name="stop_logging">Protokollierung anhalten</string>
     <string name="clear_log">Protokoll löschen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
