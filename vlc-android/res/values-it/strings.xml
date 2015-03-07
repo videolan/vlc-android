@@ -80,7 +80,7 @@
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
-    <string name="cover_art">Copeertina</string>
+    <string name="cover_art">Copertina</string>
     <string name="shuffle">Mescola</string>
     <string name="repeat">Ripeti nessuna/singola/tutte</string>
     <string name="previous">Precedente</string>
@@ -106,6 +106,8 @@
     <string name="sound_on">Suono On</string>
     <string name="sound_off">Suono Off</string>
     <string name="brightness">Luminosità</string>
+    <string name="navmenu">menu di navigazione</string>
+    <string name="advanced">opzioni avanzate</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
         <item quantity="other">%1$d canali\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>
     <string name="subtitles">Sottotitoli</string>
+    <string name="audio_sub">Tracce audio\ne sottotitoli</string>
     <string name="resize">Ridimensiona</string>
     <string name="options">Opzioni</string>
     <string name="lock">Blocca</string>
@@ -152,7 +155,7 @@
     <string name="show_playlist">Mostra scaletta</string>
     <string name="hold_to_stop">Trattieni per fermare</string>
     <!-- About -->
-    <string name="app_name_full">VLC per Android™</string>
+    <string name="app_name_full">VLC per Android</string>
     <string name="licence">Licenza</string>
     <string name="revision">Revisione</string>
     <string name="about">Informazioni</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Disabilitata</string>
     <string name="hardware_acceleration_decoding">Accelerazione decodifica</string>
     <string name="hardware_acceleration_full">Accelerazione completa</string>
+    <string name="dev_hardware_decoder">Decodificatore hardware avanzato</string>
+    <string name="dev_hardware_decoder_summary">Forza decodificatore hardware, solo per utenti avanzati</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatico</string>
     <string name="screen_orientation">Orientamento dello schermo</string>
     <string name="screen_orientation_sensor">Automatico (sensore)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Controlla la luminosità tramite gesti durante la riproduzione video</string>
     <string name="enable_jump_buttons">Abilita i pulsanti di avanzamento</string>
     <string name="enable_jump_buttons_summary">Mostra i pulsanti di avanzamento nell\'interfaccia video</string>
+    <string name="force_list_portrait">Nessuna griglia in modalità verticale</string>
+    <string name="force_list_portrait_summary">Mostra un elenco di video invece della griglia in modalità verticale</string>
     <string name="audio_title_alignment">Allineamento titolo audio</string>
     <string name="enable_headset_detection">Rileva le cuffie</string>
     <string name="enable_headset_detection_summary">Pausa alla rimozione delle cuffie; riprendi all\'inserimento</string>
@@ -204,7 +215,7 @@
     <string name="audio_title_alignment_right">Destra</string>
     <string name="audio_title_alignment_marquee">Testo in sovraimpressione</string>
     <string name="performance_prefs_category">Prestazioni</string>
-    <string name="chroma_format">Forza croma</string>
+    <string name="chroma_format">Forza crominanza video</string>
     <string name="chroma_format_summary">RGB 32-bit: croma predefinita\nRGB 16-bit: migliori prestazioni, ma qualità inferiore\nYUV: migliori prestazioni, ma non funziona su tutti i dispositivi. Solo Android 2.3 e successivi.</string>
     <string name="deblocking">Impostazioni filtro di deblock</string>
     <string name="deblocking_summary">Cambia le impostazioni del filtro di deblock. Potrebbe migliorare la qualità video. Solo per utenti avanzati.</string>
@@ -237,10 +248,12 @@
     <string name="start_logging">Avvia la scrittura del log</string>
     <string name="stop_logging">Ferma la scrittura del log</string>
     <string name="clear_log">Cancella il log</string>
+    <string name="log_service_title">Registrazione log di VLC</string>
+    <string name="log_service_text">Apri la console dei log</string>
     <string name="copy_to_clipboard">Copia negli appunti</string>
     <string name="copied_to_clipboard">Log copiato negli appunti.</string>
     <string name="quit">Esci e riavvia l\'applicazione</string>
-    <string name="dump_logcat">Salva log logcat</string>
+    <string name="dump_logcat">Salva log di logcat</string>
     <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
     <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
@@ -250,7 +263,13 @@
     <string name="sending_log">Invio del registro in corso...</string>
     <string name="drawer_open">Apri cassetto di navigazione</string>
     <string name="drawer_close">Chiudi cassetto di navigazione</string>
-    <string name="new_app">Nuova applicazione disponibile</string>
-    <string name="new_app_msg">La fase di beta test di VLC per Android è terminata. Da ora in poi, le nuove versioni saranno pubblicate solo per la nuova applicazione</string>
-    <string name="new_app_go">Scaricala</string>
+    <string name="network_browsing">Rete locale</string>
+    <string name="file_size">Dimensione file:</string>
+    <string name="file_other">Chiudi cassetto di navigazione</string>
+    <string name="audio_delay">Ritardo audio</string>
+    <string name="spu_delay">Ritardo sottotitoli</string>
+    <string name="network_shares_discovery">Ricerca condivisioni di rete in corso...</string>
+    <string name="network_empty">Questa cartella è vuota.</string>
+    <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
+    <string name="search_hint">Cerca media</string>
 </resources>
