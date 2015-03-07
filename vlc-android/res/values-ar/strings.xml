@@ -278,7 +278,4 @@
     <string name="sending_log">يجري إرسال التقرير...</string>
     <string name="drawer_open">افتح ساحب التصفح</string>
     <string name="drawer_close">أغلق ساحب التصفح</string>
-    <string name="new_app">هناك تطبيق جديد</string>
-    <string name="new_app_msg">انتهت المرحلة التجريبية (بيتا) لتطبيق VLC. من الآن فصاعداً ستتوفر إصدارات جديدة من التطبيق الجديد فقط.</string>
-    <string name="new_app_go">احصل عليه</string>
 </resources>
