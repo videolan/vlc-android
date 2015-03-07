@@ -250,7 +250,4 @@
     <string name="sending_log">Envoi du rapport...</string>
     <string name="drawer_open">Ouvrir le volet de navigation</string>
     <string name="drawer_close">Fermer le volet de navigation</string>
-    <string name="new_app">Nouvelle application disponible</string>
-    <string name="new_app_msg">Le test de VLC pour Android beta est désormais terminé. À partir de maintenant, les nouvelles versions seront uniquement publiées pour la nouvelle application.</string>
-    <string name="new_app_go">Téléchargez la !</string>
 </resources>
