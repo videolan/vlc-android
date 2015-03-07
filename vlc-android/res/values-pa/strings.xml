@@ -177,9 +177,6 @@
     <string name="performance_prefs_category">ਕਾਰਗੁਜ਼ਾਰੀ</string>
     <string name="advanced_prefs_category">ਤਕਨੀਕੀ</string>
     <string name="aout">ਆਡੀਓ ਇਨਪੁਟ</string>
-    <string name="aout_audiotrack">ਆਡੀਓ ਟਰੈਕ (ਨੇਟਿਵ)</string>
-    <string name="aout_audiotrack_java">ਆਡੀਓਟਰੈਕ (ਜਾਵਾ)</string>
-    <string name="aout_opensles">OpenSL ES</string>
     <string name="vout">ਵਿਡੀਓ ਆਉਟਪੁੱਟ</string>
     <string name="vout_android_surface">ਐਂਡਰਾਇਡ ਇੰਟਰਫੇਸ</string>
     <string name="clear_media_db">ਮੀਡੀਆ ਡਾਟਾਬੇਸ ਸਾਫ਼ ਕਰੋ</string>
@@ -200,6 +197,4 @@
     <string name="quit">ਬਾਹਰ ਜਾਉ ਅਤੇ ਐਪਲੀਕੇਸ਼ਨ ਨੂੰ ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="restart_vlc">VLC ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="send_log">ਲਾਗ ਭੇਜੋ</string>
-    <string name="new_app">ਨਵੀਂ ਐਪਲੀਕੇਸ਼ਨ ਮੌਜੂਦ ਹੈ</string>
-    <string name="new_app_go">ਇਹ ਲਵੋ</string>
 </resources>
