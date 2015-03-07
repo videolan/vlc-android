@@ -250,7 +250,4 @@
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται...</string>
     <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
-    <string name="new_app">Νέα εφαρμογή είναι διαθέσιμη</string>
-    <string name="new_app_msg">Τα τεστ της Beta έκδοσης του VLC για Android έχουν τελειώσει. Από εδώ και πέρα, οι νέες εκδόσεις θα δημοσιεύονται μόνο για τη νέα εφαρμογή.</string>
-    <string name="new_app_go">Πάρτε το</string>
 </resources>
