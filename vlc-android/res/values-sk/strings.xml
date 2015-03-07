@@ -112,6 +112,8 @@
     <string name="sound_on">Zap. zvuk</string>
     <string name="sound_off">Vyp. zvuk</string>
     <string name="brightness">Jas</string>
+    <string name="navmenu">navigačné menu</string>
+    <string name="advanced">pokročilé nastavenia</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
         <item quantity="few">%1$d kanály\n</item>
@@ -146,6 +148,7 @@
     <string name="video_player_tips">Tipy pre prehrávač videa:</string>
     <string name="seek">Vyhľadať</string>
     <string name="subtitles">Titulky</string>
+    <string name="audio_sub">Zvukové stopy\na titulky</string>
     <string name="resize">Zmeniť veľkosť</string>
     <string name="options">Vlastnosti</string>
     <string name="lock">Uzamknút</string>
@@ -178,6 +181,12 @@
     <string name="hardware_acceleration_disabled">Vypnuté</string>
     <string name="hardware_acceleration_decoding">Akcelerácia dekódovania</string>
     <string name="hardware_acceleration_full">Úplná akcelerácia</string>
+    <string name="dev_hardware_decoder">Pokročilý hardvérový dekodér</string>
+    <string name="dev_hardware_decoder_summary">Vynútiť si hardvérový dekodér, len pre pokročilých používateľov</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automaticky</string>
     <string name="screen_orientation">Orientácia obrazovky s videom</string>
     <string name="screen_orientation_sensor">Automaticky (podľa senzora)</string>
@@ -200,6 +209,8 @@
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_jump_buttons">Zapnúť tlačidlá pre preskakovanie</string>
     <string name="enable_jump_buttons_summary">Zobraziť tlačidlá na posúvanie dopredu/dozadu v rozhraní s videom</string>
+    <string name="force_list_portrait">Bez mriežky v režime portrétov</string>
+    <string name="force_list_portrait_summary">Zobraziť videá v režime portrétov, bez mriežky</string>
     <string name="audio_title_alignment">Zarovnanie titulu zvuku</string>
     <string name="enable_headset_detection">Detegovať headset</string>
     <string name="enable_headset_detection_summary">Pozastaviť pri odpojení headsetu; pokračovať pri pripojení headsetu</string>
@@ -244,6 +255,8 @@
     <string name="start_logging">Spustiť zaznamenávanie</string>
     <string name="stop_logging">Zastaviť zaznamenávanie</string>
     <string name="clear_log">Vyčistiť záznam</string>
+    <string name="log_service_title">Nahrávanie záznamov VLC</string>
+    <string name="log_service_text">Otvoriť konzolu pre záznamy</string>
     <string name="copy_to_clipboard">Kopírovať do schránky</string>
     <string name="copied_to_clipboard">Záznam bol skopírovaný do schránky.</string>
     <string name="quit">Ukončiť a reštartovať aplikáciu</string>
@@ -257,4 +270,9 @@
     <string name="sending_log">Odosiela sa záznam...</string>
     <string name="drawer_open">Otvoriť vykresľovač navigovania</string>
     <string name="drawer_close">Zatvoriť vykresľovač navigovania</string>
+    <string name="network_browsing">Lokálna sieť</string>
+    <string name="file_size">Veľkosť súboru:</string>
+    <string name="file_other">Zatvoriť vykresľovač navigovania</string>
+    <string name="audio_delay">Oneskorenie zvuku</string>
+    <string name="spu_delay">Oneskorenei titulkov</string>
 </resources>
