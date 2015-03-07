@@ -100,6 +100,8 @@
     <string name="sound_on">サウンドオン</string>
     <string name="sound_off">サウンドオフ</string>
     <string name="brightness">明るさ</string>
+    <string name="navmenu">ナビゲーションメニュー</string>
+    <string name="advanced">詳細設定オプション</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d チャンネル\n</item>
     </plurals>
@@ -132,6 +134,7 @@
     <string name="video_player_tips">ビデオプレイヤーのTips:</string>
     <string name="seek">シーク</string>
     <string name="subtitles">字幕</string>
+    <string name="audio_sub">オーディオトラック\n字幕</string>
     <string name="resize">リサイズ</string>
     <string name="options">オプション</string>
     <string name="lock">ロック</string>
@@ -164,6 +167,12 @@
     <string name="hardware_acceleration_disabled">無効</string>
     <string name="hardware_acceleration_decoding">デコーディングアクセラレーション</string>
     <string name="hardware_acceleration_full">フルアクセラレーション</string>
+    <string name="dev_hardware_decoder">拡張ハードウェアデコーダー</string>
+    <string name="dev_hardware_decoder_summary">ハードウェアデコーダーの強制適用、アドバンスドユーザー向け</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">メディアコーデック</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">メディアコーデックdr</string>
     <string name="automatic">自動</string>
     <string name="screen_orientation">スクリーンの方向</string>
     <string name="screen_orientation_sensor">自動 (センサー)</string>
@@ -186,6 +195,8 @@
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
     <string name="enable_jump_buttons">ジャンプボタンを有効にする</string>
     <string name="enable_jump_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
+    <string name="force_list_portrait">ポートレートモードではグリッド表示はありません</string>
+    <string name="force_list_portrait_summary">ポートレートモードではビデオをグリッド表示ではなく、リスト形式で表示します</string>
     <string name="audio_title_alignment">オーディオタイトルの位置合わせ</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
     <string name="enable_headset_detection_summary">ヘッドセットの取り外しで一時停止、取り付けで再開</string>
@@ -230,6 +241,8 @@
     <string name="start_logging">ログを開始</string>
     <string name="stop_logging">ログを停止</string>
     <string name="clear_log">ログを消去</string>
+    <string name="log_service_title">VLCログの記録</string>
+    <string name="log_service_text">ログコンソールを開く</string>
     <string name="copy_to_clipboard">クリップボードにコピー</string>
     <string name="copied_to_clipboard">クリップボードにコピーされたログ</string>
     <string name="quit">アプリケーションを再起動</string>
@@ -243,7 +256,13 @@
     <string name="sending_log">ログを送信中...</string>
     <string name="drawer_open">ナビゲーションドロワーを開く</string>
     <string name="drawer_close">ナビゲーションドロワーを閉じる</string>
-    <string name="new_app">新しいアプリケーションが利用可能です。</string>
-    <string name="new_app_msg">VLC doe Androidのベータテストが終了しました。これより新しいバージョンが新しいアプリケーションとして公開されます。</string>
-    <string name="new_app_go">それを入手</string>
+    <string name="network_browsing">ローカルネットワーク</string>
+    <string name="file_size">ファイルサイズ:</string>
+    <string name="file_other">ナビゲーションドロワーを閉じる</string>
+    <string name="audio_delay">オーディオの遅延</string>
+    <string name="spu_delay">字幕の遅延</string>
+    <string name="network_shares_discovery">ネットワーク共有の検索...</string>
+    <string name="network_empty">このディレクトリは空です。</string>
+    <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
+    <string name="search_hint">メディアの検索</string>
 </resources>
