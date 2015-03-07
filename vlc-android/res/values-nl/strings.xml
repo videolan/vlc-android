@@ -106,6 +106,8 @@
     <string name="sound_on">Geluid aan</string>
     <string name="sound_off">Geluid uit</string>
     <string name="brightness">Helderheid</string>
+    <string name="navmenu">navigatiemenu</string>
+    <string name="advanced">geavanceerde opties</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanaal\n</item>
         <item quantity="other">%1$d kanalen\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Videospeler-tips:</string>
     <string name="seek">Zoeken</string>
     <string name="subtitles">Ondertitels</string>
+    <string name="audio_sub">Audiosporen\nen ondertitels</string>
     <string name="resize">Formaat wijzigen</string>
     <string name="options">Opties</string>
     <string name="lock">Vergrendelen</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Uitgeschakeld</string>
     <string name="hardware_acceleration_decoding">Decodeerversnelling</string>
     <string name="hardware_acceleration_full">Volledige versnelling</string>
+    <string name="dev_hardware_decoder">Geavanceerde hardware-decoder</string>
+    <string name="dev_hardware_decoder_summary">Hardware-decoder forceren, alleen voor geavanceerde gebruikers</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Scherm-oriëntatie</string>
     <string name="screen_orientation_sensor">Sensor-oriëntatie</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Helderheid aanpassen door middel van gebaren tijdens afspelen van video</string>
     <string name="enable_jump_buttons">Sprong-knoppen inschakelen</string>
     <string name="enable_jump_buttons_summary">Achterwaarts- en voorwaarts-knoppen weergeven op de video-interface</string>
+    <string name="force_list_portrait">Geen raster in staande modus</string>
+    <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
     <string name="audio_title_alignment">Audiotitel-oriëntatie</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
     <string name="enable_headset_detection_summary">Pauzeren als hoofdtelefoon verwijderd wordt; hervatten bij verbinden van hoofdtelefoon</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">Start loggen</string>
     <string name="stop_logging">Stop loggen</string>
     <string name="clear_log">Log wissen</string>
+    <string name="log_service_title">VLC log-opname</string>
+    <string name="log_service_text">Log-console openen</string>
     <string name="copy_to_clipboard">Naar klembord kopiëren</string>
     <string name="copied_to_clipboard">Log naar klembord gekopieerd.</string>
     <string name="quit">Toepassing afsluiten en opnieuw starten</string>
@@ -250,7 +263,13 @@
     <string name="sending_log">Log verzenden...</string>
     <string name="drawer_open">Navigatielade openen</string>
     <string name="drawer_close">Navigatielade sluiten</string>
-    <string name="new_app">Nieuwe toepassing beschikbaar</string>
-    <string name="new_app_msg">De test voor VLC voor Android bèta is geëindigd. Vanaf nu zullen alleen nieuwe versies gepubliceerd worden voor de nieuwe toepassing.</string>
-    <string name="new_app_go">Nu ophalen</string>
+    <string name="network_browsing">Lokaal netwerk</string>
+    <string name="file_size">Bestandsgrootte</string>
+    <string name="file_other">Navigatielade sluiten</string>
+    <string name="audio_delay">Audiovertraging</string>
+    <string name="spu_delay">Ondertitelvertraging</string>
+    <string name="network_shares_discovery">Zoeken naar gedeelde netwerkbestanden...</string>
+    <string name="network_empty">Deze map is leeg.</string>
+    <string name="network_connection_needed">Geen verbinding met lokaal netwerk.</string>
+    <string name="search_hint">Media zoeken</string>
 </resources>
