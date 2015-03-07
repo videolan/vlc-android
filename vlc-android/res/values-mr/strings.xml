@@ -250,7 +250,4 @@
     <string name="sending_log">लॉग पाठवत आहे…</string>
     <string name="drawer_open">नेव्हिगेशन ड्रॉवर उघडा</string>
     <string name="drawer_close">नेव्हिगेशन ड्रॉवर बंद करा</string>
-    <string name="new_app">नवीन सॉफ्टवेअर प्रोग्राम उपलब्ध</string>
-    <string name="new_app_msg">Android बीटा ची चाचणी, VLC साठी समाप्त झाले आहे. आता, नवीन वर्जन केवळ नवीन अप्लिकेशन साठी प्रकाशित केले जाईल.</string>
-    <string name="new_app_go">घ्या</string>
 </resources>
