@@ -257,7 +257,4 @@
     <string name="sending_log">Wysyłanie dziennika…</string>
     <string name="drawer_open">Otwórz listwę nawigacyjną</string>
     <string name="drawer_close">Zamknij listwę nawigacyjną</string>
-    <string name="new_app">Dostępna jest nowa aplikacja</string>
-    <string name="new_app_msg">Test Android Beta dla VLC zakończył się. Od teraz, nowe wersje będą publikowane tylko dla nowej aplikacji.</string>
-    <string name="new_app_go">Pobierz ją</string>
 </resources>
