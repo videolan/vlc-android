@@ -250,7 +250,4 @@
     <string name="sending_log">Sender loggen ...</string>
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
-    <string name="new_app">Et nyt program er tilgængeligt</string>
-    <string name="new_app_msg">Betatesten af VLC til Android er afsluttet. Fremover vil nye versioner blive udgivet for de nye programmer.</string>
-    <string name="new_app_go">Hent det</string>
 </resources>
