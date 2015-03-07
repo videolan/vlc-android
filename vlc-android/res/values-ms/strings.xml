@@ -243,7 +243,4 @@
     <string name="sending_log">Menghantar log...</string>
     <string name="drawer_open">Buka laci navigasi</string>
     <string name="drawer_close">Tutup laci navigasi</string>
-    <string name="new_app">Aplikasi baharu tersedia</string>
-    <string name="new_app_msg">VLC untuk pengujian Android Beta telah tamat. Buat masa ini, versi baharu hanay akan dikeluarkan untuk aplikasi baharu.</string>
-    <string name="new_app_go">Pergi dapatkannya</string>
 </resources>
