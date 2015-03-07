@@ -106,6 +106,8 @@
     <string name="sound_on">Ton an</string>
     <string name="sound_off">Ton aus</string>
     <string name="brightness">Helligkeit</string>
+    <string name="navmenu">Navigationsmenü</string>
+    <string name="advanced">Erweiterte Optionen</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 Kanal\n</item>
         <item quantity="other">%1$d Kanäle\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
     <string name="subtitles">Untertitel</string>
+    <string name="audio_sub">Audiotitel\nund Untertitel</string>
     <string name="resize">Ändern der Größe</string>
     <string name="options">Optionen</string>
     <string name="lock">Sperren</string>
@@ -150,7 +153,7 @@
     <string name="audio_player_tips">Audiowiedergabetipps</string>
     <string name="previous_next_song">Vorheriges/Nächstes Lied</string>
     <string name="show_playlist">Wiedergabeliste anzeigen</string>
-    <string name="hold_to_stop">Zum Stoppen gedrückt halten</string>
+    <string name="hold_to_stop">Zum Anhalten gedrückt halten</string>
     <!-- About -->
     <string name="app_name_full">VLC für Android™</string>
     <string name="licence">Lizenz</string>
@@ -171,16 +174,22 @@
     <string name="hardware_acceleration_disabled">Deaktiviert</string>
     <string name="hardware_acceleration_decoding">Dekodierbeschleunigung</string>
     <string name="hardware_acceleration_full">Volle Beschleunigung</string>
+    <string name="dev_hardware_decoder">Erweiteter Hardware-Dekoder</string>
+    <string name="dev_hardware_decoder_summary">Hardware-Dekoder erzwingen, nur für fortgeschrittene Nutzer</string>
+    <string name="dev_hardware_decoder_omx">IOMX</string>
+    <string name="dev_hardware_decoder_omx_dr">IOMX-DR</string>
+    <string name="dev_hardware_decoder_mediacodec">MEDIACODEC</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">MEDIACODEC-DR</string>
     <string name="automatic">Automatisch</string>
     <string name="screen_orientation">Bildschirmausrichtung</string>
-    <string name="screen_orientation_sensor">Sensor-Ausrichtung</string>
+    <string name="screen_orientation_sensor">Sensorausrichtung</string>
     <string name="screen_orientation_start_lock">Beim Start gesperrt</string>
     <string name="screen_orientation_portrait">Hochformat</string>
     <string name="screen_orientation_landscape">Querformat</string>
     <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
     <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
     <string name="enable_black_theme">Schwarzes Design aktivieren</string>
-    <string name="enable_black_theme_summary">Ändert die Schnittstellen-Farben für eine bessere Annehmlichkeit in lichtschwachen Umgebungen.</string>
+    <string name="enable_black_theme_summary">Die Schnittstellenfarben ändern, um eine bessere Annehmlichkeit in lichtschwachen Umgebungen zu erreichen.</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="extra_prefs_category">Extra-Einstellungen</string>
     <string name="interface_prefs_screen">Schnittstelle</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_jump_buttons">Sprungknöpfe aktivieren</string>
     <string name="enable_jump_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Video anzeigen</string>
+    <string name="force_list_portrait">Kein Gitter im Portraitmodus</string>
+    <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portraitmodus anzeigen</string>
     <string name="audio_title_alignment">Audiotitelausrichtung</string>
     <string name="enable_headset_detection">Kopfhörer erkennen</string>
     <string name="enable_headset_detection_summary">Pause beim Entfernen der Kopfhörer; beim Einstecken fortsetzen</string>
@@ -212,7 +223,7 @@
     <string name="deblocking_nonref">Mittlere Entblockung</string>
     <string name="deblocking_nonkey">Niedrige Entblockung</string>
     <string name="deblocking_all">Keine Entblockung (am schnellsten)</string>
-    <string name="enable_frame_skip">Frame überspringen aktivieren</string>
+    <string name="enable_frame_skip">Bildsprung aktivieren</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
     <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern  (erfordert ein schnelles Gerät).</string>
@@ -235,8 +246,10 @@
     <string name="enable_verbose_mode_summary">Ausführlichkeit des Protokolls erhöhen (Logcat)</string>
     <string name="debug_logs">Fehlerprotokolle</string>
     <string name="start_logging">Protokollierung starten</string>
-    <string name="stop_logging">Protokollierung stoppen</string>
+    <string name="stop_logging">Protokollierung anhalten</string>
     <string name="clear_log">Protokoll löschen</string>
+    <string name="log_service_title">VLC-Logs aufzeichnen</string>
+    <string name="log_service_text">Log-Konsole öffnen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
     <string name="quit">Anwendung beenden und neustarten</string>
@@ -250,7 +263,13 @@
     <string name="sending_log">Fehlerbericht wird gesendet …</string>
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
-    <string name="new_app">Neue Anwendung verfügbar</string>
-    <string name="new_app_msg">Der VLC für Android Beta-Test wurde beendet. Ab jetzt werden neue Versionen nur für neue Anwendungen veröffentlicht.</string>
-    <string name="new_app_go">Los, holen Sie es sich</string>
+    <string name="network_browsing">Lokales Netzwerk</string>
+    <string name="file_size">Dateigröße:</string>
+    <string name="file_other">Navigationsleiste schließen</string>
+    <string name="audio_delay">Audioverzögerung</string>
+    <string name="spu_delay">Untertitelverzögerung</string>
+    <string name="network_shares_discovery">Nach Netzwerkfreigaben suchen...</string>
+    <string name="network_empty">Das Verzeichnis ist leer.</string>
+    <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
+    <string name="search_hint">Medien suchen</string>
 </resources>
