@@ -243,7 +243,4 @@
     <string name="sending_log">로그 전송 중...</string>
     <string name="drawer_open">탐색서랍 열기</string>
     <string name="drawer_close">탐색서랍 닫기</string>
-    <string name="new_app">새로운 어플리케이션 있음</string>
-    <string name="new_app_msg">안드로이드용 VLC 베타의 시험은 종료됐습니다. 지금부터 새 버전은 새 어플리케이션으로만 배포될 예정입니다.</string>
-    <string name="new_app_go">받으러 가기</string>
 </resources>
