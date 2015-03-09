@@ -85,7 +85,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
     }
 
     private void loadRows(String query, int type) {
-        ArrayList<MediaWrapper> mediaList = MediaLibrary.getInstance().searchMedia(query, type);
+        ArrayList<MediaWrapper> mediaList = MediaLibrary.getInstance().searchMedia(query);
         final ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter(mActivity));
         listRowAdapter.addAll(0, mediaList);
         mHandler.post(new Runnable() {
