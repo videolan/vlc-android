@@ -100,6 +100,8 @@
     <string name="sound_on">소리 켜기</string>
     <string name="sound_off">소리 끄기</string>
     <string name="brightness">밝기</string>
+    <string name="navmenu">탐색 메뉴</string>
+    <string name="advanced">고급 옵션</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 채널\n</item>
     </plurals>
@@ -132,6 +134,7 @@
     <string name="video_player_tips">동영상 재생기 팁:</string>
     <string name="seek">탐색</string>
     <string name="subtitles">자막</string>
+    <string name="audio_sub">오디오 트랙\n및 자막</string>
     <string name="resize">크기조절</string>
     <string name="options">옵션</string>
     <string name="lock">잠그기</string>
@@ -164,6 +167,12 @@
     <string name="hardware_acceleration_disabled">사용 안함</string>
     <string name="hardware_acceleration_decoding">디코딩 가속</string>
     <string name="hardware_acceleration_full">전부 가속</string>
+    <string name="dev_hardware_decoder">고급 하드웨어 디코더</string>
+    <string name="dev_hardware_decoder_summary">하드웨어 디코더 강제 사용, 고급 사용자만</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">자동</string>
     <string name="screen_orientation">화면 방향</string>
     <string name="screen_orientation_sensor">자동 (센서)</string>
@@ -186,6 +195,8 @@
     <string name="enable_brightness_gesture_summary">비디오 재생 중에 제스쳐로 밝기 조절하기</string>
     <string name="enable_jump_buttons">이동 버튼 활성화하기</string>
     <string name="enable_jump_buttons_summary">비디오 인터페이스에 앞으로/뒤로 감기 버튼 보이기</string>
+    <string name="force_list_portrait">세로화면에 격자선 없음</string>
+    <string name="force_list_portrait_summary">세로화면에 격자선 대신 목록에 비디오를 보여줍니다</string>
     <string name="audio_title_alignment">오디오 제목 정렬</string>
     <string name="enable_headset_detection">헤드셋 감지</string>
     <string name="enable_headset_detection_summary">헤드셋 제거시 일시 중지하기; 헤드셋 삽입시 다시 시작하기</string>
@@ -230,6 +241,8 @@
     <string name="start_logging">기록 시작</string>
     <string name="stop_logging">기록 중지</string>
     <string name="clear_log">기록 지우기</string>
+    <string name="log_service_title">VLC 로그 기록</string>
+    <string name="log_service_text">로그 콘솔 열기</string>
     <string name="copy_to_clipboard">클립보드에 복사</string>
     <string name="copied_to_clipboard">클립보드에 복사된 기록.</string>
     <string name="quit">앱 종료 후 재시작하기</string>
@@ -243,4 +256,13 @@
     <string name="sending_log">로그 전송 중...</string>
     <string name="drawer_open">탐색서랍 열기</string>
     <string name="drawer_close">탐색서랍 닫기</string>
+    <string name="network_browsing">로컬 네트워크</string>
+    <string name="file_size">파일 크기:</string>
+    <string name="file_other">탐색메뉴 닫기</string>
+    <string name="audio_delay">음성 지연</string>
+    <string name="spu_delay">자막 지연</string>
+    <string name="network_shares_discovery">네트워크 공유 검색 중...</string>
+    <string name="network_empty">폴더가 비었습니다.</string>
+    <string name="network_connection_needed">로컬 네트워크에 접속 없음.</string>
+    <string name="search_hint">미디어 검색</string>
 </resources>
