@@ -118,6 +118,8 @@
     <string name="sound_on">Sain Ar</string>
     <string name="sound_off">Sain Ffwrdd</string>
     <string name="brightness">Disgleirdeb</string>
+    <string name="navmenu">dewislen </string>
+    <string name="advanced">dewisiadau uwch</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 sianel\n</item>
         <item quantity="two">%1$d sianel\n</item>
@@ -153,6 +155,7 @@
     <string name="video_player_tips">Awgrymiadau chwaraeydd fideo:</string>
     <string name="seek">Canfod</string>
     <string name="subtitles">Isdeitlau</string>
+    <string name="audio_sub">Traciau sain\nac isdeitlau</string>
     <string name="resize">Newid maint</string>
     <string name="options">Dewisiadau</string>
     <string name="lock">Cloi</string>
@@ -185,6 +188,12 @@
     <string name="hardware_acceleration_disabled">Analluogwyd</string>
     <string name="hardware_acceleration_decoding">Cyflymiad datgodio</string>
     <string name="hardware_acceleration_full">Cyflymiad llawn</string>
+    <string name="dev_hardware_decoder">Datgodiwr caledwedd uwch</string>
+    <string name="dev_hardware_decoder_summary">Gorfodi datgodiwr caledwedd (defnyddwyr profiadol)</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Awtomatig</string>
     <string name="screen_orientation">Gorweddiad sgrin fideo</string>
     <string name="screen_orientation_sensor">Awtomatig (synhwyro)</string>
@@ -207,6 +216,8 @@
     <string name="enable_brightness_gesture_summary">Rheoli disgleirdeb gan gyffwrdd y sgrin wrth chwarae fideo</string>
     <string name="enable_jump_buttons">Galluogi botymau neidio</string>
     <string name="enable_jump_buttons_summary">Dangos botymau neidio nôl ac ymlaen yn y rhyngwyneb fideo</string>
+    <string name="force_list_portrait">Dim grid ym modd darlun</string>
+    <string name="force_list_portrait_summary">Dangos fideos mewn rhestr yn lle grid ym modd darlun</string>
     <string name="audio_title_alignment">Aliniad teitl sain</string>
     <string name="enable_headset_detection">Canfod clustffonau</string>
     <string name="enable_headset_detection_summary">Oedi pan ddatgysylltir clustffonau; chwarae pan gysylltir clustffonau</string>
@@ -251,6 +262,8 @@
     <string name="start_logging">Dechrau logio</string>
     <string name="stop_logging">Stopio logio</string>
     <string name="clear_log">Clirio\'r log</string>
+    <string name="log_service_title">Cofnodi logiau VLC</string>
+    <string name="log_service_text">Agor y consol logiau</string>
     <string name="copy_to_clipboard">Copïo i\'r clipfwrdd</string>
     <string name="copied_to_clipboard">Wedi\'i gopïo i\'r clipfwrdd.</string>
     <string name="quit">Diweddu ac ail-ddechrau\'r aplen</string>
@@ -264,4 +277,13 @@
     <string name="sending_log">Yn anfon y log…</string>
     <string name="drawer_open">Agor blwch llywio</string>
     <string name="drawer_close">Cau blwch llywio</string>
+    <string name="network_browsing">Rhwydwaith Lleol</string>
+    <string name="file_size">Maint ffeil:</string>
+    <string name="file_other">Cau\'r blwch llywio</string>
+    <string name="audio_delay">Oediad sain</string>
+    <string name="spu_delay">Oediad isdeitlau</string>
+    <string name="network_shares_discovery">Yn edrych am gynnwys a rhennir ar y rhwydwaith....</string>
+    <string name="network_empty">Mae\'r cyfeiriadur hwn yn wag.</string>
+    <string name="network_connection_needed">Dim cysylltiad i\'r rhwydwaith lleol</string>
+    <string name="search_hint">Chwilio cyfryngau</string>
 </resources>
