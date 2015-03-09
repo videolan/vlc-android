@@ -34,7 +34,10 @@ import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.ObjectAdapter;
 import android.support.v17.leanback.widget.OnItemClickedListener;
+import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
 public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
@@ -53,7 +56,7 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         setSearchResultProvider(this);
-        setOnItemClickedListener(getDefaultItemClickedListener());
+        setOnItemViewClickedListener(getDefaultItemClickedListener());
         mDelayedLoad = new SearchRunnable();
         mActivity = getActivity();
     }
@@ -98,10 +101,10 @@ public class SearchFragment extends android.support.v17.leanback.app.SearchFragm
         });
     }
 
-    protected OnItemClickedListener getDefaultItemClickedListener() {
-        return new OnItemClickedListener() {
+    protected OnItemViewClickedListener getDefaultItemClickedListener() {
+        return new OnItemViewClickedListener() {
             @Override
-            public void onItemClicked(Object item, Row row) {
+            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof MediaWrapper) {
                     TvUtil.openMedia(mActivity, (MediaWrapper) item, row);
                 }
