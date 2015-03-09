@@ -305,8 +305,17 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
 
         RelativeLayout.LayoutParams paramsCover;
         if (mItemType == ITEM_WITH_COVER) {
-            MediaWrapper media = mItems.get(position).mMediaList.get(0);
-            Bitmap cover = AudioUtil.getCover(v.getContext(), media, 64);
+            Bitmap cover = null;
+            LinkedList<String> testedAlbums = new LinkedList<String>();
+            for (MediaWrapper media : mItems.get(position).mMediaList) {
+                if (media.getAlbum() != null && testedAlbums.contains(media.getAlbum()))
+                    continue;
+                cover = AudioUtil.getCover(v.getContext(), media, 64);
+                if (cover != null)
+                    break;
+                else if (media.getAlbum() != null)
+                    testedAlbums.add(media.getAlbum());
+            }
             if (cover == null)
                 cover = BitmapCache.GetFromResource(v, R.drawable.icon);
             holder.cover.setImageBitmap(cover);
