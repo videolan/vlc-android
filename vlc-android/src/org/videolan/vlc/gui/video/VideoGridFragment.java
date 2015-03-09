@@ -420,8 +420,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         else
             Log.w(TAG, "Can't generate thumbnails, the thumbnailer is missing");
 
-        mVideoAdapter.setNotifyOnChange(false);
         mVideoAdapter.clear();
+        mVideoAdapter.notifyDataSetChanged();
 
         if (itemList.size() > 0) {
             new Thread(new Runnable() {
