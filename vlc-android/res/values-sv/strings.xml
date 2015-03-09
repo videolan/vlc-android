@@ -106,6 +106,7 @@
     <string name="sound_on">Ljud på</string>
     <string name="sound_off">Ljud av</string>
     <string name="brightness">Ljusstyrka</string>
+    <string name="navmenu">navigeringsmeny</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
