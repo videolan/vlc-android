@@ -198,6 +198,8 @@ public class Util {
 
 
     public static void openMedia(Context context, final MediaWrapper media){
+        if (media == null)
+            return;
         String mrl = Uri.decode(media.getLocation());
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             VideoPlayerActivity.start(context, mrl, media.getTitle());
