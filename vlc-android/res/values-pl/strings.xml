@@ -112,6 +112,8 @@
     <string name="sound_on">Dźwięk włączony</string>
     <string name="sound_off">Dźwięk wyłączony</string>
     <string name="brightness">Jasność</string>
+    <string name="navmenu">menu nawigacyjne</string>
+    <string name="advanced">zaawansowane opcje</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanał\n</item>
         <item quantity="few">%1$d kanały\n</item>
@@ -146,6 +148,7 @@
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
     <string name="subtitles">Napisy</string>
+    <string name="audio_sub">Ścieżki dźwiękowe\ni napisy</string>
     <string name="resize">Zmiana rozmiaru</string>
     <string name="options">Opcje</string>
     <string name="lock">Zablokuj</string>
@@ -178,6 +181,12 @@
     <string name="hardware_acceleration_disabled">Wyłączona</string>
     <string name="hardware_acceleration_decoding">Akceleracja dekodowania</string>
     <string name="hardware_acceleration_full">Pełna akceleracja</string>
+    <string name="dev_hardware_decoder">Zaawansowany dekoder sprzętowy</string>
+    <string name="dev_hardware_decoder_summary">Wymuś dekoder sprzętowy, tylko dla zaawansowanych użytkowników</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatycznie</string>
     <string name="screen_orientation">Orientacja ekranu</string>
     <string name="screen_orientation_sensor">Automatycznie (czujnik)</string>
@@ -200,6 +209,8 @@
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
     <string name="enable_jump_buttons">Włącz przyciski przeskoku</string>
     <string name="enable_jump_buttons_summary">Pokaż przyciski do przodu i do tyłu w interfejsie wideo</string>
+    <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
+    <string name="force_list_portrait_summary">Pokaż filmy w liście zamiast w kratkę w trybie portretowym</string>
     <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
     <string name="enable_headset_detection_summary">Pauzuj przy usunięciu słuchawek, wznów po ponownym włożeniu słuchawek</string>
@@ -244,6 +255,8 @@
     <string name="start_logging">Rozpocznij rejestrowanie</string>
     <string name="stop_logging">Zatrzymaj rejestrowanie</string>
     <string name="clear_log">Usuń dziennik</string>
+    <string name="log_service_title">nagrywanie dzienników VLC</string>
+    <string name="log_service_text">Otwórz konsolę dziennika</string>
     <string name="copy_to_clipboard">Kopiuj do schowka</string>
     <string name="copied_to_clipboard">Dziennik został skopiowany do schowka.</string>
     <string name="quit">Zamknij i uruchom ponownie aplikację</string>
@@ -257,4 +270,13 @@
     <string name="sending_log">Wysyłanie dziennika…</string>
     <string name="drawer_open">Otwórz listwę nawigacyjną</string>
     <string name="drawer_close">Zamknij listwę nawigacyjną</string>
+    <string name="network_browsing">Sieć lokalna</string>
+    <string name="file_size">Rozmiar pliku:</string>
+    <string name="file_other">Zamknij listwę nawigacyjną</string>
+    <string name="audio_delay">Opóźnienie dźwięku</string>
+    <string name="spu_delay">Opóźnienie napisów</string>
+    <string name="network_shares_discovery">Szukanie udziałów sieciowych...</string>
+    <string name="network_empty">Ten katalog jest pusty.</string>
+    <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
+    <string name="search_hint">Wyszukiwanie plików multimedialnych</string>
 </resources>
