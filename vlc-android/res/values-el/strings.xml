@@ -106,6 +106,8 @@
     <string name="sound_on">Ενεργοποίηση Ήχου</string>
     <string name="sound_off">Απενεργοποίηση Ήχου</string>
     <string name="brightness">Φωτεινότητα</string>
+    <string name="navmenu">μενού πλοήγησης</string>
+    <string name="advanced">επιλογές για προχωρημένους</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 κανάλι\n</item>
         <item quantity="other">%1$d κανάλια\n</item>
@@ -171,6 +173,10 @@
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
     <string name="hardware_acceleration_decoding">Επιτάχυνση αποκωδικοποίησης</string>
     <string name="hardware_acceleration_full">Πλήρης επιτάχυνση</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Αυτόματο</string>
     <string name="screen_orientation">Προσανατολισμός της βίντεο-οθόνης</string>
     <string name="screen_orientation_sensor">Αυτόματο (αισθητήρας)</string>
@@ -237,6 +243,7 @@
     <string name="start_logging">Ξεκινήστε την καταγραφή</string>
     <string name="stop_logging">Τέλος καταγραφής</string>
     <string name="clear_log">Απαλοιφή καταγραφής</string>
+    <string name="log_service_text">Άνοιγμα της κονσόλας καταγραφής</string>
     <string name="copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
     <string name="copied_to_clipboard">Η καταγραφή αντιγράφηκε στο πρόχειρο.</string>
     <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
@@ -250,4 +257,12 @@
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται...</string>
     <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
+    <string name="network_browsing">Τοπικό Δίκτυο</string>
+    <string name="file_size">Μέγεθος αρχείου:</string>
+    <string name="file_other">Κλείστε το συρτάρι πλοήγησης</string>
+    <string name="audio_delay">Καθυστέρηση ήχου</string>
+    <string name="spu_delay">Καθυστέρηση υπότιτλου</string>
+    <string name="network_empty">Ο κατάλογος είναι άδειος</string>
+    <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
+    <string name="search_hint">Αναζήτηση μέσων</string>
 </resources>
