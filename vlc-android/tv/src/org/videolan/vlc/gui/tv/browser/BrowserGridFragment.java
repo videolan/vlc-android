@@ -22,7 +22,13 @@
 
 package org.videolan.vlc.gui.tv.browser;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
+import android.support.v17.leanback.widget.Presenter;
+import android.support.v17.leanback.widget.Row;
+import android.support.v17.leanback.widget.RowPresenter;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,15 +40,18 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.network.NetworkFragment;
+import org.videolan.vlc.gui.tv.DetailsActivity;
+import org.videolan.vlc.gui.tv.MediaItemDetails;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener {
+public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener {
 
     private MediaBrowser mMediaBrowser;
     public String mMrl;
     ArrayList<MediaWrapper> mMediaList = null;
+    private MediaWrapper mItemSelected;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +60,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         } else {
             mMrl = getActivity().getIntent().getStringExtra(NetworkFragment.KEY_MRL);
         }
+        setOnItemViewSelectedListener(this);
     }
 
     public void onResume() {
@@ -113,9 +123,14 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         mAdapter.notifyArrayItemRangeChanged(0, mMediaList.size());
     }
 
-    public void toggleFavorite() {
-        if (mMrl != null)
-            toggleFavorite(mMrl);
+    public void showDetails() {
+        if (mItemSelected.getType() == MediaWrapper.TYPE_DIR) {
+            Intent intent = new Intent(getActivity(),
+                    DetailsActivity.class);
+            // pass the item information
+            intent.putExtra("item", (Parcelable) new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
+            startActivity(intent);
+        }
     }
 
     public void toggleFavorite(String mrl) {
@@ -129,5 +144,10 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             text = "Saved to favorites";
         }
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+        mItemSelected = (MediaWrapper)item;
     }
 }

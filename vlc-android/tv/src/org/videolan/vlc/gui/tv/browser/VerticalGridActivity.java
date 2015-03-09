@@ -52,8 +52,8 @@ public class VerticalGridActivity extends Activity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (mFragment instanceof BrowserGridFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y)) {
-            ((BrowserGridFragment)mFragment).toggleFavorite();
+        if (mFragment instanceof BrowserGridFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+            ((BrowserGridFragment)mFragment).showDetails();
             return true;
         }
         return super.onKeyDown(keyCode, event);

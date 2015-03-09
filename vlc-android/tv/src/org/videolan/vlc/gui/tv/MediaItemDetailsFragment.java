@@ -21,12 +21,11 @@ package org.videolan.vlc.gui.tv;
 
 import java.util.ArrayList;
 
-import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
+import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
-import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 
@@ -40,19 +39,22 @@ import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
 import android.support.v17.leanback.widget.DetailsOverviewRow;
 import android.support.v17.leanback.widget.DetailsOverviewRowPresenter;
-import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnActionClickedListener;
-import android.util.Log;
+import android.widget.Toast;
 
 public class MediaItemDetailsFragment extends DetailsFragment implements AudioServiceController.AudioServiceConnectionListener {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
     private static final int ID_LISTEN = 2;
+    private static final int ID_FAVORITE_ADD = 3;
+    private static final int ID_FAVORITE_DELETE = 4;
+    private static final int ID_BROWSE = 5;
     private ArrayObjectAdapter mRowsAdapter;
     private AudioServiceController mAudioController;
     private MediaItemDetails mMedia;
+    private MediaDatabase mDb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
         Bundle extras = getActivity().getIntent().getExtras();
         mMedia = extras.getParcelable("item");
         ClassPresenterSelector selector = new ClassPresenterSelector();
+        final MediaWrapper media = new MediaWrapper(mMedia.getLocation());
         // Attach your media item details presenter to the row presenter:
         DetailsOverviewRowPresenter rowPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
@@ -87,14 +90,27 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
 
             @Override
             public void onActionClicked(Action action) {
-                if (action.getId() == ID_LISTEN){
-                    mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
-                } else if (action.getId() == ID_PLAY){
-                    ArrayList<String> locations = new ArrayList<String>();
-                    locations.add(mMedia.getLocation());
-                    Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
-                    intent.putExtra("locations", locations);
-                    startActivity(intent);
+                switch ((int)action.getId()){
+                    case ID_LISTEN:
+                        mAudioController.bindAudioService(getActivity(), MediaItemDetailsFragment.this);
+                        break;
+                    case ID_PLAY:
+                        ArrayList<String> locations = new ArrayList<String>();
+                        locations.add(mMedia.getLocation());
+                        Intent intent = new Intent(getActivity(), AudioPlayerActivity.class);
+                        intent.putExtra("locations", locations);
+                        startActivity(intent);
+                        break;
+                    case ID_FAVORITE_ADD:
+                        mDb.addNetworkFavItem(mMedia.getLocation());
+                        Toast.makeText(getActivity(), "Saved to favorites", Toast.LENGTH_SHORT).show();
+                        break;
+                    case ID_FAVORITE_DELETE:
+                            mDb.deleteNetworkFav(mMedia.getLocation());
+                        Toast.makeText(getActivity(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        break;
+                    case ID_BROWSE:
+                        TvUtil.openMedia(getActivity(), media, null);
                 }
             }
         });
@@ -106,14 +122,27 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
         Resources res = getActivity().getResources();
         DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
 
-        // Add images and action buttons to the details view
-        Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
-        if (cover == null)
-            detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
-        else
-            detailsOverview.setImageBitmap(getActivity(), cover);
-        detailsOverview.addAction(new Action(ID_PLAY, "Play"));
-        detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
+        if (media.getType() == MediaWrapper.TYPE_DIR) {
+            mDb = MediaDatabase.getInstance();
+            detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_network_big));
+            detailsOverview.setImageScaleUpAllowed(true);
+            detailsOverview.addAction(new Action(ID_BROWSE, "Browse folder"));
+            if (mDb.networkFavExists(mMedia.getLocation()))
+                detailsOverview.addAction(new Action(ID_FAVORITE_DELETE, "Remove from favorites"));
+            else
+                detailsOverview.addAction(new Action(ID_FAVORITE_ADD, "Add to favorites"));
+
+        } else {
+            // Add images and action buttons to the details view
+            Bitmap cover = AudioUtil.getCover(getActivity(), MediaLibrary.getInstance().getMediaItem(mMedia.getLocation()), 480);
+            if (cover == null)
+                detailsOverview.setImageDrawable(res.getDrawable(R.drawable.cone));
+            else
+                detailsOverview.setImageBitmap(getActivity(), cover);
+
+            detailsOverview.addAction(new Action(ID_PLAY, "Play"));
+            detailsOverview.addAction(new Action(ID_LISTEN, "Listen"));
+        }
         mRowsAdapter.add(detailsOverview);
 
         setAdapter(mRowsAdapter);

@@ -48,6 +48,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -55,14 +56,16 @@ import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
+import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class MainTvActivity extends Activity implements IVideoBrowser {
+public class MainTvActivity extends Activity implements IVideoBrowser, OnItemViewSelectedListener, OnItemViewClickedListener, OnClickListener {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -88,33 +91,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
     HashMap<String, Integer> mVideoIndex;
     Drawable mDefaultBackground;
     Activity mContext;
-
-    OnItemViewClickedListener mItemClickListener = new OnItemViewClickedListener() {
-        @Override
-        public void onItemClicked(Presenter.ViewHolder viewHolder, Object o, RowPresenter.ViewHolder viewHolder2, Row row) {
-            if (row.getId() == HEADER_CATEGORIES){
-                CardPresenter.SimpleCard card = (CardPresenter.SimpleCard)o;
-                Intent intent = new Intent(mContext, VerticalGridActivity.class);
-                intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
-                intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
-                startActivity(intent);
-            } else if (row.getId() == HEADER_VIDEO)
-                TvUtil.openMedia(mContext, o, row);
-            else if (row.getId() == HEADER_MISC)
-                startActivity(new Intent(mContext, PreferencesActivity.class));
-            else if (row.getId() == HEADER_NETWORK){
-                    TvUtil.openMedia(mContext, o, row);
-            }
-        }
-    };
-
-    OnClickListener mSearchClickedListenernew = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(mContext, SearchActivity.class);
-            startActivity(intent);
-        }
-    };
+    private Object mSelectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,9 +131,10 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
         mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
 
         // add a listener for selected items
-        mBrowseFragment.setOnItemViewClickedListener(mItemClickListener);
+        mBrowseFragment.setOnItemViewClickedListener(this);
+        mBrowseFragment.setOnItemViewSelectedListener(this);
 
-        mBrowseFragment.setOnSearchClickedListener(mSearchClickedListenernew);
+        mBrowseFragment.setOnSearchClickedListener(this);
         mMediaLibrary.loadMediaItems(this, true);
         BackgroundManager.getInstance(this).attach(getWindow());
     }
@@ -185,6 +163,22 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
         super.onDestroy();
         if (sThumbnailer != null)
             sThumbnailer.clearJobs();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE && mSelectedItem instanceof MediaWrapper){
+            MediaWrapper media = (MediaWrapper) mSelectedItem;
+            if (media.getType() != MediaWrapper.TYPE_DIR)
+                return false;
+            Intent intent = new Intent(this,
+                    DetailsActivity.class);
+            // pass the item information
+            intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     protected void updateBackground(Drawable drawable) {
@@ -248,6 +242,34 @@ public class MainTvActivity extends Activity implements IVideoBrowser {
     }
 
     private Handler mHandler = new VideoListHandler(this);
+
+    @Override
+    public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+        mSelectedItem = item;
+    }
+
+    @Override
+    public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
+        if (row.getId() == HEADER_CATEGORIES){
+            CardPresenter.SimpleCard card = (CardPresenter.SimpleCard)item;
+            Intent intent = new Intent(mContext, VerticalGridActivity.class);
+            intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
+            intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
+            startActivity(intent);
+        } else if (row.getId() == HEADER_VIDEO)
+            TvUtil.openMedia(mContext, item, row);
+        else if (row.getId() == HEADER_MISC)
+            startActivity(new Intent(mContext, PreferencesActivity.class));
+        else if (row.getId() == HEADER_NETWORK){
+            TvUtil.openMedia(mContext, item, row);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(mContext, SearchActivity.class);
+        startActivity(intent);
+    }
 
     public class AsyncUpdate extends AsyncTask<Void, Void, Void> {
 
