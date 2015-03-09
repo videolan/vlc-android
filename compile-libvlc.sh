@@ -121,7 +121,7 @@ VLC_CONFIGURE_ARGS="\
     --disable-decklink \
     --disable-libva \
     --disable-dv1394 \
-    --disable-mod \
+    --enable-mod \
     --disable-sid \
     --disable-gme \
     --disable-tremor \
