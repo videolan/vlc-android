@@ -26,11 +26,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -43,13 +41,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions and extra parameters.
- */
 public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
@@ -63,19 +54,20 @@ public class RecommendationsService extends IntentService {
         super("RecommendationsService");
     }
 
-     @Override
+    @Override
     public void onCreate() {
-         super.onCreate();
-         sContext = this;
-     }
+        super.onCreate();
+        sContext = this;
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
+        if (intent != null && !doRecommendations()) {
             MediaLibrary.getInstance().addUpdateHandler(mHandler);
+            MediaLibrary.getInstance().loadMediaItems();
         }
     }
-    private static Notification buildRecommendation(Context context, MediaWrapper movie)
+    private static void buildRecommendation(MediaWrapper movie)
             throws IOException {
 
         if (sNotificationManager == null) {
@@ -95,7 +87,9 @@ public class RecommendationsService extends IntentService {
                         .setContentInfo("VLC")
 //                        .setSortKey("0.8")
                         .setPriority(7)
-//                        .setColor(Color.BLUE)
+                        .setLocalOnly(true)
+                        .setOngoing(true)
+                        .setColor(sContext.getResources().getColor(R.color.darkorange))
                         .setCategory("recommendation")
                         .setLargeIcon(sMediaDatabase.getPicture(sContext, movie.getLocation()))
                         .setSmallIcon(R.drawable.icon)
@@ -105,7 +99,6 @@ public class RecommendationsService extends IntentService {
         // post the recommendation to the NotificationManager
         sNotificationManager.notify(0, notification);
         sNotificationManager = null;
-        return notification;
     }
 
     private static PendingIntent buildPendingIntent(MediaWrapper MediaWrapper) {
@@ -136,26 +129,30 @@ public class RecommendationsService extends IntentService {
 
         @Override
         public void handleMessage(Message msg) {
-            ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
-            ArrayList<MediaWrapper> videos = new ArrayList<MediaWrapper>(videoList.size());
-            Bitmap pic;
-            for (MediaWrapper MediaWrapper : videoList){
-                pic = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
-                if (pic != null && pic.getByteCount() > 4 && MediaWrapper.getTime() == 0) {
-                    videos.add(MediaWrapper);
-                }
-            }
-            if (!videos.isEmpty())
-                Collections.shuffle(videos);
-            videoList = null;
-            int size = Math.min(NUM_RECOMMANDATIONS, videos.size());
-            for (int i = 0 ; i < size ; ++i) {
-                try {
-                    buildRecommendation(sContext, videos.get(i));
-                } catch (IOException e) {
-                    Log.e(TAG, "failed notif for "+ videos.get(i).getTitle(), e);
-                }
+            doRecommendations();
+        }
+    }
+
+    private static boolean doRecommendations() {
+        ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
+        if (videoList == null || videoList.isEmpty())
+            return false;
+        ArrayList<MediaWrapper> videos = new ArrayList<MediaWrapper>(videoList.size());
+        Bitmap pic;
+        for (MediaWrapper MediaWrapper : videoList){
+            pic = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
+            if (pic != null && pic.getByteCount() > 4 && MediaWrapper.getTime() == 0) {
+                videos.add(MediaWrapper);
             }
         }
+        if (!videos.isEmpty())
+            Collections.shuffle(videos);
+        int size = Math.min(NUM_RECOMMANDATIONS, videos.size());
+        for (int i = 0 ; i < size ; ++i) {
+            try {
+                buildRecommendation(videos.get(i));
+            } catch (IOException e) {}
+        }
+        return true;
     }
 }
