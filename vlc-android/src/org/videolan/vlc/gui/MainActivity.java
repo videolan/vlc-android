@@ -825,10 +825,12 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.length() < 3)
+        if (newText.length() < 3) {
+            mSearchView.getSuggestionsAdapter().swapCursor(null);
             return false;
+        }
         Cursor cursor = MediaDatabase.getInstance().queryMedia(newText);
-        mSearchView.getSuggestionsAdapter().changeCursor(cursor);
+        mSearchView.getSuggestionsAdapter().swapCursor(cursor);
         return true;
     }
 
