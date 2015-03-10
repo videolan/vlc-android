@@ -216,12 +216,12 @@ public class MediaLibrary {
             }
 
             // Initialize variables
-            final MediaDatabase DBManager = MediaDatabase.getInstance();
+            final MediaDatabase mediaDatabase = MediaDatabase.getInstance();
 
             // show progressbar in footer
             MainActivity.showProgressBar();
 
-            List<File> mediaDirs = DBManager.getMediaDirs();
+            List<File> mediaDirs = mediaDatabase.getMediaDirs();
             if (mediaDirs.size() == 0) {
                 // Use all available storage directories as our default
                 String storageDirs[] = AndroidDevices.getMediaDirectories();
@@ -234,7 +234,7 @@ public class MediaLibrary {
             directories.addAll(mediaDirs);
 
             // get all existing media items
-            HashMap<String, MediaWrapper> existingMedias = DBManager.getMedias();
+            HashMap<String, MediaWrapper> existingMedias = mediaDatabase.getMedias();
 
             // list of all added files
             HashSet<String> addedLocations = new HashSet<String>();
@@ -347,14 +347,14 @@ public class MediaLibrary {
                     for (String fileURI : addedLocations) {
                         existingMedias.remove(fileURI);
                     }
-                    DBManager.removeMedias(existingMedias.keySet());
+                    mediaDatabase.removeMedias(existingMedias.keySet());
 
                     /*
                      * In case of file matching path of a folder from another removable storage
                      */
-                    for (File file : DBManager.getMediaDirs())
+                    for (File file : mediaDatabase.getMediaDirs())
                         if (!file.isDirectory())
-                            DBManager.removeDir(file.getAbsolutePath());
+                            mediaDatabase.removeDir(file.getAbsolutePath());
                 }
 
                 // hide progressbar in footer
