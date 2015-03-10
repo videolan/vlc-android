@@ -100,6 +100,8 @@
     <string name="sound_on">Bunyi Hidup</string>
     <string name="sound_off">Bunyi Mati</string>
     <string name="brightness">Kecerahan</string>
+    <string name="navmenu">menu navigasi</string>
+    <string name="advanced">pilihan lanjutan</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d saluran\n</item>
     </plurals>
@@ -132,6 +134,7 @@
     <string name="video_player_tips">Petua pemain video:</string>
     <string name="seek">Jangkau</string>
     <string name="subtitles">Sarikata</string>
+    <string name="audio_sub">Trek dan sarikata audio</string>
     <string name="resize">Saiz Semula</string>
     <string name="options">Pilihan</string>
     <string name="lock">Kunci</string>
@@ -164,6 +167,12 @@
     <string name="hardware_acceleration_disabled">Dilumpuhkan</string>
     <string name="hardware_acceleration_decoding">Menyahkod pemecutan</string>
     <string name="hardware_acceleration_full">Pemecutan penuh</string>
+    <string name="dev_hardware_decoder">Dekoder perkakasan lanjutan</string>
+    <string name="dev_hardware_decoder_summary">Paksa dekoder perkakasan, untuk pengguna mahir sahaja</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatik</string>
     <string name="screen_orientation">Orientasi skrin video</string>
     <string name="screen_orientation_sensor">Automatik (penderia)</string>
@@ -186,6 +195,8 @@
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_jump_buttons">Benarkan butang lompat</string>
     <string name="enable_jump_buttons_summary">Tunjuk butang undur dan maju pada antaramuka video</string>
+    <string name="force_list_portrait">Tiada grid dalam mod potret</string>
+    <string name="force_list_portrait_summary">Tunjuk video di dalam senarai bukannya grid dalam mod potret</string>
     <string name="audio_title_alignment">Jajaran tajuk audio</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
     <string name="enable_headset_detection_summary">Jeda ketika set kepala dibuang; sambung bila menyisip set kepala</string>
@@ -230,6 +241,8 @@
     <string name="start_logging">Mula mengelog</string>
     <string name="stop_logging">Henti mengelog</string>
     <string name="clear_log">Kosongkan log</string>
+    <string name="log_service_title">Log VLC merakam</string>
+    <string name="log_service_text">Buka konsol log</string>
     <string name="copy_to_clipboard">Salin ke papan keratan</string>
     <string name="copied_to_clipboard">Log disalin ke papan keratan.</string>
     <string name="quit">Keluar dan mula semula aplikasi</string>
@@ -243,4 +256,13 @@
     <string name="sending_log">Menghantar log...</string>
     <string name="drawer_open">Buka laci navigasi</string>
     <string name="drawer_close">Tutup laci navigasi</string>
+    <string name="network_browsing">Rangkaian Lokal</string>
+    <string name="file_size">Saiz fail:</string>
+    <string name="file_other">Tutup laci navigasi</string>
+    <string name="audio_delay">Lengahan audio</string>
+    <string name="spu_delay">Lengahan sarikata</string>
+    <string name="network_shares_discovery">Mencari rangkaian kongsi...</string>
+    <string name="network_empty">Direktori ini kosong.</string>
+    <string name="network_connection_needed">Tiada sambungan untuk rangkaian lokal.</string>
+    <string name="search_hint">Carian media</string>
 </resources>
