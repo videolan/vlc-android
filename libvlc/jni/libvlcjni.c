@@ -434,7 +434,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
     }
 
-#define MAX_ARGV 19
+#define MAX_ARGV 20
     const char *argv[MAX_ARGV];
     int argc = 0;
 
@@ -473,6 +473,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         argv[argc++] = "--no-omxil-dr";
 #endif
     }
+    argv[argc++] = "--spdif";
     argv[argc++] = b_verbose ? "-vvv" : "-vv";
 
     /* Reconnect on lost HTTP streams, e.g. network change */

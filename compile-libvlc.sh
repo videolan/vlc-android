@@ -206,7 +206,6 @@ VLC_MODULE_BLACKLIST="
     remoteosd
     magnify
     gradient
-    .*tospdif
     dtstofloat32
     logger
     visual
