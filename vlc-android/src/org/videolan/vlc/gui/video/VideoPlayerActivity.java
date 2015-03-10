@@ -835,13 +835,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-        case KeyEvent.KEYCODE_BUTTON_R1:
             seek(10000);
             return true;
         case KeyEvent.KEYCODE_R:
         case KeyEvent.KEYCODE_MEDIA_REWIND:
-        case KeyEvent.KEYCODE_BUTTON_L1:
             seek(-10000);
+            return true;
+        case KeyEvent.KEYCODE_BUTTON_R1:
+            seek(60000);
+            return true;
+        case KeyEvent.KEYCODE_BUTTON_L1:
+            seek(-60000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_A:
             if (mOverlayProgress.getVisibility() == View.VISIBLE)
@@ -859,12 +863,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         case KeyEvent.KEYCODE_BUTTON_Y:
             showAdvancedOptions(mAdvOptions);
             return true;
-        case KeyEvent.KEYCODE_B:
-            selectAudioTrack();
-            break;
+//            case KeyEvent.KEYCODE_BUTTON_X:
+//            selectAudioTrack();
+//            return true;
         case KeyEvent.KEYCODE_V:
         case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
-        case KeyEvent.KEYCODE_BUTTON_B:
+        case KeyEvent.KEYCODE_BUTTON_X:
             onAudioSubClick(mTracks);
             return true;
         case KeyEvent.KEYCODE_M:
@@ -875,11 +879,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             resizeVideo();
             return true;
         case KeyEvent.KEYCODE_VOLUME_MUTE:
-        case KeyEvent.KEYCODE_BUTTON_X:
-            if (mIsNavMenu)
-                return navigateDvdMenu(keyCode);
-            else
-                updateMute();
+            updateMute();
             return true;
         case KeyEvent.KEYCODE_S:
         case KeyEvent.KEYCODE_MEDIA_STOP:

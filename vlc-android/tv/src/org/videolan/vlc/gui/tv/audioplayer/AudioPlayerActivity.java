@@ -159,7 +159,6 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             case KeyEvent.KEYCODE_MEDIA_PLAY:
             case KeyEvent.KEYCODE_MEDIA_PAUSE:
             case KeyEvent.KEYCODE_SPACE:
-            case KeyEvent.KEYCODE_BUTTON_B:
                 togglePlayPause();
                 return true;
             case KeyEvent.KEYCODE_F:
