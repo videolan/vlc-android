@@ -141,6 +141,7 @@
     <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
     <string name="seek">Εύρεση</string>
     <string name="subtitles">Υπότιτλοι</string>
+    <string name="audio_sub">Κομμάτια ήχου και υπότιτλοι</string>
     <string name="resize">Αλλαγή μεγέθους</string>
     <string name="options">Επιλογές</string>
     <string name="lock">Κλείδωμα</string>
@@ -173,6 +174,8 @@
     <string name="hardware_acceleration_disabled">Απενεργοποιημένο</string>
     <string name="hardware_acceleration_decoding">Επιτάχυνση αποκωδικοποίησης</string>
     <string name="hardware_acceleration_full">Πλήρης επιτάχυνση</string>
+    <string name="dev_hardware_decoder">Προχωρημένος αποκωδικοποιητής υλικού</string>
+    <string name="dev_hardware_decoder_summary">Ορίστε τον αποκωδικοποιητή υλικού, για προχωρημένους χρήστες μόνο</string>
     <string name="dev_hardware_decoder_omx">iomx</string>
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
@@ -199,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Ελέγξτε τη φωτεινότητα με χειρονομία κατά την αναπαραγωγή βίντεο</string>
     <string name="enable_jump_buttons">Ενεργοποίηση πλήκτρων άλματος</string>
     <string name="enable_jump_buttons_summary">Εμφάνιση των πλήκτρων άλματος πίσω και μπροστά για την διασύνδεση βίντεο</string>
+    <string name="force_list_portrait">Κανένα πλέγμα σε κατακόρυφο προσανατολισμό</string>
+    <string name="force_list_portrait_summary">Δείξε τα βίντεο σε λίστα αντί για πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="audio_title_alignment">Ευθυγράμμιση ηχητικού τίτλου</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
     <string name="enable_headset_detection_summary">Παύση κατά την αφαίρεση των ακουστικών˙ συνέχιση με την εισαγωγή των ακουστικών</string>
@@ -243,6 +248,7 @@
     <string name="start_logging">Ξεκινήστε την καταγραφή</string>
     <string name="stop_logging">Τέλος καταγραφής</string>
     <string name="clear_log">Απαλοιφή καταγραφής</string>
+    <string name="log_service_title">Τα αρχεία του VLC καταγράφουν</string>
     <string name="log_service_text">Άνοιγμα της κονσόλας καταγραφής</string>
     <string name="copy_to_clipboard">Αντιγραφή στο πρόχειρο</string>
     <string name="copied_to_clipboard">Η καταγραφή αντιγράφηκε στο πρόχειρο.</string>
@@ -262,6 +268,7 @@
     <string name="file_other">Κλείστε το συρτάρι πλοήγησης</string>
     <string name="audio_delay">Καθυστέρηση ήχου</string>
     <string name="spu_delay">Καθυστέρηση υπότιτλου</string>
+    <string name="network_shares_discovery">Εύρεση κοινόχρηστων δικτυακών αρχείων...</string>
     <string name="network_empty">Ο κατάλογος είναι άδειος</string>
     <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
     <string name="search_hint">Αναζήτηση μέσων</string>
