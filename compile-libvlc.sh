@@ -485,7 +485,6 @@ mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 # CONFIGURE #
 #############
 
-if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 if [ "${CHROME_OS}" = "1" ];then
     # chrome OS doesn't have eventfd
     export ac_cv_func_eventfd=no
@@ -502,6 +501,7 @@ if [ ${ANDROID_ABI} = "x86" -a ${ANDROID_API} != "android-21" ] ; then
     # intel devices has nanf. Assume they don't have it.
     export ac_cv_lib_m_nanf=no
 fi
+if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 CPPFLAGS="$CPPFLAGS" \
 CFLAGS="$CFLAGS ${VLC_EXTRA_CFLAGS} ${EXTRA_CFLAGS}" \
 CXXFLAGS="$CFLAGS" \
