@@ -133,19 +133,6 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
         }
     }
 
-    public void toggleFavorite(String mrl) {
-        MediaDatabase db = MediaDatabase.getInstance();
-        String text;
-        if (db.networkFavExists(mrl)) {
-            db.deleteNetworkFav(mrl);
-            text = "Removed from favorites";
-        } else {
-            db.addNetworkFavItem(mrl);
-            text = "Saved to favorites";
-        }
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         mItemSelected = (MediaWrapper)item;
