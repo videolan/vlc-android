@@ -47,6 +47,7 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -649,6 +650,7 @@ public class AudioService extends Service {
      *
      * @return The current media or null if there is not any.
      */
+    @Nullable
     private MediaWrapper getCurrentMedia() {
         return mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
     }
@@ -935,9 +937,12 @@ public class AudioService extends Service {
             editor.putString(MediaMetadataRetriever.METADATA_KEY_GENRE, Util.getMediaGenre(this, media));
             editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, media.getTitle());
             editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, media.getLength());
+
             // Copy the cover bitmap because the RemonteControlClient can recycle its artwork bitmap.
-            Bitmap cover = getCover();
-            editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, ((cover != null) ? cover.copy(cover.getConfig(), false) : null));
+            Bitmap cover = AudioUtil.getCover(this, media, 512);
+            if (cover != null && cover.getConfig() != null) //In case of format not supported
+                editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, (cover.copy(cover.getConfig(), false)));
+
             editor.apply();
         }
 
@@ -987,11 +992,6 @@ public class AudioService extends Service {
         mRepeating = RepeatType.values()[t];
         saveCurrentMedia();
         determinePrevAndNextIndices();
-    }
-
-    private Bitmap getCover() {
-        MediaWrapper media = getCurrentMedia();
-        return media != null ? AudioUtil.getCover(this, media, 512) : null;
     }
 
     private final IAudioService.Stub mInterface = new IAudioService.Stub() {
@@ -1093,7 +1093,7 @@ public class AudioService extends Service {
         @Override
         public Bitmap getCover() {
             if (hasCurrentMedia()) {
-                return AudioService.this.getCover();
+                return AudioUtil.getCover(AudioService.this, getCurrentMedia(), 512);
             }
             return null;
         }

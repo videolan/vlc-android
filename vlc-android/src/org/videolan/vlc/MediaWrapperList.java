@@ -20,6 +20,8 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 
 import org.videolan.libvlc.LibVLC;
@@ -141,6 +143,7 @@ public class MediaWrapperList {
         return mInternalList.size();
     }
 
+    @Nullable
     public MediaWrapper getMedia(int position) {
         if (!isValid(position))
             return null;
