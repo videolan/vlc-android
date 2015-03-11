@@ -214,7 +214,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void onFocusChange(View v, boolean hasFocus) {
             if (v instanceof TextView)
                 ((TextView) v).setTextColor(v.hasFocus() ?
-                        sInstance.getResources().getColor(R.color.darkorange) : mTextColor);
+                        sInstance.getResources().getColor(R.color.orange500) : mTextColor);
         }
     };
 

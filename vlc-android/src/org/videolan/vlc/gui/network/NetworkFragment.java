@@ -100,7 +100,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         mRecyclerView.setOnScrollListener(mScrollListener);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return v;
     }

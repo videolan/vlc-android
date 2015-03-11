@@ -1,34 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="item_common_pressed">#e0e0e0</color>
-    <color name="item_common_selected">#5e5e5e</color>
-    <color name="item_footer">#e0e0e0</color>
-    <color name="background_common">#f2f1f0</color>
-    <color name="background_player">#fafaf9</color>
-    <color name="background_playlist">#e7e5e2</color>
-    <color name="background_menu_divider">#d0d0d0</color>
-    <color name="background_menu">#e0e0e0</color>
-    <color name="font_default">#222222</color>
-    <color name="font_light">#777777</color>
-    <color name="orange">#ffbb33</color>
-    <color name="blue">#0000ff</color>
-    <color name="darkorange">#ff8800</color>
-    <color name="darkerorange">#ff7200</color>
     <color name="black">#000001</color>
-    <color name="white">#FFFFFF</color>
-    <color name="transparent_gray">#8000</color>
-    <color name="transparent_white">#dcfafafa</color>
-    <color name="action_bar_title">#FFFFFF</color>
-    <color name="darkgrey">#ffa0a0a0</color>
-    <color name="background_remote">#ff323232</color>
-
-    <color name="black1">#0f0f0f</color>
-    <color name="black2">#222222</color>
-    <color name="black3">#181818</color>
-
-    <color name="grey1">#393939</color>
-    <color name="grey2">#d0d0d0</color>
+    <color name="white">#ffffff</color>
 
 <!--
     Material color swatches

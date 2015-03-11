@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="item_common_pressed" format="reference|color" />
-    <attr name="item_common_selected" format="reference|color" />
     <attr name="item_footer" format="reference|color" />
     <attr name="playlist_item_footer" format="reference|color" />
     <attr name="background_default" format="reference|color" />
@@ -13,7 +11,7 @@
     <attr name="background_menu_selected" format="reference|color" />
     <attr name="background_header" format="reference|color" />
     <attr name="background_player" format="reference|color" />
-    <attr name="background_playlist" format="reference|color" />
+    <attr name="background_audio_tips" format="reference|color" />
     <attr name="font_default" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="font_actionbar" format="reference|color" />
@@ -65,8 +63,6 @@
 
     <attr name="mini_player_top_shadow" format="reference" />
     <attr name="audio_playlist_shadow" format="reference" />
-    <attr name="header_fadein_overlay" format="reference" />
-    <attr name="header_fadeout_overlay" format="reference" />
 
     <attr name="advanced_options_style" format="reference" />
 

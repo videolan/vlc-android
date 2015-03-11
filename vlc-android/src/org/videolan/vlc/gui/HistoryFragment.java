@@ -86,7 +86,7 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
-        mSwipeRefreshLayout.setColorSchemeColors(R.color.darkerorange/*, R.attr.colorPrimary, R.attr.colorPrimaryDark*/);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.orange700/*, R.attr.colorPrimary, R.attr.colorPrimaryDark*/);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {

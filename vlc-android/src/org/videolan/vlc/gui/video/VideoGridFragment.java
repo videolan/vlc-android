@@ -141,7 +141,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         mGridView = (GridView) v.findViewById(android.R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {

@@ -3,7 +3,7 @@
     android:id="@+id/audio_tips"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent_white"
+    android:background="?attr/background_audio_tips"
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="8" >

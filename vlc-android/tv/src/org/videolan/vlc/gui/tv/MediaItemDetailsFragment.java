@@ -85,7 +85,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
         DetailsOverviewRowPresenter rowPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
-        rowPresenter.setBackgroundColor(getResources().getColor(R.color.darkorange));
+        rowPresenter.setBackgroundColor(getResources().getColor(R.color.orange500));
         rowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
 
             @Override

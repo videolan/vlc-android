@@ -145,7 +145,7 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         songsList.setOnScrollListener(mScrollListener);

@@ -7,7 +7,7 @@
     android:clickable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:background="@color/grey1"
+    android:background="@color/grey850"
     tools:targetApi="jelly_bean" >
 
     <ImageView

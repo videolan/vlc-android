@@ -101,7 +101,7 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        ((TextView)v).setTextColor(hasFocus ? getResources().getColor(R.color.darkorange) : mTextColor);
+        ((TextView)v).setTextColor(hasFocus ? getResources().getColor(R.color.orange500) : mTextColor);
     }
 
     @Override

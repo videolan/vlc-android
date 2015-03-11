@@ -128,7 +128,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         mBrowseFragment.setTitle(getString(R.string.app_name));
         mBrowseFragment.setBadgeDrawable(getResources().getDrawable(R.drawable.cone));
         // set search icon color
-        mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.darkorange));
+        mBrowseFragment.setSearchAffordanceColor(getResources().getColor(R.color.orange500));
 
         // add a listener for selected items
         mBrowseFragment.setOnItemViewClickedListener(this);

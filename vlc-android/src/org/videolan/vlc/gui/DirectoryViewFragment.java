@@ -124,7 +124,7 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         });
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.darkerorange);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {

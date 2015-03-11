@@ -8,7 +8,7 @@
     <style name="Theme.VLC.21" parent="Theme.VLC.17">
         <item name="android:colorPrimary">@color/orange800</item>
 
-        <item name="android:statusBarColor">@color/darkerorange</item>
+        <item name="android:statusBarColor">@color/orange700</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle.Light</item>
     </style>
     <style name="Theme.VLC.Black.21" parent="Theme.VLC.Black.17">

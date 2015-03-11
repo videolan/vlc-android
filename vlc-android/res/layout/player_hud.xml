@@ -36,7 +36,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/time_margin_sides"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-        android:textColor="@color/darkorange"
+        android:textColor="@color/orange500"
         android:textSize="16sp"/>
 
     <TextView
