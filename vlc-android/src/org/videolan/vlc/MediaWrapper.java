@@ -187,8 +187,6 @@ public class MediaWrapper implements Parcelable {
     }
 
     public void updateMeta(Media media) {
-        if (!media.isParsed())
-            return;
         mTitle = getMetaId(media, Meta.Title, true);
         mArtist = getMetaId(media, Meta.Artist, true);
         mAlbum = getMetaId(media, Meta.Album, true);
