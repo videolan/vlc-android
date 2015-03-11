@@ -60,6 +60,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
 
     public static final String SMB_ROOT = "smb";
     public static final String KEY_MRL = "key_mrl";
+    public static final String KEY_MEDIA = "key_media";
     public static final String KEY_POSITION = "key_list";
 
     private NetworkFragmentHandler mHandler;
@@ -70,6 +71,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private LinearLayoutManager mLayoutManager;
     TextView mEmptyView;
     public String mMrl;
+    private MediaWrapper mCurrentMedia;
     private int mSavedPosition = -1, mFavorites = 0;
     private boolean mRoot;
     LibVLC mLibVLC = LibVLC.getExistingInstance();
@@ -79,7 +81,11 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){
-            mMrl = bundle.getString(KEY_MRL);
+            mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
+            if (mCurrentMedia != null)
+                mMrl = mCurrentMedia.getLocation();
+            else
+                mMrl = bundle.getString(KEY_MRL);
             mSavedPosition = bundle.getInt(KEY_POSITION);
         }
         if (mMrl == null)
@@ -130,7 +136,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         if (mRoot)
             return getString(R.string.network_browsing);
         else
-            return new MediaWrapper(mMrl).getTitle();
+            return mCurrentMedia != null ? mCurrentMedia.getTitle() : mMrl;
     }
 
     public boolean isRootDirectory(){
@@ -145,7 +151,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment next = new NetworkFragment();
         Bundle args = new Bundle();
-        args.putString(KEY_MRL, media.getLocation());
+        args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         ft.addToBackStack(mMrl);
