@@ -12,7 +12,6 @@
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
@@ -88,7 +87,6 @@
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionOverflowButtonStyle">@style/ActionBar.OverflowButton</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
@@ -193,11 +191,6 @@
 
     <style name="ActionBar.Text" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
-    </style>
-
-    <style name="ActionBar.OverflowButton">
-        <item name="android:src">@drawable/ic_menu_overflow_w</item>
-        <item name="android:padding">5dp</item>
     </style>
 
     <style name="ActionBar.ArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
