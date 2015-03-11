@@ -3,6 +3,12 @@ Changes between 1.1.3 and 1.1.4:
 
 Core:
  * Support ModTracker files
+ * Fix freeze when changing audio speed
+
+Audio:
+ * Add AC3 passthrough support on Lollipop (Tested on Nexus Player)
+ * Add PCM 5.1 and 7.1 support via HDMI or SPDIF
+ * Add Float support on Lollipop
 
 Changes between 1.1.2 and 1.1.3:
 --------------------------------
