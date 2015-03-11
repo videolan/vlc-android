@@ -437,10 +437,12 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     public void onFabPlayAllClick(View view) {
         List<String> medias = new ArrayList<String>();
         mSongsAdapter.getListWithPosition(medias, 0);
-        Random rand = new Random();
-        int randomSong = rand.nextInt(mSongsAdapter.getCount());
-        mAudioController.load(medias, randomSong);
-        mAudioController.shuffle();
+        if (mSongsAdapter.getCount() > 0) {
+            Random rand = new Random();
+            int randomSong = rand.nextInt(mSongsAdapter.getCount());
+            mAudioController.load(medias, randomSong);
+            mAudioController.shuffle();
+        }
     }
 
     public void setFabPlayShuffleAllVisibility() {
