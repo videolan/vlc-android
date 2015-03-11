@@ -33,6 +33,7 @@ public class MediaBrowser {
 
     private static final String[] DISCOVERER_LIST = {
         "dsm", // Netbios discovery via libdsm
+        "upnp",
         // "bonjour",
         //  "mdns"
     };
