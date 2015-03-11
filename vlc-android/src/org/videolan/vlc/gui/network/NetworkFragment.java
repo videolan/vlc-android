@@ -130,7 +130,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         if (mRoot)
             return getString(R.string.network_browsing);
         else
-            return Strings.getName(mMrl);
+            return new MediaWrapper(mMrl).getTitle();
     }
 
     public boolean isRootDirectory(){
