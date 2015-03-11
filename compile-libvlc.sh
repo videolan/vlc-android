@@ -75,7 +75,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-caca \
     --disable-gettext \
     --disable-mpcdec \
-    --disable-upnp \
+    --enable-upnp \
     --disable-gme \
     --disable-tremor \
     --enable-vorbis \
