@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ import org.videolan.vlc.widget.EqualizerBar;
 public class EqualizerFragment extends Fragment {
 
     public final static String TAG = "VLC/EqualizerFragment";
-    private ToggleButton button;
+    private SwitchCompat button;
     private Spinner equalizer_presets;
     private SeekBar preamp;
     private LinearLayout bands_layout;
@@ -73,7 +74,7 @@ public class EqualizerFragment extends Fragment {
     }
 
     private void saveViewChildren(View v) {
-        button = (ToggleButton) v.findViewById(R.id.equalizer_button);
+        button = (SwitchCompat) v.findViewById(R.id.equalizer_button);
         equalizer_presets = (Spinner) v.findViewById(R.id.equalizer_presets);
         preamp = (SeekBar) v.findViewById(R.id.equalizer_preamp);
         bands_layout = (LinearLayout) v.findViewById(R.id.equalizer_bands);
