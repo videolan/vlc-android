@@ -2,7 +2,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.19"/>
 
-    <style name="Theme.VLC.Player.19" parent="Theme.VLC.Player.17">
+    <style name="Theme.VLC.Player.19" parent="Theme.VLC.Player.7">
         <item name="android:windowTranslucentStatus">true</item>">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>

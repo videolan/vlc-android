@@ -55,7 +55,6 @@
         android:text="@string/preferences"
         android:textColor="?attr/list_menu"
         android:textSize="16sp"
-        android:fontFamily="sans-serif"
         android:nextFocusUp="@id/sidelist"
         android:nextFocusDown="@+id/about"/>
 
@@ -88,7 +87,6 @@
         android:text="@string/about"
         android:textColor="?attr/list_menu"
         android:textSize="16sp"
-        android:fontFamily="sans-serif"
         android:nextFocusUp="@id/settings"
         android:nextFocusDown="@id/about"/>
 </RelativeLayout>
