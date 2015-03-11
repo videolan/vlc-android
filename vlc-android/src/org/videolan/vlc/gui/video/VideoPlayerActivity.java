@@ -871,13 +871,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         case KeyEvent.KEYCODE_BUTTON_X:
             onAudioSubClick(mTracks);
             return true;
-        case KeyEvent.KEYCODE_M:
+        case KeyEvent.KEYCODE_N:
         case KeyEvent.KEYCODE_MENU:
             showNavMenu();
             return true;
         case KeyEvent.KEYCODE_A:
             resizeVideo();
             return true;
+        case KeyEvent.KEYCODE_M:
         case KeyEvent.KEYCODE_VOLUME_MUTE:
             updateMute();
             return true;
@@ -1767,17 +1768,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void updateMute () {
-        if (!mMute) {
-            mVolSave = Float.floatToIntBits(mVol);
-            mMute = true;
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
-            showInfo(R.string.sound_off,1000);
-        } else {
-            mVol = mVolSave;
-            mMute = false;
-            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Float.floatToIntBits(mVol), 0);
-            showInfo(R.string.sound_on,1000);
-        }
+        mMute = !mMute;
+        if (mMute)
+            mVolSave = mLibVLC.getVolume();
+        mLibVLC.setVolume(mMute ? 0 : mVolSave);
+            showInfo(mMute ? R.string.sound_off : R.string.sound_on,1000);
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
