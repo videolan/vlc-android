@@ -36,6 +36,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -148,6 +149,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 v = inflater.inflate(R.layout.video_grid_card, parent, false);
             else
                 v = inflater.inflate(R.layout.video_list_card, parent, false);
+            ((CardView)v).setPreventCornerOverlap(false);
 
             holder = new ViewHolder();
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);
