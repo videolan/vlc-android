@@ -49,10 +49,6 @@
 
         <item name="mini_player_top_shadow">@drawable/mini_player_top_shadow</item>
         <item name="audio_playlist_shadow">@drawable/audio_playlist_shadow</item>
-<!--
-        <item name="header_fadein_overlay">@drawable/header_fadein_overlay</item>
-        <item name="header_fadeout_overlay">@drawable/header_fadeout_overlay</item>
--->
 
         <item name="ic_playlist_normal">@drawable/ic_playlist_normal</item>
         <item name="ic_playlist_pressed">@drawable/ic_playlist_pressed</item>
@@ -123,10 +119,6 @@
 
         <item name="mini_player_top_shadow">@null</item>
         <item name="audio_playlist_shadow">@null</item>
-<!--
-        <item name="header_fadein_overlay">@drawable/bt_header_fadein_overlay</item>
-        <item name="header_fadeout_overlay">@drawable/bt_header_fadeout_overlay</item>
--->
 
         <item name="ic_playlist_normal">@drawable/ic_playlist_normal_w</item>
         <item name="ic_playlist_pressed">@drawable/ic_playlist_pressed</item>
