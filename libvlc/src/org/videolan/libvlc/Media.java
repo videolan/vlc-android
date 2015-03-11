@@ -229,6 +229,7 @@ public final class Media extends VLCObject {
             throw new IllegalArgumentException("MediaList is not native");
         nativeNewFromMediaList(ml, index);
         mMrl = nativeGetMrl();
+        mNativeMetas = nativeGetMetas();
     }
 
     @Override
