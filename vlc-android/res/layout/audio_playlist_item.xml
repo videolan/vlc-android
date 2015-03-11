@@ -38,7 +38,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="?attr/playlist_item_footer" />
+                    android:background="?attr/item_footer" />
             </LinearLayout>
 
             <LinearLayout
@@ -88,7 +88,7 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="?attr/playlist_item_footer" />
+                    android:background="?attr/item_footer" />
 
                 <ImageButton
                     android:id="@+id/move"
@@ -115,6 +115,6 @@
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="?attr/playlist_item_footer" />
+        android:background="?attr/item_footer" />
 
 </LinearLayout>

@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/settings"
-        android:background="?attr/playlist_item_footer" />
+        android:background="?attr/item_footer" />
 
     <ImageView
         android:id="@+id/settings_icon"

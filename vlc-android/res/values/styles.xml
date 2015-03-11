@@ -25,7 +25,6 @@
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
 
         <item name="item_footer">@color/grey300</item>
-        <item name="playlist_item_footer">@color/grey300</item>
         <item name="background_default">@color/grey50</item>
         <item name="background_default_darker">@color/grey100</item>
         <item name="background_actionbar">@color/orange500</item>
@@ -100,7 +99,6 @@
         <item name="android:dropDownListViewStyle">@style/Theme.VLC.List</item>
 
         <item name="item_footer">@color/grey700</item>
-        <item name="playlist_item_footer">@color/grey700</item>
         <item name="background_default">@color/grey850</item>
         <item name="background_default_darker">@color/grey875</item>
         <item name="background_actionbar">@color/grey875</item>
