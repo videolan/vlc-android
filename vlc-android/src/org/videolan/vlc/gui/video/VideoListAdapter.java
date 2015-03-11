@@ -166,6 +166,9 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
             holder = (ViewHolder) v.getTag();
         }
 
+        if (position >= getCount() || position < 0)
+            return v;
+
         holder.more.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,14 +261,5 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     public boolean isListMode() {
         return mListMode;
-    }
-
-    @Override
-    @Nullable
-    public MediaWrapper getItem(int position) {
-        if (position < getCount() && position >= 0)
-            return super.getItem(position);
-        else
-            return null;
     }
 }
