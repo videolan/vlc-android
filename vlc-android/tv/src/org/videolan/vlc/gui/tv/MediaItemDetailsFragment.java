@@ -81,6 +81,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
         mMedia = extras.getParcelable("item");
         ClassPresenterSelector selector = new ClassPresenterSelector();
         final MediaWrapper media = new MediaWrapper(mMedia.getLocation());
+        media.setTitle(mMedia.getTitle());
         // Attach your media item details presenter to the row presenter:
         DetailsOverviewRowPresenter rowPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
@@ -102,7 +103,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
                         startActivity(intent);
                         break;
                     case ID_FAVORITE_ADD:
-                        mDb.addNetworkFavItem(mMedia.getLocation());
+                        mDb.addNetworkFavItem(mMedia.getLocation(), mMedia.getTitle());
                         Toast.makeText(getActivity(), "Saved to favorites", Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:

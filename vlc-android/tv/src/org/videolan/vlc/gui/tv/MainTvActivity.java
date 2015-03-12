@@ -320,10 +320,10 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
             mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
-            ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+            ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
             if (!favs.isEmpty()) {
-                for (String fav : favs) {
-                    mNetworkAdapter.add(new MediaWrapper(fav));
+                for (MediaWrapper fav : favs) {
+                    mNetworkAdapter.add(fav);
                 }
             }
             header = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing), null);

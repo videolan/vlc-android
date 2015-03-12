@@ -247,11 +247,11 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     public void refresh() {
         mAdapter.clear();
         if (mRoot){
-            ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+            ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
             if (!favs.isEmpty()) {
                 mFavorites = favs.size();
-                for (String fav : favs) {
-                    mAdapter.addItem(new MediaWrapper(fav), false, true);
+                for (MediaWrapper fav : favs) {
+                    mAdapter.addItem(fav, false, true);
                     mAdapter.notifyDataSetChanged();
                 }
                 mAdapter.addItem("Network favorites", false, true);
@@ -265,7 +265,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     }
 
     private void updateFavorites(){
-        ArrayList<String> favs = MediaDatabase.getInstance().getAllNetworkFav();
+        ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
         int newSize = favs.size(), totalSize = mAdapter.getItemCount();
 
         if (newSize == 0 && mFavorites == 0)
@@ -278,8 +278,8 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         else {
             if (mFavorites == 0)
                 mAdapter.addItem("Network favorites", false, false); //add header if needed
-            for (String fav : favs)
-                mAdapter.addItem(new MediaWrapper(fav), false, false); //add new favorites
+            for (MediaWrapper fav : favs)
+                mAdapter.addItem(fav, false, false); //add new favorites
         }
         mFavorites = newSize; //update count
     }
@@ -289,7 +289,7 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         if (db.networkFavExists(mMrl))
             db.deleteNetworkFav(mMrl);
         else
-            db.addNetworkFavItem(mMrl);
+            db.addNetworkFavItem(mMrl, mCurrentMedia.getTitle());
         getActivity().supportInvalidateOptionsMenu();
     }
 
