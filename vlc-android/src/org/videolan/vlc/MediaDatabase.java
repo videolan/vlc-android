@@ -162,6 +162,8 @@ public class MediaDatabase {
         public void dropMediaTableQuery(SQLiteDatabase db) {
             String query = "DROP TABLE " + MEDIA_TABLE_NAME + ";";
             db.execSQL(query);
+            query = "DROP TABLE " + MEDIA_VIRTUAL_TABLE_NAME + ";";
+            db.execSQL(query);
         }
 
         public void createMediaTableQuery(SQLiteDatabase db) {
@@ -187,7 +189,7 @@ public class MediaDatabase {
                     + ");";
             db.execSQL(query);
             db.execSQL("PRAGMA recursive_triggers='ON'"); //Needed for delete trigger
-            query = "CREATE VIRTUAL TABLE "
+            query = "CREATE VIRTUAL TABLE IF NOT EXISTS "
                     + MEDIA_VIRTUAL_TABLE_NAME + " USING FTS3 ("
                     + MEDIA_LOCATION + ", "
                     + MEDIA_TITLE + ", "
