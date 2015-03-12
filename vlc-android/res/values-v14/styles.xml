@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textCursorDrawable">@drawable/cursor_w</item>
+    </style>
+</resources>

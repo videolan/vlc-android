@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:theme="@style/Toolbar.VLC"
     app:popupTheme="?attr/toolbar_popup_style"
     android:background="?attr/background_actionbar"
     app:navigationIcon="?attr/homeAsUpIndicator"/>
