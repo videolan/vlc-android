@@ -547,6 +547,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
             mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             mSearchView.setOnQueryTextListener(this);
+            mSearchView.setQueryHint(getString(R.string.search_hint));
             mSearchView.setSuggestionsAdapter(new SearchSuggestionsAdapter(this, null));
         } else
             menu.findItem(R.id.ml_menu_search).setVisible(false);
