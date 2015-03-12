@@ -89,7 +89,7 @@ public class RecommendationsService extends IntentService {
                         .setPriority(7)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(sContext.getResources().getColor(R.color.darkorange))
+                        .setColor(sContext.getResources().getColor(R.color.orange500))
                         .setCategory("recommendation")
                         .setLargeIcon(sMediaDatabase.getPicture(sContext, movie.getLocation()))
                         .setSmallIcon(R.drawable.icon)
