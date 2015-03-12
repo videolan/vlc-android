@@ -124,6 +124,8 @@ public class MediaWrapper implements Parcelable {
                 }
             }
             updateMeta(media);
+            if (mType == TYPE_ALL && media.getType() == Media.Type.Directory)
+                mType = TYPE_DIR;
         }
 
         if (mType == TYPE_ALL) {
@@ -139,13 +141,6 @@ public class MediaWrapper implements Parcelable {
                 } else if (Extensions.PLAYLIST.contains(fileExt)) {
                     mType = TYPE_PLAYLIST;
                 }
-            }
-            if (mType == TYPE_ALL) {
-                /*
-                 * TODO: add something in libvlc to retrieve media type
-                 * In the meantime, assume media is a directory.
-                 */
-                mType = TYPE_DIR;
             }
         }
     }
