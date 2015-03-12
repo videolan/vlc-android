@@ -579,7 +579,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         }
         else
             menu.findItem(R.id.ml_menu_save).setVisible(false);
-        menu.findItem(R.id.ml_menu_clean).setVisible(SidebarEntry.ID_MRL.equals(mCurrentFragment));
+        if (current instanceof MRLPanelFragment)
+            menu.findItem(R.id.ml_menu_clean).setVisible(!((MRLPanelFragment) current).isEmpty());
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
 
 

@@ -96,6 +96,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
             Util.openStream(getActivity(), mEditText.getText().toString().trim());
             MediaDatabase.getInstance().addMrlhistoryItem(mEditText.getText().toString().trim());
             updateHistory();
+            getActivity().supportInvalidateOptionsMenu();
             mEditText.getText().clear();
             return true;
         }
@@ -105,6 +106,7 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
     public void clearHistory(){
         MediaDatabase.getInstance().clearMrlHistory();
         updateHistory();
+        getActivity().supportInvalidateOptionsMenu();
     }
 
     @Override
@@ -119,5 +121,9 @@ public class MRLPanelFragment extends Fragment implements View.OnKeyListener, Te
         MainActivity main = (MainActivity)getActivity();
         main.setMenuFocusDown(idIsEmpty, R.id.mrl_list);
         main.setSearchAsFocusDown(idIsEmpty, parent, R.id.mrl_list);
+    }
+
+    public boolean isEmpty(){
+        return mAdapter.isEmpty();
     }
 }
