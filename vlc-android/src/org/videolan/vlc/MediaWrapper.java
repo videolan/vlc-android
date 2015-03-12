@@ -308,7 +308,7 @@ public class MediaWrapper implements Parcelable {
     }
 
     public String getTitle() {
-        if (mTitle != null && mType != TYPE_VIDEO)
+        if (!TextUtils.isEmpty(mTitle))
             return mTitle;
         else {
             String fileName = getFileName();
