@@ -303,6 +303,10 @@ public class MediaWrapper implements Parcelable {
         mIsPictureParsed = isParsed;
     }
 
+    public void setTitle(String title){
+        mTitle = title;
+    }
+
     public String getTitle() {
         if (mTitle != null && mType != TYPE_VIDEO)
             return mTitle;
