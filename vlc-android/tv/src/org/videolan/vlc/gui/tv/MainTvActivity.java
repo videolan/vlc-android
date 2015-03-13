@@ -171,7 +171,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE && mSelectedItem instanceof MediaWrapper){
+        if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) && mSelectedItem instanceof MediaWrapper){
             MediaWrapper media = (MediaWrapper) mSelectedItem;
             if (media.getType() != MediaWrapper.TYPE_DIR)
                 return false;
