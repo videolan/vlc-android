@@ -210,6 +210,11 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
+        //Check for a joystick event
+        if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) !=
+                InputDevice.SOURCE_JOYSTICK ||
+                event.getAction() != MotionEvent.ACTION_MOVE)
+            return false;
 
         InputDevice inputDevice = event.getDevice();
 
@@ -226,7 +231,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
                 return true;
             }
         }
-        return false;
+        return true;
     }
 
     private void seek(int delta) {
