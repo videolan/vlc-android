@@ -33,6 +33,11 @@ import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.TvUtil;
 
 public class GridFragment extends VerticalGridFragment {
+
+    public interface BrowserActivity {
+        public void showProgress(boolean show);
+    }
+
     protected static final String TAG = "VLC/GridFragment";
 
     private static final int NUM_COLUMNS = 5;

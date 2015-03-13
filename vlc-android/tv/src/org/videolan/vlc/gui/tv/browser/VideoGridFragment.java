@@ -72,6 +72,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
         protected void onPreExecute(){
             setTitle(getString(R.string.app_name_full));
             mAdapter.clear();
+            ((BrowserActivity)getActivity()).showProgress(true);
         }
         @Override
         protected Void doInBackground(Void... params) {
@@ -96,6 +97,7 @@ public class VideoGridFragment extends MediaLibBrowserFragment implements IVideo
 
         @Override
         protected void onPostExecute(Void result) {
+            ((BrowserActivity)getActivity()).showProgress(false);
             setOnItemViewClickedListener(mClickListener);
         }
     }

@@ -29,14 +29,10 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.view.View;
-import android.widget.Toast;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
-import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.network.NetworkFragment;
@@ -66,18 +62,17 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     public void onResume() {
         super.onResume();
         if (mAdapter.size() == 0) {
-            if (mAdapter.size() == 0) {
-                mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
-                if (mMediaBrowser != null) {
-                    mMediaList = new ArrayList<>();
-                    if (mMrl != null)
-                        mMediaBrowser.browse(mMrl);
-                    else
-                        mMediaBrowser.discoverNetworkShares();
-                }
+            mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
+            if (mMediaBrowser != null) {
+                mMediaList = new ArrayList<>();
+                if (mMrl != null)
+                    mMediaBrowser.browse(mMrl);
+                else
+                    mMediaBrowser.discoverNetworkShares();
+                ((BrowserActivity)getActivity()).showProgress(true);
             }
-            setOnItemViewClickedListener(mClickListener);
         }
+        setOnItemViewClickedListener(mClickListener);
     }
 
     public void onPause(){
@@ -92,6 +87,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             mAdapter.clear();
             mAdapter.addAll(0, mMediaList); //FIXME adding 1 by 1 doesn't work
         }
+        ((BrowserActivity)getActivity()).showProgress(false);
     }
 
     @Override

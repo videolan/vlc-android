@@ -22,18 +22,21 @@ package org.videolan.vlc.gui.tv.browser;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 
-public class VerticalGridActivity extends Activity {
+public class VerticalGridActivity extends Activity implements GridFragment.BrowserActivity {
 
     GridFragment mFragment;
+    ProgressBar mContentLoadingProgressBar;
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_vertical_grid);
+        mContentLoadingProgressBar = (ProgressBar) findViewById(R.id.tv_fragment_progress);
         getWindow().setBackgroundDrawableResource(R.drawable.background);
         long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
         if (type == MainTvActivity.HEADER_VIDEO)
@@ -57,5 +60,9 @@ public class VerticalGridActivity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void showProgress(boolean show){
+        mContentLoadingProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }

@@ -100,6 +100,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
             mAdapter.clear();
             mMediaItemMap = new HashMap<String, ListItem>();
             mMediaItemList = new ArrayList<ListItem>();
+            ((BrowserActivity)getActivity()).showProgress(true);
         }
 
         @Override
@@ -164,6 +165,7 @@ public class MusicFragment extends MediaLibBrowserFragment {
 
         @Override
         protected void onPostExecute(String title) {
+            ((BrowserActivity)getActivity()).showProgress(false);
             setTitle(title);
             setOnItemViewClickedListener(new OnItemViewClickedListener() {
                 @Override

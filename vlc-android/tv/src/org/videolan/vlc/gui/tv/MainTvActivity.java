@@ -48,7 +48,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -60,12 +59,13 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ProgressBar;
 
-public class MainTvActivity extends Activity implements IVideoBrowser, OnItemViewSelectedListener, OnItemViewClickedListener, OnClickListener {
+public class MainTvActivity extends Activity implements IVideoBrowser, OnItemViewSelectedListener,
+        OnItemViewClickedListener, OnClickListener {
 
     private static final int NUM_ITEMS_PREVIEW = 5;
 
@@ -79,6 +79,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     public static final String TAG = "VLC/MainTvActivity";
 
     protected BrowseFragment mBrowseFragment;
+    private ProgressBar mProgressBar;
     protected final CyclicBarrier mBarrier = new CyclicBarrier(2);
     private MediaLibrary mMediaLibrary;
     private static Thumbnailer sThumbnailer;
@@ -122,6 +123,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         final FragmentManager fragmentManager = getFragmentManager();
         mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
                 R.id.browse_fragment);
+        mProgressBar = (ProgressBar) findViewById(R.id.tv_main_progress);
 
         // Set display parameters for the BrowseFragment
         mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_ENABLED);
@@ -208,12 +210,12 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
     @Override
     public void showProgressBar() {
-        //TODO
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-        //TODO
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -222,9 +224,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     }
 
     @Override
-    public void sendTextInfo(String info, int progress, int max) {
-        Log.d(TAG, info);
-    }
+    public void sendTextInfo(String info, int progress, int max) {}
 
     @Override
     public void setItemToUpdate(MediaWrapper item) {
@@ -282,6 +282,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         @Override
         protected void onPreExecute(){
             mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+            mProgressBar.setVisibility(View.VISIBLE);
         }
         @Override
         protected Void doInBackground(Void... params) {
@@ -341,6 +342,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         @Override
         protected void onPostExecute(Void result) {
             mBrowseFragment.setAdapter(mRowsAdapter);
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 
