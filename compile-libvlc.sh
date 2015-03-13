@@ -155,7 +155,7 @@ VLC_CONFIGURE_ARGS="\
     --enable-vorbis \
     --disable-faad \
     --disable-x264 \
-    --disable-schroedinger --disable-dirac \
+    --disable-schroedinger \
 "
 
 ########################
