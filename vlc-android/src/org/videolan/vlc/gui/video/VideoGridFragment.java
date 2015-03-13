@@ -405,6 +405,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     private void focusHelper(boolean idIsEmpty) {
         View parent = getView();
         MainActivity main = (MainActivity)getActivity();
+        if (main == null)
+            return;
         main.setMenuFocusDown(idIsEmpty, android.R.id.list);
         main.setSearchAsFocusDown(idIsEmpty, parent,
                     android.R.id.list);
