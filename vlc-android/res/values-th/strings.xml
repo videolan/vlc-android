@@ -94,6 +94,7 @@
     <string name="track_unknown">ไม่ทราบร่องข้อมูล</string>
     <string name="volume">ระดับเสียง</string>
     <string name="brightness">ความสว่าง</string>
+    <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
     <string name="tools">เครื่องมือ</string>
     <string name="playback_speed">ความเร็วการเล่น</string>
     <string name="sleep_title">พักเครื่อง</string>
