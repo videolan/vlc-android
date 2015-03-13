@@ -22,8 +22,8 @@
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
     <string name="last_playlist">Останній список</string>
-    <string name="delete">Видалити</string>
-    <string name="remove">Видалити</string>
+    <string name="delete">Вилучити</string>
+    <string name="remove">Усунути</string>
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
