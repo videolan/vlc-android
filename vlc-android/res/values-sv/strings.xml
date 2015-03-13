@@ -107,6 +107,7 @@
     <string name="sound_off">Ljud av</string>
     <string name="brightness">Ljusstyrka</string>
     <string name="navmenu">navigeringsmeny</string>
+    <string name="advanced">avancerade alternativ</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
@@ -140,6 +141,7 @@
     <string name="video_player_tips">Tips för videospelaren:</string>
     <string name="seek">Sök</string>
     <string name="subtitles">Undertexter</string>
+    <string name="audio_sub">Ljudspår\noch undertexter</string>
     <string name="resize">Ändra storlek</string>
     <string name="options">Alternativ</string>
     <string name="lock">Lås</string>
@@ -172,6 +174,11 @@
     <string name="hardware_acceleration_disabled">Inaktiverad</string>
     <string name="hardware_acceleration_decoding">Avkodningsaccelerering</string>
     <string name="hardware_acceleration_full">Full accelerering</string>
+    <string name="dev_hardware_decoder">Avancerad hårdvaruavkodare</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skärmorientering för video</string>
     <string name="screen_orientation_sensor">Automatiskt (sensor)</string>
@@ -194,6 +201,8 @@
     <string name="enable_brightness_gesture_summary">Kontrollera ljusstyrkan med gester under videouppspelning</string>
     <string name="enable_jump_buttons">Aktivera knapp för att hoppa </string>
     <string name="enable_jump_buttons_summary">Visa knapparna Bakåt och Framåt på videogränssnittet</string>
+    <string name="force_list_portrait">Inget rutnät i porträttläge</string>
+    <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
     <string name="enable_headset_detection">Identifiera hörlurar</string>
     <string name="enable_headset_detection_summary">Pausa är hörlurar tas bort; fortsätt när hörlurar ansluts</string>
@@ -238,6 +247,7 @@
     <string name="start_logging">Börja logga</string>
     <string name="stop_logging">Sluta logga</string>
     <string name="clear_log">Rensa logg</string>
+    <string name="log_service_text">Öppna loggkonsolen</string>
     <string name="copy_to_clipboard">Kopiera till urklipp</string>
     <string name="copied_to_clipboard">Kopierade logg till urklipp.</string>
     <string name="quit">Avsluta och starta om applikationen</string>
@@ -251,4 +261,13 @@
     <string name="sending_log">Skickar loggen...</string>
     <string name="drawer_open">Öppna navigeringsmenyn</string>
     <string name="drawer_close">Stäng navigeringsmenyn</string>
+    <string name="network_browsing">Lokalt nätverk</string>
+    <string name="file_size">Filstorlek:</string>
+    <string name="file_other">Stäng navigeringsmenyn</string>
+    <string name="audio_delay">Ljudfördröjning</string>
+    <string name="spu_delay">Undertextfördröjning</string>
+    <string name="network_shares_discovery">Söker efter nätverksdelningar...</string>
+    <string name="network_empty">Denna filkatalog är tom.</string>
+    <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
+    <string name="search_hint">Sök media</string>
 </resources>
