@@ -25,6 +25,7 @@
             android:defaultValue="false"
             android:key="enable_black_theme"
             android:summary="@string/enable_black_theme_summary"
+            android:widgetLayout="@layout/custom_chexbox"
             android:title="@string/enable_black_theme" />
 
         <ListPreference
@@ -46,6 +47,7 @@
                     android:defaultValue="false"
                     android:key="enable_clone_mode"
                     android:summary="@string/enable_clone_mode_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_clone_mode" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/interface_other_category" >
@@ -53,21 +55,25 @@
                     android:defaultValue="false"
                     android:key="force_list_portrait"
                     android:summary="@string/force_list_portrait_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/force_list_portrait" />
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_brightness_gesture"
                     android:summary="@string/enable_brightness_gesture_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_brightness_gesture" />
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="enable_headset_detection"
                     android:summary="@string/enable_headset_detection_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_headset_detection" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="enable_steal_remote_control"
                     android:summary="@string/enable_steal_remote_control_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_steal_remote_control" />
                 <ListPreference
                     android:defaultValue="0"
@@ -99,11 +105,13 @@
                     android:defaultValue="false"
                     android:key="enable_frame_skip"
                     android:summary="@string/enable_frame_skip_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_frame_skip" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="enable_time_stretching_audio"
                     android:summary="@string/enable_time_stretching_audio_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_time_stretching_audio" />
             </PreferenceCategory>
         </PreferenceScreen>
@@ -159,6 +167,7 @@
                     android:defaultValue="true"
                     android:key="enable_verbose_mode"
                     android:summary="@string/enable_verbose_mode_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
                     android:title="@string/enable_verbose_mode" />
 
                 <PreferenceScreen
