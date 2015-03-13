@@ -40,7 +40,7 @@ public class GridFragment extends VerticalGridFragment {
 
     protected static final String TAG = "VLC/GridFragment";
 
-    private static final int NUM_COLUMNS = 5;
+    private static final int NUM_COLUMNS = 4;
 
     protected ArrayObjectAdapter mAdapter;
     Context mContext;
