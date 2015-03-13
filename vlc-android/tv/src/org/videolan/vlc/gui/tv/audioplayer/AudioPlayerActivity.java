@@ -20,13 +20,16 @@
 package org.videolan.vlc.gui.tv.audioplayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
+import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.DividerItemDecoration;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.AndroidDevices;
 
@@ -56,9 +59,10 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
     private static final int JOYSTICK_INPUT_DELAY = 300;
     private long mLastMove;
     private int mCurrentlyPlaying, mPositionSaved = 0;
+    private boolean mShuffling = false;
 
     private TextView mTitleTv, mArtistTv;
-    private ImageView mPlayPauseButton, mCover;
+    private ImageView mPlayPauseButton, mCover, mNext, mShuffle, mRepeat;
     private ProgressBar mProgressBar;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +83,16 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
         mAudioController = AudioServiceController.getInstance();
 
+        mAudioController.getRepeatType();
         mTitleTv = (TextView)findViewById(R.id.media_title);
         mArtistTv = (TextView)findViewById(R.id.media_artist);
+        mNext = (ImageView)findViewById(R.id.button_next);
         mPlayPauseButton = (ImageView)findViewById(R.id.button_play);
+        mShuffle = (ImageView)findViewById(R.id.button_shuffle);
+        mRepeat = (ImageView)findViewById(R.id.button_repeat);
         mProgressBar = (ProgressBar)findViewById(R.id.media_progress);
         mCover = (ImageView)findViewById(R.id.album_cover);
-        findViewById(R.id.button_next).setOnFocusChangeListener(this);
+        findViewById(R.id.button_shuffle).setOnFocusChangeListener(this);
     }
 
     public void onStart(){
@@ -239,6 +247,48 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             case R.id.button_previous:
                 goPrevious();
                 break;
+            case R.id.button_repeat:
+                updateRepeatMode();
+                break;
+            case R.id.button_shuffle:
+                setShuffleMode(!mShuffling);
+                break;
+        }
+    }
+
+    private void setShuffleMode(boolean shuffle) {
+        mShuffling = shuffle;
+        mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_white_36dp :
+                R.drawable.ic_shuffle_grey600_36dp);
+        ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
+        if (shuffle){
+            Collections.shuffle(medialocations);
+        } else {
+            ArrayList<MediaWrapper> mediaList = new ArrayList<MediaWrapper>(medialocations.size());
+            MediaLibrary mediaLibrary = MediaLibrary.getInstance();
+            for (String location : medialocations)
+                mediaList.add(mediaLibrary.getMediaItem(location));
+            Collections.sort(mediaList, MediaComparators.byTrackNumber);
+            medialocations.clear();
+            for (MediaWrapper media : mediaList)
+                medialocations.add(media.getLocation());
+        }
+        mAudioController.load(medialocations, 0);
+        mAdapter.updateList(medialocations);
+        update();
+    }
+
+    private void updateRepeatMode() {
+        RepeatType type = mAudioController.getRepeatType();
+        if (type == RepeatType.None){
+            mAudioController.setRepeatType(RepeatType.All);
+            mRepeat.setImageResource(R.drawable.ic_repeat_white_36dp);
+        } else if (type == RepeatType.All) {
+            mAudioController.setRepeatType(RepeatType.Once);
+            mRepeat.setImageResource(R.drawable.ic_repeat_one_white_36dp);
+        } else if (type == RepeatType.Once) {
+            mAudioController.setRepeatType(RepeatType.None);
+            mRepeat.setImageResource(R.drawable.ic_repeat_grey600_36dp);
         }
     }
 
@@ -297,7 +347,7 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
             if (mAdapter.getmSelectedItem() != -1)
                 mPositionSaved = mAdapter.getmSelectedItem();
             selectItem(-1);
-        } else if (!mPlayPauseButton.hasFocus())
+        } else if (!mNext.hasFocus())
             selectItem(mPositionSaved);
     }
 }

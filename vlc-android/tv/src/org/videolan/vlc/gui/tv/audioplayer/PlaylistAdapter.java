@@ -102,6 +102,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
+    public void updateList(ArrayList<String> list){
+        mDataset = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onClick(View v){
         mAudioPlayerActivity.playSelection();

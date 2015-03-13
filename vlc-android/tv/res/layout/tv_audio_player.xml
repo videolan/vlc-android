@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scrollbars="vertical"
-            android:nextFocusLeft="@+id/button_next" />
+            android:nextFocusLeft="@+id/button_shuffle" />
     </LinearLayout>
 
     <!-- Media HUD -->
@@ -80,6 +80,18 @@
 	        android:layout_centerHorizontal="true"
 	        android:layout_below="@id/media_progress">
 	        <ImageView
+	            android:id="@+id/button_repeat"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+	            android:layout_marginRight="10dp"
+	            android:src="@drawable/ic_repeat_grey600_36dp"
+	            android:clickable="true"
+	            android:onClick="onClick"
+                android:nextFocusRight="@+id/button_previous"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+	        <ImageView
 	            android:id="@+id/button_previous"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -87,6 +99,7 @@
 	            android:clickable="true"
 	            android:onClick="onClick"
                 android:nextFocusRight="@+id/button_play"
+                android:nextFocusLeft="@id/button_repeat"
                 android:focusable="true"
                 android:focusableInTouchMode="true"/>
 	        <ImageView
@@ -111,8 +124,21 @@
 	            android:src="@drawable/ic_next"
 	            android:clickable="true"
 	            android:onClick="onClick"
-                android:nextFocusRight="@id/playlist"
+                android:nextFocusRight="@+id/button_shuffle"
                 android:nextFocusLeft="@id/button_play"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
+	        <ImageView
+	            android:id="@+id/button_shuffle"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+	            android:layout_marginLeft="10dp"
+	            android:src="@drawable/ic_shuffle_grey600_36dp"
+	            android:clickable="true"
+	            android:onClick="onClick"
+                android:nextFocusRight="@id/playlist"
+                android:nextFocusLeft="@id/button_next"
                 android:focusable="true"
                 android:focusableInTouchMode="true"/>
 	        </LinearLayout>
