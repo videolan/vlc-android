@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">O.k.</string>
+    <string name="ok">OK</string>
     <string name="cancel">Annullér</string>
     <string name="other">Andet</string>
     <string name="sortby">Sortér efter …</string>
@@ -106,6 +106,8 @@
     <string name="sound_on">Lyd til</string>
     <string name="sound_off">Lyd fra</string>
     <string name="brightness">Lysstyrke</string>
+    <string name="navmenu">navigationsmenu</string>
+    <string name="advanced">avanceret indstillinger</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>
     <string name="subtitles">Undertekster</string>
+    <string name="audio_sub">Lydspor\nog undertekster</string>
     <string name="resize">Tilpas størrelse</string>
     <string name="options">Indstillinger</string>
     <string name="lock">Lås</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Slået fra</string>
     <string name="hardware_acceleration_decoding">Acceleration af afkodning</string>
     <string name="hardware_acceleration_full">Fuld acceleration</string>
+    <string name="dev_hardware_decoder">Avanceret hardware-decoder</string>
+    <string name="dev_hardware_decoder_summary">Tving hardware-decoder, kun til avancerede brugere</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skærmretning</string>
     <string name="screen_orientation_sensor">Automatisk (sensor)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_jump_buttons">Slå skip-knapper til</string>
     <string name="enable_jump_buttons_summary">Vis bagud- og forlæns-knapper på videobrugerfladen</string>
+    <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
+    <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
     <string name="enable_headset_detection">Detektér hovedtelefoner</string>
     <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">Start logregistrering</string>
     <string name="stop_logging">Stop logregistrering</string>
     <string name="clear_log">Ryd log</string>
+    <string name="log_service_title">VLC log optagelse</string>
+    <string name="log_service_text">Åbn log-konsol</string>
     <string name="copy_to_clipboard">Kopiér til udklipsholder</string>
     <string name="copied_to_clipboard">Kopierede log til udklipsholder</string>
     <string name="quit">Afslut og genstart programmet</string>
@@ -250,4 +263,13 @@
     <string name="sending_log">Sender loggen ...</string>
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
+    <string name="network_browsing">Lokalt netværk</string>
+    <string name="file_size">Filstørrelse:</string>
+    <string name="file_other">Luk navigationsskuffe</string>
+    <string name="audio_delay">Lydforsinkelse</string>
+    <string name="spu_delay">Undertekstforsinkelse</string>
+    <string name="network_shares_discovery">Søger efter netværks shares...</string>
+    <string name="network_empty">Denne mappe er tom.</string>
+    <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
+    <string name="search_hint">Søg efter medier</string>
 </resources>
