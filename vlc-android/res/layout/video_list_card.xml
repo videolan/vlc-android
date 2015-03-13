@@ -34,6 +34,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingLeft="12dip"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
             android:textSize="17sp" />
 
@@ -57,6 +58,7 @@
             android:layout_above="@id/ml_item_progress"
             android:gravity="left"
             android:paddingLeft="12dip"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
             android:textSize="14sp" />
         <TextView
@@ -66,6 +68,7 @@
             android:layout_above="@id/ml_item_progress"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
             android:textSize="14sp" />
 

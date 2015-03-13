@@ -26,6 +26,7 @@
         <TextView
             android:id="@+id/ml_item_title"
             android:textSize="@dimen/grid_card_title_text_size"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,6 +62,7 @@
             android:layout_marginLeft="5dp"
             android:singleLine="true"
             android:textSize="@dimen/grid_card_subtitle_text_size"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle" />
 
         <TextView
@@ -73,6 +75,7 @@
             android:layout_marginRight="5dp"
             android:singleLine="true"
             android:textSize="@dimen/grid_card_subtitle_text_size"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle" />
 
         <ProgressBar

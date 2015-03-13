@@ -20,6 +20,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:singleLine="true"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/font_default" />
         <ImageView
             android:id="@+id/mrl_item_delete"

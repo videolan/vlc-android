@@ -25,6 +25,7 @@
             android:layout_marginRight="5dip"
             android:layout_marginTop="5dip"
             android:text="@string/title"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
             android:textSize="20sp" />
 
@@ -36,6 +37,7 @@
             android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"
             android:text="@string/artist"
+            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
             android:textSize="14sp" />
     </LinearLayout>
