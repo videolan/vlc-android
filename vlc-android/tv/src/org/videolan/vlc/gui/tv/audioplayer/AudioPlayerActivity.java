@@ -141,7 +141,6 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
                 mCover.setImageResource(R.drawable.background_cone);
             else
                 mCover.setImageBitmap(cover);
-            selectItem(mLocations.indexOf(mAudioController.getCurrentMediaLocation()));
         }
     }
 

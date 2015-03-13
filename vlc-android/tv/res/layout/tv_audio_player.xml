@@ -101,7 +101,9 @@
                 android:nextFocusRight="@+id/button_next"
                 android:nextFocusLeft="@id/button_previous"
                 android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true">
+                <requestFocus/>
+            </ImageView>
 	        <ImageView
 	            android:id="@+id/button_next"
 	            android:layout_width="wrap_content"
