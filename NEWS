@@ -10,6 +10,22 @@ Audio:
  * Add PCM 5.1 and 7.1 support via HDMI or SPDIF
  * Add Float support on Lollipop
 
+Application:
+ * More Material fixes (search, streams, equalizer)
+ * Improvements on the black theme (colors and settings)
+ * Fix numerous crashes
+ * Fix album art for artists
+
+TV:
+ * Fix look of numerous activities
+ * Better keyboard and gamepad mappings
+ * Shuffle and repeat in Audio mode
+ * Better recommendations
+
+Translations:
+ * Update most translations
+
+
 Changes between 1.1.2 and 1.1.3:
 --------------------------------
 
