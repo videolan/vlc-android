@@ -195,7 +195,7 @@ public class MediaDatabase {
                     + ");";
             db.execSQL(query);
             db.execSQL("PRAGMA recursive_triggers='ON'"); //Needed for delete trigger
-            query = "CREATE VIRTUAL TABLE IF NOT EXISTS "
+            query = "CREATE VIRTUAL TABLE "
                     + MEDIA_VIRTUAL_TABLE_NAME + " USING FTS3 ("
                     + MEDIA_LOCATION + ", "
                     + MEDIA_TITLE + ", "
