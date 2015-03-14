@@ -161,10 +161,15 @@ public class MediaDatabase {
         }
 
         public void dropMediaTableQuery(SQLiteDatabase db) {
-            String query = "DROP TABLE " + MEDIA_TABLE_NAME + ";";
-            db.execSQL(query);
-            query = "DROP TABLE " + MEDIA_VIRTUAL_TABLE_NAME + ";";
-            db.execSQL(query);
+            try {
+                String query = "DROP TABLE " + MEDIA_TABLE_NAME + ";";
+                db.execSQL(query);
+                query = "DROP TABLE " + MEDIA_VIRTUAL_TABLE_NAME + ";";
+                db.execSQL(query);
+            } catch(SQLiteException e)
+            {
+                Log.w(TAG, "SQLite tables could not be dropped! Maybe they were missing...");
+            }
         }
 
         public void createMediaTableQuery(SQLiteDatabase db) {
@@ -247,8 +252,13 @@ public class MediaDatabase {
         }
 
         public void dropMRLTableQuery(SQLiteDatabase db) {
-            String query = "DROP TABLE " + MRL_TABLE_NAME + ";";
-            db.execSQL(query);
+            try {
+                String query = "DROP TABLE " + MRL_TABLE_NAME + ";";
+                db.execSQL(query);
+            } catch(SQLiteException e)
+            {
+                Log.w(TAG, "SQLite tables could not be dropped! Maybe they were missing...");
+            }
         }
 
         private void createNetworkFavTableQuery(SQLiteDatabase db) {
@@ -261,8 +271,12 @@ public class MediaDatabase {
         }
 
         public void dropNetworkFavTableQuery(SQLiteDatabase db) {
-            String query = "DROP TABLE " + NETWORK_FAV_TABLE_NAME + ";";
-            db.execSQL(query);
+            try {
+                String query = "DROP TABLE " + NETWORK_FAV_TABLE_NAME + ";";
+                db.execSQL(query);
+            } catch(SQLiteException e) {
+                Log.w(TAG, "SQLite tables could not be dropped! Maybe they were missing...");
+            }
         }
 
         @Override
