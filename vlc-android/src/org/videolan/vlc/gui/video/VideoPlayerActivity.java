@@ -150,6 +150,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private MediaRouter mMediaRouter;
     private MediaRouter.SimpleCallback mMediaRouterCallback;
     private SecondaryDisplay mPresentation;
+    private int mPresentationDisplayId = -1;
     private LibVLC mLibVLC;
     private MediaWrapperListPlayer mMediaListPlayer;
     private String mLocation;
@@ -273,6 +274,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPauseOnLoaded = false;
+    private boolean mWasPlaying = false;
     private boolean mLostFocus = false;
 
     // Tips
@@ -297,7 +299,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 public void onRoutePresentationDisplayChanged(
                         MediaRouter router, MediaRouter.RouteInfo info) {
                     Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
-                    removePresentation();
+                    final Display presentationDisplay = info.getPresentationDisplay();
+                    final int newDisplayId = presentationDisplay != null ? presentationDisplay.getDisplayId() : -1;
+                    if (newDisplayId != mPresentationDisplayId)
+                        removePresentation();
                 }
             };
             Log.d(TAG, "MediaRouter information : " + mMediaRouter  .toString());
@@ -517,7 +522,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
         }
 
-        boolean isPaused = !mLibVLC.isPlaying();
+        boolean isPaused;
+        if (mWasPlaying)
+            isPaused = false;
+        else
+            isPaused = !mLibVLC.isPlaying();
 
         long time = mLibVLC.getTime();
         long length = mLibVLC.getLength();
@@ -2672,6 +2681,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mPresentation.setOnDismissListener(mOnDismissListener);
             try {
                 mPresentation.show();
+                mPresentationDisplayId = presentationDisplay.getDisplayId();
             } catch (WindowManager.InvalidDisplayException ex) {
                 Log.w(TAG, "Couldn't show presentation!  Display was removed in "
                         + "the meantime.", ex);
@@ -2689,10 +2699,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         // Dismiss the current presentation if the display has changed.
         Log.i(TAG, "Dismissing presentation because the current route no longer "
                 + "has a presentation display.");
+        mWasPlaying = mLibVLC.isPlaying();
         mLibVLC.pause(); // Stop sending frames to avoid a crash.
-        finish(); //TODO restore the video on the new display instead of closing
         if (mPresentation != null) mPresentation.dismiss();
         mPresentation = null;
+        mPresentationDisplayId = -1;
+        mediaRouterAddCallback(false);
+        changeAudioFocus(false);
+        recreate();
     }
 
     /**
