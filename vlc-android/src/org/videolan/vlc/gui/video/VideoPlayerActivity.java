@@ -273,6 +273,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPauseOnLoaded = false;
+    private boolean mLostFocus = false;
 
     // Tips
     private View mOverlayTips;
@@ -1201,20 +1202,24 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                         case AudioManager.AUDIOFOCUS_LOSS:
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            if (mLibVLC.isPlaying())
+                            if (mLibVLC.isPlaying()) {
                                 mLibVLC.pause();
+                                mLostFocus = true;
+                            }
                             break;
                         case AudioManager.AUDIOFOCUS_GAIN:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                            if (!mLibVLC.isPlaying())
+                            if (!mLibVLC.isPlaying() && mLostFocus)
                                 mLibVLC.play();
+                            mLostFocus = false;
                             break;
                     }
                 }
             };
         }
 
+        mLostFocus = false;
         int result;
         if(acquire) {
             result = mAudioManager.requestAudioFocus(mAudioFocusListener,
