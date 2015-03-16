@@ -1265,7 +1265,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         @Override
         public void handleMessage(Message msg) {
             VideoPlayerActivity activity = getOwner();
-            if(activity == null) return;
+            if(activity == null || activity.isFinishing()) return;
             // Do not handle events if we are leaving the VideoPlayerActivity
             if (activity.mSwitchingView) return;
 
