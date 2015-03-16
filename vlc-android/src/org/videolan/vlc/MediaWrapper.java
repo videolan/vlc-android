@@ -439,19 +439,19 @@ public class MediaWrapper implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(getLocation());
+        dest.writeString(getLocation());
         dest.writeLong(getTime());
         dest.writeLong(getLength());
         dest.writeInt(getType());
         dest.writeParcelable(getPicture(), flags);
-        dest.writeValue(getTitle());
-        dest.writeValue(getArtist());
-        dest.writeValue(getGenre());
-        dest.writeValue(getAlbum());
-        dest.writeValue(getAlbumArtist());
+        dest.writeString(getTitle());
+        dest.writeString(getArtist());
+        dest.writeString(getGenre());
+        dest.writeString(getAlbum());
+        dest.writeString(getAlbumArtist());
         dest.writeInt(getWidth());
         dest.writeInt(getHeight());
-        dest.writeValue(getArtworkURL());
+        dest.writeString(getArtworkURL());
         dest.writeInt(getAudioTrack());
         dest.writeInt(getSpuTrack());
         dest.writeInt(getTrackNumber());
