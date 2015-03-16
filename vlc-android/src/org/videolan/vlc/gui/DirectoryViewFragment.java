@@ -58,7 +58,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class DirectoryViewFragment extends BrowserFragment implements IRefreshable, ISortable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
+public class DirectoryViewFragment extends BrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
     public final static String TAG = "VLC/DirectoryViewFragment";
 
     private DirectoryAdapter mDirectoryAdapter;
@@ -234,7 +234,6 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         }
     }
 
-    @Override
     public void sortBy(int sortby) {
         // TODO
         Util.toaster(getActivity(), R.string.notavailable);
