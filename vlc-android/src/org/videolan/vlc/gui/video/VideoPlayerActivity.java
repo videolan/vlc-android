@@ -613,6 +613,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onStop() {
         super.onStop();
 
+        changeAudioFocus(false);
         mHandler.removeCallbacksAndMessages(null);
         eventHandler.removeCallbacksAndMessages(null);
 
@@ -1239,9 +1240,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mAudioManager.setParameters("bgm_state=true");
         }
         else {
-            if (mAudioManager != null) {
+            if (mAudioManager != null && mAudioFocusListener != null) {
                 result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
                 mAudioManager.setParameters("bgm_state=false");
+                mAudioFocusListener = null;
             }
             else
                 result = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
