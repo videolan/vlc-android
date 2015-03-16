@@ -21,6 +21,7 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -68,6 +69,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.Util;
@@ -275,10 +277,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             return;
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
-            VideoGridFragment frag = (VideoGridFragment)activity.showSecondaryFragment("videoGroupList");
-            if (frag != null) {
-                frag.setGroup(media.getTitle());
-            }
+            activity.showSecondaryFragment("videoGroupList", media.getTitle());
         }
         else
             playVideo(media, false);
@@ -305,10 +304,14 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             playAudio(media);
             return true;
         case R.id.video_list_info:
-            MainActivity activity = (MainActivity)getActivity();
-            MediaInfoFragment frag = (MediaInfoFragment)activity.showSecondaryFragment("mediaInfo");
-            if (frag != null) {
-                frag.setMediaLocation(media.getLocation());
+            Activity activity = getActivity();
+            if (activity instanceof MainActivity)
+                ((MainActivity)activity).showSecondaryFragment("mediaInfo", media.getLocation());
+            else {
+                Intent i = new Intent(activity, SecondaryActivity.class);
+                i.putExtra("fragment", "mediaInfo");
+                i.putExtra("param", media.getLocation());
+                startActivity(i);
             }
             return true;
         case R.id.video_list_delete:
@@ -404,12 +407,12 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     }
     private void focusHelper(boolean idIsEmpty) {
         View parent = getView();
-        MainActivity main = (MainActivity)getActivity();
-        if (main == null)
+        if (getActivity() == null || !(getActivity() instanceof MainActivity))
             return;
-        main.setMenuFocusDown(idIsEmpty, android.R.id.list);
-        main.setSearchAsFocusDown(idIsEmpty, parent,
-                    android.R.id.list);
+        MainActivity activity = (MainActivity)getActivity();
+        activity.setMenuFocusDown(idIsEmpty, android.R.id.list);
+        activity.setSearchAsFocusDown(idIsEmpty, parent,
+                android.R.id.list);
         }
 
     public void updateList() {
@@ -459,22 +462,26 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
 
     @Override
     public void showProgressBar() {
-        MainActivity.showProgressBar();
+        if (getActivity() instanceof MainActivity)
+            MainActivity.showProgressBar();
     }
 
     @Override
     public void hideProgressBar() {
-        MainActivity.hideProgressBar();
+        if (getActivity() instanceof MainActivity)
+            MainActivity.hideProgressBar();
     }
 
     @Override
     public void clearTextInfo() {
-        MainActivity.clearTextInfo();
+        if (getActivity() instanceof MainActivity)
+            MainActivity.clearTextInfo();
     }
 
     @Override
     public void sendTextInfo(String info, int progress, int max) {
-        MainActivity.sendTextInfo(info, progress, max);
+        if (getActivity() instanceof MainActivity)
+            MainActivity.sendTextInfo(info, progress, max);
     }
 
     @Override

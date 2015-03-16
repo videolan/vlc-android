@@ -120,11 +120,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private TextView mInfoText;
     private View mAudioPlayerFilling;
     private String mCurrentFragment;
-    private String mPreviousFragment;
-    private List<String> secondaryFragments = Arrays.asList("albumsSongs", "equalizer",
-                                                            "about", "search", "mediaInfo",
-                                                            "videoGroupList");
-    private HashMap<String, Fragment> mSecondaryFragments = new HashMap<String, Fragment>();
 
     private SharedPreferences mSettings;
 
@@ -340,7 +335,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
          */
         if(current == null || (!current.getTag().equals(mCurrentFragment) && found)) {
             Log.d(TAG, "Reloading displayed fragment");
-            if(mCurrentFragment == null || secondaryFragments.contains(mCurrentFragment))
+            if(mCurrentFragment == null)
                 mCurrentFragment = "video";
             if(!SidebarAdapter.sidebarFragments.contains(mCurrentFragment)) {
                 Log.d(TAG, "Unknown fragment \"" + mCurrentFragment + "\", resetting to video");
@@ -425,12 +420,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     return;
                 }
             }
-
-            // If it's the albums songs fragment, we leave it.
-            if (secondaryFragments.contains(mCurrentFragment)) {
-                popSecondaryFragment();
-                return;
-            }
         }
         finish();
     }
@@ -469,63 +458,20 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
 
     /**
-     * Fetch a secondary fragment.
-     * @param id the fragment id
-     * @return the fragment.
-     */
-    public Fragment fetchSecondaryFragment(String id) {
-        if (mSecondaryFragments.containsKey(id)
-            && mSecondaryFragments.get(id) != null)
-            return mSecondaryFragments.get(id);
-
-        Fragment f;
-        if (id.equals("albumsSongs")) {
-            f = new AudioAlbumsSongsFragment();
-        } else if(id.equals("equalizer")) {
-            f = new EqualizerFragment();
-        } else if(id.equals("about")) {
-            f = new AboutFragment();
-        } else if(id.equals("mediaInfo")) {
-            f = new MediaInfoFragment();
-        } else if(id.equals("videoGroupList")) {
-            f = new VideoGridFragment();
-        }
-        else {
-            throw new IllegalArgumentException("Wrong fragment id.");
-        }
-        f.setRetainInstance(true);
-        mSecondaryFragments.put(id, f);
-        return f;
-    }
-
-    /**
      * Show a secondary fragment.
      */
-    public Fragment showSecondaryFragment(String fragmentTag) {
-        // Slide down the audio player if needed.
-        slideDownAudioPlayer();
-
-        if (mCurrentFragment != null) {
-            // Do not show the new fragment if the requested fragment is already shown.
-            if (mCurrentFragment.equals(fragmentTag))
-                return null;
-
-            if (!secondaryFragments.contains(mCurrentFragment))
-                mPreviousFragment = mCurrentFragment;
-        }
-
-        mCurrentFragment = fragmentTag;
-        Fragment frag = fetchSecondaryFragment(mCurrentFragment);
-        ShowFragment(this, mCurrentFragment, frag, mPreviousFragment);
-        return frag;
+    public void showSecondaryFragment(String fragmentTag) {
+        showSecondaryFragment(fragmentTag, null);
     }
 
-    /**
-     * Hide the current secondary fragment.
-     */
-    public void popSecondaryFragment() {
-        getSupportFragmentManager().popBackStackImmediate();
-        mCurrentFragment = mPreviousFragment;
+    public void showSecondaryFragment(String fragmentTag, String param) {
+        Intent i = new Intent(this, SecondaryActivity.class);
+        i.putExtra("fragment", fragmentTag);
+        if (param != null)
+            i.putExtra("param", param);
+        startActivity(i);
+        // Slide down the audio player if needed.
+        slideDownAudioPlayer();
     }
 
     /** Create menu from XML
@@ -629,12 +575,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 // Slide down the audio player.
                 if (slideDownAudioPlayer())
                     break;
-
-                // If it's the albums songs view, a "backpressed" action shows .
-                if (secondaryFragments.contains(mCurrentFragment)) {
-                    popSecondaryFragment();
-                    break;
-                }
                 /* Toggle the sidebar */
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;

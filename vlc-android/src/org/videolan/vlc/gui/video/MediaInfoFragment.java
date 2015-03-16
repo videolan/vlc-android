@@ -267,7 +267,7 @@ public class MediaInfoFragment extends ListFragment {
             mAdapter.add(track);
         }
         if (mAdapter.isEmpty()) {
-            ((MainActivity) getActivity()).popSecondaryFragment();
+            getActivity().finish();
             return;
         }
         if (hasSubs)
@@ -304,7 +304,7 @@ public class MediaInfoFragment extends ListFragment {
                     fragment.mDelete.setVisibility(View.GONE);
                     break;
                 case EXIT:
-                    ((MainActivity) fragment.getActivity()).popSecondaryFragment();
+                    fragment.getActivity().finish();
                     MediaLibrary.getInstance().loadMediaItems(fragment.getActivity(), true);
                     break;
                 case SHOW_SUBTITLES:

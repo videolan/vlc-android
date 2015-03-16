@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,6 +60,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
@@ -301,10 +303,11 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mArtistsAdapter.getMedia(p);
             MainActivity activity = (MainActivity)getActivity();
-            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
-            if (frag != null) {
-                frag.setMediaList(mediaList, Util.getMediaArtist(activity, mediaList.get(0)));
-            }
+            Intent i = new Intent(getActivity(), SecondaryActivity.class);
+            i.putExtra("fragment", "albumsSongs");
+            i.putParcelableArrayListExtra("list", mediaList);
+            i.putExtra("filter", Util.getMediaArtist(activity, mediaList.get(0)));
+            startActivity(i);
         }
     };
 
@@ -320,11 +323,11 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
             ArrayList<MediaWrapper> mediaList = mGenresAdapter.getMedia(p);
-            MainActivity activity = (MainActivity)getActivity();
-            AudioAlbumsSongsFragment frag = (AudioAlbumsSongsFragment)activity.showSecondaryFragment("albumsSongs");
-            if (frag != null) {
-                frag.setMediaList(mediaList, Util.getMediaGenre(activity, mediaList.get(0)));
-            }
+            Intent i = new Intent(getActivity(), SecondaryActivity.class);
+            i.putExtra("fragment", "albumsSongs");
+            i.putParcelableArrayListExtra("list", mediaList);
+            i.putExtra("filter", Util.getMediaGenre(getActivity(), mediaList.get(0)));
+            startActivity(i);
         }
     };
 

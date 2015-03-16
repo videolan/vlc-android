@@ -59,6 +59,9 @@
                 android:resource="@xml/searchable" />
 
         </activity>
+        <activity
+            android:name=".gui.SecondaryActivity"
+            android:theme="@style/Theme.VLC"/>
         <activity android:name=".gui.CompatErrorActivity" />
         <activity android:name=".gui.PreferencesActivity"
             android:theme="@style/Theme.VLC" />

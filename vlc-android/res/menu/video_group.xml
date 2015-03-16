@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:title="@string/sortby"
+        android:icon="@drawable/ic_menu_sortby"
+        android:id="@+id/ml_menu_sortby"
+        vlc:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/ml_menu_sortby_name"
+                android:title="@string/sortby_name" />
+            <item
+                android:id="@+id/ml_menu_sortby_length"
+                android:title="@string/sortby_length" />
+        </menu>
+    </item>
+     <item
+        android:id="@+id/ml_menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="@string/refresh"
+        vlc:showAsAction="ifRoom"
+        android:nextFocusDown="@id/ml_menu_refresh"/>
+</menu>
