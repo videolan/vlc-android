@@ -41,7 +41,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -78,6 +80,7 @@ public class BrowserActivity extends ListActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        applyTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser);
         mAdapter = new BrowserAdapter(this);
@@ -95,6 +98,14 @@ public class BrowserActivity extends ListActivity {
         openStorageDevices(mRoots);
 
         registerForContextMenu(getListView());
+    }
+
+    private void applyTheme() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
+        if (enableBlackTheme) {
+            setTheme(R.style.Theme_VLC_Black);
+        }
     }
 
     private void refreshRoots() {

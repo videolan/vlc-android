@@ -68,7 +68,7 @@
         <activity
             android:name=".gui.BrowserActivity"
             android:label="@string/mediafiles"
-            android:theme="@style/Theme.VLC.NoTitleBar" />
+            android:theme="@style/Theme.VLC" />
 
         <activity android:name=".gui.DebugLogActivity"
                   android:launchMode="singleTop" />

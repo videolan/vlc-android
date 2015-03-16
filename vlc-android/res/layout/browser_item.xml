@@ -11,6 +11,7 @@
         android:id="@+id/browser_item_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:button="@drawable/custom_checkbox_button"
         android:focusable="false" />
     <TextView
         android:id="@+id/browser_item_dir"
