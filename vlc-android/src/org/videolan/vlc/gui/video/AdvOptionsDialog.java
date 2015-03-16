@@ -150,6 +150,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
 
+        double speed = LibVLC.getExistingInstance().getRate();
+        if (speed != 1.0d) {
+            speed = 100*(1+Math.log(speed)/Math.log(4));
+            mSeek.setProgress((int) speed);
+        }
         return root;
     }
 
