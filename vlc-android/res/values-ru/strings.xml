@@ -112,6 +112,8 @@
     <string name="sound_on">Звук вкл.</string>
     <string name="sound_off">Звук выкл.</string>
     <string name="brightness">Яркость</string>
+    <string name="navmenu">меню навигации</string>
+    <string name="advanced">расширенные параметры</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>
         <item quantity="few">Каналов: %1$d\n</item>
@@ -146,6 +148,7 @@
     <string name="video_player_tips">Подсказки для видеоплеера:</string>
     <string name="seek">Переход</string>
     <string name="subtitles">Субтитры</string>
+    <string name="audio_sub">Звуковые дорожки\n\nи субтитры</string>
     <string name="resize">Изменение размера</string>
     <string name="options">Параметры</string>
     <string name="lock">Блокировка</string>
@@ -178,6 +181,12 @@
     <string name="hardware_acceleration_disabled">Отключено</string>
     <string name="hardware_acceleration_decoding">Ускорение декодирования</string>
     <string name="hardware_acceleration_full">Полное ускорение</string>
+    <string name="dev_hardware_decoder">Расширенный аппаратный декодер</string>
+    <string name="dev_hardware_decoder_summary">Включить аппаратный декодер (не для обычных пользователей)</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">автоматически</string>
     <string name="screen_orientation">Ориентация экрана</string>
     <string name="screen_orientation_sensor">Автоматическая (от сенсора)</string>
@@ -200,6 +209,8 @@
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_jump_buttons">Включить кнопки перехода</string>
     <string name="enable_jump_buttons_summary">Показывать в интерфейсе видео кнопки перехода назад и вперёд</string>
+    <string name="force_list_portrait">Не показывать сетку вертикально</string>
+    <string name="force_list_portrait_summary">В вертикальном режиме показывать видео в списке, а не в сетке.</string>
     <string name="audio_title_alignment">Расположение заголовка аудио</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
     <string name="enable_headset_detection_summary">Пауза при отключении гарнитуры; продолжение при подключении</string>
@@ -244,6 +255,8 @@
     <string name="start_logging">Начать протоколирование</string>
     <string name="stop_logging">Закончить протоколирование</string>
     <string name="clear_log">Очистить протокол</string>
+    <string name="log_service_title">Ведение журналов VLC</string>
+    <string name="log_service_text">Открыть консоль журнала</string>
     <string name="copy_to_clipboard">Скопировать в буфер обмена</string>
     <string name="copied_to_clipboard">Протокол скопирован в буфер обмена.</string>
     <string name="quit">Перезапустить приложение</string>
@@ -257,4 +270,13 @@
     <string name="sending_log">Отправка протокола...</string>
     <string name="drawer_open">Открыть панель навигации</string>
     <string name="drawer_close">Закрыть панель навигации</string>
+    <string name="network_browsing">Локальная сеть</string>
+    <string name="file_size">Размер файла:</string>
+    <string name="file_other">Закрыть панель навигации</string>
+    <string name="audio_delay">Задержка звука</string>
+    <string name="spu_delay">Задержка субтитров</string>
+    <string name="network_shares_discovery">Поиск сетевых ресурсов...</string>
+    <string name="network_empty">Каталог пуст.</string>
+    <string name="network_connection_needed">Нет подключения к локальной сети.</string>
+    <string name="search_hint">Искать медиафайлы</string>
 </resources>
