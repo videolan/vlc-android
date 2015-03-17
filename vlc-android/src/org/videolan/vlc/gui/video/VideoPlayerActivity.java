@@ -551,8 +551,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onStop() {
         super.onStop();
 
-        mHandler.removeCallbacksAndMessages(null);
-
         // Dismiss the presentation when the activity is not visible.
         if (mPresentation != null) {
             Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
@@ -672,6 +670,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         final EventHandler em = EventHandler.getInstance();
         em.removeHandler(mEventHandler);
         mEventHandler.removeCallbacksAndMessages(null);
+
+        mHandler.removeCallbacksAndMessages(null);
 
         mSurfaceView.setKeepScreenOn(false);
 
