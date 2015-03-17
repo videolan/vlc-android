@@ -233,7 +233,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     //Volume
     private AudioManager mAudioManager;
     private int mAudioMax;
-    private OnAudioFocusChangeListener mAudioFocusListener;
     private boolean mMute = false;
     private int mVolSave;
     private float mVol;
@@ -274,8 +273,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPauseOnLoaded = false;
-    private boolean mLostFocus = false;
     private boolean mPlaybackStarted = false;
+
+    /**
+     * Flag used by changeAudioFocus and mAudioFocusListener
+     */
+    private boolean mLostFocus = false;
+    private boolean mHasAudioFocus = false;
 
     // Tips
     private View mOverlayTips;
@@ -1213,55 +1217,58 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mInfo.setVisibility(View.INVISIBLE);
     }
 
+    private OnAudioFocusChangeListener mAudioFocusListener = !LibVlcUtil.isFroyoOrLater() ? null :
+            new OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            /*
+             * Pause playback during alerts and notifications
+             */
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    changeAudioFocus(false);
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    if (mLibVLC.isPlaying()) {
+                        mLostFocus = true;
+                        mLibVLC.pause();
+                    }
+                    break;
+                case AudioManager.AUDIOFOCUS_GAIN:
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                    if (!mLibVLC.isPlaying() && mLostFocus) {
+                        mLibVLC.play();
+                        mLostFocus = false;
+                    }
+                    break;
+            }
+        }
+    };
+
     @TargetApi(Build.VERSION_CODES.FROYO)
     private int changeAudioFocus(boolean acquire) {
         if(!LibVlcUtil.isFroyoOrLater()) // NOP if not supported
             return AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
 
-        if (mAudioFocusListener == null) {
-            mAudioFocusListener = new OnAudioFocusChangeListener() {
-                @Override
-                public void onAudioFocusChange(int focusChange) {
-                    /*
-                     * Pause playback during alerts and notifications
-                     */
-                    switch (focusChange)
-                    {
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            if (mLibVLC.isPlaying()) {
-                                mLibVLC.pause();
-                                mLostFocus = true;
-                            }
-                            break;
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                        case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                            if (!mLibVLC.isPlaying() && mLostFocus)
-                                mLibVLC.play();
-                            mLostFocus = false;
-                            break;
-                    }
-                }
-            };
-        }
+        if (mAudioManager == null)
+            return AudioManager.AUDIOFOCUS_REQUEST_FAILED;
 
-        mLostFocus = false;
-        int result;
-        if(acquire) {
-            result = mAudioManager.requestAudioFocus(mAudioFocusListener,
-                    AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-            mAudioManager.setParameters("bgm_state=true");
+        int result = AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+        if (acquire) {
+            if (!mHasAudioFocus) {
+                result = mAudioManager.requestAudioFocus(mAudioFocusListener,
+                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                mAudioManager.setParameters("bgm_state=true");
+                mHasAudioFocus = true;
+            }
         }
         else {
-            if (mAudioManager != null && mAudioFocusListener != null) {
+            if (mHasAudioFocus) {
                 result = mAudioManager.abandonAudioFocus(mAudioFocusListener);
                 mAudioManager.setParameters("bgm_state=false");
-                mAudioFocusListener = null;
+                mHasAudioFocus = true;
             }
-            else
-                result = AudioManager.AUDIOFOCUS_REQUEST_FAILED;
         }
 
         return result;
