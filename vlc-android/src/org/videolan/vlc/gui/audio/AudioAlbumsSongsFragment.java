@@ -177,11 +177,13 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
     @Override
     public void onPause() {
         super.onPause();
+        AudioServiceController.getInstance().unbindAudioService(getActivity());
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        AudioServiceController.getInstance().bindAudioService(getActivity());
     }
 
     @Override
