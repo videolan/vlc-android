@@ -831,7 +831,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
             if (Math.abs(x) > 0.3){
                 if (AndroidDevices.hasTsp()) {
-                    seek(x > 0.0f ? 10000 : -10000);
+                    seekDelta(x > 0.0f ? 10000 : -10000);
                 } else
                     navigateDvdMenu(x > 0.0f ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT);
             } else if (Math.abs(y) > 0.3){
@@ -858,17 +858,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         switch (keyCode) {
         case KeyEvent.KEYCODE_F:
         case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-            seek(10000);
+            seekDelta(10000);
             return true;
         case KeyEvent.KEYCODE_R:
         case KeyEvent.KEYCODE_MEDIA_REWIND:
-            seek(-10000);
+            seekDelta(-10000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_R1:
-            seek(60000);
+            seekDelta(60000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_L1:
-            seek(-60000);
+            seekDelta(-60000);
             return true;
         case KeyEvent.KEYCODE_BUTTON_A:
             if (mOverlayProgress.getVisibility() == View.VISIBLE)
@@ -2038,7 +2038,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
-    public void seek(int delta) {
+    private void seekDelta(int delta) {
         // unseekable stream
         if(mLibVLC.getLength() <= 0 || !mCanSeek) return;
 
