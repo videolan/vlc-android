@@ -456,7 +456,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mLibVLC.eventVideoPlayerActivityCreated(true);
 
         EventHandler em = EventHandler.getInstance();
-        em.addHandler(eventHandler);
+        em.addHandler(mEventHandler);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -615,7 +615,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         changeAudioFocus(false);
         mHandler.removeCallbacksAndMessages(null);
-        eventHandler.removeCallbacksAndMessages(null);
+        mEventHandler.removeCallbacksAndMessages(null);
 
         // Dismiss the presentation when the activity is not visible.
         if (mPresentation != null) {
@@ -647,7 +647,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         unregisterReceiver(mReceiver);
 
         EventHandler em = EventHandler.getInstance();
-        em.removeHandler(eventHandler);
+        em.removeHandler(mEventHandler);
 
         // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
         mLibVLC.eventVideoPlayerActivityCreated(false);
@@ -1255,7 +1255,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     /**
      *  Handle libvlc asynchronous events
      */
-    private final Handler eventHandler = new VideoPlayerEventHandler(this);
+    private final Handler mEventHandler = new VideoPlayerEventHandler(this);
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -1407,7 +1407,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private void endReached() {
         if(mMediaListPlayer.expand(savedIndexPosition) == 0) {
             Log.d(TAG, "Found a video playlist, expanding it");
-            eventHandler.postDelayed(new Runnable() {
+            mEventHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     loadMedia();
