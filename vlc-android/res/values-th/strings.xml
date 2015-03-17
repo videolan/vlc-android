@@ -29,6 +29,7 @@
     <string name="ringtone_error">เกิดข้อขัดข้องขณะตั้งค่าเสียงเรียกเข้า</string>
     <string name="pause">พัก</string>
     <string name="not_show_again">ไม่ต้องแสดงข้อความนี้อีก</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">ไม่ทราบศิลปิน</string>
     <string name="unknown_album">ไม่ทราบอัลบั้ม</string>
     <string name="unknown_genre">ไม่ทราบประเภท</string>
@@ -92,8 +93,17 @@
     <string name="track_video">ร่องวีดิทัศน์</string>
     <string name="track_text">ร่องบทบรรยาย</string>
     <string name="track_unknown">ไม่ทราบร่องข้อมูล</string>
+    <string name="track_codec_info">ตัวถอด/ลงรหัส: %1$s\n</string>
+    <string name="track_language_info">ภาษา: %1$s\n</string>
     <string name="volume">ระดับเสียง</string>
+    <string name="sound_on">เปิดเสียง</string>
+    <string name="sound_off">ปิดเสียง</string>
     <string name="brightness">ความสว่าง</string>
+    <string name="navmenu">เมนูผังรวม</string>
+    <string name="advanced">ตัวเลือกขั้นสูง</string>
+    <string name="track_samplerate_info">อัตราวัด: %1$d Hz\n</string>
+    <string name="track_resolution_info">ความละเอียดหน้าจอ: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
     <string name="tools">เครื่องมือ</string>
     <string name="playback_speed">ความเร็วการเล่น</string>
     <string name="sleep_title">พักเครื่อง</string>
@@ -120,11 +130,15 @@
     <string name="resize">ปรับขนาด</string>
     <string name="options">ตัวเลือก</string>
     <string name="lock">ล็อก</string>
+    <string name="ok_got_it">เข้าใจแล้ว, เลิกสนใจสิ่งนี้</string>
     <string name="playlist_tips">ข้อแนะนำผังเล่น</string>
     <string name="remove_song">ลบเพลงออก</string>
+    <string name="rearrange_order">จัดลำดับใหม่</string>
+    <string name="hold_to_seek">ค้างไว้เพื่อไล่ดู</string>
     <string name="audio_player_tips">ข้อแนะนำตัวเล่นเสียง</string>
     <string name="previous_next_song">เพลงก่อนหน้า/ถัดไป</string>
     <string name="show_playlist">แสดงผังเล่น</string>
+    <string name="hold_to_stop">ค้างไว้เพื่อหยุด</string>
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android™</string>
     <string name="licence">สัญญาอนุญาต</string>
@@ -135,6 +149,7 @@
     <string name="vlc_authors">ผู้จัดทำ VLC</string>
     <!-- Preferences -->
     <string name="preferences">การปรับแต่ง</string>
+    <string name="general_prefs_category">ทั่วไป</string>
     <string name="directories_summary">เลือกพาธที่อยู่ของคลังสื่อ</string>
     <string name="add_custom_path">ใส่พาธเอง</string>
     <string name="add_custom_path_description">ใส่ที่เก็บแฟ้มที่จะสแกนเพิ่ม:</string>
@@ -143,6 +158,8 @@
     <string name="hardware_acceleration_disabled">ปิดใช้งาน</string>
     <string name="hardware_acceleration_decoding">การเร่งความเร็วการอ่านรหัส</string>
     <string name="hardware_acceleration_full">การเร่งความเร็วแบบเต็มที่</string>
+    <string name="dev_hardware_decoder">ตัวถอดรหัสแบบฮาร์ดแวร์ขั้นสูง</string>
+    <string name="dev_hardware_decoder_summary">บังคับใช้ตัวถอดรหัสแบบฮาร์ดแวร์ ,เฉพาะผู้ใช้งานขั้นสูงเท่านั้น</string>
     <string name="automatic">อัตโนมัติ</string>
     <string name="screen_orientation">การจัดวางหน้าจอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
@@ -155,14 +172,22 @@
     <string name="subtitle_text_encoding">การลงรหัสข้อความบทบรรยาย</string>
     <string name="extra_prefs_category">ค่าตั้งพิเศษอื่นๆ</string>
     <string name="interface_prefs_screen">ส่วนติดต่อ</string>
+    <string name="interface_secondary_display_category">ส่วนติดต่อ - หน้าจอแสดงผลสำรอง</string>
+    <string name="interface_other_category">ส่วนติดต่อ - อื่นๆ</string>
     <string name="enable_brightness_gesture">เปิดใช้การเลื่อน ปรับความสว่าง</string>
     <string name="enable_brightness_gesture_summary">ควบคุมแสงสว่างโดยการเลื่อน ในขณะที่กำลังเล่นวีดิทัศน์อยู่</string>
     <string name="enable_jump_buttons">เปิดใช้งานปุ่มข้ามช่วงการเล่น</string>
     <string name="enable_jump_buttons_summary">แสดง ปุ่มย้อนการเล่น และ ปุ่มเร่งการเล่น ในส่วนติดต่อวีดิทัศน์</string>
+    <string name="force_list_portrait">ไม่มีตารางกริดในการแสดงผลแนวนอน</string>
+    <string name="force_list_portrait_summary">แสดงวิดิทัศน์ในรูปแบบรายการแทนรูปแบบตารางกริดเมื่ออยู่ในการแสดงผลแนวนอน</string>
     <string name="enable_headset_detection">ตรวจหาชุดหูฟัง</string>
     <string name="enable_headset_detection_summary">หยุดชั่วคราวเมื่อถอดชุดหูฟังออก; ดำเนินการต่อเมื่อใส่ชุดหูฟังเข้าไป</string>
     <string name="enable_steal_remote_control">ส่วนควบคุมระยะไกลชุดหูฟังเฉพาะแบบ</string>
     <string name="enable_steal_remote_control_summary">หลีกเลี่ยงปัญหาการแย่งการควบคุมไปจากแอพอื่นๆ สิ่งนี้ช่วยป้องกันการหมุนหมายเลขเมื่อหลงไปกดดับเบิลคลิกในโทรศัพท์รุ่น HTC</string>
+    <string name="audio_title_alignment_default">ปริยาย</string>
+    <string name="audio_title_alignment_left">ซ้าย</string>
+    <string name="audio_title_alignment_centre">กลาง</string>
+    <string name="audio_title_alignment_right">ขวา</string>
     <string name="performance_prefs_category">ประสิทธิภาพการทำงาน</string>
     <string name="chroma_format">บังคับค่าความสดสี</string>
     <string name="deblocking">ค่าตั้งตัวผันค่าการดีบล็อค</string>
@@ -204,4 +229,8 @@
     <string name="restart_vlc">เปิด VLC ใหม่</string>
     <string name="send_log">ส่งปูม</string>
     <string name="sending_log">กำลังส่งปูม…</string>
+    <string name="file_size">ขนาดไฟล์:</string>
+    <string name="audio_delay">หน่วงเวลาเสียง</string>
+    <string name="spu_delay">หน่วงเวลาบทบรรยาย</string>
+    <string name="search_hint">ค้นหาสื่อ</string>
 </resources>
