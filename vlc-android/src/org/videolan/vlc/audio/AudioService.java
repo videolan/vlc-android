@@ -365,8 +365,8 @@ public class AudioService extends Service {
              * Incoming Call : Pause if VLC is playing audio or video. 
              */
             if (action.equalsIgnoreCase(VLCApplication.INCOMING_CALL_INTENT)) {
-                mWasPlayingAudio = mLibVLC.isPlaying() && mLibVLC.getVideoTracksCount() < 1;
-                if (mLibVLC.isPlaying())
+                mWasPlayingAudio = mLibVLC.isPlaying() && hasCurrentMedia();
+                if (mWasPlayingAudio)
                     pause();
             }
 
