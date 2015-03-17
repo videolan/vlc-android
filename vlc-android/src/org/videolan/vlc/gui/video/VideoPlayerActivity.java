@@ -2464,6 +2464,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     } catch (Exception e) {
                         Log.e(TAG, "Couldn't download file from mail URI");
                         encounteredError();
+                        return;
                     } finally {
                         Util.close(is);
                         Util.close(os);
@@ -2510,6 +2511,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             } else {
                 Log.e(TAG, "Couldn't understand the intent");
                 encounteredError();
+                return;
             }
 
             // Try to get the position
