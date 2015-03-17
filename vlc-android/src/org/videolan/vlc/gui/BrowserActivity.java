@@ -47,6 +47,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -188,9 +189,10 @@ public class BrowserActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         File file = mAdapter.getItem(position);
         if(file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)) {
-            AlertDialog.Builder b = new AlertDialog.Builder(this);
+            AlertDialog.Builder b = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_VLC_Black));
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            input.setTextColor(getResources().getColor(R.color.grey50));
             b.setTitle(R.string.add_custom_path);
             b.setMessage(R.string.add_custom_path_description);
             b.setView(input);
