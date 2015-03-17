@@ -285,6 +285,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private boolean mHasMenu = false;
     private boolean mIsNavMenu = false;
 
+    /* for getTime and seek */
+    private long mForcedTime = -1;
+    private long mLastTime = -1;
+
     private OnLayoutChangeListener mOnLayoutChangeListener;
 
     @Override
@@ -683,7 +687,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         changeAudioFocus(false);
 
         final boolean isPaused = !mLibVLC.isPlaying();
-        long time = mLibVLC.getTime();
+        long time = getTime();
         long length = mLibVLC.getLength();
         //remove saved position if in the last 5 seconds
         if (length - time < 5000)
@@ -1746,7 +1750,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mTouchAction = TOUCH_SEEK;
 
         long length = mLibVLC.getLength();
-        long time = mLibVLC.getTime();
+        long time = getTime();
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
         int jump = (int) ((Math.signum(gesturesize) * ((600000 * Math.pow((gesturesize / 8), 4)) + 3000)) / coef);
@@ -1759,7 +1763,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         //Jump !
         if (seek && length > 0)
-            mLibVLC.setTime(time + jump);
+            seek(time + jump);
 
         if (length > 0)
             //Show the jump's size
@@ -1869,7 +1873,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (fromUser && mCanSeek) {
-                mLibVLC.setTime(progress);
+                seek(progress);
                 setOverlayProgress();
                 mTime.setText(Strings.millisToString(progress));
                 showInfo(Strings.millisToString(progress));
@@ -2040,13 +2044,39 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
+    private long getTime() {
+        long time = mLibVLC.getTime();
+        if (mForcedTime != -1 && mLastTime != -1) {
+            /* XXX: After a seek, mLibVLC.getTime can return the position before or after
+             * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
+             * to move between seek position and the actual position.
+             * We have to wait for a valid position (that is after the seek position).
+             * to re-init mLastTime and mForcedTime to -1 and return the actual position.
+             */
+            if (mLastTime > mForcedTime) {
+                if (time <= mLastTime && time > mForcedTime)
+                    mLastTime = mForcedTime = -1;
+            } else {
+                if (time > mForcedTime)
+                    mLastTime = mForcedTime = -1;
+            }
+        }
+        return mForcedTime == -1 ? time : mForcedTime;
+    }
+
+    private void seek(long position) {
+        mForcedTime = position;
+        mLastTime = mLibVLC.getTime();
+        mLibVLC.setTime(position);
+    }
+
     private void seekDelta(int delta) {
         // unseekable stream
         if(mLibVLC.getLength() <= 0 || !mCanSeek) return;
 
-        long position = mLibVLC.getTime() + delta;
+        long position = getTime() + delta;
         if (position < 0) position = 0;
-        mLibVLC.setTime(position);
+        seek(position);
         showOverlay();
     }
 
@@ -2323,7 +2353,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (mLibVLC == null) {
             return 0;
         }
-        int time = (int) mLibVLC.getTime();
+        int time = (int) getTime();
         int length = (int) mLibVLC.getLength();
         if (length == 0) {
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
@@ -2533,7 +2563,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)
-                    mLibVLC.setTime(media.getTime());
+                    seek(media.getTime());
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 getIntent().putExtra("fromStart", false);
@@ -2547,10 +2577,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 Util.commitPreferences(editor);
                 if(rTime > 0)
-                    mLibVLC.setTime(rTime);
+                    seek(rTime);
 
                 if(intentPosition > 0)
-                    mLibVLC.setTime(intentPosition);
+                    seek(intentPosition);
             }
 
             // Paused flag
