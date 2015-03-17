@@ -281,6 +281,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private boolean mLostFocus = false;
     private boolean mHasAudioFocus = false;
 
+    /* Flag to indicate if AudioService is bound or binding */
+    private boolean mBound = false;
+
     // Tips
     private View mOverlayTips;
     private static final String PREF_TIPS_SHOWN = "video_player_tips_shown";
@@ -512,8 +515,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onPause() {
         super.onPause();
 
-        stopPlayback();
-
+        /* Stop the earliest possible to avoid vout error */
+        if (isFinishing())
+            stopPlayback();
     }
 
     @Override
@@ -527,6 +531,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     @Override
     protected void onStop() {
         super.onStop();
+
+        stopPlayback();
 
         // Dismiss the presentation when the activity is not visible.
         if (mPresentation != null) {
@@ -558,11 +564,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mAudioManager = null;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mSwitchingView = false;
-        mPauseOnLoaded = false;
+    private void bindAudioService() {
+        if (mBound)
+            return;
+        mBound = true;
         AudioServiceController.getInstance().bindAudioService(this,
                 new AudioServiceController.AudioServiceConnectionListener() {
                     @Override
@@ -572,9 +577,23 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
                     @Override
                     public void onConnectionFailed() {
+                        mBound = false;
                         mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
                     }
                 });
+    }
+    private void unbindAudioService() {
+        AudioServiceController.getInstance().unbindAudioService(this);
+        mBound = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSwitchingView = false;
+        mPauseOnLoaded = false;
+
+        bindAudioService();
 
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
