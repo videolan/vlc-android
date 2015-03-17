@@ -90,7 +90,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     private MediaLibrary mMediaLibrary;
     private static Thumbnailer sThumbnailer;
     private MediaWrapper mItemToUpdate;
-    ArrayObjectAdapter mRowsAdapter;
+    ArrayObjectAdapter mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     ArrayObjectAdapter mVideoAdapter;
     ArrayObjectAdapter mCategoriesAdapter;
     ArrayObjectAdapter mNetworkAdapter;
@@ -157,18 +157,20 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         startService(recommendationIntent);
     }
 
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         mMediaLibrary.addUpdateHandler(mHandler);
         if (sThumbnailer != null)
             sThumbnailer.setVideoBrowser(this);
 
+        if (mMediaLibrary.isWorking()) //Display UI while MediaLib is scanning
+            updateList();
         //Handle network connection state
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkReceiver, filter);
     }
 
-    public void onPause() {
+    protected void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
 
@@ -180,7 +182,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         if (sThumbnailer != null)
             sThumbnailer.clearJobs();
@@ -225,22 +227,22 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
     @Override
     public void showProgressBar() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mProgressBar.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     @Override
     public void hideProgressBar() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressBar.setVisibility(View.GONE);
-            }
-        });
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mProgressBar.setVisibility(View.GONE);
+//            }
+//        });
     }
 
     @Override
@@ -306,92 +308,77 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
 
         @Override
         protected void onPreExecute(){
-            mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+            mRowsAdapter.clear();
             mProgressBar.setVisibility(View.VISIBLE);
-        }
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            final ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
-            int size;
-
-            // Update video section
-            if (!videoList.isEmpty()) {
-                size = videoList.size();
-                mVideoIndex = new HashMap<String, Integer>(size);
-                mVideoAdapter = new ArrayObjectAdapter(
-                        new CardPresenter(mContext));
-                if (NUM_ITEMS_PREVIEW < size)
-                    size = NUM_ITEMS_PREVIEW;
-                final int total = size;
-                final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
-                mRootContainer.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MediaWrapper item;
-                        for (int i = 0; i < total; ++i) {
-                            item = videoList.get(i);
-
-                            mVideoAdapter.add(item);
-                            mVideoIndex.put(item.getLocation(), i);
-                        }
-                        // Empty item to launch grid activity
-                        mVideoAdapter.add(new CardPresenter.SimpleCard(0, "Browse more", R.drawable.ic_video_collection_big));
-                        mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
-                    }
-                });
-            }
-
+            //Video Section
+            mVideoIndex = new HashMap<String, Integer>();
+            mVideoAdapter = new ArrayObjectAdapter(
+                    new CardPresenter(mContext));
+            final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video), null);
+            // Empty item to launch grid activity
+            mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", R.drawable.ic_video_collection_big));
+            mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
+            //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem musicHeader = new HeaderItem(HEADER_CATEGORIES, getString(R.string.audio), null);
-            mRootContainer.post(new Runnable() {
-                @Override
-                public void run() {
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
-                    mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
-                    mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
-                }
-            });
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ARTISTS, getString(R.string.artists), R.drawable.ic_artist_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
+            mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
+            mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             if (AndroidDevices.hasLANConnection()) {
                 mNetworkAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
                 final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
                 final HeaderItem networkHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.network_browsing), null);
 
-                mRootContainer.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
-                        if (!favs.isEmpty()) {
-                            for (MediaWrapper fav : favs) {
-                                mNetworkAdapter.add(fav);
-                            }
-                        }
-                        mRowsAdapter.add(new ListRow(networkHeader, mNetworkAdapter));
+                mNetworkAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+                if (!favs.isEmpty()) {
+                    for (MediaWrapper fav : favs) {
+                        mNetworkAdapter.add(fav);
                     }
-                });
+                }
+                mRowsAdapter.add(new ListRow(networkHeader, mNetworkAdapter));
             }
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other), null);
 
-            mRootContainer.post(new Runnable() {
-                @Override
-                public void run() {
-                    mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
-                    mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
-                }
-            });
+            mOtherAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
+            mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
+            mBrowseFragment.setAdapter(mRowsAdapter);
+        }
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            final ArrayList<MediaWrapper> videoList = mMediaLibrary.getVideoItems();
+            int size;
+            // Update video section
+            if (!videoList.isEmpty()) {
+                size = videoList.size();
+                if (NUM_ITEMS_PREVIEW < size)
+                    size = NUM_ITEMS_PREVIEW;
+                final int total = size;
+                mRootContainer.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        MediaWrapper item;
+                        for (int i = 0; i < total; ++i) {
+                            item = videoList.get(i);
+                            mVideoAdapter.add(item);
+                            mVideoIndex.put(item.getLocation(), i);
+                        }
+                    }
+                });
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            mBrowseFragment.setAdapter(mRowsAdapter);
-            mProgressBar.setVisibility(View.GONE);
+            if (!mMediaLibrary.isWorking())
+                mProgressBar.setVisibility(View.GONE);
         }
     }
 
