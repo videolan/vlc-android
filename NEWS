@@ -1,5 +1,19 @@
-Changes between 1.1.5 and 1.2.0-git:
+Changes between 1.1.5 and 1.1.6:
 --------------------------------
+
+Application:
+ * Fix look of secondary fragments activities, for better navigation
+ * Rework actions
+ * Fix rare crashes
+ * Fix HDMI unplugging
+ * Improve seek
+
+TV:
+ * Recommend last video viewed
+
+Core:
+ * Fix mediacodec crash
+
 
 Changes between 1.1.4 and 1.1.5:
 --------------------------------
