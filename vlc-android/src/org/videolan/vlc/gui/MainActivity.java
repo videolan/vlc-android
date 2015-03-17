@@ -58,6 +58,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -94,7 +95,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchView.OnQueryTextListener, SearchSuggestionsAdapter.SuggestionDisplay {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider {
     public final static String TAG = "VLC/MainActivity";
 
     protected static final String ACTION_SHOW_PROGRESSBAR = "org.videolan.vlc.gui.ShowProgressBar";
@@ -494,9 +495,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             mSearchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.ml_menu_search));
             mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            mSearchView.setOnQueryTextListener(this);
             mSearchView.setQueryHint(getString(R.string.search_hint));
-            mSearchView.setSuggestionsAdapter(new SearchSuggestionsAdapter(this, null));
+            SearchSuggestionsAdapter searchSuggestionsAdapter = new SearchSuggestionsAdapter(this, null);
+            searchSuggestionsAdapter.setFilterQueryProvider(this);
+            mSearchView.setSuggestionsAdapter(searchSuggestionsAdapter);
         } else
             menu.findItem(R.id.ml_menu_search).setVisible(false);
         return super.onCreateOptionsMenu(menu);
@@ -770,19 +772,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     };
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        if (newText.length() < 3) {
-            mSearchView.getSuggestionsAdapter().swapCursor(null);
-            return false;
-        }
-        Cursor cursor = MediaDatabase.getInstance().queryMedia(newText);
-        mSearchView.getSuggestionsAdapter().swapCursor(cursor);
-        return true;
+    public Cursor runQuery(CharSequence constraint) {
+        return MediaDatabase.getInstance().queryMedia(constraint.toString());
     }
 
     private static class MainActivityHandler extends WeakHandler<MainActivity> {
