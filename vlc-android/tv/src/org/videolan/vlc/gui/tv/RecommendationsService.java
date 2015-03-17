@@ -26,7 +26,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -34,6 +36,7 @@ import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -44,7 +47,7 @@ import java.util.Collections;
 public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
-    private static final int NUM_RECOMMANDATIONS = 10;
+    private static final int NUM_RECOMMANDATIONS = 4;
 
     private static NotificationManager sNotificationManager;
     private static MediaDatabase sMediaDatabase = MediaDatabase.getInstance();
@@ -67,14 +70,14 @@ public class RecommendationsService extends IntentService {
             MediaLibrary.getInstance().loadMediaItems();
         }
     }
-    private static void buildRecommendation(MediaWrapper movie)
-            throws IOException {
+    private static void buildRecommendation(MediaWrapper movie) {
 
         if (sNotificationManager == null) {
             sNotificationManager = (NotificationManager)
                     sContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
+        //TODO
 //        if (mBackgroundUri != movie.getBackgroundUri()) {
 //            extras.putString(EXTRA_BACKGROUND_IMAGE_URL, movie.getBackgroundUri());
 //        }
@@ -102,7 +105,6 @@ public class RecommendationsService extends IntentService {
     }
 
     private static PendingIntent buildPendingIntent(MediaWrapper MediaWrapper) {
-
         Intent intent = new Intent(sContext, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra("itemLocation", MediaWrapper.getLocation());
@@ -134,25 +136,23 @@ public class RecommendationsService extends IntentService {
     }
 
     private static boolean doRecommendations() {
+        String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(sContext).getString(PreferencesActivity.VIDEO_LAST, null));
+        if (last != null) {
+            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last));
+            return true;
+        }
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
         if (videoList == null || videoList.isEmpty())
             return false;
-        ArrayList<MediaWrapper> videos = new ArrayList<MediaWrapper>(videoList.size());
         Bitmap pic;
-        for (MediaWrapper MediaWrapper : videoList){
-            pic = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
-            if (pic != null && pic.getByteCount() > 4 && MediaWrapper.getTime() == 0) {
-                videos.add(MediaWrapper);
+        Collections.shuffle(videoList);
+        for (MediaWrapper mediaWrapper : videoList){
+            pic = sMediaDatabase.getPicture(sContext, mediaWrapper.getLocation());
+            if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
+                buildRecommendation(mediaWrapper);
+                return true;
             }
         }
-        if (!videos.isEmpty())
-            Collections.shuffle(videos);
-        int size = Math.min(NUM_RECOMMANDATIONS, videos.size());
-        for (int i = 0 ; i < size ; ++i) {
-            try {
-                buildRecommendation(videos.get(i));
-            } catch (IOException e) {}
-        }
-        return true;
+        return false;
     }
 }
