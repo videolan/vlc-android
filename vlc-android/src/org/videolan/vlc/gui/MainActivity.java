@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,12 +73,14 @@ import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.AndroidDevices;
@@ -269,8 +272,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     }
 
     private void applyTheme() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
+        boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
         if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
         }
@@ -527,7 +529,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             menu.findItem(R.id.ml_menu_save).setVisible(false);
         if (current instanceof MRLPanelFragment)
             menu.findItem(R.id.ml_menu_clean).setVisible(!((MRLPanelFragment) current).isEmpty());
-        menu.findItem(R.id.ml_menu_last_playlist).setVisible(SidebarEntry.ID_AUDIO.equals(mCurrentFragment));
+        boolean showLast = current instanceof AudioBrowserFragment || (current instanceof VideoGridFragment && mSettings.getString(PreferencesActivity.VIDEO_LAST, null) != null);
+        menu.findItem(R.id.ml_menu_last_playlist).setVisible(showLast);
 
 
 
@@ -568,8 +571,14 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 break;
             // Restore last playlist
             case R.id.ml_menu_last_playlist:
-                Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
-                sendBroadcast(i);
+                if (current instanceof AudioBrowserFragment) {
+                    Intent i = new Intent(AudioService.ACTION_REMOTE_LAST_PLAYLIST);
+                    sendBroadcast(i);
+                } else if (current instanceof VideoGridFragment) {
+                    String location = Uri.decode(mSettings.getString(PreferencesActivity.VIDEO_LAST, null));
+                    if (location != null)
+                        VideoPlayerActivity.start(this, location);
+                }
                 break;
             case android.R.id.home:
                 // Slide down the audio player.
@@ -935,7 +944,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 @Override
                 public void onClick(View v) {
                     removeTipViewIfDisplayed();
-                    Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
+                    Editor editor = mSettings.edit();
                     editor.putBoolean(settingKey, true);
                     Util.commitPreferences(editor);
                 }

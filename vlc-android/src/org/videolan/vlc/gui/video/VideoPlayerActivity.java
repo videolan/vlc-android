@@ -730,6 +730,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
+        editor.putString(PreferencesActivity.VIDEO_LAST, Uri.encode(mLocation));
+
         Util.commitPreferences(editor);
     }
 
