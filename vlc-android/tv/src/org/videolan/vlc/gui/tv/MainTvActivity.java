@@ -147,7 +147,11 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         mRootContainer = mBrowseFragment.getView();
         mMediaLibrary.loadMediaItems(this, true);
         BackgroundManager.getInstance(this).attach(getWindow());
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
         Intent recommendationIntent = new Intent(this,
                 RecommendationsService.class);
         startService(recommendationIntent);
