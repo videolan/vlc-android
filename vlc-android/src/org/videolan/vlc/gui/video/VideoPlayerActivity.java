@@ -274,8 +274,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * (e.g. lock screen, or to restore the pause state)
      */
     private boolean mPauseOnLoaded = false;
-    private boolean mWasPlaying = false;
     private boolean mLostFocus = false;
+    private boolean mPlaybackStarted = false;
 
     // Tips
     private View mOverlayTips;
@@ -455,9 +455,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         // SurfaceView is now available for MediaCodec direct rendering.
         mLibVLC.eventVideoPlayerActivityCreated(true);
 
-        EventHandler em = EventHandler.getInstance();
-        em.addHandler(mEventHandler);
-
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // Extra initialization when no secondary display is detected
@@ -510,11 +507,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onPause() {
         super.onPause();
 
-        if (mMediaRouter != null) {
-            // Stop listening for changes to media routes.
-            mediaRouterAddCallback(false);
-        }
-
         if(mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mLocation + "\"");
             AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
@@ -522,62 +514,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
         }
 
-        boolean isPaused;
-        if (mWasPlaying)
-            isPaused = false;
-        else
-            isPaused = !mLibVLC.isPlaying();
+        stopPlayback();
 
-        long time = mLibVLC.getTime();
-        long length = mLibVLC.getLength();
-        //remove saved position if in the last 5 seconds
-        if (length - time < 5000)
-            time = 0;
-        else
-            time -= 5000; // go back 5 seconds, to compensate loading time
-
-        /*
-         * Pausing here generates errors because the vout is constantly
-         * trying to refresh itself every 80ms while the surface is not
-         * accessible anymore.
-         * To workaround that, we keep the last known position in the playlist
-         * in savedIndexPosition to be able to restore it during onResume().
-         */
-        mLibVLC.stop();
-
-        mSurfaceView.setKeepScreenOn(false);
-
-        SharedPreferences.Editor editor = mSettings.edit();
-        // Save position
-        if (time >= 0 && mCanSeek) {
-            if(MediaDatabase.getInstance().mediaItemExists(mLocation)) {
-                MediaDatabase.getInstance().updateMedia(
-                        mLocation,
-                        MediaDatabase.mediaColumn.MEDIA_TIME,
-                        time);
-            } else {
-                // Video file not in media library, store time just for onResume()
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
-            }
-        }
-        if(isPaused)
-            Log.d(TAG, "Video paused - saving flag");
-        editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, isPaused);
-
-        // Save selected subtitles
-        String subtitleList_serialized = null;
-        if(mSubtitleSelectedFiles.size() > 0) {
-            Log.d(TAG, "Saving selected subtitle files");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            try {
-                ObjectOutputStream oos = new ObjectOutputStream(bos);
-                oos.writeObject(mSubtitleSelectedFiles);
-                subtitleList_serialized = bos.toString();
-            } catch(IOException e) {}
-        }
-        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
-
-        Util.commitPreferences(editor);
         AudioServiceController.getInstance().unbindAudioService(this);
     }
 
@@ -613,9 +551,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onStop() {
         super.onStop();
 
-        changeAudioFocus(false);
         mHandler.removeCallbacksAndMessages(null);
-        mEventHandler.removeCallbacksAndMessages(null);
 
         // Dismiss the presentation when the activity is not visible.
         if (mPresentation != null) {
@@ -646,9 +582,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         super.onDestroy();
         unregisterReceiver(mReceiver);
 
-        EventHandler em = EventHandler.getInstance();
-        em.removeHandler(mEventHandler);
-
         // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
         mLibVLC.eventVideoPlayerActivityCreated(false);
         // HW acceleration was temporarily disabled because of an error, restore the previous value.
@@ -676,11 +609,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     }
                 });
 
-        if (mMediaRouter != null) {
-            // Listen for changes to media routes.
-            mediaRouterAddCallback(true);
-        }
-
         if (mIsLocked && mScreenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             setRequestedOrientation(mScreenOrientationLock);
     }
@@ -701,6 +629,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void startPlayback() {
+        if (mPlaybackStarted)
+            return;
+        mPlaybackStarted = true;
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -712,6 +643,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if(km.inKeyguardRestrictedInputMode())
             mPauseOnLoaded = true;
 
+        if (mMediaRouter != null) {
+            // Listen for changes to media routes.
+            mediaRouterAddCallback(true);
+        }
+
+        mSurfaceView.setKeepScreenOn(true);
+
+        final EventHandler em = EventHandler.getInstance();
+        em.addHandler(mEventHandler);
+
         loadMedia();
 
         // Add any selected subtitle file from the file picker
@@ -722,6 +663,74 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         }
 
+    }
+
+    private void stopPlayback() {
+        if (!mPlaybackStarted)
+            return;
+        mPlaybackStarted = false;
+        final EventHandler em = EventHandler.getInstance();
+        em.removeHandler(mEventHandler);
+        mEventHandler.removeCallbacksAndMessages(null);
+
+        mSurfaceView.setKeepScreenOn(false);
+
+        if (mMediaRouter != null) {
+            // Stop listening for changes to media routes.
+            mediaRouterAddCallback(false);
+        }
+
+        changeAudioFocus(false);
+
+        final boolean isPaused = !mLibVLC.isPlaying();
+        long time = mLibVLC.getTime();
+        long length = mLibVLC.getLength();
+        //remove saved position if in the last 5 seconds
+        if (length - time < 5000)
+            time = 0;
+        else
+            time -= 5000; // go back 5 seconds, to compensate loading time
+
+        /*
+         * Pausing here generates errors because the vout is constantly
+         * trying to refresh itself every 80ms while the surface is not
+         * accessible anymore.
+         * To workaround that, we keep the last known position in the playlist
+         * in savedIndexPosition to be able to restore it during onResume().
+         */
+        mLibVLC.stop();
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        // Save position
+        if (time >= 0 && mCanSeek) {
+            if(MediaDatabase.getInstance().mediaItemExists(mLocation)) {
+                MediaDatabase.getInstance().updateMedia(
+                        mLocation,
+                        MediaDatabase.mediaColumn.MEDIA_TIME,
+                        time);
+            } else {
+                // Video file not in media library, store time just for onResume()
+                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, time);
+            }
+        }
+        if(isPaused)
+            Log.d(TAG, "Video paused - saving flag");
+        editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, isPaused);
+
+        // Save selected subtitles
+        String subtitleList_serialized = null;
+        if(mSubtitleSelectedFiles.size() > 0) {
+            Log.d(TAG, "Saving selected subtitle files");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            try {
+                ObjectOutputStream oos = new ObjectOutputStream(bos);
+                oos.writeObject(mSubtitleSelectedFiles);
+                subtitleList_serialized = bos.toString();
+            } catch(IOException e) {}
+        }
+        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
+
+        Util.commitPreferences(editor);
     }
 
     @Override
@@ -2482,8 +2491,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             fromStart = getIntent().getExtras().getBoolean("fromStart");
         }
 
-        mSurfaceView.setKeepScreenOn(true);
-
         if(mLibVLC == null)
             return;
 
@@ -2702,13 +2709,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         // Dismiss the current presentation if the display has changed.
         Log.i(TAG, "Dismissing presentation because the current route no longer "
                 + "has a presentation display.");
-        mWasPlaying = mLibVLC.isPlaying();
-        mLibVLC.pause(); // Stop sending frames to avoid a crash.
         if (mPresentation != null) mPresentation.dismiss();
         mPresentation = null;
         mPresentationDisplayId = -1;
-        mediaRouterAddCallback(false);
-        changeAudioFocus(false);
+        stopPlayback();
+
         recreate();
     }
 
