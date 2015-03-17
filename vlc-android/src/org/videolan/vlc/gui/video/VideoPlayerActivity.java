@@ -459,9 +459,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 "Hardware acceleration mode: "
                         + Integer.toString(mLibVLC.getHardwareAcceleration()));
 
-        // Signal to LibVLC that the videoPlayerActivity was created, thus the
-        // SurfaceView is now available for MediaCodec direct rendering.
-        mLibVLC.eventVideoPlayerActivityCreated(true);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -515,16 +512,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onPause() {
         super.onPause();
 
-        if(mSwitchingView) {
-            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
-            AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
-            AudioServiceController.getInstance().unbindAudioService(this);
-            return;
-        }
-
         stopPlayback();
 
-        AudioServiceController.getInstance().unbindAudioService(this);
     }
 
     @Override
@@ -532,26 +521,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (!LibVlcUtil.isHoneycombOrLater())
             setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
         super.onConfigurationChanged(newConfig);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void onStart() {
-        if (LibVlcUtil.isHoneycombOrLater()) {
-            if (mOnLayoutChangeListener == null) {
-                mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
-                    @Override
-                    public void onLayoutChange(View v, int left, int top, int right,
-                            int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom)
-                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-                    }
-                };
-            }
-            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
-        }
-        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-        super.onStart();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -566,8 +535,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mPresentation = null;
         }
         restoreBrightness();
-        if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
-            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
@@ -587,12 +554,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-
-        // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
-        mLibVLC.eventVideoPlayerActivityCreated(false);
-        // HW acceleration was temporarily disabled because of an error, restore the previous value.
-        if (mDisabledHardwareAcceleration)
-            mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
 
         mAudioManager = null;
     }
@@ -638,6 +599,22 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (mPlaybackStarted)
             return;
         mPlaybackStarted = true;
+
+        if (LibVlcUtil.isHoneycombOrLater()) {
+            if (mOnLayoutChangeListener == null) {
+                mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right,
+                                               int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom)
+                            setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+                    }
+                };
+            }
+            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
+        }
+        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -659,6 +636,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         final EventHandler em = EventHandler.getInstance();
         em.addHandler(mEventHandler);
 
+        // Signal to LibVLC that the videoPlayerActivity was created, thus the
+        // SurfaceView is now available for MediaCodec direct rendering.
+        mLibVLC.eventVideoPlayerActivityCreated(true);
+
         loadMedia();
 
         // Add any selected subtitle file from the file picker
@@ -674,7 +655,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private void stopPlayback() {
         if (!mPlaybackStarted)
             return;
+
         mPlaybackStarted = false;
+
+        if(mSwitchingView) {
+            Log.d(TAG, "mLocation = \"" + mLocation + "\"");
+            AudioServiceController.getInstance().showWithoutParse(savedIndexPosition);
+            unbindAudioService();
+            return;
+        }
+
         final EventHandler em = EventHandler.getInstance();
         em.removeHandler(mEventHandler);
         mEventHandler.removeCallbacksAndMessages(null);
@@ -699,13 +689,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
 
-        /*
-         * Pausing here generates errors because the vout is constantly
-         * trying to refresh itself every 80ms while the surface is not
-         * accessible anymore.
-         * To workaround that, we keep the last known position in the playlist
-         * in savedIndexPosition to be able to restore it during onResume().
-         */
         mLibVLC.stop();
 
         SharedPreferences.Editor editor = mSettings.edit();
@@ -741,6 +724,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         editor.putString(PreferencesActivity.VIDEO_LAST, Uri.encode(mLocation));
 
         Util.commitPreferences(editor);
+
+        // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
+        mLibVLC.eventVideoPlayerActivityCreated(false);
+        // HW acceleration was temporarily disabled because of an error, restore the previous value.
+        if (mDisabledHardwareAcceleration)
+            mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
+
+        if (LibVlcUtil.isHoneycombOrLater() && mOnLayoutChangeListener != null)
+            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
+
+        unbindAudioService();
     }
 
     @Override
