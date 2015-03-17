@@ -106,6 +106,8 @@
     <string name="sound_on">Son</string>
     <string name="sound_off">Muet</string>
     <string name="brightness">Luminosité</string>
+    <string name="navmenu">menu de navigation</string>
+    <string name="advanced">options avancées</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canaux\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>
     <string name="subtitles">Sous-titres</string>
+    <string name="audio_sub">Pistes audio\net sous-titres</string>
     <string name="resize">Redimensionner</string>
     <string name="options">Options</string>
     <string name="lock">Verrouiller</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Désactivée</string>
     <string name="hardware_acceleration_decoding">Accélération au décodage</string>
     <string name="hardware_acceleration_full">Accélération complète</string>
+    <string name="dev_hardware_decoder">Décodeur matériel avancé</string>
+    <string name="dev_hardware_decoder_summary">Force le décodage matériel, pour utilisateurs avancés</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatique</string>
     <string name="screen_orientation">Orientation vidéo</string>
     <string name="screen_orientation_sensor">Automatique (senseur)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
     <string name="enable_jump_buttons">Activer les boutons de saut</string>
     <string name="enable_jump_buttons_summary">Afficher les boutons précédent et suivant sur l\'interface vidéo</string>
+    <string name="force_list_portrait">Pas de grille en mode portrait</string>
+    <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Pause lors du débranchement du casque, reprise lors du branchement du casque</string>
@@ -227,7 +238,7 @@
     <string name="media_db_cleared">Bibliothèque multimédia réinitialisée !</string>
     <string name="set_locale">Définir la langue</string>
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
-    <string name="set_locale_popup">Quitter et relancer VLC pour que les changements soient appliqués.</string>
+    <string name="set_locale_popup">Quitter et redémarrer VLC pour que les changements soient appliqués.</string>
     <string name="network_caching">Taille du cache réseau</string>
     <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
     <string name="developer_prefs_category">Développeur</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">Démarrer l\'enregistrement</string>
     <string name="stop_logging">Arrêter l\'enregistrement</string>
     <string name="clear_log">Vider le journal</string>
+    <string name="log_service_title">Enregistrement des journaux de VLC</string>
+    <string name="log_service_text">Ouvrir la console du journal</string>
     <string name="copy_to_clipboard">Copier vers le presse papier</string>
     <string name="copied_to_clipboard">Journal copié vers le presse papier.</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
@@ -250,4 +263,13 @@
     <string name="sending_log">Envoi du rapport...</string>
     <string name="drawer_open">Ouvrir le volet de navigation</string>
     <string name="drawer_close">Fermer le volet de navigation</string>
+    <string name="network_browsing">Réseau local</string>
+    <string name="file_size">Taille du fichier :</string>
+    <string name="file_other">Fermer le tiroir de navigation</string>
+    <string name="audio_delay">Délai audio</string>
+    <string name="spu_delay">Délai du sous-titrage</string>
+    <string name="network_shares_discovery">Recherche de partages réseau...</string>
+    <string name="network_empty">Ce répertoire est vide.</string>
+    <string name="network_connection_needed">Pas de connexion au réseau local.</string>
+    <string name="search_hint">Recherche de média</string>
 </resources>
