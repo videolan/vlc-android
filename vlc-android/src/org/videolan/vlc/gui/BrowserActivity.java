@@ -27,6 +27,8 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Stack;
 
+import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
@@ -189,10 +191,12 @@ public class BrowserActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         File file = mAdapter.getItem(position);
         if(file.getPath().equals(BrowserAdapter.ADD_ITEM_PATH)) {
-            AlertDialog.Builder b = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_VLC_Black));
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
             final EditText input = new EditText(this);
+            if (!LibVlcUtil.isHoneycombOrLater()) {
+                input.setTextColor(getResources().getColor(R.color.grey50));
+            }
             input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-            input.setTextColor(getResources().getColor(R.color.grey50));
             b.setTitle(R.string.add_custom_path);
             b.setMessage(R.string.add_custom_path_description);
             b.setView(input);
