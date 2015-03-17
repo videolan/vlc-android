@@ -7,9 +7,12 @@ Application:
  * Fix rare crashes
  * Fix HDMI unplugging
  * Improve seek
+ * Fixes on AudioFocus
+ * Fixes on Black Theme
 
 TV:
  * Recommend last video viewed
+ * Better UI while scanning
 
 Core:
  * Fix mediacodec crash
