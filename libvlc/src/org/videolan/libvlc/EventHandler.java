@@ -58,6 +58,10 @@ public class EventHandler {
     //public static final int MediaPlayerSnapshotTaken        = 0x110;
     //public static final int MediaPlayerLengthChanged        = 0x111;
     public static final int MediaPlayerVout                   = 0x112;
+    //public static final int MediaPlayerScrambledChanged     = 0x113;
+    public static final int MediaPlayerESAdded                = 0x114;
+    public static final int MediaPlayerESDeleted              = 0x115;
+    //public static final int MediaPlayerESSelected           = 0x116;
 
     //public static final int MediaListItemAdded              = 0x200;
     //public static final int MediaListWillAddItem            = 0x201;

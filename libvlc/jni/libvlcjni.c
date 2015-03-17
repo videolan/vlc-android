@@ -552,7 +552,9 @@ void Java_org_videolan_libvlc_LibVLC_playMRL(JNIEnv *env, jobject thiz,
         libvlc_MediaPlayerVout,
         libvlc_MediaPlayerPositionChanged,
         libvlc_MediaPlayerTimeChanged,
-        libvlc_MediaPlayerEncounteredError
+        libvlc_MediaPlayerEncounteredError,
+        libvlc_MediaPlayerESAdded,
+        libvlc_MediaPlayerESDeleted,
     };
     for(int i = 0; i < (sizeof(mp_events) / sizeof(*mp_events)); i++)
         libvlc_event_attach(ev, mp_events[i], vlc_event_callback, myVm);
