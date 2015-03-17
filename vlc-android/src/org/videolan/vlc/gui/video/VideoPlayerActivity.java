@@ -1325,12 +1325,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
             switch (msg.getData().getInt("event")) {
                 case EventHandler.MediaParsedChanged:
-                    Log.i(TAG, "MediaParsedChanged");
                     activity.updateNavStatus();
-                    if (!activity.mHasMenu && activity.mLibVLC.getVideoTracksCount() < 1) {
-                        Log.i(TAG, "No video track, open in audio mode");
-                        activity.switchToAudioMode();
-                    }
                     break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
@@ -1381,6 +1376,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case EventHandler.MediaPlayerTimeChanged:
                     // avoid useless error logs
+                    break;
+                case EventHandler.MediaPlayerESAdded:
+                    if (!activity.mHasMenu && activity.mLibVLC.getVideoTracksCount() < 1) {
+                        Log.i(TAG, "No video track, open in audio mode");
+                        activity.switchToAudioMode();
+                    }
                     break;
                 default:
                     break;
