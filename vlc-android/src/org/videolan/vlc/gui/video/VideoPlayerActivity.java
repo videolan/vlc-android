@@ -1434,6 +1434,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void encounteredError() {
+        if (isFinishing())
+            return;
         /* Encountered Error, exit player with a message */
         AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
