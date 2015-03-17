@@ -72,9 +72,11 @@ public class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 int pos = holder.getPosition();
-                MediaDatabase.getInstance().deleteMrlUri(mDataset.get(pos));
-                mDataset.remove(pos);
-                notifyItemRemoved(pos);
+                if (pos > -1) {
+                    MediaDatabase.getInstance().deleteMrlUri(mDataset.get(pos));
+                    mDataset.remove(pos);
+                    notifyItemRemoved(pos);
+                }
             }
         });
     }
