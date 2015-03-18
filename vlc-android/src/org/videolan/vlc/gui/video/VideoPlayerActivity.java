@@ -673,6 +673,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         }
 
+        // Set user playback speed
+        mLibVLC.setRate(mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, 1));
+
     }
 
     private void stopPlayback() {
@@ -711,7 +714,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             time = 0;
         else
             time -= 5000; // go back 5 seconds, to compensate loading time
-
         mLibVLC.stop();
 
         SharedPreferences.Editor editor = mSettings.edit();
@@ -745,6 +747,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
 
         editor.putString(PreferencesActivity.VIDEO_LAST, Uri.encode(mLocation));
+
+        // Save user playback speed and restore normal speed
+        editor.putFloat(PreferencesActivity.VIDEO_SPEED, mLibVLC.getRate());
+        mLibVLC.setRate(1);
 
         Util.commitPreferences(editor);
 
