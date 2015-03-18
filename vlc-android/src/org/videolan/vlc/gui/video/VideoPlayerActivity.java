@@ -1977,9 +1977,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (trackMap == null)
             return;
         final String[] nameList = new String[trackMap.size()];
+        final int[] idList = new int[trackMap.size()];
         int i = 0;
         int listPosition = 0;
         for(Map.Entry<Integer,String> entry : trackMap.entrySet()) {
+            idList[i] = entry.getKey();
             nameList[i] = entry.getValue();
             // map the track position to the list position
             if(entry.getKey() == currentTrack)
@@ -1995,7 +1997,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                         int trackID = -1;
                         // Reverse map search...
                         for (Map.Entry<Integer, String> entry : trackMap.entrySet()) {
-                            if (nameList[listPosition].equals(entry.getValue())) {
+                            if (idList[listPosition] == entry.getKey()) {
                                 trackID = entry.getKey();
                                 break;
                             }
