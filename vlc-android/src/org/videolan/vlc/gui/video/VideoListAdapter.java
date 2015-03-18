@@ -149,7 +149,6 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 v = inflater.inflate(R.layout.video_grid_card, parent, false);
             else
                 v = inflater.inflate(R.layout.video_list_card, parent, false);
-            ((CardView)v).setPreventCornerOverlap(false);
 
             holder = new ViewHolder();
             holder.thumbnail = (ImageView) v.findViewById(R.id.ml_item_thumbnail);

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     card_view:cardUseCompatPadding="true"
+    card_view:cardPreventCornerOverlap="false"
     card_view:cardElevation="1sp" >
 
     <RelativeLayout

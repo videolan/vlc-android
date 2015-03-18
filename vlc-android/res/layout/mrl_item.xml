@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     card_view:cardUseCompatPadding="true"
+    card_view:cardPreventCornerOverlap="false"
     card_view:cardElevation="1sp">
 
     <RelativeLayout
