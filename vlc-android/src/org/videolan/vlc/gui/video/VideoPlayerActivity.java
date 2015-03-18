@@ -297,6 +297,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private long mLastTime = -1;
 
     private OnLayoutChangeListener mOnLayoutChangeListener;
+    private AlertDialog mAlertDialog;
 
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -533,6 +534,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onStop() {
         super.onStop();
 
+        if (mAlertDialog != null && mAlertDialog.isShowing())
+            mAlertDialog.dismiss();
         stopPlayback();
 
         // Dismiss the presentation when the activity is not visible.
@@ -1460,7 +1463,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (isFinishing())
             return;
         /* Encountered Error, exit player with a message */
-        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -1470,7 +1473,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         .setTitle(R.string.encountered_error_title)
         .setMessage(R.string.encountered_error_message)
         .create();
-        dialog.show();
+        mAlertDialog.show();
     }
 
     public void eventHardwareAccelerationError() {
@@ -1483,7 +1486,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (mSwitchingView)
             return;
         mLibVLC.stop();
-        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -1509,7 +1512,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         .setMessage(R.string.hardware_acceleration_error_message)
         .create();
         if(!isFinishing())
-            dialog.show();
+            mAlertDialog.show();
     }
 
     private void handleVout(Message msg) {
@@ -1971,7 +1974,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 listPosition = i;
             i++;
         }
-        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setTitle(R.string.track_audio)
         .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
             @Override
@@ -1995,9 +1998,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         })
         .create();
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setOwnerActivity(VideoPlayerActivity.this);
-        dialog.show();
+        mAlertDialog.setCanceledOnTouchOutside(true);
+        mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
+        mAlertDialog.show();
     }
 
     private void selectSubtitles() {
@@ -2014,7 +2017,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             i++;
         }
 
-        AlertDialog dialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setTitle(R.string.track_text)
         .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
             @Override
@@ -2038,9 +2041,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         })
         .create();
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setOwnerActivity(VideoPlayerActivity.this);
-        dialog.show();
+        mAlertDialog.setCanceledOnTouchOutside(true);
+        mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
+        mAlertDialog.show();
     }
 
     private void showNavMenu() {
