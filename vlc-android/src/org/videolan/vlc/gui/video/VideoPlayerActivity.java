@@ -496,9 +496,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     public boolean onPrepareOptionsMenu(Menu menu){
         MenuItem item = menu.findItem(R.id.pl_menu_nav);
-        item.setVisible(mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && mLibVLC.getTitle() != 0);
-        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-
+        if (mLibVLC != null && item != null) {
+            item.setVisible(mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && mLibVLC.getTitle() != 0);
+            MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
