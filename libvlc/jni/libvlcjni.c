@@ -190,6 +190,11 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
         (*env)->DeleteLocalRef(env, item_uri_value);
         (*env)->DeleteLocalRef(env, item_index);
         free(mrl);
+    } else if(ev->type == libvlc_MediaPlayerESAdded ||
+              ev->type == libvlc_MediaPlayerESDeleted ) {
+        jstring sData = (*env)->NewStringUTF(env, "data");
+        (*env)->CallVoidMethod(env, bundle, putInt, sData, ev->u.media_player_es_changed.i_type);
+        (*env)->DeleteLocalRef(env, sData);
     }
 
     /* Get the object class */
