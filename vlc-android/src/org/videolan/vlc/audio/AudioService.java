@@ -49,8 +49,10 @@ import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -711,12 +713,17 @@ public class AudioService extends Service {
                 album = "";
             }
 
+            //Watch notification dismissed
+            PendingIntent piStop = PendingIntent.getBroadcast(this, 0,
+                    new Intent(ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+
             // add notification to status bar
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_vlc)
                 .setTicker(title + " - " + artist)
-                .setAutoCancel(false)
-                .setOngoing(true);
+                .setAutoCancel(!mLibVLC.isPlaying())
+                .setOngoing(mLibVLC.isPlaying())
+                .setDeleteIntent(piStop);
 
             Intent notificationIntent = new Intent(this, MainActivity.class);
             notificationIntent.setAction(MainActivity.ACTION_SHOW_PLAYER);
@@ -728,11 +735,9 @@ public class AudioService extends Service {
                 Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
                 Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
                 Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-                Intent iStop = new Intent(ACTION_REMOTE_STOP);
                 PendingIntent piBackward = PendingIntent.getBroadcast(this, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
                 PendingIntent piPlay = PendingIntent.getBroadcast(this, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
                 PendingIntent piForward = PendingIntent.getBroadcast(this, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
-                PendingIntent piStop = PendingIntent.getBroadcast(this, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 RemoteViews view = new RemoteViews(BuildConfig.APPLICATION_ID, R.layout.notification);
                 view.setImageViewBitmap(R.id.cover, cover == null ? BitmapFactory.decodeResource(getResources(), R.drawable.icon) : cover);
@@ -756,8 +761,14 @@ public class AudioService extends Service {
                 view_expanded.setOnClickPendingIntent(R.id.stop, piStop);
                 view_expanded.setOnClickPendingIntent(R.id.content, pendingIntent);
 
-                if (LibVlcUtil.isLolliPopOrLater())
+                if (LibVlcUtil.isLolliPopOrLater()){
+                    //Hide stop button on pause, we swipe notification to stop
+                    view.setViewVisibility(R.id.stop, mLibVLC.isPlaying() ? View.VISIBLE : View.INVISIBLE);
+                    view_expanded.setViewVisibility(R.id.stop, mLibVLC.isPlaying() ? View.VISIBLE : View.INVISIBLE);
+                    //Make notification appear on lockscreen
                     builder.setVisibility(Notification.VISIBILITY_PUBLIC);
+                }
+
                 notification = builder.build();
                 notification.contentView = view;
                 notification.bigContentView = view_expanded;
@@ -773,7 +784,12 @@ public class AudioService extends Service {
             }
 
             startService(new Intent(this, AudioService.class));
-            startForeground(3, notification);
+            if (!LibVlcUtil.isLolliPopOrLater() || mLibVLC.isPlaying())
+                startForeground(3, notification);
+            else {
+                stopForeground(false);
+                NotificationManagerCompat.from(this).notify(3, notification);
+            }
         }
         catch (NoSuchMethodError e){
             // Compat library is wrong on 3.2
