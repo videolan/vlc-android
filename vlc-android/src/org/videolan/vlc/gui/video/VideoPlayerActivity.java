@@ -1347,9 +1347,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     }
                     activity.stopLoadingAnimation();
                     activity.showOverlay();
-                    /** FIXME: update the track list when it changes during the
-                     *  playback. (#7540) */
-                    activity.setESTrackLists(true);
                     activity.setESTracks();
                     activity.changeAudioFocus(true);
                     activity.updateNavStatus();
@@ -1392,6 +1389,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                         Log.i(TAG, "No video track, open in audio mode");
                         activity.switchToAudioMode();
                     }
+                    // no break here, we want to invalidate tracks
+                case EventHandler.MediaPlayerESDeleted:
+                    activity.invalidateESTracks(msg.getData().getInt("data"));
                     break;
                 default:
                     break;
@@ -2013,7 +2013,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void selectAudioTrack() {
-        setESTrackLists(false);
+        setESTrackLists();
         selectTrack(mAudioTracksList, mLibVLC.getAudioTrack(), R.string.track_audio,
                 new TrackSelectedListener() {
                     @Override
@@ -2031,7 +2031,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void selectSubtitles() {
-        setESTrackLists(false);
+        setESTrackLists();
         selectTrack(mSubtitleTracksList, mLibVLC.getSpuTrack(), R.string.track_text,
                 new TrackSelectedListener() {
                     @Override
@@ -2405,6 +2405,17 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         return time;
     }
 
+    private void invalidateESTracks(int type) {
+        switch (type) {
+            case Media.Track.Type.Audio:
+                mAudioTracksList = null;
+                break;
+            case Media.Track.Type.Text:
+                mSubtitleTracksList = null;
+                break;
+        }
+    }
+
     private void setESTracks() {
         if (mLastAudioTrack >= 0) {
             mLibVLC.setAudioTrack(mLastAudioTrack);
@@ -2416,16 +2427,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
-    private void setESTrackLists(boolean force) {
-        if(mAudioTracksList == null || force) {
-            if (mLibVLC.getAudioTracksCount() > 2) {
-                mAudioTracksList = mLibVLC.getAudioTrackDescription();
-            }
-        }
-        if (mSubtitleTracksList == null || force) {
-            if (mLibVLC.getSpuTracksCount() > 0)
-                mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
-        }
+    private void setESTrackLists() {
+        if (mAudioTracksList == null && mLibVLC.getAudioTracksCount() > 1)
+            mAudioTracksList = mLibVLC.getAudioTrackDescription();
+        if (mSubtitleTracksList == null && mLibVLC.getSpuTracksCount() > 0)
+            mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
     }
 
 
@@ -2904,10 +2910,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
              */
             hideOverlay(false);
         }
-        else if (mHasMenu) {
-            setESTrackLists(true);
+        else if (mHasMenu)
             setESTracks();
-        }
         supportInvalidateOptionsMenu();
     }
 
