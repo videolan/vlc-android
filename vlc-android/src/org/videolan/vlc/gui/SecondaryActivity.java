@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -50,6 +51,10 @@ public class SecondaryActivity  extends ActionBarActivity {
     Fragment mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /* Theme must be applied before super.onCreate */
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false)) {
+            setTheme(R.style.Theme_VLC_Black);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary);
 
