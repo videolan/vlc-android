@@ -2880,7 +2880,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void updateNavStatus() {
-        mHasMenu = mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1;
+        mHasMenu = mLibVLC.getChapterCountForTitle(0) > 1 && mLibVLC.getTitleCount() > 1 && !mLocation.endsWith(".mkv");
         mIsNavMenu = mHasMenu && mLibVLC.getTitle() == 0;
         /***
          * HACK ALERT: assume that any media with >1 titles = DVD with menus
