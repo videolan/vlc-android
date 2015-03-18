@@ -1967,89 +1967,84 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         popupMenu.show();
     }
 
-    private void selectAudioTrack() {
-        if (mAudioTracksList == null) return;
-
-        final String[] arrList = new String[mAudioTracksList.size()];
+    private interface TrackSelectedListener {
+        public boolean onTrackSelected(int trackID);
+    }
+    private void selectTrack(final Map<Integer,String> trackMap, int currentTrack, int titleId,
+                             final TrackSelectedListener listener) {
+        if (listener == null)
+            throw new IllegalArgumentException("listener must not be null");
+        if (trackMap == null)
+            return;
+        final String[] nameList = new String[trackMap.size()];
         int i = 0;
         int listPosition = 0;
-        for(Map.Entry<Integer,String> entry : mAudioTracksList.entrySet()) {
-            arrList[i] = entry.getValue();
+        for(Map.Entry<Integer,String> entry : trackMap.entrySet()) {
+            nameList[i] = entry.getValue();
             // map the track position to the list position
-            if(entry.getKey() == mLibVLC.getAudioTrack())
+            if(entry.getKey() == currentTrack)
                 listPosition = i;
             i++;
         }
-        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-        .setTitle(R.string.track_audio)
-        .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int listPosition) {
-                int trackID = -1;
-                // Reverse map search...
-                for (Map.Entry<Integer, String> entry : mAudioTracksList.entrySet()) {
-                    if (arrList[listPosition].equals(entry.getValue())) {
-                        trackID = entry.getKey();
-                        break;
-                    }
-                }
-                if (trackID < 0) return;
 
-                MediaDatabase.getInstance().updateMedia(
-                        mLocation,
-                        MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
-                        trackID);
-                mLibVLC.setAudioTrack(trackID);
-                dialog.dismiss();
-            }
-        })
-        .create();
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+                .setTitle(titleId)
+                .setSingleChoiceItems(nameList, listPosition, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int listPosition) {
+                        int trackID = -1;
+                        // Reverse map search...
+                        for (Map.Entry<Integer, String> entry : trackMap.entrySet()) {
+                            if (nameList[listPosition].equals(entry.getValue())) {
+                                trackID = entry.getKey();
+                                break;
+                            }
+                        }
+                        listener.onTrackSelected(trackID);
+                        dialog.dismiss();
+                    }
+                })
+                .create();
         mAlertDialog.setCanceledOnTouchOutside(true);
         mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
         mAlertDialog.show();
     }
 
-    private void selectSubtitles() {
-        if (mSubtitleTracksList == null)
-                mSubtitleTracksList = mLibVLC.getSpuTrackDescription();
-        final String[] arrList = new String[mSubtitleTracksList.size()];
-        int i = 0;
-        int listPosition = 0;
-        for(Map.Entry<Integer,String> entry : mSubtitleTracksList.entrySet()) {
-            arrList[i] = entry.getValue();
-            // map the track position to the list position
-            if(entry.getKey() == mLibVLC.getSpuTrack())
-                listPosition = i;
-            i++;
-        }
-
-        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
-        .setTitle(R.string.track_text)
-        .setSingleChoiceItems(arrList, listPosition, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int listPosition) {
-                int trackID = -2;
-                // Reverse map search...
-                for(Map.Entry<Integer, String> entry : mSubtitleTracksList.entrySet()) {
-                    if(arrList[listPosition].equals(entry.getValue())) {
-                        trackID = entry.getKey();
-                        break;
+    private void selectAudioTrack() {
+        setESTrackLists(false);
+        selectTrack(mAudioTracksList, mLibVLC.getAudioTrack(), R.string.track_audio,
+                new TrackSelectedListener() {
+                    @Override
+                    public boolean onTrackSelected(int trackID) {
+                        if (trackID < 0)
+                            return false;
+                        MediaDatabase.getInstance().updateMedia(
+                                mLocation,
+                                MediaDatabase.mediaColumn.MEDIA_AUDIOTRACK,
+                                trackID);
+                        mLibVLC.setAudioTrack(trackID);
+                        return true;
                     }
-                }
-                if (trackID < -1) return;
+                });
+    }
 
-                MediaDatabase.getInstance().updateMedia(
-                        mLocation,
-                        MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
-                        trackID);
-                mLibVLC.setSpuTrack(trackID);
-                dialog.dismiss();
-            }
-        })
-        .create();
-        mAlertDialog.setCanceledOnTouchOutside(true);
-        mAlertDialog.setOwnerActivity(VideoPlayerActivity.this);
-        mAlertDialog.show();
+    private void selectSubtitles() {
+        setESTrackLists(false);
+        selectTrack(mSubtitleTracksList, mLibVLC.getSpuTrack(), R.string.track_text,
+                new TrackSelectedListener() {
+                    @Override
+                    public boolean onTrackSelected(int trackID) {
+                        if (trackID < -1)
+                            return false;
+
+                        MediaDatabase.getInstance().updateMedia(
+                                mLocation,
+                                MediaDatabase.mediaColumn.MEDIA_SPUTRACK,
+                                trackID);
+                        mLibVLC.setSpuTrack(trackID);
+                        return true;
+                    }
+                });
     }
 
     private void showNavMenu() {
