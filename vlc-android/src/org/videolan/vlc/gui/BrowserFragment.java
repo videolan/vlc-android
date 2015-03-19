@@ -35,6 +35,7 @@ public abstract class BrowserFragment extends Fragment {
     protected void display(){}
 
     protected abstract String getTitle();
+    public abstract void clear();
     public void onStart(){
         super.onStart();
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(getTitle());

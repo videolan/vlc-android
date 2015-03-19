@@ -181,4 +181,6 @@ public class HistoryFragment extends BrowserFragment implements IRefreshable, Sw
     protected String getTitle() {
         return getString(R.string.history);
     }
+
+    public void clear(){}
 }

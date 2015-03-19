@@ -662,4 +662,11 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             return false;
         }
     };
+
+    public void clear(){
+        mGenresAdapter.clear();
+        mArtistsAdapter.clear();
+        mAlbumsAdapter.clear();
+        mSongsAdapter.clear();
+    }
 }

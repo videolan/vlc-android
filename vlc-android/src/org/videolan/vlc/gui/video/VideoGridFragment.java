@@ -556,4 +556,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
                 }
             });
     }
+
+    public void clear(){
+        mVideoAdapter.clear();
+    }
 }

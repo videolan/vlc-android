@@ -379,4 +379,9 @@ public class AudioAlbumsSongsFragment extends BrowserFragment implements SwipeRe
             return false;
         }
     };
+
+    public void clear(){
+        mAlbumsAdapter.clear();
+        mSongsAdapter.clear();
+    }
 }

@@ -333,4 +333,8 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
         main.setMenuFocusDown(idIsEmpty, R.id.network_list);
         main.setSearchAsFocusDown(idIsEmpty, parent, R.id.network_list);
     }
+
+    public void clear(){
+        mAdapter.clear();
+    }
 }
