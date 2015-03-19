@@ -27,6 +27,7 @@ import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
@@ -250,6 +251,7 @@ public class MediaLibrary {
 
             ArrayList<File> mediaToScan = new ArrayList<File>();
             try {
+                LinkedList<String> dirsToIgnore = new LinkedList<String>();
                 // Count total files, and stack them
                 while (!directories.isEmpty()) {
                     File dir = directories.pop();
@@ -273,6 +275,7 @@ public class MediaLibrary {
 
                     // Do no scan media in .nomedia folders
                     if (new File(dirPath + "/.nomedia").exists()) {
+                        dirsToIgnore.add("file://"+dirPath);
                         continue;
                     }
 
@@ -298,6 +301,20 @@ public class MediaLibrary {
                         return;
                     }
                 }
+
+                //Remove ignored files
+                HashSet<String> mediasToRemove = new HashSet<String>();
+                outloop:
+                for (String path : existingMedias.keySet()){
+                    for (String dirPath : dirsToIgnore) {
+                        if (path.startsWith(dirPath)) {
+                            mediasToRemove.add(path);
+                            mItemList.remove(existingMedias.get(path));
+                            continue outloop;
+                        }
+                    }
+                }
+                mediaDatabase.removeMedias(mediasToRemove);
 
                 // Process the stacked items
                 for (File file : mediaToScan) {

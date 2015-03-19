@@ -20,16 +20,17 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 
@@ -41,13 +42,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -111,17 +115,6 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
             mListView.setNextFocusForwardId(android.R.id.list);
         focusHelper(mDirectoryAdapter.getCount() == 0);
         mListView.requestFocus();
-        mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View v, int position, long id) {
-                if(mDirectoryAdapter.isChildFile(position)) {
-                    return false;
-                } else {
-                    return true; /* Terminate the automatic context menu */
-                }
-            }
-        });
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
@@ -149,11 +142,82 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         int position = ((AdapterContextMenuInfo)menuInfo).position;
+        MenuInflater menuInflater = getActivity().getMenuInflater();
 
-        if(mDirectoryAdapter.isChildFile(position)) {
-            MenuInflater menuInflater = getActivity().getMenuInflater();
-            menuInflater.inflate(R.menu.directory_view, menu);
+        if(mDirectoryAdapter.isChildFile(position))
+            menuInflater.inflate(R.menu.directory_view_file, menu);
+        else {
+            DirectoryAdapter.Node folder = (DirectoryAdapter.Node) mDirectoryAdapter.getItem(position);
+            if (Util.canWrite(mDirectoryAdapter.getmCurrentDir()+"/"+folder.name)) {
+                menuInflater.inflate(R.menu.directory_view_dir, menu);
+                boolean nomedia = new File(mDirectoryAdapter.getmCurrentDir()+"/"+folder.name+"/.nomedia").exists();
+                menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
+                menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+            }
         }
+    }
+
+    private boolean handleContextItemSelected(MenuItem item, int position) {
+        int id = item.getItemId();
+        String mediaLocation = mDirectoryAdapter.getMediaLocation(position);
+        if (mediaLocation == null)
+            return super.onContextItemSelected(item);
+
+        switch (id){
+            case R.id.directory_view_play:
+                openMediaFile(position);
+                return true;
+            case R.id.directory_view_append:
+                AudioServiceController.getInstance().append(mediaLocation);
+                return true;
+            case R.id.directory_view_delete:
+                AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mediaLocation,
+                        new VLCRunnable() {
+                            @Override
+                            public void run(Object o) {
+                                refresh();
+                            }
+                        });
+                alertDialog.show();
+                return true;
+            case R.id.directory_view_play_audio:
+                AudioServiceController.getInstance().load(mediaLocation, true);
+                return true;
+            case  R.id.directory_view_play_video:
+                VideoPlayerActivity.start(getActivity(), mediaLocation);
+                return true;
+            case R.id.directory_view_hide_media:
+                DirectoryAdapter.Node folder = (DirectoryAdapter.Node) mDirectoryAdapter.getItem(position);
+                try {
+                    new File(mDirectoryAdapter.getmCurrentDir()+"/"+folder.name+"/.nomedia").createNewFile();
+                    updateLib();
+                } catch (IOException e) {}
+                return true;
+            case R.id.directory_view_show_media:
+                DirectoryAdapter.Node folderToShow = (DirectoryAdapter.Node) mDirectoryAdapter.getItem(position);
+                new File(mDirectoryAdapter.getmCurrentDir()+"/"+folderToShow.name+"/.nomedia").delete();
+                updateLib();
+                return true;
+        }
+        return false;
+    }
+
+    private void updateLib() {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Fragment fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_AUDIO);
+        if (fragment != null) {
+            ft.remove(fragment);
+            ((BrowserFragment)fragment).clear();
+        }
+        fragment = fm.findFragmentByTag(SidebarAdapter.SidebarEntry.ID_VIDEO);
+        if (fragment != null) {
+            ft.remove(fragment);
+            ((BrowserFragment)fragment).clear();
+        }
+        if (!ft.isEmpty())
+            ft.commit();
+        MediaLibrary.getInstance().loadMediaItems();
     }
 
     @Override
@@ -161,37 +225,9 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         if(!getUserVisibleHint()) return super.onContextItemSelected(item);
 
         AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        if(info == null) // info can be null
-            return super.onContextItemSelected(item);
+        if (info != null && handleContextItemSelected(item, info.position))
+            return true;
 
-        int id = item.getItemId();
-        String mediaLocation = mDirectoryAdapter.getMediaLocation(info.position);
-        if (mediaLocation == null)
-            return super.onContextItemSelected(item);
-
-        if(id == R.id.directory_view_play) {
-            openMediaFile(info.position);
-            return true;
-        } else if(id == R.id.directory_view_append) {
-            AudioServiceController.getInstance().append(mediaLocation);
-            return true;
-        } else if(id == R.id.directory_view_delete) {
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(getActivity(), mediaLocation,
-                    new VLCRunnable() {
-                        @Override
-                        public void run(Object o) {
-                            refresh();
-                        }
-                    });
-            alertDialog.show();
-            return true;
-        } else if(id == R.id.directory_view_play_audio) {
-            AudioServiceController.getInstance().load(mediaLocation, true);
-            return true;
-        } else if(id == R.id.directory_view_play_video) {
-            VideoPlayerActivity.start(getActivity(), mediaLocation);
-            return true;
-        }
         return super.onContextItemSelected(item);
     }
 
@@ -275,12 +311,23 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
                     return;
                 }
                 PopupMenu popupMenu = new PopupMenu(getActivity(), anchor);
-                popupMenu.getMenuInflater().inflate(R.menu.directory_view, popupMenu.getMenu());
+                if (mDirectoryAdapter.isChildFile(position))
+                    popupMenu.getMenuInflater().inflate(R.menu.directory_view_file, popupMenu.getMenu());
+                else {
+                    DirectoryAdapter.Node folder = (DirectoryAdapter.Node) mDirectoryAdapter.getItem(position);
+                    if (Util.canWrite(mDirectoryAdapter.getmCurrentDir()+"/"+folder.name)) {
+                        Menu menu = popupMenu.getMenu();
+                        popupMenu.getMenuInflater().inflate(R.menu.directory_view_dir, menu);
+                        boolean nomedia = new File(mDirectoryAdapter.getmCurrentDir() + "/" + folder.name + "/.nomedia").exists();
+                        menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
+                        menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
+                    }
+                }
 
                 popupMenu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        return onContextItemSelected(item);
+                        return handleContextItemSelected(item, position);
                     }
                 });
                 popupMenu.show();
@@ -311,4 +358,6 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
     protected String getTitle() {
         return getString(R.string.directories);
     }
+
+    public void clear(){}
 }

@@ -35,8 +35,6 @@ import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.VLCCallbackTask;
-import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import android.annotation.TargetApi;
@@ -47,6 +45,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils.TruncateAt;
 import android.util.DisplayMetrics;
@@ -303,5 +302,15 @@ public class Util {
         } else {
                 return false;
         }
+    }
+
+    public static boolean canWrite(String path){
+        if (path == null)
+            return false;
+        if (LibVlcUtil.isLolliPopOrLater() &&
+                !path.startsWith("file://" + Environment.getExternalStorageDirectory().getPath()))
+            return false;
+        File file = new File(path);
+        return (file.exists() && file.canWrite());
     }
 }
