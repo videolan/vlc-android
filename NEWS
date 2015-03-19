@@ -2,13 +2,16 @@ Changes between 1.1.6 and 1.1.7:
 --------------------------------
 
 Application:
- * show 'load last video' option on phones
+ * Show 'load last video' option on phones
  * (Lollipop only) Swipe music notification to remove it. When playback is on pause.
  * Fix video ts opened as audio
  * Fix black theme
  * Fix player menu hidden with some MKV files
  * Thai, Russian and French translations updates
  * Misc bugfixes
+ * Keep player speed between videos
+ * Refactor track selections and updates
+ * Simpler management to include Directories in the Media Library
 
 
 Changes between 1.1.5 and 1.1.6:
