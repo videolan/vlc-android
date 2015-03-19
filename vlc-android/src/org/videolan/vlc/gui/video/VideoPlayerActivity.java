@@ -180,6 +180,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int AUDIO_SERVICE_CONNECTION_SUCCESS = 5;
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
     private static final int END_DELAY_STATE = 7;
+    private static final int RESET_BACK_LOCK = 8;
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -210,6 +211,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private int mLastAudioTrack = -1;
     private int mLastSpuTrack = -2;
     private int mOverlayTimeout = 0;
+    private boolean mLockBackButton = false;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -886,6 +888,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     @Override
+    public void onBackPressed() {
+        if (mLockBackButton) {
+            mLockBackButton = false;
+            mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
+            Toast.makeText(this, "Press back again to quit video", Toast.LENGTH_SHORT).show();
+        } else
+            super.onBackPressed();
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
@@ -1170,6 +1182,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mLength.setEnabled(false);
         mSize.setEnabled(false);
         hideOverlay(true);
+        mLockBackButton = true;
     }
 
     /**
@@ -1186,6 +1199,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSize.setEnabled(true);
         mShowing = false;
         showOverlay();
+        mLockBackButton = false;
     }
 
     /**
@@ -1441,6 +1455,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case END_DELAY_STATE:
                     activity.endDelaySetting();
+                case RESET_BACK_LOCK:
+                    activity.mLockBackButton = true;
             }
         }
     };
