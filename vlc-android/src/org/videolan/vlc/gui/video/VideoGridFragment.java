@@ -35,7 +35,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -74,6 +73,7 @@ import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;

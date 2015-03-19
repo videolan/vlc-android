@@ -19,7 +19,7 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <org.videolan.vlc.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -87,7 +87,7 @@
                 android:nextFocusLeft="@id/songs_list"
                 android:nextFocusRight="@+id/genres_list" />
         </android.support.v4.view.ViewPager>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </org.videolan.vlc.widget.SwipeRefreshLayout>
 
     <include layout="@layout/shadow_top"
         android:layout_width="match_parent"

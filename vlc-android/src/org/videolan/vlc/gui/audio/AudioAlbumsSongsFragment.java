@@ -26,7 +26,6 @@ import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -58,6 +57,7 @@ import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;

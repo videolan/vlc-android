@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <org.videolan.vlc.widget.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -23,7 +23,7 @@
             android:nextFocusDown="@id/android:list"
             android:nextFocusLeft="@id/android:list"
             android:nextFocusRight="@id/android:list" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </org.videolan.vlc.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@id/android:empty"

@@ -33,6 +33,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -45,7 +46,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.ContextMenu;

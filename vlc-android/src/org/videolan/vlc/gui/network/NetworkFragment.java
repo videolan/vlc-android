@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,6 +50,7 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 

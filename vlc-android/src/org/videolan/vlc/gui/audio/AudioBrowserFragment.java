@@ -28,7 +28,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -65,6 +64,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;

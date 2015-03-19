@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  BrowserFragment.java
+ *  SwipeRefreshLayout.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *
@@ -20,26 +20,28 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui;
+package org.videolan.vlc.widget;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 
-import org.videolan.vlc.widget.SwipeRefreshLayout;
+public class SwipeRefreshLayout extends android.support.v4.widget.SwipeRefreshLayout {
+    public SwipeRefreshLayout(Context context) {
+        super(context);
+    }
 
-public abstract class BrowserFragment extends Fragment {
+    public SwipeRefreshLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-    protected SwipeRefreshLayout mSwipeRefreshLayout;
-    protected volatile boolean mReadyToDisplay = true;
-
-    protected void setReadyToDisplay(boolean ready){}
-    protected void display(){}
-
-    protected abstract String getTitle();
-    public abstract void clear();
-    public void onStart(){
-        super.onStart();
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(getTitle());
-        getActivity().supportInvalidateOptionsMenu();
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        try {
+            return super.onTouchEvent(ev);
+        } catch (IllegalArgumentException e) {
+            //Fix for support lib bug, happening when onDestroy is triggered.
+            return true;
+        }
     }
 }
