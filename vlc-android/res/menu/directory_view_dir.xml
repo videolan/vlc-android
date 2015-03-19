@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/directory_view_hide_media"
-        android:title="Hide from MediaLib" />
+        android:title="@string/directory_hide_medialib" />
     <item
         android:id="@+id/directory_view_show_media"
-        android:title="Show in MediaLib" />
+        android:title="@string/directory_show_medialib" />
 </menu>
