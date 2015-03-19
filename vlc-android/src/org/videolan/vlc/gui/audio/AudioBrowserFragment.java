@@ -391,7 +391,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
                             MediaWrapper media = listItem.mMediaList.get(0);
                             mMediaLibrary.getMediaItems().remove(media);
-                            mAudioController.removeLocation(media.getLocation());
+                            if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                mAudioController.removeLocation(media.getLocation());
                             updateLists();
                         }
                     });

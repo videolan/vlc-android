@@ -324,7 +324,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
                             MediaWrapper media = (MediaWrapper) o;
                             mMediaLibrary.getMediaItems().remove(media);
                             mVideoAdapter.remove(media);
-                            mAudioController.removeLocation(media.getLocation());
+                            if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                mAudioController.removeLocation(media.getLocation());
                         }
                     });
             alertDialog.show();
