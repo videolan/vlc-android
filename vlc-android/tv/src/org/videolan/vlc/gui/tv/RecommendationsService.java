@@ -71,6 +71,8 @@ public class RecommendationsService extends IntentService {
         }
     }
     private static void buildRecommendation(MediaWrapper movie) {
+        if (movie == null)
+            return;
 
         if (sNotificationManager == null) {
             sNotificationManager = (NotificationManager)
