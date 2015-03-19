@@ -187,6 +187,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                         MediaDatabase.getInstance().emptyDatabase();
                         BitmapCache.getInstance().clear();
                         AudioUtil.clearCacheFolders();
+                        setResult(RESULT_RESCAN);
                         Toast.makeText(getBaseContext(), R.string.media_db_cleared, Toast.LENGTH_SHORT).show();
                         return true;
                     }
