@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.VLC" parent="Theme.VLC.Apearance">
+    <style name="Theme.VLC" parent="Theme.VLC.7"/>
+    <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
@@ -71,7 +72,8 @@
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
 
-    <style name="Theme.VLC.Black" parent="Theme.VLC.Apearance.Black">
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
+    <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="actionBarSize">50dp</item>
         <item name="windowActionBarOverlay">true</item>
