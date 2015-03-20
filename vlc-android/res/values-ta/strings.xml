@@ -106,6 +106,8 @@
     <string name="sound_on">ஒலியைச் செயல்படுத்து</string>
     <string name="sound_off">ஒலியை அணை</string>
     <string name="brightness">வெளிச்சம்</string>
+    <string name="navmenu">வழிச்செலுத்தல்  மெனு</string>
+    <string name="advanced">மேம்பட்ட தேர்வுகள்</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 வழித்தடம்\n</item>
         <item quantity="other">%1$d வழித்தடங்கள்\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">ஊடக இயக்கி உதவிக்குறிப்புகள்:</string>
     <string name="seek">நாடுங்கள்</string>
     <string name="subtitles">துணைத்தலைப்புகள்</string>
+    <string name="audio_sub">ஒலி தடமும் துணைத்தலைப்புகளும்</string>
     <string name="resize">மறுஅளவு</string>
     <string name="options">தேர்வுகள்</string>
     <string name="lock">பூட்டு</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">முடங்கியது</string>
     <string name="hardware_acceleration_decoding">குறிவிலக்க முடுக்கம்</string>
     <string name="hardware_acceleration_full">முழு முடுக்கம்</string>
+    <string name="dev_hardware_decoder">மேம்பட்ட வன்பொருள் குறிவிலக்கி</string>
+    <string name="dev_hardware_decoder_summary"> உந்து வன்பொருள் குறிவிலக்கி, மேம்பட்ட பயனர்கள் மட்டுமே</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">ஊடக கோடெக்</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">ஊடக கோடெக்-dr</string>
     <string name="automatic">தானியக்க</string>
     <string name="screen_orientation">காணொளி திரை நோக்குநிலை</string>
     <string name="screen_orientation_sensor">தானியக்க (உணரி)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">காணொளி இயக்கத்தின்பொது சைகை மூலம் வெளிச்சத்தை கட்டுப்படுத்து</string>
     <string name="enable_jump_buttons">தாவல் பொத்தான்களை செயல்படுத்து</string>
     <string name="enable_jump_buttons_summary">காணொளி இடைமுகத்தில் பின்னால் முன்னால் பொத்தான்களை காண்பி</string>
+    <string name="force_list_portrait">உருவப்படம் முறையில் கட்டம் தேவையில்லை</string>
+    <string name="force_list_portrait_summary">உருவப்படம் முறையில் கட்டம் பதிலாக பட்டியலில் காண்பி வீடியோக்களை</string>
     <string name="audio_title_alignment">ஒலி தலைப்பை வரிசைப்படுத்து</string>
     <string name="enable_headset_detection">தலைப்பொறி கண்டறியப்பட்டது</string>
     <string name="enable_headset_detection_summary">தலைப்பொறி நீக்கப்படும்போது இடைநிறுத்தம் செய்யவும்; தலைப்பொறி சொருகும்போது தொடரவும்</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">பதிவைத் துவங்கு</string>
     <string name="stop_logging">பதிவை நிறுத்து</string>
     <string name="clear_log">பதிவைத் துடை</string>
+    <string name="log_service_title">விஎல்சி செயற் பதிவு </string>
+    <string name="log_service_text">பதிவு பணியகம் திறக்க</string>
     <string name="copy_to_clipboard">ஒட்டுப்பலகைக்கு நகலெடு</string>
     <string name="copied_to_clipboard">பதவை ஒட்டுப்பலகைக்கு நகலெடு.</string>
     <string name="quit">பயன்பாட்டை மூடியப்பின் திறக்கவும்</string>
@@ -250,4 +263,13 @@
     <string name="sending_log">பதிவை அனுப்புகிறது…</string>
     <string name="drawer_open">வழிச்செலுத்தல் இழுப்பறையைத் திற</string>
     <string name="drawer_close">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
+    <string name="network_browsing">உள் வலையமைப்பு</string>
+    <string name="file_size">கோப்பின் அளவு</string>
+    <string name="file_other">வழிச்செலுத்தல் இழுப்பறையை மூடவும்</string>
+    <string name="audio_delay">ஒலித் தாமதம்</string>
+    <string name="spu_delay">துணை உரை தாமதம்</string>
+    <string name="network_shares_discovery">பிணைய பங்குகள் தேடி ...</string>
+    <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
+    <string name="network_connection_needed">சாதனம் உள்ளே பிணைய இணைப்பு இல்லை.</string>
+    <string name="search_hint">ஊடகத்தை தேடு</string>
 </resources>
