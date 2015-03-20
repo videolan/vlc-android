@@ -152,7 +152,6 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSlidingTabLayout = (SlidingTabLayout) v.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.tab_layout, R.id.tab_title);
-        mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
         mSlidingTabLayout.setOnTabChangedListener(this);
 
