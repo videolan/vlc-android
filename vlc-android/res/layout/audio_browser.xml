@@ -11,8 +11,8 @@
 
     <TextView
         android:id="@+id/no_media"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/header"
         android:gravity="center"
         android:text="@string/nomedia"
@@ -85,7 +85,21 @@
                 android:nextFocusUp="@id/header"
                 android:nextFocusDown="@id/header"
                 android:nextFocusLeft="@id/songs_list"
-                android:nextFocusRight="@+id/genres_list" />
+                android:nextFocusRight="@+id/playlists_list" />
+            <ListView
+                android:id="@+id/playlists_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:fastScrollEnabled="true"
+                android:paddingBottom="@dimen/listview_bottom_padding"
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:nextFocusUp="@id/header"
+                android:nextFocusDown="@id/header"
+                android:nextFocusLeft="@id/genres_list"
+                android:nextFocusRight="@+id/playlists_list" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.widget.SwipeRefreshLayout>
 

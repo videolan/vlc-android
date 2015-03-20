@@ -57,6 +57,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     public final static int TYPE_ALBUMS = 1;
     public final static int TYPE_SONGS = 2;
     public final static int TYPE_GENRES = 3;
+    public final static int TYPE_PLAYLISTS = 4;
 
     // Key: the item title, value: ListItem of only media item (no separator).
     private Map<String, ListItem> mMediaItemMap;
@@ -143,6 +144,10 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
                             break;
                         case TYPE_GENRES:
                             title = Util.getMediaGenre(mContext, media);
+                            subTitle = null;
+                            break;
+                        case TYPE_PLAYLISTS:
+                            title = media.getTitle();
                             subTitle = null;
                             break;
                         case TYPE_SONGS:

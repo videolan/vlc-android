@@ -172,6 +172,19 @@ public class MediaLibrary {
         return audioItems;
     }
 
+    public ArrayList<MediaWrapper> getPlaylistItems() {
+        ArrayList<MediaWrapper> playlistItems = new ArrayList<MediaWrapper>();
+        mItemListLock.readLock().lock();
+        for (int i = 0; i < mItemList.size(); i++) {
+            MediaWrapper item = mItemList.get(i);
+            if (item.getType() == MediaWrapper.TYPE_PLAYLIST) {
+                playlistItems.add(item);
+            }
+        }
+        mItemListLock.readLock().unlock();
+        return playlistItems;
+    }
+
     public ArrayList<MediaWrapper> getMediaItems() {
         return mItemList;
     }
@@ -415,7 +428,8 @@ public class MediaLibrary {
                     if (dotIndex != -1) {
                         String fileExt = fileName.substring(dotIndex);
                         accepted = Extensions.AUDIO.contains(fileExt) ||
-                                   Extensions.VIDEO.contains(fileExt);
+                                   Extensions.VIDEO.contains(fileExt) ||
+                                   Extensions.PLAYLIST.contains(fileExt);
                     }
                 }
             }

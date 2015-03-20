@@ -20,13 +20,16 @@
 
 package org.videolan.libvlc.util;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 public class Extensions {
 
-    public final static HashSet<String> VIDEO;
-    public final static HashSet<String> AUDIO;
-    public final static HashSet<String> SUBTITLES;
+    public final static HashSet<String> VIDEO = new HashSet<String>();
+    public final static HashSet<String> AUDIO = new HashSet<String>();
+    public final static HashSet<String> SUBTITLES = new HashSet<String>();
+    public final static HashSet<String> PLAYLIST = new HashSet<String>();
+
 
     static {
         final String[] videoExtensions = {
@@ -49,14 +52,11 @@ public class Extensions {
                 ".rt",   ".aqt", ".txt", ".usf", ".jss",  ".cdg", ".psb", ".mpsub",".mpl2",
                 ".pjs", ".dks", ".stl", ".vtt" };
 
-        VIDEO = new HashSet<String>();
-        for (String item : videoExtensions)
-            VIDEO.add(item);
-        AUDIO = new HashSet<String>();
-        for (String item : audioExtensions)
-            AUDIO.add(item);
-        SUBTITLES = new HashSet<String>();
-        for (String item : subtitlesExtensions)
-            SUBTITLES.add(item);
+        final String[] playlistExtensions = {".m3u", ".asx",  ".b4s",  ".pls", ".xspf"/*,  ".zip"*/};
+
+        VIDEO.addAll(Arrays.asList(videoExtensions));
+        AUDIO.addAll(Arrays.asList(audioExtensions));
+        SUBTITLES.addAll(Arrays.asList(subtitlesExtensions));
+        PLAYLIST.addAll(Arrays.asList(playlistExtensions));
     }
 }
