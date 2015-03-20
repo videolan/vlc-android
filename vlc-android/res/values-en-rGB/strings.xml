@@ -106,6 +106,8 @@
     <string name="sound_on">Sound On</string>
     <string name="sound_off">Sound Off</string>
     <string name="brightness">Brightness</string>
+    <string name="navmenu">navigation menu</string>
+    <string name="advanced">advanced options</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 channel\n</item>
         <item quantity="other">%1$d channels\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
     <string name="subtitles">Subtitles</string>
+    <string name="audio_sub">Audio tracks\nand subtitles</string>
     <string name="resize">Resize</string>
     <string name="options">Options</string>
     <string name="lock">Lock</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Disabled</string>
     <string name="hardware_acceleration_decoding">Decoding acceleration</string>
     <string name="hardware_acceleration_full">Full acceleration</string>
+    <string name="dev_hardware_decoder">Advanced hardware decoder</string>
+    <string name="dev_hardware_decoder_summary">Force hardware decoder, for advanced users only</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_jump_buttons">Enable jump buttons</string>
     <string name="enable_jump_buttons_summary">Show backward and forward buttons on the video interface</string>
+    <string name="force_list_portrait">No grid in portrait mode</string>
+    <string name="force_list_portrait_summary">Show videos in list instead of grid in portrait mode</string>
     <string name="audio_title_alignment">Audio title alignment</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Pause on headset removal; resume on headset insertion</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">Start logging</string>
     <string name="stop_logging">Stop logging</string>
     <string name="clear_log">Clear log</string>
+    <string name="log_service_title">VLC logs recording</string>
+    <string name="log_service_text">Open the log console</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="copied_to_clipboard">Copied log to clipboard.</string>
     <string name="quit">Quit and restart application</string>
@@ -250,4 +263,13 @@
     <string name="sending_log">Sending the log…</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="network_browsing">Local Network</string>
+    <string name="file_size">File size:</string>
+    <string name="file_other">Close navigation drawer</string>
+    <string name="audio_delay">Audio delay</string>
+    <string name="spu_delay">Subtitle delay</string>
+    <string name="network_shares_discovery">Looking for network shares...</string>
+    <string name="network_empty">This directory is empty.</string>
+    <string name="network_connection_needed">No connection to local network.</string>
+    <string name="search_hint">Search media</string>
 </resources>
