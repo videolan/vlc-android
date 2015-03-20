@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
-    <string name="cancel">Annullér</string>
+    <string name="cancel">Annuller</string>
     <string name="other">Andet</string>
     <string name="sortby">Sortér efter …</string>
     <string name="sortby_name">Navn</string>
@@ -112,13 +112,13 @@
         <item quantity="one">1 kanal\n</item>
         <item quantity="other">%1$d kanaler\n</item>
     </plurals>
-    <string name="track_samplerate_info">Målingsfrekvens: %1$d Hz\n</string>
+    <string name="track_samplerate_info">Samplehastighed: %1$d Hz\n</string>
     <string name="track_resolution_info">Opløsning: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Billedfrekvens: %1$.3f\n</string>
     <string name="tools">Værktøjer</string>
     <string name="playback_speed">Afspilningshastighed</string>
     <string name="sleep_title">Sleep-timer</string>
-    <string name="sleep_cancel">Annullér sleep-timer</string>
+    <string name="sleep_cancel">Annuller sleep-timer</string>
     <string name="jump_to_time">Spring til tidspunkt</string>
     <string name="subtitle_label">Tilføj fil med undertekster</string>
     <string name="subtitle_select">Vælg fil med undertekster</string>
