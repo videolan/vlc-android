@@ -39,11 +39,13 @@ import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
@@ -172,7 +174,7 @@ public class MediaLibrary {
         return audioItems;
     }
 
-    public ArrayList<MediaWrapper> getPlaylistItems() {
+    public ArrayList<MediaWrapper> getPlaylistFilesItems() {
         ArrayList<MediaWrapper> playlistItems = new ArrayList<MediaWrapper>();
         mItemListLock.readLock().lock();
         for (int i = 0; i < mItemList.size(); i++) {
@@ -182,6 +184,22 @@ public class MediaLibrary {
             }
         }
         mItemListLock.readLock().unlock();
+        return playlistItems;
+    }
+
+    public ArrayList<AudioBrowserListAdapter.ListItem> getPlaylistDbItems() {
+        ArrayList<AudioBrowserListAdapter.ListItem> playlistItems = new ArrayList<AudioBrowserListAdapter.ListItem>();
+        AudioBrowserListAdapter.ListItem playList;
+        MediaDatabase db = MediaDatabase.getInstance();
+        String[] items, playlistNames = db.getPlaylists();
+        for (String playlistName : playlistNames){
+            items = db.playlistGetItems(playlistName);
+            playList = new AudioBrowserListAdapter.ListItem(playlistName, null, null, false);
+            for (String track : items){
+                playList.mMediaList.add(new MediaWrapper(track));
+            }
+            playlistItems.add(playList);
+        }
         return playlistItems;
     }
 

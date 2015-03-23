@@ -60,6 +60,13 @@ public class CommonDialogs {
                                           final String addressMedia,
                                           final VLCRunnable runnable) {
         final String name = Uri.decode(addressMedia.substring(addressMedia.lastIndexOf('/')+1));
+        return  deleteMedia(context, addressMedia, name, runnable);
+    }
+
+    public static AlertDialog deleteMedia(final Context context,
+                                          final String addressMedia,
+                                          final String name,
+                                          final VLCRunnable runnable) {
 
         return confirmDialog(
                 context,

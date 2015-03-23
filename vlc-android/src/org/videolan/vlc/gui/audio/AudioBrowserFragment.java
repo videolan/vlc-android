@@ -56,6 +56,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
+import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.R;
@@ -66,6 +67,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
@@ -352,8 +354,14 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     OnItemClickListener playlistListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> av, View v, int p, long id) {
-            String mediaLocation = mPlaylistAdapter.getItem(p).mMediaList.get(0).getLocation();
-            mAudioController.load(mediaLocation, true);
+            ArrayList<MediaWrapper> mediaList = mPlaylistAdapter.getItem(p).mMediaList;
+            if (mediaList.size() == 1) {
+                String mediaLocation = mediaList.get(0).getLocation();
+                mAudioController.load(mediaLocation, true);
+            } else {
+                ArrayList<String> mediaLocations = mPlaylistAdapter.getLocations(p);
+                mAudioController.load(mediaLocations, 0, true);
+            }
         }
     };
 
@@ -374,6 +382,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             MenuItem play = menu.findItem(R.id.audio_list_browser_play);
             play.setVisible(true);
         }
+        if (pos != MODE_SONG && pos != MODE_PLAYLIST)
+            menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
         if (!AndroidDevices.isPhone())
             menu.setGroupVisible(R.id.phone_only, false);
     }
@@ -394,6 +404,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
 
         int startPosition;
         int groupPosition;
+        int mode = mViewPager.getCurrentItem();
         List<String> medias;
         int id = item.getItemId();
 
@@ -408,17 +419,29 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             groupPosition = position;
 
         if (id == R.id.audio_list_browser_delete) {
+            AudioBrowserListAdapter adapter;
+            if (mode == MODE_SONG){
+                adapter = mSongsAdapter;
+            } else if (mode == MODE_PLAYLIST) {
+                adapter = mPlaylistAdapter;
+            } else
+                return false;
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
-                    mSongsAdapter.getLocations(groupPosition).get(0),
-                    new VLCRunnable(mSongsAdapter.getItem(groupPosition)) {
+                    adapter.getLocations(groupPosition).get(0),
+                    adapter.getItem(groupPosition).mTitle,
+                    new VLCRunnable(adapter.getItem(groupPosition)) {
                         @Override
                         public void run(Object o) {
                             AudioBrowserListAdapter.ListItem listItem = (AudioBrowserListAdapter.ListItem)o;
-                            MediaWrapper media = listItem.mMediaList.get(0);
-                            mMediaLibrary.getMediaItems().remove(media);
-                            if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                mAudioController.removeLocation(media.getLocation());
+                            if (!MediaDatabase.getInstance().playlistExists(listItem.mTitle)) {
+                                MediaWrapper media = listItem.mMediaList.get(0);
+                                mMediaLibrary.getMediaItems().remove(media);
+                                if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                    mAudioController.removeLocation(media.getLocation());
+                            } else {
+                                MediaDatabase.getInstance().playlistDelete(listItem.mTitle);
+                            }
                             updateLists();
                         }
                     });
@@ -437,7 +460,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         }
         else {
             startPosition = 0;
-            switch (mViewPager.getCurrentItem())
+            switch (mode)
             {
                 case MODE_SONG:
                     medias = mSongsAdapter.getLocations(groupPosition);
@@ -451,11 +474,15 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 case MODE_GENRE:
                     medias = mGenresAdapter.getLocations(groupPosition);
                     break;
-                case MODE_PLAYLIST: //For playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
-                    if (mMediaBrowser == null)
-                        mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
-                    mMediaBrowser.browse(mPlaylistAdapter.getMedia(groupPosition).get(0).getLocation());
-                    return true;
+                case MODE_PLAYLIST: //For file playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
+                    medias = mPlaylistAdapter.getLocations(groupPosition);
+                    if (medias.size() <2) {
+                        if (mMediaBrowser == null)
+                            mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
+                        mMediaBrowser.browse(mPlaylistAdapter.getMedia(groupPosition).get(0).getLocation());
+                        return true;
+                    }
+                    break;
                 default:
                     return true;
             }
@@ -678,8 +705,13 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     Runnable updatePlaylists = new Runnable() {
         @Override
         public void run() {
-            ArrayList<MediaWrapper> playlists = mMediaLibrary.getPlaylistItems();
+            //File playlists
+            ArrayList<MediaWrapper> playlists = mMediaLibrary.getPlaylistFilesItems();
             mPlaylistAdapter.addAll(playlists, AudioBrowserListAdapter.TYPE_PLAYLISTS);
+            //DB playlists
+            ArrayList<AudioBrowserListAdapter.ListItem> dbPlaylists = mMediaLibrary.getPlaylistDbItems();
+            mPlaylistAdapter.addAll(dbPlaylists);
+
             mAdaptersToNotify.add(mPlaylistAdapter);
             if (mReadyToDisplay && !mDisplaying)
                 display();

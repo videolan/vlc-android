@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/dialog_playlist_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:hint="@string/playlist_name_hint"
+        android:inputType="text"
+        android:imeOptions="actionSend"/>
+    <FrameLayout
+        android:id="@+id/dialog_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_playlist_name">
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/noplaylist"/>
+    </FrameLayout>
+    <Button
+        android:id="@+id/dialog_playlist_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/playlist_save"
+        android:layout_below="@id/dialog_list_container"
+        tools:targetApi="11"
+        style="?android:attr/borderlessButtonStyle"/>
+</RelativeLayout>

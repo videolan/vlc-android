@@ -322,6 +322,8 @@
     <string name="search_hint">Search media</string>
     <string name="directory_show_medialib">Show in MediaLib</string>
     <string name="directory_hide_medialib">Hide from MediaLib</string>
+    <string name="playlist_save">Save Playlist</string>
+    <string name="playlist_name_hint">playlist name</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>

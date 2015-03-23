@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     private ContextPopupMenuListener mContextPopupMenuListener;
 
     // An item of the list: a media or a separator.
-    static class ListItem {
+    public static class ListItem {
         final public String mTitle;
         final public String mSubTitle;
         final public ArrayList<MediaWrapper> mMediaList;
@@ -110,6 +111,14 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mItemType = itemType;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         mAlignMode = Integer.valueOf(preferences.getString("audio_title_alignment", "0"));
+    }
+
+    public void addAll(List<ListItem> items) {
+        for (ListItem item : items) {
+            mMediaItemMap.put(item.mTitle, item);
+            mItems.add(item);
+        }
+        Collections.sort(mItems, mItemsComparator);
     }
 
     public void add(String title, String subTitle, MediaWrapper media) {
@@ -338,13 +347,16 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         holder.footer.setVisibility(isMediaItemAboveASeparator(position) ? View.GONE : View.VISIBLE);
 
         final int pos = position;
-        holder.more.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mContextPopupMenuListener != null)
-                    mContextPopupMenuListener.onPopupMenu(v, pos);
-            }
-        });
+        if (mContextPopupMenuListener != null)
+            holder.more.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mContextPopupMenuListener != null)
+                        mContextPopupMenuListener.onPopupMenu(v, pos);
+                }
+            });
+        else
+            holder.more.setVisibility(View.GONE);
 
         return v;
     }
@@ -544,4 +556,11 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         if (observer != null)
             super.unregisterDataSetObserver(observer);
     }
+
+    private Comparator<ListItem> mItemsComparator = new Comparator<ListItem>() {
+        @Override
+        public int compare(ListItem lhs, ListItem rhs) {
+            return String.CASE_INSENSITIVE_ORDER.compare(lhs.mTitle, rhs.mTitle);
+        }
+    };
 }

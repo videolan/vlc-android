@@ -174,6 +174,10 @@ public class AudioPlaylistAdapter extends ArrayAdapter<MediaWrapper> {
         return locations;
     }
 
+    public ArrayList<MediaWrapper> getItems(){
+        return mMediaList;
+    }
+
     static class ViewHolder {
         int position;
         TextView title;
