@@ -124,6 +124,7 @@ Java_org_videolan_libvlc_Media_nativeNewFromMrl(JNIEnv *env, jobject thiz,
 {
     vlcjni_object *p_obj;
     const char* p_mrl;
+    const char *p_error;
 
     if (!jmrl || !(p_mrl = (*env)->GetStringUTFChars(env, jmrl, 0)))
     {
@@ -131,12 +132,12 @@ Java_org_videolan_libvlc_Media_nativeNewFromMrl(JNIEnv *env, jobject thiz,
         return;
     }
 
-    p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libVlc);
+    p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libVlc, &p_error);
 
     if (!p_obj)
     {
         (*env)->ReleaseStringUTFChars(env, jmrl, p_mrl);
-        throw_IllegalStateException(env, "can't create VLCObject");
+        throw_IllegalStateException(env, p_error);
         return;
     }
 
@@ -156,6 +157,7 @@ Java_org_videolan_libvlc_Media_nativeNewFromMediaList(JNIEnv *env, jobject thiz,
 {
     vlcjni_object *p_ml_obj = VLCJniObject_getInstance(env, ml);
     vlcjni_object *p_obj;
+    const char *p_error;
 
     if (!p_ml_obj)
     {
@@ -163,10 +165,10 @@ Java_org_videolan_libvlc_Media_nativeNewFromMediaList(JNIEnv *env, jobject thiz,
         return;
     }
 
-    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_ml_obj->p_libvlc);
+    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_ml_obj->p_libvlc, &p_error);
     if (!p_obj)
     {
-        throw_IllegalStateException(env, "can't create VLCObject");
+        throw_IllegalStateException(env, p_error);
         return;
     }
 

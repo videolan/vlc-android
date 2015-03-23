@@ -54,22 +54,32 @@ VLCJniObject_setInstance(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 
 vlcjni_object *
 VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
-                           libvlc_instance_t *p_libvlc)
+                           libvlc_instance_t *p_libvlc,
+                           const char **pp_error)
 {
     vlcjni_object *p_obj;
     libvlc_event_manager_t *ev;
 
     p_obj = VLCJniObject_getInstance(env, thiz);
     if (p_obj)
+    {
+        *pp_error = "Can't get VLCObject.mInstanceID";
         return NULL;
+    }
 
     p_obj = calloc(1, sizeof(vlcjni_object));
     if (!p_obj)
+    {
+        *pp_error = "vlcjni_object calloc failed";
         goto error;
+    }
 
     p_obj->p_owner = calloc(1, sizeof(vlcjni_object_owner));
     if (!p_obj->p_owner)
+    {
+        *pp_error = "vlcjni_object_owner calloc failed";
         goto error;
+    }
 
     p_obj->p_libvlc = p_libvlc;
     libvlc_retain(p_libvlc);
@@ -86,10 +96,14 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
     } else
         p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
     if (!p_obj->p_owner->weak && !p_obj->p_owner->weakCompat)
+    {
+        *pp_error = "No VLCObject weak reference";
         goto error;
+    }
 
     VLCJniObject_setInstance(env, thiz, p_obj);
 
+    *pp_error = NULL;
     return p_obj;
 
 error:
@@ -99,12 +113,18 @@ error:
 
 vlcjni_object *
 VLCJniObject_newFromJavaLibVlc(JNIEnv *env, jobject thiz,
-                               jobject libVlc)
+                               jobject libVlc, const char **pp_error)
 {
     libvlc_instance_t *p_libvlc = getLibVlcInstance(env, libVlc);
     if (!p_libvlc)
+    {
+        if (libVlc)
+            *pp_error = "Can't get mLibVlcInstance from libVlc";
+        else
+            *pp_error = "libVlc is NULL";
         return NULL;
-    return VLCJniObject_newFromLibVlc(env, thiz, p_libvlc);
+    }
+    return VLCJniObject_newFromLibVlc(env, thiz, p_libvlc, pp_error);
 }
 
 void
