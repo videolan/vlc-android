@@ -101,7 +101,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_SHOW_INFOLAYOUT = 2;
 
-    private Context mContext;
     private ActionBar mActionBar;
     private SidebarAdapter mSidebarAdapter;
     private AudioPlayer mAudioPlayer;
@@ -132,6 +131,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /* Get settings */
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+        /* Theme must be applied before super.onCreate */
+        applyTheme();
+
         super.onCreate(savedInstanceState);
 
         if (!VLCInstance.testCompatibleCPU(this)) {
@@ -141,12 +147,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         /* Enable the indeterminate progress feature */
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-        mContext = this;
         /* Get the current version from package */
         mVersionNumber = BuildConfig.VERSION_CODE;
-
-        /* Get settings */
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         /* Check if it's the first run */
         mFirstRun = mSettings.getInt(PREF_FIRST_RUN, -1) != mVersionNumber;
@@ -158,9 +160,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
-
-        /* Theme must be applied before super.onCreate */
-        applyTheme();
 
         /*** Start initializing the UI ***/
 
@@ -934,7 +933,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         switch (v.getId()){
             case R.id.settings:
             case R.id.settings_icon:
-                startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+                startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
                 break;
             case R.id.about:
             case R.id.about_icon:
@@ -980,7 +979,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 requestFocusOnSearch();
             mRootContainer.closeDrawer(mSideMenu);
         }else if (entry.attributeID == R.attr.ic_menu_preferences){
-            startActivityForResult(new Intent(mContext, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+            startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
         }
     }
 
