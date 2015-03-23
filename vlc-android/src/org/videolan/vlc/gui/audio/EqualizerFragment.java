@@ -46,6 +46,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 import org.videolan.vlc.util.Preferences;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.EqualizerBar;
 
 public class EqualizerFragment extends Fragment {
@@ -90,7 +91,8 @@ public class EqualizerFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         float[] bands = null;
         String[] presets = null;
-        libVlc = LibVLC.getInstance();
+        libVlc = VLCInstance.get();
+
         bands = libVlc.getBands();
         presets = libVlc.getPresets();
         if (equalizer == null)

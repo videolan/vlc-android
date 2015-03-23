@@ -158,12 +158,14 @@ public class AudioService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        // Get libVLC instance
-        try {
-            mLibVLC = VLCInstance.getLibVlcInstance();
-        } catch (LibVlcException e) {
-            e.printStackTrace();
+        if (!VLCInstance.testCompatibleCPU(this)) {
+            stopSelf();
+            return;
         }
+
+        // Get libVLC instance
+        mLibVLC = VLCInstance.get();
+
         mMediaListPlayer = MediaWrapperListPlayer.getInstance(mLibVLC);
 
         mCallback = new HashMap<IAudioServiceCallback, Integer>();
@@ -320,12 +322,11 @@ public class AudioService extends Service {
             audioFocusListener = new OnAudioFocusChangeListener() {
                 @Override
                 public void onAudioFocusChange(int focusChange) {
-                    LibVLC libVLC = LibVLC.getExistingInstance();
                     switch (focusChange)
                     {
                         case AudioManager.AUDIOFOCUS_LOSS:
-                            if (libVLC.isPlaying())
-                                libVLC.pause();
+                            if (mLibVLC.isPlaying())
+                                mLibVLC.pause();
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
@@ -333,12 +334,12 @@ public class AudioService extends Service {
                              * Lower the volume to 36% to "duck" when an alert or something
                              * needs to be played.
                              */
-                            libVLC.setVolume(36);
+                            mLibVLC.setVolume(36);
                             break;
                         case AudioManager.AUDIOFOCUS_GAIN:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
                         case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                            libVLC.setVolume(100);
+                            mLibVLC.setVolume(100);
                             break;
                     }
                 }

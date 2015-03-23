@@ -24,6 +24,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.content.Context;
@@ -50,11 +51,8 @@ public class SpeedSelector extends ExpandableLayout {
         float rate = 1.0f;
 
         //libvlc is not available in layout editor
-        if (!isInEditMode()) {
-            LibVLC libVLC = LibVLC.getExistingInstance();
-            if (libVLC != null)
-                rate = libVLC.getRate();
-        }
+        if (!isInEditMode())
+            rate = VLCInstance.get().getRate();
 
         setText(Strings.formatRateString(rate));
         mSeekbar.setProgress((int) (((Math.log(rate) / Math.log(4)) + 1) * 100));
@@ -68,7 +66,7 @@ public class SpeedSelector extends ExpandableLayout {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
             setText(Strings.formatRateString(rate));
-            LibVLC.getExistingInstance().setRate(rate);
+            VLCInstance.get().setRate(rate);
         }
 
         @Override
@@ -84,7 +82,7 @@ public class SpeedSelector extends ExpandableLayout {
         @Override
         public void onClick(View v) {
             mSeekbar.setProgress(100);
-            LibVLC.getExistingInstance().setRate(1);
+            VLCInstance.get().setRate(1);
         }
     };
 }

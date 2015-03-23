@@ -345,7 +345,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 || key.equalsIgnoreCase("network_caching")
                 || key.equalsIgnoreCase("dev_hardware_decoder")) {
             VLCInstance.updateLibVlcSettings(sharedPreferences);
-            LibVLC.restart(this);
+            VLCInstance.restart(this);
         }
     }
 

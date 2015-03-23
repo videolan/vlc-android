@@ -44,14 +44,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        LibVLC mLibVLC;
-        try {
-            mLibVLC = VLCInstance.getLibVlcInstance();
-        } catch (LibVlcException e) {
-            return;
-        }
-        if(mLibVLC == null)
-            return;
+        LibVLC libVLC = VLCInstance.get();
 
         if(action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
@@ -92,7 +85,7 @@ public class RemoteControlClientReceiver extends BroadcastReceiver {
                             }
                             // one click
                             else {
-                                if (mLibVLC.isPlaying())
+                                if (libVLC.isPlaying())
                                     i = new Intent(AudioService.ACTION_REMOTE_PAUSE);
                                 else {
                                     i = new Intent(context, AudioService.class);

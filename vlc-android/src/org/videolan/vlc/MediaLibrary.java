@@ -208,13 +208,7 @@ public class MediaLibrary {
 
         @Override
         public void run() {
-            LibVLC libVlcInstance;
-            try {
-                libVlcInstance = VLCInstance.getLibVlcInstance();
-            } catch (LibVlcException e1) {
-                Log.e(TAG, "ERROR: LibVLCException while trying to get instance");
-                return;
-            }
+            LibVLC libVlcInstance = VLCInstance.get();
 
             // Initialize variables
             final MediaDatabase mediaDatabase = MediaDatabase.getInstance();

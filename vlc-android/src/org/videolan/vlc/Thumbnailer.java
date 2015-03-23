@@ -67,15 +67,7 @@ public class Thumbnailer implements Runnable {
     }
 
     public void start(IVideoBrowser videoBrowser) {
-        if (mLibVlc == null) {
-            try {
-                mLibVlc = VLCInstance.getLibVlcInstance();
-            } catch (LibVlcException e) {
-                Log.e(TAG, "Can't obtain libvlc instance");
-                e.printStackTrace();
-                return;
-            }
-        }
+        mLibVlc = VLCInstance.get();
 
         isStopping = false;
         if (mThread == null || mThread.getState() == State.TERMINATED) {

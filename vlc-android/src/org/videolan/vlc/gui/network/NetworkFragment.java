@@ -49,6 +49,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -74,10 +75,12 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     private MediaWrapper mCurrentMedia;
     private int mSavedPosition = -1, mFavorites = 0;
     private boolean mRoot;
-    LibVLC mLibVLC = LibVLC.getExistingInstance();
+    private LibVLC mLibVLC;
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
+        mLibVLC = VLCInstance.get();
+
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null){

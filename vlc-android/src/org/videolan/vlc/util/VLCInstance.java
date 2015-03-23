@@ -22,8 +22,10 @@ package org.videolan.vlc.util;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcException;
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.VLCCrashHandler;
+import org.videolan.vlc.gui.CompatErrorActivity;
 import org.videolan.vlc.gui.NativeCrashActivity;
 
 import android.content.Context;
@@ -33,18 +35,22 @@ import android.preference.PreferenceManager;
 
 public class VLCInstance {
     public final static String TAG = "VLC/Util/VLCInstance";
+    private static LibVLC sLibVLC = null;
 
     /** A set of utility functions for the VLC application */
-    public static LibVLC getLibVlcInstance() throws LibVlcException {
-        LibVLC instance = LibVLC.getExistingInstance();
-        if (instance == null) {
+    public synchronized static LibVLC get() throws IllegalStateException {
+        if (sLibVLC == null) {
             Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
-            instance = LibVLC.getInstance();
+            sLibVLC = new LibVLC();
             final Context context = VLCApplication.getAppContext();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             VLCInstance.updateLibVlcSettings(pref);
-            instance.init(context);
+            try {
+                sLibVLC.init(context);
+            } catch (LibVlcException e) {
+                throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
+            }
             LibVLC.setOnNativeCrashListener(new LibVLC.OnNativeCrashListener() {
                 @Override
                 public void onNativeCrash() {
@@ -55,22 +61,41 @@ public class VLCInstance {
                 }
             });
         }
-        return instance;
+        return sLibVLC;
     }
 
-    public static void updateLibVlcSettings(SharedPreferences pref) {
-        LibVLC instance = LibVLC.getExistingInstance();
-        if (instance == null)
+    public static synchronized void restart(Context context) throws IllegalStateException {
+        if (sLibVLC != null) {
+            try {
+                sLibVLC.destroy();
+                sLibVLC.init(context);
+            } catch (LibVlcException lve) {
+                throw new IllegalStateException("LibVLC initialisation failed: " + LibVlcUtil.getErrorMsg());
+            }
+        }
+    }
+
+    public static synchronized boolean testCompatibleCPU(Context context) {
+        if (sLibVLC == null && !LibVlcUtil.hasCompatibleCPU(context)) {
+            final Intent i = new Intent(context, CompatErrorActivity.class);
+            context.startActivity(i);
+            return false;
+        } else
+            return true;
+    }
+
+    public static synchronized void updateLibVlcSettings(SharedPreferences pref) {
+        if (sLibVLC == null)
             return;
 
-        instance.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
-        instance.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
-        instance.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
-        instance.setChroma(pref.getString("chroma_format", ""));
-        instance.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
+        sLibVLC.setSubtitlesEncoding(pref.getString("subtitle_text_encoding", ""));
+        sLibVLC.setTimeStretching(pref.getBoolean("enable_time_stretching_audio", false));
+        sLibVLC.setFrameSkip(pref.getBoolean("enable_frame_skip", false));
+        sLibVLC.setChroma(pref.getString("chroma_format", ""));
+        sLibVLC.setVerboseMode(pref.getBoolean("enable_verbose_mode", true));
 
         if (pref.getBoolean("equalizer_enabled", false))
-            instance.setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
+            sLibVLC.setEqualizer(Preferences.getFloatArray(pref, "equalizer_values"));
 
         int aout;
         try {
@@ -112,13 +137,11 @@ public class VLCInstance {
             networkCaching = 60000;
         else if(networkCaching < 0)
             networkCaching = 0;
-        instance.setAout(aout);
-        instance.setVout(vout);
-        instance.setDeblocking(deblocking);
-        instance.setNetworkCaching(networkCaching);
-        instance.setHardwareAcceleration(hardwareAcceleration);
-        instance.setDevHardwareDecoder(devHardwareDecoder);
+        sLibVLC.setAout(aout);
+        sLibVLC.setVout(vout);
+        sLibVLC.setDeblocking(deblocking);
+        sLibVLC.setNetworkCaching(networkCaching);
+        sLibVLC.setHardwareAcceleration(hardwareAcceleration);
+        sLibVLC.setDevHardwareDecoder(devHardwareDecoder);
     }
-
-
 }

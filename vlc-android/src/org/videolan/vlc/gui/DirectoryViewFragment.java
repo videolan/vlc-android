@@ -32,6 +32,7 @@ import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -258,8 +259,8 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         String mediaFile = mDirectoryAdapter.getMediaLocation(p);
 
         try {
-            if (LibVLC.getExistingInstance() == null
-                    || !LibVLC.getExistingInstance().hasVideoTrack(mediaFile)) {
+            final LibVLC libVLC = VLCInstance.get();
+            if (!libVLC.hasVideoTrack(mediaFile)) {
                 List<String> mediaLocations = mDirectoryAdapter.getAllMediaLocations();
                 audioController.load(mediaLocations, mediaLocations.indexOf(mediaFile));
             } else {

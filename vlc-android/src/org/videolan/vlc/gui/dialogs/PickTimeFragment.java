@@ -38,6 +38,7 @@ import android.widget.TextView;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.VLCInstance;
 
 public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
 
@@ -61,7 +62,7 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
     protected long max = -1;
 
     public PickTimeFragment(){
-        mLibVLC = LibVLC.getInstance();
+        mLibVLC = VLCInstance.get();
     }
 
     @Override

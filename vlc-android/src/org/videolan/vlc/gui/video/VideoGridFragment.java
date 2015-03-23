@@ -72,6 +72,7 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.interfaces.ISortable;
 import org.videolan.vlc.interfaces.IVideoBrowser;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCRunnable;
 import org.videolan.vlc.widget.SwipeRefreshLayout;
 
@@ -103,7 +104,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
 
     private VideoListAdapter mVideoAdapter;
     private MediaLibrary mMediaLibrary;
-    private LibVLC mLibVlc;
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
 
@@ -129,7 +129,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         FragmentActivity activity = getActivity();
         if (activity != null)
             mThumbnailer = new Thumbnailer(activity, activity.getWindowManager().getDefaultDisplay());
-        mLibVlc = LibVLC.getInstance();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -352,7 +351,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             menu.findItem(R.id.video_list_play_from_start).setVisible(true);
 
         boolean hasInfo = false;
-        final Media media = new Media(mLibVlc, mediaWrapper.getLocation());
+        final Media media = new Media(VLCInstance.get(), mediaWrapper.getLocation());
         media.parse();
         media.release();
         if (media.getMeta(Media.Meta.Title) != null)

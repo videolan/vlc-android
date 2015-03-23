@@ -30,6 +30,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.widget.ExpandableLayout;
 
 import android.content.Context;
@@ -88,10 +89,10 @@ public class JumpToTime extends ExpandableLayout {
     private OnClickListener mOnOkListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            LibVLC.getExistingInstance().setTime(
-                    1000 * (mHourWheel.getCurrentItem() * 60 * 60 +
-                            mMinWheel.getCurrentItem() * 60 +
-                            mSecWheel.getCurrentItem()));
+            final LibVLC libVLC = VLCInstance.get();
+            libVLC.setTime(1000 * (mHourWheel.getCurrentItem() * 60 * 60 +
+                           mMinWheel.getCurrentItem() * 60 +
+                           mSecWheel.getCurrentItem()));
             dismiss();
         }
     };

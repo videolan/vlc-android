@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.util.BitmapUtil;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.io.File;
@@ -58,7 +59,6 @@ import java.util.concurrent.Executors;
 public class MediaInfoFragment extends ListFragment {
 
     public final static String TAG = "VLC/MediaInfoFragment";
-    LibVLC mLibVlc = null;
 
     private MediaWrapper mItem;
     private Bitmap mImage;
@@ -202,8 +202,10 @@ public class MediaInfoFragment extends ListFragment {
     Runnable mLoadImage = new Runnable() {
         @Override
         public void run() {
-            mLibVlc = LibVLC.getInstance();
-            mMedia = new Media(mLibVlc, mItem.getLocation());
+            final LibVLC libVlc = VLCInstance.get();
+            if (libVlc == null)
+                return;
+            mMedia = new Media(libVlc, mItem.getLocation());
             mMedia.parse();
             mMedia.release();
             int videoHeight = mItem.getHeight();
@@ -226,7 +228,7 @@ public class MediaInfoFragment extends ListFragment {
             // Get the thumbnail.
             mImage = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-            byte[] b = mLibVlc.getThumbnail(mItem.getLocation(), width, height);
+            byte[] b = libVlc.getThumbnail(mItem.getLocation(), width, height);
 
             if (b == null) // We were not able to create a thumbnail for this item.
                 return;

@@ -62,7 +62,7 @@ public class JumpToTimeDialog extends PickTimeFragment {
         long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) * HOURS_IN_MICROS : 0l;
         long minutes = Long.parseLong(mMinutes.getText().toString()) * MINUTES_IN_MICROS ;
         long seconds = Long.parseLong(mSeconds.getText().toString()) * SECONDS_IN_MICROS;
-        LibVLC.getExistingInstance().setTime((hours +  minutes + seconds)/1000l); //Time in ms
+        mLibVLC.setTime((hours +  minutes + seconds)/1000l); //Time in ms
         dismiss();
     }
 

@@ -305,6 +305,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!VLCInstance.testCompatibleCPU(this)) {
+            finish();
+            return;
+        }
+
+        mLibVLC = VLCInstance.get();
+
         if (LibVlcUtil.isJellyBeanMR1OrLater()) {
             // Get the media router service (Miracast)
             mMediaRouter = (MediaRouter) getSystemService(Context.MEDIA_ROUTER_SERVICE);
@@ -405,12 +413,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mDelayPlus = (ImageView) findViewById(R.id.player_delay_plus);
         mDelayMinus = (ImageView) findViewById(R.id.player_delay_minus);
 
-        try {
-            mLibVLC = VLCInstance.getLibVlcInstance();
-        } catch (LibVlcException e) {
-            Log.d(TAG, "LibVLC initialisation failed");
-            return;
-        }
         mMediaListPlayer = MediaWrapperListPlayer.getInstance(mLibVLC);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
@@ -565,7 +567,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mReceiver);
+        if (mReceiver != null)
+            unregisterReceiver(mReceiver);
 
         mAudioManager = null;
     }
@@ -1849,12 +1852,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
     }
 
-    private void updateMute () {
-        mMute = !mMute;
+    private void mute(boolean mute) {
+        mMute = mute;
         if (mMute)
             mVolSave = mLibVLC.getVolume();
         mLibVLC.setVolume(mMute ? 0 : mVolSave);
-            showInfo(mMute ? R.string.sound_off : R.string.sound_on,1000);
+    }
+
+    private void updateMute () {
+        mute(!mMute);
+        showInfo(mMute ? R.string.sound_off : R.string.sound_on,1000);
     }
 
     @TargetApi(android.os.Build.VERSION_CODES.FROYO)
@@ -2578,9 +2585,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             fromStart = getIntent().getExtras().getBoolean("fromStart");
         }
 
-        if(mLibVLC == null)
-            return;
-
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
          * Disable hardware acceleration if the media has a ts extension. */
         if (mLocation != null && LibVlcUtil.isKitKatOrLater()) {
@@ -2774,7 +2778,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (presentationDisplay != null) {
             // Show a new presentation if possible.
             Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
-            mPresentation = new SecondaryDisplay(this, presentationDisplay);
+            mPresentation = new SecondaryDisplay(this, mLibVLC, presentationDisplay);
             mPresentation.setOnDismissListener(mOnDismissListener);
             try {
                 mPresentation.show();
@@ -2828,17 +2832,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         private FrameLayout mSurfaceFrame;
         private LibVLC mLibVLC;
 
-        public SecondaryDisplay(Context context, Display display) {
+        public SecondaryDisplay(Context context, LibVLC libVLC, Display display) {
             super(context, display);
             if (context instanceof ActionBarActivity) {
                 setOwnerActivity((ActionBarActivity) context);
             }
-            try {
-                mLibVLC = VLCInstance.getLibVlcInstance();
-            } catch (LibVlcException e) {
-                Log.d(TAG, "LibVLC initialisation failed");
-                return;
-            }
+            mLibVLC = libVLC;
         }
 
         @Override

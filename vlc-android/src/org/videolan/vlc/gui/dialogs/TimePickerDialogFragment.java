@@ -32,6 +32,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.AdvOptionsDialog;
+import org.videolan.vlc.util.VLCInstance;
 
 import java.util.Calendar;
 
@@ -90,7 +91,8 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
                 break;
             case ACTION_JUMP:
                 long time = ( hourOfDay * 60l + minute ) * 60000l;
-                LibVLC.getExistingInstance().setTime(time);
+                final LibVLC libVLC = VLCInstance.get();
+                libVLC.setTime(time);
                 break;
         }
     }

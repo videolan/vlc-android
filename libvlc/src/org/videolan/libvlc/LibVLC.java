@@ -61,8 +61,6 @@ public class LibVLC {
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
     private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
 
-    private static LibVLC sInstance;
-
     /** libVLC instance C pointer */
     private long mLibVlcInstance = 0; // Read-only, reserved for JNI
     /** libvlc_media_player pointer */
@@ -155,38 +153,10 @@ public class LibVLC {
     }
 
     /**
-     * Singleton constructor of libVLC Without surface and vout to create the
-     * thumbnail and get information e.g. on the MediaLibraryActivity
-     *
-     * @return libVLC instance
-     */
-    public static LibVLC getInstance() {
-        synchronized (LibVLC.class) {
-            if (sInstance == null) {
-                /* First call */
-                sInstance = new LibVLC();
-            }
-            return sInstance;
-        }
-    }
-
-    /**
-     * Return an existing instance of libVLC Call it when it is NOT important
-     * that this fails
-     *
-     * @return libVLC instance OR null
-     */
-    public static LibVLC getExistingInstance() {
-        synchronized (LibVLC.class) {
-            return sInstance;
-        }
-    }
-
-    /**
      * Constructor
      * It is private because this class is a singleton.
      */
-    private LibVLC() {
+    public LibVLC() {
     }
 
     /**
@@ -207,17 +177,6 @@ public class LibVLC {
      * @param f the surface to draw
      */
     public native void setSurface(Surface f);
-
-    public static synchronized void restart(Context context) {
-        if (sInstance != null) {
-            try {
-                sInstance.destroy();
-                sInstance.init(context);
-            } catch (LibVlcException lve) {
-                Log.e(TAG, "Unable to reinit libvlc: " + lve);
-            }
-        }
-    }
 
     /**
      * those get/is* are called from native code to get settings values.

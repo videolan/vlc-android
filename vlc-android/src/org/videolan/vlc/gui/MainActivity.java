@@ -73,12 +73,9 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.audio.AudioService;
 import org.videolan.vlc.audio.AudioServiceController;
 import org.videolan.vlc.gui.SidebarAdapter.SidebarEntry;
-import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.network.NetworkFragment;
-import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -90,10 +87,6 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.HackyDrawerLayout;
 import org.videolan.vlc.widget.SlidingPaneLayout;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements OnItemClickListener, SearchSuggestionsAdapter.SuggestionDisplay, FilterQueryProvider {
     public final static String TAG = "VLC/MainActivity";
@@ -139,16 +132,14 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* Enable the indeterminate progress feature */
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        if (!LibVlcUtil.hasCompatibleCPU(this)) {
-            Log.e(TAG, LibVlcUtil.getErrorMsg());
-            Intent i = new Intent(this, CompatErrorActivity.class);
-            startActivity(i);
+        super.onCreate(savedInstanceState);
+
+        if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
-            super.onCreate(savedInstanceState);
             return;
         }
+        /* Enable the indeterminate progress feature */
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         mContext = this;
         /* Get the current version from package */
@@ -165,27 +156,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             Util.commitPreferences(editor);
         }
 
-        try {
-            // Start LibVLC
-            VLCInstance.getLibVlcInstance();
-        } catch (LibVlcException e) {
-            e.printStackTrace();
-            Intent i = new Intent(this, CompatErrorActivity.class);
-            i.putExtra("runtimeError", true);
-            i.putExtra("message", "LibVLC failed to initialize (LibVlcException)");
-            startActivity(i);
-            finish();
-            super.onCreate(savedInstanceState);
-            return;
-        }
-
         /* Load media items from database and storage */
         MediaLibrary.getInstance().loadMediaItems();
 
         /* Theme must be applied before super.onCreate */
         applyTheme();
-
-        super.onCreate(savedInstanceState);
 
         /*** Start initializing the UI ***/
 
