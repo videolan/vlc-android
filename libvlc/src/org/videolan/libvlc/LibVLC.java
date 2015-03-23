@@ -57,6 +57,7 @@ public class LibVLC {
 
     public final static int MEDIA_NO_VIDEO   = 0x01;
     public final static int MEDIA_NO_HWACCEL = 0x02;
+    public final static int MEDIA_PAUSED = 0x4;
 
     private static final String DEFAULT_CODEC_LIST = "mediacodec,iomx,all";
     private static final boolean HAS_WINDOW_VOUT = LibVlcUtil.isGingerbreadOrLater();
@@ -266,6 +267,16 @@ public class LibVLC {
     }
 
     public String[] getMediaOptions(boolean noHardwareAcceleration, boolean noVideo) {
+        final int flag = (noHardwareAcceleration ? MEDIA_NO_HWACCEL : 0) |
+                         (noVideo ? MEDIA_NO_VIDEO : 0);
+        return getMediaOptions(flag);
+    }
+
+    public String[] getMediaOptions(int flags) {
+        boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
+        boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
+        final boolean paused = (flags & MEDIA_PAUSED) != 0;
+
         if (this.devHardwareDecoder != DEV_HW_DECODER_AUTOMATIC)
             noHardwareAcceleration = noVideo = false;
         else if (!noHardwareAcceleration)
@@ -289,14 +300,9 @@ public class LibVLC {
         }
         if (noVideo)
             options.add(":no-video");
-
+        if (paused)
+            options.add(":start-paused");
         return options.toArray(new String[options.size()]);
-    }
-
-    public String[] getMediaOptions(int flags) {
-        final boolean noHardwareAcceleration = (flags & MEDIA_NO_HWACCEL) != 0;
-        final boolean noVideo = (flags & MEDIA_NO_VIDEO) != 0;
-        return getMediaOptions(noHardwareAcceleration, noVideo); 
     }
 
     public String getSubtitlesEncoding() {
