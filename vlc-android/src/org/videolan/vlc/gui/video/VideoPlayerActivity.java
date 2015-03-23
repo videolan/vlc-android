@@ -274,7 +274,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * Flag to indicate whether the media should be paused once loaded
      * (e.g. lock screen, or to restore the pause state)
      */
-    private boolean mPauseOnLoaded = false;
     private boolean mPlaybackStarted = false;
 
     /**
@@ -600,7 +599,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     protected void onResume() {
         super.onResume();
         mSwitchingView = false;
-        mPauseOnLoaded = false;
 
         bindAudioService();
 
@@ -642,17 +640,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
         }
         setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-
-        /*
-         * If the activity has been paused by pressing the power button, then
-         * pressing it again will show the lock screen.
-         * But onResume will also be called, even if vlc-android is still in
-         * the background.
-         * To workaround this, pause playback if the lockscreen is displayed.
-         */
-        KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
-        if(km.inKeyguardRestrictedInputMode())
-            mPauseOnLoaded = true;
 
         if (mMediaRouter != null) {
             // Listen for changes to media routes.
@@ -1356,12 +1343,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
-                    // Handle pause flag
-                    if(activity.mPauseOnLoaded) {
-                        activity.mPauseOnLoaded = false;
-                        activity.mLibVLC.pause();
-                        activity.setOverlayProgress();
-                    }
                     activity.stopLoadingAnimation();
                     activity.showOverlay();
                     activity.setESTracks();
@@ -2491,6 +2472,22 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
 
+        boolean wasPaused;
+        /*
+         * If the activity has been paused by pressing the power button, then
+         * pressing it again will show the lock screen.
+         * But onResume will also be called, even if vlc-android is still in
+         * the background.
+         * To workaround this, pause playback if the lockscreen is displayed.
+         */
+        final KeyguardManager km = (KeyguardManager)getSystemService(KEYGUARD_SERVICE);
+        if (km.inKeyguardRestrictedInputMode())
+            wasPaused = true;
+        else
+            wasPaused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
+        if (wasPaused)
+            Log.d(TAG, "Video was previously paused, resuming in paused mode");
+
         if (getIntent().getAction() != null
                 && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             /* Started from external application 'content' */
@@ -2607,7 +2604,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         /* Start / resume playback */
         if (savedIndexPosition > -1) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mMediaListPlayer.playIndex(savedIndexPosition);
+            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
         } else if (mLocation != null && mLocation.length() > 0) {
             AudioServiceController.getInstance().stop(); // Stop the previous playback.
             mMediaListPlayer.getMediaList().clear();
@@ -2616,7 +2613,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             media.release();
             mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
             savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
-            mMediaListPlayer.playIndex(savedIndexPosition);
+            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
         }
         mCanSeek = false;
 
@@ -2644,13 +2641,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
                 if(intentPosition > 0)
                     seek(intentPosition);
-            }
-
-            // Paused flag
-            boolean wasPaused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
-            if(wasPaused) {
-                Log.d(TAG, "Video was previously paused, resuming in paused mode");
-                mPauseOnLoaded = true;
             }
 
             // Get possible subtitles
