@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.videolan.libvlc.LibVLC;
@@ -42,6 +43,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
@@ -313,4 +316,10 @@ public class Util {
         File file = new File(path);
         return (file.exists() && file.canWrite());
     }
+
+    public static boolean isCallable(Intent intent) {
+        List<ResolveInfo> list = VLCApplication.getAppContext().getPackageManager().queryIntentActivities(intent,
+            PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
+}
 }
