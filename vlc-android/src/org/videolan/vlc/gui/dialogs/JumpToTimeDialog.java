@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,8 @@ public class JumpToTimeDialog extends PickTimeFragment {
 
     protected void executeAction() {
         long hours = mHours != null ? Long.parseLong(mHours.getText().toString()) * HOURS_IN_MICROS : 0l;
-        long minutes = Long.parseLong(mMinutes.getText().toString()) * MINUTES_IN_MICROS ;
-        long seconds = Long.parseLong(mSeconds.getText().toString()) * SECONDS_IN_MICROS;
+        long minutes = TextUtils.isEmpty(mMinutes.getText().toString()) ? 0l : Long.parseLong(mMinutes.getText().toString()) * MINUTES_IN_MICROS ;
+        long seconds = TextUtils.isEmpty(mSeconds.getText().toString()) ? 0l : Long.parseLong(mSeconds.getText().toString()) * SECONDS_IN_MICROS;
         mLibVLC.setTime((hours +  minutes + seconds)/1000l); //Time in ms
         dismiss();
     }

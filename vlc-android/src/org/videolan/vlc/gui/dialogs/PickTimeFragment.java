@@ -21,23 +21,21 @@
  */
 package org.videolan.vlc.gui.dialogs;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.VLCInstance;
 
 public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
@@ -231,9 +229,9 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
 
     protected long getTime(){
         long sign = mSign.getText().equals("-") ? -1 : 1;
-        long minutes = Long.parseLong(mMinutes.getText().toString());
-        long seconds = Long.parseLong(mSeconds.getText().toString());
-        long millis = Long.parseLong(mMillis.getText().toString());
+        long minutes = TextUtils.isEmpty(mMinutes.getText().toString()) ? 0l : Long.parseLong(mMinutes.getText().toString());
+        long seconds = TextUtils.isEmpty(mSeconds.getText().toString()) ? 0l : Long.parseLong(mSeconds.getText().toString());
+        long millis = TextUtils.isEmpty(mMillis.getText().toString()) ? 0l : Long.parseLong(mMillis.getText().toString());
         return sign * (minutes * MINUTES_IN_MICROS + seconds * SECONDS_IN_MICROS + millis * MILLIS_IN_MICROS);
     }
 
