@@ -1557,6 +1557,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             Intent i = new Intent(this, MainActivity.class);
+            if (!Util.isCallable(i)){
+                try {
+                    i = new Intent(this, Class.forName("org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity"));
+                } catch (ClassNotFoundException e) {
+                    return;
+                }
+            }
             startActivity(i);
         }
         finish();
