@@ -35,17 +35,15 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.Extensions;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioBrowserListAdapter;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
@@ -64,6 +62,7 @@ public class MediaLibrary {
     private boolean isStopping = false;
     private boolean mRestart = false;
     protected Thread mLoadingThread;
+    private IBrowser mBrowser = null;
 
     public final static HashSet<String> FOLDER_BLACKLIST;
     static {
@@ -245,7 +244,8 @@ public class MediaLibrary {
             final MediaDatabase mediaDatabase = MediaDatabase.getInstance();
 
             // show progressbar in footer
-            MainActivity.showProgressBar();
+            if (mBrowser != null)
+                mBrowser.showProgressBar();
 
             List<File> mediaDirs = mediaDatabase.getMediaDirs();
             if (mediaDirs.size() == 0) {
@@ -344,7 +344,8 @@ public class MediaLibrary {
                 // Process the stacked items
                 for (File file : mediaToScan) {
                     String fileURI = LibVLC.PathToURI(file.getPath());
-                    MainActivity.sendTextInfo(file.getName(), count,
+                    if (mBrowser != null)
+                        mBrowser.sendTextInfo(file.getName(), count,
                             mediaToScan.size());
                     count++;
                     if (existingMedias.containsKey(fileURI)) {
@@ -400,8 +401,10 @@ public class MediaLibrary {
                 }
 
                 // hide progressbar in footer
-                MainActivity.clearTextInfo();
-                MainActivity.hideProgressBar();
+                if (mBrowser != null) {
+                    mBrowser.clearTextInfo();
+                    mBrowser.hideProgressBar();
+                }
 
                 Util.actionScanStop();
 
@@ -453,5 +456,9 @@ public class MediaLibrary {
             }
             return accepted;
         }
+    }
+
+    public void setBrowser(IBrowser browser) {
+        mBrowser = browser;
     }
 }

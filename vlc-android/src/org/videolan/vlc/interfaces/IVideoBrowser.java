@@ -24,15 +24,11 @@ import java.util.concurrent.BrokenBarrierException;
 
 import org.videolan.vlc.MediaWrapper;
 
-public interface IVideoBrowser {
+public interface IVideoBrowser extends IBrowser {
 
     public void resetBarrier();
     public void setItemToUpdate(MediaWrapper item);
     public void await() throws InterruptedException, BrokenBarrierException;
     public void updateItem();
     public void updateList();
-    public void showProgressBar();
-    public void hideProgressBar();
-    public void clearTextInfo();
-    public void sendTextInfo(String info, int progress, int max);
 }

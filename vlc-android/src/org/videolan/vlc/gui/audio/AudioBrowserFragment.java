@@ -65,6 +65,7 @@ import org.videolan.vlc.gui.BrowserFragment;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.interfaces.IBrowser;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -81,12 +82,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AudioBrowserFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener {
+public class AudioBrowserFragment extends BrowserFragment implements SwipeRefreshLayout.OnRefreshListener, SlidingTabLayout.OnTabChangedListener, MediaBrowser.EventListener, IBrowser {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private AudioServiceController mAudioController;
     private MediaLibrary mMediaLibrary;
     private MediaBrowser mMediaBrowser;
+    private MainActivity mMainActivity;
 
     List<MediaWrapper> mAudioList;
     private AudioBrowserListAdapter mArtistsAdapter;
@@ -229,6 +231,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     public void onPause() {
         super.onPause();
         mMediaLibrary.removeUpdateHandler(mHandler);
+        mMediaLibrary.setBrowser(null);
         if (mMediaBrowser != null) {
             mMediaBrowser.release();
             mMediaBrowser = null;
@@ -238,6 +241,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     @Override
     public void onResume() {
         super.onResume();
+        mMainActivity = (MainActivity) getActivity();
         if (mMediaLibrary.isWorking())
             mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
         else if (mGenresAdapter.isEmpty() || mArtistsAdapter.isEmpty() ||
@@ -246,6 +250,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         else
             focusHelper(false, mLists.get(mViewPager.getCurrentItem()).getId());
         mMediaLibrary.addUpdateHandler(mHandler);
+        mMediaLibrary.setBrowser(this);
         final ListView current = (ListView)mLists.get(mViewPager.getCurrentItem());
         current.post(new Runnable() {
             @Override
@@ -604,6 +609,26 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
     @Override
     public void onBrowseEnd() {
         mAudioController.append(mLocationsToAppend);
+    }
+
+    @Override
+    public void showProgressBar() {
+        mMainActivity.showProgressBar();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mMainActivity.hideProgressBar();
+    }
+
+    @Override
+    public void clearTextInfo() {
+        mMainActivity.clearTextInfo();
+    }
+
+    @Override
+    public void sendTextInfo(String info, int progress, int max) {
+        mMainActivity.sendTextInfo(info, progress, max);
     }
 
     private static class AudioBrowserHandler extends WeakHandler<AudioBrowserFragment> {

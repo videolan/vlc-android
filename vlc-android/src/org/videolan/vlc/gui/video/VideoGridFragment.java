@@ -107,6 +107,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     private Thumbnailer mThumbnailer;
     private VideoGridAnimator mAnimator;
 
+    private MainActivity mMainActivity;
     private AudioServiceController mAudioController;
     private boolean mReady = true;
 
@@ -182,6 +183,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         if (!(getActivity() instanceof MainActivity))
             AudioServiceController.getInstance().unbindAudioService(getActivity());
         mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
+        mMediaLibrary.setBrowser(null);
         mMediaLibrary.removeUpdateHandler(mHandler);
 
         /* Stop the thumbnailer */
@@ -194,6 +196,9 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         super.onResume();
         if (!(getActivity() instanceof MainActivity))
             AudioServiceController.getInstance().bindAudioService(getActivity());
+        else
+            mMainActivity = (MainActivity) getActivity();
+        mMediaLibrary.setBrowser(this);
         mMediaLibrary.addUpdateHandler(mHandler);
         final boolean refresh = mVideoAdapter.isEmpty();
         if (refresh)
@@ -465,26 +470,26 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
 
     @Override
     public void showProgressBar() {
-        if (getActivity() instanceof MainActivity)
-            MainActivity.showProgressBar();
+        if (mMainActivity != null)
+            mMainActivity.showProgressBar();
     }
 
     @Override
     public void hideProgressBar() {
-        if (getActivity() instanceof MainActivity)
-            MainActivity.hideProgressBar();
+        if (mMainActivity != null)
+            mMainActivity.hideProgressBar();
     }
 
     @Override
     public void clearTextInfo() {
-        if (getActivity() instanceof MainActivity)
-            MainActivity.clearTextInfo();
+        if (mMainActivity != null)
+            mMainActivity.clearTextInfo();
     }
 
     @Override
     public void sendTextInfo(String info, int progress, int max) {
-        if (getActivity() instanceof MainActivity)
-            MainActivity.sendTextInfo(info, progress, max);
+        if (mMainActivity != null)
+            mMainActivity.sendTextInfo(info, progress, max);
     }
 
     @Override
