@@ -116,7 +116,10 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
     }
 
     public void sort() {
-        super.sort(this);
+        if (!isEmpty())
+            try {
+                super.sort(this);
+            } catch (ArrayIndexOutOfBoundsException e) {} //Exception happening on Android 2.x
     }
 
     @Override
