@@ -38,6 +38,7 @@ import org.videolan.vlc.gui.audio.MediaComparators;
 import org.videolan.vlc.gui.network.NetworkFragment;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
+import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     public void onResume() {
         super.onResume();
         if (mAdapter.size() == 0) {
-            mMediaBrowser = new MediaBrowser(LibVLC.getInstance(), this);
+            mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
             if (mMediaBrowser != null) {
                 mMediaList = new ArrayList<>();
                 if (mMrl != null)
