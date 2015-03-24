@@ -169,7 +169,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         filter.addAction(Util.ACTION_SCAN_START);
         filter.addAction(Util.ACTION_SCAN_STOP);
         getActivity().registerReceiver(messageReceiverVideoListFragment, filter);
-        Log.i(TAG, "mMediaLibrary.isWorking() " + Boolean.toString(mMediaLibrary.isWorking()));
         if (mMediaLibrary.isWorking()) {
             Util.actionScanStart();
         }
@@ -180,6 +179,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     @Override
     public void onPause() {
         super.onPause();
+        if (!(getActivity() instanceof MainActivity))
+            AudioServiceController.getInstance().unbindAudioService(getActivity());
         mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
         mMediaLibrary.removeUpdateHandler(mHandler);
 
@@ -191,6 +192,8 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     @Override
     public void onResume() {
         super.onResume();
+        if (!(getActivity() instanceof MainActivity))
+            AudioServiceController.getInstance().bindAudioService(getActivity());
         mMediaLibrary.addUpdateHandler(mHandler);
         final boolean refresh = mVideoAdapter.isEmpty();
         if (refresh)
