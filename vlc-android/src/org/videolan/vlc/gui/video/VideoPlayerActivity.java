@@ -1761,19 +1761,19 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 mTouchY = event.getRawY();
                 mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
-                if (!mEnableBrightnessGesture || (int)mTouchX > (screen.widthPixels / 2)){
+                if (!mEnableBrightnessGesture || (int)mTouchX > (3 * screen.widthPixels / 5)){
                     doVolumeTouch(y_changed);
+                    hideOverlay(true);
                 }
                 // Brightness (Up or Down - Left side)
-                if (mEnableBrightnessGesture && (int)mTouchX < (screen.widthPixels / 2)){
+                if (mEnableBrightnessGesture && (int)mTouchX < (2 * screen.widthPixels / 5)){
                     doBrightnessTouch(y_changed);
+                    hideOverlay(true);
                 }
             } else {
                 // Seek (Right or Left move)
                 doSeekTouch(Math.round(delta_y), xgesturesize, false);
             }
-            if (mTouchAction != TOUCH_NONE && mOverlayTimeout != OVERLAY_INFINITE)
-                showOverlayTimeout(OVERLAY_INFINITE);
             break;
 
         case MotionEvent.ACTION_UP:
@@ -1786,9 +1786,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 } else {
                     hideOverlay(true);
                 }
-            } else {
-                // We were in gesture mode, re-init the overlay timeout
-                showOverlay(true);
             }
             // Seek
             if (mTouchAction == TOUCH_SEEK)
@@ -1838,7 +1835,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private void doVolumeTouch(float y_changed) {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME)
             return;
-        float delta = - ((y_changed * 2f / mSurfaceYDisplayRange) * mAudioMax);
+        float delta = - ((y_changed / mSurfaceYDisplayRange) * mAudioMax);
         mVol += delta;
         int vol = (int) Math.min(Math.max(mVol, 0), mAudioMax);
         if (delta != 0f) {
@@ -1903,7 +1900,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mTouchAction = TOUCH_BRIGHTNESS;
 
         // Set delta : 2f is arbitrary for now, it possibly will change in the future
-        float delta = - y_changed / mSurfaceYDisplayRange * 2f;
+        float delta = - y_changed / mSurfaceYDisplayRange;
 
         changeBrightness(delta);
     }
