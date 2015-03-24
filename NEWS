@@ -11,7 +11,9 @@ Application:
  * Misc bugfixes
  * Keep player speed between videos
  * Refactor track selections and updates
- * Simpler management to include Directories in the Media Library
+ * Option to exlude Directories from  Media Library
+ * Playlists support for audio
+ * In video player, lock the back button in lock mode
 
 
 Changes between 1.1.5 and 1.1.6:
