@@ -89,6 +89,13 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
             notifyDataSetChanged();
     }
 
+    public int sortDirection(int sortby) {
+        if (sortby == mSortBy)
+            return  mSortDirection;
+        else
+            return -1;
+    }
+
     public void sortBy(int sortby) {
         switch (sortby) {
             case SORT_BY_TITLE:

@@ -492,6 +492,11 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
         mVideoAdapter.sortBy(sortby);
     }
 
+    @Override
+    public int sortDirection(int sortby) {
+        return mVideoAdapter.sortDirection(sortby);
+    }
+
     public void setItemToUpdate(MediaWrapper item) {
         mItemToUpdate = item;
         mHandler.sendEmptyMessage(VideoListHandler.UPDATE_ITEM);
