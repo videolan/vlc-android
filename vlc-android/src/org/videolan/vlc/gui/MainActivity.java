@@ -876,7 +876,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 int resId = Util.getResourceFromAttribute(MainActivity.this, R.attr.mini_player_top_shadow);
                 if (resId != 0)
                     mSlidingPane.setShadowResource(resId);
-                mAudioPlayer.setHeaderVisibilities(false, false, true, true, true);
+                mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);
                 mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_UNLOCKED);
                 removeTipViewIfDisplayed();
                 mAudioPlayer.showAudioPlayerTips();
@@ -890,7 +890,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
             @Override
             public void onPanelClosed() {
-                mAudioPlayer.setHeaderVisibilities(true, true, false, false, false);
+                mAudioPlayer.setHeaderVisibilities(true, true, false, false, false, true);
                 mRootContainer.setDrawerLockMode(HackyDrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mAudioPlayer.showPlaylistTips();
             }

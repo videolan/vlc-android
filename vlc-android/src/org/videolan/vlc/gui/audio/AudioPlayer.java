@@ -98,6 +98,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
 
     private boolean mAdvFuncVisible;
     private boolean mPlaylistSwitchVisible;
+    private boolean mPlaylistSaveVisible;
     private boolean mHeaderPlayPauseVisible;
     private boolean mProgressBarVisible;
     private boolean mHeaderTimeVisible;
@@ -149,6 +150,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
 
         mAdvFuncVisible = false;
         mPlaylistSwitchVisible = false;
+        mPlaylistSaveVisible = false;
         mHeaderPlayPauseVisible = true;
         mProgressBarVisible = true;
         mHeaderTimeVisible = true;
@@ -505,18 +507,20 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
      */
     public void setHeaderVisibilities(boolean advFuncVisible, boolean playlistSwitchVisible,
                                       boolean headerPlayPauseVisible, boolean progressBarVisible,
-                                      boolean headerTimeVisible) {
+                                      boolean headerTimeVisible, boolean playlistSaveVisible) {
         mAdvFuncVisible = advFuncVisible;
         mPlaylistSwitchVisible = playlistSwitchVisible;
         mHeaderPlayPauseVisible = headerPlayPauseVisible;
         mProgressBarVisible = progressBarVisible;
         mHeaderTimeVisible = headerTimeVisible;
+        mPlaylistSaveVisible = playlistSaveVisible;
         restoreHedaderButtonVisibilities();
     }
 
     private void restoreHedaderButtonVisibilities() {
         mAdvFunc.setVisibility(mAdvFuncVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mPlaylistSwitch.setVisibility(mPlaylistSwitchVisible ? ImageButton.VISIBLE : ImageButton.GONE);
+        mPlaylistSave.setVisibility(mPlaylistSaveVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mHeaderPlayPause.setVisibility(mHeaderPlayPauseVisible ? ImageButton.VISIBLE : ImageButton.GONE);
         mProgressBar.setVisibility(mProgressBarVisible ? ProgressBar.VISIBLE : ProgressBar.GONE);
         mHeaderTime.setVisibility(mHeaderTimeVisible ? TextView.VISIBLE : TextView.GONE);
@@ -525,6 +529,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     private void hideHedaderButtons() {
         mAdvFunc.setVisibility(ImageButton.GONE);
         mPlaylistSwitch.setVisibility(ImageButton.GONE);
+        mPlaylistSave.setVisibility(ImageButton.GONE);
         mHeaderPlayPause.setVisibility(ImageButton.GONE);
         mHeaderTime.setVisibility(TextView.GONE);
     }
