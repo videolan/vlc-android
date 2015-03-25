@@ -63,7 +63,7 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
     p_obj = VLCJniObject_getInstance(env, thiz);
     if (p_obj)
     {
-        *pp_error = "Can't get VLCObject.mInstanceID";
+        *pp_error = "VLCObject.mInstanceID already exists";
         return NULL;
     }
 
