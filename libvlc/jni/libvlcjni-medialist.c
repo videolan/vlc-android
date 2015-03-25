@@ -221,7 +221,7 @@ Java_org_videolan_libvlc_MediaList_nativeNewFromMedia(JNIEnv *env,
         return;
     }
 
-    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_m_obj->p_libvlc, p_error);
+    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_m_obj->p_libvlc, &p_error);
     if (!p_obj)
     {
         throw_IllegalStateException(env, p_error);
