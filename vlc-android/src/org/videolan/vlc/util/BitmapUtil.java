@@ -26,6 +26,8 @@ import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 public class BitmapUtil {
     public final static String TAG = "VLC/Util/BitmapUtil";
@@ -79,8 +81,7 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    public static Bitmap getPictureFromCache(MediaWrapper media)
-    {
+    public static Bitmap getPictureFromCache(MediaWrapper media) {
         // mPicture is not null only if passed through
         // the ctor which is deprecated by now.
         Bitmap b = media.getPicture();
@@ -93,12 +94,41 @@ public class BitmapUtil {
                  * adding it to the memcache for later use.
                  */
                 Context c = VLCApplication.getAppContext();
-                picture = MediaDatabase.getInstance().getPicture(c, media.getLocation());
+                picture = readCoverBitmap(media.getArtworkURL());
+                if (picture == null)
+                    picture = MediaDatabase.getInstance().getPicture(c, media.getLocation());
                 cache.addBitmapToMemCache(media.getLocation(), picture);
             }
             return picture;
         } else {
             return b;
         }
+    }
+
+    private static Bitmap readCoverBitmap(String path) {
+        if (path == null)
+            return null;
+        String uri = Uri.decode(path);
+        if (uri.startsWith("file://"))
+            uri = uri.substring(7);
+        Bitmap cover = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        /* Get the resolution of the bitmap without allocating the memory */
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(uri, options);
+
+        if (options.outWidth > 0 && options.outHeight > 0) {
+            options.inJustDecodeBounds = false;
+
+            // Decode the file (with memory allocation this time)
+            cover = BitmapFactory.decodeFile(uri, options);
+
+            if (cover != null) {
+                cover = Bitmap.createScaledBitmap(cover, options.outWidth, options.outHeight, false);
+            }
+        }
+
+        return cover;
     }
 }

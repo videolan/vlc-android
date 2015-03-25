@@ -169,6 +169,8 @@ public class Thumbnailer implements Runnable {
                 mVideoBrowser.sendTextInfo(String.format("%s %s", mPrefix, item.getFileName()), count, total);
             }
             count++;
+            if (item.getArtworkURL() != null)
+                continue; //no need for thumbnail, we have a cover
 
             int width = (int) (120 * mDensity);
             int height = (int) (75 * mDensity);
