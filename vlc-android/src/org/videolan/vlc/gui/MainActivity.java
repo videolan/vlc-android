@@ -497,6 +497,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                     item.setTitle(R.string.sortby_length_desc);
                 else
                     item.setTitle(R.string.sortby_length);
+            item = menu.findItem(R.id.ml_menu_sortby_date);
+                if (sortable.sortDirection(VideoListAdapter.SORT_BY_DATE) == 1)
+                    item.setTitle(R.string.sortby_date_desc);
+                else
+                    item.setTitle(R.string.sortby_date);
         }
 
         boolean networkSave = current instanceof NetworkFragment && !((NetworkFragment)current).isRootDirectory();
@@ -534,13 +539,18 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
             case R.id.ml_menu_sortby_length:
+            case R.id.ml_menu_sortby_date:
                 if (current == null)
                     break;
-                if (current instanceof ISortable)
-                    ((ISortable) current).sortBy(item.getItemId() == R.id.ml_menu_sortby_name
-                    ? VideoListAdapter.SORT_BY_TITLE
-                    : VideoListAdapter.SORT_BY_LENGTH);
-                supportInvalidateOptionsMenu();
+                if (current instanceof ISortable) {
+                    int sortBy = VideoListAdapter.SORT_BY_TITLE;
+                    if (item.getItemId() == R.id.ml_menu_sortby_length)
+                        sortBy = VideoListAdapter.SORT_BY_LENGTH;
+                    else if(item.getItemId() == R.id.ml_menu_sortby_date)
+                        sortBy = VideoListAdapter.SORT_BY_DATE;
+                    ((ISortable) current).sortBy(sortBy);
+                    supportInvalidateOptionsMenu();
+                }
                 break;
             case R.id.ml_menu_equalizer:
                 showSecondaryFragment("equalizer");

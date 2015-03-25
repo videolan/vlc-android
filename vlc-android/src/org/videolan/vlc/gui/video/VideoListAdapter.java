@@ -52,6 +52,7 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
 
     public final static int SORT_BY_TITLE = 0;
     public final static int SORT_BY_LENGTH = 1;
+    public final static int SORT_BY_DATE = 2;
     private int mSortDirection = 1;
     private int mSortBy = SORT_BY_TITLE;
     private boolean mListMode = false;
@@ -114,6 +115,14 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                     mSortDirection *= 1;
                 }
                 break;
+            case SORT_BY_DATE:
+                if (mSortBy == SORT_BY_DATE)
+                    mSortDirection *= -1;
+                else {
+                    mSortBy = SORT_BY_DATE;
+                    mSortDirection *= 1;
+                }
+                break;
             default:
                 mSortBy = SORT_BY_TITLE;
                 mSortDirection = 1;
@@ -139,6 +148,9 @@ public class VideoListAdapter extends ArrayAdapter<MediaWrapper>
                 break;
             case SORT_BY_LENGTH:
                 compare = ((Long) item1.getLength()).compareTo(item2.getLength());
+                break;
+            case SORT_BY_DATE:
+                compare = ((Long) item1.getLastModified()).compareTo(item2.getLastModified());
                 break;
         }
         return mSortDirection * compare;

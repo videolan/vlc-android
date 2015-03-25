@@ -51,7 +51,8 @@ public class MediaGroup extends MediaWrapper {
                 media.getAudioTrack(),
                 media.getSpuTrack(),
                 media.getTrackNumber(),
-                media.getDiscNumber());
+                media.getDiscNumber(),
+                0l);
         mMedias = new ArrayList<MediaWrapper>();
         mMedias.add(media);
     }

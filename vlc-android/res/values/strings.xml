@@ -12,6 +12,8 @@
     <string name="sortby_name_desc">Name (desc)</string>
     <string name="sortby_length">Length</string>
     <string name="sortby_length_desc">Length (desc)</string>
+    <string name="sortby_date">Date</string>
+    <string name="sortby_date_desc">Date (desc)</string>
     <string name="searchable_hint">Search…</string>
     <string name="history">History</string>
 

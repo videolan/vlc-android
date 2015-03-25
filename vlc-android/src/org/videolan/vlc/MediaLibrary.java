@@ -367,6 +367,7 @@ public class MediaLibrary {
                         media.parse();
                         media.release();
                         MediaWrapper mw = new MediaWrapper(media);
+                        mw.setLastModified(file.lastModified());
                         mItemList.add(mw);
                         // Add this item to database
                         MediaDatabase db = MediaDatabase.getInstance();
