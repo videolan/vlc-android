@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.videolan.vlc"
     android:installLocation="auto"
-    android:versionCode="01010600"
-    android:versionName="1.1.6" >
+    android:versionCode="01020000"
+    android:versionName="1.2.0" >
     <!--
          versionCode scheme is T M NN RR AA
          T: Target/Flavour (0 for Android, 1 for ATV, 2 for Chrome?)

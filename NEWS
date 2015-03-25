@@ -1,4 +1,4 @@
-Changes between 1.1.6 and 1.1.7:
+Changes between 1.1.6 and 1.2.0:
 --------------------------------
 
 Application:
@@ -14,6 +14,9 @@ Application:
  * Option to exlude Directories from  Media Library
  * Playlists support for audio
  * In video player, lock the back button in lock mode
+ * Fix crashes for Android 2.x
+ * Allow to sort video by modified date
+ * Improve volume and brightness gestures
 
 
 Changes between 1.1.5 and 1.1.6:
