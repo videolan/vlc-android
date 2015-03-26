@@ -6,7 +6,11 @@
     <string name="other">Iné</string>
     <string name="sortby">Zoradiť podľa…</string>
     <string name="sortby_name">názvu</string>
+    <string name="sortby_name_desc">Názov (opis)</string>
     <string name="sortby_length">dĺžky</string>
+    <string name="sortby_length_desc">Dĺžka (opis)</string>
+    <string name="sortby_date">Dátum</string>
+    <string name="sortby_date_desc">Dátum (opis)</string>
     <string name="searchable_hint">Vyhľadávať…</string>
     <string name="history">História</string>
     <plurals name="search_found_results_quantity">
@@ -80,6 +84,7 @@
     <string name="loading">Načítava sa</string>
     <string name="please_wait">Prosím čakajte…</string>
     <string name="nomedia">Nenašli sa žiadne médiá, prosím preneste do svojho zariadenia nejaké súbory alebo upravte nastavenia.</string>
+    <string name="noplaylist">Nenašiel sa žiadny playlist.</string>
     <string name="mediafiles">Súbory médií</string>
     <string name="notavailable">nedostupné</string>
     <string name="nosubdirectory">Žiadne podpriečinky.</string>
@@ -279,4 +284,8 @@
     <string name="network_empty">Tento priečinok je prázdny.</string>
     <string name="network_connection_needed">Bez pripojenia k lokálnej sieti.</string>
     <string name="search_hint">Vyhľadávanie média</string>
+    <string name="directory_show_medialib">Zobraziť v knižnici multimédií</string>
+    <string name="directory_hide_medialib">Skryť v knižnici multimédií</string>
+    <string name="playlist_save">Uložiť playlist</string>
+    <string name="playlist_name_hint">názov playlistu</string>
 </resources>
