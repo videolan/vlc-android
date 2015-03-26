@@ -366,12 +366,17 @@ public class MediaLibrary {
                         final Media media = new Media(libVlcInstance, fileURI);
                         media.parse();
                         media.release();
+                        /* skip files with audio/video extension but no known codec */
+                        if (media.getDuration() == 0 ||
+                                (media.getTrackCount() == 1 && media.getTrack(0).codec.isEmpty())) {
+                            mItemListLock.writeLock().unlock();
+                            continue;
+                        }
                         MediaWrapper mw = new MediaWrapper(media);
                         mw.setLastModified(file.lastModified());
                         mItemList.add(mw);
                         // Add this item to database
-                        MediaDatabase db = MediaDatabase.getInstance();
-                        db.addMedia(mw);
+                        mediaDatabase.addMedia(mw);
                         mItemListLock.writeLock().unlock();
                     }
                     if (isStopping) {
