@@ -100,6 +100,8 @@
     <string name="sound_on">聲音開啟</string>
     <string name="sound_off">聲音關閉</string>
     <string name="brightness">亮度</string>
+    <string name="navmenu">導航選單</string>
+    <string name="advanced">進階選項</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 聲道\n</item>
     </plurals>
@@ -132,6 +134,7 @@
     <string name="video_player_tips">影片播放器秘訣：</string>
     <string name="seek">尋找</string>
     <string name="subtitles">字幕</string>
+    <string name="audio_sub">音軌\n與字幕</string>
     <string name="resize">調整大小</string>
     <string name="options">選項</string>
     <string name="lock">鎖定</string>
@@ -164,6 +167,12 @@
     <string name="hardware_acceleration_disabled">關閉</string>
     <string name="hardware_acceleration_decoding">解碼加速</string>
     <string name="hardware_acceleration_full">加速全開</string>
+    <string name="dev_hardware_decoder">進階硬體解碼器</string>
+    <string name="dev_hardware_decoder_summary">強制使用硬體解碼，只給進階使用者使用</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">自動</string>
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動化 (感應)</string>
@@ -230,6 +239,8 @@
     <string name="start_logging">開始記錄</string>
     <string name="stop_logging">停止記錄</string>
     <string name="clear_log">清除記錄</string>
+    <string name="log_service_title">VLC 日誌紀錄中</string>
+    <string name="log_service_text">開啟日誌 console</string>
     <string name="copy_to_clipboard">複製到剪貼簿</string>
     <string name="copied_to_clipboard">已複製記錄到剪貼簿</string>
     <string name="quit">離開並重啟應用程式</string>
@@ -243,4 +254,13 @@
     <string name="sending_log">正在發送紀錄...</string>
     <string name="drawer_open">開啟隱藏式側選單</string>
     <string name="drawer_close">關閉隱藏式側選單</string>
+    <string name="network_browsing">本地網路</string>
+    <string name="file_size">檔案大小：</string>
+    <string name="file_other">關閉導航</string>
+    <string name="audio_delay">音效延遲</string>
+    <string name="spu_delay">字幕延遲</string>
+    <string name="network_shares_discovery">搜尋網路分享</string>
+    <string name="network_empty">這個資料夾是空的</string>
+    <string name="network_connection_needed">無本地網路連結</string>
+    <string name="search_hint">搜尋媒體</string>
 </resources>
