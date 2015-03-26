@@ -218,7 +218,9 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
         InputDevice inputDevice = event.getDevice();
 
-        if (inputDevice == null)
+        float dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
+        float dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
+        if (inputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
             return false;
 
         float x = AndroidDevices.getCenteredAxis(event, inputDevice,
