@@ -272,4 +272,6 @@
     <string name="network_empty">Ce répertoire est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
     <string name="search_hint">Recherche de média</string>
+    <string name="directory_show_medialib">Afficher dans la MediaLib</string>
+    <string name="directory_hide_medialib">Cacher dans la MediaLib</string>
 </resources>
