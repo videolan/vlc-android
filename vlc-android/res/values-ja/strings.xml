@@ -6,7 +6,11 @@
     <string name="other">その他</string>
     <string name="sortby">並び替え…</string>
     <string name="sortby_name">名前</string>
+    <string name="sortby_name_desc">名前 (逆順)</string>
     <string name="sortby_length">長さ</string>
+    <string name="sortby_length_desc">長さ (逆順)</string>
+    <string name="sortby_date">日付</string>
+    <string name="sortby_date_desc">日付 (逆順)</string>
     <string name="searchable_hint">検索…</string>
     <string name="history">履歴</string>
     <plurals name="search_found_results_quantity">
@@ -68,6 +72,7 @@
     <string name="loading">ロード中…</string>
     <string name="please_wait">しばらくおまちください…</string>
     <string name="nomedia">メディアファイルが見つかりません、ファイルをデバイスに転送するか設定を調整してください。</string>
+    <string name="noplaylist">プレイリストが見つかりません。</string>
     <string name="mediafiles">メディアファイル</string>
     <string name="notavailable">利用できません</string>
     <string name="nosubdirectory">サブディレクトリ無し</string>
@@ -265,4 +270,8 @@
     <string name="network_empty">このディレクトリは空です。</string>
     <string name="network_connection_needed">ローカルネットワークへの接続がありません。</string>
     <string name="search_hint">メディアの検索</string>
+    <string name="directory_show_medialib">メディアライブラリで表示</string>
+    <string name="directory_hide_medialib">メディアライブラリで非表示</string>
+    <string name="playlist_save">プレイリストを保存</string>
+    <string name="playlist_name_hint">プレイリスト名</string>
 </resources>
