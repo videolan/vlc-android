@@ -6,7 +6,9 @@
     <string name="other">Inne</string>
     <string name="sortby">Sortuj według…</string>
     <string name="sortby_name">Nazwy</string>
+    <string name="sortby_name_desc">Nazwa (malejąco)</string>
     <string name="sortby_length">Długości</string>
+    <string name="sortby_length_desc">Długość (malejąco)</string>
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
     <plurals name="search_found_results_quantity">
@@ -80,6 +82,7 @@
     <string name="loading">Ładowanie…</string>
     <string name="please_wait">Proszę czekać…</string>
     <string name="nomedia">Brak plików multimedialnych, proszę przenieś kilka plików na twoje urządzenie lub zmień ustawienia.</string>
+    <string name="noplaylist">Nie znaleziono listy odtwarzania.</string>
     <string name="mediafiles">Pliki multimedialne</string>
     <string name="notavailable">niedostępne</string>
     <string name="nosubdirectory">Brak podkatalogów.</string>
@@ -279,4 +282,8 @@
     <string name="network_empty">Ten katalog jest pusty.</string>
     <string name="network_connection_needed">Brak połączenia z siecią lokalną.</string>
     <string name="search_hint">Wyszukiwanie plików multimedialnych</string>
+    <string name="directory_show_medialib">Pokaż w MediaLib</string>
+    <string name="directory_hide_medialib">Ukryj w MediaLib</string>
+    <string name="playlist_save">Zapisz listę odtwarzania</string>
+    <string name="playlist_name_hint">Nazwa listy odtwarzania</string>
 </resources>
