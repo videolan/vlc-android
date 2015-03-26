@@ -48,6 +48,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class MediaLibrary {
@@ -366,9 +367,9 @@ public class MediaLibrary {
                         final Media media = new Media(libVlcInstance, fileURI);
                         media.parse();
                         media.release();
-                        /* skip files with audio/video extension but no known codec */
-                        if (media.getDuration() == 0 ||
-                                (media.getTrackCount() == 1 && media.getTrack(0).codec.isEmpty())) {
+                        /* skip files with .mod extension and no duration */
+                        if ((media.getDuration() == 0 || (media.getTrackCount() != 0 && TextUtils.isEmpty(media.getTrack(0).codec))) &&
+                            fileURI.endsWith(".mod")) {
                             mItemListLock.writeLock().unlock();
                             continue;
                         }
