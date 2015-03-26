@@ -58,7 +58,7 @@
         <item quantity="other">%d videos</item>
     </plurals>
     <string name="internal_memory">Memória interna</string>
-    <string name="parent_folder">Ir para a pasta fonte</string>
+    <string name="parent_folder">Ir para a pasta superior</string>
     <string name="audio">Áudio</string>
     <string name="video">Vídeo</string>
     <string name="bookmarks">Marcadores</string>
