@@ -6,7 +6,11 @@
     <string name="other">Άλλο</string>
     <string name="sortby">Ταξινόμηση κατά ...</string>
     <string name="sortby_name">Όνομα</string>
+    <string name="sortby_name_desc">Όνομα (φθίν)</string>
     <string name="sortby_length">Διάρκεια</string>
+    <string name="sortby_length_desc">Διάρκεια (φθιν.)</string>
+    <string name="sortby_date">Ημερομηνία</string>
+    <string name="sortby_date_desc">Ημερομηνία (φθιν)</string>
     <string name="searchable_hint">Εύρεση...</string>
     <string name="history">Ιστορικό</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Παρακαλώ περιμένετε...</string>
     <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
+    <string name="noplaylist">Δεν β΄ρεθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
     <string name="nosubdirectory">Κανένας υποκατάλογος</string>
@@ -272,4 +277,8 @@
     <string name="network_empty">Ο κατάλογος είναι άδειος</string>
     <string name="network_connection_needed">Καμία σύνδεση στο τοπικό δίκτυο</string>
     <string name="search_hint">Αναζήτηση μέσων</string>
+    <string name="directory_show_medialib">Εμφάνιση στο MediaLib</string>
+    <string name="directory_hide_medialib">Απόκρυψη από το MediaLib</string>
+    <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
+    <string name="playlist_name_hint">όνομα λίστα αναπαραγωγής</string>
 </resources>
