@@ -112,19 +112,19 @@ public class MusicFragment extends MediaLibBrowserFragment {
             if (CATEGORY_ARTISTS == mCategory){
                 Collections.sort(audioList, MediaComparators.byArtist);
                 title = getString(R.string.artists);
-                for (MediaWrapper MediaWrapper : audioList){
-                    item = add(MediaWrapper.getArtist(), null, MediaWrapper);
+                for (MediaWrapper mediaWrapper : audioList){
+                    item = add(mediaWrapper.getArtist(), null, mediaWrapper);
                     if (item != null)
                         publishProgress(item);
                 }
             } else if (CATEGORY_ALBUMS == mCategory){
                 title = getString(R.string.albums);
                 Collections.sort(audioList, MediaComparators.byAlbum);
-                for (MediaWrapper MediaWrapper : audioList){
+                for (MediaWrapper mediaWrapper : audioList){
                     if (mFilter == null
-                            || (mType == FILTER_ARTIST && mFilter.equals(MediaWrapper.getArtist()))
-                            || (mType == FILTER_GENRE && mFilter.equals(MediaWrapper.getGenre()))) {
-                        item = add(MediaWrapper.getAlbum(), MediaWrapper.getArtist(), MediaWrapper);
+                            || (mType == FILTER_ARTIST && mFilter.equals(mediaWrapper.getArtist()))
+                            || (mType == FILTER_GENRE && mFilter.equals(mediaWrapper.getGenre()))) {
+                        item = add(mediaWrapper.getAlbum(), mediaWrapper.getArtist(), mediaWrapper);
                         if (item != null)
                             publishProgress(item);
                     }
@@ -138,8 +138,8 @@ public class MusicFragment extends MediaLibBrowserFragment {
             } else if (CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
                 Collections.sort(audioList, MediaComparators.byGenre);
-                for (MediaWrapper MediaWrapper : audioList){
-                    item = add(MediaWrapper.getGenre(), null, MediaWrapper);
+                for (MediaWrapper mediaWrapper : audioList){
+                    item = add(mediaWrapper.getGenre(), null, mediaWrapper);
                     if (item != null)
                         publishProgress(item);
                 }
@@ -147,8 +147,8 @@ public class MusicFragment extends MediaLibBrowserFragment {
                 title = getString(R.string.songs);
                 Collections.sort(audioList, MediaComparators.byName);
                 ListItem mediaItem;
-                for (MediaWrapper MediaWrapper : audioList){
-                    mediaItem = new ListItem(MediaWrapper.getTitle(), MediaWrapper.getArtist(), MediaWrapper);
+                for (MediaWrapper mediaWrapper : audioList){
+                    mediaItem = new ListItem(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper);
                     mMediaItemMap.put(title, mediaItem);
                     mMediaItemList.add(mediaItem);
                     publishProgress(mediaItem);
