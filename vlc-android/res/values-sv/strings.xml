@@ -3,10 +3,12 @@
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Avbryt</string>
-    <string name="other">Övrig</string>
+    <string name="other">Övrigt</string>
     <string name="sortby">Sortera efter…</string>
     <string name="sortby_name">Namn</string>
+    <string name="sortby_name_desc">Namn (fallande)</string>
     <string name="sortby_length">Längd</string>
+    <string name="sortby_length_desc">Längd (fallande)</string>
     <string name="searchable_hint">Sök…</string>
     <string name="history">Historik</string>
     <plurals name="search_found_results_quantity">
@@ -14,7 +16,7 @@
         <item quantity="other">%d resultat hittades</item>
     </plurals>
     <string name="play">Spela upp</string>
-    <string name="play_from_start">Spela upp från start</string>
+    <string name="play_from_start">Spela upp från början</string>
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
     <string name="append">Infoga</string>
@@ -74,6 +76,7 @@
     <string name="loading">Läser in</string>
     <string name="please_wait">Var god vänta...</string>
     <string name="nomedia">Inga mediafiler hittades, var god överför några filer till din enhet eller justera dina inställningar.</string>
+    <string name="noplaylist">Ingen spellista hittades.</string>
     <string name="mediafiles">Mediafiler</string>
     <string name="notavailable">inte tillgänglig</string>
     <string name="nosubdirectory">Inga underkataloger.</string>
@@ -88,7 +91,7 @@
     <string name="next">Nästa</string>
     <string name="locked">Låst</string>
     <string name="unlocked">Upplåst</string>
-    <string name="surface_best_fit">Bäst passform</string>
+    <string name="surface_best_fit">Bästa passform</string>
     <string name="surface_fit_horizontal">Passa horisontellt</string>
     <string name="surface_fit_vertical">Passa vertikalt</string>
     <string name="surface_fill">Fyll</string>
@@ -124,18 +127,18 @@
     <string name="subtitle_select">Välj undertextfil</string>
     <string name="no_file_picker_found">Ingen filväljare hittades på systemet.</string>
     <string name="open">Öppna</string>
-    <string name="open_mrl">Öppna MRL</string>
-    <string name="open_mrl_dialog_title">Öppna nätverkström</string>
-    <string name="open_mrl_dialog_msg">Ange nätverks-MRL: t.ex. http://, mms:// eller rtsp://</string>
+    <string name="open_mrl">Strömma</string>
+    <string name="open_mrl_dialog_title">Öppna nätverksström</string>
+    <string name="open_mrl_dialog_msg">Ange nätverksadress: t.ex. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Tyvärr, din enhet stödjer för tillfället inte denna version av VLC för Android™.</string>
-    <string name="error_problem">Tyvärr, VLC för Andriod fick ett problem med inläsning och blev tvungen att stängas ned.</string>
+    <string name="error_problem">Tyvärr, VLC för Android stötte på ett inläsningsproblem och blev tvungen att stängas ned.</string>
     <string name="error_message_is">Felmeddelandet är (nämn detta när du felsöker):\n</string>
     <string name="encountered_error_title">Uppspelningsfel</string>
-    <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nVar god försök att uppdatera mediebiblioteket.</string>
+    <string name="encountered_error_message">VLC stötte på ett fel med denna mediafil.\nFörsök att uppdatera mediabiblioteket.</string>
     <string name="invalid_location">Platsen %1$s kan inte spelas upp.</string>
     <string name="search">Sök</string>
     <string name="search_history">Sökhistorik</string>
-    <string name="hardware_acceleration_error_title">HV-accelerationsfel</string>
+    <string name="hardware_acceleration_error_title">HV-accelereringsfel</string>
     <string name="hardware_acceleration_error_message">Ett fel uppstod med hårdvaruaccelereringen. Vill du inaktivera den och försöka igen?</string>
     <!--Tips-->
     <string name="video_player_tips">Tips för videospelaren:</string>
@@ -146,7 +149,7 @@
     <string name="options">Alternativ</string>
     <string name="lock">Lås</string>
     <string name="ok_got_it">Uppfattat, stäng detta</string>
-    <string name="playlist_tips">Tips om spellista</string>
+    <string name="playlist_tips">Tips för spellistor</string>
     <string name="remove_song">Ta bort sång</string>
     <string name="rearrange_order">Ändra ordning</string>
     <string name="hold_to_seek">Håll för att söka</string>
@@ -161,7 +164,7 @@
     <string name="about">Om</string>
     <string name="about_text">VLC för Android™ är en portering av VLC media player, den populära mediaspelaren med öppen källkod. Android™-versionen kan läsa de flesta filerna och nätverksströmmarna.</string>
     <string name="compiled_by">Denna version av VLC är kompilerad av:</string>
-    <string name="vlc_authors">VLC Upphovsmän</string>
+    <string name="vlc_authors">VLC:s upphovsmän.</string>
     <!-- Preferences -->
     <string name="preferences">Inställningar</string>
     <string name="general_prefs_category">Allmänt</string>
@@ -170,18 +173,19 @@
     <string name="add_custom_path_description">Ange ytterligare valfri katalog att skanna:</string>
     <string name="remove_custom_path">Ta bort anpassad sökväg</string>
     <string name="hardware_acceleration">Hårdvaruacceleration</string>
-    <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet.\nAvkodning: Kan förbättra prestanda.\nFull: Kan förbättra prestanda ytterligare.</string>
+    <string name="hardware_acceleration_summary">Inaktiverad: Bättre stabilitet.\nAvkodning: Kan förbättra prestandan.\nFull: Kan förbättra prestandan ytterligare.</string>
     <string name="hardware_acceleration_disabled">Inaktiverad</string>
     <string name="hardware_acceleration_decoding">Avkodningsaccelerering</string>
     <string name="hardware_acceleration_full">Full accelerering</string>
     <string name="dev_hardware_decoder">Avancerad hårdvaruavkodare</string>
+    <string name="dev_hardware_decoder_summary">Tvinga hårdvaruavkodning, endast för avancerade användare</string>
     <string name="dev_hardware_decoder_omx">iomx</string>
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
     <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatisk</string>
     <string name="screen_orientation">Skärmorientering för video</string>
-    <string name="screen_orientation_sensor">Automatiskt (sensor)</string>
+    <string name="screen_orientation_sensor">Automatisk (sensor)</string>
     <string name="screen_orientation_start_lock">Låst vid start</string>
     <string name="screen_orientation_portrait">Porträtt</string>
     <string name="screen_orientation_landscape">Landskap</string>
@@ -205,7 +209,7 @@
     <string name="force_list_portrait_summary">Visa videor i en lista istället för rutnät i porträttläge</string>
     <string name="audio_title_alignment">Ljudrubriksjustering</string>
     <string name="enable_headset_detection">Identifiera hörlurar</string>
-    <string name="enable_headset_detection_summary">Pausa är hörlurar tas bort; fortsätt när hörlurar ansluts</string>
+    <string name="enable_headset_detection_summary">Pausa när hörlurar tas bort; fortsätt när hörlurar ansluts</string>
     <string name="enable_steal_remote_control">Exklusiv fjärrstyrning med hörlurar</string>
     <string name="enable_steal_remote_control_summary">Undvik konflikt genom att stjäla fjärrkontroll från andra appar. Detta förhindrar uppringning vid dubbelklickning på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
@@ -214,7 +218,7 @@
     <string name="audio_title_alignment_right">Höger</string>
     <string name="audio_title_alignment_marquee">Skärmtext</string>
     <string name="performance_prefs_category">Prestanda</string>
-    <string name="chroma_format">Tvinga video färg</string>
+    <string name="chroma_format">Tvinga videofärg</string>
     <string name="chroma_format_summary">RGB 32-bitar: Standardfärgstyrka\nRGB 16-bitar: Bättre prestanda, men lägre kvalitet\nYUV: Bästa prestandan, men fungerar inte på alla enheter. Endast på Android 2.3 och senare.</string>
     <string name="deblocking">Inställningar för avblockeringsfiltret</string>
     <string name="deblocking_summary">Ändra inställningar för avblockeringsfiltret. Kan förbättra videokvaliteten. Endast avancerade användare.</string>
@@ -231,7 +235,7 @@
     <string name="aout_summary">Ändra metoden som VLC använder för att mata ut ljud.</string>
     <string name="vout">Videoutmatning</string>
     <string name="vout_summary">Ändra metoden som VLC använder för att mata ut video.</string>
-    <string name="vout_android_surface">Android yta</string>
+    <string name="vout_android_surface">Android Surface</string>
     <string name="clear_media_db">Rensa mediadatabas</string>
     <string name="clear_history">Rensa sökhistorik</string>
     <string name="media_db_cleared">Mediadatabas rensad!</string>
@@ -249,7 +253,7 @@
     <string name="clear_log">Rensa logg</string>
     <string name="log_service_text">Öppna loggkonsolen</string>
     <string name="copy_to_clipboard">Kopiera till urklipp</string>
-    <string name="copied_to_clipboard">Kopierade logg till urklipp.</string>
+    <string name="copied_to_clipboard">Kopierade loggen till urklipp.</string>
     <string name="quit">Avsluta och starta om applikationen</string>
     <string name="dump_logcat">Töm logcat-loggen</string>
     <string name="dump_logcat_success">Logcat tömdes till %1$s!</string>
@@ -270,4 +274,6 @@
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
+    <string name="playlist_save">Spara spellista</string>
+    <string name="playlist_name_hint">spellistans namn</string>
 </resources>
