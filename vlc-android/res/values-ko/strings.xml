@@ -265,4 +265,6 @@
     <string name="network_empty">폴더가 비었습니다.</string>
     <string name="network_connection_needed">로컬 네트워크에 접속 없음.</string>
     <string name="search_hint">미디어 검색</string>
+    <string name="directory_show_medialib">MediaLib에서 보기</string>
+    <string name="directory_hide_medialib">MediaLib에서 감추기</string>
 </resources>
