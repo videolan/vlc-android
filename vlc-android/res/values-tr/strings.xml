@@ -74,6 +74,7 @@
     <string name="loading">Yükleniyor</string>
     <string name="please_wait">Lütfen bekleyin…</string>
     <string name="nomedia">Herhangi bir ortam dosyası bulunamadı, aygıtınıza bazı ortam dosyaları aktarın ya da ayarlarınızı denetleyin.</string>
+    <string name="noplaylist">Çalma listesi bulunamadı.</string>
     <string name="mediafiles">Ortam dosyaları</string>
     <string name="notavailable">kullanılamaz</string>
     <string name="nosubdirectory">Alt klasör yok.</string>
@@ -272,4 +273,8 @@
     <string name="network_empty">Bu klasör boş.</string>
     <string name="network_connection_needed">Yerel ağ bağlantısı yok.</string>
     <string name="search_hint">Ortam arayın</string>
+    <string name="directory_show_medialib">Ortam Kitaplığında Görüntüleyin</string>
+    <string name="directory_hide_medialib">Ortam Kitaplığından Gizleyin</string>
+    <string name="playlist_save">Çalma Listesini Kaydedin</string>
+    <string name="playlist_name_hint">çalma listesi adı</string>
 </resources>
