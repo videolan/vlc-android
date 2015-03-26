@@ -74,6 +74,7 @@
     <string name="loading">Indlæser</string>
     <string name="please_wait">Vent venligst …</string>
     <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
+    <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="mediafiles">Mediefiler</string>
     <string name="notavailable">ikke tilgængelig</string>
     <string name="nosubdirectory">Ingen undermapper.</string>
@@ -159,7 +160,7 @@
     <string name="licence">Licens</string>
     <string name="revision">Revision</string>
     <string name="about">Om</string>
-    <string name="about_text">VLC til Android™ er en portering af VLC-medieafspilleren, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
+    <string name="about_text">VLC til Android™ er en portering af VLC media player, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
     <string name="vlc_authors">VLC-forfattere.</string>
     <!-- Preferences -->
@@ -272,4 +273,8 @@
     <string name="network_empty">Denne mappe er tom.</string>
     <string name="network_connection_needed">Ingen forbindelse til lokalt netværk.</string>
     <string name="search_hint">Søg efter medier</string>
+    <string name="directory_show_medialib">Vis i MediaLib</string>
+    <string name="directory_hide_medialib">Skjul i MediaLib</string>
+    <string name="playlist_save">Gem spilleliste</string>
+    <string name="playlist_name_hint">spillelistenavn</string>
 </resources>
