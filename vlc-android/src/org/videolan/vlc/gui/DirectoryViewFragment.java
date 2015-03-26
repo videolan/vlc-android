@@ -60,7 +60,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 public class DirectoryViewFragment extends BrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
@@ -90,6 +89,12 @@ public class DirectoryViewFragment extends BrowserFragment implements IRefreshab
         filter.addDataScheme("file");
         getActivity().registerReceiver(messageReceiver, filter);
         focusHelper(mDirectoryAdapter.isEmpty());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 
     private void focusHelper(boolean idIsEmpty) {
