@@ -106,6 +106,8 @@
     <string name="sound_on">Äänet päälle</string>
     <string name="sound_off">Äänet pois</string>
     <string name="brightness">Kirkkaus</string>
+    <string name="navmenu">navigointivalikko</string>
+    <string name="advanced">edistyneet asetukset</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanava\n</item>
         <item quantity="other">%1$d kanavaa\n</item>
@@ -139,6 +141,7 @@
     <string name="video_player_tips">Videosoittimen vinkit:</string>
     <string name="seek">Hae kohta</string>
     <string name="subtitles">Tekstitykset</string>
+    <string name="audio_sub">Ääniraidat\nand tekstitykset</string>
     <string name="resize">Muuta kokoa</string>
     <string name="options">Asetukset</string>
     <string name="lock">Lukko</string>
@@ -171,6 +174,12 @@
     <string name="hardware_acceleration_disabled">Poistettu käytöstä</string>
     <string name="hardware_acceleration_decoding">Purkukiihdytys</string>
     <string name="hardware_acceleration_full">Täysi kiihdytys</string>
+    <string name="dev_hardware_decoder">Edistynyt rautadekooderi</string>
+    <string name="dev_hardware_decoder_summary">Pakota rautadekooderi, vain edistyneille käyttäjille</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automaattinen</string>
     <string name="screen_orientation">Videoikkunan suuntaus</string>
     <string name="screen_orientation_sensor">Automaattinen (sensor)</string>
@@ -193,6 +202,8 @@
     <string name="enable_brightness_gesture_summary">Hallitse kirkkautta eleellä videon toiston aikana</string>
     <string name="enable_jump_buttons">Ota käyttöön liikkumispainikkeet</string>
     <string name="enable_jump_buttons_summary">Näytä taakse- ja eteepäin-painikkeet videorajapinnassa</string>
+    <string name="force_list_portrait">Ei ruudutusta muotokuvatilassa</string>
+    <string name="force_list_portrait_summary">Näytä videot listassa ruudukon sijaan muotokuvatilassa</string>
     <string name="audio_title_alignment">Äänen otsikon tasaus</string>
     <string name="enable_headset_detection">Tunnista kuulokkeet</string>
     <string name="enable_headset_detection_summary">Tauota kuulokkeiden irroittamisen jälkeen; jatka kiinnittämisen jälkeen</string>
@@ -237,6 +248,8 @@
     <string name="start_logging">Aloita lokiin kirjaus</string>
     <string name="stop_logging">Pysäytä lokiin kirjaus</string>
     <string name="clear_log">Tyhjennä loki</string>
+    <string name="log_service_title">VLC:n lokiintallennus</string>
+    <string name="log_service_text">Avaa lokitiedosto konsolissa</string>
     <string name="copy_to_clipboard">Kopioi leikepöydälle</string>
     <string name="copied_to_clipboard">Loki kopioitu leikepöydälle.</string>
     <string name="quit">Lopeta ja käynnistä ohjelma uudelleen</string>
@@ -250,4 +263,13 @@
     <string name="sending_log">Lähetetään lokitiedostoa...</string>
     <string name="drawer_open">Avaa navigointilaatikko</string>
     <string name="drawer_close">Sulje navigointilaatikko</string>
+    <string name="network_browsing">Paikallinen verkko</string>
+    <string name="file_size">Tiedostokoko:</string>
+    <string name="file_other">Sulje navigointilaatikko</string>
+    <string name="audio_delay">Äänen viive</string>
+    <string name="spu_delay">Tekstityksen viive</string>
+    <string name="network_shares_discovery">Etsitään verkkojakoja...</string>
+    <string name="network_empty">Tämä hakemisto on tyhjä.</string>
+    <string name="network_connection_needed">Ei yhteyttä paikalliseen verkkoon.</string>
+    <string name="search_hint">Etsi mediaa</string>
 </resources>
