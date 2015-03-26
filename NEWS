@@ -7,7 +7,6 @@ Application:
  * Fix video ts opened as audio
  * Fix black theme
  * Fix player menu hidden with some MKV files
- * Thai, Russian and French translations updates
  * Keep player speed between videos
  * Refactor track selections and updates
  * Option to exlude Directories from Media Library
@@ -23,6 +22,12 @@ TV:
  * Better thumbnails
  * Better recommendations (last video 3 random ones)
  * Better gamepad events
+
+Translations:
+ * Thai, Russian, French, Traditional Chinese, Simplified Chinese, Ukrainian,
+   Turkish, Tamil, Swedish, Slovak, Portuguese, Polish, Dutch, Korean,
+   Japanese, Italian, French, Finnish, Spanish, Modern Greek, German and
+   Danish updates
 
 
 Changes between 1.1.5 and 1.1.6:
