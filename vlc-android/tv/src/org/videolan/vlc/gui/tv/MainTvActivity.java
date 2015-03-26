@@ -77,6 +77,8 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     public static final long HEADER_NETWORK = 2;
     public static final long HEADER_MISC = 3;
 
+    private static final int ACTIVITY_RESULT_PREFERENCES = 1;
+
     public static final String BROWSER_TYPE = "browser_type";
 
     public static final String TAG = "VLC/MainTvActivity";
@@ -183,6 +185,20 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
+            if (resultCode == PreferencesActivity.RESULT_RESCAN)
+                MediaLibrary.getInstance().loadMediaItems(this, true);
+            else if (resultCode == PreferencesActivity.RESULT_RESTART) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        }
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) && mSelectedItem instanceof MediaWrapper){
             MediaWrapper media = (MediaWrapper) mSelectedItem;
@@ -284,7 +300,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
         } else if (row.getId() == HEADER_VIDEO)
             TvUtil.openMedia(mContext, item, row);
         else if (row.getId() == HEADER_MISC)
-            startActivity(new Intent(mContext, PreferencesActivity.class));
+            startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
         else if (row.getId() == HEADER_NETWORK){
             TvUtil.openMedia(mContext, item, row);
         }
