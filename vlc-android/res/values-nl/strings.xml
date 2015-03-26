@@ -6,7 +6,11 @@
     <string name="other">Andere</string>
     <string name="sortby">Sorteren op…</string>
     <string name="sortby_name">Naam</string>
+    <string name="sortby_name_desc">Naam (beschr)</string>
     <string name="sortby_length">Lengte</string>
+    <string name="sortby_length_desc">Lengte (beschr)</string>
+    <string name="sortby_date">Datum</string>
+    <string name="sortby_date_desc">Datum (beschr)</string>
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">Laden…</string>
     <string name="please_wait">Even wachten…</string>
     <string name="nomedia">Geen mediabestanden gevonden. Zet een aantal mediabestanden op uw apparaat of pas uw voorkeuren aan.</string>
+    <string name="noplaylist">Geen afspeellijst gevonden.</string>
     <string name="mediafiles">Mediabestanden</string>
     <string name="notavailable">niet beschikbaar</string>
     <string name="nosubdirectory">Geen submappen.</string>
@@ -272,4 +277,8 @@
     <string name="network_empty">Deze map is leeg.</string>
     <string name="network_connection_needed">Geen verbinding met lokaal netwerk.</string>
     <string name="search_hint">Media zoeken</string>
+    <string name="directory_show_medialib">Weergeven in MediaLib</string>
+    <string name="directory_hide_medialib">Verbergen in MediaLib</string>
+    <string name="playlist_save">Afspeellijst opslaan</string>
+    <string name="playlist_name_hint">naam afspeellijst</string>
 </resources>
