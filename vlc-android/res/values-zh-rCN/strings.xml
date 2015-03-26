@@ -6,7 +6,11 @@
     <string name="other">其他</string>
     <string name="sortby">排序条件</string>
     <string name="sortby_name">名称</string>
+    <string name="sortby_name_desc">名称 (倒序)</string>
     <string name="sortby_length">长度</string>
+    <string name="sortby_length_desc">长度 (倒序)</string>
+    <string name="sortby_date">日期</string>
+    <string name="sortby_date_desc">日期 (倒序)</string>
     <string name="searchable_hint">搜索…</string>
     <string name="history">历史</string>
     <plurals name="search_found_results_quantity">
@@ -68,6 +72,7 @@
     <string name="loading">正在加载</string>
     <string name="please_wait">请稍候…</string>
     <string name="nomedia">未找到媒体文件。请传输一些文件到您的设备，或调整您的偏好设置。</string>
+    <string name="noplaylist">未找到播放列表。</string>
     <string name="mediafiles">媒体文件</string>
     <string name="notavailable">不可用</string>
     <string name="nosubdirectory">无子目录。</string>
@@ -265,4 +270,8 @@
     <string name="network_empty">该目录为空。</string>
     <string name="network_connection_needed">本地网络无连接。</string>
     <string name="search_hint">搜索媒体</string>
+    <string name="directory_show_medialib">在媒体库中显示</string>
+    <string name="directory_hide_medialib">从媒体库中隐藏</string>
+    <string name="playlist_save">保存播放列表</string>
+    <string name="playlist_name_hint">播放列表名称</string>
 </resources>
