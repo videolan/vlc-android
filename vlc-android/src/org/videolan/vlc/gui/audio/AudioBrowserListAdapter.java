@@ -122,15 +122,23 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
     }
 
     public void add(String title, String subTitle, MediaWrapper media) {
+        add(title, subTitle, media, null);
+    }
+
+    public void add(String title, String subTitle, MediaWrapper media, String key) {
         if(title == null) return;
         title = title.trim();
-        final String titleKey = title.toLowerCase(Locale.getDefault());
+        String mediaKey;
+        if (key == null)
+            mediaKey = title.toLowerCase(Locale.getDefault());
+        else
+            mediaKey = key.trim().toLowerCase(Locale.getDefault());
         if(subTitle != null) subTitle = subTitle.trim();
-        if (mMediaItemMap.containsKey(titleKey))
-            mMediaItemMap.get(titleKey).mMediaList.add(media);
+        if (mMediaItemMap.containsKey(mediaKey))
+            mMediaItemMap.get(mediaKey).mMediaList.add(media);
         else {
             ListItem item = new ListItem(title, subTitle, media, false);
-            mMediaItemMap.put(titleKey, item);
+            mMediaItemMap.put(mediaKey, item);
             mItems.add(item);
         }
     }
@@ -140,31 +148,36 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String title, subTitle;
+                String title, subTitle, key;
                 for (MediaWrapper media : list) {
                     switch (type){
                         case TYPE_ALBUMS:
                             title = Util.getMediaAlbum(mContext, media);
                             subTitle = Util.getMediaReferenceArtist(mContext, media);
+                            key = null;
                             break;
                         case TYPE_ARTISTS:
                             title = Util.getMediaReferenceArtist(mContext, media);
                             subTitle = null;
+                            key = null;
                             break;
                         case TYPE_GENRES:
                             title = Util.getMediaGenre(mContext, media);
                             subTitle = null;
+                            key = null;
                             break;
                         case TYPE_PLAYLISTS:
                             title = media.getTitle();
                             subTitle = null;
+                            key = null;
                             break;
                         case TYPE_SONGS:
                         default:
                             title = media.getTitle();
                             subTitle = Util.getMediaArtist(mContext, media);
+                            key = media.getLocation();
                     }
-                    add(title, subTitle, media);
+                    add(title, subTitle, media, key);
                 }
                 calculateSections(type);
             }
@@ -242,7 +255,7 @@ public class AudioBrowserListAdapter extends BaseAdapter implements SectionIndex
             mItems.add(album);
             Collections.sort(album.mMediaList, MediaComparators.byTrackNumber);
             for (MediaWrapper media : album.mMediaList)
-                add(media.getTitle(), null, media);
+                add(media.getTitle(), null, media, media.getLocation());
         }
     }
 
