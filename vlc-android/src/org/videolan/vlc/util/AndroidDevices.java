@@ -142,7 +142,7 @@ public class AndroidDevices {
     public static String[] getMediaDirectories() {
         ArrayList<String> list = new ArrayList<String>();
         list.addAll(getStorageDirectories());
-        list.addAll(CustomDirectories.getActiveCustomDirectories());
+        list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
         return list.toArray(new String[list.size()]);
     }
 

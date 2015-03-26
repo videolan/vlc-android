@@ -20,13 +20,9 @@
 
 package org.videolan.vlc.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
-import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.SharedPreferences;
@@ -83,17 +79,6 @@ public class CustomDirectories {
             return new String[0];
         else
             return custom_paths.split(":");
-    }
-
-    public static ArrayList<String> getActiveCustomDirectories() {
-        ArrayList<String> activePaths = new ArrayList<String>();
-        final ArrayList<String> customPaths = new ArrayList<String>(Arrays.asList(getCustomDirectories()));
-        List<File> dirs = MediaDatabase.getInstance().getMediaDirs();
-        for (File dir : dirs){
-            if (customPaths.contains(dir.getPath()))
-                activePaths.add(dir.getPath());
-        }
-        return activePaths;
     }
 
 }
