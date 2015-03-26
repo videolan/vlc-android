@@ -6,7 +6,11 @@
     <string name="other">பிற</string>
     <string name="sortby">வரிசைப்படுத்து…</string>
     <string name="sortby_name">பெயர்</string>
+    <string name="sortby_name_desc">பெயர் (இறங்கு)</string>
     <string name="sortby_length">நீளம்</string>
+    <string name="sortby_length_desc">நீளம் (இறங்கு)</string>
+    <string name="sortby_date">தேதி</string>
+    <string name="sortby_date_desc">தேதி (இறங்கு)</string>
     <string name="searchable_hint">தேடு…</string>
     <string name="history">வரலாறு</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">ஏற்றுகிறது</string>
     <string name="please_wait">காத்திருக்கவும்…</string>
     <string name="nomedia">ஊடகக் கோப்புகள் காணவில்லை, சாதனத்தில் சில கோப்புகளை ஏற்று (அ) முன்னுரிமைகளைச் சரிச்செய்யவும்.</string>
+    <string name="noplaylist">தொகுப்பு பட்டியல் எதுவும் இல்லை.</string>
     <string name="mediafiles">ஊடகக் கோப்புகள்</string>
     <string name="notavailable">இல்லை</string>
     <string name="nosubdirectory">கிளை அடைவுகள் இல்லை.</string>
@@ -272,4 +277,8 @@
     <string name="network_empty">இந்த அடைவு வெறுமையாக உள்ளது</string>
     <string name="network_connection_needed">சாதனம் உள்ளே பிணைய இணைப்பு இல்லை.</string>
     <string name="search_hint">ஊடகத்தை தேடு</string>
+    <string name="directory_show_medialib">ஊடக நூலகத்தில் காட்டு</string>
+    <string name="directory_hide_medialib">ஊடக நூலகத்தில் இருந்து மறை</string>
+    <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
+    <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
 </resources>
