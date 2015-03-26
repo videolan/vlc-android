@@ -6,7 +6,11 @@
     <string name="other">Otro</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nombre</string>
+    <string name="sortby_name_desc">Nombre (desc)</string>
     <string name="sortby_length">Longitud</string>
+    <string name="sortby_length_desc">Longitud (desc)</string>
+    <string name="sortby_date">Fecha</string>
+    <string name="sortby_date_desc">Fecha (desc)</string>
     <string name="searchable_hint">Buscar…</string>
     <string name="history">Historial</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">Cargando</string>
     <string name="please_wait">Espere…</string>
     <string name="nomedia">No se han encontrador archivos multimedia, transfiera algunos archivos a su dispositivo o ajuste sus preferencias.</string>
+    <string name="noplaylist">No se ha encontrado lista de reproducción.</string>
     <string name="mediafiles">Archivos multimedia</string>
     <string name="notavailable">no disponible</string>
     <string name="nosubdirectory">No hay subcarpetas.</string>
@@ -106,6 +111,8 @@
     <string name="sound_on">Sonido activado</string>
     <string name="sound_off">Sonido desactivado</string>
     <string name="brightness">Brillo</string>
+    <string name="navmenu">Menú de navegación</string>
+    <string name="advanced">Opciones avanzadas</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canales\n</item>
@@ -139,6 +146,7 @@
     <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtítulos</string>
+    <string name="audio_sub">Pistas de audio\ny subtítulos</string>
     <string name="resize">Cambiar tamaño</string>
     <string name="options">Opciones</string>
     <string name="lock">Bloquear</string>
@@ -171,6 +179,12 @@
     <string name="hardware_acceleration_disabled">Deshabilitado</string>
     <string name="hardware_acceleration_decoding">Aceleración de decodificación</string>
     <string name="hardware_acceleration_full">Aceleración completa</string>
+    <string name="dev_hardware_decoder">Decodificador por hardware avanzado</string>
+    <string name="dev_hardware_decoder_summary">Forzar decodificador por hardware, solo para usuarios avanzados</string>
+    <string name="dev_hardware_decoder_omx">iomx</string>
+    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
+    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
+    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automática</string>
     <string name="screen_orientation">Orientación de pantalla</string>
     <string name="screen_orientation_sensor">Automático (sensor)</string>
@@ -193,6 +207,8 @@
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_jump_buttons">Habilitar botones de salto</string>
     <string name="enable_jump_buttons_summary">Mostrar botones de retroceder y avanzar en la interfaz del vídeo</string>
+    <string name="force_list_portrait">Sin rejilla en modo retrato</string>
+    <string name="force_list_portrait_summary">Mostar vídeos en una lista en vez de rejilla en modo retrato</string>
     <string name="audio_title_alignment">Alineación del audio</string>
     <string name="enable_headset_detection">Detectar auriculares</string>
     <string name="enable_headset_detection_summary">Pausar al quitar los cascos, continuar al insertar los cascos</string>
@@ -237,6 +253,8 @@
     <string name="start_logging">Iniciar registro</string>
     <string name="stop_logging">Detener registro</string>
     <string name="clear_log">Limpiar registro</string>
+    <string name="log_service_title">Trazas de grabación de VLC</string>
+    <string name="log_service_text">Abrir la consola de trazas</string>
     <string name="copy_to_clipboard">Copiar al portapapeles</string>
     <string name="copied_to_clipboard">Registro copiado al portapapeles.</string>
     <string name="quit">Cerrar y reiniciar aplicación</string>
@@ -250,4 +268,17 @@
     <string name="sending_log">Enviando las trazas...</string>
     <string name="drawer_open">Abrir navegación «drawer»</string>
     <string name="drawer_close">Cerrar navegación «drawer»</string>
+    <string name="network_browsing">Red local</string>
+    <string name="file_size">Tamaño de archivo:</string>
+    <string name="file_other">Cerrar navegación «drawer»</string>
+    <string name="audio_delay">Retraso de audio</string>
+    <string name="spu_delay">Retraso de subtítulo</string>
+    <string name="network_shares_discovery">Buscando redes compartidas...</string>
+    <string name="network_empty">Esta capeta está vacía.</string>
+    <string name="network_connection_needed">Sin conexión a red local.</string>
+    <string name="search_hint">Buscar medios</string>
+    <string name="directory_show_medialib">Mostrar en MediaLib</string>
+    <string name="directory_hide_medialib">Ocultar de MediaLib</string>
+    <string name="playlist_save">Guardar lista de reproducción</string>
+    <string name="playlist_name_hint">Nombre de lista de reproducción</string>
 </resources>
