@@ -6,7 +6,11 @@
     <string name="other">Altro</string>
     <string name="sortby">Ordina per…</string>
     <string name="sortby_name">Nome</string>
+    <string name="sortby_name_desc">Nome (decresc)</string>
     <string name="sortby_length">Durata</string>
+    <string name="sortby_length_desc">Durata (decresc)</string>
+    <string name="sortby_date">Data</string>
+    <string name="sortby_date_desc">Data (decresc)</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">Caricamento</string>
     <string name="please_wait">Attendi…</string>
     <string name="nomedia">Nessun file multimediale trovato, trasferisci dei file sul tuo dispositivo o modifica le preferenze.</string>
+    <string name="noplaylist">Nessuna scaletta trovata.</string>
     <string name="mediafiles">File multimediali</string>
     <string name="notavailable">non disponibile</string>
     <string name="nosubdirectory">Nessuna sottocartella.</string>
@@ -272,4 +277,8 @@
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
     <string name="search_hint">Cerca media</string>
+    <string name="directory_show_medialib">Mostra nella raccolta multimediale</string>
+    <string name="directory_hide_medialib">Nascondi dalla raccolta multimediale</string>
+    <string name="playlist_save">Salva scaletta</string>
+    <string name="playlist_name_hint">nome della scaletta</string>
 </resources>
