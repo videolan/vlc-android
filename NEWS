@@ -3,20 +3,26 @@ Changes between 1.1.6 and 1.2.0:
 
 Application:
  * Show 'load last video' option on phones
- * (Lollipop only) Swipe music notification to remove it. When playback is on pause.
+ * (Lollipop only) Swipe music notification to remove it. When playback is paused.
  * Fix video ts opened as audio
  * Fix black theme
  * Fix player menu hidden with some MKV files
  * Thai, Russian and French translations updates
- * Misc bugfixes
  * Keep player speed between videos
  * Refactor track selections and updates
- * Option to exlude Directories from  Media Library
+ * Option to exlude Directories from Media Library
  * Playlists support for audio
  * In video player, lock the back button in lock mode
  * Fix crashes for Android 2.x
  * Allow to sort video by modified date
  * Improve volume and brightness gestures
+ * Support cover for video files
+ * Misc bugfixes
+
+TV:
+ * Better thumbnails
+ * Better recommendations (last video 3 random ones)
+ * Better gamepad events
 
 
 Changes between 1.1.5 and 1.1.6:
