@@ -6,7 +6,11 @@
     <string name="other">Інше</string>
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
+    <string name="sortby_name_desc">Назва (за спад.)</string>
     <string name="sortby_length">довжиною</string>
+    <string name="sortby_length_desc">Довжина (за спад.)</string>
+    <string name="sortby_date">Дата</string>
+    <string name="sortby_date_desc">Дата (за спад.)</string>
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
     <plurals name="search_found_results_quantity">
@@ -80,6 +84,7 @@
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
     <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
+    <string name="noplaylist">Не знайденого список відтворення.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Немає підкаталогів.</string>
@@ -279,4 +284,8 @@
     <string name="network_empty">Цей каталог - порожній.</string>
     <string name="network_connection_needed">Немає з\'єднання до локальної мережі</string>
     <string name="search_hint">Пошук медіа</string>
+    <string name="directory_show_medialib">Показати у медіабібліотеці</string>
+    <string name="directory_hide_medialib">Приховати у медіабібліотеці</string>
+    <string name="playlist_save">Зберегти список відтворення</string>
+    <string name="playlist_name_hint">назва списку відтворення</string>
 </resources>
