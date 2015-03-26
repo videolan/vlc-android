@@ -76,13 +76,15 @@ public class CardPresenter extends Presenter {
                 if (picture == null) {
                     mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
-                }
+                } else
+                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_XY);
             } else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
                 picture = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
                 if (picture == null){
                     mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
-                }
+                } else
+                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_XY);
             } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
