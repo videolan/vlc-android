@@ -31,6 +31,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.TextUtils;
 
 import org.videolan.vlc.MediaDatabase;
 import org.videolan.vlc.MediaLibrary;
@@ -70,7 +71,7 @@ public class RecommendationsService extends IntentService {
             MediaLibrary.getInstance().loadMediaItems();
         }
     }
-    private static void buildRecommendation(MediaWrapper movie) {
+    private static void buildRecommendation(MediaWrapper movie, int id) {
         if (movie == null)
             return;
 
@@ -102,7 +103,7 @@ public class RecommendationsService extends IntentService {
         ).build();
 
         // post the recommendation to the NotificationManager
-        sNotificationManager.notify(0, notification);
+        sNotificationManager.notify(id, notification);
         sNotificationManager = null;
     }
 
@@ -139,9 +140,9 @@ public class RecommendationsService extends IntentService {
 
     private static boolean doRecommendations() {
         String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(sContext).getString(PreferencesActivity.VIDEO_LAST, null));
+        int id = 0;
         if (last != null) {
-            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last));
-            return true;
+            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last), id);
         }
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
         if (videoList == null || videoList.isEmpty())
@@ -149,11 +150,14 @@ public class RecommendationsService extends IntentService {
         Bitmap pic;
         Collections.shuffle(videoList);
         for (MediaWrapper mediaWrapper : videoList){
+            if (TextUtils.equals(mediaWrapper.getLocation(), last))
+                continue;
             pic = sMediaDatabase.getPicture(sContext, mediaWrapper.getLocation());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
-                buildRecommendation(mediaWrapper);
-                return true;
+                buildRecommendation(mediaWrapper, ++id);
             }
+            if (id == 3)
+                return true;
         }
         return false;
     }
