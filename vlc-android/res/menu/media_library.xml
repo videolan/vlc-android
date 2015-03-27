@@ -32,7 +32,7 @@
         vlc:showAsAction="ifRoom" />
     <item
         android:title="@string/sortby"
-        android:icon="@drawable/ic_menu_sortby"
+        android:icon="@drawable/ic_sort_white_36dp"
         android:id="@+id/ml_menu_sortby"
         vlc:showAsAction="ifRoom">
         <menu>
