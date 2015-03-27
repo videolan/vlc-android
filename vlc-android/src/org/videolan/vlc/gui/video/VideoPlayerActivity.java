@@ -919,6 +919,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return true;
         case KeyEvent.KEYCODE_O:
         case KeyEvent.KEYCODE_BUTTON_Y:
+        case KeyEvent.KEYCODE_MENU:
             showAdvancedOptions(mAdvOptions);
             return true;
 //            case KeyEvent.KEYCODE_BUTTON_X:
@@ -930,7 +931,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             onAudioSubClick(mTracks);
             return true;
         case KeyEvent.KEYCODE_N:
-        case KeyEvent.KEYCODE_MENU:
             showNavMenu();
             return true;
         case KeyEvent.KEYCODE_A:
