@@ -264,6 +264,10 @@ public class MediaWrapper implements Parcelable {
         return mType;
     }
 
+    public void setType(int type){
+        mType = type;
+    }
+
     public int getWidth() {
         return mWidth;
     }

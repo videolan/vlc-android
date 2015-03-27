@@ -1061,6 +1061,7 @@ public class MediaDatabase {
         while (cursor.moveToNext()) {
             mw = new MediaWrapper(Uri.decode(cursor.getString(0)));
             mw.setTitle(Uri.decode(cursor.getString(1)));
+            mw.setType(MediaWrapper.TYPE_DIR);
             favs.add(mw);
         }
         cursor.close();
