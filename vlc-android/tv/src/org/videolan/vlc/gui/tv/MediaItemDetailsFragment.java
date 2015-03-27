@@ -79,12 +79,20 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
     private void buildDetails() {
         Bundle extras = getActivity().getIntent().getExtras();
         mMedia = extras.getParcelable("item");
+        boolean hasMedia = extras.containsKey("media");
         ClassPresenterSelector selector = new ClassPresenterSelector();
-        final MediaWrapper media = new MediaWrapper(mMedia.getLocation());
-        media.setTitle(mMedia.getTitle());
+        final MediaWrapper media = hasMedia ? (MediaWrapper) extras.getParcelable("media") : new MediaWrapper(mMedia.getLocation());
+        if (!hasMedia){
+            media.setTitle(mMedia.getTitle());
+        }
         // Attach your media item details presenter to the row presenter:
         DetailsOverviewRowPresenter rowPresenter =
                 new DetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
+
+        Resources res = getActivity().getResources();
+        final DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
+        final Action actionAdd = new Action(ID_FAVORITE_ADD, getString(R.string.favorites_add));
+        final Action actionDelete = new Action(ID_FAVORITE_DELETE, getString(R.string.favorites_remove));
 
         rowPresenter.setBackgroundColor(getResources().getColor(R.color.orange500));
         rowPresenter.setOnActionClickedListener(new OnActionClickedListener() {
@@ -104,11 +112,17 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
                         break;
                     case ID_FAVORITE_ADD:
                         mDb.addNetworkFavItem(mMedia.getLocation(), mMedia.getTitle());
-                        Toast.makeText(getActivity(), "Saved to favorites", Toast.LENGTH_SHORT).show();
+                        detailsOverview.removeAction(actionAdd);
+                        detailsOverview.addAction(actionDelete);
+                        mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
+                        Toast.makeText(getActivity(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
-                            mDb.deleteNetworkFav(mMedia.getLocation());
-                        Toast.makeText(getActivity(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        mDb.deleteNetworkFav(mMedia.getLocation());
+                        detailsOverview.removeAction(actionDelete);
+                        detailsOverview.addAction(actionAdd);
+                        mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
+                        Toast.makeText(getActivity(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_BROWSE:
                         TvUtil.openMedia(getActivity(), media, null);
@@ -120,18 +134,15 @@ public class MediaItemDetailsFragment extends DetailsFragment implements AudioSe
                 new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(selector);
 
-        Resources res = getActivity().getResources();
-        DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
-
         if (media.getType() == MediaWrapper.TYPE_DIR) {
             mDb = MediaDatabase.getInstance();
             detailsOverview.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_network_big));
             detailsOverview.setImageScaleUpAllowed(true);
             detailsOverview.addAction(new Action(ID_BROWSE, "Browse folder"));
             if (mDb.networkFavExists(mMedia.getLocation()))
-                detailsOverview.addAction(new Action(ID_FAVORITE_DELETE, "Remove from favorites"));
+                detailsOverview.addAction(actionDelete);
             else
-                detailsOverview.addAction(new Action(ID_FAVORITE_ADD, "Add to favorites"));
+                detailsOverview.addAction(actionAdd);
 
         } else {
             // Add images and action buttons to the details view

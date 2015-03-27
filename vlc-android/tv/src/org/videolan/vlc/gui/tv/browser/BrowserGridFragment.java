@@ -30,7 +30,6 @@ import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.vlc.MediaWrapper;
@@ -82,7 +81,10 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     }
     @Override
     public void onMediaAdded(int index, Media media) {
-        mMediaList.add(new MediaWrapper(media));
+        MediaWrapper mw = new MediaWrapper(media);
+        int type = mw.getType();
+        if (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_DIR)
+            mMediaList.add(mw);
 
         if (mMrl == null) { // we are at root level
             mAdapter.clear();
@@ -125,6 +127,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
             Intent intent = new Intent(getActivity(),
                     DetailsActivity.class);
             // pass the item information
+            intent.putExtra("media", mItemSelected);
             intent.putExtra("item", (Parcelable) new MediaItemDetails(mItemSelected.getTitle(), mItemSelected.getArtist(), mItemSelected.getAlbum(), mItemSelected.getLocation()));
             startActivity(intent);
         }

@@ -207,6 +207,7 @@ public class MainTvActivity extends Activity implements IVideoBrowser, OnItemVie
             Intent intent = new Intent(this,
                     DetailsActivity.class);
             // pass the item information
+            intent.putExtra("media", (MediaWrapper) mSelectedItem);
             intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation()));
             startActivity(intent);
             return true;
