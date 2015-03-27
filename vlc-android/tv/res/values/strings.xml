@@ -2,4 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="search_results">Search results</string>
+    <string name="favorites_add">Add to favorites</string>
+    <string name="favorites_remove">Remove from favorites</string>
+    <string name="favorite_added">Saved to favorites</string>
+    <string name="favorite_removed">Removed from favorites</string>
 </resources>
