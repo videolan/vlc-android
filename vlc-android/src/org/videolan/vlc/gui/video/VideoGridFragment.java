@@ -561,7 +561,6 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
                     mViewNomedia.setVisibility(mVideoAdapter.getCount()>0 ? View.GONE : View.VISIBLE);
                     mReady = true;
                     mVideoAdapter.sort();
-                    mVideoAdapter.notifyDataSetChanged();
                     mGVFirstVisiblePos = mGridView.getFirstVisiblePosition();
                     mGridView.setSelection(mGVFirstVisiblePos);
                     mGridView.requestFocus();
