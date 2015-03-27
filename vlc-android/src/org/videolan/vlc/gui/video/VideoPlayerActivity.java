@@ -95,7 +95,6 @@ import android.widget.Toast;
 import org.videolan.libvlc.EventHandler;
 import org.videolan.libvlc.IVideoPlayer;
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.LibVlcException;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.libvlc.Media;
 import org.videolan.vlc.MediaDatabase;
@@ -922,9 +921,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         case KeyEvent.KEYCODE_MENU:
             showAdvancedOptions(mAdvOptions);
             return true;
-//            case KeyEvent.KEYCODE_BUTTON_X:
-//            selectAudioTrack();
-//            return true;
         case KeyEvent.KEYCODE_V:
         case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
         case KeyEvent.KEYCODE_BUTTON_X:
@@ -1530,7 +1526,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
-    private void switchToAudioMode() {
+    public void switchToAudioMode() {
         if (mHardwareAccelerationError)
             return;
         mSwitchingView = true;

@@ -39,7 +39,6 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -67,6 +66,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public static final int TOGGLE_CANCEL = 2;
     public static final int DIALOG_LISTENER = 3;
     public static final int RESET_RETRY = 4;
+
+    private TextView mAudioMode;
 
     private TextView mSpeedTv;
     private SeekBar mSeek;
@@ -106,6 +107,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_advanced_options, container, false);
+
+        mAudioMode = (TextView) root.findViewById(R.id.playback_switch_audio);
+        mAudioMode.setOnClickListener(this);
+        mAudioMode.setOnFocusChangeListener(mFocusListener);
 
         mSeek = (SeekBar) root.findViewById(R.id.playback_speed_seek);
         mSpeedTv = (TextView) root.findViewById(R.id.playback_speed_value);
@@ -310,6 +315,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case R.id.sleep_timer_cancel:
                 setSleep(v.getContext(), null);
                 mHandler.sendEmptyMessage(TOGGLE_CANCEL);
+                break;
+            case R.id.playback_switch_audio:
+                ((VideoPlayerActivity)getActivity()).switchToAudioMode();
                 break;
         }
     }

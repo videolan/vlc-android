@@ -9,6 +9,18 @@
 
     <!-- Playback speed -->
 
+    <TextView
+        android:id="@+id/playback_switch_audio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:nextFocusDown="@+id/playback_speed_reset"
+        android:gravity="left"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/play_as_audio"/>
+
     <LinearLayout
         android:id="@+id/playback_speed"
         android:layout_width="match_parent"
@@ -72,6 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:focusable="true"
+                    android:nextFocusUp="@+id/playback_speed_reset"
                     android:indeterminate="false"
                     android:max="200"
                     android:maxHeight="@dimen/seekbar_height"
