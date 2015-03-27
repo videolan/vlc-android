@@ -1,6 +1,16 @@
 Changes between 1.2.0 and 1.2.1:
 --------------------------------
 
+Application:
+ * Allow to switch to audio mode, when playing a video
+ * Change the sort icon to match Material design
+ * Fix crash
+
+TV:
+ * Better navigation with buttons and gamepad
+ * Fix network favorites
+
+
 Changes between 1.1.6 and 1.2.0:
 --------------------------------
 
