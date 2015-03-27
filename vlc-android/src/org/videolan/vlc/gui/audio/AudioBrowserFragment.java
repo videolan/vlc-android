@@ -591,7 +591,7 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
             mEmptyView.setVisibility(mPlaylistAdapter.isEmpty() ? View.VISIBLE : View.GONE);
             mEmptyView.setText(R.string.noplaylist);
         } else {
-            mEmptyView.setVisibility(mAudioList.isEmpty() ? View.VISIBLE : View.GONE);
+            mEmptyView.setVisibility(mAudioList == null || mAudioList.isEmpty() ? View.VISIBLE : View.GONE);
             mEmptyView.setText(R.string.nomedia);
         }
     }
