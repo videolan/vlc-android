@@ -206,6 +206,7 @@
                 <data android:pathPattern=".*\\.mp2v" />
                 <data android:pathPattern=".*\\.mp4" />
                 <data android:pathPattern=".*\\.mp4v" />
+                <data android:pathPattern=".*\\.m4v" />
                 <data android:pathPattern=".*\\.mpe" />
                 <data android:pathPattern=".*\\.mpeg" />
                 <data android:pathPattern=".*\\.mpeg1" />
@@ -265,6 +266,7 @@
                 <data android:pathPattern=".*\\.MP2V" />
                 <data android:pathPattern=".*\\.MP4" />
                 <data android:pathPattern=".*\\.MP4V" />
+                <data android:pathPattern=".*\\.M4V" />
                 <data android:pathPattern=".*\\.MPE" />
                 <data android:pathPattern=".*\\.MPEG" />
                 <data android:pathPattern=".*\\.MPEG1" />
