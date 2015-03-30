@@ -1,6 +1,17 @@
 Changes between 1.2.0 and 1.2.1:
 --------------------------------
 
+Core:
+ * Fix an audio/video sync regression
+
+Application:
+ * Add an intent to load sub files
+ * Seek by position instead of time, by default
+
+
+Changes between 1.2.0 and 1.2.1:
+--------------------------------
+
 Application:
  * Allow to switch to audio mode, when playing a video
  * Change the sort icon to match Material design
