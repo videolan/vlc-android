@@ -139,6 +139,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     // external intent.
     public final static String PLAY_FROM_VIDEOGRID = "org.videolan.vlc.gui.video.PLAY_FROM_VIDEOGRID";
 
+    public final static String PLAY_EXTRA_ITEM_LOCATION = "item_location";
+    public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
+    public final static String PLAY_EXTRA_ITEM_TITLE = "item_title";
+    public final static String PLAY_EXTRA_FROM_START = "from_start";
+
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -790,9 +795,9 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     public static void start(Context context, String location, String title, boolean fromStart, boolean newTask) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
-        intent.putExtra("itemLocation", location);
-        intent.putExtra("itemTitle", title);
-        intent.putExtra("fromStart", fromStart);
+        intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, location);
+        intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
+        intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
 
         if (newTask)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -2108,7 +2113,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             return;
         mForcedTime = position;
         mLastTime = mLibVLC.getTime();
-        mLibVLC.setPosition(position/length);
+        mLibVLC.setPosition(position / length);
     }
 
     private void seekDelta(int delta) {
@@ -2583,9 +2588,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         else if(getIntent().getAction() != null
                 && getIntent().getAction().equals(PLAY_FROM_VIDEOGRID)
                 && getIntent().getExtras() != null) {
-            mLocation = getIntent().getExtras().getString("itemLocation");
-            itemTitle = getIntent().getExtras().getString("itemTitle");
-            fromStart = getIntent().getExtras().getBoolean("fromStart");
+            mLocation = getIntent().getExtras().getString(PLAY_EXTRA_ITEM_LOCATION);
+            itemTitle = getIntent().getExtras().getString(PLAY_EXTRA_ITEM_TITLE);
+            fromStart = getIntent().getExtras().getBoolean(PLAY_EXTRA_FROM_START);
+            if (getIntent().hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
+                mSubtitleSelectedFiles.add(getIntent().getExtras().getString(PLAY_EXTRA_SUBTITLES_LOCATION));
         }
 
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
@@ -2628,7 +2635,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     seek(media.getTime(), media.getLength());
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
-                getIntent().putExtra("fromStart", false);
+                getIntent().putExtra(PLAY_EXTRA_FROM_START, false);
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
