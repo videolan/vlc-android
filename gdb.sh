@@ -34,7 +34,8 @@ rm -rf "$TMP_PATH"
 mkdir -p "$TMP_PATH"/jni
 
 cp -r "$SCRIPT_PATH"/libvlc/jni/libs "$TMP_PATH"
-cp -r "$SCRIPT_PATH"/libvlc/jni/obj "$TMP_PATH"/jni
+cp -r "$SCRIPT_PATH"/libvlc/jni/obj "$TMP_PATH"
+ln -s "$TMP_PATH"/obj "$TMP_PATH"/jni
 
 cp "$SCRIPT_PATH"/libvlc/jni/Android.mk "$TMP_PATH"/jni
 echo "APP_ABI := all" > "$TMP_PATH"/jni/Application.mk
