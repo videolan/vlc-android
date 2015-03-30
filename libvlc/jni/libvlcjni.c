@@ -759,12 +759,49 @@ void Java_org_videolan_libvlc_LibVLC_setTitle(JNIEnv *env, jobject thiz, jint ti
         libvlc_media_player_set_title(mp, title);
 }
 
+jint Java_org_videolan_libvlc_LibVLC_getChapterCount(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_media_player_get_chapter_count(mp);
+    return -1;
+}
+
 jint Java_org_videolan_libvlc_LibVLC_getChapterCountForTitle(JNIEnv *env, jobject thiz, jint title)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
     if (mp)
         return libvlc_media_player_get_chapter_count_for_title(mp, title);
     return -1;
+}
+
+jint Java_org_videolan_libvlc_LibVLC_getChapter(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_media_player_get_chapter(mp);
+    return -1;
+}
+
+void Java_org_videolan_libvlc_LibVLC_setChapter(JNIEnv *env, jobject thiz, jint chapter)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        libvlc_media_player_set_chapter(mp, chapter);
+}
+
+void Java_org_videolan_libvlc_LibVLC_previousChapter(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        libvlc_media_player_previous_chapter(mp);
+}
+
+void Java_org_videolan_libvlc_LibVLC_nextChapter(JNIEnv *env, jobject thiz)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        libvlc_media_player_next_chapter(mp);
 }
 
 jint Java_org_videolan_libvlc_LibVLC_getTitleCount(JNIEnv *env, jobject thiz)

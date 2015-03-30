@@ -695,6 +695,11 @@ public class LibVLC {
     public native int getTitle();
     public native void setTitle(int title);
     public native int getChapterCountForTitle(int title);
+    public native int getChapterCount();
+    public native int getChapter();
+    public native int previousChapter();
+    public native int nextChapter();
+    public native void setChapter(int chapter);
     public native int getTitleCount();
     public native void playerNavigate(int navigate);
 
