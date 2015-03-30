@@ -1797,7 +1797,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         //Jump !
         if (seek && length > 0)
-            seek(time + jump);
+            seek(time + jump, length);
 
         if (length > 0)
             //Show the jump's size
@@ -2100,9 +2100,15 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void seek(long position) {
+        seek(position, mLibVLC.getLength());
+    }
+
+    private void seek(long position, float length) {
+        if (length == 0f)
+            return;
         mForcedTime = position;
         mLastTime = mLibVLC.getTime();
-        mLibVLC.setTime(position);
+        mLibVLC.setPosition(position/length);
     }
 
     private void seekDelta(int delta) {
@@ -2619,7 +2625,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(media != null) {
                 // in media library
                 if(media.getTime() > 0 && !fromStart)
-                    seek(media.getTime());
+                    seek(media.getTime(), media.getLength());
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 getIntent().putExtra("fromStart", false);
@@ -2633,10 +2639,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 Util.commitPreferences(editor);
                 if(rTime > 0)
-                    seek(rTime);
+                    seek(rTime, media.getLength());
 
                 if(intentPosition > 0)
-                    seek(intentPosition);
+                    seek(intentPosition, media.getLength());
             }
 
             // Get possible subtitles
