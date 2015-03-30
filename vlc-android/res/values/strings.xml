@@ -328,6 +328,7 @@
     <string name="directory_hide_medialib">Hide from MediaLib</string>
     <string name="playlist_save">Save Playlist</string>
     <string name="playlist_name_hint">playlist name</string>
+    <string name="go_to_chapter">Go to chapter&#8230;</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
