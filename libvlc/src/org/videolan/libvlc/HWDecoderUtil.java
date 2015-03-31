@@ -32,6 +32,9 @@ public class HWDecoderUtil {
         UNKNOWN, NONE, OMX, MEDIACODEC, ALL
     }
 
+    public enum AudioOutput {
+        OPENSLES, AUDIOTRACK, ALL
+    }
 
     private static class DecoderBySOC {
         public final String key;
@@ -41,6 +44,18 @@ public class HWDecoderUtil {
             this.key = key;
             this.value = value;
             this.dec = dec;
+        }
+    }
+
+    private static class AudioOutputBySOC {
+        public final String key;
+        public final String value;
+        public final AudioOutput aout;
+
+        public AudioOutputBySOC(String key, String value, AudioOutput aout) {
+            this.key = key;
+            this.value = value;
+            this.aout = aout;
         }
     }
 
@@ -81,6 +96,9 @@ public class HWDecoderUtil {
         new DecoderBySOC("ro.hardware", "mt83", Decoder.ALL), //MTK
     };
 
+    private static final AudioOutputBySOC[] sAudioOutputBySOCList = new AudioOutputBySOC[] {
+    };
+
     private static final HashMap<String, String> sSystemPropertyMap = new HashMap<String, String>();
 
     /**
@@ -97,11 +115,7 @@ public class HWDecoderUtil {
             return Decoder.ALL;
         else if (LibVlcUtil.isHoneycombOrLater()) {
             for (DecoderBySOC decBySOC : sDecoderBySOCList) {
-                String prop = sSystemPropertyMap.get(decBySOC.key);
-                if (prop == null) {
-                    prop = getSystemProperty(decBySOC.key, "none");
-                    sSystemPropertyMap.put(decBySOC.key, prop);
-                }
+                final String prop = getSystemPropertyCached(decBySOC.key);
                 if (prop != null) {
                     if (prop.contains(decBySOC.value))
                         return decBySOC.dec;
@@ -109,6 +123,34 @@ public class HWDecoderUtil {
             }
         }
         return Decoder.UNKNOWN;
+    }
+
+    /**
+     * @return the audio output known to work for the running device
+     * (By default, returns ALL, i.e AudioTrack + OpenSles)
+     */
+    public static AudioOutput getAudioOutputFromDevice() {
+        if (!LibVlcUtil.isGingerbreadOrLater()) {
+            return AudioOutput.AUDIOTRACK;
+        } else {
+            for (AudioOutputBySOC aoutBySOC : sAudioOutputBySOCList) {
+                final String prop = getSystemPropertyCached(aoutBySOC.key);
+                if (prop != null) {
+                    if (prop.contains(aoutBySOC.value))
+                        return aoutBySOC.aout;
+                }
+            }
+            return AudioOutput.ALL;
+        }
+    }
+
+    private static String getSystemPropertyCached(String key) {
+        String prop = sSystemPropertyMap.get(key);
+        if (prop == null) {
+            prop = getSystemProperty(key, "none");
+            sSystemPropertyMap.put(key, prop);
+        }
+        return prop;
     }
 
     private static String getSystemProperty(String key, String def) {
