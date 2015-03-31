@@ -44,7 +44,7 @@
     <string name="album">Album</string>
     <string name="directory">Akaram</string>
     <string name="directories">Ikaramen</string>
-    <string name="loading">Zdem</string>
+    <string name="loading">Azdam</string>
     <string name="please_wait">Ttxil-k/m arǧu</string>
     <string name="nomedia">Ulac ifuyla n midya, siweḍ kra n yifuyla  ɣer wallal-inek/inem ne neɣ beddel i ɣewwaren.</string>
     <string name="mediafiles">Ifuyla n midya</string>
@@ -72,8 +72,10 @@
     <string name="track_video">Tafuɣalt n vidyu</string>
     <string name="track_text">Subtitles track</string>
     <string name="track_unknown">Tafuɣalt ur nettwassen ara</string>
+    <string name="track_language_info">Tutlayt: %1$s\n</string>
     <string name="volume">Ableɣ</string>
     <string name="brightness">Tafat</string>
+    <string name="navmenu">Ummuɣ n yinig</string>
     <string name="tools">Ifecka</string>
     <string name="playback_speed">Arured n tɣuri</string>
     <string name="sleep_title">Aqaraɛ </string>
