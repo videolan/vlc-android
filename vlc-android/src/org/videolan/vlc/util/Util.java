@@ -310,8 +310,9 @@ public class Util {
     public static boolean canWrite(String path){
         if (path == null)
             return false;
-        if (LibVlcUtil.isLolliPopOrLater() &&
-                !path.startsWith("file://" + Environment.getExternalStorageDirectory().getPath()))
+        if (path.startsWith(Environment.getExternalStorageDirectory().getPath()))
+            return true;
+        if (LibVlcUtil.isLolliPopOrLater())
             return false;
         File file = new File(path);
         return (file.exists() && file.canWrite());

@@ -371,7 +371,8 @@ public class DirectoryAdapter extends BaseAdapter {
         else
             holder.icon.setImageResource(R.drawable.ic_menu_folder);
 
-        holder.more.setVisibility(Util.canWrite(mCurrentDir+"/"+selectedNode.name) ? View.VISIBLE : View.INVISIBLE);
+        holder.more.setVisibility(selectedNode.isFile() ||
+                Util.canWrite(mCurrentDir+"/"+selectedNode.name) ? View.VISIBLE : View.INVISIBLE);
         holder.more.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
