@@ -183,8 +183,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             return;
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
-        for (int i = 0 ; i < chaptersCount ; ++i)
-            adapter.insert(mLibVLC.getChapterDescription(i), i);
+        String chapterDescription;
+        for (int i = 0 ; i < chaptersCount ; ++i) {
+            chapterDescription = mLibVLC.getChapterDescription(i);
+            adapter.insert(chapterDescription != null ? chapterDescription : Integer.toString(i), i);
+        }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mChapters.setAdapter(adapter);
         mChapters.setSelection(mLibVLC.getChapter());
