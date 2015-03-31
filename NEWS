@@ -1,4 +1,13 @@
-Changes between 1.2.0 and 1.2.1:
+Changes between 1.2.2 and 1.2.3:
+--------------------------------
+
+Application:
+ * Fix material alignment
+ * Support chapter selection
+ * Fix directory context menu
+
+
+Changes between 1.2.1 and 1.2.2:
 --------------------------------
 
 Core:
