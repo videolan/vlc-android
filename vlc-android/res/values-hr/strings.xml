@@ -5,8 +5,12 @@
     <string name="cancel">Odustani</string>
     <string name="other">Ostalo</string>
     <string name="sortby">Razvrstaj prema…</string>
-    <string name="sortby_name">nazivu</string>
-    <string name="sortby_length">trajanju</string>
+    <string name="sortby_name">Nazivu</string>
+    <string name="sortby_name_desc">Nazivu (odostraga)</string>
+    <string name="sortby_length">Trajanju</string>
+    <string name="sortby_length_desc">Trajanju (od najkraćeg)</string>
+    <string name="sortby_date">Datumu</string>
+    <string name="sortby_date_desc">Datumu (najstarijem)</string>
     <string name="searchable_hint">Pretraži…</string>
     <string name="history">Povijest</string>
     <plurals name="search_found_results_quantity">
@@ -80,6 +84,7 @@
     <string name="loading">Učitavanje</string>
     <string name="please_wait">Molim pričekajte…</string>
     <string name="nomedia">Medijske datoteke nisu pronađene. Prenesite nekoliko datoteka na vaš uređaj ili prilagodite vaše osobitosti.</string>
+    <string name="noplaylist">Nema pronađenih popis izvođenja.</string>
     <string name="mediafiles">Medijske datoteke</string>
     <string name="notavailable">nisu dostupne</string>
     <string name="nosubdirectory">Nema poddirektorija.</string>
@@ -279,4 +284,8 @@
     <string name="network_empty">Direktorij je prazan.</string>
     <string name="network_connection_needed">Nema povezivanjiva s lokalnom mrežom.</string>
     <string name="search_hint">Pretraži medij</string>
+    <string name="directory_show_medialib">Prikaži u medijskoj zbirci</string>
+    <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
+    <string name="playlist_save">Spremi popis izvođenja</string>
+    <string name="playlist_name_hint">naziv popisa izvođenja</string>
 </resources>
