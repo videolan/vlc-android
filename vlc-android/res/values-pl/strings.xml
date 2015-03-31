@@ -9,6 +9,8 @@
     <string name="sortby_name_desc">Nazwa (malejąco)</string>
     <string name="sortby_length">Długości</string>
     <string name="sortby_length_desc">Długość (malejąco)</string>
+    <string name="sortby_date">Daty</string>
+    <string name="sortby_date_desc">Data (malejąco)</string>
     <string name="searchable_hint">Szukaj…</string>
     <string name="history">Historia</string>
     <plurals name="search_found_results_quantity">
