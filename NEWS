@@ -5,6 +5,10 @@ Application:
  * Fix material alignment
  * Support chapter selection
  * Fix directory context menu
+ * Fix crash when seeking
+
+Translations:
+ * Update of Danish, Croatian, Kabyle, Polish, Slovenian, Swedish and Turkish
 
 
 Changes between 1.2.1 and 1.2.2:
