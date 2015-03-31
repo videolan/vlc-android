@@ -7,6 +7,7 @@
     <string name="sortby">Razvrsti po ...</string>
     <string name="sortby_name">Ime</string>
     <string name="sortby_length">Dolžina</string>
+    <string name="sortby_date">Datum</string>
     <string name="searchable_hint">Poišči ...</string>
     <string name="history">Zgodovina</string>
     <plurals name="search_found_results_quantity">
@@ -32,6 +33,7 @@
     <string name="ringtone_error">Pri nastavljanju zvonjenja je prišlo do napake.</string>
     <string name="pause">Prekini</string>
     <string name="not_show_again">Tega sporočila ne pokaži več.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Neznan izvajalec</string>
     <string name="unknown_album">Neznan album</string>
     <string name="unknown_genre">Neznana zvrst</string>
@@ -110,8 +112,19 @@
     <string name="track_video">Video posnetek</string>
     <string name="track_text">Podnapisi</string>
     <string name="track_unknown">Neznan posnetek</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Jezik: %1$s\n</string>
     <string name="volume">Glasnost</string>
     <string name="brightness">Svetlost</string>
+    <string name="navmenu">meni krmarjenja</string>
+    <string name="advanced">napredne možnosti</string>
+    <plurals name="track_channels_info_quantity">
+        <item quantity="one">1 kanal\n</item>
+        <item quantity="two">%1$d kanala\n</item>
+        <item quantity="few">%1$d kanali\n</item>
+        <item quantity="other">%1$d kanalov\n</item>
+    </plurals>
+    <string name="track_samplerate_info">Frekv. vzorčenja: %1$d Hz\n</string>
     <string name="tools">Orodja</string>
     <string name="playback_speed">Hitrost predvajanja</string>
     <string name="sleep_title">Časovnik mirovanja</string>
@@ -144,6 +157,7 @@
     <string name="rearrange_order">Prerazvrsti</string>
     <string name="audio_player_tips">Namigi za zvočni predvajalnik</string>
     <string name="previous_next_song">Prejšnja/naslednja pesem</string>
+    <string name="show_playlist">Pokaži seznam predvajanja</string>
     <!-- About -->
     <string name="app_name_full">VLC za Android™</string>
     <string name="licence">Dovoljenje</string>
@@ -186,6 +200,9 @@
     <string name="enable_headset_detection_summary">Prekini ob odklopu slušalk; Nadaljuj ob priklopu slušalk</string>
     <string name="enable_steal_remote_control">Ekskluziven daljinski nadzor slušalk</string>
     <string name="enable_steal_remote_control_summary">Izognite se konfliktom z odvzemom daljinskega nadzora drugim napravam. To prepreči klicanje z dvoklikom na HTC telefonih.</string>
+    <string name="audio_title_alignment_default">Privzeto</string>
+    <string name="audio_title_alignment_left">Levo</string>
+    <string name="audio_title_alignment_right">Desno</string>
     <string name="performance_prefs_category">Zmogljivost</string>
     <string name="chroma_format">Vsili kromo videa</string>
     <string name="deblocking">Nastavitve filtra za odstranjevanje kock</string>
@@ -223,4 +240,9 @@
     <string name="copied_to_clipboard">Zapisnik kopiran na odložišče.</string>
     <string name="quit">Izhod in ponovni zagon programa</string>
     <string name="restart_vlc">Ponovno zaženi VLC</string>
+    <string name="network_browsing">Krajevno omrežje</string>
+    <string name="file_size">Velikost datoteke:</string>
+    <string name="audio_delay">Zvokovni zamik</string>
+    <string name="spu_delay">Zamik podnapisov</string>
+    <string name="playlist_save">Shrani seznam predvajanja</string>
 </resources>
