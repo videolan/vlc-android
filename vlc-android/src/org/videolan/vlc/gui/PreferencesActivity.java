@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui;
 
+import org.videolan.libvlc.HWDecoderUtil;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.MediaDatabase;
@@ -219,7 +220,12 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
         // Audio output
         ListPreference aoutPref = (ListPreference) findPreference("aout");
-        if (LibVlcUtil.isGingerbreadOrLater()) {
+        final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
+        if (aout == HWDecoderUtil.AudioOutput.AUDIOTRACK || aout == HWDecoderUtil.AudioOutput.OPENSLES) {
+            /* no AudioOutput choice */
+            PreferenceGroup group = (PreferenceGroup) findPreference("advanced_prefs_group");
+            group.removePreference(aoutPref);
+        } else {
             int aoutEntriesId = R.array.aouts;
             int aoutEntriesIdValues = R.array.aouts_values;
             aoutPref.setEntries(aoutEntriesId);
@@ -233,10 +239,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
                 if (intValue != LibVLC.AOUT_AUDIOTRACK && intValue != LibVLC.AOUT_OPENSLES)
                     aoutPref.setValue(String.valueOf(LibVLC.AOUT_AUDIOTRACK));
             }
-        } else {
-            /* only audiotrack before gingerbread */
-            PreferenceGroup group = (PreferenceGroup) findPreference("advanced_prefs_group");
-            group.removePreference(aoutPref);
         }
         // Video output
 //        FIXME : This setting is disable until OpenGL it's fixed

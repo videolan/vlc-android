@@ -318,10 +318,11 @@ public class LibVLC {
     }
 
     public void setAout(int aout) {
-        if (aout == AOUT_OPENSLES && LibVlcUtil.isICSOrLater())
-            this.aout = AOUT_OPENSLES;
-        else
-            this.aout = AOUT_AUDIOTRACK;
+        final HWDecoderUtil.AudioOutput hwaout = HWDecoderUtil.getAudioOutputFromDevice();
+        if (hwaout == HWDecoderUtil.AudioOutput.AUDIOTRACK || hwaout == HWDecoderUtil.AudioOutput.OPENSLES)
+            aout = hwaout == HWDecoderUtil.AudioOutput.OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
+
+        this.aout = aout == AOUT_OPENSLES ? AOUT_OPENSLES : AOUT_AUDIOTRACK;
     }
 
     public int getVout() {
