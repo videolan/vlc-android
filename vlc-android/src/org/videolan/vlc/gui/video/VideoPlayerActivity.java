@@ -2109,11 +2109,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void seek(long position, float length) {
-        if (length == 0f)
-            return;
         mForcedTime = position;
         mLastTime = mLibVLC.getTime();
-        mLibVLC.setPosition(position / length);
+        if (length == 0f)
+            mLibVLC.setTime(position);
+        else
+            mLibVLC.setPosition(position / length);
     }
 
     private void seekDelta(int delta) {
@@ -2646,10 +2647,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
                 Util.commitPreferences(editor);
                 if(rTime > 0)
-                    seek(rTime, media.getLength());
+                    seek(rTime);
 
                 if(intentPosition > 0)
-                    seek(intentPosition, media.getLength());
+                    seek(intentPosition);
             }
 
             // Get possible subtitles
