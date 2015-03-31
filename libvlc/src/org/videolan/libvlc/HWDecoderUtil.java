@@ -97,6 +97,9 @@ public class HWDecoderUtil {
     };
 
     private static final AudioOutputBySOC[] sAudioOutputBySOCList = new AudioOutputBySOC[] {
+        /* getPlaybackHeadPosition returns an invalid position on Fire OS,
+         * thus Audiotrack is not usable */
+        new AudioOutputBySOC("ro.product.brand", "Amazon", AudioOutput.OPENSLES),
     };
 
     private static final HashMap<String, String> sSystemPropertyMap = new HashMap<String, String>();
