@@ -330,9 +330,10 @@ public class NetworkFragment extends BrowserFragment implements IRefreshable, Me
     };
 
     private void focusHelper(boolean idIsEmpty) {
-        View parent = View.inflate(getActivity(),
-            R.layout.directory_view, null);
+        if (getActivity() == null)
+            return;
         MainActivity main = (MainActivity)getActivity();
+        View parent = View.inflate(main, R.layout.directory_view, null);
         main.setMenuFocusDown(idIsEmpty, R.id.network_list);
         main.setSearchAsFocusDown(idIsEmpty, parent, R.id.network_list);
     }
