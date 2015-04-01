@@ -172,7 +172,6 @@
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
         <item name="titleTextStyle">@style/ActionBar.Text</item>
-        <item name="android:height">@dimen/actionBarSize</item>
     </style>
 
     <style name="ActionBar.Text" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

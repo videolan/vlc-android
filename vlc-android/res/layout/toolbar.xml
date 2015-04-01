@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/actionBarSize"
+    android:layout_height="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
     app:theme="@style/Toolbar.VLC"
     app:popupTheme="?attr/toolbar_popup_style"
