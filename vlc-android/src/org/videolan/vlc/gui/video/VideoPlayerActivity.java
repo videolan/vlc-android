@@ -2643,14 +2643,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             } else {
                 // not in media library
                 long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                Editor editor = mSettings.edit();
-                editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                Util.commitPreferences(editor);
-                if(rTime > 0)
-                    seek(rTime);
+                if (rTime > 0) {
+                    Editor editor = mSettings.edit();
+                    editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                    Util.commitPreferences(editor);
+                }
 
-                if(intentPosition > 0)
+                if (intentPosition > 0)
                     seek(intentPosition);
+                else if (rTime > 0)
+                        seek(rTime);
             }
 
             // Get possible subtitles
