@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:paddingTop="@dimen/actionBarSize"
+        android:paddingTop="?attr/actionBarSize"
         android:layout_above="@+id/sidebar_separator_settings"
         android:nextFocusForward="@id/sidelist"
         android:nextFocusUp="@id/sidelist"

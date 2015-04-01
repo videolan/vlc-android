@@ -30,7 +30,7 @@
 
                 <View
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/actionBarSize"
+                    android:layout_height="?attr/actionBarSize"
                     android:background="?attr/background_actionbar" />
 
                 <FrameLayout
