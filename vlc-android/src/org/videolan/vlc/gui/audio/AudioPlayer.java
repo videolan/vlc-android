@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -619,10 +620,11 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             @Override
             public void run() {
                 if(!vibrated) {
-                    ((android.os.Vibrator) AudioPlayer.this.getActivity()
-                            .getSystemService(Context.VIBRATOR_SERVICE))
-                            .vibrate(80);
-                    ;
+                    Activity activity = AudioPlayer.this.getActivity();
+                    if (activity != null) {
+                        ((android.os.Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE))
+                                .vibrate(80);
+                    }
                     vibrated = true;
                 }
 
@@ -642,7 +644,9 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
                 h.postDelayed(seekRunnable, 50);
             }
         };
+
         Handler h = new Handler();
+
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             switch(event.getAction()) {
