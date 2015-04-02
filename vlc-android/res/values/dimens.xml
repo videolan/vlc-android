@@ -7,6 +7,7 @@
     <dimen name="listview_side_padding">5dp</dimen>
     <dimen name="grid_card_width">160dp</dimen>
     <dimen name="grid_card_height">160dp</dimen>
+    <dimen name="grid_card_thumb_width">160dp</dimen>
     <dimen name="grid_card_thumb_height">100dp</dimen>
     <dimen name="grid_card_title_text_size">12sp</dimen>
     <dimen name="grid_card_subtitle_text_size">10sp</dimen>

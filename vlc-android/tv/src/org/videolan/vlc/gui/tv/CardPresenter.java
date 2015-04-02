@@ -25,6 +25,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.AudioUtil;
 import org.videolan.vlc.gui.tv.browser.GridFragment;
 import org.videolan.vlc.gui.tv.browser.MusicFragment;
+import org.videolan.vlc.util.BitmapUtil;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -53,8 +54,8 @@ public class CardPresenter extends Presenter {
         sContext = context;
         mRes = sContext.getResources();
         sDefaultCardImage = mRes.getDrawable(R.drawable.background_cone);
-        CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.tv_card_width);
-        CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.tv_card_height);
+        CARD_WIDTH = mRes.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
+        CARD_HEIGHT = mRes.getDimensionPixelSize(R.dimen.grid_card_thumb_height);
     }
 
     static class ViewHolder extends Presenter.ViewHolder {
@@ -69,29 +70,21 @@ public class CardPresenter extends Presenter {
             return mCardView;
         }
 
-        protected void updateCardViewImage(MediaWrapper MediaWrapper) {
+        protected void updateCardViewImage(MediaWrapper mediaWrapper) {
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
             Bitmap picture = null;
-            if (MediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
-                picture = AudioUtil.getCover(sContext, MediaWrapper, 320);
-                if (picture == null) {
-                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            if (mediaWrapper.getType() == mediaWrapper.TYPE_AUDIO) {
+                picture = AudioUtil.getCover(sContext, mediaWrapper, 320);
+                if (picture == null)
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_audio_big_normal);
-                } else
-                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_XY);
-            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_VIDEO) {
-                picture = sMediaDatabase.getPicture(sContext, MediaWrapper.getLocation());
-                if (picture == null){
-                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_VIDEO) {
+                picture = BitmapUtil.getPictureFromCache(mediaWrapper);
+                if (picture == null)
                     picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_video_big_normal);
-                } else
-                    mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_XY);
-            } else if (MediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
-                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            } else if (mediaWrapper.getType() == mediaWrapper.TYPE_DIR)
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_menu_network_big);
-            } else {
-                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER);
+            else
                 picture = BitmapFactory.decodeResource(mRes, R.drawable.ic_browser_unknown_big_normal);
-            }
             if (picture != null && picture.getByteCount() > 4)
                 mCardView.setMainImage(new BitmapDrawable(mRes, picture));
             else

@@ -45,8 +45,8 @@ public class StringPresenter extends Presenter {
         if (res.getString(R.string.preferences).equals(item.toString())) {
             tv.setBackground(res.getDrawable(R.drawable.ic_menu_preferences_big));
         }
-        tv.setHeight(res.getDimensionPixelSize(R.dimen.tv_card_height));
-        tv.setWidth(res.getDimensionPixelSize(R.dimen.tv_card_width));
+        tv.setHeight(res.getDimensionPixelSize(R.dimen.grid_card_thumb_height));
+        tv.setWidth(res.getDimensionPixelSize(R.dimen.grid_card_thumb_width));
     }
 
     public void onUnbindViewHolder(ViewHolder viewHolder) {

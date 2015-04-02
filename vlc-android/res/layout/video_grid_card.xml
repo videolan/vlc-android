@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/ml_item_thumbnail"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/grid_card_thumb_width"
             android:layout_height="@dimen/grid_card_thumb_height"
             android:layout_alignParentTop="true"
             android:background="?attr/background_default_darker"
