@@ -24,9 +24,7 @@
 #include <jni.h>
 
 #define THREAD_NAME "jni_vout"
-extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
-extern void jni_detach_thread();
-extern int jni_get_env(JNIEnv **env);
+extern JNIEnv *jni_get_env(const char *name);
 
 pthread_mutex_t vout_android_lock;
 pthread_cond_t vout_android_surf_attached;
@@ -56,7 +54,9 @@ void jni_UnlockAndroidSurface() {
 void jni_EventHardwareAccelerationError()
 {
     JNIEnv *env;
-    bool isAttached = false;
+
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
 
     pthread_mutex_lock(&vout_android_lock);
     if (vout_android_gui == NULL) {
@@ -64,21 +64,11 @@ void jni_EventHardwareAccelerationError()
         return;
     }
 
-    if (jni_get_env(&env) < 0) {
-        if (jni_attach_thread(&env, THREAD_NAME) < 0) {
-            pthread_mutex_unlock(&vout_android_lock);
-            return;
-        }
-        isAttached = true;
-    }
-
     jclass cls = (*env)->GetObjectClass(env, vout_android_gui);
     jmethodID methodId = (*env)->GetMethodID(env, cls, "eventHardwareAccelerationError", "()V");
     (*env)->CallVoidMethod(env, vout_android_gui, methodId);
 
     (*env)->DeleteLocalRef(env, cls);
-    if (isAttached)
-        jni_detach_thread();
     pthread_mutex_unlock(&vout_android_lock);
 }
 
@@ -102,17 +92,11 @@ static void jni_SetSurfaceLayoutEnv(JNIEnv *p_env, int width, int height, int vi
 void jni_SetSurfaceLayout(int width, int height, int visible_width, int visible_height, int sar_num, int sar_den)
 {
     JNIEnv *p_env;
-    bool isAttached = false;
 
-    if (jni_get_env(&p_env) < 0) {
-        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
-            return;
-        isAttached = true;
-    }
+    if (!(p_env = jni_get_env(THREAD_NAME)))
+        return;
+
     jni_SetSurfaceLayoutEnv(p_env, width, height, visible_width, visible_height, sar_num, sar_den);
-
-    if (isAttached)
-        jni_detach_thread();
 }
 
 void *jni_AndroidJavaSurfaceToNativeSurface(jobject surf)
@@ -121,13 +105,10 @@ void *jni_AndroidJavaSurfaceToNativeSurface(jobject surf)
     jclass clz;
     jfieldID fid;
     void *native_surface = NULL;
-    bool isAttached = false;
 
-    if (jni_get_env(&p_env) < 0) {
-        if (jni_attach_thread(&p_env, THREAD_NAME) < 0)
-            return NULL;
-        isAttached = true;
-    }
+    if (!(p_env = jni_get_env(THREAD_NAME)))
+        return NULL;
+
     clz = (*p_env)->GetObjectClass(p_env, surf);
     fid = (*p_env)->GetFieldID(p_env, clz, "mSurface", "I");
     if (fid == NULL) {
@@ -149,16 +130,16 @@ void *jni_AndroidJavaSurfaceToNativeSurface(jobject surf)
         native_surface = (void*)(*p_env)->GetIntField(p_env, surf, fid);
     (*p_env)->DeleteLocalRef(p_env, clz);
 
-    if (isAttached)
-        jni_detach_thread();
     return native_surface;
 }
 
 int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *configured)
 {
     JNIEnv *p_env;
-    bool isAttached = false;
     int ret;
+
+    if (!(p_env = jni_get_env(THREAD_NAME)))
+        return -1;
 
     pthread_mutex_lock(&vout_android_lock);
     if (vout_android_gui == NULL) {
@@ -166,13 +147,6 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
         return -1;
     }
 
-    if (jni_get_env(&p_env) < 0) {
-        if (jni_attach_thread(&p_env, THREAD_NAME) < 0) {
-            pthread_mutex_unlock(&vout_android_lock);
-            return -1;
-        }
-        isAttached = true;
-    }
     jclass clz = (*p_env)->GetObjectClass (p_env, vout_android_gui);
     jmethodID methodId = (*p_env)->GetMethodID (p_env, clz, "configureSurface", "(Landroid/view/Surface;III)I");
     ret = (*p_env)->CallIntMethod (p_env, vout_android_gui, methodId, jsurf, width, height, hal);
@@ -181,8 +155,6 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
 
     (*p_env)->DeleteLocalRef(p_env, clz);
 
-    if (isAttached)
-        jni_detach_thread();
     pthread_mutex_unlock(&vout_android_lock);
     return ret == -1 ? -1 : 0;
 }

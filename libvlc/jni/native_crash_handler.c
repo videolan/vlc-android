@@ -27,9 +27,7 @@
 static struct sigaction old_actions[NSIG];
 
 #define THREAD_NAME "native_crash_handler"
-extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
-extern void jni_detach_thread();
-extern int jni_get_env(JNIEnv **env);
+extern JNIEnv *jni_get_env(const char *name);
 
 // Monitored signals.
 static const int monitored_signals[] = {
@@ -53,13 +51,8 @@ static const int monitored_signals[] = {
 void sigaction_callback(int signal, siginfo_t *info, void *reserved)
 {
     JNIEnv *env;
-    bool b_attached = false;
-
-    if (jni_get_env(&env) < 0) {
-        if (jni_attach_thread(&env, THREAD_NAME) < 0)
-            return;
-        b_attached = true;
-    }
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
 
     // Call the Java LibVLC method that handle the crash.
     (*env)->CallStaticVoidMethod(env, fields.LibVLC.clazz,
@@ -67,8 +60,6 @@ void sigaction_callback(int signal, siginfo_t *info, void *reserved)
 
     // Call the old signal handler.
     old_actions[signal].sa_handler(signal);
-    if (b_attached)
-        jni_detach_thread();
 }
 
 

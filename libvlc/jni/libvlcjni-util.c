@@ -31,11 +31,6 @@
 #define LOG_TAG "VLC/JNI/Util"
 #include "log.h"
 
-#define THREAD_NAME "libvlcjni-util"
-extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
-extern void jni_detach_thread();
-extern int jni_get_env(JNIEnv **env);
-
 jint getInt(JNIEnv *env, jobject thiz, const char* field) {
     jclass clazz = (*env)->GetObjectClass(env, thiz);
     jfieldID fieldMP = (*env)->GetFieldID(env, clazz,

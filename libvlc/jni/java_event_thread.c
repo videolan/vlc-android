@@ -29,9 +29,7 @@
 #include "log.h"
 
 #define THREAD_NAME "JavaEventThread"
-extern int jni_attach_thread(JNIEnv **env, const char *thread_name);
-extern void jni_detach_thread();
-extern int jni_get_env(JNIEnv **env);
+extern JNIEnv *jni_get_env(const char *name);
 
 typedef struct event_queue_elm event_queue_elm;
 struct event_queue_elm
@@ -60,7 +58,7 @@ JavaEventThread_thread(void *data)
     java_event_thread *p_java_event_thread = data;
 
 
-    if (jni_attach_thread(&env, THREAD_NAME) < 0)
+    if (!(env = jni_get_env(THREAD_NAME)))
     {
         pthread_mutex_lock(&p_java_event_thread->lock);
         goto end;
@@ -111,9 +109,6 @@ end:
         free(event_elm);
     }
     pthread_mutex_unlock(&p_java_event_thread->lock);
-
-    if (env)
-        jni_detach_thread();
 
     return NULL;
 }
