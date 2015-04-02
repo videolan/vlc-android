@@ -71,7 +71,7 @@ public class RecommendationsService extends IntentService {
             MediaLibrary.getInstance().loadMediaItems();
         }
     }
-    private static void buildRecommendation(MediaWrapper movie, int id) {
+    private static void buildRecommendation(MediaWrapper movie, int id, int priority) {
         if (movie == null)
             return;
 
@@ -92,7 +92,7 @@ public class RecommendationsService extends IntentService {
                         .setContentText(movie.getDescription())
                         .setContentInfo("VLC")
 //                        .setSortKey("0.8")
-                        .setPriority(7)
+                        .setPriority(priority)
                         .setLocalOnly(true)
                         .setOngoing(true)
                         .setColor(sContext.getResources().getColor(R.color.orange500))
@@ -142,7 +142,7 @@ public class RecommendationsService extends IntentService {
         String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(sContext).getString(PreferencesActivity.VIDEO_LAST, null));
         int id = 0;
         if (last != null) {
-            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last), id);
+            buildRecommendation(MediaLibrary.getInstance().getMediaItem(last), id, Notification.PRIORITY_HIGH);
         }
         ArrayList<MediaWrapper> videoList = MediaLibrary.getInstance().getVideoItems();
         if (videoList == null || videoList.isEmpty())
@@ -154,7 +154,7 @@ public class RecommendationsService extends IntentService {
                 continue;
             pic = sMediaDatabase.getPicture(sContext, mediaWrapper.getLocation());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
-                buildRecommendation(mediaWrapper, ++id);
+                buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }
             if (id == 3)
                 return true;
