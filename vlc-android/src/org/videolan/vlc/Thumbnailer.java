@@ -56,13 +56,11 @@ public class Thumbnailer implements Runnable {
     protected Thread mThread;
     private LibVLC mLibVlc;
     private int totalCount;
-    private final float mDensity;
     private final String mPrefix;
 
     public Thumbnailer(Context context, Display display) {
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        mDensity = metrics.density;
         mPrefix = context.getResources().getString(R.string.thumbnail);
     }
 
@@ -172,8 +170,8 @@ public class Thumbnailer implements Runnable {
             if (item.getArtworkURL() != null)
                 continue; //no need for thumbnail, we have a cover
 
-            int width = (int) (120 * mDensity);
-            int height = (int) (75 * mDensity);
+            int width = (VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width));
+            int height = (VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_height));
 
             //Get bitmap
             byte[] b = mLibVlc.getThumbnail(item.getLocation(), width, height);

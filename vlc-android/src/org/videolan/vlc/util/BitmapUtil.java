@@ -22,9 +22,11 @@ package org.videolan.vlc.util;
 
 import org.videolan.vlc.MediaWrapper;
 import org.videolan.vlc.MediaDatabase;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -108,25 +110,28 @@ public class BitmapUtil {
     private static Bitmap readCoverBitmap(String path) {
         if (path == null)
             return null;
+        Resources res = VLCApplication.getAppResources();
         String uri = Uri.decode(path);
         if (uri.startsWith("file://"))
             uri = uri.substring(7);
         Bitmap cover = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
+        int height = res.getDimensionPixelSize(R.dimen.grid_card_thumb_height);
+        int width = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
 
         /* Get the resolution of the bitmap without allocating the memory */
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(uri, options);
 
         if (options.outWidth > 0 && options.outHeight > 0) {
+            if (options.outWidth > width){
+                options.outWidth = width;
+                options.outHeight = height;
+            }
             options.inJustDecodeBounds = false;
 
             // Decode the file (with memory allocation this time)
             cover = BitmapFactory.decodeFile(uri, options);
-
-            if (cover != null) {
-                cover = Bitmap.createScaledBitmap(cover, options.outWidth, options.outHeight, false);
-            }
         }
 
         return cover;
