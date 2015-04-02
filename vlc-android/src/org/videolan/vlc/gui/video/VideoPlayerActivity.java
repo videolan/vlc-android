@@ -21,7 +21,9 @@
 package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.app.Presentation;
 import android.content.ActivityNotFoundException;
@@ -52,6 +54,7 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -158,6 +161,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private LibVLC mLibVLC;
     private MediaWrapperListPlayer mMediaListPlayer;
     private String mLocation;
+    private boolean mAskResume = true;
     private GestureDetectorCompat mDetector;
 
     private static final int SURFACE_BEST_FIT = 0;
@@ -448,6 +452,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mHardwareAccelerationError = false;
         mEndReached = false;
 
+        mAskResume = mSettings.getBoolean("dialog_confirm_resume", false);
         // Clear the resume time, since it is only used for resumes in external
         // videos.
         SharedPreferences.Editor editor = mSettings.edit();
@@ -2467,6 +2472,16 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSurfaceView.setKeepScreenOn(false);
     }
 
+    /*
+     * Additionnal method to prevent alert dialog to pop up
+     */
+    @SuppressWarnings({ "unchecked" })
+    private void loadMedia(boolean fromStart) {
+        mAskResume = false;
+        getIntent().putExtra(PLAY_EXTRA_FROM_START, fromStart);
+        loadMedia();
+    }
+
     /**
      * External extras:
      * - position (long) - position of the video to start with (in ms)
@@ -2479,6 +2494,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         Uri data;
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
+        long mediaLength = 0l;
 
         boolean wasPaused;
         /*
@@ -2594,6 +2610,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             fromStart = getIntent().getExtras().getBoolean(PLAY_EXTRA_FROM_START);
             if (getIntent().hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
                 mSubtitleSelectedFiles.add(getIntent().getExtras().getString(PLAY_EXTRA_SUBTITLES_LOCATION));
+            mAskResume &= !fromStart;
         }
 
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
@@ -2611,19 +2628,15 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         }
 
-        /* Start / resume playback */
-        if (savedIndexPosition > -1) {
-            AudioServiceController.getInstance().stop(); // Stop the previous playback.
-            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
-        } else if (mLocation != null && mLocation.length() > 0) {
-            AudioServiceController.getInstance().stop(); // Stop the previous playback.
+        /* prepare playback */
+        AudioServiceController.getInstance().stop(); // Stop the previous playback.
+        if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
             mMediaListPlayer.getMediaList().clear();
             final Media media = new Media(mLibVLC, mLocation);
             media.parse(); // FIXME: parse should'nt be done asynchronously
             media.release();
             mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
             savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
-            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
         }
         mCanSeek = false;
 
@@ -2632,8 +2645,15 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if(media != null) {
                 // in media library
-                if(media.getTime() > 0 && !fromStart)
-                    seek(media.getTime(), media.getLength());
+                if(media.getTime() > 0 && !fromStart) {
+                    if (mAskResume) {
+                        showConfirmResumeDialog();
+                        return;
+                    } else {
+                        intentPosition = media.getTime();
+                        mediaLength = media.getLength();
+                    }
+                }
                 // Consume fromStart option after first use to prevent
                 // restarting again when playback is paused.
                 getIntent().putExtra(PLAY_EXTRA_FROM_START, false);
@@ -2642,18 +2662,30 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 mLastSpuTrack = media.getSpuTrack();
             } else {
                 // not in media library
-                long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                if (rTime > 0) {
-                    Editor editor = mSettings.edit();
-                    editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-                    Util.commitPreferences(editor);
-                }
 
-                if (intentPosition > 0)
-                    seek(intentPosition);
-                else if (rTime > 0)
-                        seek(rTime);
+                if (intentPosition > 0 && mAskResume) {
+                    showConfirmResumeDialog();
+                    return;
+                } else {
+                    long rTime = mSettings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                    if (rTime > 0 && !fromStart) {
+                        if (mAskResume) {
+                            showConfirmResumeDialog();
+                            return;
+                        } else {
+                            Editor editor = mSettings.edit();
+                            editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
+                            Util.commitPreferences(editor);
+                            intentPosition = rTime;
+                        }
+                    }
+                }
             }
+
+            // Start playback & seek
+            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
+            seek(intentPosition, mediaLength);
+
 
             // Get possible subtitles
             String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
@@ -2762,6 +2794,27 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 return 0;
             }
         }
+    }
+
+    public void showConfirmResumeDialog() {
+        if (isFinishing())
+            return;
+        pause();
+        /* Encountered Error, exit player with a message */
+        mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
+                .setMessage(R.string.confirm_resume)
+                .setPositiveButton(R.string.resume_from_position, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        loadMedia(false);
+                    }
+                })
+                .setNegativeButton(R.string.play_from_start, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        loadMedia(true);
+                    }
+                })
+                .create();
+        mAlertDialog.show();
     }
 
     public void showAdvancedOptions(View v) {

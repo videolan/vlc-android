@@ -53,6 +53,12 @@
             <PreferenceCategory android:title="@string/interface_other_category" >
                 <CheckBoxPreference
                     android:defaultValue="false"
+                    android:key="dialog_confirm_resume"
+                    android:summary="@string/confirm_resume_summary"
+                    android:widgetLayout="@layout/custom_chexbox"
+                    android:title="@string/confirm_resume_title" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
                     android:key="force_list_portrait"
                     android:summary="@string/force_list_portrait_summary"
                     android:widgetLayout="@layout/custom_chexbox"
