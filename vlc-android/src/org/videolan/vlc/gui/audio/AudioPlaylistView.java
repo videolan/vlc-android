@@ -47,8 +47,6 @@ public class AudioPlaylistView extends ListView {
     private OnItemRemovedListener mOnItemRemovedListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
-    Drawable mShadowDrawable;
-
     public AudioPlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -57,8 +55,6 @@ public class AudioPlaylistView extends ListView {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mDragShadow = inflater.inflate(R.layout.audio_playlist_item_drag_shadow, this, false);
 
-        int resId = Util.getResourceFromAttribute(context, R.attr.audio_playlist_shadow);
-        mShadowDrawable = resId != 0 ? getResources().getDrawable(resId) : null;
     }
 
     @Override
@@ -139,29 +135,6 @@ public class AudioPlaylistView extends ListView {
             mDragShadow.draw(canvas);
             canvas.restore();
         }
-    }
-
-    @Override
-    public void draw(Canvas c) {
-        super.draw(c);
-
-        if (mShadowDrawable == null)
-            return;
-
-        // Draw the top and bottom list shadows.
-        final int shadowHeight = mShadowDrawable.getIntrinsicHeight();
-        final int right = getRight();
-        final int left = getLeft();
-        final int bottom = getBottom();
-        final int top = bottom - shadowHeight;
-
-        mShadowDrawable.setBounds(left, top, right, bottom);
-        mShadowDrawable.draw(c);
-
-        c.rotate(180, getWidth() / 2, getHeight() / 2);
-
-        mShadowDrawable.setBounds(left, top, right, bottom);
-        mShadowDrawable.draw(c);
     }
 
     public void startDrag(int positionDragStart, String title, String artist) {
