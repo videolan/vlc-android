@@ -131,7 +131,11 @@ public class BitmapUtil {
             options.inJustDecodeBounds = false;
 
             // Decode the file (with memory allocation this time)
-            cover = BitmapFactory.decodeFile(uri, options);
+            try {
+                cover = BitmapFactory.decodeFile(uri, options);
+            } catch (OutOfMemoryError e) {
+                cover = null;
+            }
         }
 
         return cover;
