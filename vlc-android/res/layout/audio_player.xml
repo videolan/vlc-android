@@ -128,6 +128,11 @@
             android:layout_height="fill_parent"/>
     </ViewSwitcher>
 
+    <include layout="@layout/shadow_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_above="@+id/player_controls"/>
+
     <LinearLayout
         android:id="@+id/player_controls"
         android:layout_width="match_parent"
