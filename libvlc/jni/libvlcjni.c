@@ -153,6 +153,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     jmethodID putLong = (*env)->GetMethodID(env, clsBundle, "putLong", "(Ljava/lang/String;J)V" );
     jmethodID putFloat = (*env)->GetMethodID(env, clsBundle, "putFloat", "(Ljava/lang/String;F)V" );
     jmethodID putString = (*env)->GetMethodID(env, clsBundle, "putString", "(Ljava/lang/String;Ljava/lang/String;)V" );
+    (*env)->DeleteLocalRef(env, clsBundle);
 
     if (ev->type == libvlc_MediaPlayerPositionChanged) {
         jstring sData = (*env)->NewStringUTF(env, "data");
@@ -211,6 +212,7 @@ static void vlc_event_callback(const libvlc_event_t *ev, void *data)
     } else {
         LOGE("EventHandler: failed to get the callback method");
     }
+    (*env)->DeleteLocalRef(env, cls);
 
 end:
     (*env)->DeleteLocalRef(env, bundle);
