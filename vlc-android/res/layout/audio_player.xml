@@ -102,11 +102,6 @@
             android:background="#00000000" />
     </LinearLayout>
 
-    <include layout="@layout/shadow_top"
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:layout_below="@+id/header"/>
-
     <ViewSwitcher
         android:id="@+id/view_switcher"
         android:layout_width="match_parent"
@@ -127,6 +122,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
     </ViewSwitcher>
+
+    <include layout="@layout/shadow_top"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_below="@+id/header"/>
 
     <include layout="@layout/shadow_bottom"
         android:layout_width="match_parent"
