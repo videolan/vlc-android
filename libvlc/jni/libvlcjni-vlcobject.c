@@ -22,8 +22,10 @@
 #include <sys/queue.h>
 #include <pthread.h>
 
-#include "java_event_thread.h"
 #include "libvlcjni-vlcobject.h"
+
+#define THREAD_NAME "VlcObject"
+extern JNIEnv *jni_get_env(const char *name);
 
 struct vlcjni_object_owner
 {
@@ -33,7 +35,6 @@ struct vlcjni_object_owner
     libvlc_event_manager_t *p_event_manager;
     const int *p_events;
 
-    java_event_thread *p_java_event_thread;
     event_cb pf_event_cb;
 };
 
@@ -154,6 +155,7 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
 {
     vlcjni_object *p_obj = data;
     java_event jevent;
+    JNIEnv *env = NULL;
 
     jevent.type = -1;
     jevent.arg1 = jevent.arg2 = 0;
@@ -161,15 +163,18 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
 
-    if (!p_obj->p_owner->p_java_event_thread)
-    {
-        p_obj->p_owner->p_java_event_thread =
-            JavaEventThread_create(p_obj->p_owner->weak,
-                                   p_obj->p_owner->weakCompat, true);
-        if (!p_obj->p_owner->p_java_event_thread)
-            return;
-    }
-    JavaEventThread_add(p_obj->p_owner->p_java_event_thread, &jevent);
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
+
+    if (p_obj->p_owner->weak)
+        (*env)->CallVoidMethod(env, p_obj->p_owner->weak,
+                               fields.VLCObject.dispatchEventFromNativeID,
+                               jevent.type, jevent.arg1, jevent.arg2);
+    else
+        (*env)->CallStaticVoidMethod(env, fields.VLCObject.clazz,
+                                     fields.VLCObject.dispatchEventFromWeakNativeID,
+                                     p_obj->p_owner->weakCompat,
+                                     jevent.type, jevent.arg1, jevent.arg2);
 }
 
 void
@@ -209,7 +214,4 @@ Java_org_videolan_libvlc_VLCObject_nativeDetachEvents(JNIEnv *env, jobject thiz)
                             VLCJniObject_eventCallback, p_obj);
     p_obj->p_owner->p_event_manager = NULL;
     p_obj->p_owner->p_events = NULL;
-
-    if (p_obj->p_owner->p_java_event_thread)
-        JavaEventThread_destroy(p_obj->p_owner->p_java_event_thread);
 }

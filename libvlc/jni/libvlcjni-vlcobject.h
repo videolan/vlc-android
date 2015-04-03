@@ -28,7 +28,6 @@
 #include <vlc/libvlc_media_list.h>
 #include <vlc/libvlc_media_discoverer.h>
 
-#include "java_event_thread.h"
 #include "utils.h"
 #define LOG_TAG "VLC/JNI/VLCObject"
 #include "log.h"
@@ -36,6 +35,7 @@
 typedef struct vlcjni_object vlcjni_object;
 typedef struct vlcjni_object_owner vlcjni_object_owner;
 typedef struct vlcjni_object_sys vlcjni_object_sys;
+typedef struct java_event java_event;
 
 struct vlcjni_object
 {
@@ -47,6 +47,13 @@ struct vlcjni_object
     } u;
     vlcjni_object_owner *p_owner; // used by vlcobject
     vlcjni_object_sys *p_sys; // used by media, medialist, mediadiscoverer...
+};
+
+struct java_event
+{
+    int type;
+    long arg1;
+    long arg2;
 };
 
 /* event manager callback dispatched to native struct implementing a
