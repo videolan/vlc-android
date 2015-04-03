@@ -80,13 +80,17 @@ public class HWDecoderUtil {
         new DecoderBySOC("ro.board.platform", "sun6i", Decoder.OMX), // Allwinner A31
 
         /*
+         * Devices working only on Mediacodec
+         */
+        new DecoderBySOC("ro.board.platform", "exynos4", Decoder.MEDIACODEC), // Exynos 4 (Samsung Galaxy S2/S3)
+
+        /*
          * Devices working on Mediacodec and OMX
          */
         new DecoderBySOC("ro.board.platform", "omap4", Decoder.ALL), // Omap 4
         new DecoderBySOC("ro.board.platform", "tegra", Decoder.ALL), // Tegra 2 & 3
         new DecoderBySOC("ro.board.platform", "tegra3", Decoder.ALL), // Tegra 3
         new DecoderBySOC("ro.board.platform", "msm8660", Decoder.ALL), // QCOM S3
-        new DecoderBySOC("ro.board.platform", "exynos4", Decoder.ALL), // Exynos 4 (Samsung Galaxy S2/S3)
         new DecoderBySOC("ro.board.platform", "exynos5", Decoder.ALL), // Exynos 5 (Samsung Galaxy S4)
         new DecoderBySOC("ro.board.platform", "rk30", Decoder.ALL), // Rockchip RK30
         new DecoderBySOC("ro.board.platform", "rk31", Decoder.ALL), // Rockchip RK31
