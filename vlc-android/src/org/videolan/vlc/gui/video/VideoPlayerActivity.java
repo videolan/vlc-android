@@ -89,6 +89,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -200,6 +201,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private TextView mTime;
     private TextView mLength;
     private TextView mInfo;
+    private View mVerticalBar;
+    private View mVerticalBarProgress;
     private ImageView mLoading;
     private TextView mLoadingText;
     private ImageView mTipsBackground;
@@ -401,6 +404,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         // the info textView is not on the overlay
         mInfo = (TextView) findViewById(R.id.player_overlay_info);
+        mVerticalBar = findViewById(R.id.verticalbar);
+        mVerticalBarProgress = findViewById(R.id.verticalbar_progress);
 
         mEnableBrightnessGesture = mSettings.getBoolean("enable_brightness_gesture", true);
         mScreenOrientation = Integer.valueOf(
@@ -1199,11 +1204,26 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     /**
+     * Show text in the info view and vertical progress bar for "duration" milliseconds
+     * @param text
+     * @param duration
+     * @param barNewValue new volume/brightness value (range: 0 - 15)
+     */
+    private void showInfoWithVerticalBar(String text, int duration, int barNewValue) {
+        showInfo(text, duration);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
+        layoutParams.weight = barNewValue;
+        mVerticalBarProgress.setLayoutParams(layoutParams);
+        mVerticalBar.setVisibility(View.VISIBLE);
+    }
+
+    /**
      * Show text in the info view for "duration" milliseconds
      * @param text
      * @param duration
      */
     private void showInfo(String text, int duration) {
+        mVerticalBar.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1211,6 +1231,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void showInfo(int textid, int duration) {
+        mVerticalBar.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1222,6 +1243,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * @param text
      */
     private void showInfo(String text) {
+        mVerticalBar.setVisibility(View.INVISIBLE);
         mHandler.removeMessages(FADE_OUT_INFO);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
@@ -1248,6 +1270,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mInfo.startAnimation(AnimationUtils.loadAnimation(
                     VideoPlayerActivity.this, android.R.anim.fade_out));
         mInfo.setVisibility(View.INVISIBLE);
+
+        if (mVerticalBar.getVisibility() == View.VISIBLE)
+            mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
+                    VideoPlayerActivity.this, android.R.anim.fade_out));
+        mVerticalBar.setVisibility(View.INVISIBLE);
     }
 
     private OnAudioFocusChangeListener mAudioFocusListener = !LibVlcUtil.isFroyoOrLater() ? null :
@@ -1840,7 +1867,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
 
         mTouchAction = TOUCH_VOLUME;
-        showInfo(getString(R.string.volume) + '\u00A0' + Integer.toString(vol),1000);
+        showInfoWithVerticalBar(getString(R.string.volume) + '\u00A0' + Integer.toString(vol), 1000, vol);
     }
 
     private void mute(boolean mute) {
@@ -1898,7 +1925,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
         // Set Brightness
         getWindow().setAttributes(lp);
-        showInfo(getString(R.string.brightness) + '\u00A0' + Math.round(lp.screenBrightness * 15),1000);
+        int brightness = Math.round(lp.screenBrightness * 15);
+        showInfoWithVerticalBar(getString(R.string.brightness) + '\u00A0' + brightness, 1000, brightness);
     }
 
     /**

@@ -77,6 +77,33 @@
             android:textColor="#ffffff"
             android:textSize="36sp"
             android:visibility="invisible" />
+
+        <FrameLayout android:id="@+id/verticalbar"
+            android:layout_width="28dp"
+            android:layout_height="100dp"
+            android:layout_above="@+id/progress_overlay"
+            android:layout_toLeftOf="@+id/player_overlay_info"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="-16dp"
+            android:background="@drawable/video_list_length_bg"
+            android:visibility="invisible">
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="7dp"
+                android:background="@drawable/verticalbar_border"
+                android:orientation="vertical"
+                android:weightSum="15"
+                android:gravity="bottom">
+
+                <View android:id="@+id/verticalbar_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="2dp"
+                    android:background="@color/orange500transparent" />
+            </LinearLayout>
+        </FrameLayout>
+
         <ImageView
             android:id="@+id/player_delay_minus"
             android:layout_width="wrap_content"
