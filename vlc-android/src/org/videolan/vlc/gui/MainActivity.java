@@ -873,7 +873,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
             @Override
             public void onPanelOpened() {
-                int resId = Util.getResourceFromAttribute(MainActivity.this, R.attr.mini_player_top_shadow);
+                int resId = Util.getResourceFromAttribute(MainActivity.this, R.attr.shadow_bottom_9patch);
                 if (resId != 0)
                     mSlidingPane.setShadowResource(resId);
                 mAudioPlayer.setHeaderVisibilities(false, false, true, true, true, false);

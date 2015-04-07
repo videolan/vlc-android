@@ -61,8 +61,6 @@
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
 
-    <attr name="mini_player_top_shadow" format="reference" />
-    <attr name="audio_playlist_shadow" format="reference" />
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>
 
