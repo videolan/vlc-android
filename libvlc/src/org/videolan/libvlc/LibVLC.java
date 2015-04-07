@@ -86,6 +86,7 @@ public class LibVLC {
     private boolean frameSkip = false;
     private int networkCaching = 0;
     private boolean httpReconnect = false;
+    private boolean hdmiAudioEnabled = false;
 
     /** Path of application-specific cache */
     private String mCachePath = "";
@@ -336,6 +337,14 @@ public class LibVLC {
             this.vout = vout;
         if (this.vout == VOUT_ANDROID_SURFACE && HAS_WINDOW_VOUT)
             this.vout = VOUT_ANDROID_WINDOW;
+    }
+
+    public void setHdmiAudioEnabled(boolean enable) {
+        this.hdmiAudioEnabled = enable;
+    }
+
+    public boolean isHdmiAudioEnabled() {
+        return this.hdmiAudioEnabled;
     }
 
     public boolean useCompatSurface() {

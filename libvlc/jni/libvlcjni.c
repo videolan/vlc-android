@@ -461,7 +461,10 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         (*env)->ReleaseStringUTFChars(env, cachePath, cache_path);
     }
 
-#define MAX_ARGV 20
+    methodId = (*env)->GetMethodID(env, cls, "isHdmiAudioEnabled", "()Z");
+    bool hdmi_audio = (*env)->CallBooleanMethod(env, thiz, methodId);
+
+#define MAX_ARGV 22
     const char *argv[MAX_ARGV];
     int argc = 0;
 
@@ -500,7 +503,11 @@ void Java_org_videolan_libvlc_LibVLC_nativeInit(JNIEnv *env, jobject thiz)
         argv[argc++] = "--no-omxil-dr";
 #endif
     }
-    argv[argc++] = "--spdif";
+    if (hdmi_audio) {
+        argv[argc++] = "--spdif";
+        argv[argc++] = "--audiotrack-audio-channels";
+        argv[argc++] = "8"; // 7.1 maximum
+    }
     argv[argc++] = b_verbose ? "-vvv" : "-vv";
 
     /* Reconnect on lost HTTP streams, e.g. network change */
