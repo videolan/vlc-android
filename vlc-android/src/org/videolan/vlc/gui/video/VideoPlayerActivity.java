@@ -311,6 +311,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
 
+    private boolean mHasHdmiAudio = false;
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     protected void onCreate(Bundle savedInstanceState) {
@@ -475,6 +477,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
+        if (mReceiverV21 != null)
+            registerV21();
 
         Log.d(TAG,
                 "Hardware acceleration mode: "
@@ -582,6 +586,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         super.onDestroy();
         if (mReceiver != null)
             unregisterReceiver(mReceiver);
+        if (mReceiverV21 != null)
+            unregisterReceiver(mReceiverV21);
 
         mAudioManager = null;
     }
@@ -838,6 +844,27 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         }
     };
+
+    @TargetApi(21)
+    private void registerV21() {
+        final IntentFilter intentFilter = new IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG);
+        registerReceiver(mReceiverV21, intentFilter);
+    }
+
+    private final BroadcastReceiver mReceiverV21 = LibVlcUtil.isLolliPopOrLater() ? new BroadcastReceiver()
+    {
+        @TargetApi(21)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (action == null)
+                return;
+            if (action.equalsIgnoreCase(AudioManager.ACTION_HDMI_AUDIO_PLUG)) {
+                mHasHdmiAudio = true;
+                Log.d(TAG, "has hdmi audio");
+            }
+        }
+    } : null;
 
     @Override
     public boolean onTrackballEvent(MotionEvent event) {
@@ -2712,6 +2739,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
 
             // Start playback & seek
+            VLCInstance.setAudioHdmiEnabled(this, mHasHdmiAudio);
             mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
             seek(intentPosition, mediaLength);
 

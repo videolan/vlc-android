@@ -144,4 +144,11 @@ public class VLCInstance {
         sLibVLC.setHardwareAcceleration(hardwareAcceleration);
         sLibVLC.setDevHardwareDecoder(devHardwareDecoder);
     }
+
+    public static synchronized void setAudioHdmiEnabled(Context context, boolean enabled) {
+        if (sLibVLC != null && sLibVLC.isHdmiAudioEnabled() != enabled) {
+            sLibVLC.setHdmiAudioEnabled(enabled);
+            restart(context);
+        }
+    }
 }
