@@ -93,7 +93,7 @@
                 android:layout_margin="7dp"
                 android:background="@drawable/verticalbar_border"
                 android:orientation="vertical"
-                android:weightSum="15"
+                android:weightSum="100"
                 android:gravity="bottom">
 
                 <View android:id="@+id/verticalbar_progress"

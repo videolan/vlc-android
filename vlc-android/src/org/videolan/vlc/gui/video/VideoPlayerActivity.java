@@ -1867,7 +1867,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
 
         mTouchAction = TOUCH_VOLUME;
-        showInfoWithVerticalBar(getString(R.string.volume) + '\u00A0' + Integer.toString(vol), 1000, vol);
+        vol = vol * 100 /15;
+        showInfoWithVerticalBar(getString(R.string.volume) + '\u00A0' + Integer.toString(vol) + '%', 1000, vol);
     }
 
     private void mute(boolean mute) {
@@ -1925,8 +1926,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         lp.screenBrightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1);
         // Set Brightness
         getWindow().setAttributes(lp);
-        int brightness = Math.round(lp.screenBrightness * 15);
-        showInfoWithVerticalBar(getString(R.string.brightness) + '\u00A0' + brightness, 1000, brightness);
+        int brightness = Math.round(lp.screenBrightness * 100);
+        showInfoWithVerticalBar(getString(R.string.brightness) + '\u00A0' + brightness + '%', 1000, brightness);
     }
 
     /**
