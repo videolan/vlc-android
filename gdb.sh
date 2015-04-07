@@ -10,6 +10,7 @@ while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
             echo "Use -f to set the flavour. Default is vanillaARMv7."
+            echo "Use --apk-file <file.apk> [--dbg-file <file.so.dbg>] to debug an apk via a file containing the debugging info"
             exit 0
             ;;
         -f)
@@ -19,9 +20,60 @@ while [ $# -gt 0 ]; do
         -s)
             NDK_GDB_ARGS="$NDK_GDB_ARGS --nowait --start"
             ;;
+        --apk)
+            APK_PATH=$2
+            shift
+            ;;
+        --dbg-file)
+            DBGFILE_PATH=$2
+            shift
+            ;;
     esac
     shift
 done
+
+rm -rf "$TMP_PATH"
+mkdir -p "$TMP_PATH"
+
+if [ ! -z "$APK_PATH" ]; then
+    if [ ! -f "$APK_PATH" ];then
+        echo "invalid --apk"
+        exit 1
+    fi
+
+    aapt=$(ls -1 --sort=time $ANDROID_SDK/build-tools/*/aapt|head -n 1)
+    if [ -z "$aapt" ];then
+        echo "aapt not found in \$ANDROID_SDK"
+        exit 1
+    fi
+
+    arch=$($aapt l -a "$APK_PATH"|grep "libvlcjni.so"|cut -d"/" -f 2)
+
+    if [ -z "$DBGFILE_PATH" ];then
+        version=$($aapt l -a "$APK_PATH"|grep versionName|cut -d\" -f 2)
+        dbgfile_path="$SCRIPT_PATH/.dbg/$arch/$version/libvlcjni.so.dbg"
+    else
+        dbgfile_path="$DBGFILE_PATH"
+    fi
+    if [ ! -f "$dbgfile_path" ];then
+        echo "invalid --dbg-file"
+        exit 1
+    fi
+
+    lib_name=$(basename "$dbgfile_path")
+    lib_name=${lib_name%.dbg}
+    lib_path=$($aapt l -a "$APK_PATH"|grep "$lib_name")
+
+    unzip -p "$APK_PATH" $lib_path > "$TMP_PATH"/$lib_name
+    cp $dbgfile_path "$TMP_PATH"
+
+    echo ""
+    echo "\"list *0x<pc_address>\" to know where the specified apk crashed"
+    echo ""
+
+    ./compile-libvlc.sh -a $arch --gdb "$TMP_PATH"/$lib_name
+    exit 0
+fi
 
 ANDROID_MANIFEST="$SCRIPT_PATH"/vlc-android/build/intermediates/manifests/full/$FLAVOUR/debug/AndroidManifest.xml
 
@@ -30,7 +82,6 @@ if [ ! -f "$ANDROID_MANIFEST" ]; then
     exit 1
 fi
 
-rm -rf "$TMP_PATH"
 mkdir -p "$TMP_PATH"/jni
 
 cp -r "$SCRIPT_PATH"/libvlc/jni/libs "$TMP_PATH"
