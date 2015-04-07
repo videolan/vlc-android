@@ -1867,7 +1867,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
 
         mTouchAction = TOUCH_VOLUME;
-        vol = vol * 100 /15;
+        vol = vol * 100 / mAudioMax;
         showInfoWithVerticalBar(getString(R.string.volume) + '\u00A0' + Integer.toString(vol) + '%', 1000, vol);
     }
 
