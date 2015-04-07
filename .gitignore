@@ -7,6 +7,8 @@
 
 # tmp dir used by gdb.sh
 .gdb
+# debug symbols
+.dbg
 
 # Local configuration
 local.properties
