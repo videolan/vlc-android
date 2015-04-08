@@ -288,4 +288,5 @@
     <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
     <string name="playlist_save">Spremi popis izvođenja</string>
     <string name="playlist_name_hint">naziv popisa izvođenja</string>
+    <string name="go_to_chapter">Idi na poglavlje...</string>
 </resources>
