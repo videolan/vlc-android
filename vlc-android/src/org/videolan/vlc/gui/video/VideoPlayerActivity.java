@@ -186,7 +186,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int SHOW_PROGRESS = 2;
     private static final int SURFACE_LAYOUT = 3;
     private static final int FADE_OUT_INFO = 4;
-    private static final int AUDIO_SERVICE_CONNECTION_SUCCESS = 5;
+    private static final int START_PLAYBACK = 5;
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
     private static final int END_DELAY_STATE = 7;
     private static final int RESET_BACK_LOCK = 8;
@@ -310,6 +310,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
+
+    private boolean mAudioServiceReady = false;
+    private boolean mSurfaceReady = false;
+    private boolean mSubtitleSurfaceReady = false;
 
     private boolean mHasHdmiAudio = false;
 
@@ -438,8 +442,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
         mSubtitlesSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        if (mLibVLC.useCompatSurface())
+        if (mLibVLC.useCompatSurface()) {
             mSubtitlesSurfaceView.setVisibility(View.GONE);
+            mSubtitleSurfaceReady = true;
+        }
         if (mPresentation == null) {
             mSurfaceHolder.addCallback(mSurfaceCallback);
             mSubtitlesSurfaceHolder.addCallback(mSubtitlesSurfaceCallback);
@@ -600,18 +606,21 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 new AudioServiceController.AudioServiceConnectionListener() {
                     @Override
                     public void onConnectionSuccess() {
-                        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_SUCCESS);
+                        mAudioServiceReady = true;
+                        mHandler.sendEmptyMessage(START_PLAYBACK);
                     }
 
                     @Override
                     public void onConnectionFailed() {
                         mBound = false;
+                        mAudioServiceReady = false;
                         mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
                     }
                 });
     }
     private void unbindAudioService() {
         AudioServiceController.getInstance().unbindAudioService(this);
+        mAudioServiceReady = false;
         mBound = false;
     }
 
@@ -642,8 +651,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void startPlayback() {
-        if (mPlaybackStarted)
+        /* start playback only when audio service and both surfaces are ready */
+        if (mPlaybackStarted || !mAudioServiceReady || !mSurfaceReady || !mSubtitleSurfaceReady)
             return;
+
         mPlaybackStarted = true;
 
         if (LibVlcUtil.isHoneycombOrLater()) {
@@ -1490,7 +1501,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 case FADE_OUT_INFO:
                     activity.fadeOutInfo();
                     break;
-                case AUDIO_SERVICE_CONNECTION_SUCCESS:
+                case START_PLAYBACK:
                     activity.startPlayback();
                     break;
                 case AUDIO_SERVICE_CONNECTION_FAILED:
@@ -2270,6 +2281,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     mSurface = newSurface;
                     Log.d(TAG, "surfaceChanged: " + mSurface);
                     mLibVLC.attachSurface(mSurface, VideoPlayerActivity.this);
+                    mSurfaceReady = true;
+                    mHandler.sendEmptyMessage(START_PLAYBACK);
                 }
             }
         }
@@ -2284,6 +2297,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(mLibVLC != null) {
                 mSurface = null;
                 mLibVLC.detachSurface();
+                mSurfaceReady = false;
             }
         }
     };
@@ -2296,6 +2310,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 if (mSubtitleSurface != newSurface) {
                     mSubtitleSurface = newSurface;
                     mLibVLC.attachSubtitlesSurface(mSubtitleSurface);
+                    mSubtitleSurfaceReady = true;
+                    mHandler.sendEmptyMessage(START_PLAYBACK);
                 }
             }
         }
@@ -2309,6 +2325,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if(mLibVLC != null) {
                 mSubtitleSurface = null;
                 mLibVLC.detachSubtitlesSurface();
+                mSubtitleSurfaceReady = false;
             }
         }
     };
