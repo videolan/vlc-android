@@ -278,6 +278,14 @@ jint Java_org_videolan_libvlc_LibVLC_getVideoTracksCount(JNIEnv *env, jobject th
     return -1;
 }
 
+jint Java_org_videolan_libvlc_LibVLC_setVideoTrack(JNIEnv *env, jobject thiz, jint index)
+{
+    libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
+    if (mp)
+        return libvlc_video_set_track(mp, index);
+    return -1;
+}
+
 jobject Java_org_videolan_libvlc_LibVLC_getSpuTrackDescription(JNIEnv *env, jobject thiz)
 {
     libvlc_media_player_t *mp = getMediaPlayer(env, thiz);
