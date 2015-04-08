@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.util;
 
+import org.videolan.libvlc.LibVlcUtil;
 import org.videolan.vlc.VLCApplication;
 
 import android.app.ActivityManager;
@@ -51,8 +52,9 @@ public class BitmapCache {
 
         // Get memory class of this device, exceeding this amount will throw an
         // OutOfMemory exception.
-        final int memClass = ((ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE)).getMemoryClass();
+        final ActivityManager am = ((ActivityManager) context.getSystemService(
+                Context.ACTIVITY_SERVICE));
+        final int memClass = LibVlcUtil.isHoneycombOrLater() ? am.getLargeMemoryClass() : am.getMemoryClass();
 
         // Use 1/5th of the available memory for this memory cache.
         final int cacheSize = 1024 * 1024 * memClass / 5;
