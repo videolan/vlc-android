@@ -288,4 +288,5 @@
     <string name="directory_hide_medialib">Ukryj w MediaLib</string>
     <string name="playlist_save">Zapisz listę odtwarzania</string>
     <string name="playlist_name_hint">Nazwa listy odtwarzania</string>
+    <string name="go_to_chapter">Przejdź do rozdziału...</string>
 </resources>
