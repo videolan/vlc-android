@@ -30,7 +30,6 @@ pthread_mutex_t vout_android_lock;
 static void *vout_android_gui = NULL;
 static jobject vout_android_java_surf = NULL;
 static jobject vout_android_subtitles_surf = NULL;
-static bool vout_video_player_activity_created = false;
 
 void *jni_LockAndGetSubtitlesSurface() {
     pthread_mutex_lock(&vout_android_lock);
@@ -160,19 +159,6 @@ int jni_ConfigureSurface(jobject jsurf, int width, int height, int hal, bool *co
 
     pthread_mutex_unlock(&vout_android_lock);
     return ret == -1 ? -1 : 0;
-}
-
-bool jni_IsVideoPlayerActivityCreated() {
-    pthread_mutex_lock(&vout_android_lock);
-    bool result = vout_video_player_activity_created;
-    pthread_mutex_unlock(&vout_android_lock);
-    return result;
-}
-
-void Java_org_videolan_libvlc_LibVLC_eventVideoPlayerActivityCreated(JNIEnv *env, jobject thiz, jboolean created) {
-    pthread_mutex_lock(&vout_android_lock);
-    vout_video_player_activity_created = created;
-    pthread_mutex_unlock(&vout_android_lock);
 }
 
 void Java_org_videolan_libvlc_LibVLC_attachSurface(JNIEnv *env, jobject thiz, jobject surf, jobject gui) {

@@ -671,10 +671,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         final EventHandler em = EventHandler.getInstance();
         em.addHandler(mEventHandler);
 
-        // Signal to LibVLC that the videoPlayerActivity was created, thus the
-        // SurfaceView is now available for MediaCodec direct rendering.
-        mLibVLC.eventVideoPlayerActivityCreated(true);
-
         loadMedia();
 
         // Add any selected subtitle file from the file picker
@@ -766,8 +762,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         Util.commitPreferences(editor);
 
-        // MediaCodec opaque direct rendering should not be used anymore since there is no surface to attach.
-        mLibVLC.eventVideoPlayerActivityCreated(false);
         // HW acceleration was temporarily disabled because of an error, restore the previous value.
         if (mDisabledHardwareAcceleration)
             mLibVLC.setHardwareAcceleration(mPreviousHardwareAccelerationMode);
