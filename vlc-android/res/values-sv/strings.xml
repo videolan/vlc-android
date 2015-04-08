@@ -21,9 +21,9 @@
     <string name="play_from_start">Spela upp från början</string>
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
-    <string name="append">Infoga</string>
+    <string name="append">Kölägg</string>
     <string name="play_all">Spela upp alla</string>
-    <string name="append_all">Bifoga alla</string>
+    <string name="append_all">Kölägg alla</string>
     <string name="last_playlist">Senaste spellista</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
@@ -253,6 +253,7 @@
     <string name="start_logging">Börja logga</string>
     <string name="stop_logging">Sluta logga</string>
     <string name="clear_log">Rensa logg</string>
+    <string name="log_service_title">Spela in VLC-loggar</string>
     <string name="log_service_text">Öppna loggkonsolen</string>
     <string name="copy_to_clipboard">Kopiera till urklipp</string>
     <string name="copied_to_clipboard">Kopierade loggen till urklipp.</string>
@@ -276,6 +277,9 @@
     <string name="network_empty">Denna filkatalog är tom.</string>
     <string name="network_connection_needed">Ingen anslutning till lokalt nätverk</string>
     <string name="search_hint">Sök media</string>
+    <string name="directory_show_medialib">Visa i mediabiblioteket</string>
+    <string name="directory_hide_medialib">Dölj från mediabiblioteket</string>
     <string name="playlist_save">Spara spellista</string>
     <string name="playlist_name_hint">spellistans namn</string>
+    <string name="go_to_chapter">Gå till kapitel...</string>
 </resources>
