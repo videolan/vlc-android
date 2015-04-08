@@ -6,7 +6,11 @@
     <string name="other">다른</string>
     <string name="sortby">정렬…</string>
     <string name="sortby_name">이름</string>
+    <string name="sortby_name_desc">이름 (내림차순)</string>
     <string name="sortby_length">길이</string>
+    <string name="sortby_length_desc">길이 (내림차순)</string>
+    <string name="sortby_date">날짜</string>
+    <string name="sortby_date_desc">날짜 (내림차순)</string>
     <string name="searchable_hint">검색…</string>
     <string name="history">기록</string>
     <plurals name="search_found_results_quantity">
@@ -68,6 +72,7 @@
     <string name="loading">읽는중…</string>
     <string name="please_wait">기다려 주세요…</string>
     <string name="nomedia">미디어 파일이 없습니다, 장치에 몇몇 파일을 전송하거나 선택사항을 조정하세요.</string>
+    <string name="noplaylist">재생목록이 없습니다.</string>
     <string name="mediafiles">미디어 파일</string>
     <string name="notavailable">사용할수 없음</string>
     <string name="nosubdirectory">하위 디렉토리 없음.</string>
@@ -267,4 +272,7 @@
     <string name="search_hint">미디어 검색</string>
     <string name="directory_show_medialib">MediaLib에서 보기</string>
     <string name="directory_hide_medialib">MediaLib에서 감추기</string>
+    <string name="playlist_save">재생목록 저장</string>
+    <string name="playlist_name_hint">재생목록 이름</string>
+    <string name="go_to_chapter">챕터 이동...</string>
 </resources>
