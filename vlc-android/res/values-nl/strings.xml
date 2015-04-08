@@ -281,4 +281,5 @@
     <string name="directory_hide_medialib">Verbergen in MediaLib</string>
     <string name="playlist_save">Afspeellijst opslaan</string>
     <string name="playlist_name_hint">naam afspeellijst</string>
+    <string name="go_to_chapter">Naar hoofdstuk gaan...</string>
 </resources>
