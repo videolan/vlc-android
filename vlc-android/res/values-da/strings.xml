@@ -4,14 +4,14 @@
     <string name="ok">OK</string>
     <string name="cancel">Annuller</string>
     <string name="other">Andet</string>
-    <string name="sortby">Sortér efter …</string>
+    <string name="sortby">Sortér efter…</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_name_desc">Navn (fald)</string>
-    <string name="sortby_length">Længde</string>
+    <string name="sortby_length">Varighed</string>
     <string name="sortby_length_desc">Varighed (fald)</string>
     <string name="sortby_date">Dato</string>
     <string name="sortby_date_desc">Dato (fald)</string>
-    <string name="searchable_hint">Søg …</string>
+    <string name="searchable_hint">Søg…</string>
     <string name="history">Historik</string>
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d forekomst fundet</item>
@@ -24,13 +24,13 @@
     <string name="append">Tilføj</string>
     <string name="play_all">Afspil alle</string>
     <string name="append_all">Tilføj alle</string>
-    <string name="last_playlist">Seneste spillelsiste</string>
+    <string name="last_playlist">Sidste spilleliste</string>
     <string name="delete">Slet</string>
     <string name="remove">Fjern</string>
     <string name="set_song">Anvend som ringetone</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Slet filen \"%1$s\"?</string>
-    <string name="ringtone_set">Filen \"%1$s\" blev angivet som ringetone.</string>
+    <string name="confirm_delete">Slet filen \'%1$s\'?</string>
+    <string name="ringtone_set">Filen \'%1$s\' blev angivet som ringetone.</string>
     <string name="ringtone_error">Der opstod en fejl under indstilling af ringetone.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Vis ikke denne besked igen.</string>
@@ -76,7 +76,7 @@
     <string name="directory">Mappe</string>
     <string name="directories">Mapper</string>
     <string name="loading">Indlæser</string>
-    <string name="please_wait">Vent venligst …</string>
+    <string name="please_wait">Vent venligst…</string>
     <string name="nomedia">Fandt ingen mediefiler - overfør venligst nogle filer til din enhed eller tilpas dine præferencer.</string>
     <string name="noplaylist">Ingen spilleliste fundet.</string>
     <string name="mediafiles">Mediefiler</string>
@@ -129,8 +129,8 @@
     <string name="subtitle_select">Vælg undertekstfil</string>
     <string name="no_file_picker_found">Der blev ikke fundet nogen filvælger på systemet.</string>
     <string name="open">Åbn</string>
-    <string name="open_mrl">Åbn MRL</string>
-    <string name="open_mrl_dialog_title">Åbn netværksstrøm</string>
+    <string name="open_mrl">Stream</string>
+    <string name="open_mrl_dialog_title">Åbn netværksstream</string>
     <string name="open_mrl_dialog_msg">Angiv netværks-MRL: f.eks. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Beklager, din enhed understøttes i øjeblikket ikke af denne version af VLC til Android™.</string>
     <string name="error_problem">Beklager, VLC til Android havde problemer med indlæsningen og måtte lukke.</string>
@@ -160,7 +160,7 @@
     <string name="show_playlist">Vis spilleliste</string>
     <string name="hold_to_stop">Hold nede for at stoppe</string>
     <!-- About -->
-    <string name="app_name_full">VLC til Android™</string>
+    <string name="app_name_full">VLC for Android</string>
     <string name="licence">Licens</string>
     <string name="revision">Revision</string>
     <string name="about">Om</string>
@@ -210,9 +210,9 @@
     <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
     <string name="force_list_portrait_summary">Vis videoer i liste i stedet for gitter i portræt-tilstand</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
-    <string name="enable_headset_detection">Detektér hovedtelefoner</string>
+    <string name="enable_headset_detection">Registrer hovedtelefoner</string>
     <string name="enable_headset_detection_summary">Sæt på pause når hovedtelefoner fjernes; genoptag når hovedtelefoner indsættes</string>
-    <string name="enable_steal_remote_control">Fjernbetjen kun med headset</string>
+    <string name="enable_steal_remote_control">Udeluk hovedtelefon fjernbetjening</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="audio_title_alignment_default">Standard</string>
     <string name="audio_title_alignment_left">Venstre</string>
@@ -241,7 +241,7 @@
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="clear_history">Ryd søgehistorik</string>
     <string name="media_db_cleared">Medie-database er ryddet!</string>
-    <string name="set_locale">Angiv lokalitet</string>
+    <string name="set_locale">Angiv sprog</string>
     <string name="set_locale_detail">Lad stå tom for at nulstille</string>
     <string name="set_locale_popup">Afslut og genstart VLC, så ændringerne kan træde i kraft.</string>
     <string name="network_caching">Mellemlagringsværdi for netværk</string>
@@ -265,7 +265,7 @@
     <string name="help_us_send_log">Hjælp os med at forbedre VLC ved at sende følgende log for nedbrud:</string>
     <string name="restart_vlc">Genstart VLC</string>
     <string name="send_log">Send loggen</string>
-    <string name="sending_log">Sender loggen ...</string>
+    <string name="sending_log">Sender loggen...</string>
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
     <string name="network_browsing">Lokalt netværk</string>
@@ -281,4 +281,5 @@
     <string name="directory_hide_medialib">Skjul i MediaLib</string>
     <string name="playlist_save">Gem spilleliste</string>
     <string name="playlist_name_hint">spillelistenavn</string>
+    <string name="go_to_chapter">Gå til kapitel…</string>
 </resources>
