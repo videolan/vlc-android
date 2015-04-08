@@ -281,4 +281,5 @@
     <string name="directory_hide_medialib">In Medienbibliothek ausblenden</string>
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
+    <string name="go_to_chapter">Wechsle zum Kapitel...</string>
 </resources>
