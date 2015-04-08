@@ -843,6 +843,7 @@ public class AudioService extends Service {
         mHandler.removeMessages(SHOW_PROGRESS);
         // hideNotification(); <-- see event handler
         mLibVLC.pause();
+        broadcastMetadata();
     }
 
     private void play() {
@@ -852,6 +853,7 @@ public class AudioService extends Service {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
             showNotification();
             updateWidget(this);
+            broadcastMetadata();
         }
     }
 
@@ -864,6 +866,7 @@ public class AudioService extends Service {
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
         hideNotification();
+        broadcastMetadata();
         executeUpdate();
         executeUpdateProgress();
         changeAudioFocus(false);
@@ -952,6 +955,7 @@ public class AudioService extends Service {
         setUpRemoteControlClient();
         showNotification();
         updateWidget(this);
+        broadcastMetadata();
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
 
@@ -1015,6 +1019,7 @@ public class AudioService extends Service {
         setUpRemoteControlClient();
         showNotification();
         updateWidget(this);
+        broadcastMetadata();
         updateRemoteControlClientMetadata();
         saveCurrentMedia();
 
@@ -1251,6 +1256,7 @@ public class AudioService extends Service {
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);
+            broadcastMetadata();
             updateRemoteControlClientMetadata();
             AudioService.this.saveMediaList();
             AudioService.this.saveCurrentMedia();
@@ -1282,6 +1288,7 @@ public class AudioService extends Service {
             setUpRemoteControlClient();
             showNotification();
             updateWidget(AudioService.this);
+            broadcastMetadata();
             updateRemoteControlClientMetadata();
             determinePrevAndNextIndices();
         }
@@ -1500,6 +1507,23 @@ public class AudioService extends Service {
         i.setAction(ACTION_WIDGET_UPDATE_POSITION);
         i.putExtra("position", pos);
         sendBroadcast(i);
+    }
+
+    private void broadcastMetadata() {
+        MediaWrapper media = getCurrentMedia();
+        if (media == null || media.getType() != MediaWrapper.TYPE_AUDIO)
+            return;
+
+        boolean playing = mLibVLC.isPlaying();
+
+        Intent broadcast = new Intent("com.android.music.metachanged");
+        broadcast.putExtra("track", media.getTitle());
+        broadcast.putExtra("artist", media.getArtist());
+        broadcast.putExtra("album", media.getAlbum());
+        broadcast.putExtra("duration", media.getLength());
+        broadcast.putExtra("playing", playing);
+
+        sendBroadcast(broadcast);
     }
 
     private synchronized void loadLastPlaylist() {
