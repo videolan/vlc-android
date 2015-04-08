@@ -281,4 +281,5 @@
     <string name="directory_hide_medialib">Απόκρυψη από το MediaLib</string>
     <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
     <string name="playlist_name_hint">όνομα λίστα αναπαραγωγής</string>
+    <string name="go_to_chapter">Πήγαινε στο κεφάλαιο...</string>
 </resources>
