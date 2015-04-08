@@ -6,7 +6,11 @@
     <string name="other">Arall</string>
     <string name="sortby">Trefnu yn ôl…</string>
     <string name="sortby_name">Enw</string>
+    <string name="sortby_name_desc">Enw (disg.)</string>
     <string name="sortby_length">Hyd</string>
+    <string name="sortby_length_desc">Hyd (disg.)</string>
+    <string name="sortby_date">Dyddiad</string>
+    <string name="sortby_date_desc">Dyddiad (disg.)</string>
     <string name="searchable_hint">Chwilio…</string>
     <string name="history">Hanes</string>
     <plurals name="search_found_results_quantity">
@@ -86,6 +90,7 @@
     <string name="loading">Yn llwytho…</string>
     <string name="please_wait">Arhoswch…</string>
     <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Trosglwyddwch neu lawrlwythwch ffeiliau i\'ch dyfais neu addaswch eich gosodiadau.</string>
+    <string name="noplaylist">Ni chanfuwyd rhestr chwarae.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">ddim ar gael</string>
     <string name="nosubdirectory">Dim is-gyfeiriaduron.</string>
@@ -286,4 +291,9 @@
     <string name="network_empty">Mae\'r cyfeiriadur hwn yn wag.</string>
     <string name="network_connection_needed">Dim cysylltiad i\'r rhwydwaith lleol</string>
     <string name="search_hint">Chwilio cyfryngau</string>
+    <string name="directory_show_medialib">Dangos yn MediaLib</string>
+    <string name="directory_hide_medialib">Cuddio o MediaLib</string>
+    <string name="playlist_save">Cadw Rhestr Chwarae</string>
+    <string name="playlist_name_hint">enw\'r rhestr chwarae</string>
+    <string name="go_to_chapter">Mynd at bennod...</string>
 </resources>
