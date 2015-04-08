@@ -60,6 +60,7 @@
     <attr name="ic_trash_small_normal" format="reference" />
     <attr name="gridview_progressbar" format="reference" />
     <attr name="toolbar_popup_style" format="reference" />
+    <attr name="progress_mini_player" format="reference" />
 
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>

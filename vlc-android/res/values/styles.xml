@@ -68,6 +68,7 @@
         <item name="shadow_top_9patch">@drawable/shadow_top</item>
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
+        <item name="progress_mini_player">@drawable/progress_mini_player</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
     </style>
 
@@ -138,6 +139,7 @@
         <item name="shadow_top_9patch">@drawable/shadow_top_dark</item>
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom_dark</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
+        <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
         <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
     </style>
 
