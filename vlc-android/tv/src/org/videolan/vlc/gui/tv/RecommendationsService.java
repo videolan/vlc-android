@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 
 import org.videolan.vlc.MediaDatabase;
@@ -41,18 +40,17 @@ import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.WeakHandler;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
-    private static final int NUM_RECOMMANDATIONS = 4;
+    private static final int NUM_RECOMMANDATIONS = 3;
 
-    private static NotificationManager sNotificationManager;
-    private static MediaDatabase sMediaDatabase = MediaDatabase.getInstance();
-    private static Context sContext;
+    private NotificationManager mNotificationManager;
+    private MediaDatabase mMediaDatabase = MediaDatabase.getInstance();
+    private Context mContext;
 
     public RecommendationsService() {
         super("RecommendationsService");
@@ -61,7 +59,7 @@ public class RecommendationsService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this;
+        mContext = this;
     }
 
     @Override
@@ -71,13 +69,13 @@ public class RecommendationsService extends IntentService {
             MediaLibrary.getInstance().loadMediaItems();
         }
     }
-    private static void buildRecommendation(MediaWrapper movie, int id, int priority) {
+    private void buildRecommendation(MediaWrapper movie, int id, int priority) {
         if (movie == null)
             return;
 
-        if (sNotificationManager == null) {
-            sNotificationManager = (NotificationManager)
-                    sContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager)
+                    mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
         //TODO
@@ -87,47 +85,39 @@ public class RecommendationsService extends IntentService {
 
         // build the recommendation as a Notification object
         Notification notification = new NotificationCompat.BigPictureStyle(
-                new NotificationCompat.Builder(sContext)
+                new NotificationCompat.Builder(mContext)
                         .setContentTitle(movie.getTitle())
                         .setContentText(movie.getDescription())
-                        .setContentInfo("VLC")
-//                        .setSortKey("0.8")
+                        .setContentInfo(getString(R.string.app_name))
                         .setPriority(priority)
                         .setLocalOnly(true)
                         .setOngoing(true)
-                        .setColor(sContext.getResources().getColor(R.color.orange500))
+                        .setColor(mContext.getResources().getColor(R.color.orange500))
                         .setCategory("recommendation")
-                        .setLargeIcon(sMediaDatabase.getPicture(sContext, movie.getLocation()))
+                        .setLargeIcon(mMediaDatabase.getPicture(mContext, movie.getLocation()))
                         .setSmallIcon(R.drawable.icon)
-                        .setContentIntent(buildPendingIntent(movie))
+                        .setContentIntent(buildPendingIntent(movie, id))
         ).build();
 
         // post the recommendation to the NotificationManager
-        sNotificationManager.notify(id, notification);
-        sNotificationManager = null;
+        mNotificationManager.notify(id, notification);
+        mNotificationManager = null;
     }
 
-    private static PendingIntent buildPendingIntent(MediaWrapper MediaWrapper) {
-        Intent intent = new Intent(sContext, VideoPlayerActivity.class);
+    private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
+        Intent intent = new Intent(mContext, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
-        intent.putExtra("itemLocation", MediaWrapper.getLocation());
-        intent.putExtra("itemTitle", MediaWrapper.getTitle());
-        intent.putExtra("dontParse", false);
-        intent.putExtra("fromStart", false);
-        intent.putExtra("itemPosition", -1);
+        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getLocation());
+        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
+        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_FROM_START, false);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(sContext);
-        stackBuilder.addParentStack(VideoPlayerActivity.class);
-        stackBuilder.addNextIntent(intent);
-
-        PendingIntent pi = stackBuilder.getPendingIntent(
-                0, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return pi;
     }
 
     RecommendationsHandler mHandler = new RecommendationsHandler(this);
 
-    private static class RecommendationsHandler extends WeakHandler<RecommendationsService> {
+    private class RecommendationsHandler extends WeakHandler<RecommendationsService> {
         public RecommendationsHandler(RecommendationsService owner) {
             super(owner);
         }
@@ -138,8 +128,8 @@ public class RecommendationsService extends IntentService {
         }
     }
 
-    private static boolean doRecommendations() {
-        String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(sContext).getString(PreferencesActivity.VIDEO_LAST, null));
+    private boolean doRecommendations() {
+        String last = Uri.decode(PreferenceManager.getDefaultSharedPreferences(mContext).getString(PreferencesActivity.VIDEO_LAST, null));
         int id = 0;
         if (last != null) {
             buildRecommendation(MediaLibrary.getInstance().getMediaItem(last), id, Notification.PRIORITY_HIGH);
@@ -152,11 +142,11 @@ public class RecommendationsService extends IntentService {
         for (MediaWrapper mediaWrapper : videoList){
             if (TextUtils.equals(mediaWrapper.getLocation(), last))
                 continue;
-            pic = sMediaDatabase.getPicture(sContext, mediaWrapper.getLocation());
+            pic = mMediaDatabase.getPicture(mContext, mediaWrapper.getLocation());
             if (pic != null && pic.getByteCount() > 4 && mediaWrapper.getTime() == 0) {
                 buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
             }
-            if (id == 3)
+            if (id == NUM_RECOMMANDATIONS)
                 return true;
         }
         return false;
