@@ -288,4 +288,5 @@
     <string name="directory_hide_medialib">Skryť v knižnici multimédií</string>
     <string name="playlist_save">Uložiť playlist</string>
     <string name="playlist_name_hint">názov playlistu</string>
+    <string name="go_to_chapter">Prejsť na kapitolu...</string>
 </resources>
