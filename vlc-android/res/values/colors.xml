@@ -39,4 +39,5 @@
     <color name="grey900transparent">#80212121</color>
 
     <color name="blacktransparent">#b4000000</color>
+    <color name="whitetransparent">#dcffffff</color>
 </resources>

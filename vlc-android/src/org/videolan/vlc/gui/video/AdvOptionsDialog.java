@@ -35,6 +35,8 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -54,6 +56,7 @@ import org.videolan.vlc.gui.dialogs.TimePickerDialogFragment;
 import org.videolan.vlc.interfaces.IDelayController;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.Calendar;
@@ -65,12 +68,17 @@ import static org.videolan.vlc.gui.dialogs.PickTimeFragment.ACTION_SPU_DELAY;
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
+    public static final String MODE_KEY = "mode";
+    public static final int MODE_VIDEO = 0;
+    public static final int MODE_AUDIO = 1;
+
     public static final int SPEED_TEXT = 0;
     public static final int SLEEP_TEXT = 1;
     public static final int TOGGLE_CANCEL = 2;
     public static final int DIALOG_LISTENER = 3;
     public static final int RESET_RETRY = 4;
 
+    private int mMode = -1;
     private TextView mAudioMode;
 
     private TextView mSpeedTv;
@@ -98,27 +106,32 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
         sInstance = this;
-        setStyle(STYLE_NO_FRAME, R.style.Theme_VLC_TransparentDialog);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
         mLibVLC = VLCInstance.get();
+        if (getArguments() != null && getArguments().containsKey(MODE_KEY))
+            mMode = getArguments().getInt(MODE_KEY);
+        else
+            mMode = MODE_VIDEO;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mDelayController = (IDelayController) activity;
+        if (mMode == MODE_VIDEO) {
+            mDelayController = (IDelayController) activity;
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_advanced_options, container, false);
+        getDialog().setCancelable(true);
+        getDialog().setCanceledOnTouchOutside(true);
 
-        mAudioMode = (TextView) root.findViewById(R.id.playback_switch_audio);
-        mAudioMode.setOnClickListener(this);
-        mAudioMode.setOnFocusChangeListener(mFocusListener);
 
         mSeek = (SeekBar) root.findViewById(R.id.playback_speed_seek);
         mSpeedTv = (TextView) root.findViewById(R.id.playback_speed_value);
@@ -130,6 +143,9 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mSleepTitle = (TextView) root.findViewById(R.id.sleep_timer_title);
         mSleepTime = (TextView) root.findViewById(R.id.sleep_timer_value);
         mSleepCancel = (TextView) root.findViewById(R.id.sleep_timer_cancel);
+        mJumpTitle = (TextView) root.findViewById(R.id.jump_title);
+
+        mJumpTitle.setOnClickListener(this);
 
         if (AndroidDevices.hasTsp()) {
             mSleepTitle.setOnClickListener(this);
@@ -139,31 +155,40 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             root.findViewById(R.id.sleep_timer_container).setVisibility(View.GONE);
         }
 
-        mJumpTitle = (TextView) root.findViewById(R.id.jump_title);
-        mChapters = (Spinner) root.findViewById(R.id.jump_chapter);
-        mChaptersTitle = (TextView) root.findViewById(R.id.jump_chapter_title);
-
-        mAudioDelay = (TextView) root.findViewById(R.id.audio_delay);
-        mSpuDelay = (TextView) root.findViewById(R.id.spu_delay);
-
-        mJumpTitle.setOnClickListener(this);
-
-        mSpuDelay.setOnClickListener(this);
-
         mReset.setOnFocusChangeListener(mFocusListener);
         mSleepTime.setOnFocusChangeListener(mFocusListener);
         mSleepCancel.setOnFocusChangeListener(mFocusListener);
         mJumpTitle.setOnFocusChangeListener(mFocusListener);
-        mSpuDelay.setOnFocusChangeListener(mFocusListener);
-        if (BuildConfig.DEBUG) { //Hide audio delay option for now, it is not usable yet.
-            mAudioDelay.setOnClickListener(this);
-            mAudioDelay.setOnFocusChangeListener(mFocusListener);
+
+        if (mMode == MODE_VIDEO) {
+            mAudioMode = (TextView) root.findViewById(R.id.playback_switch_audio);
+            mAudioMode.setOnClickListener(this);
+            mAudioMode.setOnFocusChangeListener(mFocusListener);
+
+            mChapters = (Spinner) root.findViewById(R.id.jump_chapter);
+            mChaptersTitle = (TextView) root.findViewById(R.id.jump_chapter_title);
+
+            mAudioDelay = (TextView) root.findViewById(R.id.audio_delay);
+            mSpuDelay = (TextView) root.findViewById(R.id.spu_delay);
+
+            mSpuDelay.setOnClickListener(this);
+            mSpuDelay.setOnFocusChangeListener(mFocusListener);
+            if (BuildConfig.DEBUG) { //Hide audio delay option for now, it is not usable yet.
+                mAudioDelay.setOnClickListener(this);
+                mAudioDelay.setOnFocusChangeListener(mFocusListener);
+            } else {
+                mAudioDelay.setVisibility(View.GONE);
+            }
+            initChapterSpinner();
         } else {
-            mAudioDelay.setVisibility(View.GONE);
+            root.findViewById(R.id.audio_delay).setVisibility(View.GONE);
+            root.findViewById(R.id.spu_delay).setVisibility(View.GONE);
+            root.findViewById(R.id.jump_chapter).setVisibility(View.GONE);
+            root.findViewById(R.id.jump_chapter_title).setVisibility(View.GONE);
+            root.findViewById(R.id.playback_switch_audio).setVisibility(View.GONE);
+
         }
 
-        initChapterSpinner();
-        getDialog().setCancelable(true);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
 
@@ -172,6 +197,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             speed = 100 * (1 + Math.log(speed) / Math.log(4));
             mSeek.setProgress((int) speed);
         }
+
+        Window window = getDialog().getWindow();
+        window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return root;
     }
 
@@ -223,14 +252,18 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     };
 
     private void showTimePickerFragment(int action) {
+        if (mDelayController == null && getActivity() instanceof IDelayController)
+            mDelayController = (IDelayController) getActivity();
         DialogFragment newFragment = null;
         if (AndroidDevices.hasTsp()) {
             switch (action){
                 case PickTimeFragment.ACTION_AUDIO_DELAY:
-                    mDelayController.showAudioDelaySetting();
+                    if (mDelayController != null)
+                        mDelayController.showAudioDelaySetting();
                     break;
                 case PickTimeFragment.ACTION_SPU_DELAY:
-                    mDelayController.showSubsDelaySetting();
+                    if (mDelayController != null)
+                        mDelayController.showSubsDelaySetting();
                     break;
                 case PickTimeFragment.ACTION_JUMP_TO_TIME:
                     newFragment = new JumpToTimeDialog();

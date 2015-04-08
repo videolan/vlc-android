@@ -64,6 +64,7 @@
     <attr name="shadow_bottom_9patch" format="reference"/>
 
     <attr name="advanced_options_style" format="reference" />
+    <attr name="rounded_bg" format="reference" />
 
     <declare-styleable name="SlidingPaneLayout">
         <attr name="overhangSize" format="dimension" />

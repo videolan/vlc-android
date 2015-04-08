@@ -30,6 +30,7 @@ import android.widget.TimePicker;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.LibVlcUtil;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.video.AdvOptionsDialog;
 import org.videolan.vlc.util.VLCInstance;
@@ -48,6 +49,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        setStyle(STYLE_NO_FRAME, R.attr.advanced_options_style);
         action = getArguments().getInt("action");
         boolean is24 = true;
         int hour = 0;

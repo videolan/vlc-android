@@ -67,7 +67,11 @@
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
-        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsLight</item>
+        <item name="advanced_options_style">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="rounded_bg">@drawable/rounded_corners_light</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
@@ -136,7 +140,11 @@
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom_dark</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
-        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
+        <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
+        <item name="rounded_bg">@drawable/rounded_corners</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
     </style>
 
     <style name="Theme.VLC.List">
@@ -163,7 +171,11 @@
         <item name="video_player_overlay">@android:color/transparent</item>
         <item name="status_bar_overlay">@android:color/transparent</item>
 
-        <item name="advanced_options_style">@style/Theme.VLC.AdvancedOptionsBlack</item>
+        <item name="rounded_bg">@drawable/rounded_corners</item>
+        <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
+        <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
+        <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
+        <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
@@ -179,50 +191,6 @@
     </style>
 
     <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <!-- Advanced options menu styles -->
-
-    <style name="Theme.VLC.TransparentDialog" parent="@style/Theme.AppCompat.Dialog">
-      <item name="android:windowIsFloating">true</item>
-      <item name="android:backgroundDimEnabled">true</item>
-      <item name="android:windowIsTranslucent">true</item>
-      <item name="android:windowNoTitle">true</item>
-      <item name="android:windowBackground">@drawable/rounded_corners</item>
-    </style>
-
-    <style name="Theme.VLC.AdvancedOptions" parent="@android:style/Theme.Dialog">
-      <item name="android:windowIsFloating">true</item>
-      <item name="android:backgroundDimEnabled">false</item>
-      <item name="android:windowIsTranslucent">false</item>
-      <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.VLC.AdvancedOptionsLight" parent="Theme.VLC.AdvancedOptions">
-      <item name="android:windowBackground">@drawable/abc_item_background_holo_light</item>
-      <item name="android:textColor">@color/grey850</item>
-      <item name="advanced_options_divider">@color/grey500</item>
-      <item name="advanced_options_background">@color/grey300</item>
-      <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
-      <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
-      <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
-      <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal</item>
-      <item name="ic_down_style">@drawable/ic_down</item>
-      <item name="ic_up_style">@drawable/ic_up</item>
-    </style>
-    
-
-    <style name="Theme.VLC.AdvancedOptionsBlack" parent="Theme.VLC.AdvancedOptions">
-      <item name="android:windowBackground">@drawable/abc_item_background_holo_dark</item>
-      <item name="android:textColor">@color/white</item>
-      <item name="advanced_options_divider">@color/grey850</item>
-      <item name="advanced_options_background">@color/grey900</item>
-      <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
-      <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
-      <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
-      <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
-      <item name="ic_down_style">@drawable/ic_down_w</item>
-      <item name="ic_up_style">@drawable/ic_up_w</item>
-    </style>
 
     <!-- Tips Apearance-->
 

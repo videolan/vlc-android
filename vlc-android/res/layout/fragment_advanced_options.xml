@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_speed_normal_w" />
+            android:src="?attr/ic_speed_normal_style" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -138,7 +138,7 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:text="@string/sleep_title"
-            android:drawableLeft="@drawable/ic_sleep_normal_w"/>
+            android:drawableLeft="?attr/ic_speed_normal_style"/>
 
         <TextView
             android:id="@+id/sleep_timer_value"
@@ -178,7 +178,7 @@
             android:focusable="true"
             android:gravity="center_vertical"
             android:text="@string/jump_to_time"
-            android:drawableLeft="@drawable/ic_jumpto_normal_w"/>
+            android:drawableLeft="?attr/ic_jumpto_normal_style"/>
         <TextView
             android:id="@+id/jump_chapter_title"
             android:layout_width="wrap_content"

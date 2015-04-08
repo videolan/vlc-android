@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.CommonDialogs.MenuType;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.SavePlaylist;
+import org.videolan.vlc.gui.video.AdvOptionsDialog;
 import org.videolan.vlc.interfaces.IAudioPlayer;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -478,7 +479,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
     }
 
     public void showAdvancedOptions(View v) {
-        CommonDialogs.advancedOptions(getActivity(), v, MenuType.Audio);
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
+        Bundle args = new Bundle();
+        args.putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO);
+        advOptionsDialog.setArguments(args);
+        advOptionsDialog.show(fm, "fragment_adv_options");
     }
 
     public void show() {

@@ -30,12 +30,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 public abstract class PickTimeFragment extends DialogFragment implements DialogInterface.OnKeyListener, View.OnClickListener, View.OnFocusChangeListener, TextView.OnEditorActionListener {
@@ -61,6 +63,12 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
 
     public PickTimeFragment(){
         mLibVLC = VLCInstance.get();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.attr.advanced_options_style);
     }
 
     @Override
@@ -91,10 +99,12 @@ public abstract class PickTimeFragment extends DialogFragment implements DialogI
         view.findViewById(R.id.jump_seconds_up).setOnClickListener(this);
         view.findViewById(R.id.jump_seconds_down).setOnClickListener(this);
 
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setOnKeyListener(this);
-        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getDialog().getWindow().setBackgroundDrawableResource(R.drawable.rounded_corners);
+        getDialog().setCancelable(true);
+        getDialog().setCanceledOnTouchOutside(true);
+        Window window = getDialog().getWindow();
+        window.setBackgroundDrawableResource(Util.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
     }
 
