@@ -6,7 +6,11 @@
     <string name="other">Lain-lain</string>
     <string name="sortby">Isih dengan...</string>
     <string name="sortby_name">Nama</string>
+    <string name="sortby_name_desc">Nama (ktrgn)</string>
     <string name="sortby_length">Tempoh</string>
+    <string name="sortby_length_desc">Panjang (ktrgn)</string>
+    <string name="sortby_date">Tarikh</string>
+    <string name="sortby_date_desc">Tarikh (ktrgn)</string>
     <string name="searchable_hint">Gelintar...</string>
     <string name="history">Sejarah</string>
     <plurals name="search_found_results_quantity">
@@ -68,6 +72,7 @@
     <string name="loading">Memuatkan...</string>
     <string name="please_wait">Sila tunggu...</string>
     <string name="nomedia">Tiada media ditemui, sila pindah beberapa fail ke peranti anda atau laraskan keutamaan anda.</string>
+    <string name="noplaylist">Tiada senarai main ditemui.</string>
     <string name="mediafiles">Fail media</string>
     <string name="notavailable">tidak tersedia</string>
     <string name="nosubdirectory">Tiada subdirektori.</string>
@@ -265,4 +270,9 @@
     <string name="network_empty">Direktori ini kosong.</string>
     <string name="network_connection_needed">Tiada sambungan untuk rangkaian lokal.</string>
     <string name="search_hint">Carian media</string>
+    <string name="directory_show_medialib">Tunjuk dalam MediaLib</string>
+    <string name="directory_hide_medialib">Sembunyi dari MediaLib</string>
+    <string name="playlist_save">Simpan Senarai Main</string>
+    <string name="playlist_name_hint">nama senarai main</string>
+    <string name="go_to_chapter">Pergi ke bab...</string>
 </resources>
