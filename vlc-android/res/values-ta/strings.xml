@@ -281,4 +281,5 @@
     <string name="directory_hide_medialib">ஊடக நூலகத்தில் இருந்து மறை</string>
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
     <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
+    <string name="go_to_chapter">அத்தியாயம் செல்ல...</string>
 </resources>
