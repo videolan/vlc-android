@@ -6,7 +6,11 @@
     <string name="other">Autre</string>
     <string name="sortby">Trier par…</string>
     <string name="sortby_name">Nom</string>
+    <string name="sortby_name_desc">Nom (desc)</string>
     <string name="sortby_length">Durée</string>
+    <string name="sortby_length_desc">Durée (desc)</string>
+    <string name="sortby_date">Date</string>
+    <string name="sortby_date_desc">Date (desc)</string>
     <string name="searchable_hint">Recherche…</string>
     <string name="history">Historique</string>
     <plurals name="search_found_results_quantity">
@@ -74,6 +78,7 @@
     <string name="loading">Chargement</string>
     <string name="please_wait">Veuillez patienter…</string>
     <string name="nomedia">Aucun fichier média trouvé, veuillez transférer des fichiers vers votre périphérique ou ajuster vos préférences.</string>
+    <string name="noplaylist">Aucune liste de lecture trouvée.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
     <string name="nosubdirectory">Pas de sous-dossiers</string>
@@ -274,4 +279,7 @@
     <string name="search_hint">Recherche de média</string>
     <string name="directory_show_medialib">Afficher dans la MediaLib</string>
     <string name="directory_hide_medialib">Cacher dans la MediaLib</string>
+    <string name="playlist_save">Enregistrer la liste de lecture</string>
+    <string name="playlist_name_hint">Nom de la liste de lecture</string>
+    <string name="go_to_chapter">Aller au chapitre...</string>
 </resources>
