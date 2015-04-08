@@ -288,4 +288,5 @@
     <string name="directory_hide_medialib">Приховати у медіабібліотеці</string>
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">назва списку відтворення</string>
+    <string name="go_to_chapter">Перейти до глави…</string>
 </resources>
