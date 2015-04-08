@@ -275,7 +275,7 @@ public class MediaLibrary {
 
             int count = 0;
 
-            ArrayList<File> mediaToScan = new ArrayList<File>();
+            LinkedList<File> mediaToScan = new LinkedList<File>();
             try {
                 LinkedList<String> dirsToIgnore = new LinkedList<String>();
                 // Count total files, and stack them
@@ -307,17 +307,21 @@ public class MediaLibrary {
 
                     // Filter the extensions and the folders
                     try {
-                        if ((f = dir.listFiles(mediaFileFilter)) != null) {
-                            for (File file : f) {
-                                if (file.isFile()) {
-                                    mediaToScan.add(file);
-                                } else if (file.isDirectory()) {
-                                    directories.push(file);
+                        String[] files = dir.list();
+                        File file;
+                        if (files != null){
+                            for (String fileName : files){
+                                file = new File(dirPath, fileName);
+                                if (mediaFileFilter.accept(file)){
+                                    if (file.isFile())
+                                        mediaToScan.add(file);
+                                    else if (file.isDirectory())
+                                        directories.push(file);
                                 }
+                                file = null;
                             }
                         }
-                    } catch (Exception e)
-                    {
+                    } catch (Exception e){
                         // listFiles can fail in OutOfMemoryError, go to the next folder
                         continue;
                     }
