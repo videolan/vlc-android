@@ -5,6 +5,9 @@ Application:
  * Fix audio stutter with some devices
  * Fix MPEG4 on some MTK devices (Wiko)
  * Fix crashes with some QCOM devices (Samsung Galaxy Tab 4, Galaxy S4/S5...)
+ * Minor fixes and UI adjustments
+ * Add option to ask for resume video or play from star
+ * Volume/brightness: add a vertical bar and levels in %
 
 Changes between 1.2.3 and 1.2.4:
 --------------------------------
