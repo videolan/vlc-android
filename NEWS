@@ -1,6 +1,11 @@
-Changes between 1.2.5 and 1.3.0:
+Changes between 1.2.5 and 1.2.6:
 --------------------------------
 
+Application:
+ * Fix crash on startup when some iso files
+ * Fix presentation mode
+ * New audio material design icons
+ * Minor bug fixes
 
 Changes between 1.2.4 and 1.2.5:
 --------------------------------
