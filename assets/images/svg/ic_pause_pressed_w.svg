@@ -9,70 +9,17 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130"
-   height="130"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_pause_pressed_w.svg"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="ic_pause_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
-     id="defs4684">
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter6243"
-       x="-0.28"
-       width="1.5599999"
-       y="-0.13263159"
-       height="1.2652632">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="5.25"
-         id="feGaussianBlur6245" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter6227"
-       x="-0.28"
-       width="1.5599999"
-       y="-0.13263159"
-       height="1.2652632">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="5.25"
-         id="feGaussianBlur6229" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter7094"
-       x="-0.41142857"
-       width="1.8228571"
-       y="-0.16941176"
-       height="1.3388236">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="6"
-         id="feGaussianBlur7096" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter7098"
-       x="-0.41142857"
-       width="1.8228571"
-       y="-0.16941176"
-       height="1.3388236">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="6"
-         id="feGaussianBlur7100" />
-    </filter>
-  </defs>
+     id="defs4684" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -80,17 +27,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="8.037639"
-     inkscape:cy="75.317769"
+     inkscape:zoom="22.4"
+     inkscape:cx="13.40099"
+     inkscape:cy="15.548271"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="960"
+     inkscape:window-height="1028"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -99,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -107,46 +58,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-922.36218)">
-    <g
-       id="g3012"
-       transform="translate(120.17857,17.678586)">
-      <rect
-         rx="5"
-         ry="5"
-         y="927.18359"
-         x="-52.67857"
-         height="85"
-         width="35"
-         id="rect7030"
-         style="color:#000000;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter7098);enable-background:accumulate" />
-      <rect
-         style="color:#000000;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;filter:url(#filter7094);enable-background:accumulate"
-         id="rect7032"
-         width="35"
-         height="85"
-         x="-92.678574"
-         y="927.18359"
-         ry="5"
-         rx="5" />
-      <rect
-         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect5893-3"
-         width="25"
-         height="75"
-         x="-87.678574"
-         y="932.18359"
-         ry="2"
-         rx="2" />
-      <rect
-         rx="2"
-         ry="2"
-         y="932.18359"
-         x="-47.67857"
-         height="75"
-         width="25"
-         id="rect5895-5"
-         style="color:#000000;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    </g>
+     transform="translate(0,-1028.3622)">
+    <path
+       style="color:#000000;fill:#ffb54c;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 6 5 L 6 19 L 10 19 L 10 5 L 6 5 z M 14 5 L 14 19 L 18 19 L 18 5 L 14 5 z "
+       transform="translate(0,1028.3622)"
+       id="rect5038" />
   </g>
 </svg>

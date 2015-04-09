@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130"
-   height="130"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="ic_playlist_normal_w.svg"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="ic_pause_pressed.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -27,17 +27,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="76.620012"
-     inkscape:cy="75.317769"
+     inkscape:zoom="22.4"
+     inkscape:cx="13.40099"
+     inkscape:cy="15.548271"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="960"
+     inkscape:window-height="1028"
      inkscape:window-x="1920"
-     inkscape:window-y="54"
-     inkscape:window-maximized="1" />
+     inkscape:window-y="24"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -54,11 +58,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-922.36218)">
+     transform="translate(0,-1028.3622)">
     <path
-       style="opacity:0.9;fill:#323232;fill-opacity:1;fill-rule:nonzero;stroke:none"
-       d="m 41.383385,942.36218 c -1.125462,0 -3.376318,1.12544 -4.501757,2.25088 -1.12544,1.12544 -1.125451,2.25088 -1.12544,3.37632 l 0,50.75028 c -0.551983,-0.0621 -1.116638,-0.10546 -1.688159,-0.10546 -7.158368,0 -12.977722,5.0134 -12.977722,11.2192 0,6.2059 5.819354,11.2544 12.977722,11.2544 7.158369,0 12.977723,-5.0485 12.977723,-11.2544 0,-0.1939 -0.02397,-0.3712 -0.03511,-0.5627 l 0,-61.30127 c 0,-1.12544 0.03174,-2.28258 1.125439,-3.37632 1.093736,-1.09372 3.376319,-2.25087 4.501758,-2.25087 l -5.627197,0 -5.627197,0 z m 28.135984,5.6272 c -1.125462,0 -3.376318,1.12544 -4.501758,2.25088 -1.125439,1.12543 -1.12545,2.25087 -1.125439,3.37631 l 0,50.75033 c -0.55967,-0.064 -1.108355,-0.1055 -1.688159,-0.1055 -7.160552,0 -12.977722,5.0486 -12.977722,11.2544 0,6.2058 5.81717,11.2192 12.977722,11.2192 7.160552,0 12.942552,-5.0134 12.942552,-11.2192 l 0,-61.89917 c 0,-1.12544 0.03174,-2.28258 1.12544,-3.37632 1.093736,-1.09372 3.376318,-2.25088 4.501757,-2.25088 l -5.627197,0 -5.627196,0 z m 28.135984,5.62719 c -1.12546,0 -3.37632,1.12544 -4.50176,2.25088 -1.12544,1.12544 -1.12545,2.25088 -1.12544,3.37632 l 0,50.71513 c -0.55815,-0.064 -1.10993,-0.07 -1.688156,-0.07 -7.141138,0 -12.942553,5.0134 -12.942553,11.2192 0,6.2058 5.801415,11.2544 12.942553,11.2544 7.127656,0 12.885713,-5.0296 12.907433,-11.2193 l 0.0351,0 0,-61.89909 c 0,-1.12544 0.0315,-2.28258 1.12544,-3.37632 1.0937,-1.09372 3.37629,-2.25088 4.50172,-2.25088 l -5.62716,0 -5.627187,0 z"
-       id="path4913"
-       inkscape:connector-curvature="0" />
+       style="color:#000000;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 4 5 L 4 7 L 15 7 L 15 5 L 4 5 z M 17 5 L 17 14.0625 C 16.837256 14.029198 16.672589 14 16.5 14 C 15.119288 14 14 15.119288 14 16.5 C 14 17.880712 15.119288 19 16.5 19 C 17.880712 19 19 17.880712 19 16.5 L 19 7 L 21 7 L 21 5 L 19 5 L 17 5 z M 4 9 L 4 11 L 15 11 L 15 9 L 4 9 z M 4 13 L 4 15 L 12 15 L 12 13 L 4 13 z "
+       transform="translate(0,1028.3622)"
+       id="path5014" />
   </g>
 </svg>

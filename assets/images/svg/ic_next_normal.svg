@@ -9,11 +9,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="130"
-   height="130"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="ic_next_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,17 +27,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="-7.562753"
-     inkscape:cy="74.187989"
+     inkscape:zoom="22.4"
+     inkscape:cx="9.8295619"
+     inkscape:cy="15.548271"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1026"
+     showgrid="true"
+     inkscape:window-width="960"
+     inkscape:window-height="1028"
      inkscape:window-x="1920"
      inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3002" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -46,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,35 +58,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-922.36218)">
-    <g
-       id="g2997"
-       transform="translate(-1.964286,5.357159)">
-      <rect
-         rx="2"
-         ry="2"
-         y="944.505"
-         x="91.964287"
-         height="75"
-         width="20"
-         id="rect4928-4"
-         style="color:#000000;fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <path
-         transform="matrix(1.4021244,0,0,1.4058474,-706.17623,170.3461)"
-         d="m 519.8125,550.6875 a 0.70275342,0.70275342 0 0 0 -0.5,0.6875 l 0,51.96875 a 0.70275342,0.70275342 0 0 0 1.03125,0.59375 l 45,-25.96875 a 0.70275342,0.70275342 0 0 0 0,-1.1875 l -45,-26 a 0.70275342,0.70275342 0 0 0 -0.53125,-0.0937 z"
-         id="path5965"
-         style="fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         inkscape:original="M 520 551.375 L 520 603.34375 L 565 577.375 L 520 551.375 z "
-         inkscape:radius="0.70268315"
-         sodipodi:type="inkscape:offset" />
-      <path
-         sodipodi:type="inkscape:offset"
-         inkscape:radius="0.70268315"
-         inkscape:original="M 520 551.375 L 520 603.34375 L 565 577.375 L 520 551.375 z "
-         style="fill:#4b4b4b;fill-opacity:1;fill-rule:nonzero;stroke:none"
-         id="path5967"
-         d="m 519.8125,550.6875 a 0.70275342,0.70275342 0 0 0 -0.5,0.6875 l 0,51.96875 a 0.70275342,0.70275342 0 0 0 1.03125,0.59375 l 45,-25.96875 a 0.70275342,0.70275342 0 0 0 0,-1.1875 l -45,-26 a 0.70275342,0.70275342 0 0 0 -0.53125,-0.0937 z"
-         transform="matrix(1.4021244,0,0,1.4058474,-681.17623,170.3461)" />
-    </g>
+     transform="translate(0,-1028.3622)">
+    <path
+       style="color:#000000;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M 6 6 L 6 18 L 15 12 L 6 6 z M 17 6 L 17 18 L 19 18 L 19 6 L 17 6 z "
+       transform="translate(0,1028.3622)"
+       id="path5067" />
   </g>
 </svg>
