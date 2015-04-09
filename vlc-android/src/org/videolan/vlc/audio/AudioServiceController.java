@@ -353,21 +353,18 @@ public class AudioServiceController implements IAudioPlayerControl {
 
     public void stop() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "stop", null, null);
-        updateAudioPlayer();
     }
 
     public void showWithoutParse(int u) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "showWithoutParse",
                 new Class<?>[] { int.class },
                 new Object[] { u } );
-        updateAudioPlayer();
     }
 
     public void playIndex(int i) {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "playIndex",
                 new Class<?>[] { int.class },
                 new Object[] { i } );
-        updateAudioPlayer();
     }
 
     @Override
@@ -413,13 +410,11 @@ public class AudioServiceController implements IAudioPlayerControl {
     @Override
     public void pause() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "pause", null, null);
-        updateAudioPlayer();
     }
 
     @Override
     public void play() {
         remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "play", null, null);
-        updateAudioPlayer();
     }
 
     @Override
