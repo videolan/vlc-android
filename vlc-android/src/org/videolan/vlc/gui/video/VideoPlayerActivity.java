@@ -1250,7 +1250,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * @param duration
      */
     private void showInfo(String text, int duration) {
-        mVerticalBar.setVisibility(View.INVISIBLE);
+        if (mPresentation == null)
+            mVerticalBar.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1258,7 +1259,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     private void showInfo(int textid, int duration) {
-        mVerticalBar.setVisibility(View.INVISIBLE);
+        if (mPresentation == null)
+            mVerticalBar.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(textid);
         mHandler.removeMessages(FADE_OUT_INFO);
@@ -1270,7 +1272,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
      * @param text
      */
     private void showInfo(String text) {
-        mVerticalBar.setVisibility(View.INVISIBLE);
+        if (mPresentation == null)
+            mVerticalBar.setVisibility(View.INVISIBLE);
         mHandler.removeMessages(FADE_OUT_INFO);
         mInfo.setVisibility(View.VISIBLE);
         mInfo.setText(text);
@@ -1298,10 +1301,12 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     VideoPlayerActivity.this, android.R.anim.fade_out));
         mInfo.setVisibility(View.INVISIBLE);
 
-        if (mVerticalBar.getVisibility() == View.VISIBLE)
-            mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
-                    VideoPlayerActivity.this, android.R.anim.fade_out));
-        mVerticalBar.setVisibility(View.INVISIBLE);
+        if (mPresentation == null) {
+            if (mVerticalBar.getVisibility() == View.VISIBLE)
+                mVerticalBar.startAnimation(AnimationUtils.loadAnimation(
+                        VideoPlayerActivity.this, android.R.anim.fade_out));
+            mVerticalBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     private OnAudioFocusChangeListener mAudioFocusListener = !LibVlcUtil.isFroyoOrLater() ? null :
