@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio.widget;
 
 import org.videolan.vlc.R;
-import org.videolan.vlc.widget.AnimatedCoverView;
 import org.videolan.vlc.widget.AudioMediaSwitcher;
 
 import android.content.Context;
@@ -29,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageView;
 
 public class CoverMediaSwitcher extends AudioMediaSwitcher {
 
@@ -37,12 +37,13 @@ public class CoverMediaSwitcher extends AudioMediaSwitcher {
     }
 
     protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
-        AnimatedCoverView coverView = new AnimatedCoverView(inflater.getContext(), null);
 
         if (cover == null)
             cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
-        coverView.setImageBitmap(cover);
 
-        addView(coverView);
+        ImageView imageView = new ImageView(getContext());
+        imageView.setImageBitmap(cover);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        addView(imageView);
     }
 }
