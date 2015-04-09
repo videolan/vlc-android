@@ -35,10 +35,11 @@
 
         <ImageButton
             android:id="@+id/playlist_save"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_weight="0"
+            android:layout_marginRight="8dp"
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
@@ -47,8 +48,8 @@
 
         <ImageButton
             android:id="@+id/playlist_switch"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
             android:layout_weight="0"
             android:background="#00000000"
@@ -71,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
             android:layout_weight="0"
             android:clickable="true"
             android:text="@string/time_0"
@@ -82,9 +83,10 @@
 
         <ImageButton
             android:id="@+id/header_play_pause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
+            android:layout_marginRight="@dimen/default_margin"
             android:background="#00000000"
             android:contentDescription="@string/pause"
             android:focusable="true"
@@ -96,10 +98,6 @@
             android:nextFocusLeft="@id/header_play_pause"
             android:nextFocusRight="@id/header_play_pause" />
 
-        <View
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:background="#00000000" />
     </LinearLayout>
 
     <ViewSwitcher
@@ -144,12 +142,10 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
+            android:layout_marginTop="4dip"
             android:layout_weight="0"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/time"
@@ -157,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_weight="0"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:clickable="true"
                 android:text="@string/time_0"
                 android:textSize="12sp" />
@@ -180,6 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_weight="0"
                 android:text="@string/time_0"
                 android:textSize="12sp" />
@@ -187,13 +185,15 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0" >
+            android:layout_height="wrap_content" >
 
             <ImageButton
                 android:id="@+id/shuffle"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:background="#00000000"
                 android:contentDescription="@string/shuffle"
                 android:focusable="true"
@@ -202,10 +202,11 @@
 
             <ImageButton
                 android:id="@+id/repeat"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/default_margin"
                 android:background="#00000000"
                 android:contentDescription="@string/repeat"
                 android:focusable="true"
@@ -214,8 +215,8 @@
 
             <ImageButton
                 android:id="@+id/play_pause"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:background="#00000000"
@@ -226,10 +227,10 @@
 
             <ImageButton
                 android:id="@+id/next"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/default_margin"
                 android:layout_toRightOf="@+id/play_pause"
                 android:background="#00000000"
                 android:contentDescription="@string/next"
@@ -239,10 +240,10 @@
 
             <ImageButton
                 android:id="@+id/previous"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_toLeftOf="@+id/play_pause"
                 android:background="#00000000"
                 android:contentDescription="@string/previous"
