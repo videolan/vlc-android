@@ -1804,6 +1804,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             // No volume/brightness action if coef < 2 or a secondary display is connected
             //TODO : Volume action when a secondary display is connected
             if (mTouchAction != TOUCH_SEEK && coef > 2 && mPresentation == null) {
+                if (Math.abs(y_changed/mSurfaceYDisplayRange) < 0.05)
+                    return false;
                 mTouchY = event.getRawY();
                 mTouchX = event.getRawX();
                 // Volume (Up or Down - Right side)
