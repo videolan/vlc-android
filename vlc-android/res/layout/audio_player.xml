@@ -55,7 +55,7 @@
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_playlist_pressed" />
+            android:src="?attr/ic_playlist_on" />
 
         <ImageButton
             android:id="@+id/adv_function"

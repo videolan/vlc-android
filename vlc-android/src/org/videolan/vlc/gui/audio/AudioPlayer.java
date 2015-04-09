@@ -226,10 +226,10 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
                 mSwitcher.showNext();
                 if (mSwitcher.getDisplayedChild() == 0)
                     mPlaylistSwitch.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                                     R.attr.ic_playlist_pressed));
+                                                     R.attr.ic_playlist_on));
                 else
                     mPlaylistSwitch.setImageResource(Util.getResourceFromAttribute(getActivity(),
-                                                     R.attr.ic_playlist_normal));
+                                                     R.attr.ic_playlist));
             }
         });
         mSongsList.setOnItemClickListener(new OnItemClickListener() {

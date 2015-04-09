@@ -40,8 +40,8 @@
         <item name="list_title">@color/list_title</item>
         <item name="android:windowBackground">@color/grey200</item>
 
-        <item name="ic_playlist_normal">@drawable/ic_playlist_normal</item>
-        <item name="ic_playlist_pressed">@drawable/ic_playlist_pressed</item>
+        <item name="ic_playlist">@drawable/ic_playlist</item>
+        <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_repeat_normal">@drawable/ic_repeat_normal</item>
         <item name="ic_repeat_pressed">@drawable/ic_repeat_pressed</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
@@ -111,8 +111,8 @@
         <item name="list_title">@color/bt_list_title</item>
         <item name="android:windowBackground">@color/grey900</item>
 
-        <item name="ic_playlist_normal">@drawable/ic_playlist_normal_w</item>
-        <item name="ic_playlist_pressed">@drawable/ic_playlist_pressed</item>
+        <item name="ic_playlist">@drawable/ic_playlist_w</item>
+        <item name="ic_playlist_on">@drawable/ic_playlist_on</item>
         <item name="ic_repeat_normal">@drawable/ic_repeat_normal_w</item>
         <item name="ic_repeat_pressed">@drawable/ic_repeat_pressed</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
