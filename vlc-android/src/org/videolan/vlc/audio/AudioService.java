@@ -71,6 +71,7 @@ import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.AudioUtil;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.interfaces.IAudioService;
 import org.videolan.vlc.interfaces.IAudioServiceCallback;
 import org.videolan.vlc.util.Util;
@@ -549,6 +550,9 @@ public class AudioService extends Service {
                     service.showNotification();
                     service.updateRemoteControlClientMetadata();
                     break;
+                case EventHandler.MediaPlayerESAdded:
+                    service.handleVout();
+                    break;
                 default:
                     Log.e(TAG, String.format("Event not handled (0x%x)", msg.getData().getInt("event")));
                     break;
@@ -612,6 +616,24 @@ public class AudioService extends Service {
             executeUpdate();
         }
     };
+
+    private void handleVout() {
+        if (mLibVLC.getVideoTracksCount() <= 0 || !hasCurrentMedia())
+            return;
+        final MediaWrapper mw = mMediaListPlayer.getMediaList().getMedia(mCurrentIndex);
+        if (mw == null || (mw.getFlags() & LibVLC.MEDIA_NO_VIDEO) != 0)
+            return;
+
+        Log.i(TAG, "Obtained video track");
+        int index = mCurrentIndex;
+        mCurrentIndex = -1;
+        mEventHandler.removeHandler(mVlcEventHandler);
+        // Preserve playback when switching to video
+        hideNotification(false);
+
+        // Switch to the video player & don't lose the currently playing stream
+        VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), index);
+    }
 
     private void executeUpdate() {
         executeUpdate(true);

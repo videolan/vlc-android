@@ -147,6 +147,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
     public final static String PLAY_EXTRA_ITEM_TITLE = "item_title";
     public final static String PLAY_EXTRA_FROM_START = "from_start";
+    public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
 
     private SurfaceView mSurfaceView;
     private SurfaceView mSubtitlesSurfaceView;
@@ -802,25 +803,29 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public static void start(Context context, String location) {
-        start(context, location, null, false, false);
+        start(context, location, null, false, -1);
     }
 
     public static void start(Context context, String location, boolean fromStart) {
-        start(context, location, null, fromStart, false);
+        start(context, location, null, fromStart, -1);
     }
 
     public static void start(Context context, String location, String title) {
-        start(context, location, title, false, false);
+        start(context, location, title, false, -1);
+    }
+    public static void startOpened(Context context, int openedPosition) {
+        start(context, null, null, false, openedPosition);
     }
 
-    public static void start(Context context, String location, String title, boolean fromStart, boolean newTask) {
+    private static void start(Context context, String location, String title, boolean fromStart, int openedPosition) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
         intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, location);
         intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
         intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
+        intent.putExtra(PLAY_EXTRA_OPENED_POSITION, openedPosition);
 
-        if (newTask)
+        if (openedPosition != -1)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(intent);
@@ -1415,11 +1420,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case EventHandler.MediaPlayerPlaying:
                     Log.i(TAG, "MediaPlayerPlaying");
-                    activity.stopLoadingAnimation();
-                    activity.showOverlay();
-                    activity.setESTracks();
-                    activity.changeAudioFocus(true);
-                    activity.updateNavStatus();
+                    activity.onPlaying();
                     break;
                 case EventHandler.MediaPlayerPaused:
                     Log.i(TAG, "MediaPlayerPaused");
@@ -1519,6 +1520,14 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     private boolean canShowProgress() {
         return !mDragging && mShowing && mLibVLC.isPlaying();
+    }
+
+    private void onPlaying() {
+        stopLoadingAnimation();
+        showOverlay();
+        setESTracks();
+        changeAudioFocus(true);
+        updateNavStatus();
     }
 
     private void endReached() {
@@ -2567,6 +2576,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mLocation = null;
         String title = getResources().getString(R.string.title);
         boolean fromStart = false;
+        int openedPosition = -1;
         Uri data;
         String itemTitle = null;
         long intentPosition = -1; // position passed in by intent (ms)
@@ -2687,6 +2697,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             if (getIntent().hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
                 mSubtitleSelectedFiles.add(getIntent().getExtras().getString(PLAY_EXTRA_SUBTITLES_LOCATION));
             mAskResume &= !fromStart;
+            openedPosition = getIntent().getExtras().getInt(PLAY_EXTRA_OPENED_POSITION);
         }
 
         /* WARNING: hack to avoid a crash in mediacodec on KitKat.
@@ -2704,15 +2715,28 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
         }
 
-        /* prepare playback */
-        AudioServiceController.getInstance().stop(); // Stop the previous playback.
-        if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
-            mMediaListPlayer.getMediaList().clear();
-            final Media media = new Media(mLibVLC, mLocation);
-            media.parse(); // FIXME: parse should'nt be done asynchronously
-            media.release();
-            mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
-            savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
+        if (openedPosition != -1) {
+            // Provided externally from AudioService
+            Log.d(TAG, "Continuing playback from AudioService at index " + openedPosition);
+            MediaWrapper openedMedia = mMediaListPlayer.getMediaList().getMedia(openedPosition);
+            if (openedMedia == null) {
+                encounteredError();
+                return;
+            }
+            mLocation = openedMedia.getLocation();
+            itemTitle = openedMedia.getTitle();
+            savedIndexPosition = openedPosition;
+        } else {
+            /* prepare playback */
+            AudioServiceController.getInstance().stop(); // Stop the previous playback.
+            if (savedIndexPosition == -1 && mLocation != null && mLocation.length() > 0) {
+                mMediaListPlayer.getMediaList().clear();
+                final Media media = new Media(mLibVLC, mLocation);
+                media.parse(); // FIXME: parse should'nt be done asynchronously
+                media.release();
+                mMediaListPlayer.getMediaList().add(new MediaWrapper(media));
+                savedIndexPosition = mMediaListPlayer.getMediaList().size() - 1;
+            }
         }
         mCanSeek = false;
 
@@ -2721,7 +2745,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             MediaWrapper media = MediaDatabase.getInstance().getMedia(mLocation);
             if(media != null) {
                 // in media library
-                if(media.getTime() > 0 && !fromStart) {
+                if(media.getTime() > 0 && !fromStart && openedPosition == -1) {
                     if (mAskResume) {
                         showConfirmResumeDialog();
                         return;
@@ -2736,7 +2760,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
                 mLastAudioTrack = media.getAudioTrack();
                 mLastSpuTrack = media.getSpuTrack();
-            } else {
+            } else if (openedPosition == -1) {
                 // not in media library
 
                 if (intentPosition > 0 && mAskResume) {
@@ -2759,9 +2783,19 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             }
 
             // Start playback & seek
-            VLCInstance.setAudioHdmiEnabled(this, mHasHdmiAudio);
-            mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
-            seek(intentPosition, mediaLength);
+            if (openedPosition == -1) {
+                VLCInstance.setAudioHdmiEnabled(this, mHasHdmiAudio);
+                mMediaListPlayer.playIndex(savedIndexPosition, wasPaused);
+                seek(intentPosition, mediaLength);
+            } else {
+                mLibVLC.setVideoTrack(-1);
+                mLibVLC.setVideoTrack(0);
+                // AudioService-transitioned playback for item after sleep and resume
+                if(!mLibVLC.isPlaying())
+                    mMediaListPlayer.playIndex(savedIndexPosition);
+                else
+                    onPlaying();
+            }
 
 
             // Get possible subtitles
