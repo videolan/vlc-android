@@ -678,30 +678,32 @@ public class MediaDatabase {
                     chunk_count * CHUNK_SIZE), null);
 
             if (cursor.moveToFirst()) {
-                do {
-                    String location = cursor.getString(0);
-                    MediaWrapper media = new MediaWrapper(location,
-                            cursor.getLong(1),      // MEDIA_TIME
-                            cursor.getLong(2),      // MEDIA_LENGTH
-                            cursor.getInt(3),       // MEDIA_TYPE
-                            null,                   // MEDIA_PICTURE
-                            cursor.getString(4),    // MEDIA_TITLE
-                            cursor.getString(5),    // MEDIA_ARTIST
-                            cursor.getString(6),    // MEDIA_GENRE
-                            cursor.getString(7),    // MEDIA_ALBUM
-                            cursor.getString(8),    // MEDIA_ALBUMARTIST
-                            cursor.getInt(9),       // MEDIA_WIDTH
-                            cursor.getInt(10),       // MEDIA_HEIGHT
-                            cursor.getString(11),   // MEDIA_ARTWORKURL
-                            cursor.getInt(12),      // MEDIA_AUDIOTRACK
-                            cursor.getInt(13),      // MEDIA_SPUTRACK
-                            cursor.getInt(14),      // MEDIA_TRACKNUMBER
-                            cursor.getInt(15),     // MEDIA_DISCNUMBER
-                            cursor.getLong(16));     // MEDIA_LAST_MODIFIED
-                    medias.put(media.getLocation(), media);
+                try {
+                    do {
+                        String location = cursor.getString(0);
+                        MediaWrapper media = new MediaWrapper(location,
+                                cursor.getLong(1),      // MEDIA_TIME
+                                cursor.getLong(2),      // MEDIA_LENGTH
+                                cursor.getInt(3),       // MEDIA_TYPE
+                                null,                   // MEDIA_PICTURE
+                                cursor.getString(4),    // MEDIA_TITLE
+                                cursor.getString(5),    // MEDIA_ARTIST
+                                cursor.getString(6),    // MEDIA_GENRE
+                                cursor.getString(7),    // MEDIA_ALBUM
+                                cursor.getString(8),    // MEDIA_ALBUMARTIST
+                                cursor.getInt(9),       // MEDIA_WIDTH
+                                cursor.getInt(10),       // MEDIA_HEIGHT
+                                cursor.getString(11),   // MEDIA_ARTWORKURL
+                                cursor.getInt(12),      // MEDIA_AUDIOTRACK
+                                cursor.getInt(13),      // MEDIA_SPUTRACK
+                                cursor.getInt(14),      // MEDIA_TRACKNUMBER
+                                cursor.getInt(15),     // MEDIA_DISCNUMBER
+                                cursor.getLong(16));     // MEDIA_LAST_MODIFIED
+                        medias.put(media.getLocation(), media);
 
-                    count++;
-                } while (cursor.moveToNext());
+                        count++;
+                    } while (cursor.moveToNext());
+                } catch (IllegalStateException e) {} //Google bug causing IllegalStateException, see https://code.google.com/p/android/issues/detail?id=32472
             }
 
             cursor.close();
