@@ -1318,6 +1318,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             new OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
+            if (!mPlaybackStarted)
+                return;
             /*
              * Pause playback during alerts and notifications
              */

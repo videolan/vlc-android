@@ -322,6 +322,8 @@ public class AudioService extends Service {
             audioFocusListener = new OnAudioFocusChangeListener() {
                 @Override
                 public void onAudioFocusChange(int focusChange) {
+                    if (!hasCurrentMedia())
+                        return;
                     switch (focusChange)
                     {
                         case AudioManager.AUDIOFOCUS_LOSS:
