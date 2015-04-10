@@ -299,44 +299,45 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
     }
 
     private boolean handleContextItemSelected(MenuItem menu, int position) {
+        if (position >= mVideoAdapter.getCount())
+            return false;
         MediaWrapper media = mVideoAdapter.getItem(position);
         if (media == null)
             return false;
-        switch (menu.getItemId())
-        {
-        case R.id.video_list_play_from_start:
-            playVideo(media, true);
-            return true;
-        case R.id.video_list_play_audio:
-            playAudio(media);
-            return true;
-        case R.id.video_list_info:
-            Activity activity = getActivity();
-            if (activity instanceof MainActivity)
-                ((MainActivity)activity).showSecondaryFragment("mediaInfo", media.getLocation());
-            else {
-                Intent i = new Intent(activity, SecondaryActivity.class);
-                i.putExtra("fragment", "mediaInfo");
-                i.putExtra("param", media.getLocation());
-                startActivity(i);
-            }
-            return true;
-        case R.id.video_list_delete:
-            AlertDialog alertDialog = CommonDialogs.deleteMedia(
-                    getActivity(),
-                    media.getLocation(),
-                    new VLCRunnable(media) {
-                        @Override
-                        public void run(Object o) {
-                            MediaWrapper media = (MediaWrapper) o;
-                            mMediaLibrary.getMediaItems().remove(media);
-                            mVideoAdapter.remove(media);
-                            if (mAudioController.getMediaLocations().contains(media.getLocation()))
-                                mAudioController.removeLocation(media.getLocation());
-                        }
-                    });
-            alertDialog.show();
-            return true;
+        switch (menu.getItemId()){
+            case R.id.video_list_play_from_start:
+                playVideo(media, true);
+                return true;
+            case R.id.video_list_play_audio:
+                playAudio(media);
+                return true;
+            case R.id.video_list_info:
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity)
+                    ((MainActivity)activity).showSecondaryFragment("mediaInfo", media.getLocation());
+                else {
+                    Intent i = new Intent(activity, SecondaryActivity.class);
+                    i.putExtra("fragment", "mediaInfo");
+                    i.putExtra("param", media.getLocation());
+                    startActivity(i);
+                }
+                return true;
+            case R.id.video_list_delete:
+                AlertDialog alertDialog = CommonDialogs.deleteMedia(
+                        getActivity(),
+                        media.getLocation(),
+                        new VLCRunnable(media) {
+                            @Override
+                            public void run(Object o) {
+                                MediaWrapper media = (MediaWrapper) o;
+                                mMediaLibrary.getMediaItems().remove(media);
+                                mVideoAdapter.remove(media);
+                                if (mAudioController.getMediaLocations().contains(media.getLocation()))
+                                    mAudioController.removeLocation(media.getLocation());
+                            }
+                        });
+                alertDialog.show();
+                return true;
         }
         return false;
     }

@@ -431,6 +431,8 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 adapter = mPlaylistAdapter;
             } else
                 return false;
+            if (adapter.getCount() <= groupPosition || adapter.getLocations(groupPosition) == null || adapter.getLocations(groupPosition).isEmpty())
+                return false;
             AlertDialog alertDialog = CommonDialogs.deleteMedia(
                     getActivity(),
                     adapter.getLocations(groupPosition).get(0),
@@ -455,29 +457,33 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
         }
 
         if (id == R.id.audio_list_browser_set_song) {
+            if (mSongsAdapter.getCount() <= groupPosition)
+                return false;
             AudioUtil.setRingtone(mSongsAdapter.getItem(groupPosition).mMediaList.get(0), getActivity());
             return true;
         }
 
         if (useAllItems) {
+            if (mSongsAdapter.getCount() <= groupPosition)
+                return false;
             medias = new ArrayList<String>();
             startPosition = mSongsAdapter.getListWithPosition(medias, groupPosition);
         }
         else {
             startPosition = 0;
-            switch (mode)
-            {
+            AudioBrowserListAdapter adapter = null;
+            switch (mode){
                 case MODE_SONG:
-                    medias = mSongsAdapter.getLocations(groupPosition);
+                    adapter = mSongsAdapter;
                     break;
                 case MODE_ARTIST:
-                    medias = mArtistsAdapter.getLocations(groupPosition);
+                    adapter = mArtistsAdapter;
                     break;
                 case MODE_ALBUM:
-                    medias = mAlbumsAdapter.getLocations(groupPosition, true);
+                    adapter = mAlbumsAdapter;
                     break;
                 case MODE_GENRE:
-                    medias = mGenresAdapter.getLocations(groupPosition);
+                    adapter = mGenresAdapter;
                     break;
                 case MODE_PLAYLIST: //For file playlist, we browse tracks with mediabrowser, and add them in callbacks onMediaAdded and onBrowseEnd
                     medias = mPlaylistAdapter.getLocations(groupPosition);
@@ -491,6 +497,9 @@ public class AudioBrowserFragment extends BrowserFragment implements SwipeRefres
                 default:
                     return true;
             }
+            if (groupPosition >= adapter.getCount())
+                return false;
+            medias = adapter.getLocations(groupPosition);
         }
 
         if (append)
