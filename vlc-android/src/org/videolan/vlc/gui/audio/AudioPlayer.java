@@ -188,18 +188,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
                 return true;
             }
         });
-        boolean blackTheme = PreferenceManager.getDefaultSharedPreferences(
-                getActivity()).getBoolean("enable_black_theme", false);
         mNext.setOnTouchListener(new LongSeekListener(true,
-                blackTheme ? R.drawable.ic_next_normal_w
-                        : R.drawable.ic_next_normal,
-                blackTheme ? R.drawable.ic_next_pressed_w
-                        : R.drawable.ic_next_pressed));
+                Util.getResourceFromAttribute(getActivity(), R.attr.ic_next),
+                R.drawable.ic_next_pressed));
         mPrevious.setOnTouchListener(new LongSeekListener(false,
-                blackTheme ? R.drawable.ic_previous_normal_w
-                        : R.drawable.ic_previous_normal,
-                blackTheme ? R.drawable.ic_previous_pressed_w
-                        : R.drawable.ic_previous_pressed));
+                Util.getResourceFromAttribute(getActivity(), R.attr.ic_previous),
+                R.drawable.ic_previous_pressed));
         mShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -334,12 +328,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         if (mAudioController.isPlaying()) {
             mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
             mPlayPause.setContentDescription(getString(R.string.pause));
-            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause_for_header_play_pause));
+            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_pause));
             mHeaderPlayPause.setContentDescription(getString(R.string.pause));
         } else {
             mPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
             mPlayPause.setContentDescription(getString(R.string.play));
-            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play_for_header_play_pause));
+            mHeaderPlayPause.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_play));
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {

@@ -91,7 +91,7 @@
             android:contentDescription="@string/pause"
             android:focusable="true"
             android:scaleType="fitXY"
-            android:src="?attr/ic_pause_for_header_play_pause"
+            android:src="?attr/ic_pause"
             android:nextFocusForward="@+id/header_play_pause"
             android:nextFocusUp="@+id/ml_menu_search"
             android:nextFocusDown="@id/header_play_pause"
