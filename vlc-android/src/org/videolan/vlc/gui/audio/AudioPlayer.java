@@ -343,9 +343,9 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             mHeaderPlayPause.setContentDescription(getString(R.string.play));
         }
         if (mAudioController.isShuffling()) {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_pressed));
+            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_on));
         } else {
-            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle_normal));
+            mShuffle.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_shuffle));
         }
         switch(mAudioController.getRepeatType()) {
         case None:

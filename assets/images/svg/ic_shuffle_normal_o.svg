@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_shuffle_normal.svg"
+   sodipodi:docname="ic_shuffle_normal_w.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="5.5438471"
+     inkscape:cx="13.40099"
      inkscape:cy="15.548271"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -64,7 +64,7 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       style="color:#000000;fill:#ffb54c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="color:#000000;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.50000000000000000;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        d="M 5.4375,1032.3622 4,1033.7685 l 5.15625,5.1562 1.4375,-1.4062 -5.15625,-5.1563 z m 9.5625,0 1.78125,1.7813 L 4.5625,1046.3622 4,1046.9247 5.40625,1048.3622 6,1047.7685 l 12.1875,-12.2188 1.8125,1.8125 0,-5 -5,0 z m -0.15625,9.4063 -1.4375,1.4062 3.40625,3.375 -1.8125,1.8125 5,0 0,-5 -1.78125,1.7813 -3.375,-3.375 z"
        id="path5005"
        inkscape:connector-curvature="0" />

@@ -198,7 +198,7 @@
                 android:contentDescription="@string/shuffle"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="?attr/ic_shuffle_normal" />
+                android:src="?attr/ic_shuffle" />
 
             <ImageButton
                 android:id="@+id/repeat"
