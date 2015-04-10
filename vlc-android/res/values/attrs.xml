@@ -35,8 +35,8 @@
     <attr name="ic_up_style" format="reference" />
     <attr name="ic_playlist" format="reference" />
     <attr name="ic_playlist_on" format="reference" />
-    <attr name="ic_repeat_normal" format="reference" />
-    <attr name="ic_repeat_pressed" format="reference" />
+    <attr name="ic_repeat" format="reference" />
+    <attr name="ic_repeat_on" format="reference" />
     <attr name="ic_repeat_one" format="reference" />
     <attr name="ic_shuffle_normal" format="reference" />
     <attr name="ic_shuffle_pressed" format="reference" />

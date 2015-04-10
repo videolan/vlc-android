@@ -44,7 +44,6 @@ import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -350,14 +349,14 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
         }
         switch(mAudioController.getRepeatType()) {
         case None:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_normal));
+            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat));
             break;
         case Once:
             mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_one));
             break;
         default:
         case All:
-            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_pressed));
+            mRepeat.setImageResource(Util.getResourceFromAttribute(act, R.attr.ic_repeat_on));
             break;
         }
 

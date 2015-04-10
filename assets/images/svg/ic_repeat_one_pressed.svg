@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="ic_repeat_pressed.svg"
+   sodipodi:docname="ic_repeat_one.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -50,7 +50,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -65,11 +65,9 @@
        transform="translate(-64,740.00002)">
       <path
          style="font-size:6px;fill:#ffb54c;fill-opacity:1"
-         d="m 17,2 0,3 -10,0 -2,0 0,6 2,0 0,-4 10,0 0,3 4,-4 z m 0,11 0,4 -10,0 0,-3 -4,4 4,4 0,-3 10,0 2,0 0,-6 z"
+         d="M 17 2 L 17 5 L 7 5 L 5 5 L 5 11 L 7 11 L 7 7 L 17 7 L 17 10 L 21 6 L 17 2 z M 12.75 9.5 L 10.25 10.25 L 10.25 11 L 11.25 11 L 11.25 15 L 12.75 15 L 12.75 9.5 z M 17 13 L 17 17 L 7 17 L 7 14 L 3 18 L 7 22 L 7 19 L 17 19 L 19 19 L 19 13 L 17 13 z "
          transform="translate(64,288.36218)"
-         id="path5271"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cccccccccccccccccccccc" />
+         id="path5271" />
     </g>
   </g>
 </svg>

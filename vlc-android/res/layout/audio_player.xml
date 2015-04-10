@@ -211,7 +211,7 @@
                 android:contentDescription="@string/repeat"
                 android:focusable="true"
                 android:scaleType="fitXY"
-                android:src="?attr/ic_repeat_normal" />
+                android:src="?attr/ic_repeat" />
 
             <ImageButton
                 android:id="@+id/play_pause"
