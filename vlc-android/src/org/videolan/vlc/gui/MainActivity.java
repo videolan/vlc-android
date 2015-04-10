@@ -279,6 +279,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
         /* Load media items from database and storage */
         if (mScanNeeded)
             MediaLibrary.getInstance().loadMediaItems();
+        if (mSlidingPane.getState() == mSlidingPane.STATE_CLOSED)
+            mActionBar.hide();
    }
 
     @Override
