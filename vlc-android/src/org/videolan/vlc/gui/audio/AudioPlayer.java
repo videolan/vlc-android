@@ -361,7 +361,7 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             break;
         }
 
-        mShuffle.setVisibility(mSongsListAdapter.getCount() > 2 ? View.VISIBLE : View.INVISIBLE);
+        mShuffle.setVisibility(mAudioController.getMediaLocations().size() > 2 ? View.VISIBLE : View.INVISIBLE);
         if (mAudioController.hasNext())
             mNext.setVisibility(ImageButton.VISIBLE);
         else
