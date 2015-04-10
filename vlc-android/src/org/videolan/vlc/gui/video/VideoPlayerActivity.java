@@ -1072,6 +1072,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     }
 
     public void showDelayControls(){
+        showOverlayTimeout(OVERLAY_INFINITE);
         mDelayMinus.setOnClickListener(mAudioDelayListener);
         mDelayPlus.setOnClickListener(mAudioDelayListener);
         mDelayMinus.setVisibility(View.VISIBLE);
@@ -1096,6 +1097,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public void endDelaySetting() {
+        hideOverlay(true);
         mDelay = DelayState.OFF;
         mDelayMinus.setOnClickListener(null);
         mDelayPlus.setOnClickListener(null);

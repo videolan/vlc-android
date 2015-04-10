@@ -81,6 +81,26 @@
                 android:textSize="20sp" />
         </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/player_delay_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_above="@+id/progress_overlay"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_minus_circle"
+            android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/player_delay_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_above="@+id/player_delay_minus"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_plus_circle"
+            android:visibility="invisible"/>
+
         <include layout="@layout/player_hud" />
 
     </RelativeLayout>
