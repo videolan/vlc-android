@@ -48,6 +48,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.dialogs.AudioDelayDialog;
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog;
 import org.videolan.vlc.gui.dialogs.PickTimeFragment;
@@ -80,6 +81,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private int mMode = -1;
     private TextView mAudioMode;
+    private TextView mEqualizer;
 
     private TextView mSpeedTv;
     private SeekBar mSeek;
@@ -189,6 +191,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         }
 
+        if (mMode == MODE_AUDIO){
+            mEqualizer = (TextView) root.findViewById(R.id.opt_equalizer);
+            mEqualizer.setOnClickListener(this);
+            mEqualizer.setOnFocusChangeListener(mFocusListener);
+        } else
+            root.findViewById(R.id.opt_equalizer).setVisibility(View.GONE);
         mHandler.sendEmptyMessage(TOGGLE_CANCEL);
         mTextColor = mSleepTitle.getCurrentTextColor();
 
@@ -389,6 +397,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
             case R.id.playback_switch_audio:
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode();
+                break;
+            case R.id.opt_equalizer:
+                ((MainActivity)getActivity()).showSecondaryFragment("equalizer");
+                dismiss();
                 break;
         }
     }

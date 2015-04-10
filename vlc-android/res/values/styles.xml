@@ -72,6 +72,7 @@
         <item name="ic_speed_normal_style">@drawable/ic_speed_normal</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
@@ -145,6 +146,7 @@
         <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
     </style>
 
     <style name="Theme.VLC.List">
@@ -176,6 +178,7 @@
         <item name="ic_speed_normal_style">@drawable/ic_speed_normal_w</item>
         <item name="ic_sleep_normal_style">@drawable/ic_sleep_normal_w</item>
         <item name="ic_jumpto_normal_style">@drawable/ic_jumpto_normal_w</item>
+        <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_normal_w</item>
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">

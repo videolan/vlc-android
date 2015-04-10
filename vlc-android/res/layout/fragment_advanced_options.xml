@@ -218,4 +218,13 @@
             android:gravity="center_vertical"
             android:text="Subtitles delay" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/opt_equalizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:text="@string/equalizer"
+        android:drawableLeft="?attr/ic_equalizer_normal_style"/>
 </LinearLayout>
