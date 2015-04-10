@@ -265,8 +265,8 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
 
     private void setShuffleMode(boolean shuffle) {
         mShuffling = shuffle;
-        mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_white_36dp :
-                R.drawable.ic_shuffle_grey600_36dp);
+        mShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
+                R.drawable.ic_shuffle);
         ArrayList<String> medialocations = (ArrayList<String>) mAudioController.getMediaLocations();
         if (shuffle){
             Collections.shuffle(medialocations);
@@ -289,13 +289,13 @@ public class AudioPlayerActivity extends Activity implements AudioServiceControl
         RepeatType type = mAudioController.getRepeatType();
         if (type == RepeatType.None){
             mAudioController.setRepeatType(RepeatType.All);
-            mRepeat.setImageResource(R.drawable.ic_repeat_white_36dp);
+            mRepeat.setImageResource(R.drawable.ic_repeat_on);
         } else if (type == RepeatType.All) {
             mAudioController.setRepeatType(RepeatType.Once);
-            mRepeat.setImageResource(R.drawable.ic_repeat_one_white_36dp);
+            mRepeat.setImageResource(R.drawable.ic_repeat_one);
         } else if (type == RepeatType.Once) {
             mAudioController.setRepeatType(RepeatType.None);
-            mRepeat.setImageResource(R.drawable.ic_repeat_grey600_36dp);
+            mRepeat.setImageResource(R.drawable.ic_repeat);
         }
     }
 
