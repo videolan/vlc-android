@@ -1,4 +1,2 @@
-include ':WheelView'
 include ':libvlc'
 include ':vlc-android'
-project(':WheelView').projectDir = new File('java-libs/WheelView')
