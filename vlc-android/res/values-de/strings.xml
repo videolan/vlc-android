@@ -282,4 +282,8 @@
     <string name="playlist_save">Wiedergabeliste speichern</string>
     <string name="playlist_name_hint">Name der Wiedergabeliste</string>
     <string name="go_to_chapter">Wechsle zum Kapitel...</string>
+    <string name="resume_from_position">Fortsetzen von letzter Position</string>
+    <string name="confirm_resume">Von letzter Position fortsetzen?</string>
+    <string name="confirm_resume_title">Nach Bestätigung zum Fortsetzen fragen</string>
+    <string name="confirm_resume_summary">Wenn aktiviert, werden Sie nach einer Bestätigung gefragt, wenn ein Video von der letzten Position fortgesetzt werden kann</string>
 </resources>
