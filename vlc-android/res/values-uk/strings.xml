@@ -289,4 +289,8 @@
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
+    <string name="resume_from_position">Відновити із останньої позиції</string>
+    <string name="confirm_resume">Відновити із останньої позиції?</string>
+    <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
+    <string name="confirm_resume_summary">якщо задіяно, то вас запитуватимуть про підтвердження, коли відтворення відео можна відновити із останньої позиції</string>
 </resources>
