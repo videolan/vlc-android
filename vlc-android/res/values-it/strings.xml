@@ -282,4 +282,8 @@
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">nome della scaletta</string>
     <string name="go_to_chapter">Vai al capitolo...</string>
+    <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
+    <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
+    <string name="confirm_resume_title">Chiedi conferma per riprendere</string>
+    <string name="confirm_resume_summary">Se attivata, ti sarà richiesta una conferma quando un video può essere ripreso dall\'ultima posizione</string>
 </resources>
