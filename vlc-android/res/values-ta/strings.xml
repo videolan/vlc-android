@@ -282,4 +282,8 @@
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
     <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல...</string>
+    <string name="resume_from_position">கடைசி நிலையில் இருந்து தொடரவும்</string>
+    <string name="confirm_resume">கடைசி நிலையில் இருந்து தொடரவா?</string>
+    <string name="confirm_resume_title">மீண்டும் தொடர்வதற்கு உறுதி கேட்க</string>
+    <string name="confirm_resume_summary">செயல்படுத்தப்படுகிறது என்றால் ஒரு காணொளி கடைசி நிலையில் இருந்து தொடர்வதற்கு முன் உங்களிடம் உறுதி கேட்கப்படும்</string>
 </resources>
