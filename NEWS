@@ -1,15 +1,38 @@
 Changes between 1.2.6 and 1.3.0:
 --------------------------------
 
+libvlcjni:
+ * prepare the audio <=> video switch
+
+Application:
+ * Update close, playlist and save icons
+ * Broadcast metadata to other apps, including scrobblers
+ * Fix shuffle button
+ * Fix focusability of repeat, shuffle and audio buttons
+ * Fix Android 4.1 navigation bar
+ * New Advanced dialog for audio playback
+ * Remove wheelview dependency
+
+Translations:
+ * Update of German, Simplified Chinese, Ukrainian, Tamil, Portuguese, Italian,
+   Galician and Spanish translations
+
 
 Changes between 1.2.5 and 1.2.6:
 --------------------------------
 
-Application:
+Core:
  * Fix crash on startup with some iso files
+
+Application:
  * Fix presentation mode
  * New audio material design icons
- * Minor bug fixes
+ * Fix gestures sensitivity
+ * Improve memory management
+ * Minor bug and crash fixes
+
+TV:
+ * Fix recommendation playback
 
 
 Changes between 1.2.4 and 1.2.5:
