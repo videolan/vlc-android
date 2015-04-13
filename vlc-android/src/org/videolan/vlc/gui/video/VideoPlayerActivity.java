@@ -564,6 +564,10 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
         if (mAlertDialog != null && mAlertDialog.isShowing())
             mAlertDialog.dismiss();
+        if (!isFinishing() && mSettings.getBoolean(PreferencesActivity.VIDEO_BACKGROUND, false)) {
+            Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true));
+            switchToAudioMode(false);
+        }
         stopPlayback();
 
         // Dismiss the presentation when the activity is not visible.
@@ -1460,7 +1464,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 case EventHandler.MediaPlayerESAdded:
                     if (!activity.mHasMenu && activity.mLibVLC.getVideoTracksCount() < 1) {
                         Log.i(TAG, "No video track, open in audio mode");
-                        activity.switchToAudioMode();
+                        activity.switchToAudioMode(true);
                     }
                     // no break here, we want to invalidate tracks
                 case EventHandler.MediaPlayerESDeleted:
@@ -1613,12 +1617,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         }
     }
 
-    public void switchToAudioMode() {
+    public void switchToAudioMode(boolean showUI) {
         if (mHardwareAccelerationError)
             return;
         mSwitchingView = true;
+        mLibVLC.setVideoTrack(-1);
         // Show the MainActivity if it is not in background.
-        if (getIntent().getAction() != null
+        if (showUI && getIntent().getAction() != null
             && getIntent().getAction().equals(Intent.ACTION_VIEW)) {
             Intent i = new Intent(this, MainActivity.class);
             if (!Util.isCallable(i)){

@@ -508,4 +508,9 @@ public class AudioServiceController implements IAudioPlayerControl {
     public float getRate() {
         return remoteProcedureCall(mAudioServiceBinder, Float.class, (float) 1.0, "getRate", null, null);
     }
+
+    @Override
+    public void handleVout() {
+        remoteProcedureCall(mAudioServiceBinder, Void.class, (Void)null, "handleVout", null, null);
+    }
 }

@@ -33,6 +33,7 @@ import org.videolan.vlc.audio.RepeatType;
 import org.videolan.vlc.gui.CommonDialogs;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.CommonDialogs.MenuType;
+import org.videolan.vlc.gui.PreferencesActivity;
 import org.videolan.vlc.gui.audio.widget.CoverMediaSwitcher;
 import org.videolan.vlc.gui.audio.widget.HeaderMediaSwitcher;
 import org.videolan.vlc.gui.dialogs.SavePlaylist;
@@ -42,6 +43,7 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.widget.AudioMediaSwitcher.AudioMediaSwitcherListener;
 
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -315,6 +317,12 @@ public class AudioPlayer extends Fragment implements IAudioPlayer, View.OnClickL
             return;
 
         if (mAudioController.hasMedia()) {
+            SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(getActivity());
+            if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)){
+                Util.commitPreferences(mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false));
+                mAudioController.handleVout();
+                return;
+            }
             show();
         } else {
             hide();

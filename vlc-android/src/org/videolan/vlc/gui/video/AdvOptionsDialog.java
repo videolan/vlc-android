@@ -396,7 +396,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mHandler.sendEmptyMessage(TOGGLE_CANCEL);
                 break;
             case R.id.playback_switch_audio:
-                ((VideoPlayerActivity)getActivity()).switchToAudioMode();
+                ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case R.id.opt_equalizer:
                 ((MainActivity)getActivity()).showSecondaryFragment("equalizer");

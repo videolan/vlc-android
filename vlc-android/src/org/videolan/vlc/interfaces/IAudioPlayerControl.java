@@ -76,4 +76,6 @@ public interface IAudioPlayerControl {
     void detectHeadset(boolean enable);
 
     float getRate();
+
+    void handleVout();
 }

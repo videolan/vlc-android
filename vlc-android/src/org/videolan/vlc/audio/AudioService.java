@@ -1449,6 +1449,11 @@ public class AudioService extends Service {
         public float getRate() throws RemoteException {
             return mLibVLC.getRate();
         }
+
+        @Override
+        public void handleVout() throws RemoteException {
+            AudioService.this.handleVout();
+        }
     };
 
     private void updateWidget(Context context) {

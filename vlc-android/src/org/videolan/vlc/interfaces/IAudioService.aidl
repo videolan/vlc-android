@@ -63,4 +63,5 @@ interface IAudioService {
     void showWithoutParse(int index);
     void playIndex(int index);
     float getRate();
+    void handleVout();
 }
