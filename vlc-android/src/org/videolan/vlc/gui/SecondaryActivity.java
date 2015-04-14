@@ -25,7 +25,6 @@ package org.videolan.vlc.gui;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,13 +39,13 @@ import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.video.MediaInfoFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.video.VideoListAdapter;
-import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.interfaces.ISortable;
-import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SecondaryActivity  extends ActionBarActivity {
+    public final static String TAG = "VLC/EqualizerFragment";
 
     Fragment mFragment;
     @Override
@@ -67,9 +66,12 @@ public class SecondaryActivity  extends ActionBarActivity {
             finish();
             return;
         }
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_placeholder, mFragment);
-            ft.commit();
+
+        if (getSupportFragmentManager().getFragments() == null) {
+            getSupportFragmentManager().beginTransaction()
+            .add(R.id.fragment_placeholder, mFragment)
+            .commit();
+        }
     }
 
     @Override
