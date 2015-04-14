@@ -24,6 +24,7 @@ import org.videolan.vlc.MediaWrapper;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class Strings {
@@ -35,11 +36,18 @@ public class Strings {
         return s;
     }
 
-    static boolean StartsWith(String[] array, String text) {
+    static boolean startsWith(String[] array, String text) {
         for (String item : array)
             if (text.startsWith(item))
                 return true;
         return false;
+    }
+
+    static int containsName(List<String> array, String text) {
+        for (int i = array.size()-1 ; i >= 0 ; --i)
+            if (array.get(i).endsWith(text))
+                return i;
+        return -1;
     }
 
     /**

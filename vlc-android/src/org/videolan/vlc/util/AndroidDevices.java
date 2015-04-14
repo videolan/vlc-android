@@ -37,7 +37,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
@@ -123,12 +122,16 @@ public class AndroidDevices {
                 String type = tokens.nextToken();
 
                 // skip if already in list or if type/mountpoint is blacklisted
-                if (list.contains(mountpoint) || typeBL.contains(type) || Strings.StartsWith(mountBL, mountpoint))
+                if (list.contains(mountpoint) || typeBL.contains(type) || Strings.startsWith(mountBL, mountpoint))
                     continue;
 
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
-                if (Strings.StartsWith(deviceWL, device) && (typeWL.contains(type) || Strings.StartsWith(mountWL, mountpoint)))
+                if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
+                    int position = Strings.containsName(list, Strings.getName(mountpoint));
+                    if (position > -1)
+                        list.remove(position);
                     list.add(mountpoint);
+                }
             }
         }
         catch (FileNotFoundException e) {}
