@@ -101,6 +101,7 @@
                     android:layout_marginRight="5dp"
                     android:background="#00000000"
                     android:scaleType="fitXY"
+                    android:contentDescription="@string/move"
                     android:src="?attr/ic_move_media" />
             </LinearLayout>
         </LinearLayout>

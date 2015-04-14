@@ -57,6 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_more"
+            android:contentDescription="@string/more_actions"
             android:clickable="true" />
     </RelativeLayout>
 

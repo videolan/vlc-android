@@ -55,6 +55,7 @@
             android:background="#00000000"
             android:focusable="true"
             android:scaleType="fitXY"
+            android:contentDescription="@string/show_playlist"
             android:src="?attr/ic_playlist_on" />
 
         <ImageButton
@@ -65,6 +66,7 @@
             android:layout_weight="0"
             android:background="#00000000"
             android:focusable="true"
+            android:contentDescription="@string/advanced"
             android:src="?attr/ic_audio_player_more" />
 
         <TextView
