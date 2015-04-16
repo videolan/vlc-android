@@ -191,6 +191,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
     private static final int END_DELAY_STATE = 7;
     private static final int RESET_BACK_LOCK = 8;
+    private static final int CHECK_VIDEO_TRACKS = 9;
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -1462,12 +1463,11 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     // avoid useless error logs
                     break;
                 case EventHandler.MediaPlayerESAdded:
-                    if (!activity.mHasMenu && activity.mLibVLC.getVideoTracksCount() < 1) {
-                        Log.i(TAG, "No video track, open in audio mode");
-                        activity.switchToAudioMode(true);
-                    }
-                    // no break here, we want to invalidate tracks
                 case EventHandler.MediaPlayerESDeleted:
+                    if (!activity.mHasMenu) {
+                        activity.mHandler.removeMessages(CHECK_VIDEO_TRACKS);
+                        activity.mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
+                    }
                     activity.invalidateESTracks(msg.getData().getInt("data"));
                     break;
                 default:
@@ -1521,6 +1521,13 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case RESET_BACK_LOCK:
                     activity.mLockBackButton = true;
+                    break;
+                case CHECK_VIDEO_TRACKS:
+                    if (activity.mLibVLC.getVideoTracksCount() < 1 && activity.mLibVLC.getAudioTracksCount() > 0) {
+                        Log.i(TAG, "No video track, open in audio mode");
+                        activity.switchToAudioMode(true);
+                    }
+                    break;
             }
         }
     };
