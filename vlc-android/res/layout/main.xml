@@ -80,7 +80,21 @@
         </org.videolan.vlc.widget.SlidingPaneLayout>
 
         <!-- The navigation drawer -->
-        <include layout="@layout/sidebar"/>
+        <ListView
+            android:id="@+id/sidelist"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:focusable="true"
+            android:paddingTop="?attr/actionBarSize"
+            android:nextFocusForward="@id/sidelist"
+            android:nextFocusUp="@id/sidelist"
+            android:nextFocusDown="@+id/settings"
+            android:nextFocusLeft="@id/sidelist"
+            android:nextFocusRight="@id/sidelist"
+            android:background="?attr/background_menu" >
+        </ListView>
+
     </org.videolan.vlc.widget.HackyDrawerLayout>
 
     <include layout="@layout/toolbar"/>
