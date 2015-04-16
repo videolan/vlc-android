@@ -232,9 +232,11 @@ public class AudioUtil {
 
     @SuppressLint("NewApi")
     public synchronized static Bitmap getCover(Context context, MediaWrapper media, int width) {
+        BitmapCache cache = BitmapCache.getInstance();
         String coverPath = null;
         Bitmap cover = null;
         String cachePath = null;
+        File cacheFile = null;
 
         if (width <= 0) {
             Log.e(TAG, "Invalid cover width requested");
@@ -247,22 +249,23 @@ public class AudioUtil {
 
         try {
             // try to load from cache
-            int hash = MurmurHash.hash32(Util.getMediaArtist(context, media)+Util.getMediaAlbum(context, media));
-            cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
+            if (media.getArtist() != null && media.getAlbum() != null) {
+                int hash = MurmurHash.hash32(Util.getMediaArtist(context, media) + Util.getMediaAlbum(context, media));
+                cachePath = COVER_DIR + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
 
-            // try to get the cover from the LRUCache first
-            BitmapCache cache = BitmapCache.getInstance();
-            cover = cache.getBitmapFromMemCache(cachePath);
-            if (cover != null)
-                return cover;
+                // try to get the cover from the LRUCache first
+                cover = cache.getBitmapFromMemCache(cachePath);
+                if (cover != null)
+                    return cover;
 
-            // try to get the cover from the storage cache
-            File cacheFile = new File(cachePath);
-            if (cacheFile != null && cacheFile.exists()) {
-                if (cacheFile.length() > 0)
-                    coverPath = cachePath;
-                else
-                    return null;
+                // try to get the cover from the storage cache
+                cacheFile = new File(cachePath);
+                if (cacheFile != null && cacheFile.exists()) {
+                    if (cacheFile.length() > 0)
+                        coverPath = cachePath;
+                    else
+                        return null;
+                }
             }
 
             // try to get it from VLC
@@ -281,8 +284,10 @@ public class AudioUtil {
             cover = readCoverBitmap(coverPath, width);
 
             // store cover into both cache
-            writeBitmap(cover, cachePath);
-            cache.addBitmapToMemCache(cachePath, cover);
+            if (cachePath != null) {
+                writeBitmap(cover, cachePath);
+                cache.addBitmapToMemCache(cachePath, cover);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
