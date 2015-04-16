@@ -1518,6 +1518,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                     break;
                 case END_DELAY_STATE:
                     activity.endDelaySetting();
+                    break;
                 case RESET_BACK_LOCK:
                     activity.mLockBackButton = true;
             }
