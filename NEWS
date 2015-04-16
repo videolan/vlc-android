@@ -5,12 +5,17 @@ libvlcjni:
  * prepare the audio <=> video switch
 
 Application:
+ * Support background playback for video
  * Update close, playlist and save icons
  * Broadcast metadata to other apps, including scrobblers
- * Fix shuffle button
- * Fix focusability of repeat, shuffle and audio buttons
- * Fix Android 4.1 navigation bar
  * New Advanced dialog for audio playback
+ * Improve search look and accuracy
+ * Fix double entries for external SD cards, notably LG G3, Tablet Shield
+ * Fix Android 4.1 navigation bar
+ * Fix focusability of repeat, shuffle and audio buttons
+ * Fix shuffle button
+ * Fix crashes and interface issues
+ * Fix accessibility text on some buttons of the interface
  * Remove wheelview dependency
 
 Translations:
