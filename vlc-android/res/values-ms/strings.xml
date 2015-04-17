@@ -20,6 +20,8 @@
     <string name="play_from_start">Main dari mula</string>
     <string name="play_as_audio">Mainkan sebagai audio</string>
     <string name="play_as_video">Mainkan sebagai video</string>
+    <string name="play_as_audio_background">Main video disebalik tabir</string>
+    <string name="play_as_audio_background_summary">Teruskan main balik video disebalik tabir bila mematikan skrin peranti atau mengklik butang RUMAH.</string>
     <string name="append">Tambah</string>
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
@@ -80,8 +82,11 @@
     <string name="nohistory">Anda belum memiliki sejarah mainbalik. </string>
     <string name="validation">Anda pasti?</string>
     <string name="cover_art">Seni muka depan</string>
-    <string name="shuffle">Kocok</string>
-    <string name="repeat">Ulang tiada/satu/semua</string>
+    <string name="shuffle">Kocok Mati</string>
+    <string name="shuffle_on">Kocok Hidup</string>
+    <string name="repeat">Jangan ulang</string>
+    <string name="repeat_single">Ulang sekali</string>
+    <string name="repeat_all">Ulang semua</string>
     <string name="previous">Terdahulu</string>
     <string name="stop">Henti</string>
     <string name="next">Berikut</string>
@@ -275,4 +280,11 @@
     <string name="playlist_save">Simpan Senarai Main</string>
     <string name="playlist_name_hint">nama senarai main</string>
     <string name="go_to_chapter">Pergi ke bab...</string>
+    <string name="resume_from_position">Sambung dari kedudukan terakhir</string>
+    <string name="confirm_resume">Sambung dari kedudukan terakhir?</string>
+    <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
+    <string name="confirm_resume_summary">jika diaktifkan anda akan ditanya untuk sahkan sama ada video boleh disambung semula dari kedudukan terakhirnya</string>
+    <!--Accessibility-->
+    <string name="more_actions">Lagi Tindakan</string>
+    <string name="move">Alih</string>
 </resources>
