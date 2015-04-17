@@ -47,6 +47,7 @@
             android:layout_alignParentTop="true"
             android:layout_above="@+id/ml_item_resolution"
             android:clickable="true"
+            android:contentDescription="@string/more_actions"
             android:src="@drawable/ic_more"
             android:scaleType="fitCenter" />
 

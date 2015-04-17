@@ -31,6 +31,7 @@
             android:layout_centerInParent="true"
             android:src="?attr/ic_trash_small_normal"
             android:clickable="true"
+            android:contentDescription="@string/delete"
             android:paddingRight="5dp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
