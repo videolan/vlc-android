@@ -21,6 +21,8 @@
     <string name="play_from_start">Vanaf begin afspelen</string>
     <string name="play_as_audio">Als audio afspelen</string>
     <string name="play_as_video">Als video afspelen</string>
+    <string name="play_as_audio_background">Video\'s op achtergrond afspelen</string>
+    <string name="play_as_audio_background_summary">Afspelen van video op achtergrond voortzetten bij het uitschakelen van het scherm of bij het klikken op de home-knop.</string>
     <string name="append">Toevoegen</string>
     <string name="play_all">Alles afspelen</string>
     <string name="append_all">Alles toevoegen</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">U heeft nog geen afspeelgeschiedenis.</string>
     <string name="validation">Bent u zeker?</string>
     <string name="cover_art">Albumhoes</string>
-    <string name="shuffle">Willekeurige volgorde</string>
-    <string name="repeat">Niet/één/alle herhalen</string>
+    <string name="shuffle">Willekeurige volgorde uit</string>
+    <string name="shuffle_on">Willekeurige volgorde aan</string>
+    <string name="repeat">Niet herhalen</string>
+    <string name="repeat_single">Een herhalen</string>
+    <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>
     <string name="stop">Stop</string>
     <string name="next">Volgende</string>
@@ -282,4 +287,11 @@
     <string name="playlist_save">Afspeellijst opslaan</string>
     <string name="playlist_name_hint">naam afspeellijst</string>
     <string name="go_to_chapter">Naar hoofdstuk gaan...</string>
+    <string name="resume_from_position">Hervatten vanaf laatste positie</string>
+    <string name="confirm_resume">Hervatten vanaf laatste positie?</string>
+    <string name="confirm_resume_title">Bevestiging vragen om te hervatten</string>
+    <string name="confirm_resume_summary">Indien ingeschakeld zult u gevraagd worden om te bevestigen wanneer een video hervat kan worden vanaf de laatste positie</string>
+    <!--Accessibility-->
+    <string name="more_actions">Meer acties</string>
+    <string name="move">Verplaatsen</string>
 </resources>
