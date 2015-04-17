@@ -49,6 +49,7 @@ import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
+import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.dialogs.AudioDelayDialog;
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog;
 import org.videolan.vlc.gui.dialogs.PickTimeFragment;
@@ -399,7 +400,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 ((VideoPlayerActivity)getActivity()).switchToAudioMode(true);
                 break;
             case R.id.opt_equalizer:
-                ((MainActivity)getActivity()).showSecondaryFragment("equalizer");
+                ((MainActivity)getActivity()).showSecondaryFragment(SecondaryActivity.EQUALIZER);
                 dismiss();
                 break;
         }

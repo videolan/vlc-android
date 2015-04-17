@@ -553,7 +553,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
                 }
                 break;
             case R.id.ml_menu_equalizer:
-                showSecondaryFragment("equalizer");
+                showSecondaryFragment(SecondaryActivity.EQUALIZER);
                 break;
             // Refresh
             case R.id.ml_menu_refresh:
@@ -977,7 +977,7 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
             if (mFocusedPrior != 0)
                 requestFocusOnSearch();
         } else if (entry.type == SidebarEntry.TYPE_SECONDARY_FRAGMENT)
-            showSecondaryFragment("about");
+            showSecondaryFragment(SecondaryActivity.ABOUT);
         else if (entry.attributeID == R.attr.ic_menu_preferences)
             startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
         mRootContainer.closeDrawer(mListView);

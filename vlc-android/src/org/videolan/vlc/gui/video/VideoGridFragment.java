@@ -284,7 +284,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             return;
         if (media instanceof MediaGroup) {
             MainActivity activity = (MainActivity)getActivity();
-            activity.showSecondaryFragment("videoGroupList", media.getTitle());
+            activity.showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, media.getTitle());
         }
         else
             playVideo(media, false);
@@ -314,7 +314,7 @@ public class VideoGridFragment extends BrowserFragment implements ISortable, IVi
             case R.id.video_list_info:
                 Activity activity = getActivity();
                 if (activity instanceof MainActivity)
-                    ((MainActivity)activity).showSecondaryFragment("mediaInfo", media.getLocation());
+                    ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.MEDIA_INFO, media.getLocation());
                 else {
                     Intent i = new Intent(activity, SecondaryActivity.class);
                     i.putExtra("fragment", "mediaInfo");

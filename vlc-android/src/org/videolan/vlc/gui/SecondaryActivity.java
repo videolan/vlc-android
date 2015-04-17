@@ -47,7 +47,14 @@ import java.util.List;
 public class SecondaryActivity  extends ActionBarActivity {
     public final static String TAG = "VLC/EqualizerFragment";
 
+    public static final String ALBUMS_SONGS = "albumsSongs";
+    public static final String EQUALIZER = "equalizer";
+    public static final String ABOUT = "about";
+    public static final String MEDIA_INFO = "mediaInfo";
+    public static final String VIDEO_GROUP_LIST = "videoGroupList";
+
     Fragment mFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* Theme must be applied before super.onCreate */
@@ -104,19 +111,19 @@ public class SecondaryActivity  extends ActionBarActivity {
     }
 
     public void fetchSecondaryFragment(String id) {
-        if (id.equals("albumsSongs")) {
+        if (id.equals(ALBUMS_SONGS)) {
             ArrayList<MediaWrapper> mediaList = getIntent().getParcelableArrayListExtra("list");
             String filter = getIntent().getStringExtra("filter");
             mFragment = new AudioAlbumsSongsFragment();
             ((AudioAlbumsSongsFragment)mFragment).setMediaList(mediaList, filter);
-        } else if(id.equals("equalizer")) {
+        } else if(id.equals(EQUALIZER)) {
             mFragment = new EqualizerFragment();
-        } else if(id.equals("about")) {
+        } else if(id.equals(ABOUT)) {
             mFragment = new AboutFragment();
-        } else if(id.equals("mediaInfo")) {
+        } else if(id.equals(MEDIA_INFO)) {
             mFragment = new MediaInfoFragment();
             ((MediaInfoFragment)mFragment).setMediaLocation(getIntent().getStringExtra("param"));
-        } else if(id.equals("videoGroupList")) {
+        } else if(id.equals(VIDEO_GROUP_LIST)) {
             mFragment = new VideoGridFragment();
             ((VideoGridFragment)mFragment).setGroup(getIntent().getStringExtra("param"));
         }
