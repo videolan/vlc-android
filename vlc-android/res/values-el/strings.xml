@@ -21,6 +21,8 @@
     <string name="play_from_start">Αναπαραγωγή από την αρχή</string>
     <string name="play_as_audio">Αναπαραγωγή ως ήχος</string>
     <string name="play_as_video">Αναπαραγωγή ως βίντεο</string>
+    <string name="play_as_audio_background">Αναπαραγωγή βίντεο στο υπόβαθρο</string>
+    <string name="play_as_audio_background_summary">Συνέχιση της αναπαραγωγής βίντεο στο υπόβαθρο όταν σβήνει η οθόνη ή όταν πατιέται το κουμπί HOME.</string>
     <string name="append">Προσθήκη</string>
     <string name="play_all">Αναπαραγωγή όλων</string>
     <string name="append_all">Προσθήκη όλων</string>
@@ -78,7 +80,7 @@
     <string name="loading">Φόρτωση</string>
     <string name="please_wait">Παρακαλώ περιμένετε...</string>
     <string name="nomedia">Δεν βρέθηκε κανένα αρχείο μέσων, παρακαλώ μεταφέρετε μερικά αρχεία στη συσκευή ή αλλάξτε τις ρυθμίσεις. </string>
-    <string name="noplaylist">Δεν β΄ρεθηκε καμία λίστα αναπαραγωγής.</string>
+    <string name="noplaylist">Δεν βρέθηκε καμία λίστα αναπαραγωγής.</string>
     <string name="mediafiles">Αρχεία μέσων</string>
     <string name="notavailable">μη διαθέσιμο</string>
     <string name="nosubdirectory">Κανένας υποκατάλογος</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">Δεν έχετε ιστορικό αναπαραγωγής ακόμα.</string>
     <string name="validation">Είστε σίγουρος;</string>
     <string name="cover_art">Τέχνη εξωφύλλου</string>
-    <string name="shuffle">Ανακάτεμα </string>
-    <string name="repeat">Επανάληψη κανένα/ένα/όλα</string>
+    <string name="shuffle">Απενεργοποίηση Ανακατέματος </string>
+    <string name="shuffle_on">Ενεργοποίηση Ανακατέματος </string>
+    <string name="repeat">Επανάληψη κανενός</string>
+    <string name="repeat_single">Επανάληψη ενός</string>
+    <string name="repeat_all">Επανάληψη όλων</string>
     <string name="previous">Προηγούμενο</string>
     <string name="stop">Διακοπή</string>
     <string name="next">Επόμενο</string>
@@ -282,4 +287,11 @@
     <string name="playlist_save">Αποθήκευση λίστας αναπαραγωγής</string>
     <string name="playlist_name_hint">όνομα λίστα αναπαραγωγής</string>
     <string name="go_to_chapter">Πήγαινε στο κεφάλαιο...</string>
+    <string name="resume_from_position">Συνέχιση από την τελευταία θέση</string>
+    <string name="confirm_resume">Συνέχιση από την τελευταία θέση;</string>
+    <string name="confirm_resume_title">Να ζητηθεί επιβεβαίωση για συνέχιση</string>
+    <string name="confirm_resume_summary">αν ενεργοποιηθεί θα σας ζητηθεί να επιβεβαιώσετε πότε ένα βίντεο θα μπορεί να συνεχιστεί από την τελευταία θέση</string>
+    <!--Accessibility-->
+    <string name="more_actions">Περισσότερες Ενέργειες</string>
+    <string name="move">Κίνηση</string>
 </resources>
