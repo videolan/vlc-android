@@ -20,6 +20,8 @@
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
+    <string name="play_as_audio_background">バックグラウンドでビデオを再生</string>
+    <string name="play_as_audio_background_summary">デバイスのスクリーンをオフにするかホームボタンをクリックした際、バックグラウンドでビデオの再生を続けます。</string>
     <string name="append">追加</string>
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
@@ -80,8 +82,11 @@
     <string name="nohistory">再生履歴がありません。</string>
     <string name="validation">本当に実行しますか?</string>
     <string name="cover_art">アートワーク</string>
-    <string name="shuffle">シャッフル</string>
-    <string name="repeat">繰返しなし/シングル/すべて</string>
+    <string name="shuffle">シャッフルオフ</string>
+    <string name="shuffle_on">シャッフルオン</string>
+    <string name="repeat">リピートなし</string>
+    <string name="repeat_single">1項目をリピート</string>
+    <string name="repeat_all">すべてをリピート</string>
     <string name="previous">前</string>
     <string name="stop">停止</string>
     <string name="next">次</string>
@@ -275,4 +280,11 @@
     <string name="playlist_save">プレイリストを保存</string>
     <string name="playlist_name_hint">プレイリスト名</string>
     <string name="go_to_chapter">チャプター指定...</string>
+    <string name="resume_from_position">前回の位置から再生</string>
+    <string name="confirm_resume">前回再生を終了した位置から再生しますか？</string>
+    <string name="confirm_resume_title">再開を確認する</string>
+    <string name="confirm_resume_summary">このオプションを有効にすると、ビデオ再生時に前回再生を終了した位置から再生するかどうか確認します。</string>
+    <!--Accessibility-->
+    <string name="more_actions">他のアクション</string>
+    <string name="move">移動</string>
 </resources>
