@@ -21,6 +21,8 @@
     <string name="play_from_start">Spela upp från början</string>
     <string name="play_as_audio">Spela upp som ljud</string>
     <string name="play_as_video">Spela upp som video</string>
+    <string name="play_as_audio_background">Spela upp videor i bakgrunden</string>
+    <string name="play_as_audio_background_summary">Fortsätt att spela upp videor i bakgrunden när enhetens skärm stängs av eller knappen HEM trycks ned.</string>
     <string name="append">Kölägg</string>
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">Du har ingen uppspelningshistorik ännu.</string>
     <string name="validation">Är du säker?</string>
     <string name="cover_art">Omslagsbild</string>
-    <string name="shuffle">Blanda</string>
-    <string name="repeat">Repetera ingen/en/alla</string>
+    <string name="shuffle">Blanda av</string>
+    <string name="shuffle_on">Blanda på</string>
+    <string name="repeat">Slinga ingen</string>
+    <string name="repeat_single">Slinga en</string>
+    <string name="repeat_all">Slinga alla</string>
     <string name="previous">Föregående</string>
     <string name="stop">Stoppa</string>
     <string name="next">Nästa</string>
@@ -282,4 +287,11 @@
     <string name="playlist_save">Spara spellista</string>
     <string name="playlist_name_hint">spellistans namn</string>
     <string name="go_to_chapter">Gå till kapitel...</string>
+    <string name="resume_from_position">Fortsätt från senaste position</string>
+    <string name="confirm_resume">Fortsätt från senaste position?</string>
+    <string name="confirm_resume_title">Bekräfta fortsatt uppspelning</string>
+    <string name="confirm_resume_summary">Om det aktiveras kommer du ombes att bekräfta om en video ska fortsätta från senaste position</string>
+    <!--Accessibility-->
+    <string name="more_actions">Fler åtgärder</string>
+    <string name="move">Flytta</string>
 </resources>
