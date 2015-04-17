@@ -21,6 +21,8 @@
     <string name="play_from_start">Reproducir desde el inicio</string>
     <string name="play_as_audio">Reproducir como audio</string>
     <string name="play_as_video">Reproducir como vídeo</string>
+    <string name="play_as_audio_background">Reproducir vídeos en segundo plano</string>
+    <string name="play_as_audio_background_summary">Continuar la reproducción del vídeo en segundo plano cuando la pantalla del dispositivo se apague o al pulsar el botón Inicio.</string>
     <string name="append">Añadir</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">No tiene historial de reproducción todavía.</string>
     <string name="validation">¿Está seguro?</string>
     <string name="cover_art">Portada</string>
-    <string name="shuffle">Aleatorio</string>
-    <string name="repeat">Repetir ninguna/una/todo</string>
+    <string name="shuffle">Barajado desactivado</string>
+    <string name="shuffle_on">Barajado activado</string>
+    <string name="repeat">No repetir</string>
+    <string name="repeat_single">Repetir una</string>
+    <string name="repeat_all">Repetir todas</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
     <string name="next">Siguiente</string>
@@ -286,4 +291,7 @@
     <string name="confirm_resume">¿Continuar desde la última posición?</string>
     <string name="confirm_resume_title">Solicitar confirmación para continuar</string>
     <string name="confirm_resume_summary">Si se activa se solicitará confirmación por cuando un vídeo puede ser continuado desde la última posición</string>
+    <!--Accessibility-->
+    <string name="more_actions">Más acciones</string>
+    <string name="move">Mover</string>
 </resources>
