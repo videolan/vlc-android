@@ -54,7 +54,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -189,9 +188,8 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     private static final int FADE_OUT_INFO = 4;
     private static final int START_PLAYBACK = 5;
     private static final int AUDIO_SERVICE_CONNECTION_FAILED = 6;
-    private static final int END_DELAY_STATE = 7;
-    private static final int RESET_BACK_LOCK = 8;
-    private static final int CHECK_VIDEO_TRACKS = 9;
+    private static final int RESET_BACK_LOCK = 7;
+    private static final int CHECK_VIDEO_TRACKS = 8;
     private boolean mDragging;
     private boolean mShowing;
     private DelayState mDelay = DelayState.OFF;
@@ -1102,7 +1100,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
 
     @Override
     public void endDelaySetting() {
-        hideOverlay(true);
         mDelay = DelayState.OFF;
         mDelayMinus.setOnClickListener(null);
         mDelayPlus.setOnClickListener(null);
@@ -1110,7 +1107,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         mDelayPlus.setVisibility(View.INVISIBLE);
         mInfo.setVisibility(View.INVISIBLE);
         mInfo.setText("");
-        mHandler.removeMessages(END_DELAY_STATE);
     }
 
     private OnClickListener mAudioDelayListener = new OnClickListener() {
@@ -1141,8 +1137,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mDelay = DelayState.AUDIO;
             initDelayInfo();
         }
-        mHandler.removeMessages(END_DELAY_STATE);
-        mHandler.sendEmptyMessageDelayed(END_DELAY_STATE, 2000);
     }
 
     public void delaySubs(long delta){
@@ -1154,8 +1148,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
             mDelay = DelayState.SUBS;
             initDelayInfo();
         }
-        mHandler.removeMessages(END_DELAY_STATE);
-        mHandler.sendEmptyMessageDelayed(END_DELAY_STATE, 2000);
     }
 
     private static class ConfigureSurfaceHolder {
@@ -1516,9 +1508,6 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
                 case AUDIO_SERVICE_CONNECTION_FAILED:
                     activity.finish();
                     break;
-                case END_DELAY_STATE:
-                    activity.endDelaySetting();
-                    break;
                 case RESET_BACK_LOCK:
                     activity.mLockBackButton = true;
                     break;
@@ -1771,6 +1760,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mDelay != DelayState.OFF){
+            mTouchAction = TOUCH_NONE;
             endDelaySetting();
             return true;
         }
