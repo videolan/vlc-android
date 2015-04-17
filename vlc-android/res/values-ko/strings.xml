@@ -20,6 +20,8 @@
     <string name="play_from_start">처음부터 재생</string>
     <string name="play_as_audio">오디오로 재생</string>
     <string name="play_as_video">비디오로 재생</string>
+    <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
+    <string name="play_as_audio_background_summary">장치의 화면을 끄거나 홈 버튼 누를 때 백그라운드로 비디오를 계속 재생합니다.</string>
     <string name="append">추가</string>
     <string name="play_all">모두 재생</string>
     <string name="append_all">모두 추가</string>
@@ -80,8 +82,11 @@
     <string name="nohistory">아직 재생 기록이 없습니다.</string>
     <string name="validation">확실 합니까?</string>
     <string name="cover_art">커버 아트</string>
-    <string name="shuffle">셔플</string>
-    <string name="repeat">반복 해제/한개/전부</string>
+    <string name="shuffle">셔플 끄기</string>
+    <string name="shuffle_on">셔플 켜기</string>
+    <string name="repeat">반복 없음</string>
+    <string name="repeat_single">한곡 반복</string>
+    <string name="repeat_all">전체 반복</string>
     <string name="previous">이전</string>
     <string name="stop">정지</string>
     <string name="next">다음</string>
@@ -275,4 +280,11 @@
     <string name="playlist_save">재생목록 저장</string>
     <string name="playlist_name_hint">재생목록 이름</string>
     <string name="go_to_chapter">챕터 이동...</string>
+    <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
+    <string name="confirm_resume">마지막 위치에서 재생을 시작할까요?</string>
+    <string name="confirm_resume_title">이어서 재생할 때 확인하기</string>
+    <string name="confirm_resume_summary">이 옵션 사용시 마지막 위치에서 비디오 재생을 시작할 것인지 확인할 것입니다</string>
+    <!--Accessibility-->
+    <string name="more_actions">추가 동작</string>
+    <string name="move">이동하기</string>
 </resources>
