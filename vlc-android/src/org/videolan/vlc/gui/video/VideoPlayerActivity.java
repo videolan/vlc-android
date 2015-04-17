@@ -938,7 +938,7 @@ public class VideoPlayerActivity extends ActionBarActivity implements IVideoPlay
         if (mLockBackButton) {
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
-            Toast.makeText(this, "Press back again to quit video", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
         } else
             super.onBackPressed();
     }

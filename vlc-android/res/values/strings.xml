@@ -342,6 +342,7 @@
     <!--Accessibility-->
     <string name="more_actions">More Actions</string>
     <string name="move">Move</string>
+    <string name="back_quit_lock">Press back again to quit video</string>
 
     <string-array name="hardware_acceleration_list">
         <item>@string/automatic</item>
