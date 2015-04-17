@@ -21,6 +21,8 @@
     <string name="play_from_start">En baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
+    <string name="play_as_audio_background">Görüntüler artalanda oynatılsın</string>
+    <string name="play_as_audio_background_summary">Aygıt ekranı kapatıldığında ya da anasayfa düğmesine basıldığında görüntüler artalanda oynatılmaya devam edilir.</string>
     <string name="append">Ekle</string>
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
@@ -86,8 +88,11 @@
     <string name="nohistory">Henüz oynatma geçmişiniz yok.</string>
     <string name="validation">Emin misiniz?</string>
     <string name="cover_art">Kapak resmi</string>
-    <string name="shuffle">Karışık</string>
-    <string name="repeat">Yineleme/tek/tümü</string>
+    <string name="shuffle">Karıştırma Kapalı</string>
+    <string name="shuffle_on">Karıştırma Açık</string>
+    <string name="repeat">Yineleme yok</string>
+    <string name="repeat_single">Parçayı yinele</string>
+    <string name="repeat_all">Tümünü yinele</string>
     <string name="previous">Önceki</string>
     <string name="stop">Durdur</string>
     <string name="next">Sonraki</string>
@@ -282,4 +287,11 @@
     <string name="playlist_save">Oynatma Listesini Kaydedin</string>
     <string name="playlist_name_hint">oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme gidin...</string>
+    <string name="resume_from_position">Kalınan konumdan oynatmayı sürdür</string>
+    <string name="confirm_resume">Oynayma kalınan konumdan sürdürülsün mü?</string>
+    <string name="confirm_resume_title">Sürdürme onayı istensin</string>
+    <string name="confirm_resume_summary">Bu seçenek etkinlleştirildiğinde, oynatılan bir görüntünün kalınan konumdan sürdürülmesi için onay istenir</string>
+    <!--Accessibility-->
+    <string name="more_actions">Diğer İşlemler</string>
+    <string name="move">Taşı</string>
 </resources>
