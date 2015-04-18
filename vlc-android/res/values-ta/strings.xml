@@ -294,4 +294,5 @@
     <!--Accessibility-->
     <string name="more_actions">மேலும் செயல்கள்</string>
     <string name="move">நகர்த்து</string>
+    <string name="back_quit_lock"> திரும்ப அழுத்தவும் காணொளி விட்டு வெளியேற</string>
 </resources>
